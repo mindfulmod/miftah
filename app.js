@@ -750,7 +750,7 @@ function renderActiveAyah(ayah) {
       setTimeout(() => {
         if (!cell.classList.contains("correct")) {
           cell.classList.remove("wrong");
-          label.textContent = "Choose meaning";
+          label.textContent = "";
         }
       }, 700);
     }

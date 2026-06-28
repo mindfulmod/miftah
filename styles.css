@@ -186,6 +186,14 @@ h1 {
 .dd-trigger:hover { border-color: var(--accent); }
 .dd-trigger:focus-visible { outline: none; border-color: var(--accent); }
 .dd-label { overflow-wrap: anywhere; white-space: normal; }
+.dd-label:empty { display: none; }
+/* When no gloss yet, center the caret and make the trigger quieter */
+.dd-trigger:has(.dd-label:empty) {
+  justify-content: center;
+  padding: 5px 10px;
+  border-color: color-mix(in srgb, var(--line) 60%, transparent);
+  color: var(--muted);
+}
 .dd-caret { color: var(--muted); font-size: 0.7rem; transition: transform 0.15s; }
 .dd.open .dd-caret { transform: rotate(180deg); }
 .dd.open .dd-trigger { border-color: var(--accent); }
