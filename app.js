@@ -509,6 +509,7 @@ function updateSessionRing() {
   els.ringFill.style.strokeDashoffset = `${RING_CIRC * (1 - frac)}`;
   const complete = count >= SESSION_GOAL_AYAHS;
   els.sessionRing.classList.toggle("complete", complete);
+  els.sessionRing.classList.toggle("lit", count > 0 && !complete);
   els.ringLabel.textContent = complete ? "✓" : `${done}/${SESSION_GOAL_AYAHS}`;
   els.sessionRing.title = complete
     ? "Today's session complete"
@@ -724,6 +725,7 @@ function renderPassedAyah(ayah) {
   node.querySelector(".ayah-num").textContent = `${surah.number}:${ayah.number}`;
 
   const isPerfect = perfectSet.has(ayah.number);
+  node.classList.add(isPerfect ? "perfect-pass" : "complete-pass");
   const statusEl = node.querySelector(".ayah-status");
   statusEl.textContent = "Passed ✓";
   if (isPerfect) {
@@ -835,6 +837,7 @@ function renderActiveAyah(ayah) {
     fillRevealRoots(reveal, ayah);
     reveal.hidden = false;
     node.classList.add("revealing");
+    node.classList.add(perfect ? "perfect-pass" : "complete-pass");
     celebrate(node, perfect);
     msgEl.textContent = "";
     msgEl.className = "ayah-message";

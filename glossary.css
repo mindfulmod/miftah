@@ -110,15 +110,35 @@
   background: var(--panel-2);
   border: 1px solid var(--line);
   border-radius: 999px;
-  overflow: hidden;
+  /* visible so the chandelier lamp can glow beyond the track edge */
+  overflow: visible;
 }
 .quiz-fill {
+  position: relative;
   height: 100%;
   width: 0;
   background: linear-gradient(90deg, var(--accent), var(--gold));
   border-radius: 999px;
   transition: width 0.35s ease;
 }
+/* Chandelier pendant: a single lit lamp riding the leading edge of the fill,
+   echoing the Haram's gilded hanging lamps. Hidden at 0% so it reads only once
+   progress begins. */
+.quiz-fill::after {
+  content: "";
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle at 50% 38%, #fff6e0 0 22%, var(--gold) 55%, #cf9f44 100%);
+  box-shadow: 0 0 7px 1px color-mix(in srgb, var(--gold) 70%, transparent);
+  pointer-events: none;
+}
+.quiz-fill[style*="width: 0%"]::after,
+.quiz-fill[style*="width:0%"]::after { opacity: 0; }
 .quiz-count {
   font-size: 0.8rem;
   color: var(--muted);

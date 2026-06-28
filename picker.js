@@ -86,11 +86,17 @@ function surahProgress(number) {
   }
 }
 
-function renderCard(surah, { passed, completed, unlocked, prevName }) {
+function renderCard(surah, { passed, completed, unlocked, current, prevName }) {
   const card = els.tpl.content.firstElementChild.cloneNode(true);
   card.querySelector(".surah-card-num").textContent = surah.number;
   card.querySelector(".surah-card-en").textContent = surah.englishName;
   card.querySelector(".surah-card-ar").textContent = surah.name;
+  if (current) card.classList.add("current");
+
+  const arch = document.createElement("span");
+  arch.className = "surah-card-arch";
+  arch.setAttribute("aria-hidden", "true");
+  card.appendChild(arch);
 
   const meta = card.querySelector(".surah-card-meta");
   const fill = card.querySelector(".surah-card-fill");
@@ -176,7 +182,7 @@ function renderHero({ session, goal, streak, rescued, mastered, cta }) {
         <p class="hero-hello">${greeting()}</p>
         <p class="hero-tagline">${tagline}</p>
       </div>
-      <div class="hero-ring ${done ? "complete" : ""}" title="Today's session">
+      <div class="hero-ring ${done ? "complete" : session > 0 ? "lit" : ""}" title="Today's session">
         <svg viewBox="0 0 64 64" width="64" height="64" aria-hidden="true">
           <circle class="hr-bg" cx="32" cy="32" r="26"></circle>
           <circle class="hr-fill" cx="32" cy="32" r="26"
@@ -187,17 +193,17 @@ function renderHero({ session, goal, streak, rescued, mastered, cta }) {
     </div>
     <div class="hero-stats">
       <div class="hero-stat">
-        <span class="hero-stat-icon">🔥</span>
+        <span class="hero-stat-icon lantern-icon lantern-streak" aria-hidden="true"></span>
         <span class="hero-stat-num" data-count="${streak}">0</span>
         <span class="hero-stat-label">day streak</span>
       </div>
       <div class="hero-stat">
-        <span class="hero-stat-icon">💪</span>
+        <span class="hero-stat-icon lantern-icon lantern-rescue" aria-hidden="true"></span>
         <span class="hero-stat-num" data-count="${rescued}">0</span>
         <span class="hero-stat-label">rescued today</span>
       </div>
       <div class="hero-stat">
-        <span class="hero-stat-icon">★</span>
+        <span class="hero-stat-icon lantern-icon lantern-rosette" aria-hidden="true"></span>
         <span class="hero-stat-num" data-count="${mastered}">0</span>
         <span class="hero-stat-label">ayahs learned</span>
       </div>
@@ -238,10 +244,11 @@ async function init() {
     const { passed } = surahProgress(surah.number);
     const completed = passed >= surah.ayahCount;
     const unlocked = i === 0 || prevCompleted;
+    const current = !cta && unlocked && !completed;
     mastered += Math.min(passed, surah.ayahCount);
 
     // First unlocked, unfinished surah is the natural "continue" target.
-    if (!cta && unlocked && !completed) {
+    if (current) {
       cta = {
         href: `trainer.html?surah=${surah.number}`,
         label:
@@ -256,6 +263,7 @@ async function init() {
         passed,
         completed,
         unlocked,
+        current,
         prevName: i > 0 ? surahs[i - 1].englishName : null,
       })
     );
