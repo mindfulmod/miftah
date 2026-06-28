@@ -1,0 +1,90 @@
+.proto-tag {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--gold);
+  border: 1px solid color-mix(in srgb, var(--gold) 45%, transparent);
+  border-radius: 999px;
+  padding: 2px 7px;
+  vertical-align: middle;
+  margin-left: 6px;
+}
+
+.proto-controls { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.review-area {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 26px 20px;
+  text-align: center;
+}
+
+.review-prompt { color: var(--muted); font-size: 0.85rem; margin: 0 0 6px; }
+.review-arabic {
+  font-family: "Amiri Quran", serif;
+  font-size: 3rem;
+  line-height: 1.7;
+  direction: rtl;
+  margin: 4px 0 22px;
+}
+
+.review-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  max-width: 460px;
+  margin: 0 auto;
+}
+.review-opt {
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: 0.12s;
+}
+.review-opt:hover:not(:disabled) { border-color: var(--accent); }
+.review-opt.correct { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+.review-opt.wrong { border-color: var(--wrong); background: var(--wrong-soft); color: var(--wrong); }
+.review-opt:disabled { cursor: default; }
+
+.review-feedback { margin-top: 18px; font-size: 0.9rem; min-height: 1.2em; }
+.review-feedback .up { color: var(--accent); }
+.review-feedback .down { color: var(--wrong); }
+
+.review-empty { padding: 16px 0; }
+.review-empty .big { font-size: 1.05rem; margin-bottom: 6px; }
+.review-empty .muted { color: var(--muted); font-size: 0.85rem; }
+
+.board { margin-top: 4px; }
+.board-title { font-size: 0.95rem; margin: 8px 2px 12px; color: var(--text); }
+.board-list { display: flex; flex-direction: column; gap: 8px; }
+
+.board-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px 14px;
+}
+.board-row.due { border-color: color-mix(in srgb, var(--gold) 45%, var(--line)); }
+.board-ar { font-family: "Amiri Quran", serif; font-size: 1.6rem; direction: rtl; min-width: 90px; text-align: center; }
+.board-gloss { flex: 1; font-size: 0.85rem; color: var(--muted); }
+.board-dots { display: flex; gap: 4px; }
+.dot { width: 9px; height: 9px; border-radius: 50%; background: var(--panel-2); border: 1px solid var(--line); }
+.dot.on { background: var(--accent); border-color: var(--accent); }
+.dot.mastered { background: var(--gold); border-color: var(--gold); }
+.board-due { font-size: 0.74rem; white-space: nowrap; min-width: 84px; text-align: right; color: var(--muted); }
+.board-due.now { color: var(--gold); font-weight: 600; }
+
+@media (max-width: 520px) {
+  .review-options { grid-template-columns: 1fr; }
+  .review-arabic { font-size: 2.4rem; }
+  .board-ar { font-size: 1.3rem; min-width: 64px; }
+}

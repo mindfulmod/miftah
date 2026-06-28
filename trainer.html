@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quranic Arabic Trainer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div>
+          <h1 id="surah-title">Quranic Arabic Trainer</h1>
+          <p id="surah-subtitle" class="subtitle"></p>
+        </div>
+        <div class="topbar-actions">
+          <a href="index.html" class="ghost-btn">≡ All surahs</a>
+          <button id="reset-progress" class="ghost-btn" type="button">
+            Reset progress
+          </button>
+        </div>
+      </div>
+      <div class="progress">
+        <div class="progress-track"><div id="progress-fill" class="progress-fill"></div></div>
+        <span id="progress-label" class="progress-label"></span>
+        <span id="perfect-label" class="perfect-label" hidden></span>
+      </div>
+    </header>
+
+    <main id="app" class="app">
+      <p id="loading" class="loading">Loading verified Quran data…</p>
+    </main>
+
+    <template id="ayah-template">
+      <section class="ayah">
+        <div class="ayah-head">
+          <span class="ayah-num"></span>
+          <span class="ayah-status"></span>
+          <span class="mistake-meter"></span>
+        </div>
+        <div class="words" dir="rtl"></div>
+        <div class="ayah-reveal" hidden>
+          <span class="reveal-badge"></span>
+          <p class="reveal-literal"></p>
+          <p class="reveal-translation"></p>
+        </div>
+        <p class="ayah-message"></p>
+      </section>
+    </template>
+
+    <template id="word-template">
+      <div class="word">
+        <div class="arabic"></div>
+        <div class="dd" dir="ltr">
+          <button class="dd-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+            <span class="dd-label">Choose meaning</span>
+            <span class="dd-caret" aria-hidden="true">▾</span>
+          </button>
+          <div class="dd-menu" role="listbox" hidden></div>
+        </div>
+      </div>
+    </template>
+
+    <footer class="footer">
+      <span id="sources"></span>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>

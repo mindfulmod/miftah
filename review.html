@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Review Missed Words — Quran Trainer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="review.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div>
+          <h1>Review · Missed Words</h1>
+          <p id="deck-subtitle" class="subtitle"></p>
+        </div>
+        <div class="proto-controls">
+          <a id="trainer-link" href="index.html" class="ghost-btn">← Trainer</a>
+          <a href="index.html" class="ghost-btn">≡ All surahs</a>
+          <button id="sim-day" class="ghost-btn" type="button">⏩ Simulate +1 day</button>
+          <button id="reset-deck" class="ghost-btn" type="button">Reset deck</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="app">
+      <p id="loading" class="loading">Loading…</p>
+
+      <section id="review-area" class="review-area" hidden></section>
+
+      <section id="board" class="board" hidden>
+        <h2 class="board-title">Memory strength</h2>
+        <div id="board-list" class="board-list"></div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>Spaced-repetition review of the words you missed in the trainer. Words you recall move up the boxes and return less often; words you miss drop down and come back sooner.</span>
+    </footer>
+
+    <script src="review.js"></script>
+  </body>
+</html>

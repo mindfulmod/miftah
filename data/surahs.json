@@ -1,0 +1,20 @@
+{
+  "surahs": [
+    {
+      "number": 1,
+      "name": "الفاتحة",
+      "englishName": "Al-Fatihah",
+      "englishTranslation": "The Opener",
+      "ayahCount": 7,
+      "file": "data/surah-1.json"
+    },
+    {
+      "number": 2,
+      "name": "البقرة",
+      "englishName": "Al-Baqarah",
+      "englishTranslation": "The Cow",
+      "ayahCount": 286,
+      "file": "data/surah-2.json"
+    }
+  ]
+}

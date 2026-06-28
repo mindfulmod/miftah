@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quranic Arabic Trainer — Surahs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div>
+          <h1>Quranic Arabic Trainer</h1>
+          <p class="subtitle">Choose a surah — finish one to unlock the next.</p>
+        </div>
+      </div>
+    </header>
+
+    <main class="app">
+      <p id="loading" class="loading">Loading surahs…</p>
+      <div id="surah-list" class="surah-list"></div>
+    </main>
+
+    <template id="surah-card-template">
+      <a class="surah-card">
+        <div class="surah-card-num"></div>
+        <div class="surah-card-body">
+          <div class="surah-card-names">
+            <span class="surah-card-en"></span>
+            <span class="surah-card-ar"></span>
+          </div>
+          <div class="surah-card-meta"></div>
+          <div class="surah-card-track"><div class="surah-card-fill"></div></div>
+        </div>
+        <div class="surah-card-actions"></div>
+      </a>
+    </template>
+
+    <footer class="footer">
+      <span id="sources"></span>
+    </footer>
+
+    <script src="picker.js"></script>
+  </body>
+</html>
