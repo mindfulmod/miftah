@@ -10,6 +10,92 @@ const INTERLEAVE_KEY = `quran-trainer:interleave:surah-${SURAH_NUMBER}`; // in-f
 const PICKER_URL = "index.html";
 const MISTAKE_RATE = 0.2; // up to 20% wrong attempts allowed per ayah
 
+// ---------- Today's session ----------
+// A bounded daily ritual: finish this many ayahs and you've "done your bit" for
+// the day. Keeps each sitting small and completable (à la Drops) so the app is a
+// habit, not a marathon — and so the pressure is to focus, not to rush to a far
+// finish line.
+const SESSION_GOAL_AYAHS = 5;
+const SESSION_KEY = "quran-trainer:session"; // { date, count, panelShown } — global, resets daily
+const STREAK_KEY = "quran-trainer:streak"; // { count, lastDate } — consecutive days a goal was met
+
+const todayStr = () => {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(
+    d.getDate()
+  ).padStart(2, "0")}`;
+};
+
+const yesterdayStr = () => {
+  const d = new Date();
+  d.setDate(d.getDate() - 1);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(
+    d.getDate()
+  ).padStart(2, "0")}`;
+};
+
+function loadSession() {
+  try {
+    const s = JSON.parse(localStorage.getItem(SESSION_KEY) || "{}");
+    if (s.date === todayStr()) {
+      return { date: s.date, count: s.count || 0, panelShown: !!s.panelShown };
+    }
+  } catch {}
+  return { date: todayStr(), count: 0, panelShown: false };
+}
+
+function saveSession(s) {
+  try {
+    localStorage.setItem(SESSION_KEY, JSON.stringify(s));
+  } catch {}
+}
+
+function loadStreak() {
+  try {
+    const s = JSON.parse(localStorage.getItem(STREAK_KEY) || "{}");
+    return { count: s.count || 0, lastDate: s.lastDate || null };
+  } catch {
+    return { count: 0, lastDate: null };
+  }
+}
+
+// Bump the day's streak the first time today's goal is met. Continues the run if
+// yesterday counted, otherwise starts a fresh streak at 1.
+function bumpStreak() {
+  const s = loadStreak();
+  const today = todayStr();
+  if (s.lastDate === today) return s.count; // already counted today
+  s.count = s.lastDate === yesterdayStr() ? s.count + 1 : 1;
+  s.lastDate = today;
+  try {
+    localStorage.setItem(STREAK_KEY, JSON.stringify(s));
+  } catch {}
+  return s.count;
+}
+
+// "Rescued" words: ones missed at least once, then answered correctly. We count
+// these per day and celebrate them — reframing mistakes as the very mechanism of
+// learning (a slip you recover from is a memory that sticks), which keeps the
+// habit alive instead of letting a wrong answer feel like failure.
+const RESCUE_KEY = "quran-trainer:rescued"; // { date, count } — resets daily
+
+function loadRescued() {
+  try {
+    const s = JSON.parse(localStorage.getItem(RESCUE_KEY) || "{}");
+    if (s.date === todayStr()) return { date: s.date, count: s.count || 0 };
+  } catch {}
+  return { date: todayStr(), count: 0 };
+}
+
+function bumpRescued() {
+  const s = loadRescued();
+  s.count += 1;
+  try {
+    localStorage.setItem(RESCUE_KEY, JSON.stringify(s));
+  } catch {}
+  return s.count;
+}
+
 // Option count grows with familiarity: a brand-new word gets fewer choices to
 // build confidence; a well-seen word gets more to keep the retrieval honest.
 const optionCountFor = (exposures) => (exposures >= 3 ? 5 : exposures >= 1 ? 4 : 3);
@@ -42,6 +128,9 @@ const els = {
   progressFill: document.getElementById("progress-fill"),
   progressLabel: document.getElementById("progress-label"),
   perfectLabel: document.getElementById("perfect-label"),
+  ringFill: document.getElementById("ring-fill"),
+  ringLabel: document.getElementById("ring-label"),
+  sessionRing: document.getElementById("session-ring"),
   sources: document.getElementById("sources"),
   resetBtn: document.getElementById("reset-progress"),
   ayahTpl: document.getElementById("ayah-template"),
@@ -125,6 +214,40 @@ function fillRevealRoots(reveal, ayah) {
     box.appendChild(chip);
   }
   reveal.appendChild(box);
+}
+
+const prefersReducedMotion = () =>
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// Lightweight, dependency-free confetti burst centered just below an element's
+// top edge. A "perfect" run gets more particles and gold-dominant colours.
+function celebrate(anchorEl, perfect) {
+  if (prefersReducedMotion()) return;
+  const rect = anchorEl.getBoundingClientRect();
+  const layer = document.createElement("div");
+  layer.className = "confetti-layer";
+  layer.style.left = rect.left + rect.width / 2 + "px";
+  layer.style.top = rect.top + 48 + "px";
+
+  const colors = perfect
+    ? ["#e3b75f", "#f0d68a", "#d8b25a", "#46b187", "#ffffff"]
+    : ["#46b187", "#e3b75f", "#7fc9a6"];
+  const count = perfect ? 30 : 16;
+
+  for (let i = 0; i < count; i++) {
+    const p = document.createElement("i");
+    p.className = "confetti";
+    const angle = (Math.PI * 2 * i) / count + Math.random() * 0.6;
+    const dist = 70 + Math.random() * (perfect ? 120 : 80);
+    p.style.setProperty("--dx", Math.cos(angle) * dist + "px");
+    p.style.setProperty("--dy", Math.sin(angle) * dist - 30 + "px");
+    p.style.setProperty("--rot", Math.random() * 720 - 360 + "deg");
+    p.style.background = colors[i % colors.length];
+    p.style.animationDelay = Math.random() * 60 + "ms";
+    layer.appendChild(p);
+  }
+  document.body.appendChild(layer);
+  setTimeout(() => layer.remove(), 1200);
 }
 
 function closeAllMenus() {
@@ -372,11 +495,32 @@ function updateHeaderProgress() {
   }
 }
 
+// Draw today's session ring: a circular arc that fills as the day's ayahs are
+// completed. r=19 → circumference ≈ 119.38; we shrink the dash offset toward 0
+// as progress climbs. Goes gold and shows a check once the goal is met.
+const RING_CIRC = 2 * Math.PI * 19;
+
+function updateSessionRing() {
+  if (!els.ringFill) return;
+  const { count } = loadSession();
+  const done = Math.min(count, SESSION_GOAL_AYAHS);
+  const frac = done / SESSION_GOAL_AYAHS;
+  els.ringFill.style.strokeDasharray = `${RING_CIRC}`;
+  els.ringFill.style.strokeDashoffset = `${RING_CIRC * (1 - frac)}`;
+  const complete = count >= SESSION_GOAL_AYAHS;
+  els.sessionRing.classList.toggle("complete", complete);
+  els.ringLabel.textContent = complete ? "✓" : `${done}/${SESSION_GOAL_AYAHS}`;
+  els.sessionRing.title = complete
+    ? "Today's session complete"
+    : `Today's session — ${done} of ${SESSION_GOAL_AYAHS} ayahs`;
+}
+
 // ---------- rendering ----------
 
 function render() {
   els.app.innerHTML = "";
   updateHeaderProgress();
+  updateSessionRing();
 
   surah.ayahs.forEach((ayah, idx) => {
     if (idx < currentIndex) els.app.appendChild(renderPassedAyah(ayah));
@@ -428,6 +572,81 @@ function renderCompletion() {
 
   done.appendChild(cta);
   return done;
+}
+
+// The bounded-session end-state: shown once today's goal is met. Frames a clean
+// stopping point ("come back tomorrow") while leaving the door open to keep going.
+function renderSessionComplete(streak) {
+  els.app.innerHTML = "";
+  updateHeaderProgress();
+  updateSessionRing();
+
+  const panel = document.createElement("section");
+  panel.className = "session-done";
+
+  const ring = document.createElement("div");
+  ring.className = "session-done-ring";
+  ring.innerHTML = `
+    <svg viewBox="0 0 96 96" width="96" height="96" aria-hidden="true">
+      <circle class="sdr-bg" cx="48" cy="48" r="42"></circle>
+      <circle class="sdr-fill" cx="48" cy="48" r="42"></circle>
+    </svg>
+    <span class="session-done-check">✓</span>`;
+
+  const h = document.createElement("h2");
+  h.className = "session-done-title";
+  h.textContent = "Session complete";
+
+  const sub = document.createElement("p");
+  sub.className = "session-done-sub";
+  sub.textContent = `You finished your ${SESSION_GOAL_AYAHS} ayahs for today. Resting now beats rushing — let it settle and come back tomorrow.`;
+
+  const streakEl = document.createElement("p");
+  streakEl.className = "session-done-streak";
+  streakEl.innerHTML =
+    streak > 1
+      ? `🔥 <strong>${streak}-day streak</strong> — keep it alive tomorrow.`
+      : `🔥 <strong>Day 1</strong> — come back tomorrow to start a streak.`;
+
+  // Positive reinforcement: misses you recovered from are the ones that stuck.
+  const rescued = loadRescued().count;
+  let rescuedEl = null;
+  if (rescued > 0) {
+    rescuedEl = document.createElement("p");
+    rescuedEl.className = "session-done-rescued";
+    rescuedEl.innerHTML = `💪 <strong>${rescued} word${
+      rescued === 1 ? "" : "s"
+    } rescued</strong> today — slips you turned into wins. That's where it sticks.`;
+  }
+
+  const cta = document.createElement("div");
+  cta.className = "session-done-cta";
+
+  const more = document.createElement("button");
+  more.type = "button";
+  more.className = "primary-btn";
+  more.textContent = "Keep going ›";
+  more.addEventListener("click", () => render());
+
+  const back = document.createElement("a");
+  back.className = "ghost-btn";
+  back.href = PICKER_URL;
+  back.textContent = "Back to surahs";
+
+  cta.append(more, back);
+  panel.append(ring, h, sub, streakEl);
+  if (rescuedEl) panel.append(rescuedEl);
+  panel.append(cta);
+  els.app.appendChild(panel);
+
+  // Fill the big ring after paint so the stroke animates in.
+  const big = panel.querySelector(".sdr-fill");
+  const c = 2 * Math.PI * 42;
+  big.style.strokeDasharray = `${c}`;
+  big.style.strokeDashoffset = `${c}`;
+  requestAnimationFrame(() =>
+    requestAnimationFrame(() => (big.style.strokeDashoffset = "0"))
+  );
 }
 
 // In-flow spaced review: a single card for a word missed in an earlier ayah,
@@ -545,6 +764,22 @@ function renderActiveAyah(ayah) {
   node.classList.add("active");
   node.querySelector(".ayah-num").textContent = `${surah.number}:${ayah.number}`;
 
+  // Reading stage: the whole verse as flowing Arabic, shown before the decode
+  // grid. The point is to slow down — read the ayah as a whole first, calmly,
+  // rather than diving straight into clicking meanings word by word.
+  const readLine = document.createElement("div");
+  readLine.className = "ayah-read";
+  readLine.dir = "rtl";
+  readLine.lang = "ar";
+  readLine.textContent = ayah.words.map((w) => w.arabic).join(" ");
+  const readCue = document.createElement("p");
+  readCue.className = "ayah-read-cue";
+  readCue.textContent = "Read the verse through first — then reveal each word below.";
+  const readWrap = document.createElement("div");
+  readWrap.className = "ayah-read-wrap";
+  readWrap.append(readLine, readCue);
+  node.querySelector(".ayah-head").after(readWrap);
+
   const budget = mistakeBudget(ayah.words.length);
   const statusEl = node.querySelector(".ayah-status");
   const meterEl = node.querySelector(".mistake-meter");
@@ -572,8 +807,8 @@ function renderActiveAyah(ayah) {
   function resetAyah() {
     state.resets += 1;
     msgEl.textContent =
-      `Over the ${Math.round(MISTAKE_RATE * 100)}% limit — ayah reset. ` +
-      `Wrong picks will now be explained as you go.`;
+      `Let's run this ayah again — no penalty. ` +
+      `From here I'll explain each slip as you go, so it sticks.`;
     msgEl.className = "ayah-message reset";
     state.mistakes = 0;
     state.clean = false;
@@ -600,12 +835,31 @@ function renderActiveAyah(ayah) {
     fillRevealRoots(reveal, ayah);
     reveal.hidden = false;
     node.classList.add("revealing");
+    celebrate(node, perfect);
     msgEl.textContent = "";
     msgEl.className = "ayah-message";
 
     currentIndex += 1;
     saveProgress();
     updateHeaderProgress();
+
+    // Count this ayah toward today's bounded session and refresh the ring.
+    const session = loadSession();
+    session.count += 1;
+    const justHitGoal = session.count === SESSION_GOAL_AYAHS && !session.panelShown;
+    saveSession(session);
+    updateSessionRing();
+
+    // The moment today's goal is reached, pause and show the session-complete
+    // end-state instead of auto-advancing — the natural place to stop for the day.
+    if (justHitGoal) {
+      const streak = bumpStreak();
+      const s = loadSession();
+      s.panelShown = true;
+      saveSession(s);
+      setTimeout(() => renderSessionComplete(streak), 1600);
+      return;
+    }
 
     // After a short beat, either slip in a review of an earlier missed word or
     // move straight on to the next ayah.
@@ -701,10 +955,25 @@ function renderActiveAyah(ayah) {
       if (value === word.english) {
         cell.classList.remove("wrong");
         cell.classList.add("correct");
+        cell.classList.add("pop");
+        setTimeout(() => cell.classList.remove("pop"), 460);
         label.textContent = value;
         trigger.disabled = true;
         state.solved.add(word.position);
         recordCorrect(word);
+
+        // Recovered from an earlier slip on this word → a "rescue". Mark it with
+        // a small win badge and count it toward today's tally, so the moment a
+        // mistake becomes mastery feels like a reward, not a blemish.
+        if (cell.dataset.missed === "1") {
+          cell.classList.add("rescued");
+          const tag = document.createElement("span");
+          tag.className = "rescue-badge";
+          tag.textContent = "💪 Got it";
+          cell.appendChild(tag);
+          bumpRescued();
+        }
+
         msgEl.textContent = "";
         msgEl.className = "ayah-message";
         checkComplete();
@@ -713,6 +982,7 @@ function renderActiveAyah(ayah) {
 
       // wrong pick
       label.textContent = value;
+      cell.dataset.missed = "1"; // remember the slip so recovering counts as a rescue
       state.mistakes += 1;
       state.clean = false;
       recordMiss(word);

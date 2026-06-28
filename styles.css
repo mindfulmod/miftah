@@ -1,23 +1,36 @@
 :root {
-  --bg: #0f1413;
-  --panel: #161d1b;
-  --panel-2: #1d2624;
-  --line: #2a3431;
-  --text: #e8efec;
-  --muted: #8ea29b;
-  --accent: #3fae7d;
-  --accent-soft: #1f3a30;
-  --wrong: #e5544b;
-  --wrong-soft: #3a1f1d;
-  --gold: #d8b25a;
-  --radius: 14px;
+  --bg: #13110d;
+  --panel: #1c1813;
+  --panel-2: #241f18;
+  --line: #352c22;
+  --text: #f1ece3;
+  --muted: #a89a87;
+  --accent: #46b187;
+  --accent-soft: #1f3a2f;
+  --wrong: #e0635a;
+  --wrong-soft: #3a201d;
+  --gold: #e3b75f;
+  --gold-soft: #2e2615;
+  --radius: 16px;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 6px 18px rgba(0, 0, 0, 0.18);
 }
 
 * { box-sizing: border-box; }
 
+/* Touch polish: suppress the grey iOS tap flash (we provide our own pressed/
+   hover states) and stop Safari from auto-inflating text in landscape. */
+html { -webkit-text-size-adjust: 100%; }
+a, button, [role="button"], [tabindex] {
+  -webkit-tap-highlight-color: transparent;
+}
+
 body {
   margin: 0;
-  background: radial-gradient(1200px 600px at 50% -10%, #16201d 0%, var(--bg) 60%);
+  background:
+    radial-gradient(1100px 560px at 50% -12%, #2a2114 0%, transparent 60%),
+    radial-gradient(900px 500px at 85% 8%, #1e2a22 0%, transparent 55%),
+    var(--bg);
+  background-attachment: fixed;
   color: var(--text);
   font-family: "Inter", system-ui, -apple-system, sans-serif;
   min-height: 100vh;
@@ -27,11 +40,57 @@ body {
   position: sticky;
   top: 0;
   z-index: 5;
-  background: rgba(15, 20, 19, 0.85);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--line);
+  /* Gold "carved lintel" treatment echoing the home hero: a warm corner-glow and
+     a faint top tint layered over the translucent blur, closed by a gold hairline. */
+  background:
+    radial-gradient(520px 150px at 85% -70%, rgba(227, 183, 95, 0.16), transparent 70%),
+    linear-gradient(180deg, color-mix(in srgb, var(--gold) 5%, transparent), transparent 58%),
+    rgba(19, 17, 13, 0.82);
+  /* -webkit- prefix is required for the blur to render in Safari / iOS. */
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid color-mix(in srgb, var(--gold) 26%, var(--line));
+  box-shadow: 0 0 0 1px rgba(227, 183, 95, 0.04) inset;
+  /* Respect the notch / Dynamic Island and rounded display corners. */
   padding: 16px 20px 12px;
+  padding-top: max(16px, env(safe-area-inset-top));
+  padding-left: max(20px, env(safe-area-inset-left));
+  padding-right: max(20px, env(safe-area-inset-right));
 }
+/* Faint khatim star-lattice fading into the top-right corner, like a jali screen
+   catching light — the same motif as the hero, kept barely-there on the thin bar. */
+.topbar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill='none' stroke='%23e3b75f' stroke-width='1'%3E%3Cpath d='M20 2 38 20 20 38 2 20z'/%3E%3Crect x='8' y='8' width='24' height='24'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 40px 40px;
+  opacity: 0.05;
+  -webkit-mask-image: radial-gradient(120% 150% at 100% 0%, #000 0%, transparent 58%);
+  mask-image: radial-gradient(120% 150% at 100% 0%, #000 0%, transparent 58%);
+}
+/* Brighter gold hairline centred along the bottom edge, over the gold-mix border. */
+.topbar::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  z-index: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--gold) 50%, transparent) 30%,
+    color-mix(in srgb, var(--gold) 50%, transparent) 70%,
+    transparent
+  );
+}
+/* Lift all bar content above the lattice / hairline layers. */
+.topbar > * { position: relative; z-index: 1; }
 
 .topbar-inner {
   max-width: 880px;
@@ -41,6 +100,38 @@ body {
   justify-content: space-between;
   gap: 16px;
 }
+
+/* Brand lockup — the "Miftah" (key) mark sits in every topbar, doubling as a
+   home link, so all three pages read as one app. */
+.brand-lockup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+.brand-key {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  color: var(--gold);
+  background:
+    radial-gradient(120% 120% at 30% 20%, color-mix(in srgb, var(--gold) 26%, transparent), transparent 62%),
+    var(--accent-soft);
+  border: 1px solid color-mix(in srgb, var(--gold) 32%, var(--line));
+  box-shadow: var(--shadow);
+  text-decoration: none;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, color 0.18s ease;
+}
+.brand-key svg { width: 22px; height: 22px; display: block; }
+.brand-key:hover {
+  transform: translateY(-1px) rotate(-8deg);
+  color: color-mix(in srgb, var(--gold) 75%, white);
+  box-shadow: var(--shadow), 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+.brand-key:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 h1 {
   font-size: 1.15rem;
@@ -59,13 +150,29 @@ h1 {
   border: 1px solid var(--line);
   color: var(--muted);
   border-radius: 999px;
-  padding: 7px 14px;
+  /* HIG: interactive controls are at least 44x44pt. */
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 16px;
   font-size: 0.8rem;
   cursor: pointer;
   transition: 0.15s;
   white-space: nowrap;
 }
 .ghost-btn:hover { color: var(--text); border-color: var(--accent); }
+.ghost-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  color: var(--text);
+}
+/* A "lit" gold variant for a feature nav link (e.g. Glossary on the home bar). */
+.ghost-btn.gold {
+  border-color: color-mix(in srgb, var(--gold) 40%, var(--line));
+  color: color-mix(in srgb, var(--gold) 82%, var(--text));
+  background: color-mix(in srgb, var(--gold) 8%, transparent);
+}
+.ghost-btn.gold:hover { border-color: var(--gold); color: var(--gold); }
 
 .progress {
   max-width: 880px;
@@ -97,6 +204,10 @@ h1 {
   max-width: 880px;
   margin: 0 auto;
   padding: 24px 20px 80px;
+  /* Keep content clear of the home indicator and rounded corners. */
+  padding-bottom: max(80px, calc(env(safe-area-inset-bottom) + 40px));
+  padding-left: max(20px, env(safe-area-inset-left));
+  padding-right: max(20px, env(safe-area-inset-right));
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -110,9 +221,67 @@ h1 {
   border-radius: var(--radius);
   padding: 18px 18px 14px;
   transition: 0.2s;
+  /* When scrolled into view, clear the sticky header (title + progress row). */
+  scroll-margin-top: 140px;
 }
-.ayah.active { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent-soft); }
-.ayah.passed { opacity: 0.75; }
+.ayah.active {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent-soft), 0 18px 50px -28px rgba(0, 0, 0, 0.7);
+  background:
+    radial-gradient(120% 80% at 50% -10%, color-mix(in srgb, var(--accent) 7%, transparent), transparent 60%),
+    var(--panel);
+  padding: 22px 20px 16px;
+}
+/* Passed ayahs recede so the active verse is the calm focal point. They stay
+   available as a reference — hovering restores one to full clarity. */
+.ayah.passed {
+  opacity: 0.5;
+  filter: saturate(0.85);
+  transition: opacity 0.25s ease, filter 0.25s ease;
+}
+.ayah.passed:hover, .ayah.passed:focus-within { opacity: 1; filter: none; }
+
+/* ---------- reading stage (read the whole verse first) ---------- */
+.ayah-read-wrap {
+  position: relative;
+  margin: 2px 0 20px;
+  padding: 26px 0 16px;
+  border-bottom: 1px dashed color-mix(in srgb, var(--accent) 22%, var(--line));
+}
+/* An ogee-arch (onion) arcade crowning the verse — the colonnade of a prayer
+   hall, framing the ayah as if read beneath the arches. Ends fade via the mask. */
+.ayah-read-wrap::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(100%, 396px);
+  height: 18px;
+  background: repeat-x left top / 44px 18px
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 18' preserveAspectRatio='none'%3E%3Cpath d='M0 18 C1 8 15 4 22 1.5 C29 4 43 8 44 18' fill='none' stroke='%23e3b75f' stroke-width='1.2'/%3E%3C/svg%3E");
+  opacity: 0.42;
+  pointer-events: none;
+  -webkit-mask: linear-gradient(90deg, transparent, #000 20%, #000 80%, transparent);
+  mask: linear-gradient(90deg, transparent, #000 20%, #000 80%, transparent);
+}
+.ayah-read {
+  font-family: "Amiri Quran", serif;
+  font-size: 2.7rem;
+  line-height: 2.05;
+  text-align: center;
+  color: color-mix(in srgb, var(--text) 92%, var(--accent));
+  word-spacing: 0.12em;
+  padding: 6px 4px 2px;
+}
+.ayah-read-cue {
+  margin: 10px 0 0;
+  text-align: center;
+  font-size: 0.78rem;
+  font-style: italic;
+  color: var(--muted);
+  letter-spacing: 0.2px;
+}
 
 .ayah-head {
   display: flex;
@@ -142,32 +311,55 @@ h1 {
 }
 
 .word {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: 8px;
-  background: var(--panel-2);
+  gap: 12px;
+  background: linear-gradient(
+    180deg,
+    var(--panel-2),
+    color-mix(in srgb, var(--panel-2) 86%, black)
+  );
   border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 12px 12px 10px;
+  border-radius: 14px;
+  padding: 18px 14px 12px;
   /* Fixed width so cells wrap identically whether the dropdown shows a
      placeholder (test mode) or a settled gloss (passed mode). */
-  width: 148px;
-  flex: 0 0 148px;
-  transition: border-color 0.15s, background 0.15s;
+  width: 158px;
+  flex: 0 0 158px;
+  box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.025);
+  transition: border-color 0.18s, background 0.18s, transform 0.18s,
+    box-shadow 0.18s;
 }
 .word .arabic {
   font-family: "Amiri Quran", serif;
-  font-size: 2rem;
-  line-height: 1.7;
+  font-size: 2.45rem;
+  line-height: 1.8;
   text-align: center;
   direction: rtl;
+  padding: 6px 0 2px;
+  transition: color 0.2s, text-shadow 0.3s;
 }
+
+/* gentle lift on the word you're about to answer */
+.word:not(.correct):hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--gold) 35%, var(--line));
+  box-shadow: var(--shadow), 0 8px 22px rgba(0, 0, 0, 0.25);
+}
+
+/* Lift the card whose dropdown is open above its neighbours, so the open menu
+   is never painted over by later-DOM word cards. The hover transform on a card
+   creates its own stacking context, which would otherwise trap the z-index:20
+   menu beneath the next row's cards. */
+.word:has(.dd.open) { z-index: 50; }
 
 .dd { position: relative; }
 
 .dd-trigger {
   width: 100%;
+  min-height: 44px; /* HIG: 44pt minimum touch target */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -178,21 +370,37 @@ h1 {
   border-radius: 9px;
   padding: 8px 10px;
   font-size: 0.82rem;
+  line-height: 1.3;
   font-family: inherit;
   text-align: left;
   cursor: pointer;
   transition: border-color 0.15s, background 0.15s;
 }
 .dd-trigger:hover { border-color: var(--accent); }
-.dd-trigger:focus-visible { outline: none; border-color: var(--accent); }
+.dd-trigger:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-color: var(--accent);
+}
 .dd-label { overflow-wrap: anywhere; white-space: normal; }
 .dd-label:empty { display: none; }
-/* When no gloss yet, center the caret and make the trigger quieter */
+/* Empty answer slot: a dashed, faintly-accented field that clearly reads as
+   "tap to fill" — graphically, without repeating any label text. Height is
+   unified with the filled state so answering causes no layout shift. */
 .dd-trigger:has(.dd-label:empty) {
   justify-content: center;
-  padding: 5px 10px;
-  border-color: color-mix(in srgb, var(--line) 60%, transparent);
+  border-style: dashed;
+  border-color: color-mix(in srgb, var(--accent) 32%, var(--line));
+  background: color-mix(in srgb, var(--accent) 5%, #111817);
   color: var(--muted);
+}
+.dd-trigger:has(.dd-label:empty):hover {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, #111817);
+}
+.dd-trigger:has(.dd-label:empty) .dd-caret {
+  color: color-mix(in srgb, var(--accent) 65%, var(--muted));
+  font-size: 0.82rem;
 }
 .dd-caret { color: var(--muted); font-size: 0.7rem; transition: transform 0.15s; }
 .dd.open .dd-caret { transform: rotate(180deg); }
@@ -228,7 +436,11 @@ h1 {
   border-radius: 7px;
   color: var(--text);
   text-align: left;
-  padding: 8px 10px;
+  /* HIG: comfortable 44pt-tall rows for accurate tapping */
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
   font-size: 0.82rem;
   font-family: inherit;
   line-height: 1.3;
@@ -236,6 +448,11 @@ h1 {
   white-space: normal;
 }
 .dd-option:hover, .dd-option.active { background: var(--accent-soft); }
+.dd-option:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+  background: var(--accent-soft);
+}
 
 .dd-hint {
   margin-top: 2px;
@@ -245,12 +462,16 @@ h1 {
   border-radius: 0 0 7px 7px;
   color: var(--muted);
   text-align: left;
-  padding: 8px 10px 6px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
   font-size: 0.76rem;
   font-family: inherit;
   cursor: pointer;
 }
 .dd-hint:hover { color: var(--gold); }
+.dd-hint:focus-visible { outline: 2px solid var(--gold); outline-offset: -2px; color: var(--gold); }
 
 /* transliteration leg-up shown after using a hint */
 .word-hint {
@@ -263,16 +484,49 @@ h1 {
 .word.hinted { border-color: color-mix(in srgb, var(--gold) 45%, var(--line)); }
 
 .word.correct {
-  border-color: var(--accent);
-  background: var(--accent-soft);
+  border-color: color-mix(in srgb, var(--accent) 70%, var(--line));
+  background: linear-gradient(
+    180deg,
+    var(--accent-soft),
+    color-mix(in srgb, var(--accent-soft) 70%, black)
+  );
+}
+.word.correct .arabic {
+  color: color-mix(in srgb, var(--accent) 30%, var(--text));
 }
 .word.correct .dd-trigger {
   border-color: var(--accent);
-  color: var(--accent);
+  border-style: solid;
+  color: color-mix(in srgb, var(--accent) 75%, white);
+  background: color-mix(in srgb, var(--accent) 12%, #111817);
   cursor: default;
   font-weight: 600;
 }
 .word.correct .dd-caret { display: none; }
+/* A word recovered after a slip — a small "win" treatment so the rescue feels
+   rewarding rather than like a blemish. Gold accent sets it apart from a clean
+   first-try correct (which stays green). */
+.word.rescued { border-color: color-mix(in srgb, var(--gold) 55%, var(--line)); }
+.rescue-badge {
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 0.66rem;
+  font-weight: 700;
+  color: #1b1505;
+  background: linear-gradient(180deg, var(--gold), #cf9f44);
+  border-radius: 999px;
+  padding: 2px 9px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  animation: rescue-pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@keyframes rescue-pop {
+  0% { opacity: 0; transform: translateX(-50%) translateY(4px) scale(0.7); }
+  100% { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+}
+
 .word.wrong {
   border-color: var(--wrong);
   background: var(--wrong-soft);
@@ -286,6 +540,71 @@ h1 {
   40% { transform: translateX(5px); }
   60% { transform: translateX(-4px); }
   80% { transform: translateX(3px); }
+}
+
+/* ---------- micro-animations ---------- */
+
+/* one-shot "snap" when a word is answered correctly */
+.word.pop { animation: word-pop 0.42s cubic-bezier(0.34, 1.56, 0.64, 1); }
+@keyframes word-pop {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.07); }
+  100% { transform: scale(1); }
+}
+/* the Arabic glows briefly to confirm it was just decoded */
+.word.pop .arabic {
+  color: color-mix(in srgb, var(--accent) 45%, var(--text));
+  text-shadow: 0 0 18px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+/* active ayah slides in when it becomes the focus */
+.ayah.active { animation: ayah-in 0.45s ease both; }
+@keyframes ayah-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* confetti burst on ayah completion (particles created in JS) */
+.confetti-layer {
+  position: fixed;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 60;
+}
+.confetti {
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  transform: translate(-50%, -50%);
+  animation: confetti-fly 0.95s cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
+}
+@keyframes confetti-fly {
+  0% { opacity: 1; transform: translate(-50%, -50%) scale(0.4) rotate(0deg); }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy)))
+      scale(1) rotate(var(--rot));
+  }
+}
+
+/* the Perfect badge stamps in */
+.reveal-badge.perfect { animation: stamp 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+@keyframes stamp {
+  0% { opacity: 0; transform: scale(1.6); letter-spacing: 2px; }
+  100% { opacity: 1; transform: scale(1); letter-spacing: 0.3px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .word.pop,
+  .ayah.active,
+  .ayah.revealing,
+  .ayah.revealing .ayah-reveal,
+  .reveal-badge.perfect,
+  .rescue-badge,
+  .confetti { animation: none !important; }
+  .word.pop .arabic { text-shadow: none; }
 }
 
 .perfect-label {
@@ -457,16 +776,203 @@ h1 {
   max-width: 880px;
   margin: 0 auto;
   padding: 0 20px 40px;
+  padding-bottom: max(40px, calc(env(safe-area-inset-bottom) + 16px));
+  padding-left: max(20px, env(safe-area-inset-left));
+  padding-right: max(20px, env(safe-area-inset-right));
   color: var(--muted);
   font-size: 0.72rem;
   text-align: center;
   line-height: 1.5;
+}
+/* Centered khatim-star divider opening the footer, flanked by hairlines —
+   echoing the carved stone friezes that crown a mihrab. */
+.footer::before {
+  content: "";
+  display: block;
+  width: 220px;
+  height: 16px;
+  margin: 0 auto 18px;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='11' fill='%2313110d'/%3E%3Cg fill='none' stroke='%23e3b75f' stroke-width='1.4'%3E%3Crect x='5.5' y='5.5' width='13' height='13'/%3E%3Cpath d='M12 4 20 12 12 20 4 12z'/%3E%3C/g%3E%3C/svg%3E")
+      center / 16px 16px no-repeat,
+    linear-gradient(90deg, transparent, color-mix(in srgb, var(--gold) 34%, transparent) 26%, color-mix(in srgb, var(--gold) 34%, transparent) 74%, transparent) center / 100% 1px no-repeat;
+  opacity: 0.9;
 }
 
 .topbar-actions {
   display: flex;
   gap: 8px;
   flex-shrink: 0;
+}
+
+/* ---------- home hero (ritual panel) ---------- */
+.home-hero {
+  position: relative;
+  overflow: hidden;
+  max-width: 880px;
+  margin: 20px auto 8px;
+  padding: 22px 24px 24px;
+  background:
+    radial-gradient(420px 200px at 88% -10%, rgba(227, 183, 95, 0.14), transparent 70%),
+    radial-gradient(420px 220px at 0% 120%, rgba(70, 177, 135, 0.12), transparent 70%),
+    linear-gradient(180deg, var(--panel-2), var(--panel));
+  border: 1px solid color-mix(in srgb, var(--gold) 22%, var(--line));
+  border-radius: 22px;
+  box-shadow: var(--shadow), 0 0 0 1px rgba(227, 183, 95, 0.05) inset;
+  animation: ayah-in 0.5s ease both;
+}
+/* Zellij star-lattice watermark — the khatim (8-point star) tessellation found
+   in mosque tilework, faded into the corner like light through a jali screen. */
+.home-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='46' height='46' viewBox='0 0 46 46'%3E%3Cg fill='none' stroke='%23e3b75f' stroke-width='1.1'%3E%3Cpath d='M0 0h46v46H0z'/%3E%3Cpath d='M23 0 46 23 23 46 0 23z'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 46px 46px;
+  opacity: 0.06;
+  -webkit-mask-image: radial-gradient(130% 95% at 100% 0%, #000 0%, transparent 68%);
+  mask-image: radial-gradient(130% 95% at 100% 0%, #000 0%, transparent 68%);
+  pointer-events: none;
+}
+.home-hero > * { position: relative; z-index: 1; }
+.hero-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+.hero-greeting { min-width: 0; }
+.hero-hello {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  background: linear-gradient(90deg, var(--text), color-mix(in srgb, var(--gold) 70%, var(--text)));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.hero-tagline {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+.hero-ring {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  flex: none;
+  display: grid;
+  place-items: center;
+}
+.hero-ring svg { transform: rotate(-90deg); overflow: visible; }
+.hero-ring .hr-bg { fill: none; stroke: var(--panel-2); stroke-width: 5; }
+.hero-ring .hr-fill {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 5;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.9s cubic-bezier(0.22, 1, 0.36, 1), stroke 0.3s ease;
+}
+.hero-ring.complete .hr-fill { stroke: var(--gold); }
+.hero-ring-label {
+  position: absolute;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+.hero-ring.complete .hero-ring-label { color: var(--gold); font-size: 1.1rem; }
+
+.hero-stats {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0 18px;
+}
+.hero-stat {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 12px 8px;
+  background: color-mix(in srgb, var(--panel) 60%, transparent);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+.hero-stat-icon { font-size: 1.15rem; line-height: 1; }
+.hero-stat-num {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+.hero-stat-label {
+  font-size: 0.72rem;
+  color: var(--muted);
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+.hero-cta {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  background: var(--accent);
+  color: #07120d;
+  font-weight: 700;
+  font-size: 0.98rem;
+  border-radius: 999px;
+  padding: 14px 22px;
+  transition: 0.15s;
+}
+.hero-cta:hover {
+  background: color-mix(in srgb, var(--accent) 85%, white);
+  transform: translateY(-1px);
+}
+.hero-cta:focus-visible { outline: 2px solid var(--text); outline-offset: 3px; }
+
+.section-heading {
+  width: 100%;
+  max-width: 880px;
+  box-sizing: border-box;
+  margin: 22px auto 6px;
+  padding: 0 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+/* Symmetric zellij ornament flanking each section title: a hairline fading
+   outward, capped on the inner side by a small khatim (8-point star). */
+.section-heading::before,
+.section-heading::after {
+  content: "";
+  flex: 0 1 130px;
+  height: 14px;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='11' fill='%2313110d'/%3E%3Cg fill='none' stroke='%23e3b75f' stroke-width='1.4'%3E%3Crect x='5.5' y='5.5' width='13' height='13'/%3E%3Cpath d='M12 4 20 12 12 20 4 12z'/%3E%3C/g%3E%3C/svg%3E")
+      no-repeat,
+    linear-gradient(90deg, transparent, color-mix(in srgb, var(--gold) 38%, transparent)) center / 100% 1px no-repeat;
+  background-size: 14px 14px, 100% 1px;
+}
+.section-heading::before { background-position: right center, center; }
+.section-heading::after {
+  transform: scaleX(-1);
+}
+
+@media (max-width: 520px) {
+  .hero-hello { font-size: 1.2rem; }
+  .hero-ring { width: 56px; height: 56px; }
+  .hero-stat-num { font-size: 1.3rem; }
+  .hero-stat-label { font-size: 0.66rem; }
 }
 
 /* ---------- surah picker ---------- */
@@ -494,23 +1000,46 @@ h1 {
   border-color: color-mix(in srgb, var(--accent) 55%, var(--line));
   background: var(--panel-2);
 }
+.surah-card.unlocked:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-color: var(--accent);
+}
 .surah-card.completed {
   border-color: color-mix(in srgb, var(--gold) 40%, var(--line));
 }
 .surah-card.locked { opacity: 0.55; cursor: not-allowed; }
 
 .surah-card-num {
+  position: relative;
   flex-shrink: 0;
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   display: grid;
   place-items: center;
-  border-radius: 999px;
+  border-radius: 10px; /* fallback if clip-path unsupported */
+  /* Honeycomb cell — the hexagon module muqarnas vaults are built from. */
+  clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
   background: var(--accent-soft);
   color: var(--accent);
   font-weight: 700;
   font-size: 0.95rem;
 }
+/* A faint muqarnas rosette (nested hexagons + radiating spokes — the plan view
+   of a stalactite vault) behind the number, tinted to match each card's state. */
+.surah-card-num::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: currentColor;
+  opacity: 0.22;
+  pointer-events: none;
+  -webkit-mask: center / 100% 100% no-repeat
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cg fill='none' stroke='%23fff' stroke-width='1.5' stroke-linejoin='round'%3E%3Cpolygon points='20 4 33 11.5 33 28.5 20 36 7 28.5 7 11.5'/%3E%3Cpolygon points='20 13 26.5 16.75 26.5 23.25 20 27 13.5 23.25 13.5 16.75'/%3E%3Cpath d='M20 4 20 13M33 11.5 26.5 16.75M33 28.5 26.5 23.25M20 36 20 27M7 28.5 13.5 23.25M7 11.5 13.5 16.75'/%3E%3C/g%3E%3C/svg%3E");
+  mask: center / 100% 100% no-repeat
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cg fill='none' stroke='%23fff' stroke-width='1.5' stroke-linejoin='round'%3E%3Cpolygon points='20 4 33 11.5 33 28.5 20 36 7 28.5 7 11.5'/%3E%3Cpolygon points='20 13 26.5 16.75 26.5 23.25 20 27 13.5 23.25 13.5 16.75'/%3E%3Cpath d='M20 4 20 13M33 11.5 26.5 16.75M33 28.5 26.5 23.25M20 36 20 27M7 28.5 13.5 23.25M7 11.5 13.5 16.75'/%3E%3C/g%3E%3C/svg%3E");
+}
+.surah-card-num > * { position: relative; z-index: 1; }
 .surah-card.locked .surah-card-num {
   background: var(--panel-2);
   color: var(--muted);
@@ -566,11 +1095,176 @@ h1 {
   font-size: 0.78rem;
   color: var(--muted);
   text-decoration: none;
+  /* keep a comfortable tappable area without disturbing card layout */
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 4px 2px;
 }
 .card-link:hover { color: var(--accent); }
+.card-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; color: var(--accent); }
 
 @media (max-width: 520px) {
   .word { width: auto; flex: 1 1 calc(50% - 12px); }
   .word .arabic { font-size: 1.7rem; }
+  .ayah-read { font-size: 2.05rem; line-height: 1.95; }
   .surah-card-ar { font-size: 1.1rem; }
+}
+
+/* ---------- Today's session ring (topbar) ---------- */
+.session-ring {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  flex: none;
+  display: grid;
+  place-items: center;
+}
+.session-ring svg {
+  transform: rotate(-90deg);
+  overflow: visible;
+}
+.session-ring .ring-bg {
+  fill: none;
+  stroke: var(--panel-2);
+  stroke-width: 4;
+}
+.session-ring .ring-fill {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 4;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.5s ease, stroke 0.3s ease;
+}
+.session-ring.complete .ring-fill { stroke: var(--gold); }
+.session-ring .ring-label {
+  position: absolute;
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+.session-ring.complete .ring-label { color: var(--gold); font-size: 0.85rem; }
+
+/* ---------- Session-complete end-state ---------- */
+.session-done {
+  max-width: 460px;
+  margin: 56px auto;
+  padding: 36px 28px 32px;
+  text-align: center;
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+  border: 1px solid color-mix(in srgb, var(--gold) 28%, var(--line));
+  border-radius: 22px;
+  box-shadow: var(--shadow), 0 0 0 1px rgba(227, 183, 95, 0.06) inset;
+  animation: ayah-in 0.4s ease both;
+}
+.session-done-ring {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 18px;
+  display: grid;
+  place-items: center;
+}
+.session-done-ring svg { transform: rotate(-90deg); }
+.session-done-ring .sdr-bg {
+  fill: none;
+  stroke: var(--panel-2);
+  stroke-width: 6;
+}
+.session-done-ring .sdr-fill {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 6;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.session-done-check {
+  position: absolute;
+  font-size: 2.2rem;
+  color: var(--gold);
+  animation: stamp 0.5s 0.5s ease both;
+}
+.session-done-title {
+  margin: 0 0 8px;
+  font-size: 1.45rem;
+  color: var(--text);
+}
+.session-done-sub {
+  margin: 0 auto 14px;
+  max-width: 360px;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+.session-done-streak {
+  margin: 0 0 22px;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+.session-done-streak strong { color: var(--gold); }
+.session-done-rescued {
+  margin: -8px auto 22px;
+  max-width: 360px;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.session-done-rescued strong { color: var(--gold); }
+.session-done-cta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+.primary-btn {
+  background: var(--accent);
+  color: #07120d;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 999px;
+  padding: 12px 26px;
+  cursor: pointer;
+  transition: 0.15s;
+}
+.primary-btn:hover { background: color-mix(in srgb, var(--accent) 85%, white); }
+.primary-btn:focus-visible, .primary-link:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .session-done,
+  .session-done-check,
+  .session-done-ring .sdr-fill { animation: none !important; transition: none !important; }
+  .session-ring .ring-fill { transition: none !important; }
+  .home-hero { animation: none !important; }
+  .hero-ring .hr-fill { transition: none !important; }
+}
+
+/* Mirror Apple's "Reduce Transparency" setting: drop the translucent blur on
+   the sticky bar so text sits on a solid, fully legible surface. */
+@media (prefers-reduced-transparency: reduce) {
+  .topbar {
+    background: var(--bg);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+/* Mirror Apple's "Increase Contrast" setting: firm up borders and lift muted
+   text so structure reads clearly. */
+@media (prefers-contrast: more) {
+  :root {
+    --line: #5a4d3d;
+    --muted: #c9bdab;
+  }
+  .surah-card,
+  .ayah,
+  .word,
+  .hero-stat,
+  .dd-trigger,
+  .ghost-btn { border-width: 1.5px; }
+  .dd-trigger:has(.dd-label:empty) { border-style: solid; }
 }

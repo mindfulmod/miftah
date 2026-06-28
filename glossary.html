@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Glossary — Miftah</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill-rule='evenodd' fill='%23e3b75f' d='M8 2.4a5.6 5.6 0 0 0-1 11.1V19a1 1 0 0 0 .29.71l1 1a1 1 0 0 0 1.42 0l1.6-1.6-1.3-1.3 1.3-1.3-1.3-1.3.99-.99A5.6 5.6 0 0 0 8 2.4ZM8 6.1a1.9 1.9 0 1 0 0 3.8 1.9 1.9 0 1 0 0-3.8Z'/%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="glossary.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brand-lockup">
+          <a href="index.html" class="brand-key" aria-label="Miftah home" title="Miftah — home">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path fill-rule="evenodd" fill="currentColor" d="M8 2.4a5.6 5.6 0 0 0-1 11.1V19a1 1 0 0 0 .29.71l1 1a1 1 0 0 0 1.42 0l1.6-1.6-1.3-1.3 1.3-1.3-1.3-1.3.99-.99A5.6 5.6 0 0 0 8 2.4ZM8 6.1a1.9 1.9 0 1 0 0 3.8 1.9 1.9 0 1 0 0-3.8Z"></path>
+            </svg>
+          </a>
+          <div>
+            <h1>Glossary</h1>
+            <p id="gloss-subtitle" class="subtitle">The words you've learned so far.</p>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <a href="index.html" class="ghost-btn">≡ All surahs</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="app">
+      <p id="loading" class="loading">Loading your glossary…</p>
+
+      <!-- Glossary list view -->
+      <section id="gloss-view" class="gloss-view" hidden>
+        <div class="gloss-toolbar">
+          <input
+            id="gloss-search"
+            class="gloss-search"
+            type="search"
+            inputmode="search"
+            autocomplete="off"
+            placeholder="Search Arabic or meaning…"
+            aria-label="Search the glossary"
+          />
+          <button id="start-test" class="primary-btn" type="button">
+            🎯 Run 10-word test
+          </button>
+        </div>
+        <div id="gloss-groups" class="gloss-groups"></div>
+        <p id="gloss-empty" class="gloss-empty" hidden></p>
+      </section>
+
+      <!-- Test view -->
+      <section id="test-view" class="test-view" hidden>
+        <div class="quiz-head">
+          <button id="quit-test" class="ghost-btn" type="button">← Back to glossary</button>
+          <div class="quiz-track"><div id="quiz-fill" class="quiz-fill"></div></div>
+          <span id="quiz-count" class="quiz-count">1 / 10</span>
+        </div>
+        <div id="quiz-card" class="quiz-card"></div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>Your glossary grows as you complete ayahs in the trainer. The 10-word test draws at random from everything you've learned — a quick way to keep it fresh.</span>
+    </footer>
+
+    <script src="glossary.js"></script>
+  </body>
+</html>
