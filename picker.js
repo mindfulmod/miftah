@@ -1,7 +1,10 @@
 "use strict";
 
-// Home screen: lists the surahs from data/surahs.json. A surah unlocks only
-// once the one before it (in manifest order) is fully completed in the trainer.
+// Home screen: lists the surahs from data/surahs.json. A surah unlocks once the
+// one before it (in manifest order) is fully completed in the trainer — and,
+// once unlocked, stays unlocked as long as it has any progress of its own. That
+// stickiness means resetting an earlier surah can't re-lock later surahs you've
+// already worked through (e.g. resetting Al-Fatihah while 30 surahs deep).
 
 const MANIFEST_FILE = "data/surahs.json";
 
@@ -243,7 +246,10 @@ async function init() {
   surahs.forEach((surah, i) => {
     const { passed } = surahProgress(surah.number);
     const completed = passed >= surah.ayahCount;
-    const unlocked = i === 0 || prevCompleted;
+    // Sticky unlock: the previous surah being completed unlocks this one, but
+    // any progress of its own keeps it unlocked even if an earlier surah is
+    // later reset. Prevents a single reset from cascading every surah locked.
+    const unlocked = i === 0 || prevCompleted || passed > 0;
     const current = !cta && unlocked && !completed;
     mastered += Math.min(passed, surah.ayahCount);
 
