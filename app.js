@@ -1037,9 +1037,13 @@ function renderActiveAyah(ayah) {
 
 // ---------- boot ----------
 
-// A surah is unlocked only if it's the first in the manifest or the one before
-// it (in manifest order) has every ayah passed. Returns null when unlocked, or
-// the previous surah's entry when locked, so we can tell the user what to finish.
+// A surah is unlocked if it's the first in the manifest, the one before it (in
+// manifest order) has every ayah passed, OR it already has progress of its own.
+// That last (sticky) clause must match the home screen's unlock rule (picker.js)
+// exactly — otherwise a surah can look open on the home grid yet refuse to load
+// here, e.g. after an earlier surah is reset while you're deep in a later one.
+// Returns null when unlocked, or the previous surah's entry when locked, so we
+// can tell the user what to finish.
 async function lockedBehind() {
   let manifest;
   try {
@@ -1050,6 +1054,7 @@ async function lockedBehind() {
   const list = Array.isArray(manifest.surahs) ? manifest.surahs : [];
   const idx = list.findIndex((s) => s.number === SURAH_NUMBER);
   if (idx <= 0) return null; // first surah (or unknown) is always available
+  if (passedCount(SURAH_NUMBER) > 0) return null; // sticky: keep started surahs open
   const prev = list[idx - 1];
   return passedCount(prev.number) >= prev.ayahCount ? null : prev;
 }
