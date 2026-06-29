@@ -3,33 +3,32 @@
 // Review mode: a spaced-repetition drill over the words you missed in the
 // main word-by-word trainer. It unlocks only once the whole surah is complete,
 // and the deck is built from the per-word mistake history the trainer records.
-// Leitner box system — recall a word and it climbs to a higher box and returns
-// less often; miss it and it drops back to box 1 and returns now. Real intervals
-// are days long, so "Simulate +1 day" lets you watch the schedule react.
+//
+// Scheduling runs on FSRS (see fsrs.js): each word carries a memory model
+// (difficulty / stability), and recalling it pushes the next review further
+// out while a miss pulls it back in — adaptively, per word, instead of fixed
+// Leitner boxes. Real intervals are days long, so "Simulate +1 day" lets you
+// fast-forward the clock and watch the schedule react.
 
 const SURAH_NUMBER =
   Number(new URLSearchParams(location.search).get("surah")) || 1;
 const SURAH_FILE = `data/surah-${SURAH_NUMBER}.json`;
 const PROGRESS_KEY = `quran-trainer:surah-${SURAH_NUMBER}:progress`; // written by the trainer
 const STATS_KEY = `quran-trainer:stats:surah-${SURAH_NUMBER}`; // per-word mistake history
-const STORAGE_KEY = `quran-trainer:review:surah-${SURAH_NUMBER}`; // this page's Leitner state
+const STORAGE_KEY = `quran-trainer:review:surah-${SURAH_NUMBER}`; // this page's FSRS state
 const TRAINER_URL = `trainer.html?surah=${SURAH_NUMBER}`;
-const MAX_BOX = 6;
 const OPTIONS = 4;
 const MIN = 60 * 1000;
 
-const wordId = (arabic, english) => `${arabic}|||${english}`;
+// A word counts as "mastered" once its memory is stable enough to hold for
+// about three weeks — the point where it no longer needs frequent drilling.
+const MASTERED_DAYS = 21;
+// The board's six dots fill as stability climbs past each tier (days). The
+// doubling ladder mirrors how memory strength grows: slow at first, then in
+// ever larger leaps until the word is mastered.
+const STABILITY_TIERS = [1, 2, 4, 8, 16, MASTERED_DAYS];
 
-// minutes until a card in a given box is due again
-const INTERVAL_MIN = { 1: 0, 2: 10, 3: 60, 4: 1440, 5: 4320, 6: 10080 };
-const BOX_LABEL = {
-  1: "now",
-  2: "10 min",
-  3: "1 hour",
-  4: "1 day",
-  5: "3 days",
-  6: "1 week",
-};
+const wordId = (arabic, english) => `${arabic}|||${english}`;
 
 const els = {
   loading: document.getElementById("loading"),
@@ -96,9 +95,11 @@ function loadStats() {
   }
 }
 
-// Build the deck from missed words, hardest first. Merge with any saved Leitner
-// state so progress on a word survives across visits, and pick up newly-missed
-// words from later sessions.
+// Build the deck from missed words, hardest first. Resume any saved FSRS state
+// so a word's memory model survives across visits, and pick up newly-missed
+// words from later sessions. Cards saved under the old Leitner format (no
+// stability field) are restarted as fresh FSRS cards — harmless, since the
+// deck is always rebuilt from the underlying mistake history.
 function buildDeck(savedDeck) {
   const stats = loadStats();
   const byId = {};
@@ -112,15 +113,25 @@ function buildDeck(savedDeck) {
     .map((s) => {
       const id = wordId(s.arabic, s.english);
       const prior = byId[id];
-      return {
+      const base = {
         id,
         arabic: s.arabic,
         english: s.english,
         translit: s.translit || "",
         miss: s.miss,
-        box: prior ? prior.box : 1,
-        due: prior ? prior.due : now(),
       };
+      if (prior && typeof prior.stability === "number") {
+        return Object.assign(base, {
+          stability: prior.stability,
+          difficulty: prior.difficulty,
+          due: prior.due,
+          lastReview: prior.lastReview ?? null,
+          reps: prior.reps || 0,
+          lapses: prior.lapses || 0,
+          state: prior.state || "review",
+        });
+      }
+      return Object.assign(base, FSRS.newCard(), { due: now() });
     });
 }
 
@@ -134,10 +145,20 @@ function dueInLabel(ms) {
   return `in ${d} day${d === 1 ? "" : "s"}`;
 }
 
+// How many board dots are lit for a given stability, and whether it's mastered.
+function dotsFor(stability) {
+  const s = stability || 0;
+  return {
+    on: STABILITY_TIERS.filter((t) => s >= t).length,
+    mastered: s >= MASTERED_DAYS,
+  };
+}
+
 function dueCards() {
+  // Earliest-due first; among ties, the weaker memory (lower stability) leads.
   return deck
     .filter((c) => c.due <= now())
-    .sort((a, b) => a.box - b.box || a.due - b.due);
+    .sort((a, b) => a.due - b.due || (a.stability || 0) - (b.stability || 0));
 }
 
 function options(correct) {
@@ -152,7 +173,7 @@ function render() {
   renderBoard();
   renderReview();
 
-  const mastered = deck.filter((c) => c.box >= MAX_BOX).length;
+  const mastered = deck.filter((c) => (c.stability || 0) >= MASTERED_DAYS).length;
   const due = dueCards().length;
   els.subtitle.textContent =
     `${deck.length} missed word${deck.length === 1 ? "" : "s"} · ` +
@@ -178,10 +199,11 @@ function renderBoard() {
 
     const dots = document.createElement("div");
     dots.className = "board-dots";
-    for (let i = 1; i <= MAX_BOX; i++) {
+    const { on, mastered } = dotsFor(c.stability);
+    for (let i = 0; i < STABILITY_TIERS.length; i++) {
       const d = document.createElement("span");
       d.className = "dot";
-      if (i <= c.box) d.classList.add(c.box >= MAX_BOX ? "mastered" : "on");
+      if (i < on) d.classList.add(mastered ? "mastered" : "on");
       dots.appendChild(d);
     }
 
@@ -247,14 +269,16 @@ function answer(card, choice, optsEl, feedbackEl) {
     else if (b.textContent === choice) b.classList.add("wrong");
   });
 
+  // Binary grade → FSRS: a correct tap is "Good" (3), a miss is "Again" (1).
+  const graded = FSRS.repeat(card, correct ? 3 : 1, now());
+  Object.assign(card, graded); // mutate in place so the deck reference updates
+
+  const when = dueInLabel(card.due - now());
   if (correct) {
-    card.box = Math.min(card.box + 1, MAX_BOX);
-    feedbackEl.innerHTML = `<span class="up">Recalled ↑ Box ${card.box} — returns in ${BOX_LABEL[card.box]}.</span>`;
+    feedbackEl.innerHTML = `<span class="up">Recalled ↑ — memory strengthened, returns ${when}.</span>`;
   } else {
-    card.box = 1; // Leitner: a miss sends it back to the start
-    feedbackEl.innerHTML = `<span class="down">Missed ↓ back to Box 1 — “${card.english}”. It returns now.</span>`;
+    feedbackEl.innerHTML = `<span class="down">Missed ↓ — “${card.english}”. Returns ${when}.</span>`;
   }
-  card.due = now() + INTERVAL_MIN[card.box] * MIN;
   save();
 
   renderBoard();
