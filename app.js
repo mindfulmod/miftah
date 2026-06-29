@@ -1056,7 +1056,7 @@ async function lockedBehind() {
 
 function showLocked(prev) {
   els.title.textContent = "Locked";
-  els.subtitle.textContent = "";
+  if (els.subtitle) els.subtitle.textContent = "";
   els.loading.remove();
   const box = document.createElement("section");
   box.className = "ayah passed completion";
@@ -1126,7 +1126,8 @@ async function init() {
   glossPool = uniqueWords.map((w) => w.english);
 
   els.title.textContent = `${surah.englishName} · ${surah.name}`;
-  els.subtitle.textContent = `${surah.englishTranslation} — word-by-word meaning trainer`;
+  if (els.subtitle)
+    els.subtitle.textContent = `${surah.englishTranslation} — word-by-word meaning trainer`;
   els.sources.textContent =
     "Arabic verified across two independent sources: " + (data.sources || []).join(" + ");
 
