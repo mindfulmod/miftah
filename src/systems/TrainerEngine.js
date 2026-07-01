@@ -97,6 +97,12 @@
   const optionCountFor = (exposures) => (exposures >= 3 ? 5 : exposures >= 1 ? 4 : 3);
   const mistakeBudget = (wordCount) => Math.max(1, Math.ceil(MISTAKE_RATE * wordCount));
 
+  async function fetchJson(path) {
+    const res = await fetch(path, { cache: "no-store" });
+    if (!res.ok) throw new Error(`Could not load ${path} (${res.status})`);
+    return res.json();
+  }
+
   function shuffle(arr) {
     const a = arr.slice();
     for (let i = a.length - 1; i > 0; i -= 1) {
@@ -130,11 +136,10 @@
 
     async init() {
       try {
-        const manifestRes = await fetch(MANIFEST_FILE);
-        this.manifest = (await manifestRes.json()).surahs || [];
+        this.manifest = (await fetchJson(MANIFEST_FILE)).surahs || [];
         await this.loadSurah(this.pickStartingSurahNumber());
       } catch (err) {
-        this.error = err;
+        if (!this.loadFallbackTrainer(err)) this.error = err;
       } finally {
         this.loading = false;
       }
@@ -159,8 +164,7 @@
         return;
       }
       this.locked = false;
-      const res = await fetch(entry.file);
-      const data = await res.json();
+      const data = await fetchJson(entry.file);
       this.surah = { ...data.surah, ayahs: data.ayahs };
 
       const glossInfo = new Map();
@@ -191,6 +195,52 @@
       this.interleave = this.loadInterleaveFor(number);
       this.lastReviewIndex = -REVIEW_MIN_GAP;
       this.startAyah();
+    }
+
+    loadFallbackTrainer(error) {
+      const questions = ns.TRAINER_QUESTIONS || [];
+      if (!questions.length) return false;
+
+      this.fallback = true;
+      this.manifest = [{
+        number: 1,
+        name: "الفاتحة",
+        englishName: "Al-Fatihah",
+        englishTranslation: "Offline sample",
+        ayahCount: questions.length,
+        file: "",
+      }];
+      this.surah = {
+        number: 1,
+        name: "الفاتحة",
+        englishName: "Al-Fatihah",
+        englishTranslation: "Offline sample",
+        ayahs: questions.map((question, index) => ({
+          number: index + 1,
+          displayWords: question.ayahWords || [question.arabic],
+          words: [{
+            arabic: question.arabic,
+            english: question.answer,
+            answer: question.answer,
+            translit: question.translit || "",
+            root: question.root || "",
+            displayIndex: question.activeWordIndex ?? 0,
+          }],
+        })),
+      };
+      this.uniqueWords = this.surah.ayahs.map((ayah) => ayah.words[0]);
+      this.rootIndex = new Map();
+      this.currentAyahIndex = 0;
+      this.stats = {};
+      this.interleave = {};
+      this.lastReviewIndex = -REVIEW_MIN_GAP;
+      this.locked = false;
+      this.error = null;
+      console.warn("Using bundled trainer sample because full trainer data could not load.", error);
+      this.message = "Offline sample loaded. Use the local dev server for the full trainer data.";
+      this.startAyah();
+      if (!this.message) this.message = "Offline sample loaded. Use the local dev server for the full trainer data.";
+      return true;
     }
 
     get ayah() {
@@ -351,8 +401,8 @@
         surahRef: `${this.surah.number}:${ayah.number}`,
         surahMeta,
         progressText,
-        ayahWords: ayah.words.map((w) => w.arabic),
-        activeWordIndex: this.reviewWord ? -1 : this.wordOrder[this.wordIndex],
+        ayahWords: ayah.displayWords || ayah.words.map((w) => w.arabic),
+        activeWordIndex: this.reviewWord ? -1 : (word.displayIndex ?? this.wordOrder[this.wordIndex]),
         arabic: word.arabic,
         translit: word.translit || "",
         prompt: this.reviewWord ? "Review: what does this word mean?" : "What does this word mean?",
@@ -367,7 +417,7 @@
 
     // ---------- interaction ----------
 
-    choose(value, game) {
+    async choose(value, game) {
       if (this.locked || !this.surah) return { correct: false };
 
       if (this.reviewWord) {
@@ -424,23 +474,34 @@
       const review = atSurahEnd ? null : this.pickDueReview(finishedAyah);
 
       if (atSurahEnd) {
-        this.message = perfect
+        const completionMessage = perfect
           ? `★ Perfect surah pass! ${summary || ""}`.trim()
           : `Surah complete! ${summary || ""}`.trim();
+        this.message = completionMessage;
         const nextEntry = this.manifest.find((s) => s.number === this.surah.number + 1);
         if (nextEntry) {
-          this.loadSurah(nextEntry.number);
+          this.loading = true;
+          try {
+            await this.loadSurah(nextEntry.number);
+            this.message = `${completionMessage} Now beginning ${this.surah.englishName || this.surah.name}.`;
+          } catch (err) {
+            this.error = err;
+          } finally {
+            this.loading = false;
+          }
         } else {
           this.locked = true;
         }
         return { correct: true, ayahComplete: true, surahComplete: true };
       }
 
-      this.message = perfect ? `★ Perfect ayah! ${summary || ""}`.trim() : (summary || "Correct. The oasis grows with your reading.");
+      const nextMessage = perfect ? `★ Perfect ayah! ${summary || ""}`.trim() : (summary || "Correct. The oasis grows with your reading.");
       if (review) {
+        this.message = nextMessage;
         this.reviewWord = review;
       } else {
         this.startAyah();
+        this.message = nextMessage;
       }
       return { correct: true, ayahComplete: true };
     }

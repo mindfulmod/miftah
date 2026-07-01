@@ -1,10 +1,12 @@
 # Miftah Island Garden — Map Spec (tile-map foundation rebuild)
 
 Source of truth: `src/world/MapData.js` generates every tile, zone, gate and
-built-in prop; `src/world/mapOverrides.json` is the production placement layer
-saved by the F2 in-game editor. The baked `world_oasis_backdrop.png` stays in
-`assets/` but is no longer referenced by the live map — tiles + props render
-directly, so what you see is exactly what collides.
+default prop; `src/world/mapOverrides.json` is the production prop placement
+layer saved by the F2 in-game editor. When present with `replaceProps: true`,
+it replaces the full prop layer so any visible prop can be moved or removed.
+The baked `world_oasis_backdrop.png` stays in `assets/` but is no longer
+referenced by the live map — tiles + props render directly, so what you see is
+exactly what collides.
 
 Grid: 58 × 56 tiles, 48 px each (2784 × 2688 px world).
 
@@ -85,10 +87,10 @@ The fish is aquatic and bound to the SW lagoon tiles.
 - **MapData.js**: terrain tiles, island shapes, paths/bridges, zone + island
   metadata, gates, clue markers, buildings, habitat anchors, farm plots,
   NPCs, spawn — everything gameplay-loading depends on.
-- **mapOverrides.json**: decorative dressing authored in the F2 editor
-  (extra trees, crates, flowers…). Committed as production data. Reset to
-  empty at the rebuild; scratch test placements from the old backdrop map
-  were discarded.
+- **mapOverrides.json**: production prop placement authored in the F2 editor.
+  Newer saves use `{ replaceProps: true, props: [...] }`, so the file can
+  persist moves/removals for MapData-authored props as well as new decorative
+  dressing.
 
 ## Dev tooling
 

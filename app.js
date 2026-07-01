@@ -1,9 +1,12 @@
 "use strict";
 
-const MANIFEST_FILE = "data/surahs.json";
+const DATA_VERSION = "20260629-beginner-options";
+const withDataVersion = (path) =>
+  `${path}${path.includes("?") ? "&" : "?"}v=${DATA_VERSION}`;
+const MANIFEST_FILE = withDataVersion("data/surahs.json");
 const SURAH_NUMBER =
   Number(new URLSearchParams(location.search).get("surah")) || 1;
-const SURAH_FILE = `data/surah-${SURAH_NUMBER}.json`;
+const SURAH_FILE = withDataVersion(`data/surah-${SURAH_NUMBER}.json`);
 const STORAGE_KEY = `quran-trainer:surah-${SURAH_NUMBER}:progress`;
 const STATS_KEY = `quran-trainer:stats:surah-${SURAH_NUMBER}`; // per-word mistake history, accumulates across sessions
 const INTERLEAVE_KEY = `quran-trainer:interleave:surah-${SURAH_NUMBER}`; // in-flow review schedule
@@ -116,9 +119,17 @@ function passedCount(n) {
   }
 }
 
-// Stable id for a word by its Arabic form + meaning, so the same word in
+// Some Arabic forms repeat with different contextual phrasing in English. The
+// quiz should ask for the stable core meaning, while solved/revealed cells can
+// still show the phrase-level context.
+const answerFor = (w) => w.answer || w.english;
+const displayGloss = (w) =>
+  w.display || (w.context ? `${answerFor(w)} — ${w.context}` : w.english || answerFor(w));
+const literalGloss = (w) => w.english || answerFor(w);
+
+// Stable id for a word by its Arabic form + quiz answer, so the same word in
 // different ayahs aggregates into one "trouble word" entry.
-const wordId = (w) => `${w.arabic}|||${w.english}`;
+const wordId = (w) => `${w.arabic}|||${answerFor(w)}`;
 
 const els = {
   app: document.getElementById("app"),
@@ -138,7 +149,6 @@ const els = {
 };
 
 let surah = null;
-let glossPool = []; // unique English glosses across the surah, for distractors
 let uniqueWords = []; // one representative word per gloss: {arabic, english, translit, root}
 let glossInfo = new Map(); // english gloss -> that representative word
 let rootIndex = new Map(); // root -> [{arabic, english}] sharing it (for "same root" hints)
@@ -165,7 +175,7 @@ function shuffle(arr) {
 // reads as one literal sentence.
 function literalMeaning(ayah) {
   return ayah.words
-    .map((w) => w.english)
+    .map(literalGloss)
     .join(" ")
     .replace(/[()[\]]/g, "")
     .replace(/\s+/g, " ")
@@ -303,17 +313,108 @@ const glossKey = (g) =>
     .replace(/\s+/g, " ")
     .trim();
 
+const normalizeArabicLetters = (s) =>
+  skeleton(s || "")
+    .replace(/[^\u0621-\u064A]/g, "")
+    .replace(/[أإآٱ]/g, "ا")
+    .replace(/ؤ/g, "و")
+    .replace(/ئ/g, "ي")
+    .replace(/ى/g, "ي");
+
+function arabicConceptKey(value) {
+  let core = normalizeArabicLetters(value);
+  while (/^[وف]/.test(core) && core.length > 3) core = core.slice(1);
+  if (core === "لله") return "الله";
+  if (/^[بك]/.test(core) && core[1] === "ا" && core.length > 4) {
+    core = core.slice(1);
+  }
+  if (core === "لله") return "الله";
+  if (core.startsWith("لل") && core.length > 4) {
+    core = "ال" + core.slice(2);
+  } else if (core[0] === "ل" && core[1] === "ا" && core.length > 4) {
+    core = core.slice(1);
+  }
+  return core === "لله" ? "الله" : core;
+}
+
+const BEGINNER_CONTEXT_WORDS = new Set([
+  "a",
+  "an",
+  "and",
+  "are",
+  "be",
+  "belong",
+  "belongs",
+  "but",
+  "by",
+  "for",
+  "from",
+  "had",
+  "has",
+  "have",
+  "in",
+  "is",
+  "of",
+  "on",
+  "so",
+  "that",
+  "the",
+  "then",
+  "to",
+  "upon",
+  "was",
+  "were",
+  "while",
+  "with",
+]);
+
+function beginnerGlossKey(g) {
+  const words = (g || "")
+    .toLowerCase()
+    .replace(/\[[^\]]*\]|\([^)]*\)/g, " ")
+    .replace(/['’]s\b/g, "")
+    .replace(/[.,;:!?'"’\-/]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .split(" ")
+    .filter(Boolean);
+
+  while (words.length && BEGINNER_CONTEXT_WORDS.has(words[0])) words.shift();
+  while (words.length && BEGINNER_CONTEXT_WORDS.has(words[words.length - 1])) {
+    words.pop();
+  }
+  return words.join(" ");
+}
+
+function optionKeys(word, gloss) {
+  const keys = new Set();
+  const exact = glossKey(gloss || "");
+  const beginner = beginnerGlossKey(gloss || "");
+  const arabic = word ? arabicConceptKey(word.arabic) : "";
+  if (exact) keys.add(`gloss:${exact}`);
+  if (beginner) keys.add(`meaning:${beginner}`);
+  if (arabic) keys.add(`arabic:${arabic}`);
+  return keys;
+}
+
+const hasBannedKey = (keys, bannedKeys) => [...keys].some((key) => bannedKeys.has(key));
+
+function rememberOption(keys, bannedKeys) {
+  keys.forEach((key) => bannedKeys.add(key));
+}
+
 // The gloss of another word whose Arabic looks closest to this one — a
 // confusable distractor that forces the learner to read the letters, not guess.
-function lookalikeGloss(word, bannedKeys) {
+function lookalikeWord(word, bannedKeys) {
   let best = null;
   let bestScore = -1;
   for (const cand of uniqueWords) {
-    if (bannedKeys.has(glossKey(cand.english))) continue;
+    const answer = answerFor(cand);
+    if (hasBannedKey(optionKeys(cand, answer), bannedKeys)) continue;
     const score = arabicSimilarity(word.arabic, cand.arabic);
     if (score > bestScore) {
       bestScore = score;
-      best = cand.english;
+      best = cand;
     }
   }
   return bestScore > 0.34 ? best : null; // ignore words that aren't actually alike
@@ -321,39 +422,41 @@ function lookalikeGloss(word, bannedKeys) {
 
 // The gloss of another word from the same triliteral root — semantically near,
 // so picking it apart reinforces the fine distinction between siblings.
-function sameRootGloss(word, bannedKeys) {
+function sameRootWord(word, bannedKeys) {
   if (!word.root) return null;
   const family = (rootIndex.get(word.root) || []).filter(
-    (m) => !bannedKeys.has(glossKey(m.english))
+    (m) => !hasBannedKey(optionKeys(m, answerFor(m)), bannedKeys)
   );
   if (!family.length) return null;
-  return family[Math.floor(Math.random() * family.length)].english;
+  return family[Math.floor(Math.random() * family.length)];
 }
 
 // Build the option set: always the correct gloss, then (when available) one
 // look-alike and one same-root distractor, padded with random glosses. The
 // total grows with how many times the learner has already seen this word.
 function buildOptions(word) {
-  const correct = word.english;
+  const correct = answerFor(word);
   const id = wordId(word);
   const stat = stats[id];
   const exposures = stat ? stat.miss + stat.correct : 0;
-  const target = Math.min(optionCountFor(exposures), glossPool.length);
+  const target = Math.min(optionCountFor(exposures), uniqueWords.length);
 
-  const bannedKeys = new Set([glossKey(correct)]); // blocks synonyms-by-case too
+  const bannedKeys = optionKeys(word, correct);
   const distractors = [];
-  const add = (g) => {
-    if (g && !bannedKeys.has(glossKey(g))) {
-      bannedKeys.add(glossKey(g));
-      distractors.push(g);
-    }
+  const add = (candidate) => {
+    if (!candidate) return;
+    const answer = answerFor(candidate);
+    const keys = optionKeys(candidate, answer);
+    if (!answer || hasBannedKey(keys, bannedKeys)) return;
+    rememberOption(keys, bannedKeys);
+    distractors.push(answer);
   };
 
-  add(lookalikeGloss(word, bannedKeys));
-  add(sameRootGloss(word, bannedKeys));
-  for (const g of shuffle(glossPool)) {
+  add(lookalikeWord(word, bannedKeys));
+  add(sameRootWord(word, bannedKeys));
+  for (const candidate of shuffle(uniqueWords)) {
     if (distractors.length >= target - 1) break;
-    add(g);
+    add(candidate);
   }
 
   return shuffle([correct, ...distractors]);
@@ -408,14 +511,19 @@ function statEntry(word) {
   if (!stats[id]) {
     stats[id] = {
       arabic: word.arabic,
-      english: word.english,
+      english: answerFor(word),
+      display: answerFor(word),
       translit: word.translit || "",
       root: word.root || "",
       miss: 0,
       correct: 0,
     };
-  } else if (!stats[id].root && word.root) {
-    stats[id].root = word.root; // backfill root onto entries from before roots existed
+  } else {
+    stats[id].english = answerFor(word);
+    stats[id].display = stats[id].display || answerFor(word);
+    if (!stats[id].root && word.root) {
+      stats[id].root = word.root; // backfill root onto entries from before roots existed
+    }
   }
   return stats[id];
 }
@@ -518,7 +626,24 @@ function updateSessionRing() {
 
 // ---------- rendering ----------
 
-function render() {
+function scrollToCurrentPanel(behavior = "smooth") {
+  const target =
+    currentIndex >= surah.ayahs.length
+      ? els.app.querySelector(".completion")
+      : els.app.querySelector(".ayah.active");
+  if (!target) return;
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      target.scrollIntoView({
+        block: "start",
+        behavior: prefersReducedMotion() ? "auto" : behavior,
+      });
+    });
+  });
+}
+
+function render({ focusCurrent = false, focusBehavior = "smooth" } = {}) {
   els.app.innerHTML = "";
   updateHeaderProgress();
   updateSessionRing();
@@ -532,6 +657,8 @@ function render() {
   if (currentIndex >= surah.ayahs.length) {
     els.app.appendChild(renderCompletion());
   }
+
+  if (focusCurrent) scrollToCurrentPanel(focusBehavior);
 }
 
 function renderCompletion() {
@@ -627,7 +754,7 @@ function renderSessionComplete(streak) {
   more.type = "button";
   more.className = "primary-btn";
   more.textContent = "Keep going ›";
-  more.addEventListener("click", () => render());
+  more.addEventListener("click", () => render({ focusCurrent: true }));
 
   const back = document.createElement("a");
   back.className = "ghost-btn";
@@ -690,19 +817,19 @@ function renderReviewCard(word) {
 
     [...opts.children].forEach((b) => {
       b.disabled = true;
-      if (b.textContent === word.english) b.classList.add("correct");
+      if (b.textContent === answerFor(word)) b.classList.add("correct");
     });
 
     feedback.textContent = recalled
       ? "Recalled ✓ — it'll come back less often now."
-      : `Not yet — this word means “${word.english}”. It'll return soon.`;
+      : `Not yet — this word means “${displayGloss(word)}”. It'll return soon.`;
     feedback.className = "ayah-message " + (recalled ? "pass" : "reset");
 
     const cont = document.createElement("button");
     cont.type = "button";
     cont.className = "primary-link";
     cont.textContent = "Continue →";
-    cont.addEventListener("click", render);
+    cont.addEventListener("click", () => render({ focusCurrent: true }));
     card.appendChild(cont);
   };
 
@@ -711,7 +838,7 @@ function renderReviewCard(word) {
     btn.type = "button";
     btn.className = "review-opt";
     btn.textContent = g;
-    btn.addEventListener("click", () => finish(g === word.english));
+    btn.addEventListener("click", () => finish(g === answerFor(word)));
     opts.appendChild(btn);
   });
 
@@ -752,7 +879,7 @@ function renderPassedAyah(ayah) {
       cell.classList.add("shares-root");
     }
     cell.querySelector(".arabic").textContent = w.arabic;
-    cell.querySelector(".dd-label").textContent = w.english;
+    cell.querySelector(".dd-label").textContent = displayGloss(w);
     const trigger = cell.querySelector(".dd-trigger");
     trigger.disabled = true;
     trigger.setAttribute("aria-disabled", "true");
@@ -869,7 +996,7 @@ function renderActiveAyah(ayah) {
     const review = pickDueReview(ayah);
     setTimeout(() => {
       if (review) renderReviewCard(review);
-      else render();
+      else render({ focusCurrent: true });
     }, 1600);
   }
 
@@ -939,8 +1066,9 @@ function renderActiveAyah(ayah) {
 
       // Narrow the field to the correct gloss plus one distractor.
       const opts = [...menu.querySelectorAll(".dd-option")];
-      const keep = new Set([word.english]);
-      const wrong = opts.find((b) => b.textContent !== word.english);
+      const correctAnswer = answerFor(word);
+      const keep = new Set([correctAnswer]);
+      const wrong = opts.find((b) => b.textContent !== correctAnswer);
       if (wrong) keep.add(wrong.textContent);
       opts.forEach((b) => {
         if (!keep.has(b.textContent)) b.remove();
@@ -955,12 +1083,13 @@ function renderActiveAyah(ayah) {
       closeMenu();
       if (cell.classList.contains("correct")) return;
 
-      if (value === word.english) {
+      const correctAnswer = answerFor(word);
+      if (value === correctAnswer) {
         cell.classList.remove("wrong");
         cell.classList.add("correct");
         cell.classList.add("pop");
         setTimeout(() => cell.classList.remove("pop"), 460);
-        label.textContent = value;
+        label.textContent = displayGloss(word);
         trigger.disabled = true;
         state.solved.add(word.position);
         recordCorrect(word);
@@ -1009,7 +1138,7 @@ function renderActiveAyah(ayah) {
         const belongsTo = owner ? ` — that's “${owner.arabic}”` : "";
         msgEl.innerHTML =
           `<strong>“${value}”</strong>${belongsTo}. This word means ` +
-          `<strong>“${word.english}”</strong>. ${remaining} slip${
+          `<strong>“${displayGloss(word)}”</strong>. ${remaining} slip${
             remaining === 1 ? "" : "s"
           } left.`;
         msgEl.className = "ayah-message reset contrast";
@@ -1113,22 +1242,22 @@ async function init() {
   const rootSeen = new Map(); // root -> Set of glosses already indexed (dedupe)
   for (const a of data.ayahs) {
     for (const w of a.words) {
-      if (!glossInfo.has(w.english)) glossInfo.set(w.english, w);
+      const answer = answerFor(w);
+      if (!glossInfo.has(answer)) glossInfo.set(answer, w);
       if (w.root) {
         if (!rootIndex.has(w.root)) {
           rootIndex.set(w.root, []);
           rootSeen.set(w.root, new Set());
         }
-        const key = glossKey(w.english);
+        const key = glossKey(answer);
         if (!rootSeen.get(w.root).has(key)) {
           rootSeen.get(w.root).add(key);
-          rootIndex.get(w.root).push({ arabic: w.arabic, english: w.english });
+          rootIndex.get(w.root).push({ arabic: w.arabic, english: answer });
         }
       }
     }
   }
   uniqueWords = [...glossInfo.values()];
-  glossPool = uniqueWords.map((w) => w.english);
 
   els.title.textContent = `${surah.englishName} · ${surah.name}`;
   if (els.subtitle)
@@ -1143,7 +1272,10 @@ async function init() {
   interleave = loadInterleave();
 
   els.loading.remove();
-  render();
+  render({
+    focusCurrent: currentIndex > 0,
+    focusBehavior: "auto",
+  });
 }
 
 els.resetBtn.addEventListener("click", () => {

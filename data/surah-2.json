@@ -173,6 +173,8 @@
           "position": 4,
           "arabic": "أُنزِلَ",
           "english": "(is) sent down",
+          "answer": "sent down",
+          "context": "to you",
           "translit": "unzila",
           "root": "نزل"
         },
@@ -194,6 +196,8 @@
           "position": 7,
           "arabic": "أُنزِلَ",
           "english": "was sent down",
+          "answer": "sent down",
+          "context": "before you",
           "translit": "unzila",
           "root": "نزل"
         },

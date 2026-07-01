@@ -27,11 +27,11 @@
           </div>
         </div>
         <div class="editmode-status"></div>
-        <div class="editmode-hint">Click a prop, then click the world to place it. With nothing selected, click a placed prop (dashed outline) to pick it up and click again to drop it — or use Move below. Esc cancels. Walk around with WASD to test — placements block movement live.</div>
+        <div class="editmode-hint">Click a prop, then click the world to place it. With nothing selected, click any dashed prop to pick it up and click again to drop it — or use Move below. Esc cancels. Walk around with WASD to test — placements block movement live.</div>
         <div class="editmode-palette"></div>
         <div class="editmode-placed">
-          <h3>Placed props <span class="editmode-count">0</span></h3>
-          <div class="editmode-placed-list"><p class="editmode-empty">Nothing placed yet.</p></div>
+          <h3>Map props <span class="editmode-count">0</span></h3>
+          <div class="editmode-placed-list"><p class="editmode-empty">No editable props.</p></div>
         </div>
       `;
       document.querySelector(".game-shell")?.appendChild(root) || document.body.appendChild(root);
@@ -99,7 +99,7 @@
       if (!placed.length) {
         const note = document.createElement("p");
         note.className = "editmode-empty";
-        note.textContent = "Nothing placed yet.";
+        note.textContent = "No editable props.";
         this.placedListEl.appendChild(note);
         return;
       }

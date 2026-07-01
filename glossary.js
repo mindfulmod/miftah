@@ -5,7 +5,10 @@
 // searchable. The 10-word test draws at random from the whole learned pool — a
 // quick multiple-choice refresh over everything you know.
 
-const MANIFEST_FILE = "data/surahs.json";
+const DATA_VERSION = "20260629-beginner-options";
+const withDataVersion = (path) =>
+  `${path}${path.includes("?") ? "&" : "?"}v=${DATA_VERSION}`;
+const MANIFEST_FILE = withDataVersion("data/surahs.json");
 const progressKey = (n) => `quran-trainer:surah-${n}:progress`;
 
 const TEST_LENGTH = 10;
@@ -26,9 +29,108 @@ const els = {
   quizCard: document.getElementById("quiz-card"),
 };
 
-// learned[] = { surah, surahName, words: [{arabic, english, translit}] }
+// learned[] = { surah, surahName, words: [{arabic, english, display, translit}] }
 let learned = [];
 let allWords = []; // flat, deduped — the test + search pool
+
+const answerFor = (w) => w.answer || w.english;
+const displayGloss = (w) =>
+  w.display || (w.context ? `${answerFor(w)} — ${w.context}` : w.english || answerFor(w));
+
+const DIACRITICS = /[ً-ْٰٓ-ٟؐ-ؚۖ-ۭـ]/g;
+const skeleton = (s) => (s || "").normalize("NFC").replace(DIACRITICS, "");
+const normalizeArabicLetters = (s) =>
+  skeleton(s)
+    .replace(/[^\u0621-\u064A]/g, "")
+    .replace(/[أإآٱ]/g, "ا")
+    .replace(/ؤ/g, "و")
+    .replace(/ئ/g, "ي")
+    .replace(/ى/g, "ي");
+
+function arabicConceptKey(value) {
+  let core = normalizeArabicLetters(value);
+  while (/^[وف]/.test(core) && core.length > 3) core = core.slice(1);
+  if (core === "لله") return "الله";
+  if (/^[بك]/.test(core) && core[1] === "ا" && core.length > 4) {
+    core = core.slice(1);
+  }
+  if (core === "لله") return "الله";
+  if (core.startsWith("لل") && core.length > 4) {
+    core = "ال" + core.slice(2);
+  } else if (core[0] === "ل" && core[1] === "ا" && core.length > 4) {
+    core = core.slice(1);
+  }
+  return core === "لله" ? "الله" : core;
+}
+
+const BEGINNER_CONTEXT_WORDS = new Set([
+  "a",
+  "an",
+  "and",
+  "are",
+  "be",
+  "belong",
+  "belongs",
+  "but",
+  "by",
+  "for",
+  "from",
+  "had",
+  "has",
+  "have",
+  "in",
+  "is",
+  "of",
+  "on",
+  "so",
+  "that",
+  "the",
+  "then",
+  "to",
+  "upon",
+  "was",
+  "were",
+  "while",
+  "with",
+]);
+
+function beginnerGlossKey(g) {
+  const words = (g || "")
+    .toLowerCase()
+    .replace(/\[[^\]]*\]|\([^)]*\)/g, " ")
+    .replace(/['’]s\b/g, "")
+    .replace(/[.,;:!?'"’\-/]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .split(" ")
+    .filter(Boolean);
+  while (words.length && BEGINNER_CONTEXT_WORDS.has(words[0])) words.shift();
+  while (words.length && BEGINNER_CONTEXT_WORDS.has(words[words.length - 1])) {
+    words.pop();
+  }
+  return words.join(" ");
+}
+
+const glossKey = (g) =>
+  (g || "")
+    .toLowerCase()
+    .replace(/[()[\].,;:!?'"-]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+
+function optionKeys(word, gloss) {
+  const keys = new Set();
+  const exact = glossKey(gloss || "");
+  const beginner = beginnerGlossKey(gloss || "");
+  const arabic = word ? arabicConceptKey(word.arabic) : "";
+  if (exact) keys.add(`gloss:${exact}`);
+  if (beginner) keys.add(`meaning:${beginner}`);
+  if (arabic) keys.add(`arabic:${arabic}`);
+  return keys;
+}
+
+const hasBannedKey = (keys, bannedKeys) => [...keys].some((key) => bannedKeys.has(key));
+const rememberOption = (keys, bannedKeys) => keys.forEach((key) => bannedKeys.add(key));
 
 function shuffle(a) {
   a = a.slice();
@@ -60,7 +162,9 @@ async function collectLearned(surahs) {
 
     let data;
     try {
-      data = await (await fetch(surah.file || `data/surah-${surah.number}.json`)).json();
+      data = await (
+        await fetch(withDataVersion(surah.file || `data/surah-${surah.number}.json`))
+      ).json();
     } catch {
       continue;
     }
@@ -69,12 +173,14 @@ async function collectLearned(surahs) {
     const words = [];
     data.ayahs.slice(0, passed).forEach((ayah) => {
       ayah.words.forEach((w) => {
-        const id = `${w.arabic}|||${w.english}`;
+        const id = `${w.arabic}|||${answerFor(w)}|||${w.context || ""}`;
         if (seen.has(id)) return;
         seen.add(id);
         words.push({
           arabic: w.arabic,
-          english: w.english,
+          english: answerFor(w),
+          display: displayGloss(w),
+          context: w.context || "",
           translit: w.translit || "",
         });
       });
@@ -105,6 +211,7 @@ function renderGroups(filter = "") {
           (w) =>
             w.arabic.includes(filter.trim()) ||
             w.english.toLowerCase().includes(q) ||
+            displayGloss(w).toLowerCase().includes(q) ||
             w.translit.toLowerCase().includes(q)
         )
       : group.words;
@@ -135,7 +242,7 @@ function renderGroups(filter = "") {
       ar.textContent = w.arabic;
       const en = document.createElement("div");
       en.className = "gloss-en";
-      en.textContent = w.english;
+      en.textContent = displayGloss(w);
       card.append(ar, en);
       if (w.translit) {
         const tr = document.createElement("div");
@@ -175,11 +282,16 @@ function buildQuestions() {
 }
 
 function optionsFor(correct) {
-  const distractors = shuffle(
-    allWords.map((w) => w.english).filter((e) => e !== correct.english)
-  );
-  const unique = [...new Set(distractors)].slice(0, OPTIONS - 1);
-  return shuffle([correct.english, ...unique]);
+  const bannedKeys = optionKeys(correct, correct.english);
+  const distractors = [];
+  for (const candidate of shuffle(allWords)) {
+    if (distractors.length >= OPTIONS - 1) break;
+    const keys = optionKeys(candidate, candidate.english);
+    if (!candidate.english || hasBannedKey(keys, bannedKeys)) continue;
+    rememberOption(keys, bannedKeys);
+    distractors.push(candidate.english);
+  }
+  return shuffle([correct.english, ...distractors]);
 }
 
 function startTest() {
@@ -250,7 +362,7 @@ function answer(card, choice, optsEl, feedbackEl) {
   feedbackEl.className = "quiz-feedback show";
   feedbackEl.innerHTML = correct
     ? `<span class="up">Correct ✓</span>`
-    : `<span class="down">It means “${card.english}”${
+    : `<span class="down">It means “${displayGloss(card)}”${
         card.translit ? ` · ${card.translit}` : ""
       }</span>`;
 

@@ -81,12 +81,14 @@
       this.ui.setStatus("");
     }
 
-    // Picks up an existing override prop for repositioning if the click
-    // landed on one (used when clicking the world with nothing selected in
-    // the palette). Only override props are movable — the hand-built base
-    // map is left alone.
+    // Picks up any visible prop for repositioning if the click landed on one
+    // (used when clicking the world with nothing selected in the palette).
+    // Save writes the full production prop layer, so MapData-authored props
+    // and editor-added props are both movable and persistent.
     tryPickUpAt(worldX, worldY) {
-      const candidates = this.overrideProps();
+      const candidates = this.editableProps()
+        .slice()
+        .sort((a, b) => propSortY(a) - propSortY(b));
       for (let i = candidates.length - 1; i >= 0; i--) {
         const prop = candidates[i];
         if (worldX >= prop.x && worldX <= prop.x + prop.width && worldY >= prop.y && worldY <= prop.y + prop.height) {
@@ -108,7 +110,7 @@
       const prop = this.moving;
       const x = this.snap(this.mouseWorld.x);
       const y = this.snap(this.mouseWorld.y);
-      const asItem = { width: prop.width, height: prop.height, collider: prop.collider ? true : false };
+      const asItem = itemFromProp(prop);
       if (!this.isValidPlacement(asItem, x, y, prop)) {
         this.ui.setStatus("Can't drop there — overlaps or out of bounds.");
         return;
@@ -129,7 +131,9 @@
 
     colliderFor(item, x, y) {
       if (item.collider === false) return null;
-      const c = ns.editorDefaultCollider(item.width, item.height);
+      const c = Array.isArray(item.collider)
+        ? item.collider
+        : ns.editorDefaultCollider(item.width, item.height);
       return { x: x + c[0], y: y + c[1], w: c[2], h: c[3] };
     }
 
@@ -162,7 +166,6 @@
         dialogue: "",
         sortY: y + item.height,
         collider: this.colliderFor(item, x, y),
-        fromOverride: true,
       };
       this.game.world.props.push(prop);
       this.ui.refreshPlacedList();
@@ -180,22 +183,26 @@
       this.ui.refreshPlacedList();
     }
 
+    editableProps() {
+      return this.game.world.props.filter((prop) => prop.assetKey);
+    }
+
+    savedProps() {
+      return this.game.world.props.map(serializeProp);
+    }
+
+    // Kept as a UI compatibility alias; this is no longer only overrides.
     overrideProps() {
-      return this.game.world.props.filter((p) => p.fromOverride);
+      return this.editableProps();
     }
 
     async save() {
       this.ui.setStatus("Saving…");
       try {
-        const res = await fetch("/api/save-map", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ props: this.overrideProps() }),
-        });
-        const data = await res.json();
-        this.ui.setStatus(data.ok ? `Saved ${this.overrideProps().length} placement(s).` : `Save failed: ${data.error}`);
+        await saveMapOverrides({ version: 2, replaceProps: true, props: this.savedProps() });
+        this.ui.setStatus(`Saved ${this.savedProps().length} prop(s).`);
       } catch (err) {
-        this.ui.setStatus(`Save failed: ${err}`);
+        this.ui.setStatus(`Save failed: ${friendlySaveError(err)}`);
       }
     }
 
@@ -242,7 +249,7 @@
         ctx.strokeRect(x + 1, y + 1, this.selected.width - 2, this.selected.height - 2);
         ctx.globalAlpha = 1;
       } else if (this.moving && this.mouseWorld) {
-        const item = { width: this.moving.width, height: this.moving.height, collider: this.moving.collider ? true : false };
+        const item = itemFromProp(this.moving);
         const x = this.snap(this.mouseWorld.x);
         const y = this.snap(this.mouseWorld.y);
         const valid = this.isValidPlacement(item, x, y, this.moving);
@@ -257,18 +264,68 @@
         ctx.strokeRect(x + 1, y + 1, this.moving.width - 2, this.moving.height - 2);
         ctx.globalAlpha = 1;
       } else if (!this.selected && !this.moving) {
-        // Nothing armed — outline movable (override) props so it's clear
-        // which ones can be clicked to pick up.
+        // Nothing armed — outline editable props so it's clear which ones can
+        // be clicked to pick up.
         ctx.strokeStyle = "rgba(244, 187, 58, 0.55)";
         ctx.lineWidth = 2;
         ctx.setLineDash([4, 3]);
-        for (const prop of this.overrideProps()) {
+        for (const prop of this.editableProps()) {
           ctx.strokeRect(prop.x + 1, prop.y + 1, prop.width - 2, prop.height - 2);
         }
         ctx.setLineDash([]);
       }
       ctx.restore();
     }
+  }
+
+  function propSortY(prop) {
+    return prop.sortY || prop.y + prop.height;
+  }
+
+  function itemFromProp(prop) {
+    return {
+      width: prop.width,
+      height: prop.height,
+      collider: prop.collider
+        ? [prop.collider.x - prop.x, prop.collider.y - prop.y, prop.collider.w, prop.collider.h]
+        : false,
+    };
+  }
+
+  function serializeProp(prop) {
+    const out = { ...prop };
+    delete out.fromOverride;
+    return out;
+  }
+
+  async function saveMapOverrides(payload) {
+    if (location.protocol === "file:") {
+      throw new Error("Open the game through the dev server to save map edits.");
+    }
+    const res = await fetch("/api/save-map", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    const text = await res.text();
+    let data = null;
+    try {
+      data = text ? JSON.parse(text) : null;
+    } catch {
+      throw new Error(`The current server does not support /api/save-map (${res.status}).`);
+    }
+    if (!res.ok || !data?.ok) {
+      throw new Error(data?.error || `The save endpoint returned ${res.status}.`);
+    }
+    return data;
+  }
+
+  function friendlySaveError(err) {
+    const message = err?.message || String(err);
+    if (message.includes("/api/save-map") || message.includes("Failed to fetch")) {
+      return `${message} Run node scripts/dev-server.mjs and open http://127.0.0.1:5173/index.html.`;
+    }
+    return message;
   }
 
   ns.EditModeSystem = EditModeSystem;

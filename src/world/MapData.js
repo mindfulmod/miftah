@@ -463,13 +463,15 @@
   }
 
   // Merges editor-authored placements (from src/world/mapOverrides.json) onto a
-  // freshly generated map. Override props are already fully-formed (id,
-  // assetKey, x/y in world px, width, height, collider, etc — see
-  // buildOverrideProp / EditModeSystem.placeSelected), so this is a plain
-  // append. `fromOverride` marks them as the editor-owned subset that gets
-  // re-saved by the F2 editor.
+  // freshly generated map. Older override files append editor props; newer
+  // production editor saves replace the whole prop layer so every placed item,
+  // including MapData-authored props, can be moved and persisted.
   function applyMapOverrides(mapData, overrides) {
     if (!overrides) return mapData;
+    if (overrides.replaceProps && Array.isArray(overrides.props)) {
+      mapData.props = overrides.props.map((prop) => ({ ...prop }));
+      return mapData;
+    }
     if (Array.isArray(overrides.props) && overrides.props.length) {
       const tagged = overrides.props.map((prop) => ({ ...prop, fromOverride: true }));
       mapData.props = mapData.props.concat(tagged);

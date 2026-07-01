@@ -251,12 +251,28 @@
       return `Egg hatching: ${egg.progress}/${egg.goal} ayahs`;
     }
 
-    choose(option, button) {
-      const result = this.engine.choose(option, this.game);
+    async choose(option, button) {
+      if (this.isChoosing) return;
+      this.isChoosing = true;
+      for (const optionButton of this.optionsEl.querySelectorAll("button")) optionButton.disabled = true;
+      this.messageEl.textContent = "Checking…";
+      let result;
+      try {
+        result = await this.engine.choose(option, this.game);
+      } catch (err) {
+        this.isChoosing = false;
+        this.message = "The Study Desk stumbled while checking that answer. Try again.";
+        this.messageEl.textContent = this.message;
+        for (const optionButton of this.optionsEl.querySelectorAll("button")) optionButton.disabled = false;
+        console.error(err);
+        return;
+      }
+      this.isChoosing = false;
       if (!result.correct) {
         button.classList.add("is-wrong");
         this.message = this.engine.message || "Not quite. Try that one again gently.";
         this.messageEl.textContent = this.message;
+        for (const optionButton of this.optionsEl.querySelectorAll("button")) optionButton.disabled = false;
         return;
       }
 

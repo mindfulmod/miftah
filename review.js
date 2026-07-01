@@ -12,7 +12,10 @@
 
 const SURAH_NUMBER =
   Number(new URLSearchParams(location.search).get("surah")) || 1;
-const SURAH_FILE = `data/surah-${SURAH_NUMBER}.json`;
+const DATA_VERSION = "20260629-beginner-options";
+const withDataVersion = (path) =>
+  `${path}${path.includes("?") ? "&" : "?"}v=${DATA_VERSION}`;
+const SURAH_FILE = withDataVersion(`data/surah-${SURAH_NUMBER}.json`);
 const PROGRESS_KEY = `quran-trainer:surah-${SURAH_NUMBER}:progress`; // written by the trainer
 const STATS_KEY = `quran-trainer:stats:surah-${SURAH_NUMBER}`; // per-word mistake history
 const STORAGE_KEY = `quran-trainer:review:surah-${SURAH_NUMBER}`; // this page's FSRS state
@@ -29,6 +32,104 @@ const MASTERED_DAYS = 21;
 const STABILITY_TIERS = [1, 2, 4, 8, 16, MASTERED_DAYS];
 
 const wordId = (arabic, english) => `${arabic}|||${english}`;
+const answerFor = (w) => w.answer || w.english;
+const displayGloss = (w) =>
+  w.display || (w.context ? `${answerFor(w)} — ${w.context}` : w.english || answerFor(w));
+
+const DIACRITICS = /[ً-ْٰٓ-ٟؐ-ؚۖ-ۭـ]/g;
+const skeleton = (s) => (s || "").normalize("NFC").replace(DIACRITICS, "");
+const normalizeArabicLetters = (s) =>
+  skeleton(s)
+    .replace(/[^\u0621-\u064A]/g, "")
+    .replace(/[أإآٱ]/g, "ا")
+    .replace(/ؤ/g, "و")
+    .replace(/ئ/g, "ي")
+    .replace(/ى/g, "ي");
+
+function arabicConceptKey(value) {
+  let core = normalizeArabicLetters(value);
+  while (/^[وف]/.test(core) && core.length > 3) core = core.slice(1);
+  if (core === "لله") return "الله";
+  if (/^[بك]/.test(core) && core[1] === "ا" && core.length > 4) {
+    core = core.slice(1);
+  }
+  if (core === "لله") return "الله";
+  if (core.startsWith("لل") && core.length > 4) {
+    core = "ال" + core.slice(2);
+  } else if (core[0] === "ل" && core[1] === "ا" && core.length > 4) {
+    core = core.slice(1);
+  }
+  return core === "لله" ? "الله" : core;
+}
+
+const BEGINNER_CONTEXT_WORDS = new Set([
+  "a",
+  "an",
+  "and",
+  "are",
+  "be",
+  "belong",
+  "belongs",
+  "but",
+  "by",
+  "for",
+  "from",
+  "had",
+  "has",
+  "have",
+  "in",
+  "is",
+  "of",
+  "on",
+  "so",
+  "that",
+  "the",
+  "then",
+  "to",
+  "upon",
+  "was",
+  "were",
+  "while",
+  "with",
+]);
+
+function beginnerGlossKey(g) {
+  const words = (g || "")
+    .toLowerCase()
+    .replace(/\[[^\]]*\]|\([^)]*\)/g, " ")
+    .replace(/['’]s\b/g, "")
+    .replace(/[.,;:!?'"’\-/]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .split(" ")
+    .filter(Boolean);
+  while (words.length && BEGINNER_CONTEXT_WORDS.has(words[0])) words.shift();
+  while (words.length && BEGINNER_CONTEXT_WORDS.has(words[words.length - 1])) {
+    words.pop();
+  }
+  return words.join(" ");
+}
+
+const glossKey = (g) =>
+  (g || "")
+    .toLowerCase()
+    .replace(/[()[\].,;:!?'"-]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+
+function optionKeys(word, gloss) {
+  const keys = new Set();
+  const exact = glossKey(gloss || "");
+  const beginner = beginnerGlossKey(gloss || "");
+  const arabic = word ? arabicConceptKey(word.arabic) : "";
+  if (exact) keys.add(`gloss:${exact}`);
+  if (beginner) keys.add(`meaning:${beginner}`);
+  if (arabic) keys.add(`arabic:${arabic}`);
+  return keys;
+}
+
+const hasBannedKey = (keys, bannedKeys) => [...keys].some((key) => bannedKeys.has(key));
+const rememberOption = (keys, bannedKeys) => keys.forEach((key) => bannedKeys.add(key));
 
 const els = {
   loading: document.getElementById("loading"),
@@ -117,6 +218,7 @@ function buildDeck(savedDeck) {
         id,
         arabic: s.arabic,
         english: s.english,
+        display: s.display || s.english,
         translit: s.translit || "",
         miss: s.miss,
       };
@@ -161,11 +263,18 @@ function dueCards() {
     .sort((a, b) => a.due - b.due || (a.stability || 0) - (b.stability || 0));
 }
 
-function options(correct) {
-  const distractors = shuffle(glossPool.filter((g) => g !== correct)).slice(
-    0,
-    OPTIONS - 1
-  );
+function options(card) {
+  const correct = card.english;
+  const bannedKeys = optionKeys(card, correct);
+  const distractors = [];
+  for (const candidate of shuffle(glossPool)) {
+    if (distractors.length >= OPTIONS - 1) break;
+    const answer = answerFor(candidate);
+    const keys = optionKeys(candidate, answer);
+    if (!answer || hasBannedKey(keys, bannedKeys)) continue;
+    rememberOption(keys, bannedKeys);
+    distractors.push(answer);
+  }
   return shuffle([correct, ...distractors]);
 }
 
@@ -195,7 +304,7 @@ function renderBoard() {
 
     const gloss = document.createElement("div");
     gloss.className = "board-gloss";
-    gloss.textContent = c.english;
+    gloss.textContent = displayGloss(c);
 
     const dots = document.createElement("div");
     dots.className = "board-dots";
@@ -249,7 +358,7 @@ function renderReview() {
   const feedback = document.createElement("div");
   feedback.className = "review-feedback";
 
-  options(card.english).forEach((text) => {
+  options(card).forEach((text) => {
     const btn = document.createElement("button");
     btn.className = "review-opt";
     btn.type = "button";
@@ -277,7 +386,9 @@ function answer(card, choice, optsEl, feedbackEl) {
   if (correct) {
     feedbackEl.innerHTML = `<span class="up">Recalled ↑ — memory strengthened, returns ${when}.</span>`;
   } else {
-    feedbackEl.innerHTML = `<span class="down">Missed ↓ — “${card.english}”. Returns ${when}.</span>`;
+    feedbackEl.innerHTML = `<span class="down">Missed ↓ — “${displayGloss(
+      card
+    )}”. Returns ${when}.</span>`;
   }
   save();
 
@@ -315,9 +426,17 @@ async function init() {
     return;
   }
 
-  glossPool = [
-    ...new Set(data.ayahs.flatMap((a) => a.words.map((w) => w.english))),
-  ];
+  glossPool = [];
+  const seenGlosses = new Set();
+  data.ayahs.forEach((a) =>
+    a.words.forEach((w) => {
+      const answer = answerFor(w);
+      const id = `${w.arabic}|||${answer}`;
+      if (seenGlosses.has(id)) return;
+      seenGlosses.add(id);
+      glossPool.push({ ...w, english: answer, display: displayGloss(w) });
+    })
+  );
 
   const totalAyahs = data.ayahs.length;
   const progress = loadProgress();
