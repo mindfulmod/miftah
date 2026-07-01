@@ -1,3 +1,75 @@
 {
-  "props": []
+  "props": [
+    {
+      "id": "editor-props-palm-1782942197919",
+      "assetKey": "props.palm",
+      "x": 1200,
+      "y": 816,
+      "width": 80,
+      "height": 96,
+      "layer": "object",
+      "hint": "Palm",
+      "dialogue": "",
+      "sortY": 912,
+      "collider": {
+        "x": 1214.4,
+        "y": 875.52,
+        "w": 51.2,
+        "h": 26.880000000000003
+      },
+      "fromOverride": true
+    },
+    {
+      "id": "editor-props-bush-1782942197919",
+      "assetKey": "props.bush",
+      "x": 1440,
+      "y": 1680,
+      "width": 48,
+      "height": 48,
+      "layer": "object",
+      "hint": "Bush",
+      "dialogue": "",
+      "sortY": 1728,
+      "collider": {
+        "x": 1448.64,
+        "y": 1709.76,
+        "w": 30.72,
+        "h": 13.440000000000001
+      },
+      "fromOverride": true
+    },
+    {
+      "id": "editor-props-flowers-1782942197919",
+      "assetKey": "props.flowers",
+      "x": 1248,
+      "y": 1968,
+      "width": 48,
+      "height": 48,
+      "layer": "object",
+      "hint": "Flowers",
+      "dialogue": "",
+      "sortY": 2016,
+      "collider": null,
+      "fromOverride": true
+    },
+    {
+      "id": "editor-props-crate-1782942197919",
+      "assetKey": "props.crate",
+      "x": 1392,
+      "y": 2208,
+      "width": 48,
+      "height": 48,
+      "layer": "object",
+      "hint": "Crate",
+      "dialogue": "",
+      "sortY": 2256,
+      "collider": {
+        "x": 1400.64,
+        "y": 2237.76,
+        "w": 30.72,
+        "h": 13.440000000000001
+      },
+      "fromOverride": true
+    }
+  ]
 }
