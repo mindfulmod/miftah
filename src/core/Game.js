@@ -61,6 +61,7 @@
       this.tooltip = new ns.Tooltip();
       this.trainer = new ns.TrainerOverlay(this);
       this.editMode = new ns.EditModeSystem(this);
+      this.debug = new ns.DebugOverlay();
       if (new URLSearchParams(location.search).get("trainer") === "1") {
         setTimeout(() => this.trainer.open(), 0);
       }
@@ -97,11 +98,18 @@
         : "none";
       this.renderer.render(this);
       this.editMode.drawOverlay(this.renderer);
+      this.debug.draw(this, this.renderer);
       this.input.endFrame();
       requestAnimationFrame((next) => this.frame(next));
     }
 
     update(dt) {
+      // Dev shortcuts: T toggles the Courtyard Codex, C the collision overlay.
+      if (this.input.consume("KeyT") && !this.editMode.active) {
+        if (this.trainer.isOpen) this.trainer.close();
+        else this.trainer.open();
+      }
+      if (this.input.consume("KeyC") && !this.trainer?.isOpen) this.debug.toggle();
       if (!this.trainer?.isOpen) this.player.update(dt, this.input, this.collisionMap);
       this.pet.update(dt, this.player);
       this.hatchery.update(dt);

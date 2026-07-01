@@ -57,10 +57,18 @@
       ctx.fillText(egg ? `Egg ${egg.progress}/${egg.goal}` : "Egg none", 34, 104);
       ctx.fillText(game.interaction.actionHint, 164, 104);
 
-      const controls = ["WASD / Arrows: Move", "E: Interact", "Space: Action", "R: Reset", "F2: Map Editor"];
+      const controls = [
+        "WASD / Arrows: Move",
+        "E: Interact",
+        "Space: Action",
+        "T: Study Codex",
+        "R: Reset",
+        "F2: Map Editor",
+        "C: Collision Debug",
+      ];
       const width = 218;
       const x = game.screenWidth - width - 16;
-      panel(ctx, x, 16, width, 136, "Controls");
+      panel(ctx, x, 16, width, 170, "Controls");
       ctx.fillStyle = "#fff4cd";
       ctx.font = "700 11px monospace";
       controls.forEach((line, i) => ctx.fillText(line, x + 18, 46 + i * 17));
