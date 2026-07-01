@@ -10,7 +10,7 @@ const SURAH_FILE = withDataVersion(`data/surah-${SURAH_NUMBER}.json`);
 const STORAGE_KEY = `quran-trainer:surah-${SURAH_NUMBER}:progress`;
 const STATS_KEY = `quran-trainer:stats:surah-${SURAH_NUMBER}`; // per-word mistake history, accumulates across sessions
 const INTERLEAVE_KEY = `quran-trainer:interleave:surah-${SURAH_NUMBER}`; // in-flow review schedule
-const PICKER_URL = "index.html";
+const PICKER_URL = "surahs.html";
 const MISTAKE_RATE = 0.2; // up to 20% wrong attempts allowed per ayah
 
 // ---------- Today's session ----------

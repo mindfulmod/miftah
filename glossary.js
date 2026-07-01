@@ -450,7 +450,7 @@ async function init() {
     els.empty.hidden = false;
     els.empty.innerHTML =
       `Your glossary is empty. Complete some ayahs in the ` +
-      `<a class="card-link" href="index.html">trainer</a> and the words you learn will gather here.`;
+      `<a class="card-link" href="surahs.html">trainer</a> and the words you learn will gather here.`;
     return;
   }
 
