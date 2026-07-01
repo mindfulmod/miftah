@@ -39,6 +39,10 @@
       this.ctx.drawImage(image, Math.round(x), Math.round(y), Math.round(dw), Math.round(dh));
     }
 
+    // Locked isles get a soft dark tint plus a plaque naming the isle. When
+    // the active egg belongs to that isle the plaque switches to a "stirring"
+    // tease (preview state). The bridge gate (a real collider) is what
+    // actually blocks entry.
     drawLockedIslandOverlays(game, camera) {
       const islands = game.world.islands;
       if (!islands || !game.progress) return;
@@ -48,38 +52,38 @@
       const cx = Math.round(camera.x);
       const cy = Math.round(camera.y);
       for (const isle of islands) {
-        if (game.world.islandState(isle.id, game.progress) !== "locked") continue;
+        const state = game.world.islandState(isle.id, game.progress);
+        if (state === "open") continue;
         const b = isle.bounds;
-        this.drawConstructionSign(ctx, isle, b, cx, cy);
+        ctx.fillStyle = state === "preview" ? "rgba(40, 26, 60, 0.20)" : "rgba(12, 22, 34, 0.30)";
+        ctx.fillRect(b.x - cx, b.y - cy, b.w, b.h);
+        this.drawIslePlaque(ctx, isle, state, b, cx, cy);
       }
       ctx.restore();
     }
 
-    drawConstructionSign(ctx, isle, bounds, cameraX, cameraY) {
-      const isWest = isle.id === "nw" || isle.id === "sw";
-      const x = Math.round(isWest ? bounds.x + bounds.w - 112 : bounds.x + 32) - cameraX;
-      const y = Math.round(bounds.y + bounds.h / 2 - 24) - cameraY;
-      const visible = x > -130 && y > -60 && x < this.canvas.width / this.dpr + 20 && y < this.canvas.height / this.dpr + 20;
+    drawIslePlaque(ctx, isle, state, bounds, cameraX, cameraY) {
+      const w = 168;
+      const h = 44;
+      const x = Math.round(bounds.x + bounds.w / 2 - w / 2) - cameraX;
+      const y = Math.round(bounds.y + bounds.h / 2 - h / 2) - cameraY;
+      const visible = x > -w - 20 && y > -h - 20 && x < this.canvas.width / this.dpr + 20 && y < this.canvas.height / this.dpr + 20;
       if (!visible) return;
 
       ctx.fillStyle = "rgba(49, 30, 18, 0.94)";
-      ctx.fillRect(x, y, 100, 40);
+      ctx.fillRect(x, y, w, h);
       ctx.fillStyle = "#efc76f";
-      ctx.fillRect(x + 3, y + 3, 94, 34);
-      ctx.fillStyle = "#1f777d";
-      ctx.fillRect(x + 7, y + 7, 86, 26);
+      ctx.fillRect(x + 3, y + 3, w - 6, h - 6);
+      ctx.fillStyle = state === "preview" ? "#5b3d78" : "#1f777d";
+      ctx.fillRect(x + 6, y + 6, w - 12, h - 12);
       ctx.fillStyle = "#fff3c4";
-      ctx.font = "700 10px monospace";
+      ctx.font = "700 12px monospace";
+      ctx.textAlign = "center";
       ctx.textBaseline = "top";
-      ctx.fillText("UNDER", x + 31, y + 10);
-      ctx.fillText("CONSTRUCTION", x + 15, y + 23);
-    }
-
-    shouldDrawProp(prop, game) {
-      if (!game.world.tileMap.backgroundAssetKey) return true;
-      if (prop.alwaysDraw) return true;
-      if (prop.lockIsland || prop.lockZone || prop.previewZone) return true;
-      return false;
+      ctx.fillText(isle.label, x + w / 2, y + 10);
+      ctx.font = "600 9px monospace";
+      ctx.fillText(state === "preview" ? "an egg is stirring…" : "hatch its first keeper", x + w / 2, y + 26);
+      ctx.textAlign = "left";
     }
 
     render(game) {
@@ -87,8 +91,7 @@
       this.begin(game.camera);
       game.world.tileMap.render(this, game.camera);
 
-      const activeProps = game.world.activeProps(game.progress);
-      const drawableProps = activeProps.filter((prop) => this.shouldDrawProp(prop, game));
+      const drawableProps = game.world.activeProps(game.progress);
       for (const prop of drawableProps.filter((p) => p.layer === "ground")) this.drawProp(prop);
       for (const crop of game.farming.crops) crop.draw(this);
 
@@ -110,8 +113,6 @@
 
       this.end();
 
-      // Tint locked islands so it's clear which biomes haven't opened yet.
-      // The bridge gate (a real collider) is what actually blocks entry.
       // Drawn over the world but under the HUD/dialogue UI.
       this.drawLockedIslandOverlays(game, game.camera);
 
@@ -121,6 +122,7 @@
     }
 
     drawProp(prop) {
+      if (!prop.assetKey) return; // collider-only blocker (e.g. hatchery base)
       this.drawImage(prop.assetKey, prop.x, prop.y, prop.width, prop.height);
     }
   }

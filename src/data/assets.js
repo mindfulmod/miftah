@@ -1,10 +1,9 @@
 (function (ns) {
   const base = "assets/generated/";
 
+  // Note: assets/generated/world/world_oasis_backdrop.png stays on disk but is
+  // intentionally not referenced — the live map renders from tile data + props.
   ns.ASSETS = {
-    world: {
-      backdrop: `${base}world/world_oasis_backdrop.png`,
-    },
     terrain: {
       water: `${base}terrain/terrain_water_01.png`,
       waterRipple: `${base}terrain/terrain_water_ripple.png`,

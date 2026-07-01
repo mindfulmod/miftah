@@ -33,15 +33,15 @@
 
     // ── ISLANDS ────────────────────────────────────────────────────────────────
     // A central vertical hub island holds every always-available activity.
-    // Four equally-sized biome islands flank it (two west, two east), each reached
-    // by one short horizontal bridge that stays gated until that biome's first
-    // animal hatches. The N/S pairs are pulled in close to the hub so the lagoon
-    // between them reads as a tight archipelago rather than open sea.
-    ellipse(28, 28, 9, 22);   // HUB — tall central spine (x ~19-37, y ~6-50)
-    ellipse(9, 18, 7, 8);     // NW island — honey + dove
-    ellipse(9, 38, 7, 8);     // SW island — orchard + spring + grove + lagoon
-    ellipse(48, 18, 7, 8);    // NE island — aviary + barn + meadow
-    ellipse(48, 38, 7, 8);    // SE island — pets + snake + spider
+    // Six biome isles flank it, three per side, each reached by one short
+    // horizontal bridge that stays gated until the isle's first animal hatches.
+    ellipse(28, 28, 9, 22);    // HUB — tall central spine (x 19-37, y 6-50)
+    ellipse(8, 12, 6, 6.5);    // NW — Garden Isle (bee, ant, dove)
+    ellipse(8, 28, 6, 6.5);    // W  — Aviary Isle (hoopoe, ababeel, crow)
+    ellipse(8, 44, 6, 6.5);    // SW — Wildwood Isle (elephant, camel, fish)
+    ellipse(48, 12, 6, 6.5);   // NE — Farmstead Isle (cow, sheep, horse)
+    ellipse(48, 28, 6, 6.5);   // E  — Grove Isle (cat, dog)
+    ellipse(48, 44, 6, 6.5);   // SE — Grotto Isle (snake, spider)
 
     // ── SAND SHORELINE ──────────────────────────────────────────────────────────
     const edgeChanges = [];
@@ -57,8 +57,11 @@
     }
     for (const [x, y] of edgeChanges) set(x, y, "sand");
 
-    // ── LAGOON INLET (SW island, fish habitat) ──────────────────────────────────
-    ellipse(5, 42, 3, 2, "lagoon");
+    // ── GROTTO SAND PATCH (SE isle reads as desert) ─────────────────────────────
+    ellipse(48, 44, 4.5, 3.5, "sand");
+
+    // ── LAGOON INLET (SW isle, fish habitat) ────────────────────────────────────
+    ellipse(6, 46, 3, 2, "lagoon");
 
     // ── CENTRAL COURTYARD (fountain plaza) ──────────────────────────────────────
     for (let y = 24; y <= 32; y += 1) {
@@ -75,17 +78,10 @@
     set(28, 54, "dock");
     set(28, 55, "dock");
 
-    // ── FARM (north hub, 2 cols × 3 rows = 6 plots) ─────────────────────────────
-    rect(30, 14, 5, 9, "grass");      // solid ground east of the central path
+    // ── FARM (north hub, east of the spine) ─────────────────────────────────────
+    rect(30, 14, 5, 9, "grass");      // forced-solid ground: one coherent farm zone
     for (let y = 15; y <= 21; y += 1) { set(31, y, "irrigationV"); set(33, y, "irrigationV"); }
     for (let x = 30; x <= 34; x += 1) { set(x, 16, "irrigationH"); set(x, 20, "irrigationH"); }
-    for (const [px, py] of [
-      [32, 15], [32, 15],
-      [32, 18], [32, 18],
-      [32, 21], [32, 21],
-    ]) {
-      // (dedup below) — explicit plot list keeps farming data stable
-    }
     for (const [px, py, kind] of [
       [32, 15, "wheat"], [32, 17, "leafy"],
       [32, 19, "berries"], [32, 21, "carrot"],
@@ -116,10 +112,14 @@
       }
     }
 
-    // Central spine, dock → reading arch. E/W stubs feed each bridge mouth.
-    pathLine(28, 10, 28, 50);
-    pathLine(21, 18, 36, 18);
-    pathLine(21, 38, 36, 38);
+    // Central spine, arch → dock. One E/W stub per isle feeds each bridge mouth.
+    pathLine(28, 10, 28, 47);
+    pathLine(8, 12, 27, 12);   // NW stub
+    pathLine(8, 28, 27, 28);   // W stub
+    pathLine(8, 44, 27, 44);   // SW stub
+    pathLine(29, 12, 48, 12);  // NE stub
+    pathLine(29, 28, 48, 28);  // E stub
+    pathLine(29, 44, 48, 44);  // SE stub
 
     // ── BRIDGES (2 tiles tall, only over water) ─────────────────────────────────
     function bridge(x0, x1, yTop) {
@@ -129,17 +129,19 @@
         }
       }
     }
-    bridge(16, 20, 17);   // NW
-    bridge(16, 20, 38);   // SW
-    bridge(36, 40, 17);   // NE
-    bridge(36, 40, 38);   // SE
+    bridge(13, 23, 11);   // NW
+    bridge(13, 20, 27);   // W
+    bridge(13, 23, 43);   // SW
+    bridge(33, 43, 11);   // NE
+    bridge(36, 43, 27);   // E
+    bridge(33, 43, 43);   // SE
 
     // ── WATER DETAIL ─────────────────────────────────────────────────────────────
     for (const [x, y] of [
-      [3, 4], [22, 3], [40, 3], [54, 5], [1, 28], [56, 24], [3, 52], [52, 52],
+      [3, 3], [22, 3], [40, 3], [54, 5], [1, 20], [56, 21], [3, 52], [52, 52], [17, 35], [39, 20],
     ]) if (get(x, y) === "water") set(x, y, "waterRipple");
     for (const [x, y] of [
-      [18, 28], [38, 28], [20, 50], [40, 9], [2, 28], [55, 28],
+      [17, 22], [39, 35], [20, 50], [40, 8], [2, 35], [55, 36],
     ]) if (get(x, y) === "water") set(x, y, "lilyWater");
 
     // ── PROP HELPER ───────────────────────────────────────────────────────────────
@@ -159,7 +161,7 @@
         previewZone: options.previewZone || "",
         openZone: options.openZone || "",
         lockIsland: options.lockIsland || "",
-        // revealZone: prop stays hidden until that biome zone's animal hatches.
+        // revealZone: prop stays hidden until that zone's animal hatches.
         revealZone: options.revealZone || "",
       };
       if (options.collider !== false) {
@@ -170,34 +172,37 @@
       return item;
     }
 
-    // Gate prop: closed across a bridge mouth, removed once the island unlocks.
-    // colliderRect is in tile units [tx, ty, tw(t), th(t)] covering the opening.
-    function gate(id, island, tx, ty, colliderTiles) {
-      const [cx, cy, cw, ch] = colliderTiles;
-      props.push({
-        id,
-        assetKey: "props.pastureGate",
-        x: tx * TILE_SIZE,
-        y: ty * TILE_SIZE,
-        width: 48,
-        height: 64,
-        layer: "object",
-        hint: "This bridge is closed — hatch an animal here to open it.",
-        dialogue: "The gate is shut. Keep studying — when an animal hatches for this isle, the bridge opens.",
-        sortY: ty * TILE_SIZE + 64,
-        lockIsland: island,
-        lockZone: "",
-        previewZone: "",
-        openZone: "",
-        revealZone: "",
-        collider: { x: cx * TILE_SIZE, y: cy * TILE_SIZE, w: cw * TILE_SIZE, h: ch * TILE_SIZE },
-      });
+    // Gate across a bridge mouth: one sprite per bridge row plus a single
+    // collider covering the whole 2×2-tile crossing. Both sprites and the
+    // collider vanish the moment the isle unlocks (lockIsland).
+    function gate(id, island, gx, cy) {
+      const collider = { x: gx * TILE_SIZE, y: cy * TILE_SIZE, w: 2 * TILE_SIZE, h: 2 * TILE_SIZE };
+      for (let row = 0; row < 2; row += 1) {
+        props.push({
+          id: `${id}-${row}`,
+          assetKey: "props.pastureGate",
+          x: gx * TILE_SIZE,
+          y: (cy + row) * TILE_SIZE - 16,
+          width: 96,
+          height: 64,
+          layer: "object",
+          hint: "This bridge is closed — hatch an animal for this isle to open it.",
+          dialogue: "The gate is shut. Keep studying at the arch — when an animal hatches for this isle, the bridge opens.",
+          sortY: (cy + row) * TILE_SIZE + 48,
+          lockIsland: island,
+          lockZone: "",
+          previewZone: "",
+          openZone: "",
+          revealZone: "",
+          collider: row === 0 ? collider : null,
+        });
+      }
     }
 
-    // Decorative fence segment (no collider — frames a pen without trapping anyone).
+    // Decorative fence segment (no collider, no hint — frames a pen without
+    // trapping anyone or stealing the interaction prompt).
     function fence(id, vertical, tx, ty, revealZone) {
       prop(id, vertical ? "props.fenceV" : "props.fenceH", tx, ty, 48, 48, {
-        hint: "A wooden fence",
         collider: false,
         revealZone: revealZone || "",
         layer: "object",
@@ -214,9 +219,15 @@
       hint: "Cool clear water",
       collider: [22, 52, 52, 25],
     });
-    prop("hatchery-mat", "props.matBlue", 27, 28, 72, 48, {
+    // Collider-only blocker under the hatchery cradle (the cradle itself is
+    // drawn by the Hatchery entity, which has no collider of its own).
+    prop("hatchery-base", "", 30, 27, 128, 96, {
+      hint: "",
+      collider: [10, 44, 100, 34],
+    });
+    prop("hatchery-mat", "props.matBlue", 26, 29, 72, 48, {
       layer: "ground",
-      hint: "The hatchery mat",
+      hint: "A geometric prayer mat",
       collider: false,
     });
     prop("player-home", "buildings.pavilion", 20, 31, 128, 104, {
@@ -225,147 +236,166 @@
       collider: [18, 55, 88, 38],
     });
 
-    // ── NW ISLAND — honey (bee, ant) + dove ─────────────────────────────────────
-    prop("honeycomb-hub", "buildings.honeycombHub", 3, 14, 128, 104, {
+    // ── FARM DRESSING ───────────────────────────────────────────────────────────
+    prop("crop-sign", "props.signCrop", 30, 13, 48, 48, { hint: "The starter farm", collider: false });
+    prop("crate-farm", "props.crate", 34, 14, 48, 48, { hint: "A small crate", collider: false });
+    prop("barrel-farm", "props.barrel", 30, 22, 48, 48, { hint: "A rain barrel", collider: false });
+    for (const [id, tx, ty] of [
+      ["farm-fence-w1", 29, 15], ["farm-fence-w2", 29, 17], ["farm-fence-w3", 29, 19], ["farm-fence-w4", 29, 21],
+      ["farm-fence-e1", 35, 15], ["farm-fence-e2", 35, 17], ["farm-fence-e3", 35, 19], ["farm-fence-e4", 35, 21],
+    ]) fence(id, true, tx, ty, "");
+
+    // ── BRIDGE GATES (block crossing while the isle is locked) ──────────────────
+    gate("gate-nw", "nw", 20, 11);
+    gate("gate-w", "w", 17, 27);
+    gate("gate-sw", "sw", 20, 43);
+    gate("gate-ne", "ne", 35, 11);
+    gate("gate-e", "e", 38, 27);
+    gate("gate-se", "se", 35, 43);
+
+    // ── HUB CLUE MARKERS (Hades-2-style companion teases, one per isle) ─────────
+    for (const [id, key, tx, ty, hint, tease] of [
+      ["clue-nw", "props.signBee", 23, 10, "A honeycomb crest",
+        "A honeycomb crest is carved into the wood. Something hums softly across the water, and a pale feather is tucked into the frame."],
+      ["clue-w", "props.signSeed", 21, 26, "A feather-marked waystone",
+        "Three feathers are pinned here — one crested, one swift, one black as ink. The perches across the bridge stand empty… for now."],
+      ["clue-sw", "props.signSeed", 23, 45, "A wild carving",
+        "The carving shows a great tusk, a spring of sweet water, and a fish beneath lily pads. The wild isle waits for its keepers."],
+      ["clue-ne", "props.signCrop", 33, 10, "A farmstead notice",
+        "\"Pasture ready — awaiting hooves.\" Fresh hay is already stacked in the barn across the bridge."],
+      ["clue-e", "props.signSeed", 35, 26, "A small pawprint plaque",
+        "Two little bowls sit beside this plaque, still empty. Pawprints in the dust lead toward the bridge."],
+      ["clue-se", "props.signSeed", 33, 45, "A sun-warmed stone",
+        "The stone is warm to the touch. Something patient coils in the grotto sands beyond, and silk glints between the rocks."],
+    ]) {
+      prop(id, key, tx, ty, 48, 48, { hint, dialogue: tease, collider: false });
+    }
+
+    // ── NW — GARDEN ISLE (honey: bee + ant, dove) ───────────────────────────────
+    prop("honeycomb-hub", "buildings.honeycombHub", 5, 8, 128, 104, {
       hint: "Honeycomb learning hub",
       dialogue: "Golden honey jars surround the quiet honeycomb hub.",
       collider: [16, 52, 84, 38],
       revealZone: "honey",
     });
-    prop("dove-tree", "props.doveNestingTree", 10, 13, 112, 112, {
+    prop("dove-tree", "props.doveNestingTree", 9, 10, 112, 112, {
       hint: "A nesting tree",
       dialogue: "A peaceful nesting tree stands in the garden corner.",
       collider: [35, 70, 40, 28],
       revealZone: "dove",
     });
+    prop("bee-sign", "props.signBee", 7, 13, 48, 48, { hint: "Honeycomb sign", collider: false, revealZone: "honey" });
+    prop("jar-honey", "props.jar", 5, 12, 48, 48, { hint: "A honey jar", collider: false, revealZone: "honey" });
+    prop("flowers-nw", "props.flowers", 11, 14, 48, 48, { hint: "Bright flowers", collider: false });
+    prop("bush-nw", "props.bush", 6, 14, 48, 48, { hint: "A tidy bush", collider: false });
 
-    // ── NE ISLAND — aviary (hoopoe, ababeel) + barn (cow) + meadow (horse, sheep)
-    // A proper little farmstead: aviary perches up top, a barn-and-pen in the
-    // middle, and a fenced stable meadow below. Each piece appears as its animal
-    // hatches, so the farm visibly grows.
-    prop("ababeel-perches", "props.ababeelPerches", 45, 11, 96, 96, {
+    // ── W — AVIARY ISLE (aviary: hoopoe + ababeel, orchard: crow) ───────────────
+    prop("ababeel-perches", "props.ababeelPerches", 4, 24, 96, 96, {
       hint: "Bird perches for the aviary flock",
       collider: [18, 70, 60, 16],
       revealZone: "aviary",
     });
-    prop("barn", "buildings.barn", 47, 14, 128, 104, {
-      hint: "A cosy barn",
-      dialogue: "The barn smells like hay and warm wood.",
-      collider: [18, 55, 88, 38],
-      revealZone: "barn",
-    });
-    // Barn pen — a corner paddock beside the barn.
-    fence("barn-fence-1", false, 43, 15, "barn");
-    fence("barn-fence-2", false, 44, 15, "barn");
-    fence("barn-fence-3", false, 45, 15, "barn");
-    fence("barn-fence-4", true, 43, 16, "barn");
-    fence("barn-fence-5", true, 43, 17, "barn");
-    prop("hay-barn", "props.hay", 50, 16, 48, 48, { hint: "Fresh hay", collider: false, revealZone: "barn" });
-    prop("trough-barn", "props.barrel", 45, 17, 48, 48, { hint: "A water trough", collider: false, revealZone: "barn" });
-
-    prop("stable", "buildings.stable", 44, 20, 128, 104, {
-      hint: "A blue-roof stable",
-      dialogue: "A looped training path circles the meadow.",
-      collider: [18, 58, 88, 34],
-      revealZone: "meadow",
-    });
-    // Meadow paddock — a fenced run for the horse and sheep.
-    fence("meadow-fence-1", false, 48, 23, "meadow");
-    fence("meadow-fence-2", false, 49, 23, "meadow");
-    fence("meadow-fence-3", false, 50, 23, "meadow");
-    fence("meadow-fence-4", true, 51, 21, "meadow");
-    fence("meadow-fence-5", true, 51, 22, "meadow");
-    prop("hay-stable", "props.hay", 48, 21, 48, 48, { hint: "Fresh hay", collider: false, revealZone: "meadow" });
-
-    // ── SW ISLAND — orchard (crow) + spring (camel) + grove (elephant) + lagoon (fish)
-    prop("crow-orchard", "props.crowOrchard", 10, 33, 112, 96, {
+    prop("crow-orchard", "props.crowOrchard", 9, 29, 112, 96, {
       hint: "A rocky orchard perch",
       collider: [16, 62, 70, 26],
       revealZone: "orchard",
     });
-    prop("spring-nook", "props.camelSpring", 3, 34, 112, 96, {
+    prop("palm-w", "props.palm", 11, 24, 80, 96, { hint: "Cool shade", collider: [24, 58, 30, 28] });
+    prop("rocks-w", "props.rocks", 5, 31, 48, 48, { hint: "Weathered rocks", collider: [8, 28, 32, 16] });
+
+    // ── SW — WILDWOOD ISLE (grove: elephant, spring: camel, lagoon: fish) ───────
+    prop("elephant-grove", "props.elephantGrove", 8, 39, 128, 96, {
+      hint: "A shaded palm grove",
+      collider: [30, 60, 68, 26],
+      revealZone: "grove",
+    });
+    prop("spring-nook", "props.camelSpring", 3, 41, 112, 96, {
       hint: "A cool spring sanctuary",
       dialogue: "The little spring is cool and shaded.",
       collider: [28, 57, 56, 25],
       revealZone: "spring",
     });
-    prop("elephant-grove", "props.elephantGrove", 9, 40, 128, 96, {
-      hint: "A shaded palm grove",
-      collider: [30, 60, 68, 26],
-      revealZone: "grove",
-    });
-    prop("fish-motif", "props.fishMotif", 3, 40, 112, 72, {
+    prop("fish-motif", "props.fishMotif", 4, 45, 112, 72, {
       layer: "ground",
       hint: "A fish-shaped lagoon",
       collider: false,
       revealZone: "lagoon",
     });
+    prop("reeds-lagoon", "props.reeds", 9, 46, 48, 48, { hint: "Soft reeds", collider: false });
+    prop("rocks-lagoon", "props.rocks", 10, 44, 48, 48, { hint: "Shoreline rocks", collider: [8, 28, 32, 16] });
+    prop("palm-sw", "props.datePalm", 12, 41, 80, 96, { hint: "Cool shade", collider: [24, 58, 30, 28] });
 
-    // ── SE ISLAND — pets (cat, dog) + snake + spider ────────────────────────────
-    prop("dog-house", "buildings.dogHouse", 44, 33, 72, 72, {
+    // ── NE — FARMSTEAD ISLE (barn: cow, meadow: sheep + horse) ──────────────────
+    prop("barn", "buildings.barn", 45, 8, 128, 104, {
+      hint: "A cosy barn",
+      dialogue: "The barn smells like hay and warm wood.",
+      collider: [18, 55, 88, 38],
+      revealZone: "barn",
+    });
+    prop("hay-barn", "props.hay", 48, 11, 48, 48, { hint: "Fresh hay", collider: false, revealZone: "barn" });
+    prop("trough-barn", "props.barrel", 46, 12, 48, 48, { hint: "A water trough", collider: false, revealZone: "barn" });
+    prop("stable", "buildings.stable", 49, 13, 128, 104, {
+      hint: "A blue-roof stable",
+      dialogue: "A looped training path circles the meadow.",
+      collider: [18, 58, 88, 34],
+      revealZone: "meadow",
+    });
+    fence("meadow-fence-1", false, 45, 13, "meadow");
+    fence("meadow-fence-2", false, 46, 13, "meadow");
+    fence("meadow-fence-3", false, 47, 13, "meadow");
+    fence("meadow-fence-4", true, 44, 14, "meadow");
+    fence("meadow-fence-5", true, 44, 15, "meadow");
+    prop("hay-stable", "props.hay", 47, 15, 48, 48, { hint: "Fresh hay", collider: false, revealZone: "meadow" });
+
+    // ── E — GROVE ISLE (pets: cat + dog) ────────────────────────────────────────
+    prop("dog-house", "buildings.dogHouse", 45, 25, 72, 72, {
       hint: "A small pet shelter",
       collider: [16, 42, 40, 20],
       revealZone: "pets",
     });
-    prop("cat-nook", "buildings.catNook", 49, 33, 72, 72, {
+    prop("cat-nook", "buildings.catNook", 50, 25, 72, 72, {
       hint: "A sunny cat nook",
       collider: [16, 42, 40, 20],
       revealZone: "pets",
     });
+    prop("orange-tree", "props.orangeTree", 47, 30, 96, 96, { hint: "Cool shade", collider: [24, 58, 30, 28] });
+    prop("flowers-e", "props.flowers", 44, 28, 48, 48, { hint: "Bright flowers", collider: false });
+    prop("bush-e", "props.bush", 51, 29, 48, 48, { hint: "A tidy bush", collider: false });
+
+    // ── SE — GROTTO ISLE (snake, spider) ────────────────────────────────────────
     prop("snake-habitat", "props.snakeHabitat", 49, 40, 112, 96, {
       hint: "A warm sandy habitat",
       collider: [18, 60, 70, 24],
       revealZone: "snake",
     });
-    prop("spider-grotto", "props.spiderGrotto", 43, 41, 112, 96, {
+    prop("spider-grotto", "props.spiderGrotto", 43, 44, 112, 96, {
       hint: "A shaded grotto",
       collider: [20, 62, 72, 22],
       revealZone: "spider",
     });
+    prop("rocks-se-1", "props.rocks", 52, 45, 48, 48, { hint: "Sun-baked rocks", collider: [8, 28, 32, 16] });
+    prop("rocks-se-2", "props.rocks", 47, 47, 48, 48, { hint: "Sun-baked rocks", collider: [8, 28, 32, 16] });
+    prop("jar-se", "props.jar", 46, 42, 48, 48, { hint: "A clay jar", collider: false });
 
-    // ── BRIDGE GATES (block crossing while the island is locked) ─────────────────
-    gate("gate-nw", "nw", 19, 16, [19, 17, 2, 2]);
-    gate("gate-sw", "sw", 19, 37, [19, 38, 2, 2]);
-    gate("gate-ne", "ne", 37, 16, [37, 17, 2, 2]);
-    gate("gate-se", "se", 37, 37, [37, 38, 2, 2]);
-
-    // ── PALMS & TREES ────────────────────────────────────────────────────────────
+    // ── HUB PALMS & TREES ───────────────────────────────────────────────────────
     for (const [id, key, tx, ty] of [
-      ["palm-hub-n", "props.datePalm", 24, 12],
+      ["palm-hub-n", "props.datePalm", 24, 13],
+      ["palm-hub-w", "props.datePalm", 23, 21],
+      ["palm-hub-e", "props.palm", 32, 34],
       ["palm-hub-s", "props.palm", 31, 45],
-      ["palm-nw", "props.palm", 13, 12],
-      ["palm-ne", "props.datePalm", 52, 12],
-      ["palm-sw", "props.datePalm", 13, 41],
-      ["palm-se", "props.palm", 53, 35],
-      ["orange-tree", "props.orangeTree", 13, 35],
     ]) {
-      prop(id, key, tx, ty, key.includes("Tree") || key.includes("tree") ? 96 : 80, 96, {
+      prop(id, key, tx, ty, 80, 96, {
         hint: "Cool shade",
         collider: [24, 58, 30, 28],
       });
     }
 
-    // ── SMALL DECOR PROPS ─────────────────────────────────────────────────────────
-    for (const [id, key, tx, ty, hint, reveal] of [
-      ["crop-sign", "props.signCrop", 35, 14, "Carrot garden", ""],
-      ["seed-sign", "props.signSeed", 30, 28, "Seed packets are ready", ""],
-      ["bee-sign", "props.signBee", 5, 16, "Honeycomb sign", "honey"],
-      ["crate-farm", "props.crate", 34, 15, "A small crate", ""],
-      ["jar-honey", "props.jar", 4, 16, "A honey jar", "honey"],
-      ["barrel-nw", "props.barrel", 12, 16, "A wooden barrel", ""],
-      ["reeds-lagoon", "props.reeds", 7, 43, "Soft reeds", "lagoon"],
-      ["rocks-lagoon", "props.rocks", 8, 41, "Shoreline rocks", ""],
-      ["flowers-hub-1", "props.flowers", 25, 22, "Bright flowers", ""],
-      ["flowers-hub-2", "props.flowers", 31, 33, "Bright flowers", ""],
-      ["bush-court-1", "props.bush", 24, 30, "A tidy bush", ""],
-      ["bush-court-2", "props.bush", 32, 26, "A tidy bush", ""],
-    ]) {
-      prop(id, key, tx, ty, 48, 48, {
-        hint,
-        revealZone: reveal,
-        collider: key.includes("rocks") ? [8, 28, 32, 16] : false,
-      });
-    }
+    // ── SMALL HUB DECOR ─────────────────────────────────────────────────────────
+    prop("seed-sign", "props.signSeed", 24, 28, 48, 48, { hint: "Seed packets are ready", collider: false });
+    prop("flowers-hub-1", "props.flowers", 25, 22, 48, 48, { hint: "Bright flowers", collider: false });
+    prop("flowers-hub-2", "props.flowers", 31, 33, 48, 48, { hint: "Bright flowers", collider: false });
+    prop("bush-court-1", "props.bush", 24, 30, 48, 48, { hint: "A tidy bush", collider: false });
+    prop("bush-court-2", "props.bush", 32, 26, 48, 48, { hint: "A tidy bush", collider: false });
 
     // ── LANTERNS framing the courtyard + arch ────────────────────────────────────
     for (const [id, tx, ty] of [
@@ -383,20 +413,23 @@
     const TS = TILE_SIZE;
     const islands = [
       { id: "nw", label: "Garden Isle", zones: ["honey", "dove"],
-        bounds: { x: 2 * TS, y: 10 * TS, w: 15 * TS, h: 17 * TS } },
-      { id: "ne", label: "Farmstead Isle", zones: ["aviary", "barn", "meadow"],
-        bounds: { x: 40 * TS, y: 10 * TS, w: 16 * TS, h: 17 * TS } },
-      { id: "sw", label: "Wildwood Isle", zones: ["orchard", "spring", "grove", "lagoon"],
-        bounds: { x: 2 * TS, y: 30 * TS, w: 15 * TS, h: 17 * TS } },
-      { id: "se", label: "Wilds Isle", zones: ["pets", "snake", "spider"],
-        bounds: { x: 40 * TS, y: 30 * TS, w: 16 * TS, h: 17 * TS } },
+        bounds: { x: 2 * TS, y: 5 * TS, w: 13 * TS, h: 14 * TS } },
+      { id: "w", label: "Aviary Isle", zones: ["aviary", "orchard"],
+        bounds: { x: 2 * TS, y: 21 * TS, w: 13 * TS, h: 14 * TS } },
+      { id: "sw", label: "Wildwood Isle", zones: ["grove", "spring", "lagoon"],
+        bounds: { x: 2 * TS, y: 37 * TS, w: 13 * TS, h: 14 * TS } },
+      { id: "ne", label: "Farmstead Isle", zones: ["barn", "meadow"],
+        bounds: { x: 41 * TS, y: 5 * TS, w: 14 * TS, h: 14 * TS } },
+      { id: "e", label: "Grove Isle", zones: ["pets"],
+        bounds: { x: 41 * TS, y: 21 * TS, w: 14 * TS, h: 14 * TS } },
+      { id: "se", label: "Grotto Isle", zones: ["snake", "spider"],
+        bounds: { x: 41 * TS, y: 37 * TS, w: 14 * TS, h: 14 * TS } },
     ];
 
     return {
       tileSize: TILE_SIZE,
       width: MAP_WIDTH,
       height: MAP_HEIGHT,
-      backgroundAssetKey: "world.backdrop",
       tiles,
       props,
       farmPlots,
@@ -409,19 +442,19 @@
           x: 28 * TILE_SIZE,
           y: 47 * TILE_SIZE,
           hint: "Welcome to the island",
-          dialogue: "Welcome. Follow the path north to the fountain, then study at the arch to open the outer isles.",
+          dialogue: "Welcome. Follow the path north to the fountain plaza, then study at the arch. Six isles wait beyond the bridges.",
         },
         {
           assetIndex: 1,
-          x: 31 * TILE_SIZE,
-          y: 11 * TILE_SIZE,
+          x: 26 * TILE_SIZE,
+          y: 13 * TILE_SIZE,
           hint: "A scholar",
-          dialogue: "Each outer isle stays bridged-shut until one of its animals hatches. Study at the arch to earn eggs.",
+          dialogue: "Each isle stays bridged-shut until one of its animals hatches. The signs by each bridge hint at who will live there.",
         },
         {
           assetIndex: 2,
-          x: 33 * TILE_SIZE,
-          y: 17 * TILE_SIZE,
+          x: 36 * TILE_SIZE,
+          y: 18 * TILE_SIZE,
           hint: "A farm keeper",
           dialogue: "Water your crops with patience. Seeds come from study, harvest feeds the animals.",
         },
@@ -432,20 +465,13 @@
   // Merges editor-authored placements (from src/world/mapOverrides.json) onto a
   // freshly generated map. Override props are already fully-formed (id,
   // assetKey, x/y in world px, width, height, collider, etc — see
-  // editor.js's buildOverrideProp), so this is a plain append, not a
-  // re-derivation of the built-in prop()/gate()/fence() helpers above.
+  // buildOverrideProp / EditModeSystem.placeSelected), so this is a plain
+  // append. `fromOverride` marks them as the editor-owned subset that gets
+  // re-saved by the F2 editor.
   function applyMapOverrides(mapData, overrides) {
     if (!overrides) return mapData;
     if (Array.isArray(overrides.props) && overrides.props.length) {
-      // Tag so EditModeSystem (in-game editor) can tell override-authored
-      // props apart from the hand-built base map props when deciding what
-      // subset to re-save. alwaysDraw is required too: the real game's
-      // Renderer.shouldDrawProp() assumes ordinary props are already baked
-      // into the painted world.backdrop image and skips drawing them each
-      // frame — override props are genuinely new content, not baked into
-      // that backdrop, so without this flag they'd be invisible (though
-      // still interactive/collidable) after a save + refresh.
-      const tagged = overrides.props.map((prop) => ({ ...prop, fromOverride: true, alwaysDraw: true }));
+      const tagged = overrides.props.map((prop) => ({ ...prop, fromOverride: true }));
       mapData.props = mapData.props.concat(tagged);
     }
     return mapData;

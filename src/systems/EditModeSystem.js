@@ -163,10 +163,6 @@
         sortY: y + item.height,
         collider: this.colliderFor(item, x, y),
         fromOverride: true,
-        // Ordinary props are assumed baked into the painted world.backdrop
-        // image and get skipped by Renderer.shouldDrawProp; this is new
-        // content, not baked art, so force it to draw every frame.
-        alwaysDraw: true,
       };
       this.game.world.props.push(prop);
       this.ui.refreshPlacedList();

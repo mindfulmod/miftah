@@ -27,7 +27,6 @@
       this.tileSize = data.tileSize;
       this.pixelWidth = this.width * this.tileSize;
       this.pixelHeight = this.height * this.tileSize;
-      this.backgroundAssetKey = data.backgroundAssetKey || "";
       this.blockedTiles = new Set(["water", "waterRipple", "lilyWater", "lagoon", "sandbar"]);
     }
 
@@ -45,10 +44,6 @@
     }
 
     render(renderer, camera) {
-      if (this.backgroundAssetKey) {
-        renderer.drawImage(this.backgroundAssetKey, 0, 0, this.pixelWidth, this.pixelHeight);
-        return;
-      }
       const startX = Math.max(0, Math.floor(camera.x / this.tileSize) - 1);
       const startY = Math.max(0, Math.floor(camera.y / this.tileSize) - 1);
       const endX = Math.min(this.width, Math.ceil((camera.x + camera.width) / this.tileSize) + 1);
