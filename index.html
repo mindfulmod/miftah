@@ -3,61 +3,59 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>Miftah — Quranic Arabic Trainer</title>
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill-rule='evenodd' fill='%23e3b75f' d='M8 2.4a5.6 5.6 0 0 0-1 11.1V19a1 1 0 0 0 .29.71l1 1a1 1 0 0 0 1.42 0l1.6-1.6-1.3-1.3 1.3-1.3-1.3-1.3.99-.99A5.6 5.6 0 0 0 8 2.4ZM8 6.1a1.9 1.9 0 1 0 0 3.8 1.9 1.9 0 1 0 0-3.8Z'/%3E%3C/svg%3E" />
+    <title>Miftah Island Garden</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Inter:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles/main.css" />
   </head>
   <body>
-    <header class="topbar">
-      <div class="topbar-inner">
-        <div class="brand-lockup">
-          <a href="index.html" class="brand-key" aria-label="Miftah home" title="Miftah — home">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path fill-rule="evenodd" fill="currentColor" d="M8 2.4a5.6 5.6 0 0 0-1 11.1V19a1 1 0 0 0 .29.71l1 1a1 1 0 0 0 1.42 0l1.6-1.6-1.3-1.3 1.3-1.3-1.3-1.3.99-.99A5.6 5.6 0 0 0 8 2.4ZM8 6.1a1.9 1.9 0 1 0 0 3.8 1.9 1.9 0 1 0 0-3.8Z"></path>
-            </svg>
-          </a>
-          <div>
-            <h1>Miftah</h1>
-            <p class="subtitle">Quranic Arabic Trainer — Choose a surah, finish one to unlock the next.</p>
-          </div>
-        </div>
-        <div class="topbar-actions">
-          <a href="glossary.html" class="ghost-btn gold">📖 Glossary</a>
-        </div>
-      </div>
-    </header>
-
-    <main class="app">
-      <section id="home-hero" class="home-hero" hidden></section>
-      <p id="loading" class="loading">Loading surahs…</p>
-      <h2 id="surah-list-heading" class="section-heading" hidden>Surahs</h2>
-      <div id="surah-list" class="surah-list"></div>
+    <main class="game-shell" aria-label="Miftah Island Garden game">
+      <canvas id="game-canvas" width="1280" height="720"></canvas>
+      <div id="game-loading" class="loading">Loading the island...</div>
     </main>
 
-    <template id="surah-card-template">
-      <a class="surah-card">
-        <div class="surah-card-num"></div>
-        <div class="surah-card-body">
-          <div class="surah-card-names">
-            <span class="surah-card-en"></span>
-            <span class="surah-card-ar"></span>
-          </div>
-          <div class="surah-card-meta"></div>
-          <div class="surah-card-track"><div class="surah-card-fill"></div></div>
-        </div>
-        <div class="surah-card-actions"></div>
-      </a>
-    </template>
+    <script src="src/data/assets.js"></script>
+    <script src="src/data/items.js"></script>
+    <script src="src/data/crops.js"></script>
+    <script src="src/data/animals.js"></script>
+    <script src="src/data/surahs.js"></script>
+    <script src="src/data/trainerQuestions.js"></script>
 
-    <footer class="footer">
-      <span id="sources"></span>
-    </footer>
+    <script src="src/core/AssetLoader.js"></script>
+    <script src="src/core/InputManager.js"></script>
+    <script src="src/core/Camera.js"></script>
+    <script src="src/core/CollisionMap.js"></script>
+    <script src="src/core/Renderer.js"></script>
 
-    <script src="picker.js"></script>
+    <script src="src/world/MapData.js"></script>
+    <script src="src/world/TileMap.js"></script>
+    <script src="src/world/WorldMap.js"></script>
+
+    <script src="src/editor/editorCatalog.js"></script>
+
+    <script src="src/entities/Entity.js"></script>
+    <script src="src/entities/Player.js"></script>
+    <script src="src/entities/Pet.js"></script>
+    <script src="src/entities/Animal.js"></script>
+    <script src="src/entities/NPC.js"></script>
+    <script src="src/entities/Crop.js"></script>
+    <script src="src/entities/Hatchery.js"></script>
+
+    <script src="src/systems/AnimationSystem.js"></script>
+    <script src="src/systems/ProgressionSystem.js"></script>
+    <script src="src/systems/TrainerEngine.js"></script>
+    <script src="src/systems/FarmingSystem.js"></script>
+    <script src="src/systems/DialogueSystem.js"></script>
+    <script src="src/systems/InteractionSystem.js"></script>
+    <script src="src/systems/EditModeSystem.js"></script>
+
+    <script src="src/ui/HUD.js"></script>
+    <script src="src/ui/Tooltip.js"></script>
+    <script src="src/ui/TrainerOverlay.js"></script>
+    <script src="src/ui/EditModeUI.js"></script>
+
+    <script src="src/core/Game.js"></script>
+    <script src="src/main.js"></script>
   </body>
 </html>

@@ -1,0 +1,129 @@
+(function (ns) {
+  const ANIMAL_SIZE = {
+    cow: [64, 64],
+    sheep: [64, 64],
+    bee: [40, 40],
+    dove: [48, 48],
+    fish: [72, 72],
+  };
+
+  class Animal extends ns.Entity {
+    constructor(config) {
+      const size = config.assetStageKey ? [64, 64] : ANIMAL_SIZE[config.type] || [64, 64];
+      super(config.x, config.y, size[0], size[1]);
+      this.type = config.type;
+      this.id = config.id || config.type;
+      this.displayName = config.name || config.type;
+      this.assetStageKey = config.assetStageKey || null;
+      this.feedToYoung = config.feedToYoung || 2;
+      this.feedToAdult = config.feedToAdult || 4;
+      this.growthStage = config.growthStage || 1;
+      this.feedProgress = config.feedProgress || 0;
+      this.onProgressChange = config.onProgressChange || null;
+      this.bounds = config.bounds;
+      this.hint = config.hint || "";
+      this.speed = config.type === "bee" || config.type === "dove" ? 60 : 42;
+      this.wait = Math.random() * 1.5;
+      this.target = { x: this.x, y: this.y };
+      // Predicate (px, py) => bool deciding whether this animal may stand on a
+      // world pixel. Keeps land animals off the water and the fish in it.
+      this.canStand = config.canStand || null;
+    }
+
+    // Sample the animal's "feet" for a candidate top-left position.
+    standableAt(x, y) {
+      if (!this.canStand) return true;
+      return this.canStand(x + this.width / 2, y + this.height - 4);
+    }
+
+    pickTarget() {
+      const pad = 20;
+      for (let attempt = 0; attempt < 12; attempt += 1) {
+        const tx = this.bounds.x + pad + Math.random() * Math.max(1, this.bounds.w - this.width - pad * 2);
+        const ty = this.bounds.y + pad + Math.random() * Math.max(1, this.bounds.h - this.height - pad * 2);
+        if (this.standableAt(tx, ty)) return { x: tx, y: ty };
+      }
+      return { x: this.x, y: this.y }; // give up this cycle; stay put
+    }
+
+    update(dt) {
+      this.wait -= dt;
+      if (this.wait <= 0 && Math.hypot(this.target.x - this.x, this.target.y - this.y) < 6) {
+        this.wait = 1 + Math.random() * 2.8;
+        this.target = this.pickTarget();
+      }
+
+      const dx = this.target.x - this.x;
+      const dy = this.target.y - this.y;
+      const dist = Math.hypot(dx, dy);
+      this.moving = dist > 4 && this.wait < 1;
+      if (this.moving) {
+        const step = Math.min(this.speed * dt, dist);
+        const nx = this.x + (dx / dist) * step;
+        const ny = this.y + (dy / dist) * step;
+        if (this.standableAt(nx, ny)) {
+          this.x = nx;
+          this.y = ny;
+        } else {
+          // Would step off allowed terrain — abandon this target, re-pick soon.
+          this.target = { x: this.x, y: this.y };
+          this.wait = 0.4 + Math.random();
+          this.moving = false;
+        }
+      }
+      this.animationTime += dt;
+    }
+
+    feed() {
+      if (this.growthStage >= 3) return { grown: false, text: `${this.displayName} is fully grown.` };
+      this.feedProgress += 1;
+      const needed = this.growthStage === 1 ? this.feedToYoung : this.feedToAdult;
+      let grew = false;
+      if (this.feedProgress >= needed) {
+        this.growthStage += 1;
+        this.feedProgress = 0;
+        grew = true;
+      }
+      this.syncProgress();
+      return {
+        grown: grew,
+        text: grew ? `${this.displayName} grew to stage ${this.growthStage}.` : `${this.displayName} enjoyed the feed.`,
+      };
+    }
+
+    syncProgress() {
+      if (this.onProgressChange) {
+        this.onProgressChange(this.id, {
+          stage: this.growthStage,
+          feedProgress: this.feedProgress,
+        });
+      }
+    }
+
+    feedNeeded() {
+      if (this.growthStage >= 3) return 0;
+      return this.growthStage === 1 ? this.feedToYoung : this.feedToAdult;
+    }
+
+    interactionHint() {
+      if (this.growthStage >= 3) return `${this.displayName} is fully grown`;
+      return `Feed ${this.displayName} (${this.feedProgress}/${this.feedNeeded()})`;
+    }
+
+    getAssetKey() {
+      if (this.assetStageKey) return `${this.assetStageKey}.${this.growthStage - 1}`;
+      if (this.type === "cow") return this.moving ? `animals.cow.walk.${this.frameIndex(2)}` : "animals.cow.idle.0";
+      if (this.type === "sheep") return this.moving ? "animals.sheep.walk.0" : "animals.sheep.idle.0";
+      if (this.type === "bee") return `animals.bee.fly.${this.frameIndex(2, 10)}`;
+      if (this.type === "dove") return `animals.dove.fly.${this.frameIndex(2, 5)}`;
+      if (this.type === "fish") return `animals.fish.swim.${this.frameIndex(2, 4)}`;
+      return "animals.cow.idle.0";
+    }
+
+    draw(renderer) {
+      renderer.drawImage(this.getAssetKey(), this.x, this.y, this.width, this.height);
+    }
+  }
+
+  ns.Animal = Animal;
+})(window.MiftahGame || (window.MiftahGame = {}));

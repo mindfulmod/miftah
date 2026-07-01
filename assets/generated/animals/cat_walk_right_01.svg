@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" shape-rendering="crispEdges">
+<ellipse cx="32" cy="51" rx="18" ry="5" fill="rgba(40,25,15,.20)"/>
+<polygon points="16,36 7,30 8,25 19,32" fill="#6f3518"/>
+<polygon points="17,34 8,29 9,26 20,32" fill="#e47d25"/>
+<ellipse cx="31" cy="38" rx="16" ry="10" fill="#6f3518"/>
+<ellipse cx="31" cy="36" rx="15" ry="10" fill="#e47d25"/>
+<rect x="21" y="44" width="5" height="8" fill="#6f3518"/>
+<rect x="39" y="44" width="5" height="8" fill="#6f3518"/>
+<rect x="22" y="43" width="4" height="8" fill="#f19a3e"/>
+<rect x="38" y="43" width="4" height="8" fill="#f19a3e"/>
+<ellipse cx="43" cy="31" rx="10" ry="9" fill="#6f3518"/>
+<ellipse cx="43" cy="30" rx="9" ry="8" fill="#f08a2d"/>
+<polygon points="38,23 41,15 44,25" fill="#6f3518"/>
+<polygon points="47,24 51,16 53,27" fill="#6f3518"/>
+<rect x="47" y="30" width="2" height="2" fill="#14100c"/>
+<rect x="51" y="34" width="3" height="2" fill="#fff2d1"/>
+</svg>

@@ -1,0 +1,864 @@
+:root {
+  --ink: #251913;
+  --paper: #fff3cc;
+  --gold: #f0c15f;
+  --blue: #16b7d1;
+  --green: #77bd3a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html,
+body {
+  width: 100%;
+  min-width: 320px;
+  min-height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(255, 235, 162, 0.28), transparent 24rem),
+    radial-gradient(circle at 82% 8%, rgba(99, 213, 198, 0.25), transparent 23rem),
+    linear-gradient(180deg, #0f91b7 0%, #086d9d 58%, #074e7d 100%);
+  color: var(--paper);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+}
+
+.game-shell {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+#game-canvas {
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  touch-action: none;
+}
+
+.loading {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  min-width: min(340px, calc(100vw - 40px));
+  padding: 18px 22px;
+  border: 4px solid #7b4a21;
+  background: rgba(37, 25, 19, 0.9);
+  box-shadow: inset 0 0 0 2px var(--gold), 0 18px 44px rgba(0, 0, 0, 0.28);
+  color: var(--paper);
+  text-align: center;
+  line-height: 1.45;
+}
+
+/* ---------------------------------------------------------------------
+   Courtyard Codex (in-game trainer)
+
+   Rebuilt entirely from CSS primitives (gradients, clip-paths, layered
+   box-shadows, inline SVG lattice/arcade patterns) instead of one-off
+   external art files, so nothing here can drift out of style with the
+   rest of the island and nothing depends on an asset that might be
+   missing or mismatched. Palette + motifs (khatim star lattice, ogee
+   arch, gold hairlines, Amiri Quran type) echo the standalone Miftah
+   trainer (trainer.html / styles.css) this overlay is a gateway to.
+--------------------------------------------------------------------- */
+
+.trainer-overlay {
+  --codex-bg-1: #2c1a0d;
+  --codex-bg-2: #160d06;
+  --codex-gold: #eab654;
+  --codex-gold-bright: #ffedb0;
+  --codex-gold-dim: #8a5a22;
+  --codex-teal: #1fb1cf;
+  --codex-teal-deep: #0a5b70;
+  --codex-parchment-1: #f9edc9;
+  --codex-parchment-2: #ecd49c;
+  --codex-ink: #4a2c14;
+  --codex-cream: #fff3d8;
+  --codex-green: #6fb23f;
+  --codex-red: #d1543f;
+
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  padding: 12px;
+  overflow: auto;
+  background: radial-gradient(circle at 50% 38%, rgba(10, 44, 50, 0.36), rgba(4, 14, 18, 0.74) 78%);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+}
+
+/* Faint khatim (8-point star) lattice washed behind the whole window —
+   the same jali-screen motif used across the standalone trainer, kept
+   subtle so it reads as texture rather than noise. */
+.trainer-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 44 44'%3E%3Cg fill='none' stroke='%23eab654' stroke-width='1'%3E%3Cpath d='M22 2 42 22 22 42 2 22z'/%3E%3Crect x='9' y='9' width='26' height='26'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 44px 44px;
+  opacity: 0.05;
+  mask-image: radial-gradient(70% 70% at 50% 45%, #000 0%, transparent 75%);
+  -webkit-mask-image: radial-gradient(70% 70% at 50% 45%, #000 0%, transparent 75%);
+}
+
+.trainer-card {
+  position: relative;
+  z-index: 1;
+  width: 520px;
+  max-width: calc(100vw - 24px);
+  border-radius: 22px;
+  background:
+    radial-gradient(5px 5px at 15px 15px, var(--codex-gold) 58%, transparent 62%),
+    radial-gradient(5px 5px at calc(100% - 15px) 15px, var(--codex-gold) 58%, transparent 62%),
+    radial-gradient(5px 5px at 15px calc(100% - 15px), var(--codex-gold) 58%, transparent 62%),
+    radial-gradient(5px 5px at calc(100% - 15px) calc(100% - 15px), var(--codex-gold) 58%, transparent 62%),
+    linear-gradient(180deg, var(--codex-bg-1), var(--codex-bg-2));
+  background-repeat: no-repeat;
+  border: 3px solid var(--codex-gold-dim);
+  box-shadow:
+    inset 0 0 0 2px rgba(234, 182, 84, 0.3),
+    inset 0 0 44px rgba(0, 0, 0, 0.4),
+    0 24px 60px rgba(0, 0, 0, 0.5);
+  color: var(--codex-cream);
+  overflow: hidden;
+}
+
+.trainer-close {
+  position: absolute;
+  z-index: 5;
+  top: 10px;
+  right: 10px;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 2px solid var(--codex-gold-dim);
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 28%, var(--codex-gold-bright), var(--codex-gold) 70%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4), 0 3px 0 rgba(0, 0, 0, 0.3);
+  color: #2c1a11;
+  cursor: pointer;
+  font: 900 15px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  transition: transform 0.15s ease;
+}
+
+.trainer-close:hover {
+  transform: scale(1.08);
+}
+
+/* ---------- header: a pure-CSS pointed (ogee-leaning) arch banner ---------- */
+.codex-header {
+  position: relative;
+  height: 108px;
+  clip-path: polygon(
+    0% 100%, 0% 48%, 8% 32%, 20% 18%, 35% 8%, 50% 2%,
+    65% 8%, 80% 18%, 92% 32%, 100% 48%, 100% 100%
+  );
+  background: linear-gradient(180deg, var(--codex-gold), var(--codex-gold-dim));
+}
+
+.codex-header::before {
+  content: "";
+  position: absolute;
+  inset: 6px 6px 0 6px;
+  clip-path: polygon(
+    0% 100%, 0% 46%, 8% 30%, 20% 16%, 35% 6%, 50% 0%,
+    65% 6%, 80% 16%, 92% 30%, 100% 46%, 100% 100%
+  );
+  background: linear-gradient(180deg, var(--codex-teal), var(--codex-teal-deep));
+}
+
+/* Gold finial diamond at the arch's apex. */
+.codex-header::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  transform: translate(-50%, -4px) rotate(45deg);
+  background: radial-gradient(circle at 32% 28%, var(--codex-gold-bright), var(--codex-gold) 70%);
+  box-shadow: 0 0 0 2px var(--codex-bg-1), 0 0 10px rgba(234, 182, 84, 0.6);
+}
+
+.codex-title-ribbon {
+  position: absolute;
+  z-index: 1;
+  left: 12%;
+  right: 12%;
+  bottom: 14%;
+  display: grid;
+  place-items: center;
+  padding: 5px 10px;
+  border-radius: 8px;
+  background: rgba(10, 30, 36, 0.42);
+  box-shadow: inset 0 0 0 1px rgba(234, 182, 84, 0.55);
+  color: var(--codex-gold-bright);
+  text-align: center;
+}
+
+.trainer-card h2 {
+  margin: 0;
+  color: var(--codex-gold-bright);
+  font-size: 15px;
+  letter-spacing: 0.4px;
+  line-height: 1.1;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.4);
+}
+
+.codex-meta {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px 10px;
+  text-align: center;
+}
+
+.codex-meta::after {
+  content: "";
+  position: absolute;
+  left: 20%;
+  right: 20%;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--codex-gold-dim) 30%, var(--codex-gold-dim) 70%, transparent);
+}
+
+.trainer-kicker {
+  color: var(--codex-gold);
+  font-size: 9px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.trainer-progress {
+  overflow: hidden;
+  max-width: 280px;
+  margin: 0;
+  color: var(--codex-cream);
+  font-size: 9px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  opacity: 0.85;
+}
+
+.codex-board {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 10px;
+  padding: 10px 12px 0;
+}
+
+.trainer-card.is-collection-collapsed .codex-board {
+  grid-template-columns: 46px 1fr;
+}
+
+.trainer-card.is-collection-collapsed .surah-collection {
+  padding: 6px 3px;
+}
+
+.trainer-card.is-collection-collapsed .surah-collection-head {
+  flex-direction: column;
+}
+
+.trainer-card.is-collection-collapsed .surah-collection-head h3,
+.trainer-card.is-collection-collapsed .surah-grid,
+.trainer-card.is-collection-collapsed .surah-collection-stats {
+  display: none;
+}
+
+.trainer-card.is-collection-collapsed .surah-toggle {
+  width: 100%;
+  padding: 4px 2px;
+  font-size: 7px;
+  line-height: 1.2;
+  white-space: normal;
+}
+
+/* ---------- left rail: surah collection, carved-wood panel ---------- */
+.surah-collection {
+  position: relative;
+  padding: 8px;
+  border-radius: 12px;
+  background:
+    repeating-linear-gradient(180deg, rgba(0, 0, 0, 0.08) 0 2px, transparent 2px 5px),
+    linear-gradient(180deg, #3f280f, #241408);
+  box-shadow: inset 0 0 0 1px rgba(234, 182, 84, 0.28), inset 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.surah-collection-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.surah-collection h3,
+.trainer-study-panel h3 {
+  margin: 0;
+  color: var(--codex-gold-bright);
+  font-size: 11px;
+  line-height: 1;
+}
+
+.surah-toggle {
+  border: 2px solid var(--codex-gold-dim);
+  border-radius: 6px;
+  background: linear-gradient(180deg, var(--codex-gold-bright), var(--codex-gold));
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4), 0 2px 0 rgba(0, 0, 0, 0.25);
+  color: #2c1a11;
+  cursor: pointer;
+  font: 900 8px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  padding: 4px 6px;
+}
+
+.surah-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  height: 280px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 2px 2px 4px;
+  scrollbar-width: none;
+}
+
+.surah-grid::-webkit-scrollbar {
+  display: none;
+}
+
+.surah-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  width: 76px;
+  padding: 7px 4px 6px;
+  border: 0;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--codex-cream);
+  cursor: pointer;
+  font: 900 9px/1.1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  text-align: center;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.surah-tile:hover {
+  background: rgba(234, 182, 84, 0.1);
+  transform: translateY(-1px);
+}
+
+.surah-tile.is-upcoming {
+  color: #9c8567;
+  opacity: 0.68;
+}
+
+.surah-tile.is-selected {
+  background: rgba(234, 182, 84, 0.16);
+  box-shadow: inset 0 0 0 1px rgba(234, 182, 84, 0.5);
+}
+
+.surah-tile:focus-visible,
+.trainer-option:focus-visible,
+.surah-toggle:focus-visible,
+.trainer-close:focus-visible {
+  outline: 2px solid var(--codex-gold-bright);
+  outline-offset: 1px;
+}
+
+.surah-badge-ring {
+  --pct: 0;
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  padding: 3px;
+  background: conic-gradient(var(--codex-gold) calc(var(--pct) * 1%), rgba(0, 0, 0, 0.4) 0);
+}
+
+.surah-badge {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 26%, #d68a3c, #a2591f 72%);
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.2);
+  color: var(--codex-cream);
+  font-size: 12px;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.4);
+}
+
+.surah-tile.is-current .surah-badge {
+  background: radial-gradient(circle at 32% 26%, #4fd2e6, var(--codex-teal-deep) 72%);
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.3), 0 0 10px rgba(31, 177, 207, 0.55);
+}
+
+.surah-tile.is-complete .surah-badge {
+  background: radial-gradient(circle at 32% 26%, var(--codex-gold-bright), var(--codex-gold-dim) 72%);
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.3), 0 0 10px rgba(234, 182, 84, 0.55);
+}
+
+.surah-tile.is-upcoming .surah-badge-ring {
+  --pct: 0;
+  opacity: 0.55;
+}
+
+.surah-name {
+  overflow: hidden;
+  max-width: 74px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.surah-frac {
+  color: #d8c294;
+  font-size: 8px;
+}
+
+.surah-collection-stats {
+  margin: 4px 0 0;
+  color: #d8c294;
+  font-size: 8px;
+  font-weight: 800;
+  text-align: center;
+}
+
+/* ---------- right side: the study parchment ---------- */
+.trainer-study-panel {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto auto auto auto auto;
+  gap: 8px;
+  min-height: 300px;
+  padding: 22px 16px 14px;
+  border-radius: 12px;
+  background:
+    radial-gradient(1px 1px at 12% 22%, rgba(0, 0, 0, 0.12) 50%, transparent 52%),
+    radial-gradient(1px 1px at 68% 64%, rgba(0, 0, 0, 0.1) 50%, transparent 52%),
+    radial-gradient(1px 1px at 40% 82%, rgba(0, 0, 0, 0.1) 50%, transparent 52%),
+    radial-gradient(1px 1px at 88% 30%, rgba(0, 0, 0, 0.1) 50%, transparent 52%),
+    linear-gradient(165deg, var(--codex-parchment-1), var(--codex-parchment-2));
+  box-shadow: inset 0 0 0 2px rgba(166, 116, 42, 0.4), inset 0 2px 10px rgba(0, 0, 0, 0.12);
+  color: var(--codex-ink);
+}
+
+/* A thin repeating ogee-arch arcade along the top of the parchment, the
+   colonnade of a study hall framing the verse — same device as the
+   standalone trainer's .ayah-read-wrap::before. */
+.trainer-study-panel::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(100%, 320px);
+  height: 14px;
+  background: repeat-x left top / 36px 14px
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 14' preserveAspectRatio='none'%3E%3Cpath d='M0 14 C1 6 12 3 18 1 C24 3 35 6 36 14' fill='none' stroke='%23a6742a' stroke-width='1.1'/%3E%3C/svg%3E");
+  opacity: 0.5;
+  pointer-events: none;
+  mask-image: linear-gradient(90deg, transparent, #000 22%, #000 78%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 22%, #000 78%, transparent);
+}
+
+.trainer-full-ayah {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  gap: 4px 10px;
+  min-height: 46px;
+  max-height: 46px;
+  margin-top: 6px;
+  overflow: hidden;
+  color: #6b4a26;
+  text-align: center;
+  font-family: "Amiri Quran", "Times New Roman", serif;
+  font-size: 19px;
+  line-height: 1.2;
+}
+
+.trainer-full-ayah .is-active-word {
+  display: inline-block;
+  padding: 0 6px 2px;
+  border-radius: 4px;
+  background: var(--codex-gold);
+  box-shadow: 0 0 0 2px var(--codex-gold-dim);
+  color: #2b190e;
+}
+
+.trainer-word-card {
+  display: grid;
+  place-items: center;
+  gap: 2px;
+  min-height: 60px;
+  padding: 8px 10px;
+  border: 3px solid var(--codex-gold);
+  border-radius: 8px;
+  background: linear-gradient(180deg, var(--codex-teal), var(--codex-teal-deep));
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+  color: var(--codex-cream);
+}
+
+.trainer-arabic {
+  font-family: "Amiri Quran", "Times New Roman", serif;
+  font-size: 26px;
+  line-height: 1.15;
+}
+
+.trainer-translit {
+  color: #d7f2f4;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.trainer-prompt {
+  min-height: 12px;
+  margin: 0;
+  overflow: hidden;
+  color: #6b4a26;
+  font-size: 9px;
+  font-weight: 900;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.trainer-options {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+  align-content: start;
+}
+
+.trainer-option {
+  min-height: 27px;
+  padding: 6px 10px;
+  border: 2px solid var(--codex-gold-dim);
+  border-radius: 6px;
+  background: linear-gradient(180deg, var(--codex-gold-bright), var(--codex-gold));
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.4),
+    0 3px 0 rgba(96, 53, 24, 0.22);
+  color: #2d1b10;
+  cursor: pointer;
+  font: 900 10px/1.15 ui-monospace, SFMono-Regular, Menlo, monospace;
+  text-align: left;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.trainer-option:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.4),
+    0 4px 0 rgba(96, 53, 24, 0.22);
+}
+
+.trainer-option.is-correct {
+  border-color: #3f7a1f;
+  background: linear-gradient(180deg, #a9e07c, var(--codex-green));
+  color: #16330a;
+}
+
+.trainer-option.is-wrong {
+  border-color: #8a2c1e;
+  background: linear-gradient(180deg, #ef8f7f, var(--codex-red));
+  color: #3a0f08;
+}
+
+.trainer-message {
+  margin: 0;
+  overflow: hidden;
+  color: #4a2a15;
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 1.3;
+  text-align: center;
+}
+
+.codex-bottom {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 10px 12px 12px;
+  padding: 10px 6px 8px;
+  border-radius: 0 0 10px 10px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.codex-bottom::before {
+  content: "";
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--codex-gold-dim) 25%, var(--codex-gold-dim) 75%, transparent);
+}
+
+.reward-icon {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  color: var(--codex-gold-bright);
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.reward-icon img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 4px 0 rgba(0, 0, 0, 0.3));
+}
+
+@media (max-width: 540px) {
+  .trainer-overlay {
+    padding: 6px;
+  }
+
+  .codex-board {
+    grid-template-columns: 1fr;
+  }
+
+  .surah-collection {
+    order: 2;
+  }
+
+  .surah-grid {
+    height: 160px;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   In-game Map Editor overlay (F2). Same wood/gold/teal language as the
+   HUD panels and the standalone editor.html, but reachable without
+   leaving the running game so props can be placed and then walked on
+   immediately to test.
+--------------------------------------------------------------------- */
+
+.editmode-panel {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  bottom: 16px;
+  width: min(300px, calc(100vw - 32px));
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(28, 19, 12, 0.94);
+  border: 3px solid #865221;
+  box-shadow: inset 0 0 0 2px var(--gold), 0 18px 44px rgba(0, 0, 0, 0.35);
+  color: var(--paper);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  overflow: hidden;
+  z-index: 20;
+}
+
+.editmode-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border-bottom: 2px solid #4a3018;
+  padding-bottom: 8px;
+}
+
+.editmode-header h2 {
+  margin: 0;
+  font-size: 13px;
+  color: #ffd879;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.editmode-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.editmode-actions button {
+  border: 2px solid #3b2111;
+  border-radius: 4px;
+  font: 900 10px/1 inherit;
+  padding: 6px 8px;
+  cursor: pointer;
+}
+
+.editmode-save {
+  background: linear-gradient(180deg, #fff1a8, #d79b36);
+  color: #2c1a11;
+}
+
+.editmode-save:active {
+  filter: brightness(0.92);
+}
+
+.editmode-close {
+  background: #3a2712;
+  color: #f4e6c8;
+}
+
+.editmode-status {
+  min-height: 14px;
+  font-size: 11px;
+  color: #9fe6c8;
+}
+
+.editmode-hint {
+  font-size: 10.5px;
+  line-height: 1.4;
+  color: #cbb489;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  padding: 6px 8px;
+}
+
+.editmode-palette {
+  flex: 1 1 45%;
+  overflow-y: auto;
+  border-top: 1px solid #4a3018;
+  padding-top: 6px;
+}
+
+.editmode-palette h3 {
+  font-size: 10px;
+  text-transform: uppercase;
+  color: #ffd879;
+  margin: 10px 0 4px;
+}
+
+.editmode-palette h3:first-child {
+  margin-top: 0;
+}
+
+.editmode-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  border: 2px solid #4a3018;
+  border-radius: 6px;
+  background: #2a1c11;
+  color: #f4e6c8;
+  padding: 5px 7px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 11px;
+  text-align: left;
+}
+
+.editmode-item img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.editmode-item.is-selected {
+  border-color: #f4bb3a;
+  background: #3a2712;
+}
+
+.editmode-placed {
+  flex: 1 1 35%;
+  overflow-y: auto;
+  border-top: 1px solid #4a3018;
+  padding-top: 6px;
+}
+
+.editmode-placed h3 {
+  font-size: 10px;
+  text-transform: uppercase;
+  color: #ffd879;
+  margin: 0 0 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.editmode-count {
+  background: #4a3018;
+  border-radius: 999px;
+  padding: 1px 7px;
+  font-size: 9px;
+  color: #ffe7a2;
+}
+
+.editmode-placed-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #4a3018;
+  border-radius: 5px;
+  padding: 4px 6px;
+  margin-bottom: 5px;
+  font-size: 9.5px;
+}
+
+.editmode-placed-row span {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.editmode-placed-row button {
+  border: 1px solid #7a2a1e;
+  background: #4a1f14;
+  color: #ffcaba;
+  border-radius: 4px;
+  font: 900 9px/1 inherit;
+  padding: 3px 6px;
+  cursor: pointer;
+  flex: none;
+}
+
+.editmode-placed-row .editmode-move-btn {
+  border-color: #7a5a1e;
+  background: #4a3714;
+  color: #ffe7ba;
+}
+
+.editmode-placed-row.is-moving {
+  border-color: #f4bb3a;
+  background: #3a2712;
+}
+
+.editmode-empty {
+  color: #a68a5f;
+  font-size: 10px;
+  margin: 0;
+}

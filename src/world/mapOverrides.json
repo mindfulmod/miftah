@@ -1,0 +1,84 @@
+{
+  "props": [
+    {
+      "id": "editor-buildings-dogHouse-1782879071367",
+      "assetKey": "buildings.dogHouse",
+      "x": 1104,
+      "y": 912,
+      "width": 72,
+      "height": 72,
+      "layer": "object",
+      "hint": "Dog House",
+      "dialogue": "",
+      "sortY": 984,
+      "collider": {
+        "x": 1116.96,
+        "y": 956.64,
+        "w": 46.08,
+        "h": 20.160000000000004
+      },
+      "fromOverride": true,
+      "alwaysDraw": true
+    },
+    {
+      "id": "editor-buildings-honeycombHub-1782879108934",
+      "assetKey": "buildings.honeycombHub",
+      "x": 1344,
+      "y": 816,
+      "width": 128,
+      "height": 104,
+      "layer": "object",
+      "hint": "Honeycomb Hub",
+      "dialogue": "",
+      "sortY": 920,
+      "collider": {
+        "x": 1367.04,
+        "y": 880.48,
+        "w": 81.92,
+        "h": 29.120000000000005
+      },
+      "fromOverride": true,
+      "alwaysDraw": true
+    },
+    {
+      "id": "editor-buildings-pavilion-1782879263184",
+      "assetKey": "buildings.pavilion",
+      "x": 1200,
+      "y": 1056,
+      "width": 112,
+      "height": 96,
+      "layer": "object",
+      "hint": "Pavilion",
+      "dialogue": "",
+      "sortY": 1152,
+      "collider": {
+        "x": 1220.16,
+        "y": 1115.52,
+        "w": 71.68,
+        "h": 26.880000000000003
+      },
+      "fromOverride": true,
+      "alwaysDraw": true
+    },
+    {
+      "id": "editor-buildings-pavilion-1782879272018",
+      "assetKey": "buildings.pavilion",
+      "x": 1344,
+      "y": 1104,
+      "width": 112,
+      "height": 96,
+      "layer": "object",
+      "hint": "Pavilion",
+      "dialogue": "",
+      "sortY": 1200,
+      "collider": {
+        "x": 1364.16,
+        "y": 1163.52,
+        "w": 71.68,
+        "h": 26.880000000000003
+      },
+      "fromOverride": true,
+      "alwaysDraw": true
+    }
+  ]
+}
