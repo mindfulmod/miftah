@@ -46,6 +46,7 @@
             </section>
           </div>
 
+          <p class="trainer-reward-note" aria-live="polite"></p>
           <footer class="codex-bottom" aria-label="Rewards">
             <div class="reward-icon">
               <img src="assets/generated/crops/seed_packet_icon.png" alt="" />
@@ -79,6 +80,7 @@
       this.promptEl = this.root.querySelector(".trainer-prompt");
       this.optionsEl = this.root.querySelector(".trainer-options");
       this.messageEl = this.root.querySelector(".trainer-message");
+      this.rewardNoteEl = this.root.querySelector(".trainer-reward-note");
 
       this.closeButton.addEventListener("click", () => this.close());
       this.surahToggleButton.addEventListener("click", () => this.toggleCollection());
@@ -148,7 +150,10 @@
       this.arabicEl.textContent = this.current.arabic;
       this.translitEl.textContent = this.current.translit || "";
       this.promptEl.textContent = this.current.prompt;
-      this.messageEl.textContent = this.message || this.current.message || this.eggText();
+      // Answer feedback stays on the study card; reward/egg progression
+      // messaging lives outside it, above the rewards footer.
+      this.messageEl.textContent = this.message || this.current.message || "";
+      this.rewardNoteEl.textContent = this.eggText();
       this.optionsEl.innerHTML = "";
 
       shuffle(this.current.options).forEach((option) => {
