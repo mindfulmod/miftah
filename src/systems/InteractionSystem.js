@@ -50,6 +50,14 @@
         game.trainer.open();
         return;
       }
+      if (this.current.propRef?.isGift && game.gifts) {
+        game.gifts.collect(this.current.propRef);
+        return;
+      }
+      if (this.current.id === "player-home" && game.album) {
+        game.album.open();
+        return;
+      }
       game.dialogue.open(this.current.dialogue || this.current.hint || "Hello.");
     }
 
@@ -65,7 +73,7 @@
       for (const npc of game.npcs) candidates.push({ type: "npc", ...screenTarget(npc), hint: npc.hint, dialogue: npc.dialogue });
       for (const animal of game.animals) candidates.push({ type: "animal", animal, ...screenTarget(animal), hint: animal.interactionHint(), dialogue: animal.hint });
       if (game.hatchery) candidates.push({ type: "hatchery", ...screenTarget(game.hatchery), hint: game.hatchery.hint(), dialogue: game.hatchery.dialogue() });
-      for (const prop of game.world.activeInteractables(game.progress)) candidates.push({ type: "prop", id: prop.id, ...screenTarget(prop), hint: prop.hint, dialogue: prop.dialogue });
+      for (const prop of game.world.activeInteractables(game.progress)) candidates.push({ type: "prop", id: prop.id, propRef: prop, ...screenTarget(prop), hint: prop.hint, dialogue: prop.dialogue });
 
       let best = null;
       let bestDistance = Infinity;

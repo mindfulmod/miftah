@@ -67,6 +67,8 @@
       this.hud = new ns.HUD();
       this.tooltip = new ns.Tooltip();
       this.trainer = new ns.TrainerOverlay(this);
+      this.album = new ns.AlbumOverlay(this);
+      this.gifts = new ns.GiftSystem(this);
       this.editMode = new ns.EditModeSystem(this);
       this.debug = new ns.DebugOverlay();
       if (new URLSearchParams(location.search).get("trainer") === "1") {
@@ -127,7 +129,9 @@
         else this.trainer.open();
       }
       if (this.input.consume("KeyC") && !this.trainer?.isOpen) this.debug.toggle();
-      if (!this.trainer?.isOpen && !this.cutaway) this.player.update(dt, this.input, this.collisionMap);
+      if (this.input.consume("KeyB") && !this.editMode.active && !this.trainer?.isOpen) this.album.toggle();
+      const uiOpen = this.trainer?.isOpen || this.album?.isOpen;
+      if (!uiOpen && !this.cutaway) this.player.update(dt, this.input, this.collisionMap);
       this.pet.update(dt, this.player);
       this.hatchery.update(dt);
       const night = this.time.isNight();
@@ -220,6 +224,7 @@
         if (event.type === "animalUnlocked") {
           this.sound.play("hatch");
           this.spawnAnimal(event.animal, { stage: 1, feedProgress: 0 });
+          this.gifts?.refresh(); // a newly opened isle can host today's gift
           messages.push(`${event.animal.name} hatched`);
           this.dialogue.open(`${event.animal.name} hatched and moved into the ${event.animal.habitat}.`, 3);
         }

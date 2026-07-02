@@ -113,6 +113,7 @@
 
       // Small world-space effects (feed hearts and the like).
       for (const effect of game.effects || []) this.drawEffect(effect);
+      if (game.gifts) game.gifts.draw(this);
 
       this.end();
 

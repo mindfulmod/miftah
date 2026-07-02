@@ -8,6 +8,7 @@
     nextEggAt: 1,
     activeEgg: null,
     unlockedAnimals: {},
+    gifts: {}, // giftId -> count, found around the island (Garden Album shelf)
     lastQuestionIndex: 0,
   };
 
@@ -21,7 +22,12 @@
     load() {
       try {
         const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
-        return { ...DEFAULT_STATE, ...(saved || {}), unlockedAnimals: saved?.unlockedAnimals || {} };
+        return {
+          ...DEFAULT_STATE,
+          ...(saved || {}),
+          unlockedAnimals: saved?.unlockedAnimals || {},
+          gifts: saved?.gifts || {},
+        };
       } catch {
         return JSON.parse(JSON.stringify(DEFAULT_STATE));
       }
@@ -80,8 +86,14 @@
     unlockAnimal(id) {
       const animal = id ? this.catalogById.get(id) : this.pickLockedAnimal();
       if (!animal || this.state.unlockedAnimals[animal.id]) return null;
-      this.state.unlockedAnimals[animal.id] = { stage: 1, feedProgress: 0 };
+      this.state.unlockedAnimals[animal.id] = { stage: 1, feedProgress: 0, hatchedAt: Date.now() };
       return animal;
+    }
+
+    addGift(giftId) {
+      this.state.gifts[giftId] = (this.state.gifts[giftId] || 0) + 1;
+      this.save();
+      return this.state.gifts[giftId];
     }
 
     zoneState(zone) {

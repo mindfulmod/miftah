@@ -62,13 +62,14 @@
         "E: Interact",
         "Space: Action",
         "T: Study Codex",
+        "B: Garden Album",
         "R: Reset",
         "F2: Map Editor",
         "C: Collision Debug",
       ];
       const width = 218;
       const x = game.screenWidth - width - 16;
-      panel(ctx, x, 16, width, 170, "Controls");
+      panel(ctx, x, 16, width, 188, "Controls");
       ctx.fillStyle = "#fff4cd";
       ctx.font = "700 11px monospace";
       controls.forEach((line, i) => ctx.fillText(line, x + 18, 46 + i * 17));
