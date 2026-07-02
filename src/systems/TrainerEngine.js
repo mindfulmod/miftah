@@ -1,8 +1,83 @@
+// In-game trainer engine — a faithful port of the standalone trainer's
+// learning logic (app.js) driving the Courtyard Codex overlay. It shares the
+// exact same quran-trainer:* localStorage keys as the standalone pages, so
+// progress made in either place is the same progress. Oasis rewards are
+// wired only through this engine (onAyahComplete), never from the
+// standalone pages.
 (function (ns) {
   const MANIFEST_FILE = "data/surahs.json";
-  const MISTAKE_RATE = 0.2;
+  const MISTAKE_RATE = 0.2; // up to 20% wrong attempts allowed per ayah
   const REVIEW_SPACING = [2, 4, 8, 16];
   const REVIEW_MIN_GAP = 2;
+  const SESSION_GOAL_AYAHS = 5; // matches app.js's bounded daily session
+
+  // ---------- shared storage keys (identical to app.js) ----------
+  const progressKeyFor = (n) => `quran-trainer:surah-${n}:progress`;
+  const statsKeyFor = (n) => `quran-trainer:stats:surah-${n}`;
+  const interleaveKeyFor = (n) => `quran-trainer:interleave:surah-${n}`;
+  const SESSION_KEY = "quran-trainer:session";
+  const STREAK_KEY = "quran-trainer:streak";
+  const RESCUE_KEY = "quran-trainer:rescued";
+
+  const todayStr = () => {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  };
+  const yesterdayStr = () => {
+    const d = new Date();
+    d.setDate(d.getDate() - 1);
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  };
+
+  function loadSession() {
+    try {
+      const s = JSON.parse(localStorage.getItem(SESSION_KEY) || "{}");
+      if (s.date === todayStr()) return { date: s.date, count: s.count || 0, panelShown: !!s.panelShown };
+    } catch {}
+    return { date: todayStr(), count: 0, panelShown: false };
+  }
+  function saveSession(s) {
+    try { localStorage.setItem(SESSION_KEY, JSON.stringify(s)); } catch {}
+  }
+  function loadStreak() {
+    try {
+      const s = JSON.parse(localStorage.getItem(STREAK_KEY) || "{}");
+      return { count: s.count || 0, lastDate: s.lastDate || null };
+    } catch {
+      return { count: 0, lastDate: null };
+    }
+  }
+  function bumpStreak() {
+    const s = loadStreak();
+    const today = todayStr();
+    if (s.lastDate === today) return s.count;
+    s.count = s.lastDate === yesterdayStr() ? s.count + 1 : 1;
+    s.lastDate = today;
+    try { localStorage.setItem(STREAK_KEY, JSON.stringify(s)); } catch {}
+    return s.count;
+  }
+  function loadRescued() {
+    try {
+      const s = JSON.parse(localStorage.getItem(RESCUE_KEY) || "{}");
+      if (s.date === todayStr()) return { date: s.date, count: s.count || 0 };
+    } catch {}
+    return { date: todayStr(), count: 0 };
+  }
+  function bumpRescued() {
+    const s = loadRescued();
+    s.count += 1;
+    try { localStorage.setItem(RESCUE_KEY, JSON.stringify(s)); } catch {}
+    return s.count;
+  }
+
+  // ---------- word/gloss helpers (identical to app.js) ----------
+  const answerFor = (w) => w.answer || w.english;
+  const displayGloss = (w) =>
+    w.display || (w.context ? `${answerFor(w)} — ${w.context}` : w.english || answerFor(w));
+  const literalGloss = (w) => w.english || answerFor(w);
+  const wordId = (w) => `${w.arabic}|||${answerFor(w)}`;
+  const optionCountFor = (exposures) => (exposures >= 3 ? 5 : exposures >= 1 ? 4 : 3);
+  const mistakeBudget = (wordCount) => Math.max(1, Math.ceil(MISTAKE_RATE * wordCount));
 
   const DIACRITICS = /[ً-ْٰٓ-ٟؐ-ؚۖ-ۭـ]/g;
   const skeleton = (s) => (s || "").normalize("NFC").replace(DIACRITICS, "");
@@ -92,10 +167,6 @@
 
   const hasBannedKey = (keys, bannedKeys) => [...keys].some((key) => bannedKeys.has(key));
   const rememberOption = (keys, bannedKeys) => keys.forEach((key) => bannedKeys.add(key));
-  const answerFor = (w) => w.answer || w.english;
-  const wordId = (w) => `${w.arabic}|||${answerFor(w)}`;
-  const optionCountFor = (exposures) => (exposures >= 3 ? 5 : exposures >= 1 ? 4 : 3);
-  const mistakeBudget = (wordCount) => Math.max(1, Math.ceil(MISTAKE_RATE * wordCount));
 
   async function fetchJson(path) {
     const res = await fetch(path, { cache: "no-store" });
@@ -112,21 +183,34 @@
     return a;
   }
 
+  function literalMeaning(ayah) {
+    return ayah.words
+      .map(literalGloss)
+      .join(" ")
+      .replace(/[()[\]]/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
   class TrainerEngine {
     constructor(onAyahComplete) {
       this.onAyahComplete = onAyahComplete || (() => "");
       this.manifest = null;
-      this.surah = null; // { number, name, englishName, englishTranslation, ayahCount, ayahs }
+      this.surah = null; // { number, name, englishName, englishTranslation, ayahs }
       this.uniqueWords = [];
       this.rootIndex = new Map();
-      this.currentAyahIndex = 0; // index into surah.ayahs
-      this.wordIndex = 0; // index into current ayah's words
+      this.currentAyahIndex = 0;
+      this.perfectSet = new Set(); // ayah numbers passed with zero slips (shared with app.js)
+      this.wordIndex = 0;
       this.wordOrder = [];
       this.stats = {};
       this.interleave = {};
       this.lastReviewIndex = -REVIEW_MIN_GAP;
-      this.attempt = null; // per-ayah attempt state
-      this.reviewWord = null; // set when presenting an interleaved review card
+      this.attempt = null;
+      this.reviewWord = null; // interleaved single review card
+      this.reveal = null; // { ayahNumber, translation, literal, perfect, surahComplete, nextNumber }
+      this.reviewMode = null; // { tally: {asked, right}, asked: Set, lastAnswer }
+      this.meaningShown = false; // translation peek during testing (forfeits Perfect)
       this.message = "";
       this.locked = false;
       this.loading = true;
@@ -145,16 +229,62 @@
       }
     }
 
+    // ---------- manifest / unlock rules (identical to app.js + picker.js) ----------
+
+    manifestEntry(number) {
+      return (this.manifest || []).find((s) => s.number === number) || null;
+    }
+
+    passedCount(number) {
+      return this.loadProgressFor(number).passed;
+    }
+
+    isComplete(entry) {
+      return this.passedCount(entry.number) >= entry.ayahCount;
+    }
+
+    // Sticky unlock: first surah, previous complete, or already-started.
+    isUnlocked(number) {
+      const list = this.manifest || [];
+      const idx = list.findIndex((s) => s.number === number);
+      if (idx < 0) return false;
+      if (idx === 0) return true;
+      if (this.passedCount(number) > 0) return true;
+      return this.isComplete(list[idx - 1]);
+    }
+
     pickStartingSurahNumber() {
       for (const entry of this.manifest) {
-        const progress = this.loadProgressFor(entry.number);
-        if (progress.passed < entry.ayahCount) return entry.number;
+        if (!this.isComplete(entry)) return entry.number;
       }
       return this.manifest.length ? this.manifest[this.manifest.length - 1].number : 1;
     }
 
-    manifestEntry(number) {
-      return this.manifest.find((s) => s.number === number) || null;
+    // Collection view: completed + current/available + only the FIRST locked
+    // surah (as a tease); everything past that stays hidden.
+    collectionEntries() {
+      const out = [];
+      let lockedShown = false;
+      for (const entry of this.manifest || []) {
+        const passed = this.passedCount(entry.number);
+        const complete = passed >= entry.ayahCount;
+        const unlocked = this.isUnlocked(entry.number);
+        if (complete) {
+          out.push({ entry, passed, status: "complete" });
+        } else if (unlocked) {
+          out.push({
+            entry,
+            passed,
+            status: this.surah && entry.number === this.surah.number ? "active" : "available",
+          });
+        } else if (!lockedShown) {
+          const idx = this.manifest.indexOf(entry);
+          out.push({ entry, passed: 0, status: "locked", unlockAfter: this.manifest[idx - 1] || null });
+          lockedShown = true;
+        }
+        // deeper locked surahs stay hidden until progression reveals them
+      }
+      return out;
     }
 
     async loadSurah(number) {
@@ -168,6 +298,7 @@
       this.surah = { ...data.surah, ayahs: data.ayahs };
 
       const glossInfo = new Map();
+      this.glossInfo = glossInfo; // gloss -> owning word, for wrong-answer contrast
       this.rootIndex = new Map();
       const rootSeen = new Map();
       for (const ayah of data.ayahs) {
@@ -190,11 +321,51 @@
       this.uniqueWords = [...glossInfo.values()];
 
       const progress = this.loadProgressFor(number);
-      this.currentAyahIndex = Math.min(progress.passed, this.surah.ayahs.length - 1);
+      this.currentAyahIndex = Math.min(progress.passed, this.surah.ayahs.length);
+      this.perfectSet = new Set(progress.perfect);
       this.stats = this.loadStatsFor(number);
       this.interleave = this.loadInterleaveFor(number);
       this.lastReviewIndex = -REVIEW_MIN_GAP;
-      this.startAyah();
+      this.reveal = null;
+      this.reviewMode = null;
+      this.reviewWord = null;
+      if (this.currentAyahIndex >= this.surah.ayahs.length) {
+        // Fully completed surah: land in endless review rather than re-testing
+        // the last ayah (progress stays untouched unless the player resets).
+        this.startReviewMode();
+      } else {
+        this.startAyah();
+      }
+    }
+
+    // Explicit surah switching from the collection UI. The overlay asks for
+    // confirmation first; switching discards only the unsaved solved words of
+    // the ayah in progress (progress saves whole ayahs), never passed ayahs.
+    async switchSurah(number) {
+      if (!this.isUnlocked(number)) return false;
+      this.loading = true;
+      try {
+        await this.loadSurah(number);
+        const name = this.surah.englishName || this.surah.name;
+        this.message = this.reviewMode
+          ? `Reviewing ${name} — its ayahs are all complete.`
+          : `Now studying ${name}.`;
+        return true;
+      } catch (err) {
+        this.error = err;
+        return false;
+      } finally {
+        this.loading = false;
+      }
+    }
+
+    // Restart a completed (or in-progress) surah from ayah 1. Word stats and
+    // the review schedule survive — same behavior as app.js's reset button.
+    async resetSurah(number) {
+      try {
+        localStorage.setItem(progressKeyFor(number), JSON.stringify({ passed: 0, perfect: [] }));
+      } catch {}
+      return this.switchSurah(number);
     }
 
     loadFallbackTrainer(error) {
@@ -217,6 +388,7 @@
         englishTranslation: "Offline sample",
         ayahs: questions.map((question, index) => ({
           number: index + 1,
+          translation: question.translation || "",
           displayWords: question.ayahWords || [question.arabic],
           words: [{
             arabic: question.arabic,
@@ -224,13 +396,16 @@
             answer: question.answer,
             translit: question.translit || "",
             root: question.root || "",
+            position: index + 1,
             displayIndex: question.activeWordIndex ?? 0,
           }],
         })),
       };
+      this.glossInfo = new Map(this.surah.ayahs.map((a) => [answerFor(a.words[0]), a.words[0]]));
       this.uniqueWords = this.surah.ayahs.map((ayah) => ayah.words[0]);
       this.rootIndex = new Map();
       this.currentAyahIndex = 0;
+      this.perfectSet = new Set();
       this.stats = {};
       this.interleave = {};
       this.lastReviewIndex = -REVIEW_MIN_GAP;
@@ -239,7 +414,6 @@
       console.warn("Using bundled trainer sample because full trainer data could not load.", error);
       this.message = "Offline sample loaded. Use the local dev server for the full trainer data.";
       this.startAyah();
-      if (!this.message) this.message = "Offline sample loaded. Use the local dev server for the full trainer data.";
       return true;
     }
 
@@ -257,10 +431,13 @@
         total: ayah.words.length,
         clean: true,
         resets: 0,
+        missedWords: new Set(), // wordIds slipped on, for rescue detection
       };
       this.wordOrder = shuffle(ayah.words.map((_, i) => i));
       this.wordIndex = 0;
       this.reviewWord = null;
+      this.reveal = null;
+      this.meaningShown = false;
       this.message = "";
     }
 
@@ -281,6 +458,15 @@
       if (!ayah || !this.attempt) return null;
       const idx = this.wordOrder[this.wordIndex];
       return ayah.words[idx];
+    }
+
+    // Peek at the ayah translation mid-test. Free, but like the standalone
+    // hint it forfeits the Perfect mark — certainty stays rewarded.
+    showMeaning() {
+      if (this.attempt && !this.meaningShown) {
+        this.meaningShown = true;
+        this.attempt.clean = false;
+      }
     }
 
     buildOptions(word) {
@@ -340,11 +526,16 @@
         this.stats[id] = {
           arabic: word.arabic,
           english: answerFor(word),
+          display: displayGloss(word),
           translit: word.translit || "",
           root: word.root || "",
           miss: 0,
           correct: 0,
         };
+      } else {
+        this.stats[id].english = answerFor(word);
+        this.stats[id].display = this.stats[id].display || displayGloss(word);
+        if (!this.stats[id].root && word.root) this.stats[id].root = word.root;
       }
       return this.stats[id];
     }
@@ -381,136 +572,305 @@
       this.saveInterleaveFor(this.surah.number);
     }
 
+    // ---------- endless per-surah review mode ----------
+    // Missed words first (hardest first), then weak words (shaky accuracy or
+    // barely seen), then random learned words — indefinitely.
+
+    startReviewMode() {
+      this.reviewMode = { tally: { asked: 0, right: 0 }, asked: new Set() };
+      this.reviewWord = null;
+      this.reveal = null;
+      this.attempt = null;
+      this.nextReviewQuestion();
+    }
+
+    async stopReviewMode() {
+      this.reviewMode = null;
+      if (this.surah && this.currentAyahIndex < this.surah.ayahs.length) {
+        this.startAyah();
+        return;
+      }
+      // Reviewing a fully-completed surah: leaving lands on the first surah
+      // that still has ayahs to study (loadSurah re-enters review if none do).
+      await this.switchSurah(this.pickStartingSurahNumber());
+    }
+
+    reviewPool() {
+      const entries = Object.entries(this.stats);
+      if (entries.length) return entries;
+      // Nothing attempted yet (e.g. reviewing a surah finished elsewhere with
+      // cleared stats) — seed from the words of passed ayahs.
+      const words = [];
+      for (const ayah of this.surah.ayahs.slice(0, this.passedCount(this.surah.number))) {
+        for (const w of ayah.words) words.push([wordId(w), w]);
+      }
+      return words;
+    }
+
+    nextReviewQuestion() {
+      const rm = this.reviewMode;
+      const pool = this.reviewPool();
+      if (!pool.length) {
+        this.reviewMode.current = null;
+        this.message = "Nothing to review here yet — pass a few ayahs first.";
+        return;
+      }
+      const unasked = pool.filter(([id]) => !rm.asked.has(id));
+      const candidates = unasked.length ? unasked : pool; // loop forever
+      if (!unasked.length) rm.asked.clear();
+
+      const missed = candidates
+        .filter(([, s]) => (s.miss || 0) > 0)
+        .sort((a, b) => (b[1].miss || 0) - (a[1].miss || 0));
+      const weak = candidates.filter(([, s]) => {
+        const miss = s.miss || 0;
+        const correct = s.correct || 0;
+        return miss + correct > 0 && (correct < 2 || correct / (miss + correct) < 0.75);
+      });
+
+      let pick;
+      if (missed.length) pick = missed[0];
+      else if (weak.length) pick = weak[Math.floor(Math.random() * weak.length)];
+      else pick = candidates[Math.floor(Math.random() * candidates.length)];
+
+      rm.asked.add(pick[0]);
+      rm.current = pick[1];
+    }
+
     // ---------- view model ----------
 
-    getView(game) {
+    sessionInfo() {
+      const session = loadSession();
+      return {
+        count: session.count,
+        goal: SESSION_GOAL_AYAHS,
+        streak: loadStreak().count,
+        rescued: loadRescued().count,
+      };
+    }
+
+    getView() {
       if (this.loading) return { mode: "loading" };
       if (this.error) return { mode: "error", message: "Could not load the trainer data." };
       if (this.locked || !this.surah) return { mode: "locked" };
 
+      const base = {
+        surahNumber: this.surah.number,
+        progressText: `${this.surah.number}. ${this.surah.englishName || this.surah.name} · ${Math.min(this.currentAyahIndex, this.surah.ayahs.length)}/${this.surah.ayahs.length} ayahs`,
+        session: this.sessionInfo(),
+        message: this.message,
+      };
+
+      if (this.reviewMode) {
+        const word = this.reviewMode.current;
+        if (!word) return { ...base, mode: "reviewEmpty" };
+        return {
+          ...base,
+          mode: "reviewMode",
+          arabic: word.arabic,
+          translit: word.translit || "",
+          prompt: "Endless review — what does this word mean?",
+          options: this.buildOptions(word),
+          answer: answerFor(word),
+          tally: { ...this.reviewMode.tally },
+        };
+      }
+
+      if (this.reveal) {
+        return {
+          ...base,
+          mode: "reveal",
+          ...this.reveal,
+        };
+      }
+
       const ayah = this.ayah;
+      if (!ayah) return { ...base, mode: "loading" };
       const word = this.activeWord();
-      const surahMeta = this.manifestEntry(this.surah.number);
-      const progressText = `${this.surah.number}. ${this.surah.englishName || this.surah.name} · ${this.currentAyahIndex}/${this.surah.ayahs.length} ayahs`;
+      if (!word) return { ...base, mode: "loading" };
 
-      if (!word) return { mode: "loading" };
-
-      const options = this.reviewWord ? this.buildOptions(this.reviewWord) : this.buildOptions(word);
+      const isInterleaved = !!this.reviewWord;
       return {
-        mode: this.reviewWord ? "review" : "word",
+        ...base,
+        mode: isInterleaved ? "review" : "word",
         surahRef: `${this.surah.number}:${ayah.number}`,
-        surahMeta,
-        progressText,
         ayahWords: ayah.displayWords || ayah.words.map((w) => w.arabic),
-        activeWordIndex: this.reviewWord ? -1 : (word.displayIndex ?? this.wordOrder[this.wordIndex]),
+        activeWordIndex: isInterleaved ? -1 : (word.displayIndex ?? this.wordOrder[this.wordIndex]),
         arabic: word.arabic,
         translit: word.translit || "",
-        prompt: this.reviewWord ? "Review: what does this word mean?" : "What does this word mean?",
-        options,
+        prompt: isInterleaved
+          ? "↻ Quick review — you missed this earlier"
+          : "What does this word mean?",
+        options: this.buildOptions(word),
         answer: answerFor(word),
         mistakes: this.attempt ? this.attempt.mistakes : 0,
         budget: this.attempt ? this.attempt.budget : 0,
-        message: this.message,
-        ayahCount: this.surah.ayahs.length,
+        solved: this.attempt ? this.attempt.solved.size : 0,
+        total: this.attempt ? this.attempt.total : 0,
+        meaningShown: this.meaningShown,
+        translation: this.meaningShown ? ayah.translation || "" : "",
       };
     }
 
-    // ---------- interaction ----------
+    // Leave the reveal panel: interleaved review, next ayah, or next surah.
+    async continueFromReveal(game) {
+      const reveal = this.reveal;
+      this.reveal = null;
+      if (!reveal) return;
 
-    async choose(value, game) {
-      if (this.locked || !this.surah) return { correct: false };
-
-      if (this.reviewWord) {
-        const correct = value === answerFor(this.reviewWord);
-        this.scheduleReview(this.reviewWord, correct);
-        if (correct) {
-          this.recordCorrect(this.reviewWord);
-          this.message = "Nice recall — that word is sticking.";
-        } else {
-          this.recordMiss(this.reviewWord);
-          this.message = `Close — that one means "${answerFor(this.reviewWord)}". It'll come back around.`;
-        }
-        this.reviewWord = null;
-        return { correct, advanced: true };
-      }
-
-      const ayah = this.ayah;
-      const word = this.activeWord();
-      const correct = value === answerFor(word);
-
-      if (!correct) {
-        this.attempt.mistakes += 1;
-        this.attempt.clean = false;
-        this.recordMiss(word);
-        if (this.attempt.mistakes > this.attempt.budget) {
-          this.resetAyah();
-          return { correct: false, reset: true };
-        }
-        const remaining = this.attempt.budget - this.attempt.mistakes;
-        this.message =
-          this.attempt.resets >= 1
-            ? `Not quite — this word comes from the root "${word.root || "?"}" and means "${answerFor(word)}". ${remaining} mistake${remaining === 1 ? "" : "s"} left before we restart the ayah.`
-            : `Not quite. ${remaining} mistake${remaining === 1 ? "" : "s"} left before we restart the ayah.`;
-        return { correct: false };
-      }
-
-      this.recordCorrect(word);
-      this.attempt.solved.add(this.wordOrder[this.wordIndex]);
-      this.wordIndex += 1;
-      this.message = "";
-
-      if (this.attempt.solved.size < this.attempt.total) {
-        return { correct: true };
-      }
-
-      // ayah complete
-      const perfect = this.attempt.clean;
-      const summary = this.onAyahComplete(game);
-      this.currentAyahIndex += 1;
-      this.saveProgressFor(this.surah.number);
-
-      const finishedAyah = ayah;
-      const atSurahEnd = this.currentAyahIndex >= this.surah.ayahs.length;
-      const review = atSurahEnd ? null : this.pickDueReview(finishedAyah);
-
-      if (atSurahEnd) {
-        const completionMessage = perfect
-          ? `★ Perfect surah pass! ${summary || ""}`.trim()
-          : `Surah complete! ${summary || ""}`.trim();
-        this.message = completionMessage;
-        const nextEntry = this.manifest.find((s) => s.number === this.surah.number + 1);
-        if (nextEntry) {
+      if (reveal.surahComplete) {
+        if (reveal.nextNumber) {
           this.loading = true;
           try {
-            await this.loadSurah(nextEntry.number);
-            this.message = `${completionMessage} Now beginning ${this.surah.englishName || this.surah.name}.`;
+            await this.loadSurah(reveal.nextNumber);
+            this.message = `Now beginning ${this.surah.englishName || this.surah.name}.`;
           } catch (err) {
             this.error = err;
           } finally {
             this.loading = false;
           }
         } else {
-          this.locked = true;
+          this.startReviewMode();
+          this.message = "Every available surah is complete — endless review keeps the words fresh.";
         }
-        return { correct: true, ayahComplete: true, surahComplete: true };
+        return;
       }
 
-      const nextMessage = perfect ? `★ Perfect ayah! ${summary || ""}`.trim() : (summary || "Correct. The oasis grows with your reading.");
+      const review = this.pickDueReview(reveal.finishedAyah);
       if (review) {
-        this.message = nextMessage;
         this.reviewWord = review;
+        this.message = "";
       } else {
         this.startAyah();
-        this.message = nextMessage;
       }
-      return { correct: true, ayahComplete: true };
     }
 
-    // ---------- storage ----------
+    // ---------- interaction ----------
+
+    choose(value, game) {
+      if (this.locked || !this.surah) return { correct: false };
+
+      // Endless review mode answer.
+      if (this.reviewMode) {
+        const word = this.reviewMode.current;
+        if (!word) return { correct: false };
+        const correct = value === answerFor(word);
+        this.reviewMode.tally.asked += 1;
+        if (correct) {
+          this.reviewMode.tally.right += 1;
+          this.recordCorrect(word);
+          this.message = "Recalled ✓";
+        } else {
+          this.recordMiss(word);
+          this.message = `Not yet — this word means “${word.display || answerFor(word)}”. It'll come back around.`;
+        }
+        this.nextReviewQuestion();
+        return { correct, advanced: true };
+      }
+
+      // Interleaved single review card (between ayahs).
+      if (this.reviewWord) {
+        const correct = value === answerFor(this.reviewWord);
+        this.scheduleReview(this.reviewWord, correct);
+        if (correct) {
+          this.recordCorrect(this.reviewWord);
+          this.message = "Recalled ✓ — it'll come back less often now.";
+        } else {
+          this.recordMiss(this.reviewWord);
+          this.message = `Not yet — this word means “${this.reviewWord.display || answerFor(this.reviewWord)}”. It'll return soon.`;
+        }
+        this.reviewWord = null;
+        this.startAyah();
+        return { correct, advanced: true };
+      }
+
+      const ayah = this.ayah;
+      const word = this.activeWord();
+      if (!word) return { correct: false };
+      const correct = value === answerFor(word);
+      const id = wordId(word);
+
+      if (!correct) {
+        this.attempt.mistakes += 1;
+        this.attempt.clean = false;
+        this.attempt.missedWords.add(id);
+        this.recordMiss(word);
+        if (this.attempt.mistakes > this.attempt.budget) {
+          this.resetAyah();
+          return { correct: false, reset: true };
+        }
+        const remaining = this.attempt.budget - this.attempt.mistakes;
+        // After a full-ayah reset, spell out the contrast (app.js parity).
+        if (this.attempt.resets >= 1) {
+          const owner = this.glossInfo?.get(value);
+          const belongsTo = owner ? ` — that's “${owner.arabic}”` : "";
+          this.message = `“${value}”${belongsTo}. This word means “${displayGloss(word)}”. ${remaining} slip${remaining === 1 ? "" : "s"} left.`;
+        } else {
+          this.message = `Not quite. ${remaining} mistake${remaining === 1 ? "" : "s"} left before this ayah resets.`;
+        }
+        return { correct: false };
+      }
+
+      this.recordCorrect(word);
+      const rescued = this.attempt.missedWords.delete(id);
+      if (rescued) bumpRescued();
+      this.attempt.solved.add(this.wordOrder[this.wordIndex]);
+      this.wordIndex += 1;
+      this.message = rescued ? "💪 Got it — a slip turned into a win." : "";
+
+      if (this.attempt.solved.size < this.attempt.total) {
+        return { correct: true, rescued };
+      }
+
+      // ---- ayah complete ----
+      const perfect = this.attempt.clean;
+      if (perfect) this.perfectSet.add(ayah.number);
+
+      // Oasis rewards fire only here — in-game completions.
+      const summary = this.onAyahComplete(game);
+
+      this.currentAyahIndex += 1;
+      this.saveProgressFor(this.surah.number);
+
+      // Shared daily session + streak (same keys the standalone pages read).
+      const session = loadSession();
+      session.count += 1;
+      const justHitGoal = session.count === SESSION_GOAL_AYAHS && !session.panelShown;
+      if (justHitGoal) {
+        session.panelShown = true;
+        bumpStreak();
+      }
+      saveSession(session);
+
+      const atSurahEnd = this.currentAyahIndex >= this.surah.ayahs.length;
+      const nextEntry = atSurahEnd
+        ? (this.manifest || []).find((s) => s.number === this.surah.number + 1)
+        : null;
+
+      this.reveal = {
+        ayahNumber: ayah.number,
+        surahRef: `${this.surah.number}:${ayah.number}`,
+        arabicLine: (ayah.displayWords || ayah.words.map((w) => w.arabic)).join(" "),
+        translation: ayah.translation || "",
+        literal: literalMeaning(ayah),
+        perfect,
+        summary: summary || "",
+        justHitGoal,
+        surahComplete: atSurahEnd,
+        surahName: this.surah.englishName || this.surah.name,
+        nextNumber: nextEntry ? nextEntry.number : null,
+        nextName: nextEntry ? nextEntry.englishName : "",
+        finishedAyah: ayah,
+      };
+      this.message = "";
+      return { correct: true, ayahComplete: true, surahComplete: atSurahEnd, rescued };
+    }
+
+    // ---------- storage (shared quran-trainer:* keys) ----------
 
     loadProgressFor(number) {
       try {
-        const raw = localStorage.getItem(`quran-trainer:surah-${number}:progress`);
+        const raw = localStorage.getItem(progressKeyFor(number));
         if (!raw) return { passed: 0, perfect: [] };
         const data = JSON.parse(raw);
         return {
@@ -525,15 +885,15 @@
     saveProgressFor(number) {
       try {
         localStorage.setItem(
-          `quran-trainer:surah-${number}:progress`,
-          JSON.stringify({ passed: this.currentAyahIndex, perfect: [] }),
+          progressKeyFor(number),
+          JSON.stringify({ passed: this.currentAyahIndex, perfect: [...this.perfectSet] }),
         );
       } catch {}
     }
 
     loadStatsFor(number) {
       try {
-        const raw = localStorage.getItem(`quran-trainer:stats:surah-${number}`);
+        const raw = localStorage.getItem(statsKeyFor(number));
         const data = raw ? JSON.parse(raw) : {};
         return data && typeof data === "object" ? data : {};
       } catch {
@@ -543,13 +903,13 @@
 
     saveStatsFor(number) {
       try {
-        localStorage.setItem(`quran-trainer:stats:surah-${number}`, JSON.stringify(this.stats));
+        localStorage.setItem(statsKeyFor(number), JSON.stringify(this.stats));
       } catch {}
     }
 
     loadInterleaveFor(number) {
       try {
-        const data = JSON.parse(localStorage.getItem(`quran-trainer:interleave:surah-${number}`) || "{}");
+        const data = JSON.parse(localStorage.getItem(interleaveKeyFor(number)) || "{}");
         return data && typeof data === "object" ? data : {};
       } catch {
         return {};
@@ -558,7 +918,7 @@
 
     saveInterleaveFor(number) {
       try {
-        localStorage.setItem(`quran-trainer:interleave:surah-${number}`, JSON.stringify(this.interleave));
+        localStorage.setItem(interleaveKeyFor(number), JSON.stringify(this.interleave));
       } catch {}
     }
   }
