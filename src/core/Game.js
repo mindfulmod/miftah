@@ -55,6 +55,7 @@
       this.camera.y = this.player.centerY - this.screenHeight / 2;
       this.camera.clamp();
       this.progress = new ns.ProgressionSystem(ns.ANIMAL_CATALOG);
+      this.time = new ns.TimeSystem();
       this.hatchery = new ns.Hatchery(this, 30 * ns.TILE_SIZE, 27 * ns.TILE_SIZE);
       this.animals = [];
       this.spawnSavedAnimals();
@@ -133,6 +134,7 @@
       this.farming.update(dt);
       this.dialogue.update(dt);
       this.interaction.update(this);
+      this.time.update(dt, this);
 
       // Cutaway: study rewards briefly play out in the island — the camera
       // glides to the hatchery or a newly opened isle, then hands back.

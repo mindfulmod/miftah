@@ -113,7 +113,9 @@
 
       this.end();
 
-      // Drawn over the world but under the HUD/dialogue UI.
+      // Ambient time-of-day layer (tint, glows, fireflies, birds) sits over
+      // the world; locked-isle overlays and the HUD stay readable above it.
+      if (game.time) game.time.draw(this, game);
       this.drawLockedIslandOverlays(game, game.camera);
 
       game.hud.draw(ctx, game);
