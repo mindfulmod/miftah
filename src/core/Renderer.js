@@ -111,6 +111,9 @@
 
       for (const prop of drawableProps.filter((p) => p.layer === "foreground")) this.drawProp(prop);
 
+      // Small world-space effects (feed hearts and the like).
+      for (const effect of game.effects || []) this.drawEffect(effect);
+
       this.end();
 
       // Ambient time-of-day layer (tint, glows, fireflies, birds) sits over
@@ -126,6 +129,19 @@
     drawProp(prop) {
       if (!prop.assetKey) return; // collider-only blocker (e.g. hatchery base)
       this.drawImage(prop.assetKey, prop.x, prop.y, prop.width, prop.height);
+    }
+
+    drawEffect(effect) {
+      const ctx = this.ctx;
+      const progress = effect.t / effect.life;
+      ctx.save();
+      if (effect.type === "heart") {
+        ctx.globalAlpha = 1 - progress;
+        ctx.font = "700 16px sans-serif";
+        ctx.fillStyle = "#ff6d8a";
+        ctx.fillText("♥", effect.x + Math.sin(effect.t * 5) * 4, effect.y - progress * 34);
+      }
+      ctx.restore();
     }
   }
 

@@ -56,6 +56,7 @@
       this.camera.clamp();
       this.progress = new ns.ProgressionSystem(ns.ANIMAL_CATALOG);
       this.time = new ns.TimeSystem();
+      this.effects = [];
       this.hatchery = new ns.Hatchery(this, 30 * ns.TILE_SIZE, 27 * ns.TILE_SIZE);
       this.animals = [];
       this.spawnSavedAnimals();
@@ -129,8 +130,11 @@
       if (!this.trainer?.isOpen && !this.cutaway) this.player.update(dt, this.input, this.collisionMap);
       this.pet.update(dt, this.player);
       this.hatchery.update(dt);
-      for (const animal of this.animals) animal.update(dt, this.player);
-      for (const npc of this.npcs) npc.update(dt);
+      const night = this.time.isNight();
+      for (const animal of this.animals) animal.update(dt, this.player, night);
+      for (const npc of this.npcs) npc.update(dt, this);
+      for (const effect of this.effects) effect.t += dt;
+      this.effects = this.effects.filter((effect) => effect.t < effect.life);
       this.farming.update(dt);
       this.dialogue.update(dt);
       this.interaction.update(this);
@@ -153,6 +157,10 @@
 
     playCutaway(x, y, duration = 2.8, onDone = null) {
       this.cutaway = { target: { x, y, width: 0, height: 0 }, timeLeft: duration, onDone };
+    }
+
+    spawnEffect(type, x, y) {
+      this.effects.push({ type, x, y, t: 0, life: 1.15 });
     }
 
     spawnSavedAnimals() {

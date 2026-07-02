@@ -3,6 +3,27 @@
   const MAP_WIDTH = 58;
   const MAP_HEIGHT = 56;
 
+  function fenceCollider(vertical, width, height) {
+    return vertical
+      ? [width * 0.39, height * 0.08, width * 0.22, height * 0.84]
+      : [width * 0.08, height * 0.48, width * 0.84, height * 0.22];
+  }
+
+  function colliderFromOffset(prop, offset) {
+    return { x: prop.x + offset[0], y: prop.y + offset[1], w: offset[2], h: offset[3] };
+  }
+
+  function normalizeProp(prop) {
+    const next = { ...prop };
+    if (!next.collider && next.assetKey === "props.fenceH") {
+      next.collider = colliderFromOffset(next, fenceCollider(false, next.width, next.height));
+    }
+    if (!next.collider && next.assetKey === "props.fenceV") {
+      next.collider = colliderFromOffset(next, fenceCollider(true, next.width, next.height));
+    }
+    return next;
+  }
+
   function createMapData() {
     const tiles = Array.from({ length: MAP_HEIGHT }, () =>
       Array.from({ length: MAP_WIDTH }, () => "water")
@@ -203,7 +224,7 @@
     // trapping anyone or stealing the interaction prompt).
     function fence(id, vertical, tx, ty, revealZone) {
       prop(id, vertical ? "props.fenceV" : "props.fenceH", tx, ty, 48, 48, {
-        collider: false,
+        collider: fenceCollider(vertical, 48, 48),
         revealZone: revealZone || "",
         layer: "object",
       });
@@ -442,21 +463,39 @@
           x: 28 * TILE_SIZE,
           y: 47 * TILE_SIZE,
           hint: "Welcome to the island",
-          dialogue: "Welcome. Follow the path north to the fountain plaza, then study at the arch. Six isles wait beyond the bridges.",
+          waypoints: [[28, 47], [28, 43], [27, 45]],
+          nightDialogue: "The lanterns are lit and the water has gone quiet. A calm night for study.",
+          dialogues: [
+            { min: 0, text: "Welcome. Follow the path north to the fountain plaza, then study at the arch. Six isles wait beyond the bridges." },
+            { min: 1, text: "I heard something hatch by the plaza! The bridges open one by one as the animals arrive." },
+            { min: 5, text: "The island hums these days — hooves, wings, little footsteps. Your study did all of this." },
+            { min: 16, text: "Every keeper is home. I remember when this was one quiet dock and an empty arch." },
+          ],
         },
         {
           assetIndex: 1,
           x: 26 * TILE_SIZE,
           y: 13 * TILE_SIZE,
           hint: "A scholar",
-          dialogue: "Each isle stays bridged-shut until one of its animals hatches. The signs by each bridge hint at who will live there.",
+          waypoints: [[26, 13], [29, 13], [28, 15]],
+          nightDialogue: "I read best at night, under the arch light. The words settle like the fireflies do.",
+          dialogues: [
+            { min: 0, text: "Each isle stays bridged-shut until one of its animals hatches. The signs by each bridge hint at who will live there." },
+            { min: 3, text: "Three keepers already! Notice how the words that hatch them keep coming back to you — that's no accident." },
+            { min: 8, text: "Half the isles wake, and you've barely noticed how much Arabic you can read now. That's how it should feel." },
+          ],
         },
         {
           assetIndex: 2,
-          x: 36 * TILE_SIZE,
+          x: 35 * TILE_SIZE,
           y: 18 * TILE_SIZE,
           hint: "A farm keeper",
-          dialogue: "Water your crops with patience. Seeds come from study, harvest feeds the animals.",
+          waypoints: [[35, 18], [35, 22], [33, 23]],
+          nightDialogue: "Crops rest at night, and so should you — after one more ayah, maybe.",
+          dialogues: [
+            { min: 0, text: "Water your crops with patience. Seeds come from study, harvest feeds the animals." },
+            { min: 4, text: "More mouths to feed now — keep the harvest coming and they'll grow up strong." },
+          ],
         },
       ],
     };
@@ -469,11 +508,11 @@
   function applyMapOverrides(mapData, overrides) {
     if (!overrides) return mapData;
     if (overrides.replaceProps && Array.isArray(overrides.props)) {
-      mapData.props = overrides.props.map((prop) => ({ ...prop }));
+      mapData.props = overrides.props.map(normalizeProp);
       return mapData;
     }
     if (Array.isArray(overrides.props) && overrides.props.length) {
-      const tagged = overrides.props.map((prop) => ({ ...prop, fromOverride: true }));
+      const tagged = overrides.props.map((prop) => ({ ...normalizeProp(prop), fromOverride: true }));
       mapData.props = mapData.props.concat(tagged);
     }
     return mapData;

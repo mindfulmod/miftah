@@ -7,6 +7,8 @@
     fish: [72, 72],
   };
 
+  const PASS_THROUGH_TYPES = new Set(["bee", "dove", "hoopoe", "ababeel", "crow", "fish"]);
+
   class Animal extends ns.Entity {
     constructor(config) {
       const size = config.assetStageKey ? [64, 64] : ANIMAL_SIZE[config.type] || [64, 64];
@@ -23,11 +25,27 @@
       this.bounds = config.bounds;
       this.hint = config.hint || "";
       this.speed = config.type === "bee" || config.type === "dove" ? 60 : 42;
+      this.blocksPlayer = config.blocksPlayer ?? !PASS_THROUGH_TYPES.has(config.type);
       this.wait = Math.random() * 1.5;
       this.target = { x: this.x, y: this.y };
       // Predicate (px, py) => bool deciding whether this animal may stand on a
       // world pixel. Keeps land animals off the water and the fish in it.
       this.canStand = config.canStand || null;
+    }
+
+    collisionRect(x = this.x, y = this.y) {
+      if (!this.blocksPlayer) return null;
+      return {
+        x: x + this.width * 0.25,
+        y: y + this.height * 0.62,
+        w: this.width * 0.5,
+        h: this.height * 0.24,
+      };
+    }
+
+    wouldOverlapPlayer(x, y, player) {
+      if (!player || !this.blocksPlayer) return false;
+      return ns.rectsIntersect(this.collisionRect(x, y), player.collisionRect());
     }
 
     // Sample the animal's "feet" for a candidate top-left position.
@@ -46,7 +64,15 @@
       return { x: this.x, y: this.y }; // give up this cycle; stay put
     }
 
-    update(dt) {
+    update(dt, player = null, night = false) {
+      // Land animals bed down for the night (the fish keeps drifting).
+      this.sleeping = night && this.type !== "fish";
+      if (this.sleeping) {
+        this.moving = false;
+        this.target = { x: this.x, y: this.y };
+        this.animationTime += dt;
+        return;
+      }
       this.wait -= dt;
       if (this.wait <= 0 && Math.hypot(this.target.x - this.x, this.target.y - this.y) < 6) {
         this.wait = 1 + Math.random() * 2.8;
@@ -61,7 +87,7 @@
         const step = Math.min(this.speed * dt, dist);
         const nx = this.x + (dx / dist) * step;
         const ny = this.y + (dy / dist) * step;
-        if (this.standableAt(nx, ny)) {
+        if (this.standableAt(nx, ny) && !this.wouldOverlapPlayer(nx, ny, player)) {
           this.x = nx;
           this.y = ny;
         } else {
@@ -122,6 +148,19 @@
 
     draw(renderer) {
       renderer.drawImage(this.getAssetKey(), this.x, this.y, this.width, this.height);
+      if (this.sleeping) {
+        // A little drift of Zs above a sleeping animal.
+        const ctx = renderer.ctx;
+        ctx.save();
+        ctx.font = "700 11px monospace";
+        for (let i = 0; i < 2; i += 1) {
+          const t = (this.animationTime * 0.5 + i * 0.5) % 1;
+          ctx.globalAlpha = (1 - t) * 0.7;
+          ctx.fillStyle = "#eaf2ff";
+          ctx.fillText("z", this.x + this.width - 6 + i * 7, this.y + 2 - t * 14 - i * 5);
+        }
+        ctx.restore();
+      }
     }
   }
 
