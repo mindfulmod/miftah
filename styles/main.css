@@ -798,6 +798,119 @@ body {
   filter: brightness(1.08);
 }
 
+/* ---------- codex juice: confetti, pops, mastery, focus, payouts ---------- */
+
+.codex-confetti-layer {
+  position: fixed;
+  z-index: 60;
+  pointer-events: none;
+}
+
+.codex-confetti {
+  position: absolute;
+  width: 7px;
+  height: 10px;
+  border-radius: 2px;
+  animation: codex-confetti-burst 0.95s cubic-bezier(0.16, 0.84, 0.44, 1) forwards;
+}
+
+@keyframes codex-confetti-burst {
+  from {
+    opacity: 1;
+    transform: translate(0, 0) rotate(0deg);
+  }
+  to {
+    opacity: 0;
+    transform: translate(var(--dx), var(--dy)) rotate(var(--rot));
+  }
+}
+
+.trainer-option.is-pop {
+  animation: codex-pop 0.32s ease;
+}
+
+.trainer-full-ayah .is-pop {
+  animation: codex-pop 0.32s ease;
+}
+
+@keyframes codex-pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.14); }
+  100% { transform: scale(1); }
+}
+
+/* Solved words in the ayah line settle into a quiet green; gold-mastery
+   words carry a subtle shimmer — a collection visibly filling in. */
+.trainer-full-ayah .is-solved-word {
+  color: #3f6e1f;
+}
+
+.trainer-full-ayah .is-gold-word {
+  background: linear-gradient(100deg, #8a6a1f 20%, #e8c568 40%, #fff3c4 50%, #e8c568 60%, #8a6a1f 80%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: codex-shimmer 2.6s linear infinite;
+}
+
+@keyframes codex-shimmer {
+  from { background-position: 120% 0; }
+  to { background-position: -80% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trainer-full-ayah .is-gold-word {
+    animation: none;
+  }
+}
+
+.trainer-mastery {
+  position: absolute;
+  right: 8px;
+  top: 6px;
+  padding: 1px 7px;
+  border-radius: 9px;
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+}
+
+.trainer-word-card {
+  position: relative;
+}
+
+.trainer-mastery.is-tier-0 { background: rgba(255, 255, 255, 0.16); color: #d7f2f4; }
+.trainer-mastery.is-tier-1 { background: #a2653c; color: #ffe4c8; }
+.trainer-mastery.is-tier-2 { background: #b9c4cc; color: #37444d; }
+.trainer-mastery.is-tier-3 { background: linear-gradient(180deg, #ffedb0, #eab654); color: #6b4308; }
+
+.trainer-focus-start {
+  margin-left: 8px;
+  padding: 3px 10px;
+  border: 1px solid var(--codex-gold-dim);
+  border-radius: 10px;
+  background: linear-gradient(180deg, var(--codex-gold-bright), var(--codex-gold));
+  color: #2d1b10;
+  cursor: pointer;
+  font: 800 9px ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.trainer-focus-start:hover {
+  filter: brightness(1.06);
+}
+
+.codex-flying-seed {
+  position: fixed;
+  z-index: 61;
+  width: 26px;
+  height: 26px;
+  image-rendering: pixelated;
+  pointer-events: none;
+  opacity: 1;
+  transition: transform 0.9s cubic-bezier(0.5, -0.2, 0.6, 1), opacity 0.9s ease;
+}
+
 /* Reward/progression note — lives outside the study parchment, above the
    rewards footer, because it is meta messaging rather than test content. */
 .trainer-reward-note {

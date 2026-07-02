@@ -210,6 +210,10 @@
       this.reviewWord = null; // interleaved single review card
       this.reveal = null; // { ayahNumber, translation, literal, perfect, surahComplete, nextNumber }
       this.reviewMode = null; // { tally: {asked, right}, asked: Set, lastAnswer }
+      this.focus = null; // { endsAt, count } — timed burst inside review mode
+      this.focusResult = null; // { count, best, isRecord } after a round ends
+      this.sessionDone = null; // daily-goal end screen state
+      this.pendingContinuation = null; // reveal continuation deferred by sessionDone
       this.meaningShown = false; // translation peek during testing (forfeits Perfect)
       this.message = "";
       this.locked = false;
@@ -574,6 +578,53 @@
       this.saveInterleaveFor(this.surah.number);
     }
 
+    // ---------- word mastery (bronze / silver / gold) ----------
+    // Derived from the shared per-word stats: repeated honest recall promotes
+    // a word through tiers; shaky accuracy holds it back. Gold words shimmer
+    // in the ayah line — a collection to complete, not just a quiz to pass.
+
+    masteryTier(id) {
+      const s = this.stats[id];
+      if (!s) return 0;
+      const total = (s.miss || 0) + (s.correct || 0);
+      const acc = total ? (s.correct || 0) / total : 0;
+      if (s.correct >= 6 && acc >= 0.85) return 3; // gold
+      if (s.correct >= 4 && acc >= 0.7) return 2; // silver
+      if (s.correct >= 2) return 1; // bronze
+      return 0; // new
+    }
+
+    // ---------- focus rounds (timed review bursts) ----------
+
+    startFocusRound(durationMs = 90000) {
+      if (!this.reviewMode) return;
+      this.focusResult = null;
+      this.focus = { endsAt: Date.now() + durationMs, count: 0 };
+      this.reviewMode.tally = { asked: 0, right: 0 };
+      this.message = "";
+    }
+
+    focusSecondsLeft() {
+      return this.focus ? Math.max(0, Math.ceil((this.focus.endsAt - Date.now()) / 1000)) : 0;
+    }
+
+    endFocusRound() {
+      if (!this.focus) return;
+      const key = `quran-trainer:focus:surah-${this.surah.number}`;
+      let best = 0;
+      try { best = JSON.parse(localStorage.getItem(key) || "{}").best || 0; } catch {}
+      const isRecord = this.focus.count > best;
+      if (isRecord) {
+        try { localStorage.setItem(key, JSON.stringify({ best: this.focus.count })); } catch {}
+      }
+      this.focusResult = { count: this.focus.count, best: Math.max(best, this.focus.count), isRecord };
+      this.focus = null;
+    }
+
+    dismissFocusResult() {
+      this.focusResult = null;
+    }
+
     // ---------- endless per-surah review mode ----------
     // Missed words first (hardest first), then weak words (shaky accuracy or
     // barely seen), then random learned words — indefinitely.
@@ -583,11 +634,15 @@
       this.reviewWord = null;
       this.reveal = null;
       this.attempt = null;
+      this.focus = null;
+      this.focusResult = null;
       this.nextReviewQuestion();
     }
 
     async stopReviewMode() {
       this.reviewMode = null;
+      this.focus = null;
+      this.focusResult = null;
       if (this.surah && this.currentAyahIndex < this.surah.ayahs.length) {
         this.startAyah();
         return;
@@ -664,6 +719,9 @@
       };
 
       if (this.reviewMode) {
+        if (this.focusResult) {
+          return { ...base, mode: "focusDone", focusResult: { ...this.focusResult } };
+        }
         const word = this.reviewMode.current;
         if (!word) return { ...base, mode: "reviewEmpty" };
         return {
@@ -671,11 +729,17 @@
           mode: "reviewMode",
           arabic: word.arabic,
           translit: word.translit || "",
-          prompt: "Endless review — what does this word mean?",
+          prompt: this.focus ? "⏳ Focus round — as many recalls as you can!" : "Endless review — what does this word mean?",
           options: this.buildOptions(word),
           answer: answerFor(word),
           tally: { ...this.reviewMode.tally },
+          mastery: this.masteryTier(`${word.arabic}|||${answerFor(word)}`),
+          focus: this.focus ? { secondsLeft: this.focusSecondsLeft(), count: this.focus.count } : null,
         };
+      }
+
+      if (this.sessionDone) {
+        return { ...base, mode: "sessionDone", sessionDone: { ...this.sessionDone } };
       }
 
       if (this.reveal) {
@@ -697,6 +761,9 @@
         mode: isInterleaved ? "review" : "word",
         surahRef: `${this.surah.number}:${ayah.number}`,
         ayahWords: ayah.displayWords || ayah.words.map((w) => w.arabic),
+        ayahMastery: ayah.words.map((w) => this.masteryTier(wordId(w))),
+        solvedIndexes: this.attempt ? [...this.attempt.solved] : [],
+        mastery: this.masteryTier(wordId(word)),
         activeWordIndex: isInterleaved ? -1 : (word.displayIndex ?? this.wordOrder[this.wordIndex]),
         arabic: word.arabic,
         translit: word.translit || "",
@@ -714,11 +781,22 @@
       };
     }
 
-    // Leave the reveal panel: interleaved review, next ayah, or next surah.
+    // Leave the reveal panel: session-done screen first when the daily goal
+    // just landed, then interleaved review, next ayah, or next surah.
     async continueFromReveal(game) {
       const reveal = this.reveal;
       this.reveal = null;
       if (!reveal) return;
+
+      if (reveal.justHitGoal && !this.sessionDone) {
+        this.sessionDone = {
+          goal: SESSION_GOAL_AYAHS,
+          streak: loadStreak().count,
+          rescued: loadRescued().count,
+        };
+        this.pendingContinuation = { ...reveal, justHitGoal: false };
+        return;
+      }
 
       if (reveal.surahComplete) {
         if (reveal.nextNumber) {
@@ -747,6 +825,17 @@
       }
     }
 
+    // Dismiss the daily-goal end screen and resume where the reveal left off.
+    async dismissSessionDone(game) {
+      this.sessionDone = null;
+      const continuation = this.pendingContinuation;
+      this.pendingContinuation = null;
+      if (continuation) {
+        this.reveal = continuation;
+        await this.continueFromReveal(game);
+      }
+    }
+
     // ---------- interaction ----------
 
     choose(value, game) {
@@ -756,15 +845,22 @@
       if (this.reviewMode) {
         const word = this.reviewMode.current;
         if (!word) return { correct: false };
+        if (this.focus && Date.now() >= this.focus.endsAt) {
+          this.endFocusRound();
+          return { correct: false, advanced: true };
+        }
         const correct = value === answerFor(word);
         this.reviewMode.tally.asked += 1;
         if (correct) {
           this.reviewMode.tally.right += 1;
+          if (this.focus) this.focus.count += 1;
           this.recordCorrect(word);
-          this.message = "Recalled ✓";
+          this.message = this.focus ? "" : "Recalled ✓";
         } else {
           this.recordMiss(word);
-          this.message = `Not yet — this word means “${word.display || answerFor(word)}”. It'll come back around.`;
+          this.message = this.focus
+            ? `“${word.display || answerFor(word)}” — keep going!`
+            : `Not yet — this word means “${word.display || answerFor(word)}”. It'll come back around.`;
         }
         this.nextReviewQuestion();
         return { correct, advanced: true };

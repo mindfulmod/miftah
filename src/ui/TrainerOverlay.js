@@ -135,6 +135,7 @@
         this.engine = new ns.TrainerEngine((game) => {
           const events = game.progress.completeStudyStep();
           game.farming.advanceCropsByStudy();
+          this.queueCutawayFor(events);
           return game.handleProgressEvents(events);
         });
         this.engine.ready.then(() => {
@@ -147,6 +148,43 @@
     close() {
       this.isOpen = false;
       this.root.hidden = true;
+      this.clearFocusTimer();
+    }
+
+    // ---------- island cutaways ----------
+    // Big study rewards briefly step out of the Codex: the camera glides to
+    // where the reward landed (egg in the hatchery, a bridge swinging open),
+    // then the Codex returns — the island visibly grows because you studied.
+
+    queueCutawayFor(events) {
+      const game = this.game;
+      for (const event of events) {
+        if (event.type === "animalUnlocked") {
+          const isle = (game.world.islands || []).find((i) => i.zones.includes(event.animal.zone));
+          const target = isle
+            ? { x: isle.bounds.x + isle.bounds.w / 2, y: isle.bounds.y + isle.bounds.h / 2 }
+            : { x: game.hatchery.x, y: game.hatchery.y };
+          this.pendingCutaway = { ...target, duration: 3.4 };
+          return; // a hatch outranks the egg-arrival moment
+        }
+        if (event.type === "eggAwarded") {
+          this.pendingCutaway = { x: game.hatchery.x + 60, y: game.hatchery.y + 40, duration: 2.6 };
+        }
+      }
+    }
+
+    playPendingCutaway(afterwards) {
+      const cut = this.pendingCutaway;
+      this.pendingCutaway = null;
+      if (!cut) {
+        afterwards();
+        return;
+      }
+      this.close();
+      this.game.playCutaway(cut.x, cut.y, cut.duration, () => {
+        this.open();
+        afterwards();
+      });
     }
 
     // ---------- main render ----------
@@ -166,6 +204,7 @@
         : "";
 
       // Reset transient sections; each mode fills what it needs.
+      this.clearFocusTimer();
       this.optionsEl.innerHTML = "";
       this.revealPanelEl.hidden = true;
       this.reviewBarEl.hidden = true;
@@ -174,6 +213,8 @@
       this.wordCardEl.hidden = false;
       this.fullAyahEl.innerHTML = "";
       this.meterEl.textContent = "";
+      this.masteryEl?.remove();
+      this.masteryEl = null;
 
       if (view.mode === "loading") {
         this.setStudyText("", "", "");
@@ -201,10 +242,19 @@
         this.renderReveal(view);
         return;
       }
+      if (view.mode === "sessionDone") {
+        this.renderSessionDone(view);
+        return;
+      }
+      if (view.mode === "focusDone") {
+        this.renderFocusDone(view);
+        return;
+      }
 
       // word / interleaved review / endless review-mode share the test layout
       this.setStudyText(view.arabic, view.translit || "", view.prompt || "");
       this.messageEl.textContent = this.message || view.message || "";
+      this.renderMasteryBadge(view.mastery);
 
       if (view.mode === "word") {
         this.renderAyahLine(view);
@@ -216,7 +266,7 @@
         }
       } else if (view.mode === "reviewMode") {
         this.reviewBarEl.hidden = false;
-        this.reviewTallyEl.textContent = `Endless review · ${view.tally.right}/${view.tally.asked} recalled`;
+        this.renderReviewBar(view);
       }
 
       for (const option of view.options) {
@@ -238,12 +288,220 @@
 
     renderAyahLine(view) {
       this.fullAyahEl.innerHTML = "";
+      const solved = new Set(view.solvedIndexes || []);
       (view.ayahWords || []).forEach((word, index) => {
         const span = document.createElement("span");
         span.textContent = word;
-        if (index === view.activeWordIndex) span.className = "is-active-word";
+        if (index === view.activeWordIndex) span.classList.add("is-active-word");
+        else if (solved.has(index)) span.classList.add("is-solved-word");
+        if ((view.ayahMastery || [])[index] === 3) span.classList.add("is-gold-word");
         this.fullAyahEl.appendChild(span);
       });
+    }
+
+    // Small mastery medal on the word card — the word's long-term rank
+    // (new → bronze → silver → gold), earned from its whole stats history.
+    renderMasteryBadge(tier) {
+      if (tier === undefined) return;
+      const names = ["new word", "bronze", "silver", "gold"];
+      const badge = document.createElement("span");
+      badge.className = `trainer-mastery is-tier-${tier}`;
+      badge.title = `Word mastery: ${names[tier]}`;
+      badge.textContent = tier === 0 ? "✧ new" : tier === 1 ? "★ bronze" : tier === 2 ? "★ silver" : "★ gold";
+      this.wordCardEl.appendChild(badge);
+      this.masteryEl = badge;
+    }
+
+    renderReviewBar(view) {
+      this.reviewTallyEl.innerHTML = "";
+      const tally = document.createElement("span");
+      if (view.focus) {
+        tally.textContent = `⏳ ${view.focus.secondsLeft}s · ${view.focus.count} recalled`;
+        this.startFocusTimer();
+      } else {
+        tally.textContent = `Endless review · ${view.tally.right}/${view.tally.asked} recalled`;
+        const focusBtn = document.createElement("button");
+        focusBtn.type = "button";
+        focusBtn.className = "trainer-focus-start";
+        focusBtn.textContent = "⏳ Focus round";
+        focusBtn.title = "90 seconds — how many words can you recall?";
+        focusBtn.addEventListener("click", () => {
+          this.engine.startFocusRound();
+          this.message = "";
+          this.render();
+        });
+        this.reviewTallyEl.appendChild(focusBtn);
+      }
+      this.reviewTallyEl.prepend(tally);
+    }
+
+    startFocusTimer() {
+      this.clearFocusTimer();
+      this.focusTimer = setInterval(() => {
+        const engine = this.engine;
+        if (!this.isOpen || !engine?.focus) {
+          this.clearFocusTimer();
+          return;
+        }
+        const left = engine.focusSecondsLeft();
+        const tallySpan = this.reviewTallyEl.querySelector("span");
+        if (tallySpan) tallySpan.textContent = `⏳ ${left}s · ${engine.focus.count} recalled`;
+        if (left <= 0) {
+          this.clearFocusTimer();
+          engine.endFocusRound();
+          this.render();
+        }
+      }, 250);
+    }
+
+    clearFocusTimer() {
+      if (this.focusTimer) {
+        clearInterval(this.focusTimer);
+        this.focusTimer = null;
+      }
+    }
+
+    renderFocusDone(view) {
+      const r = view.focusResult;
+      this.setStudyText("", "", "");
+      this.wordCardEl.hidden = true;
+      this.revealPanelEl.hidden = false;
+      this.revealPanelEl.innerHTML = "";
+
+      const badge = document.createElement("p");
+      badge.className = "trainer-reveal-badge" + (r.isRecord ? " is-perfect" : "");
+      badge.textContent = r.isRecord ? "🏆 New personal best!" : "⏳ Focus round over";
+      const line = document.createElement("p");
+      line.className = "trainer-reveal-literal";
+      line.textContent = `${r.count} word${r.count === 1 ? "" : "s"} recalled in 90 seconds · best ${r.best}`;
+      this.revealPanelEl.append(badge, line);
+      if (r.isRecord) this.celebrate(true);
+
+      const again = document.createElement("button");
+      again.type = "button";
+      again.className = "trainer-option trainer-continue";
+      again.textContent = "Go again ⏳";
+      again.addEventListener("click", () => {
+        this.engine.dismissFocusResult();
+        this.engine.startFocusRound();
+        this.render();
+      });
+      const back = document.createElement("button");
+      back.type = "button";
+      back.className = "trainer-option trainer-continue";
+      back.textContent = "Back to review";
+      back.addEventListener("click", () => {
+        this.engine.dismissFocusResult();
+        this.render();
+      });
+      this.revealPanelEl.append(again, back);
+    }
+
+    // Daily-goal end screen: the bounded-ritual stopping point, Codex-styled.
+    renderSessionDone(view) {
+      const s = view.sessionDone;
+      this.setStudyText("", "", "");
+      this.wordCardEl.hidden = true;
+      this.revealPanelEl.hidden = false;
+      this.revealPanelEl.innerHTML = "";
+
+      const badge = document.createElement("p");
+      badge.className = "trainer-reveal-badge is-perfect";
+      badge.textContent = "🌙 Session complete";
+      const title = document.createElement("p");
+      title.className = "trainer-reveal-literal";
+      title.textContent = `You finished your ${s.goal} ayahs for today. Resting now beats rushing — let it settle.`;
+      const streak = document.createElement("p");
+      streak.className = "trainer-reveal-summary";
+      streak.textContent = s.streak > 1
+        ? `🔥 ${s.streak}-day streak — keep it alive tomorrow.`
+        : "🔥 Day 1 — come back tomorrow to start a streak.";
+      this.revealPanelEl.append(badge, title, streak);
+      if (s.rescued > 0) {
+        const rescued = document.createElement("p");
+        rescued.className = "trainer-reveal-summary";
+        rescued.textContent = `💪 ${s.rescued} word${s.rescued === 1 ? "" : "s"} rescued today — slips you turned into wins.`;
+        this.revealPanelEl.appendChild(rescued);
+      }
+      this.celebrate(true);
+
+      const more = document.createElement("button");
+      more.type = "button";
+      more.className = "trainer-option trainer-continue";
+      more.textContent = "Keep going ›";
+      more.addEventListener("click", async () => {
+        await this.engine.dismissSessionDone(this.game);
+        this.render();
+      });
+      const leave = document.createElement("button");
+      leave.type = "button";
+      leave.className = "trainer-option trainer-continue";
+      leave.textContent = "Return to the island";
+      leave.addEventListener("click", async () => {
+        await this.engine.dismissSessionDone(this.game);
+        this.close();
+      });
+      this.revealPanelEl.append(more, leave);
+    }
+
+    // ---------- juice ----------
+
+    prefersReducedMotion() {
+      return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    }
+
+    // Dependency-free confetti burst over the study panel (gold-heavy when
+    // the moment is a Perfect/record one) — ported from the standalone app.
+    celebrate(golden) {
+      if (this.prefersReducedMotion()) return;
+      const anchor = this.revealPanelEl.hidden ? this.wordCardEl : this.revealPanelEl;
+      const rect = anchor.getBoundingClientRect();
+      const layer = document.createElement("div");
+      layer.className = "codex-confetti-layer";
+      layer.style.left = rect.left + rect.width / 2 + "px";
+      layer.style.top = rect.top + 36 + "px";
+      const colors = golden
+        ? ["#eab654", "#ffedb0", "#d8b25a", "#46b187", "#ffffff"]
+        : ["#46b187", "#eab654", "#7fc9a6"];
+      const count = golden ? 28 : 16;
+      for (let i = 0; i < count; i += 1) {
+        const p = document.createElement("i");
+        p.className = "codex-confetti";
+        const angle = (Math.PI * 2 * i) / count + Math.random() * 0.6;
+        const dist = 60 + Math.random() * (golden ? 110 : 70);
+        p.style.setProperty("--dx", Math.cos(angle) * dist + "px");
+        p.style.setProperty("--dy", Math.sin(angle) * dist - 30 + "px");
+        p.style.setProperty("--rot", Math.random() * 720 - 360 + "deg");
+        p.style.background = colors[i % colors.length];
+        p.style.animationDelay = Math.random() * 60 + "ms";
+        layer.appendChild(p);
+      }
+      document.body.appendChild(layer);
+      setTimeout(() => layer.remove(), 1200);
+    }
+
+    // A couple of seed icons arc from the reveal down to the reward strip —
+    // the payout is seen leaving the study desk and landing in the pouch.
+    flySeeds() {
+      if (this.prefersReducedMotion()) return;
+      const from = this.revealPanelEl.getBoundingClientRect();
+      const to = this.metricSeedsEl.getBoundingClientRect();
+      for (let i = 0; i < 3; i += 1) {
+        const img = document.createElement("img");
+        img.className = "codex-flying-seed";
+        img.src = "assets/generated/crops/seed_packet_icon.png";
+        img.style.left = from.left + from.width / 2 - 12 + i * 10 + "px";
+        img.style.top = from.top + 30 + "px";
+        document.body.appendChild(img);
+        const dx = to.left + to.width / 2 - (from.left + from.width / 2);
+        const dy = to.top - from.top - 30;
+        requestAnimationFrame(() => {
+          img.style.transitionDelay = `${i * 90}ms`;
+          img.style.transform = `translate(${dx}px, ${dy}px) scale(0.5)`;
+          img.style.opacity = "0.15";
+        });
+        setTimeout(() => img.remove(), 1100 + i * 90);
+      }
     }
 
     // Post-ayah reveal: full Arabic, literal word-by-word line, and the
@@ -302,12 +560,17 @@
       cont.textContent = view.surahComplete
         ? (view.nextNumber ? `Begin ${view.nextName} →` : "Continue →")
         : "Continue →";
-      cont.addEventListener("click", async () => {
-        await this.engine.continueFromReveal(this.game);
-        this.message = "";
-        this.render();
+      cont.addEventListener("click", () => {
+        this.playPendingCutaway(async () => {
+          await this.engine.continueFromReveal(this.game);
+          this.message = "";
+          this.render();
+        });
       });
       this.revealPanelEl.appendChild(cont);
+
+      this.celebrate(view.perfect || view.surahComplete);
+      this.flySeeds();
     }
 
     // ---------- surah collection ----------
@@ -518,11 +781,16 @@
       }
 
       button.classList.add(result.correct ? "is-correct" : "is-wrong");
+      if (result.correct) {
+        button.classList.add("is-pop");
+        const active = this.fullAyahEl.querySelector(".is-active-word");
+        if (active) active.classList.add("is-pop");
+      }
       this.message = this.engine.message;
       // Brief beat so the button state lands before the next card.
       setTimeout(() => {
         if (this.isOpen) this.render();
-      }, result.correct ? 260 : 700);
+      }, result.correct ? 300 : 700);
     }
   }
 

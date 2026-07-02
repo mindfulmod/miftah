@@ -42,7 +42,11 @@
       this.world = new ns.WorldMap(mapData);
       this.camera = new ns.Camera(this.world.pixelWidth, this.world.pixelHeight);
       this.camera.resize(this.screenWidth, this.screenHeight);
-      this.collisionMap = new ns.CollisionMap(this.world, () => this.progress);
+      this.collisionMap = new ns.CollisionMap(
+        this.world,
+        () => this.progress,
+        () => this.dynamicColliders(),
+      );
 
       this.player = new ns.Player(this.world.spawn.x, this.world.spawn.y);
       this.pet = new ns.Pet(this.player.x - 58, this.player.y + 8);
@@ -110,21 +114,44 @@
         else this.trainer.open();
       }
       if (this.input.consume("KeyC") && !this.trainer?.isOpen) this.debug.toggle();
-      if (!this.trainer?.isOpen) this.player.update(dt, this.input, this.collisionMap);
+      if (!this.trainer?.isOpen && !this.cutaway) this.player.update(dt, this.input, this.collisionMap);
       this.pet.update(dt, this.player);
       this.hatchery.update(dt);
-      for (const animal of this.animals) animal.update(dt);
+      for (const animal of this.animals) animal.update(dt, this.player);
       for (const npc of this.npcs) npc.update(dt);
       this.farming.update(dt);
       this.dialogue.update(dt);
       this.interaction.update(this);
-      this.camera.follow(this.player, dt);
+
+      // Cutaway: study rewards briefly play out in the island — the camera
+      // glides to the hatchery or a newly opened isle, then hands back.
+      if (this.cutaway) {
+        this.cutaway.timeLeft -= dt;
+        this.camera.follow(this.cutaway.target, dt);
+        if (this.cutaway.timeLeft <= 0) {
+          const done = this.cutaway.onDone;
+          this.cutaway = null;
+          if (done) done();
+        }
+      } else {
+        this.camera.follow(this.player, dt);
+      }
+    }
+
+    playCutaway(x, y, duration = 2.8, onDone = null) {
+      this.cutaway = { target: { x, y, width: 0, height: 0 }, timeLeft: duration, onDone };
     }
 
     spawnSavedAnimals() {
       for (const entry of this.progress.unlockedAnimalEntries()) {
         this.spawnAnimal(entry.animal, entry.progress);
       }
+    }
+
+    dynamicColliders() {
+      return this.animals
+        .map((animal) => animal.collisionRect?.())
+        .filter(Boolean);
     }
 
     spawnAnimal(animal, progress = { stage: 1, feedProgress: 0 }) {
