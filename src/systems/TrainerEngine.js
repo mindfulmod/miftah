@@ -433,7 +433,9 @@
         resets: 0,
         missedWords: new Set(), // wordIds slipped on, for rescue detection
       };
-      this.wordOrder = shuffle(ayah.words.map((_, i) => i));
+      // Words are tested in reading order (right-to-left through the ayah),
+      // matching the standalone trainer's natural flow.
+      this.wordOrder = ayah.words.map((_, i) => i);
       this.wordIndex = 0;
       this.reviewWord = null;
       this.reveal = null;
@@ -447,7 +449,7 @@
       this.attempt.mistakes = 0;
       this.attempt.clean = false;
       this.attempt.solved.clear();
-      this.wordOrder = shuffle(ayah.words.map((_, i) => i));
+      this.wordOrder = ayah.words.map((_, i) => i);
       this.wordIndex = 0;
       this.message = "Let's run this ayah again — no penalty. I'll explain each slip as you go, so it sticks.";
     }
