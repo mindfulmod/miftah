@@ -184,6 +184,8 @@
       this.root.hidden = true;
       this.clearFocusTimer();
       this.closeReaderPopover();
+      // Study may have minted new gold words — let the island's garden grow.
+      this.game.wordGarden?.refresh();
     }
 
     setTab(tab) {

@@ -43,6 +43,7 @@
         const result = this.current.animal.feed();
         game.spawnEffect("heart", this.current.animal.centerX - 6, this.current.animal.y + 6);
         game.sound.play(result.grown ? "hatch" : "seed");
+        if (result.grown) game.wordGarden?.refresh(); // isle may have fully bloomed
         game.dialogue.open(result.text, 2.2);
         return;
       }

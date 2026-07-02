@@ -93,6 +93,7 @@
 
       const drawableProps = game.world.activeProps(game.progress);
       for (const prop of drawableProps.filter((p) => p.layer === "ground")) this.drawProp(prop);
+      if (game.wordGarden) game.wordGarden.draw(this); // gold-word flowers, ground level
       for (const crop of game.farming.crops) crop.draw(this);
 
       const actors = [

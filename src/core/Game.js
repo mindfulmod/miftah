@@ -69,6 +69,7 @@
       this.trainer = new ns.TrainerOverlay(this);
       this.album = new ns.AlbumOverlay(this);
       this.gifts = new ns.GiftSystem(this);
+      this.wordGarden = new ns.WordGardenSystem(this);
       this.editMode = new ns.EditModeSystem(this);
       this.debug = new ns.DebugOverlay();
       if (new URLSearchParams(location.search).get("trainer") === "1") {
