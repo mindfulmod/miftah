@@ -578,6 +578,32 @@
       this.saveInterleaveFor(this.surah.number);
     }
 
+    // ---------- reader (browsable completed ayahs) ----------
+    // View-ready data for the Read tab: every passed ayah of the loaded
+    // surah with per-word gloss/mastery and root families for the popover.
+
+    readerAyahs() {
+      if (!this.surah) return [];
+      const passed = Math.min(this.passedCount(this.surah.number), this.surah.ayahs.length);
+      return this.surah.ayahs.slice(0, passed).map((ayah) => ({
+        number: ayah.number,
+        ref: `${this.surah.number}:${ayah.number}`,
+        translation: ayah.translation || "",
+        literal: literalMeaning(ayah),
+        perfect: this.perfectSet.has(ayah.number),
+        words: ayah.words.map((w) => ({
+          arabic: w.arabic,
+          translit: w.translit || "",
+          gloss: displayGloss(w),
+          root: w.root || "",
+          mastery: this.masteryTier(wordId(w)),
+          family: w.root
+            ? (this.rootIndex.get(w.root) || []).filter((m) => m.arabic !== w.arabic)
+            : [],
+        })),
+      }));
+    }
+
     // ---------- word mastery (bronze / silver / gold) ----------
     // Derived from the shared per-word stats: repeated honest recall promotes
     // a word through tiers; shaky accuracy holds it back. Gold words shimmer

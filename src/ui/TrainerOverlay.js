@@ -2,6 +2,9 @@
 // top of the game. All learning logic lives in TrainerEngine (a port of the
 // standalone app.js) on the shared quran-trainer:* storage; this class only
 // renders view models and forwards choices.
+//
+// Two tabs: Study (the test desk — reading zone + compact play zone) and
+// Read (a browsable mushaf of every completed ayah with word popovers).
 (function (ns) {
   class TrainerOverlay {
     constructor(game) {
@@ -9,7 +12,8 @@
       this.isOpen = false;
       this.current = null;
       this.message = "";
-      this.pendingAction = null; // { type: "switch"|"reset", number, name } awaiting confirm
+      this.activeTab = "study";
+      this.pendingAction = null; // collection action awaiting confirm
       this.collectionCollapsed = loadCollectionPreference();
       this.root = document.createElement("section");
       this.root.className = "trainer-overlay";
@@ -29,6 +33,12 @@
             <p class="trainer-session"></p>
           </div>
 
+          <nav class="codex-tabs" role="tablist" aria-label="Codex sections">
+            <button class="codex-tab is-active" type="button" role="tab" data-tab="study" aria-selected="true">✒ Study</button>
+            <button class="codex-tab" type="button" role="tab" data-tab="read" aria-selected="false">📜 Read</button>
+            <button class="codex-sound" type="button" aria-label="Toggle sound"></button>
+          </nav>
+
           <div class="codex-board">
             <aside id="surah-collection" class="surah-collection" aria-label="Surah collection">
               <div class="surah-collection-head">
@@ -42,23 +52,30 @@
 
             <section class="trainer-study-panel" aria-label="Study question">
               <div class="trainer-full-ayah" dir="rtl"></div>
-              <div class="trainer-word-card">
-                <div class="trainer-arabic" dir="rtl"></div>
-                <div class="trainer-translit"></div>
+              <div class="codex-playzone">
+                <div class="trainer-word-card">
+                  <div class="trainer-arabic" dir="rtl"></div>
+                  <div class="trainer-translit"></div>
+                </div>
+                <div class="trainer-test-meta">
+                  <p class="trainer-prompt"></p>
+                  <span class="trainer-meter"></span>
+                  <button class="trainer-meaning-toggle" type="button" hidden>؟ meaning</button>
+                </div>
+                <p class="trainer-meaning" hidden></p>
+                <div class="trainer-options"></div>
+                <p class="trainer-message" aria-live="polite"></p>
+                <div class="trainer-review-bar" hidden>
+                  <span class="trainer-review-tally"></span>
+                  <button class="trainer-review-exit" type="button">Leave review</button>
+                </div>
               </div>
-              <div class="trainer-test-meta">
-                <p class="trainer-prompt"></p>
-                <span class="trainer-meter"></span>
-                <button class="trainer-meaning-toggle" type="button" hidden>؟ meaning</button>
-              </div>
-              <p class="trainer-meaning" hidden></p>
-              <div class="trainer-options"></div>
               <div class="trainer-reveal-panel" hidden></div>
-              <p class="trainer-message" aria-live="polite"></p>
-              <div class="trainer-review-bar" hidden>
-                <span class="trainer-review-tally"></span>
-                <button class="trainer-review-exit" type="button">Leave review</button>
-              </div>
+            </section>
+
+            <section class="trainer-reader-panel" aria-label="Completed ayahs" hidden>
+              <div class="reader-head"></div>
+              <div class="reader-scroll"></div>
             </section>
           </div>
 
@@ -86,13 +103,20 @@
       this.surahToggleButton = this.root.querySelector(".surah-toggle");
       this.progressEl = this.root.querySelector(".trainer-progress");
       this.sessionEl = this.root.querySelector(".trainer-session");
+      this.tabButtons = [...this.root.querySelectorAll(".codex-tab")];
+      this.soundButton = this.root.querySelector(".codex-sound");
       this.metricSeedsEl = this.root.querySelector(".metric-seeds");
       this.metricFeedEl = this.root.querySelector(".metric-feed");
       this.metricEggEl = this.root.querySelector(".metric-egg");
       this.collectionStatsEl = this.root.querySelector(".surah-collection-stats");
       this.surahGridEl = this.root.querySelector(".surah-grid");
       this.actionPanelEl = this.root.querySelector(".surah-action-panel");
+      this.studyPanelEl = this.root.querySelector(".trainer-study-panel");
+      this.readerPanelEl = this.root.querySelector(".trainer-reader-panel");
+      this.readerHeadEl = this.root.querySelector(".reader-head");
+      this.readerScrollEl = this.root.querySelector(".reader-scroll");
       this.fullAyahEl = this.root.querySelector(".trainer-full-ayah");
+      this.playzoneEl = this.root.querySelector(".codex-playzone");
       this.wordCardEl = this.root.querySelector(".trainer-word-card");
       this.arabicEl = this.root.querySelector(".trainer-arabic");
       this.translitEl = this.root.querySelector(".trainer-translit");
@@ -110,8 +134,17 @@
 
       this.closeButton.addEventListener("click", () => this.close());
       this.surahToggleButton.addEventListener("click", () => this.toggleCollection());
+      for (const tab of this.tabButtons) {
+        tab.addEventListener("click", () => this.setTab(tab.dataset.tab));
+      }
+      this.soundButton.addEventListener("click", () => {
+        const on = this.game.sound.toggle();
+        this.syncSoundButton();
+        if (on) this.game.sound.play("click");
+      });
       this.meaningToggleEl.addEventListener("click", () => {
         this.engine.showMeaning();
+        this.game.sound.play("page");
         this.render();
       });
       this.reviewExitEl.addEventListener("click", async () => {
@@ -125,6 +158,7 @@
         if (this.isOpen && event.code === "Escape") this.close();
       });
       this.syncCollectionToggle();
+      this.syncSoundButton();
     }
 
     open() {
@@ -149,6 +183,26 @@
       this.isOpen = false;
       this.root.hidden = true;
       this.clearFocusTimer();
+      this.closeReaderPopover();
+    }
+
+    setTab(tab) {
+      if (tab === this.activeTab) return;
+      this.activeTab = tab;
+      for (const button of this.tabButtons) {
+        const active = button.dataset.tab === tab;
+        button.classList.toggle("is-active", active);
+        button.setAttribute("aria-selected", String(active));
+      }
+      this.game.sound.play("page");
+      this.closeReaderPopover();
+      this.render();
+    }
+
+    syncSoundButton() {
+      const on = this.game.sound.enabled;
+      this.soundButton.textContent = on ? "🔊" : "🔇";
+      this.soundButton.title = on ? "Sound on" : "Sound off";
     }
 
     // ---------- island cutaways ----------
@@ -203,15 +257,25 @@
           (view.session.rescued > 0 ? ` · 💪 ${view.session.rescued} rescued` : "")
         : "";
 
+      const reading = this.activeTab === "read";
+      this.studyPanelEl.hidden = reading;
+      this.readerPanelEl.hidden = !reading;
+      if (reading) {
+        this.renderReader();
+        return;
+      }
+
       // Reset transient sections; each mode fills what it needs.
       this.clearFocusTimer();
       this.optionsEl.innerHTML = "";
       this.revealPanelEl.hidden = true;
+      this.playzoneEl.hidden = false;
       this.reviewBarEl.hidden = true;
       this.meaningToggleEl.hidden = true;
       this.meaningEl.hidden = true;
       this.wordCardEl.hidden = false;
       this.fullAyahEl.innerHTML = "";
+      this.fullAyahEl.hidden = false;
       this.meterEl.textContent = "";
       this.masteryEl?.remove();
       this.masteryEl = null;
@@ -251,7 +315,7 @@
         return;
       }
 
-      // word / interleaved review / endless review-mode share the test layout
+      // word / interleaved review / endless review-mode share the play zone
       this.setStudyText(view.arabic, view.translit || "", view.prompt || "");
       this.messageEl.textContent = this.message || view.message || "";
       this.renderMasteryBadge(view.mastery);
@@ -264,9 +328,12 @@
           this.meaningEl.hidden = false;
           this.meaningEl.textContent = `“${view.translation}” — shown early, so this ayah won't count as Perfect.`;
         }
-      } else if (view.mode === "reviewMode") {
-        this.reviewBarEl.hidden = false;
-        this.renderReviewBar(view);
+      } else {
+        this.fullAyahEl.hidden = true;
+        if (view.mode === "reviewMode") {
+          this.reviewBarEl.hidden = false;
+          this.renderReviewBar(view);
+        }
       }
 
       for (const option of view.options) {
@@ -328,6 +395,7 @@
         focusBtn.addEventListener("click", () => {
           this.engine.startFocusRound();
           this.message = "";
+          this.game.sound.play("click");
           this.render();
         });
         this.reviewTallyEl.appendChild(focusBtn);
@@ -363,8 +431,8 @@
 
     renderFocusDone(view) {
       const r = view.focusResult;
-      this.setStudyText("", "", "");
-      this.wordCardEl.hidden = true;
+      this.playzoneEl.hidden = true;
+      this.fullAyahEl.hidden = true;
       this.revealPanelEl.hidden = false;
       this.revealPanelEl.innerHTML = "";
 
@@ -375,7 +443,10 @@
       line.className = "trainer-reveal-literal";
       line.textContent = `${r.count} word${r.count === 1 ? "" : "s"} recalled in 90 seconds · best ${r.best}`;
       this.revealPanelEl.append(badge, line);
-      if (r.isRecord) this.celebrate(true);
+      if (r.isRecord) {
+        this.celebrate(true);
+        this.game.sound.play("record");
+      }
 
       const again = document.createElement("button");
       again.type = "button";
@@ -400,8 +471,8 @@
     // Daily-goal end screen: the bounded-ritual stopping point, Codex-styled.
     renderSessionDone(view) {
       const s = view.sessionDone;
-      this.setStudyText("", "", "");
-      this.wordCardEl.hidden = true;
+      this.playzoneEl.hidden = true;
+      this.fullAyahEl.hidden = true;
       this.revealPanelEl.hidden = false;
       this.revealPanelEl.innerHTML = "";
 
@@ -424,6 +495,7 @@
         this.revealPanelEl.appendChild(rescued);
       }
       this.celebrate(true);
+      this.game.sound.play("perfect");
 
       const more = document.createElement("button");
       more.type = "button";
@@ -444,73 +516,12 @@
       this.revealPanelEl.append(more, leave);
     }
 
-    // ---------- juice ----------
-
-    prefersReducedMotion() {
-      return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    }
-
-    // Dependency-free confetti burst over the study panel (gold-heavy when
-    // the moment is a Perfect/record one) — ported from the standalone app.
-    celebrate(golden) {
-      if (this.prefersReducedMotion()) return;
-      const anchor = this.revealPanelEl.hidden ? this.wordCardEl : this.revealPanelEl;
-      const rect = anchor.getBoundingClientRect();
-      const layer = document.createElement("div");
-      layer.className = "codex-confetti-layer";
-      layer.style.left = rect.left + rect.width / 2 + "px";
-      layer.style.top = rect.top + 36 + "px";
-      const colors = golden
-        ? ["#eab654", "#ffedb0", "#d8b25a", "#46b187", "#ffffff"]
-        : ["#46b187", "#eab654", "#7fc9a6"];
-      const count = golden ? 28 : 16;
-      for (let i = 0; i < count; i += 1) {
-        const p = document.createElement("i");
-        p.className = "codex-confetti";
-        const angle = (Math.PI * 2 * i) / count + Math.random() * 0.6;
-        const dist = 60 + Math.random() * (golden ? 110 : 70);
-        p.style.setProperty("--dx", Math.cos(angle) * dist + "px");
-        p.style.setProperty("--dy", Math.sin(angle) * dist - 30 + "px");
-        p.style.setProperty("--rot", Math.random() * 720 - 360 + "deg");
-        p.style.background = colors[i % colors.length];
-        p.style.animationDelay = Math.random() * 60 + "ms";
-        layer.appendChild(p);
-      }
-      document.body.appendChild(layer);
-      setTimeout(() => layer.remove(), 1200);
-    }
-
-    // A couple of seed icons arc from the reveal down to the reward strip —
-    // the payout is seen leaving the study desk and landing in the pouch.
-    flySeeds() {
-      if (this.prefersReducedMotion()) return;
-      const from = this.revealPanelEl.getBoundingClientRect();
-      const to = this.metricSeedsEl.getBoundingClientRect();
-      for (let i = 0; i < 3; i += 1) {
-        const img = document.createElement("img");
-        img.className = "codex-flying-seed";
-        img.src = "assets/generated/crops/seed_packet_icon.png";
-        img.style.left = from.left + from.width / 2 - 12 + i * 10 + "px";
-        img.style.top = from.top + 30 + "px";
-        document.body.appendChild(img);
-        const dx = to.left + to.width / 2 - (from.left + from.width / 2);
-        const dy = to.top - from.top - 30;
-        requestAnimationFrame(() => {
-          img.style.transitionDelay = `${i * 90}ms`;
-          img.style.transform = `translate(${dx}px, ${dy}px) scale(0.5)`;
-          img.style.opacity = "0.15";
-        });
-        setTimeout(() => img.remove(), 1100 + i * 90);
-      }
-    }
-
     // Post-ayah reveal: full Arabic, literal word-by-word line, and the
     // Saheeh International translation — the meaning arrives as the reward
     // for completing the test, exactly like the standalone trainer.
     renderReveal(view) {
-      this.wordCardEl.hidden = true;
-      this.promptEl.textContent = "";
-      this.messageEl.textContent = "";
+      this.playzoneEl.hidden = true;
+      this.fullAyahEl.hidden = true;
       this.revealPanelEl.hidden = false;
       this.revealPanelEl.innerHTML = "";
 
@@ -571,6 +582,162 @@
 
       this.celebrate(view.perfect || view.surahComplete);
       this.flySeeds();
+      this.game.sound.play(view.perfect || view.surahComplete ? "perfect" : "ayahComplete");
+    }
+
+    // ---------- the Read tab: a browsable mushaf of completed ayahs ----------
+
+    renderReader() {
+      const engine = this.engine;
+      if (!engine || engine.loading) {
+        this.readerHeadEl.textContent = "Opening the reader…";
+        this.readerScrollEl.innerHTML = "";
+        return;
+      }
+      const ayahs = engine.readerAyahs();
+      const name = engine.surah ? (engine.surah.englishName || engine.surah.name) : "";
+      this.readerHeadEl.innerHTML = "";
+      const title = document.createElement("span");
+      title.className = "reader-title";
+      title.textContent = `${name} — ${ayahs.length} completed ayah${ayahs.length === 1 ? "" : "s"}`;
+      const tip = document.createElement("span");
+      tip.className = "reader-tip";
+      tip.textContent = ayahs.length ? "tap a word for its meaning" : "";
+      this.readerHeadEl.append(title, tip);
+
+      this.readerScrollEl.innerHTML = "";
+      if (!ayahs.length) {
+        const empty = document.createElement("p");
+        empty.className = "reader-empty";
+        empty.textContent = "Nothing here yet — every ayah you complete at the desk is added to this scroll.";
+        this.readerScrollEl.appendChild(empty);
+        return;
+      }
+
+      for (const ayah of ayahs) {
+        const block = document.createElement("article");
+        block.className = "reader-ayah";
+
+        const head = document.createElement("div");
+        head.className = "reader-ayah-head";
+        const ref = document.createElement("span");
+        ref.className = "reader-ref";
+        ref.textContent = ayah.ref;
+        head.appendChild(ref);
+        if (ayah.perfect) {
+          const star = document.createElement("span");
+          star.className = "reader-perfect";
+          star.textContent = "★ Perfect";
+          head.appendChild(star);
+        }
+
+        const line = document.createElement("div");
+        line.className = "reader-arabic";
+        line.dir = "rtl";
+        ayah.words.forEach((word) => {
+          const span = document.createElement("button");
+          span.type = "button";
+          span.className = "reader-word";
+          if (word.mastery === 3) span.classList.add("is-gold-word");
+          span.textContent = word.arabic;
+          span.addEventListener("click", (event) => {
+            event.stopPropagation();
+            this.openReaderPopover(word, span);
+          });
+          line.appendChild(span);
+        });
+
+        const literal = document.createElement("p");
+        literal.className = "reader-literal";
+        literal.textContent = ayah.literal;
+
+        const translation = document.createElement("p");
+        translation.className = "reader-translation";
+        translation.textContent = ayah.translation;
+
+        block.append(head, line, literal, translation);
+        this.readerScrollEl.appendChild(block);
+      }
+    }
+
+    openReaderPopover(word, anchor) {
+      this.closeReaderPopover();
+      const pop = document.createElement("div");
+      pop.className = "reader-popover";
+
+      const arabic = document.createElement("div");
+      arabic.className = "reader-pop-arabic";
+      arabic.dir = "rtl";
+      arabic.textContent = word.arabic;
+
+      const gloss = document.createElement("p");
+      gloss.className = "reader-pop-gloss";
+      gloss.textContent = word.gloss;
+
+      const translit = document.createElement("p");
+      translit.className = "reader-pop-translit";
+      translit.textContent = word.translit;
+
+      const names = ["✧ new", "★ bronze", "★ silver", "★ gold"];
+      const mastery = document.createElement("span");
+      mastery.className = `trainer-mastery is-tier-${word.mastery} reader-pop-mastery`;
+      mastery.textContent = names[word.mastery];
+
+      pop.append(arabic, gloss, translit, mastery);
+
+      if (word.family.length) {
+        const fam = document.createElement("div");
+        fam.className = "reader-pop-family";
+        const label = document.createElement("span");
+        label.className = "reader-pop-family-label";
+        label.dir = "rtl";
+        label.textContent = word.root.split("").join(" ");
+        fam.appendChild(label);
+        for (const member of word.family) {
+          const chip = document.createElement("span");
+          chip.className = "reader-pop-chip";
+          chip.innerHTML = `<b dir="rtl">${member.arabic}</b> ${member.english}`;
+          fam.appendChild(chip);
+        }
+        pop.appendChild(fam);
+      }
+
+      this.readerPanelEl.appendChild(pop);
+      // Position near the tapped word, clamped inside the reader panel;
+      // flip above the word when there's no room below.
+      const panelRect = this.readerPanelEl.getBoundingClientRect();
+      const wordRect = anchor.getBoundingClientRect();
+      const left = Math.max(8, Math.min(wordRect.left - panelRect.left - 60, panelRect.width - pop.offsetWidth - 8));
+      let top = wordRect.bottom - panelRect.top + 6;
+      if (top + pop.offsetHeight > panelRect.height - 8) {
+        top = Math.max(8, wordRect.top - panelRect.top - pop.offsetHeight - 6);
+      }
+      pop.style.left = `${left}px`;
+      pop.style.top = `${top}px`;
+      anchor.classList.add("is-inspected");
+      this.readerPopover = pop;
+      this.inspectedWordEl = anchor;
+      this.game.sound.play("click");
+
+      this.popoverDismiss = (event) => {
+        if (!pop.contains(event.target)) this.closeReaderPopover();
+      };
+      setTimeout(() => document.addEventListener("pointerdown", this.popoverDismiss), 0);
+    }
+
+    closeReaderPopover() {
+      if (this.readerPopover) {
+        this.readerPopover.remove();
+        this.readerPopover = null;
+      }
+      if (this.inspectedWordEl) {
+        this.inspectedWordEl.classList.remove("is-inspected");
+        this.inspectedWordEl = null;
+      }
+      if (this.popoverDismiss) {
+        document.removeEventListener("pointerdown", this.popoverDismiss);
+        this.popoverDismiss = null;
+      }
     }
 
     // ---------- surah collection ----------
@@ -616,6 +783,7 @@
 
     onSurahTileClick(item) {
       const { entry, status, unlockAfter } = item;
+      this.game.sound.play("click");
       if (status === "locked") {
         const prevName = unlockAfter ? unlockAfter.englishName : "the previous surah";
         this.pendingAction = { type: "notice", text: `Finish ${prevName} to reveal ${entry.englishName}.` };
@@ -674,6 +842,7 @@
           this.pendingAction = null;
           await this.engine.switchSurah(action.number);
           this.message = "";
+          this.setTabQuiet("study");
           this.render();
         }, true);
         btn("Stay", dismiss);
@@ -681,13 +850,20 @@
       }
 
       if (action.type === "completedMenu") {
-        text.textContent = `${action.name} is complete. Review keeps it fresh; restarting clears its ayah progress (word history stays).`;
+        text.textContent = `${action.name} is complete. Read it back, review it to keep it fresh, or restart it (word history stays).`;
+        btn("Read it", async () => {
+          this.pendingAction = null;
+          await this.engine.switchSurah(action.number);
+          this.setTabQuiet("read");
+          this.render();
+        }, true);
         btn("Review it", async () => {
           this.pendingAction = null;
           await this.engine.switchSurah(action.number); // lands in endless review
           this.message = "";
+          this.setTabQuiet("study");
           this.render();
-        }, true);
+        });
         btn("Restart from ayah 1", () => {
           this.pendingAction = {
             type: "resetConfirm",
@@ -706,9 +882,21 @@
           this.pendingAction = null;
           await this.engine.resetSurah(action.number);
           this.message = "";
+          this.setTabQuiet("study");
           this.render();
         }, true);
         btn("Cancel", dismiss);
+      }
+    }
+
+    // Switch tab state without triggering a render or page sound (used by
+    // collection actions that render right after).
+    setTabQuiet(tab) {
+      this.activeTab = tab;
+      for (const button of this.tabButtons) {
+        const active = button.dataset.tab === tab;
+        button.classList.toggle("is-active", active);
+        button.setAttribute("aria-selected", String(active));
       }
     }
 
@@ -774,6 +962,7 @@
 
       if (!result.correct && !result.advanced && !result.reset) {
         button.classList.add("is-wrong");
+        this.game.sound.play("wrong");
         this.message = this.engine.message || "Not quite. Try that one again gently.";
         this.messageEl.textContent = this.message;
         for (const b of this.optionsEl.querySelectorAll("button")) b.disabled = false;
@@ -785,12 +974,77 @@
         button.classList.add("is-pop");
         const active = this.fullAyahEl.querySelector(".is-active-word");
         if (active) active.classList.add("is-pop");
+        // Reveal plays its own completion chime; plain correct gets the pluck.
+        if (!result.ayahComplete) this.game.sound.play("correct");
+      } else {
+        this.game.sound.play("wrong");
       }
       this.message = this.engine.message;
       // Brief beat so the button state lands before the next card.
       setTimeout(() => {
         if (this.isOpen) this.render();
       }, result.correct ? 300 : 700);
+    }
+
+    // ---------- juice ----------
+
+    prefersReducedMotion() {
+      return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    }
+
+    // Dependency-free confetti burst over the study panel (gold-heavy when
+    // the moment is a Perfect/record one) — ported from the standalone app.
+    celebrate(golden) {
+      if (this.prefersReducedMotion()) return;
+      const anchor = this.revealPanelEl.hidden ? this.wordCardEl : this.revealPanelEl;
+      const rect = anchor.getBoundingClientRect();
+      const layer = document.createElement("div");
+      layer.className = "codex-confetti-layer";
+      layer.style.left = rect.left + rect.width / 2 + "px";
+      layer.style.top = rect.top + 36 + "px";
+      const colors = golden
+        ? ["#eab654", "#ffedb0", "#d8b25a", "#46b187", "#ffffff"]
+        : ["#46b187", "#eab654", "#7fc9a6"];
+      const count = golden ? 28 : 16;
+      for (let i = 0; i < count; i += 1) {
+        const p = document.createElement("i");
+        p.className = "codex-confetti";
+        const angle = (Math.PI * 2 * i) / count + Math.random() * 0.6;
+        const dist = 60 + Math.random() * (golden ? 110 : 70);
+        p.style.setProperty("--dx", Math.cos(angle) * dist + "px");
+        p.style.setProperty("--dy", Math.sin(angle) * dist - 30 + "px");
+        p.style.setProperty("--rot", Math.random() * 720 - 360 + "deg");
+        p.style.background = colors[i % colors.length];
+        p.style.animationDelay = Math.random() * 60 + "ms";
+        layer.appendChild(p);
+      }
+      document.body.appendChild(layer);
+      setTimeout(() => layer.remove(), 1200);
+    }
+
+    // A couple of seed icons arc from the reveal down to the reward strip —
+    // the payout is seen leaving the study desk and landing in the pouch.
+    flySeeds() {
+      if (this.prefersReducedMotion()) return;
+      const from = this.revealPanelEl.getBoundingClientRect();
+      const to = this.metricSeedsEl.getBoundingClientRect();
+      for (let i = 0; i < 3; i += 1) {
+        const img = document.createElement("img");
+        img.className = "codex-flying-seed";
+        img.src = "assets/generated/crops/seed_packet_icon.png";
+        img.style.left = from.left + from.width / 2 - 12 + i * 10 + "px";
+        img.style.top = from.top + 30 + "px";
+        document.body.appendChild(img);
+        const dx = to.left + to.width / 2 - (from.left + from.width / 2);
+        const dy = to.top - from.top - 30;
+        requestAnimationFrame(() => {
+          img.style.transitionDelay = `${i * 90}ms`;
+          img.style.transform = `translate(${dx}px, ${dy}px) scale(0.5)`;
+          img.style.opacity = "0.15";
+        });
+        setTimeout(() => img.remove(), 1100 + i * 90);
+      }
+      this.game.sound.play("seed");
     }
   }
 

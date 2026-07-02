@@ -453,11 +453,8 @@ body {
 /* ---------- right side: the study parchment ---------- */
 .trainer-study-panel {
   position: relative;
-  display: grid;
-  grid-template-rows: auto auto auto auto auto;
-  /* auto rows + align-content start: extra height stays at the bottom of the
-     parchment instead of inflating the word card with dead space */
-  align-content: start;
+  display: flex;
+  flex-direction: column;
   gap: 8px;
   min-height: 300px;
   padding: 22px 16px 14px;
@@ -558,9 +555,17 @@ body {
   white-space: nowrap;
 }
 
+/* The play zone: compact word card + options. Options flow into two
+   columns whenever the panel is wide enough for comfortable tap targets. */
+.codex-playzone {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 .trainer-options {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
   gap: 6px;
   align-content: start;
 }
@@ -798,6 +803,251 @@ body {
   filter: brightness(1.08);
 }
 
+/* ---------- codex tabs (Study / Read / sound) ---------- */
+
+.codex-tabs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px 0;
+}
+
+.codex-tab {
+  padding: 5px 14px;
+  border: 1px solid var(--codex-gold-dim);
+  border-radius: 12px 12px 0 0;
+  border-bottom: none;
+  background: rgba(0, 0, 0, 0.24);
+  color: #d8c294;
+  cursor: pointer;
+  font: 800 10px ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.codex-tab.is-active {
+  background: linear-gradient(180deg, var(--codex-parchment-1), var(--codex-parchment-2));
+  color: var(--codex-ink);
+}
+
+.codex-sound {
+  margin-left: auto;
+  width: 30px;
+  height: 26px;
+  border: 1px solid var(--codex-gold-dim);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.24);
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 1;
+}
+
+/* ---------- the Read tab: a mushaf scroll of completed ayahs ---------- */
+
+.trainer-reader-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 300px;
+  max-height: 52vh;
+  padding: 14px 14px 10px;
+  border-radius: 12px;
+  background: linear-gradient(165deg, var(--codex-parchment-1), var(--codex-parchment-2));
+  box-shadow: inset 0 0 0 2px rgba(166, 116, 42, 0.4), inset 0 2px 10px rgba(0, 0, 0, 0.12);
+  color: var(--codex-ink);
+}
+
+.reader-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(166, 116, 42, 0.35);
+}
+
+.reader-title {
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.reader-tip {
+  color: #8a6a3a;
+  font-size: 8px;
+  font-weight: 700;
+}
+
+.reader-scroll {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-right: 4px;
+  scrollbar-width: thin;
+}
+
+.reader-empty {
+  margin: auto;
+  max-width: 300px;
+  color: #8a6a3a;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.reader-ayah {
+  padding: 8px 10px;
+  border: 1px solid rgba(166, 116, 42, 0.3);
+  border-radius: 8px;
+  background: rgba(255, 250, 235, 0.45);
+}
+
+.reader-ayah-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.reader-ref {
+  padding: 1px 7px;
+  border-radius: 8px;
+  background: rgba(31, 119, 125, 0.16);
+  color: #185b60;
+  font-size: 8px;
+  font-weight: 900;
+}
+
+.reader-perfect {
+  color: #9a6d13;
+  font-size: 8px;
+  font-weight: 900;
+}
+
+.reader-arabic {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 2px 8px;
+  margin: 4px 0 2px;
+  font-family: "Amiri Quran", "Times New Roman", serif;
+  font-size: 20px;
+  line-height: 1.9;
+}
+
+.reader-word {
+  border: none;
+  border-radius: 6px;
+  padding: 0 4px;
+  background: transparent;
+  color: #4a2c14;
+  cursor: pointer;
+  font: inherit;
+}
+
+.reader-word:hover,
+.reader-word.is-inspected {
+  background: rgba(234, 182, 84, 0.35);
+}
+
+.reader-literal {
+  margin: 0;
+  color: #6b4a26;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.reader-translation {
+  margin: 2px 0 0;
+  color: #4a2c14;
+  font-size: 9px;
+  font-style: italic;
+  line-height: 1.45;
+}
+
+.reader-popover {
+  position: absolute;
+  z-index: 5;
+  width: min(240px, calc(100% - 16px));
+  display: grid;
+  gap: 4px;
+  justify-items: center;
+  padding: 10px 12px;
+  border: 2px solid var(--codex-gold-dim);
+  border-radius: 10px;
+  background: linear-gradient(180deg, #fffbe9, var(--codex-parchment-1));
+  box-shadow: 0 10px 26px rgba(20, 10, 4, 0.35);
+}
+
+.reader-pop-arabic {
+  font-family: "Amiri Quran", "Times New Roman", serif;
+  font-size: 24px;
+  line-height: 1.7;
+  color: #4a2c14;
+}
+
+.reader-pop-gloss {
+  margin: 0;
+  font-size: 10px;
+  font-weight: 900;
+  text-align: center;
+}
+
+.reader-pop-translit {
+  margin: 0;
+  color: #8a6a3a;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.reader-popover .trainer-mastery {
+  position: static;
+  right: auto;
+  top: auto;
+}
+
+/* tier-0 chip is styled for the blue word card; on parchment it needs ink */
+.reader-popover .trainer-mastery.is-tier-0 {
+  background: rgba(74, 44, 20, 0.12);
+  color: #6b4a26;
+}
+
+.reader-pop-family {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin-top: 4px;
+  padding-top: 6px;
+  border-top: 1px dashed rgba(166, 116, 42, 0.4);
+}
+
+.reader-pop-family-label {
+  padding: 1px 7px;
+  border-radius: 8px;
+  background: rgba(31, 119, 125, 0.16);
+  color: #185b60;
+  font-size: 9px;
+  font-weight: 900;
+}
+
+.reader-pop-chip {
+  padding: 1px 7px;
+  border-radius: 8px;
+  background: rgba(166, 116, 42, 0.14);
+  font-size: 8px;
+  font-weight: 700;
+}
+
+.reader-pop-chip b {
+  font-family: "Amiri Quran", "Times New Roman", serif;
+  font-size: 12px;
+  font-weight: 400;
+}
+
 /* ---------- codex juice: confetti, pops, mastery, focus, payouts ---------- */
 
 .codex-confetti-layer {
@@ -960,6 +1210,9 @@ body {
   filter: drop-shadow(0 4px 0 rgba(0, 0, 0, 0.3));
 }
 
+/* Phones are the primary way this will be played: the collection rail
+   becomes a horizontal chip strip above the study desk, tap targets grow
+   to thumb size, and the reader popover widens into a near-sheet. */
 @media (max-width: 540px) {
   .trainer-overlay {
     padding: 6px;
@@ -967,14 +1220,67 @@ body {
 
   .codex-board {
     grid-template-columns: 1fr;
+    gap: 8px;
   }
 
   .surah-collection {
-    order: 2;
+    order: -1;
+    padding: 6px 8px;
+  }
+
+  .surah-collection-head h3,
+  .surah-toggle,
+  .surah-collection-stats {
+    display: none;
   }
 
   .surah-grid {
-    height: 160px;
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+    height: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 2px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .surah-tile {
+    flex: 0 0 auto;
+    min-width: 84px;
+  }
+
+  .trainer-card.is-collection-collapsed .codex-board {
+    grid-template-columns: 1fr;
+  }
+
+  .trainer-option,
+  .surah-action-btn,
+  .trainer-continue {
+    min-height: 44px;
+  }
+
+  .trainer-options {
+    grid-template-columns: 1fr;
+  }
+
+  .trainer-study-panel,
+  .trainer-reader-panel {
+    min-height: 260px;
+  }
+
+  .trainer-reader-panel {
+    max-height: 60vh;
+  }
+
+  .reader-popover {
+    left: 8px !important;
+    right: 8px;
+    width: auto;
+  }
+
+  .codex-bottom {
+    margin: 6px 8px 8px;
   }
 }
 

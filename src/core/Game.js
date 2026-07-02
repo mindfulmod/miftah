@@ -20,6 +20,7 @@
       this.loadingEl = loadingEl;
       this.input = new ns.InputManager();
       this.assets = new ns.AssetLoader();
+      this.sound = new ns.SoundSystem();
       this.renderer = new ns.Renderer(canvas, this.assets);
       this.screenWidth = 800;
       this.screenHeight = 600;
@@ -71,6 +72,16 @@
       }
 
       window.addEventListener("resize", () => this.handleResize());
+      // Audio can only start after a user gesture — unlock once, then let the
+      // island ambience run for the rest of the session.
+      const unlockAudio = () => {
+        this.sound.unlock();
+        this.sound.startAmbience();
+        window.removeEventListener("pointerdown", unlockAudio);
+        window.removeEventListener("keydown", unlockAudio);
+      };
+      window.addEventListener("pointerdown", unlockAudio);
+      window.addEventListener("keydown", unlockAudio);
       if (this.loadingEl) this.loadingEl.hidden = true;
       document.body.dataset.gameReady = "true";
 
@@ -197,6 +208,7 @@
         if (event.type === "eggAwarded") messages.push("A mysterious egg appeared in the hatchery");
         if (event.type === "eggProgress") messages.push(`Egg ${event.egg.progress}/${event.egg.goal}`);
         if (event.type === "animalUnlocked") {
+          this.sound.play("hatch");
           this.spawnAnimal(event.animal, { stage: 1, feedProgress: 0 });
           messages.push(`${event.animal.name} hatched`);
           this.dialogue.open(`${event.animal.name} hatched and moved into the ${event.animal.habitat}.`, 3);
