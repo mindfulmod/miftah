@@ -1793,3 +1793,18 @@ h1 {
   cursor: pointer;
 }
 .play-hint:hover { color: var(--gold); }
+
+/* Reset lives in the footer now — destructive actions don't belong in the header. */
+.footer-reset {
+  display: block;
+  margin: 14px auto 0;
+  padding: 6px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: none;
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 0.72rem;
+  cursor: pointer;
+}
+.footer-reset:hover { border-color: var(--wrong); color: var(--wrong); }

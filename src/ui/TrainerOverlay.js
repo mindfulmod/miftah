@@ -36,6 +36,7 @@
           <nav class="codex-tabs" role="tablist" aria-label="Codex sections">
             <button class="codex-tab is-active" type="button" role="tab" data-tab="study" aria-selected="true">✒ Study</button>
             <button class="codex-tab" type="button" role="tab" data-tab="read" aria-selected="false">📜 Read</button>
+            <a class="codex-web-link" href="trainer.html" title="Open the web trainer — same progress, no island" aria-label="Open the web trainer">🌐</a>
             <button class="codex-sound" type="button" aria-label="Toggle sound"></button>
           </nav>
 

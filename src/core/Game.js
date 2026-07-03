@@ -74,8 +74,11 @@
       this.debug = new ns.DebugOverlay();
       this.touch = new ns.TouchControls(this);
       this.input.attachTouch(this.touch);
+      this.onboarding = new ns.OnboardingOverlay(this);
       if (new URLSearchParams(location.search).get("trainer") === "1") {
         setTimeout(() => this.trainer.open(), 0);
+      } else if (this.onboarding.shouldShow()) {
+        this.onboarding.open();
       }
 
       window.addEventListener("resize", () => this.handleResize());
@@ -133,7 +136,7 @@
       }
       if (this.input.consume("KeyC") && !this.trainer?.isOpen) this.debug.toggle();
       if (this.input.consume("KeyB") && !this.editMode.active && !this.trainer?.isOpen) this.album.toggle();
-      const uiOpen = this.trainer?.isOpen || this.album?.isOpen;
+      const uiOpen = this.trainer?.isOpen || this.album?.isOpen || this.onboarding?.isOpen;
       // Hide the touch layer under DOM overlays and the editor so its buttons
       // can't be pressed through them; keep it up during cutaways (input is
       // read but unused, and hiding would flicker).
