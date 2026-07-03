@@ -1,6 +1,6 @@
 "use strict";
 
-const DATA_VERSION = "20260629-beginner-options";
+const DATA_VERSION = "20260703-audio-refs";
 const withDataVersion = (path) =>
   `${path}${path.includes("?") ? "&" : "?"}v=${DATA_VERSION}`;
 const MANIFEST_FILE = withDataVersion("data/surahs.json");
@@ -530,24 +530,52 @@ function saveStats() {
 
 function statEntry(word) {
   const id = wordId(word);
+  const fresh = {
+    arabic: word.arabic,
+    english: answerFor(word),
+    display: displayGloss(word),
+    translit: word.translit || "",
+    root: word.root || "",
+    audioPath: word.audioPath || "",
+  };
   if (!stats[id]) {
     stats[id] = {
-      arabic: word.arabic,
-      english: answerFor(word),
-      display: answerFor(word),
-      translit: word.translit || "",
-      root: word.root || "",
+      ...fresh,
       miss: 0,
       correct: 0,
     };
   } else {
-    stats[id].english = answerFor(word);
-    stats[id].display = stats[id].display || answerFor(word);
-    if (!stats[id].root && word.root) {
-      stats[id].root = word.root; // backfill root onto entries from before roots existed
-    }
+    Object.assign(stats[id], fresh);
+    stats[id].miss = stats[id].miss || 0;
+    stats[id].correct = stats[id].correct || 0;
   }
   return stats[id];
+}
+
+function syncStatsWithCurrentSurah() {
+  if (!surah || !stats) return;
+  let changed = false;
+  for (const ayah of surah.ayahs) {
+    for (const word of ayah.words) {
+      const stat = stats[wordId(word)];
+      if (!stat) continue;
+      const fresh = {
+        arabic: word.arabic,
+        english: answerFor(word),
+        display: displayGloss(word),
+        translit: word.translit || "",
+        root: word.root || "",
+        audioPath: word.audioPath || "",
+      };
+      for (const [key, value] of Object.entries(fresh)) {
+        if (stat[key] !== value) {
+          stat[key] = value;
+          changed = true;
+        }
+      }
+    }
+  }
+  if (changed) saveStats();
 }
 
 function loadInterleave() {
@@ -1297,6 +1325,7 @@ async function init() {
   currentIndex = Math.min(progress.passed, surah.ayahs.length);
   perfectSet = new Set(progress.perfect);
   stats = loadStats();
+  syncStatsWithCurrentSurah();
   interleave = loadInterleave();
 
   els.loading.remove();

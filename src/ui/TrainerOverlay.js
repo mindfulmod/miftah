@@ -56,6 +56,7 @@
             </aside>
 
             <section class="trainer-study-panel" aria-label="Study question">
+              <div class="trainer-ayah-ref" aria-live="polite"></div>
               <div class="trainer-full-ayah" dir="rtl"></div>
               <div class="codex-playzone">
                 <div class="trainer-word-card">
@@ -123,6 +124,7 @@
       this.readerPanelEl = this.root.querySelector(".trainer-reader-panel");
       this.readerHeadEl = this.root.querySelector(".reader-head");
       this.readerScrollEl = this.root.querySelector(".reader-scroll");
+      this.ayahRefEl = this.root.querySelector(".trainer-ayah-ref");
       this.fullAyahEl = this.root.querySelector(".trainer-full-ayah");
       this.playzoneEl = this.root.querySelector(".codex-playzone");
       this.wordCardEl = this.root.querySelector(".trainer-word-card");
@@ -302,6 +304,8 @@
       this.meaningToggleEl.hidden = true;
       this.meaningEl.hidden = true;
       this.wordCardEl.hidden = false;
+      this.ayahRefEl.hidden = true;
+      this.ayahRefEl.textContent = "";
       this.fullAyahEl.innerHTML = "";
       this.fullAyahEl.hidden = false;
       this.meterEl.textContent = "";
@@ -333,6 +337,8 @@
         return;
       }
       if (view.mode === "reveal") {
+        this.ayahRefEl.hidden = false;
+        this.ayahRefEl.textContent = view.surahRef ? `Ayah ${view.surahRef}` : "";
         this.renderReveal(view);
         return;
       }
@@ -369,6 +375,8 @@
       this.hearEl.hidden = !this.currentAudioPath || direction === "listen";
 
       if (view.mode === "word") {
+        this.ayahRefEl.hidden = false;
+        this.ayahRefEl.textContent = view.surahRef ? `Ayah ${view.surahRef}` : "";
         this.renderAyahLine(view);
         this.meterEl.textContent = `Slips ${view.mistakes}/${view.budget} · Word ${Math.min(view.solved + 1, view.total)}/${view.total}`;
         this.meaningToggleEl.hidden = false;

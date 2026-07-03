@@ -415,6 +415,7 @@
       this.currentAyahIndex = Math.min(progress.passed, this.surah.ayahs.length);
       this.perfectSet = new Set(progress.perfect);
       this.stats = this.loadStatsFor(number);
+      this.syncStatsWithCurrentSurah();
       this.interleave = this.loadInterleaveFor(number);
       this.lastReviewIndex = -REVIEW_MIN_GAP;
       this.reveal = null;
@@ -665,24 +666,53 @@
 
     statEntry(word) {
       const id = wordId(word);
+      const fresh = {
+        arabic: word.arabic,
+        english: answerFor(word),
+        display: displayGloss(word),
+        translit: word.translit || "",
+        root: word.root || "",
+        audioPath: word.audioPath || "",
+      };
       if (!this.stats[id]) {
         this.stats[id] = {
-          arabic: word.arabic,
-          english: answerFor(word),
-          display: displayGloss(word),
-          translit: word.translit || "",
-          root: word.root || "",
-          audioPath: word.audioPath || "",
+          ...fresh,
           miss: 0,
           correct: 0,
         };
       } else {
-        this.stats[id].english = answerFor(word);
-        this.stats[id].display = this.stats[id].display || displayGloss(word);
-        if (!this.stats[id].root && word.root) this.stats[id].root = word.root;
-        if (!this.stats[id].audioPath && word.audioPath) this.stats[id].audioPath = word.audioPath;
+        Object.assign(this.stats[id], fresh);
+        this.stats[id].miss = this.stats[id].miss || 0;
+        this.stats[id].correct = this.stats[id].correct || 0;
       }
       return this.stats[id];
+    }
+
+    syncStatsWithCurrentSurah() {
+      if (!this.surah || !this.stats) return;
+      let changed = false;
+      for (const ayah of this.surah.ayahs) {
+        for (const word of ayah.words) {
+          const id = wordId(word);
+          const stat = this.stats[id];
+          if (!stat) continue;
+          const fresh = {
+            arabic: word.arabic,
+            english: answerFor(word),
+            display: displayGloss(word),
+            translit: word.translit || "",
+            root: word.root || "",
+            audioPath: word.audioPath || "",
+          };
+          for (const [key, value] of Object.entries(fresh)) {
+            if (stat[key] !== value) {
+              stat[key] = value;
+              changed = true;
+            }
+          }
+        }
+      }
+      if (changed) this.saveStatsFor(this.surah.number);
     }
 
     recordMiss(word) {
