@@ -56,6 +56,7 @@
                 <div class="trainer-word-card">
                   <div class="trainer-arabic" dir="rtl"></div>
                   <div class="trainer-translit"></div>
+                  <button class="trainer-hear" type="button" title="Hear this word recited" aria-label="Hear this word recited" hidden>🔊</button>
                 </div>
                 <div class="trainer-test-meta">
                   <p class="trainer-prompt"></p>
@@ -131,6 +132,14 @@
       this.reviewTallyEl = this.root.querySelector(".trainer-review-tally");
       this.reviewExitEl = this.root.querySelector(".trainer-review-exit");
       this.rewardNoteEl = this.root.querySelector(".trainer-reward-note");
+      this.hearEl = this.root.querySelector(".trainer-hear");
+
+      // Real recitation (word clips + full ayahs), sharing the sound toggle.
+      this.recite = new ns.RecitationAudio(() => this.game.sound.enabled);
+      this.currentAudioPath = "";
+      this.hearEl.addEventListener("click", () => {
+        this.recite.playWord(this.currentAudioPath);
+      });
 
       this.closeButton.addEventListener("click", () => this.close());
       this.surahToggleButton.addEventListener("click", () => this.toggleCollection());
@@ -141,6 +150,7 @@
         const on = this.game.sound.toggle();
         this.syncSoundButton();
         if (on) this.game.sound.play("click");
+        else this.recite.stop();
       });
       this.meaningToggleEl.addEventListener("click", () => {
         this.engine.showMeaning();
@@ -184,6 +194,7 @@
       this.root.hidden = true;
       this.clearFocusTimer();
       this.closeReaderPopover();
+      this.recite.stop();
       // Study may have minted new gold words — let the island's garden grow.
       this.game.wordGarden?.refresh();
     }
@@ -198,6 +209,7 @@
       }
       this.game.sound.play("page");
       this.closeReaderPopover();
+      this.recite.stop();
       this.render();
     }
 
@@ -281,6 +293,8 @@
       this.meterEl.textContent = "";
       this.masteryEl?.remove();
       this.masteryEl = null;
+      this.currentAudioPath = "";
+      this.hearEl.hidden = true;
 
       if (view.mode === "loading") {
         this.setStudyText("", "", "");
@@ -321,6 +335,8 @@
       this.setStudyText(view.arabic, view.translit || "", view.prompt || "");
       this.messageEl.textContent = this.message || view.message || "";
       this.renderMasteryBadge(view.mastery);
+      this.currentAudioPath = view.audioPath || "";
+      this.hearEl.hidden = !this.currentAudioPath;
 
       if (view.mode === "word") {
         this.renderAyahLine(view);
@@ -567,6 +583,14 @@
         this.revealPanelEl.appendChild(done);
       }
 
+      const hear = document.createElement("button");
+      hear.type = "button";
+      hear.className = "trainer-option trainer-continue trainer-hear-ayah";
+      hear.textContent = "🔊 Hear it recited";
+      hear.addEventListener("click", () => {
+        this.recite.playAyah(view.surahNumber, view.ayahNumber);
+      });
+
       const cont = document.createElement("button");
       cont.type = "button";
       cont.className = "trainer-option trainer-continue";
@@ -574,17 +598,20 @@
         ? (view.nextNumber ? `Begin ${view.nextName} →` : "Continue →")
         : "Continue →";
       cont.addEventListener("click", () => {
+        this.recite.stop();
         this.playPendingCutaway(async () => {
           await this.engine.continueFromReveal(this.game);
           this.message = "";
           this.render();
         });
       });
-      this.revealPanelEl.appendChild(cont);
+      this.revealPanelEl.append(hear, cont);
 
       this.celebrate(view.perfect || view.surahComplete);
       this.flySeeds();
       this.game.sound.play(view.perfect || view.surahComplete ? "perfect" : "ayahComplete");
+      // The reward for finishing the test: hear the whole ayah recited.
+      this.recite.playAyah(view.surahNumber, view.ayahNumber);
     }
 
     // ---------- the Read tab: a browsable mushaf of completed ayahs ----------
@@ -604,7 +631,7 @@
       title.textContent = `${name} — ${ayahs.length} completed ayah${ayahs.length === 1 ? "" : "s"}`;
       const tip = document.createElement("span");
       tip.className = "reader-tip";
-      tip.textContent = ayahs.length ? "tap a word for its meaning" : "";
+      tip.textContent = ayahs.length ? "tap a word to hear it and see its meaning" : "";
       this.readerHeadEl.append(title, tip);
 
       this.readerScrollEl.innerHTML = "";
@@ -626,6 +653,16 @@
         ref.className = "reader-ref";
         ref.textContent = ayah.ref;
         head.appendChild(ref);
+        const hear = document.createElement("button");
+        hear.type = "button";
+        hear.className = "reader-hear";
+        hear.textContent = "🔊";
+        hear.title = `Hear ${ayah.ref} recited`;
+        hear.setAttribute("aria-label", `Hear ayah ${ayah.ref} recited`);
+        hear.addEventListener("click", () => {
+          this.recite.playAyah(engine.surah.number, ayah.number);
+        });
+        head.appendChild(hear);
         if (ayah.perfect) {
           const star = document.createElement("span");
           star.className = "reader-perfect";
@@ -671,6 +708,13 @@
       arabic.className = "reader-pop-arabic";
       arabic.dir = "rtl";
       arabic.textContent = word.arabic;
+      if (word.audioPath) {
+        // Tapping a word both shows and sounds it; the Arabic replays it.
+        this.recite.playWord(word.audioPath);
+        arabic.classList.add("is-hearable");
+        arabic.title = "Hear this word again";
+        arabic.addEventListener("click", () => this.recite.playWord(word.audioPath));
+      }
 
       const gloss = document.createElement("p");
       gloss.className = "reader-pop-gloss";
@@ -976,8 +1020,12 @@
         button.classList.add("is-pop");
         const active = this.fullAyahEl.querySelector(".is-active-word");
         if (active) active.classList.add("is-pop");
-        // Reveal plays its own completion chime; plain correct gets the pluck.
-        if (!result.ayahComplete) this.game.sound.play("correct");
+        // Reveal plays its own completion chime; plain correct gets the pluck
+        // plus the word's real recitation (the reveal recites the whole ayah).
+        if (!result.ayahComplete) {
+          this.game.sound.play("correct");
+          this.recite.playWord(this.currentAudioPath);
+        }
       } else {
         this.game.sound.play("wrong");
       }

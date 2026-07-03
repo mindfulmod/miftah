@@ -302,6 +302,20 @@ h1 {
 .ayah-status { color: var(--muted); }
 .ayah.passed .ayah-status { color: var(--accent); }
 .mistake-meter { margin-left: auto; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+/* Recitation speaker buttons (ayah lines, reveals, passed ayahs). */
+.hear-btn {
+  margin-left: 6px;
+  padding: 1px 8px;
+  border: 1px solid var(--border, rgba(0, 0, 0, 0.15));
+  border-radius: 10px;
+  background: transparent;
+  font-size: 12px;
+  line-height: 18px;
+  cursor: pointer;
+}
+.hear-btn:hover { background: rgba(0, 0, 0, 0.06); }
+
 .mistake-meter.danger { color: var(--wrong); }
 
 .words {

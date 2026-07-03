@@ -131,6 +131,28 @@ const literalGloss = (w) => w.english || answerFor(w);
 // different ayahs aggregates into one "trouble word" entry.
 const wordId = (w) => `${w.arabic}|||${answerFor(w)}`;
 
+// Real recitation playback (shared module with the island game); a silent
+// stub keeps everything working if the script didn't load.
+const recite =
+  window.MiftahGame && window.MiftahGame.RecitationAudio
+    ? new window.MiftahGame.RecitationAudio()
+    : { playWord() {}, playAyah() {}, stop() {} };
+
+// Small speaker button used on ayah lines and reveals.
+function hearAyahButton(ayahNumber, title = "Hear this ayah recited") {
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "hear-btn";
+  btn.textContent = "🔊";
+  btn.title = title;
+  btn.setAttribute("aria-label", title);
+  btn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    recite.playAyah(surah.number, ayahNumber);
+  });
+  return btn;
+}
+
 const els = {
   app: document.getElementById("app"),
   loading: document.getElementById("loading"),
@@ -855,6 +877,7 @@ function renderPassedAyah(ayah) {
   node.classList.add(isPerfect ? "perfect-pass" : "complete-pass");
   const statusEl = node.querySelector(".ayah-status");
   statusEl.textContent = "Passed ✓";
+  statusEl.after(hearAyahButton(ayah.number));
   if (isPerfect) {
     const badge = document.createElement("span");
     badge.className = "badge-perfect";
@@ -904,6 +927,7 @@ function renderActiveAyah(ayah) {
   const readCue = document.createElement("p");
   readCue.className = "ayah-read-cue";
   readCue.textContent = "Read the verse through first — then reveal each word below.";
+  readCue.appendChild(hearAyahButton(ayah.number, "Hear this ayah recited before you begin"));
   const readWrap = document.createElement("div");
   readWrap.className = "ayah-read-wrap";
   readWrap.append(readLine, readCue);
@@ -962,10 +986,13 @@ function renderActiveAyah(ayah) {
     reveal.querySelector(".reveal-translation").textContent =
       "Saheeh International: " + ayah.translation;
     fillRevealRoots(reveal, ayah);
+    reveal.querySelector(".reveal-badge").after(hearAyahButton(ayah.number));
     reveal.hidden = false;
     node.classList.add("revealing");
     node.classList.add(perfect ? "perfect-pass" : "complete-pass");
     celebrate(node, perfect);
+    // The reward for finishing the test: hear the whole ayah recited.
+    recite.playAyah(surah.number, ayah.number);
     msgEl.textContent = "";
     msgEl.className = "ayah-message";
 
@@ -1093,6 +1120,7 @@ function renderActiveAyah(ayah) {
         trigger.disabled = true;
         state.solved.add(word.position);
         recordCorrect(word);
+        recite.playWord(word.audioPath);
 
         // Recovered from an earlier slip on this word → a "rescue". Mark it with
         // a small win badge and count it toward today's tally, so the moment a
@@ -1234,6 +1262,16 @@ async function init() {
   }
 
   surah = { ...data.surah, ayahs: data.ayahs };
+
+  // Every word learns its recitation clip path (the build verifies the
+  // deterministic pattern and stores explicit paths only for exceptions).
+  const pad3 = (n) => String(n).padStart(3, "0");
+  for (const a of data.ayahs) {
+    for (const w of a.words) {
+      w.audioPath =
+        w.audio || `wbw/${pad3(surah.number)}_${pad3(a.number)}_${pad3(w.position)}.mp3`;
+    }
+  }
 
   // Build the distractor/root lookups once: one representative word per gloss,
   // and an index of which words share each triliteral root.

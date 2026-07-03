@@ -301,6 +301,18 @@
       const data = await fetchJson(entry.file);
       this.surah = { ...data.surah, ayahs: data.ayahs };
 
+      // Every word learns its recitation clip path once, so the study desk,
+      // reviews and the reader can all offer audio without re-deriving
+      // locations. The build verifies the deterministic pattern per word and
+      // stores an explicit `audio` only for the exceptions.
+      const pad3 = (n) => String(n).padStart(3, "0");
+      for (const ayah of data.ayahs) {
+        for (const word of ayah.words) {
+          word.audioPath =
+            word.audio || `wbw/${pad3(number)}_${pad3(ayah.number)}_${pad3(word.position)}.mp3`;
+        }
+      }
+
       const glossInfo = new Map();
       this.glossInfo = glossInfo; // gloss -> owning word, for wrong-answer contrast
       this.rootIndex = new Map();
@@ -535,6 +547,7 @@
           display: displayGloss(word),
           translit: word.translit || "",
           root: word.root || "",
+          audioPath: word.audioPath || "",
           miss: 0,
           correct: 0,
         };
@@ -542,6 +555,7 @@
         this.stats[id].english = answerFor(word);
         this.stats[id].display = this.stats[id].display || displayGloss(word);
         if (!this.stats[id].root && word.root) this.stats[id].root = word.root;
+        if (!this.stats[id].audioPath && word.audioPath) this.stats[id].audioPath = word.audioPath;
       }
       return this.stats[id];
     }
@@ -595,6 +609,7 @@
           arabic: w.arabic,
           translit: w.translit || "",
           gloss: displayGloss(w),
+          audioPath: w.audioPath || "",
           root: w.root || "",
           mastery: this.masteryTier(wordId(w)),
           family: w.root
@@ -758,6 +773,7 @@
           prompt: this.focus ? "⏳ Focus round — as many recalls as you can!" : "Endless review — what does this word mean?",
           options: this.buildOptions(word),
           answer: answerFor(word),
+          audioPath: word.audioPath || "",
           tally: { ...this.reviewMode.tally },
           mastery: this.masteryTier(`${word.arabic}|||${answerFor(word)}`),
           focus: this.focus ? { secondsLeft: this.focusSecondsLeft(), count: this.focus.count } : null,
@@ -798,6 +814,7 @@
           : "What does this word mean?",
         options: this.buildOptions(word),
         answer: answerFor(word),
+        audioPath: word.audioPath || "",
         mistakes: this.attempt ? this.attempt.mistakes : 0,
         budget: this.attempt ? this.attempt.budget : 0,
         solved: this.attempt ? this.attempt.solved.size : 0,
