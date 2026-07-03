@@ -1684,3 +1684,115 @@ body {
   font-size: 10px;
   margin: 0;
 }
+
+/* ---------- Touch control layer (docs/touch-controls-spec.md) ---------- */
+/* Root ignores pointers; only its children take them, so canvas clicks
+   outside the controls pass straight through. */
+.touch-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+}
+
+.touch-zone {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 55%;
+  pointer-events: auto;
+  touch-action: none;
+}
+
+.touch-stick {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  margin: -60px 0 0 -60px;
+  border: 2px solid var(--codex-gold-dim);
+  border-radius: 50%;
+  background: rgba(42, 25, 13, 0.5);
+  opacity: 0.85;
+  pointer-events: none;
+  touch-action: none;
+  transition: opacity 120ms ease-out;
+}
+
+.touch-stick.is-fading {
+  opacity: 0;
+}
+
+.touch-knob {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--codex-gold-bright), var(--codex-gold));
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+  transform: translate(-50%, -50%);
+}
+
+.touch-action {
+  position: absolute;
+  right: calc(18px + env(safe-area-inset-right));
+  bottom: calc(24px + env(safe-area-inset-bottom));
+  width: 68px;
+  height: 68px;
+  border: 2px solid var(--codex-gold-dim);
+  border-radius: 50%;
+  background: rgba(42, 25, 13, 0.55);
+  color: #fff4cd;
+  font-family: monospace;
+  font-weight: 900;
+  opacity: 0.55;
+  pointer-events: auto;
+  touch-action: none;
+  display: grid;
+  place-items: center;
+  gap: 0;
+}
+
+.touch-action-icon {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.touch-action-verb {
+  font-size: 11px;
+  line-height: 1;
+}
+
+.touch-action.is-ready {
+  opacity: 1;
+  border-color: var(--codex-gold);
+  animation: touch-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes touch-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(234, 182, 84, 0.45); }
+  50% { box-shadow: 0 0 0 9px rgba(234, 182, 84, 0); }
+}
+
+.touch-menu {
+  position: absolute;
+  right: calc(14px + env(safe-area-inset-right));
+  top: calc(96px + env(safe-area-inset-top));
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.touch-menu button {
+  width: 44px;
+  height: 44px;
+  border: 2px solid var(--codex-gold-dim);
+  border-radius: 50%;
+  background: rgba(42, 25, 13, 0.6);
+  color: #ffe7ba;
+  font-size: 18px;
+  pointer-events: auto;
+  touch-action: none;
+}

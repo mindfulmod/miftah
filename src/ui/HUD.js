@@ -40,6 +40,15 @@
       ctx.setTransform(game.renderer.dpr, 0, 0, game.renderer.dpr, 0, 0);
       ctx.imageSmoothingEnabled = false;
 
+      // Phones (or any touch session) get one compact strip: the two big
+      // desktop panels overflow a 375 px screen, and keyboard help is dead
+      // weight when the touch buttons themselves are the affordance.
+      if (game.touch?.active || game.screenWidth < 560) {
+        this.drawCompact(ctx, game);
+        ctx.restore();
+        return;
+      }
+
       panel(ctx, 16, 16, 382, 128, "Oasis Progress");
 
       ctx.textBaseline = "top";
@@ -80,6 +89,34 @@
       }
 
       ctx.restore();
+    }
+
+    drawCompact(ctx, game) {
+      const w = game.screenWidth - 24;
+      panel(ctx, 12, 12, w, 72, "");
+      ctx.textBaseline = "top";
+      ctx.font = "700 11px monospace";
+
+      // Row 1 sits on the panel's highlight strip, row 2 in its dark inset.
+      const egg = game.progress.state.activeEgg;
+      ctx.drawImage(game.assets.get("ui.seedIcon"), 28, 27, 16, 16);
+      ctx.fillStyle = "#ffe19a";
+      ctx.fillText(`${game.progress.state.seeds}`, 48, 30);
+      ctx.drawImage(game.assets.get("ui.cropIcon"), 74, 27, 16, 16);
+      ctx.fillText(`${game.progress.state.feed}`, 94, 30);
+      ctx.fillText(
+        `Ayahs ${game.progress.state.ayahsCompleted} · ${egg ? `Egg ${egg.progress}/${egg.goal}` : "Egg none"}`,
+        124,
+        30
+      );
+
+      ctx.fillStyle = "#cfeee9";
+      let hint = game.interaction.actionHint;
+      const maxWidth = w - 32;
+      while (hint.length > 4 && ctx.measureText(hint).width > maxWidth) {
+        hint = hint.slice(0, -2);
+      }
+      ctx.fillText(hint, 28, 55, maxWidth);
     }
   }
 

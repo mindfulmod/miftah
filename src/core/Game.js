@@ -72,6 +72,8 @@
       this.wordGarden = new ns.WordGardenSystem(this);
       this.editMode = new ns.EditModeSystem(this);
       this.debug = new ns.DebugOverlay();
+      this.touch = new ns.TouchControls(this);
+      this.input.attachTouch(this.touch);
       if (new URLSearchParams(location.search).get("trainer") === "1") {
         setTimeout(() => this.trainer.open(), 0);
       }
@@ -132,6 +134,11 @@
       if (this.input.consume("KeyC") && !this.trainer?.isOpen) this.debug.toggle();
       if (this.input.consume("KeyB") && !this.editMode.active && !this.trainer?.isOpen) this.album.toggle();
       const uiOpen = this.trainer?.isOpen || this.album?.isOpen;
+      // Hide the touch layer under DOM overlays and the editor so its buttons
+      // can't be pressed through them; keep it up during cutaways (input is
+      // read but unused, and hiding would flicker).
+      this.touch.setVisible(!uiOpen && !this.editMode.active);
+      this.touch.update(this);
       if (!uiOpen && !this.cutaway) this.player.update(dt, this.input, this.collisionMap);
       this.pet.update(dt, this.player);
       this.hatchery.update(dt);

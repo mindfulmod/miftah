@@ -28,6 +28,11 @@
       });
     }
 
+    // Touch layer (TouchControls) feeding the same vector/interact surface.
+    attachTouch(touch) {
+      this.touch = touch;
+    }
+
     isDown(...codes) {
       return codes.some((code) => this.down.has(code));
     }
@@ -37,12 +42,21 @@
     }
 
     consume(...codes) {
-      const matched = this.wasPressed(...codes);
+      let matched = this.wasPressed(...codes);
       for (const code of codes) this.pressed.delete(code);
+      // A tap of the touch action button counts as the interact press.
+      if (this.touch && (codes.includes("KeyE") || codes.includes("Space"))) {
+        if (this.touch.consumeInteract()) matched = true;
+      }
       return matched;
     }
 
     vector() {
+      // Touch priority, not blending — blended vectors feel broken on hybrids.
+      if (this.touch) {
+        const t = this.touch.vector();
+        if (t.x !== 0 || t.y !== 0) return t;
+      }
       let x = 0;
       let y = 0;
       if (this.isDown("KeyA", "ArrowLeft")) x -= 1;
