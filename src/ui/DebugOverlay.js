@@ -25,12 +25,21 @@
       ctx.setTransform(renderer.dpr, 0, 0, renderer.dpr, 0, 0);
       ctx.translate(-Math.round(camera.x), -Math.round(camera.y));
 
-      // Nearby prop colliders (within ~8 tiles of the player).
+      // Nearby static prop colliders (within ~8 tiles of the player).
       const near = 8 * ts;
       ctx.lineWidth = 2;
       ctx.strokeStyle = "rgba(255, 149, 40, 0.9)";
       ctx.fillStyle = "rgba(255, 149, 40, 0.18)";
       for (const c of game.world.activeColliders(game.progress)) {
+        if (Math.abs(c.x - player.centerX) > near || Math.abs(c.y - player.centerY) > near) continue;
+        ctx.fillRect(c.x, c.y, c.w, c.h);
+        ctx.strokeRect(c.x, c.y, c.w, c.h);
+      }
+
+      // Dynamic animal colliders.
+      ctx.strokeStyle = "rgba(196, 118, 255, 0.9)";
+      ctx.fillStyle = "rgba(196, 118, 255, 0.20)";
+      for (const c of game.dynamicColliders()) {
         if (Math.abs(c.x - player.centerX) > near || Math.abs(c.y - player.centerY) > near) continue;
         ctx.fillRect(c.x, c.y, c.w, c.h);
         ctx.strokeRect(c.x, c.y, c.w, c.h);
@@ -64,7 +73,7 @@
       const lines = [
         `tile (${ptx},${pty}) ${tile} — ${tileWalkable ? "walkable" : "BLOCKED"}`,
         `player rect ${walkableHere ? "clear" : "COLLIDING"} @ ${Math.round(player.x)},${Math.round(player.y)}`,
-        "orange: prop colliders · blue: blocked tiles · C: hide",
+        "orange: props · purple: animals · blue: blocked tiles · C: hide",
       ];
       ctx.save();
       ctx.setTransform(renderer.dpr, 0, 0, renderer.dpr, 0, 0);

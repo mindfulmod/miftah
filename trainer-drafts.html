@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Miftah Trainer Visual Drafts</title>
+    <style>
+      :root {
+        --ink: #2c1a11;
+        --umber: #5f3519;
+        --walnut: #8b5624;
+        --cream: #fff4cf;
+        --paper: #fffbe6;
+        --gold: #e9ab35;
+        --gold-light: #ffd878;
+        --teal: #0799ac;
+        --aqua: #40d2cf;
+        --blue: #2775bd;
+        --green: #71bd4b;
+        --leaf: #2f8a52;
+        --rose: #d86d5f;
+        --violet: #6b5ba9;
+        --shadow: rgba(38, 21, 12, 0.34);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        min-width: 360px;
+        min-height: 100%;
+        background:
+          linear-gradient(135deg, rgba(255, 255, 255, 0.08) 25%, transparent 25%) 0 0 / 42px 42px,
+          linear-gradient(315deg, rgba(255, 255, 255, 0.06) 25%, transparent 25%) 0 0 / 42px 42px,
+          linear-gradient(180deg, #099cc3 0%, #14a9bd 38%, #78bf55 78%, #dba95a 100%);
+        color: var(--cream);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      body {
+        overflow-x: hidden;
+      }
+
+      .page {
+        width: min(1500px, 100%);
+        margin: 0 auto;
+        padding: 28px;
+      }
+
+      .intro {
+        display: grid;
+        gap: 8px;
+        max-width: 1000px;
+        margin-bottom: 24px;
+      }
+
+      .intro h1,
+      .intro p {
+        margin: 0;
+      }
+
+      .intro h1 {
+        color: #fff8d6;
+        font-size: clamp(24px, 3vw, 38px);
+        line-height: 1.05;
+        letter-spacing: 0;
+      }
+
+      .intro p {
+        color: #e8fbec;
+        font-size: 15px;
+        line-height: 1.55;
+      }
+
+      .draft-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 24px;
+      }
+
+      .draft {
+        position: relative;
+        overflow: hidden;
+        min-height: 830px;
+        border: 1px solid rgba(255, 244, 207, 0.42);
+        border-radius: 8px;
+        background: #6dbb53;
+        box-shadow:
+          0 24px 60px rgba(25, 18, 12, 0.34),
+          inset 0 0 0 1px rgba(255, 255, 255, 0.32);
+      }
+
+      .draft::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(90deg, rgba(255, 255, 255, 0.09) 1px, transparent 1px),
+          linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+        background-size: 48px 48px;
+        opacity: 0.32;
+        pointer-events: none;
+      }
+
+      .draft::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.16), transparent 38%, rgba(58, 31, 13, 0.16));
+        pointer-events: none;
+      }
+
+      .draft-label,
+      .mock {
+        position: relative;
+        z-index: 1;
+      }
+
+      .draft-label {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 12px;
+        align-items: center;
+        padding: 16px 18px;
+        background:
+          linear-gradient(180deg, rgba(255, 232, 144, 0.2), rgba(38, 22, 12, 0.1)),
+          rgba(42, 27, 16, 0.86);
+        border-bottom: 1px solid rgba(255, 232, 144, 0.38);
+      }
+
+      .draft-label strong {
+        color: #fff5cc;
+        font-size: 14px;
+        letter-spacing: 0;
+      }
+
+      .draft-label span {
+        color: #ffd978;
+        font-size: 11px;
+        font-weight: 700;
+        text-align: right;
+      }
+
+      .mock {
+        display: grid;
+        gap: 16px;
+        padding: 18px;
+      }
+
+      .ornate-panel {
+        position: relative;
+        border: 4px solid var(--umber);
+        border-radius: 8px;
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.7), rgba(255, 231, 163, 0.72)),
+          var(--paper);
+        color: var(--ink);
+        box-shadow:
+          inset 0 0 0 2px #ffdf82,
+          inset 0 -10px 0 rgba(190, 124, 37, 0.1),
+          0 12px 0 rgba(71, 42, 21, 0.18),
+          0 18px 36px rgba(47, 26, 13, 0.2);
+      }
+
+      .ornate-panel::before,
+      .ornate-panel::after {
+        content: "";
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        border: 4px solid var(--gold);
+        pointer-events: none;
+      }
+
+      .ornate-panel::before {
+        left: 8px;
+        top: 8px;
+        border-right: 0;
+        border-bottom: 0;
+      }
+
+      .ornate-panel::after {
+        right: 8px;
+        bottom: 8px;
+        border-left: 0;
+        border-top: 0;
+      }
+
+      .arabic {
+        direction: rtl;
+        font-family: "Times New Roman", serif;
+        letter-spacing: 0;
+      }
+
+      .active-word {
+        display: inline-block;
+        padding: 1px 9px 4px;
+        border-radius: 4px;
+        background:
+          linear-gradient(180deg, #fff0a0, #ffc84f);
+        box-shadow:
+          0 0 0 2px #9b6825,
+          0 5px 0 rgba(117, 68, 25, 0.16);
+        color: #221309;
+      }
+
+      .choice {
+        border: 3px solid #7a451e;
+        border-radius: 6px;
+        background:
+          linear-gradient(180deg, #fff0a5, #e9b94f);
+        box-shadow:
+          inset 0 0 0 2px rgba(255, 255, 255, 0.38),
+          0 5px 0 rgba(96, 53, 24, 0.18);
+        color: var(--ink);
+        font: 800 13px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
+        padding: 12px 13px;
+        text-align: left;
+      }
+
+      .mini-asset {
+        width: 48px;
+        height: 48px;
+        object-fit: contain;
+        image-rendering: pixelated;
+      }
+
+      .chip {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-height: 48px;
+        padding: 8px 10px;
+        border: 2px solid rgba(104, 63, 27, 0.72);
+        border-radius: 6px;
+        background: rgba(255, 248, 220, 0.82);
+        color: #3c2414;
+        font-size: 11px;
+        font-weight: 850;
+      }
+
+      .progress-bar {
+        height: 12px;
+        overflow: hidden;
+        border: 2px solid #75451f;
+        border-radius: 6px;
+        background: #bc9050;
+      }
+
+      .progress-bar i {
+        display: block;
+        width: 38%;
+        height: 100%;
+        background:
+          linear-gradient(90deg, var(--teal), var(--aqua));
+      }
+
+      .concept-one {
+        background:
+          linear-gradient(180deg, rgba(34, 165, 190, 0.48), rgba(117, 185, 79, 0.88)),
+          #71bd4b;
+      }
+
+      .arch-hero {
+        position: relative;
+        display: grid;
+        justify-items: center;
+        min-height: 250px;
+        padding-top: 20px;
+      }
+
+      .arch-hero::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: 10px;
+        width: min(86%, 320px);
+        height: 110px;
+        transform: translateX(-50%);
+        border: 4px solid rgba(105, 65, 28, 0.68);
+        border-radius: 50% 50% 8px 8px;
+        background:
+          radial-gradient(circle at 50% 36%, rgba(255, 235, 138, 0.65), transparent 42%),
+          repeating-conic-gradient(from 45deg, #e8c47a 0 25%, #d9aa54 0 50%) 50% / 44px 44px;
+        box-shadow: 0 18px 0 rgba(61, 37, 18, 0.16);
+      }
+
+      .arch-hero img {
+        position: relative;
+        z-index: 1;
+        width: min(260px, 78%);
+        image-rendering: pixelated;
+        filter: drop-shadow(0 14px 0 rgba(61, 37, 18, 0.2));
+      }
+
+      .shrine-card {
+        display: grid;
+        gap: 14px;
+        padding: 18px;
+      }
+
+      .header-line {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .header-line strong {
+        display: block;
+        font-size: 15px;
+      }
+
+      .header-line small {
+        color: #6c5429;
+        font-weight: 750;
+      }
+
+      .ayah-window {
+        position: relative;
+        padding: 26px 18px;
+        border: 3px solid #966126;
+        border-radius: 6px;
+        background:
+          linear-gradient(90deg, transparent 0 44%, rgba(38, 117, 189, 0.14) 44% 56%, transparent 56%),
+          radial-gradient(circle at 16% 20%, rgba(64, 210, 207, 0.16), transparent 26%),
+          #fffbe8;
+        color: #1f1209;
+        text-align: center;
+        font-size: 34px;
+        line-height: 1.52;
+        box-shadow: inset 0 0 0 3px rgba(255, 218, 124, 0.42);
+      }
+
+      .choice-stack {
+        display: grid;
+        gap: 9px;
+      }
+
+      .reward-row {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+      }
+
+      .concept-two {
+        background:
+          linear-gradient(180deg, rgba(22, 164, 187, 0.72), rgba(234, 185, 91, 0.52)),
+          #25aac1;
+      }
+
+      .study-shell {
+        display: grid;
+        grid-template-columns: 0.92fr 1.18fr;
+        gap: 14px;
+      }
+
+      .collection-panel,
+      .study-panel {
+        padding: 16px;
+      }
+
+      .collection-panel {
+        display: grid;
+        gap: 12px;
+        align-content: start;
+      }
+
+      .collection-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .collection-title strong {
+        font-size: 15px;
+      }
+
+      .collection-title span {
+        padding: 5px 8px;
+        border-radius: 999px;
+        background: #285f75;
+        color: #e8fff7;
+        font-size: 11px;
+        font-weight: 850;
+      }
+
+      .surah-map {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 7px;
+      }
+
+      .surah-card {
+        position: relative;
+        min-height: 52px;
+        padding: 7px 6px;
+        border: 2px solid #805121;
+        border-radius: 5px;
+        background:
+          linear-gradient(180deg, #f6ce6e, #d69b3b);
+        color: #2e1a0e;
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.34);
+        font-size: 10px;
+        font-weight: 850;
+      }
+
+      .surah-card.current {
+        background: linear-gradient(180deg, #c5f197, #66bd55);
+        outline: 3px solid #0e93ac;
+      }
+
+      .surah-card.upcoming {
+        background: linear-gradient(180deg, #d5b983, #a97a39);
+        opacity: 0.68;
+      }
+
+      .surah-card b,
+      .surah-card em {
+        display: block;
+        font-style: normal;
+      }
+
+      .surah-card em {
+        margin-top: 4px;
+        color: #6f451e;
+        font-size: 9px;
+      }
+
+      .selected-surah {
+        padding: 12px;
+        border: 2px solid #7f4c20;
+        border-radius: 6px;
+        background: rgba(255, 249, 223, 0.72);
+      }
+
+      .selected-surah strong,
+      .selected-surah small {
+        display: block;
+      }
+
+      .selected-surah small {
+        margin: 6px 0 9px;
+        color: #6a5328;
+        font-weight: 750;
+      }
+
+      .study-panel {
+        display: grid;
+        gap: 12px;
+      }
+
+      .metric-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+
+      .metric {
+        display: grid;
+        gap: 2px;
+        padding: 10px;
+        border: 2px solid rgba(112, 69, 30, 0.74);
+        border-radius: 6px;
+        background: linear-gradient(180deg, #fff3bc, #e8bb61);
+        color: #3a2111;
+      }
+
+      .metric small {
+        color: #7a5526;
+        font-size: 10px;
+        font-weight: 850;
+      }
+
+      .metric strong {
+        font-size: 16px;
+      }
+
+      .study-ayah {
+        padding: 24px 16px;
+        border: 3px solid #8b5624;
+        border-radius: 6px;
+        background:
+          radial-gradient(circle at 50% 0%, rgba(255, 226, 126, 0.4), transparent 42%),
+          #fffbe6;
+        text-align: center;
+        font-size: 32px;
+        line-height: 1.5;
+      }
+
+      .answer-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 9px;
+      }
+
+      .concept-three {
+        background:
+          linear-gradient(180deg, rgba(9, 153, 172, 0.74), rgba(113, 189, 75, 0.82)),
+          #069ab1;
+      }
+
+      .trail-map {
+        position: relative;
+        min-height: 255px;
+        overflow: hidden;
+        border: 4px solid #74431f;
+        border-radius: 8px;
+        background:
+          radial-gradient(circle at 50% 22%, rgba(255, 228, 123, 0.78), transparent 92px),
+          linear-gradient(90deg, transparent 0 46%, rgba(228, 181, 84, 0.96) 46% 54%, transparent 54%),
+          linear-gradient(180deg, #6dc45c, #e0ba6b);
+        box-shadow: inset 0 0 0 2px rgba(255, 238, 174, 0.54);
+      }
+
+      .trail-map::before {
+        content: "";
+        position: absolute;
+        left: 10%;
+        right: 10%;
+        top: 50%;
+        height: 54px;
+        border-top: 18px solid rgba(223, 175, 82, 0.96);
+        border-radius: 50%;
+        transform: rotate(-5deg);
+      }
+
+      .trail-node {
+        position: absolute;
+        display: grid;
+        place-items: center;
+        width: 50px;
+        height: 50px;
+        border: 3px solid #70451e;
+        border-radius: 50%;
+        background: linear-gradient(180deg, #ffe58a, #dfaa38);
+        box-shadow:
+          inset 0 0 0 2px rgba(255, 255, 255, 0.36),
+          0 8px 0 rgba(70, 42, 20, 0.18);
+        color: #321c0f;
+        font-weight: 950;
+      }
+
+      .trail-node.current {
+        width: 72px;
+        height: 72px;
+        background: linear-gradient(180deg, #d8ff9d, #62bb51);
+        outline: 5px solid rgba(10, 152, 173, 0.85);
+      }
+
+      .trail-node:nth-child(1) {
+        left: 8%;
+        top: 142px;
+      }
+
+      .trail-node:nth-child(2) {
+        left: 26%;
+        top: 90px;
+      }
+
+      .trail-node:nth-child(3) {
+        left: 48%;
+        top: 110px;
+      }
+
+      .trail-node:nth-child(4) {
+        right: 24%;
+        top: 70px;
+      }
+
+      .trail-node:nth-child(5) {
+        right: 8%;
+        top: 136px;
+      }
+
+      .trail-study {
+        display: grid;
+        gap: 13px;
+        padding: 18px;
+      }
+
+      .trail-study .study-ayah {
+        font-size: 31px;
+      }
+
+      .action-strip {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+      }
+
+      .concept-note {
+        margin: 0;
+        color: #5d4824;
+        font-size: 12px;
+        line-height: 1.45;
+        font-weight: 700;
+      }
+
+      @media (max-width: 1240px) {
+        .draft-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .draft {
+          min-height: 0;
+        }
+      }
+
+      @media (max-width: 680px) {
+        .page {
+          padding: 16px;
+        }
+
+        .study-shell {
+          grid-template-columns: 1fr;
+        }
+
+        .reward-row,
+        .metric-row,
+        .action-strip {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <header class="intro">
+        <h1>Miftah Trainer Visual Drafts</h1>
+        <p>
+          Higher-fidelity directions for a cozy 32-bit trainer overlay: richer surfaces, less NES blockiness,
+          bigger reading areas, and stronger connection to the island archway, courtyard, and collection loop.
+        </p>
+      </header>
+
+      <section class="draft-grid" aria-label="Trainer draft options">
+        <article class="draft concept-one">
+          <div class="draft-label">
+            <strong>Draft 1: Golden Arch Reading Room</strong>
+            <span>Most magical</span>
+          </div>
+          <div class="mock">
+            <div class="arch-hero">
+              <img src="assets/generated/buildings/building_reading_arch.png" alt="" />
+            </div>
+            <section class="ornate-panel shrine-card">
+              <div class="header-line">
+                <div>
+                  <strong>Al-Fatihah</strong>
+                  <small>Ayah 2 · Word focus</small>
+                </div>
+                <img class="mini-asset" src="assets/generated/props/prop_lantern.png" alt="" />
+              </div>
+              <div class="ayah-window arabic">
+                ٱلْحَمْدُ <span class="active-word">لِلّٰهِ</span> رَبِّ ٱلْعَـٰلَمِينَ
+              </div>
+              <div class="choice-stack">
+                <button class="choice">Allah</button>
+                <button class="choice">The worlds</button>
+                <button class="choice">Mercy</button>
+              </div>
+              <div class="reward-row">
+                <div class="chip"><img class="mini-asset" src="assets/generated/crops/seed_packet_icon.png" alt="" /> Seeds +2</div>
+                <div class="chip"><img class="mini-asset" src="assets/generated/props/prop_geometric_mat_blue.png" alt="" /> Egg 1/3</div>
+                <div class="chip"><img class="mini-asset" src="assets/generated/ui/ui_crop_icon.png" alt="" /> Feed 0</div>
+              </div>
+              <p class="concept-note">This version treats the trainer as a little sacred room inside the arch: warm, ceremonial, and reward-forward.</p>
+            </section>
+          </div>
+        </article>
+
+        <article class="draft concept-two">
+          <div class="draft-label">
+            <strong>Draft 2: Courtyard Codex Desk</strong>
+            <span>Best product direction</span>
+          </div>
+          <div class="mock study-shell">
+            <aside class="ornate-panel collection-panel">
+              <div class="collection-title">
+                <strong>Surah Garden</strong>
+                <span>1 / 114</span>
+              </div>
+              <div class="surah-map">
+                <div class="surah-card current"><b>1</b>Al-Fatihah<em>2/7</em></div>
+                <div class="surah-card upcoming"><b>2</b>Al-Baqarah<em>0/286</em></div>
+                <div class="surah-card upcoming"><b>3</b>Ali 'Imran<em>0/200</em></div>
+                <div class="surah-card upcoming"><b>4</b>An-Nisa<em>0/176</em></div>
+                <div class="surah-card upcoming"><b>5</b>Al-Ma'idah<em>0/120</em></div>
+                <div class="surah-card upcoming"><b>6</b>Al-An'am<em>0/165</em></div>
+                <div class="surah-card upcoming"><b>7</b>Al-A'raf<em>0/206</em></div>
+                <div class="surah-card upcoming"><b>8</b>Al-Anfal<em>0/75</em></div>
+                <div class="surah-card upcoming"><b>9</b>At-Tawbah<em>0/129</em></div>
+                <div class="surah-card upcoming"><b>10</b>Yunus<em>0/109</em></div>
+              </div>
+              <div class="selected-surah">
+                <strong>Al-Fatihah</strong>
+                <small>Like filling a collection page, each surah gains color, polish, and completion marks as ayahs are studied.</small>
+                <div class="progress-bar"><i></i></div>
+              </div>
+              <div class="chip"><img class="mini-asset" src="assets/generated/buildings/building_reading_arch.png" alt="" /> Archway collection room</div>
+            </aside>
+
+            <section class="ornate-panel study-panel">
+              <div class="metric-row">
+                <div class="metric"><small>Ayahs</small><strong>2</strong></div>
+                <div class="metric"><small>Seeds</small><strong>4</strong></div>
+                <div class="metric"><small>Egg</small><strong>1/3</strong></div>
+              </div>
+              <div class="study-ayah arabic">
+                ٱلْحَمْدُ <span class="active-word">لِلّٰهِ</span> رَبِّ ٱلْعَـٰلَمِينَ
+              </div>
+              <strong>What does the highlighted word mean?</strong>
+              <div class="answer-grid">
+                <button class="choice">Allah</button>
+                <button class="choice">The worlds</button>
+                <button class="choice">Guide us</button>
+                <button class="choice">The path</button>
+              </div>
+              <p class="concept-note">This keeps the actual learning calm and readable while making Quran progress feel collectible. It is the strongest base for the real app.</p>
+            </section>
+          </div>
+        </article>
+
+        <article class="draft concept-three">
+          <div class="draft-label">
+            <strong>Draft 3: Lantern Trail Atlas</strong>
+            <span>Most game-like</span>
+          </div>
+          <div class="mock">
+            <div class="trail-map">
+              <div class="trail-node">1</div>
+              <div class="trail-node current">2</div>
+              <div class="trail-node">3</div>
+              <div class="trail-node">4</div>
+              <div class="trail-node">5</div>
+            </div>
+            <section class="ornate-panel trail-study">
+              <div class="metric-row">
+                <div class="metric"><small>Current</small><strong>Al-Baqarah</strong></div>
+                <div class="metric"><small>Next Egg</small><strong>2</strong></div>
+                <div class="metric"><small>Oasis</small><strong>3%</strong></div>
+              </div>
+              <div class="study-ayah arabic">
+                ذَٰلِكَ <span class="active-word">ٱلْكِتَـٰبُ</span> لَا رَيْبَ فِيهِ
+              </div>
+              <div class="choice-stack">
+                <button class="choice">The Book</button>
+                <button class="choice">No doubt</button>
+                <button class="choice">Guidance</button>
+              </div>
+              <div class="action-strip">
+                <div class="chip"><img class="mini-asset" src="assets/generated/props/prop_fountain.png" alt="" /> Focus</div>
+                <div class="chip"><img class="mini-asset" src="assets/generated/props/prop_lantern.png" alt="" /> Trail</div>
+                <div class="chip"><img class="mini-asset" src="assets/generated/crops/crop_sprout.png" alt="" /> Seeds</div>
+                <div class="chip"><img class="mini-asset" src="assets/generated/ui/ui_seed_icon.png" alt="" /> Egg</div>
+              </div>
+              <p class="concept-note">This turns the Quran into an explorable atlas. Very fun, but it risks making the trainer feel busier than beginners need.</p>
+            </section>
+          </div>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

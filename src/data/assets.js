@@ -55,6 +55,8 @@
       crowOrchard: `${base}props/prop_crow_rocky_orchard.png`,
       bush: `${base}props/prop_bush.png`,
       flowers: `${base}props/prop_flowers.png`,
+      flowersPink: `${base}props/prop_flowers_pink.png`,
+      flowersPurple: `${base}props/prop_flowers_purple.png`,
       reeds: `${base}props/prop_reeds.png`,
       rocks: `${base}props/prop_rocks.png`,
       barrel: `${base}props/prop_barrel.png`,

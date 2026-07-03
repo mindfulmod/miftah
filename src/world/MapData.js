@@ -415,6 +415,8 @@
     prop("seed-sign", "props.signSeed", 24, 28, 48, 48, { hint: "Seed packets are ready", collider: false });
     prop("flowers-hub-1", "props.flowers", 25, 22, 48, 48, { hint: "Bright flowers", collider: false });
     prop("flowers-hub-2", "props.flowers", 31, 33, 48, 48, { hint: "Bright flowers", collider: false });
+    prop("flowers-hub-pink", "props.flowersPink", 26, 33, 48, 48, { hint: "Pink flowers", collider: false });
+    prop("flowers-hub-purple", "props.flowersPurple", 30, 22, 48, 48, { hint: "Purple flowers", collider: false });
     prop("bush-court-1", "props.bush", 24, 30, 48, 48, { hint: "A tidy bush", collider: false });
     prop("bush-court-2", "props.bush", 32, 26, 48, 48, { hint: "A tidy bush", collider: false });
 

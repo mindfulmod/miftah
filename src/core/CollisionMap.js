@@ -16,9 +16,10 @@
   }
 
   class CollisionMap {
-    constructor(world, progressProvider = null) {
+    constructor(world, progressProvider = null, dynamicCollidersProvider = null) {
       this.world = world;
       this.progressProvider = progressProvider;
+      this.dynamicCollidersProvider = dynamicCollidersProvider;
     }
 
     canMoveToRect(x, y, w, h) {
@@ -29,7 +30,9 @@
         if (!this.world.tileMap.isWalkablePixel(px, py)) return false;
       }
       const progress = this.progressProvider ? this.progressProvider() : null;
-      return !this.world.activeColliders(progress).some((collider) => intersects(rect, collider));
+      const staticColliders = this.world.activeColliders(progress);
+      const dynamicColliders = this.dynamicCollidersProvider ? this.dynamicCollidersProvider() : [];
+      return !staticColliders.concat(dynamicColliders).some((collider) => intersects(rect, collider));
     }
   }
 

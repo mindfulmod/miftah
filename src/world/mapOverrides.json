@@ -177,7 +177,13 @@
       "previewZone": "",
       "openZone": "",
       "lockIsland": "",
-      "revealZone": ""
+      "revealZone": "",
+      "collider": {
+        "x": 1410.72,
+        "y": 723.84,
+        "w": 10.56,
+        "h": 40.32
+      }
     },
     {
       "id": "farm-fence-w2",
@@ -194,7 +200,13 @@
       "previewZone": "",
       "openZone": "",
       "lockIsland": "",
-      "revealZone": ""
+      "revealZone": "",
+      "collider": {
+        "x": 1410.72,
+        "y": 819.84,
+        "w": 10.56,
+        "h": 40.32
+      }
     },
     {
       "id": "farm-fence-w3",
@@ -211,7 +223,13 @@
       "previewZone": "",
       "openZone": "",
       "lockIsland": "",
-      "revealZone": ""
+      "revealZone": "",
+      "collider": {
+        "x": 1410.72,
+        "y": 915.84,
+        "w": 10.56,
+        "h": 40.32
+      }
     },
     {
       "id": "farm-fence-w4",
@@ -228,7 +246,13 @@
       "previewZone": "",
       "openZone": "",
       "lockIsland": "",
-      "revealZone": ""
+      "revealZone": "",
+      "collider": {
+        "x": 1410.72,
+        "y": 1011.84,
+        "w": 10.56,
+        "h": 40.32
+      }
     },
     {
       "id": "farm-fence-e1",
@@ -245,7 +269,13 @@
       "previewZone": "",
       "openZone": "",
       "lockIsland": "",
-      "revealZone": ""
+      "revealZone": "",
+      "collider": {
+        "x": 1698.72,
+        "y": 723.84,
+        "w": 10.56,
+        "h": 40.32
+      }
     },
     {
       "id": "farm-fence-e2",
@@ -262,7 +292,13 @@
       "previewZone": "",
       "openZone": "",
       "lockIsland": "",
-      "revealZone": ""
+      "revealZone": "",
+      "collider": {
+        "x": 1698.72,
+        "y": 819.84,
+        "w": 10.56,
+        "h": 40.32
+      }
     },
     {
       "id": "farm-fence-e3",
@@ -279,7 +315,13 @@
       "previewZone": "",
       "openZone": "",
       "lockIsland": "",
-      "revealZone": ""
+      "revealZone": "",
+      "collider": {
+        "x": 1698.72,
+        "y": 915.84,
+        "w": 10.56,
+        "h": 40.32
+      }
     },
     {
       "id": "farm-fence-e4",
@@ -296,7 +338,13 @@
       "previewZone": "",
       "openZone": "",
       "lockIsland": "",
-      "revealZone": ""
+      "revealZone": "",
+      "collider": {
+        "x": 1698.72,
+        "y": 1011.84,
+        "w": 10.56,
+        "h": 40.32
+      }
     },
     {
       "id": "gate-nw-0",
@@ -1073,7 +1121,13 @@
       "previewZone": "",
       "openZone": "",
       "lockIsland": "",
-      "revealZone": "meadow"
+      "revealZone": "meadow",
+      "collider": {
+        "x": 2163.84,
+        "y": 647.04,
+        "w": 40.32,
+        "h": 10.56
+      }
     },
     {
       "id": "meadow-fence-2",
@@ -1090,7 +1144,13 @@
       "previewZone": "",
       "openZone": "",
       "lockIsland": "",
-      "revealZone": "meadow"
+      "revealZone": "meadow",
+      "collider": {
+        "x": 2211.84,
+        "y": 647.04,
+        "w": 40.32,
+        "h": 10.56
+      }
     },
     {
       "id": "meadow-fence-3",
@@ -1107,7 +1167,13 @@
       "previewZone": "",
       "openZone": "",
       "lockIsland": "",
-      "revealZone": "meadow"
+      "revealZone": "meadow",
+      "collider": {
+        "x": 2259.84,
+        "y": 647.04,
+        "w": 40.32,
+        "h": 10.56
+      }
     },
     {
       "id": "meadow-fence-4",
@@ -1124,7 +1190,13 @@
       "previewZone": "",
       "openZone": "",
       "lockIsland": "",
-      "revealZone": "meadow"
+      "revealZone": "meadow",
+      "collider": {
+        "x": 2130.72,
+        "y": 675.84,
+        "w": 10.56,
+        "h": 40.32
+      }
     },
     {
       "id": "meadow-fence-5",
@@ -1141,7 +1213,13 @@
       "previewZone": "",
       "openZone": "",
       "lockIsland": "",
-      "revealZone": "meadow"
+      "revealZone": "meadow",
+      "collider": {
+        "x": 2130.72,
+        "y": 723.84,
+        "w": 10.56,
+        "h": 40.32
+      }
     },
     {
       "id": "hay-stable",
@@ -1770,6 +1848,319 @@
         "y": 2075.52,
         "w": 71.68,
         "h": 26.880000000000003
+      }
+    },
+    {
+      "id": "editor-props-flowers-1782952756253",
+      "assetKey": "props.flowers",
+      "x": 1392,
+      "y": 1776,
+      "width": 48,
+      "height": 48,
+      "layer": "object",
+      "hint": "Flowers",
+      "dialogue": "",
+      "sortY": 1824,
+      "collider": null
+    },
+    {
+      "id": "editor-props-flowers-1782952757269",
+      "assetKey": "props.flowers",
+      "x": 1392,
+      "y": 1632,
+      "width": 48,
+      "height": 48,
+      "layer": "object",
+      "hint": "Flowers",
+      "dialogue": "",
+      "sortY": 1680,
+      "collider": null
+    },
+    {
+      "id": "editor-props-flowers-1782952758119",
+      "assetKey": "props.flowers",
+      "x": 1392,
+      "y": 1728,
+      "width": 48,
+      "height": 48,
+      "layer": "object",
+      "hint": "Flowers",
+      "dialogue": "",
+      "sortY": 1776,
+      "collider": null
+    },
+    {
+      "id": "editor-props-flowers-1782952758969",
+      "assetKey": "props.flowers",
+      "x": 1440,
+      "y": 1776,
+      "width": 48,
+      "height": 48,
+      "layer": "object",
+      "hint": "Flowers",
+      "dialogue": "",
+      "sortY": 1824,
+      "collider": null
+    },
+    {
+      "id": "editor-props-flowers-1782952759469",
+      "assetKey": "props.flowers",
+      "x": 1392,
+      "y": 1824,
+      "width": 48,
+      "height": 48,
+      "layer": "object",
+      "hint": "Flowers",
+      "dialogue": "",
+      "sortY": 1872,
+      "collider": null
+    },
+    {
+      "id": "editor-props-flowers-1782952760219",
+      "assetKey": "props.flowers",
+      "x": 1440,
+      "y": 1728,
+      "width": 48,
+      "height": 48,
+      "layer": "object",
+      "hint": "Flowers",
+      "dialogue": "",
+      "sortY": 1776,
+      "collider": null
+    },
+    {
+      "id": "editor-props-flowers-1782952760869",
+      "assetKey": "props.flowers",
+      "x": 1440,
+      "y": 1824,
+      "width": 48,
+      "height": 48,
+      "layer": "object",
+      "hint": "Flowers",
+      "dialogue": "",
+      "sortY": 1872,
+      "collider": null
+    },
+    {
+      "id": "editor-props-flowers-1782952761903",
+      "assetKey": "props.flowers",
+      "x": 1440,
+      "y": 1872,
+      "width": 48,
+      "height": 48,
+      "layer": "object",
+      "hint": "Flowers",
+      "dialogue": "",
+      "sortY": 1920,
+      "collider": null
+    },
+    {
+      "id": "editor-props-flowers-1782952762269",
+      "assetKey": "props.flowers",
+      "x": 1392,
+      "y": 1872,
+      "width": 48,
+      "height": 48,
+      "layer": "object",
+      "hint": "Flowers",
+      "dialogue": "",
+      "sortY": 1920,
+      "collider": null
+    },
+    {
+      "id": "gift-hub",
+      "areaId": "hub",
+      "gift": {
+        "id": "shore-pebble",
+        "label": "Shore pebble",
+        "assetKey": "props.rocks",
+        "blurb": "Smoothed by the tide below the dock."
+      },
+      "isGift": true,
+      "assetKey": "props.rocks",
+      "x": 1536,
+      "y": 2016,
+      "width": 40,
+      "height": 40,
+      "layer": "object",
+      "hint": "Pick up: Shore pebble",
+      "dialogue": "",
+      "sortY": 2056,
+      "lockZone": "",
+      "previewZone": "",
+      "openZone": "",
+      "lockIsland": "",
+      "revealZone": "",
+      "collider": null
+    },
+    {
+      "id": "gift-ne",
+      "areaId": "ne",
+      "gift": {
+        "id": "hay-tuft",
+        "label": "Hay tuft",
+        "assetKey": "props.hay",
+        "blurb": "Carried off from the barn, one mouthful at a time."
+      },
+      "isGift": true,
+      "assetKey": "props.hay",
+      "x": 2352,
+      "y": 432,
+      "width": 40,
+      "height": 40,
+      "layer": "object",
+      "hint": "Pick up: Hay tuft",
+      "dialogue": "",
+      "sortY": 472,
+      "lockZone": "",
+      "previewZone": "",
+      "openZone": "",
+      "lockIsland": "",
+      "revealZone": "",
+      "collider": null
+    },
+    {
+      "id": "editor-props-lantern-1783046496904",
+      "assetKey": "props.lantern",
+      "x": 1488,
+      "y": 1728,
+      "width": 48,
+      "height": 64,
+      "layer": "object",
+      "hint": "Lantern",
+      "dialogue": "",
+      "sortY": 1792,
+      "collider": {
+        "x": 1496.64,
+        "y": 1767.68,
+        "w": 30.72,
+        "h": 17.92
+      }
+    },
+    {
+      "id": "editor-props-lantern-1783046498667",
+      "assetKey": "props.lantern",
+      "x": 1344,
+      "y": 1728,
+      "width": 48,
+      "height": 64,
+      "layer": "object",
+      "hint": "Lantern",
+      "dialogue": "",
+      "sortY": 1792,
+      "collider": {
+        "x": 1352.64,
+        "y": 1767.68,
+        "w": 30.72,
+        "h": 17.92
+      }
+    },
+    {
+      "id": "editor-props-lantern-1783046499459",
+      "assetKey": "props.lantern",
+      "x": 1344,
+      "y": 1776,
+      "width": 48,
+      "height": 64,
+      "layer": "object",
+      "hint": "Lantern",
+      "dialogue": "",
+      "sortY": 1840,
+      "collider": {
+        "x": 1352.64,
+        "y": 1815.68,
+        "w": 30.72,
+        "h": 17.92
+      }
+    },
+    {
+      "id": "editor-props-lantern-1783046500217",
+      "assetKey": "props.lantern",
+      "x": 1488,
+      "y": 1776,
+      "width": 48,
+      "height": 64,
+      "layer": "object",
+      "hint": "Lantern",
+      "dialogue": "",
+      "sortY": 1840,
+      "collider": {
+        "x": 1496.64,
+        "y": 1815.68,
+        "w": 30.72,
+        "h": 17.92
+      }
+    },
+    {
+      "id": "editor-props-lantern-1783046500767",
+      "assetKey": "props.lantern",
+      "x": 1488,
+      "y": 1824,
+      "width": 48,
+      "height": 64,
+      "layer": "object",
+      "hint": "Lantern",
+      "dialogue": "",
+      "sortY": 1888,
+      "collider": {
+        "x": 1496.64,
+        "y": 1863.68,
+        "w": 30.72,
+        "h": 17.92
+      }
+    },
+    {
+      "id": "editor-props-lantern-1783046501842",
+      "assetKey": "props.lantern",
+      "x": 1488,
+      "y": 1872,
+      "width": 48,
+      "height": 64,
+      "layer": "object",
+      "hint": "Lantern",
+      "dialogue": "",
+      "sortY": 1936,
+      "collider": {
+        "x": 1496.64,
+        "y": 1911.68,
+        "w": 30.72,
+        "h": 17.92
+      }
+    },
+    {
+      "id": "editor-props-lantern-1783046504750",
+      "assetKey": "props.lantern",
+      "x": 1344,
+      "y": 1824,
+      "width": 48,
+      "height": 64,
+      "layer": "object",
+      "hint": "Lantern",
+      "dialogue": "",
+      "sortY": 1888,
+      "collider": {
+        "x": 1352.64,
+        "y": 1863.68,
+        "w": 30.72,
+        "h": 17.92
+      }
+    },
+    {
+      "id": "editor-props-lantern-1783046505226",
+      "assetKey": "props.lantern",
+      "x": 1344,
+      "y": 1872,
+      "width": 48,
+      "height": 64,
+      "layer": "object",
+      "hint": "Lantern",
+      "dialogue": "",
+      "sortY": 1936,
+      "collider": {
+        "x": 1352.64,
+        "y": 1911.68,
+        "w": 30.72,
+        "h": 17.92
       }
     }
   ]

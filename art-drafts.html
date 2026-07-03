@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Art style drafts — Miftah</title>
+<style>
+  :root{
+    --sky1:#1a3b3a; --sky2:#2a5d52; --sand:#d9b06a;
+    --gold:#e3b75f; --green:#46b187; --ink:#0e1c1b; --card:#10211f;
+    --line: rgba(227,183,95,.28); --muted:#9fb8b0;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; font-family:"Inter",system-ui,-apple-system,sans-serif;
+    color:#eaf3ef; background:#0c1817;
+    padding:28px 18px 60px;
+  }
+  h1{font-size:1.5rem; margin:0 0 4px; text-align:center}
+  .sub{color:var(--muted); text-align:center; margin:0 auto 26px; max-width:620px; font-size:.92rem; line-height:1.5}
+  .wrap{display:grid; grid-template-columns:1fr 1fr; gap:20px; max-width:920px; margin:0 auto}
+  @media (max-width:760px){ .wrap{grid-template-columns:1fr} }
+  .style-card{
+    border:1px solid var(--line); border-radius:18px; overflow:hidden;
+    background:linear-gradient(180deg,#12100c, #0e1413);
+  }
+  .style-head{padding:14px 18px; border-bottom:1px solid var(--line)}
+  .style-head h2{margin:0 0 2px; font-size:1.05rem; color:var(--gold)}
+  .style-head p{margin:0; font-size:.78rem; color:var(--muted)}
+  /* oasis scene strip that holds the 3 stages */
+  .oasis{
+    position:relative; display:flex; justify-content:space-around; align-items:flex-end;
+    gap:8px; padding:26px 12px 16px;
+    background:
+      radial-gradient(120% 80% at 50% 8%, #f7d98a22, transparent 60%),
+      linear-gradient(180deg, #20484a 0%, #2c6157 46%, #356b4f 60%, #6b8f4e 60%, #88a85a 100%);
+  }
+  .oasis::after{ /* water pool */
+    content:""; position:absolute; left:8%; right:8%; bottom:10px; height:18px;
+    background:radial-gradient(70% 100% at 50% 50%, #7fd6e0aa, #2f8fa055 70%, transparent);
+    border-radius:50%; filter:blur(.5px);
+  }
+  .stage{position:relative; z-index:2; text-align:center; width:30%}
+  .frame{height:140px; display:flex; align-items:flex-end; justify-content:center}
+  .stage .lbl{font-size:.72rem; color:#eaf3ef; margin-top:8px; font-weight:600}
+  .stage .word{font-size:1.05rem; margin-top:1px; direction:rtl; color:var(--gold); font-weight:700}
+  .stage .rom{font-size:.66rem; color:var(--muted)}
+  /* pixel rendering crispness */
+  .pixel svg{shape-rendering:crispEdges}
+  .legend{max-width:920px; margin:22px auto 0; color:var(--muted); font-size:.8rem; text-align:center; line-height:1.5}
+</style>
+</head>
+<body>
+  <h1>Oasis collectibles — two art directions</h1>
+  <p class="sub">Same creature, same 3 evolution stages, on an oasis-garden backdrop. These are <em>code-rendered style mocks</em> to choose a direction — the shipped clay assets would be AI-generated for richer shading; the pixel style is close to final as shown.</p>
+
+  <div class="wrap">
+    <section class="style-card">
+      <div class="style-head"><h2>A · GBC pixel</h2><p>Pokémon Gold/Silver lineage · tiny files · nostalgic</p></div>
+      <div class="oasis" id="pixelOasis"></div>
+    </section>
+
+    <section class="style-card">
+      <div class="style-head"><h2>B · Soft-3D clay</h2><p>Modern Pokémon-GO / Toca-Boca cuties · baby-schema</p></div>
+      <div class="oasis" id="clayOasis"></div>
+    </section>
+  </div>
+
+  <p class="legend">Bee · An-Naḥl. Stage words shown: نَحْل (bee) → عَسَل (honey) → شِفَاء (healing).<br>Notice the baby fills less of the frame than the grown form — size itself signals evolution.</p>
+
+<script>
+/* ---------- A) PIXEL RENDERER ---------- */
+const PAL = {
+  '.':null, 'K':'#2c2016', 'Y':'#f7c948', 'y':'#e1a72b',
+  'W':'#e6f3ff','w':'#a7cfee','E':'#ffffff','P':'#2c2016','R':'#f0a0a6'
+};
+const BEE = {
+  baby:[
+    "................","................","................","................",
+    "................",".....KKKKKK.....","....KYYYYYYK....","....KEEPPEEK....",
+    "....KYRRRRYK....","....KYYYYYYK....",".....KKKKKK.....","................",
+    "................","................","................","................"
+  ],
+  young:[
+    "................","................","................",".....KKKKKK.....",
+    "...wKYYYYYYKw...","...KYYYYYYYYK...","...KYEEYYEEYK...","...KYEPYYPEYK...",
+    "...KYYRRRRYYK...","...KYYYYYYYYK...","....KYYYYYYK....",".....KKKKKK.....",
+    "................","................","................","................"
+  ],
+  grown:[
+    "................","...w........w...","..wWw......wWw..","..wWw......wWw..",
+    "....KKKKKKKK....","...KYYYYYYYYK...","..KYYYYYYYYYYK..","..KYEEYYYYEEYK..",
+    "..KYEPYYYYPEYK..","..KyyyyyyyyyyK..","..KYYRYYYYRYYK..","..KKYYYYYYYYKK..",
+    "...KKYYYYYYKK...","....KKKKKKKK....",".......KK.......","................"
+  ]
+};
+function pixelSprite(grid, px){
+  const n=16, s=n*px;
+  let r=`<svg class="spr" width="${s}" height="${s}" viewBox="0 0 ${n} ${n}" xmlns="http://www.w3.org/2000/svg">`;
+  for(let y=0;y<n;y++){
+    const row=grid[y]||"";
+    for(let x=0;x<n;x++){
+      const c=PAL[row[x]];
+      if(c) r+=`<rect x="${x}" y="${y}" width="1.02" height="1.02" fill="${c}"/>`;
+    }
+  }
+  return r+`</svg>`;
+}
+
+/* ---------- B) CLAY RENDERER ---------- */
+function clayBee(stage){
+  const C={
+    baby :{bodyRx:22,bodyRy:22,cy:60,eyeRx:8,  eyeRy:9.5,eyeY:54,dx:11,wings:0,stripes:1,sting:0,cheek:6,head:1},
+    young:{bodyRx:25,bodyRy:27,cy:58,eyeRx:6.5,eyeRy:8,  eyeY:52,dx:12,wings:1,stripes:2,sting:0,cheek:5,head:.9},
+    grown:{bodyRx:29,bodyRy:31,cy:58,eyeRx:6,  eyeRy:7.5,eyeY:51,dx:13,wings:2,stripes:2,sting:1,cheek:5,head:.85}
+  }[stage];
+  const id=stage;
+  const top=C.cy-C.bodyRy;
+  let svg=`<svg class="spr" width="120" height="120" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">`;
+  svg+=`<defs>
+    <radialGradient id="body_${id}" cx="38%" cy="30%" r="75%">
+      <stop offset="0%" stop-color="#ffe79a"/><stop offset="55%" stop-color="#f3b93c"/><stop offset="100%" stop-color="#d8932a"/>
+    </radialGradient>
+    <radialGradient id="wing_${id}" cx="40%" cy="35%" r="75%">
+      <stop offset="0%" stop-color="#ffffff"/><stop offset="100%" stop-color="#bfe0f5"/>
+    </radialGradient>
+    <clipPath id="clip_${id}"><ellipse cx="50" cy="${C.cy}" rx="${C.bodyRx}" ry="${C.bodyRy}"/></clipPath>
+  </defs>`;
+  // shadow
+  svg+=`<ellipse cx="50" cy="92" rx="${C.bodyRx*0.85}" ry="4" fill="#000" opacity="0.18"/>`;
+  // wings
+  if(C.wings){
+    const wrx=C.wings===2?14:9, wry=C.wings===2?20:13, wy=C.wings===2?40:46;
+    svg+=`<ellipse cx="34" cy="${wy}" rx="${wrx}" ry="${wry}" fill="url(#wing_${id})" stroke="#bcdcf2" stroke-width="1" opacity="0.92" transform="rotate(-22 34 ${wy})"/>`;
+    svg+=`<ellipse cx="66" cy="${wy}" rx="${wrx}" ry="${wry}" fill="url(#wing_${id})" stroke="#bcdcf2" stroke-width="1" opacity="0.92" transform="rotate(22 66 ${wy})"/>`;
+  }
+  // antennae
+  svg+=`<path d="M44 ${top+2} Q40 ${top-8} 37 ${top-11}" stroke="#3a2c1c" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <circle cx="37" cy="${top-11}" r="2.6" fill="#3a2c1c"/>
+        <path d="M56 ${top+2} Q60 ${top-8} 63 ${top-11}" stroke="#3a2c1c" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <circle cx="63" cy="${top-11}" r="2.6" fill="#3a2c1c"/>`;
+  // body
+  svg+=`<ellipse cx="50" cy="${C.cy}" rx="${C.bodyRx}" ry="${C.bodyRy}" fill="url(#body_${id})" stroke="#c9851f" stroke-width="1.2"/>`;
+  // stripes (clipped to body)
+  svg+=`<g clip-path="url(#clip_${id})">`;
+  if(C.stripes>=1) svg+=`<rect x="10" y="${C.cy+2}" width="80" height="9" rx="4" fill="#33271a"/>`;
+  if(C.stripes>=2) svg+=`<rect x="10" y="${C.cy+C.bodyRy-9}" width="80" height="9" rx="4" fill="#33271a"/>`;
+  svg+=`</g>`;
+  // stinger
+  if(C.sting) svg+=`<path d="M50 ${C.cy+C.bodyRy} l-4 4 l8 0 z" fill="#33271a"/>`;
+  // eyes
+  const ex1=50-C.dx, ex2=50+C.dx, ey=C.eyeY;
+  for(const ex of [ex1,ex2]){
+    svg+=`<ellipse cx="${ex}" cy="${ey}" rx="${C.eyeRx}" ry="${C.eyeRy}" fill="#fff" stroke="#caa24a" stroke-width="0.6"/>`;
+    svg+=`<circle cx="${ex+0.5}" cy="${ey+1}" r="${C.eyeRx*0.5}" fill="#2b2016"/>`;
+    svg+=`<circle cx="${ex-1.4}" cy="${ey-1.6}" r="${C.eyeRx*0.22}" fill="#fff"/>`;
+  }
+  // cheeks
+  svg+=`<ellipse cx="${ex1-2}" cy="${ey+C.eyeRy+2}" rx="${C.cheek}" ry="${C.cheek*0.6}" fill="#ef9aa0" opacity="0.75"/>`;
+  svg+=`<ellipse cx="${ex2+2}" cy="${ey+C.eyeRy+2}" rx="${C.cheek}" ry="${C.cheek*0.6}" fill="#ef9aa0" opacity="0.75"/>`;
+  // mouth
+  svg+=`<path d="M46 ${ey+C.eyeRy+4} Q50 ${ey+C.eyeRy+8} 54 ${ey+C.eyeRy+4}" stroke="#5a3a1a" stroke-width="1.6" fill="none" stroke-linecap="round"/>`;
+  return svg+`</svg>`;
+}
+
+/* ---------- build the two oases ---------- */
+const stages=[
+  {k:'baby', lbl:'Hatchling', word:'نَحْل',  rom:'naḥl · bee'},
+  {k:'young',lbl:'Young',     word:'عَسَل',  rom:'ʿasal · honey'},
+  {k:'grown',lbl:'Grown',     word:'شِفَاء', rom:'shifāʾ · healing'}
+];
+const pxSize=[5,6,7]; // baby smaller, grown bigger -> size signals growth
+function buildOasis(elId, renderer, sizes){
+  const el=document.getElementById(elId);
+  stages.forEach((st,i)=>{
+    const d=document.createElement('div'); d.className='stage';
+    const f=document.createElement('div'); f.className='frame '+(renderer===pixelSprite?'pixel':'clay');
+    f.innerHTML = renderer===pixelSprite ? pixelSprite(BEE[st.k], sizes[i]) : clayBee(st.k);
+    d.appendChild(f);
+    d.insertAdjacentHTML('beforeend',
+      `<div class="lbl">${st.lbl}</div><div class="word">${st.word}</div><div class="rom">${st.rom}</div>`);
+    el.appendChild(d);
+  });
+}
+buildOasis('pixelOasis', pixelSprite, pxSize);
+buildOasis('clayOasis', clayBee, null);
+</script>
+</body>
+</html>

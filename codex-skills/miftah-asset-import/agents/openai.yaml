@@ -1,0 +1,5 @@
+interface:
+  display_name: "Miftah Asset Import"
+  short_description: "Low-token Miftah asset imports."
+  brand_color: "#FF00FF"
+  default_prompt: "Use $miftah-asset-import to import this generated asset sheet into Miftah with the low-token preview workflow."

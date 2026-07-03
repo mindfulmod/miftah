@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pixel drafts — Gen 3 / Ruby</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Inter",system-ui,-apple-system,sans-serif;color:#eaf3ef;background:#0c1413;padding:26px 16px 56px}
+  h1{font-size:1.5rem;margin:0 0 4px;text-align:center}
+  .sub{color:#9fb8b0;text-align:center;margin:0 auto 24px;max-width:680px;font-size:.92rem;line-height:1.5}
+  .card{border:1px solid rgba(227,183,95,.25);border-radius:18px;overflow:hidden;background:linear-gradient(180deg,#12100c,#0e1413);max-width:920px;margin:0 auto 22px}
+  .head{padding:13px 18px;border-bottom:1px solid rgba(227,183,95,.22);display:flex;align-items:baseline;gap:12px}
+  .head h2{margin:0;font-size:1.05rem;color:#e3b75f}
+  .head .w{font-size:1rem;direction:rtl;color:#f0d49a;font-weight:700}
+  .head .r{font-size:.74rem;color:#9fb8b0}
+  .oasis{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;padding:18px 10px 12px;
+    background:linear-gradient(180deg,#cfeaf2 0%, #dcebc7 0%, #d9ecc9 46%, #bfe0ad 62%, #8cc55a 62%, #6ba84a 100%);}
+  .stage{text-align:center}
+  .frame{height:230px;display:flex;align-items:center;justify-content:center;overflow:visible}
+  .frame svg{shape-rendering:crispEdges;image-rendering:pixelated}
+  .lbl{font-size:.72rem;color:#173a1c;font-weight:700;margin-top:2px}
+  .note{max-width:920px;margin:8px auto 0;color:#9fb8b0;font-size:.82rem;text-align:center;line-height:1.55}
+</style>
+</head>
+<body>
+  <h1>Gen 3 / Ruby — three drafts per life form</h1>
+  <p class="sub">Same chunky 3-tone Ruby engine. Each life form has three design variants — pick one per row (e.g. "Larva B, Pupa A, Bee C").</p>
+
+  <section class="card">
+    <div class="head"><h2>Larva</h2><span class="w">نَحْل</span><span class="r">naḥl · bee</span></div>
+    <div class="oasis" id="larvaRow"></div>
+  </section>
+  <section class="card">
+    <div class="head"><h2>Pupa</h2><span class="w">عَسَل</span><span class="r">ʿasal · honey</span></div>
+    <div class="oasis" id="pupaRow"></div>
+  </section>
+  <section class="card">
+    <div class="head"><h2>Bee</h2><span class="w">شِفَاء</span><span class="r">shifāʾ · healing</span></div>
+    <div class="oasis" id="beeRow"></div>
+  </section>
+  <p class="note">Fixes this pass: larva given a clear forward face + clean pose, pupa redrawn as a chrysalis creature (eyes / leaf-wrap / ridged shell) instead of a smooth oval, bee slimmed down from the round blob.</p>
+
+<script>
+/* ============ tiny pixel engine ============ */
+const grid = N => Array.from({length:N},()=>new Array(N).fill(null));
+function ell(g,cx,cy,rx,ry,c,mask){
+  const N=g.length;
+  for(let y=Math.max(0,Math.floor(cy-ry));y<=Math.min(N-1,Math.ceil(cy+ry));y++)
+    for(let x=Math.max(0,Math.floor(cx-rx));x<=Math.min(N-1,Math.ceil(cx+rx));x++){
+      const dx=(x+.5-cx)/rx, dy=(y+.5-cy)/ry;
+      if(dx*dx+dy*dy<=1){ if(mask){ if(mask.includes(g[y][x])) g[y][x]=c; } else g[y][x]=c; }
+    }
+}
+function line(g,x0,y0,x1,y1,c){
+  x0|=0;y0|=0;x1|=0;y1|=0;
+  const dx=Math.abs(x1-x0),dy=Math.abs(y1-y0),sx=x0<x1?1:-1,sy=y0<y1?1:-1;
+  let err=dx-dy;
+  for(;;){ if(g[y0]&&x0>=0&&x0<g.length)g[y0][x0]=c; if(x0===x1&&y0===y1)break; const e2=2*err; if(e2>-dy){err-=dy;x0+=sx;} if(e2<dx){err+=dx;y0+=sy;} }
+}
+// 3-tone shaded sphere; tones = [light, mid, dark]
+function sphere(g,cx,cy,rx,ry,tones){
+  const k=tones.length;
+  ell(g,cx,cy,rx,ry,tones[k-1]);
+  ell(g,cx-rx*0.12,cy-ry*0.14,rx*0.86,ry*0.84,tones[1]);
+  ell(g,cx-rx*0.34,cy-ry*0.36,rx*0.46,ry*0.44,tones[0]);
+}
+function outlinePass(g,oc){
+  const N=g.length, src=g.map(r=>r.slice());
+  const nb=[[1,0],[-1,0],[0,1],[0,-1]];
+  for(let y=0;y<N;y++)for(let x=0;x<N;x++){
+    if(src[y][x]!==null) continue;
+    for(const[a,b] of nb){const ny=y+b,nx=x+a; if(ny>=0&&ny<N&&nx>=0&&nx<N&&src[ny][nx]!==null&&src[ny][nx]!==oc){ g[y][x]=oc; break; }}
+  }
+}
+function render(g,px){
+  const N=g.length; let r=`<svg width="${N*px}" height="${N*px}" viewBox="0 0 ${N} ${N}" xmlns="http://www.w3.org/2000/svg">`;
+  for(let y=0;y<N;y++){
+    let x=0;
+    while(x<N){
+      const c=g[y][x];
+      if(c===null){x++;continue;}
+      let w=1; while(x+w<N && g[y][x+w]===c) w++;
+      r+=`<rect x="${x}" y="${y}" width="${w}" height="1.02" fill="${c}"/>`;
+      x+=w;
+    }
+  }
+  return r+`</svg>`;
+}
+
+/* ============ Ruby palette ============ */
+const P = {N:48, px:6, oc:'#181018',
+  bee:['#ffe24d','#f3a91f','#c0700f'],
+  cream:['#fbe49a','#ecc24f','#bf8c2e'],
+  amber:['#f4c662','#d99327','#9c5f12'],
+  wing:['#ffffff','#bcdcf2','#86aece'],
+  leaf:['#7ad06a','#3f9a3f','#256b27'],
+  stripe:'#241814', eyeW:'#ffffff', pup:'#1d2a30',
+  cheek:'#f0848d', dark:'#3a2a14'};
+
+/* ============ shared face bits ============ */
+function eye(g,cx,cy,r){
+  ell(g,cx,cy,r,r*1.12,P.eyeW);
+  ell(g,cx+r*0.12,cy+r*0.18,r*0.55,r*0.62,P.pup);
+  ell(g,cx-r*0.32,cy-r*0.36,r*0.30,r*0.30,'#ffffff');
+}
+function cheeks(g,lx,rx,cy){ ell(g,lx,cy,1.3,1.0,P.cheek); ell(g,rx,cy,1.3,1.0,P.cheek); }
+function smile(g,cx,cy,w){ line(g,cx-w,cy,cx,cy+Math.max(1,Math.round(w*0.5)),P.stripe); line(g,cx,cy+Math.max(1,Math.round(w*0.5)),cx+w,cy,P.stripe); }
+function antenna(g,x0,y0,x1,y1,c){ line(g,x0,y0,x1,y1,c); ell(g,x1,y1-1,1.6,1.6,c); }
+// big kawaii eye: solid warm-dark base with two white sparkles
+function bigEye(g,cx,cy,r){
+  ell(g,cx,cy,r,r*1.18,'#3a241a');
+  ell(g,cx-r*0.30,cy-r*0.34,r*0.42,r*0.46,'#ffffff');
+  ell(g,cx+r*0.30,cy+r*0.36,r*0.22,r*0.24,'#ffffff');
+}
+// solid blob with its own dark outline (so items read against same-colour body)
+function blob(g,cx,cy,rx,ry,tones){ ell(g,cx,cy,rx+0.9,ry+0.9,P.oc); sphere(g,cx,cy,rx,ry,tones); }
+/* ---- honey items ---- */
+function honeyDrop(g,cx,cy,r){
+  ell(g,cx,cy+r*0.2,r+0.9,r*0.95+0.9,P.oc);                 // outline backing
+  sphere(g,cx,cy+r*0.2,r,r*0.92,P.amber);
+  for(let i=0;i<Math.round(r);i++){const yy=Math.round(cy-r*0.85+i);const ww=Math.max(1,r*0.5*(i/r));ell(g,cx,yy,ww,0.8,P.amber[1]);}
+  ell(g,cx-r*0.32,cy,r*0.26,r*0.34,P.amber[0],[P.amber[1],P.amber[2]]);
+}
+function honeycomb(g,cx,cy,r){
+  blob(g,cx,cy,r,r*0.92,P.amber);
+  for(const[ox,oy] of [[-.42,-.28],[.42,-.28],[0,-.04],[-.42,.42],[.42,.42],[0,.5]]){
+    ell(g,cx+r*ox,cy+r*oy,r*0.2,r*0.2,P.amber[2]);
+    ell(g,cx+r*ox,cy+r*oy,r*0.1,r*0.1,P.amber[0]);
+  }
+}
+function honeyJar(g,cx,cy,r){
+  line(g,cx,cy-r*0.4,cx,cy-r*1.5,P.dark); ell(g,cx,cy-r*1.5,r*0.2,r*0.2,P.amber[1]); // dipper
+  blob(g,cx,cy+r*0.12,r,r*0.95,P.cream);                    // glass pot
+  ell(g,cx,cy-r*0.22,r*0.9,r*0.46,P.amber[1],[P.cream[0],P.cream[1],P.cream[2]]); // honey fill
+  ell(g,cx,cy-r*0.5,r*0.74,r*0.16,P.amber[0],[P.cream[0],P.cream[1],P.cream[2]]);
+}
+// stubby arm + rounded hand reaching to (hx,hy)
+function arm(g,sx,sy,hx,hy){ ell(g,(sx+hx)/2,(sy+hy)/2,2.2,2.0,P.bee[1]); ell(g,hx,hy,2.4,2.4,P.bee[0]); }
+
+/* ===================== LARVA (3 drafts) ===================== */
+// A — gently arched inchworm, head right, big happy eyes
+function larvaA(g){const U=f=>f*g.length;
+  const segs=[[.20,.74,.095],[.28,.66,.108],[.38,.61,.115],[.49,.61,.115],[.59,.65,.108]];
+  for(const[fx,fy,fr] of segs) sphere(g,U(fx),U(fy),U(fr),U(fr*0.94),P.cream);
+  sphere(g,U(.72),U(.62),U(.145),U(.135),P.cream);            // head
+  for(const fx of [.20,.30,.49,.59]) line(g,U(fx),U(fx<.4?.82:.73),U(fx),U(fx<.4?.86:.78),P.dark); // legs
+  antenna(g,U(.70),U(.50),U(.66),U(.40),P.dark); antenna(g,U(.76),U(.50),U(.80),U(.40),P.dark);
+  eye(g,U(.68),U(.61),U(.043)); eye(g,U(.77),U(.61),U(.043));
+  cheeks(g,U(.63),U(.82),U(.69)); smile(g,U(.725),U(.69),2);
+}
+// B — plump flat grub, equal segments, stubby
+function larvaB(g){const U=f=>f*g.length;
+  const segs=[[.22,.66,.115],[.34,.665,.125],[.47,.665,.125],[.59,.66,.115]];
+  for(const[fx,fy,fr] of segs) sphere(g,U(fx),U(fy),U(fr),U(fr*0.96),P.cream);
+  sphere(g,U(.73),U(.645),U(.155),U(.15),P.cream);
+  for(const fx of [.30,.45,.58]) { line(g,U(fx),U(.78),U(fx-.01),U(.83),P.dark); }
+  antenna(g,U(.69),U(.50),U(.65),U(.39),P.dark); antenna(g,U(.77),U(.50),U(.81),U(.39),P.dark);
+  eye(g,U(.69),U(.635),U(.046)); eye(g,U(.78),U(.635),U(.046));
+  cheeks(g,U(.635),U(.84),U(.71)); smile(g,U(.735),U(.715),2);
+}
+// C — curled C, head top, looking up, determined
+function larvaC(g){const U=f=>f*g.length;
+  const segs=[[.40,.34,.10],[.31,.42,.105],[.27,.54,.11],[.30,.66,.11],[.39,.74,.10],[.50,.76,.092]];
+  for(const[fx,fy,fr] of segs) sphere(g,U(fx),U(fy),U(fr),U(fr*0.95),P.cream);
+  sphere(g,U(.52),U(.34),U(.145),U(.14),P.cream);             // head top-right
+  for(const[fx,fy] of [[.27,.66],[.39,.84],[.50,.85]]) line(g,U(fx),U(fy),U(fx+.02),U(fy+.05),P.dark);
+  antenna(g,U(.52),U(.21),U(.50),U(.11),P.dark); antenna(g,U(.58),U(.22),U(.62),U(.12),P.dark);
+  eye(g,U(.49),U(.34),U(.044)); eye(g,U(.58),U(.34),U(.044));
+  cheeks(g,U(.44),U(.63),U(.42)); smile(g,U(.535),U(.42),2);
+}
+
+/* ===================== PUPA (3 drafts) ===================== */
+// A — Kakuna-style pointed shell, two simple eyes, segment ridges
+function pupaA(g){const U=f=>f*g.length;
+  line(g,U(.5),U(.20),U(.5),U(.07),P.amber[2]);               // thread
+  // pointed cone top
+  for(let i=0;i<U(.16);i++){ const ry=U(.20)+i; const r=U(.20)*(1-i/(U(.16)+2)); ell(g,U(.5),ry,Math.max(1,r),1.2,P.amber[1]); }
+  sphere(g,U(.5),U(.58),U(.21),U(.30),P.amber);               // shell body
+  for(const fy of [.50,.62,.74]) ell(g,U(.5),U(fy),U(.205),U(.022),P.amber[2],[P.amber[0],P.amber[1]]); // ridges
+  eye(g,U(.43),U(.46),U(.05)); eye(g,U(.57),U(.46),U(.05));   // creature eyes
+  cheeks(g,U(.37),U(.63),U(.55));
+}
+// B — silk cocoon napping under a leaf hood
+function pupaB(g){const U=f=>f*g.length;
+  line(g,U(.5),U(.16),U(.5),U(.05),P.leaf[2]);                // thread
+  sphere(g,U(.5),U(.60),U(.195),U(.31),P.cream);              // silk cocoon
+  for(const fy of [.52,.66,.80]) ell(g,U(.5),U(fy),U(.185),U(.02),'#fff7e0',[P.cream[0],P.cream[1]]); // silk bands
+  // leaf hood draped over the top
+  ell(g,U(.5),U(.345),U(.205),U(.11),P.leaf[1]);
+  ell(g,U(.5),U(.335),U(.185),U(.095),P.leaf[0],[P.leaf[1]]);
+  line(g,U(.5),U(.24),U(.5),U(.43),P.leaf[2]);                // midrib
+  line(g,U(.5),U(.31),U(.40),U(.37),P.leaf[2]); line(g,U(.5),U(.31),U(.60),U(.37),P.leaf[2]); // veins
+  // sleepy symmetric face below the hood
+  line(g,U(.41),U(.53),U(.47),U(.53),P.stripe); line(g,U(.47),U(.53),U(.44),U(.56),P.stripe);
+  line(g,U(.53),U(.53),U(.59),U(.53),P.stripe); line(g,U(.59),U(.53),U(.56),U(.56),P.stripe);
+  cheeks(g,U(.40),U(.60),U(.61)); smile(g,U(.5),U(.585),2);
+}
+// C — hard ridged amber chrysalis, angular, slit eyes
+function pupaC(g){const U=f=>f*g.length;
+  line(g,U(.5),U(.18),U(.5),U(.06),P.amber[2]);
+  // diamond-ish hard shell: stacked narrowing bands
+  const cy=.56, top=.22, bot=.92;
+  for(let fy=top; fy<=bot; fy+=0.5/g.length){
+    const t=(fy-cy)/(0.36); const w=U(.205)*Math.sqrt(Math.max(0,1-t*t));
+    if(w>0.6) ell(g,U(.5),U(fy),w,0.7,P.amber[1]);
+  }
+  sphere(g,U(.5),U(cy),U(.16),U(.27),P.amber);                // inner lit core
+  for(const fy of [.40,.50,.60,.70]) ell(g,U(.5),U(fy),U(.20),U(.018),P.amber[2],[P.amber[0],P.amber[1]]);
+  line(g,U(.40),U(.47),U(.46),U(.47),P.stripe); line(g,U(.54),U(.47),U(.60),U(.47),P.stripe); // slit eyes
+  cheeks(g,U(.36),U(.64),U(.55));
+}
+
+/* ===================== BEE (3 drafts) — fused round body, hugging honey ===================== */
+// shared: one big round body, plain-yellow top half, striped lower half
+function beeBody(g,cx,cy,rx,ry){const U=f=>f*g.length;
+  sphere(g,cx,cy,rx,ry,P.bee);
+  const m=P.bee.slice();
+  ell(g,cx,cy+ry*0.30,rx*0.98,ry*0.13,P.stripe,m);            // stripe 1
+  ell(g,cx,cy+ry*0.66,rx*0.80,ry*0.12,P.stripe,m);            // stripe 2
+}
+// A — round dollop hugger (closest to reference)
+function beeA(g){const U=f=>f*g.length;
+  sphere(g,U(.19),U(.42),U(.14),U(.21),P.wing); sphere(g,U(.81),U(.42),U(.14),U(.21),P.wing); // wings behind
+  beeBody(g,U(.5),U(.55),U(.31),U(.32));
+  antenna(g,U(.42),U(.26),U(.37),U(.12),P.stripe); antenna(g,U(.58),U(.26),U(.63),U(.12),P.stripe);
+  bigEye(g,U(.40),U(.47),U(.07)); bigEye(g,U(.60),U(.47),U(.07));
+  cheeks(g,U(.30),U(.70),U(.55)); smile(g,U(.5),U(.56),2);
+  honeyDrop(g,U(.5),U(.67),U(.135));
+  arm(g,U(.30),U(.60),U(.39),U(.66)); arm(g,U(.70),U(.60),U(.61),U(.66));
+}
+// B — honeycomb holder, slightly egg body, wings a touch wider
+function beeB(g){const U=f=>f*g.length;
+  sphere(g,U(.17),U(.38),U(.14),U(.20),P.wing); sphere(g,U(.83),U(.38),U(.14),U(.20),P.wing);
+  sphere(g,U(.18),U(.57),U(.095),U(.13),P.wing); sphere(g,U(.82),U(.57),U(.095),U(.13),P.wing);
+  beeBody(g,U(.5),U(.56),U(.29),U(.34));
+  antenna(g,U(.42),U(.27),U(.36),U(.12),P.stripe); antenna(g,U(.58),U(.27),U(.64),U(.12),P.stripe);
+  bigEye(g,U(.40),U(.48),U(.066)); bigEye(g,U(.60),U(.48),U(.066));
+  cheeks(g,U(.30),U(.70),U(.56)); smile(g,U(.5),U(.57),2);
+  honeycomb(g,U(.5),U(.68),U(.135));
+  arm(g,U(.30),U(.61),U(.39),U(.67)); arm(g,U(.70),U(.61),U(.61),U(.67));
+}
+// C — honey-jar holder, roundest body, antennae a bit perkier
+function beeC(g){const U=f=>f*g.length;
+  sphere(g,U(.20),U(.40),U(.13),U(.19),P.wing); sphere(g,U(.80),U(.40),U(.13),U(.19),P.wing);
+  beeBody(g,U(.5),U(.55),U(.32),U(.31));
+  antenna(g,U(.43),U(.26),U(.36),U(.11),P.stripe); antenna(g,U(.57),U(.26),U(.64),U(.11),P.stripe);
+  bigEye(g,U(.40),U(.46),U(.072)); bigEye(g,U(.60),U(.46),U(.072));
+  cheeks(g,U(.30),U(.70),U(.54)); smile(g,U(.5),U(.55),2);
+  honeyJar(g,U(.5),U(.69),U(.115));
+  arm(g,U(.30),U(.60),U(.39),U(.67)); arm(g,U(.70),U(.60),U(.61),U(.67));
+}
+
+/* ============ build ============ */
+function paint(rowId, fns){
+  const el=document.getElementById(rowId);
+  const tags=['A','B','C'];
+  fns.forEach((fn,i)=>{
+    const g=grid(P.N); fn(g); outlinePass(g,P.oc);
+    const d=document.createElement('div'); d.className='stage';
+    d.innerHTML=`<div class="frame">${render(g,P.px)}</div><div class="lbl">Draft ${tags[i]}</div>`;
+    el.appendChild(d);
+  });
+}
+paint('larvaRow',[larvaA,larvaB,larvaC]);
+paint('pupaRow',[pupaA,pupaB,pupaC]);
+paint('beeRow',[beeA,beeB,beeC]);
+</script>
+</body>
+</html>

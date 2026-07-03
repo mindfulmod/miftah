@@ -38,6 +38,8 @@
     { key: "props.lantern", label: "Lantern", category: "Decor", width: 48, height: 64 },
     { key: "props.bush", label: "Bush", category: "Decor", width: 48, height: 48 },
     { key: "props.flowers", label: "Flowers", category: "Decor", width: 48, height: 48, collider: false },
+    { key: "props.flowersPink", label: "Flowers (pink)", category: "Decor", width: 48, height: 48, collider: false },
+    { key: "props.flowersPurple", label: "Flowers (purple)", category: "Decor", width: 48, height: 48, collider: false },
     { key: "props.reeds", label: "Reeds", category: "Decor", width: 48, height: 48, collider: false },
     { key: "props.rocks", label: "Rocks", category: "Decor", width: 48, height: 48 },
     { key: "props.barrel", label: "Barrel", category: "Decor", width: 48, height: 48 },
