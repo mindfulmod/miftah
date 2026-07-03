@@ -47,6 +47,10 @@
               </div>
               <div class="surah-grid"></div>
               <div class="surah-action-panel" hidden></div>
+              <div class="badge-shelf" aria-label="Juz badges">
+                <h3>Juz Badges</h3>
+                <div class="badge-grid"></div>
+              </div>
               <p class="surah-collection-stats"></p>
             </aside>
 
@@ -111,6 +115,8 @@
       this.metricEggEl = this.root.querySelector(".metric-egg");
       this.collectionStatsEl = this.root.querySelector(".surah-collection-stats");
       this.surahGridEl = this.root.querySelector(".surah-grid");
+      this.badgeShelfEl = this.root.querySelector(".badge-shelf");
+      this.badgeGridEl = this.root.querySelector(".badge-grid");
       this.actionPanelEl = this.root.querySelector(".surah-action-panel");
       this.studyPanelEl = this.root.querySelector(".trainer-study-panel");
       this.readerPanelEl = this.root.querySelector(".trainer-reader-panel");
@@ -583,6 +589,23 @@
         this.revealPanelEl.appendChild(done);
       }
 
+      // Pacing: the juz ladder. Badge moment outranks the plain progress bar.
+      if (view.badgeEarned) {
+        const earned = document.createElement("div");
+        earned.className = "reveal-badge-earned";
+        earned.innerHTML = `<span class="juz-badge is-earned is-big"><i>★</i></span>
+          <p>🏅 Juz ${view.badgeEarned} badge earned — a whole juz, word by word!</p>`;
+        this.revealPanelEl.appendChild(earned);
+      } else if (view.juz) {
+        const juz = document.createElement("div");
+        juz.className = "reveal-juz";
+        const pct = Math.round((view.juz.done / view.juz.total) * 100);
+        const left = view.juz.total - view.juz.done;
+        juz.innerHTML = `<span class="reveal-juz-label">Juz ${view.juz.juz} badge · ${view.juz.done}/${view.juz.total}${left <= 10 ? ` — only ${left} to go!` : ""}</span>
+          <span class="reveal-juz-track"><span class="reveal-juz-fill" style="width:${pct}%"></span></span>`;
+        this.revealPanelEl.appendChild(juz);
+      }
+
       const hear = document.createElement("button");
       hear.type = "button";
       hear.className = "trainer-option trainer-continue trainer-hear-ayah";
@@ -607,9 +630,10 @@
       });
       this.revealPanelEl.append(hear, cont);
 
-      this.celebrate(view.perfect || view.surahComplete);
+      const big = view.perfect || view.surahComplete || !!view.badgeEarned;
+      this.celebrate(big);
       this.flySeeds();
-      this.game.sound.play(view.perfect || view.surahComplete ? "perfect" : "ayahComplete");
+      this.game.sound.play(view.badgeEarned ? "record" : big ? "perfect" : "ayahComplete");
       // The reward for finishing the test: hear the whole ayah recited.
       this.recite.playAyah(view.surahNumber, view.ayahNumber);
     }
@@ -825,6 +849,30 @@
       }
 
       this.renderActionPanel();
+      this.renderBadges();
+    }
+
+    // The gym-badge shelf: one medallion per juz, earned ones lit gold,
+    // in-progress ones filling their ring — the whole Quran as 30 near goals.
+    renderBadges() {
+      const badges = this.engine.badges();
+      this.badgeShelfEl.hidden = !badges.length;
+      if (!badges.length) return;
+      const earned = badges.filter((b) => b.earned).length;
+      this.badgeShelfEl.querySelector("h3").textContent = `Juz Badges · ${earned}/30`;
+      this.badgeGridEl.innerHTML = "";
+      for (const b of badges) {
+        const medal = document.createElement("span");
+        medal.className = "juz-badge" + (b.earned ? " is-earned" : "");
+        medal.style.setProperty("--pct", String(Math.round((b.done / b.total) * 100)));
+        medal.title = b.earned
+          ? `Juz ${b.juz} — badge earned!`
+          : `Juz ${b.juz} · ${b.done}/${b.total} ayahs`;
+        const face = document.createElement("i");
+        face.textContent = b.earned ? "★" : String(b.juz);
+        medal.appendChild(face);
+        this.badgeGridEl.appendChild(medal);
+      }
     }
 
     onSurahTileClick(item) {

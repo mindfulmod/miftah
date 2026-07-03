@@ -911,22 +911,33 @@ function renderPassedAyah(ayah) {
   return node;
 }
 
+// The active ayah — the same play pattern as the Courtyard Codex: read the
+// whole verse first, then decode it word by word in reading order. One word
+// card at a time, tappable option buttons (no dropdowns), the ayah line
+// lighting up as words are solved. All the teaching rules are unchanged:
+// bounded mistake budget, full-ayah reset with contrast explanations,
+// rescues, and the reveal as the reward.
 function renderActiveAyah(ayah) {
   const node = els.ayahTpl.content.firstElementChild.cloneNode(true);
   node.classList.add("active");
   node.querySelector(".ayah-num").textContent = `${surah.number}:${ayah.number}`;
 
-  // Reading stage: the whole verse as flowing Arabic, shown before the decode
-  // grid. The point is to slow down — read the ayah as a whole first, calmly,
-  // rather than diving straight into clicking meanings word by word.
+  // Reading stage that doubles as the live progress map.
   const readLine = document.createElement("div");
   readLine.className = "ayah-read";
   readLine.dir = "rtl";
   readLine.lang = "ar";
-  readLine.textContent = ayah.words.map((w) => w.arabic).join(" ");
+  const wordSpans = ayah.words.map((w, i) => {
+    if (i > 0) readLine.appendChild(document.createTextNode(" "));
+    const span = document.createElement("span");
+    span.className = "read-word";
+    span.textContent = w.arabic;
+    readLine.appendChild(span);
+    return span;
+  });
   const readCue = document.createElement("p");
   readCue.className = "ayah-read-cue";
-  readCue.textContent = "Read the verse through first — then reveal each word below.";
+  readCue.textContent = "Read the verse through first — then decode each word below.";
   readCue.appendChild(hearAyahButton(ayah.number, "Hear this ayah recited before you begin"));
   const readWrap = document.createElement("div");
   readWrap.className = "ayah-read-wrap";
@@ -937,44 +948,183 @@ function renderActiveAyah(ayah) {
   const statusEl = node.querySelector(".ayah-status");
   const meterEl = node.querySelector(".mistake-meter");
   const msgEl = node.querySelector(".ayah-message");
-  const wordsEl = node.querySelector(".words");
 
-  // attempt-local state
+  // The play zone replaces the old per-word dropdown grid.
+  const playEl = document.createElement("div");
+  playEl.className = "play-zone";
+  const card = document.createElement("div");
+  card.className = "play-card";
+  const cardArabic = document.createElement("div");
+  cardArabic.className = "review-card-arabic play-card-arabic";
+  cardArabic.dir = "rtl";
+  cardArabic.title = "Hear this word";
+  const cardTranslit = document.createElement("div");
+  cardTranslit.className = "play-card-translit";
+  card.append(cardArabic, cardTranslit);
+  const prompt = document.createElement("p");
+  prompt.className = "review-card-prompt";
+  prompt.textContent = "What does this word mean?";
+  const optsEl = document.createElement("div");
+  optsEl.className = "review-card-options";
+  playEl.append(card, prompt, optsEl);
+  node.querySelector(".words").replaceWith(playEl);
+
+  // attempt-local state (same rules as before, now sequential)
   const state = {
     mistakes: 0,
     budget,
     solved: new Set(),
+    idx: 0,
     total: ayah.words.length,
     clean: true, // no wrong picks AND no hints — the bar for "Perfect"
     resets: 0, // full-ayah failures so far; gates the teaching contrast feedback
+    missedNow: new Set(), // word indexes slipped on, for rescue detection
   };
 
-  statusEl.textContent = "Pick the correct meaning under each word";
+  statusEl.textContent = "Decode the verse, word by word";
+
+  const activeWord = () => ayah.words[state.idx];
+  cardArabic.addEventListener("click", () => recite.playWord(activeWord()?.audioPath));
 
   function updateMeter() {
-    meterEl.textContent = `Mistakes: ${state.mistakes} / ${state.budget}`;
+    meterEl.textContent = `Slips: ${state.mistakes} / ${state.budget} · Word ${Math.min(state.idx + 1, state.total)}/${state.total}`;
     meterEl.classList.toggle("danger", state.mistakes >= state.budget);
   }
-  updateMeter();
+
+  function paintLine() {
+    wordSpans.forEach((span, i) => {
+      span.classList.toggle("is-active-word", i === state.idx);
+      span.classList.toggle("is-solved-word", i < state.idx);
+    });
+  }
 
   function resetAyah() {
     state.resets += 1;
+    state.mistakes = 0;
+    state.clean = false;
+    state.solved.clear();
+    state.missedNow.clear();
+    state.idx = 0;
     msgEl.textContent =
       `Let's run this ayah again — no penalty. ` +
       `From here I'll explain each slip as you go, so it sticks.`;
     msgEl.className = "ayah-message reset";
-    state.mistakes = 0;
+    updateMeter();
+    askWord();
+  }
+
+  function useHint(hintBtn) {
     state.clean = false;
-    state.solved.clear();
-    // rebuild all word cells with freshly shuffled options
-    wordsEl.innerHTML = "";
-    ayah.words.forEach(buildWordCell);
+    hintBtn.remove();
+    // Narrow the field to the correct gloss plus one distractor.
+    const correctAnswer = answerFor(activeWord());
+    const opts = [...optsEl.querySelectorAll(".review-opt")];
+    const keep = new Set([correctAnswer]);
+    const wrong = opts.find((b) => b.textContent !== correctAnswer && !b.disabled);
+    if (wrong) keep.add(wrong.textContent);
+    opts.forEach((b) => {
+      if (!keep.has(b.textContent)) b.remove();
+    });
+    msgEl.textContent =
+      "Narrowed to two. This won't count as Perfect, but it's free.";
+    msgEl.className = "ayah-message";
+  }
+
+  function askWord() {
+    const word = activeWord();
+    cardArabic.textContent = word.arabic;
+    cardTranslit.textContent = word.translit || "";
+    optsEl.innerHTML = "";
+    for (const opt of buildOptions(word)) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "review-opt";
+      btn.textContent = opt;
+      btn.addEventListener("click", () => choose(opt, btn));
+      optsEl.appendChild(btn);
+    }
+    const hintBtn = document.createElement("button");
+    hintBtn.type = "button";
+    hintBtn.className = "play-hint";
+    hintBtn.textContent = "🤔 Not sure — narrow it down";
+    hintBtn.addEventListener("click", () => useHint(hintBtn));
+    optsEl.appendChild(hintBtn);
+    paintLine();
     updateMeter();
   }
 
-  function checkComplete() {
-    if (state.solved.size !== state.total) return;
+  function choose(value, btn) {
+    const word = activeWord();
+    if (!word) return;
 
+    if (value === answerFor(word)) {
+      btn.classList.add("correct", "pop");
+      for (const b of optsEl.querySelectorAll("button")) b.disabled = true;
+      recordCorrect(word);
+      recite.playWord(word.audioPath);
+      state.solved.add(word.position);
+
+      // Recovered from an earlier slip on this word → a "rescue": the moment
+      // a mistake becomes mastery feels like a reward, not a blemish.
+      if (state.missedNow.delete(state.idx)) {
+        bumpRescued();
+        msgEl.textContent = "💪 Got it — a slip turned into a win.";
+        msgEl.className = "ayah-message pass";
+      } else {
+        msgEl.textContent = "";
+        msgEl.className = "ayah-message";
+      }
+
+      state.idx += 1;
+      wordSpans[state.idx - 1]?.classList.add("pop");
+      if (state.solved.size === state.total) {
+        paintLine();
+        updateMeter();
+        checkComplete();
+        return;
+      }
+      setTimeout(askWord, 320);
+      return;
+    }
+
+    // wrong pick
+    btn.classList.add("wrong");
+    btn.disabled = true; // must pick a different option — re-clicking teaches nothing
+    state.mistakes += 1;
+    state.clean = false;
+    state.missedNow.add(state.idx);
+    recordMiss(word);
+    updateMeter();
+
+    if (state.mistakes > state.budget) {
+      resetAyah();
+      return;
+    }
+
+    const remaining = state.budget - state.mistakes;
+
+    // Once the learner has failed the whole ayah at least once, stop clearing
+    // the slip silently — spell out the contrast so the wrong↔right pairing
+    // actually teaches instead of just resetting.
+    if (state.resets >= 1) {
+      const owner = glossInfo.get(value);
+      const belongsTo = owner ? ` — that's “${owner.arabic}”` : "";
+      msgEl.innerHTML =
+        `<strong>“${value}”</strong>${belongsTo}. This word means ` +
+        `<strong>“${displayGloss(word)}”</strong>. ${remaining} slip${
+          remaining === 1 ? "" : "s"
+        } left.`;
+      msgEl.className = "ayah-message reset contrast";
+      return;
+    }
+
+    msgEl.textContent = `Not quite — ${remaining} mistake${
+      remaining === 1 ? "" : "s"
+    } left before this ayah resets.`;
+    msgEl.className = "ayah-message reset";
+  }
+
+  function checkComplete() {
     const perfect = state.clean;
     if (perfect) perfectSet.add(ayah.number);
 
@@ -988,6 +1138,7 @@ function renderActiveAyah(ayah) {
     fillRevealRoots(reveal, ayah);
     reveal.querySelector(".reveal-badge").after(hearAyahButton(ayah.number));
     reveal.hidden = false;
+    playEl.hidden = true;
     node.classList.add("revealing");
     node.classList.add(perfect ? "perfect-pass" : "complete-pass");
     celebrate(node, perfect);
@@ -1027,168 +1178,7 @@ function renderActiveAyah(ayah) {
     }, 1600);
   }
 
-  function buildWordCell(word) {
-    const cell = els.wordTpl.content.firstElementChild.cloneNode(true);
-    cell.querySelector(".arabic").textContent = word.arabic;
-    const dd = cell.querySelector(".dd");
-    const trigger = cell.querySelector(".dd-trigger");
-    const label = cell.querySelector(".dd-label");
-    const menu = cell.querySelector(".dd-menu");
-
-    for (const opt of buildOptions(word)) {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "dd-option";
-      btn.setAttribute("role", "option");
-      btn.textContent = opt;
-      btn.addEventListener("click", () => choose(opt));
-      menu.appendChild(btn);
-    }
-
-    // "Not sure" escape hatch: cheaper than a blind wrong guess (no mistake
-    // counted, nothing logged as a miss) but it forfeits the Perfect mark and
-    // narrows the field — so certainty is still rewarded over guessing.
-    const hintBtn = document.createElement("button");
-    hintBtn.type = "button";
-    hintBtn.className = "dd-hint";
-    hintBtn.setAttribute("role", "option");
-    hintBtn.textContent = "🤔 Not sure — show a hint";
-    hintBtn.addEventListener("click", () => useHint());
-    menu.appendChild(hintBtn);
-
-    function openMenu() {
-      if (cell.classList.contains("correct")) return;
-      closeAllMenus();
-      dd.classList.add("open");
-      menu.hidden = false;
-      trigger.setAttribute("aria-expanded", "true");
-    }
-    function closeMenu() {
-      dd.classList.remove("open");
-      menu.hidden = true;
-      trigger.setAttribute("aria-expanded", "false");
-    }
-
-    trigger.addEventListener("click", (e) => {
-      e.stopPropagation();
-      dd.classList.contains("open") ? closeMenu() : openMenu();
-    });
-
-    function useHint() {
-      if (cell.classList.contains("correct") || cell.classList.contains("hinted")) {
-        closeMenu();
-        return;
-      }
-      cell.classList.add("hinted");
-      state.clean = false;
-      hintBtn.remove();
-
-      // Show the transliteration as a leg-up.
-      if (word.translit) {
-        const tip = document.createElement("div");
-        tip.className = "word-hint";
-        tip.textContent = word.translit;
-        cell.querySelector(".arabic").after(tip);
-      }
-
-      // Narrow the field to the correct gloss plus one distractor.
-      const opts = [...menu.querySelectorAll(".dd-option")];
-      const correctAnswer = answerFor(word);
-      const keep = new Set([correctAnswer]);
-      const wrong = opts.find((b) => b.textContent !== correctAnswer);
-      if (wrong) keep.add(wrong.textContent);
-      opts.forEach((b) => {
-        if (!keep.has(b.textContent)) b.remove();
-      });
-
-      msgEl.textContent =
-        "Hint shown — narrowed to two. This won't count as Perfect, but it's free.";
-      msgEl.className = "ayah-message";
-    }
-
-    function choose(value) {
-      closeMenu();
-      if (cell.classList.contains("correct")) return;
-
-      const correctAnswer = answerFor(word);
-      if (value === correctAnswer) {
-        cell.classList.remove("wrong");
-        cell.classList.add("correct");
-        cell.classList.add("pop");
-        setTimeout(() => cell.classList.remove("pop"), 460);
-        label.textContent = displayGloss(word);
-        trigger.disabled = true;
-        state.solved.add(word.position);
-        recordCorrect(word);
-        recite.playWord(word.audioPath);
-
-        // Recovered from an earlier slip on this word → a "rescue". Mark it with
-        // a small win badge and count it toward today's tally, so the moment a
-        // mistake becomes mastery feels like a reward, not a blemish.
-        if (cell.dataset.missed === "1") {
-          cell.classList.add("rescued");
-          const tag = document.createElement("span");
-          tag.className = "rescue-badge";
-          tag.textContent = "💪 Got it";
-          cell.appendChild(tag);
-          bumpRescued();
-        }
-
-        msgEl.textContent = "";
-        msgEl.className = "ayah-message";
-        checkComplete();
-        return;
-      }
-
-      // wrong pick
-      label.textContent = value;
-      cell.dataset.missed = "1"; // remember the slip so recovering counts as a rescue
-      state.mistakes += 1;
-      state.clean = false;
-      recordMiss(word);
-      cell.classList.remove("wrong");
-      void cell.offsetWidth; // restart shake animation
-      cell.classList.add("wrong");
-      updateMeter();
-
-      if (state.mistakes > state.budget) {
-        resetAyah();
-        return;
-      }
-
-      const remaining = state.budget - state.mistakes;
-
-      // Once the learner has failed the whole ayah at least once, stop clearing
-      // the slip silently — spell out the contrast so the wrong↔right pairing
-      // actually teaches instead of just resetting.
-      if (state.resets >= 1) {
-        const owner = glossInfo.get(value);
-        const belongsTo = owner ? ` — that's “${owner.arabic}”` : "";
-        msgEl.innerHTML =
-          `<strong>“${value}”</strong>${belongsTo}. This word means ` +
-          `<strong>“${displayGloss(word)}”</strong>. ${remaining} slip${
-            remaining === 1 ? "" : "s"
-          } left.`;
-        msgEl.className = "ayah-message reset contrast";
-        return; // leave the wrong pick + explanation up until they re-choose
-      }
-
-      msgEl.textContent = `Not quite — ${remaining} mistake${
-        remaining === 1 ? "" : "s"
-      } left before this ayah resets.`;
-      msgEl.className = "ayah-message reset";
-      setTimeout(() => {
-        if (!cell.classList.contains("correct")) {
-          cell.classList.remove("wrong");
-          label.textContent = "";
-        }
-      }, 700);
-    }
-
-    wordsEl.appendChild(cell);
-  }
-
-  ayah.words.forEach(buildWordCell);
+  askWord();
   return node;
 }
 

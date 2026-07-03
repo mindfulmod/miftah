@@ -1748,3 +1748,48 @@ h1 {
   .ghost-btn { border-width: 1.5px; }
   .dd-trigger:has(.dd-label:empty) { border-style: solid; }
 }
+
+/* ---------- Codex-style play zone (replaces the per-word dropdowns) ---------- */
+.read-word { transition: color 0.2s; border-radius: 6px; }
+.read-word.is-active-word {
+  color: var(--gold);
+  text-shadow: 0 0 18px color-mix(in srgb, var(--gold) 45%, transparent);
+}
+.read-word.is-solved-word { color: var(--accent); }
+.read-word.pop { animation: word-pop 0.45s ease-out; }
+@keyframes word-pop {
+  30% { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+
+.play-zone { padding: 4px 0 2px; }
+.play-card { text-align: center; }
+.play-card-arabic { cursor: pointer; }
+.play-card-translit {
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 0.8rem;
+  letter-spacing: 0.03em;
+  text-align: center;
+  min-height: 1.1em;
+}
+.review-opt.wrong {
+  border-color: var(--wrong);
+  color: var(--wrong);
+  animation: opt-shake 0.3s;
+}
+@keyframes opt-shake {
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+.play-hint {
+  grid-column: 1 / -1;
+  border: none;
+  background: none;
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 0.8rem;
+  padding: 4px;
+  cursor: pointer;
+}
+.play-hint:hover { color: var(--gold); }

@@ -6,6 +6,8 @@
 // standalone pages.
 (function (ns) {
   const MANIFEST_FILE = "data/surahs.json";
+  const JUZ_FILE = "data/juz.json";
+  const BADGES_KEY = "quran-trainer:badges";
   const MISTAKE_RATE = 0.2; // up to 20% wrong attempts allowed per ayah
   const REVIEW_SPACING = [2, 4, 8, 16];
   const REVIEW_MIN_GAP = 2;
@@ -225,12 +227,85 @@
     async init() {
       try {
         this.manifest = (await fetchJson(MANIFEST_FILE)).surahs || [];
+        // Juz boundaries drive the badge shelf; the trainer works without
+        // them (badges just don't render), so failures stay silent.
+        try {
+          this.juzs = (await fetchJson(JUZ_FILE)).juzs || [];
+        } catch {
+          this.juzs = [];
+        }
         await this.loadSurah(this.pickStartingSurahNumber());
       } catch (err) {
         if (!this.loadFallbackTrainer(err)) this.error = err;
       } finally {
         this.loading = false;
       }
+    }
+
+    // ---------- juz badges (the "gym badge" ladder) ----------
+    // A juz badge is earned when every ayah the juz spans is passed. Because
+    // progress within a surah is strictly sequential (passed = ayahs 1..n),
+    // coverage of a range a-b is the overlap of [1..passed] with [a..b].
+
+    juzDone(juz) {
+      let done = 0;
+      for (const [surah, range] of Object.entries(juz.mapping)) {
+        const passed = this.passedCount(Number(surah));
+        if (!passed) continue;
+        const [a, b] = range.split("-").map(Number);
+        done += Math.max(0, Math.min(passed, b) - a + 1);
+      }
+      return done;
+    }
+
+    badges() {
+      return (this.juzs || []).map((juz) => {
+        const done = this.juzDone(juz);
+        return { juz: juz.juz, done, total: juz.ayahCount, earned: done >= juz.ayahCount };
+      });
+    }
+
+    // The juz a given ayah belongs to, with live progress — the pacing line
+    // shown on every reveal so long surahs read as a ladder of near goals.
+    juzFor(surahNumber, ayahNumber) {
+      for (const juz of this.juzs || []) {
+        const range = juz.mapping[String(surahNumber)];
+        if (!range) continue;
+        const [a, b] = range.split("-").map(Number);
+        if (ayahNumber >= a && ayahNumber <= b) {
+          return { juz: juz.juz, done: this.juzDone(juz), total: juz.ayahCount };
+        }
+      }
+      return null;
+    }
+
+    loadEarnedBadges() {
+      try {
+        const list = JSON.parse(localStorage.getItem(BADGES_KEY) || "[]");
+        return new Set(Array.isArray(list) ? list : []);
+      } catch {
+        return new Set();
+      }
+    }
+
+    // Persist earned badges and report which juz (if any) was earned just
+    // now, so the reveal can celebrate it exactly once.
+    claimNewBadges() {
+      const earnedBefore = this.loadEarnedBadges();
+      let newlyEarned = null;
+      const all = [];
+      for (const b of this.badges()) {
+        if (b.earned) {
+          all.push(b.juz);
+          if (!earnedBefore.has(b.juz)) newlyEarned = b.juz;
+        }
+      }
+      if (newlyEarned !== null) {
+        try {
+          localStorage.setItem(BADGES_KEY, JSON.stringify(all));
+        } catch {}
+      }
+      return newlyEarned;
     }
 
     // ---------- manifest / unlock rules (identical to app.js + picker.js) ----------
@@ -988,7 +1063,14 @@
         ? (this.manifest || []).find((s) => s.number === this.surah.number + 1)
         : null;
 
+      // Pacing: where this ayah sits on the juz ladder, and whether the
+      // whole juz just landed (the badge moment, celebrated exactly once).
+      const juz = this.juzFor(this.surah.number, ayah.number);
+      const badgeEarned = this.claimNewBadges();
+
       this.reveal = {
+        juz,
+        badgeEarned,
         ayahNumber: ayah.number,
         surahRef: `${this.surah.number}:${ayah.number}`,
         arabicLine: (ayah.displayWords || ayah.words.map((w) => w.arabic)).join(" "),
