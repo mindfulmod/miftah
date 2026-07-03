@@ -589,6 +589,56 @@
       return shuffle([correct, ...distractors]);
     }
 
+    // Production-direction options: pick the Arabic word for a gloss (or a
+    // sound). Same distractor craft as buildOptions — lookalike script and
+    // same-root words keep the recall honest — but the choices are Arabic.
+    buildArabicOptions(word) {
+      const correct = word.arabic;
+      const bannedKeys = optionKeys(word, answerFor(word));
+      const stat = this.stats[wordId(word)];
+      const exposures = stat ? stat.miss + stat.correct : 0;
+      const target = Math.min(optionCountFor(exposures), this.uniqueWords.length);
+      const options = [correct];
+      const seen = new Set([correct]);
+      const add = (cand) => {
+        if (!cand || options.length >= target || seen.has(cand.arabic)) return;
+        const keys = optionKeys(cand, answerFor(cand));
+        if (hasBannedKey(keys, bannedKeys)) return;
+        rememberOption(keys, bannedKeys);
+        seen.add(cand.arabic);
+        options.push(cand.arabic);
+      };
+      add(this.lookalikeWord(word, bannedKeys));
+      add(this.sameRootWord(word, bannedKeys));
+      for (const cand of shuffle(this.uniqueWords)) {
+        if (options.length >= target) break;
+        add(cand);
+      }
+      return shuffle(options);
+    }
+
+    // Review questions flip direction once a word is genuinely known:
+    // recognition (Arabic→meaning) first, then production (meaning→Arabic)
+    // and listening (sound→Arabic) start mixing in.
+    pickDirection(word) {
+      const s = this.stats[wordId(word)];
+      if (!s || (s.correct || 0) < 2) return "toEnglish";
+      const r = Math.random();
+      if (r < 0.4) return "toEnglish";
+      if (r < 0.7 || !word.audioPath) return "toArabic";
+      return "listen";
+    }
+
+    reviewAnswerFor(word, direction) {
+      return direction === "toEnglish" ? answerFor(word) : word.arabic;
+    }
+
+    reviewPromptFor(direction) {
+      if (direction === "toArabic") return "Which word carries this meaning?";
+      if (direction === "listen") return "Listen — which word did you hear?";
+      return "What does this word mean?";
+    }
+
     lookalikeWord(word, bannedKeys) {
       let best = null;
       let bestScore = -1;
@@ -808,6 +858,7 @@
 
       rm.asked.add(pick[0]);
       rm.current = pick[1];
+      rm.direction = this.pickDirection(rm.current);
     }
 
     // ---------- view model ----------
@@ -840,14 +891,18 @@
         }
         const word = this.reviewMode.current;
         if (!word) return { ...base, mode: "reviewEmpty" };
+        const direction = this.reviewMode.direction || "toEnglish";
         return {
           ...base,
           mode: "reviewMode",
+          direction,
           arabic: word.arabic,
-          translit: word.translit || "",
-          prompt: this.focus ? "⏳ Focus round — as many recalls as you can!" : "Endless review — what does this word mean?",
-          options: this.buildOptions(word),
-          answer: answerFor(word),
+          gloss: displayGloss(word),
+          translit: direction === "toEnglish" ? word.translit || "" : "",
+          prompt: this.focus ? "⏳ Focus round — as many recalls as you can!" : this.reviewPromptFor(direction),
+          options: direction === "toEnglish" ? this.buildOptions(word) : this.buildArabicOptions(word),
+          optionsAreArabic: direction !== "toEnglish",
+          answer: this.reviewAnswerFor(word, direction),
           audioPath: word.audioPath || "",
           tally: { ...this.reviewMode.tally },
           mastery: this.masteryTier(`${word.arabic}|||${answerFor(word)}`),
@@ -873,9 +928,11 @@
       if (!word) return { ...base, mode: "loading" };
 
       const isInterleaved = !!this.reviewWord;
+      const direction = isInterleaved ? this.reviewWordDirection || "toEnglish" : "toEnglish";
       return {
         ...base,
         mode: isInterleaved ? "review" : "word",
+        direction,
         surahRef: `${this.surah.number}:${ayah.number}`,
         ayahWords: ayah.displayWords || ayah.words.map((w) => w.arabic),
         ayahMastery: ayah.words.map((w) => this.masteryTier(wordId(w))),
@@ -883,12 +940,14 @@
         mastery: this.masteryTier(wordId(word)),
         activeWordIndex: isInterleaved ? -1 : (word.displayIndex ?? this.wordOrder[this.wordIndex]),
         arabic: word.arabic,
-        translit: word.translit || "",
+        gloss: displayGloss(word),
+        translit: direction === "toEnglish" ? word.translit || "" : "",
         prompt: isInterleaved
-          ? "↻ Quick review — you missed this earlier"
+          ? `↻ Quick review — ${this.reviewPromptFor(direction).charAt(0).toLowerCase()}${this.reviewPromptFor(direction).slice(1)}`
           : "What does this word mean?",
-        options: this.buildOptions(word),
-        answer: answerFor(word),
+        options: direction === "toEnglish" ? this.buildOptions(word) : this.buildArabicOptions(word),
+        optionsAreArabic: direction !== "toEnglish",
+        answer: this.reviewAnswerFor(word, direction),
         audioPath: word.audioPath || "",
         mistakes: this.attempt ? this.attempt.mistakes : 0,
         budget: this.attempt ? this.attempt.budget : 0,
@@ -937,6 +996,7 @@
       const review = this.pickDueReview(reveal.finishedAyah);
       if (review) {
         this.reviewWord = review;
+        this.reviewWordDirection = this.pickDirection(review);
         this.message = "";
       } else {
         this.startAyah();
@@ -967,7 +1027,8 @@
           this.endFocusRound();
           return { correct: false, advanced: true };
         }
-        const correct = value === answerFor(word);
+        const direction = this.reviewMode.direction || "toEnglish";
+        const correct = value === this.reviewAnswerFor(word, direction);
         this.reviewMode.tally.asked += 1;
         if (correct) {
           this.reviewMode.tally.right += 1;
@@ -976,9 +1037,13 @@
           this.message = this.focus ? "" : "Recalled ✓";
         } else {
           this.recordMiss(word);
+          const correction =
+            direction === "toEnglish"
+              ? `this word means “${word.display || answerFor(word)}”`
+              : `“${word.display || answerFor(word)}” is “${word.arabic}”`;
           this.message = this.focus
             ? `“${word.display || answerFor(word)}” — keep going!`
-            : `Not yet — this word means “${word.display || answerFor(word)}”. It'll come back around.`;
+            : `Not yet — ${correction}. It'll come back around.`;
         }
         this.nextReviewQuestion();
         return { correct, advanced: true };
@@ -986,14 +1051,19 @@
 
       // Interleaved single review card (between ayahs).
       if (this.reviewWord) {
-        const correct = value === answerFor(this.reviewWord);
+        const direction = this.reviewWordDirection || "toEnglish";
+        const correct = value === this.reviewAnswerFor(this.reviewWord, direction);
         this.scheduleReview(this.reviewWord, correct);
         if (correct) {
           this.recordCorrect(this.reviewWord);
           this.message = "Recalled ✓ — it'll come back less often now.";
         } else {
           this.recordMiss(this.reviewWord);
-          this.message = `Not yet — this word means “${this.reviewWord.display || answerFor(this.reviewWord)}”. It'll return soon.`;
+          const gloss = this.reviewWord.display || answerFor(this.reviewWord);
+          this.message =
+            direction === "toEnglish"
+              ? `Not yet — this word means “${gloss}”. It'll return soon.`
+              : `Not yet — “${gloss}” is “${this.reviewWord.arabic}”. It'll return soon.`;
         }
         this.reviewWord = null;
         this.startAyah();

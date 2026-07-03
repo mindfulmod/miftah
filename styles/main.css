@@ -2020,3 +2020,24 @@ body {
   border-color: rgba(234, 182, 84, 0.35);
   color: #b99b6a;
 }
+
+/* Direction-flipped review cards: gloss→Arabic and listen→Arabic. */
+.trainer-arabic.is-gloss-card {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 1.5;
+  direction: ltr;
+}
+
+.trainer-arabic.is-listen-card {
+  cursor: pointer;
+  font-size: 30px;
+  line-height: 1.4;
+}
+
+.trainer-option.is-arabic-option {
+  font-family: "Amiri Quran", "Times New Roman", serif;
+  font-size: 19px;
+  line-height: 1.9;
+}

@@ -142,10 +142,17 @@
       this.hearEl = this.root.querySelector(".trainer-hear");
 
       // Real recitation (word clips + full ayahs), sharing the sound toggle.
-      this.recite = new ns.RecitationAudio(() => this.game.sound.enabled);
+      // The channel lives on Game so island moments (pet recitals) reuse it.
+      this.recite = game.recite || new ns.RecitationAudio(() => this.game.sound.enabled);
       this.currentAudioPath = "";
       this.hearEl.addEventListener("click", () => {
         this.recite.playWord(this.currentAudioPath);
+      });
+      // Listen-direction card: the big speaker itself replays the clip.
+      this.arabicEl.addEventListener("click", () => {
+        if (this.arabicEl.classList.contains("is-listen-card")) {
+          this.recite.playWord(this.currentAudioPath);
+        }
       });
 
       this.closeButton.addEventListener("click", () => this.close());
@@ -338,12 +345,28 @@
         return;
       }
 
-      // word / interleaved review / endless review-mode share the play zone
-      this.setStudyText(view.arabic, view.translit || "", view.prompt || "");
+      // word / interleaved review / endless review-mode share the play zone.
+      // Review questions may flip direction: the card shows the gloss (pick
+      // the Arabic) or just a speaker (pick the word you heard).
+      const direction = view.direction || "toEnglish";
+      this.arabicEl.classList.toggle("is-gloss-card", direction === "toArabic");
+      this.arabicEl.classList.toggle("is-listen-card", direction === "listen");
+      if (direction === "toArabic") {
+        this.setStudyText(view.gloss, "", view.prompt || "");
+      } else if (direction === "listen") {
+        this.setStudyText("🔊", "tap to hear it again", view.prompt || "");
+        const listenKey = `${view.arabic}|${view.tally ? view.tally.asked : view.surahRef || ""}`;
+        if (this.listenPlayedFor !== listenKey) {
+          this.listenPlayedFor = listenKey;
+          this.recite.playWord(view.audioPath);
+        }
+      } else {
+        this.setStudyText(view.arabic, view.translit || "", view.prompt || "");
+      }
       this.messageEl.textContent = this.message || view.message || "";
       this.renderMasteryBadge(view.mastery);
       this.currentAudioPath = view.audioPath || "";
-      this.hearEl.hidden = !this.currentAudioPath;
+      this.hearEl.hidden = !this.currentAudioPath || direction === "listen";
 
       if (view.mode === "word") {
         this.renderAyahLine(view);
@@ -366,6 +389,11 @@
         button.className = "trainer-option";
         button.type = "button";
         button.textContent = option;
+        if (view.optionsAreArabic) {
+          button.classList.add("is-arabic-option");
+          button.dir = "rtl";
+          button.lang = "ar";
+        }
         button.addEventListener("click", () => this.choose(option, button));
         this.optionsEl.appendChild(button);
       }

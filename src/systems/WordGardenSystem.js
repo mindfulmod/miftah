@@ -33,9 +33,11 @@
     }
 
     // Count gold-mastery words across every surah's shared stats (same
-    // thresholds as TrainerEngine.masteryTier).
+    // thresholds as TrainerEngine.masteryTier), and gather the well-known
+    // words (silver+) the pet can practice out loud.
     goldWordCount() {
       let gold = 0;
+      this.practiceWords = [];
       try {
         for (let i = 0; i < localStorage.length; i += 1) {
           const key = localStorage.key(i);
@@ -44,16 +46,83 @@
           for (const s of Object.values(stats)) {
             const total = (s.miss || 0) + (s.correct || 0);
             if ((s.correct || 0) >= 6 && total > 0 && s.correct / total >= 0.85) gold += 1;
+            if (
+              (s.correct || 0) >= 4 &&
+              total > 0 &&
+              s.correct / total >= 0.7 &&
+              s.audioPath &&
+              this.practiceWords.length < 300
+            ) {
+              this.practiceWords.push({
+                arabic: s.arabic,
+                gloss: s.display || s.english || "",
+                audioPath: s.audioPath,
+              });
+            }
           }
         }
       } catch {}
       return gold;
     }
 
+    // ---------- the streak plant ----------
+    // One special plant beside the Reading Archway that grows with the daily
+    // study streak and rests (never dies) when the streak breaks.
+
+    streakInfo() {
+      try {
+        const s = JSON.parse(localStorage.getItem("quran-trainer:streak") || "{}");
+        const fmt = (d) =>
+          `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+        const today = new Date();
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        const alive = s.lastDate === fmt(today) || s.lastDate === fmt(yesterday);
+        return { count: s.count || 0, alive };
+      } catch {
+        return { count: 0, alive: false };
+      }
+    }
+
+    locateStreakSpot() {
+      const game = this.game;
+      try {
+        const arch = (game.world.activeInteractables(game.progress) || []).find(
+          (p) => p.id === "reading-arch"
+        );
+        if (arch) return { x: arch.x - 44, y: arch.y + (arch.height || 48) - 34 };
+      } catch {}
+      return { x: game.world.spawn.x - 60, y: game.world.spawn.y - 20 };
+    }
+
+    // Interactable descriptor consumed by InteractionSystem.findNearest.
+    streakTarget() {
+      if (!this.streakSpot) return null;
+      const s = this.streak || { count: 0, alive: false };
+      let dialogue;
+      if (s.count <= 0) {
+        dialogue = "🌱 A streak sprout. Finish today's ayahs at the Codex and it takes root.";
+      } else if (!s.alive) {
+        dialogue = "🌙 Your streak plant is resting. Study today and it perks right back up.";
+      } else {
+        dialogue = `🔥 Your streak plant stands ${s.count} day${s.count === 1 ? "" : "s"} tall. Come back tomorrow to keep it growing!`;
+      }
+      return {
+        x: this.streakSpot.x,
+        y: this.streakSpot.y,
+        width: 28,
+        height: 34,
+        hint: s.count > 0 ? `Streak plant · ${s.count} day${s.count === 1 ? "" : "s"}` : "Streak plant",
+        dialogue,
+      };
+    }
+
     // Every planted flower keeps its spot forever (seeded by its index), so
     // the garden only ever grows — new gold words append, nothing reshuffles.
     refresh() {
       const game = this.game;
+      this.streak = this.streakInfo();
+      if (!this.streakSpot) this.streakSpot = this.locateStreakSpot();
       const count = Math.min(this.goldWordCount(), 160);
       const ts = 48;
       this.flowers = [];
@@ -104,6 +173,35 @@
         ) continue;
         const sway = Math.sin(t * 1.3 + flower.sway) * 1.5;
         renderer.ctx.drawImage(image, Math.round(flower.x + sway), Math.round(flower.y), flower.size, flower.size);
+      }
+
+      // The streak plant: sprout → shoot → bush → radiant berries as the
+      // streak climbs; drawn drooped (dimmed and squashed) while resting.
+      if (this.streakSpot) {
+        const s = this.streak || { count: 0, alive: false };
+        const key =
+          s.count >= 7 ? "crops.berriesMature" : s.count >= 3 ? "crops.medium" : "crops.sprout";
+        const img = game.assets.get(key);
+        if (img) {
+          const ctx = renderer.ctx;
+          const resting = s.count > 0 && !s.alive;
+          const sway = Math.sin(t * 1.1) * 1.2;
+          ctx.save();
+          if (resting) ctx.globalAlpha = 0.55;
+          const h = resting ? 26 : 32;
+          ctx.drawImage(img, Math.round(this.streakSpot.x + sway), Math.round(this.streakSpot.y + (32 - h)), 28, h);
+          ctx.restore();
+          if (s.alive && s.count >= 7) {
+            const glow = 0.35 + Math.sin(t * 2.2) * 0.15;
+            ctx.save();
+            ctx.globalAlpha = glow;
+            ctx.fillStyle = "#ffedb0";
+            ctx.beginPath();
+            ctx.arc(this.streakSpot.x + 14, this.streakSpot.y + 8, 4, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+          }
+        }
       }
 
       // Bloom rings: a wreath of flowers around a fully-grown isle's heart.

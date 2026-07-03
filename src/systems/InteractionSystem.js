@@ -75,6 +75,8 @@
       for (const animal of game.animals) candidates.push({ type: "animal", animal, ...screenTarget(animal), hint: animal.interactionHint(), dialogue: animal.hint });
       if (game.hatchery) candidates.push({ type: "hatchery", ...screenTarget(game.hatchery), hint: game.hatchery.hint(), dialogue: game.hatchery.dialogue() });
       for (const prop of game.world.activeInteractables(game.progress)) candidates.push({ type: "prop", id: prop.id, propRef: prop, ...screenTarget(prop), hint: prop.hint, dialogue: prop.dialogue });
+      const streakPlant = game.wordGarden?.streakTarget?.();
+      if (streakPlant) candidates.push({ type: "prop", id: "streak-plant", ...streakPlant });
 
       let best = null;
       let bestDistance = Infinity;

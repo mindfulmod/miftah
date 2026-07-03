@@ -66,6 +66,9 @@
       this.dialogue = new ns.DialogueSystem();
       this.hud = new ns.HUD();
       this.tooltip = new ns.Tooltip();
+      // One shared recitation channel for the whole game (Codex + island).
+      this.recite = new ns.RecitationAudio(() => this.sound.enabled);
+      this.petReciteTimer = 30 + Math.random() * 30;
       this.trainer = new ns.TrainerOverlay(this);
       this.album = new ns.AlbumOverlay(this);
       this.gifts = new ns.GiftSystem(this);
@@ -153,6 +156,22 @@
       this.farming.update(dt);
       this.dialogue.update(dt);
       this.interaction.update(this);
+
+      // Every minute or so the pet "practices" one of the player's mastered
+      // words out loud — passive spaced exposure, and the island feels like
+      // it's learning with you.
+      if (!uiOpen && !this.cutaway) {
+        this.petReciteTimer -= dt;
+        if (this.petReciteTimer <= 0) {
+          this.petReciteTimer = 45 + Math.random() * 45;
+          const words = this.wordGarden?.practiceWords || [];
+          if (words.length && this.sound.enabled && this.dialogue.timer <= 0) {
+            const word = words[Math.floor(Math.random() * words.length)];
+            this.recite.playWord(word.audioPath);
+            this.dialogue.open(`🐾 ${word.arabic} — “${word.gloss}” … your pet practices with you.`, 3.2);
+          }
+        }
+      }
       this.time.update(dt, this);
 
       // Cutaway: study rewards briefly play out in the island — the camera
