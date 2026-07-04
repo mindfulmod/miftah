@@ -1,0 +1,282 @@
+{
+"terrain/terrain_water_01.png": [
+48,
+48
+],
+"terrain/terrain_water_ripple.png": [
+48,
+48
+],
+"terrain/terrain_lagoon_01.png": [
+48,
+48
+],
+"terrain/terrain_water_lily.png": [
+48,
+48
+],
+"terrain/terrain_grass_01.png": [
+48,
+48
+],
+"terrain/terrain_grass_flowers.png": [
+48,
+48
+],
+"terrain/terrain_sand_01.png": [
+48,
+48
+],
+"terrain/path_horizontal.png": [
+48,
+48
+],
+"terrain/path_vertical.png": [
+48,
+48
+],
+"terrain/path_cross.png": [
+48,
+48
+],
+"terrain/path_fill.png": [
+48,
+48
+],
+"terrain/bridge_horizontal.png": [
+48,
+48
+],
+"terrain/bridge_vertical.png": [
+48,
+48
+],
+"terrain/dock_tile.png": [
+48,
+48
+],
+"terrain/courtyard_plain.png": [
+48,
+48
+],
+"terrain/courtyard_star.png": [
+48,
+48
+],
+"terrain/irrigation_horizontal.png": [
+48,
+48
+],
+"terrain/irrigation_vertical.png": [
+48,
+48
+],
+"terrain/irrigation_cross.png": [
+48,
+48
+],
+"terrain/waterline_horizontal.png": [
+48,
+16
+],
+"terrain/waterline_vertical.png": [
+16,
+48
+],
+"terrain/tiny_sandbar.png": [
+48,
+48
+],
+"buildings/building_reading_arch.png": [
+128,
+128
+],
+"buildings/building_pavilion.png": [
+112,
+96
+],
+"buildings/building_honeycomb_hub.png": [
+128,
+104
+],
+"buildings/building_barn.png": [
+128,
+104
+],
+"buildings/building_stable.png": [
+128,
+104
+],
+"buildings/building_dog_house.png": [
+72,
+72
+],
+"buildings/building_cat_nook.png": [
+72,
+72
+],
+"props/prop_fountain.png": [
+96,
+96
+],
+"props/prop_geometric_mat_blue.png": [
+72,
+48
+],
+"props/prop_lantern.png": [
+48,
+64
+],
+"props/prop_palm.png": [
+80,
+96
+],
+"props/prop_date_palm.png": [
+80,
+96
+],
+"props/prop_tree.png": [
+96,
+96
+],
+"props/prop_orange_tree.png": [
+96,
+96
+],
+"props/prop_dove_nesting_tree.png": [
+112,
+112
+],
+"props/prop_ababeel_perches.png": [
+96,
+96
+],
+"props/prop_fish_motif.png": [
+112,
+72
+],
+"props/prop_spider_grotto.png": [
+112,
+96
+],
+"props/prop_snake_habitat.png": [
+112,
+96
+],
+"props/prop_camel_spring.png": [
+112,
+96
+],
+"props/prop_elephant_grove.png": [
+128,
+96
+],
+"props/prop_crow_rocky_orchard.png": [
+112,
+96
+],
+"props/prop_fence_horizontal.png": [
+64,
+64
+],
+"props/prop_fence_vertical.png": [
+64,
+64
+],
+"props/prop_pasture_gate.png": [
+96,
+64
+],
+"props/prop_sign_bee.png": [
+48,
+48
+],
+"props/prop_sign_crop.png": [
+48,
+48
+],
+"props/prop_sign_seed.png": [
+48,
+48
+],
+"characters/npc_villager_01.png": [
+48,
+64
+],
+"characters/npc_villager_02.png": [
+48,
+64
+],
+"characters/npc_villager_03.png": [
+48,
+64
+],
+"crops/crop_soil_empty.png": [
+48,
+48
+],
+"crops/crop_soil_watered.png": [
+48,
+48
+],
+"crops/crop_seed.png": [
+48,
+48
+],
+"crops/crop_sprout.png": [
+48,
+48
+],
+"crops/crop_medium.png": [
+48,
+48
+],
+"crops/crop_mature_carrot.png": [
+48,
+48
+],
+"crops/tool_watering_can.png": [
+48,
+48
+],
+"crops/tool_hoe.png": [
+48,
+48
+],
+"crops/harvest_basket.png": [
+48,
+48
+],
+"crops/seed_packet_icon.png": [
+48,
+48
+],
+"crops/crop_marker_icon.png": [
+48,
+48
+],
+"ui/ui_hud_panel.png": [
+256,
+96
+],
+"ui/ui_inventory_slot.png": [
+48,
+48
+],
+"ui/ui_seed_icon.png": [
+32,
+32
+],
+"ui/ui_crop_icon.png": [
+32,
+32
+],
+"ui/ui_interaction_key.png": [
+48,
+48
+],
+"ui/ui_dialogue_box.png": [
+320,
+96
+]
+}

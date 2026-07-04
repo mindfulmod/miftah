@@ -2,3 +2,6 @@
 .codex-checkpoints/
 .claude/
 scripts/.cache/
+
+# sprite-sheet slicing debug overlays
+assets/tilesets/*.debug.png

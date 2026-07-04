@@ -1,0 +1,19 @@
+# sprite_index  relpath   (miftah-terrain sheet)
+0   terrain/terrain_water_01.png
+2   terrain/terrain_water_ripple.png
+5   terrain/terrain_water_lily.png
+0   terrain/terrain_lagoon_01.png
+25  terrain/terrain_grass_01.png
+27  terrain/terrain_grass_flowers.png
+38  terrain/terrain_sand_01.png
+23  terrain/tiny_sandbar.png
+75  terrain/path_fill.png
+75  terrain/path_horizontal.png
+75  terrain/path_vertical.png
+75  terrain/path_cross.png
+75  terrain/courtyard_plain.png
+76  terrain/courtyard_star.png
+75  terrain/dock_tile.png
+51  terrain/irrigation_horizontal.png
+53  terrain/irrigation_vertical.png
+57  terrain/irrigation_cross.png
