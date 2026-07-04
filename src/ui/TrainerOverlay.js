@@ -10,6 +10,7 @@
   const FONT_SCALE_MIN = 0.85;
   const FONT_SCALE_MAX = 1.35;
   const FONT_SCALE_STEP = 0.1;
+  const THEME_KEY = "miftah-oasis:codex-theme";
 
   class TrainerOverlay {
     constructor(game) {
@@ -21,6 +22,7 @@
       this.pendingAction = null; // collection action awaiting confirm
       this.collectionCollapsed = loadCollectionPreference();
       this.fontScale = loadFontScalePreference();
+      this.theme = loadThemePreference();
       this.root = document.createElement("section");
       this.root.className = "trainer-overlay";
       this.root.hidden = true;
@@ -34,7 +36,6 @@
             </div>
           </header>
           <div class="codex-meta">
-            <span class="trainer-kicker">Reading Archway</span>
             <p class="trainer-progress"></p>
             <p class="trainer-session"></p>
           </div>
@@ -51,6 +52,7 @@
                 <button class="codex-font-step" type="button" data-font-step="1" aria-label="Larger Codex text" title="Larger text">A+</button>
               </div>
             </div>
+            <button class="codex-theme-toggle" type="button" aria-label="Use dark Codex mode" title="Dark mode"></button>
             <a class="codex-web-link" href="trainer.html" title="Open the web trainer — same progress, no island" aria-label="Open the web trainer">🌐</a>
             <button class="codex-sound" type="button" aria-label="Toggle sound"></button>
           </nav>
@@ -135,6 +137,7 @@
       this.fontPanelEl = this.root.querySelector(".codex-font-panel");
       this.fontStepButtons = [...this.root.querySelectorAll(".codex-font-step")];
       this.fontResetButton = this.root.querySelector(".codex-font-reset");
+      this.themeButton = this.root.querySelector(".codex-theme-toggle");
       this.soundButton = this.root.querySelector(".codex-sound");
       this.metricSeedsEl = this.root.querySelector(".metric-seeds");
       this.metricFeedEl = this.root.querySelector(".metric-feed");
@@ -192,6 +195,7 @@
         button.addEventListener("click", () => this.changeFontScale(Number(button.dataset.fontStep)));
       }
       this.fontResetButton.addEventListener("click", () => this.resetFontScale());
+      this.themeButton.addEventListener("click", () => this.toggleTheme());
       this.soundButton.addEventListener("click", () => {
         const on = this.game.sound.toggle();
         this.syncSoundButton();
@@ -223,6 +227,7 @@
       this.syncCollectionToggle();
       this.syncSoundButton();
       this.applyFontScale();
+      this.applyTheme();
     }
 
     open() {
@@ -306,6 +311,23 @@
       this.fontResetButton.disabled = Math.abs(value - 1) < 0.001;
     }
 
+    toggleTheme() {
+      this.theme = this.theme === "dark" ? "parchment" : "dark";
+      saveThemePreference(this.theme);
+      this.applyTheme();
+      this.game.sound.play("click");
+    }
+
+    applyTheme() {
+      const dark = this.theme === "dark";
+      this.card.dataset.theme = dark ? "dark" : "parchment";
+      this.themeButton.textContent = dark ? "☀" : "☾";
+      this.themeButton.title = dark ? "Parchment mode" : "Dark mode";
+      this.themeButton.setAttribute("aria-label", dark ? "Use parchment Codex mode" : "Use dark Codex mode");
+      this.themeButton.setAttribute("aria-pressed", String(dark));
+    }
+
+
     // ---------- island cutaways ----------
     // Big study rewards briefly step out of the Codex: the camera glides to
     // where the reward landed (egg in the hatchery, a bridge swinging open),
@@ -385,6 +407,7 @@
       this.ayahRefEl.hidden = true;
       this.ayahRefEl.textContent = "";
       this.fullAyahEl.innerHTML = "";
+      this.fullAyahEl.hidden = false;
       this.ayahWrapEl.hidden = false;
       this.ayahWrapEl.classList.remove("is-scrollable");
       this.meterEl.textContent = "";
@@ -1325,6 +1348,20 @@
   function saveFontScalePreference(value) {
     try {
       localStorage.setItem(FONT_SCALE_KEY, String(clampFontScale(value)));
+    } catch {}
+  }
+
+  function loadThemePreference() {
+    try {
+      return localStorage.getItem(THEME_KEY) === "dark" ? "dark" : "parchment";
+    } catch {
+      return "parchment";
+    }
+  }
+
+  function saveThemePreference(value) {
+    try {
+      localStorage.setItem(THEME_KEY, value === "dark" ? "dark" : "parchment");
     } catch {}
   }
 
