@@ -64,10 +64,11 @@
           bob: Math.abs(phase) * 3,
           sx: 1 + down * 0.04,
           sy: 1 - down * 0.05,
+          shadow: true, shadowScale: 0.24, footInset: 8,
         });
       } else {
         const br = Math.sin(t * 2.3) * 0.012;
-        renderer.drawSprite(key, this.x, this.y, this.width, this.height, { sy: 1 + br, sx: 1 - br * 0.5 });
+        renderer.drawSprite(key, this.x, this.y, this.width, this.height, { sy: 1 + br, sx: 1 - br * 0.5, shadow: true, shadowScale: 0.24, footInset: 8 });
       }
     }
   }

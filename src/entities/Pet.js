@@ -36,9 +36,9 @@
       const t = this.animationTime;
       if (this.moving) {
         const phase = Math.sin(t * 10);
-        renderer.drawSprite(this.getAssetKey(), this.x, this.y, this.width, this.height, { bob: Math.abs(phase) * 2.2 });
+        renderer.drawSprite(this.getAssetKey(), this.x, this.y, this.width, this.height, { bob: Math.abs(phase) * 2.2, shadow: true, shadowScale: 0.3, footInset: this.height * 0.12 });
       } else {
-        renderer.drawSprite(this.getAssetKey(), this.x, this.y, this.width, this.height, { sy: 1 + Math.sin(t * 2.6) * 0.02 });
+        renderer.drawSprite(this.getAssetKey(), this.x, this.y, this.width, this.height, { sy: 1 + Math.sin(t * 2.6) * 0.02, shadow: true, shadowScale: 0.3, footInset: this.height * 0.12 });
       }
     }
   }

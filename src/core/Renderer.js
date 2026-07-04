@@ -1,4 +1,11 @@
 (function (ns) {
+  // Props that sway in the breeze (base-anchored top lean).
+  const SWAYING_PROPS = new Set([
+    "props.palm", "props.datePalm", "props.tree", "props.orangeTree",
+    "props.doveNestingTree", "props.elephantGrove", "props.camelSpring",
+    "props.crowOrchard", "props.reeds", "props.bush",
+  ]);
+
   class Renderer {
     constructor(canvas, assets) {
       this.canvas = canvas;
@@ -40,18 +47,33 @@
     }
 
     // Draw a sprite with a lift (bob) and squash/stretch anchored at its feet
-    // (bottom-centre), so characters and animals feel alive without needing
-    // per-frame art. opts: { bob, sx, sy }.
+    // (bottom-centre), plus an optional soft contact shadow that stays on the
+    // ground while the sprite lifts — so nothing looks like it's floating and
+    // flyers read as hovering above their shadow. opts: { bob, sx, sy, shadow }.
     drawSprite(key, x, y, w, h, opts = {}) {
       const bob = opts.bob || 0;
       const sx = opts.sx || 1;
       const sy = opts.sy || 1;
+      const ctx = this.ctx;
+      if (opts.shadow) {
+        // Feet sit a little above the sprite box's bottom (contain-fit padding);
+        // the shadow shrinks and fades as the sprite bobs higher.
+        const fx = x + w / 2;
+        const fy = y + h - (opts.footInset != null ? opts.footInset : h * 0.08);
+        const lift = Math.max(0, bob);
+        const rx = w * (opts.shadowScale || 0.3) * (1 - Math.min(0.4, lift / 40));
+        ctx.save();
+        ctx.fillStyle = `rgba(28, 22, 12, ${0.3 * (1 - Math.min(0.5, lift / 30))})`;
+        ctx.beginPath();
+        ctx.ellipse(Math.round(fx), Math.round(fy), Math.max(2, rx), Math.max(1, rx * 0.4), 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
       if (!bob && sx === 1 && sy === 1) {
         this.drawImage(key, x, y, w, h);
         return;
       }
       const image = this.assets.get(key);
-      const ctx = this.ctx;
       ctx.save();
       ctx.translate(Math.round(x + w / 2), Math.round(y + h - bob));
       ctx.scale(sx, sy);
@@ -108,8 +130,9 @@
 
     render(game) {
       const { ctx } = this;
+      this.now = game.time ? game.time.elapsed : (this.now || 0) + 0.016;
       this.begin(game.camera);
-      game.world.tileMap.render(this, game.camera);
+      game.world.tileMap.render(this, game.camera, this.now);
 
       const drawableProps = game.world.activeProps(game.progress);
       for (const prop of drawableProps.filter((p) => p.layer === "ground")) this.drawProp(prop);
@@ -191,6 +214,21 @@
 
     drawProp(prop) {
       if (!prop.assetKey) return; // collider-only blocker (e.g. hatchery base)
+      // Foliage sways gently in the breeze: a base-anchored shear where the top
+      // leans, each prop phase-offset by its position so they don't move as one.
+      if (SWAYING_PROPS.has(prop.assetKey)) {
+        const ctx = this.ctx;
+        const now = this.now || 0;
+        const sway = Math.sin(now * 1.1 + (prop.x + prop.y) * 0.012) * 0.028
+          + Math.sin(now * 2.3 + prop.x * 0.03) * 0.008;
+        const image = this.assets.get(prop.assetKey);
+        ctx.save();
+        ctx.translate(Math.round(prop.x + prop.width / 2), Math.round(prop.y + prop.height));
+        ctx.transform(1, 0, sway, 1, 0, 0); // top leans by sway * height
+        ctx.drawImage(image, Math.round(-prop.width / 2), Math.round(-prop.height), Math.round(prop.width), Math.round(prop.height));
+        ctx.restore();
+        return;
+      }
       this.drawImage(prop.assetKey, prop.x, prop.y, prop.width, prop.height);
     }
 
