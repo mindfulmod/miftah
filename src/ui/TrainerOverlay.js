@@ -6,6 +6,11 @@
 // Two tabs: Study (the test desk — reading zone + compact play zone) and
 // Read (a browsable mushaf of every completed ayah with word popovers).
 (function (ns) {
+  const FONT_SCALE_KEY = "miftah-oasis:codex-font-scale";
+  const FONT_SCALE_MIN = 0.85;
+  const FONT_SCALE_MAX = 1.35;
+  const FONT_SCALE_STEP = 0.1;
+
   class TrainerOverlay {
     constructor(game) {
       this.game = game;
@@ -15,6 +20,7 @@
       this.activeTab = "study";
       this.pendingAction = null; // collection action awaiting confirm
       this.collectionCollapsed = loadCollectionPreference();
+      this.fontScale = loadFontScalePreference();
       this.root = document.createElement("section");
       this.root.className = "trainer-overlay";
       this.root.hidden = true;
@@ -37,6 +43,14 @@
             <button class="codex-tab is-active" type="button" role="tab" data-tab="study" aria-selected="true">✒ Study</button>
             <button class="codex-tab" type="button" role="tab" data-tab="read" aria-selected="false">📜 Read</button>
             <button class="codex-tab codex-collection-tab" type="button" role="tab" data-tab="collection" aria-selected="false">Collection</button>
+            <div class="codex-font-menu">
+              <button class="codex-font-toggle" type="button" aria-label="Adjust Codex text size" aria-expanded="false" title="Adjust text size">A</button>
+              <div class="codex-font-panel" hidden>
+                <button class="codex-font-step" type="button" data-font-step="-1" aria-label="Smaller Codex text" title="Smaller text">A-</button>
+                <button class="codex-font-reset" type="button" aria-label="Reset Codex text size" title="Reset text size">A</button>
+                <button class="codex-font-step" type="button" data-font-step="1" aria-label="Larger Codex text" title="Larger text">A+</button>
+              </div>
+            </div>
             <a class="codex-web-link" href="trainer.html" title="Open the web trainer — same progress, no island" aria-label="Open the web trainer">🌐</a>
             <button class="codex-sound" type="button" aria-label="Toggle sound"></button>
           </nav>
@@ -116,6 +130,11 @@
       this.progressEl = this.root.querySelector(".trainer-progress");
       this.sessionEl = this.root.querySelector(".trainer-session");
       this.tabButtons = [...this.root.querySelectorAll(".codex-tab")];
+      this.fontMenuEl = this.root.querySelector(".codex-font-menu");
+      this.fontToggleButton = this.root.querySelector(".codex-font-toggle");
+      this.fontPanelEl = this.root.querySelector(".codex-font-panel");
+      this.fontStepButtons = [...this.root.querySelectorAll(".codex-font-step")];
+      this.fontResetButton = this.root.querySelector(".codex-font-reset");
       this.soundButton = this.root.querySelector(".codex-sound");
       this.metricSeedsEl = this.root.querySelector(".metric-seeds");
       this.metricFeedEl = this.root.querySelector(".metric-feed");
@@ -166,6 +185,13 @@
       for (const tab of this.tabButtons) {
         tab.addEventListener("click", () => this.setTab(tab.dataset.tab));
       }
+      this.fontToggleButton.addEventListener("click", () => {
+        this.setFontPanel(this.fontPanelEl.hidden);
+      });
+      for (const button of this.fontStepButtons) {
+        button.addEventListener("click", () => this.changeFontScale(Number(button.dataset.fontStep)));
+      }
+      this.fontResetButton.addEventListener("click", () => this.resetFontScale());
       this.soundButton.addEventListener("click", () => {
         const on = this.game.sound.toggle();
         this.syncSoundButton();
@@ -184,12 +210,19 @@
       this.mobileJuzSummaryEl.addEventListener("click", () => this.setTab("collection"));
       this.root.addEventListener("click", (event) => {
         if (event.target === this.root) this.close();
+        if (!this.fontMenuEl.contains(event.target)) this.setFontPanel(false);
       });
       window.addEventListener("keydown", (event) => {
-        if (this.isOpen && event.code === "Escape") this.close();
+        if (!this.isOpen || event.code !== "Escape") return;
+        if (!this.fontPanelEl.hidden) {
+          this.setFontPanel(false);
+          return;
+        }
+        this.close();
       });
       this.syncCollectionToggle();
       this.syncSoundButton();
+      this.applyFontScale();
     }
 
     open() {
@@ -240,6 +273,37 @@
       const on = this.game.sound.enabled;
       this.soundButton.textContent = on ? "🔊" : "🔇";
       this.soundButton.title = on ? "Sound on" : "Sound off";
+    }
+
+    setFontPanel(open) {
+      this.fontPanelEl.hidden = !open;
+      this.fontToggleButton.setAttribute("aria-expanded", String(open));
+    }
+
+    changeFontScale(direction) {
+      this.fontScale = clampFontScale(this.fontScale + direction * FONT_SCALE_STEP);
+      saveFontScalePreference(this.fontScale);
+      this.applyFontScale();
+      this.game.sound.play("click");
+    }
+
+    resetFontScale() {
+      this.fontScale = 1;
+      saveFontScalePreference(this.fontScale);
+      this.applyFontScale();
+      this.game.sound.play("click");
+    }
+
+    applyFontScale() {
+      const value = clampFontScale(this.fontScale);
+      this.fontScale = value;
+      this.card.style.setProperty("--codex-font-scale", value.toFixed(2));
+      this.card.dataset.fontScale = String(Math.round(value * 100));
+      this.fontStepButtons.forEach((button) => {
+        const direction = Number(button.dataset.fontStep);
+        button.disabled = direction > 0 ? value >= FONT_SCALE_MAX : value <= FONT_SCALE_MIN;
+      });
+      this.fontResetButton.disabled = Math.abs(value - 1) < 0.001;
     }
 
     // ---------- island cutaways ----------
@@ -1242,6 +1306,26 @@
     } catch {
       return false;
     }
+  }
+
+  function clampFontScale(value) {
+    const n = Number(value);
+    if (!Number.isFinite(n)) return 1;
+    return Math.max(FONT_SCALE_MIN, Math.min(FONT_SCALE_MAX, Math.round(n * 100) / 100));
+  }
+
+  function loadFontScalePreference() {
+    try {
+      return clampFontScale(localStorage.getItem(FONT_SCALE_KEY) || 1);
+    } catch {
+      return 1;
+    }
+  }
+
+  function saveFontScalePreference(value) {
+    try {
+      localStorage.setItem(FONT_SCALE_KEY, String(clampFontScale(value)));
+    } catch {}
   }
 
   ns.TrainerOverlay = TrainerOverlay;
