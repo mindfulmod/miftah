@@ -216,7 +216,7 @@
       this.focusResult = null; // { count, best, isRecord } after a round ends
       this.sessionDone = null; // daily-goal end screen state
       this.pendingContinuation = null; // reveal continuation deferred by sessionDone
-      this.meaningShown = false; // translation peek during testing (forfeits Perfect)
+      this.meaningHintKey = null; // current word-occurrence hint during testing
       this.message = "";
       this.locked = false;
       this.loading = true;
@@ -524,6 +524,7 @@
         clean: true,
         resets: 0,
         missedWords: new Set(), // wordIds slipped on, for rescue detection
+        hintedWords: new Set(),
       };
       // Words are tested in reading order (right-to-left through the ayah),
       // matching the standalone trainer's natural flow.
@@ -531,7 +532,7 @@
       this.wordIndex = 0;
       this.reviewWord = null;
       this.reveal = null;
-      this.meaningShown = false;
+      this.meaningHintKey = null;
       this.message = "";
     }
 
@@ -541,8 +542,10 @@
       this.attempt.mistakes = 0;
       this.attempt.clean = false;
       this.attempt.solved.clear();
+      this.attempt.hintedWords.clear();
       this.wordOrder = ayah.words.map((_, i) => i);
       this.wordIndex = 0;
+      this.meaningHintKey = null;
       this.message = "Let's run this ayah again — no penalty. I'll explain each slip as you go, so it sticks.";
     }
 
@@ -554,13 +557,34 @@
       return ayah.words[idx];
     }
 
-    // Peek at the ayah translation mid-test. Free, but like the standalone
-    // hint it forfeits the Perfect mark — certainty stays rewarded.
+    activeHintKey() {
+      if (!this.attempt || !this.wordOrder.length) return "";
+      const idx = this.wordOrder[this.wordIndex];
+      return `${this.currentAyahIndex}:${idx}`;
+    }
+
+    // Peek at the current word's meaning. It costs one slip and forfeits
+    // Perfect, but keeps the ayah in motion instead of giving the whole
+    // translation away.
     showMeaning() {
-      if (this.attempt && !this.meaningShown) {
-        this.meaningShown = true;
-        this.attempt.clean = false;
+      const word = this.activeWord();
+      if (!this.attempt || !word) return { hinted: false };
+      const id = wordId(word);
+      const hintKey = this.activeHintKey();
+      if (this.attempt.hintedWords.has(hintKey)) return { hinted: false };
+      this.attempt.hintedWords.add(hintKey);
+      this.meaningHintKey = hintKey;
+      this.attempt.mistakes += 1;
+      this.attempt.clean = false;
+      this.attempt.missedWords.add(id);
+      this.recordMiss(word);
+      if (this.attempt.mistakes > this.attempt.budget) {
+        this.resetAyah();
+        return { hinted: true, reset: true };
       }
+      const remaining = this.attempt.budget - this.attempt.mistakes;
+      this.message = `Hint used. ${remaining} slip${remaining === 1 ? "" : "s"} left.`;
+      return { hinted: true };
     }
 
     buildOptions(word) {
@@ -908,9 +932,14 @@
       if (this.error) return { mode: "error", message: "Could not load the trainer data." };
       if (this.locked || !this.surah) return { mode: "locked" };
 
+      const reviewing = !!this.reviewMode;
+      const surahName = this.surah.englishName || this.surah.name;
       const base = {
         surahNumber: this.surah.number,
-        progressText: `${this.surah.number}. ${this.surah.englishName || this.surah.name} · ${Math.min(this.currentAyahIndex, this.surah.ayahs.length)}/${this.surah.ayahs.length} ayahs`,
+        reviewing,
+        progressText: reviewing
+          ? `Reviewing ${this.surah.number}. ${surahName}`
+          : `${this.surah.number}. ${surahName} · ${Math.min(this.currentAyahIndex, this.surah.ayahs.length)}/${this.surah.ayahs.length} ayahs`,
         session: this.sessionInfo(),
         message: this.message,
       };
@@ -983,8 +1012,8 @@
         budget: this.attempt ? this.attempt.budget : 0,
         solved: this.attempt ? this.attempt.solved.size : 0,
         total: this.attempt ? this.attempt.total : 0,
-        meaningShown: this.meaningShown,
-        translation: this.meaningShown ? ayah.translation || "" : "",
+        meaningShown: this.meaningHintKey === this.activeHintKey(),
+        wordMeaning: displayGloss(word),
       };
     }
 

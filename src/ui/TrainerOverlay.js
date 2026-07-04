@@ -58,7 +58,10 @@
 
             <section class="trainer-study-panel" aria-label="Study question">
               <div class="trainer-ayah-ref" aria-live="polite"></div>
-              <div class="trainer-full-ayah" dir="rtl"></div>
+              <div class="trainer-ayah-wrap">
+                <div class="trainer-full-ayah" dir="rtl"></div>
+                <span class="trainer-ayah-scroll-cue" aria-hidden="true">↕</span>
+              </div>
               <div class="codex-playzone">
                 <div class="trainer-word-card">
                   <div class="trainer-arabic" dir="rtl"></div>
@@ -67,7 +70,6 @@
                 <div class="trainer-test-meta">
                   <p class="trainer-prompt"></p>
                   <span class="trainer-meter"></span>
-                  <button class="trainer-hear" type="button" title="Hear this word recited" aria-label="Hear this word recited" hidden>🔊</button>
                   <button class="trainer-meaning-toggle" type="button" hidden>؟ meaning</button>
                 </div>
                 <p class="trainer-meaning" hidden></p>
@@ -128,6 +130,7 @@
       this.readerHeadEl = this.root.querySelector(".reader-head");
       this.readerScrollEl = this.root.querySelector(".reader-scroll");
       this.ayahRefEl = this.root.querySelector(".trainer-ayah-ref");
+      this.ayahWrapEl = this.root.querySelector(".trainer-ayah-wrap");
       this.fullAyahEl = this.root.querySelector(".trainer-full-ayah");
       this.playzoneEl = this.root.querySelector(".codex-playzone");
       this.wordCardEl = this.root.querySelector(".trainer-word-card");
@@ -145,19 +148,16 @@
       this.reviewExitEl = this.root.querySelector(".trainer-review-exit");
       this.rewardNoteEl = this.root.querySelector(".trainer-reward-note");
       this.mobileJuzSummaryEl = this.root.querySelector(".mobile-juz-summary");
-      this.hearEl = this.root.querySelector(".trainer-hear");
 
       // Real recitation (word clips + full ayahs), sharing the sound toggle.
       // The channel lives on Game so island moments (pet recitals) reuse it.
       this.recite = game.recite || new ns.RecitationAudio(() => this.game.sound.enabled);
       this.currentAudioPath = "";
-      this.hearEl.addEventListener("click", () => {
-        this.recite.playWord(this.currentAudioPath);
-      });
-      // Listen-direction card: the big speaker itself replays the clip.
-      this.arabicEl.addEventListener("click", () => {
-        if (this.arabicEl.classList.contains("is-listen-card")) {
-          this.recite.playWord(this.currentAudioPath);
+      this.wordCardEl.addEventListener("click", () => this.playCurrentWord());
+      this.wordCardEl.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          this.playCurrentWord();
         }
       });
 
@@ -173,8 +173,8 @@
         else this.recite.stop();
       });
       this.meaningToggleEl.addEventListener("click", () => {
-        this.engine.showMeaning();
-        this.game.sound.play("page");
+        const result = this.engine.showMeaning();
+        this.game.sound.play(result?.reset ? "wrong" : "page");
         this.render();
       });
       this.reviewExitEl.addEventListener("click", async () => {
@@ -281,9 +281,9 @@
     // ---------- main render ----------
 
     render() {
-      this.renderRewardStrip();
       if (!this.engine) return;
       this.current = this.engine.getView();
+      this.renderRewardStrip();
       this.renderSurahCollection();
       this.card.dataset.activeTab = this.activeTab;
 
@@ -321,12 +321,13 @@
       this.ayahRefEl.hidden = true;
       this.ayahRefEl.textContent = "";
       this.fullAyahEl.innerHTML = "";
-      this.fullAyahEl.hidden = false;
+      this.ayahWrapEl.hidden = false;
+      this.ayahWrapEl.classList.remove("is-scrollable");
       this.meterEl.textContent = "";
       this.masteryEl?.remove();
       this.masteryEl = null;
       this.currentAudioPath = "";
-      this.hearEl.hidden = true;
+      this.setWordAudioTarget(false);
 
       if (view.mode === "loading") {
         this.setStudyText("", "", "");
@@ -386,20 +387,20 @@
       this.messageEl.textContent = this.message || view.message || "";
       this.renderMasteryBadge(view.mastery);
       this.currentAudioPath = view.audioPath || "";
-      this.hearEl.hidden = !this.currentAudioPath || direction === "listen";
+      this.setWordAudioTarget(!!this.currentAudioPath);
 
       if (view.mode === "word") {
         this.ayahRefEl.hidden = false;
         this.ayahRefEl.textContent = view.surahRef ? `Ayah ${view.surahRef}` : "";
         this.renderAyahLine(view);
         this.meterEl.textContent = `Slips ${view.mistakes}/${view.budget} · Word ${Math.min(view.solved + 1, view.total)}/${view.total}`;
-        this.meaningToggleEl.hidden = false;
-        if (view.meaningShown && view.translation) {
+        this.meaningToggleEl.hidden = !!view.meaningShown;
+        if (view.meaningShown && view.wordMeaning) {
           this.meaningEl.hidden = false;
-          this.meaningEl.textContent = `“${view.translation}” — shown early, so this ayah won't count as Perfect.`;
+          this.meaningEl.textContent = `“${view.wordMeaning}”`;
         }
       } else {
-        this.fullAyahEl.hidden = true;
+        this.ayahWrapEl.hidden = true;
         if (view.mode === "reviewMode") {
           this.reviewBarEl.hidden = false;
           this.renderReviewBar(view);
@@ -428,10 +429,29 @@
       this.wordCardEl.hidden = !arabic;
     }
 
+    playCurrentWord() {
+      this.recite.playWord(this.currentAudioPath);
+    }
+
+    setWordAudioTarget(enabled) {
+      this.wordCardEl.classList.toggle("is-hearable", enabled);
+      if (enabled) {
+        this.wordCardEl.setAttribute("role", "button");
+        this.wordCardEl.setAttribute("tabindex", "0");
+        this.wordCardEl.setAttribute("aria-label", "Hear this word recited");
+      } else {
+        this.wordCardEl.removeAttribute("role");
+        this.wordCardEl.removeAttribute("tabindex");
+        this.wordCardEl.removeAttribute("aria-label");
+      }
+    }
+
     renderAyahLine(view) {
       this.fullAyahEl.innerHTML = "";
+      const words = view.ayahWords || [];
       const solved = new Set(view.solvedIndexes || []);
-      (view.ayahWords || []).forEach((word, index) => {
+      this.ayahWrapEl.classList.toggle("is-scrollable", words.length > 18);
+      words.forEach((word, index) => {
         const span = document.createElement("span");
         span.textContent = word;
         if (index === view.activeWordIndex) span.classList.add("is-active-word");
@@ -1064,7 +1084,7 @@
         return;
       }
       const badges = this.engine.badges ? this.engine.badges() : [];
-      if (!badges.length) {
+      if (!badges.length || this.current?.reviewing) {
         this.mobileJuzSummaryEl.hidden = true;
         return;
       }
