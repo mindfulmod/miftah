@@ -36,6 +36,7 @@
           <nav class="codex-tabs" role="tablist" aria-label="Codex sections">
             <button class="codex-tab is-active" type="button" role="tab" data-tab="study" aria-selected="true">✒ Study</button>
             <button class="codex-tab" type="button" role="tab" data-tab="read" aria-selected="false">📜 Read</button>
+            <button class="codex-tab codex-collection-tab" type="button" role="tab" data-tab="collection" aria-selected="false">Collection</button>
             <a class="codex-web-link" href="trainer.html" title="Open the web trainer — same progress, no island" aria-label="Open the web trainer">🌐</a>
             <button class="codex-sound" type="button" aria-label="Toggle sound"></button>
           </nav>
@@ -87,6 +88,7 @@
           </div>
 
           <p class="trainer-reward-note" aria-live="polite"></p>
+          <button class="mobile-juz-summary" type="button"></button>
           <footer class="codex-bottom" aria-label="Rewards">
             <div class="reward-icon">
               <img src="assets/generated/crops/seed_packet_icon.png" alt="" />
@@ -107,6 +109,7 @@
 
       this.card = this.root.querySelector(".trainer-card");
       this.closeButton = this.root.querySelector(".trainer-close");
+      this.collectionEl = this.root.querySelector(".surah-collection");
       this.surahToggleButton = this.root.querySelector(".surah-toggle");
       this.progressEl = this.root.querySelector(".trainer-progress");
       this.sessionEl = this.root.querySelector(".trainer-session");
@@ -141,6 +144,7 @@
       this.reviewTallyEl = this.root.querySelector(".trainer-review-tally");
       this.reviewExitEl = this.root.querySelector(".trainer-review-exit");
       this.rewardNoteEl = this.root.querySelector(".trainer-reward-note");
+      this.mobileJuzSummaryEl = this.root.querySelector(".mobile-juz-summary");
       this.hearEl = this.root.querySelector(".trainer-hear");
 
       // Real recitation (word clips + full ayahs), sharing the sound toggle.
@@ -177,6 +181,7 @@
         await this.engine.stopReviewMode();
         this.render();
       });
+      this.mobileJuzSummaryEl.addEventListener("click", () => this.setTab("collection"));
       this.root.addEventListener("click", (event) => {
         if (event.target === this.root) this.close();
       });
@@ -278,6 +283,7 @@
       if (!this.engine) return;
       this.current = this.engine.getView();
       this.renderSurahCollection();
+      this.card.dataset.activeTab = this.activeTab;
 
       const view = this.current;
       this.progressEl.textContent = view.progressText || "";
@@ -288,8 +294,14 @@
         : "";
 
       const reading = this.activeTab === "read";
-      this.studyPanelEl.hidden = reading;
+      const collecting = this.activeTab === "collection";
+      this.collectionEl.hidden = false;
+      this.studyPanelEl.hidden = reading || collecting;
       this.readerPanelEl.hidden = !reading;
+      if (collecting) {
+        this.closeReaderPopover();
+        return;
+      }
       if (reading) {
         this.renderReader();
         return;
@@ -1024,6 +1036,7 @@
     // collection actions that render right after).
     setTabQuiet(tab) {
       this.activeTab = tab;
+      this.card.dataset.activeTab = tab;
       for (const button of this.tabButtons) {
         const active = button.dataset.tab === tab;
         button.classList.toggle("is-active", active);
@@ -1040,6 +1053,24 @@
       const egg = state.activeEgg;
       this.metricEggEl.textContent = egg ? `${egg.progress}/${egg.goal}` : "—";
       this.rewardNoteEl.textContent = this.rewardHint(state);
+      this.renderMobileJuzSummary();
+    }
+
+    renderMobileJuzSummary() {
+      if (!this.mobileJuzSummaryEl || !this.engine) {
+        if (this.mobileJuzSummaryEl) this.mobileJuzSummaryEl.hidden = true;
+        return;
+      }
+      const badges = this.engine.badges ? this.engine.badges() : [];
+      if (!badges.length) {
+        this.mobileJuzSummaryEl.hidden = true;
+        return;
+      }
+      const current = badges.find((b) => !b.earned) || badges[badges.length - 1];
+      this.mobileJuzSummaryEl.hidden = false;
+      this.mobileJuzSummaryEl.textContent = current.earned
+        ? "All Juz badges earned · View Collection"
+        : `Juz ${current.juz} · ${current.done}/${current.total} ayahs · View Collection`;
     }
 
     rewardHint(state) {
