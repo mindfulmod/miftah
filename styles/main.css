@@ -2568,3 +2568,196 @@ body {
   font-size: 19px;
   line-height: 1.9;
 }
+
+/* ---------- the Letter Garden (from-zero letters track) ---------- */
+.letters-panel {
+  gap: 6px;
+}
+
+.letters-ladder {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 4px;
+}
+
+.letters-step {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 2px solid rgba(166, 116, 42, 0.4);
+  border-radius: 50%;
+  background: rgba(255, 250, 235, 0.6);
+  color: #6b4a26;
+  cursor: pointer;
+  font-family: "Amiri Quran", "Times New Roman", serif;
+  font-size: 13px;
+  line-height: 1;
+}
+
+.letters-step.is-done {
+  border-color: var(--codex-gold-dim);
+  background: radial-gradient(circle at 32% 26%, var(--codex-gold-bright), var(--codex-gold-dim) 78%);
+  color: #3a2408;
+  font-family: inherit;
+  font-size: 12px;
+}
+
+.letters-step.is-current {
+  border-color: var(--codex-teal-deep);
+  background: radial-gradient(circle at 32% 26%, #4fd2e6, var(--codex-teal-deep) 78%);
+  box-shadow: 0 0 8px rgba(31, 177, 207, 0.5);
+  color: #f4fdff;
+}
+
+.letters-step.is-locked {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.letters-step.is-active {
+  outline: 2px solid var(--codex-gold-bright);
+  outline-offset: 1px;
+}
+
+.letters-unit-title {
+  min-height: 12px;
+  margin: 0;
+  color: #6b4a26;
+  font-size: 9px;
+  font-weight: 900;
+  text-align: center;
+}
+
+.letters-card {
+  min-height: calc(84px * var(--codex-font-scale));
+}
+
+.letters-big {
+  font-size: calc(38px * var(--codex-font-scale));
+}
+
+.letters-big.is-latin {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: calc(17px * var(--codex-font-scale));
+  font-weight: 900;
+  line-height: 1.5;
+}
+
+.letters-sub {
+  max-width: 340px;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.letters-meter {
+  align-self: center;
+  color: #8a6a3c;
+  font-size: 8.5px;
+  font-weight: 800;
+}
+
+.letters-example {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.letters-example-label {
+  color: #8a6a3c;
+  font-size: 8px;
+  font-weight: 800;
+}
+
+.letters-example-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px;
+  border: 1px solid rgba(166, 116, 42, 0.4);
+  border-radius: 999px;
+  background: rgba(255, 250, 235, 0.8);
+  color: #4c3317;
+  cursor: pointer;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.letters-example-chip b {
+  font-family: "Amiri Quran", "Times New Roman", serif;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.letters-example-chip:hover {
+  background: rgba(255, 250, 235, 1);
+}
+
+.letters-nav {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.letters-nav-btn {
+  flex: 0 1 150px;
+  text-align: center;
+}
+
+.letters-option {
+  text-align: center;
+}
+
+.letters-arabic-option {
+  font-size: 22px;
+  line-height: 1.75;
+}
+
+.letters-skip {
+  border-color: rgba(166, 116, 42, 0.35);
+  background: transparent;
+  box-shadow: none;
+  color: #8a6a3c;
+  font-size: 9px;
+}
+
+.trainer-card[data-theme="dark"] .letters-step {
+  background: rgba(35, 26, 18, 0.7);
+  color: #d8c294;
+}
+
+.trainer-card[data-theme="dark"] .letters-unit-title,
+.trainer-card[data-theme="dark"] .letters-meter,
+.trainer-card[data-theme="dark"] .letters-example-label {
+  color: #d8c294;
+}
+
+.trainer-card[data-theme="dark"] .letters-example-chip {
+  background: rgba(35, 26, 18, 0.8);
+  color: #f5deb5;
+}
+
+.trainer-card[data-theme="dark"] .letters-skip {
+  color: #b99b6a;
+}
+
+@media (max-width: 720px) {
+  .letters-step {
+    width: 26px;
+    height: 26px;
+    font-size: 11px;
+  }
+
+  .letters-big {
+    font-size: calc(30px * var(--codex-font-scale));
+  }
+
+  .letters-arabic-option {
+    font-size: 19px;
+  }
+}
