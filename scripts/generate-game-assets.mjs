@@ -172,6 +172,9 @@ class Pix {
 function save(rel, width, height, draw, bg = [0, 0, 0, 0]) {
   const img = new Pix(width, height, bg);
   draw(img);
+  // Discrete sprites get the reference's unifying warm "sticker" edge; tiling
+  // terrain and flat UI must stay seamless, so they're left un-outlined.
+  if (!rel.startsWith("terrain/") && !rel.startsWith("ui/")) outline(img);
   const file = path.join(outRoot, rel);
   fs.mkdirSync(path.dirname(file), { recursive: true });
   fs.writeFileSync(file, encodePng(width, height, img.pixels));
@@ -186,62 +189,176 @@ function sparkle(p, x, y, col = "#ffffff") {
   p.fillRect(x + 2, y - 1, 1, 5, color(col, 150));
 }
 
-function waterTile(p, base = "#1bbbd1", deep = "#0e8fb8") {
-  p.fillRect(0, 0, 48, 48, base);
-  p.fillRect(0, 33, 48, 15, color(deep, 70));
-  p.line(5, 12, 19, 10, "#7de9f1", 2);
-  p.line(29, 22, 42, 20, "#e8ffff", 2);
-  p.line(10, 36, 26, 38, "#7de9f1", 2);
-  sparkle(p, 35, 8, "#e8ffff");
+// ── PIXEL-ART TOOLKIT ───────────────────────────────────────────────────────
+// A small set of helpers that lift the flat fills toward the layered,
+// dithered, warm-outlined look of assets/generated/reference/island_imagen_
+// direction.png. Everything stays inside the dependency-free Pix model.
+
+// Linear RGB blend of two hex/array colors, t in [0,1].
+function mix(a, b, t) {
+  const [ar, ag, ab] = color(a);
+  const [br, bg, bb] = color(b);
+  const l = (x, y) => Math.round(x + (y - x) * t);
+  return [l(ar, br), l(ag, bg), l(ab, bb), 255];
 }
 
-function grassTile(p, flowers = false) {
-  p.fillRect(0, 0, 48, 48, "#8ccc36");
-  p.fillRect(0, 34, 48, 14, color("#65a92e", 80));
-  for (let i = 0; i < 16; i++) {
-    const x = (i * 17 + 5) % 46;
-    const y = (i * 23 + 7) % 44;
-    p.fillRect(x, y, 2, 5, i % 2 ? "#6ebd31" : "#a6dd46");
-  }
-  if (flowers) {
-    for (const [x, y, c] of [
-      [11, 14, "#fff2a0"],
-      [31, 20, "#ff8ab3"],
-      [23, 34, "#fff7f0"],
-    ]) {
-      p.ellipse(x, y, 3, 3, c);
-      p.fillRect(x, y, 1, 1, "#d68b25");
+// Deterministic value noise in [0,1] — stable per (x,y,seed) so textures never
+// shimmer between regenerations and tiles stay reproducible.
+function nrand(x, y, seed = 0) {
+  let h = (Math.imul(x | 0, 374761393) + Math.imul(y | 0, 668265263) + Math.imul(seed | 0, 2246822519)) >>> 0;
+  h = Math.imul(h ^ (h >>> 13), 1274126177) >>> 0;
+  return ((h ^ (h >>> 16)) >>> 0) / 4294967296;
+}
+
+// 4×4 ordered (Bayer) dither thresholds — the classic pixel-art gradient look.
+const BAYER4 = [
+  [0, 8, 2, 10],
+  [12, 4, 14, 6],
+  [3, 11, 1, 9],
+  [15, 7, 13, 5],
+].map((row) => row.map((v) => (v + 0.5) / 16));
+
+// Fill a rect with a top→bottom two-tone dither ramp (lo at top, hi at bottom).
+function ditherRect(p, x, y, w, h, lo, hi) {
+  for (let yy = 0; yy < h; yy++) {
+    for (let xx = 0; xx < w; xx++) {
+      const t = h > 1 ? yy / (h - 1) : 0;
+      const use = t > BAYER4[(y + yy) & 3][(x + xx) & 3] ? hi : lo;
+      p.set(x + xx, y + yy, use);
     }
   }
 }
 
-function sandTile(p) {
-  p.fillRect(0, 0, 48, 48, "#edc474");
-  for (let i = 0; i < 18; i++) {
-    const x = (i * 13 + 3) % 46;
-    const y = (i * 19 + 9) % 44;
-    p.fillRect(x, y, 2, 2, i % 2 ? "#d9aa5f" : "#ffe19a");
+// Soft ambient-occlusion contact shadow: a squashed, feathered dark ellipse
+// that grounds a prop. Warmer and softer than the old flat `shadow`.
+function aoShadow(p, cx, cy, rx, ry) {
+  for (let r = 3; r >= 0; r--) {
+    p.ellipse(cx, cy, rx * (1 + r * 0.14), ry * (1 + r * 0.14), [40, 28, 16, 18]);
+  }
+  p.ellipse(cx, cy, rx, ry, [40, 28, 16, 40]);
+}
+
+// Trace a 1px warm-dark outline around every opaque pixel that borders
+// transparency — the unifying "sticker" edge the reference uses throughout.
+function outline(p, col = "#4a3016", alpha = 235) {
+  const w = p.width;
+  const h = p.height;
+  const src = Buffer.from(p.pixels);
+  const opaque = (x, y) => x >= 0 && y >= 0 && x < w && y < h && src[(y * w + x) * 4 + 3] > 40;
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      if (src[(y * w + x) * 4 + 3] > 40) continue;
+      if (
+        opaque(x - 1, y) || opaque(x + 1, y) || opaque(x, y - 1) || opaque(x, y + 1)
+      ) {
+        p.set(x, y, color(col, alpha));
+      }
+    }
   }
 }
 
+// A rounded, volume-shaded blob (canopy/rock/roof mass): base fill, a
+// lighter top-left crescent, and a darker bottom-right seat.
+function blob(p, cx, cy, rx, ry, base, light, dark) {
+  p.ellipse(cx, cy, rx, ry, base);
+  p.ellipse(cx - rx * 0.28, cy - ry * 0.3, rx * 0.62, ry * 0.6, light);
+  // dark seat, clipped to the lower-right of the mass
+  for (let y = Math.floor(cy); y <= Math.ceil(cy + ry); y++) {
+    for (let x = Math.floor(cx); x <= Math.ceil(cx + rx); x++) {
+      const dx = (x - cx) / rx;
+      const dy = (y - cy) / ry;
+      if (dx * dx + dy * dy <= 1 && dx + dy > 0.35) p.set(x, y, dark);
+    }
+  }
+}
+
+// Turquoise sea with a dithered depth gradient, drifting swells and foam
+// glints — the vivid water the reference floats everything on.
+function waterTile(p, base = "#2bbcdc", deep = "#1782b6") {
+  for (let y = 0; y < 48; y++) {
+    for (let x = 0; x < 48; x++) {
+      const t = y / 47;
+      const swell = 0.5 + 0.5 * Math.sin((x + y * 0.6) * 0.5);
+      const shade = t > BAYER4[y & 3][x & 3] ? mix(base, deep, 0.55) : base;
+      p.set(x, y, swell > 0.82 ? mix(shade, "#8fe8f2", 0.4) : shade);
+    }
+  }
+  // Ripple crescents and a couple of bright glints.
+  for (const [x0, x1, y0, c] of [[4, 18, 11, "#bff0f5"], [27, 41, 21, "#eafcff"], [9, 24, 37, "#a6e9f0"]]) {
+    p.line(x0, y0, x1, y0 - 2, color(c, 210), 1);
+    p.line(x0 + 1, y0 + 1, x1 + 1, y0 - 1, color(c, 90), 1);
+  }
+  sparkle(p, 34, 7, "#eafcff");
+}
+
+// Warm meadow grass: subtle top-lit gradient, scattered blades and clumps
+// via ordered dither, optional flower specks.
+function grassTile(p, flowers = false) {
+  for (let y = 0; y < 48; y++) {
+    for (let x = 0; x < 48; x++) {
+      const t = y / 47;
+      const base = mix("#82c33d", "#5e9e2c", t * 0.55);
+      const n = nrand(x, y, 11);
+      let c = base;
+      if (n > 0.9) c = "#a2da54"; // sun-caught blade
+      else if (n < 0.1) c = mix(base, "#3f7d23", 0.7); // dark clump
+      p.set(x, y, c);
+    }
+  }
+  // A few rounded darker tufts for depth.
+  for (const [x, y] of [[10, 30], [34, 12], [40, 38]]) {
+    if (nrand(x, y, 3) > 0.35) p.ellipse(x, y, 4, 3, color("#4f8b28", 150));
+  }
+  // Upright blade tufts.
+  for (let i = 0; i < 10; i++) {
+    const x = (i * 27 + 5) % 45;
+    const y = (i * 19 + 9) % 42;
+    p.fillRect(x, y, 1, 4, i % 2 ? "#6ebd31" : "#9ad64d");
+  }
+  if (flowers) {
+    for (const [x, y, c] of [[11, 14, "#fff2a0"], [31, 20, "#ff8ab3"], [23, 34, "#fff7f0"]]) {
+      p.ellipse(x, y, 2, 2, c);
+      p.set(x, y, "#d68b25");
+    }
+  }
+}
+
+// Warm sand with speckle and faint wind ripples.
+function sandTile(p) {
+  for (let y = 0; y < 48; y++) {
+    for (let x = 0; x < 48; x++) {
+      const t = y / 47;
+      const base = mix("#efcd82", "#dcb163", t * 0.4);
+      const n = nrand(x, y, 7);
+      p.set(x, y, n > 0.92 ? "#fbe7ab" : n < 0.08 ? "#cfa45c" : base);
+    }
+  }
+  for (const y of [16, 30, 41]) p.line(2, y, 46, y + 1, color("#d3a95f", 90), 1);
+}
+
+// Stone flagstones (paths + plaza) — warm cut stone with beveled joints,
+// rendered over a grass border so edges read soft like the reference.
 function pathTile(p, variant = "fill") {
   grassTile(p, false);
-  const dirt = "#d99c58";
-  const outline = "#b98142";
-  if (variant === "h") {
-    p.fillRect(0, 16, 48, 18, outline);
-    p.fillRect(0, 19, 48, 12, dirt);
-  } else if (variant === "v") {
-    p.fillRect(15, 0, 18, 48, outline);
-    p.fillRect(18, 0, 12, 48, dirt);
-  } else if (variant === "cross") {
-    p.fillRect(0, 16, 48, 18, outline);
-    p.fillRect(15, 0, 18, 48, outline);
-    p.fillRect(0, 19, 48, 12, dirt);
-    p.fillRect(18, 0, 12, 48, dirt);
+  const drawStone = (x, y, w, h) => {
+    ditherRect(p, x, y, w, h, "#e2c48f", "#d0aa6c");
+    p.strokeRect(x, y, w, h, color("#b48a52", 150), 1);
+    p.line(x + 1, y + 1, x + w - 2, y + 1, color("#f2dcab", 170), 1); // top bevel
+  };
+  if (variant === "h") drawStone(0, 15, 48, 19);
+  else if (variant === "v") drawStone(15, 0, 19, 48);
+  else if (variant === "cross") {
+    drawStone(0, 15, 48, 19);
+    drawStone(15, 0, 19, 48);
   } else {
-    p.fillRect(0, 0, 48, 48, "#d99c58");
-    for (let i = 0; i < 9; i++) p.fillRect((i * 11) % 44, (i * 17) % 44, 3, 2, "#bf7f3b");
+    // Cobble field: a 3×3 grid of stones with mortar gaps.
+    for (let gy = 0; gy < 3; gy++) {
+      for (let gx = 0; gx < 3; gx++) {
+        const jx = gx * 16 + ((gy % 2) * 3);
+        ditherRect(p, jx + 1, gy * 16 + 1, 14, 14, "#e2c48f", "#cda766");
+        p.strokeRect(jx + 1, gy * 16 + 1, 14, 14, color("#b48a52", 130), 1);
+      }
+    }
   }
 }
 
@@ -349,43 +466,64 @@ function irrigation(p, dir = "h") {
 }
 
 function drawTree(p, x, y, scale = 1, fruit = false) {
-  shadow(p, x, y + 28 * scale, 17 * scale, 7 * scale);
-  p.fillRect(x - 5 * scale, y + 14 * scale, 10 * scale, 25 * scale, "#8b542a");
-  p.fillRect(x - 3 * scale, y + 14 * scale, 3 * scale, 25 * scale, "#c17737");
-  for (const [dx, dy, r] of [
-    [-16, 5, 17],
-    [0, -3, 20],
-    [18, 8, 16],
-    [-4, 16, 18],
-  ]) {
-    p.ellipse(x + dx * scale, y + dy * scale, r * scale, r * scale, "#4d9a39");
-    p.ellipse(x + dx * scale - 3, y + dy * scale - 3, (r - 6) * scale, (r - 6) * scale, "#75c84a");
+  const s = scale;
+  aoShadow(p, x, y + 30 * s, 18 * s, 7 * s);
+  // Trunk with a lit right edge and a couple of root flares.
+  p.fillRect(x - 5 * s, y + 12 * s, 10 * s, 27 * s, "#7c4a24");
+  p.fillRect(x - 1 * s, y + 12 * s, 4 * s, 27 * s, "#b3763a");
+  p.fillRect(x - 5 * s, y + 12 * s, 2 * s, 27 * s, "#5f3819");
+  // Canopy as overlapping volume-shaded blobs (dark base → bright crown).
+  for (const [dx, dy, r] of [[-15, 6, 16], [16, 9, 15], [-5, 17, 16], [0, -4, 20]]) {
+    blob(p, x + dx * s, y + dy * s, r * s, r * 0.92 * s, "#3f8d33", "#6fc247", "#2f6d26");
+  }
+  // Sun-caught top highlight.
+  p.ellipse(x - 4 * s, y - 9 * s, 9 * s, 7 * s, "#82d155");
+  // Leaf speckle for texture.
+  for (let i = 0; i < 22; i++) {
+    const a = nrand(i, 1, 5) * Math.PI * 2;
+    const rr = nrand(i, 2, 5) * 17 * s;
+    if (nrand(i, 3, 5) > 0.5) p.set(x + Math.cos(a) * rr, y - 2 * s + Math.sin(a) * rr, "#8ad95c");
   }
   if (fruit) {
-    for (const [dx, dy] of [
-      [-12, 5],
-      [9, 3],
-      [1, 15],
-    ]) p.ellipse(x + dx * scale, y + dy * scale, 4 * scale, 4 * scale, "#f28b25");
+    for (const [dx, dy] of [[-12, 5], [9, 3], [1, 15], [-6, -6], [13, -3]]) {
+      p.ellipse(x + dx * s, y + dy * s, 3.5 * s, 3.5 * s, "#f2952b");
+      p.ellipse(x + dx * s - 1, y + dy * s - 1, 1.6 * s, 1.6 * s, "#ffc25a");
+    }
   }
 }
 
 function drawPalm(p, x, y, scale = 1, dates = false) {
-  shadow(p, x, y + 32 * scale, 14 * scale, 6 * scale);
-  p.line(x, y + 36 * scale, x + 5 * scale, y + 8 * scale, "#8b542a", Math.max(3, 5 * scale));
-  p.line(x - 2 * scale, y + 36 * scale, x + 3 * scale, y + 8 * scale, "#c17737", Math.max(1, 2 * scale));
-  const leaves = [
-    [-28, 6],
-    [-20, -8],
-    [0, -15],
-    [20, -9],
-    [28, 6],
-    [8, 6],
-  ];
-  for (const [dx, dy] of leaves) p.line(x + 4 * scale, y + 9 * scale, x + dx * scale, y + dy * scale, "#2f8d36", Math.max(4, 5 * scale));
+  const s = scale;
+  aoShadow(p, x, y + 34 * s, 15 * s, 6 * s);
+  // Segmented, gently curved trunk (lit down the right side).
+  const topX = x + 4 * s;
+  const topY = y + 7 * s;
+  const botX = x - 2 * s;
+  const botY = y + 36 * s;
+  for (let t = 0; t <= 1.001; t += 0.05) {
+    const cx = botX + (topX - botX) * t + Math.sin(t * Math.PI) * 3 * s;
+    const cy = botY + (topY - botY) * t;
+    const r = (4 - t) * s;
+    p.ellipse(cx, cy, r, 2.4 * s, mix("#7c4a24", "#c07f3e", t));
+    p.ellipse(cx + r * 0.4, cy, r * 0.4, 2 * s, mix("#a06334", "#d59a52", t));
+  }
+  const cx = topX;
+  const cy = topY;
+  const fronds = [[-27, 5], [-19, -9], [-4, -16], [13, -13], [26, -3], [17, 9], [-13, 11], [5, 10]];
+  // Dark under-fronds first, then bright over-fronds for depth.
+  for (const [dx, dy] of fronds) p.line(cx, cy, cx + dx * s, cy + dy * s, "#256f2b", Math.max(4, 6 * s));
+  for (const [dx, dy] of fronds) {
+    p.line(cx, cy, cx + dx * s * 0.7, cy + dy * s * 0.7, "#3fa646", Math.max(3, 4 * s));
+    p.ellipse(cx + dx * s, cy + dy * s, 5 * s, 3.4 * s, "#3fa646");
+    p.ellipse(cx + dx * s * 0.9, cy + dy * s * 0.9 - 1, 3 * s, 2 * s, "#5fca5a");
+  }
+  p.ellipse(cx, cy - 1, 6 * s, 4.5 * s, "#4fb851");
+  p.ellipse(cx - 1, cy - 2, 3 * s, 2 * s, "#7ad86e");
   if (dates) {
-    p.ellipse(x + 2 * scale, y + 14 * scale, 4 * scale, 6 * scale, "#d08a1c");
-    p.ellipse(x - 4 * scale, y + 14 * scale, 3 * scale, 5 * scale, "#d08a1c");
+    for (const [dx, dy] of [[2, 13], [-4, 14], [5, 15]]) {
+      p.ellipse(cx + dx * s, cy + dy * s, 3 * s, 4 * s, "#d8901f");
+      p.set(cx + dx * s, cy + dy * s, "#8a5a12");
+    }
   }
 }
 
@@ -402,81 +540,134 @@ function hex(p, cx, cy, r, fill, outline = "#9d5a15") {
 
 function arch(p, w, h, gold = true) {
   shadow(p, w / 2, h - 18, w * 0.36, 10);
-  const trim = gold ? "#a76618" : "#956639";
-  const body = gold ? "#f2b93e" : "#e3be78";
-  p.fillRect(w * 0.24, h * 0.36, w * 0.52, h * 0.52, trim);
-  p.fillRect(w * 0.3, h * 0.41, w * 0.4, h * 0.46, body);
-  p.ellipse(w / 2, h * 0.36, w * 0.27, h * 0.25, trim);
-  p.ellipse(w / 2, h * 0.39, w * 0.19, h * 0.18, body);
-  p.fillRect(w * 0.38, h * 0.55, w * 0.24, h * 0.34, "#1b8aa0");
-  p.ellipse(w * 0.5, h * 0.64, w * 0.09, h * 0.08, "#fff1bd");
-  p.line(w * 0.44, h * 0.64, w * 0.56, h * 0.64, "#8a6f36", 2);
-  p.fillRect(w * 0.16, h * 0.7, w * 0.12, h * 0.23, trim);
-  p.fillRect(w * 0.72, h * 0.7, w * 0.12, h * 0.23, trim);
-  p.ellipse(w * 0.22, h * 0.68, 8, 13, "#ffd65a");
-  p.ellipse(w * 0.78, h * 0.68, 8, 13, "#ffd65a");
+  const trimC = gold ? "#b9781f" : "#956639";
+  const bodyC = gold ? "#f4c451" : "#e3be78";
+  const lightC = gold ? "#ffe08a" : "#f2d9a8";
+  // Two columns.
+  for (const cx of [w * 0.2, w * 0.8]) {
+    ditherRect(p, cx - w * 0.07, h * 0.42, w * 0.14, h * 0.5, bodyC, trimC);
+    p.fillRect(cx - w * 0.07, h * 0.42, w * 0.05, h * 0.5, lightC); // lit left edge
+    blob(p, cx, h * 0.4, w * 0.09, h * 0.06, bodyC, lightC, trimC); // capital dome
+    p.set(cx, h * 0.32, trimC);
+    p.line(cx, h * 0.3, cx, h * 0.34, trimC, 2); // finial
+  }
+  // Ogee arch spanning the columns.
+  p.ellipse(w / 2, h * 0.4, w * 0.34, h * 0.28, trimC);
+  p.ellipse(w / 2, h * 0.42, w * 0.27, h * 0.23, bodyC);
+  p.ellipse(w / 2, h * 0.36, w * 0.3, h * 0.2, lightC);
+  p.ellipse(w / 2, h * 0.38, w * 0.24, h * 0.17, bodyC);
+  // Arch opening (cool interior) framed by the gold.
+  p.fillRect(w * 0.36, h * 0.5, w * 0.28, h * 0.42, trimC);
+  p.fillRect(w * 0.39, h * 0.53, w * 0.22, h * 0.39, "#2596ad");
+  p.fillRect(w * 0.39, h * 0.53, w * 0.22, h * 0.08, "#1b7d92"); // top-of-opening shade
+  if (gold) {
+    // The open book emblem — this is the Reading Archway's whole promise.
+    const bx = w * 0.5;
+    const by = h * 0.66;
+    p.poly([[bx, by - 8], [bx - 15, by - 4], [bx - 15, by + 7], [bx, by + 4]], "#fff6e0");
+    p.poly([[bx, by - 8], [bx + 15, by - 4], [bx + 15, by + 7], [bx, by + 4]], "#ffeecb");
+    p.line(bx, by - 7, bx, by + 4, "#c9a86a", 1); // spine
+    for (let i = 1; i <= 3; i++) {
+      p.line(bx - 12, by - 3 + i * 2, bx - 3, by - 4 + i * 2, color("#b89a63", 160), 1);
+      p.line(bx + 3, by - 4 + i * 2, bx + 12, by - 3 + i * 2, color("#b89a63", 160), 1);
+    }
+  }
+  // Keystone gem at the arch apex.
+  p.ellipse(w / 2, h * 0.32, w * 0.04, h * 0.045, lightC);
+  p.set(w / 2, h * 0.32, "#fff8dc");
+  // Flanking lanterns.
+  p.ellipse(w * 0.2, h * 0.66, 6, 10, "#ffd65a");
+  p.ellipse(w * 0.8, h * 0.66, 6, 10, "#ffd65a");
+}
+
+// Shared wall body with a dither-shaded face and a lit top band.
+function wall(p, x, y, w, h, base, dark) {
+  ditherRect(p, x, y, w, h, base, dark);
+  p.fillRect(x, y, w, 3, mix(base, "#ffffff", 0.25)); // sun band along the top
+  p.fillRect(x, y + h - 3, w, 3, dark); // grounded base
+}
+
+// Shaded pitched roof: a bright sunward slope and a darker shaded slope split
+// down the ridge, with a highlighted ridgeline.
+function roofTri(p, apex, left, right, light, dark) {
+  const mid = [apex[0], (left[1] + right[1]) / 2];
+  p.poly([apex, left, [apex[0], left[1]]], dark);
+  p.poly([apex, [apex[0], right[1]], right], light);
+  p.line(apex[0], apex[1], mid[0], left[1], mix(light, "#ffffff", 0.4), 1);
 }
 
 function barn(p) {
-  shadow(p, 64, 93, 46, 12);
-  p.fillRect(24, 37, 82, 55, "#ba4c2d");
-  p.strokeRect(24, 37, 82, 55, "#63321e", 3);
-  p.poly([[18, 42], [64, 10], [111, 42]], "#6d331f");
-  p.poly([[25, 40], [64, 17], [104, 40]], "#e17438");
-  p.fillRect(49, 63, 30, 29, "#7f4927");
-  p.strokeRect(49, 63, 30, 29, "#f6bf83", 2);
-  p.line(49, 63, 79, 92, "#f6bf83", 2);
-  p.line(79, 63, 49, 92, "#f6bf83", 2);
-  p.fillRect(86, 18, 14, 74, "#b97032");
-  p.strokeRect(86, 18, 14, 74, "#613519", 2);
-  p.ellipse(93, 16, 9, 8, "#d8903d");
+  aoShadow(p, 64, 92, 46, 11);
+  wall(p, 24, 37, 82, 55, "#c1502f", "#8f3a22");
+  roofTri(p, [64, 12], [16, 42], [112, 42], "#e87a3d", "#a84e28");
+  // Big hay doors with an X brace.
+  p.fillRect(49, 62, 30, 30, "#7f4927");
+  p.strokeRect(49, 62, 30, 30, "#f6bf83", 2);
+  p.line(50, 62, 78, 91, "#e2a664", 2);
+  p.line(78, 62, 50, 91, "#e2a664", 2);
+  p.line(64, 62, 64, 91, "#5e3419", 1);
+  // Silo with a domed cap.
+  wall(p, 86, 20, 15, 72, "#c98a45", "#9c6630");
+  blob(p, 93, 18, 9, 7, "#d8903d", "#f0b566", "#9c6027");
+  p.ellipse(64, 24, 6, 5, "#ffe6a8"); // hay-loft window
 }
 
 function stable(p) {
-  shadow(p, 64, 93, 43, 12);
-  p.fillRect(24, 44, 82, 47, "#9a6331");
-  p.strokeRect(24, 44, 82, 47, "#573316", 3);
-  p.poly([[18, 45], [64, 17], [110, 45]], "#184f63");
-  p.poly([[26, 43], [64, 22], [102, 43]], "#2e9cb1");
-  p.fillRect(49, 60, 30, 31, "#5e3518");
-  p.strokeRect(49, 60, 30, 31, "#d8a453", 2);
+  aoShadow(p, 64, 92, 43, 11);
+  wall(p, 24, 44, 82, 47, "#a56b37", "#7a4d24");
+  roofTri(p, [64, 18], [16, 45], [110, 45], "#33a7bd", "#1c6c80");
+  p.fillRect(49, 59, 30, 32, "#5e3518");
+  p.strokeRect(49, 59, 30, 32, "#d8a453", 2);
+  p.fillRect(49, 59, 30, 4, "#3c2110"); // stall header shadow
 }
 
 function fountain(p) {
-  shadow(p, 48, 75, 34, 10);
-  p.ellipse(48, 63, 35, 17, "#9f7c50");
-  p.ellipse(48, 60, 31, 14, "#e5bf75");
-  p.ellipse(48, 56, 23, 10, "#1ab8d5");
-  p.fillRect(42, 31, 12, 24, "#bd8950");
-  p.ellipse(48, 32, 15, 8, "#e8c985");
-  p.ellipse(48, 28, 9, 5, "#22bad4");
-  p.line(48, 12, 48, 28, "#ddffff", 2);
-  p.line(40, 20, 31, 36, "#ddffff", 2);
-  p.line(56, 20, 65, 36, "#ddffff", 2);
+  aoShadow(p, 48, 74, 35, 10);
+  // Basin: stone rim, inner lip, then shimmering water.
+  p.ellipse(48, 63, 35, 17, "#a07d50");
+  p.ellipse(48, 62, 32, 15, "#d9b46a");
+  p.ellipse(48, 60, 27, 12, "#c69a55");
+  p.ellipse(48, 58, 23, 9, "#26b6d6");
+  p.ellipse(48, 56, 19, 7, "#57cfe6");
+  for (const [dx, dy] of [[-9, 0], [7, 2], [0, -2]]) p.set(48 + dx, 57 + dy, "#d9f7ff");
+  // Central pillar + upper bowl.
+  ditherRect(p, 43, 31, 10, 25, "#d3a865", "#a97e44");
+  p.ellipse(48, 31, 15, 7, "#d9b46a");
+  p.ellipse(48, 30, 11, 5, "#26b6d6");
+  p.ellipse(48, 29, 8, 3, "#7ddcee");
+  // Water jet + falling arcs.
+  p.line(48, 13, 48, 28, "#dffcff", 2);
+  p.line(48, 13, 48, 20, "#ffffff", 1);
+  p.line(41, 22, 33, 34, "#c7f2fb", 2);
+  p.line(55, 22, 63, 34, "#c7f2fb", 2);
 }
 
 function drawFence(p, vertical = false) {
-  shadow(p, 32, 50, 24, 5);
+  aoShadow(p, 32, 52, 24, 4);
+  const post = (x, y, w, h) => {
+    ditherRect(p, x, y, w, h, "#b3763a", "#7c4a24");
+    p.fillRect(x, y, w, 2, "#d7a35a");
+  };
   if (vertical) {
-    p.fillRect(24, 3, 8, 58, "#7b4a21");
-    p.fillRect(33, 3, 8, 58, "#7b4a21");
-    p.fillRect(22, 8, 22, 7, "#d2923c");
-    p.fillRect(22, 33, 22, 7, "#d2923c");
+    p.fillRect(22, 10, 22, 6, "#c98a45");
+    p.fillRect(22, 34, 22, 6, "#c98a45");
+    post(23, 3, 8, 58);
+    post(33, 3, 8, 58);
   } else {
-    p.fillRect(5, 26, 54, 8, "#7b4a21");
-    p.fillRect(5, 38, 54, 8, "#7b4a21");
-    p.fillRect(9, 18, 8, 37, "#d2923c");
-    p.fillRect(47, 18, 8, 37, "#d2923c");
+    p.fillRect(6, 27, 52, 6, "#c98a45");
+    p.fillRect(6, 39, 52, 6, "#c98a45");
+    post(9, 16, 8, 39);
+    post(47, 16, 8, 39);
   }
 }
 
 function smallHouse(p, roof = "#e16631", body = "#f0c47a") {
-  shadow(p, 48, 69, 31, 9);
-  p.fillRect(18, 34, 59, 36, body);
-  p.strokeRect(18, 34, 59, 36, "#80522b", 3);
-  p.poly([[12, 36], [48, 12], [84, 36]], "#7a331e");
-  p.poly([[18, 34], [48, 17], [78, 34]], roof);
-  p.fillRect(39, 49, 18, 21, "#74451f");
+  aoShadow(p, 48, 68, 31, 8);
+  wall(p, 18, 34, 59, 36, body, mix(body, "#7a4a24", 0.35));
+  roofTri(p, [48, 13], [10, 36], [86, 36], mix(roof, "#ffffff", 0.15), mix(roof, "#000000", 0.28));
+  p.fillRect(39, 50, 18, 20, "#6c4020"); // doorway
+  p.fillRect(39, 50, 18, 3, "#3c2110");
+  p.ellipse(48, 43, 4, 4, "#ffe6a8"); // gable window
 }
 
 function propSign(p, icon = "seed") {
