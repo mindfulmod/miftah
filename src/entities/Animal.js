@@ -147,7 +147,26 @@
     }
 
     draw(renderer) {
-      renderer.drawImage(this.getAssetKey(), this.x, this.y, this.width, this.height);
+      const key = this.getAssetKey();
+      const t = this.animationTime;
+      // Flyers (bee/dove/fish) hover; walkers hop; everyone breathes at rest.
+      const flyer = this.type === "bee" || this.type === "dove" || this.type === "fish";
+      if (this.sleeping) {
+        renderer.drawSprite(key, this.x, this.y, this.width, this.height, { sy: 1 + Math.sin(t * 1.6) * 0.02 });
+      } else if (flyer) {
+        renderer.drawSprite(key, this.x, this.y, this.width, this.height, { bob: Math.sin(t * 6) * 3 });
+      } else if (this.moving) {
+        const phase = Math.sin(t * 9);
+        const down = Math.max(0, -phase);
+        renderer.drawSprite(key, this.x, this.y, this.width, this.height, {
+          bob: Math.abs(phase) * 2.4,
+          sx: 1 + down * 0.05,
+          sy: 1 - down * 0.06,
+        });
+      } else {
+        const br = Math.sin(t * 2.6) * 0.016;
+        renderer.drawSprite(key, this.x, this.y, this.width, this.height, { sy: 1 + br, sx: 1 - br * 0.5 });
+      }
       if (this.sleeping) {
         // A little drift of Zs above a sleeping animal.
         const ctx = renderer.ctx;

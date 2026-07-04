@@ -39,6 +39,26 @@
       this.ctx.drawImage(image, Math.round(x), Math.round(y), Math.round(dw), Math.round(dh));
     }
 
+    // Draw a sprite with a lift (bob) and squash/stretch anchored at its feet
+    // (bottom-centre), so characters and animals feel alive without needing
+    // per-frame art. opts: { bob, sx, sy }.
+    drawSprite(key, x, y, w, h, opts = {}) {
+      const bob = opts.bob || 0;
+      const sx = opts.sx || 1;
+      const sy = opts.sy || 1;
+      if (!bob && sx === 1 && sy === 1) {
+        this.drawImage(key, x, y, w, h);
+        return;
+      }
+      const image = this.assets.get(key);
+      const ctx = this.ctx;
+      ctx.save();
+      ctx.translate(Math.round(x + w / 2), Math.round(y + h - bob));
+      ctx.scale(sx, sy);
+      ctx.drawImage(image, Math.round(-w / 2), Math.round(-h), Math.round(w), Math.round(h));
+      ctx.restore();
+    }
+
     // Locked isles get a soft dark tint plus a plaque naming the isle. When
     // the active egg belongs to that isle the plaque switches to a "stirring"
     // tease (preview state). The bridge gate (a real collider) is what

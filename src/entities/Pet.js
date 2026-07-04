@@ -33,7 +33,13 @@
     }
 
     draw(renderer) {
-      renderer.drawImage(this.getAssetKey(), this.x, this.y, this.width, this.height);
+      const t = this.animationTime;
+      if (this.moving) {
+        const phase = Math.sin(t * 10);
+        renderer.drawSprite(this.getAssetKey(), this.x, this.y, this.width, this.height, { bob: Math.abs(phase) * 2.2 });
+      } else {
+        renderer.drawSprite(this.getAssetKey(), this.x, this.y, this.width, this.height, { sy: 1 + Math.sin(t * 2.6) * 0.02 });
+      }
     }
   }
 

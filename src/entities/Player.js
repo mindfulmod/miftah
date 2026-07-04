@@ -54,7 +54,21 @@
     }
 
     draw(renderer) {
-      renderer.drawImage(this.getAssetKey(), this.x, this.y, this.width, this.height);
+      const key = this.getAssetKey();
+      const t = this.animationTime;
+      if (this.moving) {
+        // Springy walk: a hop with a squash on each footfall.
+        const phase = Math.sin(t * 11);
+        const down = Math.max(0, -phase);
+        renderer.drawSprite(key, this.x, this.y, this.width, this.height, {
+          bob: Math.abs(phase) * 3,
+          sx: 1 + down * 0.04,
+          sy: 1 - down * 0.05,
+        });
+      } else {
+        const br = Math.sin(t * 2.3) * 0.012;
+        renderer.drawSprite(key, this.x, this.y, this.width, this.height, { sy: 1 + br, sx: 1 - br * 0.5 });
+      }
     }
   }
 
