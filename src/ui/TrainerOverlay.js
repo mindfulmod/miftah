@@ -63,11 +63,11 @@
                 <div class="trainer-word-card">
                   <div class="trainer-arabic" dir="rtl"></div>
                   <div class="trainer-translit"></div>
-                  <button class="trainer-hear" type="button" title="Hear this word recited" aria-label="Hear this word recited" hidden>🔊</button>
                 </div>
                 <div class="trainer-test-meta">
                   <p class="trainer-prompt"></p>
                   <span class="trainer-meter"></span>
+                  <button class="trainer-hear" type="button" title="Hear this word recited" aria-label="Hear this word recited" hidden>🔊</button>
                   <button class="trainer-meaning-toggle" type="button" hidden>؟ meaning</button>
                 </div>
                 <p class="trainer-meaning" hidden></p>
