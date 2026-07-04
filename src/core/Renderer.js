@@ -119,6 +119,11 @@
 
       this.end();
 
+      // "Lit diorama" post-process (opt-in via ?lit=1): a warm directional
+      // light, a gentle saturation lift, and a soft vignette — the cheap way
+      // to give the flat top-down world an Animal-Crossing-style lit feel.
+      if (game.litMode) this.litPass(game);
+
       // Ambient time-of-day layer (tint, glows, fireflies, birds) sits over
       // the world; locked-isle overlays and the HUD stay readable above it.
       if (game.time) game.time.draw(this, game);
@@ -127,6 +132,41 @@
       game.hud.draw(ctx, game);
       game.tooltip.draw(ctx, game);
       game.dialogue.draw(ctx, game);
+    }
+
+    // Screen-space cinematic grade — three cheap blended layers over the
+    // finished world frame. Purely visual, no per-sprite cost.
+    litPass(game) {
+      const ctx = this.ctx;
+      const w = game.screenWidth;
+      const h = game.screenHeight;
+      ctx.save();
+      ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
+
+      // 1) Warm sun from the upper-left, cool shade toward the lower-right.
+      const sun = ctx.createLinearGradient(0, 0, w, h);
+      sun.addColorStop(0, "rgba(255, 226, 165, 0.55)");
+      sun.addColorStop(0.5, "rgba(255, 240, 210, 0)");
+      sun.addColorStop(1, "rgba(38, 58, 92, 0.32)");
+      ctx.globalCompositeOperation = "soft-light";
+      ctx.fillStyle = sun;
+      ctx.fillRect(0, 0, w, h);
+
+      // 2) Gentle warm saturation lift.
+      ctx.globalCompositeOperation = "overlay";
+      ctx.fillStyle = "rgba(255, 208, 140, 0.10)";
+      ctx.fillRect(0, 0, w, h);
+
+      // 3) Soft vignette to seat the scene like a lit diorama.
+      const r = Math.hypot(w, h) / 2;
+      const vig = ctx.createRadialGradient(w * 0.5, h * 0.44, r * 0.32, w * 0.5, h * 0.56, r);
+      vig.addColorStop(0, "rgba(255, 255, 255, 1)");
+      vig.addColorStop(1, "rgba(58, 44, 24, 0.6)");
+      ctx.globalCompositeOperation = "multiply";
+      ctx.fillStyle = vig;
+      ctx.fillRect(0, 0, w, h);
+
+      ctx.restore();
     }
 
     drawProp(prop) {

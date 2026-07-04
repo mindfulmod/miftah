@@ -26,6 +26,8 @@
       this.screenHeight = 600;
       this.assetWarnings = [];
       this.running = false;
+      // Opt-in cinematic "lit diorama" post-process (?lit=1).
+      this.litMode = new URLSearchParams(location.search).get("lit") === "1";
     }
 
     async start() {
