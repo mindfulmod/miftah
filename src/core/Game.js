@@ -40,6 +40,10 @@
       const mapData = ns.createMapData();
       const overrides = await loadMapOverrides();
       ns.applyMapOverrides(mapData, overrides);
+      // Seeded shaping: organic per-player coastline, water detail, and the
+      // badge-islet anchors (docs/procedural-island-spec.md).
+      this.islandShaper = new ns.IslandShaper();
+      this.islandShaper.apply(mapData);
       this.world = new ns.WorldMap(mapData);
       this.camera = new ns.Camera(this.world.pixelWidth, this.world.pixelHeight);
       this.camera.resize(this.screenWidth, this.screenHeight);
@@ -55,6 +59,8 @@
       this.camera.y = this.player.centerY - this.screenHeight / 2;
       this.camera.clamp();
       this.progress = new ns.ProgressionSystem(ns.ANIMAL_CATALOG);
+      // Islets for badges earned in past sessions rise silently at boot.
+      this.islandShaper.syncBadgeIslets(this);
       this.time = new ns.TimeSystem();
       this.effects = [];
       this.hatchery = new ns.Hatchery(this, 30 * ns.TILE_SIZE, 27 * ns.TILE_SIZE);

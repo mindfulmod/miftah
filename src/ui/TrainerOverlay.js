@@ -216,8 +216,10 @@
       this.clearFocusTimer();
       this.closeReaderPopover();
       this.recite.stop();
-      // Study may have minted new gold words — let the island's garden grow.
+      // Study may have minted new gold words — let the island's garden grow,
+      // and if a juz badge landed this session, its islet rises on camera.
       this.game.wordGarden?.refresh();
+      this.game.islandShaper?.syncBadgeIslets(this.game, { animate: true });
     }
 
     setTab(tab) {
