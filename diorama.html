@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Miftah Island — 3D diorama (POC)</title>
+    <style>
+      html, body { margin: 0; height: 100%; overflow: hidden; background: #bfe6ef; }
+      #hint {
+        position: fixed; left: 12px; bottom: 12px; z-index: 2;
+        font: 600 12px/1.4 ui-monospace, Menlo, monospace;
+        color: #3a2a12; background: rgba(255,246,220,0.8);
+        padding: 6px 10px; border-radius: 8px; pointer-events: none;
+      }
+    </style>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+          "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div id="hint">drag to orbit · scroll to zoom · a low-poly diorama proof of concept</div>
+    <script type="module">
+      import * as THREE from "three";
+      import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color("#bfe6ef");
+      scene.fog = new THREE.Fog("#cfeef4", 55, 130);
+
+      // Telephoto perspective from a high angle = the miniature "diorama" feel
+      // both Death's Door and AC Pocket Camp use.
+      const camera = new THREE.PerspectiveCamera(26, innerWidth / innerHeight, 1, 300);
+      camera.position.set(34, 30, 34);
+
+      const renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+      renderer.setSize(innerWidth, innerHeight);
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.08;
+      document.body.appendChild(renderer.domElement);
+
+      const controls = new OrbitControls(camera, renderer.domElement);
+      controls.target.set(0, 2, 0);
+      controls.enableDamping = true;
+      controls.autoRotate = true;
+      controls.autoRotateSpeed = 0.5;
+      controls.maxPolarAngle = Math.PI * 0.46;
+      controls.minDistance = 24;
+      controls.maxDistance = 90;
+
+      // ── lighting: warm key sun + soft sky fill + a touch of ambient ──────────
+      const sun = new THREE.DirectionalLight("#ffe9c2", 2.4);
+      sun.position.set(26, 40, 14);
+      sun.castShadow = true;
+      sun.shadow.mapSize.set(2048, 2048);
+      sun.shadow.radius = 6; // soft, AC-style contact shadows
+      sun.shadow.bias = -0.0004;
+      const sc = sun.shadow.camera;
+      sc.left = -40; sc.right = 40; sc.top = 40; sc.bottom = -40; sc.near = 1; sc.far = 120;
+      scene.add(sun);
+      scene.add(new THREE.HemisphereLight("#dff3ff", "#6b8a3a", 0.85));
+      scene.add(new THREE.AmbientLight("#ffdca8", 0.25));
+
+      // ── material + mesh helpers ──────────────────────────────────────────────
+      const mat = (color, o = {}) =>
+        new THREE.MeshStandardMaterial({ color, roughness: o.rough ?? 0.9, metalness: o.metal ?? 0, flatShading: o.flat ?? true });
+      const gold = mat("#f0c23a", { rough: 0.3, metal: 0.65, flat: false });
+
+      function add(geo, material, x, y, z, parent = scene) {
+        const m = new THREE.Mesh(geo, material);
+        m.position.set(x, y, z);
+        m.castShadow = true;
+        m.receiveShadow = true;
+        parent.add(m);
+        return m;
+      }
+
+      // ── water + island landmass ──────────────────────────────────────────────
+      const water = new THREE.Mesh(
+        new THREE.PlaneGeometry(400, 400, 40, 40),
+        new THREE.MeshStandardMaterial({ color: "#2bb4d8", roughness: 0.25, metalness: 0.15, transparent: true, opacity: 0.92 })
+      );
+      water.rotation.x = -Math.PI / 2;
+      water.position.y = -0.4;
+      water.receiveShadow = true;
+      scene.add(water);
+      const waterBase = water.geometry.attributes.position.array.slice();
+
+      // A rounded low-poly "coin" of land: green top, sandy rim beneath.
+      function islet(cx, cz, r, h = 2) {
+        const g = new THREE.Group();
+        add(new THREE.CylinderGeometry(r, r * 0.86, 0.7, 16), mat("#e8c979"), 0, h - 0.5, 0, g); // sand rim
+        add(new THREE.CylinderGeometry(r * 0.94, r * 0.9, h, 16), mat("#7cc24a"), 0, h * 0.5, 0, g); // grass
+        g.position.set(cx, 0, cz);
+        scene.add(g);
+        return g;
+      }
+      const hub = islet(0, 0, 13, 2.2);
+      islet(-22, -14, 4.5, 1.6);
+      islet(20, -18, 3.6, 1.4);
+      islet(24, 12, 4, 1.5);
+
+      // ── the mosque: cream drum, gold dome, spire, two minarets ───────────────
+      function mosque(x, z) {
+        const g = new THREE.Group();
+        add(new THREE.BoxGeometry(7, 4, 7), mat("#fbf4e6", { flat: false }), 0, 2, 0, g);
+        add(new THREE.CylinderGeometry(3.1, 3.1, 1.6, 20), mat("#fbf4e6", { flat: false }), 0, 4.8, 0, g);
+        add(new THREE.SphereGeometry(3.1, 20, 14, 0, Math.PI * 2, 0, Math.PI / 2), gold, 0, 5.6, 0, g);
+        add(new THREE.ConeGeometry(0.3, 1.4, 8), gold, 0, 9.1, 0, g);
+        for (const mx of [-4.2, 4.2]) {
+          add(new THREE.CylinderGeometry(0.6, 0.7, 8, 12), mat("#fbf4e6", { flat: false }), mx, 4, -3, g);
+          add(new THREE.SphereGeometry(0.75, 12, 8, 0, Math.PI * 2, 0, Math.PI / 2), gold, mx, 8, -3, g);
+          add(new THREE.ConeGeometry(0.16, 0.8, 8), gold, mx, 8.7, -3, g);
+        }
+        // arched doorway
+        add(new THREE.BoxGeometry(1.8, 2.4, 0.4), mat("#2f96ad", { flat: false }), 0, 1.2, 3.5, g);
+        g.position.set(x, 2.2, z);
+        scene.add(g);
+      }
+      mosque(0, -1);
+
+      // ── the Reading Archway: two gold posts + a torus arch + an open book ─────
+      function readingArch(x, z) {
+        const g = new THREE.Group();
+        for (const px of [-2.2, 2.2]) add(new THREE.CylinderGeometry(0.5, 0.6, 4.5, 10), gold, px, 2.25, 0, g);
+        const arch = add(new THREE.TorusGeometry(2.2, 0.5, 10, 20, Math.PI), gold, 0, 4.5, 0, g);
+        arch.scale.set(1, 1.1, 1);
+        // open book (two tilted white pages)
+        for (const s of [-1, 1]) {
+          const page = add(new THREE.BoxGeometry(1.3, 0.15, 1.8), mat("#fff6e0", { flat: false }), s * 0.7, 3.2, 0, g);
+          page.rotation.z = s * 0.32;
+        }
+        g.position.set(x, 2.2, z);
+        g.rotation.y = Math.PI;
+        scene.add(g);
+      }
+      readingArch(0, 8);
+
+      // ── stilted houses over the water at the island rim ──────────────────────
+      function house(x, z, roofColor, rot) {
+        const g = new THREE.Group();
+        for (const [sx, sz] of [[-1.3, -1.3], [1.3, -1.3], [-1.3, 1.3], [1.3, 1.3]])
+          add(new THREE.CylinderGeometry(0.22, 0.22, 3, 6), mat("#7c4a24"), sx, -0.6, sz, g);
+        add(new THREE.BoxGeometry(3.4, 2.2, 3.4), mat("#e7c98d", { flat: false }), 0, 2.2, 0, g);
+        add(new THREE.ConeGeometry(2.8, 1.8, 4), mat(roofColor, { flat: false }), 0, 4.2, 0, g).rotation.y = Math.PI / 4;
+        g.position.set(x, 1.2, z);
+        g.rotation.y = rot;
+        scene.add(g);
+      }
+      house(-13, 7, "#d9663a", 0.5);
+      house(-15, -2, "#3aa0b8", 0.9);
+      house(13, 8, "#e0a93a", -0.6);
+
+      // ── palms: segmented trunk + a crown of flattened frond cones ────────────
+      function palm(x, z, s = 1) {
+        const g = new THREE.Group();
+        for (let i = 0; i < 4; i++)
+          add(new THREE.CylinderGeometry(0.28 * s, 0.34 * s, 1.2 * s, 7), mat("#a9713d"), Math.sin(i) * 0.2 * s, i * 1.1 * s + 0.6, 0, g);
+        for (let i = 0; i < 6; i++) {
+          const f = add(new THREE.ConeGeometry(0.5 * s, 2.6 * s, 5), mat("#3fa646"), 0, 4.6 * s, 0, g);
+          f.rotation.z = Math.PI / 2.4;
+          f.rotation.y = (i / 6) * Math.PI * 2;
+          f.position.x = Math.cos((i / 6) * Math.PI * 2) * 1.2 * s;
+          f.position.z = Math.sin((i / 6) * Math.PI * 2) * 1.2 * s;
+        }
+        add(new THREE.SphereGeometry(0.5 * s, 8, 6), mat("#4fb851"), 0, 4.7 * s, 0, g);
+        g.position.set(x, 2.2, z);
+        scene.add(g);
+      }
+      for (const [x, z] of [[-7, 4], [7, 3], [-5, -7], [6, -6], [9, 1], [-9, 0]]) palm(x, z, 1 + (x % 2) * 0.15);
+
+      // ── fountain + plaza ring + a wandering keeper for scale ──────────────────
+      add(new THREE.CylinderGeometry(2.4, 2.6, 0.6, 18), mat("#ddc088", { flat: false }), 0, 2.5, 4, scene);
+      add(new THREE.CylinderGeometry(1.9, 1.9, 0.4, 18), new THREE.MeshStandardMaterial({ color: "#39c0e0", roughness: 0.2, metalness: 0.2 }), 0, 2.7, 4, scene);
+      add(new THREE.CylinderGeometry(0.4, 0.5, 1.6, 10), mat("#ddc088", { flat: false }), 0, 3.4, 4, scene);
+
+      const ring = add(new THREE.TorusGeometry(6, 1.6, 4, 32), mat("#e4c58a", { flat: false }), 0, 2.25, 2, scene);
+      ring.rotation.x = -Math.PI / 2;
+      ring.receiveShadow = true;
+
+      const keeper = new THREE.Group();
+      add(new THREE.CapsuleGeometry(0.5, 1, 4, 8), mat("#2f8fa6", { flat: false }), 0, 1, 0, keeper);
+      add(new THREE.SphereGeometry(0.55, 12, 10), mat("#f0c9a0", { flat: false }), 0, 2, 0, keeper);
+      keeper.position.set(4, 2.2, 5);
+      scene.add(keeper);
+
+      // ── animate: gentle water swell, fountain sparkle, keeper bob ────────────
+      const clock = new THREE.Clock();
+      function tick() {
+        const t = clock.getElapsedTime();
+        const pos = water.geometry.attributes.position;
+        for (let i = 0; i < pos.count; i++) {
+          const ox = waterBase[i * 3], oy = waterBase[i * 3 + 1];
+          pos.setZ(i, Math.sin(ox * 0.3 + t) * 0.25 + Math.cos(oy * 0.3 + t * 0.8) * 0.25);
+        }
+        pos.needsUpdate = true;
+        keeper.position.y = 2.2 + Math.sin(t * 2) * 0.06;
+        controls.update();
+        renderer.render(scene, camera);
+        requestAnimationFrame(tick);
+      }
+      tick();
+
+      addEventListener("resize", () => {
+        camera.aspect = innerWidth / innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(innerWidth, innerHeight);
+      });
+    </script>
+  </body>
+</html>
