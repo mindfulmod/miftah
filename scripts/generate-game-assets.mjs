@@ -169,9 +169,35 @@ class Pix {
   }
 }
 
+// Global warm color grade — one knob to push the whole world toward the
+// reference's rich, sunny palette: lift saturation, nudge warm (more red,
+// less blue in the mids), and gently brighten. Applied to every opaque pixel
+// before outlining so the dark edge stays crisp.
+const GRADE = { sat: 1.22, warm: 7, lift: 6 };
+function grade(img) {
+  const px = img.pixels;
+  for (let i = 0; i < px.length; i += 4) {
+    if (px[i + 3] < 8) continue;
+    let r = px[i], g = px[i + 1], b = px[i + 2];
+    const luma = 0.299 * r + 0.587 * g + 0.114 * b;
+    r = luma + (r - luma) * GRADE.sat;
+    g = luma + (g - luma) * GRADE.sat;
+    b = luma + (b - luma) * GRADE.sat;
+    // Warmth strongest in the mids (leaves highlights/shadows alone).
+    const mid = 1 - Math.abs(luma - 128) / 128;
+    r += GRADE.warm * mid + GRADE.lift;
+    g += GRADE.lift * 0.6;
+    b -= GRADE.warm * mid * 0.7;
+    px[i] = Math.max(0, Math.min(255, Math.round(r)));
+    px[i + 1] = Math.max(0, Math.min(255, Math.round(g)));
+    px[i + 2] = Math.max(0, Math.min(255, Math.round(b)));
+  }
+}
+
 function save(rel, width, height, draw, bg = [0, 0, 0, 0]) {
   const img = new Pix(width, height, bg);
   draw(img);
+  grade(img);
   // Discrete sprites get the reference's unifying warm "sticker" edge; tiling
   // terrain and flat UI must stay seamless, so they're left un-outlined.
   if (!rel.startsWith("terrain/") && !rel.startsWith("ui/")) outline(img);
