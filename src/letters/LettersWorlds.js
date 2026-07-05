@@ -115,6 +115,12 @@
 
       const syllableLetters = () =>
         shuffle(this.letters.filter((l) => l.char !== "ا")).slice(0, 6);
+      // The blending decomposition: a syllable is its letter plus its vowel,
+      // shown riding a tatweel stroke (Amiri Quran has no dotted carrier).
+      const syllableParts = (l, v) => [
+        { display: l.char, speak: l.arName },
+        { display: TATWEEL + v.char, speak: v.arName },
+      ];
       const vowelWorld = (id, icon, vowels) => ({
         id,
         icon,
@@ -126,12 +132,13 @@
               id: l.char + v.char,
               display: l.char + v.char,
               speak: l.char + v.char,
+              parts: syllableParts(l, v),
             })),
           ),
         games: ["pop", "catch", "feed"],
       });
-      worlds.push({ ...vowelWorld("fatha", "بَ", [this.data.harakat[0]]), games: ["pop", "trace", "catch"] });
-      worlds.push(vowelWorld("kasra-damma", "بِ", this.data.harakat.slice(1)));
+      worlds.push({ ...vowelWorld("fatha", "بَ", [this.data.harakat[0]]), games: ["pop", "build", "trace"] });
+      worlds.push({ ...vowelWorld("kasra-damma", "بِ", this.data.harakat.slice(1)), games: ["pop", "build", "catch"] });
 
       worlds.push({
         id: "long-sounds",
@@ -143,23 +150,38 @@
         items: () => {
           const letters = syllableLetters().slice(0, 4);
           const items = [];
+          const letterByChar = new Map(this.letters.map((l) => [l.char, l]));
           for (const lv of this.data.longVowels) {
             for (const l of letters.slice(0, 2)) {
               items.push({
                 id: l.char + lv.vowel + lv.char,
                 display: l.char + lv.vowel + lv.char,
                 speak: l.char + lv.vowel + lv.char,
+                // Blend: the open syllable plus its stretching letter.
+                parts: [
+                  { display: l.char + lv.vowel, speak: l.char + lv.vowel },
+                  { display: lv.char, speak: letterByChar.get(lv.char).arName },
+                ],
               });
             }
           }
           const simple = shuffle(this.letters.filter((l) => /^[a-z]$/.test(l.translit)));
           for (let i = 0; i + 1 < simple.length && i < 6; i += 2) {
             const word = simple[i].char + "َ" + simple[i + 1].char + "ْ";
-            items.push({ id: word, display: word, speak: word });
+            items.push({
+              id: word,
+              display: word,
+              speak: word,
+              // Blend: CV syllable + closing letter with sukun.
+              parts: [
+                { display: simple[i].char + "َ", speak: simple[i].char + "َ" },
+                { display: simple[i + 1].char + "ْ", speak: simple[i + 1].arName },
+              ],
+            });
           }
           return items;
         },
-        games: ["pop", "catch", "pairs"],
+        games: ["build", "pop", "pairs"],
       });
 
       worlds.push({

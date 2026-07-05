@@ -54,11 +54,23 @@
       </g>
       <g class="art-blob-card">
         <rect x="38" y="118" width="144" height="104" rx="14" fill="#fffdf4" stroke="hsl(${hue} 45% 38%)" stroke-width="6"/>
-        <text x="110" y="${latin ? 182 : 192}" text-anchor="middle"
-          font-family="${latin ? "ui-rounded, system-ui, sans-serif" : "'Amiri Quran', serif"}"
-          font-size="${latin ? 40 : 64}" fill="#2b2233" ${latin ? "" : `direction="rtl"`}>${label}</text>
+        ${cardGlyph(label, 110, 170, latin)}
       </g>
     </svg>`;
+  }
+
+  // Optically centered card text: dominant-baseline central + a small lift
+  // (Amiri Quran's em box towers above its ink), sized by skeleton length so
+  // long form-strings and words never spill off the card.
+  function cardGlyph(label, cx, cy, latin) {
+    const len = [...(label || "").replace(/[ً-ْٰٓ-ٟؐ-ؚۖ-ۭ]/g, "")].length;
+    const size = latin
+      ? Math.min(40, 240 / Math.max(4, len))
+      : len <= 1 ? 64 : len <= 3 ? 52 : len <= 5 ? 40 : 26;
+    return `<text x="${cx}" y="${cy}" dy="${latin ? "0.06em" : "0.12em"}" text-anchor="middle"
+      dominant-baseline="central"
+      font-family="${latin ? "ui-rounded, system-ui, sans-serif" : "'Amiri Quran', serif"}"
+      font-size="${size}" fill="#2b2233" ${latin ? "" : `direction="rtl"`}>${label}</text>`;
   }
 
   // The hungry creature for the feeding game — mouth wide open, pure appetite.

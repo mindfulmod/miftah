@@ -41,17 +41,30 @@
   }
 
   const isArabic = (s) => /[؀-ۿ]/.test(s || "");
+  const DIACRITICS = /[ً-ْٰٓ-ٟؐ-ؚۖ-ۭ]/g;
+
+  // Optically centered glyph text. Amiri Quran's em box is far taller than
+  // its ink (room for stacked diacritics), so baseline math alone leaves
+  // words sitting low — dominant-baseline central plus a small optical lift,
+  // with the size driven by the SKELETON length (diacritics don't count).
+  function glyphText(display, { fill = "#2b2233", maxSize = 44 } = {}) {
+    const latin = !isArabic(display);
+    const len = [...display.replace(DIACRITICS, "")].length;
+    const size = latin
+      ? Math.min(maxSize * 0.6, 26)
+      : len <= 1 ? maxSize : len <= 2 ? maxSize * 0.9 : len <= 3 ? maxSize * 0.72 : maxSize * 0.58;
+    return `<text x="0" y="0" dy="${latin ? "0.06em" : "0.12em"}" text-anchor="middle"
+      dominant-baseline="central"
+      font-family="${latin ? "ui-rounded, system-ui, sans-serif" : "'Amiri Quran', serif"}"
+      font-size="${size}" fill="${fill}" ${latin ? "" : `direction="rtl"`}>${display}</text>`;
+  }
 
   function tileHTML(item, hue) {
-    const latin = !isArabic(item.display);
     return `
       <svg viewBox="-52 -52 104 104" aria-hidden="true">
         <circle r="46" fill="hsl(${hue} 70% 92%)" stroke="hsl(${hue} 55% 45%)" stroke-width="5"/>
         <circle cx="-14" cy="-18" r="8" fill="#fff" opacity="0.7"/>
-        <text y="${latin ? 8 : 17}" text-anchor="middle"
-          font-family="${latin ? "ui-rounded, system-ui, sans-serif" : "'Amiri Quran', serif"}"
-          font-size="${item.display.length > 3 ? 30 : 42}" fill="#2b2233"
-          ${latin ? "" : `direction="rtl"`}>${item.display}</text>
+        ${glyphText(item.display, { maxSize: 44 })}
       </svg>`;
   }
 
@@ -109,9 +122,21 @@
       } else {
         this.slips += 1;
         this.ctx.sfx("wrong");
+        // Rich wrong-pick feedback: the bubble shakes, tints red and wears a
+        // ✗ for a beat, while the prompt bubble pulses — "look HERE, listen
+        // again" — before the target sound repeats.
         bubble.el.classList.remove("is-shake");
         void bubble.el.offsetWidth;
-        bubble.el.classList.add("is-shake");
+        bubble.el.classList.add("is-shake", "is-no");
+        const cross = document.createElement("i");
+        cross.className = "pop-cross";
+        cross.innerHTML = `<svg viewBox="0 0 64 64"><path d="M18 18 L46 46 M46 18 L18 46" stroke="#c23a2b" stroke-width="10" stroke-linecap="round"/></svg>`;
+        bubble.el.appendChild(cross);
+        setTimeout(() => {
+          bubble.el.classList.remove("is-no");
+          cross.remove();
+        }, 750);
+        if (this.ctx.pulsePrompt) this.ctx.pulsePrompt();
         this.ctx.say(round.target); // repeat the question, never scold
       }
     }
@@ -297,7 +322,7 @@
       this.matched = 0;
       ctx.stage.innerHTML = `<div class="pairs-grid"></div>`;
       const grid = ctx.stage.querySelector(".pairs-grid");
-      ctx.setPrompt(null); // pairs is self-evident: no target, just matching
+      ctx.setPrompt(null);
       for (const card of this.cards) {
         const el = document.createElement("button");
         el.type = "button";
@@ -307,6 +332,14 @@
         card.el = el;
         grid.appendChild(el);
       }
+      // Wordless instruction: one matching pair glows in sync for a moment —
+      // "see? these two belong together" — then the child takes over.
+      const demoId = this.cards[0].id;
+      const demoEls = this.cards.filter((c) => c.id === demoId).map((c) => c.el);
+      for (const el of demoEls) el.classList.add("is-demo");
+      setTimeout(() => {
+        for (const el of demoEls) el.classList.remove("is-demo");
+      }, 1500);
     }
 
     pick(card, el) {
@@ -452,6 +485,38 @@
       });
     }
 
+    drawGuideText(size, x, y) {
+      const target = this.targets[this.roundIndex];
+      // System Arabic fonts (Geeza Pro, Segoe UI, Noto) hug harakat close to
+      // the letter; Amiri Quran floats them a canvas apart at tracing sizes.
+      this.g.font = `${size}px "Geeza Pro", "Segoe UI", "Noto Naskh Arabic", "Arial", sans-serif`;
+      this.g.textAlign = "center";
+      this.g.textBaseline = "middle";
+      this.g.direction = "rtl";
+      this.g.fillStyle = "#dbe9f5";
+      this.g.fillText(target.display, x, y);
+      this.g.strokeStyle = "#a9c6de";
+      this.g.lineWidth = 2;
+      this.g.strokeText(target.display, x, y);
+    }
+
+    inkBounds(w, h) {
+      const img = this.g.getImageData(0, 0, w, h).data;
+      let minX = w, maxX = 0, minY = h, maxY = 0, any = false;
+      for (let y = 0; y < h; y += 3) {
+        for (let x = 0; x < w; x += 3) {
+          if (img[(y * w + x) * 4 + 3] > 60) {
+            any = true;
+            if (x < minX) minX = x;
+            if (x > maxX) maxX = x;
+            if (y < minY) minY = y;
+            if (y > maxY) maxY = y;
+          }
+        }
+      }
+      return any ? { minX, maxX, minY, maxY } : null;
+    }
+
     startRound() {
       const target = this.targets[this.roundIndex];
       this.ctx.setPrompt(target);
@@ -462,19 +527,33 @@
       this.canvas.width = w;
       this.canvas.height = h;
       this.g = this.canvas.getContext("2d", { willReadFrequently: true });
-      // Guide layer: a huge pale letter with a darker rim.
-      const size = Math.min(w, h) * (target.display.length > 1 ? 0.5 : 0.72);
+
+      // Amiri Quran's font metrics put the ink far from the em-box centre,
+      // so we measure the actual drawn pixels and re-draw with a correction
+      // (shrinking first if the glyph would spill past the paper).
+      let size = Math.min(w, h) * 0.7;
       this.g.clearRect(0, 0, w, h);
-      this.g.font = `${size}px "Amiri Quran", serif`;
-      this.g.textAlign = "center";
-      this.g.textBaseline = "middle";
-      this.g.direction = "rtl";
-      this.g.fillStyle = "#dbe9f5";
-      this.g.fillText(target.display, w / 2, h * 0.52);
-      this.g.strokeStyle = "#a9c6de";
-      this.g.lineWidth = 2;
-      this.g.strokeText(target.display, w / 2, h * 0.52);
-      // Remember which pixels belong to the glyph (sampled grid).
+      this.drawGuideText(size, w / 2, h * 0.5);
+      let box = this.inkBounds(w, h);
+      if (box) {
+        const scale = Math.min(1, (0.8 * w) / (box.maxX - box.minX + 1), (0.72 * h) / (box.maxY - box.minY + 1));
+        if (scale < 0.98) {
+          size *= scale;
+          this.g.clearRect(0, 0, w, h);
+          this.drawGuideText(size, w / 2, h * 0.5);
+          box = this.inkBounds(w, h);
+        }
+      }
+      if (box) {
+        const dx = w / 2 - (box.minX + box.maxX) / 2;
+        const dy = h / 2 - (box.minY + box.maxY) / 2;
+        if (Math.abs(dx) > 2 || Math.abs(dy) > 2) {
+          this.g.clearRect(0, 0, w, h);
+          this.drawGuideText(size, w / 2 + dx, h * 0.5 + dy);
+        }
+      }
+
+      // Remember which pixels belong to the glyph (sampled grid)...
       const img = this.g.getImageData(0, 0, w, h).data;
       this.guide = [];
       const step = 5;
@@ -483,6 +562,32 @@
           if (img[(y * w + x) * 4 + 3] > 60) this.guide.push([x, y]);
         }
       }
+      // ...and split them into connected clusters. The letter body is one
+      // cluster; each dot is its own — and EVERY cluster must be traced, so
+      // ب without its dot doesn't pass.
+      const cellSet = new Set(this.guide.map(([x, y]) => `${x}|${y}`));
+      const seen = new Set();
+      this.clusters = [];
+      for (const [x, y] of this.guide) {
+        const key = `${x}|${y}`;
+        if (seen.has(key)) continue;
+        const cluster = [];
+        const queue = [[x, y]];
+        seen.add(key);
+        while (queue.length) {
+          const [cx, cy] = queue.pop();
+          cluster.push(`${cx}|${cy}`);
+          for (const [nx, ny] of [[cx - step, cy], [cx + step, cy], [cx, cy - step], [cx, cy + step], [cx - step, cy - step], [cx + step, cy + step], [cx - step, cy + step], [cx + step, cy - step]]) {
+            const nkey = `${nx}|${ny}`;
+            if (cellSet.has(nkey) && !seen.has(nkey)) {
+              seen.add(nkey);
+              queue.push([nx, ny]);
+            }
+          }
+        }
+        this.clusters.push(cluster);
+      }
+
       this.brush = Math.max(20, size * 0.1);
       this.g.lineCap = "round";
       this.g.lineJoin = "round";
@@ -529,24 +634,51 @@
       this.last = [x, y];
     }
 
+    clusterCoverage(cluster) {
+      let n = 0;
+      for (const key of cluster) if (this.paint.has(key)) n += 1;
+      return n / cluster.length;
+    }
+
     penUp() {
       if (!this.drawing || !this.alive) return;
       this.drawing = false;
+      if (!this.guide.length) return;
       const covered = this.guide.reduce(
         (n, [x, y]) => n + (this.paint.has(`${x}|${y}`) ? 1 : 0),
         0,
       );
-      if (this.guide.length && covered / this.guide.length >= 0.6) {
+      const total = covered / this.guide.length;
+      const missing = (this.clusters || []).filter((c) => this.clusterCoverage(c) < 0.45);
+      if (total >= 0.55 && !missing.length) {
         const target = this.targets[this.roundIndex];
         this.ctx.sfx("correct");
         this.ctx.confettiAt(this.canvas);
         this.ctx.say(target);
-        this.alivePause = true;
         setTimeout(() => {
           this.roundIndex += 1;
           if (this.roundIndex >= this.targets.length) return this.finish();
           this.startRound();
         }, 700);
+        return;
+      }
+      // Body done but a cluster (usually the dots!) still untouched: pulse a
+      // gentle ring over the smallest missing cluster to point at it.
+      if (total >= 0.4 && missing.length) {
+        const smallest = missing.reduce((a, b) => (a.length <= b.length ? a : b));
+        let sx = 0, sy = 0;
+        for (const key of smallest) {
+          const [x, y] = key.split("|").map(Number);
+          sx += x;
+          sy += y;
+        }
+        const hint = document.createElement("i");
+        hint.className = "trace-hint";
+        hint.style.left = `${sx / smallest.length}px`;
+        hint.style.top = `${sy / smallest.length}px`;
+        this.canvas.parentElement.appendChild(hint);
+        this.ctx.sfx("page");
+        setTimeout(() => hint.remove(), 1200);
       }
     }
 
@@ -647,6 +779,100 @@
     }
   }
 
+  // ---------- Build: blend the sounds into a word ----------
+  // Synthetic phonics' key moment. The mascot says the whole thing (بَتْ,
+  // "bat"); the child taps sound-tiles in order and watches them snap into
+  // the slots right-to-left. Each tile speaks as it's placed; a correct
+  // build speaks the blended whole. Items must carry `parts`.
+  class BuildGame {
+    constructor(ctx) {
+      this.ctx = ctx;
+      const pool = ctx.items.filter((i) => i.parts && i.parts.length >= 2);
+      this.targets = shuffle(pool).slice(0, 4);
+      this.roundIndex = 0;
+      this.slips = 0;
+      this.startRound();
+    }
+
+    startRound() {
+      const ctx = this.ctx;
+      const target = this.targets[this.roundIndex];
+      ctx.setPrompt(target);
+      ctx.say(target);
+      this.placed = [];
+      // Tray: the real parts plus two decoy parts from other items.
+      const decoys = [];
+      const seen = new Set(target.parts.map((p) => p.display));
+      for (const item of shuffle(ctx.items)) {
+        if (decoys.length >= 2) break;
+        for (const part of item.parts || []) {
+          if (decoys.length >= 2) break;
+          if (seen.has(part.display)) continue;
+          seen.add(part.display);
+          decoys.push(part);
+        }
+      }
+      this.tray = shuffle([...target.parts, ...decoys]);
+      ctx.stage.innerHTML = `
+        <div class="build-scene">
+          <div class="build-slots" dir="rtl">
+            ${target.parts.map(() => `<span class="build-slot"></span>`).join("")}
+          </div>
+          <div class="build-tray">
+            ${this.tray.map((part, i) => `<button type="button" class="build-tile" data-i="${i}">${tileHTML({ display: part.display }, ctx.hue)}</button>`).join("")}
+          </div>
+        </div>`;
+      this.slots = [...ctx.stage.querySelectorAll(".build-slot")];
+      for (const btn of ctx.stage.querySelectorAll(".build-tile")) {
+        btn.addEventListener("pointerdown", () => this.place(btn));
+      }
+    }
+
+    place(btn) {
+      const target = this.targets[this.roundIndex];
+      if (btn.classList.contains("is-used") || this.placed.length >= target.parts.length) return;
+      const part = this.tray[Number(btn.dataset.i)];
+      const slot = this.slots[this.placed.length];
+      slot.innerHTML = tileHTML({ display: part.display }, this.ctx.hue);
+      slot.classList.add("is-filled");
+      btn.classList.add("is-used");
+      this.placed.push({ part, btn, slot });
+      this.ctx.say({ display: part.display, speak: part.speak || part.display });
+
+      if (this.placed.length < target.parts.length) return;
+      const built = this.placed.every((p, i) => p.part.display === target.parts[i].display);
+      if (built) {
+        this.ctx.sfx("correct");
+        this.ctx.confettiAt(this.ctx.stage.querySelector(".build-slots"));
+        // The payoff: the parts become the whole, and the whole speaks.
+        setTimeout(() => this.ctx.say(target), 500);
+        setTimeout(() => {
+          this.roundIndex += 1;
+          if (this.roundIndex >= this.targets.length) return this.ctx.onDone(this.slips);
+          this.startRound();
+        }, 1400);
+      } else {
+        this.slips += 1;
+        this.ctx.sfx("wrong");
+        const slotsEl = this.ctx.stage.querySelector(".build-slots");
+        slotsEl.classList.remove("is-shake");
+        void slotsEl.offsetWidth;
+        slotsEl.classList.add("is-shake");
+        setTimeout(() => {
+          for (const p of this.placed) {
+            p.slot.innerHTML = "";
+            p.slot.classList.remove("is-filled");
+            p.btn.classList.remove("is-used");
+          }
+          this.placed = [];
+          this.ctx.say(target);
+        }, 800);
+      }
+    }
+
+    destroy() {}
+  }
+
   ns.LettersMiniGames = {
     pop: PopGame,
     catch: CatchGame,
@@ -654,5 +880,6 @@
     feed: FeedGame,
     trace: TraceGame,
     burst: BurstGame,
+    build: BuildGame,
   };
 })(window.MiftahGame || (window.MiftahGame = {}));

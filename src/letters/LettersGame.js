@@ -627,6 +627,13 @@
             glyph.classList.toggle("is-latin", !/[؀-ۿ]/.test(item.display));
           }
         },
+        // "Look here, listen again" — the prompt bubble pulses after a wrong
+        // pick so the child's eye returns to the question.
+        pulsePrompt: () => {
+          bubble.classList.remove("is-pulse");
+          void bubble.offsetWidth;
+          bubble.classList.add("is-pulse");
+        },
         onDone: (slips) => this.finishGame(slips),
       };
       this.game = new ns.LettersMiniGames[gameName](ctx);
