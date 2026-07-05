@@ -2793,3 +2793,58 @@ body {
   color: #1f777d;
   font-size: 10px;
 }
+
+/* The Letters tab as a door into the standalone game. */
+.letters-door {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 14px auto 6px;
+  max-width: 340px;
+  padding: 14px 18px;
+  border: 3px solid var(--codex-gold-dim);
+  border-radius: 14px;
+  background: linear-gradient(180deg, #bfe9ff, #8fd0f0);
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.5), 0 5px 0 rgba(96, 53, 24, 0.25);
+  color: #143c55;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.letters-door:hover { filter: brightness(1.05); transform: translateY(-1px); }
+.letters-door-key { font-size: 30px; }
+.letters-door-text small { font-weight: 700; color: #2b5d7d; }
+.letters-door-go {
+  margin-left: auto;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #fffdf4;
+  color: #1f777d;
+  font-size: 14px;
+}
+
+.letters-panel .letters-ladder { justify-content: center; margin-top: 10px; }
+a.letters-step { text-decoration: none; display: grid; place-items: center; }
+a.letters-step.is-locked { pointer-events: auto; }
+
+.letters-door-note {
+  margin: 8px 0 0;
+  color: #8a6a3c;
+  font-size: 9px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.trainer-card[data-theme="dark"] .letters-door-note { color: #d8c294; }
+
+/* Letters tab owns the whole board width (the collection aside is hidden). */
+.trainer-card[data-active-tab="letters"] .letters-panel {
+  grid-column: 1 / -1;
+  max-width: 460px;
+  width: 100%;
+  margin: 0 auto;
+}

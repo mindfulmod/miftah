@@ -69,7 +69,7 @@
       const hues = [150, 200, 28, 268, 190, 8, 322, 95, 230, 45, 175, 288, 130];
       const worlds = [];
 
-      for (const pack of this.data.packs) {
+      this.data.packs.forEach((pack, i) => {
         worlds.push({
           id: `pack-${pack.id}`,
           hue: 0,
@@ -83,9 +83,11 @@
             this.letters
               .filter((l) => !pack.letters.includes(l))
               .map((l) => ({ id: l.char, display: l.char, speak: l.arName })),
-          games: ["pop", "feed", "pairs"],
+          // Every pack writes (trace); the rest of the menu alternates so
+          // neighbouring packs never feel like reruns.
+          games: i % 2 === 0 ? ["pop", "trace", "feed"] : ["pairs", "trace", "pop"],
         });
-      }
+      });
 
       const joining = (from, to) =>
         this.data.packs.slice(from, to).flatMap((p) => p.letters).filter((l) => l.joins);
@@ -128,7 +130,7 @@
           ),
         games: ["pop", "catch", "feed"],
       });
-      worlds.push(vowelWorld("fatha", "بَ", [this.data.harakat[0]]));
+      worlds.push({ ...vowelWorld("fatha", "بَ", [this.data.harakat[0]]), games: ["pop", "trace", "catch"] });
       worlds.push(vowelWorld("kasra-damma", "بِ", this.data.harakat.slice(1)));
 
       worlds.push({
@@ -173,6 +175,33 @@
         w.hue = hues[i % hues.length];
       });
       return worlds;
+    }
+
+    // The Brain Age ritual: a short daily review session mixing items from
+    // every world the child has already finished. Not a world — no meet
+    // phase, no unlocks, just warm bread: burst (speed), pop, feed.
+    dailySession(doneIds) {
+      const done = this.worlds.filter((w) => doneIds.includes(w.id));
+      if (!done.length) return null;
+      const items = [];
+      const seen = new Set();
+      for (const world of done) {
+        for (const item of world.items()) {
+          if (seen.has(item.id)) continue;
+          seen.add(item.id);
+          items.push(item);
+        }
+      }
+      if (items.length < 3) return null;
+      return {
+        id: "daily",
+        hue: 45,
+        icon: "☀",
+        kind: "daily",
+        meet: [],
+        items: () => items,
+        games: ["burst", "pop", "feed"],
+      };
     }
   }
 

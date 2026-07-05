@@ -7,7 +7,13 @@
 (function (ns) {
   const PROGRESS_KEY = "quran-trainer:letters:progress";
   const STARS_KEY = "quran-trainer:letters:stars";
+  const STAMPS_KEY = "quran-trainer:letters:stamps";
   const Art = ns.LettersArt;
+
+  const todayStr = () => {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  };
 
   class LettersGame {
     constructor(root) {
@@ -21,6 +27,13 @@
       // the same study-step payout the Codex uses.
       this.island = ns.ProgressionSystem && ns.ANIMAL_CATALOG ? new ns.ProgressionSystem(ns.ANIMAL_CATALOG) : null;
       this.game = null; // active mini-game instance
+      this.stamps = this.loadStamps();
+      // Recorded letter clips (assets/audio/letters/<name>.mp3) win over TTS
+      // whenever they exist; 404s are remembered so we only knock once.
+      this.letterFiles = new Map(
+        ns.LETTERS_DATA.packs.flatMap((p) => p.letters).map((l) => [l.char, l.name.toLowerCase()]),
+      );
+      this.missingClips = new Set();
       this.worlds.loadWords().finally(() => this.renderHome());
     }
 
@@ -56,6 +69,27 @@
       } catch {}
     }
 
+    loadStamps() {
+      try {
+        const data = JSON.parse(localStorage.getItem(STAMPS_KEY) || "{}");
+        return { dates: Array.isArray(data.dates) ? data.dates : [] };
+      } catch {
+        return { dates: [] };
+      }
+    }
+
+    // Brain Age's calendar stamp: one per day the child plays. Returns true
+    // only for the first stamp of the day (that's when the island pays out).
+    stampToday() {
+      const today = todayStr();
+      if (this.stamps.dates.includes(today)) return false;
+      this.stamps.dates.push(today);
+      try {
+        localStorage.setItem(STAMPS_KEY, JSON.stringify(this.stamps));
+      } catch {}
+      return true;
+    }
+
     firstOpenIndex() {
       const done = new Set(this.progress.done);
       const idx = this.worlds.worlds.findIndex((w) => !done.has(w.id));
@@ -74,6 +108,19 @@
       if (!item) return;
       if (item.audioPath) {
         this.recite.playWord(item.audioPath);
+        return;
+      }
+      const file = item.display && item.display.length === 1 ? this.letterFiles.get(item.display) : null;
+      if (file && !this.missingClips.has(file) && this.sound.enabled) {
+        if (!this.clipEl) this.clipEl = new Audio();
+        const fallback = () => {
+          this.missingClips.add(file);
+          this.speak(item.speak || item.display);
+        };
+        this.clipEl.onerror = fallback;
+        this.clipEl.src = `assets/audio/letters/${file}.mp3`;
+        const p = this.clipEl.play();
+        if (p && p.catch) p.catch(fallback);
         return;
       }
       this.speak(item.speak || item.display);
@@ -137,13 +184,20 @@
     // ---------- home: the journey map ----------
 
     renderHome() {
+      this.root.style.setProperty("--lg-hue", "150");
       const worlds = this.worlds.worlds;
       const allDone = this.firstOpenIndex() >= worlds.length;
+      const daily = this.worlds.dailySession(this.progress.done);
+      const stampedToday = this.stamps.dates.includes(todayStr());
       // The path reads bottom-to-top: world 1 sits at the bottom of the
       // scroll, and when everything is done a door to the island crowns it.
       const el = this.screen(
         "lg-home",
         `${this.topBar({ home: false })}
+        <div class="map-daily-row">
+          ${daily ? `<button type="button" class="map-daily${stampedToday ? " is-stamped" : ""}">${Art.icon("sun", 34)}${stampedToday ? `<i class="map-daily-check">${Art.icon("check", 16)}</i>` : ""}</button>` : ""}
+          <button type="button" class="map-calendar">${Art.icon("calendar", 30)}</button>
+        </div>
         <div class="map-scroll">
           <div class="map-path">
             ${allDone ? `<div class="map-row is-left"><a class="map-stop is-door" href="index.html">${Art.mapStop({ hue: 45, label: "🏝", status: "done", stars: 3, latin: true })}</a></div>` : ""}
@@ -172,14 +226,75 @@
           this.startWorld(world);
         });
       }
+      const dailyBtn = el.querySelector(".map-daily");
+      if (dailyBtn)
+        dailyBtn.addEventListener("click", () => {
+          this.sound.play("click");
+          this.startDaily();
+        });
+      el.querySelector(".map-calendar").addEventListener("click", () => {
+        this.sound.play("page");
+        this.renderStamps();
+      });
       // Start the journey at the child's current stop.
       const current = el.querySelector(".map-stop.is-current") || el.querySelector(".map-stop.is-door");
       if (current) current.scrollIntoView({ block: "center" });
     }
 
+    // ---------- the stamp calendar (Brain Age's daily ritual, wordless) ----------
+
+    renderStamps() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = now.getMonth();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const today = now.getDate();
+      const stamped = new Set(
+        this.stamps.dates
+          .filter((d) => d.startsWith(`${year}-${String(month + 1).padStart(2, "0")}`))
+          .map((d) => Number(d.slice(8))),
+      );
+      let cells = "";
+      for (let day = 1; day <= daysInMonth; day += 1) {
+        const cls =
+          "stamp-cell" +
+          (stamped.has(day) ? " is-stamped" : "") +
+          (day === today ? " is-today" : "") +
+          (day > today ? " is-future" : "");
+        cells += `<span class="${cls}">${stamped.has(day) ? Art.icon("star", 26) : `<i>${day}</i>`}</span>`;
+      }
+      const el = this.screen(
+        "lg-stamps",
+        `${this.topBar()}
+        <div class="stamps-stage">
+          <div class="stamps-moon">${Art.icon("sun", 44)}</div>
+          <div class="stamps-grid">${cells}</div>
+        </div>`,
+      );
+      this.wireTopBar(el);
+    }
+
+    // ---------- daily review session ----------
+
+    startDaily() {
+      const world = this.worlds.dailySession(this.progress.done);
+      if (!world) return;
+      this.session = {
+        world,
+        meetIndex: 0,
+        gameIndex: 0,
+        starTotal: 0,
+        items: world.items(),
+        extraItems: [],
+        daily: true,
+      };
+      this.startGame();
+    }
+
     // ---------- world flow: meet → games → party ----------
 
     startWorld(world) {
+      this.root.style.setProperty("--lg-hue", String(world.hue));
       this.session = {
         world,
         meetIndex: 0,
@@ -249,6 +364,7 @@
         extraItems: s.extraItems,
         rounds: 4,
         hue: s.world.hue,
+        level: this.stars[s.world.id] || 0,
         say: (item) => this.say(item),
         sfx: (name) => this.sound.play(name),
         confettiAt: (target) => this.confettiAt(target),
@@ -308,8 +424,16 @@
     finishWorld() {
       const s = this.session;
       const worldStars = Math.max(1, Math.round(s.starTotal / s.world.games.length));
+      if (s.daily) {
+        // Daily review: the day's stamp (and one island payout per day).
+        const firstToday = this.stampToday();
+        if (firstToday && this.island) this.island.completeStudyStep();
+        this.renderParty(worldStars, firstToday);
+        return;
+      }
       this.stars[s.world.id] = Math.max(this.stars[s.world.id] || 0, worldStars);
       this.saveStars();
+      this.stampToday();
       const newlyDone = !this.progress.done.includes(s.world.id);
       if (newlyDone) {
         this.progress.done.push(s.world.id);

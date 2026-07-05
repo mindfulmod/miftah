@@ -16,11 +16,14 @@
     return a;
   }
 
-  // Pick the round's targets and, for each, 2 distractors with different ids.
+  // Pick the round's targets and, for each, distractors with different ids.
+  // ctx.level (stars already earned on this world) scales the challenge:
+  // seasoned replayers face one extra distractor — adaptive, Brain Age style.
   function buildRounds(ctx) {
     const pool = shuffle(ctx.items);
     const targets = pool.slice(0, ctx.rounds);
     while (targets.length < ctx.rounds) targets.push(pool[targets.length % pool.length]);
+    const optionCount = (ctx.level || 0) >= 2 ? 4 : 3;
     return targets.map((target) => {
       const wrong = shuffle(
         ctx.items.concat(ctx.extraItems || []).filter((i) => i.id !== target.id),
@@ -28,7 +31,7 @@
       const seen = new Set([target.id]);
       const options = [target];
       for (const w of wrong) {
-        if (options.length >= 3) break;
+        if (options.length >= optionCount) break;
         if (seen.has(w.id)) continue;
         seen.add(w.id);
         options.push(w);
@@ -86,7 +89,9 @@
       el.innerHTML = tileHTML(item, this.ctx.hue);
       const laneX = 8 + lane * 30 + Math.random() * 8; // percent
       el.style.left = `${laneX}%`;
-      const bubble = { el, item, y: 1.15 + delay, speed: 0.06 + Math.random() * 0.025 };
+      const pace = 1 + 0.22 * (this.ctx.level || 0);
+      const bubble = { el, item, y: 1.15 + delay, speed: (0.06 + Math.random() * 0.025) * pace };
+      el.style.top = `${bubble.y * 100}%`;
       el.addEventListener("pointerdown", () => this.popAttempt(bubble));
       this.sky.appendChild(el);
       this.bubbles.push(bubble);
@@ -193,7 +198,8 @@
       const x = 0.12 + Math.random() * 0.76;
       el.style.left = `${x * 100}%`;
       this.field.appendChild(el);
-      this.fallers.push({ el, item, x, y: -0.15, speed: 0.16 + Math.random() * 0.05 });
+      const pace = 1 + 0.2 * (this.ctx.level || 0);
+      this.fallers.push({ el, item, x, y: -0.15, speed: (0.16 + Math.random() * 0.05) * pace });
     }
 
     tick(now) {
@@ -416,5 +422,237 @@
     destroy() {}
   }
 
-  ns.LettersMiniGames = { pop: PopGame, catch: CatchGame, pairs: PairsGame, feed: FeedGame };
+  // ---------- Trace: write the letter with your finger ----------
+  // Brain Age's signature mechanic, kid-sized: a huge pale letter is the
+  // guide, the child crayons over it, and covering enough of the glyph wins.
+  // No stroke-order pedantry — coverage is the goal, scribbling feels great.
+  class TraceGame {
+    constructor(ctx) {
+      this.ctx = ctx;
+      const pool = shuffle(ctx.items).filter((i) => (i.display || "").length <= 3);
+      this.targets = (pool.length ? pool : shuffle(ctx.items)).slice(0, 3);
+      this.roundIndex = 0;
+      this.slips = 0;
+      this.alive = true;
+      ctx.stage.innerHTML = `
+        <div class="trace-wrap">
+          <canvas class="trace-canvas"></canvas>
+          <button type="button" class="lg-round-btn trace-clear">${Art.icon("replay", 30)}</button>
+        </div>`;
+      this.canvas = ctx.stage.querySelector(".trace-canvas");
+      ctx.stage.querySelector(".trace-clear").addEventListener("click", () => this.clearDrawing());
+      this.drawing = false;
+      this.canvas.addEventListener("pointerdown", (e) => this.penDown(e));
+      this.canvas.addEventListener("pointermove", (e) => this.penMove(e));
+      window.addEventListener("pointerup", (this.penUpBound = () => this.penUp()));
+      // The glyph guide needs the Quran font; wait for it, then start.
+      const ready = document.fonts && document.fonts.load ? document.fonts.load('100px "Amiri Quran"') : Promise.resolve();
+      ready.finally(() => {
+        if (this.alive) this.startRound();
+      });
+    }
+
+    startRound() {
+      const target = this.targets[this.roundIndex];
+      this.ctx.setPrompt(target);
+      this.ctx.say(target);
+      const wrap = this.canvas.parentElement;
+      const w = wrap.clientWidth;
+      const h = wrap.clientHeight;
+      this.canvas.width = w;
+      this.canvas.height = h;
+      this.g = this.canvas.getContext("2d", { willReadFrequently: true });
+      // Guide layer: a huge pale letter with a darker rim.
+      const size = Math.min(w, h) * (target.display.length > 1 ? 0.5 : 0.72);
+      this.g.clearRect(0, 0, w, h);
+      this.g.font = `${size}px "Amiri Quran", serif`;
+      this.g.textAlign = "center";
+      this.g.textBaseline = "middle";
+      this.g.direction = "rtl";
+      this.g.fillStyle = "#dbe9f5";
+      this.g.fillText(target.display, w / 2, h * 0.52);
+      this.g.strokeStyle = "#a9c6de";
+      this.g.lineWidth = 2;
+      this.g.strokeText(target.display, w / 2, h * 0.52);
+      // Remember which pixels belong to the glyph (sampled grid).
+      const img = this.g.getImageData(0, 0, w, h).data;
+      this.guide = [];
+      const step = 5;
+      for (let y = 0; y < h; y += step) {
+        for (let x = 0; x < w; x += step) {
+          if (img[(y * w + x) * 4 + 3] > 60) this.guide.push([x, y]);
+        }
+      }
+      this.brush = Math.max(20, size * 0.1);
+      this.g.lineCap = "round";
+      this.g.lineJoin = "round";
+      this.g.strokeStyle = `hsl(${this.ctx.hue} 70% 50%)`;
+      this.g.lineWidth = this.brush;
+      this.paint = new Set(); // painted sample cells, keyed x|y
+    }
+
+    clearDrawing() {
+      if (this.alive) this.startRound();
+    }
+
+    pos(e) {
+      const rect = this.canvas.getBoundingClientRect();
+      return [e.clientX - rect.left, e.clientY - rect.top];
+    }
+
+    penDown(e) {
+      this.drawing = true;
+      this.last = this.pos(e);
+      this.canvas.setPointerCapture?.(e.pointerId);
+    }
+
+    penMove(e) {
+      if (!this.drawing || !this.alive) return;
+      const [x, y] = this.pos(e);
+      this.g.beginPath();
+      this.g.moveTo(this.last[0], this.last[1]);
+      this.g.lineTo(x, y);
+      this.g.stroke();
+      // Record painted cells along the segment.
+      const r = this.brush / 2;
+      const steps = Math.max(1, Math.hypot(x - this.last[0], y - this.last[1]) / 4);
+      for (let i = 0; i <= steps; i += 1) {
+        const px = this.last[0] + ((x - this.last[0]) * i) / steps;
+        const py = this.last[1] + ((y - this.last[1]) * i) / steps;
+        for (let dy = -r; dy <= r; dy += 5) {
+          for (let dx = -r; dx <= r; dx += 5) {
+            if (dx * dx + dy * dy > r * r) continue;
+            this.paint.add(`${Math.round((px + dx) / 5) * 5}|${Math.round((py + dy) / 5) * 5}`);
+          }
+        }
+      }
+      this.last = [x, y];
+    }
+
+    penUp() {
+      if (!this.drawing || !this.alive) return;
+      this.drawing = false;
+      const covered = this.guide.reduce(
+        (n, [x, y]) => n + (this.paint.has(`${x}|${y}`) ? 1 : 0),
+        0,
+      );
+      if (this.guide.length && covered / this.guide.length >= 0.6) {
+        const target = this.targets[this.roundIndex];
+        this.ctx.sfx("correct");
+        this.ctx.confettiAt(this.canvas);
+        this.ctx.say(target);
+        this.alivePause = true;
+        setTimeout(() => {
+          this.roundIndex += 1;
+          if (this.roundIndex >= this.targets.length) return this.finish();
+          this.startRound();
+        }, 700);
+      }
+    }
+
+    finish() {
+      this.alive = false;
+      window.removeEventListener("pointerup", this.penUpBound);
+      this.ctx.onDone(this.slips);
+    }
+
+    destroy() {
+      this.alive = false;
+      window.removeEventListener("pointerup", this.penUpBound);
+    }
+  }
+
+  // ---------- Burst: the gentle speed round (Calculations x25 spirit) ----------
+  // Thirty seconds, a shrinking sun-ring, tap the tile you hear, count only
+  // ever goes UP — speed pressure without any way to lose.
+  class BurstGame {
+    constructor(ctx) {
+      this.ctx = ctx;
+      this.count = 0;
+      this.alive = true;
+      this.duration = 30000;
+      this.endsAt = performance.now() + this.duration;
+      ctx.stage.innerHTML = `
+        <div class="burst-head">
+          <svg class="burst-ring" viewBox="0 0 60 60" aria-hidden="true">
+            <circle cx="30" cy="30" r="25" fill="#fffdf4" stroke="#e6dcc2" stroke-width="7"/>
+            <circle class="burst-ring-fill" cx="30" cy="30" r="25" fill="none" stroke="#f3a53c" stroke-width="7"
+              stroke-linecap="round" stroke-dasharray="157" transform="rotate(-90 30 30)"/>
+          </svg>
+          <span class="burst-count">0</span>
+        </div>
+        <div class="burst-grid"></div>`;
+      this.ringEl = ctx.stage.querySelector(".burst-ring-fill");
+      this.countEl = ctx.stage.querySelector(".burst-count");
+      this.grid = ctx.stage.querySelector(".burst-grid");
+      this.nextTarget();
+      this.tick = this.tick.bind(this);
+      requestAnimationFrame(this.tick);
+      // rAF stalls in hidden/backgrounded tabs — a plain interval guarantees
+      // the round still ends on time.
+      this.endTimer = setInterval(() => this.tick(performance.now()), 500);
+    }
+
+    nextTarget() {
+      const pool = shuffle(this.ctx.items);
+      this.target = pool[0];
+      const tiles = pool.slice(0, Math.min(6, pool.length));
+      if (!tiles.includes(this.target)) tiles[0] = this.target;
+      this.ctx.setPrompt(this.target);
+      this.ctx.say(this.target);
+      this.grid.innerHTML = "";
+      for (const item of shuffle(tiles)) {
+        const el = document.createElement("button");
+        el.type = "button";
+        el.className = "burst-tile";
+        el.innerHTML = tileHTML(item, this.ctx.hue);
+        el.addEventListener("pointerdown", () => this.tap(item, el));
+        this.grid.appendChild(el);
+      }
+    }
+
+    tap(item, el) {
+      if (!this.alive) return;
+      if (item.id === this.target.id) {
+        this.count += 1;
+        this.countEl.textContent = String(this.count);
+        this.ctx.sfx("correct");
+        el.classList.add("is-popped");
+        this.nextTarget();
+      } else {
+        this.ctx.sfx("wrong");
+        el.classList.remove("is-shake");
+        void el.offsetWidth;
+        el.classList.add("is-shake");
+      }
+    }
+
+    tick(now) {
+      if (!this.alive) return;
+      const left = Math.max(0, this.endsAt - now);
+      this.ringEl.style.strokeDashoffset = String(157 * (1 - left / this.duration));
+      if (left <= 0) {
+        this.alive = false;
+        clearInterval(this.endTimer);
+        // Stars by harvest: 10+ shines, 6+ solid, anything else still a star.
+        this.ctx.onDone(this.count >= 10 ? 0 : this.count >= 6 ? 2 : 3);
+        return;
+      }
+      requestAnimationFrame(this.tick);
+    }
+
+    destroy() {
+      this.alive = false;
+      clearInterval(this.endTimer);
+    }
+  }
+
+  ns.LettersMiniGames = {
+    pop: PopGame,
+    catch: CatchGame,
+    pairs: PairsGame,
+    feed: FeedGame,
+    trace: TraceGame,
+    burst: BurstGame,
+  };
 })(window.MiftahGame || (window.MiftahGame = {}));

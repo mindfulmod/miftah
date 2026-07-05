@@ -94,6 +94,15 @@
     lock: `<rect x="16" y="28" width="32" height="26" rx="6" fill="currentColor"/>
       <path d="M22 28 V20 a10 10 0 0 1 20 0 V28" fill="none" stroke="currentColor" stroke-width="6"/>`,
     check: `<path d="M12 34 L26 48 L52 16" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>`,
+    sun: `<circle cx="32" cy="32" r="13" fill="currentColor"/>
+      <g stroke="currentColor" stroke-width="5" stroke-linecap="round">
+        <path d="M32 6 V14 M32 50 V58 M6 32 H14 M50 32 H58 M13 13 L19 19 M45 45 L51 51 M51 13 L45 19 M19 45 L13 51"/>
+      </g>`,
+    calendar: `<rect x="8" y="14" width="48" height="42" rx="7" fill="none" stroke="currentColor" stroke-width="6"/>
+      <path d="M8 26 H56" stroke="currentColor" stroke-width="6"/>
+      <path d="M20 8 V18 M44 8 V18" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="22" cy="38" r="4" fill="currentColor"/><circle cx="34" cy="38" r="4" fill="currentColor"/>
+      <circle cx="46" cy="38" r="4" fill="currentColor"/><circle cx="22" cy="48" r="4" fill="currentColor"/>`,
   };
 
   function icon(name, size = 30) {
