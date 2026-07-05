@@ -107,8 +107,10 @@
     }
 
     petStage() {
+      // Grows with the longer Noorani Qaida ladder: kid after the letter
+      // packs, reader once the sounds and marks are all conquered.
       const done = this.progress.done.length;
-      return done >= 10 ? 3 : done >= 4 ? 2 : 1;
+      return done >= 15 ? 3 : done >= 5 ? 2 : 1;
     }
 
     // Everything the child has taught the pet: letters from finished packs.

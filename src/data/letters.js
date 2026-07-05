@@ -129,5 +129,39 @@
       { char: "ي", vowel: "ِ", name: "Long ee", suffix: "i", blurb: "Kasra + Ya stretches “i” into “ee” — بِي is “bee”." },
       { char: "و", vowel: "ُ", name: "Long oo", suffix: "u", blurb: "Damma + Waw stretches “u” into “oo” — بُو is “boo”." },
     ],
+
+    // Tanween (Noorani Qaida lesson 5): doubled end-vowels that add an “n”.
+    tanween: [
+      { char: "ً", name: "Fathatan", arName: "فَتْحَتَانْ", sound: "an", blurb: "TWO slashes above. They say “an” — بً is “ban”." },
+      { char: "ٍ", name: "Kasratan", arName: "كَسْرَتَانْ", sound: "in", blurb: "TWO slashes below. They say “in” — بٍ is “bin”." },
+      { char: "ٌ", name: "Dammatan", arName: "ضَمَّتَانْ", sound: "un", blurb: "TWO little curls above. They say “un” — بٌ is “bun”." },
+    ],
+
+    // Standing vowels (lesson 7): tiny upright marks that stretch like madd.
+    // The dagger alif is everywhere in the mushaf (هَٰذَا، ٱلرَّحْمَٰنِ).
+    standing: [
+      { char: "ٰ", name: "Standing Fatha", speakAs: (l) => `${l}َا`, sound: "aa", blurb: "A tiny standing stroke — it stretches “aa”, just like Alif. بٰ is “baa”." },
+      { char: "ٖ", name: "Standing Kasra", speakAs: (l) => `${l}ِي`, sound: "ee", blurb: "A small standing mark below — it stretches “ee”. بٖ is “bee”." },
+      { char: "ٗ", name: "Standing Damma", speakAs: (l) => `${l}ُو`, sound: "oo", blurb: "A little reversed curl — it stretches “oo”. بٗ is “boo”." },
+    ],
+
+    // Leen letters (lesson 8, second half): a soft glide — fatha followed by
+    // a resting Waw or Ya.
+    leen: [
+      { char: "وْ", name: "Leen Waw", sound: "aw", blurb: "Fatha then a resting Waw glides — بَوْ is “baw”, like in “town”." },
+      { char: "يْ", name: "Leen Ya", sound: "ay", blurb: "Fatha then a resting Ya glides — بَيْ is “bay”, like in “day”." },
+    ],
+
+    // Shaddah (lessons 12–16): the little w that doubles a letter — hold it!
+    shaddah: {
+      char: "ّ",
+      name: "Shaddah",
+      arName: "شَدَّة",
+      blurb: "A tiny “w” above a letter DOUBLES it — press and hold the sound. بَدَّ is “badda”.",
+    },
+
+    // The muqatta'at (lesson 3): the mystery letters that open some surahs,
+    // read by their letter NAMES.
+    muqattaat: ["الم", "الر", "طه", "طسم", "يس", "حم", "ق", "ن"],
   };
 })(window.MiftahGame || (window.MiftahGame = {}));

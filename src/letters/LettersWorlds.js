@@ -52,12 +52,13 @@
         for (const ayah of data.ayahs) {
           for (const w of ayah.words) {
             const skel = skeleton(w.arabic);
-            if (!skel || skel.length < 2 || skel.length > 4 || seen.has(skel)) continue;
+            if (!skel || skel.length < 2 || skel.length > 5 || seen.has(skel)) continue;
             seen.add(skel);
             this.examplePool.push({
               id: w.arabic,
               display: w.arabic,
               speak: "",
+              skel,
               audioPath: w.audio || `wbw/${pad3(n)}_${pad3(ayah.number)}_${pad3(w.position)}.mp3`,
             });
           }
@@ -65,8 +66,15 @@
       }
     }
 
+    // Real-word pools by skeleton length, with a graceful fallback when a
+    // band is thin (offline sample, small surahs).
+    wordPool(minLen, maxLen) {
+      const band = this.examplePool.filter((w) => w.skel.length >= minLen && w.skel.length <= maxLen);
+      return band.length >= 6 ? band : this.examplePool;
+    }
+
     buildWorlds() {
-      const hues = [150, 200, 28, 268, 190, 8, 322, 95, 230, 45, 175, 288, 130];
+      const hues = [150, 200, 28, 268, 190, 8, 322, 95, 230, 260, 45, 175, 15, 288, 205, 130, 335, 70, 245, 25, 165, 300];
       const worlds = [];
 
       this.data.packs.forEach((pack, i) => {
@@ -113,6 +121,39 @@
         });
       }
 
+      // Noorani Qaida lesson 3: the mystery letters that open surahs, read
+      // by their letter NAMES — a beloved early win, and pure letter review.
+      const letterByChar = new Map(this.letters.map((l) => [l.char, l]));
+      const nameSeq = (combo) =>
+        [...combo].map((ch) => (letterByChar.get(ch) || { arName: ch }).arName).join("، ");
+      worlds.push({
+        id: "muqattaat",
+        icon: "الم",
+        kind: "muqattaat",
+        meet: [
+          {
+            display: "الم",
+            speak: nameSeq("الم"),
+            title: "The mystery letters",
+            sub: "Some surahs open with secret letters. Read each one by its NAME: Alif… Lam… Meem.",
+          },
+          { display: "طه", speak: nameSeq("طه") },
+          { display: "يس", speak: nameSeq("يس") },
+        ],
+        items: () =>
+          this.data.muqattaat.map((combo) => ({
+            id: combo,
+            display: combo,
+            speak: nameSeq(combo),
+            parts: [...combo].map((ch) => ({
+              id: ch,
+              display: ch,
+              speak: (letterByChar.get(ch) || { arName: ch }).arName,
+            })),
+          })),
+        games: ["pop", "build", "feed"],
+      });
+
       const syllableLetters = () =>
         shuffle(this.letters.filter((l) => l.char !== "ا")).slice(0, 6);
       // The blending decomposition: a syllable is its letter plus its vowel,
@@ -140,24 +181,54 @@
       worlds.push({ ...vowelWorld("fatha", "بَ", [this.data.harakat[0]]), games: ["pop", "build", "trace"] });
       worlds.push({ ...vowelWorld("kasra-damma", "بِ", this.data.harakat.slice(1)), games: ["pop", "build", "catch"] });
 
+      // Noorani Qaida lesson 5–6: tanween. The marks behave exactly like
+      // vowels, so the vowel-world machinery carries them.
+      worlds.push({ ...vowelWorld("tanween", "بً", this.data.tanween), games: ["pop", "build", "feed"] });
+
+      // Lesson 7: standing vowels. The display wears the tiny mark; the
+      // spoken form is its long-vowel twin so TTS says the right sound.
+      worlds.push({
+        id: "standing",
+        icon: "بٰ",
+        kind: "syllables",
+        meet: this.data.standing.map((sv) => ({
+          display: `ب${sv.char}`,
+          speak: sv.speakAs("ب"),
+          sub: sv.blurb,
+        })),
+        items: () =>
+          syllableLetters().flatMap((l) =>
+            this.data.standing.map((sv) => ({
+              id: l.char + sv.char,
+              display: l.char + sv.char,
+              speak: sv.speakAs(l.char),
+              parts: [
+                { display: l.char, speak: l.arName },
+                { display: TATWEEL + sv.char, speak: sv.speakAs("ب") },
+              ],
+            })),
+          ),
+        games: ["pop", "feed", "catch"],
+      });
+
+      // Lesson 8a: pure madd — the three stretching letters, nothing else.
       worlds.push({
         id: "long-sounds",
         icon: "بَا",
         kind: "syllables",
-        meet: this.data.longVowels
-          .map((lv) => ({ display: `ب${lv.vowel}${lv.char}`, speak: `ب${lv.vowel}${lv.char}` }))
-          .concat([{ display: "بَتْ", speak: "بَتْ" }]),
+        meet: this.data.longVowels.map((lv) => ({
+          display: `ب${lv.vowel}${lv.char}`,
+          speak: `ب${lv.vowel}${lv.char}`,
+        })),
         items: () => {
           const letters = syllableLetters().slice(0, 4);
           const items = [];
-          const letterByChar = new Map(this.letters.map((l) => [l.char, l]));
           for (const lv of this.data.longVowels) {
-            for (const l of letters.slice(0, 2)) {
+            for (const l of letters) {
               items.push({
                 id: l.char + lv.vowel + lv.char,
                 display: l.char + lv.vowel + lv.char,
                 speak: l.char + lv.vowel + lv.char,
-                // Blend: the open syllable plus its stretching letter.
                 parts: [
                   { display: l.char + lv.vowel, speak: l.char + lv.vowel },
                   { display: lv.char, speak: letterByChar.get(lv.char).arName },
@@ -165,31 +236,189 @@
               });
             }
           }
-          const simple = shuffle(this.letters.filter((l) => /^[a-z]$/.test(l.translit)));
-          for (let i = 0; i + 1 < simple.length && i < 6; i += 2) {
-            const word = simple[i].char + "َ" + simple[i + 1].char + "ْ";
+          return items;
+        },
+        games: ["build", "pop", "pairs"],
+      });
+
+      // Lesson 8b: the leen glide — fatha then a resting Waw or Ya.
+      worlds.push({
+        id: "leen",
+        icon: "بَوْ",
+        kind: "syllables",
+        meet: this.data.leen.map((ln) => ({
+          display: `بَ${ln.char}`,
+          speak: `بَ${ln.char}`,
+          sub: ln.blurb,
+        })),
+        items: () =>
+          syllableLetters().slice(0, 5).flatMap((l) =>
+            this.data.leen.map((ln) => ({
+              id: l.char + "َ" + ln.char,
+              display: l.char + "َ" + ln.char,
+              speak: l.char + "َ" + ln.char,
+              parts: [
+                { display: l.char + "َ", speak: l.char + "َ" },
+                { display: ln.char, speak: "" },
+              ],
+            })),
+          ),
+        games: ["pop", "build", "feed"],
+      });
+
+      // Lessons 10–11: sukoon gets its own world — closed syllables with
+      // every short vowel, not just fatha.
+      worlds.push({
+        id: "sukoon",
+        icon: "بَتْ",
+        kind: "syllables",
+        meet: [
+          { display: "بَتْ", speak: "بَتْ", sub: this.data.sukun.blurb },
+          { display: "مِنْ", speak: "مِنْ" },
+          { display: "كُمْ", speak: "كُمْ" },
+        ],
+        items: () => {
+          const simple = shuffle(this.letters.filter((l) => l.char !== "ا" && /^[a-z]$/.test(l.translit)));
+          const items = [];
+          for (let i = 0; i + 1 < simple.length && items.length < 9; i += 2) {
+            const v = this.data.harakat[items.length % 3];
+            const word = simple[i].char + v.char + simple[i + 1].char + "ْ";
             items.push({
               id: word,
               display: word,
               speak: word,
-              // Blend: CV syllable + closing letter with sukun.
               parts: [
-                { display: simple[i].char + "َ", speak: simple[i].char + "َ" },
+                { display: simple[i].char + v.char, speak: simple[i].char + v.char },
                 { display: simple[i + 1].char + "ْ", speak: simple[i + 1].arName },
               ],
             });
           }
           return items;
         },
-        games: ["build", "pop", "pairs"],
+        games: ["build", "pop", "catch"],
       });
 
+      // Lessons 12–13: shaddah — the doubling mark, pressed and held.
+      const shaddahLetters = () =>
+        shuffle(this.letters.filter((l) => l.char !== "ا" && /^[a-z]$/.test(l.translit)));
+      worlds.push({
+        id: "shaddah",
+        icon: "بَّ",
+        kind: "syllables",
+        meet: [
+          { display: "بَدَّ", speak: "بَدَّ", sub: this.data.shaddah.blurb },
+          { display: "رَبَّ", speak: "رَبَّ" },
+        ],
+        items: () => {
+          const simple = shaddahLetters();
+          const items = [];
+          for (let i = 0; i + 1 < simple.length && items.length < 8; i += 2) {
+            const word = simple[i].char + "َ" + simple[i + 1].char + "ّ" + "َ";
+            items.push({
+              id: word,
+              display: word,
+              speak: word,
+              parts: [
+                { display: simple[i].char + "َ", speak: simple[i].char + "َ" },
+                { display: simple[i + 1].char + "َّ", speak: simple[i + 1].char + "َّ" },
+              ],
+            });
+          }
+          return items;
+        },
+        games: ["pop", "build", "feed"],
+      });
+
+      // Lessons 14–16: shaddah in company — with tanween (a real Quran
+      // pattern: حَبٌّ) and with the madd letters.
+      worlds.push({
+        id: "shaddah-mix",
+        icon: "بٌّ",
+        kind: "syllables",
+        meet: [
+          { display: "حَبٌّ", speak: "حَبٌّ" },
+          { display: "شَدَّا", speak: "شَدَّا" },
+        ],
+        items: () => {
+          const simple = shaddahLetters();
+          const items = [];
+          for (let i = 0; i + 1 < simple.length && items.length < 4; i += 2) {
+            const word = simple[i].char + "َ" + simple[i + 1].char + "ٌّ";
+            items.push({
+              id: word,
+              display: word,
+              speak: word,
+              parts: [
+                { display: simple[i].char + "َ", speak: simple[i].char + "َ" },
+                { display: simple[i + 1].char + "ٌّ", speak: simple[i + 1].char + "ٌّ" },
+              ],
+            });
+          }
+          for (let i = 0; i + 1 < simple.length && items.length < 8; i += 2) {
+            const word = simple[i].char + "َ" + simple[i + 1].char + "َّ" + "ا";
+            items.push({
+              id: word,
+              display: word,
+              speak: word,
+              parts: [
+                { display: simple[i].char + "َ", speak: simple[i].char + "َ" },
+                { display: simple[i + 1].char + "َّا", speak: simple[i + 1].char + "َّا" },
+              ],
+            });
+          }
+          return items;
+        },
+        games: ["pop", "build", "pairs"],
+      });
+
+      // A word's build-parts: its letter clusters (base + marks), so real
+      // words can be blended piece by piece.
+      const clusterSplit = (arabic) => {
+        const clusters = [];
+        for (const ch of arabic.normalize("NFC")) {
+          if (/[ً-ْٰٓ-ٟؐ-ؚۖ-ۭ]/.test(ch) && clusters.length) clusters[clusters.length - 1] += ch;
+          else clusters.push(ch);
+        }
+        return clusters;
+      };
+      const wordItems = (minLen, maxLen, n) =>
+        shuffle(this.wordPool(minLen, maxLen))
+          .slice(0, n)
+          .map((w) => {
+            const clusters = clusterSplit(w.display);
+            return {
+              ...w,
+              parts:
+                clusters.length >= 2 && clusters.length <= 3
+                  ? clusters.map((c) => ({ display: c, speak: c }))
+                  : undefined,
+            };
+          });
+
+      // The word ramp: two-letter words, then three, then the long ones —
+      // each with the reciter's real audio.
+      worlds.push({
+        id: "words-2",
+        icon: "مِن",
+        kind: "words",
+        meet: [],
+        items: () => wordItems(2, 2, 8),
+        games: ["feed", "build", "pop"],
+      });
       worlds.push({
         id: "decode",
         icon: "📖",
         kind: "words",
         meet: [],
-        items: () => shuffle(this.examplePool).slice(0, 8),
+        items: () => wordItems(3, 3, 8),
+        games: ["feed", "build", "pop"],
+      });
+      worlds.push({
+        id: "decode-4",
+        icon: "📗",
+        kind: "words",
+        meet: [],
+        items: () => wordItems(4, 5, 8),
         games: ["feed", "pop", "pairs"],
       });
 

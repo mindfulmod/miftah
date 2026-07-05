@@ -162,7 +162,7 @@
       ${
         status === "locked"
           ? `<g transform="translate(-22 -24) scale(0.7)" fill="#6f6a7d">${ICONS.lock}</g>`
-          : `<text y="${latin ? 8 : 16}" text-anchor="middle" font-family="${latin ? "ui-rounded, system-ui, sans-serif" : "'Amiri Quran', serif"}" font-size="${latin ? 26 : 42}" fill="#fffdf4" ${latin ? "" : `direction="rtl"`}>${label}</text>`
+          : `<text y="${latin ? 8 : 16}" text-anchor="middle" font-family="${latin ? "ui-rounded, system-ui, sans-serif" : "'Amiri Quran', serif"}" font-size="${latin ? 26 : [...label.replace(/[ً-ْٰٓ-ٟؐ-ؚۖ-ۭ]/g, "")].length >= 3 ? 28 : 42}" fill="#fffdf4" ${latin ? "" : `direction="rtl"`}>${label}</text>`
       }
       ${status === "done" ? starRow : status === "current" ? starRow : ""}
     </svg>`;
