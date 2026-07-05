@@ -35,6 +35,7 @@
       );
       this.missingClips = new Set();
       this.pet = this.loadJSON("quran-trainer:letters:pet", null);
+      this.skills = this.loadJSON("quran-trainer:letters:skills", {});
       this.wallet = this.loadJSON("quran-trainer:letters:wallet", { earned: 0, spent: 0 });
       this.stickers = this.loadJSON("quran-trainer:letters:stickers", { owned: [] });
       this.worlds.loadWords().finally(() => (this.pet ? this.renderHome() : this.renderHatch()));
@@ -205,6 +206,7 @@
             <span class="pet-bubble" hidden></span>
             ${this.petSVG(190)}
           </button>
+          ${Object.keys(this.skills).length ? `<div class="pet-flower">${Art.skillFlower({ scores: this.skills, size: 130 })}</div>` : ""}
           <div class="pet-shelf">${shelf}</div>
         </div>`,
       );
@@ -426,6 +428,7 @@
         `${this.topBar({ home: false })}
         <div class="map-daily-row">
           ${daily ? `<button type="button" class="map-daily${stampedToday ? " is-stamped" : ""}">${Art.icon("sun", 34)}${stampedToday ? `<i class="map-daily-check">${Art.icon("check", 16)}</i>` : ""}</button>` : ""}
+          ${daily ? `<button type="button" class="map-checkup">${Art.icon("flower", 34)}</button>` : ""}
           <button type="button" class="map-pet">${this.petSVG(46)}</button>
           <button type="button" class="map-album">${Art.icon("star", 26)}<b>${this.starBalance()}</b></button>
           <button type="button" class="map-calendar">${Art.icon("calendar", 30)}</button>
@@ -468,6 +471,12 @@
         this.sound.play("page");
         this.renderStamps();
       });
+      const checkupBtn = el.querySelector(".map-checkup");
+      if (checkupBtn)
+        checkupBtn.addEventListener("click", () => {
+          this.sound.play("click");
+          this.startCheckup();
+        });
       el.querySelector(".map-pet").addEventListener("click", () => {
         this.sound.play("page");
         this.renderPet();
@@ -512,6 +521,24 @@
         </div>`,
       );
       this.wireTopBar(el);
+    }
+
+    // ---------- the check-up (one round per skill → the flower) ----------
+
+    startCheckup() {
+      const plan = this.worlds.checkupPlan(this.progress.done);
+      if (!plan) return;
+      this.root.style.setProperty("--lg-hue", "45");
+      this.session = {
+        world: { id: "checkup", hue: 45, games: plan.map((p) => p.game) },
+        plan,
+        gameIndex: 0,
+        starTotal: 0,
+        items: [],
+        extraItems: [],
+        checkup: true,
+      };
+      this.startGame();
     }
 
     // ---------- daily review session ----------
@@ -577,7 +604,8 @@
 
     startGame() {
       const s = this.session;
-      const gameName = s.world.games[s.gameIndex];
+      const planStep = s.plan ? s.plan[s.gameIndex] : null;
+      const gameName = planStep ? planStep.game : s.world.games[s.gameIndex];
       const el = this.screen(
         "lg-play",
         `${this.topBar()}
@@ -603,7 +631,7 @@
       petEl.addEventListener("pointerdown", () => this.petRecite(null));
       const ctx = {
         stage,
-        items: s.items,
+        items: planStep ? planStep.items : s.items,
         extraItems: s.extraItems,
         rounds: 4,
         hue: s.world.hue,
@@ -623,8 +651,12 @@
           currentTarget = item;
           bubble.hidden = !item;
           if (item) {
-            glyph.textContent = item.display;
-            glyph.classList.toggle("is-latin", !/[؀-ۿ]/.test(item.display));
+            // promptDisplay lets the question differ from the answer tile —
+            // the check-up's visualize round shows the isolated letter while
+            // the bubbles wear its in-word forms.
+            const shown = item.promptDisplay || item.display;
+            glyph.textContent = shown;
+            glyph.classList.toggle("is-latin", !/[؀-ۿ]/.test(shown));
           }
         },
         // "Look here, listen again" — the prompt bubble pulses after a wrong
@@ -647,6 +679,12 @@
       // Stars are also the spending currency for stickers and pet gear —
       // replays and dailies keep earning, so coming back always pays.
       this.earnStars(stars);
+      // Check-up rounds grade a skill: the LATEST score is the petal size —
+      // it's a health check, not a high-score board.
+      if (s.plan && s.plan[s.gameIndex] && s.plan[s.gameIndex].skill) {
+        this.skills[s.plan[s.gameIndex].skill] = { score: stars, at: todayStr() };
+        this.saveJSON("quran-trainer:letters:skills", this.skills);
+      }
       this.renderStars(stars);
     }
 
@@ -685,6 +723,12 @@
     finishWorld() {
       const s = this.session;
       const worldStars = Math.max(1, Math.round(s.starTotal / s.world.games.length));
+      if (s.checkup) {
+        // Check-up done: the flower has its new petals. Show it off.
+        this.stampToday();
+        this.renderParty(worldStars, false, { flower: true });
+        return;
+      }
       if (s.daily) {
         // Daily review: the day's stamp (and one island payout per day).
         const firstToday = this.stampToday();
@@ -704,15 +748,16 @@
       this.renderParty(worldStars, newlyDone);
     }
 
-    renderParty(stars, newlyDone) {
+    renderParty(stars, newlyDone, { flower = false } = {}) {
       const el = this.screen(
         "lg-party",
         `<div class="party-stage">
+          ${flower ? `<div class="party-flower">${Art.skillFlower({ scores: this.skills, size: 200 })}</div>` : ""}
           <div class="party-pair">
-            <div class="party-mascot">${Art.keyMascot({ size: 150, mood: "open" })}</div>
+            <div class="party-mascot">${Art.keyMascot({ size: flower ? 110 : 150, mood: "open" })}</div>
             <button type="button" class="party-pet">
               <span class="pet-bubble" hidden></span>
-              ${this.petSVG(130, "open")}
+              ${this.petSVG(flower ? 95 : 130, "open")}
             </button>
           </div>
           <div class="party-stars">

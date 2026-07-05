@@ -847,3 +847,29 @@ body {
   0%, 100% { transform: scale(1); opacity: 1; }
   50% { transform: scale(1.35); opacity: 0.7; }
 }
+
+/* ---------- check-up & skill flower ---------- */
+.map-checkup {
+  display: grid;
+  place-items: center;
+  width: 62px;
+  height: 62px;
+  border: 4px solid #7a4b8f;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 28%, #d9b8ef, #a76cc9 78%);
+  box-shadow: 0 4px 0 rgba(80, 40, 100, 0.3);
+  color: #fdf3ff;
+  cursor: pointer;
+}
+
+.pet-flower, .party-flower { display: grid; place-items: center; }
+.party-flower { animation: lg-arrive 0.7s cubic-bezier(0.34, 1.56, 0.64, 1); }
+
+@media (max-width: 520px) {
+  .map-daily, .map-calendar, .map-pet, .map-album, .map-checkup {
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
+  }
+  .map-daily-row { gap: 8px; }
+}

@@ -199,6 +199,58 @@
       return worlds;
     }
 
+    // The check-up (Big Brain Academy's Test mode, kid-sized): one quick
+    // round per SKILL, drawn only from material the child has already met.
+    // Skills without material yet simply aren't tested — their petal stays
+    // a bud. Returns null until at least one letter pack is done.
+    checkupPlan(doneIds) {
+      const doneLetters = this.data.packs
+        .filter((p) => doneIds.includes(`pack-${p.id}`))
+        .flatMap((p) => p.letters);
+      if (!doneLetters.length) return null;
+      const letterItems = () =>
+        shuffle(doneLetters).map((l) => ({ id: l.char, display: l.char, speak: l.arName }));
+
+      const plan = [];
+      plan.push({ skill: "identify", game: "pop", items: letterItems().slice(0, 8) });
+      plan.push({ skill: "memorize", game: "pairs", items: letterItems() });
+      if (doneIds.includes("forms-1")) {
+        const joining = doneLetters.filter((l) => l.joins);
+        plan.push({
+          skill: "visualize",
+          game: "pop",
+          // Bubbles wear the in-word costume; the prompt shows the isolated
+          // letter — match the disguise to the friend.
+          items: shuffle(joining).map((l) => {
+            const f = formsOf(l);
+            const pos = shuffle(["initial", "medial", "final"])[0];
+            return { id: l.char, display: f[pos], promptDisplay: l.char, speak: l.arName };
+          }),
+        });
+      }
+      if (doneIds.includes("fatha")) {
+        const vowels = doneIds.includes("kasra-damma") ? this.data.harakat : [this.data.harakat[0]];
+        const ls = shuffle(doneLetters.filter((l) => l.char !== "ا")).slice(0, 6);
+        plan.push({
+          skill: "blend",
+          game: "build",
+          items: ls.flatMap((l) =>
+            vowels.map((v) => ({
+              id: l.char + v.char,
+              display: l.char + v.char,
+              speak: l.char + v.char,
+              parts: [
+                { display: l.char, speak: l.arName },
+                { display: TATWEEL + v.char, speak: v.arName },
+              ],
+            })),
+          ),
+        });
+      }
+      plan.push({ skill: "write", game: "trace", items: letterItems().slice(0, 6) });
+      return plan;
+    }
+
     // The Brain Age ritual: a short daily review session mixing items from
     // every world the child has already finished. Not a world — no meet
     // phase, no unlocks, just warm bread: burst (speed), pop, feed.

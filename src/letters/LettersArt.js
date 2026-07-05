@@ -110,6 +110,7 @@
       <g stroke="currentColor" stroke-width="5" stroke-linecap="round">
         <path d="M32 6 V14 M32 50 V58 M6 32 H14 M50 32 H58 M13 13 L19 19 M45 45 L51 51 M51 13 L45 19 M19 45 L13 51"/>
       </g>`,
+    flower: `<g>${[0, 72, 144, 216, 288].map((a) => `<ellipse cx="0" cy="-17" rx="9" ry="14" transform="translate(32 32) rotate(${a})" fill="currentColor"/>`).join("")}<circle cx="32" cy="32" r="9" fill="#fff"/></g>`,
     calendar: `<rect x="8" y="14" width="48" height="42" rx="7" fill="none" stroke="currentColor" stroke-width="6"/>
       <path d="M8 26 H56" stroke="currentColor" stroke-width="6"/>
       <path d="M20 8 V18 M44 8 V18" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
@@ -231,6 +232,49 @@
     </svg>`;
   }
 
+  // ---------- the skill flower ----------
+  // The check-up's wordless report card: five petals, one per skill
+  // (identify / memorize / visualize / blend / write), each growing with the
+  // child's latest check-up score. Buds mean "not tested yet".
+
+  ns.LETTERS_SKILLS = [
+    { id: "identify", hue: 200 },
+    { id: "memorize", hue: 340 },
+    { id: "visualize", hue: 268 },
+    { id: "blend", hue: 160 },
+    { id: "write", hue: 40 },
+  ];
+
+  const PETAL_ICONS = {
+    identify: `<circle r="5.5" fill="none" stroke="#fff" stroke-width="2.4"/><circle r="1.8" fill="#fff"/>`,
+    memorize: `<rect x="-7" y="-5" width="8" height="10" rx="2" fill="none" stroke="#fff" stroke-width="2.2"/><rect x="-1" y="-5" width="8" height="10" rx="2" fill="none" stroke="#fff" stroke-width="2.2"/>`,
+    visualize: `<text y="5" text-anchor="middle" font-family="'Amiri Quran', serif" font-size="15" fill="#fff">ﺑ</text>`,
+    blend: `<circle cx="-4" cy="0" r="4.5" fill="none" stroke="#fff" stroke-width="2.2"/><circle cx="4" cy="0" r="4.5" fill="none" stroke="#fff" stroke-width="2.2"/>`,
+    write: `<path d="M-5 6 L3 -6 L6 -3 L-2 8 Z M-5 6 L-6 9 L-3 8 Z" fill="#fff"/>`,
+  };
+
+  function skillFlower({ scores = {}, size = 170 } = {}) {
+    const petals = ns.LETTERS_SKILLS.map((skill, i) => {
+      const angle = i * 72 - 90;
+      const score = scores[skill.id] ? scores[skill.id].score || 0 : 0;
+      const len = [13, 22, 30, 38][Math.max(0, Math.min(3, score))];
+      const fill = score > 0 ? `hsl(${skill.hue} 62% 62%)` : "rgba(180, 172, 190, 0.5)";
+      const rim = score > 0 ? `hsl(${skill.hue} 55% 42%)` : "rgba(120, 112, 130, 0.5)";
+      return `
+        <g transform="rotate(${angle})">
+          <ellipse cx="${16 + len / 2}" cy="0" rx="${len / 2 + 8}" ry="${Math.max(9, len * 0.42)}"
+            fill="${fill}" stroke="${rim}" stroke-width="3"/>
+          ${score > 0 ? `<g transform="translate(${16 + len / 2} 0) rotate(${-angle})">${PETAL_ICONS[skill.id] || ""}</g>` : ""}
+        </g>`;
+    }).join("");
+    return `
+    <svg class="art-flower" viewBox="-70 -70 140 140" width="${size}" height="${size}" aria-hidden="true">
+      ${petals}
+      <circle r="17" fill="#ffd95e" stroke="#c98f2e" stroke-width="3.4"/>
+      ${face(0, -1, 0.55)}
+    </svg>`;
+  }
+
   // ---------- sticker collection ----------
   // Little wordless treasures bought with earned stars. Each is a compact
   // standalone drawing on a rounded card.
@@ -305,6 +349,6 @@
 
   ns.LettersArt = {
     keyMascot, blobCard, creature, icon, backdrop, mapStop, confetti, ICONS,
-    pet, egg, sticker, stickerPack,
+    pet, egg, sticker, stickerPack, skillFlower,
   };
 })(window.MiftahGame || (window.MiftahGame = {}));

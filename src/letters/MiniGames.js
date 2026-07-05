@@ -68,6 +68,18 @@
       </svg>`;
   }
 
+  // Big Brain Academy's rubber band: every correct answer heats the round up
+  // a little, every miss cools it down — the child always plays at their edge.
+  function makeHeat() {
+    let heat = 0;
+    return {
+      up: () => (heat = Math.min(heat + 1, 8)),
+      down: () => (heat = Math.max(heat - 2, 0)),
+      factor: () => 1 + heat * 0.11,
+      value: () => heat,
+    };
+  }
+
   // ---------- Bubble Pop: hear it, find it, pop it ----------
   class PopGame {
     constructor(ctx) {
@@ -76,6 +88,7 @@
       this.roundIndex = 0;
       this.slips = 0;
       this.alive = true;
+      this.heat = makeHeat();
       this.bubbles = [];
       ctx.stage.innerHTML = `<div class="pop-sky"></div>`;
       this.sky = ctx.stage.querySelector(".pop-sky");
@@ -115,12 +128,14 @@
       const round = this.rounds[this.roundIndex];
       if (bubble.item.id === round.target.id) {
         bubble.el.classList.add("is-popped");
+        this.heat.up();
         this.ctx.sfx("correct");
         this.ctx.confettiAt(bubble.el);
         this.ctx.say(round.target);
         setTimeout(() => this.advance(), 550);
       } else {
         this.slips += 1;
+        this.heat.down();
         this.ctx.sfx("wrong");
         // Rich wrong-pick feedback: the bubble shakes, tints red and wears a
         // ✗ for a beat, while the prompt bubble pulses — "look HERE, listen
@@ -153,7 +168,7 @@
       this.lastTime = now;
       for (const b of this.bubbles) {
         if (b.el.classList.contains("is-popped")) continue;
-        b.y -= b.speed * dt;
+        b.y -= b.speed * this.heat.factor() * dt;
         if (b.y < -0.18) b.y = 1.12; // drift forever until popped
         b.el.style.top = `${b.y * 100}%`;
       }
@@ -189,6 +204,7 @@
         </div>`;
       this.field = ctx.stage.querySelector(".catch-field");
       this.basket = ctx.stage.querySelector(".catch-basket");
+      this.heat = makeHeat();
       this.basketX = 0.5;
       const move = (event) => {
         const rect = ctx.stage.getBoundingClientRect();
@@ -238,12 +254,13 @@
       }
       const round = this.rounds[this.roundIndex];
       for (const f of this.fallers.slice()) {
-        f.y += f.speed * dt;
+        f.y += f.speed * this.heat.factor() * dt;
         f.el.style.top = `${f.y * 100}%`;
         // Catch zone: bottom strip, basket overlap.
         if (f.y > 0.78 && f.y < 0.9 && Math.abs(f.x - this.basketX) < 0.13) {
           this.remove(f);
           if (f.item.id === round.target.id) {
+            this.heat.up();
             this.ctx.sfx("correct");
             this.ctx.confettiAt(this.basket);
             this.ctx.say(round.target);
@@ -254,6 +271,7 @@
             return requestAnimationFrame(this.tick);
           }
           this.slips += 1;
+          this.heat.down();
           this.ctx.sfx("wrong");
           this.basket.classList.remove("is-shake");
           void this.basket.offsetWidth;
@@ -717,6 +735,7 @@
       this.ringEl = ctx.stage.querySelector(".burst-ring-fill");
       this.countEl = ctx.stage.querySelector(".burst-count");
       this.grid = ctx.stage.querySelector(".burst-grid");
+      this.heat = makeHeat();
       this.nextTarget();
       this.tick = this.tick.bind(this);
       requestAnimationFrame(this.tick);
@@ -728,7 +747,10 @@
     nextTarget() {
       const pool = shuffle(this.ctx.items);
       this.target = pool[0];
-      const tiles = pool.slice(0, Math.min(6, pool.length));
+      // Rubber band: the grid grows from 4 tiles toward 6 as the streak
+      // heats up, and shrinks back after misses.
+      const tileCount = Math.min(4 + Math.floor((this.heat ? this.heat.value() : 0) / 2), 6, pool.length);
+      const tiles = pool.slice(0, tileCount);
       if (!tiles.includes(this.target)) tiles[0] = this.target;
       this.ctx.setPrompt(this.target);
       this.ctx.say(this.target);
@@ -747,11 +769,13 @@
       if (!this.alive) return;
       if (item.id === this.target.id) {
         this.count += 1;
+        this.heat.up();
         this.countEl.textContent = String(this.count);
         this.ctx.sfx("correct");
         el.classList.add("is-popped");
         this.nextTarget();
       } else {
+        this.heat.down();
         this.ctx.sfx("wrong");
         el.classList.remove("is-shake");
         void el.offsetWidth;
