@@ -2761,3 +2761,35 @@ body {
     font-size: 19px;
   }
 }
+
+/* Big friendly door from the Codex Letters tab into the standalone game. */
+.letters-play-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 2px;
+  padding: 7px 12px;
+  border: 2px solid var(--codex-gold-dim);
+  border-radius: 10px;
+  background: linear-gradient(180deg, #bfe9ff, #8fd0f0);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5), 0 3px 0 rgba(96, 53, 24, 0.2);
+  color: #143c55;
+  text-decoration: none;
+  font-size: 9.5px;
+  font-weight: 900;
+}
+
+.letters-play-link:hover { filter: brightness(1.05); }
+.letters-play-art { font-size: 16px; }
+.letters-play-text small { font-weight: 700; color: #2b5d7d; }
+.letters-play-go {
+  margin-left: auto;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fffdf4;
+  color: #1f777d;
+  font-size: 10px;
+}

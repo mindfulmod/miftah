@@ -15,6 +15,11 @@
       this.root.hidden = true;
       this.root.setAttribute("aria-label", "Letter Garden");
       this.root.innerHTML = `
+        <a class="letters-play-link" href="letters.html" aria-label="Play the Letter Garden game">
+          <span class="letters-play-art" aria-hidden="true">🗝️🎈</span>
+          <span class="letters-play-text">Letter Garden — the kids' game<br /><small>big, colorful, no reading needed</small></span>
+          <span class="letters-play-go" aria-hidden="true">▶</span>
+        </a>
         <div class="letters-ladder" aria-label="Letter Garden path"></div>
         <p class="letters-unit-title"></p>
         <div class="codex-playzone letters-zone">
