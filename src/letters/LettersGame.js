@@ -34,7 +34,10 @@
         ns.LETTERS_DATA.packs.flatMap((p) => p.letters).map((l) => [l.char, l.name.toLowerCase()]),
       );
       this.missingClips = new Set();
-      this.worlds.loadWords().finally(() => this.renderHome());
+      this.pet = this.loadJSON("quran-trainer:letters:pet", null);
+      this.wallet = this.loadJSON("quran-trainer:letters:wallet", { earned: 0, spent: 0 });
+      this.stickers = this.loadJSON("quran-trainer:letters:stickers", { owned: [] });
+      this.worlds.loadWords().finally(() => (this.pet ? this.renderHome() : this.renderHatch()));
     }
 
     // ---------- storage (shared with the Codex letters track) ----------
@@ -67,6 +70,224 @@
       try {
         localStorage.setItem(STARS_KEY, JSON.stringify(this.stars));
       } catch {}
+    }
+
+    loadJSON(key, fallback) {
+      try {
+        const data = JSON.parse(localStorage.getItem(key) || "null");
+        return data === null ? fallback : data;
+      } catch {
+        return fallback;
+      }
+    }
+
+    saveJSON(key, value) {
+      try {
+        localStorage.setItem(key, JSON.stringify(value));
+      } catch {}
+    }
+
+    // ---------- the Letter Pet ----------
+
+    starBalance() {
+      return Math.max(0, (this.wallet.earned || 0) - (this.wallet.spent || 0));
+    }
+
+    earnStars(n) {
+      this.wallet.earned = (this.wallet.earned || 0) + n;
+      this.saveJSON("quran-trainer:letters:wallet", this.wallet);
+    }
+
+    spendStars(n) {
+      if (this.starBalance() < n) return false;
+      this.wallet.spent = (this.wallet.spent || 0) + n;
+      this.saveJSON("quran-trainer:letters:wallet", this.wallet);
+      return true;
+    }
+
+    petStage() {
+      const done = this.progress.done.length;
+      return done >= 10 ? 3 : done >= 4 ? 2 : 1;
+    }
+
+    // Everything the child has taught the pet: letters from finished packs.
+    petKnowledge() {
+      const known = [];
+      for (const pack of ns.LETTERS_DATA.packs) {
+        if (this.progress.done.includes(`pack-${pack.id}`)) known.push(...pack.letters);
+      }
+      return known;
+    }
+
+    petSVG(size, mood) {
+      return Art.pet({
+        hue: this.pet ? this.pet.hue : 200,
+        stage: this.petStage(),
+        worn: this.pet ? this.pet.worn || [] : [],
+        size,
+        mood,
+      });
+    }
+
+    // Tap the pet, and it recites something the child has taught it — the
+    // child's own progress, spoken back by their creature.
+    petRecite(bubbleEl) {
+      const known = this.petKnowledge();
+      if (!known.length) {
+        this.sound.play("click");
+        if (bubbleEl) bubbleEl.textContent = "؟";
+        return;
+      }
+      const letter = known[Math.floor(Math.random() * known.length)];
+      if (bubbleEl) bubbleEl.textContent = letter.char;
+      this.say({ display: letter.char, speak: letter.arName });
+    }
+
+    // First visit: hatch the pet. Three taps crack the egg, then the child
+    // picks its colour — all wordless.
+    renderHatch(cracks = 0) {
+      const hues = [200, 320, 95, 268, 28];
+      const hatched = cracks >= 3;
+      const el = this.screen(
+        "lg-hatch",
+        `<div class="hatch-stage">
+          ${hatched
+            ? `<div class="hatch-pet">${this.petSVG(180, "open")}</div>
+               <div class="hatch-hues">${hues.map((h) => `<button type="button" class="hatch-hue${(this.pet?.hue ?? 200) === h ? " is-picked" : ""}" data-hue="${h}" style="--h:${h}"></button>`).join("")}</div>
+               <button type="button" class="lg-big-btn hatch-go">${Art.icon("check", 40)}</button>`
+            : `<button type="button" class="hatch-egg">${Art.egg({ size: 190, cracks })}</button>`}
+        </div>`,
+      );
+      if (!hatched) {
+        el.querySelector(".hatch-egg").addEventListener("pointerdown", () => {
+          this.sound.play(cracks >= 2 ? "hatch" : "click");
+          if (cracks >= 2) {
+            this.pet = this.pet || { hue: 200, worn: [] };
+            this.saveJSON("quran-trainer:letters:pet", this.pet);
+            this.confettiAt(el.querySelector(".hatch-egg"), true);
+          }
+          this.renderHatch(cracks + 1);
+        });
+        return;
+      }
+      for (const swatch of el.querySelectorAll(".hatch-hue")) {
+        swatch.addEventListener("click", () => {
+          this.pet.hue = Number(swatch.dataset.hue);
+          this.saveJSON("quran-trainer:letters:pet", this.pet);
+          this.sound.play("click");
+          this.renderHatch(3);
+        });
+      }
+      el.querySelector(".hatch-pet").addEventListener("pointerdown", () => this.petRecite(null));
+      el.querySelector(".hatch-go").addEventListener("click", () => {
+        this.sound.play("page");
+        this.renderHome();
+      });
+    }
+
+    // The pet's room: dress-up shelf plus the tap-to-recite thought bubble.
+    renderPet() {
+      const worn = this.pet.worn || [];
+      const shelf = ns.LETTERS_ACCESSORIES.map((acc) => {
+        const owned = (this.pet.accessories || []).includes(acc.id);
+        const wearing = worn.includes(acc.id);
+        return `<button type="button" class="pet-acc${owned ? " is-owned" : ""}${wearing ? " is-worn" : ""}" data-acc="${acc.id}">
+          <span class="pet-acc-art">${Art.pet({ hue: this.pet.hue, stage: 1, worn: [acc.id], size: 62 })}</span>
+          ${owned ? "" : `<span class="pet-acc-cost">${Art.icon("star", 12)} ${acc.cost}</span>`}
+        </button>`;
+      }).join("");
+      const el = this.screen(
+        "lg-pet",
+        `${this.topBar()}
+        <div class="pet-stage">
+          <span class="lg-star-chip">${Art.icon("star", 20)} <b>${this.starBalance()}</b></span>
+          <button type="button" class="pet-big">
+            <span class="pet-bubble" hidden></span>
+            ${this.petSVG(190)}
+          </button>
+          <div class="pet-shelf">${shelf}</div>
+        </div>`,
+      );
+      this.wireTopBar(el);
+      const bubble = el.querySelector(".pet-bubble");
+      el.querySelector(".pet-big").addEventListener("pointerdown", () => {
+        bubble.hidden = false;
+        this.petRecite(bubble);
+        el.querySelector(".pet-big").classList.remove("is-hop");
+        void el.querySelector(".pet-big").offsetWidth;
+        el.querySelector(".pet-big").classList.add("is-hop");
+      });
+      for (const btn of el.querySelectorAll(".pet-acc")) {
+        btn.addEventListener("click", () => {
+          const id = btn.dataset.acc;
+          const acc = ns.LETTERS_ACCESSORIES.find((a) => a.id === id);
+          const ownedList = this.pet.accessories || (this.pet.accessories = []);
+          if (!ownedList.includes(id)) {
+            if (!this.spendStars(acc.cost)) {
+              this.sound.play("wrong");
+              btn.classList.remove("is-shake");
+              void btn.offsetWidth;
+              btn.classList.add("is-shake");
+              return;
+            }
+            ownedList.push(id);
+            this.sound.play("seed");
+            this.confettiAt(btn);
+          }
+          const wornList = this.pet.worn || (this.pet.worn = []);
+          const at = wornList.indexOf(id);
+          if (at >= 0) wornList.splice(at, 1);
+          else {
+            if (wornList.length >= 3) wornList.shift();
+            wornList.push(id);
+          }
+          this.saveJSON("quran-trainer:letters:pet", this.pet);
+          this.sound.play("click");
+          this.renderPet();
+        });
+      }
+    }
+
+    // ---------- sticker album ----------
+
+    renderAlbum(justOpened = null) {
+      const owned = new Set(this.stickers.owned || []);
+      const grid = ns.LETTERS_STICKERS.map(
+        (s) =>
+          `<span class="album-slot${justOpened === s.id ? " is-new" : ""}">${Art.sticker({ id: s.id, owned: owned.has(s.id), size: 78 })}</span>`,
+      ).join("");
+      const allOwned = owned.size >= ns.LETTERS_STICKERS.length;
+      const el = this.screen(
+        "lg-album",
+        `${this.topBar()}
+        <div class="album-stage">
+          <span class="lg-star-chip">${Art.icon("star", 20)} <b>${this.starBalance()}</b></span>
+          ${allOwned
+            ? `<div class="album-complete">${Art.icon("star", 40)}</div>`
+            : `<button type="button" class="album-pack">${Art.stickerPack({ size: 104 })}<span class="pet-acc-cost">${Art.icon("star", 14)} 5</span></button>`}
+          <div class="album-grid">${grid}</div>
+        </div>`,
+      );
+      this.wireTopBar(el);
+      const pack = el.querySelector(".album-pack");
+      if (pack)
+        pack.addEventListener("click", () => {
+          const unowned = ns.LETTERS_STICKERS.filter((s) => !owned.has(s.id));
+          if (!unowned.length) return;
+          if (!this.spendStars(5)) {
+            this.sound.play("wrong");
+            pack.classList.remove("is-shake");
+            void pack.offsetWidth;
+            pack.classList.add("is-shake");
+            return;
+          }
+          const win = unowned[Math.floor(Math.random() * unowned.length)];
+          (this.stickers.owned = this.stickers.owned || []).push(win.id);
+          this.saveJSON("quran-trainer:letters:stickers", this.stickers);
+          this.sound.play("hatch");
+          this.confettiAt(pack, true);
+          this.renderAlbum(win.id);
+        });
     }
 
     loadStamps() {
@@ -205,6 +426,8 @@
         `${this.topBar({ home: false })}
         <div class="map-daily-row">
           ${daily ? `<button type="button" class="map-daily${stampedToday ? " is-stamped" : ""}">${Art.icon("sun", 34)}${stampedToday ? `<i class="map-daily-check">${Art.icon("check", 16)}</i>` : ""}</button>` : ""}
+          <button type="button" class="map-pet">${this.petSVG(46)}</button>
+          <button type="button" class="map-album">${Art.icon("star", 26)}<b>${this.starBalance()}</b></button>
           <button type="button" class="map-calendar">${Art.icon("calendar", 30)}</button>
         </div>
         <div class="map-scroll">
@@ -244,6 +467,14 @@
       el.querySelector(".map-calendar").addEventListener("click", () => {
         this.sound.play("page");
         this.renderStamps();
+      });
+      el.querySelector(".map-pet").addEventListener("click", () => {
+        this.sound.play("page");
+        this.renderPet();
+      });
+      el.querySelector(".map-album").addEventListener("click", () => {
+        this.sound.play("page");
+        this.renderAlbum();
       });
       // Start the journey at the child's current stop.
       const current = el.querySelector(".map-stop.is-current") || el.querySelector(".map-stop.is-door");
@@ -351,6 +582,7 @@
         "lg-play",
         `${this.topBar()}
         <div class="play-prompt">
+          <span class="play-pet">${this.petSVG(56)}</span>
           <span class="play-mascot">${Art.keyMascot({ size: 66 })}</span>
           <button type="button" class="play-bubble" hidden>
             <span class="play-bubble-glyph" dir="rtl" lang="ar"></span>
@@ -367,6 +599,8 @@
       let currentTarget = null;
       bubble.addEventListener("pointerdown", () => this.say(currentTarget));
 
+      const petEl = el.querySelector(".play-pet");
+      petEl.addEventListener("pointerdown", () => this.petRecite(null));
       const ctx = {
         stage,
         items: s.items,
@@ -375,7 +609,15 @@
         hue: s.world.hue,
         level: this.stars[s.world.id] || 0,
         say: (item) => this.say(item),
-        sfx: (name) => this.sound.play(name),
+        // The pet watches the child play: it hops on every right answer.
+        sfx: (name) => {
+          this.sound.play(name);
+          if (name === "correct" && petEl) {
+            petEl.classList.remove("is-hop");
+            void petEl.offsetWidth;
+            petEl.classList.add("is-hop");
+          }
+        },
         confettiAt: (target) => this.confettiAt(target),
         setPrompt: (item) => {
           currentTarget = item;
@@ -395,6 +637,9 @@
       const stars = slips === 0 ? 3 : slips <= 2 ? 2 : 1;
       s.starTotal += stars;
       s.lastStars = stars;
+      // Stars are also the spending currency for stickers and pet gear —
+      // replays and dailies keep earning, so coming back always pays.
+      this.earnStars(stars);
       this.renderStars(stars);
     }
 
@@ -456,7 +701,13 @@
       const el = this.screen(
         "lg-party",
         `<div class="party-stage">
-          <div class="party-mascot">${Art.keyMascot({ size: 170, mood: "open" })}</div>
+          <div class="party-pair">
+            <div class="party-mascot">${Art.keyMascot({ size: 150, mood: "open" })}</div>
+            <button type="button" class="party-pet">
+              <span class="pet-bubble" hidden></span>
+              ${this.petSVG(130, "open")}
+            </button>
+          </div>
           <div class="party-stars">
             ${[0, 1, 2].map((i) => `<span class="stars-star ${i < stars ? "is-on" : ""}" style="animation-delay:${i * 240}ms">${Art.icon("star", 64)}</span>`).join("")}
           </div>
@@ -466,6 +717,11 @@
       this.sound.play(newlyDone ? "record" : "perfect");
       this.confettiAt(el.querySelector(".party-mascot"), true);
       setTimeout(() => this.confettiAt(el.querySelector(".party-stars"), true), 500);
+      const partyPet = el.querySelector(".party-pet");
+      partyPet.addEventListener("pointerdown", () => {
+        this.petRecite(partyPet.querySelector(".pet-bubble"));
+        partyPet.querySelector(".pet-bubble").hidden = false;
+      });
       el.querySelector(".party-next").addEventListener("click", () => {
         this.sound.play("page");
         this.renderHome();

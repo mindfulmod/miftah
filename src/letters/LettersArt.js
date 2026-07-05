@@ -155,6 +155,117 @@
     </svg>`;
   }
 
+  // ---------- the Letter Pet ----------
+  // The creature the child hatches and TEACHES. It grows with the child
+  // (baby → kid → reader) and wears accessories bought with earned stars.
+
+  const ACCESSORY_ART = {
+    cap: `<g transform="translate(0 -46)"><path d="M-24 2 A24 16 0 0 1 24 2 L26 6 L-30 6 Z" fill="#e2574c" stroke="#a33127" stroke-width="3"/><circle cy="-12" r="4" fill="#ffd95e"/></g>`,
+    crown: `<g transform="translate(0 -48)"><path d="M-20 8 L-20 -8 L-10 0 L0 -12 L10 0 L20 -8 L20 8 Z" fill="#f3c24f" stroke="#c98f2e" stroke-width="3"/><circle cy="2" r="3.4" fill="#e2574c"/></g>`,
+    bow: `<g transform="translate(26 -34) rotate(20)"><path d="M0 0 L-14 -9 L-14 9 Z M0 0 L14 -9 L14 9 Z" fill="#ff8fa3" stroke="#c2536b" stroke-width="3"/><circle r="4" fill="#c2536b"/></g>`,
+    glasses: `<g transform="translate(0 -6)"><circle cx="-12" cy="0" r="9" fill="none" stroke="#4d3f2a" stroke-width="3.4"/><circle cx="12" cy="0" r="9" fill="none" stroke="#4d3f2a" stroke-width="3.4"/><path d="M-3 0 H3" stroke="#4d3f2a" stroke-width="3.4"/></g>`,
+    scarf: `<g transform="translate(0 22)"><path d="M-24 0 Q0 12 24 0 L22 10 Q0 20 -22 10 Z" fill="#46b187" stroke="#2c7a5b" stroke-width="3"/><path d="M14 8 L20 30 L8 26 Z" fill="#46b187" stroke="#2c7a5b" stroke-width="3"/></g>`,
+    flower: `<g transform="translate(-27 -36)">${[0, 60, 120, 180, 240, 300].map((a) => `<ellipse rx="5" ry="8" transform="rotate(${a}) translate(0 -8)" fill="#ff8fa3"/>`).join("")}<circle r="5" fill="#ffd95e"/></g>`,
+    balloon: `<g transform="translate(42 -30)"><path d="M0 18 Q-3 34 0 40" fill="none" stroke="#8f8a9c" stroke-width="2.4"/><ellipse rx="13" ry="16" fill="#7cd4ff" stroke="#3b8fbe" stroke-width="3"/><circle cx="-4" cy="-5" r="3.4" fill="#fff" opacity="0.7"/></g>`,
+    wand: `<g transform="translate(-42 6) rotate(-24)"><rect x="-2" y="0" width="4" height="34" rx="2" fill="#c98f2e"/><g transform="translate(0 -6) scale(0.32)" fill="#ffd95e">${"" /* star */}<path d="M0 -26 L7 -6 L27 -5 L11 8 L16 27 L0 16 L-16 27 L-11 8 L-27 -5 L-7 -6 Z" stroke="#c98f2e" stroke-width="6"/></g></g>`,
+  };
+
+  ns.LETTERS_ACCESSORIES = [
+    { id: "cap", cost: 8 },
+    { id: "bow", cost: 8 },
+    { id: "glasses", cost: 8 },
+    { id: "scarf", cost: 8 },
+    { id: "flower", cost: 8 },
+    { id: "balloon", cost: 8 },
+    { id: "crown", cost: 8 },
+    { id: "wand", cost: 8 },
+  ];
+
+  function pet({ hue = 200, stage = 1, worn = [], size = 140, mood = "happy" } = {}) {
+    const scale = stage >= 3 ? 1.14 : stage >= 2 ? 1 : 0.86;
+    const body = `hsl(${hue} 58% 64%)`;
+    const rim = `hsl(${hue} 52% 42%)`;
+    const belly = `hsl(${hue} 65% 80%)`;
+    return `
+    <svg class="art-pet" viewBox="-62 -66 124 140" width="${size}" height="${size * 1.13}" aria-hidden="true">
+      <g class="art-pet-body" transform="scale(${scale})">
+        ${stage >= 3 ? `<g opacity="0.85">${[-46, 46].map((x) => `<circle cx="${x}" cy="-40" r="3.4" fill="#ffd95e"/>`).join("")}<circle cx="0" cy="-58" r="4" fill="#ffd95e"/></g>` : ""}
+        <path d="M-16 -48 Q-24 -66 -6 -58 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>
+        <path d="M16 -48 Q24 -66 6 -58 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>
+        ${stage >= 2 ? `<path d="M-40 8 Q-58 2 -50 22 Q-44 30 -36 24 Z" fill="${belly}" stroke="${rim}" stroke-width="3"/><path d="M40 8 Q58 2 50 22 Q44 30 36 24 Z" fill="${belly}" stroke="${rim}" stroke-width="3"/>` : ""}
+        <circle cy="4" r="46" fill="${body}" stroke="${rim}" stroke-width="4.5"/>
+        <ellipse cy="22" rx="26" ry="20" fill="${belly}"/>
+        <circle cx="-16" cy="-16" r="9" fill="#fff" opacity="0.4"/>
+        <ellipse cx="-18" cy="52" rx="11" ry="7" fill="${rim}"/>
+        <ellipse cx="18" cy="52" rx="11" ry="7" fill="${rim}"/>
+        <path d="M42 30 Q60 34 54 46 Q48 52 42 44" fill="${body}" stroke="${rim}" stroke-width="3.4"/>
+        ${face(0, -4, 1.1, mood)}
+        ${worn.map((id) => ACCESSORY_ART[id] || "").join("")}
+      </g>
+    </svg>`;
+  }
+
+  function egg({ size = 150, cracks = 0 } = {}) {
+    return `
+    <svg class="art-egg" viewBox="-50 -60 100 120" width="${size}" height="${size * 1.2}" aria-hidden="true">
+      <g class="art-egg-body">
+        <path d="M0 -52 C30 -52 42 -18 42 8 C42 36 24 52 0 52 C-24 52 -42 36 -42 8 C-42 -18 -30 -52 0 -52 Z"
+          fill="#fdf3dd" stroke="#d8b25a" stroke-width="4"/>
+        <circle cx="-12" cy="-22" r="8" fill="#fff" opacity="0.7"/>
+        <g fill="#f3c24f" opacity="0.8"><circle cx="14" cy="6" r="5"/><circle cx="-16" cy="18" r="4"/><circle cx="4" cy="32" r="3.4"/></g>
+        ${cracks >= 1 ? `<path d="M-20 -10 L-10 -2 L-16 8" fill="none" stroke="#b58a2e" stroke-width="3" stroke-linecap="round"/>` : ""}
+        ${cracks >= 2 ? `<path d="M18 -18 L10 -8 L20 0 L12 10" fill="none" stroke="#b58a2e" stroke-width="3" stroke-linecap="round"/>` : ""}
+      </g>
+    </svg>`;
+  }
+
+  // ---------- sticker collection ----------
+  // Little wordless treasures bought with earned stars. Each is a compact
+  // standalone drawing on a rounded card.
+
+  const STICKER_ART = {
+    sun: `<circle r="16" fill="#ffd95e"/><g stroke="#f3a53c" stroke-width="4" stroke-linecap="round">${[0, 45, 90, 135, 180, 225, 270, 315].map((a) => `<path d="M0 -22 L0 -28" transform="rotate(${a})"/>`).join("")}</g>`,
+    moon: `<path d="M8 -20 A22 22 0 1 0 8 20 A17 17 0 1 1 8 -20" fill="#ffedb0" stroke="#d8b25a" stroke-width="3"/>`,
+    star: `<path d="M0 -22 L6 -6 L23 -5 L9 6 L14 22 L0 13 L-14 22 L-9 6 L-23 -5 L-6 -6 Z" fill="#f3c24f" stroke="#c98f2e" stroke-width="3"/>`,
+    rainbow: `<g fill="none" stroke-width="5"><path d="M-22 14 A22 22 0 0 1 22 14" stroke="#e2574c"/><path d="M-16 14 A16 16 0 0 1 16 14" stroke="#f3c24f"/><path d="M-10 14 A10 10 0 0 1 10 14" stroke="#46b187"/></g><circle cx="-22" cy="16" r="5" fill="#fff"/><circle cx="22" cy="16" r="5" fill="#fff"/>`,
+    palm: `<rect x="-3" y="-2" width="7" height="26" rx="3" fill="#a2591f"/><g fill="#46b187">${[-150, -110, -70, -30].map((a) => `<ellipse rx="16" ry="6" transform="translate(0 -6) rotate(${a}) translate(12 0)"/>`).join("")}</g>`,
+    flower: `${[0, 60, 120, 180, 240, 300].map((a) => `<ellipse rx="7" ry="12" transform="rotate(${a}) translate(0 -12)" fill="#ff8fa3"/>`).join("")}<circle r="7" fill="#ffd95e"/>`,
+    butterfly: `<g><ellipse cx="-11" cy="-8" rx="10" ry="12" fill="#7cd4ff" transform="rotate(-20 -11 -8)"/><ellipse cx="11" cy="-8" rx="10" ry="12" fill="#7cd4ff" transform="rotate(20 11 -8)"/><ellipse cx="-9" cy="9" rx="8" ry="9" fill="#ff8fa3" transform="rotate(20 -9 9)"/><ellipse cx="9" cy="9" rx="8" ry="9" fill="#ff8fa3" transform="rotate(-20 9 9)"/><rect x="-2.4" y="-14" width="5" height="28" rx="2.5" fill="#4d3f2a"/></g>`,
+    bee: `<ellipse rx="15" ry="11" fill="#ffd95e" stroke="#4d3f2a" stroke-width="3"/><path d="M-5 -11 V11 M5 -11 V11" stroke="#4d3f2a" stroke-width="4"/><ellipse cx="-8" cy="-14" rx="7" ry="5" fill="#d8f6ff" opacity="0.9"/><ellipse cx="8" cy="-14" rx="7" ry="5" fill="#d8f6ff" opacity="0.9"/><circle cx="17" cy="-2" r="2.4" fill="#4d3f2a"/>`,
+    dove: `<path d="M-18 4 Q-8 -14 8 -8 Q22 -4 20 8 Q10 18 -6 14 Z" fill="#fffdf4" stroke="#b9b3c4" stroke-width="3"/><path d="M-2 -6 Q-12 -18 2 -16 Z" fill="#fffdf4" stroke="#b9b3c4" stroke-width="3"/><circle cx="12" cy="-2" r="1.8" fill="#4d3f2a"/><path d="M20 2 L27 4 L20 7 Z" fill="#f3a53c"/>`,
+    fish: `<path d="M-20 0 Q-4 -14 10 -8 Q20 -4 20 0 Q20 4 10 8 Q-4 14 -20 0 Z" fill="#7cd4ff" stroke="#3b8fbe" stroke-width="3"/><path d="M-20 0 L-28 -8 L-28 8 Z" fill="#3b8fbe"/><circle cx="10" cy="-2" r="2" fill="#2b2233"/>`,
+    boat: `<path d="M-22 6 L22 6 L14 18 L-14 18 Z" fill="#a2591f" stroke="#6f3a12" stroke-width="3"/><path d="M2 6 L2 -20 L18 -2 Z" fill="#fffdf4" stroke="#b9b3c4" stroke-width="3"/>`,
+    lantern: `<rect x="-4" y="-24" width="8" height="5" rx="2" fill="#c98f2e"/><path d="M-12 -18 L12 -18 L16 8 Q0 16 -16 8 Z" fill="#ffd95e" stroke="#c98f2e" stroke-width="3"/><circle cy="-2" r="6" fill="#fff" opacity="0.75"/>`,
+    key: `<circle cx="0" cy="-12" r="10" fill="none" stroke="#f3c24f" stroke-width="6"/><rect x="-3" y="-4" width="6" height="26" rx="3" fill="#f3c24f"/><rect x="-3" y="12" width="12" height="5" rx="2" fill="#f3c24f"/><rect x="-3" y="20" width="9" height="5" rx="2" fill="#f3c24f"/>`,
+    egg: `<path d="M0 -20 C12 -20 17 -7 17 3 C17 14 10 20 0 20 C-10 20 -17 14 -17 3 C-17 -7 -12 -20 0 -20 Z" fill="#fdf3dd" stroke="#d8b25a" stroke-width="3"/><circle cx="-5" cy="-8" r="3.4" fill="#fff"/>`,
+    cat: `<circle cy="2" r="16" fill="#f3a53c" stroke="#a2591f" stroke-width="3"/><path d="M-12 -10 L-16 -22 L-5 -14 Z M12 -10 L16 -22 L5 -14 Z" fill="#f3a53c" stroke="#a2591f" stroke-width="3"/><circle cx="-6" cy="0" r="2" fill="#2b2233"/><circle cx="6" cy="0" r="2" fill="#2b2233"/><path d="M-3 7 Q0 10 3 7" fill="none" stroke="#2b2233" stroke-width="2"/>`,
+    cloud: `<ellipse cx="-8" cy="2" rx="14" ry="10" fill="#fffdf4"/><ellipse cx="8" cy="-2" rx="13" ry="11" fill="#fffdf4"/><ellipse cx="0" cy="6" rx="20" ry="9" fill="#fffdf4"/><ellipse cx="0" cy="2" rx="19" ry="10" fill="none" stroke="#b9d8e8" stroke-width="3"/>`,
+  };
+
+  ns.LETTERS_STICKERS = Object.keys(STICKER_ART).map((id) => ({ id }));
+
+  function sticker({ id, size = 84, owned = true } = {}) {
+    const art = STICKER_ART[id] || "";
+    return `
+    <svg class="art-sticker" viewBox="-34 -34 68 68" width="${size}" height="${size}" aria-hidden="true">
+      <rect x="-31" y="-31" width="62" height="62" rx="14" fill="${owned ? "#fffdf4" : "rgba(255,253,244,0.4)"}" stroke="${owned ? "#d8b25a" : "rgba(120,110,90,0.35)"}" stroke-width="3.4"/>
+      <g transform="translate(0 2) scale(0.92)" ${owned ? "" : `opacity="0.18" filter="grayscale(1)"`}>${art}</g>
+      ${owned ? "" : `<text y="9" text-anchor="middle" font-size="26" fill="rgba(120,110,90,0.5)" font-weight="900">?</text>`}
+    </svg>`;
+  }
+
+  function stickerPack({ size = 120 } = {}) {
+    return `
+    <svg viewBox="-44 -52 88 104" width="${size}" height="${size * 1.18}" aria-hidden="true">
+      <g class="art-pack">
+        <rect x="-34" y="-42" width="68" height="84" rx="12" fill="hsl(268 55% 62%)" stroke="hsl(268 50% 42%)" stroke-width="4"/>
+        <path d="M-34 -18 Q0 -4 34 -18 L34 -42 Q34 -42 22 -42 L-22 -42 Q-34 -42 -34 -42 Z" fill="hsl(268 60% 72%)"/>
+        <g transform="scale(0.7) translate(0 8)" fill="#ffd95e"><path d="M0 -22 L6 -6 L23 -5 L9 6 L14 22 L0 13 L-14 22 L-9 6 L-23 -5 L-6 -6 Z" stroke="#c98f2e" stroke-width="3"/></g>
+        <circle cx="-20" cy="-30" r="4" fill="#fff" opacity="0.5"/>
+      </g>
+    </svg>`;
+  }
+
   // Confetti burst — appended to body, cleans itself up.
   function confetti(x, y, golden) {
     const layer = document.createElement("div");
@@ -180,5 +291,8 @@
     setTimeout(() => layer.remove(), 1300);
   }
 
-  ns.LettersArt = { keyMascot, blobCard, creature, icon, backdrop, mapStop, confetti, ICONS };
+  ns.LettersArt = {
+    keyMascot, blobCard, creature, icon, backdrop, mapStop, confetti, ICONS,
+    pet, egg, sticker, stickerPack,
+  };
 })(window.MiftahGame || (window.MiftahGame = {}));
