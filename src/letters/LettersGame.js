@@ -447,6 +447,7 @@
                     ${Art.mapStop({ hue: world.hue, label: world.icon, status, stars: this.stars[world.id] || 0, latin: !/[؀-ۿ]/.test(world.icon) })}
                   </button>
                   ${status === "current" ? `<span class="map-here">${Art.keyMascot({ size: 66 })}</span>` : ""}
+                  ${status === "current" && !this.progress.done.length ? `<span class="map-tap">${Art.icon("arrow", 44)}</span>` : ""}
                 </div>`;
               })
               .reverse()

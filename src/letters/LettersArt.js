@@ -106,6 +106,7 @@
     lock: `<rect x="16" y="28" width="32" height="26" rx="6" fill="currentColor"/>
       <path d="M22 28 V20 a10 10 0 0 1 20 0 V28" fill="none" stroke="currentColor" stroke-width="6"/>`,
     check: `<path d="M12 34 L26 48 L52 16" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>`,
+    arrow: `<path d="M32 8 V44 M16 30 L32 48 L48 30" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>`,
     sun: `<circle cx="32" cy="32" r="13" fill="currentColor"/>
       <g stroke="currentColor" stroke-width="5" stroke-linecap="round">
         <path d="M32 6 V14 M32 50 V58 M6 32 H14 M50 32 H58 M13 13 L19 19 M45 45 L51 51 M51 13 L45 19 M19 45 L13 51"/>
@@ -181,10 +182,17 @@
     flower: `<g transform="translate(-27 -36)">${[0, 60, 120, 180, 240, 300].map((a) => `<ellipse rx="5" ry="8" transform="rotate(${a}) translate(0 -8)" fill="#ff8fa3"/>`).join("")}<circle r="5" fill="#ffd95e"/></g>`,
     balloon: `<g transform="translate(42 -30)"><path d="M0 18 Q-3 34 0 40" fill="none" stroke="#8f8a9c" stroke-width="2.4"/><ellipse rx="13" ry="16" fill="#7cd4ff" stroke="#3b8fbe" stroke-width="3"/><circle cx="-4" cy="-5" r="3.4" fill="#fff" opacity="0.7"/></g>`,
     wand: `<g transform="translate(-42 6) rotate(-24)"><rect x="-2" y="0" width="4" height="34" rx="2" fill="#c98f2e"/><g transform="translate(0 -6) scale(0.32)" fill="#ffd95e">${"" /* star */}<path d="M0 -26 L7 -6 L27 -5 L11 8 L16 27 L0 16 L-16 27 L-11 8 L-27 -5 L-7 -6 Z" stroke="#c98f2e" stroke-width="6"/></g></g>`,
+    taqiyah: `<g transform="translate(0 -46)"><path d="M-22 6 A22 14 0 0 1 22 6 L22 10 L-22 10 Z" fill="#fffdf4" stroke="#c9c2b0" stroke-width="3"/><path d="M-14 -2 Q0 -8 14 -2 M-18 4 Q0 -2 18 4" fill="none" stroke="#c9c2b0" stroke-width="2"/></g>`,
+    cape: `<g transform="translate(0 4)"><path d="M-34 -22 Q-52 20 -38 44 L-20 34 Q-30 6 -26 -18 Z" fill="#e2574c" stroke="#a33127" stroke-width="3"/><path d="M34 -22 Q52 20 38 44 L20 34 Q30 6 26 -18 Z" fill="#e2574c" stroke="#a33127" stroke-width="3"/></g>`,
+    medal: `<g transform="translate(0 30)"><path d="M-6 -14 L0 -4 L6 -14" stroke="#3f7a1f" stroke-width="4" fill="none"/><circle cy="4" r="9" fill="#f3c24f" stroke="#c98f2e" stroke-width="3"/><path d="M0 -1 L2 3 L6 3 L3 6 L4 10 L0 8 L-4 10 L-3 6 L-6 3 L-2 3 Z" fill="#fff6da"/></g>`,
+    kite: `<g transform="translate(44 -22) rotate(14)"><path d="M0 -16 L12 0 L0 16 L-12 0 Z" fill="#7cd4ff" stroke="#3b8fbe" stroke-width="3"/><path d="M0 -16 V16 M-12 0 H12" stroke="#3b8fbe" stroke-width="2"/><path d="M0 16 Q-4 26 0 34 Q4 40 0 46" fill="none" stroke="#8f8a9c" stroke-width="2.4"/></g>`,
+    sprout: `<g transform="translate(0 -50)"><path d="M0 10 Q0 2 0 -2" stroke="#3f7a1f" stroke-width="3.4" fill="none"/><path d="M0 -2 Q-12 -6 -13 -16 Q-2 -14 0 -2 Z" fill="#6fbf67" stroke="#3f7a1f" stroke-width="2.6"/><path d="M0 -2 Q12 -8 14 -17 Q3 -15 0 -2 Z" fill="#8fd483" stroke="#3f7a1f" stroke-width="2.6"/></g>`,
+    moonpin: `<g transform="translate(-26 26)"><path d="M4 -10 A11 11 0 1 0 4 10 A8 8 0 1 1 4 -10" fill="#ffedb0" stroke="#c98f2e" stroke-width="2.6"/><circle cx="8" cy="-9" r="2.4" fill="#ffd95e" stroke="#c98f2e" stroke-width="1.6"/></g>`,
   };
 
   ns.LETTERS_ACCESSORIES = [
     { id: "cap", cost: 8 },
+    { id: "taqiyah", cost: 8 },
     { id: "bow", cost: 8 },
     { id: "glasses", cost: 8 },
     { id: "scarf", cost: 8 },
@@ -192,6 +200,11 @@
     { id: "balloon", cost: 8 },
     { id: "crown", cost: 8 },
     { id: "wand", cost: 8 },
+    { id: "cape", cost: 10 },
+    { id: "medal", cost: 10 },
+    { id: "kite", cost: 10 },
+    { id: "sprout", cost: 10 },
+    { id: "moonpin", cost: 10 },
   ];
 
   function pet({ hue = 200, stage = 1, worn = [], size = 140, mood = "happy" } = {}) {
@@ -296,6 +309,15 @@
     egg: `<path d="M0 -20 C12 -20 17 -7 17 3 C17 14 10 20 0 20 C-10 20 -17 14 -17 3 C-17 -7 -12 -20 0 -20 Z" fill="#fdf3dd" stroke="#d8b25a" stroke-width="3"/><circle cx="-5" cy="-8" r="3.4" fill="#fff"/>`,
     cat: `<circle cy="2" r="16" fill="#f3a53c" stroke="#a2591f" stroke-width="3"/><path d="M-12 -10 L-16 -22 L-5 -14 Z M12 -10 L16 -22 L5 -14 Z" fill="#f3a53c" stroke="#a2591f" stroke-width="3"/><circle cx="-6" cy="0" r="2" fill="#2b2233"/><circle cx="6" cy="0" r="2" fill="#2b2233"/><path d="M-3 7 Q0 10 3 7" fill="none" stroke="#2b2233" stroke-width="2"/>`,
     cloud: `<ellipse cx="-8" cy="2" rx="14" ry="10" fill="#fffdf4"/><ellipse cx="8" cy="-2" rx="13" ry="11" fill="#fffdf4"/><ellipse cx="0" cy="6" rx="20" ry="9" fill="#fffdf4"/><ellipse cx="0" cy="2" rx="19" ry="10" fill="none" stroke="#b9d8e8" stroke-width="3"/>`,
+    // The Quranic animals — the island's cast, sticker-sized.
+    camel: `<path d="M-18 12 Q-20 -2 -10 -4 Q-6 -12 2 -8 Q6 -14 12 -10 L14 -18 L18 -16 L16 -6 Q20 0 18 12 Z" fill="#d8a03c" stroke="#a2591f" stroke-width="3"/><rect x="-14" y="12" width="5" height="9" rx="2" fill="#a2591f"/><rect x="8" y="12" width="5" height="9" rx="2" fill="#a2591f"/><circle cx="14" cy="-13" r="1.6" fill="#2b2233"/>`,
+    elephant: `<circle cx="-2" cy="0" r="15" fill="#b9b3c4" stroke="#8f8a9c" stroke-width="3"/><circle cx="-12" cy="-4" r="8" fill="#cfc9da" stroke="#8f8a9c" stroke-width="3"/><path d="M12 -4 Q22 0 18 12 Q16 16 12 14" fill="none" stroke="#8f8a9c" stroke-width="5" stroke-linecap="round"/><circle cx="4" cy="-4" r="2" fill="#2b2233"/>`,
+    ant: `<circle cx="-11" cy="4" r="7" fill="#6b4a26"/><circle cx="0" cy="0" r="6" fill="#6b4a26"/><circle cx="10" cy="-4" r="7" fill="#6b4a26"/><path d="M8 -10 L4 -18 M14 -10 L18 -18" stroke="#6b4a26" stroke-width="2.4" stroke-linecap="round"/><circle cx="12" cy="-6" r="1.6" fill="#fff"/><path d="M-14 10 L-18 16 M-8 11 L-9 18 M0 6 L-2 14 M4 5 L8 13" stroke="#6b4a26" stroke-width="2.4" stroke-linecap="round"/>`,
+    spider: `<circle cy="2" r="11" fill="#4d3f2a"/><circle cy="-10" r="6" fill="#4d3f2a"/><g stroke="#4d3f2a" stroke-width="2.6" stroke-linecap="round" fill="none"><path d="M-9 -2 Q-20 -8 -22 -16 M9 -2 Q20 -8 22 -16 M-11 4 Q-22 4 -25 -2 M11 4 Q22 4 25 -2 M-10 9 Q-18 16 -22 15 M10 9 Q18 16 22 15"/></g><circle cx="-2" cy="-11" r="1.5" fill="#fff"/><circle cx="2" cy="-11" r="1.5" fill="#fff"/>`,
+    crow: `<path d="M-16 6 Q-12 -10 4 -10 Q16 -10 16 0 Q16 10 2 12 L-8 12 Z" fill="#3a3542" stroke="#211d29" stroke-width="3"/><path d="M14 -2 L23 0 L14 4 Z" fill="#f3a53c"/><circle cx="8" cy="-3" r="1.8" fill="#fff"/><path d="M-14 8 L-22 2" stroke="#211d29" stroke-width="3" stroke-linecap="round"/>`,
+    hoopoe: `<path d="M-14 6 Q-10 -8 4 -8 Q14 -8 14 0 Q14 9 2 10 L-7 10 Z" fill="#e8a25c" stroke="#a2591f" stroke-width="3"/><path d="M12 -4 L21 -2 L12 1 Z" fill="#4d3f2a"/><g stroke="#a2591f" stroke-width="2.6" stroke-linecap="round"><path d="M2 -8 L-1 -18 M5 -8 L5 -19 M8 -8 L11 -17"/></g><circle cx="3" cy="-15" r="2" fill="#2b2233"/><circle cx="7" cy="-2" r="1.7" fill="#2b2233"/>`,
+    whale: `<path d="M-20 2 Q-12 -12 4 -10 Q20 -8 20 2 Q20 10 4 10 Q-12 12 -20 2 Z" fill="#5b8fd4" stroke="#33619c" stroke-width="3"/><path d="M-18 0 L-27 -6 L-24 2 L-27 8 Z" fill="#33619c"/><path d="M4 -10 Q4 -18 -1 -20 M4 -10 Q9 -17 7 -21" stroke="#33619c" stroke-width="2.6" fill="none" stroke-linecap="round"/><circle cx="11" cy="-2" r="2" fill="#fff"/>`,
+    snake: `<path d="M-18 12 Q-8 4 0 10 Q10 16 16 6 Q20 -2 12 -8 Q6 -12 2 -8" fill="none" stroke="#46b187" stroke-width="7" stroke-linecap="round"/><circle cx="0" cy="-9" r="6" fill="#46b187" stroke="#2c7a5b" stroke-width="2.6"/><circle cx="-2" cy="-10" r="1.5" fill="#2b2233"/><path d="M-6 -9 L-12 -11" stroke="#c2536b" stroke-width="2" stroke-linecap="round"/>`,
   };
 
   ns.LETTERS_STICKERS = Object.keys(STICKER_ART).map((id) => ({ id }));

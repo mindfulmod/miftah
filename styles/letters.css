@@ -873,3 +873,30 @@ body {
   }
   .map-daily-row { gap: 8px; }
 }
+
+/* ---------- production polish ---------- */
+.map-tap {
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  margin: 0 0 2px -22px;
+  color: #e2574c;
+  filter: drop-shadow(0 2px 3px rgba(80, 30, 10, 0.4));
+  animation: lg-tap 1.1s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes lg-tap {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(12px); }
+}
+
+.pet-stage, .album-stage, .stamps-stage {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  justify-content: flex-start;
+  padding: 12px 0 24px;
+}
+
+.pet-stage > :first-child, .album-stage > :first-child { margin-top: 4px; }

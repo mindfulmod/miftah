@@ -181,9 +181,26 @@
       worlds.push({ ...vowelWorld("fatha", "بَ", [this.data.harakat[0]]), games: ["pop", "build", "trace"] });
       worlds.push({ ...vowelWorld("kasra-damma", "بِ", this.data.harakat.slice(1)), games: ["pop", "build", "catch"] });
 
-      // Noorani Qaida lesson 5–6: tanween. The marks behave exactly like
-      // vowels, so the vowel-world machinery carries them.
-      worlds.push({ ...vowelWorld("tanween", "بً", this.data.tanween), games: ["pop", "build", "feed"] });
+      // Noorani Qaida lesson 5–6: tanween — and lesson 6's exercise is baked
+      // in: plain-harakat syllables join the pool, so بَ and بً sit side by
+      // side and the child must hear one "n" of difference.
+      const tanweenWorld = { ...vowelWorld("tanween", "بً", this.data.tanween), games: ["pop", "build", "feed"] };
+      const tanweenBase = tanweenWorld.items;
+      tanweenWorld.items = () => {
+        const items = tanweenBase();
+        for (const l of shuffle(this.letters.filter((x) => x.char !== "ا")).slice(0, 2)) {
+          for (const v of this.data.harakat.slice(0, 2)) {
+            items.push({
+              id: l.char + v.char,
+              display: l.char + v.char,
+              speak: l.char + v.char,
+              parts: syllableParts(l, v),
+            });
+          }
+        }
+        return items;
+      };
+      worlds.push(tanweenWorld);
 
       // Lesson 7: standing vowels. The display wears the tiny mark; the
       // spoken form is its long-vowel twin so TTS says the right sound.
@@ -354,7 +371,7 @@
               ],
             });
           }
-          for (let i = 0; i + 1 < simple.length && items.length < 8; i += 2) {
+          for (let i = 0; i + 1 < simple.length && items.length < 6; i += 2) {
             const word = simple[i].char + "َ" + simple[i + 1].char + "َّ" + "ا";
             items.push({
               id: word,
@@ -363,6 +380,21 @@
               parts: [
                 { display: simple[i].char + "َ", speak: simple[i].char + "َ" },
                 { display: simple[i + 1].char + "َّا", speak: simple[i + 1].char + "َّا" },
+              ],
+            });
+          }
+          // Lesson 14: shaddah met by sukoon — three-beat builds (شَدَّتْ).
+          for (let i = 0; i + 2 < simple.length && items.length < 9; i += 3) {
+            const word =
+              simple[i].char + "َ" + simple[i + 1].char + "َّ" + simple[i + 2].char + "ْ";
+            items.push({
+              id: word,
+              display: word,
+              speak: word,
+              parts: [
+                { display: simple[i].char + "َ", speak: simple[i].char + "َ" },
+                { display: simple[i + 1].char + "َّ", speak: simple[i + 1].char + "َّ" },
+                { display: simple[i + 2].char + "ْ", speak: simple[i + 2].arName },
               ],
             });
           }
