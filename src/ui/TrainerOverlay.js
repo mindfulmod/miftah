@@ -41,7 +41,6 @@
           </div>
 
           <nav class="codex-tabs" role="tablist" aria-label="Codex sections">
-            <button class="codex-tab" type="button" role="tab" data-tab="letters" aria-selected="false">🔤 Letters</button>
             <button class="codex-tab is-active" type="button" role="tab" data-tab="study" aria-selected="true">✒ Study</button>
             <button class="codex-tab" type="button" role="tab" data-tab="read" aria-selected="false">📜 Read</button>
             <button class="codex-tab codex-collection-tab" type="button" role="tab" data-tab="collection" aria-selected="false">Collection</button>
@@ -184,10 +183,6 @@
         }
       });
 
-      // The Letter Garden — the from-zero track that comes before words.
-      this.lettersPanel = new ns.LettersPanel(this);
-      this.root.querySelector(".codex-board").insertBefore(this.lettersPanel.root, this.readerPanelEl);
-
       this.closeButton.addEventListener("click", () => this.close());
       this.surahToggleButton.addEventListener("click", () => this.toggleCollection());
       for (const tab of this.tabButtons) {
@@ -249,23 +244,6 @@
         this.engine.ready.then(() => {
           if (this.isOpen) this.render();
         });
-      }
-      if (!this.letterEngine) {
-        // Letter units pay out the same island rewards as ayahs — a child on
-        // day one, who can't read a single letter, still hatches eggs.
-        this.letterEngine = new ns.LetterEngine((game) => {
-          const events = game.progress.completeStudyStep();
-          game.farming.advanceCropsByStudy();
-          this.queueCutawayFor(events);
-          return game.handleProgressEvents(events);
-        });
-        this.letterEngine.ready.then(() => {
-          if (this.isOpen) this.render();
-        });
-      }
-      // A brand-new reader lands in the Letter Garden, not at the word desk.
-      if (!this.letterEngine.wordsUnlocked() && this.activeTab === "study") {
-        this.setTabQuiet("letters");
       }
       this.render();
     }
@@ -405,19 +383,9 @@
 
       const reading = this.activeTab === "read";
       const collecting = this.activeTab === "collection";
-      const lettering = this.activeTab === "letters";
-      this.collectionEl.hidden = lettering;
-      this.studyPanelEl.hidden = reading || collecting || lettering;
+      this.collectionEl.hidden = false;
+      this.studyPanelEl.hidden = reading || collecting;
       this.readerPanelEl.hidden = !reading;
-      this.lettersPanel.root.hidden = !lettering;
-      if (lettering) {
-        this.closeReaderPopover();
-        const track = this.letterEngine ? this.letterEngine.trackProgress() : null;
-        if (track) this.progressEl.textContent = `Letter Garden · ${track.done}/${track.total} steps`;
-        this.sessionEl.textContent = "";
-        this.lettersPanel.render();
-        return;
-      }
       if (collecting) {
         this.closeReaderPopover();
         return;
@@ -447,13 +415,6 @@
       this.masteryEl = null;
       this.currentAudioPath = "";
       this.setWordAudioTarget(false);
-
-      // From-zero gate: the Word Desk stays shut until the Letter Garden is
-      // complete (or explicitly skipped by someone who can already read).
-      if (this.letterEngine && !this.letterEngine.loading && !this.letterEngine.wordsUnlocked()) {
-        this.renderWordsLocked();
-        return;
-      }
 
       if (view.mode === "loading") {
         this.setStudyText("", "", "");
@@ -546,47 +507,6 @@
         button.addEventListener("click", () => this.choose(option, button));
         this.optionsEl.appendChild(button);
       }
-    }
-
-    // The Study tab while words are still locked: point new readers at the
-    // Letter Garden, with an honest skip for those who can already read.
-    renderWordsLocked() {
-      this.setStudyText("", "", "");
-      this.ayahWrapEl.hidden = true;
-      this.playzoneEl.hidden = true;
-      this.revealPanelEl.hidden = false;
-      this.revealPanelEl.innerHTML = "";
-
-      const badge = document.createElement("p");
-      badge.className = "trainer-reveal-badge";
-      badge.textContent = "🔒 The Word Desk isn't open yet";
-      const line = document.createElement("p");
-      line.className = "trainer-reveal-literal";
-      const track = this.letterEngine.trackProgress();
-      line.textContent = track.done > 0
-        ? `Finish the Letter Garden first — ${track.done}/${track.total} steps done. Then real ayahs open up, word by word.`
-        : "Start in the Letter Garden — learn the letters and their sounds, and real ayahs open up, word by word.";
-      this.revealPanelEl.append(badge, line);
-
-      const go = document.createElement("button");
-      go.type = "button";
-      go.className = "trainer-option trainer-continue";
-      go.textContent = "Go to the Letter Garden 🔤";
-      go.addEventListener("click", () => {
-        this.game.sound.play("page");
-        this.setTabQuiet("letters");
-        this.render();
-      });
-      const skip = document.createElement("button");
-      skip.type = "button";
-      skip.className = "trainer-option trainer-continue letters-skip";
-      skip.textContent = "I can already read Arabic — open the Word Desk";
-      skip.addEventListener("click", () => {
-        this.letterEngine.skipToWords();
-        this.game.sound.play("click");
-        this.render();
-      });
-      this.revealPanelEl.append(go, skip);
     }
 
     setStudyText(arabic, translit, prompt) {

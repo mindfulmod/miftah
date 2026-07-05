@@ -23,9 +23,9 @@
       this.worlds = new ns.LettersWorlds();
       this.progress = this.loadProgress();
       this.stars = this.loadStars();
-      // Island rewards ride along silently: first-time world completions call
-      // the same study-step payout the Codex uses.
-      this.island = ns.ProgressionSystem && ns.ANIMAL_CATALOG ? new ns.ProgressionSystem(ns.ANIMAL_CATALOG) : null;
+      // Island progression is deliberately NOT wired up for now — the Letter
+      // Garden will get its own reward loop later.
+      this.island = null;
       this.game = null; // active mini-game instance
       this.stamps = this.loadStamps();
       // Recorded letter clips (assets/audio/letters/<name>.mp3) win over TTS
@@ -126,15 +126,24 @@
       this.speak(item.speak || item.display);
     }
 
+    // Warm and unhurried: slow rate, slightly lowered pitch, gentle volume,
+    // and the best Arabic voice the device offers (premium voices first).
     speak(text) {
       if (!text || !this.sound.enabled || !("speechSynthesis" in window)) return;
       try {
         speechSynthesis.cancel();
         const u = new SpeechSynthesisUtterance(text);
         u.lang = "ar-SA";
-        u.rate = 0.7;
-        const voice = speechSynthesis.getVoices().find((v) => (v.lang || "").startsWith("ar"));
-        if (voice) u.voice = voice;
+        u.rate = 0.55;
+        u.pitch = 0.9;
+        u.volume = 0.85;
+        const voices = speechSynthesis.getVoices().filter((v) => (v.lang || "").startsWith("ar"));
+        const pick =
+          voices.find((v) => /premium|enhanced|natural/i.test(v.name)) ||
+          voices.find((v) => /majed|laila|mariam|tarik/i.test(v.name)) ||
+          voices.find((v) => /google/i.test(v.name)) ||
+          voices[0];
+        if (pick) u.voice = pick;
         speechSynthesis.speak(u);
       } catch {}
     }
