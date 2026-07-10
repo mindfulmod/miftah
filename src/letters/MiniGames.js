@@ -59,12 +59,17 @@
       font-size="${size}" fill="${fill}" ${latin ? "" : `direction="rtl"`}>${display}</text>`;
   }
 
+  // Chunky candy tile: cream card with a darker press-edge and a hue-tinted
+  // rim — the same "toy button" language as the map stops.
   function tileHTML(item, hue) {
     return `
-      <svg viewBox="-52 -52 104 104" aria-hidden="true">
-        <circle r="46" fill="hsl(${hue} 70% 92%)" stroke="hsl(${hue} 55% 45%)" stroke-width="5"/>
-        <circle cx="-14" cy="-18" r="8" fill="#fff" opacity="0.7"/>
-        ${glyphText(item.display, { maxSize: 44 })}
+      <svg viewBox="-52 -56 104 112" aria-hidden="true">
+        <ellipse cy="48" rx="40" ry="8" fill="rgba(67,49,92,0.14)"/>
+        <rect x="-46" y="-40" width="92" height="86" rx="24" fill="hsl(${hue} 58% 44%)"/>
+        <rect x="-46" y="-46" width="92" height="86" rx="24" fill="hsl(${hue} 78% 90%)"/>
+        <rect class="tile-face" x="-40" y="-40" width="80" height="72" rx="18" fill="#fffaf0"/>
+        <path d="M-30 -34 Q-14 -42 4 -42" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity="0.8"/>
+        <g transform="translate(0 -4)">${glyphText(item.display, { maxSize: 42 })}</g>
       </svg>`;
   }
 
