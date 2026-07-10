@@ -70,26 +70,34 @@
     </svg>`;
   }
 
-  // A blob buddy holding up a big card — the universal "look at this" frame
-  // for letters, syllables and words. Hue varies per world.
+  // A blob buddy holding up a card — the universal "look at this" frame for
+  // letters, syllables and words. Hue varies per world. The card is narrower
+  // than the body and gripped by two little hands, so the creature reads as
+  // a character showing you something, not furniture wearing a sign.
   function blobCard({ hue = 150, label = "", size = 230, latin = false } = {}) {
     const id = gradId();
+    const body = `hsl(${hue} 72% 62%)`;
+    const rim = `hsl(${hue} 62% 40%)`;
     return `
-    <svg class="art-blob" viewBox="0 0 220 250" width="${size}" height="${size * 1.13}" aria-hidden="true">
+    <svg class="art-blob" viewBox="0 0 220 260" width="${size}" height="${size * 1.18}" aria-hidden="true">
       <defs>${bodyGrad(id, hue)}</defs>
       <g class="art-blob-body">
-        <ellipse cx="110" cy="243" rx="62" ry="9" fill="${SHADOW}"/>
-        <path d="M40 210 Q30 130 62 108 Q40 92 52 72 Q78 40 110 44 Q142 40 168 72 Q180 92 158 108 Q190 130 180 210 Q176 236 110 238 Q44 236 40 210 Z"
+        <ellipse cx="110" cy="251" rx="64" ry="9" fill="${SHADOW}"/>
+        <path d="M78 28 Q66 4 96 16 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>
+        <path d="M142 28 Q154 4 124 16 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>
+        <path d="M110 16 C162 16 188 58 188 120 C188 196 162 242 110 242 C58 242 32 196 32 120 C32 58 58 16 110 16 Z"
           fill="url(#${id})"/>
-        <ellipse cx="78" cy="240" rx="19" ry="7.5" fill="hsl(${hue} 62% 42%)"/>
-        <ellipse cx="142" cy="240" rx="19" ry="7.5" fill="hsl(${hue} 62% 42%)"/>
-        <ellipse cx="82" cy="66" rx="12" ry="9" fill="#fff" opacity="0.35"/>
-        ${face(110, 88, 1.15)}
+        <ellipse cx="74" cy="52" rx="16" ry="11" fill="#fff" opacity="0.35"/>
+        ${face(110, 72, 1.15)}
+        <ellipse cx="80" cy="247" rx="19" ry="8" fill="${rim}"/>
+        <ellipse cx="140" cy="247" rx="19" ry="8" fill="${rim}"/>
       </g>
       <g class="art-blob-card">
-        <rect x="38" y="124" width="144" height="100" rx="18" fill="hsl(${hue} 45% 42%)"/>
-        <rect x="38" y="118" width="144" height="100" rx="18" fill="#fffaf0"/>
+        <rect x="48" y="128" width="124" height="94" rx="16" fill="hsl(${hue} 45% 42%)"/>
+        <rect x="48" y="122" width="124" height="94" rx="16" fill="#fffaf0"/>
         ${cardGlyph(label, 110, 168, latin)}
+        <circle cx="48" cy="152" r="10" fill="${body}" stroke="${rim}" stroke-width="3"/>
+        <circle cx="172" cy="152" r="10" fill="${body}" stroke="${rim}" stroke-width="3"/>
       </g>
     </svg>`;
   }
@@ -308,8 +316,8 @@
   const SPECIES = {
     blob: (body, rim) => ({
       back: `
-        <path d="M-16 -48 Q-25 -67 -5 -58 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>
-        <path d="M16 -48 Q25 -67 5 -58 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>
+        <path d="M-18 -38 Q-30 -60 -6 -46 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>
+        <path d="M18 -38 Q30 -60 6 -46 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>
         <path d="M42 30 Q61 34 54 47 Q47 53 41 44 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>`,
       front: "",
     }),
@@ -319,7 +327,7 @@
         <path d="M24 -38 Q34 -86 12 -66 Q4 -56 8 -40 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>
         <path d="M-21 -44 Q-26 -74 -13 -60 Q-9 -52 -12 -44 Z" fill="${belly}"/>
         <path d="M21 -44 Q26 -74 13 -60 Q9 -52 12 -44 Z" fill="${belly}"/>
-        <circle cx="44" cy="36" r="10" fill="#fff" stroke="${rim}" stroke-width="3"/>`,
+        <circle cx="44" cy="36" r="10" fill="${belly}" stroke="${rim}" stroke-width="3"/>`,
       front: "",
     }),
     chick: (body, rim, belly) => ({
@@ -332,10 +340,10 @@
     }),
     cat: (body, rim, belly) => ({
       back: `
-        <path d="M-34 -30 L-42 -60 L-14 -46 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>
-        <path d="M34 -30 L42 -60 L14 -46 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>
-        <path d="M-31 -38 L-35 -52 L-21 -45 Z" fill="#ff9db1"/>
-        <path d="M31 -38 L35 -52 L21 -45 Z" fill="#ff9db1"/>
+        <path d="M-34 -26 Q-44 -58 -12 -42 Q-20 -34 -22 -26 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>
+        <path d="M34 -26 Q44 -58 12 -42 Q20 -34 22 -26 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>
+        <path d="M-30 -34 Q-35 -49 -20 -41 Z" fill="#ff9db1"/>
+        <path d="M30 -34 Q35 -49 20 -41 Z" fill="#ff9db1"/>
         <path d="M40 28 Q66 24 60 2 Q57 -8 48 -2 Q54 6 46 12 Q34 18 38 30 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>`,
       front: `
         <g stroke="${rim}" stroke-width="2" stroke-linecap="round" opacity="0.8">
@@ -344,7 +352,7 @@
     }),
     dragon: (body, rim, belly) => ({
       back: `
-        <path d="M-12 -44 L-6 -60 L0 -46 L6 -62 L12 -46 L16 -56 L18 -44 Z" fill="hsl(150 70% 52%)" stroke="hsl(150 60% 34%)" stroke-width="3"/>
+        <path d="M-16 -42 L-8 -64 L-1 -46 L7 -68 L14 -46 L20 -60 L23 -41 Z" fill="${belly}" stroke="${rim}" stroke-width="3"/>
         <path d="M-44 -8 Q-74 -26 -66 2 Q-60 16 -40 12 Z" fill="${belly}" stroke="${rim}" stroke-width="3.4"/>
         <path d="M44 -8 Q74 -26 66 2 Q60 16 40 12 Z" fill="${belly}" stroke="${rim}" stroke-width="3.4"/>
         <path d="M38 34 Q62 44 58 56 L48 50 Q54 58 44 60 Q32 58 34 42 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>

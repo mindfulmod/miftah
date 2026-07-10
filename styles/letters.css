@@ -371,6 +371,10 @@ body {
   overflow: hidden;
   z-index: 2;
   border-radius: 18px;
+  /* rising and falling pieces dissolve at the stage's top edge instead of
+     getting sliced by an invisible line under the prompt row */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 64px);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 64px);
 }
 
 /* ---------- bubble pop ---------- */

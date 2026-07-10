@@ -63,8 +63,7 @@
   // rim — the same "toy button" language as the map stops.
   function tileHTML(item, hue) {
     return `
-      <svg viewBox="-52 -56 104 112" aria-hidden="true">
-        <ellipse cy="48" rx="40" ry="8" fill="rgba(67,49,92,0.14)"/>
+      <svg viewBox="-52 -54 104 106" aria-hidden="true">
         <rect x="-46" y="-40" width="92" height="86" rx="24" fill="hsl(${hue} 58% 44%)"/>
         <rect x="-46" y="-46" width="92" height="86" rx="24" fill="hsl(${hue} 78% 90%)"/>
         <rect class="tile-face" x="-40" y="-40" width="80" height="72" rx="18" fill="#fffaf0"/>
