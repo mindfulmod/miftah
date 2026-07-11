@@ -194,7 +194,7 @@
         "lg-hatch",
         `<div class="hatch-stage">
           ${hatched
-            ? `<div class="hatch-pet">${this.petSVG(180, "open")}</div>
+            ? `<div class="hatch-pet">${this.petSVG(220, "open")}</div>
                <div class="hatch-hues">${hues.map((h) => `<button type="button" class="hatch-hue${(this.pet?.hue ?? 200) === h ? " is-picked" : ""}" data-hue="${h}" style="--h:${h}"></button>`).join("")}</div>
                <button type="button" class="lg-big-btn hatch-go">${Art.icon("check", 40)}</button>`
             : `<button type="button" class="hatch-egg">${Art.egg({ size: 190, cracks })}</button>`}
@@ -255,7 +255,7 @@
           <span class="lg-star-chip">${Art.icon("star", 20)} <b>${this.starBalance()}</b></span>
           <button type="button" class="pet-big">
             <span class="pet-bubble" hidden></span>
-            ${this.petSVG(190)}
+            ${this.petSVG(230)}
           </button>
           ${Object.keys(this.skills).length ? `<div class="pet-flower">${Art.skillFlower({ scores: this.skills, size: 130 })}</div>` : ""}
           <div class="pet-shelf pet-bodies">${bodyShelf}</div>

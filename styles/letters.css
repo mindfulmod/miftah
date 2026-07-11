@@ -128,7 +128,7 @@ body {
 }
 
 .art-mascot-body { animation: lg-breathe 2.6s ease-in-out infinite; transform-origin: 50% 88%; }
-.art-blob-body { animation: lg-breathe 2.9s ease-in-out infinite; transform-origin: 50% 90%; }
+.art-blob-body, .art-sprig-body { animation: lg-breathe 2.9s ease-in-out infinite; transform-origin: 50% 90%; }
 .art-creature-body { animation: lg-breathe 3.1s ease-in-out infinite; transform-origin: 50% 92%; }
 @keyframes lg-breathe {
   0%, 100% { transform: translateY(0) scale(1); }
@@ -827,12 +827,12 @@ body {
   height: 46px;
   border: none;
   border-radius: 50%;
-  background: radial-gradient(circle at 34% 28%, hsl(var(--h) 80% 78%), hsl(var(--h) 72% 58%) 75%);
-  box-shadow: 0 4px 0 hsl(var(--h) 62% 40%), 0 8px 14px -6px var(--lg-shadow);
+  background: radial-gradient(circle at 34% 28%, hsl(var(--h) 64% 76%), hsl(var(--h) 58% 56%) 75%);
+  box-shadow: 0 4px 0 hsl(var(--h) 44% 38%), 0 8px 14px -6px var(--lg-shadow);
   cursor: pointer;
   transition: transform 140ms var(--lg-spring), box-shadow 140ms var(--lg-out);
 }
-.hatch-hue:active { transform: translateY(3px); box-shadow: 0 1px 0 hsl(var(--h) 62% 40%); }
+.hatch-hue:active { transform: translateY(3px); box-shadow: 0 1px 0 hsl(var(--h) 44% 38%); }
 .hatch-hue.is-picked { outline: 4px solid var(--lg-gold); outline-offset: 3px; }
 
 .pet-bubble {
