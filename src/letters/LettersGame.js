@@ -258,8 +258,8 @@
             ${this.petSVG(230)}
           </button>
           ${Object.keys(this.skills).length ? `<div class="pet-flower">${Art.skillFlower({ scores: this.skills, size: 130 })}</div>` : ""}
-          <div class="pet-shelf pet-bodies">${bodyShelf}</div>
-          <div class="pet-shelf">${shelf}</div>
+          <div class="pet-shelf pet-bodies lg-panel">${bodyShelf}</div>
+          <div class="pet-shelf lg-panel">${shelf}</div>
         </div>`,
       );
       this.wireTopBar(el);
@@ -342,7 +342,7 @@
           ${allOwned
             ? `<div class="album-complete">${Art.icon("star", 40)}</div>`
             : `<button type="button" class="album-pack">${Art.stickerPack({ size: 104 })}<span class="pet-acc-cost">${Art.icon("star", 14)} 5</span></button>`}
-          <div class="album-grid">${grid}</div>
+          <div class="album-grid lg-panel">${grid}</div>
         </div>`,
       );
       this.wireTopBar(el);
@@ -508,7 +508,7 @@
       const el = this.screen(
         "lg-home",
         `${this.topBar({ home: false })}
-        <div class="map-daily-row">
+        <div class="map-daily-row lg-tray">
           ${daily ? `<button type="button" class="map-daily${stampedToday ? " is-stamped" : ""}">${Art.icon("sun", 34)}${stampedToday ? `<i class="map-daily-check">${Art.icon("check", 16)}</i>` : ""}</button>` : ""}
           ${daily ? `<button type="button" class="map-checkup">${Art.icon("flower", 34)}</button>` : ""}
           <button type="button" class="map-pet">${this.petSVG(46)}</button>
@@ -617,7 +617,7 @@
         `${this.topBar()}
         <div class="stamps-stage">
           <div class="stamps-moon">${Art.icon("sun", 44)}</div>
-          <div class="stamps-grid">${cells}</div>
+          <div class="stamps-grid lg-panel">${cells}</div>
         </div>`,
       );
       this.wireTopBar(el);
@@ -680,7 +680,7 @@
       const el = this.screen(
         "lg-meet",
         `${this.topBar()}
-        <div class="meet-stage">
+        <div class="meet-stage lg-panel">
           <button type="button" class="meet-card">${Art.blobCard({ hue: s.world.hue, label: card.display, latin: !/[؀-ۿ]/.test(card.display) })}</button>
           <div class="meet-dots">${s.world.meet.map((_, i) => `<i class="${i === s.meetIndex ? "is-on" : ""}"></i>`).join("")}</div>
           <div class="meet-nav">
@@ -709,7 +709,7 @@
       const el = this.screen(
         "lg-play",
         `${this.topBar()}
-        <div class="play-prompt">
+        <div class="play-prompt lg-panel">
           <span class="play-pet">${this.petSVG(56)}</span>
           <span class="play-mascot">${Art.keyMascot({ size: 66 })}</span>
           <button type="button" class="play-bubble" hidden>
@@ -800,7 +800,7 @@
       const el = this.screen(
         "lg-stars",
         `${this.topBar()}
-        <div class="stars-stage">
+        <div class="stars-stage lg-panel">
           <div class="stars-row">
             ${[0, 1, 2].map((i) => `<span class="stars-star ${i < stars ? "is-on" : ""}" style="animation-delay:${i * 220}ms">${Art.icon("star", 74)}</span>`).join("")}
           </div>
@@ -857,7 +857,7 @@
     renderParty(stars, newlyDone, { flower = false } = {}) {
       const el = this.screen(
         "lg-party",
-        `<div class="party-stage">
+        `<div class="party-stage lg-panel">
           ${flower ? `<div class="party-flower">${Art.skillFlower({ scores: this.skills, size: 200 })}</div>` : ""}
           <div class="party-pair">
             <div class="party-mascot">${Art.keyMascot({ size: flower ? 110 : 150, mood: "open" })}</div>

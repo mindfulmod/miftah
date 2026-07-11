@@ -59,15 +59,14 @@
       font-size="${size}" fill="${fill}" ${latin ? "" : `direction="rtl"`}>${display}</text>`;
   }
 
-  // Chunky candy tile: cream card with a darker press-edge and a hue-tinted
-  // rim — the same "toy button" language as the map stops.
+  // Tactile answer card: the same navy outline, warm paper face and shallow
+  // physical lift used throughout Letter Garden's new interface system.
   function tileHTML(item, hue) {
     return `
       <svg viewBox="-52 -54 104 106" aria-hidden="true">
-        <rect x="-46" y="-40" width="92" height="86" rx="24" fill="hsl(${hue} 58% 44%)"/>
-        <rect x="-46" y="-46" width="92" height="86" rx="24" fill="hsl(${hue} 78% 90%)"/>
-        <rect class="tile-face" x="-40" y="-40" width="80" height="72" rx="18" fill="#fffaf0"/>
-        <path d="M-30 -34 Q-14 -42 4 -42" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity="0.8"/>
+        <rect x="-46" y="-38" width="92" height="84" rx="22" fill="#243653"/>
+        <rect x="-46" y="-46" width="92" height="84" rx="22" fill="hsl(${hue} 52% 86%)" stroke="#243653" stroke-width="4"/>
+        <rect class="tile-face" x="-39" y="-39" width="78" height="70" rx="16" fill="#fffaf0" stroke="#243653" stroke-width="2"/>
         <g transform="translate(0 -4)">${glyphText(item.display, { maxSize: 42 })}</g>
       </svg>`;
   }
