@@ -43,17 +43,17 @@
   const isArabic = (s) => /[؀-ۿ]/.test(s || "");
   const DIACRITICS = /[ً-ْٰٓ-ٟؐ-ؚۖ-ۭ]/g;
 
-  // Optically centered glyph text. Amiri Quran's em box is far taller than
-  // its ink (room for stacked diacritics), so baseline math alone leaves
-  // words sitting low — dominant-baseline central plus a small optical lift,
-  // with the size driven by the SKELETON length (diacritics don't count).
+  // Optically centered glyph text. Amiri Quran reserves a large amount of
+  // space above its visible ink for stacked marks, so mathematical baseline
+  // centering leaves Arabic sitting on the tile's floor. The negative dy is
+  // an intentional ink-box correction, not ordinary line-height alignment.
   function glyphText(display, { fill = "#2b2233", maxSize = 44 } = {}) {
     const latin = !isArabic(display);
     const len = [...display.replace(DIACRITICS, "")].length;
     const size = latin
       ? Math.min(maxSize * 0.6, 26)
       : len <= 1 ? maxSize : len <= 2 ? maxSize * 0.9 : len <= 3 ? maxSize * 0.72 : maxSize * 0.58;
-    return `<text x="0" y="0" dy="${latin ? "0.06em" : "0.12em"}" text-anchor="middle"
+    return `<text x="0" y="0" dy="${latin ? "0.06em" : "-0.06em"}" text-anchor="middle"
       dominant-baseline="central"
       font-family="${latin ? "ui-rounded, system-ui, sans-serif" : "'Amiri Quran', serif"}"
       font-size="${size}" fill="${fill}" ${latin ? "" : `direction="rtl"`}>${display}</text>`;

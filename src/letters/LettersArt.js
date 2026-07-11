@@ -259,12 +259,13 @@
   function backdrop(phase = dayPhase()) {
     const p = PHASES[phase] || PHASES.day;
     const night = phase === "night";
+    const sceneryInk = night ? "#46516f" : "#65738a";
     const celestial = night
       ? `<g class="art-moon">
            <circle cx="620" cy="92" r="54" fill="${INK}" opacity="0.18"/>
-           <circle cx="620" cy="82" r="47" fill="#f4ecc8" stroke="${INK}" stroke-width="5"/>
-           <circle cx="603" cy="72" r="9" fill="#ddd3a8" stroke="${INK}" stroke-width="2"/>
-           <circle cx="636" cy="98" r="6" fill="#ddd3a8" stroke="${INK}" stroke-width="2"/>
+           <circle cx="620" cy="82" r="47" fill="#f4ecc8" stroke="${sceneryInk}" stroke-width="3"/>
+           <circle cx="603" cy="72" r="9" fill="#ddd3a8" stroke="${sceneryInk}" stroke-width="1.5"/>
+           <circle cx="636" cy="98" r="6" fill="#ddd3a8" stroke="${sceneryInk}" stroke-width="1.5"/>
            <circle cx="633" cy="65" r="4.4" fill="#ddd3a8"/>
          </g>
          <g fill="#fff8d8" class="art-stars">
@@ -274,29 +275,29 @@
          </g>`
       : `<g class="art-sun-glow">
            <circle cx="620" cy="98" r="58" fill="${INK}" opacity="0.16"/>
-           <circle cx="620" cy="88" r="51" fill="${p.accent}" stroke="${INK}" stroke-width="5"/>
+           <circle cx="620" cy="88" r="51" fill="${p.accent}" stroke="${sceneryInk}" stroke-width="3"/>
            <circle cx="604" cy="72" r="13" fill="#fffaf0" opacity="0.55"/>
          </g>`;
     return `
     <svg class="art-backdrop" viewBox="0 0 800 600" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
       ${celestial}
-      <g fill="${night ? "#777ca7" : "#fffaf0"}" opacity="${night ? 0.78 : 0.96}" stroke="${INK}" stroke-width="4" class="art-clouds">
+      <g fill="${night ? "#777ca7" : "#fffaf0"}" opacity="${night ? 0.72 : 0.9}" stroke="${sceneryInk}" stroke-width="2" class="art-clouds">
         <g class="art-cloud-a"><path d="M78 122 Q83 92 112 98 Q124 64 160 84 Q181 70 201 92 Q229 91 236 119 Q205 133 156 130 Q111 134 78 122 Z"/></g>
         <g class="art-cloud-b"><path d="M362 91 Q368 66 392 70 Q403 44 432 61 Q451 51 466 70 Q489 70 496 91 Q467 102 429 100 Q391 104 362 91 Z"/></g>
       </g>
-      <path d="M-10 445 Q145 370 305 429 Q462 480 625 417 Q727 380 812 425 L812 615 L-10 615 Z" fill="${p.far}" stroke="${INK}" stroke-width="5" stroke-linejoin="round"/>
-      <path d="M-10 485 Q198 392 420 462 Q622 526 812 440 L812 615 L-10 615 Z" fill="${p.mid}" stroke="${INK}" stroke-width="5" stroke-linejoin="round"/>
-      <path d="M-10 535 Q257 450 521 522 Q682 565 812 516 L812 615 L-10 615 Z" fill="${p.near}" stroke="${INK}" stroke-width="5" stroke-linejoin="round"/>
-      <g fill="${night ? "#294638" : "#5f8d55"}" stroke="${INK}" stroke-width="4">
+      <path d="M-10 445 Q145 370 305 429 Q462 480 625 417 Q727 380 812 425 L812 615 L-10 615 Z" fill="${p.far}" stroke="${sceneryInk}" stroke-width="2.4" stroke-linejoin="round"/>
+      <path d="M-10 485 Q198 392 420 462 Q622 526 812 440 L812 615 L-10 615 Z" fill="${p.mid}" stroke="${sceneryInk}" stroke-width="2.4" stroke-linejoin="round"/>
+      <path d="M-10 535 Q257 450 521 522 Q682 565 812 516 L812 615 L-10 615 Z" fill="${p.near}" stroke="${sceneryInk}" stroke-width="2.4" stroke-linejoin="round"/>
+      <g fill="${night ? "#294638" : "#5f8d55"}" stroke="${sceneryInk}" stroke-width="2.2">
         <path d="M113 501 V468" fill="none" stroke-linecap="round"/><circle cx="113" cy="452" r="27"/>
         <path d="M704 535 V495" fill="none" stroke-linecap="round"/><circle cx="704" cy="476" r="31"/>
       </g>
-      <g stroke="${INK}" stroke-width="3" stroke-linecap="round">
+      <g stroke="${sceneryInk}" stroke-width="1.6" stroke-linecap="round">
         <g transform="translate(246 526)"><path d="M0 22 V2"/><circle cy="0" r="8" fill="#ee806f"/><circle r="3" fill="#f3c955" stroke-width="1.5"/></g>
         <g transform="translate(562 548)"><path d="M0 20 V1"/><circle r="7" fill="#9c8bd8"/><circle r="2.7" fill="#f3c955" stroke-width="1.5"/></g>
         <g transform="translate(386 566)"><path d="M0 18 V0"/><circle r="7" fill="#73b9dc"/><circle r="2.7" fill="#f3c955" stroke-width="1.5"/></g>
       </g>
-      <g fill="#fffaf0" stroke="${INK}" stroke-width="3">
+      <g fill="#fffaf0" stroke="${sceneryInk}" stroke-width="1.5" opacity="0.8">
         <path d="M42 556 q14 -14 28 0 q-14 14 -28 0Z"/><path d="M744 560 q13 -13 26 0 q-13 13 -26 0Z"/>
       </g>
       ${night ? `<g class="art-fireflies" fill="#ffe98a">${[[210, 480], [470, 510], [650, 540]].map(([x, y], i) => `<circle cx="${x}" cy="${y}" r="4" style="animation-delay:${i * 1.1}s"/>`).join("")}</g>` : ""}

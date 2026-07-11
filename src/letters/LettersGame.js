@@ -551,9 +551,9 @@
         d += ` C ${a[0]} ${a[1] - GAP * 0.45}, ${b[0]} ${b[1] + GAP * 0.45}, ${b[0]} ${b[1]}`;
       }
       trail.innerHTML = `
-        <path d="${d}" fill="none" stroke="#243653" stroke-width="24" stroke-linecap="round" opacity="0.9"/>
-        <path d="${d}" fill="none" stroke="#fffaf0" stroke-width="17" stroke-linecap="round"/>
-        <path d="${d}" fill="none" stroke="#7fc6a4" stroke-width="7" stroke-linecap="round" stroke-dasharray="1 22"/>`;
+        <path d="${d}" fill="none" stroke="#52627a" stroke-width="17" stroke-linecap="round" opacity="0.72"/>
+        <path d="${d}" fill="none" stroke="#fffaf0" stroke-width="13" stroke-linecap="round"/>
+        <path d="${d}" fill="none" stroke="#7fc6a4" stroke-width="5" stroke-linecap="round" stroke-dasharray="1 22"/>`;
       for (const btn of el.querySelectorAll(".map-stop[data-world]")) {
         btn.addEventListener("click", () => {
           const world = worlds.find((w) => w.id === btn.dataset.world);
