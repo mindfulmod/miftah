@@ -65,12 +65,10 @@ body {
 
 .art-backdrop {
   position: absolute;
-  inset: auto 0 0 0;
+  inset: 0;
   width: 100%;
-  height: 46%;
+  height: 100%;
   pointer-events: none;
-  /* tall screens crop the strip's top under "slice" — let the sun, moon and
-     clouds ride up into the sky instead of getting beheaded */
   overflow: visible;
 }
 
@@ -223,7 +221,7 @@ body {
 
 .map-stop {
   position: absolute;
-  width: clamp(104px, 28vw, 132px);
+  width: clamp(108px, 29vw, 138px);
   padding: 0;
   border: none;
   background: none;
@@ -237,9 +235,9 @@ body {
 .map-stop.is-current::before {
   content: "";
   position: absolute;
-  inset: -12% -12% 8%;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 226, 122, 0.55), rgba(255, 226, 122, 0) 68%);
+  inset: -10% -10% 7%;
+  border-radius: 34%;
+  background: radial-gradient(circle, rgba(243, 201, 85, 0.5), rgba(243, 201, 85, 0) 68%);
   animation: lg-halo 2.1s ease-in-out infinite;
   pointer-events: none;
 }
@@ -292,8 +290,8 @@ body {
   50% { rotate: 3deg; }
 }
 
-.map-star-on path { fill: #fff3c2; stroke: var(--lg-gold-edge); stroke-width: 4; }
-.map-star-off path { fill: rgba(255, 255, 255, 0.4); stroke: rgba(90, 80, 110, 0.35); stroke-width: 4; }
+.map-star-on path { fill: #fffaf0; stroke: var(--lg-ink); stroke-width: 4; }
+.map-star-off path { fill: rgba(255, 250, 240, 0.45); stroke: var(--lg-ink); stroke-width: 4; opacity: 0.45; }
 
 /* ---------- meet a letter ---------- */
 .meet-stage {

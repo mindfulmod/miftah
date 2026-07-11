@@ -3,13 +3,13 @@
 // the Sprig Cub buddies who hold the letters, the journey map scenery, creatures,
 // and icon-only controls — no words anywhere, the art IS the interface.
 //
-// Visual system ("garden toy"): rich mid-saturation toy colors, chunky dark
-// contours, simple upper-left highlights, soft plum shadows (never black),
-// and one quirky detail per drawing. Gradient defs get unique ids because a
+// Visual system ("garden toy"): warm paper surfaces, flat mid-saturation
+// colors, chunky navy contours, shallow physical shadows, and one quirky
+// detail per drawing. Gradient defs get unique ids because a
 // url(#…) reference breaks when its defining screen is display:none.
 (function (ns) {
-  const INK = "#3a2c48"; // the softest "black" in the whole game
-  const SHADOW = "rgba(67, 49, 92, 0.18)";
+  const INK = "#243653"; // shared with the tactile UI system
+  const SHADOW = "rgba(36, 54, 83, 0.2)";
 
   let uid = 0;
   const gradId = () => `lgg${(uid += 1)}`;
@@ -248,10 +248,10 @@
   // the app root by the game) plus its own celestial art in the backdrop.
 
   const PHASES = {
-    morning: { hi: "#ffe3b0", lo: "#eef9e4", far: "#c9ecb0", mid: "#9adf78", near: "#67c94e" },
-    day: { hi: "#8fd6ff", lo: "#e4f9ea", far: "#c4ecab", mid: "#98dc74", near: "#5cc23e" },
-    sunset: { hi: "#ffc9a3", lo: "#ffe9d6", far: "#d3e59a", mid: "#a2d36a", near: "#63b544" },
-    night: { hi: "#2c2a55", lo: "#4a4a80", far: "#3e6653", mid: "#356b48", near: "#2a5c3c" },
+    morning: { hi: "#f7dca8", lo: "#edf5df", far: "#c9ddb2", mid: "#a7c889", near: "#78a968", accent: "#efb65a" },
+    day: { hi: "#9cd9ed", lo: "#dff5ef", far: "#c5ddbc", mid: "#9bc67f", near: "#6f9f60", accent: "#f3c955" },
+    sunset: { hi: "#eeb7aa", lo: "#f5dfc8", far: "#d7d6a8", mid: "#a9bd78", near: "#718f59", accent: "#ee806f" },
+    night: { hi: "#34375f", lo: "#555a87", far: "#516f63", mid: "#416755", near: "#315342", accent: "#f0d77a" },
   };
 
   function dayPhase(hour = new Date().getHours()) {
@@ -261,17 +261,19 @@
     return "night";
   }
 
-  // Sky, sun/moon, clouds and rolling hills — the fixed backdrop of every
-  // screen, phase-aware.
+  // Phase-aware storybook backdrop. Every layer uses the same navy contour
+  // and flat paper-like color construction as the UI, so scenery and controls
+  // feel like pieces from one physical playset.
   function backdrop(phase = dayPhase()) {
     const p = PHASES[phase] || PHASES.day;
     const night = phase === "night";
     const celestial = night
       ? `<g class="art-moon">
-           <circle cx="660" cy="90" r="46" fill="#f4ecc8"/>
-           <circle cx="644" cy="80" r="9" fill="#ddd3a8"/><circle cx="676" cy="104" r="6" fill="#ddd3a8"/>
-           <circle cx="672" cy="72" r="4.4" fill="#ddd3a8"/>
-           <circle cx="660" cy="90" r="58" fill="#f4ecc8" opacity="0.16"/>
+           <circle cx="620" cy="92" r="54" fill="${INK}" opacity="0.18"/>
+           <circle cx="620" cy="82" r="47" fill="#f4ecc8" stroke="${INK}" stroke-width="5"/>
+           <circle cx="603" cy="72" r="9" fill="#ddd3a8" stroke="${INK}" stroke-width="2"/>
+           <circle cx="636" cy="98" r="6" fill="#ddd3a8" stroke="${INK}" stroke-width="2"/>
+           <circle cx="633" cy="65" r="4.4" fill="#ddd3a8"/>
          </g>
          <g fill="#fff8d8" class="art-stars">
            ${[[90, 60, 3], [220, 120, 2.4], [340, 50, 3.4], [470, 140, 2.2], [560, 40, 2.8], [150, 190, 2], [720, 200, 2.6], [400, 220, 2.2]]
@@ -279,62 +281,57 @@
              .join("")}
          </g>`
       : `<g class="art-sun-glow">
-           <circle cx="670" cy="90" r="52" fill="${phase === "sunset" ? "#ffab5e" : "#ffd23e"}"/>
-           <circle cx="670" cy="90" r="68" fill="${phase === "sunset" ? "#ffab5e" : "#ffd23e"}" opacity="0.3"/>
-           <circle cx="652" cy="74" r="14" fill="#fff" opacity="0.4"/>
+           <circle cx="620" cy="98" r="58" fill="${INK}" opacity="0.16"/>
+           <circle cx="620" cy="88" r="51" fill="${p.accent}" stroke="${INK}" stroke-width="5"/>
+           <circle cx="604" cy="72" r="13" fill="#fffaf0" opacity="0.55"/>
          </g>`;
     return `
     <svg class="art-backdrop" viewBox="0 0 800 600" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
       ${celestial}
-      <g fill="${night ? "#8f8cc0" : "#ffffff"}" opacity="${night ? 0.5 : 0.92}" class="art-clouds">
-        <g class="art-cloud-a"><ellipse cx="150" cy="110" rx="58" ry="24"/><ellipse cx="196" cy="98" rx="40" ry="20"/></g>
-        <g class="art-cloud-b"><ellipse cx="420" cy="70" rx="46" ry="18"/><ellipse cx="456" cy="60" rx="30" ry="14"/></g>
+      <g fill="${night ? "#777ca7" : "#fffaf0"}" opacity="${night ? 0.78 : 0.96}" stroke="${INK}" stroke-width="4" class="art-clouds">
+        <g class="art-cloud-a"><path d="M78 122 Q83 92 112 98 Q124 64 160 84 Q181 70 201 92 Q229 91 236 119 Q205 133 156 130 Q111 134 78 122 Z"/></g>
+        <g class="art-cloud-b"><path d="M362 91 Q368 66 392 70 Q403 44 432 61 Q451 51 466 70 Q489 70 496 91 Q467 102 429 100 Q391 104 362 91 Z"/></g>
       </g>
-      <path d="M0 440 Q140 380 300 430 Q460 478 620 420 Q720 396 800 428 L800 600 L0 600 Z" fill="${p.far}"/>
-      <path d="M0 470 Q200 396 420 460 Q620 522 800 444 L800 600 L0 600 Z" fill="${p.mid}"/>
-      <path d="M0 520 Q260 452 520 520 Q680 558 800 520 L800 600 L0 600 Z" fill="${p.near}"/>
-      <g fill="${night ? "#1f4a30" : "#3d9c3f"}">
-        <circle cx="120" cy="470" r="26"/><rect x="115" y="470" width="10" height="34" rx="4"/>
-        <circle cx="700" cy="500" r="30"/><rect x="694" y="500" width="12" height="38" rx="5"/>
+      <path d="M-10 445 Q145 370 305 429 Q462 480 625 417 Q727 380 812 425 L812 615 L-10 615 Z" fill="${p.far}" stroke="${INK}" stroke-width="5" stroke-linejoin="round"/>
+      <path d="M-10 485 Q198 392 420 462 Q622 526 812 440 L812 615 L-10 615 Z" fill="${p.mid}" stroke="${INK}" stroke-width="5" stroke-linejoin="round"/>
+      <path d="M-10 535 Q257 450 521 522 Q682 565 812 516 L812 615 L-10 615 Z" fill="${p.near}" stroke="${INK}" stroke-width="5" stroke-linejoin="round"/>
+      <g fill="${night ? "#294638" : "#5f8d55"}" stroke="${INK}" stroke-width="4">
+        <path d="M113 501 V468" fill="none" stroke-linecap="round"/><circle cx="113" cy="452" r="27"/>
+        <path d="M704 535 V495" fill="none" stroke-linecap="round"/><circle cx="704" cy="476" r="31"/>
       </g>
-      <g fill="#ff7d96"><circle cx="250" cy="520" r="7"/><circle cx="560" cy="545" r="7"/><circle cx="380" cy="555" r="7"/></g>
+      <g stroke="${INK}" stroke-width="3" stroke-linecap="round">
+        <g transform="translate(246 526)"><path d="M0 22 V2"/><circle cy="0" r="8" fill="#ee806f"/><circle r="3" fill="#f3c955" stroke-width="1.5"/></g>
+        <g transform="translate(562 548)"><path d="M0 20 V1"/><circle r="7" fill="#9c8bd8"/><circle r="2.7" fill="#f3c955" stroke-width="1.5"/></g>
+        <g transform="translate(386 566)"><path d="M0 18 V0"/><circle r="7" fill="#73b9dc"/><circle r="2.7" fill="#f3c955" stroke-width="1.5"/></g>
+      </g>
+      <g fill="#fffaf0" stroke="${INK}" stroke-width="3">
+        <path d="M42 556 q14 -14 28 0 q-14 14 -28 0Z"/><path d="M744 560 q13 -13 26 0 q-13 13 -26 0Z"/>
+      </g>
       ${night ? `<g class="art-fireflies" fill="#ffe98a">${[[210, 480], [470, 510], [650, 540]].map(([x, y], i) => `<circle cx="${x}" cy="${y}" r="4" style="animation-delay:${i * 1.1}s"/>`).join("")}</g>` : ""}
     </svg>`;
   }
 
-  // One map stop: a chunky candy button with a darker press-edge (Duolingo's
-  // 3D button, Toca's gloss). Done = gold with stars, current = bright and
-  // haloed, locked = a soft pebble.
+  // One map stop: a collectible rounded-square badge with the same navy rim,
+  // warm face and shallow physical lift as every interactive card.
   function mapStop({ hue, label, status, stars = 0, latin = false }) {
-    const id = gradId();
-    const grad =
-      status === "done"
-        ? `<radialGradient id="${id}" cx="0.36" cy="0.3" r="1">
-             <stop offset="0" stop-color="#ffe89c"/><stop offset="0.7" stop-color="#ffc22e"/><stop offset="1" stop-color="#e89a1e"/>
-           </radialGradient>`
-        : status === "current"
-          ? bodyGrad(id, hue, 82, 58)
-          : `<radialGradient id="${id}" cx="0.36" cy="0.3" r="1">
-               <stop offset="0" stop-color="#e6e0f2"/><stop offset="1" stop-color="#c2b8d8"/>
-             </radialGradient>`;
-    const edge = status === "done" ? "#c47f12" : status === "current" ? `hsl(${hue} 62% 36%)` : "#a191c2";
+    const faceColor = status === "done" ? "#f3c955" : status === "current" ? `hsl(${hue} 54% 70%)` : "#e5e0d5";
+    const insetColor = status === "done" ? "#fff1c9" : status === "current" ? `hsl(${hue} 55% 88%)` : "#f4f0e4";
     const starRow = [0, 1, 2]
       .map(
         (i) =>
-          `<g transform="translate(${(i - 1) * 26} 56) scale(0.32)" class="${i < stars ? "map-star-on" : "map-star-off"}"><g transform="translate(-32 -32)">${ICONS.star}</g></g>`,
+          `<g transform="translate(${(i - 1) * 25} 59) scale(0.3)" class="${i < stars ? "map-star-on" : "map-star-off"}"><g transform="translate(-32 -32)">${ICONS.star}</g></g>`,
       )
       .join("");
     return `
-    <svg viewBox="-60 -62 120 142" class="map-stop-art" aria-hidden="true">
-      <defs>${grad}</defs>
-      <ellipse cy="52" rx="42" ry="10" fill="${SHADOW}"/>
-      <circle cy="7" r="44" fill="${edge}"/>
-      <circle r="44" fill="url(#${id})"/>
-      <path d="M-31 -26 A40 40 0 0 1 5 -43" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" opacity="0.5"/>
+    <svg viewBox="-64 -64 128 148" class="map-stop-art" aria-hidden="true">
+      <rect x="-49" y="-43" width="98" height="103" rx="28" fill="${INK}"/>
+      <rect x="-49" y="-52" width="98" height="103" rx="28" fill="${faceColor}" stroke="${INK}" stroke-width="5"/>
+      <rect x="-39" y="-42" width="78" height="73" rx="20" fill="${insetColor}" stroke="${INK}" stroke-width="3"/>
+      <path d="M-26 -32 Q-12 -40 4 -39" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity="0.65"/>
       ${
         status === "locked"
-          ? `<g transform="translate(-22 -24) scale(0.7)" fill="#84739f">${ICONS.lock}</g>`
-          : `<text y="${latin ? 8 : 16}" text-anchor="middle" font-family="${latin ? "ui-rounded, system-ui, sans-serif" : "'Amiri Quran', serif"}" font-size="${latin ? 26 : [...label.replace(/[ً-ْٰٓ-ٟؐ-ؚۖ-ۭ]/g, "")].length >= 3 ? 28 : 42}" fill="#fffaf0" style="paint-order:stroke" stroke="rgba(67,49,92,0.3)" stroke-width="2" ${latin ? "" : `direction="rtl"`}>${label}</text>`
+          ? `<g transform="translate(-21 -24) scale(0.66)" fill="#87909e">${ICONS.lock}</g>`
+          : `<text y="${latin ? 2 : 10}" text-anchor="middle" font-family="${latin ? "ui-rounded, system-ui, sans-serif" : "'Amiri Quran', serif"}" font-size="${latin ? 24 : [...label.replace(/[ً-ْٰٓ-ٟؐ-ؚۖ-ۭ]/g, "")].length >= 3 ? 27 : 39}" fill="${INK}" ${latin ? "" : `direction="rtl"`}>${label}</text>`
       }
       ${status !== "locked" ? starRow : ""}
     </svg>`;
@@ -354,14 +351,14 @@
       const s = 0.7 + rand(n + 5) * 0.5;
       return `
       <g class="art-bloom" style="animation-delay:${(n * 0.35).toFixed(2)}s" transform="translate(${x.toFixed(1)} ${(6 - n * 3).toFixed(1)}) scale(${s.toFixed(2)})">
-        <rect x="-1.8" y="0" width="3.6" height="16" rx="1.8" fill="#3d9c3f"/>
-        ${[0, 60, 120, 180, 240, 300].map((a) => `<ellipse rx="4.6" ry="7.4" transform="rotate(${a}) translate(0 -7.4)" fill="hsl(${hue} 88% 70%)"/>`).join("")}
-        <circle r="4.4" fill="#ffd23e"/>
+        <path d="M0 17 V1" fill="none" stroke="${INK}" stroke-width="4" stroke-linecap="round"/>
+        ${[0, 60, 120, 180, 240, 300].map((a) => `<ellipse rx="4.8" ry="7.6" transform="rotate(${a}) translate(0 -7.4)" fill="hsl(${hue} 64% 70%)" stroke="${INK}" stroke-width="2"/>`).join("")}
+        <circle r="4.6" fill="#f3c955" stroke="${INK}" stroke-width="2"/>
       </g>`;
     });
     return `
     <svg viewBox="-45 -28 90 52" width="${size}" height="${size * 0.58}" aria-hidden="true" class="art-bloom-cluster">
-      <ellipse cy="20" rx="36" ry="6" fill="rgba(67,49,92,0.10)"/>
+      <ellipse cy="20" rx="36" ry="6" fill="${SHADOW}"/>
       ${flowers.join("")}
     </svg>`;
   }
