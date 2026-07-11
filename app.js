@@ -8,8 +8,13 @@ const SURAH_NUMBER =
   Number(new URLSearchParams(location.search).get("surah")) || 1;
 const SURAH_FILE = withDataVersion(`data/surah-${SURAH_NUMBER}.json`);
 const STORAGE_KEY = `quran-trainer:surah-${SURAH_NUMBER}:progress`;
+// Remember the last-opened surah so the tab bar's Continue lands here.
+try {
+  localStorage.setItem("quran-trainer:last-surah", String(SURAH_NUMBER));
+} catch {}
 const STATS_KEY = `quran-trainer:stats:surah-${SURAH_NUMBER}`; // per-word mistake history, accumulates across sessions
 const INTERLEAVE_KEY = `quran-trainer:interleave:surah-${SURAH_NUMBER}`; // in-flow review schedule
+const CONFUSION_KEY = `quran-trainer:confusions:surah-${SURAH_NUMBER}`; // gloss-pair collision counts
 const PICKER_URL = "surahs.html";
 const MISTAKE_RATE = 0.2; // up to 20% wrong attempts allowed per ayah
 
@@ -133,9 +138,20 @@ const wordId = (w) => `${w.arabic}|||${answerFor(w)}`;
 
 // Real recitation playback (shared module with the island game); a silent
 // stub keeps everything working if the script didn't load.
+// Recitation on/off, persisted. RecitationAudio consults this before every
+// play, so one switch silences word clips and ayah recitation alike.
+const RECITE_KEY = "quran-trainer:recitation"; // "on" (default) | "off"
+const reciteEnabled = () => {
+  try {
+    return localStorage.getItem(RECITE_KEY) !== "off";
+  } catch {
+    return true;
+  }
+};
+
 const recite =
   window.MiftahGame && window.MiftahGame.RecitationAudio
-    ? new window.MiftahGame.RecitationAudio()
+    ? new window.MiftahGame.RecitationAudio(reciteEnabled)
     : { playWord() {}, playAyah() {}, stop() {} };
 
 // Small speaker button used on ayah lines and reveals.
@@ -170,6 +186,27 @@ const els = {
   wordTpl: document.getElementById("word-template"),
 };
 
+// Speaker toggle in the progress row mirrors and flips the recitation setting.
+const reciteToggle = document.getElementById("recite-toggle");
+if (reciteToggle) {
+  const paintReciteToggle = () => {
+    const on = reciteEnabled();
+    reciteToggle.setAttribute("aria-pressed", String(on));
+    reciteToggle.title = on
+      ? "Recitation audio is on — tap to mute"
+      : "Recitation is muted — tap to unmute";
+  };
+  reciteToggle.addEventListener("click", () => {
+    const on = reciteEnabled();
+    try {
+      localStorage.setItem(RECITE_KEY, on ? "off" : "on");
+    } catch {}
+    if (on) recite.stop();
+    paintReciteToggle();
+  });
+  paintReciteToggle();
+}
+
 let surah = null;
 let uniqueWords = []; // one representative word per gloss: {arabic, english, translit, root}
 let glossInfo = new Map(); // english gloss -> that representative word
@@ -177,6 +214,7 @@ let rootIndex = new Map(); // root -> [{arabic, english}] sharing it (for "same 
 let currentIndex = 0; // index into surah.ayahs of the active (not-yet-passed) ayah
 let perfectSet = new Set(); // ayah numbers passed with zero mistakes
 let stats = {}; // wordId -> { arabic, english, translit, root, miss, correct }
+let confusions = loadConfusions(); // "glossA||glossB" (sorted) -> collision count
 let interleave = {}; // wordId -> { box, dueIndex } drives in-flow review timing
 let lastReviewIndex = -REVIEW_MIN_GAP; // ayah index of the last injected review card
 
@@ -323,6 +361,40 @@ function arabicSimilarity(a, b) {
   const y = skeleton(b);
   if (!x || !y) return 0;
   return 1 - levenshtein(x, y) / Math.max(x.length, y.length);
+}
+
+// A different word sharing this word's root that appeared in an ayah the
+// learner has already passed — fuel for the root-family micro-lesson.
+function knownRootSibling(word) {
+  if (!word || !word.root || !surah) return null;
+  const meKey = arabicConceptKey(word.arabic);
+  for (const past of surah.ayahs.slice(0, currentIndex)) {
+    for (const w of past.words) {
+      if (w.root === word.root && arabicConceptKey(w.arabic) !== meKey) return w;
+    }
+  }
+  return null;
+}
+
+// Production-direction options: the word itself plus the three most
+// look-alike Arabic forms in the surah (skeleton similarity), so recalling
+// the script takes real discrimination, not shape-spotting.
+function reverseOptions(word) {
+  const seen = new Set([arabicConceptKey(word.arabic)]);
+  const pool = uniqueWords
+    .filter((w) => {
+      const key = arabicConceptKey(w.arabic);
+      if (seen.has(key)) return false;
+      if (glossKey(answerFor(w)) === glossKey(answerFor(word))) return false;
+      seen.add(key);
+      return true;
+    })
+    .sort(
+      (a, b) =>
+        arabicSimilarity(b.arabic, word.arabic) -
+        arabicSimilarity(a.arabic, word.arabic)
+    );
+  return shuffle([word.arabic, ...pool.slice(0, 3).map((w) => w.arabic)]);
 }
 
 // Glosses that differ only in case/punctuation ("The Most Gracious" vs "the
@@ -619,6 +691,52 @@ function scheduleReview(word, recalled) {
   saveInterleave();
 }
 
+// ---------- confusion pairs ----------
+// When a wrong pick is itself a real gloss from this surah, the learner isn't
+// guessing randomly — they're swapping two specific words. Count those
+// collisions per (sorted) gloss pair; at two, a tell-apart drill becomes due.
+function loadConfusions() {
+  try {
+    const data = JSON.parse(localStorage.getItem(CONFUSION_KEY) || "{}");
+    return data && typeof data === "object" ? data : {};
+  } catch {
+    return {};
+  }
+}
+
+function saveConfusions() {
+  try {
+    localStorage.setItem(CONFUSION_KEY, JSON.stringify(confusions));
+  } catch {
+    /* storage unavailable — confusion tracking just won't persist */
+  }
+}
+
+function recordConfusion(correctGloss, pickedGloss) {
+  if (!pickedGloss || pickedGloss === correctGloss) return;
+  if (!glossInfo.has(pickedGloss)) return; // free-form miss, not a swap
+  const key = [correctGloss, pickedGloss].sort().join("||");
+  confusions[key] = (confusions[key] || 0) + 1;
+  saveConfusions();
+}
+
+// A pair is due for a tell-apart round once it has collided twice and both
+// words are present in this surah. Shares the interleave gap so drills and
+// reviews don't stack between consecutive ayahs.
+function pickDueContrast() {
+  if (currentIndex - lastReviewIndex < REVIEW_MIN_GAP) return null;
+  const due = Object.entries(confusions)
+    .filter(([, n]) => n >= 2)
+    .sort((a, b) => b[1] - a[1]);
+  for (const [key] of due) {
+    const [g1, g2] = key.split("||");
+    const w1 = glossInfo.get(g1);
+    const w2 = glossInfo.get(g2);
+    if (w1 && w2) return { key, words: [w1, w2] };
+  }
+  return null;
+}
+
 function recordMiss(word) {
   statEntry(word).miss += 1;
   saveStats();
@@ -754,6 +872,98 @@ function renderCompletion() {
 
 // The bounded-session end-state: shown once today's goal is met. Frames a clean
 // stopping point ("come back tomorrow") while leaving the door open to keep going.
+// Render today's session as a 1080×1080 share image (canvas, house palette)
+// and hand it to the native share sheet; fall back to a download. Rare-moment
+// delight: this only exists behind the session-complete panel.
+async function shareSessionCard({ streak, rescued }) {
+  const W = 1080;
+  const c = document.createElement("canvas");
+  c.width = W;
+  c.height = W;
+  const x = c.getContext("2d");
+
+  x.fillStyle = "#13110d";
+  x.fillRect(0, 0, W, W);
+  const glow = x.createRadialGradient(W / 2, -80, 0, W / 2, -80, 950);
+  glow.addColorStop(0, "#2a2114");
+  glow.addColorStop(1, "rgba(42, 33, 20, 0)");
+  x.fillStyle = glow;
+  x.fillRect(0, 0, W, W);
+
+  x.strokeStyle = "rgba(227, 183, 95, 0.55)";
+  x.lineWidth = 3;
+  x.strokeRect(48.5, 48.5, W - 97, W - 97);
+
+  // Khatim (8-point star): two squares, one rotated 45°.
+  const star = (cx, cy, r, rot) => {
+    x.save();
+    x.translate(cx, cy);
+    x.rotate(rot);
+    x.strokeRect(-r, -r, r * 2, r * 2);
+    x.restore();
+  };
+  x.strokeStyle = "#e3b75f";
+  x.lineWidth = 4;
+  star(W / 2, 210, 52, 0);
+  star(W / 2, 210, 52, Math.PI / 4);
+
+  x.textAlign = "center";
+  x.fillStyle = "#f1ece3";
+  x.font = "700 62px Inter, system-ui, sans-serif";
+  x.fillText("Session complete", W / 2, 412);
+
+  x.fillStyle = "#46b187";
+  x.font = "700 170px Inter, system-ui, sans-serif";
+  x.fillText(String(SESSION_GOAL_AYAHS), W / 2, 610);
+  x.fillStyle = "#a89a87";
+  x.font = "400 44px Inter, system-ui, sans-serif";
+  x.fillText("ayahs decoded today", W / 2, 676);
+
+  x.fillStyle = "#e3b75f";
+  x.font = "600 46px Inter, system-ui, sans-serif";
+  const surahName = surah ? surah.englishName : "";
+  x.fillText(
+    `${surahName}${surahName ? " · " : ""}${streak}-day streak`,
+    W / 2,
+    780
+  );
+
+  if (rescued > 0) {
+    x.fillStyle = "#a89a87";
+    x.font = "400 38px Inter, system-ui, sans-serif";
+    x.fillText(
+      `${rescued} slip${rescued === 1 ? "" : "s"} turned into wins`,
+      W / 2,
+      850
+    );
+  }
+
+  x.fillStyle = "#a89a87";
+  x.font = "500 38px Inter, system-ui, sans-serif";
+  x.fillText("Miftah — Quranic Arabic Trainer", W / 2, W - 96);
+
+  const blob = await new Promise((r) => c.toBlob(r, "image/png"));
+  if (!blob) return;
+  const file = new File([blob], "miftah-session.png", { type: "image/png" });
+  if (navigator.canShare && navigator.canShare({ files: [file] })) {
+    try {
+      await navigator.share({
+        files: [file],
+        title: "Miftah",
+        text: "My Quran vocabulary practice today",
+      });
+      return;
+    } catch (err) {
+      if (err && err.name === "AbortError") return; // user closed the sheet
+    }
+  }
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "miftah-session.png";
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 30000);
+}
+
 function renderSessionComplete(streak) {
   els.app.innerHTML = "";
   updateHeaderProgress();
@@ -806,12 +1016,18 @@ function renderSessionComplete(streak) {
   more.textContent = "Keep going ›";
   more.addEventListener("click", () => render({ focusCurrent: true }));
 
+  const share = document.createElement("button");
+  share.type = "button";
+  share.className = "ghost-btn gold";
+  share.textContent = "Share today's progress";
+  share.addEventListener("click", () => shareSessionCard({ streak, rescued }));
+
   const back = document.createElement("a");
   back.className = "ghost-btn";
   back.href = PICKER_URL;
   back.textContent = "Back to surahs";
 
-  cta.append(more, back);
+  cta.append(more, share, back);
   panel.append(ring, h, sub, streakEl);
   if (rescuedEl) panel.append(rescuedEl);
   panel.append(cta);
@@ -835,6 +1051,15 @@ function renderReviewCard(word) {
   els.app.innerHTML = "";
   updateHeaderProgress();
 
+  // Three ways a word can resurface — recognition (Arabic → meaning),
+  // listening (audio → meaning) and production (meaning → Arabic script).
+  // Ear and recall are different skills; rotating the direction randomly
+  // also stops the learner pattern-matching the card instead of the word.
+  const modes = ["classic"];
+  if (word.audioPath && reciteEnabled()) modes.push("listen");
+  if (uniqueWords.length >= 4) modes.push("reverse");
+  const mode = modes[Math.floor(Math.random() * modes.length)];
+
   const card = document.createElement("section");
   card.className = "ayah review-card";
 
@@ -842,7 +1067,12 @@ function renderReviewCard(word) {
   head.className = "ayah-head";
   const tag = document.createElement("span");
   tag.className = "ayah-status";
-  tag.textContent = "↻ Quick review — you missed this earlier";
+  tag.textContent =
+    mode === "listen"
+      ? "↻ Quick review — by ear this time"
+      : mode === "reverse"
+        ? "↻ Quick review — now produce it"
+        : "↻ Quick review — you missed this earlier";
   head.appendChild(tag);
 
   const arabic = document.createElement("div");
@@ -860,14 +1090,41 @@ function renderReviewCard(word) {
   const feedback = document.createElement("p");
   feedback.className = "ayah-message";
 
-  const finish = (recalled) => {
+  let listenBtn = null;
+  if (mode === "listen") {
+    arabic.hidden = true; // revealed after answering
+    prompt.textContent = "Listen — which meaning is it?";
+    listenBtn = document.createElement("button");
+    listenBtn.type = "button";
+    listenBtn.className = "listen-btn";
+    listenBtn.textContent = "🔊 Play the word";
+    listenBtn.addEventListener("click", () => recite.playWord(word.audioPath));
+  } else if (mode === "reverse") {
+    arabic.hidden = true; // the script IS the answer
+    prompt.textContent = `Which word means “${displayGloss(word)}”?`;
+  }
+
+  const correctText = mode === "reverse" ? word.arabic : answerFor(word);
+
+  const finish = (recalled, chosen) => {
     scheduleReview(word, recalled);
     if (recalled) recordCorrect(word);
-    else recordMiss(word);
+    else {
+      recordMiss(word);
+      // Track the swap: chosen is a gloss in classic/listen mode, an Arabic
+      // form in reverse mode — map the latter back to its gloss.
+      const chosenSource =
+        mode === "reverse" ? uniqueWords.find((w) => w.arabic === chosen) : null;
+      const chosenGloss = mode === "reverse" ? (chosenSource ? answerFor(chosenSource) : "") : chosen;
+      recordConfusion(answerFor(word), chosenGloss);
+    }
+
+    arabic.hidden = false; // listen/reverse reveal the script now
+    if (listenBtn) listenBtn.disabled = true;
 
     [...opts.children].forEach((b) => {
       b.disabled = true;
-      if (b.textContent === answerFor(word)) b.classList.add("correct");
+      if (b.textContent === correctText) b.classList.add("correct");
     });
 
     feedback.textContent = recalled
@@ -883,17 +1140,116 @@ function renderReviewCard(word) {
     card.appendChild(cont);
   };
 
-  buildOptions(word).forEach((g) => {
+  const options = mode === "reverse" ? reverseOptions(word) : buildOptions(word);
+  options.forEach((g) => {
     const btn = document.createElement("button");
     btn.type = "button";
-    btn.className = "review-opt";
+    btn.className = "review-opt" + (mode === "reverse" ? " ar" : "");
+    if (mode === "reverse") btn.dir = "rtl";
     btn.textContent = g;
-    btn.addEventListener("click", () => finish(g === answerFor(word)));
+    btn.addEventListener("click", () => finish(g === correctText, g));
     opts.appendChild(btn);
   });
 
+  card.append(head, arabic, prompt);
+  if (listenBtn) card.appendChild(listenBtn);
+  card.append(opts, feedback);
+  els.app.appendChild(card);
+}
+
+// Two glosses the learner keeps swapping get a dedicated tell-apart round:
+// both words back to back with only those two choices. Direct discrimination
+// practice beats meeting each word alone — the contrast is the lesson.
+function renderContrastDrill(drill) {
+  els.app.innerHTML = "";
+  updateHeaderProgress();
+
+  const pair = shuffle([...drill.words]);
+  const glosses = drill.words.map((w) => answerFor(w));
+  let round = 0;
+  let clean = true;
+
+  const card = document.createElement("section");
+  card.className = "ayah review-card contrast-drill";
+
+  const head = document.createElement("div");
+  head.className = "ayah-head";
+  const tag = document.createElement("span");
+  tag.className = "ayah-status";
+  head.appendChild(tag);
+
+  const arabic = document.createElement("div");
+  arabic.className = "review-card-arabic";
+  arabic.dir = "rtl";
+
+  const prompt = document.createElement("p");
+  prompt.className = "review-card-prompt";
+  prompt.textContent = "Only two choices — which is it?";
+
+  const opts = document.createElement("div");
+  opts.className = "review-card-options";
+
+  const feedback = document.createElement("p");
+  feedback.className = "ayah-message";
+
+  const ask = () => {
+    const word = pair[round];
+    tag.textContent = `⚡ Tell-apart ${round + 1}/2 — you keep swapping these`;
+    arabic.textContent = word.arabic;
+    feedback.textContent = "";
+    feedback.className = "ayah-message";
+    opts.innerHTML = "";
+    for (const g of shuffle([...glosses])) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "review-opt";
+      btn.textContent = g;
+      btn.addEventListener("click", () => pick(word, g, btn));
+      opts.appendChild(btn);
+    }
+  };
+
+  const pick = (word, g, btn) => {
+    if (g === answerFor(word)) {
+      btn.classList.add("correct");
+      [...opts.children].forEach((b) => (b.disabled = true));
+      recordCorrect(word);
+      recite.playWord(word.audioPath);
+      round += 1;
+      if (round < pair.length) {
+        setTimeout(ask, 700);
+        return;
+      }
+      // Success clears the tangle; a slip keeps the pair warm for one more round.
+      confusions[drill.key] = clean ? 0 : 1;
+      saveConfusions();
+      lastReviewIndex = currentIndex;
+      feedback.textContent = clean
+        ? "Untangled ✓ — both told apart, first try."
+        : "Done — one slip, so this pair will visit once more.";
+      feedback.className = "ayah-message " + (clean ? "pass" : "reset");
+      const cont = document.createElement("button");
+      cont.type = "button";
+      cont.className = "primary-link";
+      cont.textContent = "Continue →";
+      cont.addEventListener("click", () => render({ focusCurrent: true }));
+      card.appendChild(cont);
+      return;
+    }
+    clean = false;
+    btn.classList.add("wrong");
+    btn.disabled = true;
+    recordMiss(word);
+    const other = drill.words.find((w) => answerFor(w) === g);
+    feedback.innerHTML =
+      `“${g}” is <span dir="rtl">${other ? other.arabic : ""}</span> — ` +
+      `this one is <strong>“${displayGloss(word)}”</strong>.`;
+    feedback.className = "ayah-message reset contrast";
+  };
+
   card.append(head, arabic, prompt, opts, feedback);
   els.app.appendChild(card);
+  ask();
 }
 
 function renderPassedAyah(ayah) {
@@ -1099,8 +1455,19 @@ function renderActiveAyah(ayah) {
         msgEl.textContent = "💪 Got it — a slip turned into a win.";
         msgEl.className = "ayah-message pass";
       } else {
-        msgEl.textContent = "";
-        msgEl.className = "ayah-message";
+        // Root-family micro-lesson: at the moment of success, connect this
+        // word to a sibling met in an earlier ayah — after answering, so the
+        // sibling's gloss can't leak the answer.
+        const sib = knownRootSibling(word);
+        if (sib) {
+          msgEl.innerHTML =
+            `Same root <strong dir="rtl">${word.root.split("").join(" ")}</strong> as ` +
+            `<span dir="rtl">${sib.arabic}</span> — “${answerFor(sib)}”, which you met earlier.`;
+          msgEl.className = "ayah-message root-moment";
+        } else {
+          msgEl.textContent = "";
+          msgEl.className = "ayah-message";
+        }
       }
 
       state.idx += 1;
@@ -1122,6 +1489,7 @@ function renderActiveAyah(ayah) {
     state.clean = false;
     state.missedNow.add(state.idx);
     recordMiss(word);
+    recordConfusion(answerFor(word), value);
     updateMeter();
 
     if (state.mistakes > state.budget) {
@@ -1169,7 +1537,9 @@ function renderActiveAyah(ayah) {
     playEl.hidden = true;
     node.classList.add("revealing");
     node.classList.add(perfect ? "perfect-pass" : "complete-pass");
-    celebrate(node, perfect);
+    // Confetti caps the choreography: pulse (0ms) → reveal (120ms) →
+    // badge stamp (340ms, see styles.css) → burst.
+    setTimeout(() => celebrate(node, perfect), 400);
     // The reward for finishing the test: hear the whole ayah recited.
     recite.playAyah(surah.number, ayah.number);
     msgEl.textContent = "";
@@ -1197,11 +1567,13 @@ function renderActiveAyah(ayah) {
       return;
     }
 
-    // After a short beat, either slip in a review of an earlier missed word or
-    // move straight on to the next ayah.
-    const review = pickDueReview(ayah);
+    // After a short beat: a tell-apart drill if two glosses keep colliding,
+    // else a review of an earlier missed word, else straight on.
+    const drill = pickDueContrast();
+    const review = drill ? null : pickDueReview(ayah);
     setTimeout(() => {
-      if (review) renderReviewCard(review);
+      if (drill) renderContrastDrill(drill);
+      else if (review) renderReviewCard(review);
       else render({ focusCurrent: true });
     }, 1600);
   }

@@ -4,12 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Miftah — Quranic Arabic Trainer</title>
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#13110d" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f7f1e3" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill-rule='evenodd' fill='%23e3b75f' d='M8 2.4a5.6 5.6 0 0 0-1 11.1V19a1 1 0 0 0 .29.71l1 1a1 1 0 0 0 1.42 0l1.6-1.6-1.3-1.3 1.3-1.3-1.3-1.3.99-.99A5.6 5.6 0 0 0 8 2.4ZM8 6.1a1.9 1.9 0 1 0 0 3.8 1.9 1.9 0 1 0 0-3.8Z'/%3E%3C/svg%3E" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Inter:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <link rel="preload" href="vendor/fonts/amiri-quran-400-arabic.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="vendor/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="vendor/fonts/fonts.css" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -27,16 +29,34 @@
           </div>
         </div>
         <div class="topbar-actions">
-          <a href="letters.html" class="ghost-btn gold" title="Letter Garden — the kids' letters game, no reading needed">🗝 Letter Garden</a>
-          <a href="index.html" class="ghost-btn gold">🏝 Island</a>
-          <a href="glossary.html" class="ghost-btn">📖 Glossary</a>
+          <a href="navigator.html" class="ghost-btn gold" title="The Star Navigator — sail the night sea and chart constellations with the words you know"><svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 6.5 14.2 12 12 17.5 9.8 12Z"/></svg>Star Navigator</a>
+          <a href="forge.html" class="ghost-btn gold" title="Memory Forge — battle the Forgetting with the words you've learned"><svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5c1 3.4 4.5 5 4.5 8.8a4.5 4.5 0 0 1-9 0c0-1.9.9-3.4 2.2-4.7.2 1.1.7 1.9 1.5 2.5-.2-2.3 0-4.4.8-6.6Z"/></svg>Memory Forge</a>
+          <a href="letters.html" class="ghost-btn gold" title="Letter Garden — the kids' letters game, no reading needed"><svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.5v-7"/><path d="M12 13.5C12 10.2 9.4 7.8 5.5 7.8c0 4 2.6 5.7 6.5 5.7Z"/><path d="M12 13.5c0-2.9 2.2-5 5.7-5 0 3.5-2.2 5-5.7 5Z"/></svg>Letter Garden</a>
+          <a href="index.html" class="ghost-btn gold"><svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 21c0-5.5-.7-9.3-2.4-12.3"/><path d="M10 8.7C8.6 5.9 6.2 4.8 3.7 5.7c1.7 2 3.8 2.9 6.3 3Z"/><path d="M10 8.7c-.4-3 1.3-5.4 4.3-5.9.4 3-1.3 5.2-4.3 5.9Z"/><path d="M10 8.7c3-1.1 5.9-.4 7.9 1.9-2.9.9-5.9.2-7.9-1.9Z"/><path d="M5.5 21h13"/></svg>Island</a>
+          <a href="glossary.html" class="ghost-btn"><svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6.3C10 4.9 7.2 4.5 4.5 5v13c2.7-.5 5.5 0 7.5 1.5 2-1.5 4.8-2 7.5-1.5V5c-2.7-.5-5.5-.1-7.5 1.3Z"/><path d="M12 6.3v13.2"/></svg>Glossary</a>
         </div>
       </div>
     </header>
 
     <main class="app">
       <section id="home-hero" class="home-hero" hidden></section>
-      <p id="loading" class="loading">Loading surahs…</p>
+      <!-- Skeleton mirrors the surah-card rows so the list doesn't jump when
+           the manifest lands. picker.js swaps in the error text on failure. -->
+      <div id="loading" class="loading" role="status">
+        <span class="loading-text">Loading surahs…</span>
+        <div class="skeleton-card" aria-hidden="true">
+          <span class="sk sk-hex"></span>
+          <span class="sk-body"><span class="sk sk-line"></span><span class="sk sk-line"></span></span>
+        </div>
+        <div class="skeleton-card" aria-hidden="true">
+          <span class="sk sk-hex"></span>
+          <span class="sk-body"><span class="sk sk-line"></span><span class="sk sk-line"></span></span>
+        </div>
+        <div class="skeleton-card" aria-hidden="true">
+          <span class="sk sk-hex"></span>
+          <span class="sk-body"><span class="sk sk-line"></span><span class="sk sk-line"></span></span>
+        </div>
+      </div>
       <h2 id="surah-list-heading" class="section-heading" hidden>Surahs</h2>
       <div id="surah-list" class="surah-list"></div>
     </main>
@@ -60,6 +80,22 @@
       <span id="sources"></span>
     </footer>
 
+
+    <nav class="tabbar" aria-label="Primary">
+      <div class="tabbar-inner">
+        <a href="surahs.html" class="tab" data-tab="surahs"><svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4.5 7h15"/><path d="M4.5 12h15"/><path d="M4.5 17h9"/></svg><span>Surahs</span></a>
+        <a href="trainer.html" class="tab tab-primary" id="tab-continue" data-tab="trainer"><svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M10 8.5 15.5 12 10 15.5Z"/></svg><span>Continue</span></a>
+        <a href="glossary.html" class="tab" data-tab="glossary"><svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6.3C10 4.9 7.2 4.5 4.5 5v13c2.7-.5 5.5 0 7.5 1.5 2-1.5 4.8-2 7.5-1.5V5c-2.7-.5-5.5-.1-7.5 1.3Z"/><path d="M12 6.3v13.2"/></svg><span>Glossary</span></a>
+        <button type="button" class="tab" id="tab-games" aria-expanded="false" aria-controls="games-sheet"><svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="6.5" width="11" height="11"/><path d="M12 4.2 19.8 12 12 19.8 4.2 12Z"/></svg><span>Games</span></button>
+      </div>
+    </nav>
+    <div id="games-sheet" class="games-sheet" hidden>
+      <a href="navigator.html"><svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 6.5 14.2 12 12 17.5 9.8 12Z"/></svg>Star Navigator</a>
+      <a href="forge.html"><svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5c1 3.4 4.5 5 4.5 8.8a4.5 4.5 0 0 1-9 0c0-1.9.9-3.4 2.2-4.7.2 1.1.7 1.9 1.5 2.5-.2-2.3 0-4.4.8-6.6Z"/></svg>Memory Forge</a>
+      <a href="letters.html"><svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.5v-7"/><path d="M12 13.5C12 10.2 9.4 7.8 5.5 7.8c0 4 2.6 5.7 6.5 5.7Z"/><path d="M12 13.5c0-2.9 2.2-5 5.7-5 0 3.5-2.2 5-5.7 5Z"/></svg>Letter Garden</a>
+      <a href="index.html"><svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 21c0-5.5-.7-9.3-2.4-12.3"/><path d="M10 8.7C8.6 5.9 6.2 4.8 3.7 5.7c1.7 2 3.8 2.9 6.3 3Z"/><path d="M10 8.7c-.4-3 1.3-5.4 4.3-5.9.4 3-1.3 5.2-4.3 5.9Z"/><path d="M10 8.7c3-1.1 5.9-.4 7.9 1.9-2.9.9-5.9.2-7.9-1.9Z"/><path d="M5.5 21h13"/></svg>Island</a>
+    </div>
+    <script src="tabbar.js"></script>
     <script src="picker.js"></script>
   </body>
 </html>

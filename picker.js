@@ -125,7 +125,12 @@ function renderCard(surah, { passed, completed, unlocked, current, prevName }) {
   const trainerHref = `trainer.html?surah=${surah.number}`;
   card.classList.add("unlocked");
   card.tabIndex = 0;
-  const go = () => (window.location.href = trainerHref);
+  const go = () => {
+    // Name the tapped card so the cross-document view transition morphs it
+    // into the trainer's loading stage (see .skeleton-ayah in styles.css).
+    card.style.viewTransitionName = "stage";
+    window.location.href = trainerHref;
+  };
   card.addEventListener("click", go);
   card.addEventListener("keydown", (e) => {
     if (e.key === "Enter" || e.key === " ") {
@@ -227,6 +232,46 @@ function renderHero({ session, goal, streak, rescued, mastered, cta }) {
   );
 }
 
+// "You can read N% of Juz ʿAmma" — intersect the word forms of every passed
+// ayah (across all surahs, matched by consonant skeleton) with the
+// precomputed Juz ʿAmma form set from data/coverage.json.
+const DIACRITICS = /[ً-ْٰٓ-ٟؐ-ؚۖ-ۭـ]/g; // keep in sync with app.js
+const skeleton = (s) => s.normalize("NFC").replace(DIACRITICS, "");
+
+async function renderCoverage(surahs) {
+  const cov = await (await fetch("data/coverage.json")).json();
+  const targetKeys = new Set(cov.keys);
+
+  const learned = new Set();
+  for (const s of surahs) {
+    const { passed } = surahProgress(s.number);
+    if (passed <= 0) continue;
+    const data = await (await fetch(`data/surah-${s.number}.json`)).json();
+    for (const ayah of data.ayahs.slice(0, passed)) {
+      for (const w of ayah.words) {
+        const key = skeleton(w.arabic);
+        if (targetKeys.has(key)) learned.add(key);
+      }
+    }
+  }
+  if (!learned.size) return; // nothing yet — no 0% noise for new learners
+
+  const pct = Math.max(1, Math.round((learned.size / cov.total) * 100));
+  const box = document.createElement("div");
+  box.className = "hero-coverage";
+  box.innerHTML = `
+    <span class="hc-label">You can read <strong>${pct}%</strong> of ${cov.label}'s words</span>
+    <span class="hc-track"><span class="hc-fill"></span></span>`;
+  const cta = els.hero.querySelector(".hero-cta");
+  if (!cta) return;
+  cta.before(box);
+  requestAnimationFrame(() =>
+    requestAnimationFrame(() => {
+      box.querySelector(".hc-fill").style.width = pct + "%";
+    })
+  );
+}
+
 async function init() {
   let manifest;
   try {
@@ -264,15 +309,16 @@ async function init() {
       };
     }
 
-    els.list.appendChild(
-      renderCard(surah, {
-        passed,
-        completed,
-        unlocked,
-        current,
-        prevName: i > 0 ? surahs[i - 1].englishName : null,
-      })
-    );
+    const cardEl = renderCard(surah, {
+      passed,
+      completed,
+      unlocked,
+      current,
+      prevName: i > 0 ? surahs[i - 1].englishName : null,
+    });
+    // Index for the CSS deal-out stagger (see .surah-card animation-delay).
+    cardEl.style.setProperty("--i", i);
+    els.list.appendChild(cardEl);
     prevCompleted = completed;
   });
 
@@ -290,6 +336,10 @@ async function init() {
     cta,
   });
   els.listHeading.hidden = false;
+
+  // Fire-and-forget: the Juz ʿAmma coverage meter slots into the hero once
+  // computed. A bonus stat — any failure just means it doesn't appear.
+  renderCoverage(surahs).catch(() => {});
 
   els.sources.textContent =
     "Arabic verified letter-for-letter across Quran.com API v4 and AlQuran.cloud / Tanzil, with Saheeh International translations.";
