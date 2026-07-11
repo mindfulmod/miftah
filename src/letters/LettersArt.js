@@ -14,16 +14,15 @@
   let uid = 0;
   const gradId = () => `lgg${(uid += 1)}`;
 
-  // A friendly face used by every character: white eyes that blink via CSS.
+  // A friendly face used by tiny characters. Dark oval eyes stay readable at
+  // HUD scale and avoid the outlined-white "glasses" effect of the old cast.
   const face = (x, y, s, mood = "happy") => `
     <g class="art-face" transform="translate(${x} ${y}) scale(${s})">
       <g class="art-eyes">
-        <ellipse cx="-11" cy="0" rx="6.6" ry="7.2" fill="#fff"/>
-        <ellipse cx="11" cy="0" rx="6.6" ry="7.2" fill="#fff"/>
-        <circle class="art-pupil" cx="-9.6" cy="1" r="3.1" fill="${INK}"/>
-        <circle class="art-pupil" cx="12.4" cy="1" r="3.1" fill="${INK}"/>
-        <circle cx="-8.4" cy="-0.4" r="1.2" fill="#fff"/>
-        <circle cx="13.6" cy="-0.4" r="1.2" fill="#fff"/>
+        <ellipse class="art-pupil" cx="-10.5" cy="1" rx="4.8" ry="6.3" fill="${INK}"/>
+        <ellipse class="art-pupil" cx="10.5" cy="1" rx="4.8" ry="6.3" fill="${INK}"/>
+        <circle cx="-9" cy="-1" r="1.5" fill="#fffaf0"/>
+        <circle cx="12" cy="-1" r="1.5" fill="#fffaf0"/>
       </g>
       ${mood === "open"
         ? `<ellipse cx="0" cy="12.5" rx="6" ry="7" fill="#7c2d4a"/><ellipse cx="0" cy="15.4" rx="3.8" ry="3.2" fill="#ff9db1"/>`
@@ -34,13 +33,13 @@
       <ellipse cx="17" cy="7.5" rx="4.2" ry="3.4" fill="#ff9db1" opacity="0.6"/>
     </g>`;
 
-  // Shared body gradient: light from the upper-left, toy-plastic shine.
+  // Shared body lighting: a restrained two-tone wash rather than a glossy
+  // candy gradient, matching the flatter card and scenery system.
   const bodyGrad = (id, hue, sat = 78, lum = 62) => `
-    <radialGradient id="${id}" cx="0.36" cy="0.28" r="1">
-      <stop offset="0" stop-color="hsl(${hue} ${sat + 10}% ${lum + 20}%)"/>
-      <stop offset="0.68" stop-color="hsl(${hue} ${sat}% ${lum}%)"/>
-      <stop offset="1" stop-color="hsl(${hue} ${sat - 10}% ${lum - 14}%)"/>
-    </radialGradient>`;
+    <linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="hsl(${hue} ${sat}% ${lum + 8}%)"/>
+      <stop offset="1" stop-color="hsl(${hue} ${sat - 8}% ${lum - 6}%)"/>
+    </linearGradient>`;
 
   // Sprig Cub palette: still cheerful, but deliberately calmer than the old
   // candy-neon blobs. The dark ink is shared across hues so accessories can
@@ -49,36 +48,34 @@
     body: `hsl(${hue} 62% 58%)`,
     shade: `hsl(${hue} 48% 43%)`,
     inner: `hsl(${(hue + 42) % 360} 48% 74%)`,
-    muzzle: `hsl(${(hue + 38) % 360} 52% 82%)`,
+    muzzle: "#f2dfb9",
     cloth: `hsl(${(hue + 195) % 360} 52% 52%)`,
     clothDark: `hsl(${(hue + 195) % 360} 43% 37%)`,
     leaf: "#79a84b",
     leafDark: "#4d7434",
   });
 
-  // Larger toy eyes and a proper muzzle distinguish the cub from the simple
-  // face used by keys and tiles. All expressions retain the same footprint so
-  // animation and accessories never need to move.
+  // Larger toy eyes and a soft muzzle distinguish the companions. The muzzle
+  // deliberately has no outline, so the face reads as one animal head instead
+  // of eyes and cheeks stapled onto a mask.
   const sprigFace = (x, y, s = 1, mood = "happy", muzzle = "#f1d7a5") => `
     <g class="art-face art-sprig-face" transform="translate(${x} ${y}) scale(${s})">
-      <ellipse cx="0" cy="13" rx="25" ry="20" fill="${muzzle}" stroke="${INK}" stroke-width="3.6"/>
+      <path d="M-29 10 Q-25 -2 -12 1 Q0 4 0 13 Q0 4 12 1 Q25 -2 29 10 Q31 28 15 34 Q0 39 -15 34 Q-31 28 -29 10 Z" fill="${muzzle}"/>
       <g class="art-eyes">
-        <ellipse cx="-18" cy="-7" rx="9.5" ry="12" fill="#fffdf7" stroke="${INK}" stroke-width="3.4"/>
-        <ellipse cx="18" cy="-7" rx="9.5" ry="12" fill="#fffdf7" stroke="${INK}" stroke-width="3.4"/>
-        <ellipse class="art-pupil" cx="-16" cy="-5" rx="4.5" ry="6" fill="${INK}"/>
-        <ellipse class="art-pupil" cx="16" cy="-5" rx="4.5" ry="6" fill="${INK}"/>
-        <circle cx="-14.5" cy="-7" r="1.5" fill="#fff"/>
-        <circle cx="14.5" cy="-7" r="1.5" fill="#fff"/>
+        <ellipse class="art-pupil" cx="-17" cy="-5" rx="7" ry="9.5" fill="${INK}"/>
+        <ellipse class="art-pupil" cx="17" cy="-5" rx="7" ry="9.5" fill="${INK}"/>
+        <circle cx="-14.5" cy="-8" r="2.3" fill="#fffaf0"/>
+        <circle cx="19.5" cy="-8" r="2.3" fill="#fffaf0"/>
       </g>
-      <path d="M-6 8 Q0 3 6 8 Q4 15 0 15 Q-4 15 -6 8 Z" fill="${INK}"/>
+      <path d="M-6 9 Q0 5 6 9 Q4 15 0 15 Q-4 15 -6 9 Z" fill="${INK}"/>
       <path d="M0 14 V18" stroke="${INK}" stroke-width="2.8" stroke-linecap="round"/>
       ${mood === "open"
         ? `<path d="M-9 19 Q0 31 9 19 Q8 36 0 36 Q-8 36 -9 19 Z" fill="#7c3f52" stroke="${INK}" stroke-width="2.6"/><path d="M-5 29 Q0 25 5 29" stroke="#d97786" stroke-width="3" stroke-linecap="round"/>`
         : mood === "sad"
           ? `<path d="M-8 27 Q0 20 8 27" fill="none" stroke="${INK}" stroke-width="3" stroke-linecap="round"/>`
           : `<path d="M-9 19 Q0 29 9 19" fill="none" stroke="${INK}" stroke-width="3" stroke-linecap="round"/>`}
-      <circle cx="-32" cy="13" r="5" fill="#d9818e" opacity="0.55"/>
-      <circle cx="32" cy="13" r="5" fill="#d9818e" opacity="0.55"/>
+      <circle cx="-32" cy="14" r="4.5" fill="#d9818e" opacity="0.46"/>
+      <circle cx="32" cy="14" r="4.5" fill="#d9818e" opacity="0.46"/>
     </g>`;
 
   // The mascot: a round-headed golden key with a face. He hops on the map,
@@ -134,11 +131,7 @@
         ${sprigFace(125, 93, 1.05, "happy", p.muzzle)}
         <path d="M78 144 Q125 132 172 144 Q190 176 183 235 Q165 260 125 260 Q85 260 67 235 Q60 176 78 144 Z"
           fill="${p.body}" stroke="${INK}" stroke-width="8" stroke-linejoin="round"/>
-        <path d="M82 158 Q125 176 168 158 L174 226 Q153 242 125 242 Q97 242 76 226 Z"
-          fill="${p.cloth}" stroke="${INK}" stroke-width="6" stroke-linejoin="round"/>
-        <path d="M95 161 V185 M155 161 V185" stroke="${p.clothDark}" stroke-width="7" stroke-linecap="round"/>
-        <circle cx="95" cy="180" r="5" fill="#e8c55e" stroke="${INK}" stroke-width="2.5"/>
-        <circle cx="155" cy="180" r="5" fill="#e8c55e" stroke="${INK}" stroke-width="2.5"/>
+        <ellipse cx="125" cy="198" rx="42" ry="48" fill="${p.muzzle}" opacity="0.88"/>
         <path d="M80 224 Q55 245 73 262 Q92 269 105 247" fill="${p.body}" stroke="${INK}" stroke-width="7" stroke-linecap="round"/>
         <path d="M170 224 Q195 245 177 262 Q158 269 145 247" fill="${p.body}" stroke="${INK}" stroke-width="7" stroke-linecap="round"/>
         <ellipse cx="84" cy="253" rx="18" ry="10" fill="${p.inner}" stroke="${INK}" stroke-width="4"/>
@@ -189,17 +182,16 @@
         <path d="M42 74 Q45 31 125 30 Q205 31 208 74 L202 123 Q194 151 165 158 L85 158 Q56 151 48 123 Z"
           fill="url(#${id})" stroke="${INK}" stroke-width="8" stroke-linejoin="round"/>
         <g class="art-eyes">
-          <ellipse cx="94" cy="88" rx="12" ry="15" fill="#fffdf7" stroke="${INK}" stroke-width="4"/>
-          <ellipse cx="156" cy="88" rx="12" ry="15" fill="#fffdf7" stroke="${INK}" stroke-width="4"/>
-          <circle cx="97" cy="91" r="5" fill="${INK}"/><circle cx="153" cy="91" r="5" fill="${INK}"/>
+          <ellipse cx="96" cy="89" rx="8" ry="11" fill="${INK}"/>
+          <ellipse cx="154" cy="89" rx="8" ry="11" fill="${INK}"/>
+          <circle cx="99" cy="86" r="2.5" fill="#fffaf0"/><circle cx="157" cy="86" r="2.5" fill="#fffaf0"/>
         </g>
         <g class="art-creature-mouth">
           <ellipse cx="125" cy="127" rx="48" ry="39" fill="#6f384c" stroke="${INK}" stroke-width="6"/>
           <ellipse cx="125" cy="146" rx="26" ry="13" fill="#d97786"/>
           <path d="M85 112 Q125 102 165 112 L157 124 Q125 116 93 124 Z" fill="#fffaf0"/>
         </g>
-        <path d="M77 154 Q125 173 173 154 L164 215 Q125 232 86 215 Z" fill="${p.cloth}" stroke="${INK}" stroke-width="7" stroke-linejoin="round"/>
-        <path d="M103 176 L125 194 L147 176" fill="none" stroke="#e8c55e" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+        <ellipse cx="125" cy="185" rx="41" ry="45" fill="${p.muzzle}" opacity="0.88"/>
         <path d="M83 172 Q50 178 56 207 Q64 225 88 209" fill="${p.body}" stroke="${INK}" stroke-width="8" stroke-linecap="round"/>
         <path d="M167 172 Q200 178 194 207 Q186 225 162 209" fill="${p.body}" stroke="${INK}" stroke-width="8" stroke-linecap="round"/>
         <ellipse cx="96" cy="221" rx="28" ry="14" fill="${p.body}" stroke="${INK}" stroke-width="7"/>
@@ -442,11 +434,7 @@
         ${parts.back}
         <path d="M-37 20 Q0 8 37 20 Q50 45 43 76 Q28 92 0 92 Q-28 92 -43 76 Q-50 45 -37 20 Z"
           fill="${p.body}" stroke="${INK}" stroke-width="6" stroke-linejoin="round"/>
-        <path d="M-31 31 Q0 44 31 31 L34 72 Q17 82 0 82 Q-17 82 -34 72 Z"
-          fill="${p.cloth}" stroke="${INK}" stroke-width="4.5" stroke-linejoin="round"/>
-        <path d="M-19 30 V45 M19 30 V45" stroke="${p.clothDark}" stroke-width="5" stroke-linecap="round"/>
-        <circle cx="-19" cy="43" r="3.5" fill="#d8b957" stroke="${INK}" stroke-width="2"/>
-        <circle cx="19" cy="43" r="3.5" fill="#d8b957" stroke="${INK}" stroke-width="2"/>
+        <ellipse cx="0" cy="51" rx="29" ry="36" fill="${p.muzzle}" opacity="0.88"/>
         ${stage >= 2 ? `<path d="M-38 34 Q-60 40 -53 63 Q-45 75 -31 62 Z" fill="${p.body}" stroke="${INK}" stroke-width="5"/><path d="M38 34 Q60 40 53 63 Q45 75 31 62 Z" fill="${p.body}" stroke="${INK}" stroke-width="5"/>` : `<path d="M-37 40 Q-52 44 -47 59 Q-41 67 -32 58 Z" fill="${p.body}" stroke="${INK}" stroke-width="4"/><path d="M37 40 Q52 44 47 59 Q41 67 32 58 Z" fill="${p.body}" stroke="${INK}" stroke-width="4"/>`}
         <ellipse cx="-25" cy="82" rx="24" ry="13" fill="${p.body}" stroke="${INK}" stroke-width="5"/>
         <ellipse cx="25" cy="82" rx="24" ry="13" fill="${p.body}" stroke="${INK}" stroke-width="5"/>
