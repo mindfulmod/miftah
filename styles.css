@@ -1991,6 +1991,44 @@ h1 {
   .card-sub {
     line-height: 1.35;
   }
+
+  /* Trainer header only (the one page with a .progress bar): collapse the
+     brand row and the progress row into a single line. A title, a progress
+     bar, and two small icon buttons genuinely fit on one row — the old
+     two-row layout cost an extra ~40px of content height on top of the
+     safe-area inset, on the page a learner spends most of a session inside.
+     .topbar-inner is unwrapped via display:contents so .brand-lockup joins
+     .progress as a direct flex child of .topbar, with no HTML changes. */
+  .topbar:has(.progress) {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-top: max(8px, env(safe-area-inset-top));
+    padding-bottom: 8px;
+  }
+  .topbar:has(.progress) .topbar-inner { display: contents; }
+  .topbar:has(.progress) .brand-lockup { flex: none; }
+  .topbar:has(.progress) .brand-key { width: 32px; height: 32px; }
+  .topbar:has(.progress) .brand-key svg { width: 21px; height: 21px; }
+  .topbar:has(.progress) h1 {
+    font-size: var(--fs-2xs);
+    max-width: 32vw;
+  }
+  .topbar:has(.progress) .progress {
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+    max-width: none;
+  }
+  /* The active ayah card already shows its own "1:1" badge and a ★ Perfect
+     stamp on completion — redundant on a squeezed single-line header. */
+  .topbar:has(.progress) .progress-label,
+  .topbar:has(.progress) .perfect-label { display: none; }
+  .topbar:has(.progress) .recite-toggle,
+  .topbar:has(.progress) .session-ring { width: 30px; height: 30px; flex: none; }
+  .topbar:has(.progress) .recite-toggle svg { width: 16px; height: 16px; }
+  .topbar:has(.progress) .session-ring svg { width: 30px; height: 30px; }
+  .topbar:has(.progress) .ring-label { font-size: 0.56rem; }
 }
 
 /* ---------- recitation speaker toggle (topbar) ---------- */
