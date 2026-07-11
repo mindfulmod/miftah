@@ -164,38 +164,25 @@
       font-size="${size}" fill="${INK}" ${latin ? "" : `direction="rtl"`}>${label}</text>`;
   }
 
-  // The hungry Sprig Cub for the feeding game — same toy construction, with a
-  // wide animated mouth and a leaf-shaped bib so it reads as one cast member.
+  // The hungry creature for the feeding game — mouth wide open, pure appetite.
   function creature({ hue = 275, size = 210 } = {}) {
     const id = gradId();
-    const p = sprigPalette(hue);
     return `
-    <svg class="art-creature art-sprig" viewBox="0 0 250 244" width="${size}" height="${size * 0.98}" aria-hidden="true">
-      <defs>${bodyGrad(id, hue, 58, 57)}</defs>
+    <svg class="art-creature" viewBox="0 0 220 226" width="${size}" height="${size * 1.03}" aria-hidden="true">
+      <defs>${bodyGrad(id, hue, 72, 60)}</defs>
       <g class="art-creature-body">
-        <ellipse cx="125" cy="232" rx="78" ry="9" fill="${SHADOW}"/>
-        <path d="M148 37 Q148 13 168 9 Q166 30 148 37 Z" fill="${p.leaf}" stroke="${INK}" stroke-width="5"/>
-        <circle cx="62" cy="65" r="32" fill="${p.body}" stroke="${INK}" stroke-width="7"/>
-        <circle cx="188" cy="65" r="32" fill="${p.body}" stroke="${INK}" stroke-width="7"/>
-        <circle cx="62" cy="65" r="15" fill="${p.inner}" stroke="${INK}" stroke-width="4"/>
-        <circle cx="188" cy="65" r="15" fill="${p.inner}" stroke="${INK}" stroke-width="4"/>
-        <path d="M42 74 Q45 31 125 30 Q205 31 208 74 L202 123 Q194 151 165 158 L85 158 Q56 151 48 123 Z"
-          fill="url(#${id})" stroke="${INK}" stroke-width="8" stroke-linejoin="round"/>
-        <g class="art-eyes">
-          <ellipse cx="96" cy="89" rx="8" ry="11" fill="${INK}"/>
-          <ellipse cx="154" cy="89" rx="8" ry="11" fill="${INK}"/>
-          <circle cx="99" cy="86" r="2.5" fill="#fffaf0"/><circle cx="157" cy="86" r="2.5" fill="#fffaf0"/>
-        </g>
+        <ellipse cx="110" cy="216" rx="72" ry="9" fill="${SHADOW}"/>
+        <path d="M110 12 C176 12 206 62 204 118 C202 178 168 208 110 208 C52 208 18 178 16 118 C14 62 44 12 110 12 Z"
+          fill="url(#${id})"/>
+        <path d="M52 20 L64 46 L40 44 Z" fill="hsl(${hue} 62% 40%)"/>
+        <path d="M168 20 L156 46 L180 44 Z" fill="hsl(${hue} 62% 40%)"/>
+        <ellipse cx="70" cy="42" rx="14" ry="10" fill="#fff" opacity="0.35"/>
+        ${face(110, 74, 1.25, "happy")}
         <g class="art-creature-mouth">
-          <ellipse cx="125" cy="127" rx="48" ry="39" fill="#6f384c" stroke="${INK}" stroke-width="6"/>
-          <ellipse cx="125" cy="146" rx="26" ry="13" fill="#d97786"/>
-          <path d="M85 112 Q125 102 165 112 L157 124 Q125 116 93 124 Z" fill="#fffaf0"/>
+          <ellipse cx="110" cy="152" rx="44" ry="34" fill="#5d1f3d"/>
+          <ellipse cx="110" cy="168" rx="26" ry="14" fill="#ff8fa3"/>
+          <path d="M74 134 L86 148 L98 132 L110 148 L122 132 L134 148 L146 134" fill="#fff"/>
         </g>
-        <ellipse cx="125" cy="185" rx="41" ry="45" fill="${p.muzzle}" opacity="0.88"/>
-        <path d="M83 172 Q50 178 56 207 Q64 225 88 209" fill="${p.body}" stroke="${INK}" stroke-width="8" stroke-linecap="round"/>
-        <path d="M167 172 Q200 178 194 207 Q186 225 162 209" fill="${p.body}" stroke="${INK}" stroke-width="8" stroke-linecap="round"/>
-        <ellipse cx="96" cy="221" rx="28" ry="14" fill="${p.body}" stroke="${INK}" stroke-width="7"/>
-        <ellipse cx="154" cy="221" rx="28" ry="14" fill="${p.body}" stroke="${INK}" stroke-width="7"/>
       </g>
     </svg>`;
   }
@@ -358,9 +345,9 @@
 
   // ---------- the Letter Pet ----------
   // The creature the child hatches and TEACHES. Species share one core body
-  // rig so the face and every accessory fits all of them; each species adds
-  // its own ears, tail and quirk. The legacy `blob` id now means Sprig Cub,
-  // preserving every existing save while removing the blob silhouette.
+  // circle so the face and every accessory fits all of them; each species
+  // adds its own ears, tail and quirk. Bodies beyond the blob are unlocked
+  // with earned stars — the pet room is the shop.
 
   ns.LETTERS_BODIES = [
     { id: "blob", cost: 0 },
@@ -370,81 +357,78 @@
     { id: "dragon", cost: 30 },
   ];
 
-  // Species parts drawn around the shared cub head and torso. `back` renders
-  // before the shared body, `front` adds the identifying detail afterward.
+  // Species parts drawn around the shared r=46 body circle at cy=4.
+  // `back` renders behind the body, `front` on top of it.
   const SPECIES = {
-    blob: (p) => ({
+    blob: (body, rim) => ({
       back: `
-        <circle cx="-39" cy="-48" r="21" fill="${p.body}" stroke="${INK}" stroke-width="6"/>
-        <circle cx="39" cy="-48" r="21" fill="${p.body}" stroke="${INK}" stroke-width="6"/>
-        <circle cx="-39" cy="-48" r="10" fill="${p.inner}" stroke="${INK}" stroke-width="3.2"/>
-        <circle cx="39" cy="-48" r="10" fill="${p.inner}" stroke="${INK}" stroke-width="3.2"/>
-        <path d="M42 42 Q66 48 57 62 Q50 69 40 57 Z" fill="${p.body}" stroke="${INK}" stroke-width="5" stroke-linejoin="round"/>`,
-      front: `<path d="M18 -72 Q20 -93 39 -96 Q35 -77 18 -72 Z" fill="${p.leaf}" stroke="${INK}" stroke-width="4.5" stroke-linejoin="round"/><path d="M22 -77 Q29 -84 36 -90" fill="none" stroke="${p.leafDark}" stroke-width="2.5" stroke-linecap="round"/>`,
-    }),
-    bunny: (p) => ({
-      back: `
-        <path d="M-34 -55 Q-49 -110 -20 -104 Q-2 -94 -15 -50 Z" fill="${p.body}" stroke="${INK}" stroke-width="6" stroke-linejoin="round"/>
-        <path d="M34 -55 Q49 -110 20 -104 Q2 -94 15 -50 Z" fill="${p.body}" stroke="${INK}" stroke-width="6" stroke-linejoin="round"/>
-        <path d="M-30 -64 Q-38 -96 -23 -95 Q-12 -86 -20 -58 Z" fill="${p.inner}"/>
-        <path d="M30 -64 Q38 -96 23 -95 Q12 -86 20 -58 Z" fill="${p.inner}"/>
-        <circle cx="49" cy="48" r="13" fill="${p.inner}" stroke="${INK}" stroke-width="4"/>`,
+        <path d="M-18 -38 Q-30 -60 -6 -46 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>
+        <path d="M18 -38 Q30 -60 6 -46 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>
+        <path d="M42 30 Q61 34 54 47 Q47 53 41 44 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>`,
       front: "",
     }),
-    chick: (p) => ({
+    bunny: (body, rim, belly) => ({
       back: `
-        <path d="M-15 -70 Q-21 -91 -3 -82 Q3 -101 12 -81 Q29 -91 20 -68 Z" fill="#d8a951" stroke="${INK}" stroke-width="5" stroke-linejoin="round"/>
-        <path d="M-49 15 Q-72 24 -60 47 Q-50 58 -37 40 Z" fill="${p.body}" stroke="${INK}" stroke-width="5"/>
-        <path d="M49 15 Q72 24 60 47 Q50 58 37 40 Z" fill="${p.body}" stroke="${INK}" stroke-width="5"/>
-        <path d="M39 47 Q61 53 56 65 Q48 72 37 58 Z" fill="#d8a951" stroke="${INK}" stroke-width="4"/>`,
-      front: `<path d="M-7 -18 L0 -9 L7 -18 Q0 -24 -7 -18 Z" fill="#d8a951" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/>`,
+        <path d="M-24 -38 Q-34 -86 -12 -66 Q-4 -56 -8 -40 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>
+        <path d="M24 -38 Q34 -86 12 -66 Q4 -56 8 -40 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>
+        <path d="M-21 -44 Q-26 -74 -13 -60 Q-9 -52 -12 -44 Z" fill="${belly}"/>
+        <path d="M21 -44 Q26 -74 13 -60 Q9 -52 12 -44 Z" fill="${belly}"/>
+        <circle cx="44" cy="36" r="10" fill="${belly}" stroke="${rim}" stroke-width="3"/>`,
+      front: "",
     }),
-    cat: (p) => ({
+    chick: (body, rim, belly) => ({
       back: `
-        <path d="M-45 -44 Q-55 -82 -18 -66 L-23 -47 Z" fill="${p.body}" stroke="${INK}" stroke-width="6" stroke-linejoin="round"/>
-        <path d="M45 -44 Q55 -82 18 -66 L23 -47 Z" fill="${p.body}" stroke="${INK}" stroke-width="6" stroke-linejoin="round"/>
-        <path d="M-43 -57 Q-47 -72 -28 -64 Z" fill="${p.inner}"/>
-        <path d="M43 -57 Q47 -72 28 -64 Z" fill="${p.inner}"/>
-        <path d="M43 44 Q72 41 68 15 Q66 1 54 7 Q61 19 52 28 Q43 35 39 45 Z" fill="${p.body}" stroke="${INK}" stroke-width="5"/>`,
+        <path d="M-4 -50 Q-10 -66 0 -60 Q6 -68 8 -56 Q16 -60 10 -48 Z" fill="#ffb03a" stroke="#d98a14" stroke-width="3"/>
+        <path d="M-44 6 Q-62 14 -50 30 Q-42 38 -34 26 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>
+        <path d="M44 6 Q62 14 50 30 Q42 38 34 26 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>
+        <path d="M-6 46 Q-16 62 0 58 Q16 62 6 46 Z" fill="#ffb03a" stroke="#d98a14" stroke-width="3"/>`,
+      front: `<path d="M-5 14 L0 21 L5 14 Q0 10 -5 14 Z" fill="#ffb03a" stroke="#d98a14" stroke-width="2.4"/>`,
+    }),
+    cat: (body, rim, belly) => ({
+      back: `
+        <path d="M-34 -26 Q-44 -58 -12 -42 Q-20 -34 -22 -26 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>
+        <path d="M34 -26 Q44 -58 12 -42 Q20 -34 22 -26 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>
+        <path d="M-30 -34 Q-35 -49 -20 -41 Z" fill="#ff9db1"/>
+        <path d="M30 -34 Q35 -49 20 -41 Z" fill="#ff9db1"/>
+        <path d="M40 28 Q66 24 60 2 Q57 -8 48 -2 Q54 6 46 12 Q34 18 38 30 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>`,
       front: `
-        <g stroke="${INK}" stroke-width="2.4" stroke-linecap="round" opacity="0.78">
-          <path d="M-25 -4 L-43 -8 M-25 2 L-44 4 M25 -4 L43 -8 M25 2 L44 4"/>
+        <g stroke="${rim}" stroke-width="2" stroke-linecap="round" opacity="0.8">
+          <path d="M-28 4 L-44 0 M-28 9 L-44 10 M28 4 L44 0 M28 9 L44 10"/>
         </g>`,
     }),
-    dragon: (p) => ({
+    dragon: (body, rim, belly) => ({
       back: `
-        <path d="M-24 -60 L-15 -86 L-3 -64 L8 -91 L18 -64 L30 -82 L33 -54 Z" fill="${p.inner}" stroke="${INK}" stroke-width="5" stroke-linejoin="round"/>
-        <path d="M-47 -9 Q-76 -28 -69 5 Q-62 23 -39 17 Z" fill="${p.inner}" stroke="${INK}" stroke-width="5"/>
-        <path d="M47 -9 Q76 -28 69 5 Q62 23 39 17 Z" fill="${p.inner}" stroke="${INK}" stroke-width="5"/>
-        <path d="M39 42 Q72 50 72 67 L58 61 Q65 73 51 75 Q37 71 35 54 Z" fill="${p.body}" stroke="${INK}" stroke-width="5" stroke-linejoin="round"/>`,
+        <path d="M-16 -42 L-8 -64 L-1 -46 L7 -68 L14 -46 L20 -60 L23 -41 Z" fill="${belly}" stroke="${rim}" stroke-width="3"/>
+        <path d="M-44 -8 Q-74 -26 -66 2 Q-60 16 -40 12 Z" fill="${belly}" stroke="${rim}" stroke-width="3.4"/>
+        <path d="M44 -8 Q74 -26 66 2 Q60 16 40 12 Z" fill="${belly}" stroke="${rim}" stroke-width="3.4"/>
+        <path d="M38 34 Q62 44 58 56 L48 50 Q54 58 44 60 Q32 58 34 42 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>
+        <path d="M-16 -48 Q-20 -58 -12 -54 Z" fill="${rim}"/>
+        <path d="M16 -48 Q20 -58 12 -54 Z" fill="${rim}"/>`,
       front: "",
     }),
   };
 
   function pet({ hue = 200, species = "blob", stage = 1, worn = [], size = 140, mood = "happy" } = {}) {
-    const scale = stage >= 3 ? 1.05 : stage >= 2 ? 0.96 : 0.9;
+    const scale = stage >= 3 ? 1.14 : stage >= 2 ? 1 : 0.86;
     const id = gradId();
-    const p = sprigPalette(hue);
-    const parts = (SPECIES[species] || SPECIES.blob)(p);
+    const body = `hsl(${hue} 72% 62%)`;
+    const rim = `hsl(${hue} 62% 40%)`;
+    const belly = `hsl(${hue} 78% 82%)`;
+    const parts = (SPECIES[species] || SPECIES.blob)(body, rim, belly);
     return `
-    <svg class="art-pet art-sprig" viewBox="-84 -120 168 220" width="${size}" height="${size * 1.12}" aria-hidden="true">
-      <defs>${bodyGrad(id, hue, 58, 57)}</defs>
+    <svg class="art-pet" viewBox="-70 -74 140 152" width="${size}" height="${size * 1.09}" aria-hidden="true">
+      <defs>${bodyGrad(id, hue, 72, 62)}</defs>
       <g class="art-pet-body" transform="scale(${scale})">
-        <ellipse cy="92" rx="51" ry="8" fill="${SHADOW}"/>
-        ${stage >= 3 ? `<g opacity="0.9">${[-62, 62].map((x) => `<circle cx="${x}" cy="-56" r="3.4" fill="#d8b957"/>`).join("")}<circle cx="0" cy="-92" r="4" fill="#d8b957"/></g>` : ""}
+        <ellipse cy="66" rx="36" ry="7.5" fill="${SHADOW}"/>
+        ${stage >= 3 ? `<g opacity="0.9">${[-46, 46].map((x) => `<circle cx="${x}" cy="-40" r="3.4" fill="#ffd23e"/>`).join("")}<circle cx="0" cy="-58" r="4" fill="#ffd23e"/></g>` : ""}
         ${parts.back}
-        <path d="M-37 20 Q0 8 37 20 Q50 45 43 76 Q28 92 0 92 Q-28 92 -43 76 Q-50 45 -37 20 Z"
-          fill="${p.body}" stroke="${INK}" stroke-width="6" stroke-linejoin="round"/>
-        <ellipse cx="0" cy="51" rx="29" ry="36" fill="${p.muzzle}" opacity="0.88"/>
-        ${stage >= 2 ? `<path d="M-38 34 Q-60 40 -53 63 Q-45 75 -31 62 Z" fill="${p.body}" stroke="${INK}" stroke-width="5"/><path d="M38 34 Q60 40 53 63 Q45 75 31 62 Z" fill="${p.body}" stroke="${INK}" stroke-width="5"/>` : `<path d="M-37 40 Q-52 44 -47 59 Q-41 67 -32 58 Z" fill="${p.body}" stroke="${INK}" stroke-width="4"/><path d="M37 40 Q52 44 47 59 Q41 67 32 58 Z" fill="${p.body}" stroke="${INK}" stroke-width="4"/>`}
-        <ellipse cx="-25" cy="82" rx="24" ry="13" fill="${p.body}" stroke="${INK}" stroke-width="5"/>
-        <ellipse cx="25" cy="82" rx="24" ry="13" fill="${p.body}" stroke="${INK}" stroke-width="5"/>
-        <ellipse cx="-25" cy="84" rx="12" ry="6" fill="${p.inner}"/>
-        <ellipse cx="25" cy="84" rx="12" ry="6" fill="${p.inner}"/>
-        <path d="M-52 -50 Q-48 -78 0 -80 Q48 -78 52 -50 L49 -13 Q43 15 0 18 Q-43 15 -49 -13 Z"
-          fill="url(#${id})" stroke="${INK}" stroke-width="6.5" stroke-linejoin="round"/>
-        <path d="M-32 -58 Q-21 -70 -4 -71" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity="0.3"/>
-        ${sprigFace(0, -28, 0.88, mood, p.muzzle)}
+        ${stage >= 2 ? `<path d="M-40 8 Q-58 2 -50 22 Q-44 30 -36 24 Z" fill="${belly}" stroke="${rim}" stroke-width="3"/><path d="M40 8 Q58 2 50 22 Q44 30 36 24 Z" fill="${belly}" stroke="${rim}" stroke-width="3"/>` : ""}
+        <circle cy="4" r="46" fill="url(#${id})"/>
+        <ellipse cy="22" rx="26" ry="20" fill="${belly}"/>
+        <ellipse cx="-17" cy="-17" rx="10" ry="8" fill="#fff" opacity="0.45"/>
+        <ellipse cx="-18" cy="52" rx="11" ry="7" fill="${rim}"/>
+        <ellipse cx="18" cy="52" rx="11" ry="7" fill="${rim}"/>
+        ${face(0, -4, 1.1, mood)}
         ${parts.front}
         ${worn.map((wid) => ACCESSORY_ART[wid] || "").join("")}
       </g>
@@ -452,20 +436,20 @@
   }
 
   const ACCESSORY_ART = {
-    cap: `<g transform="translate(0 -76) rotate(-5)"><path d="M-31 8 Q-25 -18 7 -18 Q30 -17 34 8 Z" fill="#c8665a" stroke="${INK}" stroke-width="4.5"/><path d="M-34 7 H43 Q40 18 -30 15 Z" fill="#5c79a2" stroke="${INK}" stroke-width="4.5"/><path d="M2 -20 Q8 -25 12 -18" fill="none" stroke="${INK}" stroke-width="4" stroke-linecap="round"/></g>`,
-    crown: `<g transform="translate(0 -78)"><path d="M-26 12 L-25 -10 L-12 0 L0 -17 L13 0 L27 -10 L25 12 Z" fill="#d8b957" stroke="${INK}" stroke-width="4.5" stroke-linejoin="round"/><circle cy="4" r="4" fill="#b86572"/></g>`,
-    bow: `<g transform="translate(36 -56) rotate(18)"><path d="M0 0 L-17 -11 L-17 11 Z M0 0 L17 -11 L17 11 Z" fill="#c96f86" stroke="${INK}" stroke-width="4" stroke-linejoin="round"/><circle r="5" fill="#9e5268" stroke="${INK}" stroke-width="2.5"/></g>`,
-    glasses: `<g transform="translate(0 -31)"><circle cx="-18" cy="0" r="13" fill="none" stroke="${INK}" stroke-width="4.5"/><circle cx="18" cy="0" r="13" fill="none" stroke="${INK}" stroke-width="4.5"/><path d="M-5 0 H5 M-31 -1 L-45 -5 M31 -1 L45 -5" stroke="${INK}" stroke-width="4" stroke-linecap="round"/></g>`,
-    scarf: `<g transform="translate(0 12)"><path d="M-35 -3 Q0 13 35 -3 L31 11 Q0 25 -31 11 Z" fill="#6f9a69" stroke="${INK}" stroke-width="4.5"/><path d="M19 9 L29 36 L11 31 Z" fill="#6f9a69" stroke="${INK}" stroke-width="4"/></g>`,
-    flower: `<g transform="translate(-38 -58)">${[0, 60, 120, 180, 240, 300].map((a) => `<ellipse rx="6" ry="10" transform="rotate(${a}) translate(0 -10)" fill="#c96f86" stroke="${INK}" stroke-width="1.8"/>`).join("")}<circle r="6" fill="#d8b957" stroke="${INK}" stroke-width="2"/></g>`,
-    balloon: `<g transform="translate(60 -32)"><path d="M0 20 Q-5 43 0 58" fill="none" stroke="#756b82" stroke-width="2.8"/><ellipse rx="16" ry="20" fill="#6fa4b8" stroke="${INK}" stroke-width="4"/><circle cx="-5" cy="-6" r="4" fill="#fff" opacity="0.5"/></g>`,
-    wand: `<g transform="translate(-57 18) rotate(-24)"><rect x="-2.5" y="0" width="5" height="40" rx="2.5" fill="#9f7840"/><g transform="translate(0 -7) scale(0.38)" fill="#d8b957"><path d="M0 -26 L7 -6 L27 -5 L11 8 L16 27 L0 16 L-16 27 L-11 8 L-27 -5 L-7 -6 Z" stroke="${INK}" stroke-width="8"/></g></g>`,
-    taqiyah: `<g transform="translate(0 -77)"><path d="M-29 10 Q-25 -15 0 -17 Q25 -15 29 10 L27 15 H-27 Z" fill="#f5edda" stroke="${INK}" stroke-width="4.5"/><path d="M-18 -1 Q0 -10 18 -1 M-23 7 Q0 0 23 7" fill="none" stroke="#b9aa8d" stroke-width="2.5"/></g>`,
-    cape: `<g transform="translate(0 20)"><path d="M-42 -16 Q-62 24 -49 67 L-25 56 Q-37 19 -31 -13 Z" fill="#b9665f" stroke="${INK}" stroke-width="4.5"/><path d="M42 -16 Q62 24 49 67 L25 56 Q37 19 31 -13 Z" fill="#b9665f" stroke="${INK}" stroke-width="4.5"/></g>`,
-    medal: `<g transform="translate(0 42)"><path d="M-8 -18 L0 -5 L8 -18" stroke="#557b4a" stroke-width="5" fill="none"/><circle cy="6" r="11" fill="#d8b957" stroke="${INK}" stroke-width="4"/><path d="M0 0 L3 5 L8 5 L4 9 L5 14 L0 11 L-5 14 L-4 9 L-8 5 L-3 5 Z" fill="#fff5d9"/></g>`,
-    kite: `<g transform="translate(61 -18) rotate(14)"><path d="M0 -19 L15 0 L0 19 L-15 0 Z" fill="#6fa4b8" stroke="${INK}" stroke-width="4"/><path d="M0 -19 V19 M-15 0 H15" stroke="${INK}" stroke-width="2.5"/><path d="M0 19 Q-5 31 0 41 Q5 49 0 58" fill="none" stroke="#756b82" stroke-width="2.8"/></g>`,
-    sprout: `<g transform="translate(0 -85)"><path d="M0 12 V-3" stroke="#4d7434" stroke-width="4" fill="none"/><path d="M0 -3 Q-15 -7 -17 -21 Q-3 -18 0 -3 Z" fill="#6f9a54" stroke="${INK}" stroke-width="3.2"/><path d="M0 -3 Q15 -9 18 -22 Q4 -19 0 -3 Z" fill="#8caf62" stroke="${INK}" stroke-width="3.2"/></g>`,
-    moonpin: `<g transform="translate(-29 48)"><path d="M4 -11 A12 12 0 1 0 4 11 A9 9 0 1 1 4 -11" fill="#e1ce8a" stroke="${INK}" stroke-width="3"/><circle cx="9" cy="-10" r="2.8" fill="#d8b957" stroke="${INK}" stroke-width="1.8"/></g>`,
+    cap: `<g transform="translate(0 -46)"><path d="M-24 2 A24 16 0 0 1 24 2 L26 6 L-30 6 Z" fill="#f0503f" stroke="#b32c1d" stroke-width="3"/><circle cy="-12" r="4" fill="#ffd23e"/></g>`,
+    crown: `<g transform="translate(0 -48)"><path d="M-20 8 L-20 -8 L-10 0 L0 -12 L10 0 L20 -8 L20 8 Z" fill="#ffc22e" stroke="#c47f12" stroke-width="3"/><circle cy="2" r="3.4" fill="#f0503f"/></g>`,
+    bow: `<g transform="translate(26 -34) rotate(20)"><path d="M0 0 L-14 -9 L-14 9 Z M0 0 L14 -9 L14 9 Z" fill="#ff7d96" stroke="#cf3f60" stroke-width="3"/><circle r="4" fill="#cf3f60"/></g>`,
+    glasses: `<g transform="translate(0 -6)"><circle cx="-12" cy="0" r="9" fill="none" stroke="${INK}" stroke-width="3.4"/><circle cx="12" cy="0" r="9" fill="none" stroke="${INK}" stroke-width="3.4"/><path d="M-3 0 H3" stroke="${INK}" stroke-width="3.4"/></g>`,
+    scarf: `<g transform="translate(0 22)"><path d="M-24 0 Q0 12 24 0 L22 10 Q0 20 -22 10 Z" fill="#2fc487" stroke="#1d8a5c" stroke-width="3"/><path d="M14 8 L20 30 L8 26 Z" fill="#2fc487" stroke="#1d8a5c" stroke-width="3"/></g>`,
+    flower: `<g transform="translate(-27 -36)">${[0, 60, 120, 180, 240, 300].map((a) => `<ellipse rx="5" ry="8" transform="rotate(${a}) translate(0 -8)" fill="#ff7d96"/>`).join("")}<circle r="5" fill="#ffd23e"/></g>`,
+    balloon: `<g transform="translate(42 -30)"><path d="M0 18 Q-3 34 0 40" fill="none" stroke="#84739f" stroke-width="2.4"/><ellipse rx="13" ry="16" fill="#54c6ff" stroke="#1f87c2" stroke-width="3"/><circle cx="-4" cy="-5" r="3.4" fill="#fff" opacity="0.7"/></g>`,
+    wand: `<g transform="translate(-42 6) rotate(-24)"><rect x="-2" y="0" width="4" height="34" rx="2" fill="#c47f12"/><g transform="translate(0 -6) scale(0.32)" fill="#ffd23e"><path d="M0 -26 L7 -6 L27 -5 L11 8 L16 27 L0 16 L-16 27 L-11 8 L-27 -5 L-7 -6 Z" stroke="#c47f12" stroke-width="6"/></g></g>`,
+    taqiyah: `<g transform="translate(0 -46)"><path d="M-22 6 A22 14 0 0 1 22 6 L22 10 L-22 10 Z" fill="#fffaf0" stroke="#cbbf9e" stroke-width="3"/><path d="M-14 -2 Q0 -8 14 -2 M-18 4 Q0 -2 18 4" fill="none" stroke="#cbbf9e" stroke-width="2"/></g>`,
+    cape: `<g transform="translate(0 4)"><path d="M-34 -22 Q-52 20 -38 44 L-20 34 Q-30 6 -26 -18 Z" fill="#f0503f" stroke="#b32c1d" stroke-width="3"/><path d="M34 -22 Q52 20 38 44 L20 34 Q30 6 26 -18 Z" fill="#f0503f" stroke="#b32c1d" stroke-width="3"/></g>`,
+    medal: `<g transform="translate(0 30)"><path d="M-6 -14 L0 -4 L6 -14" stroke="#2f8a1f" stroke-width="4" fill="none"/><circle cy="4" r="9" fill="#ffc22e" stroke="#c47f12" stroke-width="3"/><path d="M0 -1 L2 3 L6 3 L3 6 L4 10 L0 8 L-4 10 L-3 6 L-6 3 L-2 3 Z" fill="#fff6da"/></g>`,
+    kite: `<g transform="translate(44 -22) rotate(14)"><path d="M0 -16 L12 0 L0 16 L-12 0 Z" fill="#54c6ff" stroke="#1f87c2" stroke-width="3"/><path d="M0 -16 V16 M-12 0 H12" stroke="#1f87c2" stroke-width="2"/><path d="M0 16 Q-4 26 0 34 Q4 40 0 46" fill="none" stroke="#84739f" stroke-width="2.4"/></g>`,
+    sprout: `<g transform="translate(0 -50)"><path d="M0 10 Q0 2 0 -2" stroke="#2f8a1f" stroke-width="3.4" fill="none"/><path d="M0 -2 Q-12 -6 -13 -16 Q-2 -14 0 -2 Z" fill="#5cc23e" stroke="#2f8a1f" stroke-width="2.6"/><path d="M0 -2 Q12 -8 14 -17 Q3 -15 0 -2 Z" fill="#98dc74" stroke="#2f8a1f" stroke-width="2.6"/></g>`,
+    moonpin: `<g transform="translate(-26 26)"><path d="M4 -10 A11 11 0 1 0 4 10 A8 8 0 1 1 4 -10" fill="#ffedb0" stroke="#c47f12" stroke-width="2.6"/><circle cx="8" cy="-9" r="2.4" fill="#ffd23e" stroke="#c47f12" stroke-width="1.6"/></g>`,
   };
 
   ns.LETTERS_ACCESSORIES = [

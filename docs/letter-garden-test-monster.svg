@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 720" role="img" aria-labelledby="title desc">
+  <title id="title">Letter Garden original blob monster</title>
+  <desc id="desc">A restored round blob monster concept, separate from the card-holding helper.</desc>
+  <defs>
+    <radialGradient id="bodyGrad" cx="32%" cy="24%" r="82%">
+      <stop offset="0" stop-color="#7dfff0"/>
+      <stop offset="0.58" stop-color="#00d8bd"/>
+      <stop offset="1" stop-color="#00987e"/>
+    </radialGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="18" stdDeviation="11" flood-color="#242032" flood-opacity="0.22"/>
+    </filter>
+  </defs>
+
+  <rect width="720" height="720" rx="56" fill="#bff2ff"/>
+  <g opacity="0.36" fill="none" stroke="#69b5ff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M85 108 l18 28 l31 5 l-23 21 l5 31 l-31 -15 l-28 15 l5 -31 l-23 -21 l31 -5 z"/>
+    <path d="M594 112 l12 20 l22 4 l-16 15 l4 22 l-22 -10 l-20 10 l4 -22 l-16 -15 l22 -4 z"/>
+    <path d="M96 576 q28 -28 56 0 q28 28 56 0"/>
+    <path d="M520 568 q22 -22 44 0 q22 22 44 0"/>
+  </g>
+
+  <g id="blob-monster" filter="url(#softShadow)" transform="translate(360 394)">
+    <ellipse cx="0" cy="213" rx="132" ry="22" fill="#242032" opacity="0.18"/>
+
+    <g id="back-parts">
+      <path d="M-84 -150 Q-118 -207 -55 -188 Q-39 -176 -50 -141 Z" fill="#00d8bd" stroke="#111018" stroke-width="17" stroke-linejoin="round"/>
+      <path d="M84 -150 Q118 -207 55 -188 Q39 -176 50 -141 Z" fill="#00d8bd" stroke="#111018" stroke-width="17" stroke-linejoin="round"/>
+      <path d="M-80 -156 Q-99 -184 -64 -177" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" opacity="0.52"/>
+      <path d="M-13 -178 l14 -39 l19 34 l32 -28 l-4 47 Z" fill="#ffe600" stroke="#111018" stroke-width="13" stroke-linejoin="round"/>
+    </g>
+
+    <path id="body" d="M0 -165 C105 -165 166 -88 166 25 C166 143 97 205 0 205 C-97 205 -166 143 -166 25 C-166 -88 -105 -165 0 -165 Z"
+      fill="url(#bodyGrad)" stroke="#111018" stroke-width="19" stroke-linejoin="round"/>
+    <path d="M-81 -119 C-54 -148 -13 -154 18 -144" fill="none" stroke="#fff" stroke-width="16" stroke-linecap="round" opacity="0.58"/>
+
+    <g id="face">
+      <ellipse cx="-45" cy="-47" rx="37" ry="42" fill="#fff" stroke="#111018" stroke-width="12"/>
+      <ellipse cx="45" cy="-47" rx="37" ry="42" fill="#fff" stroke="#111018" stroke-width="12"/>
+      <circle cx="-34" cy="-38" r="13" fill="#111018"/>
+      <circle cx="34" cy="-38" r="13" fill="#111018"/>
+      <circle cx="-39" cy="-45" r="5" fill="#fff"/>
+      <circle cx="29" cy="-45" r="5" fill="#fff"/>
+      <path d="M-16 21 C-4 32 14 32 26 21" fill="none" stroke="#111018" stroke-width="10" stroke-linecap="round"/>
+      <circle cx="-82" cy="6" r="16" fill="#ff80c8" opacity="0.72"/>
+      <circle cx="82" cy="6" r="16" fill="#ff80c8" opacity="0.72"/>
+    </g>
+
+    <g id="mouth">
+      <ellipse cx="0" cy="91" rx="61" ry="43" fill="#5d1f3d" stroke="#111018" stroke-width="12"/>
+      <path d="M-47 67 L-31 84 L-15 65 L0 84 L16 65 L32 84 L48 67" fill="#fff"/>
+      <ellipse cx="0" cy="112" rx="32" ry="16" fill="#ff8fa3"/>
+    </g>
+
+    <g id="feet">
+      <ellipse cx="-61" cy="195" rx="46" ry="25" fill="#7657ff" stroke="#111018" stroke-width="13"/>
+      <ellipse cx="61" cy="195" rx="46" ry="25" fill="#7657ff" stroke="#111018" stroke-width="13"/>
+    </g>
+  </g>
+</svg>
