@@ -98,6 +98,58 @@
           [523.25, 659.25, 783.99, 1046.5].forEach((f, i) => this.tone(f, { at: i * 0.1, dur: 0.32, gain: 0.11 }));
           this.noise({ at: 0.42, dur: 0.3, gain: 0.02, freq: 5200 });
           break;
+        // ---- reward ladder: one bright bell per star as it lands ----
+        // Each is a two-osc bell (fundamental + shimmering octave), rising in
+        // pitch so 1→2→3 stars feels like climbing. Timed by the caller to the
+        // star-drop animation.
+        case "star1":
+          this.tone(659.25, { dur: 0.42, type: "triangle", gain: 0.13 });
+          this.tone(1318.5, { dur: 0.3, gain: 0.05 });
+          break;
+        case "star2":
+          this.tone(830.61, { dur: 0.42, type: "triangle", gain: 0.13 });
+          this.tone(1661.2, { dur: 0.3, gain: 0.05 });
+          break;
+        case "star3":
+          this.tone(987.77, { dur: 0.46, type: "triangle", gain: 0.14 });
+          this.tone(1975.5, { dur: 0.34, gain: 0.055 });
+          break;
+        // ---- the money moment: a full three-star fanfare ----
+        // A warm rising arpeggio, a bright topping run, and a soft sparkle
+        // tail — the biggest, happiest sound in the game.
+        case "fanfare":
+          [523.25, 659.25, 783.99, 1046.5].forEach((f, i) =>
+            this.tone(f, { at: i * 0.08, dur: 0.34, type: "triangle", gain: 0.12 }),
+          );
+          [1318.5, 1567.98, 2093].forEach((f, i) =>
+            this.tone(f, { at: 0.34 + i * 0.075, dur: 0.4, gain: 0.075 }),
+          );
+          this.tone(261.63, { at: 0.34, dur: 0.5, type: "sine", gain: 0.08 }); // warm bass body
+          this.noise({ at: 0.58, dur: 0.5, gain: 0.022, freq: 6000 });
+          break;
+        case "cheer2": // two-star: a happy little run
+          [523.25, 659.25, 783.99].forEach((f, i) =>
+            this.tone(f, { at: i * 0.09, dur: 0.32, type: "triangle", gain: 0.11 }),
+          );
+          this.noise({ at: 0.3, dur: 0.24, gain: 0.016, freq: 5400 });
+          break;
+        case "cheer1": // one-star: gentle, still encouraging
+          [523.25, 659.25].forEach((f, i) => this.tone(f, { at: i * 0.1, dur: 0.34, gain: 0.1 }));
+          break;
+        case "worldClear": // finishing a whole world — grander than a round
+          [392, 523.25, 659.25, 783.99, 1046.5].forEach((f, i) =>
+            this.tone(f, { at: i * 0.085, dur: 0.38, type: "triangle", gain: 0.115 }),
+          );
+          [1318.5, 1975.5].forEach((f, i) =>
+            this.tone(f, { at: 0.44 + i * 0.1, dur: 0.5, gain: 0.07 }),
+          );
+          this.noise({ at: 0.5, dur: 0.6, gain: 0.024, freq: 6200 });
+          break;
+        case "sticker": // peeling a new sticker off the sheet
+          this.noise({ dur: 0.16, gain: 0.03, freq: 3400 }); // the peel
+          this.tone(880, { at: 0.1, dur: 0.14, gain: 0.09, glideTo: 1318.5 });
+          this.tone(1318.5, { at: 0.22, dur: 0.26, gain: 0.07 });
+          break;
         case "record": // focus-round personal best
           [392, 523.25, 659.25, 783.99, 1046.5].forEach((f, i) => this.tone(f, { at: i * 0.09, dur: 0.3, gain: 0.1 }));
           break;

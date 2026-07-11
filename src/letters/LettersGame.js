@@ -361,7 +361,7 @@
           const win = unowned[Math.floor(Math.random() * unowned.length)];
           (this.stickers.owned = this.stickers.owned || []).push(win.id);
           this.saveJSON("quran-trainer:letters:stickers", this.stickers);
-          this.sound.play("hatch");
+          this.sound.play("sticker");
           this.confettiAt(pack, true);
           this.renderAlbum(win.id);
         });
@@ -551,7 +551,7 @@
         d += ` C ${a[0]} ${a[1] - GAP * 0.45}, ${b[0]} ${b[1] + GAP * 0.45}, ${b[0]} ${b[1]}`;
       }
       trail.innerHTML = `
-        <path d="${d}" fill="none" stroke="#52627a" stroke-width="17" stroke-linecap="round" opacity="0.72"/>
+        <path d="${d}" fill="none" stroke="#caa96f" stroke-width="17" stroke-linecap="round" opacity="0.8"/>
         <path d="${d}" fill="none" stroke="#fffaf0" stroke-width="13" stroke-linecap="round"/>
         <path d="${d}" fill="none" stroke="#7fc6a4" stroke-width="5" stroke-linecap="round" stroke-dasharray="1 22"/>`;
       for (const btn of el.querySelectorAll(".map-stop[data-world]")) {
@@ -812,8 +812,18 @@
         </div>`,
       );
       this.wireTopBar(el);
-      this.sound.play(stars === 3 ? "perfect" : "ayahComplete");
-      this.confettiAt(el.querySelector(".stars-row"), stars === 3);
+      const row = el.querySelector(".stars-row");
+      // Climb the star ladder: one bright, rising bell per star as it drops
+      // in (synced to the stagger), then the payoff chord once the last one
+      // is home — a bigger fanfare the more stars you earned.
+      for (let i = 0; i < stars; i += 1) {
+        setTimeout(() => this.sound.play(`star${i + 1}`), i * 220 + 150);
+      }
+      setTimeout(() => {
+        this.sound.play(stars === 3 ? "fanfare" : stars === 2 ? "cheer2" : "cheer1");
+        this.confettiAt(row, stars === 3);
+        if (stars === 3) setTimeout(() => this.confettiAt(row, true), 280);
+      }, stars * 220 + 200);
       el.querySelector(".stars-replay").addEventListener("click", () => {
         this.sound.play("click");
         s.starTotal -= s.lastStars;
@@ -873,9 +883,10 @@
           <button type="button" class="lg-big-btn party-next">${Art.icon("next", 44)}</button>
         </div>`,
       );
-      this.sound.play(newlyDone ? "record" : "perfect");
+      this.sound.play(newlyDone ? "worldClear" : "perfect");
       this.confettiAt(el.querySelector(".party-mascot"), true);
       setTimeout(() => this.confettiAt(el.querySelector(".party-stars"), true), 500);
+      if (newlyDone) setTimeout(() => this.confettiAt(el.querySelector(".party-mascot"), true), 900);
       const partyPet = el.querySelector(".party-pet");
       partyPet.addEventListener("pointerdown", () => {
         this.petRecite(partyPet.querySelector(".pet-bubble"));

@@ -55,6 +55,7 @@
       : len <= 1 ? maxSize : len <= 2 ? maxSize * 0.9 : len <= 3 ? maxSize * 0.72 : maxSize * 0.58;
     return `<text x="0" y="0" dy="${latin ? "0.06em" : "-0.06em"}" text-anchor="middle"
       dominant-baseline="central"
+      alignment-baseline="middle"
       font-family="${latin ? "ui-rounded, system-ui, sans-serif" : "'Amiri Quran', serif"}"
       font-size="${size}" fill="${fill}" ${latin ? "" : `direction="rtl"`}>${display}</text>`;
   }
@@ -64,9 +65,9 @@
   function tileHTML(item, hue) {
     return `
       <svg viewBox="-52 -54 104 106" aria-hidden="true">
-        <rect x="-46" y="-38" width="92" height="84" rx="22" fill="#243653"/>
-        <rect x="-46" y="-46" width="92" height="84" rx="22" fill="hsl(${hue} 52% 86%)" stroke="#243653" stroke-width="4"/>
-        <rect class="tile-face" x="-39" y="-39" width="78" height="70" rx="16" fill="#fffaf0" stroke="#243653" stroke-width="2"/>
+        <rect x="-46" y="-38" width="92" height="84" rx="22" fill="#4a3620"/>
+        <rect x="-46" y="-46" width="92" height="84" rx="22" fill="hsl(${hue} 52% 86%)" stroke="#4a3620" stroke-width="4"/>
+        <rect class="tile-face" x="-39" y="-39" width="78" height="70" rx="16" fill="#fffaf0" stroke="#4a3620" stroke-width="2"/>
         <g transform="translate(0 -4)">${glyphText(item.display, { maxSize: 42 })}</g>
       </svg>`;
   }

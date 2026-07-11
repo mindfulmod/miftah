@@ -4,12 +4,13 @@
 // and icon-only controls — no words anywhere, the art IS the interface.
 //
 // Visual system ("garden toy"): warm paper surfaces, flat mid-saturation
-// colors, chunky navy contours, shallow physical shadows, and one quirky
-// detail per drawing. Gradient defs get unique ids because a
-// url(#…) reference breaks when its defining screen is display:none.
+// colors, chunky warm-espresso contours (storybook ink, never cold navy),
+// shallow physical shadows, and one quirky detail per drawing. Gradient
+// defs get unique ids because a url(#…) reference breaks when its
+// defining screen is display:none.
 (function (ns) {
-  const INK = "#243653"; // shared with the tactile UI system
-  const SHADOW = "rgba(36, 54, 83, 0.2)";
+  const INK = "#4a3620"; // warm espresso — shared with the tactile UI system
+  const SHADOW = "rgba(74, 54, 32, 0.2)";
 
   let uid = 0;
   const gradId = () => `lgg${(uid += 1)}`;
@@ -19,10 +20,12 @@
   const face = (x, y, s, mood = "happy") => `
     <g class="art-face" transform="translate(${x} ${y}) scale(${s})">
       <g class="art-eyes">
-        <ellipse class="art-pupil" cx="-10.5" cy="1" rx="4.8" ry="6.3" fill="${INK}"/>
-        <ellipse class="art-pupil" cx="10.5" cy="1" rx="4.8" ry="6.3" fill="${INK}"/>
-        <circle cx="-9" cy="-1" r="1.5" fill="#fffaf0"/>
-        <circle cx="12" cy="-1" r="1.5" fill="#fffaf0"/>
+        <ellipse cx="-10.5" cy="1" rx="7" ry="8" fill="#fff" stroke="${INK}" stroke-width="1.6"/>
+        <ellipse cx="10.5" cy="1" rx="7" ry="8" fill="#fff" stroke="${INK}" stroke-width="1.6"/>
+        <ellipse class="art-pupil" cx="-9" cy="2" rx="2.6" ry="3.5" fill="${INK}"/>
+        <ellipse class="art-pupil" cx="12" cy="2" rx="2.6" ry="3.5" fill="${INK}"/>
+        <circle cx="-8" cy="-1.2" r="1.5" fill="#fffaf0"/>
+        <circle cx="13" cy="-1.2" r="1.5" fill="#fffaf0"/>
       </g>
       ${mood === "open"
         ? `<ellipse cx="0" cy="12.5" rx="6" ry="7" fill="#7c2d4a"/><ellipse cx="0" cy="15.4" rx="3.8" ry="3.2" fill="#ff9db1"/>`
@@ -62,10 +65,12 @@
     <g class="art-face art-sprig-face" transform="translate(${x} ${y}) scale(${s})">
       <path d="M-29 10 Q-25 -2 -12 1 Q0 4 0 13 Q0 4 12 1 Q25 -2 29 10 Q31 28 15 34 Q0 39 -15 34 Q-31 28 -29 10 Z" fill="${muzzle}"/>
       <g class="art-eyes">
-        <ellipse class="art-pupil" cx="-17" cy="-5" rx="7" ry="9.5" fill="${INK}"/>
-        <ellipse class="art-pupil" cx="17" cy="-5" rx="7" ry="9.5" fill="${INK}"/>
-        <circle cx="-14.5" cy="-8" r="2.3" fill="#fffaf0"/>
-        <circle cx="19.5" cy="-8" r="2.3" fill="#fffaf0"/>
+        <ellipse cx="-17" cy="-5" rx="10" ry="12" fill="#fff" stroke="${INK}" stroke-width="2"/>
+        <ellipse cx="17" cy="-5" rx="10" ry="12" fill="#fff" stroke="${INK}" stroke-width="2"/>
+        <ellipse class="art-pupil" cx="-14.5" cy="-3.5" rx="3.2" ry="4.4" fill="${INK}"/>
+        <ellipse class="art-pupil" cx="19.5" cy="-3.5" rx="3.2" ry="4.4" fill="${INK}"/>
+        <circle cx="-13.5" cy="-8.5" r="2.1" fill="#fffaf0"/>
+        <circle cx="20.5" cy="-8.5" r="2.1" fill="#fffaf0"/>
       </g>
       <path d="M-6 9 Q0 5 6 9 Q4 15 0 15 Q-4 15 -6 9 Z" fill="${INK}"/>
       <path d="M0 14 V18" stroke="${INK}" stroke-width="2.8" stroke-linecap="round"/>
@@ -158,8 +163,9 @@
     const size = latin
       ? Math.min(40, 240 / Math.max(4, len))
       : len <= 1 ? 64 : len <= 3 ? 52 : len <= 5 ? 40 : 26;
-    return `<text x="${cx}" y="${cy}" dy="${latin ? "0.06em" : "0.12em"}" text-anchor="middle"
+    return `<text x="${cx}" y="${cy}" dy="${latin ? "0.04em" : "-0.06em"}" text-anchor="middle"
       dominant-baseline="central"
+      alignment-baseline="middle"
       font-family="${latin ? "ui-rounded, system-ui, sans-serif" : "'Amiri Quran', serif"}"
       font-size="${size}" fill="${INK}" ${latin ? "" : `direction="rtl"`}>${label}</text>`;
   }
@@ -227,10 +233,10 @@
   // the app root by the game) plus its own celestial art in the backdrop.
 
   const PHASES = {
-    morning: { hi: "#f7dca8", lo: "#edf5df", far: "#c9ddb2", mid: "#a7c889", near: "#78a968", accent: "#efb65a" },
-    day: { hi: "#9cd9ed", lo: "#dff5ef", far: "#c5ddbc", mid: "#9bc67f", near: "#6f9f60", accent: "#f3c955" },
-    sunset: { hi: "#eeb7aa", lo: "#f5dfc8", far: "#d7d6a8", mid: "#a9bd78", near: "#718f59", accent: "#ee806f" },
-    night: { hi: "#34375f", lo: "#555a87", far: "#516f63", mid: "#416755", near: "#315342", accent: "#f0d77a" },
+    morning: { hi: "#ffd181", lo: "#e4f9d8", far: "#bee07f", mid: "#8dd35f", near: "#55b84c", accent: "#ffb33f" },
+    day: { hi: "#62cdf4", lo: "#ccfbef", far: "#b7e779", mid: "#7fce54", near: "#42b947", accent: "#f3c955" },
+    sunset: { hi: "#ff9d83", lo: "#ffe3c4", far: "#d8df82", mid: "#9fc861", near: "#5fa04e", accent: "#ff6f70" },
+    night: { hi: "#34375f", lo: "#6064a0", far: "#4d806a", mid: "#36725c", near: "#245c49", accent: "#f6d85b" },
   };
 
   function dayPhase(hour = new Date().getHours()) {
@@ -246,7 +252,7 @@
   function backdrop(phase = dayPhase()) {
     const p = PHASES[phase] || PHASES.day;
     const night = phase === "night";
-    const sceneryInk = night ? "#46516f" : "#65738a";
+    const sceneryInk = night ? "#524f66" : "#a48d63";
     const celestial = night
       ? `<g class="art-moon">
            <circle cx="620" cy="92" r="54" fill="${INK}" opacity="0.18"/>
@@ -291,27 +297,29 @@
     </svg>`;
   }
 
-  // One map stop: a collectible rounded-square badge with the same navy rim,
-  // warm face and shallow physical lift as every interactive card.
+  // One map stop: a circular badge with the same navy rim, warm face and
+  // shallow physical lift as every interactive card.
   function mapStop({ hue, label, status, stars = 0, latin = false }) {
-    const faceColor = status === "done" ? "#f3c955" : status === "current" ? `hsl(${hue} 54% 70%)` : "#e5e0d5";
-    const insetColor = status === "done" ? "#fff1c9" : status === "current" ? `hsl(${hue} 55% 88%)` : "#f4f0e4";
+    const faceColor = status === "done" ? "#f3c955" : status === "current" ? `hsl(${hue} 54% 70%)` : "#efe7d4";
+    const insetColor = status === "done" ? "#fff1c9" : status === "current" ? `hsl(${hue} 55% 88%)` : "#f7f2e6";
+    // Warm bronze coin-rim gives the whole path a sunlit, treasure-map feel —
+    // no more cold navy drop under the stops.
+    const rim = status === "done" ? "#c08a1e" : status === "current" ? "#a9782e" : "#c2a877";
     const starRow = [0, 1, 2]
       .map(
         (i) =>
-          `<g transform="translate(${(i - 1) * 25} 59) scale(0.3)" class="${i < stars ? "map-star-on" : "map-star-off"}"><g transform="translate(-32 -32)">${ICONS.star}</g></g>`,
+          `<g transform="translate(${(i - 1) * 19 - 10} 34) scale(0.21)" class="${i < stars ? "map-star-on" : "map-star-off"}"><g transform="translate(-32 -32)">${ICONS.star}</g></g>`,
       )
       .join("");
     return `
-    <svg viewBox="-64 -64 128 148" class="map-stop-art" aria-hidden="true">
-      <rect x="-49" y="-43" width="98" height="103" rx="28" fill="${INK}"/>
-      <rect x="-49" y="-52" width="98" height="103" rx="28" fill="${faceColor}" stroke="${INK}" stroke-width="5"/>
-      <rect x="-39" y="-42" width="78" height="73" rx="20" fill="${insetColor}" stroke="${INK}" stroke-width="3"/>
-      <path d="M-26 -32 Q-12 -40 4 -39" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity="0.65"/>
+    <svg viewBox="-60 -60 120 120" class="map-stop-art" aria-hidden="true">
+      <circle cy="6" r="47" fill="${rim}"/>
+      <circle r="47" fill="${faceColor}" stroke="${INK}" stroke-width="5"/>
+      <circle r="36" fill="${insetColor}" stroke="${INK}" stroke-width="3"/>
       ${
         status === "locked"
-          ? `<g transform="translate(-21 -24) scale(0.66)" fill="#87909e">${ICONS.lock}</g>`
-          : `<text y="${latin ? 2 : 10}" text-anchor="middle" font-family="${latin ? "ui-rounded, system-ui, sans-serif" : "'Amiri Quran', serif"}" font-size="${latin ? 24 : [...label.replace(/[ً-ْٰٓ-ٟؐ-ؚۖ-ۭ]/g, "")].length >= 3 ? 27 : 39}" fill="${INK}" ${latin ? "" : `direction="rtl"`}>${label}</text>`
+          ? `<g transform="translate(-21 -23) scale(0.66)" fill="#87909e">${ICONS.lock}</g>`
+          : `<text y="${latin ? -1 : 4}" dy="${latin ? "0.04em" : "-0.06em"}" text-anchor="middle" dominant-baseline="central" alignment-baseline="middle" font-family="${latin ? "ui-rounded, system-ui, sans-serif" : "'Amiri Quran', serif"}" font-size="${latin ? 24 : [...label.replace(/[ً-ْٰٓ-ٟؐ-ؚۖ-ۭ]/g, "")].length >= 3 ? 27 : 39}" fill="${INK}" ${latin ? "" : `direction="rtl"`}>${label}</text>`
       }
       ${status !== "locked" ? starRow : ""}
     </svg>`;
