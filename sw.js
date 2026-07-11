@@ -1,13 +1,12 @@
 "use strict";
 
-// Miftah service worker: offline app shell + data + recitation audio.
+// Miftah service worker: offline app shell + data.
 // - Shell (HTML/CSS/JS/fonts): stale-while-revalidate, ignoring ?v= cache-busters.
 // - data/*.json: network-first so rebuilt data lands promptly; cache fallback offline.
-// - Remote recitation audio: cache-first (immutable files, opaque responses).
-const VERSION = "miftah-v3";
+// - Remote recitation audio: deliberately NOT intercepted — see AUDIO_HOSTS below.
+const VERSION = "miftah-v4";
 const SHELL_CACHE = `shell-${VERSION}`;
 const DATA_CACHE = `data-${VERSION}`;
-const AUDIO_CACHE = "audio-v1"; // deliberately not versioned with the shell
 
 const SHELL = [
   "surahs.html",
@@ -48,7 +47,7 @@ self.addEventListener("install", (event) => {
 });
 
 self.addEventListener("activate", (event) => {
-  const keep = new Set([SHELL_CACHE, DATA_CACHE, AUDIO_CACHE]);
+  const keep = new Set([SHELL_CACHE, DATA_CACHE]);
   event.waitUntil(
     caches
       .keys()
@@ -62,19 +61,16 @@ self.addEventListener("fetch", (event) => {
   if (req.method !== "GET") return;
   const url = new URL(req.url);
 
-  // Recitation audio: immutable, cache-first, cached as it is played.
-  if (AUDIO_HOSTS.has(url.hostname)) {
-    event.respondWith(
-      caches.open(AUDIO_CACHE).then(async (cache) => {
-        const hit = await cache.match(req);
-        if (hit) return hit;
-        const res = await fetch(req);
-        if (res.ok || res.type === "opaque") cache.put(req, res.clone());
-        return res;
-      })
-    );
-    return;
-  }
+  // Recitation audio: hands-off. Caching it here previously broke playback —
+  // <audio> loads these cross-origin with no `crossOrigin` attribute, so the
+  // request is no-cors/opaque, and the element issues byte-Range requests
+  // (WebKit/Safari far more aggressively than Chromium). The Cache Storage
+  // API throws on any attempt to store a 206 Partial Content response — even
+  // an opaque one wrapping a 206 underneath — and that unawaited throw broke
+  // recitation in production. Recitation is "a gift, never a blocker"
+  // (see RecitationAudio.js) — it isn't worth re-fighting this for offline
+  // replay of a few clips. Let the browser fetch it exactly as it always did.
+  if (AUDIO_HOSTS.has(url.hostname)) return;
 
   if (url.origin !== location.origin) return;
 
