@@ -38,7 +38,45 @@
       this.skills = this.loadJSON("quran-trainer:letters:skills", {});
       this.wallet = this.loadJSON("quran-trainer:letters:wallet", { earned: 0, spent: 0 });
       this.stickers = this.loadJSON("quran-trainer:letters:stickers", { owned: [] });
+      this.applyPhase();
+      this.initSparkles();
       this.worlds.loadWords().finally(() => (this.pet ? this.renderHome() : this.renderHatch()));
+    }
+
+    // The garden lives on the child's clock: the sky (CSS variables consumed
+    // by the body gradient) and the backdrop art both follow the day phase.
+    applyPhase() {
+      const p = Art.PHASES[Art.dayPhase()] || Art.PHASES.day;
+      const s = document.body.style;
+      s.setProperty("--lg-sky-hi", p.hi);
+      s.setProperty("--lg-sky-mid", p.lo);
+      s.setProperty("--lg-sky-lo", p.lo);
+    }
+
+    // Sparkle touch trail: dragging a finger anywhere leaves fading star
+    // dust. Zero gameplay purpose — pure toy delight.
+    initSparkles() {
+      if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      let last = 0;
+      let lx = 0;
+      let ly = 0;
+      const colors = ["", "is-pink", "is-blue"];
+      this.root.addEventListener("pointermove", (e) => {
+        if (e.pointerType === "mouse" && e.buttons === 0) return; // drags only, not hover
+        const now = performance.now();
+        if (now - last < 40 && Math.hypot(e.clientX - lx, e.clientY - ly) < 24) return;
+        last = now;
+        lx = e.clientX;
+        ly = e.clientY;
+        const s = document.createElement("i");
+        s.className = `lg-spark ${colors[Math.floor(Math.random() * colors.length)]}`;
+        s.style.left = `${e.clientX}px`;
+        s.style.top = `${e.clientY}px`;
+        s.style.setProperty("--sx", `${Math.round(Math.random() * 24 - 12)}px`);
+        s.style.setProperty("--sy", `${Math.round(Math.random() * 20 + 6)}px`);
+        document.body.appendChild(s);
+        setTimeout(() => s.remove(), 750);
+      });
     }
 
     // ---------- storage (shared with the Codex letters track) ----------
@@ -125,6 +163,7 @@
     petSVG(size, mood) {
       return Art.pet({
         hue: this.pet ? this.pet.hue : 200,
+        species: this.pet ? this.pet.species || "blob" : "blob",
         stage: this.petStage(),
         worn: this.pet ? this.pet.worn || [] : [],
         size,
@@ -155,7 +194,7 @@
         "lg-hatch",
         `<div class="hatch-stage">
           ${hatched
-            ? `<div class="hatch-pet">${this.petSVG(180, "open")}</div>
+            ? `<div class="hatch-pet">${this.petSVG(220, "open")}</div>
                <div class="hatch-hues">${hues.map((h) => `<button type="button" class="hatch-hue${(this.pet?.hue ?? 200) === h ? " is-picked" : ""}" data-hue="${h}" style="--h:${h}"></button>`).join("")}</div>
                <button type="button" class="lg-big-btn hatch-go">${Art.icon("check", 40)}</button>`
             : `<button type="button" class="hatch-egg">${Art.egg({ size: 190, cracks })}</button>`}
@@ -165,7 +204,7 @@
         el.querySelector(".hatch-egg").addEventListener("pointerdown", () => {
           this.sound.play(cracks >= 2 ? "hatch" : "click");
           if (cracks >= 2) {
-            this.pet = this.pet || { hue: 200, worn: [] };
+            this.pet = this.pet || { hue: 200, species: "blob", worn: [], bodies: ["blob"] };
             this.saveJSON("quran-trainer:letters:pet", this.pet);
             this.confettiAt(el.querySelector(".hatch-egg"), true);
           }
@@ -188,14 +227,24 @@
       });
     }
 
-    // The pet's room: dress-up shelf plus the tap-to-recite thought bubble.
+    // The pet's room: the body shop (new species bought with stars), the
+    // dress-up shelf, and the tap-to-recite thought bubble.
     renderPet() {
       const worn = this.pet.worn || [];
+      const species = this.pet.species || "blob";
+      const ownedBodies = this.pet.bodies || (this.pet.bodies = ["blob"]);
+      const bodyShelf = ns.LETTERS_BODIES.map((b) => {
+        const owned = ownedBodies.includes(b.id);
+        return `<button type="button" class="pet-acc${owned ? " is-owned" : ""}${species === b.id ? " is-worn" : ""}" data-body="${b.id}">
+          <span class="pet-acc-art">${Art.pet({ hue: this.pet.hue, species: b.id, stage: 1, size: 54 })}</span>
+          ${owned ? "" : `<span class="pet-acc-cost">${Art.icon("star", 12)} ${b.cost}</span>`}
+        </button>`;
+      }).join("");
       const shelf = ns.LETTERS_ACCESSORIES.map((acc) => {
         const owned = (this.pet.accessories || []).includes(acc.id);
         const wearing = worn.includes(acc.id);
         return `<button type="button" class="pet-acc${owned ? " is-owned" : ""}${wearing ? " is-worn" : ""}" data-acc="${acc.id}">
-          <span class="pet-acc-art">${Art.pet({ hue: this.pet.hue, stage: 1, worn: [acc.id], size: 62 })}</span>
+          <span class="pet-acc-art">${Art.pet({ hue: this.pet.hue, species, stage: 1, worn: [acc.id], size: 62 })}</span>
           ${owned ? "" : `<span class="pet-acc-cost">${Art.icon("star", 12)} ${acc.cost}</span>`}
         </button>`;
       }).join("");
@@ -206,10 +255,11 @@
           <span class="lg-star-chip">${Art.icon("star", 20)} <b>${this.starBalance()}</b></span>
           <button type="button" class="pet-big">
             <span class="pet-bubble" hidden></span>
-            ${this.petSVG(190)}
+            ${this.petSVG(230)}
           </button>
           ${Object.keys(this.skills).length ? `<div class="pet-flower">${Art.skillFlower({ scores: this.skills, size: 130 })}</div>` : ""}
-          <div class="pet-shelf">${shelf}</div>
+          <div class="pet-shelf pet-bodies lg-panel">${bodyShelf}</div>
+          <div class="pet-shelf lg-panel">${shelf}</div>
         </div>`,
       );
       this.wireTopBar(el);
@@ -221,7 +271,30 @@
         void el.querySelector(".pet-big").offsetWidth;
         el.querySelector(".pet-big").classList.add("is-hop");
       });
-      for (const btn of el.querySelectorAll(".pet-acc")) {
+      for (const btn of el.querySelectorAll(".pet-acc[data-body]")) {
+        btn.addEventListener("click", () => {
+          const id = btn.dataset.body;
+          const body = ns.LETTERS_BODIES.find((b) => b.id === id);
+          const bodies = this.pet.bodies || (this.pet.bodies = ["blob"]);
+          if (!bodies.includes(id)) {
+            if (!this.spendStars(body.cost)) {
+              this.sound.play("wrong");
+              btn.classList.remove("is-shake");
+              void btn.offsetWidth;
+              btn.classList.add("is-shake");
+              return;
+            }
+            bodies.push(id);
+            this.sound.play("hatch");
+            this.confettiAt(btn, true);
+          }
+          this.pet.species = id;
+          this.saveJSON("quran-trainer:letters:pet", this.pet);
+          this.sound.play("click");
+          this.renderPet();
+        });
+      }
+      for (const btn of el.querySelectorAll(".pet-acc[data-acc]")) {
         btn.addEventListener("click", () => {
           const id = btn.dataset.acc;
           const acc = ns.LETTERS_ACCESSORIES.find((a) => a.id === id);
@@ -269,7 +342,7 @@
           ${allOwned
             ? `<div class="album-complete">${Art.icon("star", 40)}</div>`
             : `<button type="button" class="album-pack">${Art.stickerPack({ size: 104 })}<span class="pet-acc-cost">${Art.icon("star", 14)} 5</span></button>`}
-          <div class="album-grid">${grid}</div>
+          <div class="album-grid lg-panel">${grid}</div>
         </div>`,
       );
       this.wireTopBar(el);
@@ -418,17 +491,24 @@
     // ---------- home: the journey map ----------
 
     renderHome() {
+      this.applyPhase();
       this.root.style.setProperty("--lg-hue", "150");
       const worlds = this.worlds.worlds;
       const allDone = this.firstOpenIndex() >= worlds.length;
       const daily = this.worlds.dailySession(this.progress.done);
       const stampedToday = this.stamps.dates.includes(todayStr());
-      // The path reads bottom-to-top: world 1 sits at the bottom of the
-      // scroll, and when everything is done a door to the island crowns it.
+      // A winding trail read bottom-to-top: world 1 sits at the bottom of
+      // the scroll, one bend per world, and when everything is done a door
+      // to the island crowns the path. Finished stops grow flower gardens.
+      const GAP = 200;
+      const total = worlds.length + (allDone ? 1 : 0);
+      const height = total * GAP + 240;
+      const yOf = (i) => height - 150 - i * GAP;
+      const xOf = (i) => (i % 2 === 0 ? 28 : 72); // percent of the path width
       const el = this.screen(
         "lg-home",
         `${this.topBar({ home: false })}
-        <div class="map-daily-row">
+        <div class="map-daily-row lg-tray">
           ${daily ? `<button type="button" class="map-daily${stampedToday ? " is-stamped" : ""}">${Art.icon("sun", 34)}${stampedToday ? `<i class="map-daily-check">${Art.icon("check", 16)}</i>` : ""}</button>` : ""}
           ${daily ? `<button type="button" class="map-checkup">${Art.icon("flower", 34)}</button>` : ""}
           <button type="button" class="map-pet">${this.petSVG(46)}</button>
@@ -436,26 +516,44 @@
           <button type="button" class="map-calendar">${Art.icon("calendar", 30)}</button>
         </div>
         <div class="map-scroll">
-          <div class="map-path">
-            ${allDone ? `<div class="map-row is-left"><a class="map-stop is-door" href="index.html">${Art.mapStop({ hue: 45, label: "🏝", status: "done", stars: 3, latin: true })}</a></div>` : ""}
+          <div class="map-path" style="height:${height}px">
+            <svg class="map-trail" aria-hidden="true"></svg>
+            ${allDone ? `<a class="map-stop is-door" href="index.html" style="left:${xOf(worlds.length)}%; top:${yOf(worlds.length)}px">${Art.mapStop({ hue: 45, label: "🏝", status: "done", stars: 3, latin: true })}</a>` : ""}
             ${worlds
               .map((world, i) => {
                 const status = this.statusOf(world);
-                const side = i % 2 === 0 ? "is-left" : "is-right";
-                return `<div class="map-row ${side}">
-                  <button type="button" class="map-stop is-${status}" data-world="${world.id}" ${status === "locked" ? "disabled" : ""}>
+                const at = `left:${xOf(i)}%; top:${yOf(i)}px`;
+                return `
+                  ${status === "done" ? `<span class="map-bloom" style="${at}">${Art.bloomCluster({ seed: i + 1 })}</span>` : ""}
+                  <button type="button" class="map-stop is-${status}" data-world="${world.id}" ${status === "locked" ? "disabled" : ""} style="${at}">
                     ${Art.mapStop({ hue: world.hue, label: world.icon, status, stars: this.stars[world.id] || 0, latin: !/[؀-ۿ]/.test(world.icon) })}
                   </button>
-                  ${status === "current" ? `<span class="map-here">${Art.keyMascot({ size: 66 })}</span>` : ""}
-                  ${status === "current" && !this.progress.done.length ? `<span class="map-tap">${Art.icon("arrow", 44)}</span>` : ""}
-                </div>`;
+                  ${status === "current" ? `<span class="map-here" style="left:${xOf(i) + (i % 2 === 0 ? 17 : -17)}%; top:${yOf(i)}px">${Art.keyMascot({ size: 58 })}${this.petSVG(40)}</span>` : ""}
+                  ${status === "current" && !this.progress.done.length ? `<span class="map-tap" style="left:${xOf(i)}%; top:${yOf(i) - 96}px; bottom:auto; margin:0;">${Art.icon("arrow", 44)}</span>` : ""}`;
               })
-              .reverse()
               .join("")}
           </div>
         </div>`,
       );
       this.wireTopBar(el, null);
+      // The dotted trail needs real pixel coordinates, so it's drawn after
+      // layout against the path's actual width.
+      const pathEl = el.querySelector(".map-path");
+      const trail = el.querySelector(".map-trail");
+      const w = pathEl.clientWidth || 430;
+      trail.setAttribute("viewBox", `0 0 ${w} ${height}`);
+      const pts = [];
+      for (let i = 0; i < total; i += 1) pts.push([(w * xOf(i)) / 100, yOf(i)]);
+      let d = pts.length ? `M ${pts[0][0]} ${pts[0][1]}` : "";
+      for (let i = 1; i < pts.length; i += 1) {
+        const a = pts[i - 1];
+        const b = pts[i];
+        d += ` C ${a[0]} ${a[1] - GAP * 0.45}, ${b[0]} ${b[1] + GAP * 0.45}, ${b[0]} ${b[1]}`;
+      }
+      trail.innerHTML = `
+        <path d="${d}" fill="none" stroke="#52627a" stroke-width="17" stroke-linecap="round" opacity="0.72"/>
+        <path d="${d}" fill="none" stroke="#fffaf0" stroke-width="13" stroke-linecap="round"/>
+        <path d="${d}" fill="none" stroke="#7fc6a4" stroke-width="5" stroke-linecap="round" stroke-dasharray="1 22"/>`;
       for (const btn of el.querySelectorAll(".map-stop[data-world]")) {
         btn.addEventListener("click", () => {
           const world = worlds.find((w) => w.id === btn.dataset.world);
@@ -520,7 +618,7 @@
         `${this.topBar()}
         <div class="stamps-stage">
           <div class="stamps-moon">${Art.icon("sun", 44)}</div>
-          <div class="stamps-grid">${cells}</div>
+          <div class="stamps-grid lg-panel">${cells}</div>
         </div>`,
       );
       this.wireTopBar(el);
@@ -583,7 +681,7 @@
       const el = this.screen(
         "lg-meet",
         `${this.topBar()}
-        <div class="meet-stage">
+        <div class="meet-stage lg-panel">
           <button type="button" class="meet-card">${Art.blobCard({ hue: s.world.hue, label: card.display, latin: !/[؀-ۿ]/.test(card.display) })}</button>
           <div class="meet-dots">${s.world.meet.map((_, i) => `<i class="${i === s.meetIndex ? "is-on" : ""}"></i>`).join("")}</div>
           <div class="meet-nav">
@@ -612,7 +710,7 @@
       const el = this.screen(
         "lg-play",
         `${this.topBar()}
-        <div class="play-prompt">
+        <div class="play-prompt lg-panel">
           <span class="play-pet">${this.petSVG(56)}</span>
           <span class="play-mascot">${Art.keyMascot({ size: 66 })}</span>
           <button type="button" class="play-bubble" hidden>
@@ -640,13 +738,19 @@
         hue: s.world.hue,
         level: this.stars[s.world.id] || 0,
         say: (item) => this.say(item),
-        // The pet watches the child play: it hops on every right answer.
+        // The pet watches the child play: it hops on every right answer and
+        // droops in sympathy on a wrong pick — never scolding, just feeling.
         sfx: (name) => {
           this.sound.play(name);
           if (name === "correct" && petEl) {
-            petEl.classList.remove("is-hop");
+            petEl.classList.remove("is-hop", "is-sad");
             void petEl.offsetWidth;
             petEl.classList.add("is-hop");
+          }
+          if (name === "wrong" && petEl) {
+            petEl.classList.remove("is-sad", "is-hop");
+            void petEl.offsetWidth;
+            petEl.classList.add("is-sad");
           }
         },
         confettiAt: (target) => this.confettiAt(target),
@@ -697,7 +801,7 @@
       const el = this.screen(
         "lg-stars",
         `${this.topBar()}
-        <div class="stars-stage">
+        <div class="stars-stage lg-panel">
           <div class="stars-row">
             ${[0, 1, 2].map((i) => `<span class="stars-star ${i < stars ? "is-on" : ""}" style="animation-delay:${i * 220}ms">${Art.icon("star", 74)}</span>`).join("")}
           </div>
@@ -754,7 +858,7 @@
     renderParty(stars, newlyDone, { flower = false } = {}) {
       const el = this.screen(
         "lg-party",
-        `<div class="party-stage">
+        `<div class="party-stage lg-panel">
           ${flower ? `<div class="party-flower">${Art.skillFlower({ scores: this.skills, size: 200 })}</div>` : ""}
           <div class="party-pair">
             <div class="party-mascot">${Art.keyMascot({ size: flower ? 110 : 150, mood: "open" })}</div>
