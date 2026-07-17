@@ -2,7 +2,7 @@
   "name": "Miftah — Quranic Arabic Trainer",
   "short_name": "Miftah",
   "description": "Learn the vocabulary of the Quran, ayah by ayah — a small daily session with spaced review.",
-  "start_url": "surahs.html",
+  "start_url": "today.html",
   "scope": ".",
   "display": "standalone",
   "orientation": "portrait",

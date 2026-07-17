@@ -11,6 +11,7 @@ if ("serviceWorker" in navigator && window.isSecureContext) {
 (() => {
   const page = location.pathname.split("/").pop() || "surahs.html";
   const currentTab = {
+    "today.html": "today",
     "surahs.html": "surahs",
     "": "surahs",
     "trainer.html": "trainer",

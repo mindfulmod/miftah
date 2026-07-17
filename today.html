@@ -3,17 +3,59 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>Glossary — Miftah</title>
+    <title>Today — Miftah</title>
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#13110d" />
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f7f1e3" />
     <link rel="manifest" href="manifest.webmanifest" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-    <link rel="preload" href="vendor/fonts/amiri-quran-400-arabic.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="vendor/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="vendor/fonts/fonts.css" />
     <link rel="stylesheet" href="styles.css" />
-    <link rel="stylesheet" href="glossary.css" />
+    <style>
+      /* Today-screen specifics; everything else rides the manuscript system. */
+      .today-hero { text-align: center; max-width: 480px; margin: 18px auto 0; }
+      .today-salam { color: var(--muted); font-size: var(--fs-md); margin: 4px 0 14px; }
+      .today-streak {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 700;
+        font-size: var(--fs-lg);
+        opacity: 0.55;
+      }
+      .today-streak.lit { opacity: 1; color: var(--gold); }
+      .today-flame { font-size: 1.3em; }
+      .today-session-line { font-size: var(--fs-lg); margin: 18px 0 6px; }
+      .today-begin { font-size: var(--fs-lg); padding: 14px 34px; text-decoration: none; }
+      .today-coverage { color: var(--muted); font-size: var(--fs-sm); min-height: 1.4em; margin-top: 18px; }
+      .today-links {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        max-width: 480px;
+        margin: 22px auto 0;
+      }
+      .today-links .ghost-btn { justify-content: center; text-align: center; text-decoration: none; }
+      /* wizard */
+      .wizard-dots { display: flex; gap: 8px; justify-content: center; margin-bottom: 14px; }
+      .wizard-dots i { width: 9px; height: 9px; border-radius: 50%; background: var(--line); }
+      .wizard-dots i.on { background: var(--gold); }
+      .wizard-dots i.done { background: var(--accent); }
+      .wizard-col { flex-direction: column; align-items: stretch; max-width: 340px; margin-inline: auto; }
+      .wizard-pace { display: flex; flex-direction: column; gap: 3px; padding: 13px 16px; }
+      .wizard-pace b { font-size: var(--fs-lg); }
+      .wizard-pace span { color: var(--muted); font-size: var(--fs-xs); }
+      /* Urdu mode: RTL + Nastaliq where the OS has it (Apple ships Noto
+         Nastaliq Urdu); the coming Urdu layer will bundle the webfont. */
+      body.lang-ur { direction: rtl; }
+      body.lang-ur .today-hero,
+      body.lang-ur .today-links,
+      body.lang-ur [lang="ur"] {
+        font-family: "Noto Nastaliq Urdu", "Amiri Quran", serif;
+        line-height: 1.9;
+      }
+    </style>
   </head>
   <body>
     <header class="topbar">
@@ -31,60 +73,20 @@
             </svg>
           </a>
           <div>
-            <h1>Glossary</h1>
-            <p id="gloss-subtitle" class="subtitle">The words you've learned so far.</p>
+            <h1>Miftah</h1>
           </div>
-        </div>
-        <div class="topbar-actions">
-          <a href="surahs.html" class="ghost-btn"><svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4.5 7h15"/><path d="M4.5 12h15"/><path d="M4.5 17h9"/></svg>All surahs</a>
         </div>
       </div>
     </header>
 
-    <main class="app">
-      <p id="loading" class="loading">Loading your glossary…</p>
-
-      <!-- Glossary list view -->
-      <section id="gloss-view" class="gloss-view" hidden>
-        <div class="gloss-toolbar">
-          <input
-            id="gloss-search"
-            class="gloss-search"
-            type="search"
-            inputmode="search"
-            autocomplete="off"
-            placeholder="Search Arabic or meaning…"
-            aria-label="Search the glossary"
-          />
-          <button id="start-test" class="primary-btn" type="button">
-            🎯 Run 10-word test
-          </button>
-        </div>
-        <div id="gloss-groups" class="gloss-groups"></div>
-        <p id="gloss-empty" class="gloss-empty" hidden></p>
-      </section>
-
-      <!-- Test view -->
-      <section id="test-view" class="test-view" hidden>
-        <div class="quiz-head">
-          <button id="quit-test" class="ghost-btn" type="button">← Back to glossary</button>
-          <div class="quiz-track"><div id="quiz-fill" class="quiz-fill"></div></div>
-          <span id="quiz-count" class="quiz-count">1 / 10</span>
-        </div>
-        <div id="quiz-card" class="quiz-card"></div>
-      </section>
+    <main id="app" class="app">
+      <p class="loading">…</p>
     </main>
-
-    <footer class="footer">
-      <span>Your glossary grows as you complete ayahs in the trainer. The 10-word test draws at random from everything you've learned — a quick way to keep it fresh.</span>
-    </footer>
-
 
     <nav class="tabbar" aria-label="Primary">
       <div class="tabbar-inner">
-        <a href="today.html" class="tab" data-tab="today"><svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21M5.6 5.6l1.8 1.8M16.6 16.6l1.8 1.8M18.4 5.6l-1.8 1.8M7.4 16.6l-1.8 1.8"/></svg><span>Today</span></a>
+        <a href="today.html" class="tab tab-primary" data-tab="today"><svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21M5.6 5.6l1.8 1.8M16.6 16.6l1.8 1.8M18.4 5.6l-1.8 1.8M7.4 16.6l-1.8 1.8"/></svg><span>Today</span></a>
         <a href="surahs.html" class="tab" data-tab="surahs"><svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4.5 7h15"/><path d="M4.5 12h15"/><path d="M4.5 17h9"/></svg><span>Surahs</span></a>
-        <a href="trainer.html" class="tab tab-primary" id="tab-continue" data-tab="trainer"><svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M10 8.5 15.5 12 10 15.5Z"/></svg><span>Continue</span></a>
         <a href="glossary.html" class="tab" data-tab="glossary"><svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6.3C10 4.9 7.2 4.5 4.5 5v13c2.7-.5 5.5 0 7.5 1.5 2-1.5 4.8-2 7.5-1.5V5c-2.7-.5-5.5-.1-7.5 1.3Z"/><path d="M12 6.3v13.2"/></svg><span>Glossary</span></a>
         <button type="button" class="tab" id="tab-games" aria-expanded="false" aria-controls="games-sheet"><svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6.5" y="6.5" width="11" height="11"/><path d="M12 4.2 19.8 12 12 19.8 4.2 12Z"/></svg><span>Games</span></button>
       </div>
@@ -96,6 +98,8 @@
       <a href="index.html"><svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 21c0-5.5-.7-9.3-2.4-12.3"/><path d="M10 8.7C8.6 5.9 6.2 4.8 3.7 5.7c1.7 2 3.8 2.9 6.3 3Z"/><path d="M10 8.7c-.4-3 1.3-5.4 4.3-5.9.4 3-1.3 5.2-4.3 5.9Z"/><path d="M10 8.7c3-1.1 5.9-.4 7.9 1.9-2.9.9-5.9.2-7.9-1.9Z"/><path d="M5.5 21h13"/></svg>Island</a>
     </div>
     <script src="tabbar.js"></script>
-    <script src="glossary.js?v=20260629-beginner-options"></script>
+    <script src="fsrs.js?v=20260717-fable3"></script>
+    <script src="strength.js?v=20260717-fable3"></script>
+    <script src="today.js?v=20260717-fable3"></script>
   </body>
 </html>
