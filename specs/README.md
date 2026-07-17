@@ -6,8 +6,17 @@
 > model (`LettersStrength.js`) + adaptive daily world; blend-machine
 > mini-game; navigator two-way FSRS sync (`SN.grade` → `syncBack`); zero-crew
 > recruitment (`meta.recruited`, `SN.pendingRecruit`, `RECRUIT_SCENES`).
-> Recruitment scene copy is Fable-draft, pending owner approval. Remaining
-> work on the milestones is the Sonnet/Haiku-tagged tasks in each spec.
+> Recruitment scene copy was simplified for young teens and approved-by-
+> direction 2026-07-17; sailor jargon softened across navigator UI text
+> (hull→health, ward→shield, vessel→ship, salvage→treasure).
+>
+> **Reskin ownership (owner directive 2026-07-17): Fable owns the look of
+> all three games.** First passes done: trainer manuscript pass (reverent
+> glow replaces confetti, milestone frames), navigator encounter legibility +
+> sea-mood tint layer, Letter Garden biome chapters (bands + scenery decals).
+> Remaining named look work: KFGQPC Uthmanic Hafs font swap (needs owner
+> approval to download the font file), LG ambient-life + mini-game scenes,
+> SN island home + card/HUD passes, trainer Today-screen styling.
 
 Written from the 2026-07-16 discovery interviews (72 questions across the
 three apps). Each spec ends with a **Declined** list — check it before
