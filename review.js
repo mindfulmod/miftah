@@ -1,37 +1,29 @@
 "use strict";
 
-// Review mode: a spaced-repetition drill over the words you missed in the
-// main word-by-word trainer. It unlocks only once the whole surah is complete,
-// and the deck is built from the per-word mistake history the trainer records.
+// Extra practice: a direct window onto the ONE unified FSRS queue
+// (strength.js) that the trainer's daily session also drains. Nothing here is
+// a separate system anymore — answering a card here is exactly as real as
+// answering it in the trainer's warm-up (same store, same write path).
 //
-// Scheduling runs on FSRS (see fsrs.js): each word carries a memory model
-// (difficulty / stability), and recalling it pushes the next review further
-// out while a miss pulls it back in — adaptively, per word, instead of fixed
-// Leitner boxes. Real intervals are days long, so "Simulate +1 day" lets you
-// fast-forward the clock and watch the schedule react.
+// The page keeps its two teaching affordances: the board (per-word memory
+// dots) and the "+1 day" clock simulator that lets you watch the schedule
+// react. The simulator only moves THIS page's view of time; it never writes
+// fake timestamps into the store beyond the reviews you actually do.
 
-const SURAH_NUMBER =
-  Number(new URLSearchParams(location.search).get("surah")) || 1;
-const DATA_VERSION = "20260629-beginner-options";
-const withDataVersion = (path) =>
-  `${path}${path.includes("?") ? "&" : "?"}v=${DATA_VERSION}`;
-const SURAH_FILE = withDataVersion(`data/surah-${SURAH_NUMBER}.json`);
-const PROGRESS_KEY = `quran-trainer:surah-${SURAH_NUMBER}:progress`; // written by the trainer
-const STATS_KEY = `quran-trainer:stats:surah-${SURAH_NUMBER}`; // per-word mistake history
-const STORAGE_KEY = `quran-trainer:review:surah-${SURAH_NUMBER}`; // this page's FSRS state
-const TRAINER_URL = `trainer.html?surah=${SURAH_NUMBER}`;
+const SURAH_FILTER =
+  Number(new URLSearchParams(location.search).get("surah")) || 0; // 0 = all words
+const TRAINER_URL = SURAH_FILTER
+  ? `trainer.html?surah=${SURAH_FILTER}`
+  : "trainer.html";
 const OPTIONS = 4;
 const MIN = 60 * 1000;
 
 // A word counts as "mastered" once its memory is stable enough to hold for
 // about three weeks — the point where it no longer needs frequent drilling.
 const MASTERED_DAYS = 21;
-// The board's six dots fill as stability climbs past each tier (days). The
-// doubling ladder mirrors how memory strength grows: slow at first, then in
-// ever larger leaps until the word is mastered.
+// The board's six dots fill as stability climbs past each tier (days).
 const STABILITY_TIERS = [1, 2, 4, 8, 16, MASTERED_DAYS];
 
-const wordId = (arabic, english) => `${arabic}|||${english}`;
 const answerFor = (w) => w.answer || w.english;
 const displayGloss = (w) =>
   w.display || (w.context ? `${answerFor(w)} — ${w.context}` : w.english || answerFor(w));
@@ -40,7 +32,7 @@ const DIACRITICS = /[ً-ْٰٓ-ٟؐ-ؚۖ-ۭـ]/g;
 const skeleton = (s) => (s || "").normalize("NFC").replace(DIACRITICS, "");
 const normalizeArabicLetters = (s) =>
   skeleton(s)
-    .replace(/[^\u0621-\u064A]/g, "")
+    .replace(/[^ء-ي]/g, "")
     .replace(/[أإآٱ]/g, "ا")
     .replace(/ؤ/g, "و")
     .replace(/ئ/g, "ي")
@@ -63,34 +55,9 @@ function arabicConceptKey(value) {
 }
 
 const BEGINNER_CONTEXT_WORDS = new Set([
-  "a",
-  "an",
-  "and",
-  "are",
-  "be",
-  "belong",
-  "belongs",
-  "but",
-  "by",
-  "for",
-  "from",
-  "had",
-  "has",
-  "have",
-  "in",
-  "is",
-  "of",
-  "on",
-  "so",
-  "that",
-  "the",
-  "then",
-  "to",
-  "upon",
-  "was",
-  "were",
-  "while",
-  "with",
+  "a", "an", "and", "are", "be", "belong", "belongs", "but", "by", "for",
+  "from", "had", "has", "have", "in", "is", "of", "on", "so", "that", "the",
+  "then", "to", "upon", "was", "were", "while", "with",
 ]);
 
 function beginnerGlossKey(g) {
@@ -144,11 +111,19 @@ const els = {
 
 if (els.trainerLink) els.trainerLink.href = TRAINER_URL;
 
-let glossPool = [];
-let deck = [];
+const SIM_KEY = "quran-trainer:review:sim"; // page-local clock offset (ms)
 let simOffset = 0;
+try {
+  simOffset = Number(localStorage.getItem(SIM_KEY)) || 0;
+} catch {}
 
 const now = () => Date.now() + simOffset;
+
+function saveSim() {
+  try {
+    localStorage.setItem(SIM_KEY, String(simOffset));
+  } catch {}
+}
 
 function shuffle(a) {
   a = a.slice();
@@ -159,82 +134,22 @@ function shuffle(a) {
   return a;
 }
 
-function save() {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ deck, simOffset }));
-  } catch {}
+// The working set: every word with real review history, this surah's first
+// when filtered. Re-read from the store on every render — other pages write it.
+function deckEntries() {
+  return WordStrength.entries()
+    .filter((e) => e.fsrs && e.fsrs.reps > 0)
+    .filter((e) => !SURAH_FILTER || (e.surahs || []).includes(SURAH_FILTER))
+    .sort((a, b) => a.fsrs.due - b.fsrs.due);
 }
 
-function loadSaved() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : null;
-  } catch {
-    return null;
-  }
-}
-
-function loadProgress() {
-  try {
-    const raw = localStorage.getItem(PROGRESS_KEY);
-    if (!raw) return { passed: 0 };
-    const data = JSON.parse(raw);
-    return { passed: Number.isInteger(data.passed) ? data.passed : 0 };
-  } catch {
-    return { passed: 0 };
-  }
-}
-
-function loadStats() {
-  try {
-    const raw = localStorage.getItem(STATS_KEY);
-    if (!raw) return {};
-    const data = JSON.parse(raw);
-    return data && typeof data === "object" ? data : {};
-  } catch {
-    return {};
-  }
-}
-
-// Build the deck from missed words, hardest first. Resume any saved FSRS state
-// so a word's memory model survives across visits, and pick up newly-missed
-// words from later sessions. Cards saved under the old Leitner format (no
-// stability field) are restarted as fresh FSRS cards — harmless, since the
-// deck is always rebuilt from the underlying mistake history.
-function buildDeck(savedDeck) {
-  const stats = loadStats();
-  const byId = {};
-  (savedDeck || []).forEach((c) => {
-    byId[c.id] = c;
-  });
-
-  return Object.values(stats)
-    .filter((s) => s.miss > 0)
-    .sort((a, b) => b.miss - a.miss)
-    .map((s) => {
-      const id = wordId(s.arabic, s.english);
-      const prior = byId[id];
-      const base = {
-        id,
-        arabic: s.arabic,
-        english: s.english,
-        display: s.display || s.english,
-        translit: s.translit || "",
-        miss: s.miss,
-      };
-      if (prior && typeof prior.stability === "number") {
-        return Object.assign(base, {
-          stability: prior.stability,
-          difficulty: prior.difficulty,
-          due: prior.due,
-          lastReview: prior.lastReview ?? null,
-          reps: prior.reps || 0,
-          lapses: prior.lapses || 0,
-          state: prior.state || "review",
-        });
-      }
-      return Object.assign(base, FSRS.newCard(), { due: now() });
-    });
+function dueCards(deck) {
+  return deck
+    .filter((c) => c.fsrs.due <= now())
+    .sort(
+      (a, b) =>
+        a.fsrs.due - b.fsrs.due || (a.fsrs.stability || 0) - (b.fsrs.stability || 0)
+    );
 }
 
 function dueInLabel(ms) {
@@ -247,7 +162,6 @@ function dueInLabel(ms) {
   return `in ${d} day${d === 1 ? "" : "s"}`;
 }
 
-// How many board dots are lit for a given stability, and whether it's mastered.
 function dotsFor(stability) {
   const s = stability || 0;
   return {
@@ -256,18 +170,11 @@ function dotsFor(stability) {
   };
 }
 
-function dueCards() {
-  // Earliest-due first; among ties, the weaker memory (lower stability) leads.
-  return deck
-    .filter((c) => c.due <= now())
-    .sort((a, b) => a.due - b.due || (a.stability || 0) - (b.stability || 0));
-}
-
-function options(card) {
+function options(card, deck) {
   const correct = card.english;
   const bannedKeys = optionKeys(card, correct);
   const distractors = [];
-  for (const candidate of shuffle(glossPool)) {
+  for (const candidate of shuffle(deck)) {
     if (distractors.length >= OPTIONS - 1) break;
     const answer = answerFor(candidate);
     const keys = optionKeys(candidate, answer);
@@ -279,23 +186,43 @@ function options(card) {
 }
 
 function render() {
-  renderBoard();
-  renderReview();
+  const deck = deckEntries();
 
-  const mastered = deck.filter((c) => (c.stability || 0) >= MASTERED_DAYS).length;
-  const due = dueCards().length;
+  if (deck.length === 0) {
+    els.subtitle.textContent = SURAH_FILTER
+      ? "No reviewed words in this surah yet"
+      : "No reviewed words yet";
+    els.reviewArea.hidden = false;
+    els.board.hidden = true;
+    els.reviewArea.innerHTML =
+      `<div class="review-empty"><div class="big">Nothing here yet</div>` +
+      `<div class="muted">Words arrive as you meet them in the trainer — every answer there feeds this queue.</div></div>`;
+    const link = document.createElement("a");
+    link.className = "primary-link";
+    link.href = TRAINER_URL;
+    link.textContent = "← To the trainer";
+    els.reviewArea.firstElementChild.appendChild(link);
+    return;
+  }
+
+  renderBoard(deck);
+  renderReview(deck);
+
+  const mastered = deck.filter((c) => (c.fsrs.stability || 0) >= MASTERED_DAYS).length;
+  const due = dueCards(deck).length;
   els.subtitle.textContent =
-    `${deck.length} missed word${deck.length === 1 ? "" : "s"} · ` +
+    `${deck.length} word${deck.length === 1 ? "" : "s"} in the queue · ` +
     `${due} due now · ${mastered} mastered` +
     (simOffset ? ` · (clock +${Math.round(simOffset / 86400000)}d)` : "");
 }
 
-function renderBoard() {
+function renderBoard(deck) {
+  els.board.hidden = false;
   els.boardList.innerHTML = "";
   deck.forEach((c) => {
     const row = document.createElement("div");
     row.className = "board-row";
-    const isDue = c.due <= now();
+    const isDue = c.fsrs.due <= now();
     if (isDue) row.classList.add("due");
 
     const ar = document.createElement("div");
@@ -308,7 +235,7 @@ function renderBoard() {
 
     const dots = document.createElement("div");
     dots.className = "board-dots";
-    const { on, mastered } = dotsFor(c.stability);
+    const { on, mastered } = dotsFor(c.fsrs.stability);
     for (let i = 0; i < STABILITY_TIERS.length; i++) {
       const d = document.createElement("span");
       d.className = "dot";
@@ -318,25 +245,26 @@ function renderBoard() {
 
     const dueEl = document.createElement("div");
     dueEl.className = "board-due" + (isDue ? " now" : "");
-    dueEl.textContent = isDue ? "Due now" : dueInLabel(c.due - now());
+    dueEl.textContent = isDue ? "Due now" : dueInLabel(c.fsrs.due - now());
 
     row.append(ar, gloss, dots, dueEl);
     els.boardList.appendChild(row);
   });
 }
 
-function renderReview() {
-  const queue = dueCards();
+function renderReview(deck) {
+  const queue = dueCards(deck);
+  els.reviewArea.hidden = false;
   els.reviewArea.innerHTML = "";
 
   if (queue.length === 0) {
-    const next = deck.slice().sort((a, b) => a.due - b.due)[0];
+    const next = deck[0];
     const wrap = document.createElement("div");
     wrap.className = "review-empty";
     wrap.innerHTML =
       `<div class="big">✓ Nothing due right now</div>` +
       `<div class="muted">Next word returns ${dueInLabel(
-        next.due - now()
+        next.fsrs.due - now()
       )}. Use “Simulate +1 day” to jump ahead and see it resurface.</div>`;
     els.reviewArea.appendChild(wrap);
     return;
@@ -358,7 +286,7 @@ function renderReview() {
   const feedback = document.createElement("div");
   feedback.className = "review-feedback";
 
-  options(card).forEach((text) => {
+  options(card, deck).forEach((text) => {
     const btn = document.createElement("button");
     btn.className = "review-opt";
     btn.type = "button";
@@ -378,11 +306,13 @@ function answer(card, choice, optsEl, feedbackEl) {
     else if (b.textContent === choice) b.classList.add("wrong");
   });
 
-  // Binary grade → FSRS: a correct tap is "Good" (3), a miss is "Again" (1).
-  const graded = FSRS.repeat(card, correct ? 3 : 1, now());
-  Object.assign(card, graded); // mutate in place so the deck reference updates
+  // One write path: the unified store. Calm study = full-weight rep.
+  const e = WordStrength.review(card.id, correct ? 3 : 1, {
+    source: "review",
+    now: now(),
+  });
 
-  const when = dueInLabel(card.due - now());
+  const when = dueInLabel((e ? e.fsrs.due : now()) - now());
   if (correct) {
     feedbackEl.innerHTML = `<span class="up">Recalled ↑ — memory strengthened, returns ${when}.</span>`;
   } else {
@@ -390,96 +320,24 @@ function answer(card, choice, optsEl, feedbackEl) {
       card
     )}”. Returns ${when}.</span>`;
   }
-  save();
 
-  renderBoard();
   setTimeout(render, 1200);
-}
-
-function renderLocked(message) {
-  els.loading.remove();
-  els.simBtn.hidden = true;
-  els.resetBtn.hidden = true;
-  els.subtitle.textContent = message.subtitle;
-  els.reviewArea.hidden = false;
-  els.reviewArea.innerHTML = "";
-  const wrap = document.createElement("div");
-  wrap.className = "review-empty";
-  wrap.innerHTML =
-    `<div class="big">🔒 ${message.title}</div>` +
-    `<div class="muted">${message.body}</div>`;
-  const link = document.createElement("a");
-  link.className = "primary-link";
-  link.href = TRAINER_URL;
-  link.textContent = "← Back to the trainer";
-  link.style.marginTop = "16px";
-  wrap.appendChild(link);
-  els.reviewArea.appendChild(wrap);
-}
-
-async function init() {
-  let data;
-  try {
-    data = await (await fetch(SURAH_FILE)).json();
-  } catch {
-    els.loading.textContent = "Could not load data. Serve the folder over http.";
-    return;
-  }
-
-  glossPool = [];
-  const seenGlosses = new Set();
-  data.ayahs.forEach((a) =>
-    a.words.forEach((w) => {
-      const answer = answerFor(w);
-      const id = `${w.arabic}|||${answer}`;
-      if (seenGlosses.has(id)) return;
-      seenGlosses.add(id);
-      glossPool.push({ ...w, english: answer, display: displayGloss(w) });
-    })
-  );
-
-  const totalAyahs = data.ayahs.length;
-  const progress = loadProgress();
-  if (progress.passed < totalAyahs) {
-    renderLocked({
-      subtitle: "Locked until the surah is complete",
-      title: "Finish the surah first",
-      body: `Review mode opens once you've matched every word in all ${totalAyahs} ayahs. You're on ${progress.passed}/${totalAyahs}.`,
-    });
-    return;
-  }
-
-  const saved = loadSaved();
-  simOffset = saved && saved.simOffset ? saved.simOffset : 0;
-  deck = buildDeck(saved && saved.deck);
-
-  if (deck.length === 0) {
-    renderLocked({
-      subtitle: "Nothing to review — flawless run",
-      title: "Nothing to review — flawless run",
-      body: "You completed the surah without missing a single word, so there's nothing to drill. Come back if a future pass trips you up.",
-    });
-    return;
-  }
-
-  save();
-  els.loading.remove();
-  els.reviewArea.hidden = false;
-  els.board.hidden = false;
-  render();
 }
 
 els.simBtn.addEventListener("click", () => {
   simOffset += 86400000; // +1 day
-  save();
+  saveSim();
   render();
 });
 
+// The old "reset deck" wiped a page-local deck; the queue is now the real
+// learning record, so the only safe reset is the simulated clock.
+els.resetBtn.textContent = "Reset clock";
 els.resetBtn.addEventListener("click", () => {
   simOffset = 0;
-  deck = buildDeck(null); // rebuild fresh from current mistake history
-  save();
+  saveSim();
   render();
 });
 
-init();
+els.loading.remove();
+render();

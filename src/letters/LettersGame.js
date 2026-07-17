@@ -653,7 +653,9 @@
         gameIndex: 0,
         starTotal: 0,
         items: world.items(),
-        extraItems: [],
+        // The non-bouquet pool rides along as distractors so weak-letter
+        // rounds still face a full field of options.
+        extraItems: world.extraItems ? world.extraItems() : [],
         daily: true,
       };
       this.startGame();
@@ -711,7 +713,7 @@
         "lg-play",
         `${this.topBar()}
         <div class="play-prompt lg-panel">
-          <span class="play-pet">${this.petSVG(56)}</span>
+          <span class="play-pet play-character">${Art.character({ size: 76, pose: "idle" })}</span>
           <span class="play-mascot">${Art.keyMascot({ size: 66 })}</span>
           <button type="button" class="play-bubble" hidden>
             <span class="play-bubble-glyph" dir="rtl" lang="ar"></span>
@@ -726,10 +728,37 @@
       const bubble = el.querySelector(".play-bubble");
       const glyph = el.querySelector(".play-bubble-glyph");
       let currentTarget = null;
-      bubble.addEventListener("pointerdown", () => this.say(currentTarget));
+      bubble.addEventListener("pointerdown", () => sayWithPose(currentTarget));
 
       const petEl = el.querySelector(".play-pet");
-      petEl.addEventListener("pointerdown", () => this.petRecite(null));
+      let poseTimer = null;
+      let poseLockedUntil = 0;
+      const setPetPose = (pose, hold = 0, lock = false) => {
+        if (!petEl) return;
+        petEl.innerHTML = Art.character({ size: 76, pose });
+        if (poseTimer) clearTimeout(poseTimer);
+        poseLockedUntil = lock ? Date.now() + hold : 0;
+        if (hold > 0) {
+          poseTimer = setTimeout(() => {
+            poseLockedUntil = 0;
+            petEl.innerHTML = Art.character({ size: 76, pose: currentTarget ? "presenting" : "idle" });
+          }, hold);
+        }
+      };
+      const sayWithPose = (item) => {
+        if (Date.now() >= poseLockedUntil) setPetPose("listening", 900);
+        this.say(item);
+      };
+      petEl.addEventListener("pointerdown", () => {
+        setPetPose("success", 900);
+        this.petRecite(null);
+      });
+      // The quiet strength model listens from here: every game announces its
+      // target via setPrompt and its verdicts via sfx("correct"/"wrong"), so
+      // one wiretap covers all of them (Pairs passes a null prompt and is
+      // deliberately untracked — matching pairs isn't a recall verdict).
+      let promptAt = 0;
+      const strength = ns.LettersStrength;
       const ctx = {
         stage,
         items: planStep ? planStep.items : s.items,
@@ -737,17 +766,27 @@
         rounds: 4,
         hue: s.world.hue,
         level: this.stars[s.world.id] || 0,
-        say: (item) => this.say(item),
+        say: (item) => sayWithPose(item),
         // The pet watches the child play: it hops on every right answer and
         // droops in sympathy on a wrong pick — never scolding, just feeling.
         sfx: (name) => {
           this.sound.play(name);
+          if (strength && currentTarget && (name === "correct" || name === "wrong")) {
+            strength.record(
+              currentTarget.id,
+              name === "correct",
+              promptAt ? performance.now() - promptAt : NaN,
+            );
+            if (name === "wrong") promptAt = performance.now(); // re-time the retry
+          }
           if (name === "correct" && petEl) {
+            setPetPose("success", 1300, true);
             petEl.classList.remove("is-hop", "is-sad");
             void petEl.offsetWidth;
             petEl.classList.add("is-hop");
           }
           if (name === "wrong" && petEl) {
+            setPetPose("listening", 1500);
             petEl.classList.remove("is-sad", "is-hop");
             void petEl.offsetWidth;
             petEl.classList.add("is-sad");
@@ -756,6 +795,7 @@
         confettiAt: (target) => this.confettiAt(target),
         setPrompt: (item) => {
           currentTarget = item;
+          promptAt = item ? performance.now() : 0;
           bubble.hidden = !item;
           if (item) {
             // promptDisplay lets the question differ from the answer tile —
@@ -764,6 +804,9 @@
             const shown = item.promptDisplay || item.display;
             glyph.textContent = shown;
             glyph.classList.toggle("is-latin", !/[؀-ۿ]/.test(shown));
+            setPetPose("presenting");
+          } else {
+            setPetPose("idle");
           }
         },
         // "Look here, listen again" — the prompt bubble pulses after a wrong

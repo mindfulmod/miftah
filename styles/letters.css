@@ -912,7 +912,31 @@ body {
 }
 
 .play-pet { flex: 0 0 auto; cursor: pointer; }
+.play-character {
+  display: grid;
+  place-items: center;
+  width: 78px;
+  height: 78px;
+  margin: -8px -6px -10px -4px;
+}
+.art-character {
+  display: block;
+  width: var(--art-character-size, 76px);
+  height: var(--art-character-size, 76px);
+  pointer-events: none;
+}
+.art-character-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform-origin: 50% 92%;
+  user-select: none;
+}
 .is-hop .art-pet-body, .play-pet.is-hop .art-pet-body {
+  animation: lg-hop 560ms var(--lg-spring-big);
+}
+.play-character.is-hop .art-character-img {
   animation: lg-hop 560ms var(--lg-spring-big);
 }
 @keyframes lg-hop {
@@ -924,6 +948,7 @@ body {
 }
 
 .play-pet.is-sad .art-pet-body { animation: lg-droop 900ms var(--lg-out); }
+.play-character.is-sad .art-character-img { animation: lg-droop 900ms var(--lg-out); }
 @keyframes lg-droop {
   0% { transform: translateY(0); }
   30% { transform: translateY(5px) scale(1.04, 0.94) rotate(2deg); }
@@ -1171,4 +1196,71 @@ body {
     from { opacity: 0; }
     to { opacity: 1; }
   }
+}
+
+/* ---------- Blend Machine (spec: specs/02-letter-garden-v2.md) ---------- */
+/* Two part-tiles pushed together fuse into the spoken syllable. */
+.blend-scene {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 300px;
+  overflow: hidden;
+  touch-action: none; /* the whole scene is a drag surface */
+}
+.blend-glow {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  width: 130px;
+  height: 130px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 240, 180, 0.55), rgba(255, 240, 180, 0));
+  animation: blend-breathe 2600ms ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes blend-breathe {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.7; }
+  50% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+}
+.blend-part {
+  position: absolute;
+  width: clamp(84px, 24vw, 116px);
+  transform: translate(-50%, -50%);
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: grab;
+  transition: left 420ms var(--lg-spring), top 420ms var(--lg-spring), scale 200ms var(--lg-out);
+  animation: lg-arrive 380ms var(--lg-spring) backwards;
+}
+.blend-part svg { width: 100%; display: block; pointer-events: none; }
+.blend-part.is-held { transition: none; cursor: grabbing; z-index: 3; scale: 1.08; }
+.blend-part.is-lifted { scale: 1.12; filter: drop-shadow(0 10px 14px rgba(58, 44, 72, 0.28)); }
+.blend-part.is-near { scale: 1.16; }
+.blend-part.is-fusing {
+  transition: left 380ms var(--lg-out), top 380ms var(--lg-out);
+  z-index: 2;
+  animation: blend-squash 420ms var(--lg-out) 320ms both;
+}
+.blend-part.is-gone { opacity: 0; pointer-events: none; }
+@keyframes blend-squash {
+  0% { scale: 1; }
+  70% { scale: 1.2 0.7; }
+  100% { scale: 0.2; opacity: 0; }
+}
+.blend-born {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  width: clamp(110px, 32vw, 150px);
+  transform: translate(-50%, -50%);
+  animation: blend-born-in 540ms var(--lg-spring-big) both;
+  pointer-events: none;
+}
+.blend-born svg { width: 100%; display: block; }
+@keyframes blend-born-in {
+  0% { transform: translate(-50%, -50%) scale(0.3); opacity: 0; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
 }

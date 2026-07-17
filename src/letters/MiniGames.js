@@ -901,6 +901,207 @@
     destroy() {}
   }
 
+  // ---------- Blend Machine: drag letter and vowel together, hear them fuse ----------
+  // The moment of learning to read, made tactile (spec: specs/02-letter-garden-v2.md):
+  // the letter and its haraka are two physical friends; push them into each
+  // other and the syllable pops out and SPEAKS. Early rounds are pure
+  // mechanic joy (only the true pair on stage); later rounds add a decoy
+  // vowel, so the child must blend the pair they HEARD.
+  class BlendGame {
+    constructor(ctx) {
+      this.ctx = ctx;
+      const pool = ctx.items.filter((i) => i.parts && i.parts.length === 2);
+      const targets = shuffle(pool).slice(0, 4);
+      while (targets.length < 4 && pool.length) targets.push(pool[targets.length % pool.length]);
+      this.rounds = targets.map((target, r) => {
+        let decoy = null;
+        if (r >= 2) {
+          const other = shuffle(pool).find(
+            (i) => i.parts[1].display !== target.parts[1].display,
+          );
+          if (other) decoy = other.parts[1];
+        }
+        return { target, decoy };
+      });
+      this.roundIndex = 0;
+      this.slips = 0;
+      this.startRound();
+    }
+
+    startRound() {
+      const ctx = this.ctx;
+      const { target, decoy } = this.rounds[this.roundIndex];
+      ctx.setPrompt(target);
+      ctx.say(target);
+
+      // Letter enters from the right (reading direction), vowels wait left.
+      const parts = [
+        { part: target.parts[0], kind: "letter", x: 72, y: 46 },
+        { part: target.parts[1], kind: "vowel", x: 26, y: decoy ? 28 : 46 },
+      ];
+      if (decoy) parts.push({ part: decoy, kind: "vowel", x: 26, y: 66 });
+
+      ctx.stage.innerHTML = `
+        <div class="blend-scene">
+          <div class="blend-glow"></div>
+          ${parts
+            .map(
+              (p, i) => `
+            <button type="button" class="blend-part" data-i="${i}" data-kind="${p.kind}"
+              style="left:${p.x}%; top:${p.y}%">${tileHTML({ display: p.part.display }, ctx.hue)}</button>`,
+            )
+            .join("")}
+        </div>`;
+
+      this.scene = ctx.stage.querySelector(".blend-scene");
+      this.parts = parts;
+      this.els = [...ctx.stage.querySelectorAll(".blend-part")];
+      this.merging = false;
+      this.selected = null;
+      this.els.forEach((el) => this.wireDrag(el));
+    }
+
+    // Drag with a tap fallback: a real drag pushes a tile around; a simple
+    // tap lifts it, and tapping a second tile blends the two — small fingers
+    // get both physics and forgiveness.
+    wireDrag(el) {
+      let startX = 0;
+      let startY = 0;
+      let baseL = 0;
+      let baseT = 0;
+      let moved = false;
+
+      el.addEventListener("pointerdown", (e) => {
+        if (this.merging || el.classList.contains("is-gone")) return;
+        el.setPointerCapture(e.pointerId);
+        startX = e.clientX;
+        startY = e.clientY;
+        baseL = el.offsetLeft;
+        baseT = el.offsetTop;
+        moved = false;
+        el.classList.add("is-held");
+        const idx = Number(el.dataset.i);
+        const p = this.parts[idx].part;
+        this.ctx.say({ display: p.display, speak: p.speak || p.display });
+      });
+
+      el.addEventListener("pointermove", (e) => {
+        if (!el.classList.contains("is-held") || this.merging) return;
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+        if (Math.hypot(dx, dy) > 8) moved = true;
+        if (moved) {
+          el.style.left = `${baseL + dx}px`;
+          el.style.top = `${baseT + dy}px`;
+          const hit = this.hitOther(el);
+          this.els.forEach((o) => o.classList.toggle("is-near", o === hit));
+        }
+      });
+
+      el.addEventListener("pointerup", () => {
+        if (!el.classList.contains("is-held")) return;
+        el.classList.remove("is-held");
+        this.els.forEach((o) => o.classList.remove("is-near"));
+        if (this.merging) return;
+        if (moved) {
+          const other = this.hitOther(el);
+          if (other) this.tryBlend(el, other);
+          else this.springBack(el);
+          return;
+        }
+        // Tap path: select, then blend into the next tapped tile.
+        if (this.selected && this.selected !== el) {
+          const a = this.selected;
+          this.selected.classList.remove("is-lifted");
+          this.selected = null;
+          this.tryBlend(a, el);
+        } else if (this.selected === el) {
+          el.classList.remove("is-lifted");
+          this.selected = null;
+        } else {
+          this.selected = el;
+          el.classList.add("is-lifted");
+        }
+      });
+    }
+
+    hitOther(el) {
+      const r = el.getBoundingClientRect();
+      const cx = r.left + r.width / 2;
+      const cy = r.top + r.height / 2;
+      for (const other of this.els) {
+        if (other === el || other.classList.contains("is-gone")) continue;
+        const o = other.getBoundingClientRect();
+        if (Math.hypot(o.left + o.width / 2 - cx, o.top + o.height / 2 - cy) < r.width * 0.72) {
+          return other;
+        }
+      }
+      return null;
+    }
+
+    springBack(el) {
+      const idx = Number(el.dataset.i);
+      el.style.left = `${this.parts[idx].x}%`;
+      el.style.top = `${this.parts[idx].y}%`;
+    }
+
+    tryBlend(a, b) {
+      const { target } = this.rounds[this.roundIndex];
+      const pa = this.parts[Number(a.dataset.i)];
+      const pb = this.parts[Number(b.dataset.i)];
+      if (pa.kind === pb.kind) {
+        this.springBack(a);
+        return; // two vowels can't fuse — just drift home, no penalty
+      }
+      const displays = new Set([pa.part.display, pb.part.display]);
+      const isTarget =
+        displays.has(target.parts[0].display) && displays.has(target.parts[1].display);
+
+      if (!isTarget) {
+        this.slips += 1;
+        this.ctx.sfx("wrong");
+        a.classList.add("is-shake");
+        b.classList.add("is-shake");
+        setTimeout(() => {
+          a.classList.remove("is-shake");
+          b.classList.remove("is-shake");
+          this.springBack(a);
+          this.springBack(b);
+          this.ctx.say(target);
+        }, 550);
+        return;
+      }
+
+      // The fuse: both tiles rush to the middle, squash, and the syllable is born.
+      this.merging = true;
+      const scene = this.scene.getBoundingClientRect();
+      for (const el of [a, b]) {
+        el.classList.add("is-fusing");
+        el.style.left = "50%";
+        el.style.top = "46%";
+      }
+      setTimeout(() => {
+        a.classList.add("is-gone");
+        b.classList.add("is-gone");
+        const born = document.createElement("div");
+        born.className = "blend-born";
+        born.innerHTML = tileHTML({ display: target.display }, this.ctx.hue);
+        this.scene.appendChild(born);
+        this.ctx.sfx("correct");
+        this.ctx.say(target);
+        this.ctx.confettiAt(born);
+      }, 420);
+      setTimeout(() => {
+        this.roundIndex += 1;
+        if (this.roundIndex >= this.rounds.length) return this.ctx.onDone(this.slips);
+        this.merging = false;
+        this.startRound();
+      }, 1800);
+    }
+
+    destroy() {}
+  }
+
   ns.LettersMiniGames = {
     pop: PopGame,
     catch: CatchGame,
@@ -909,5 +1110,6 @@
     trace: TraceGame,
     burst: BurstGame,
     build: BuildGame,
+    blend: BlendGame,
   };
 })(window.MiftahGame || (window.MiftahGame = {}));

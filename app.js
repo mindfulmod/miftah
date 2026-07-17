@@ -13,18 +13,43 @@ try {
   localStorage.setItem("quran-trainer:last-surah", String(SURAH_NUMBER));
 } catch {}
 const STATS_KEY = `quran-trainer:stats:surah-${SURAH_NUMBER}`; // per-word mistake history, accumulates across sessions
-const INTERLEAVE_KEY = `quran-trainer:interleave:surah-${SURAH_NUMBER}`; // in-flow review schedule
 const CONFUSION_KEY = `quran-trainer:confusions:surah-${SURAH_NUMBER}`; // gloss-pair collision counts
 const PICKER_URL = "surahs.html";
 const MISTAKE_RATE = 0.2; // up to 20% wrong attempts allowed per ayah
 
 // ---------- Today's session ----------
-// A bounded daily ritual: finish this many ayahs and you've "done your bit" for
-// the day. Keeps each sitting small and completable (à la Drops) so the app is a
-// habit, not a marathon — and so the pressure is to focus, not to rush to a far
-// finish line.
-const SESSION_GOAL_AYAHS = 5;
-const SESSION_KEY = "quran-trainer:session"; // { date, count, panelShown } — global, resets daily
+// A bounded daily ritual measured in focused MINUTES, not ayah count (spec:
+// specs/01-trainer-v2.md). The goal is a floor, not a ceiling: reaching it
+// shows a soft "done for today" panel, and Keep Going stays open. There is
+// never a visible countdown, and a session only ever pauses at a card/ayah
+// boundary. Due reviews warm the session up before new material.
+const PACES = {
+  gentle: { label: "Gentle", minutes: 3 },
+  steady: { label: "Steady", minutes: 5 },
+  devoted: { label: "Devoted", minutes: 10 },
+};
+const PACE_KEY = "quran-trainer:pace"; // "gentle" (default) | "steady" | "devoted"
+const getPace = () => {
+  try {
+    const p = localStorage.getItem(PACE_KEY);
+    return PACES[p] ? p : "gentle";
+  } catch {
+    return "gentle";
+  }
+};
+const setPace = (p) => {
+  if (!PACES[p]) return;
+  try {
+    localStorage.setItem(PACE_KEY, p);
+  } catch {}
+};
+const paceBudgetMs = () => PACES[getPace()].minutes * 60000;
+
+// Active time is credited between answer events, capped so a wandering-off
+// phone doesn't "finish" the session by itself.
+const IDLE_CAP_MS = 40000;
+
+const SESSION_KEY = "quran-trainer:session"; // { date, items, activeMs, warmed, panelShown } — global, resets daily
 const STREAK_KEY = "quran-trainer:streak"; // { count, lastDate } — consecutive days a goal was met
 
 const todayStr = () => {
@@ -46,11 +71,31 @@ function loadSession() {
   try {
     const s = JSON.parse(localStorage.getItem(SESSION_KEY) || "{}");
     if (s.date === todayStr()) {
-      return { date: s.date, count: s.count || 0, panelShown: !!s.panelShown };
+      return {
+        date: s.date,
+        items: s.items || s.count || 0, // `count` is the pre-time-goal shape
+        activeMs: s.activeMs || 0,
+        warmed: !!s.warmed,
+        panelShown: !!s.panelShown,
+      };
     }
   } catch {}
-  return { date: todayStr(), count: 0, panelShown: false };
+  return { date: todayStr(), items: 0, activeMs: 0, warmed: false, panelShown: false };
 }
+
+// Credit the time since the last answer toward today's session (idle-capped).
+let sessionLastEvent = Date.now();
+function addSessionTime() {
+  const t = Date.now();
+  const delta = Math.max(0, Math.min(t - sessionLastEvent, IDLE_CAP_MS));
+  sessionLastEvent = t;
+  const s = loadSession();
+  s.activeMs += delta;
+  saveSession(s);
+  return s;
+}
+
+const sessionGoalMet = (s = loadSession()) => s.activeMs >= paceBudgetMs();
 
 function saveSession(s) {
   try {
@@ -108,9 +153,8 @@ function bumpRescued() {
 // build confidence; a well-seen word gets more to keep the retrieval honest.
 const optionCountFor = (exposures) => (exposures >= 3 ? 5 : exposures >= 1 ? 4 : 3);
 
-// How long (measured in ayahs completed, not wall-clock) a correctly-recalled
-// review word waits before it's due again — longer each time it survives a box.
-const REVIEW_SPACING = [2, 4, 8, 16];
+// Scheduling now lives in the unified FSRS store (strength.js); the trainer
+// only keeps a pacing rule so in-flow reviews never stack between ayahs.
 const REVIEW_MIN_GAP = 2; // never inject two review cards within this many ayahs
 
 const progressKeyFor = (n) => `quran-trainer:surah-${n}:progress`;
@@ -213,9 +257,8 @@ let glossInfo = new Map(); // english gloss -> that representative word
 let rootIndex = new Map(); // root -> [{arabic, english}] sharing it (for "same root" hints)
 let currentIndex = 0; // index into surah.ayahs of the active (not-yet-passed) ayah
 let perfectSet = new Set(); // ayah numbers passed with zero mistakes
-let stats = {}; // wordId -> { arabic, english, translit, root, miss, correct }
+let stats = {}; // wordId -> { arabic, english, translit, root, miss, correct } (legacy per-surah view; strength.js is the scheduler)
 let confusions = loadConfusions(); // "glossA||glossB" (sorted) -> collision count
-let interleave = {}; // wordId -> { box, dueIndex } drives in-flow review timing
 let lastReviewIndex = -REVIEW_MIN_GAP; // ayah index of the last injected review card
 
 // ---------- helpers ----------
@@ -532,7 +575,9 @@ function buildOptions(word) {
   const correct = answerFor(word);
   const id = wordId(word);
   const stat = stats[id];
-  const exposures = stat ? stat.miss + stat.correct : 0;
+  const exposures = stat
+    ? stat.miss + stat.correct
+    : (word.miss || 0) + (word.correct || 0); // strength entries carry their own counters
   const target = Math.min(optionCountFor(exposures), uniqueWords.length);
 
   const bannedKeys = optionKeys(word, correct);
@@ -650,45 +695,15 @@ function syncStatsWithCurrentSurah() {
   if (changed) saveStats();
 }
 
-function loadInterleave() {
-  try {
-    const data = JSON.parse(localStorage.getItem(INTERLEAVE_KEY) || "{}");
-    return data && typeof data === "object" ? data : {};
-  } catch {
-    return {};
-  }
-}
-
-function saveInterleave() {
-  try {
-    localStorage.setItem(INTERLEAVE_KEY, JSON.stringify(interleave));
-  } catch {
-    /* storage unavailable — review schedule just won't persist */
-  }
-}
-
-// Pick one previously-missed word that's due to resurface and isn't part of the
-// ayah just completed. Newly-missed words (no schedule yet) are due immediately.
+// Pick one FSRS-due word to resurface between ayahs — this surah's words
+// first, then anything due store-wide — skipping the ayah just completed.
 function pickDueReview(justFinishedAyah) {
   if (currentIndex - lastReviewIndex < REVIEW_MIN_GAP) return null;
   const exclude = new Set(justFinishedAyah.words.map((w) => wordId(w)));
-  const due = Object.entries(stats)
-    .filter(([id, s]) => s.miss > 0 && !exclude.has(id))
-    .filter(([id]) => {
-      const sched = interleave[id];
-      return !sched || sched.dueIndex <= currentIndex;
-    })
-    .sort((a, b) => b[1].miss - a[1].miss);
-  if (!due.length) return null;
-  return due[0][1]; // the stat entry doubles as a word ({arabic, english, root})
-}
-
-function scheduleReview(word, recalled) {
-  const id = wordId(word);
-  const box = recalled ? Math.min((interleave[id]?.box || 1) + 1, REVIEW_SPACING.length) : 1;
-  interleave[id] = { box, dueIndex: currentIndex + REVIEW_SPACING[box - 1] };
-  lastReviewIndex = currentIndex;
-  saveInterleave();
+  const due = WordStrength.dueWords({ surahFirst: SURAH_NUMBER, limit: 12 }).filter(
+    (e) => !exclude.has(e.id)
+  );
+  return due[0] || null;
 }
 
 // ---------- confusion pairs ----------
@@ -737,14 +752,21 @@ function pickDueContrast() {
   return null;
 }
 
+// The single write path for every answer: legacy per-surah stats (trouble
+// lists, Memory Forge) AND the unified FSRS store, in one call. Time is
+// credited to the session here too — every answer is an activity heartbeat.
 function recordMiss(word) {
   statEntry(word).miss += 1;
   saveStats();
+  WordStrength.review(word, 1, { source: "trainer", surah: SURAH_NUMBER });
+  addSessionTime();
 }
 
 function recordCorrect(word) {
   statEntry(word).correct += 1;
   saveStats();
+  WordStrength.review(word, 3, { source: "trainer", surah: SURAH_NUMBER });
+  addSessionTime();
 }
 
 // Words missed at least once, hardest first. Drives the review-mode unlock.
@@ -778,18 +800,20 @@ const RING_CIRC = 2 * Math.PI * 19;
 
 function updateSessionRing() {
   if (!els.ringFill) return;
-  const { count } = loadSession();
-  const done = Math.min(count, SESSION_GOAL_AYAHS);
-  const frac = done / SESSION_GOAL_AYAHS;
+  const s = loadSession();
+  const budget = paceBudgetMs();
+  const frac = Math.min(s.activeMs / budget, 1);
   els.ringFill.style.strokeDasharray = `${RING_CIRC}`;
   els.ringFill.style.strokeDashoffset = `${RING_CIRC * (1 - frac)}`;
-  const complete = count >= SESSION_GOAL_AYAHS;
+  const complete = sessionGoalMet(s);
   els.sessionRing.classList.toggle("complete", complete);
-  els.sessionRing.classList.toggle("lit", count > 0 && !complete);
-  els.ringLabel.textContent = complete ? "✓" : `${done}/${SESSION_GOAL_AYAHS}`;
+  els.sessionRing.classList.toggle("lit", s.activeMs > 0 && !complete);
+  const mins = Math.floor(s.activeMs / 60000);
+  const goalMins = PACES[getPace()].minutes;
+  els.ringLabel.textContent = complete ? "✓" : `${mins}/${goalMins}m`;
   els.sessionRing.title = complete
-    ? "Today's session complete"
-    : `Today's session — ${done} of ${SESSION_GOAL_AYAHS} ayahs`;
+    ? "Today's session complete — keep going if you like"
+    : `Today's session — ${mins} of ${goalMins} focused minutes (${PACES[getPace()].label} pace)`;
 }
 
 // ---------- rendering ----------
@@ -844,6 +868,18 @@ function renderCompletion() {
   const missed = missedWords();
   const cta = document.createElement("div");
   cta.className = "completion-cta";
+
+  // The surah-complete celebration unlock: follow the whole recitation with
+  // meaning arriving live — both the reward and the honest fluency test.
+  const followMsg = document.createElement("p");
+  followMsg.className = "completion-msg";
+  followMsg.textContent =
+    "✨ Unlocked: follow the full recitation and see if the meaning keeps up.";
+  const followLink = document.createElement("a");
+  followLink.className = "primary-link";
+  followLink.href = `follow.html?surah=${SURAH_NUMBER}`;
+  followLink.textContent = "▶ Follow the recitation";
+  cta.append(followMsg, followLink);
 
   if (missed.length > 0) {
     const total = missed.reduce((n, s) => n + s.miss, 0);
@@ -912,12 +948,13 @@ async function shareSessionCard({ streak, rescued }) {
   x.font = "700 62px Inter, system-ui, sans-serif";
   x.fillText("Session complete", W / 2, 412);
 
+  const items = loadSession().items;
   x.fillStyle = "#46b187";
   x.font = "700 170px Inter, system-ui, sans-serif";
-  x.fillText(String(SESSION_GOAL_AYAHS), W / 2, 610);
+  x.fillText(String(items), W / 2, 610);
   x.fillStyle = "#a89a87";
   x.font = "400 44px Inter, system-ui, sans-serif";
-  x.fillText("ayahs decoded today", W / 2, 676);
+  x.fillText(`ayah${items === 1 ? "" : "s"} decoded today`, W / 2, 676);
 
   x.fillStyle = "#e3b75f";
   x.font = "600 46px Inter, system-ui, sans-serif";
@@ -987,7 +1024,24 @@ function renderSessionComplete(streak) {
 
   const sub = document.createElement("p");
   sub.className = "session-done-sub";
-  sub.textContent = `You finished your ${SESSION_GOAL_AYAHS} ayahs for today. Resting now beats rushing — let it settle and come back tomorrow.`;
+  sub.textContent = `That's your ${PACES[getPace()].minutes} focused minutes for today. Resting now beats rushing — let it settle and come back tomorrow.`;
+
+  // Pace presets, not a slider (locked 2026-07-16): who are you today?
+  const paceRow = document.createElement("div");
+  paceRow.className = "session-done-cta pace-row";
+  for (const [key, p] of Object.entries(PACES)) {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = key === getPace() ? "primary-btn" : "ghost-btn";
+    b.textContent = `${p.label} · ${p.minutes}m`;
+    b.title = `Daily goal becomes about ${p.minutes} focused minutes`;
+    b.addEventListener("click", () => {
+      setPace(key);
+      updateSessionRing();
+      renderSessionComplete(loadStreak().count);
+    });
+    paceRow.appendChild(b);
+  }
 
   const streakEl = document.createElement("p");
   streakEl.className = "session-done-streak";
@@ -1030,7 +1084,7 @@ function renderSessionComplete(streak) {
   cta.append(more, share, back);
   panel.append(ring, h, sub, streakEl);
   if (rescuedEl) panel.append(rescuedEl);
-  panel.append(cta);
+  panel.append(cta, paceRow);
   els.app.appendChild(panel);
 
   // Fill the big ring after paint so the stroke animates in.
@@ -1047,9 +1101,12 @@ function renderSessionComplete(streak) {
 // shown between ayahs so hard words resurface while you're still progressing
 // rather than only after the whole surah is done. Leaves the ayah test itself
 // untouched — this is a brief detour, then we continue.
-function renderReviewCard(word) {
+function renderReviewCard(word, onDone, { inflow = true, banner = null } = {}) {
+  if (!onDone) onDone = () => render({ focusCurrent: true });
+  if (inflow) lastReviewIndex = currentIndex; // keep the between-ayah gap honest
   els.app.innerHTML = "";
   updateHeaderProgress();
+  updateSessionRing();
 
   // Three ways a word can resurface — recognition (Arabic → meaning),
   // listening (audio → meaning) and production (meaning → Arabic script).
@@ -1068,11 +1125,12 @@ function renderReviewCard(word) {
   const tag = document.createElement("span");
   tag.className = "ayah-status";
   tag.textContent =
-    mode === "listen"
+    banner ||
+    (mode === "listen"
       ? "↻ Quick review — by ear this time"
       : mode === "reverse"
         ? "↻ Quick review — now produce it"
-        : "↻ Quick review — you missed this earlier";
+        : "↻ Quick review — this one was due");
   head.appendChild(tag);
 
   const arabic = document.createElement("div");
@@ -1107,7 +1165,8 @@ function renderReviewCard(word) {
   const correctText = mode === "reverse" ? word.arabic : answerFor(word);
 
   const finish = (recalled, chosen) => {
-    scheduleReview(word, recalled);
+    // recordCorrect/recordMiss carry the answer into BOTH stores (legacy
+    // stats + unified FSRS) — the one write path for every answer.
     if (recalled) recordCorrect(word);
     else {
       recordMiss(word);
@@ -1118,6 +1177,7 @@ function renderReviewCard(word) {
       const chosenGloss = mode === "reverse" ? (chosenSource ? answerFor(chosenSource) : "") : chosen;
       recordConfusion(answerFor(word), chosenGloss);
     }
+    updateSessionRing();
 
     arabic.hidden = false; // listen/reverse reveal the script now
     if (listenBtn) listenBtn.disabled = true;
@@ -1136,7 +1196,7 @@ function renderReviewCard(word) {
     cont.type = "button";
     cont.className = "primary-link";
     cont.textContent = "Continue →";
-    cont.addEventListener("click", () => render({ focusCurrent: true }));
+    cont.addEventListener("click", onDone);
     card.appendChild(cont);
   };
 
@@ -1549,10 +1609,12 @@ function renderActiveAyah(ayah) {
     saveProgress();
     updateHeaderProgress();
 
-    // Count this ayah toward today's bounded session and refresh the ring.
+    // Count this ayah toward today's session and refresh the ring. The time
+    // itself accrued answer by answer (recordCorrect/recordMiss); the goal
+    // check only ever happens HERE, on an ayah boundary — never mid-word.
     const session = loadSession();
-    session.count += 1;
-    const justHitGoal = session.count === SESSION_GOAL_AYAHS && !session.panelShown;
+    session.items += 1;
+    const justHitGoal = sessionGoalMet(session) && !session.panelShown;
     saveSession(session);
     updateSessionRing();
 
@@ -1698,13 +1760,39 @@ async function init() {
   perfectSet = new Set(progress.perfect);
   stats = loadStats();
   syncStatsWithCurrentSurah();
-  interleave = loadInterleave();
 
   els.loading.remove();
-  render({
-    focusCurrent: currentIndex > 0,
-    focusBehavior: "auto",
-  });
+  sessionLastEvent = Date.now();
+  startWarmup();
+}
+
+// Due reviews open the session (warm-up first, then new material — locked
+// 2026-07-16). A handful of the most-due words run as review cards before the
+// active ayah appears; once per day, capped so it never eats the whole sitting.
+const WARMUP_CAP = 8;
+
+function startWarmup() {
+  const done = () =>
+    render({ focusCurrent: currentIndex > 0, focusBehavior: "auto" });
+
+  const session = loadSession();
+  if (session.warmed || currentIndex >= surah.ayahs.length) return done();
+
+  const queue = WordStrength.dueWords({ surahFirst: SURAH_NUMBER, limit: WARMUP_CAP });
+  session.warmed = true; // marked up front so a mid-warm-up refresh can't loop it
+  saveSession(session);
+  if (!queue.length) return done();
+
+  const total = queue.length;
+  const step = () => {
+    const next = queue.shift();
+    if (!next || sessionGoalMet()) return done();
+    renderReviewCard(next, step, {
+      inflow: false,
+      banner: `☀ Warm-up ${total - queue.length}/${total} — due from earlier days`,
+    });
+  };
+  step();
 }
 
 els.resetBtn.addEventListener("click", () => {

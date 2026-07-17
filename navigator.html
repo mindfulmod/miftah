@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#070b18" />
+    <title>Miftah — The Star Navigator</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="navigator.css?v=20260710-nav17" />
+  </head>
+  <body>
+    <!-- Living night: stars, sea shimmer, and bioluminescent wake, drawn each frame. -->
+    <canvas id="sky" aria-hidden="true"></canvas>
+
+    <!-- Single mount point; the engine renders one screen at a time into it. -->
+    <div id="app" class="app-shell"></div>
+
+    <!-- Transient effects (harpoons of light, star bursts) float above the app. -->
+    <div id="fx-layer" aria-hidden="true"></div>
+
+    <!-- Modal overlays: dialogue, star map, upgrades, confirmations. -->
+    <div id="overlay-root" hidden></div>
+
+    <div id="toast-root" aria-live="polite"></div>
+
+    <script src="fsrs.js?v=20260717-fable2"></script>
+    <script src="strength.js?v=20260717-fable2"></script>
+    <script src="src/core/RecitationAudio.js?v=20260703-playzone"></script>
+    <script src="vendor/three.min.js?v=0.159.0"></script>
+    <script src="navigator-particles.js?v=20260717-fable2"></script>
+    <script src="navigator-content.js?v=20260717-fable2"></script>
+    <script src="navigator-run.js?v=20260717-fable2"></script>
+    <script src="navigator.js?v=20260717-fable2"></script>
+  </body>
+</html>

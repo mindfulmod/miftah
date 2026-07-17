@@ -178,8 +178,10 @@
           ),
         games: ["pop", "catch", "feed"],
       });
-      worlds.push({ ...vowelWorld("fatha", "بَ", [this.data.harakat[0]]), games: ["pop", "build", "trace"] });
-      worlds.push({ ...vowelWorld("kasra-damma", "بِ", this.data.harakat.slice(1)), games: ["pop", "build", "catch"] });
+      // The blend machine leads both vowel worlds — fusing letter + haraka
+      // IS the lesson; pop/trace/catch then rehearse what the fuse taught.
+      worlds.push({ ...vowelWorld("fatha", "بَ", [this.data.harakat[0]]), games: ["blend", "pop", "trace"] });
+      worlds.push({ ...vowelWorld("kasra-damma", "بِ", this.data.harakat.slice(1)), games: ["blend", "pop", "catch"] });
 
       // Noorani Qaida lesson 5–6: tanween — and lesson 6's exercise is baked
       // in: plain-harakat syllables join the pool, so بَ and بً sit side by
@@ -512,29 +514,36 @@
       return plan;
     }
 
-    // The Brain Age ritual: a short daily review session mixing items from
-    // every world the child has already finished. Not a world — no meet
-    // phase, no unlocks, just warm bread: burst (speed), pop, feed.
+    // The daily ritual, now the strength model's mouth (spec:
+    // specs/02-letter-garden-v2.md): a short session whose items are always
+    // the child's weakest skills from every finished world, dressed as a
+    // fresh bouquet. No meet phase, no unlocks — and no visible ranking:
+    // the pick is shuffled so it never smells like a remedial list.
     dailySession(doneIds) {
       const done = this.worlds.filter((w) => doneIds.includes(w.id));
       if (!done.length) return null;
-      const items = [];
+      const pool = [];
       const seen = new Set();
       for (const world of done) {
         for (const item of world.items()) {
           if (seen.has(item.id)) continue;
           seen.add(item.id);
-          items.push(item);
+          pool.push(item);
         }
       }
-      if (items.length < 3) return null;
+      if (pool.length < 3) return null;
+      const strength = ns.LettersStrength;
+      const bouquet = strength ? strength.weakest(pool, 6) : pool.slice(0, 6);
       return {
         id: "daily",
         hue: 45,
         icon: "☀",
         kind: "daily",
         meet: [],
-        items: () => items,
+        items: () => bouquet,
+        // The rest of the pool still visits as distractors, so a weak-letter
+        // round is never a two-horse race between two shaky friends.
+        extraItems: () => pool.filter((i) => !bouquet.includes(i)),
         games: ["burst", "pop", "feed"],
       };
     }
