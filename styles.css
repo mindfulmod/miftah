@@ -503,7 +503,7 @@ h1 {
   mask: linear-gradient(90deg, transparent, #000 20%, #000 80%, transparent);
 }
 .ayah-read {
-  font-family: "Amiri Quran", serif;
+  font-family: "Uthmanic Hafs", "Amiri Quran", serif;
   font-size: 2.7rem;
   line-height: 2.05;
   text-align: center;
@@ -584,7 +584,7 @@ h1 {
     box-shadow 0.18s;
 }
 .word .arabic {
-  font-family: "Amiri Quran", serif;
+  font-family: "Uthmanic Hafs", "Amiri Quran", serif;
   font-size: 2.45rem;
   line-height: 1.8;
   text-align: center;
@@ -1101,7 +1101,7 @@ h1 {
 }
 .root-letters {
   flex: none;
-  font-family: "Amiri Quran", serif;
+  font-family: "Uthmanic Hafs", "Amiri Quran", serif;
   font-size: 1.05rem;
   color: var(--gold);
 }
@@ -1141,7 +1141,7 @@ h1 {
 .listen-btn:disabled { opacity: 0.6; cursor: default; }
 /* production-mode options are Arabic script */
 .review-opt.ar {
-  font-family: "Amiri Quran", serif;
+  font-family: "Uthmanic Hafs", "Amiri Quran", serif;
   font-size: 1.5rem;
   line-height: 1.7;
 }
@@ -1149,7 +1149,7 @@ h1 {
 .contrast-drill { border-color: color-mix(in srgb, var(--wrong) 32%, var(--line)); }
 .contrast-drill .ayah-status { color: color-mix(in srgb, var(--wrong) 60%, var(--gold)); }
 .review-card-arabic {
-  font-family: "Amiri Quran", serif;
+  font-family: "Uthmanic Hafs", "Amiri Quran", serif;
   font-size: 2.6rem;
   text-align: center;
   margin: 8px 0 4px;
@@ -1195,7 +1195,7 @@ h1 {
 /* Root-family micro-lesson shown at the moment of a correct answer. */
 .ayah-message.root-moment { color: var(--gold); }
 .ayah-message.root-moment strong {
-  font-family: "Amiri Quran", serif;
+  font-family: "Uthmanic Hafs", "Amiri Quran", serif;
   font-size: 1.05rem;
   letter-spacing: 0.05em;
 }
@@ -1891,7 +1891,7 @@ h1 {
 }
 .surah-card-en { font-weight: 600; font-size: var(--fs-base); }
 .surah-card-ar {
-  font-family: "Amiri Quran", serif;
+  font-family: "Uthmanic Hafs", "Amiri Quran", serif;
   font-size: 1.3rem; /* Amiri display size — exempt from the UI type scale */
   color: var(--text);
 }

@@ -3,6 +3,19 @@
    weight-specific files Google serves are deduplicated here.
    latin-ext matters: transliterations use U+1E00-1E9F (ḥ, ṣ, ā …). */
 
+/* KFGQPC Uthmanic Hafs v22 — the King Fahd Complex mushaf face. Trainer
+   Arabic renders in this so on-screen letterforms match the printed mushaf
+   the learner recites from (specs/01, transfer argument). Amiri Quran stays
+   as the fallback and covers Latin transliteration ranges. */
+@font-face {
+  font-family: "Uthmanic Hafs";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(uthmanic-hafs-v22.ttf) format("truetype");
+  unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
+}
+
 /* Amiri Quran — arabic */
 @font-face {
   font-family: "Amiri Quran";

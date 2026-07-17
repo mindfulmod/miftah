@@ -4,7 +4,7 @@
 // - Shell (HTML/CSS/JS/fonts): stale-while-revalidate, ignoring ?v= cache-busters.
 // - data/*.json: network-first so rebuilt data lands promptly; cache fallback offline.
 // - Remote recitation audio: deliberately NOT intercepted — see AUDIO_HOSTS below.
-const VERSION = "miftah-v7";
+const VERSION = "miftah-v8";
 const SHELL_CACHE = `shell-${VERSION}`;
 const DATA_CACHE = `data-${VERSION}`;
 
@@ -32,6 +32,7 @@ const SHELL = [
   "apple-touch-icon.png",
   "manifest.webmanifest",
   "vendor/fonts/fonts.css",
+  "vendor/fonts/uthmanic-hafs-v22.ttf",
   "vendor/fonts/amiri-quran-400-arabic.woff2",
   "vendor/fonts/amiri-quran-400-latin.woff2",
   "vendor/fonts/inter-latin.woff2",
