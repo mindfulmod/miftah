@@ -20,7 +20,6 @@
       this.message = "";
       this.activeTab = "study";
       this.pendingAction = null; // collection action awaiting confirm
-      this.collectionCollapsed = loadCollectionPreference();
       this.fontScale = loadFontScalePreference();
       this.theme = loadThemePreference();
       this.root = document.createElement("section");
@@ -61,7 +60,6 @@
             <aside id="surah-collection" class="surah-collection" aria-label="Surah collection">
               <div class="surah-collection-head">
                 <h3>Surah Collection</h3>
-                <button class="surah-toggle" type="button" aria-controls="surah-collection"></button>
               </div>
               <div class="surah-grid"></div>
               <div class="surah-action-panel" hidden></div>
@@ -128,7 +126,6 @@
       this.card = this.root.querySelector(".trainer-card");
       this.closeButton = this.root.querySelector(".trainer-close");
       this.collectionEl = this.root.querySelector(".surah-collection");
-      this.surahToggleButton = this.root.querySelector(".surah-toggle");
       this.progressEl = this.root.querySelector(".trainer-progress");
       this.sessionEl = this.root.querySelector(".trainer-session");
       this.tabButtons = [...this.root.querySelectorAll(".codex-tab")];
@@ -184,7 +181,6 @@
       });
 
       this.closeButton.addEventListener("click", () => this.close());
-      this.surahToggleButton.addEventListener("click", () => this.toggleCollection());
       for (const tab of this.tabButtons) {
         tab.addEventListener("click", () => this.setTab(tab.dataset.tab));
       }
@@ -224,13 +220,16 @@
         }
         this.close();
       });
-      this.syncCollectionToggle();
       this.syncSoundButton();
       this.applyFontScale();
       this.applyTheme();
     }
 
-    open() {
+    // `silent` skips the render on reopen — used when a cutaway briefly
+    // closes the Codex mid-reveal, so the stale reveal (and its ayah audio,
+    // confetti, seed flight) doesn't fire a second time before the caller's
+    // own render() moves the engine past it.
+    open({ silent = false } = {}) {
       this.isOpen = true;
       this.root.hidden = false;
       this.message = "";
@@ -245,7 +244,7 @@
           if (this.isOpen) this.render();
         });
       }
-      this.render();
+      if (!silent) this.render();
     }
 
     close() {
@@ -359,7 +358,7 @@
       }
       this.close();
       this.game.playCutaway(cut.x, cut.y, cut.duration, () => {
-        this.open();
+        this.open({ silent: true });
         afterwards();
       });
     }
@@ -1198,20 +1197,6 @@
         : "A new egg is due — complete an ayah to receive it.";
     }
 
-    toggleCollection() {
-      this.collectionCollapsed = !this.collectionCollapsed;
-      try {
-        localStorage.setItem("miftah-oasis:trainer-collection", this.collectionCollapsed ? "collapsed" : "open");
-      } catch {}
-      this.syncCollectionToggle();
-    }
-
-    syncCollectionToggle() {
-      this.card.classList.toggle("is-collection-collapsed", this.collectionCollapsed);
-      this.surahToggleButton.textContent = this.collectionCollapsed ? "Show Collection" : "Hide Collection";
-      this.surahToggleButton.setAttribute("aria-expanded", String(!this.collectionCollapsed));
-    }
-
     // ---------- answering ----------
 
     choose(option, button) {
@@ -1320,14 +1305,6 @@
         setTimeout(() => img.remove(), 1100 + i * 90);
       }
       this.game.sound.play("seed");
-    }
-  }
-
-  function loadCollectionPreference() {
-    try {
-      return localStorage.getItem("miftah-oasis:trainer-collection") === "collapsed";
-    } catch {
-      return false;
     }
   }
 

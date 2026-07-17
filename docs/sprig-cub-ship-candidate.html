@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sprig Cub — shippable SVG specimen</title>
+    <style>
+      :root { color-scheme: light; font-family: ui-rounded, "SF Pro Rounded", system-ui, sans-serif; }
+      * { box-sizing: border-box; }
+      body { margin: 0; min-height: 100vh; color: #29233b; background: #eef7e9; }
+      header { padding: 30px clamp(22px, 5vw, 70px) 12px; }
+      h1 { margin: 0 0 7px; font-size: clamp(28px, 4vw, 52px); letter-spacing: -0.045em; }
+      p { margin: 0; color: #625b71; font-size: 15px; }
+      main { display: grid; grid-template-columns: minmax(360px, 1.4fr) minmax(300px, 0.85fr); gap: 22px; padding: 22px clamp(22px, 5vw, 70px) 54px; }
+      .card { border: 3px solid #29233b; border-radius: 30px; background: #fffaf0; box-shadow: 0 9px 0 #29233b; overflow: hidden; }
+      .hero { min-height: 680px; display: grid; place-items: center; background: radial-gradient(circle at 50% 35%, #d9f1e2 0 30%, #b9dfd2 70%, #a9d2cb); }
+      .hero img { width: min(530px, 88%); max-height: 630px; }
+      .sizes { display: grid; align-content: start; gap: 22px; }
+      .sample { padding: 20px; text-align: center; }
+      .sample h2 { margin: 0 0 15px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.13em; color: #756d80; }
+      .sample-stage { min-height: 235px; display: grid; place-items: end center; border-radius: 22px; background: linear-gradient(#cfeadf, #aad3c1 62%, #79ad70 62%); }
+      .game img { width: 220px; height: 240px; }
+      .hud-row { min-height: 120px; display: flex; align-items: center; justify-content: center; gap: 30px; border-radius: 22px; background: #4f507d; }
+      .hud-row img:first-child { width: 88px; }
+      .hud-row img:last-child { width: 56px; }
+      .proof { padding: 18px 22px 22px; font-size: 14px; line-height: 1.5; color: #625b71; }
+      code { color: #29233b; font-weight: 750; }
+      @media (max-width: 840px) { main { grid-template-columns: 1fr; } .hero { min-height: 520px; } }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Sprig Cub — implementation specimen</h1>
+      <p>Plain default bear. One transparent SVG asset, rendered unchanged at every game size.</p>
+    </header>
+    <main>
+      <section class="card hero" aria-label="Hero-scale Sprig Cub">
+        <img src="sprig-cub-ship-candidate.svg" alt="Sprig Cub at hero scale" />
+      </section>
+      <section class="sizes">
+        <div class="card sample game">
+          <h2>Gameplay scale · 220 px</h2>
+          <div class="sample-stage"><img src="sprig-cub-ship-candidate.svg" alt="Sprig Cub at gameplay scale" /></div>
+        </div>
+        <div class="card sample">
+          <h2>HUD scales · 88 px / 56 px</h2>
+          <div class="hud-row">
+            <img src="sprig-cub-ship-candidate.svg" alt="Sprig Cub at 88 pixels" />
+            <img src="sprig-cub-ship-candidate.svg" alt="Sprig Cub at 56 pixels" />
+          </div>
+        </div>
+        <div class="card proof">
+          Source of truth: <code>sprig-cub-ship-candidate.svg</code>.<br />
+          Default equipment: none. Empty unlockable slots: headwear, neck, outfit, hip, hands, and back.
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

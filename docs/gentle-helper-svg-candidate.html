@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gentle Cat Helper — real SVG candidate</title>
+    <style>
+      :root { font-family: ui-rounded, "SF Pro Rounded", system-ui, sans-serif; color: #27364f; }
+      * { box-sizing: border-box; }
+      body { margin: 0; min-height: 100vh; background: #edf5e9; }
+      header { padding: 30px clamp(20px, 5vw, 68px) 14px; }
+      h1 { margin: 0 0 7px; font-size: clamp(30px, 4vw, 52px); letter-spacing: -0.045em; }
+      header p { margin: 0; color: #687183; }
+      main { display: grid; grid-template-columns: minmax(360px, 1.3fr) minmax(310px, 0.8fr); gap: 22px; padding: 20px clamp(20px, 5vw, 68px) 52px; }
+      .card { border: 2px solid #27364f; border-radius: 28px; background: #fffaf0; box-shadow: 0 8px 0 #27364f; overflow: hidden; }
+      .hero { min-height: 660px; display: grid; place-items: center; background: radial-gradient(circle at 50% 32%, #e3f4ec, #bfdfd0 72%, #a8cdbd); }
+      .hero svg { width: min(535px, 91%); max-height: 625px; }
+      .side { display: grid; align-content: start; gap: 22px; }
+      .sample { padding: 19px; text-align: center; }
+      h2 { margin: 0 0 14px; color: #6b7280; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; }
+      .game-stage { min-height: 250px; display: grid; place-items: end center; border-radius: 20px; background: linear-gradient(#d7eee5 0 62%, #87b681 62%); }
+      .game-stage svg { width: 220px; height: 240px; }
+      .hud { min-height: 120px; display: flex; align-items: center; justify-content: center; gap: 34px; border-radius: 20px; background: #51567d; }
+      .hud svg:first-child { width: 88px; }
+      .hud svg:last-child { width: 56px; }
+      .palette { display: flex; justify-content: center; gap: 12px; padding: 4px 0 2px; }
+      .palette button { width: 42px; height: 42px; border: 3px solid #fff; border-radius: 50%; box-shadow: 0 0 0 2px #27364f; cursor: pointer; }
+      .note { padding: 19px 22px 23px; color: #687183; font-size: 14px; line-height: 1.5; }
+      code { color: #27364f; font-weight: 750; }
+      @media (max-width: 840px) { main { grid-template-columns: 1fr; } .hero { min-height: 520px; } }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Gentle Cat Helper — actual SVG</h1>
+      <p>The asset below is fetched once, injected unchanged, and recolored with CSS variables.</p>
+    </header>
+    <main>
+      <section class="card hero" id="hero" aria-label="Hero-size SVG"></section>
+      <section class="side">
+        <div class="card sample">
+          <h2>Gameplay scale · 220 px</h2>
+          <div class="game-stage" id="game"></div>
+        </div>
+        <div class="card sample">
+          <h2>HUD scales · 88 px / 56 px</h2>
+          <div class="hud" id="hud"></div>
+        </div>
+        <div class="card sample">
+          <h2>Real body-hue control</h2>
+          <div class="palette" aria-label="Body color">
+            <button data-palette="#55abc5,#79c4d4,#31768e" style="background:#55abc5" aria-label="Blue"></button>
+            <button data-palette="#75a95d,#9ac27f,#4e7841" style="background:#75a95d" aria-label="Green"></button>
+            <button data-palette="#d87865,#e99a86,#a84f46" style="background:#d87865" aria-label="Coral"></button>
+            <button data-palette="#8a72bf,#aa95d4,#665195" style="background:#8a72bf" aria-label="Violet"></button>
+            <button data-palette="#d5a544,#ebc76e,#9e752d" style="background:#d5a544" aria-label="Gold"></button>
+          </div>
+        </div>
+        <div class="card note">Source of truth: <code>gentle-helper-svg-candidate.svg</code>. No raster artwork is used.</div>
+      </section>
+    </main>
+    <script>
+      const targets = [document.querySelector("#hero"), document.querySelector("#game")];
+      fetch("gentle-helper-svg-candidate.svg")
+        .then((response) => response.text())
+        .then((source) => {
+          targets.forEach((target) => (target.innerHTML = source));
+          document.querySelector("#hud").innerHTML = source + source;
+        });
+
+      document.querySelector(".palette").addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-palette]");
+        if (!button) return;
+        const [body, light, dark] = button.dataset.palette.split(",");
+        document.querySelectorAll("svg").forEach((svg) => {
+          svg.style.setProperty("--body", body);
+          svg.style.setProperty("--body-light", light);
+          svg.style.setProperty("--body-dark", dark);
+        });
+      });
+    </script>
+  </body>
+</html>

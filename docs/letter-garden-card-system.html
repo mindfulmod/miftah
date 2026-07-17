@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Letter Garden — tactile card system</title>
+    <style>
+      :root {
+        --ink: #243653;
+        --paper: #fffaf0;
+        --paper-2: #f4f0e4;
+        --sky: #9cd9ed;
+        --sky-light: #dff5ef;
+        --grass: #9bc67f;
+        --grass-dark: #6c9b5a;
+        --blue: #5c91e8;
+        --blue-dark: #3767ba;
+        --coral: #ee806f;
+        --coral-dark: #bd564c;
+        --yellow: #f3c955;
+        --yellow-dark: #c69434;
+        --mint: #7fc6a4;
+        --mint-dark: #4e9677;
+        --violet: #9c8bd8;
+        --shadow: 0 9px 0 var(--ink);
+        --outline: 3px solid var(--ink);
+        font-family: ui-rounded, "SF Pro Rounded", "Nunito", system-ui, sans-serif;
+        color: var(--ink);
+      }
+
+      * { box-sizing: border-box; }
+      button { font: inherit; color: inherit; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background:
+          radial-gradient(circle at 12% 9%, rgba(255,255,255,.7) 0 6%, transparent 6.2%),
+          radial-gradient(circle at 88% 17%, rgba(255,255,255,.55) 0 8%, transparent 8.2%),
+          linear-gradient(180deg, var(--sky) 0 48%, var(--sky-light) 48% 100%);
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: auto 0 0;
+        height: 37vh;
+        pointer-events: none;
+        background:
+          radial-gradient(ellipse at 8% 100%, #84b86c 0 32%, transparent 32.5%),
+          radial-gradient(ellipse at 52% 105%, #a9ce87 0 45%, transparent 45.5%),
+          radial-gradient(ellipse at 95% 100%, #7eb368 0 35%, transparent 35.5%);
+        opacity: .82;
+      }
+
+      .page {
+        position: relative;
+        z-index: 1;
+        width: min(1180px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 22px 0 40px;
+      }
+
+      .topbar {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: 18px;
+        margin-bottom: 24px;
+      }
+
+      .brand,
+      .status,
+      .icon-btn,
+      .card,
+      .choice,
+      .tray,
+      .tray-btn {
+        border: var(--outline);
+        background: var(--paper);
+        box-shadow: var(--shadow);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-height: 64px;
+        padding: 9px 16px 9px 10px;
+        border-radius: 22px;
+        font-weight: 950;
+        letter-spacing: -.03em;
+      }
+
+      .brand-mark {
+        display: grid;
+        place-items: center;
+        width: 42px;
+        height: 42px;
+        border: 2px solid var(--ink);
+        border-radius: 14px;
+        background: var(--yellow);
+        font: 900 26px/1 Georgia, serif;
+        transform: rotate(-3deg);
+      }
+
+      .status {
+        justify-self: center;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        width: min(520px, 100%);
+        min-height: 64px;
+        padding: 10px 16px;
+        border-radius: 22px;
+      }
+
+      .level {
+        flex: none;
+        padding: 7px 10px;
+        border: 2px solid var(--ink);
+        border-radius: 12px;
+        background: var(--mint);
+        font-size: 12px;
+        font-weight: 950;
+        letter-spacing: .11em;
+        text-transform: uppercase;
+      }
+
+      .progress {
+        flex: 1;
+        height: 17px;
+        overflow: hidden;
+        border: 2px solid var(--ink);
+        border-radius: 99px;
+        background: #e8e2d2;
+      }
+
+      .progress > span {
+        display: block;
+        width: 62%;
+        height: 100%;
+        border-right: 2px solid var(--ink);
+        border-radius: inherit;
+        background: repeating-linear-gradient(-45deg, #80c89c 0 11px, #8fd2aa 11px 22px);
+        transition: width 400ms cubic-bezier(.2,.8,.2,1);
+      }
+
+      .stars { flex: none; font-weight: 950; }
+
+      .icon-btn {
+        display: grid;
+        place-items: center;
+        width: 58px;
+        height: 58px;
+        padding: 0;
+        border-radius: 19px;
+        cursor: pointer;
+        font-size: 24px;
+        transition: transform 120ms ease, box-shadow 120ms ease;
+      }
+
+      .icon-btn:active,
+      .choice:active,
+      .tray-btn:active,
+      .primary:active {
+        transform: translateY(6px);
+        box-shadow: 0 3px 0 var(--ink);
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1.55fr) minmax(280px, .72fr);
+        gap: 24px;
+        align-items: start;
+      }
+
+      .card { border-radius: 32px; }
+
+      .challenge {
+        position: relative;
+        min-height: 610px;
+        overflow: hidden;
+        padding: clamp(22px, 4vw, 46px);
+        background: var(--paper);
+      }
+
+      .challenge::after {
+        content: "";
+        position: absolute;
+        inset: auto -10% -26% 31%;
+        height: 58%;
+        border: 3px solid var(--ink);
+        border-radius: 50% 45% 0 0;
+        background: #cbe8c4;
+        transform: rotate(-4deg);
+        z-index: 0;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        border: 2px solid var(--ink);
+        border-radius: 999px;
+        background: #dcecff;
+        font-size: 12px;
+        font-weight: 950;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        position: relative;
+        z-index: 1;
+        max-width: 620px;
+        margin: 22px 0 10px;
+        font-size: clamp(34px, 5vw, 64px);
+        line-height: .98;
+        letter-spacing: -.055em;
+      }
+
+      .lede {
+        position: relative;
+        z-index: 1;
+        max-width: 520px;
+        margin: 0;
+        color: #59657a;
+        font-size: 17px;
+        line-height: 1.5;
+      }
+
+      .letter-stage {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: 186px 1fr;
+        align-items: center;
+        gap: clamp(18px, 4vw, 42px);
+        margin-top: 36px;
+      }
+
+      .letter-tile {
+        display: grid;
+        place-items: center;
+        width: 186px;
+        aspect-ratio: 1;
+        border: var(--outline);
+        border-radius: 42px;
+        background: var(--coral);
+        box-shadow: 0 10px 0 var(--coral-dark), 0 13px 0 var(--ink);
+        color: #fff9eb;
+        font: 400 116px/1 "Amiri Quran", Georgia, serif;
+        text-shadow: 0 4px 0 rgba(36,54,83,.25);
+        transform: rotate(-2deg);
+      }
+
+      .choices {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .choice {
+        min-height: 118px;
+        border-radius: 25px;
+        cursor: pointer;
+        font: 400 66px/1 "Amiri Quran", Georgia, serif;
+        transition: transform 140ms ease, box-shadow 140ms ease, background 180ms ease;
+      }
+
+      .choice:hover { transform: translateY(-3px) rotate(var(--tilt, 0deg)); }
+      .choice:nth-child(1) { --tilt: -1deg; background: #e0f0ff; }
+      .choice:nth-child(2) { --tilt: 1deg; background: #fff1c9; }
+      .choice:nth-child(3) { --tilt: -.5deg; background: #e2efd8; }
+      .choice.is-right { background: #8fd2aa; animation: pop 360ms ease; }
+      .choice.is-wrong { background: #f4b3aa; animation: shake 300ms ease; }
+
+      @keyframes pop { 50% { transform: translateY(-9px) scale(1.05); } }
+      @keyframes shake { 30% { transform: translateX(-6px); } 60% { transform: translateX(6px); } }
+
+      .side { display: grid; gap: 24px; }
+
+      .garden-card { overflow: hidden; }
+      .garden-art {
+        position: relative;
+        min-height: 215px;
+        overflow: hidden;
+        border-bottom: var(--outline);
+        background: linear-gradient(#b8e3ee 0 62%, #9bc67f 62%);
+      }
+
+      .cloud, .cloud::before, .cloud::after {
+        position: absolute;
+        border: 2px solid var(--ink);
+        border-radius: 999px;
+        background: var(--paper);
+      }
+      .cloud { top: 34px; left: 28px; width: 83px; height: 29px; }
+      .cloud::before { content: ""; width: 31px; height: 31px; left: 13px; bottom: 7px; }
+      .cloud::after { content: ""; width: 40px; height: 40px; left: 34px; bottom: 6px; }
+
+      .flower {
+        position: absolute;
+        bottom: 22px;
+        left: var(--x);
+        width: 58px;
+        height: 58px;
+        border: 2px solid var(--ink);
+        border-radius: 48% 52% 45% 55%;
+        background: var(--flower);
+        box-shadow: inset 0 -8px 0 rgba(36,54,83,.11);
+        transform: rotate(var(--r));
+      }
+      .flower::before {
+        content: "";
+        position: absolute;
+        inset: 17px;
+        border: 2px solid var(--ink);
+        border-radius: 50%;
+        background: var(--yellow);
+      }
+      .flower::after {
+        content: "";
+        position: absolute;
+        width: 4px;
+        height: 55px;
+        top: 48px;
+        left: 26px;
+        background: var(--ink);
+        z-index: -1;
+      }
+
+      .garden-copy { padding: 20px 22px 23px; }
+      .garden-copy h2, .daily h2 { margin: 0 0 6px; font-size: 22px; letter-spacing: -.03em; }
+      .garden-copy p, .daily p { margin: 0; color: #6b7280; line-height: 1.45; }
+
+      .daily { padding: 22px; background: #fff1c9; }
+      .mission-row { display: flex; align-items: center; gap: 14px; margin: 20px 0; }
+      .badge {
+        display: grid;
+        place-items: center;
+        width: 54px;
+        height: 54px;
+        flex: none;
+        border: 2px solid var(--ink);
+        border-radius: 17px;
+        background: var(--yellow);
+        font-size: 26px;
+        transform: rotate(-4deg);
+      }
+      .mission-row strong { display: block; font-size: 15px; }
+      .mission-row small { color: #6b7280; font-weight: 750; }
+
+      .primary {
+        width: 100%;
+        min-height: 54px;
+        border: var(--outline);
+        border-radius: 18px;
+        background: var(--blue);
+        box-shadow: 0 7px 0 var(--blue-dark), 0 10px 0 var(--ink);
+        color: white;
+        cursor: pointer;
+        font-weight: 950;
+        transition: transform 120ms ease, box-shadow 120ms ease;
+      }
+
+      .tray {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-top: 24px;
+        padding: 12px;
+        border-radius: 28px;
+      }
+
+      .tray-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        min-height: 62px;
+        border-width: 2px;
+        border-radius: 19px;
+        box-shadow: 0 5px 0 var(--ink);
+        cursor: pointer;
+        font-weight: 900;
+        transition: transform 120ms ease, box-shadow 120ms ease;
+      }
+      .tray-btn.is-active { background: var(--mint); }
+      .tray-btn span { font-size: 23px; }
+
+      .note {
+        margin: 22px 4px 0;
+        color: rgba(36,54,83,.72);
+        text-align: center;
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      @media (max-width: 860px) {
+        .page { width: min(680px, calc(100% - 24px)); padding-top: 14px; }
+        .topbar { grid-template-columns: 1fr auto; }
+        .brand { display: none; }
+        .status { justify-self: stretch; }
+        .layout { grid-template-columns: 1fr; }
+        .challenge { min-height: auto; }
+        .side { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      }
+
+      @media (max-width: 560px) {
+        .status { gap: 8px; padding: 8px 10px; }
+        .level { font-size: 10px; padding-inline: 7px; }
+        .stars { font-size: 13px; }
+        .challenge { padding: 22px 17px 27px; border-radius: 27px; }
+        .letter-stage { grid-template-columns: 1fr; justify-items: center; }
+        .letter-tile { width: 156px; font-size: 96px; border-radius: 34px; }
+        .choices { width: 100%; }
+        .choice { min-height: 92px; font-size: 54px; border-radius: 20px; }
+        .side { grid-template-columns: 1fr; }
+        .tray { position: sticky; bottom: 10px; }
+        .tray-btn { min-height: 56px; font-size: 0; }
+        .tray-btn span { font-size: 24px; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <header class="topbar">
+        <div class="brand"><span class="brand-mark">م</span> Letter Garden</div>
+        <div class="status" aria-label="Lesson progress">
+          <span class="level">Garden 2</span>
+          <div class="progress" aria-hidden="true"><span id="progress"></span></div>
+          <span class="stars">★ 18</span>
+        </div>
+        <button class="icon-btn" type="button" aria-label="Sound" id="sound">♪</button>
+      </header>
+
+      <div class="layout">
+        <section class="card challenge">
+          <span class="eyebrow">✦ Sound garden</span>
+          <h1>Which letter makes this sound?</h1>
+          <p class="lede">Big choices, clear hierarchy, and tactile feedback keep the learning task obvious.</p>
+          <div class="letter-stage">
+            <div class="letter-tile" aria-label="Target letter meem">م</div>
+            <div class="choices" aria-label="Choose a letter">
+              <button class="choice" type="button" data-answer="wrong">ب</button>
+              <button class="choice" type="button" data-answer="right">م</button>
+              <button class="choice" type="button" data-answer="wrong">ن</button>
+            </div>
+          </div>
+        </section>
+
+        <aside class="side">
+          <section class="card garden-card">
+            <div class="garden-art" aria-label="Three flowers growing in a garden">
+              <span class="cloud"></span>
+              <i class="flower" style="--x:18%;--flower:#ef8fa0;--r:-8deg"></i>
+              <i class="flower" style="--x:43%;--flower:#8f83d2;--r:4deg"></i>
+              <i class="flower" style="--x:68%;--flower:#6ebfe3;--r:9deg"></i>
+            </div>
+            <div class="garden-copy">
+              <h2>Your garden</h2>
+              <p>3 new sounds are blooming.</p>
+            </div>
+          </section>
+
+          <section class="card daily">
+            <h2>Today’s little goal</h2>
+            <p>Finish one sound trail.</p>
+            <div class="mission-row">
+              <span class="badge">★</span>
+              <div><strong>3 of 5 sounds</strong><small>Two more to grow a flower</small></div>
+            </div>
+            <button class="primary" type="button" id="continue">Keep growing</button>
+          </section>
+        </aside>
+      </div>
+
+      <nav class="tray" aria-label="Letter Garden sections">
+        <button class="tray-btn is-active" type="button"><span>⌂</span>Garden</button>
+        <button class="tray-btn" type="button"><span>✦</span>Letters</button>
+        <button class="tray-btn" type="button"><span>❀</span>Collection</button>
+        <button class="tray-btn" type="button"><span>☻</span>Helper</button>
+      </nav>
+      <p class="note">Temporary visual-system specimen — no existing game screens were changed.</p>
+    </main>
+
+    <script>
+      const choices = [...document.querySelectorAll(".choice")];
+      const progress = document.querySelector("#progress");
+      choices.forEach((choice) => {
+        choice.addEventListener("click", () => {
+          choices.forEach((item) => item.classList.remove("is-right", "is-wrong"));
+          const isRight = choice.dataset.answer === "right";
+          choice.classList.add(isRight ? "is-right" : "is-wrong");
+          if (isRight) progress.style.width = "78%";
+        });
+      });
+
+      document.querySelector("#sound").addEventListener("click", (event) => {
+        event.currentTarget.textContent = event.currentTarget.textContent === "♪" ? "×" : "♪";
+      });
+
+      document.querySelectorAll(".tray-btn").forEach((button) => {
+        button.addEventListener("click", () => {
+          document.querySelectorAll(".tray-btn").forEach((item) => item.classList.remove("is-active"));
+          button.classList.add("is-active");
+        });
+      });
+    </script>
+  </body>
+</html>

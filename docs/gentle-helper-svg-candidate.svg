@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 700" role="img" aria-labelledby="title desc"
+  style="--body:#55abc5;--body-light:#79c4d4;--body-dark:#31768e;--cream:#f3e2b5;--cream-dark:#d5b976;--ink:#27364f;--blush:#d98282">
+  <title id="title">Gentle Cat Helper SVG candidate</title>
+  <desc id="desc">A cohesive color-changing cat designed as a gentle learning companion.</desc>
+  <defs>
+    <linearGradient id="body-gradient" x1="0.18" y1="0.08" x2="0.82" y2="0.95">
+      <stop offset="0" stop-color="var(--body-light)"/>
+      <stop offset="1" stop-color="var(--body)"/>
+    </linearGradient>
+    <linearGradient id="cream-gradient" x1="0.25" y1="0.08" x2="0.75" y2="1">
+      <stop offset="0" stop-color="#fff3d4"/>
+      <stop offset="1" stop-color="var(--cream)"/>
+    </linearGradient>
+    <filter id="ground-blur" x="-20%" y="-100%" width="140%" height="300%">
+      <feGaussianBlur stdDeviation="8"/>
+    </filter>
+  </defs>
+
+  <g id="gentle-cat">
+    <ellipse cx="320" cy="650" rx="162" ry="18" fill="var(--ink)" opacity="0.15" filter="url(#ground-blur)"/>
+
+    <g id="back-slot">
+      <path d="M422 522 C512 522 550 462 520 421 C493 385 446 399 445 437 C444 467 473 480 495 460"
+        fill="none" stroke="var(--ink)" stroke-width="58" stroke-linecap="round" stroke-linejoin="round"/>
+      <path id="tail" d="M422 522 C512 522 550 462 520 421 C493 385 446 399 445 437 C444 467 473 480 495 460"
+        fill="none" stroke="url(#body-gradient)" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M493 406 Q520 419 521 448" fill="none" stroke="var(--body-light)" stroke-width="8" stroke-linecap="round" opacity="0.7"/>
+    </g>
+
+    <g id="body-silhouette">
+      <path d="M187 165 L184 67 L252 107 C273 97 296 92 320 92 C344 92 367 97 388 107 L456 67 L453 165 C482 193 495 239 491 282 C487 329 462 359 425 375 C444 410 451 461 446 512 C440 573 416 612 383 627 C363 636 340 635 320 624 C300 635 277 636 257 627 C224 612 200 573 194 512 C189 461 196 410 215 375 C178 359 153 329 149 282 C145 239 158 193 187 165 Z"
+        fill="url(#body-gradient)" stroke="var(--ink)" stroke-width="11" stroke-linejoin="round"/>
+      <path d="M207 152 L204 91 L246 118 Z" fill="var(--cream-dark)" opacity="0.9"/>
+      <path d="M433 152 L436 91 L394 118 Z" fill="var(--cream-dark)" opacity="0.9"/>
+      <path d="M204 169 C238 118 278 112 313 112" fill="none" stroke="#a7dae3" stroke-width="15" stroke-linecap="round" opacity="0.62"/>
+    </g>
+
+    <g id="base-markings">
+      <ellipse cx="320" cy="487" rx="78" ry="111" fill="url(#cream-gradient)"/>
+      <path d="M281 414 Q320 390 359 414" fill="none" stroke="#fff8e8" stroke-width="10" stroke-linecap="round" opacity="0.7"/>
+      <path d="M219 419 Q242 450 235 510" fill="none" stroke="var(--body-dark)" stroke-width="6" stroke-linecap="round" opacity="0.62"/>
+      <path d="M421 419 Q398 450 405 510" fill="none" stroke="var(--body-dark)" stroke-width="6" stroke-linecap="round" opacity="0.62"/>
+      <ellipse cx="245" cy="514" rx="26" ry="23" fill="url(#cream-gradient)"/>
+      <ellipse cx="395" cy="514" rx="26" ry="23" fill="url(#cream-gradient)"/>
+      <path d="M232 513 H258 M382 513 H408" fill="none" stroke="var(--cream-dark)" stroke-width="4" stroke-linecap="round"/>
+    </g>
+
+    <g id="feet">
+      <path d="M199 596 C223 575 285 578 309 605 C310 639 284 655 248 655 C214 655 193 637 199 596 Z"
+        fill="url(#body-gradient)" stroke="var(--ink)" stroke-width="10"/>
+      <path d="M331 605 C355 578 417 575 441 596 C447 637 426 655 392 655 C356 655 330 639 331 605 Z"
+        fill="url(#body-gradient)" stroke="var(--ink)" stroke-width="10"/>
+      <path d="M220 610 C238 596 278 601 289 620 C285 641 266 647 245 643 C227 640 217 628 220 610 Z" fill="url(#cream-gradient)"/>
+      <path d="M351 620 C362 601 402 596 420 610 C423 628 413 640 395 643 C374 647 355 641 351 620 Z" fill="url(#cream-gradient)"/>
+      <path d="M247 607 V640 M273 611 V639 M393 607 V640 M367 611 V639"
+        fill="none" stroke="var(--cream-dark)" stroke-width="4.5" stroke-linecap="round"/>
+    </g>
+
+    <g id="face">
+      <ellipse cx="258" cy="225" rx="37" ry="49" fill="#fffdf8"/>
+      <ellipse cx="382" cy="225" rx="37" ry="49" fill="#fffdf8"/>
+      <ellipse cx="265" cy="233" rx="15" ry="24" fill="var(--ink)"/>
+      <ellipse cx="375" cy="233" rx="15" ry="24" fill="var(--ink)"/>
+      <circle cx="271" cy="222" r="5.5" fill="#fff"/>
+      <circle cx="369" cy="222" r="5.5" fill="#fff"/>
+      <path d="M282 198 Q258 181 235 201 M358 198 Q382 181 405 201"
+        fill="none" stroke="var(--body-dark)" stroke-width="7" stroke-linecap="round"/>
+
+      <path d="M222 280 C240 250 274 244 299 261 C309 268 316 278 320 288 C324 278 331 268 341 261 C366 244 400 250 418 280 C436 312 419 354 387 364 C362 372 339 356 320 338 C301 356 278 372 253 364 C221 354 204 312 222 280 Z"
+        fill="url(#cream-gradient)"/>
+      <path d="M298 291 L320 280 L342 291 Q336 310 320 310 Q304 310 298 291 Z"
+        fill="var(--blush)" stroke="var(--ink)" stroke-width="6" stroke-linejoin="round"/>
+      <path d="M320 309 V319 M320 319 Q301 341 285 323 M320 319 Q339 341 355 323"
+        fill="none" stroke="var(--ink)" stroke-width="7" stroke-linecap="round"/>
+      <path d="M252 303 L195 292 M253 320 L191 321 M388 303 L445 292 M387 320 L449 321"
+        fill="none" stroke="var(--ink)" stroke-width="5" stroke-linecap="round" opacity="0.78"/>
+      <ellipse cx="245" cy="341" rx="16" ry="9" fill="var(--blush)" opacity="0.48"/>
+      <ellipse cx="395" cy="341" rx="16" ry="9" fill="var(--blush)" opacity="0.48"/>
+
+      <path d="M283 139 Q290 161 301 143 M320 133 V160 M357 139 Q350 161 339 143"
+        fill="none" stroke="var(--body-dark)" stroke-width="7" stroke-linecap="round"/>
+    </g>
+
+    <g id="headwear-slot"/>
+    <g id="neck-slot"/>
+    <g id="outfit-slot"/>
+    <g id="hand-slot"/>
+  </g>
+</svg>

@@ -124,8 +124,10 @@ body {
   z-index: 1;
   width: 520px;
   max-width: calc(100vw - 24px);
-  max-height: calc(100vh - 24px);
-  max-height: calc(100dvh - 24px);
+  /* Fixed, not just capped — otherwise the card grows/shrinks with the
+     text-size setting instead of staying put while its panels scroll. */
+  height: min(700px, calc(100vh - 24px));
+  height: min(700px, calc(100dvh - 24px));
   display: flex;
   flex-direction: column;
   border-radius: 22px;
@@ -264,36 +266,17 @@ body {
   flex: 1 1 auto;
   min-height: 0;
   display: grid;
-  grid-template-columns: 180px minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: 10px;
   padding: 10px 12px 0;
   overflow: hidden;
 }
 
-.trainer-card.is-collection-collapsed .codex-board {
-  grid-template-columns: 46px minmax(0, 1fr);
-}
-
-.trainer-card.is-collection-collapsed .surah-collection {
-  padding: 6px 3px;
-}
-
-.trainer-card.is-collection-collapsed .surah-collection-head {
-  flex-direction: column;
-}
-
-.trainer-card.is-collection-collapsed .surah-collection-head h3,
-.trainer-card.is-collection-collapsed .surah-grid,
-.trainer-card.is-collection-collapsed .surah-collection-stats {
+/* Study and Read own the full board width; the collection only appears
+   on its own tab, exactly like the mobile layout below. */
+.trainer-card[data-active-tab="study"] .surah-collection,
+.trainer-card[data-active-tab="read"] .surah-collection {
   display: none;
-}
-
-.trainer-card.is-collection-collapsed .surah-toggle {
-  width: 100%;
-  padding: 4px 2px;
-  font-size: 7px;
-  line-height: 1.2;
-  white-space: normal;
 }
 
 /* ---------- left rail: surah collection, carved-wood panel ---------- */
@@ -322,17 +305,6 @@ body {
   color: var(--codex-gold-bright);
   font-size: 11px;
   line-height: 1;
-}
-
-.surah-toggle {
-  border: 2px solid var(--codex-gold-dim);
-  border-radius: 6px;
-  background: linear-gradient(180deg, var(--codex-gold-bright), var(--codex-gold));
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4), 0 2px 0 rgba(0, 0, 0, 0.25);
-  color: #2c1a11;
-  cursor: pointer;
-  font: 900 8px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
-  padding: 4px 6px;
 }
 
 .surah-grid {
@@ -386,7 +358,6 @@ body {
 
 .surah-tile:focus-visible,
 .trainer-option:focus-visible,
-.surah-toggle:focus-visible,
 .trainer-close:focus-visible {
   outline: 2px solid var(--codex-gold-bright);
   outline-offset: 1px;
@@ -1017,10 +988,6 @@ body {
   color: var(--codex-ink);
 }
 
-.codex-collection-tab {
-  display: none;
-}
-
 .codex-font-menu {
   position: relative;
   margin-left: auto;
@@ -1541,10 +1508,6 @@ body {
     text-align: center;
   }
 
-  .codex-collection-tab {
-    display: block;
-  }
-
   .codex-font-toggle,
   .codex-theme-toggle,
   .codex-web-link,
@@ -1567,11 +1530,6 @@ body {
     -webkit-overflow-scrolling: touch;
   }
 
-  .trainer-card[data-active-tab="study"] .surah-collection,
-  .trainer-card[data-active-tab="read"] .surah-collection {
-    display: none;
-  }
-
   .surah-collection {
     order: -1;
     width: 100%;
@@ -1579,10 +1537,6 @@ body {
     flex-direction: column;
     padding: 10px;
     align-self: start;
-  }
-
-  .surah-toggle {
-    display: none;
   }
 
   .surah-collection-head h3,
@@ -1608,27 +1562,6 @@ body {
     min-width: 0;
     min-height: 88px;
     padding: 8px 3px 7px;
-  }
-
-  .trainer-card.is-collection-collapsed .codex-board {
-    grid-template-columns: 1fr;
-  }
-
-  .trainer-card.is-collection-collapsed .surah-collection {
-    padding: 10px;
-  }
-
-  .trainer-card.is-collection-collapsed .surah-collection-head {
-    flex-direction: row;
-  }
-
-  .trainer-card.is-collection-collapsed .surah-collection-head h3,
-  .trainer-card.is-collection-collapsed .surah-collection-stats {
-    display: block;
-  }
-
-  .trainer-card.is-collection-collapsed .surah-grid {
-    display: grid;
   }
 
   .surah-collection-head {

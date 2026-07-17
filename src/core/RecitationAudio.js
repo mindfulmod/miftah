@@ -31,6 +31,12 @@
         this.el = new Audio();
         this.el.preload = "auto";
       }
+      // Reassigning .src while a previous clip is still loading/playing
+      // trips "play() request was interrupted by a new load request" —
+      // pausing first lets the browser settle before the new load starts,
+      // instead of silently dropping the new clip.
+      try { this.el.pause(); } catch {}
+      this.el.currentTime = 0;
       this.el.src = src;
       const p = this.el.play();
       if (p && p.catch) p.catch(() => {});

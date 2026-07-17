@@ -332,9 +332,15 @@
       return this.isComplete(list[idx - 1]);
     }
 
+    // Resume at the farthest unlocked-but-incomplete surah — the real
+    // frontier of study. Scanning forward for the first incomplete surah
+    // would send the player back to an earlier surah they deliberately
+    // reset for a revisit (e.g. restarting Al-Fatihah while deep into
+    // Al-Baqarah), hijacking the resume point on the next reload.
     pickStartingSurahNumber() {
-      for (const entry of this.manifest) {
-        if (!this.isComplete(entry)) return entry.number;
+      for (let i = this.manifest.length - 1; i >= 0; i -= 1) {
+        const entry = this.manifest[i];
+        if (this.isUnlocked(entry.number) && !this.isComplete(entry)) return entry.number;
       }
       return this.manifest.length ? this.manifest[this.manifest.length - 1].number : 1;
     }

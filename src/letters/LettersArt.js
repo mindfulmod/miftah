@@ -15,25 +15,29 @@
   let uid = 0;
   const gradId = () => `lgg${(uid += 1)}`;
 
-  // A friendly face used by tiny characters. Dark oval eyes stay readable at
-  // HUD scale and avoid the outlined-white "glasses" effect of the old cast.
+  // A friendly face used by every character. Mascot-grade eyes (the Duolingo/
+  // Lingokids lesson): big white sclera with a slight outward tilt, large dark
+  // pupils angled toward the viewer, and a double highlight — that's what makes
+  // a character hold eye contact instead of reading as a toy on a shelf.
   const face = (x, y, s, mood = "happy") => `
     <g class="art-face" transform="translate(${x} ${y}) scale(${s})">
       <g class="art-eyes">
-        <ellipse cx="-10.5" cy="1" rx="7" ry="8" fill="#fff" stroke="${INK}" stroke-width="1.6"/>
-        <ellipse cx="10.5" cy="1" rx="7" ry="8" fill="#fff" stroke="${INK}" stroke-width="1.6"/>
-        <ellipse class="art-pupil" cx="-9" cy="2" rx="2.6" ry="3.5" fill="${INK}"/>
-        <ellipse class="art-pupil" cx="12" cy="2" rx="2.6" ry="3.5" fill="${INK}"/>
-        <circle cx="-8" cy="-1.2" r="1.5" fill="#fffaf0"/>
-        <circle cx="13" cy="-1.2" r="1.5" fill="#fffaf0"/>
+        <ellipse cx="-12" cy="0" rx="11" ry="13.5" fill="#fff" stroke="${INK}" stroke-width="2" transform="rotate(-3 -12 0)"/>
+        <ellipse cx="12" cy="0" rx="11" ry="13.5" fill="#fff" stroke="${INK}" stroke-width="2" transform="rotate(3 12 0)"/>
+        <circle class="art-pupil" cx="-7.6" cy="2.6" r="4.9" fill="${INK}"/>
+        <circle class="art-pupil" cx="7.6" cy="2.6" r="4.9" fill="${INK}"/>
+        <circle cx="-9.4" cy="0.6" r="1.8" fill="#fffaf0"/>
+        <circle cx="5.8" cy="0.6" r="1.8" fill="#fffaf0"/>
+        <circle cx="-6" cy="5.2" r="0.9" fill="#fffaf0" opacity="0.85"/>
+        <circle cx="9.2" cy="5.2" r="0.9" fill="#fffaf0" opacity="0.85"/>
       </g>
       ${mood === "open"
-        ? `<ellipse cx="0" cy="12.5" rx="6" ry="7" fill="#7c2d4a"/><ellipse cx="0" cy="15.4" rx="3.8" ry="3.2" fill="#ff9db1"/>`
+        ? `<path d="M-8 13.5 A 8 7 0 0 0 8 13.5 Z" fill="#7c2d4a"/><ellipse cx="0" cy="18.2" rx="4.2" ry="2.4" fill="#ff9db1"/>`
         : mood === "sad"
-          ? `<path d="M-6 14 Q0 8.5 6 14" fill="none" stroke="${INK}" stroke-width="2.8" stroke-linecap="round"/>`
-          : `<path d="M-6 10 Q0 16.5 6 10" fill="none" stroke="${INK}" stroke-width="2.8" stroke-linecap="round"/>`}
-      <ellipse cx="-17" cy="7.5" rx="4.2" ry="3.4" fill="#ff9db1" opacity="0.6"/>
-      <ellipse cx="17" cy="7.5" rx="4.2" ry="3.4" fill="#ff9db1" opacity="0.6"/>
+          ? `<path d="M-6 17.5 Q0 12 6 17.5" fill="none" stroke="${INK}" stroke-width="2.8" stroke-linecap="round"/>`
+          : `<path d="M-6.5 13.5 A 6.5 5.5 0 0 0 6.5 13.5 Z" fill="#7c2d4a"/><ellipse cx="0" cy="16.8" rx="3.4" ry="2" fill="#ff9db1"/>`}
+      <ellipse cx="-22" cy="9" rx="5" ry="3.6" fill="#ff9db1" opacity="0.65"/>
+      <ellipse cx="22" cy="9" rx="5" ry="3.6" fill="#ff9db1" opacity="0.65"/>
     </g>`;
 
   // Shared body lighting: a restrained two-tone wash rather than a glossy
@@ -44,43 +48,52 @@
       <stop offset="1" stop-color="hsl(${hue} ${sat - 8}% ${lum - 6}%)"/>
     </linearGradient>`;
 
-  // Sprig Cub palette: still cheerful, but deliberately calmer than the old
-  // candy-neon blobs. The dark ink is shared across hues so accessories can
-  // move between bodies without looking like they came from another game.
+  // Blob palette: the hero family. Saturation pushed up (kids voted) while
+  // the dark ink stays shared across hues so accessories can move between
+  // bodies without looking like they came from another game.
   const sprigPalette = (hue) => ({
-    body: `hsl(${hue} 62% 58%)`,
-    shade: `hsl(${hue} 48% 43%)`,
-    inner: `hsl(${(hue + 42) % 360} 48% 74%)`,
-    muzzle: "#f2dfb9",
-    cloth: `hsl(${(hue + 195) % 360} 52% 52%)`,
-    clothDark: `hsl(${(hue + 195) % 360} 43% 37%)`,
+    body: `hsl(${hue} 76% 60%)`,
+    shade: `hsl(${hue} 58% 42%)`,
+    inner: `hsl(${(hue + 42) % 360} 58% 76%)`,
+    muzzle: "#f6e6c4",
+    cloth: `hsl(${(hue + 195) % 360} 58% 54%)`,
+    clothDark: `hsl(${(hue + 195) % 360} 48% 38%)`,
     leaf: "#79a84b",
     leafDark: "#4d7434",
   });
 
-  // Larger toy eyes and a soft muzzle distinguish the companions. The muzzle
-  // deliberately has no outline, so the face reads as one animal head instead
-  // of eyes and cheeks stapled onto a mask.
-  const sprigFace = (x, y, s = 1, mood = "happy", muzzle = "#f1d7a5") => `
-    <g class="art-face art-sprig-face" transform="translate(${x} ${y}) scale(${s})">
-      <path d="M-29 10 Q-25 -2 -12 1 Q0 4 0 13 Q0 4 12 1 Q25 -2 29 10 Q31 28 15 34 Q0 39 -15 34 Q-31 28 -29 10 Z" fill="${muzzle}"/>
-      <g class="art-eyes">
-        <ellipse cx="-17" cy="-5" rx="10" ry="12" fill="#fff" stroke="${INK}" stroke-width="2"/>
-        <ellipse cx="17" cy="-5" rx="10" ry="12" fill="#fff" stroke="${INK}" stroke-width="2"/>
-        <ellipse class="art-pupil" cx="-14.5" cy="-3.5" rx="3.2" ry="4.4" fill="${INK}"/>
-        <ellipse class="art-pupil" cx="19.5" cy="-3.5" rx="3.2" ry="4.4" fill="${INK}"/>
-        <circle cx="-13.5" cy="-8.5" r="2.1" fill="#fffaf0"/>
-        <circle cx="20.5" cy="-8.5" r="2.1" fill="#fffaf0"/>
-      </g>
-      <path d="M-6 9 Q0 5 6 9 Q4 15 0 15 Q-4 15 -6 9 Z" fill="${INK}"/>
-      <path d="M0 14 V18" stroke="${INK}" stroke-width="2.8" stroke-linecap="round"/>
-      ${mood === "open"
-        ? `<path d="M-9 19 Q0 31 9 19 Q8 36 0 36 Q-8 36 -9 19 Z" fill="#7c3f52" stroke="${INK}" stroke-width="2.6"/><path d="M-5 29 Q0 25 5 29" stroke="#d97786" stroke-width="3" stroke-linecap="round"/>`
-        : mood === "sad"
-          ? `<path d="M-8 27 Q0 20 8 27" fill="none" stroke="${INK}" stroke-width="3" stroke-linecap="round"/>`
-          : `<path d="M-9 19 Q0 29 9 19" fill="none" stroke="${INK}" stroke-width="3" stroke-linecap="round"/>`}
-      <circle cx="-32" cy="14" r="4.5" fill="#d9818e" opacity="0.46"/>
-      <circle cx="32" cy="14" r="4.5" fill="#d9818e" opacity="0.46"/>
+  // The squishy blob silhouette every hero character shares: a droplet-round
+  // body that flattens where it meets the ground, two dome feet with toe
+  // lines (weight-bearing, never floating), and a sprout curl on top —
+  // the Letter Garden signature. Local coordinate space: roughly ±R wide,
+  // -R…+R tall around (0,0).
+  const blobBody = (R, fill, rim, { feet = true, sw = 3.4 } = {}) => {
+    const r = (n) => (n * R / 46).toFixed(1);
+    return {
+      body: `<path d="M0 ${-R} C ${-R * 0.62} ${-R} ${-R * 1.02} ${-R * 0.56} ${-R * 1.04} ${-R * 0.04}
+        C ${-R * 1.06} ${R * 0.5} ${-R * 0.82} ${R * 0.94} ${-R * 0.42} ${R * 1.02}
+        Q 0 ${R * 1.1} ${R * 0.42} ${R * 1.02}
+        C ${R * 0.82} ${R * 0.94} ${R * 1.06} ${R * 0.5} ${R * 1.04} ${-R * 0.04}
+        C ${R * 1.02} ${-R * 0.56} ${R * 0.62} ${-R} 0 ${-R} Z" fill="${fill}" stroke="${rim}" stroke-width="${sw}"/>`,
+      gloss: `<path d="M${-R * 0.62} ${-R * 0.5} Q${-R * 0.34} ${-R * 0.82} ${R * 0.1} ${-R * 0.84}" fill="none" stroke="#fff" stroke-width="${R * 0.13}" stroke-linecap="round" opacity="0.5"/>`,
+      feet: feet
+        ? [-1, 1].map((d) => `
+          <g class="art-blob-foot" transform="translate(${d * R * 0.42} ${R * 1.02})">
+            <path d="M${r(-12)} ${r(5)} C ${r(-13.5)} ${r(-2.5)} ${r(-9)} ${r(-8)} 0 ${r(-8)} C ${r(9)} ${r(-8)} ${r(13.5)} ${r(-2.5)} ${r(12)} ${r(5)} C ${r(5.5)} ${r(7.6)} ${r(-5.5)} ${r(7.6)} ${r(-12)} ${r(5)} Z"
+              fill="${fill}" stroke="${rim}" stroke-width="${sw * 0.82}"/>
+            <path d="M${r(-5)} ${r(0.5)} Q 0 ${r(4)} ${r(5)} ${r(0.5)}" fill="none" stroke="${rim}" stroke-width="${sw * 0.6}" stroke-linecap="round"/>
+          </g>`).join("")
+        : "",
+    };
+  };
+
+  // The sprout: stem plus two leaves, drawn at the blob's crown. Hats render
+  // after accessories, so a worn cap simply covers it — same rule as ears.
+  const sproutArt = (scale = 1, leaf = "#5cc23e", leafDark = "#2f8a1f") => `
+    <g class="art-blob-sprout" transform="scale(${scale})">
+      <path d="M0 4 Q-1 -3 1 -8" fill="none" stroke="${leafDark}" stroke-width="3" stroke-linecap="round"/>
+      <path d="M1 -8 Q-9 -11 -11 -20 Q-1 -18 1 -8 Z" fill="${leaf}" stroke="${leafDark}" stroke-width="2.4" stroke-linejoin="round"/>
+      <path d="M1 -8 Q10 -14 13 -22 Q3 -20 1 -8 Z" fill="${leafDark}" stroke="${leafDark}" stroke-width="2.4" stroke-linejoin="round" opacity="0.85"/>
     </g>`;
 
   // The mascot: a round-headed golden key with a face. He hops on the map,
@@ -111,36 +124,30 @@
     </svg>`;
   }
 
-  // A Sprig Cub holding up a card — the universal "look at this" frame for
-  // letters, syllables and words. `blobCard` remains the public name so older
-  // callers keep working, but the silhouette is now a teddy pet with a distinct
-  // head, torso, arms and paws.
+  // The hero blob holding up a card — the universal "look at this" frame for
+  // letters, syllables and words. Kids voted the blob back over the teddy:
+  // one squishy silhouette, mascot eyes, sprout on top, feet peeking out
+  // under the card so it stands instead of floats.
   function blobCard({ hue = 150, label = "", size = 230, latin = false } = {}) {
     const id = gradId();
     const p = sprigPalette(hue);
+    const b = blobBody(84, `url(#${id})`, INK, { feet: false, sw: 7 });
     return `
-    <svg class="art-blob art-sprig" viewBox="0 0 250 280" width="${size}" height="${size * 1.12}" aria-hidden="true">
-      <defs>${bodyGrad(id, hue, 58, 57)}</defs>
-      <g class="art-blob-body art-sprig-body">
+    <svg class="art-blob" viewBox="0 0 250 280" width="${size}" height="${size * 1.12}" aria-hidden="true">
+      <defs>${bodyGrad(id, hue, 74, 60)}</defs>
+      <g class="art-blob-body">
         <ellipse cx="125" cy="267" rx="76" ry="10" fill="${SHADOW}"/>
-        <path d="M150 49 Q151 23 171 18 Q169 41 150 49 Z" fill="${p.leaf}" stroke="${INK}" stroke-width="5" stroke-linejoin="round"/>
-        <path d="M154 44 Q161 33 170 25" fill="none" stroke="${p.leafDark}" stroke-width="3" stroke-linecap="round"/>
-        <circle cx="65" cy="69" r="34" fill="${p.body}" stroke="${INK}" stroke-width="7"/>
-        <circle cx="185" cy="69" r="34" fill="${p.body}" stroke="${INK}" stroke-width="7"/>
-        <circle cx="65" cy="69" r="17" fill="${p.inner}" stroke="${INK}" stroke-width="4"/>
-        <circle cx="185" cy="69" r="17" fill="${p.inner}" stroke="${INK}" stroke-width="4"/>
-        <path d="M53 65 Q58 52 70 50" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity="0.35"/>
-        <path d="M41 82 Q45 40 125 38 Q205 40 209 82 L204 117 Q197 149 164 155 L86 155 Q53 149 46 117 Z"
-          fill="url(#${id})" stroke="${INK}" stroke-width="8" stroke-linejoin="round"/>
-        <path d="M66 65 Q82 49 107 48" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" opacity="0.28"/>
-        ${sprigFace(125, 93, 1.05, "happy", p.muzzle)}
-        <path d="M78 144 Q125 132 172 144 Q190 176 183 235 Q165 260 125 260 Q85 260 67 235 Q60 176 78 144 Z"
-          fill="${p.body}" stroke="${INK}" stroke-width="8" stroke-linejoin="round"/>
-        <ellipse cx="125" cy="198" rx="42" ry="48" fill="${p.muzzle}" opacity="0.88"/>
-        <path d="M80 224 Q55 245 73 262 Q92 269 105 247" fill="${p.body}" stroke="${INK}" stroke-width="7" stroke-linecap="round"/>
-        <path d="M170 224 Q195 245 177 262 Q158 269 145 247" fill="${p.body}" stroke="${INK}" stroke-width="7" stroke-linecap="round"/>
-        <ellipse cx="84" cy="253" rx="18" ry="10" fill="${p.inner}" stroke="${INK}" stroke-width="4"/>
-        <ellipse cx="166" cy="253" rx="18" ry="10" fill="${p.inner}" stroke="${INK}" stroke-width="4"/>
+        <g transform="translate(125 128)">
+          ${b.body}
+          ${b.gloss}
+          <g transform="translate(2 -82)">${sproutArt(1.5, p.leaf, p.leafDark)}</g>
+          ${[-1, 1].map((d) => `
+            <g transform="translate(${d * 44} 122)">
+              <path d="M-19 8 C -21.5 -4 -14.5 -13 0 -13 C 14.5 -13 21.5 -4 19 8 C 9 12.5 -9 12.5 -19 8 Z" fill="${p.body}" stroke="${INK}" stroke-width="5.6"/>
+              <path d="M-8 1 Q0 6.5 8 1" fill="none" stroke="${INK}" stroke-width="3.6" stroke-linecap="round"/>
+            </g>`).join("")}
+        </g>
+        ${face(125, 92, 1.75, "happy")}
       </g>
       <g class="art-blob-card">
         <path d="M65 169 Q39 174 42 199 Q44 216 64 216" fill="${p.body}" stroke="${INK}" stroke-width="8" stroke-linecap="round"/>
@@ -370,8 +377,7 @@
   const SPECIES = {
     blob: (body, rim) => ({
       back: `
-        <path d="M-18 -38 Q-30 -60 -6 -46 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>
-        <path d="M18 -38 Q30 -60 6 -46 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>
+        <g transform="translate(0 -43)">${sproutArt(0.9)}</g>
         <path d="M42 30 Q61 34 54 47 Q47 53 41 44 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>`,
       front: "",
     }),
@@ -612,6 +618,25 @@
     </svg>`;
   }
 
+  const CHARACTER_ASSETS = {
+    squirrel: {
+      idle: "assets/letters/characters/squirrel_idle",
+      listening: "assets/letters/characters/squirrel_listening",
+      presenting: "assets/letters/characters/squirrel_presenting",
+      success: "assets/letters/characters/squirrel_success",
+    },
+  };
+
+  function character({ species = "squirrel", pose = "idle", size = 76 } = {}) {
+    const poses = CHARACTER_ASSETS[species] || CHARACTER_ASSETS.squirrel;
+    const base = poses[pose] || poses.idle;
+    return `
+    <picture class="art-character art-character-${species}" data-pose="${pose}" style="--art-character-size:${size}px">
+      <source type="image/webp" srcset="${base}.webp 1x, ${base}@2x.webp 2x">
+      <img class="art-character-img" src="${base}.webp" width="480" height="480" alt="" draggable="false" decoding="async">
+    </picture>`;
+  }
+
   // Confetti burst — appended to body, cleans itself up.
   function confetti(x, y, golden) {
     const layer = document.createElement("div");
@@ -641,5 +666,6 @@
   ns.LettersArt = {
     keyMascot, blobCard, creature, icon, backdrop, dayPhase, PHASES, mapStop,
     bloomCluster, confetti, ICONS, pet, egg, sticker, stickerPack, skillFlower,
+    character,
   };
 })(window.MiftahGame || (window.MiftahGame = {}));
