@@ -73,6 +73,9 @@ window.SN = window.SN || {};
     // whole build axis — unlocks only when they join. Recruitment IS the
     // mechanics tutorial.
     recruited: { yusuf: false, layla: false, idris: false },
+    // Marked bounties (specs/03): words that fought back last voyage return
+    // as visibly 'marked' enemies — beating one is a genuine spaced re-test.
+    bounties: [],
     skill: { acc: 0.6, spd: 0.45 },
     versesCompleted: {},
     equippedKeepsake: null,
@@ -390,6 +393,27 @@ window.SN = window.SN || {};
     mastered: SN.masteredCount(), rescued: state.meta.rescuedTotal,
   });
 
+  // ------------------------------------------------------------ bounties
+  const BOUNTY_CAP = 6;
+  const BOUNTY_PEARLS = 3;
+  SN.isBounty = (k) => Array.isArray(state.meta && state.meta.bounties) && state.meta.bounties.includes(k);
+  // Called at run's end with the words that fought back — they become next
+  // voyage's marked enemies. Fresh misses replace the oldest posters.
+  SN.postBounties = (keys) => {
+    const cur = state.meta.bounties || [];
+    const next = [...new Set([...keys, ...cur])].slice(0, BOUNTY_CAP);
+    state.meta.bounties = next;
+    SN.saveMeta();
+  };
+  // A correct answer on a marked word settles the bounty: the poster comes
+  // down and the PRIZE is returned for the run to bank through its own purse.
+  SN.settleBounty = (k) => {
+    if (!SN.isBounty(k)) return 0;
+    state.meta.bounties = state.meta.bounties.filter((x) => x !== k);
+    SN.saveMeta();
+    return BOUNTY_PEARLS;
+  };
+
   // --------------------------------------------------------- recruitment
   SN.recruited = (crewId) => !!(state.meta && state.meta.recruited && state.meta.recruited[crewId]);
   SN.recruitedCount = () => ["yusuf", "layla", "idris"].filter(SN.recruited).length;
@@ -475,11 +499,14 @@ window.SN = window.SN || {};
     return card;
   };
 
-  // Draw one word for a question, avoiding the most recent few.
+  // Draw one word for a question, avoiding the most recent few. Marked
+  // bounty words jump the queue — a wanted poster means "face me again".
   SN.drawWord = (avoid) => {
     avoid = avoid || new Set();
     const all = cardsArr();
     const notAvoided = (c) => !avoid.has(c.k);
+    const bounty = all.find((c) => SN.isBounty(c.k) && notAvoided(c));
+    if (bounty && Math.random() < 0.5) return bounty;
     const weak = all.filter((c) => isWeak(c) && notAvoided(c));
     const learning = all.filter((c) => !isMastered(c) && notAvoided(c)); // includes just-introduced
     const strong = all.filter((c) => isMastered(c) && notAvoided(c));

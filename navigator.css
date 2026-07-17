@@ -2149,3 +2149,40 @@ body.mood-eclipse::after {
     radial-gradient(95% 95% at 50% 50%, transparent 52%, rgba(90, 18, 34, 0.28) 88%),
     linear-gradient(180deg, rgba(16, 6, 12, 0.35), transparent 50%);
 }
+
+/* ---------- marked bounties + the night's logbook (specs/03) ---------- */
+.bounty-chip {
+  display: inline-block;
+  margin: 0 auto 6px;
+  padding: 4px 12px;
+  border-radius: 99px;
+  border: 1px solid rgba(216, 138, 63, 0.55);
+  background: rgba(216, 138, 63, 0.12);
+  color: #e8a96a;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.prompt-card.is-bounty { border-color: rgba(216, 138, 63, 0.45); }
+
+.logbook-panel {
+  margin: 4px 0 8px;
+  padding: 14px 16px;
+  border-color: rgba(227, 183, 95, 0.35);
+}
+.logbook-title {
+  color: var(--gold);
+  font-weight: 800;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+.logbook-lines {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+  font-size: 13.5px;
+  color: var(--muted);
+}
+.logbook-lines b { color: var(--ink); }

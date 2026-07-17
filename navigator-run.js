@@ -748,6 +748,10 @@ window.SN = window.SN || {};
 
     const f = C.formats[enc.format];
     const showTranslit = run.mods.showTranslit;
+    // A marked word wears its wanted poster into battle.
+    const bountyHTML = SN.isBounty(card.k)
+      ? `<div class="bounty-chip">⚑ Marked — this one got away last voyage</div>`
+      : "";
     let promptHTML;
     if (mode === "arabic") {
       promptHTML = `
@@ -765,7 +769,8 @@ window.SN = window.SN || {};
     }
 
     $("#enc-body").innerHTML = `
-      <div class="prompt-card panel">
+      <div class="prompt-card panel${SN.isBounty(card.k) ? " is-bounty" : ""}">
+        ${bountyHTML}
         ${promptHTML}
         <div class="timer-track"><i id="timer-bar"></i></div>
       </div>
@@ -831,6 +836,11 @@ window.SN = window.SN || {};
         const elapsed = performance.now() - qStart - grace;
         if (opt.ok) {
           el.classList.add("good");
+          const prize = SN.settleBounty(card.k);
+          if (prize) {
+            addPearls(prize, true);
+            SN.toast(`⚑ Bounty settled — <b>+${prize}</b> pearls`);
+          }
           const result = onCorrect(card, Math.max(200, elapsed), allowed);
           const finishCorrect = () => {
             if (enc.format === "chain") {
@@ -1515,15 +1525,30 @@ window.SN = window.SN || {};
       rescued: rescued.length, struggled: struggled.length,
       banked, flawless: run.flawless && outcome === "victory", bestStreak: run.bestStreak,
     };
+    // Words that fought back go up on the wanted board for next voyage.
+    if (struggled.length) SN.postBounties(struggled.map((r) => r.card.k));
+
+    // The logbook page: the two-way learning contract made visible. Counts
+    // only words the trainer knows (the ones syncBack actually credited).
+    const WS = window.WordStrength;
+    const linked = !!(SN.profile() && SN.profile().linked);
+    let logbook = null;
+    if (WS && linked) {
+      const known = results.filter((r) => WS.get(r.card.k));
+      const credited = known.reduce((n, r) => n + r.right + r.wrong, 0);
+      const sent = known.filter((r) => r.wrong > 0).length;
+      logbook = { credited, sent, share: WS.reviewShare("game", 7) };
+    }
+
     SN.saveAll();
     // Recruitment beats land between the voyage's end and its ledger — the
     // set-piece is the climax, the summary is the epilogue.
     const joining = SN.pendingRecruit();
     if (joining) {
       renderRecruitScene(joining, () =>
-        renderSummary(outcome, { banked, rescued, struggled, results }));
+        renderSummary(outcome, { banked, rescued, struggled, results, logbook }));
     } else {
-      renderSummary(outcome, { banked, rescued, struggled, results });
+      renderSummary(outcome, { banked, rescued, struggled, results, logbook });
     }
   }
 
@@ -1598,10 +1623,26 @@ window.SN = window.SN || {};
   <animateTransform attributeName="transform" type="rotate" values="0 65 62; 3 65 62; 0 65 62" dur="6s" repeatCount="indefinite"/>
 </svg>`;
 
-  function renderSummary(outcome, { banked, rescued, struggled, results }) {
+  function renderSummary(outcome, { banked, rescued, struggled, results, logbook }) {
     setSeaMood(null);
     const win = outcome === "victory";
     const m = SN.metrics();
+
+    // The warm logbook page — peak-end design for the retention engine:
+    // tonight's sailing, written into the learning ledger where you can see it.
+    const bountyCount = (SN.state.meta.bounties || []).length;
+    const logbookHTML = logbook && (logbook.credited > 0 || logbook.share.total > 0)
+      ? `
+      <div class="panel logbook-panel">
+        <div class="logbook-title">⚓ The night's logbook</div>
+        <ul class="logbook-lines">
+          <li><b>${logbook.credited}</b> recall${logbook.credited === 1 ? "" : "s"} counted toward your real learning record</li>
+          ${logbook.sent ? `<li><b>${logbook.sent}</b> word${logbook.sent === 1 ? "" : "s"} sent to tomorrow's warm-up</li>` : `<li>Nothing owed to tomorrow — clean sailing</li>`}
+          ${logbook.share.total >= 5 ? `<li>This week, <b>${Math.round(logbook.share.share * 100)}%</b> of your reviews happened at sea</li>` : ""}
+          ${bountyCount ? `<li><b>${bountyCount}</b> marked word${bountyCount === 1 ? "" : "s"} wait on the wanted board</li>` : ""}
+        </ul>
+      </div>`
+      : "";
 
     const chip = (r, cls) => `
       <a class="word-chip ${cls}" href="trainer.html?surah=${r.card.surah || 1}">
@@ -1663,6 +1704,7 @@ window.SN = window.SN || {};
         <div class="sum-stat panel"><b>${results.filter((r) => r.wasNew && r.right > 0).length}</b><span>new stars</span></div>
         <div class="sum-stat panel"><b>${SN.state.meta.lastRun.bestStreak}</b><span>best streak</span></div>
       </div>
+      ${logbookHTML}
       ${buildLine.length ? `<p style="text-align:center;color:var(--muted);font-size:13px;margin:-6px 0 4px">Your build: ${buildLine.join(" · ")}</p>` : ""}
       ${run.cursedCleared ? `<p style="text-align:center;color:var(--wrong);font-size:12.5px;margin:0 0 4px">⚑ Plundered the deep — cursed cargo cracked open</p>` : ""}
       ${rescued.length ? `

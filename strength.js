@@ -135,8 +135,44 @@ const WordStrength = (() => {
     if (grade === 1) e.miss += 1;
     else e.correct += 1;
     e.updatedAt = now;
+    tally(source, now);
     save();
     return e;
+  }
+
+  // ---------- daily review tallies ----------
+  // Lightweight per-day, per-source counters — they exist so the navigator's
+  // logbook can show the voluntary-review-share proof metric ("this week,
+  // 32% of your reviews happened at sea"). Pruned to the last 14 days.
+  function tally(source, now) {
+    const s = load();
+    if (!s.daily) s.daily = {};
+    const d = new Date(now);
+    const day = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+    const rec = s.daily[day] || {};
+    rec[source] = (rec[source] || 0) + 1;
+    s.daily[day] = rec;
+    const days = Object.keys(s.daily).sort();
+    while (days.length > 14) delete s.daily[days.shift()];
+  }
+
+  // Fraction of the last `days` days' reviews that came from `source`
+  // (0..1), plus the raw counts for honest display.
+  function reviewShare(source = "game", days = 7, now = Date.now()) {
+    const s = load();
+    let from = 0;
+    let total = 0;
+    for (let i = 0; i < days; i++) {
+      const d = new Date(now - i * DAY);
+      const day = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+      const rec = (s.daily || {})[day];
+      if (!rec) continue;
+      for (const [src, n] of Object.entries(rec)) {
+        total += n;
+        if (src === source) from += n;
+      }
+    }
+    return { share: total ? from / total : 0, from, total };
   }
 
   // ---------- queries ----------
@@ -304,6 +340,7 @@ const WordStrength = (() => {
     dueCount,
     strongWords,
     retrievabilityOf,
+    reviewShare,
     _save: save,
   };
 })();
