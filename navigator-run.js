@@ -154,6 +154,7 @@ window.SN = window.SN || {};
   }
 
   function renderChart() {
+    setSeaMood(null);
     const W = 340, H = 470;
     const rowY = { 0: 442, 1: 360, 2: 280, 3: 200, 4: 128, 5: 54 };
     const px = (n) => 30 + n.x * (W - 60);
@@ -494,7 +495,20 @@ window.SN = window.SN || {};
   }
 
   // ------------------------------------------------------------- encounters
+  // Sea mood: a slow background tint that makes the voyage FEEL like travel
+  // (specs/03). Early rows glow like bio-lit shallows, late rows darken to
+  // deep water, and the boss pulls an eclipse vignette over everything.
+  function setSeaMood(mood) {
+    document.body.classList.remove("mood-shallows", "mood-deep", "mood-eclipse");
+    if (mood) document.body.classList.add("mood-" + mood);
+  }
+
   function startEncounter({ format, boss = false, phase = 0, ayahRef = null, cursed = false }) {
+    const node = run.at != null ? nodeById(run.at) : null;
+    const lastRow = Math.max(...run.chart.map((n) => n.row));
+    if (boss) setSeaMood("eclipse");
+    else if (node && node.row >= lastRow - 1) setSeaMood("deep");
+    else setSeaMood("shallows");
     const f = C.formats[format];
     const hpBase = boss ? 70 : f.hp;
     enc = {
@@ -1585,6 +1599,7 @@ window.SN = window.SN || {};
 </svg>`;
 
   function renderSummary(outcome, { banked, rescued, struggled, results }) {
+    setSeaMood(null);
     const win = outcome === "victory";
     const m = SN.metrics();
 
