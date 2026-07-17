@@ -456,8 +456,21 @@
         games: ["feed", "pop", "pairs"],
       });
 
+      // Biome chapters (specs/02): each stretch of the qaida ladder lives in
+      // its own land, so progress feels like TRAVEL — letters meadow, syllable
+      // orchard, long-sound lagoon, sukoon night-garden, shaddah peaks, and
+      // the decode riverlands at the summit.
+      const biomeOf = (w) => {
+        if (w.kind === "letters" || w.kind === "forms" || w.kind === "muqattaat") return "meadow";
+        if (["fatha", "kasra-damma", "tanween", "standing"].includes(w.id)) return "orchard";
+        if (["long-sounds", "leen"].includes(w.id)) return "lagoon";
+        if (w.id === "sukoon") return "night";
+        if (w.id.startsWith("shaddah")) return "peaks";
+        return "river";
+      };
       worlds.forEach((w, i) => {
         w.hue = hues[i % hues.length];
+        w.biome = biomeOf(w);
       });
       return worlds;
     }

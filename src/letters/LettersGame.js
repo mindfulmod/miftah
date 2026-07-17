@@ -490,6 +490,21 @@
 
     // ---------- home: the journey map ----------
 
+    // Tiny biome scenery decals stamped along the trail — same tactile SVG
+    // language as the rest of the garden (plum ink, candy fills, no black).
+    biomeDeco(biome) {
+      const ink = "#3a2c48";
+      const D = {
+        meadow: `<svg viewBox="0 0 64 48"><g stroke="${ink}" stroke-width="2.5" stroke-linecap="round"><path d="M14 42V26M32 44V22M50 42V28" fill="none"/><ellipse cx="14" cy="21" rx="6" ry="7" fill="#ff8fb1"/><ellipse cx="32" cy="16" rx="7" ry="8" fill="#ffc22e"/><ellipse cx="50" cy="23" rx="6" ry="7" fill="#b48be8"/></g></svg>`,
+        orchard: `<svg viewBox="0 0 64 48"><g stroke="${ink}" stroke-width="2.5"><rect x="28" y="28" width="8" height="16" rx="3" fill="#b07a4a"/><circle cx="32" cy="19" r="15" fill="#5cc23e"/><circle cx="25" cy="16" r="3.4" fill="#ff6b5e" stroke-width="2"/><circle cx="38" cy="22" r="3.4" fill="#ff6b5e" stroke-width="2"/><circle cx="33" cy="11" r="3.4" fill="#ffc22e" stroke-width="2"/></g></svg>`,
+        lagoon: `<svg viewBox="0 0 64 48"><g stroke="${ink}" stroke-width="2.5" stroke-linecap="round" fill="none"><path d="M18 44V20M18 20c-5-1-7-5-7-9 5 0 8 3 7 9ZM26 44V26m0 0c5-1 7-5 7-9-5 0-8 3-7 9Z"/><path d="M8 44c6-4 12-4 18 0s12 4 18 0 8-3 12-1" stroke="#4fb3e8"/></g></svg>`,
+        night: `<svg viewBox="0 0 64 48"><g stroke="${ink}" stroke-width="2.5"><path d="M38 8a14 14 0 1 0 12 21A16 16 0 0 1 38 8Z" fill="#ffe9a8"/><circle cx="16" cy="14" r="2.4" fill="#fff7d9" stroke="none"/><circle cx="22" cy="30" r="1.8" fill="#c9f26e" stroke="none"/><circle cx="12" cy="38" r="1.8" fill="#c9f26e" stroke="none"/></g></svg>`,
+        peaks: `<svg viewBox="0 0 64 48"><g stroke="${ink}" stroke-width="2.5" stroke-linejoin="round"><path d="M6 44 22 16l14 28Z" fill="#9fb7d9"/><path d="M28 44 44 10l16 34Z" fill="#c3d3ea"/><path d="M44 10l5 10-4 2-4-3-3 2Z" fill="#fffaf0"/></g></svg>`,
+        river: `<svg viewBox="0 0 64 48"><g stroke="${ink}" stroke-width="2.5" stroke-linecap="round" fill="none"><path d="M6 18c7-5 14-5 21 0s14 5 21 0 8-4 10-3" stroke="#4fb3e8"/><path d="M6 30c7-5 14-5 21 0s14 5 21 0" stroke="#7fd0f2"/><ellipse cx="18" cy="42" rx="7" ry="4" fill="#e8d9b8"/><ellipse cx="40" cy="43" rx="5" ry="3" fill="#d9c49a"/></g></svg>`,
+      };
+      return D[biome] || "";
+    }
+
     renderHome() {
       this.applyPhase();
       this.root.style.setProperty("--lg-hue", "150");
@@ -517,6 +532,22 @@
         </div>
         <div class="map-scroll">
           <div class="map-path" style="height:${height}px">
+            ${(() => {
+              // Soft biome bands behind the trail: one wash of color per
+              // chapter of the ladder, feathered so the day-phase sky still
+              // owns the mood. Computed from each biome's world range.
+              const bands = [];
+              let s = 0;
+              for (let i = 1; i <= worlds.length; i += 1) {
+                if (i === worlds.length || worlds[i].biome !== worlds[s].biome) {
+                  const top = yOf(i - 1) - GAP * 0.62;
+                  const bottom = yOf(s) + GAP * 0.62;
+                  bands.push(`<i class="map-band biome-${worlds[s].biome}" style="top:${Math.max(top, 0)}px;height:${bottom - Math.max(top, 0)}px"></i>`);
+                  s = i;
+                }
+              }
+              return bands.join("");
+            })()}
             <svg class="map-trail" aria-hidden="true"></svg>
             ${allDone ? `<a class="map-stop is-door" href="index.html" style="left:${xOf(worlds.length)}%; top:${yOf(worlds.length)}px">${Art.mapStop({ hue: 45, label: "🏝", status: "done", stars: 3, latin: true })}</a>` : ""}
             ${worlds
@@ -525,6 +556,7 @@
                 const at = `left:${xOf(i)}%; top:${yOf(i)}px`;
                 return `
                   ${status === "done" ? `<span class="map-bloom" style="${at}">${Art.bloomCluster({ seed: i + 1 })}</span>` : ""}
+                  <span class="map-deco" style="left:${xOf(i) + (i % 2 === 0 ? 34 : -34)}%; top:${yOf(i) + 46}px">${this.biomeDeco(world.biome)}</span>
                   <button type="button" class="map-stop is-${status}" data-world="${world.id}" ${status === "locked" ? "disabled" : ""} style="${at}">
                     ${Art.mapStop({ hue: world.hue, label: world.icon, status, stars: this.stars[world.id] || 0, latin: !/[؀-ۿ]/.test(world.icon) })}
                   </button>

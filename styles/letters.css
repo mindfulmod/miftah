@@ -1264,3 +1264,42 @@ body {
   0% { transform: translate(-50%, -50%) scale(0.3); opacity: 0; }
   100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
 }
+
+/* ---------- biome chapters on the journey map (specs/02) ---------- */
+/* Feathered color washes behind the trail — one land per qaida chapter. */
+.map-band {
+  position: absolute;
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+  pointer-events: none;
+  filter: blur(2px);
+}
+.map-band.biome-meadow {
+  background: linear-gradient(180deg, transparent, rgba(122, 205, 106, 0.22) 25%, rgba(122, 205, 106, 0.22) 75%, transparent);
+}
+.map-band.biome-orchard {
+  background: linear-gradient(180deg, transparent, rgba(255, 178, 92, 0.24) 25%, rgba(255, 194, 46, 0.18) 75%, transparent);
+}
+.map-band.biome-lagoon {
+  background: linear-gradient(180deg, transparent, rgba(96, 190, 232, 0.22) 25%, rgba(126, 208, 242, 0.18) 75%, transparent);
+}
+.map-band.biome-night {
+  background: linear-gradient(180deg, transparent, rgba(74, 59, 122, 0.32) 25%, rgba(58, 44, 96, 0.28) 75%, transparent);
+}
+.map-band.biome-peaks {
+  background: linear-gradient(180deg, transparent, rgba(163, 183, 214, 0.26) 25%, rgba(195, 211, 234, 0.2) 75%, transparent);
+}
+.map-band.biome-river {
+  background: linear-gradient(180deg, transparent, rgba(79, 179, 232, 0.2) 25%, rgba(92, 194, 62, 0.14) 75%, transparent);
+}
+.map-deco {
+  position: absolute;
+  width: 64px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 0.92;
+  animation: lg-sway 5.5s ease-in-out infinite;
+}
+.map-deco svg { width: 100%; display: block; }
+@media (prefers-reduced-motion: reduce) { .map-deco { animation: none; } }
