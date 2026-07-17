@@ -332,35 +332,40 @@ function fillRevealRoots(reveal, ayah) {
 const prefersReducedMotion = () =>
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-// Lightweight, dependency-free confetti burst centered just below an element's
-// top edge. A "perfect" run gets more particles and gold-dominant colours.
+// Reverent glow (manuscript-warmth celebration, locked 2026-07-16): a soft
+// gold bloom, one expanding halo, and a few slow motes rising like sparks
+// from a lamp. A "perfect" pass burns brighter and lifts a couple more
+// motes — never louder, only warmer. No confetti in this house.
 function celebrate(anchorEl, perfect) {
   if (prefersReducedMotion()) return;
   const rect = anchorEl.getBoundingClientRect();
   const layer = document.createElement("div");
-  layer.className = "confetti-layer";
+  layer.className = "glow-layer";
   layer.style.left = rect.left + rect.width / 2 + "px";
-  layer.style.top = rect.top + 48 + "px";
+  layer.style.top = rect.top + 56 + "px";
 
-  const colors = perfect
-    ? ["#e3b75f", "#f0d68a", "#d8b25a", "#46b187", "#ffffff"]
-    : ["#46b187", "#e3b75f", "#7fc9a6"];
-  const count = perfect ? 30 : 16;
+  const bloom = document.createElement("i");
+  bloom.className = "glow-bloom" + (perfect ? " perfect" : "");
+  layer.appendChild(bloom);
 
-  for (let i = 0; i < count; i++) {
-    const p = document.createElement("i");
-    p.className = "confetti";
-    const angle = (Math.PI * 2 * i) / count + Math.random() * 0.6;
-    const dist = 70 + Math.random() * (perfect ? 120 : 80);
-    p.style.setProperty("--dx", Math.cos(angle) * dist + "px");
-    p.style.setProperty("--dy", Math.sin(angle) * dist - 30 + "px");
-    p.style.setProperty("--rot", Math.random() * 720 - 360 + "deg");
-    p.style.background = colors[i % colors.length];
-    p.style.animationDelay = Math.random() * 60 + "ms";
-    layer.appendChild(p);
+  const halo = document.createElement("i");
+  halo.className = "glow-halo";
+  layer.appendChild(halo);
+
+  const motes = perfect ? 7 : 4;
+  for (let i = 0; i < motes; i++) {
+    const m = document.createElement("i");
+    m.className = "glow-mote";
+    const drift = (Math.random() - 0.5) * 90;
+    m.style.setProperty("--dx", drift + "px");
+    m.style.setProperty("--dy", -(50 + Math.random() * 70) + "px");
+    m.style.left = (Math.random() - 0.5) * 120 + "px";
+    m.style.animationDelay = i * 90 + "ms";
+    layer.appendChild(m);
   }
+
   document.body.appendChild(layer);
-  setTimeout(() => layer.remove(), 1200);
+  setTimeout(() => layer.remove(), 1800);
 }
 
 function closeAllMenus() {
