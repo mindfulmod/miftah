@@ -154,6 +154,8 @@
         setTimeout(() => {
           bubble.el.classList.remove("is-no");
           cross.remove();
+          // Scaffolded retry: the wrong pick quietly leaves the sky.
+          bubble.el.classList.add("is-scaffolded");
         }, 750);
         if (this.ctx.pulsePrompt) this.ctx.pulsePrompt();
         this.ctx.say(round.target); // repeat the question, never scold
@@ -171,7 +173,7 @@
       const dt = Math.min(0.05, (now - this.lastTime) / 1000);
       this.lastTime = now;
       for (const b of this.bubbles) {
-        if (b.el.classList.contains("is-popped")) continue;
+        if (b.el.classList.contains("is-popped") || b.el.classList.contains("is-scaffolded")) continue;
         b.y -= b.speed * this.heat.factor() * dt;
         if (b.y < -0.18) b.y = 1.12; // drift forever until popped
         b.el.style.top = `${b.y * 100}%`;
@@ -280,6 +282,10 @@
           this.basket.classList.remove("is-shake");
           void this.basket.offsetWidth;
           this.basket.classList.add("is-shake");
+          // Scaffolded retry: that distractor doesn't fall again this round.
+          round.options = round.options.filter(
+            (o) => o.id === round.target.id || o.id !== f.item.id,
+          );
         } else if (f.y > 1.05) {
           this.remove(f);
         }
@@ -449,6 +455,8 @@
         void el.offsetWidth;
         el.classList.add("is-shake");
         this.ctx.say(round.target);
+        // Scaffolded retry: the refused food quietly leaves the tray.
+        setTimeout(() => el.classList.add("is-scaffolded"), 650);
         return;
       }
       this.feeding = true;
@@ -886,6 +894,10 @@
         slotsEl.classList.remove("is-shake");
         void slotsEl.offsetWidth;
         slotsEl.classList.add("is-shake");
+        // Scaffolded retry: one decoy that led the build astray leaves.
+        const strayed = this.placed.find(
+          (p) => !target.parts.some((tp) => tp.display === p.part.display),
+        );
         setTimeout(() => {
           for (const p of this.placed) {
             p.slot.innerHTML = "";
@@ -893,6 +905,7 @@
             p.btn.classList.remove("is-used");
           }
           this.placed = [];
+          if (strayed) strayed.btn.classList.add("is-scaffolded");
           this.ctx.say(target);
         }, 800);
       }
@@ -1062,11 +1075,17 @@
         this.ctx.sfx("wrong");
         a.classList.add("is-shake");
         b.classList.add("is-shake");
+        // Scaffolded retry: the decoy vowel that fooled the fuse drifts off.
+        const decoyEl = [a, b].find((el) => {
+          const p = this.parts[Number(el.dataset.i)];
+          return p.kind === "vowel" && p.part.display !== target.parts[1].display;
+        });
         setTimeout(() => {
           a.classList.remove("is-shake");
           b.classList.remove("is-shake");
           this.springBack(a);
           this.springBack(b);
+          if (decoyEl) decoyEl.classList.add("is-scaffolded");
           this.ctx.say(target);
         }, 550);
         return;

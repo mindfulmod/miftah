@@ -1303,3 +1303,13 @@ body {
 }
 .map-deco svg { width: 100%; display: block; }
 @media (prefers-reduced-motion: reduce) { .map-deco { animation: none; } }
+
+/* Scaffolded retry (specs/02): after a wrong pick, the chosen option quietly
+   leaves — the child always lands on success within a tap or two. Opacity +
+   desaturation only, so positioned elements never jump. */
+.is-scaffolded {
+  opacity: 0.1 !important;
+  pointer-events: none !important;
+  filter: saturate(0.3);
+  transition: opacity 480ms var(--lg-out), filter 480ms var(--lg-out);
+}

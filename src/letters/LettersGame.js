@@ -800,7 +800,7 @@
         level: this.stars[s.world.id] || 0,
         say: (item) => sayWithPose(item),
         // The pet watches the child play: it hops on every right answer and
-        // droops in sympathy on a wrong pick — never scolding, just feeling.
+        // leans in, curious, on a wrong pick — never scolding, never sad.
         sfx: (name) => {
           this.sound.play(name);
           if (strength && currentTarget && (name === "correct" || name === "wrong")) {
@@ -818,10 +818,10 @@
             petEl.classList.add("is-hop");
           }
           if (name === "wrong" && petEl) {
+            // Warm, never sad (locked 2026-07-16): the pet just leans in,
+            // curious — errors are information, not emotion.
             setPetPose("listening", 1500);
             petEl.classList.remove("is-sad", "is-hop");
-            void petEl.offsetWidth;
-            petEl.classList.add("is-sad");
           }
         },
         confettiAt: (target) => this.confettiAt(target),
