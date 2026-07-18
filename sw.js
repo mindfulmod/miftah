@@ -4,7 +4,7 @@
 // - Shell (HTML/CSS/JS/fonts): stale-while-revalidate, ignoring ?v= cache-busters.
 // - data/*.json: network-first so rebuilt data lands promptly; cache fallback offline.
 // - Remote recitation audio: deliberately NOT intercepted — see AUDIO_HOSTS below.
-const VERSION = "miftah-v11";
+const VERSION = "miftah-v12";
 const SHELL_CACHE = `shell-${VERSION}`;
 const DATA_CACHE = `data-${VERSION}`;
 
@@ -25,6 +25,7 @@ const SHELL = [
   "review.js",
   "glossary.js",
   "fsrs.js",
+  "i18n.js",
   "strength.js",
   "tabbar.js",
   "src/core/RecitationAudio.js",

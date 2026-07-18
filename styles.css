@@ -2384,3 +2384,30 @@ h1 {
 }
 .review-opt[lang="ur"] { font-size: 1.05rem; padding-block: 14px; }
 .reveal-literal[lang="ur"], .reveal-translation[lang="ur"] { line-height: 2.1; }
+
+/* Whole-interface Urdu: chrome text renders in Nastaliq, but the Arabic
+   reading surfaces keep the mushaf face (they're Quran, not UI). */
+body.lang-ur .ayah-status,
+body.lang-ur .ayah-message,
+body.lang-ur .mistake-meter,
+body.lang-ur .review-card-prompt,
+body.lang-ur .progress-label,
+body.lang-ur .perfect-label,
+body.lang-ur .ring-label,
+body.lang-ur .ayah-read-cue,
+body.lang-ur .session-done-title,
+body.lang-ur .session-done-sub,
+body.lang-ur .session-done-streak,
+body.lang-ur .session-done-rescued,
+body.lang-ur .primary-btn,
+body.lang-ur .ghost-btn,
+body.lang-ur .primary-link,
+body.lang-ur .completion-msg {
+  font-family: "Noto Nastaliq Urdu", "Amiri Quran", serif;
+  line-height: 1.9;
+}
+/* The mistake meter is dense — Nastaliq needs a touch more room. */
+body.lang-ur .mistake-meter { line-height: 2.2; font-size: var(--fs-xs); }
+/* Urdu readers read the Arabic script fluently — the Latin transliteration
+   line is noise for them (spec: hide transliteration). */
+body.lang-ur .play-card-translit { display: none; }

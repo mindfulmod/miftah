@@ -22,6 +22,13 @@ const LANG = (() => {
 })();
 const URDU_FILE = withDataVersion(`data/urdu/surah-${SURAH_NUMBER}.json`);
 let urduTarjuma = new Map(); // ayah number -> flowing Urdu translation
+// Flip the whole trainer to RTL + Nastaliq chrome for an Urdu learner. The
+// reading area was already RTL; this carries the interface with it.
+if (LANG === "ur") {
+  document.documentElement.lang = "ur";
+  document.body.dir = "rtl";
+  document.body.classList.add("lang-ur");
+}
 // Remember the last-opened surah so the tab bar's Continue lands here.
 try {
   localStorage.setItem("quran-trainer:last-surah", String(SURAH_NUMBER));
@@ -836,12 +843,12 @@ function updateHeaderProgress() {
   els.progressFill.style.width = pct + "%";
   els.progressLabel.textContent =
     currentIndex >= total
-      ? "Complete ✓"
-      : `Ayah ${currentIndex + 1} of ${total}`;
+      ? I18N.t("progressComplete")
+      : I18N.t("progressAyah", currentIndex + 1, total);
 
   if (perfectSet.size > 0) {
     els.perfectLabel.hidden = false;
-    els.perfectLabel.textContent = `★ Perfect ${perfectSet.size}/${total}`;
+    els.perfectLabel.textContent = I18N.t("perfect", perfectSet.size, total);
   } else {
     els.perfectLabel.hidden = true;
   }
@@ -1074,11 +1081,11 @@ function renderSessionComplete(streak) {
 
   const h = document.createElement("h2");
   h.className = "session-done-title";
-  h.textContent = "Session complete";
+  h.textContent = I18N.t("sessionTitle");
 
   const sub = document.createElement("p");
   sub.className = "session-done-sub";
-  sub.textContent = `That's your ${PACES[getPace()].minutes} focused minutes for today. Resting now beats rushing — let it settle and come back tomorrow.`;
+  sub.textContent = I18N.t("sessionSub", PACES[getPace()].minutes);
 
   // Pace presets, not a slider (locked 2026-07-16): who are you today?
   const paceRow = document.createElement("div");
@@ -1121,19 +1128,19 @@ function renderSessionComplete(streak) {
   const more = document.createElement("button");
   more.type = "button";
   more.className = "primary-btn";
-  more.textContent = "Keep going ›";
+  more.textContent = I18N.t("keepGoing");
   more.addEventListener("click", () => render({ focusCurrent: true }));
 
   const share = document.createElement("button");
   share.type = "button";
   share.className = "ghost-btn gold";
-  share.textContent = "Share today's progress";
+  share.textContent = I18N.t("shareProgress");
   share.addEventListener("click", () => shareSessionCard({ streak, rescued }));
 
   const back = document.createElement("a");
   back.className = "ghost-btn";
   back.href = PICKER_URL;
-  back.textContent = "Back to surahs";
+  back.textContent = I18N.t("backToSurahs");
 
   cta.append(more, share, back);
   panel.append(ring, h, sub, streakEl);
@@ -1181,10 +1188,10 @@ function renderReviewCard(word, onDone, { inflow = true, banner = null } = {}) {
   tag.textContent =
     banner ||
     (mode === "listen"
-      ? "↻ Quick review — by ear this time"
+      ? I18N.t("reviewByEar")
       : mode === "reverse"
-        ? "↻ Quick review — now produce it"
-        : "↻ Quick review — this one was due");
+        ? I18N.t("reviewProduce")
+        : I18N.t("reviewDue"));
   head.appendChild(tag);
 
   const arabic = document.createElement("div");
@@ -1194,7 +1201,7 @@ function renderReviewCard(word, onDone, { inflow = true, banner = null } = {}) {
 
   const prompt = document.createElement("p");
   prompt.className = "review-card-prompt";
-  prompt.textContent = "What does it mean?";
+  prompt.textContent = I18N.t("reviewMeaningPrompt");
 
   const opts = document.createElement("div");
   opts.className = "review-card-options";
@@ -1205,11 +1212,11 @@ function renderReviewCard(word, onDone, { inflow = true, banner = null } = {}) {
   let listenBtn = null;
   if (mode === "listen") {
     arabic.hidden = true; // revealed after answering
-    prompt.textContent = "Listen — which meaning is it?";
+    prompt.textContent = I18N.t("listenPrompt");
     listenBtn = document.createElement("button");
     listenBtn.type = "button";
     listenBtn.className = "listen-btn";
-    listenBtn.textContent = "🔊 Play the word";
+    listenBtn.textContent = I18N.t("playWord");
     listenBtn.addEventListener("click", () => recite.playWord(word.audioPath));
   } else if (mode === "reverse") {
     arabic.hidden = true; // the script IS the answer
@@ -1242,14 +1249,14 @@ function renderReviewCard(word, onDone, { inflow = true, banner = null } = {}) {
     });
 
     feedback.textContent = recalled
-      ? "Recalled ✓ — it'll come back less often now."
-      : `Not yet — this word means “${shownGloss(word)}”. It'll return soon.`;
+      ? I18N.t("recalled")
+      : I18N.t("notYet", shownGloss(word));
     feedback.className = "ayah-message " + (recalled ? "pass" : "reset");
 
     const cont = document.createElement("button");
     cont.type = "button";
     cont.className = "primary-link";
-    cont.textContent = "Continue →";
+    cont.textContent = I18N.t("continue");
     cont.addEventListener("click", onDone);
     card.appendChild(cont);
   };
@@ -1307,7 +1314,7 @@ function renderContrastDrill(drill) {
 
   const prompt = document.createElement("p");
   prompt.className = "review-card-prompt";
-  prompt.textContent = "Only two choices — which is it?";
+  prompt.textContent = I18N.t("contrastPrompt");
 
   const opts = document.createElement("div");
   opts.className = "review-card-options";
@@ -1317,7 +1324,7 @@ function renderContrastDrill(drill) {
 
   const ask = () => {
     const word = pair[round];
-    tag.textContent = `⚡ Tell-apart ${round + 1}/2 — you keep swapping these`;
+    tag.textContent = I18N.t("contrastTag", round + 1);
     arabic.textContent = word.arabic;
     feedback.textContent = "";
     feedback.className = "ayah-message";
@@ -1351,14 +1358,12 @@ function renderContrastDrill(drill) {
       confusions[drill.key] = clean ? 0 : 1;
       saveConfusions();
       lastReviewIndex = currentIndex;
-      feedback.textContent = clean
-        ? "Untangled ✓ — both told apart, first try."
-        : "Done — one slip, so this pair will visit once more.";
+      feedback.textContent = clean ? I18N.t("untangled") : I18N.t("oneSlip");
       feedback.className = "ayah-message " + (clean ? "pass" : "reset");
       const cont = document.createElement("button");
       cont.type = "button";
       cont.className = "primary-link";
-      cont.textContent = "Continue →";
+      cont.textContent = I18N.t("continue");
       cont.addEventListener("click", () => render({ focusCurrent: true }));
       card.appendChild(cont);
       return;
@@ -1387,7 +1392,7 @@ function renderPassedAyah(ayah) {
   const isPerfect = perfectSet.has(ayah.number);
   node.classList.add(isPerfect ? "perfect-pass" : "complete-pass");
   const statusEl = node.querySelector(".ayah-status");
-  statusEl.textContent = "Passed ✓";
+  statusEl.textContent = I18N.t("passed");
   statusEl.after(hearAyahButton(ayah.number));
   if (isPerfect) {
     const badge = document.createElement("span");
@@ -1448,7 +1453,7 @@ function renderActiveAyah(ayah) {
   });
   const readCue = document.createElement("p");
   readCue.className = "ayah-read-cue";
-  readCue.textContent = "Read the verse through first — then decode each word below.";
+  readCue.textContent = I18N.t("readCue");
   readCue.appendChild(hearAyahButton(ayah.number, "Hear this ayah recited before you begin"));
   const readWrap = document.createElement("div");
   readWrap.className = "ayah-read-wrap";
@@ -1474,7 +1479,7 @@ function renderActiveAyah(ayah) {
   card.append(cardArabic, cardTranslit);
   const prompt = document.createElement("p");
   prompt.className = "review-card-prompt";
-  prompt.textContent = "What does this word mean?";
+  prompt.textContent = I18N.t("wordMeaning");
   const optsEl = document.createElement("div");
   optsEl.className = "review-card-options";
   playEl.append(card, prompt, optsEl);
@@ -1492,13 +1497,13 @@ function renderActiveAyah(ayah) {
     missedNow: new Set(), // word indexes slipped on, for rescue detection
   };
 
-  statusEl.textContent = "Decode the verse, word by word";
+  statusEl.textContent = I18N.t("decodePrompt");
 
   const activeWord = () => ayah.words[state.idx];
   cardArabic.addEventListener("click", () => recite.playWord(activeWord()?.audioPath));
 
   function updateMeter() {
-    meterEl.textContent = `Slips: ${state.mistakes} / ${state.budget} · Word ${Math.min(state.idx + 1, state.total)}/${state.total}`;
+    meterEl.textContent = I18N.t("slips", state.mistakes, state.budget, Math.min(state.idx + 1, state.total), state.total);
     meterEl.classList.toggle("danger", state.mistakes >= state.budget);
   }
 
@@ -1516,9 +1521,7 @@ function renderActiveAyah(ayah) {
     state.solved.clear();
     state.missedNow.clear();
     state.idx = 0;
-    msgEl.textContent =
-      `Let's run this ayah again — no penalty. ` +
-      `From here I'll explain each slip as you go, so it sticks.`;
+    msgEl.textContent = I18N.t("runAgain");
     msgEl.className = "ayah-message reset";
     updateMeter();
     askWord();
@@ -1536,8 +1539,7 @@ function renderActiveAyah(ayah) {
     opts.forEach((b) => {
       if (!keep.has(b.dataset.val)) b.remove();
     });
-    msgEl.textContent =
-      "Narrowed to two. This won't count as Perfect, but it's free.";
+    msgEl.textContent = I18N.t("narrowed");
     msgEl.className = "ayah-message";
   }
 
@@ -1562,7 +1564,7 @@ function renderActiveAyah(ayah) {
     const hintBtn = document.createElement("button");
     hintBtn.type = "button";
     hintBtn.className = "play-hint";
-    hintBtn.textContent = "🤔 Not sure — narrow it down";
+    hintBtn.textContent = I18N.t("notSure");
     hintBtn.addEventListener("click", () => useHint(hintBtn));
     optsEl.appendChild(hintBtn);
     paintLine();
@@ -1584,7 +1586,7 @@ function renderActiveAyah(ayah) {
       // a mistake becomes mastery feels like a reward, not a blemish.
       if (state.missedNow.delete(state.idx)) {
         bumpRescued();
-        msgEl.textContent = "💪 Got it — a slip turned into a win.";
+        msgEl.textContent = I18N.t("rescued");
         msgEl.className = "ayah-message pass";
       } else {
         // Root-family micro-lesson: at the moment of success, connect this
@@ -1646,9 +1648,7 @@ function renderActiveAyah(ayah) {
       return;
     }
 
-    msgEl.textContent = `Not quite — ${remaining} mistake${
-      remaining === 1 ? "" : "s"
-    } left before this ayah resets.`;
+    msgEl.textContent = I18N.t("slipsLeft", remaining);
     msgEl.className = "ayah-message reset";
   }
 
@@ -1658,7 +1658,7 @@ function renderActiveAyah(ayah) {
 
     const reveal = node.querySelector(".ayah-reveal");
     const badge = reveal.querySelector(".reveal-badge");
-    badge.textContent = perfect ? "★ Perfect — no mistakes" : "Complete ✓";
+    badge.textContent = perfect ? I18N.t("badgePerfect") : I18N.t("badgeComplete");
     badge.classList.toggle("perfect", perfect);
     fillRevealText(reveal, ayah);
     fillRevealRoots(reveal, ayah);
