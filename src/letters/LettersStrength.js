@@ -68,6 +68,31 @@
       return errorRate * 3 + hesitancy * 0.6 + staleDays * 0.07 - Math.min(e.streak, 4) * 0.3;
     }
 
+    // Mastery of a single skill, 0..1 — the friendly inverse of weakness,
+    // driving the mastery garden's growth. A never-seen skill is 0 (a bare
+    // seed); a hot, fast, well-remembered one approaches 1 (full bloom).
+    mastery(id) {
+      const e = this.map[id];
+      if (!e) return 0;
+      const seen = e.r + e.w;
+      if (!seen) return 0;
+      const accuracy = e.r / seen; // 0..1
+      const fastShare = e.r > 0 ? e.fast / (e.fast + e.slow || 1) : 0;
+      const streakBoost = Math.min(e.streak, 5) / 5;
+      // Weight accuracy most, then confidence (speed + streak), gated by a
+      // little exposure so one lucky tap doesn't bloom a flower.
+      const exposure = Math.min(seen / 4, 1);
+      return Math.max(0, Math.min(1, (accuracy * 0.6 + fastShare * 0.2 + streakBoost * 0.2) * exposure));
+    }
+
+    // Average mastery across a world's items, 0..1 — one number for how well
+    // the child holds a whole chapter, for the map's mastery plants.
+    worldMastery(items) {
+      if (!items || !items.length) return 0;
+      const sum = items.reduce((a, item) => a + this.mastery(item.id), 0);
+      return sum / items.length;
+    }
+
     // The daily bouquet: the n weakest of the given items (stable ids),
     // shuffled so the child never senses a ranking.
     weakest(items, n) {

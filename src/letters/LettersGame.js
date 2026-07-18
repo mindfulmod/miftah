@@ -553,6 +553,42 @@
       return D[biome] || "";
     }
 
+    // The mastery garden (spec: specs/02): every chapter grows a plant beside
+    // its stop that reflects how well the child holds it — seeded when first
+    // met, sprouting and budding as strength climbs, in full bloom at mastery.
+    // The strength model made beautiful; walking the map = seeing what you know.
+    worldMasteryOf(world) {
+      try {
+        const items = world.items ? world.items() : [];
+        return ns.LettersStrength ? ns.LettersStrength.worldMastery(items) : 0;
+      } catch {
+        return 0;
+      }
+    }
+    masteryPlant(m) {
+      const ink = "#3a2c48";
+      const stem = `<path d="M24 46 C24 40 23 34 24 26" fill="none" stroke="#4e9677" stroke-width="3" stroke-linecap="round"/>`;
+      const leaves = `<path d="M24 38 C16 36 13 30 12 25 C19 25 24 30 24 36 Z" fill="#5cc23e" stroke="${ink}" stroke-width="1.4"/>
+        <path d="M24 34 C32 32 35 27 36 22 C29 22 24 27 24 32 Z" fill="#6fce4e" stroke="${ink}" stroke-width="1.4"/>`;
+      if (m < 0.15) {
+        // seed: a little mound with a green tip
+        return `<svg viewBox="0 0 48 50"><ellipse cx="24" cy="45" rx="9" ry="4" fill="#b07a4a"/><path d="M24 44 C23 40 23 39 24 37" stroke="#5cc23e" stroke-width="3" stroke-linecap="round" fill="none"/></svg>`;
+      }
+      if (m < 0.42) {
+        // sprout: short stem + one leaf
+        return `<svg viewBox="0 0 48 50"><ellipse cx="24" cy="46" rx="8" ry="3.5" fill="#b07a4a" opacity="0.6"/><path d="M24 46 C24 40 23 36 24 32" stroke="#4e9677" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M24 40 C17 38 14 33 13 29 C20 29 24 33 24 38 Z" fill="#5cc23e" stroke="${ink}" stroke-width="1.4"/></svg>`;
+      }
+      if (m < 0.72) {
+        // bud: full stem, leaves, closed bud
+        return `<svg viewBox="0 0 48 50">${stem}${leaves}<ellipse cx="24" cy="22" rx="6" ry="8" fill="#ff8fb1" stroke="${ink}" stroke-width="1.5"/><path d="M24 14 C22 18 22 20 24 22 C26 20 26 18 24 14 Z" fill="#ffa9c4"/></svg>`;
+      }
+      // bloom: open flower
+      const petals = [0, 72, 144, 216, 288]
+        .map((a) => `<ellipse cx="24" cy="12" rx="5.5" ry="8" fill="#ff8fb1" stroke="${ink}" stroke-width="1.4" transform="rotate(${a} 24 20)"/>`)
+        .join("");
+      return `<svg viewBox="0 0 48 50">${stem}${leaves}<g>${petals}<circle cx="24" cy="20" r="5" fill="#ffc22e" stroke="${ink}" stroke-width="1.4"/></g></svg>`;
+    }
+
     renderHome() {
       this.applyPhase();
       this.root.style.setProperty("--lg-hue", "150");
@@ -602,8 +638,14 @@
               .map((world, i) => {
                 const status = this.statusOf(world);
                 const at = `left:${xOf(i)}%; top:${yOf(i)}px`;
+                // A mastery plant grows beside every met world, its stage set
+                // by how well the child holds that chapter's letters.
+                const plant = status !== "locked"
+                  ? `<span class="map-plant" style="left:${xOf(i) + (i % 2 === 0 ? -30 : 30)}%; top:${yOf(i) + 40}px">${this.masteryPlant(this.worldMasteryOf(world))}</span>`
+                  : "";
                 return `
                   ${status === "done" ? `<span class="map-bloom" style="${at}">${Art.bloomCluster({ seed: i + 1 })}</span>` : ""}
+                  ${plant}
                   <span class="map-deco" style="left:${xOf(i) + (i % 2 === 0 ? 34 : -34)}%; top:${yOf(i) + 46}px">${this.biomeDeco(world.biome)}</span>
                   <button type="button" class="map-stop is-${status}" data-world="${world.id}" ${status === "locked" ? "disabled" : ""} style="${at}">
                     ${Art.mapStop({ hue: world.hue, label: world.icon, status, stars: this.stars[world.id] || 0, latin: !/[؀-ۿ]/.test(world.icon) })}

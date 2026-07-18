@@ -1357,3 +1357,15 @@ body {
 }
 @keyframes ff-glow { 0%,100% { opacity: 0.25; } 50% { opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .lg-ambient { display: none; } }
+
+/* ---------- mastery garden: plants that grow with what the child knows ---------- */
+.map-plant {
+  position: absolute;
+  width: 54px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  filter: drop-shadow(0 3px 3px rgba(58, 44, 72, 0.18));
+  animation: lg-sway 4.8s ease-in-out infinite;
+}
+.map-plant svg { width: 100%; display: block; }
+@media (prefers-reduced-motion: reduce) { .map-plant { animation: none; } }
