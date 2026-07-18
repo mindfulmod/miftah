@@ -15,6 +15,7 @@
 
 const LANG_KEY = "quran-trainer:lang"; // "en" (default) | "ur"
 const SETUP_KEY = "quran-trainer:setup"; // { done: true, at } once the wizard ran
+const WEEKLY_KEY = "quran-trainer:weekly"; // { lastShown: dateStr } — the weekly letter
 const PACE_KEY = "quran-trainer:pace";
 const SESSION_KEY = "quran-trainer:session";
 const STREAK_KEY = "quran-trainer:streak";
@@ -62,6 +63,10 @@ const STRINGS = {
     startFatihahHint: "The opening of the Book — where every reader begins",
     startChoose: "Choose a surah",
     startChooseHint: "Browse the whole list first",
+    weeklyTitle: "Your week",
+    weeklyReviews: (n) => `${n} review${n === 1 ? "" : "s"} this week`,
+    weeklyWords: (n) => `${n} word${n === 1 ? "" : "s"} known and growing`,
+    weeklyClose: "Lovely — keep going",
   },
   ur: {
     title: "آج",
@@ -94,6 +99,10 @@ const STRINGS = {
     startFatihahHint: "کتاب کا آغاز — ہر پڑھنے والے کی پہلی سورت",
     startChoose: "سورت خود چنیں",
     startChooseHint: "پہلے پوری فہرست دیکھیں",
+    weeklyTitle: "آپ کا ہفتہ",
+    weeklyReviews: (n) => `اس ہفتے ${n} دہرائیاں`,
+    weeklyWords: (n) => `${n} الفاظ آتے ہیں اور بڑھ رہے ہیں`,
+    weeklyClose: "بہت خوب — جاری رکھیں",
   },
 };
 
@@ -242,6 +251,35 @@ function render() {
     const el = document.getElementById("today-coverage");
     if (el && line) el.textContent = line;
   });
+
+  maybeWeeklyLetter();
+}
+
+// The weekly letter: a warm recap that surfaces at most once every 7 days,
+// peak-end design over the numbers we already keep. Never guilt, only growth.
+function daysBetween(a, b) {
+  return Math.floor((a - b) / 86400000);
+}
+function maybeWeeklyLetter() {
+  const t = T();
+  const digest = WordStrength.weeklyDigest();
+  if (digest.reviews < 5) return; // nothing worth writing home about yet
+  const rec = LS.get(WEEKLY_KEY, null);
+  const now = Date.now();
+  if (rec && rec.shownAt && daysBetween(now, rec.shownAt) < 7) return;
+
+  const card = document.createElement("div");
+  card.className = "today-weekly session-done";
+  card.innerHTML =
+    `<div class="weekly-label">✦ ${t.weeklyTitle}</div>` +
+    `<p class="weekly-line">${t.weeklyReviews(digest.reviews)}</p>` +
+    `<p class="weekly-line">${t.weeklyWords(digest.wordsKnown)}</p>` +
+    `<button type="button" class="ghost-btn weekly-close">${t.weeklyClose}</button>`;
+  document.getElementById("app").prepend(card);
+  card.querySelector(".weekly-close").onclick = () => {
+    LS.set(WEEKLY_KEY, { shownAt: now });
+    card.remove();
+  };
 }
 
 // ---------- first-run wizard ----------

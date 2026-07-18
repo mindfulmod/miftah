@@ -156,6 +156,21 @@ const WordStrength = (() => {
     while (days.length > 14) delete s.daily[days.shift()];
   }
 
+  // A week's worth of numbers for the weekly letter: total reviews across all
+  // sources in the last 7 days, and how many words have any review history.
+  function weeklyDigest(now = Date.now()) {
+    const s = load();
+    let reviews = 0;
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(now - i * DAY);
+      const day = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+      const rec = (s.daily || {})[day];
+      if (rec) reviews += Object.values(rec).reduce((a, b) => a + b, 0);
+    }
+    const wordsKnown = entries().filter((e) => e.fsrs && e.fsrs.reps > 0).length;
+    return { reviews, wordsKnown };
+  }
+
   // Fraction of the last `days` days' reviews that came from `source`
   // (0..1), plus the raw counts for honest display.
   function reviewShare(source = "game", days = 7, now = Date.now()) {
@@ -341,6 +356,7 @@ const WordStrength = (() => {
     strongWords,
     retrievabilityOf,
     reviewShare,
+    weeklyDigest,
     _save: save,
   };
 })();

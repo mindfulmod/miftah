@@ -1062,6 +1062,28 @@ async function shareSessionCard({ streak, rescued }) {
   setTimeout(() => URL.revokeObjectURL(a.href), 30000);
 }
 
+// A word from the ayahs still ahead in this surah that the learner hasn't met
+// yet — favouring content words (a real root, some heft) over bare particles,
+// so tomorrow's promise is something worth savoring. Null if nothing new lies
+// ahead (e.g. the surah is finished).
+const TEASER_SKIP = new Set(["and", "the", "not", "of", "to", "in", "on", "a", "o", "but", "so", "then"]);
+function pickTeaserWord() {
+  if (!surah) return null;
+  const seen = new Set(WordStrength.entries().map((e) => e.id));
+  const candidates = [];
+  for (const ayah of surah.ayahs.slice(currentIndex)) {
+    for (const w of ayah.words) {
+      if (seen.has(wordId(w))) continue;
+      const key = beginnerGlossKey(answerFor(w));
+      if (w.root && key && key.length > 2 && !TEASER_SKIP.has(key)) candidates.push(w);
+    }
+    if (candidates.length >= 10) break;
+  }
+  return candidates.length
+    ? candidates[Math.floor(Math.random() * candidates.length)]
+    : null;
+}
+
 function renderSessionComplete(streak) {
   els.app.innerHTML = "";
   updateHeaderProgress();
@@ -1122,6 +1144,21 @@ function renderSessionComplete(streak) {
     } rescued</strong> today — slips you turned into wins. That's where it sticks.`;
   }
 
+  // Anticipation teaser: one beautiful word from the ayahs still ahead, to
+  // turn over in the mind until tomorrow. Engineered anticipation is the
+  // strongest comeback driver there is, and it costs almost nothing.
+  const teaserWord = pickTeaserWord();
+  let teaserEl = null;
+  if (teaserWord) {
+    teaserEl = document.createElement("div");
+    teaserEl.className = "session-teaser";
+    teaserEl.innerHTML =
+      `<div class="teaser-label">${I18N.t("teaserTitle")}</div>` +
+      `<div class="teaser-word ar" lang="ar">${teaserWord.arabic}</div>` +
+      `<div class="teaser-gloss"${LANG === "ur" ? ' lang="ur"' : ""}>${shownGloss(teaserWord)}</div>` +
+      `<div class="teaser-sub">${I18N.t("teaserSub")}</div>`;
+  }
+
   const cta = document.createElement("div");
   cta.className = "session-done-cta";
 
@@ -1145,6 +1182,7 @@ function renderSessionComplete(streak) {
   cta.append(more, share, back);
   panel.append(ring, h, sub, streakEl);
   if (rescuedEl) panel.append(rescuedEl);
+  if (teaserEl) panel.append(teaserEl);
   panel.append(cta, paceRow);
   els.app.appendChild(panel);
 

@@ -2411,3 +2411,29 @@ body.lang-ur .mistake-meter { line-height: 2.2; font-size: var(--fs-xs); }
 /* Urdu readers read the Arabic script fluently — the Latin transliteration
    line is noise for them (spec: hide transliteration). */
 body.lang-ur .play-card-translit { display: none; }
+
+/* ---------- anticipation teaser (session-complete) ---------- */
+.session-teaser {
+  margin: 4px auto 0;
+  max-width: 340px;
+  padding: 16px 20px;
+  text-align: center;
+  border-radius: var(--radius-lg);
+  border: 1px solid color-mix(in srgb, var(--gold) 30%, var(--line));
+  background: linear-gradient(180deg, color-mix(in srgb, var(--gold) 7%, var(--panel)), var(--panel) 70%);
+}
+.teaser-label {
+  font-size: var(--fs-xs);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+.teaser-word {
+  font-family: "Uthmanic Hafs", "Amiri Quran", serif;
+  font-size: 2.2rem;
+  line-height: 1.6;
+  color: var(--text);
+}
+.teaser-gloss { font-size: var(--fs-md); color: var(--text); margin-top: 2px; }
+.teaser-sub { font-size: var(--fs-xs); color: var(--muted); margin-top: 8px; line-height: 1.5; }
