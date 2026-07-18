@@ -1438,3 +1438,33 @@ body {
   animation: lg-pop 0.6s var(--lg-spring-big) both;
 }
 .party-capstone svg { flex-shrink: 0; }
+
+/* ---------- pet radiance: shines with what the child knows (specs/02) ---------- */
+.pet-big { position: relative; }
+.pet-aura {
+  position: absolute;
+  left: 50%; top: 48%;
+  width: calc(180px + var(--pet-radiance, 0) * 120px);
+  height: calc(180px + var(--pet-radiance, 0) * 120px);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: calc(0.25 + var(--pet-radiance, 0) * 0.6);
+  background: radial-gradient(circle,
+    rgba(255, 236, 150, calc(0.35 + var(--pet-radiance, 0) * 0.4)) 0%,
+    rgba(255, 224, 120, 0.18) 42%,
+    transparent 70%);
+  animation: pet-radiate 3.4s ease-in-out infinite;
+}
+.pet-big.is-radiant .pet-aura::after {
+  content: "";
+  position: absolute; inset: 0; border-radius: 50%;
+  background: radial-gradient(circle, transparent 55%, rgba(255,245,190,calc(var(--pet-radiance,0)*0.5)) 72%, transparent 78%);
+}
+.pet-big > svg, .pet-big .art-pet { position: relative; z-index: 1; }
+@keyframes pet-radiate {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(1.06); }
+}
+@media (prefers-reduced-motion: reduce) { .pet-aura { animation: none; } }

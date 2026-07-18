@@ -199,6 +199,27 @@
       return done >= 15 ? 3 : done >= 5 ? 2 : 1;
     }
 
+    // Pet radiance (spec: specs/02) — the companion literally shines brighter
+    // as the child LEARNS, not as they spend. Driven by how many letters have
+    // grown strong in the quiet strength model, so a glow-up is earned by
+    // knowing, never bought. 0..1.
+    petRadiance() {
+      const strength = ns.LettersStrength;
+      if (!strength) return 0;
+      const letters = ns.LETTERS_DATA.packs.flatMap((p) => p.letters);
+      let met = 0;
+      let strong = 0;
+      for (const l of letters) {
+        const e = strength.map[l.char];
+        if (e && e.r + e.w > 0) {
+          met += 1;
+          if (strength.mastery(l.char) >= 0.7) strong += 1;
+        }
+      }
+      if (met < 3) return 0;
+      return Math.min(1, strong / letters.length + 0.05);
+    }
+
     // Everything the child has taught the pet: letters from finished packs.
     petKnowledge() {
       const known = [];
@@ -299,9 +320,10 @@
       const el = this.screen(
         "lg-pet",
         `${this.topBar()}
-        <div class="pet-stage">
+        <div class="pet-stage" style="--pet-radiance:${this.petRadiance().toFixed(2)}">
           <span class="lg-star-chip">${Art.icon("star", 20)} <b>${this.starBalance()}</b></span>
-          <button type="button" class="pet-big">
+          <button type="button" class="pet-big${this.petRadiance() > 0.15 ? " is-radiant" : ""}">
+            <span class="pet-aura" aria-hidden="true"></span>
             <span class="pet-bubble" hidden></span>
             ${this.petSVG(230)}
           </button>
