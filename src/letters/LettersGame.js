@@ -512,7 +512,10 @@
       return `
         <div class="lg-topbar">
           ${home ? `<button type="button" class="lg-round-btn lg-home">${Art.icon("home", 32)}</button>` : "<span></span>"}
-          <button type="button" class="lg-round-btn lg-sound">${Art.icon("speaker", 32)}</button>
+          <div class="lg-topbar-right">
+            <button type="button" class="lg-round-btn lg-sound">${Art.icon("speaker", 32)}</button>
+            <button type="button" class="lg-grownup-dot" aria-label="For grown-ups (hold)" title="For grown-ups — hold"></button>
+          </div>
         </div>`;
     }
 
@@ -534,6 +537,113 @@
         syncSound();
       });
       syncSound();
+
+      // The grown-up corner is gated behind a 3-second hold (spec: specs/02)
+      // so a child never wanders in, but a parent opens it in one gesture.
+      const dot = el.querySelector(".lg-grownup-dot");
+      if (dot) {
+        let timer = null;
+        const start = () => {
+          dot.classList.add("is-holding");
+          timer = setTimeout(() => {
+            dot.classList.remove("is-holding");
+            this.sound.play("page");
+            this.renderGrownup();
+          }, 3000);
+        };
+        const cancel = () => {
+          dot.classList.remove("is-holding");
+          if (timer) clearTimeout(timer);
+          timer = null;
+        };
+        dot.addEventListener("pointerdown", start);
+        dot.addEventListener("pointerup", cancel);
+        dot.addEventListener("pointerleave", cancel);
+        dot.addEventListener("pointercancel", cancel);
+      }
+    }
+
+    // ---------- the grown-up corner (parent-gated) ----------
+    // One calm screen for a co-learning adult: how each letter is holding
+    // (strong / growing / needs love), the streak of play-days, and three
+    // letters worth asking the child to read aloud — the app's own "try this"
+    // that turns a strength number into a 30-second family moment.
+    renderGrownup() {
+      const strength = ns.LettersStrength;
+      const letters = ns.LETTERS_DATA.packs.flatMap((p) => p.letters);
+      const bucket = (m, seen) => (!seen ? "new" : m >= 0.7 ? "strong" : m >= 0.35 ? "growing" : "love");
+      const rows = letters.map((l) => {
+        const e = strength && strength.map[l.char];
+        const seen = !!(e && e.r + e.w > 0);
+        const m = strength ? strength.mastery(l.char) : 0;
+        return { l, m, seen, b: bucket(m, seen) };
+      });
+      const counts = { strong: 0, growing: 0, love: 0, new: 0 };
+      rows.forEach((r) => (counts[r.b] += 1));
+      // "Ask them to read these" — the shakiest SEEN letters, up to three.
+      const askThese = rows
+        .filter((r) => r.seen && r.b !== "strong")
+        .sort((a, b) => a.m - b.m)
+        .slice(0, 3);
+
+      const days = (this.stamps.dates || []).length;
+
+      const grid = rows
+        .map(
+          (r) => `<span class="gu-cell gu-${r.b}" title="${r.l.name}">
+            <span class="gu-ar" dir="rtl" lang="ar">${r.l.char}</span></span>`,
+        )
+        .join("");
+
+      const askHTML = askThese.length
+        ? `<div class="gu-ask-cards">${askThese
+            .map(
+              (r) => `<div class="gu-ask-card"><span class="gu-ask-ar" dir="rtl" lang="ar">${r.l.char}</span><span class="gu-ask-name">${r.l.name}</span></div>`,
+            )
+            .join("")}</div>`
+        : `<p class="gu-ask-none">Once they've played a little, three letters to practice together will appear here.</p>`;
+
+      const el = this.screen(
+        "lg-grownup",
+        `${this.topBar({ home: true })}
+        <div class="gu-scroll">
+          <div class="gu-head lg-panel">
+            <h2>For grown-ups</h2>
+            <p>A quiet look at how the letters are settling in.</p>
+            <div class="gu-stat-row">
+              <div class="gu-stat"><b>${days}</b><span>day${days === 1 ? "" : "s"} played</span></div>
+              <div class="gu-stat"><b>${counts.strong}</b><span>strong</span></div>
+              <div class="gu-stat"><b>${counts.growing}</b><span>growing</span></div>
+              <div class="gu-stat"><b>${counts.love}</b><span>needs love</span></div>
+            </div>
+          </div>
+          <div class="gu-section lg-panel">
+            <h3>Every letter, at a glance</h3>
+            <div class="gu-legend">
+              <span><i class="gu-dot gu-strong"></i>strong</span>
+              <span><i class="gu-dot gu-growing"></i>growing</span>
+              <span><i class="gu-dot gu-love"></i>needs love</span>
+              <span><i class="gu-dot gu-new"></i>not yet met</span>
+            </div>
+            <div class="gu-grid">${grid}</div>
+          </div>
+          <div class="gu-section lg-panel">
+            <h3>Try asking them to read these</h3>
+            <p class="gu-sub">A gentle 30 seconds together — no app needed.</p>
+            ${askHTML}
+          </div>
+          <div class="gu-section lg-panel">
+            <h3>Sound</h3>
+            <button type="button" class="lg-big-btn gu-sound-toggle">${this.sound.enabled ? "Sound is on" : "Sound is off"}</button>
+          </div>
+        </div>`,
+      );
+      this.wireTopBar(el, null);
+      const st = el.querySelector(".gu-sound-toggle");
+      st.addEventListener("click", () => {
+        this.sound.toggle ? this.sound.toggle() : (this.sound.enabled = !this.sound.enabled);
+        st.textContent = this.sound.enabled ? "Sound is on" : "Sound is off";
+      });
     }
 
     // ---------- home: the journey map ----------
