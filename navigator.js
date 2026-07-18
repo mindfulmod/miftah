@@ -76,6 +76,11 @@ window.SN = window.SN || {};
     // Marked bounties (specs/03): words that fought back last voyage return
     // as visibly 'marked' enemies — beating one is a genuine spaced re-test.
     bounties: [],
+    // Heat (specs/03): the long-arc difficulty dial. Unlocks a level per win,
+    // chosen before departure — hotter seas hit faster and hide more, but pay
+    // out richer. Player-controlled, so growing mastery IS why new challenge
+    // exists (the Hades answer to "you already know your words").
+    heat: 0,
     skill: { acc: 0.6, spd: 0.45 },
     versesCompleted: {},
     equippedKeepsake: null,
@@ -550,14 +555,30 @@ window.SN = window.SN || {};
     const quick = correct ? clamp01(1 - ms / Math.max(1, allowed)) : 0;
     s.spd = s.spd * 0.9 + quick * 0.1;
   };
+  // Heat — the player-chosen difficulty dial. One level unlocks per win,
+  // capped, and it only applies once at least one win exists.
+  const HEAT_MAX = 5;
+  SN.heatCap = () => Math.min(HEAT_MAX, state.meta.wins || 0);
+  SN.heat = () => Math.min(Math.max(state.meta.heat || 0, 0), SN.heatCap());
+  SN.setHeat = (h) => {
+    state.meta.heat = Math.min(Math.max(h | 0, 0), SN.heatCap());
+    SN.saveMeta();
+  };
+  // Heat's pearl reward multiplier — the incentive to turn the dial up.
+  SN.heatReward = () => 1 + 0.2 * SN.heat();
+
   SN.knobs = () => {
     const s = state.meta.skill;
     const level = clamp01(s.acc * 0.7 + s.spd * 0.3);
+    const heat = SN.heat();
     return {
       level,
       options: 3 + (level > 0.55 ? 1 : 0) + (level > 0.82 ? 1 : 0),
-      timeMs: Math.round(lerp(14000, 7500, level)),
-      similarity: clamp01((level - 0.25) * 1.2),
+      // Hotter seas run the answer clock faster…
+      timeMs: Math.round(lerp(14000, 7500, level) * (1 - 0.06 * heat)),
+      // …and slip more look-alike distractors into the mix.
+      similarity: clamp01((level - 0.25) * 1.2 + heat * 0.08),
+      heat,
     };
   };
 
@@ -1107,9 +1128,26 @@ window.SN = window.SN || {};
       <div class="lastrun-chip panel">Last voyage: <b>${m.lastRun.outcome === "victory" ? "the Watcher calmed ✦" : "the sea prevailed"}</b>
         · ${m.lastRun.rescued} word${m.lastRun.rescued === 1 ? "" : "s"} rescued · ${m.lastRun.banked} pearls brought home</div>` : "";
 
+    // The home grows with the voyage (specs/03): ships you've unlocked moor
+    // in the cove, the wanted board fills as words escape you, and a brazier
+    // marks how hot the seas you've earned can burn. A living island, not a
+    // menu — assembled from progress the profile already tracks.
+    const mooredVessels = C.vessels
+      .filter((v) => v.id !== "miftah" && SN.vesselUnlocked(v))
+      .map((v, i) => `<span class="harbor-moored" style="left:${58 + i * 12}%" title="${esc(v.name)}">${C.shipSVG({}, [], v.id)}</span>`)
+      .join("");
+    const bountyN = (m.bounties || []).length;
+    const bountyBoard = bountyN
+      ? `<button class="harbor-board" data-atlas title="${bountyN} marked word${bountyN === 1 ? "" : "s"} at large">⚑<b>${bountyN}</b></button>`
+      : "";
+    const brazier = SN.heatCap() > 0
+      ? `<span class="harbor-brazier" title="Seas can burn up to Heat ${SN.heatCap()}">${"🔥".repeat(Math.min(SN.heatCap(), 3))}</span>`
+      : "";
+    const growth = `<div class="harbor-growth">${mooredVessels}${bountyBoard}${brazier}</div>`;
+
     SN.render(`
       ${SN.hud()}
-      <div class="harbor-scene">${C.harborScene}${crewBtns}</div>
+      <div class="harbor-scene">${C.harborScene}${growth}${crewBtns}</div>
       <div class="harbor-actions">
         <button class="btn btn-gold btn-big" data-sail>⛵ Set sail — the Thurayya Reach</button>
         <div class="harbor-row">
@@ -1275,6 +1313,16 @@ window.SN = window.SN || {};
         ${rootFamilies.map(rootChoice).join("")}
       </div>
       ${rootFamilies.length ? "" : `<p class="dep-root-empty">Chart three dictionary forms from one root family to unlock a bearing.</p>`}
+      ${SN.heatCap() > 0 ? `
+        <div class="dep-section-label">Heat 🔥</div>
+        <p class="dep-section-help">Hotter seas run the clock faster and hide the answers for a beat — but pay out richer. Your call.</p>
+        <div class="dep-heat-row">
+          ${Array.from({ length: SN.heatCap() + 1 }, (_, h) => `
+            <button type="button" class="dep-heat-chip${SN.heat() === h ? " sel" : ""}" data-heat="${h}" aria-pressed="${SN.heat() === h}">
+              <span class="dep-heat-flames">${h === 0 ? "calm" : "🔥".repeat(h)}</span>
+              <span class="dep-heat-reward">${h === 0 ? "standard" : `+${Math.round(h * 20)}% pearls`}</span>
+            </button>`).join("")}
+        </div>` : ""}
       <div class="loadout-summary panel" id="loadout-summary">${summaryHTML()}</div>
       <div class="sum-actions">
         <button class="btn btn-gold btn-big" data-cast>Cast off ⛵</button>
@@ -1298,9 +1346,21 @@ window.SN = window.SN || {};
         b.classList.toggle("sel", selected);
         b.setAttribute("aria-pressed", String(selected));
       });
+      $$("[data-heat]", sheet).forEach((b) => {
+        const selected = Number(b.dataset.heat) === SN.heat();
+        b.classList.toggle("sel", selected);
+        b.setAttribute("aria-pressed", String(selected));
+      });
       const summary = $("#loadout-summary", sheet);
       if (summary) summary.innerHTML = summaryHTML();
     }
+    sheet.querySelectorAll("[data-heat]").forEach((b) => {
+      b.onclick = () => {
+        SN.audio.click();
+        SN.setHeat(Number(b.dataset.heat));
+        refreshSel();
+      };
+    });
     sheet.querySelectorAll("[data-vessel]").forEach((b) => {
       b.onclick = () => {
         if (b.disabled) return;
@@ -1548,6 +1608,14 @@ window.SN = window.SN || {};
       if (m.startBoon) mods.startBoon = 1;
       if (m.foresight) mods.foresight = 1;
       if (m.restFull) mods.restFull = 1;
+    }
+    // Heat: richer haul for the harder sea, and (at 2+) options rise hidden
+    // for a beat each question — read fast, before the dark lifts.
+    const heat = SN.heat();
+    if (heat > 0) {
+      mods.pearlMult *= SN.heatReward();
+      mods.heat = heat;
+      if (heat >= 2) mods.heatHide = 1;
     }
     return mods;
   };

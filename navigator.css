@@ -2186,3 +2186,57 @@ body.mood-eclipse::after {
   color: var(--muted);
 }
 .logbook-lines b { color: var(--ink); }
+
+/* ---------- heat picker (departure) ---------- */
+.dep-heat-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
+.dep-heat-chip {
+  flex: 1 1 auto;
+  min-width: 68px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 9px 10px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+.dep-heat-chip .dep-heat-flames { font-size: 14px; font-weight: 700; }
+.dep-heat-chip .dep-heat-reward { font-size: 11px; color: var(--muted); }
+.dep-heat-chip.sel { border-color: #e8a96a; background: rgba(216, 138, 63, 0.14); }
+.dep-heat-chip.sel .dep-heat-reward { color: #e8a96a; }
+
+/* ---------- living island: harbor growth overlays ---------- */
+.harbor-growth { position: absolute; inset: 0; pointer-events: none; }
+.harbor-moored {
+  position: absolute;
+  bottom: 8%;
+  width: 62px;
+  transform: translateX(-50%) scale(0.8);
+  opacity: 0.9;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.35));
+  animation: moor-bob 4.5s ease-in-out infinite;
+}
+.harbor-moored svg { width: 100%; display: block; }
+@keyframes moor-bob { 0%,100% { transform: translateX(-50%) translateY(0) scale(0.8); } 50% { transform: translateX(-50%) translateY(-4px) scale(0.8); } }
+.harbor-board {
+  position: absolute;
+  top: 14%;
+  right: 8%;
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 5px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(216, 138, 63, 0.5);
+  background: rgba(216, 138, 63, 0.14);
+  color: #e8a96a;
+  font-weight: 800;
+  cursor: pointer;
+}
+.harbor-brazier { position: absolute; bottom: 9%; left: 9%; font-size: 20px; filter: drop-shadow(0 0 6px rgba(216,138,63,0.6)); }
+@media (prefers-reduced-motion: reduce) { .harbor-moored { animation: none; } }

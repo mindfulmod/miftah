@@ -796,6 +796,12 @@ window.SN = window.SN || {};
       $$("[data-opt]").forEach((el) => el.classList.add("eclipsed"));
       setTimeout(() => $$("[data-opt]").forEach((el) => el.classList.remove("eclipsed")), 1500);
     }
+    // Heat veil: on hot seas the options rise hidden for a short beat — read
+    // fast before the dark lifts. Shorter than the boss eclipse, every turn.
+    if (run.mods.heatHide && !run.mods.eclipseWard) {
+      $$("[data-opt]").forEach((el) => el.classList.add("eclipsed"));
+      setTimeout(() => $$("[data-opt]").forEach((el) => el.classList.remove("eclipsed")), 800);
+    }
 
     let answered = false;
     const qStart = performance.now();
