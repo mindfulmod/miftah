@@ -13,22 +13,26 @@
 > **Reskin ownership (owner directive 2026-07-17): Fable owns the look of
 > all three games.**
 >
-> **All three apps' Milestones 1–4 are now built and browser-verified
-> (2026-07-18).** Trainer: unified FSRS, follow mode, Today screen + first-run,
-> full Urdu layer (data pipeline, display overlay, Nastaliq webfont, UI
-> localization), manuscript reskin + KFGQPC Uthmanic Hafs, anticipation teaser,
-> weekly letter, coverage heat-map + root-gem collection (`progress.html`).
-> Letter Garden: strength model + adaptive daily, blend machine, scaffolded
-> retry + warm pet, biome chapters, ambient life + melody moments, mastery
-> garden. Star Navigator: two-way FSRS sync, zero-crew One Piece recruitment,
-> logbook + marked bounties, encounter legibility + sea moods, heat system +
-> living island home.
+> **All three apps' Milestones 1–4 are built and browser-verified
+> (2026-07-18), plus the follow-on content/feature passes.** Trainer:
+> unified FSRS, follow mode, Today screen + first-run, full Urdu layer (data
+> pipeline, display overlay, Nastaliq webfont, UI localization), manuscript
+> reskin + KFGQPC Uthmanic Hafs, anticipation teaser, weekly letter, coverage
+> heat-map + root-gem collection (`progress.html`), eight grammar
+> micro-lessons (`lessons.html`). Letter Garden: strength model + adaptive
+> daily, blend machine, scaffolded retry + warm pet, biome chapters, ambient
+> life + melody moments, mastery garden, grown-up corner, say-it-with-me
+> beats + Quran-word capstone, pet-mastery radiance. Star Navigator: two-way
+> FSRS sync, zero-crew One Piece recruitment, logbook + marked bounties,
+> encounter legibility + sea moods, heat system + living island home, crew
+> story arcs (pre-authored), sun-run day voyages.
 >
-> **Open on purpose (not built):** grammar micro-lessons (owner-authored
-> content), opt-in reminder notifications, the free recorded-audio bake-off
-> for the Letter Garden, LG mini-game per-scene backdrops, and the Star
-> Navigator's chaptered story arcs / crew arcs / sun-runs (story-authoring
-> passes). These are content/authoring efforts rather than engine work.
+> **Genuinely open (needs owner or infrastructure, not buildable solo):**
+> owner approval of the Fable-drafted copy (grammar lessons, recruit scenes,
+> crew arcs); the free recorded-audio bake-off (needs the owner's ear to pick
+> a voice); opt-in reminder notifications (needs push-backend scheduling to
+> fire while the app is closed); LG mini-game per-scene backdrops (art
+> expansion). Everything mechanically buildable is done.
 
 Written from the 2026-07-16 discovery interviews (72 questions across the
 three apps). Each spec ends with a **Declined** list — check it before
