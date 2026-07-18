@@ -47,7 +47,7 @@ const STRINGS = {
     surahs: "Surahs",
     practice: "Practice",
     glossary: "Glossary",
-    follow: "Follow",
+    journey: "Journey",
     // wizard
     stepLang: "Which language feels like home?",
     stepPace: "How much time each day?",
@@ -84,7 +84,7 @@ const STRINGS = {
     surahs: "سورتیں",
     practice: "مشق",
     glossary: "فرہنگ",
-    follow: "تلاوت",
+    journey: "سفر",
     stepLang: "کون سی زبان اپنی لگتی ہے؟",
     stepPace: "روزانہ کتنا وقت؟",
     paceGentle: "ہلکا",
@@ -241,10 +241,10 @@ function render() {
       <p class="today-coverage" id="today-coverage"></p>
     </section>
     <nav class="today-links">
+      <a class="ghost-btn" href="progress.html">${t.journey}</a>
       <a class="ghost-btn" href="surahs.html">${t.surahs}</a>
       <a class="ghost-btn" href="review.html">${t.practice}</a>
       <a class="ghost-btn" href="glossary.html">${t.glossary}</a>
-      <a class="ghost-btn" href="follow.html?surah=${surah}">${t.follow}</a>
     </nav>`;
 
   coverageLine().then((line) => {

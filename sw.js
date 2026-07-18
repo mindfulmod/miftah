@@ -4,13 +4,15 @@
 // - Shell (HTML/CSS/JS/fonts): stale-while-revalidate, ignoring ?v= cache-busters.
 // - data/*.json: network-first so rebuilt data lands promptly; cache fallback offline.
 // - Remote recitation audio: deliberately NOT intercepted — see AUDIO_HOSTS below.
-const VERSION = "miftah-v13";
+const VERSION = "miftah-v14";
 const SHELL_CACHE = `shell-${VERSION}`;
 const DATA_CACHE = `data-${VERSION}`;
 
 const SHELL = [
   "today.html",
   "today.js",
+  "progress.html",
+  "progress.js",
   "surahs.html",
   "trainer.html",
   "glossary.html",
