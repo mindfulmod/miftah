@@ -2373,3 +2373,15 @@ h1 {
     var(--shadow);
   background: linear-gradient(180deg, color-mix(in srgb, var(--gold) 6%, var(--panel)), var(--panel) 60%);
 }
+
+/* ---------- Urdu display layer (specs/01) ---------- */
+/* Anything stamped lang="ur" renders in Nastaliq (Apple ships Noto Nastaliq
+   Urdu; the dedicated webfont arrives with the full localization pass).
+   Nastaliq hangs deep below the baseline — the loose line-height is load-
+   bearing, not decorative. */
+[lang="ur"] {
+  font-family: "Noto Nastaliq Urdu", "Amiri Quran", serif;
+  line-height: 1.9;
+}
+.review-opt[lang="ur"] { font-size: 1.05rem; padding-block: 14px; }
+.reveal-literal[lang="ur"], .reveal-translation[lang="ur"] { line-height: 2.1; }

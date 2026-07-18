@@ -8,6 +8,20 @@ const SURAH_NUMBER =
   Number(new URLSearchParams(location.search).get("surah")) || 1;
 const SURAH_FILE = withDataVersion(`data/surah-${SURAH_NUMBER}.json`);
 const STORAGE_KEY = `quran-trainer:surah-${SURAH_NUMBER}:progress`;
+
+// ---------- Urdu display layer ----------
+// The learner's language (set by the Today screen's first-run). Urdu is a
+// DISPLAY overlay only: word ids, stats and the FSRS store stay keyed by the
+// English gloss forever, so switching language never forks learning history.
+const LANG = (() => {
+  try {
+    return localStorage.getItem("quran-trainer:lang") === "ur" ? "ur" : "en";
+  } catch {
+    return "en";
+  }
+})();
+const URDU_FILE = withDataVersion(`data/urdu/surah-${SURAH_NUMBER}.json`);
+let urduTarjuma = new Map(); // ayah number -> flowing Urdu translation
 // Remember the last-opened surah so the tab bar's Continue lands here.
 try {
   localStorage.setItem("quran-trainer:last-surah", String(SURAH_NUMBER));
@@ -176,6 +190,17 @@ const displayGloss = (w) =>
   w.display || (w.context ? `${answerFor(w)} — ${w.context}` : w.english || answerFor(w));
 const literalGloss = (w) => w.english || answerFor(w);
 
+// What the learner SEES for a word: Urdu when the language is Urdu and the
+// word has a gloss (merged-phrase gaps fall back to English). Identity —
+// ids, comparisons, stats — always runs on the English gloss underneath.
+const shownGloss = (w) => (LANG === "ur" && w.urdu ? w.urdu : displayGloss(w));
+// Same, for an option identified by its English answer string.
+const shownAnswer = (gloss) => {
+  if (LANG !== "ur") return gloss;
+  const w = glossInfo.get(gloss);
+  return w && w.urdu ? w.urdu : gloss;
+};
+
 // Stable id for a word by its Arabic form + quiz answer, so the same word in
 // different ayahs aggregates into one "trouble word" entry.
 const wordId = (w) => `${w.arabic}|||${answerFor(w)}`;
@@ -303,6 +328,30 @@ function ayahRootFamilies(ayah) {
     if (members.length >= 2) families.push({ root: w.root, members });
   }
   return families;
+}
+
+// The reveal's two text lines, in the learner's language: the literal
+// word-chain and the flowing translation (Junagarhi tarjuma for Urdu,
+// Saheeh International for English).
+function fillRevealText(reveal, ayah) {
+  const lit = reveal.querySelector(".reveal-literal");
+  const tr = reveal.querySelector(".reveal-translation");
+  if (LANG === "ur" && urduTarjuma.has(ayah.number)) {
+    lit.textContent = ayah.words
+      .map((w) => w.urdu || literalGloss(w))
+      .join(" ")
+      .replace(/[()[\]]/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+    tr.textContent = "جوناگڑھی: " + urduTarjuma.get(ayah.number);
+    for (const el of [lit, tr]) {
+      el.lang = "ur";
+      el.dir = "rtl";
+    }
+  } else {
+    lit.textContent = literalMeaning(ayah);
+    tr.textContent = "Saheeh International: " + ayah.translation;
+  }
 }
 
 // Render the "shared roots" chips into a reveal box (idempotent — clears first).
@@ -1164,7 +1213,7 @@ function renderReviewCard(word, onDone, { inflow = true, banner = null } = {}) {
     listenBtn.addEventListener("click", () => recite.playWord(word.audioPath));
   } else if (mode === "reverse") {
     arabic.hidden = true; // the script IS the answer
-    prompt.textContent = `Which word means “${displayGloss(word)}”?`;
+    prompt.textContent = `Which word means “${shownGloss(word)}”?`;
   }
 
   const correctText = mode === "reverse" ? word.arabic : answerFor(word);
@@ -1189,12 +1238,12 @@ function renderReviewCard(word, onDone, { inflow = true, banner = null } = {}) {
 
     [...opts.children].forEach((b) => {
       b.disabled = true;
-      if (b.textContent === correctText) b.classList.add("correct");
+      if (b.dataset.val === correctText) b.classList.add("correct");
     });
 
     feedback.textContent = recalled
       ? "Recalled ✓ — it'll come back less often now."
-      : `Not yet — this word means “${displayGloss(word)}”. It'll return soon.`;
+      : `Not yet — this word means “${shownGloss(word)}”. It'll return soon.`;
     feedback.className = "ayah-message " + (recalled ? "pass" : "reset");
 
     const cont = document.createElement("button");
@@ -1210,8 +1259,17 @@ function renderReviewCard(word, onDone, { inflow = true, banner = null } = {}) {
     const btn = document.createElement("button");
     btn.type = "button";
     btn.className = "review-opt" + (mode === "reverse" ? " ar" : "");
-    if (mode === "reverse") btn.dir = "rtl";
-    btn.textContent = g;
+    btn.dataset.val = g;
+    if (mode === "reverse") {
+      btn.dir = "rtl";
+      btn.textContent = g; // Arabic options stay Arabic in every language
+    } else {
+      btn.textContent = shownAnswer(g);
+      if (LANG === "ur") {
+        btn.lang = "ur";
+        btn.dir = "rtl";
+      }
+    }
     btn.addEventListener("click", () => finish(g === correctText, g));
     opts.appendChild(btn);
   });
@@ -1268,7 +1326,11 @@ function renderContrastDrill(drill) {
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "review-opt";
-      btn.textContent = g;
+      btn.textContent = shownAnswer(g);
+      if (LANG === "ur") {
+        btn.lang = "ur";
+        btn.dir = "rtl";
+      }
       btn.addEventListener("click", () => pick(word, g, btn));
       opts.appendChild(btn);
     }
@@ -1307,8 +1369,8 @@ function renderContrastDrill(drill) {
     recordMiss(word);
     const other = drill.words.find((w) => answerFor(w) === g);
     feedback.innerHTML =
-      `“${g}” is <span dir="rtl">${other ? other.arabic : ""}</span> — ` +
-      `this one is <strong>“${displayGloss(word)}”</strong>.`;
+      `“${shownAnswer(g)}” is <span dir="rtl">${other ? other.arabic : ""}</span> — ` +
+      `this one is <strong>“${shownGloss(word)}”</strong>.`;
     feedback.className = "ayah-message reset contrast";
   };
 
@@ -1338,9 +1400,7 @@ function renderPassedAyah(ayah) {
   const reveal = node.querySelector(".ayah-reveal");
   reveal.hidden = false;
   reveal.querySelector(".reveal-badge").remove();
-  reveal.querySelector(".reveal-literal").textContent = literalMeaning(ayah);
-  reveal.querySelector(".reveal-translation").textContent =
-    "Saheeh International: " + ayah.translation;
+  fillRevealText(reveal, ayah);
   fillRevealRoots(reveal, ayah);
 
   const words = node.querySelector(".words");
@@ -1351,7 +1411,9 @@ function renderPassedAyah(ayah) {
       cell.classList.add("shares-root");
     }
     cell.querySelector(".arabic").textContent = w.arabic;
-    cell.querySelector(".dd-label").textContent = displayGloss(w);
+    const label = cell.querySelector(".dd-label");
+    label.textContent = shownGloss(w);
+    if (LANG === "ur" && w.urdu) label.lang = "ur";
     const trigger = cell.querySelector(".dd-trigger");
     trigger.disabled = true;
     trigger.setAttribute("aria-disabled", "true");
@@ -1469,10 +1531,10 @@ function renderActiveAyah(ayah) {
     const correctAnswer = answerFor(activeWord());
     const opts = [...optsEl.querySelectorAll(".review-opt")];
     const keep = new Set([correctAnswer]);
-    const wrong = opts.find((b) => b.textContent !== correctAnswer && !b.disabled);
-    if (wrong) keep.add(wrong.textContent);
+    const wrong = opts.find((b) => b.dataset.val !== correctAnswer && !b.disabled);
+    if (wrong) keep.add(wrong.dataset.val);
     opts.forEach((b) => {
-      if (!keep.has(b.textContent)) b.remove();
+      if (!keep.has(b.dataset.val)) b.remove();
     });
     msgEl.textContent =
       "Narrowed to two. This won't count as Perfect, but it's free.";
@@ -1488,7 +1550,12 @@ function renderActiveAyah(ayah) {
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "review-opt";
-      btn.textContent = opt;
+      btn.textContent = shownAnswer(opt);
+      btn.dataset.val = opt; // identity stays English regardless of display
+      if (LANG === "ur") {
+        btn.lang = "ur";
+        btn.dir = "rtl";
+      }
       btn.addEventListener("click", () => choose(opt, btn));
       optsEl.appendChild(btn);
     }
@@ -1527,7 +1594,7 @@ function renderActiveAyah(ayah) {
         if (sib) {
           msgEl.innerHTML =
             `Same root <strong dir="rtl">${word.root.split("").join(" ")}</strong> as ` +
-            `<span dir="rtl">${sib.arabic}</span> — “${answerFor(sib)}”, which you met earlier.`;
+            `<span dir="rtl">${sib.arabic}</span> — “${shownGloss(sib)}”, which you met earlier.`;
           msgEl.className = "ayah-message root-moment";
         } else {
           msgEl.textContent = "";
@@ -1571,8 +1638,8 @@ function renderActiveAyah(ayah) {
       const owner = glossInfo.get(value);
       const belongsTo = owner ? ` — that's “${owner.arabic}”` : "";
       msgEl.innerHTML =
-        `<strong>“${value}”</strong>${belongsTo}. This word means ` +
-        `<strong>“${displayGloss(word)}”</strong>. ${remaining} slip${
+        `<strong>“${shownAnswer(value)}”</strong>${belongsTo}. This word means ` +
+        `<strong>“${shownGloss(word)}”</strong>. ${remaining} slip${
           remaining === 1 ? "" : "s"
         } left.`;
       msgEl.className = "ayah-message reset contrast";
@@ -1593,9 +1660,7 @@ function renderActiveAyah(ayah) {
     const badge = reveal.querySelector(".reveal-badge");
     badge.textContent = perfect ? "★ Perfect — no mistakes" : "Complete ✓";
     badge.classList.toggle("perfect", perfect);
-    reveal.querySelector(".reveal-literal").textContent = literalMeaning(ayah);
-    reveal.querySelector(".reveal-translation").textContent =
-      "Saheeh International: " + ayah.translation;
+    fillRevealText(reveal, ayah);
     fillRevealRoots(reveal, ayah);
     reveal.querySelector(".reveal-badge").after(hearAyahButton(ayah.number));
     reveal.hidden = false;
@@ -1719,6 +1784,25 @@ async function init() {
   }
 
   surah = { ...data.surah, ayahs: data.ayahs };
+
+  // Urdu overlay: parallel file, zipped onto words by position. A missing or
+  // failed file simply leaves the trainer in English — never a blocker.
+  if (LANG === "ur") {
+    try {
+      const ur = await (await fetch(URDU_FILE)).json();
+      const byNum = new Map(ur.ayahs.map((a) => [a.number, a]));
+      for (const a of data.ayahs) {
+        const u = byNum.get(a.number);
+        if (!u || u.words.length !== a.words.length) continue;
+        urduTarjuma.set(a.number, u.translation);
+        a.words.forEach((w, i) => {
+          if (u.words[i]) w.urdu = u.words[i];
+        });
+      }
+    } catch (err) {
+      console.warn("Urdu layer unavailable — falling back to English", err);
+    }
+  }
 
   // Every word learns its recitation clip path (the build verifies the
   // deterministic pattern and stores explicit paths only for exceptions).
