@@ -49,8 +49,40 @@
       .hm-num { font-size: var(--fs-2xs); color: var(--muted); font-weight: 600; }
       .hm-name { font-size: var(--fs-xs); font-weight: 600; line-height: 1.25; }
       body.lang-ur .hm-name { font-family: "Noto Nastaliq Urdu", "Amiri Quran", serif; line-height: 1.8; }
-      body.lang-ur .hm-head h1[lang="ur"], body.lang-ur .hm-head p[lang="ur"] {
+      body.lang-ur .hm-head h1[lang="ur"], body.lang-ur .hm-head p[lang="ur"],
+      body.lang-ur .gems-head h2[lang="ur"], body.lang-ur .gems-head p[lang="ur"],
+      body.lang-ur .gems-empty[lang="ur"] {
         font-family: "Noto Nastaliq Urdu", "Amiri Quran", serif; line-height: 1.9;
+      }
+      /* root gems */
+      .gems-head { margin-top: 34px; }
+      .gems-head h2 { font-size: var(--fs-xl); margin: 0 0 4px; }
+      .gems-head p { color: var(--muted); margin: 0; }
+      .gems-empty { text-align: center; color: var(--muted); padding: 20px; }
+      .gems-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        gap: 10px;
+        max-width: 760px;
+        margin: 14px auto 0;
+        padding: 0 4px 40px;
+      }
+      .gem-cell {
+        text-align: center;
+        padding: 12px 8px 10px;
+        border-radius: var(--radius-md);
+        border: 1px solid var(--line);
+        background: var(--panel);
+        position: relative;
+      }
+      .gem-cell.tier-3 { border-color: color-mix(in srgb, var(--gold) 45%, var(--line)); }
+      .gem-art { width: 48px; margin: 0 auto 6px; }
+      .gem-art svg { width: 100%; display: block; filter: drop-shadow(0 3px 5px rgba(0,0,0,0.35)); }
+      .gem-root { font-family: "Uthmanic Hafs", "Amiri Quran", serif; font-size: 1.15rem; color: var(--text); }
+      .gem-glosses { font-size: var(--fs-2xs); color: var(--muted); line-height: 1.35; margin-top: 3px; }
+      .gem-count {
+        position: absolute; top: 8px; right: 9px;
+        font-size: var(--fs-2xs); font-weight: 700; color: var(--gold);
       }
     </style>
   </head>
@@ -93,6 +125,6 @@
     <script src="tabbar.js"></script>
     <script src="fsrs.js?v=20260717-fable5"></script>
     <script src="strength.js?v=20260717-fable5"></script>
-    <script src="progress.js?v=20260717-fable5"></script>
+    <script src="progress.js?v=20260717-fable6"></script>
   </body>
 </html>
