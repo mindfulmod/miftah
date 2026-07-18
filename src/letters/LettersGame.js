@@ -931,8 +931,26 @@
         </div>`,
       );
       this.wireTopBar(el);
+      const cardEl = el.querySelector(".meet-card");
       const speakCard = () => this.say(card);
-      el.querySelector(".meet-card").addEventListener("pointerdown", speakCard);
+      // Say-it-with-me (spec: specs/02): the game says it, then the card
+      // opens its arms and waits — an inviting pause for the child to say it
+      // back out loud. No mic; the pause IS the feature, and a soft chime
+      // rewards the turn-taking whether or not they spoke.
+      const sayWithMe = () => {
+        speakCard();
+        setTimeout(() => {
+          if (!cardEl.isConnected) return;
+          cardEl.classList.add("is-your-turn");
+          this.sound.play("click");
+        }, 950);
+        setTimeout(() => {
+          if (!cardEl.isConnected) return;
+          cardEl.classList.remove("is-your-turn");
+          speakCard(); // the echo — "yes, like that"
+        }, 2600);
+      };
+      cardEl.addEventListener("pointerdown", speakCard);
       el.querySelector(".meet-hear").addEventListener("click", speakCard);
       el.querySelector(".meet-next").addEventListener("click", () => {
         this.sound.play("page");
@@ -940,7 +958,7 @@
         if (s.meetIndex >= s.world.meet.length) this.startGame();
         else this.renderMeet();
       });
-      setTimeout(speakCard, 450);
+      setTimeout(sayWithMe, 450);
     }
 
     startGame() {
@@ -1157,9 +1175,17 @@
     }
 
     renderParty(stars, newlyDone, { flower = false } = {}) {
+      // The Quran-word capstone (spec: specs/02 summit): finishing a
+      // word-decoding world isn't just another world — it's the child
+      // reading real words from the Quran. Mark the moment.
+      const isQuranWords = this.session && this.session.world && this.session.world.kind === "words";
+      const capstone = isQuranWords && newlyDone
+        ? `<div class="party-capstone">✨ ${Art.icon("book", 26)} You just read real words from the Quran! ✨</div>`
+        : "";
       const el = this.screen(
         "lg-party",
         `<div class="party-stage lg-panel">
+          ${capstone}
           ${flower ? `<div class="party-flower">${Art.skillFlower({ scores: this.skills, size: 200 })}</div>` : ""}
           <div class="party-pair">
             <div class="party-mascot">${Art.keyMascot({ size: flower ? 110 : 150, mood: "open" })}</div>

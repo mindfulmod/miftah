@@ -314,6 +314,7 @@ body {
 }
 
 .meet-card {
+  position: relative;
   border: none;
   background: none;
   cursor: pointer;
@@ -1413,3 +1414,27 @@ body {
 .gu-ask-ar { display: block; font-family: "Amiri Quran", serif; font-size: 2.4rem; color: var(--lg-ink); }
 .gu-ask-name { font-size: 0.85rem; color: #6a5842; }
 .gu-ask-none { color: #6a5842; font-size: 0.9rem; }
+
+/* ---------- say-it-with-me + Quran-word capstone ---------- */
+.meet-card.is-your-turn { animation: meet-your-turn 1.6s var(--lg-spring) infinite; }
+.meet-card.is-your-turn::after {
+  content: "🗣";
+  position: absolute; top: -6px; right: -6px;
+  font-size: 28px;
+  animation: lg-bounce 0.9s var(--lg-spring) infinite;
+}
+@keyframes meet-your-turn {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); filter: drop-shadow(0 0 14px var(--lg-gold-hi)); }
+}
+.party-capstone {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin-bottom: 12px; padding: 10px 16px;
+  border-radius: var(--lg-radius);
+  background: linear-gradient(90deg, var(--lg-gold-hi), #ffe9a8);
+  border: var(--lg-outline);
+  color: var(--lg-gold-deep); font-weight: 800; font-size: 0.95rem;
+  text-align: center; line-height: 1.35;
+  animation: lg-pop 0.6s var(--lg-spring-big) both;
+}
+.party-capstone svg { flex-shrink: 0; }
