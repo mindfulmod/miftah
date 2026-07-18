@@ -15,6 +15,21 @@
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
   };
 
+  // A small, soft butterfly for the ambient-life layer — wings flap via CSS.
+  // Colour comes from the --bf-hue custom property set per instance.
+  const butterflySVG = () => `
+    <svg viewBox="0 0 40 34" aria-hidden="true">
+      <g class="bf-wing bf-l">
+        <path d="M20 17 C8 2 -2 6 3 16 C-2 26 10 32 20 17 Z" fill="hsl(var(--bf-hue) 78% 68%)" stroke="#3a2c48" stroke-width="1.6"/>
+        <circle cx="8" cy="12" r="2.2" fill="#fffaf0"/>
+      </g>
+      <g class="bf-wing bf-r">
+        <path d="M20 17 C32 2 42 6 37 16 C42 26 30 32 20 17 Z" fill="hsl(var(--bf-hue) 78% 62%)" stroke="#3a2c48" stroke-width="1.6"/>
+        <circle cx="32" cy="12" r="2.2" fill="#fffaf0"/>
+      </g>
+      <ellipse cx="20" cy="18" rx="2" ry="7" fill="#3a2c48"/>
+    </svg>`;
+
   class LettersGame {
     constructor(root) {
       this.root = root;
@@ -40,7 +55,40 @@
       this.stickers = this.loadJSON("quran-trainer:letters:stickers", { owned: [] });
       this.applyPhase();
       this.initSparkles();
+      this.initAmbient();
       this.worlds.loadWords().finally(() => (this.pet ? this.renderHome() : this.renderHatch()));
+    }
+
+    // Ambient life (spec: specs/02): a few creatures drift across the garden
+    // behind everything, so it feels alive even when idle. Day brings
+    // butterflies; dusk and night bring fireflies. One persistent layer,
+    // pure delight, no gameplay — and it steps aside for reduced-motion.
+    initAmbient() {
+      if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      const phase = Art.dayPhase();
+      const night = phase === "night" || phase === "dusk";
+      const layer = document.createElement("div");
+      layer.className = "lg-ambient";
+      layer.setAttribute("aria-hidden", "true");
+      const n = night ? 7 : 5;
+      for (let i = 0; i < n; i += 1) {
+        const c = document.createElement("i");
+        c.className = night ? "lg-firefly-amb" : "lg-butterfly";
+        if (!night) {
+          const hues = [340, 45, 275, 200];
+          c.style.setProperty("--bf-hue", String(hues[i % hues.length]));
+          c.innerHTML = butterflySVG();
+        }
+        c.style.top = `${8 + Math.random() * 78}%`;
+        c.style.setProperty("--amb-dur", `${18 + Math.random() * 20}s`);
+        c.style.setProperty("--amb-delay", `${-Math.random() * 30}s`);
+        c.style.setProperty("--amb-rise", `${Math.round(Math.random() * 60 - 30)}px`);
+        layer.appendChild(c);
+      }
+      // Mount on body so it survives the screen innerHTML swaps (same pattern
+      // as the sparkle trail); a soft overlay drifting across the whole scene.
+      document.querySelector(".lg-ambient")?.remove();
+      document.body.appendChild(layer);
     }
 
     // The garden lives on the child's clock: the sky (CSS variables consumed
@@ -696,6 +744,12 @@
     // ---------- world flow: meet → games → party ----------
 
     startWorld(world) {
+      // A soft flourish when stepping into a new biome/land (spec: melody
+      // moments), so travel between chapters is felt, not just seen.
+      if (world.biome && world.biome !== this._lastBiome) {
+        this._lastBiome = world.biome;
+        this.sound.play("biomeArrival");
+      }
       this.root.style.setProperty("--lg-hue", String(world.hue));
       this.session = {
         world,
@@ -802,7 +856,17 @@
         // The pet watches the child play: it hops on every right answer and
         // leans in, curious, on a wrong pick — never scolding, never sad.
         sfx: (name) => {
-          this.sound.play(name);
+          // Melody moments: correct answers climb a pentatonic run (streak
+          // builds a tune); a miss resets it and plays the gentle nudge.
+          if (name === "correct") {
+            this._streak = (this._streak || 0) + 1;
+            this.sound.streakMelody(this._streak);
+          } else if (name === "wrong") {
+            this._streak = 0;
+            this.sound.play(name);
+          } else {
+            this.sound.play(name);
+          }
           if (strength && currentTarget && (name === "correct" || name === "wrong")) {
             strength.record(
               currentTarget.id,

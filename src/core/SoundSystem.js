@@ -81,12 +81,30 @@
       src.start(t0);
     }
 
+    // Melody moments (spec: specs/02): consecutive correct answers climb a
+    // pentatonic scale, so a good run literally builds a little tune before
+    // it settles at the top. `streak` is 1-based (the 1st correct in a row).
+    streakMelody(streak) {
+      if (!this.enabled || !this.unlock()) return;
+      const penta = [523.25, 587.33, 659.25, 783.99, 880, 1046.5]; // C D E G A C
+      const i = Math.min(Math.max(streak - 1, 0), penta.length - 1);
+      const f = penta[i];
+      this.tone(f, { dur: 0.18, type: "triangle", gain: 0.12 });
+      this.tone(f * 2, { dur: 0.1, gain: 0.04 });
+    }
+
     play(name) {
       if (!this.enabled || !this.unlock()) return;
       switch (name) {
         case "correct": // soft kalimba pluck
           this.tone(740, { dur: 0.16, gain: 0.12 });
           this.tone(1480, { dur: 0.1, gain: 0.045 });
+          break;
+        case "biomeArrival": // stepping into a new land — a soft open chord
+          [392, 587.33, 783.99].forEach((f, i) =>
+            this.tone(f, { at: i * 0.06, dur: 0.5, type: "triangle", gain: 0.09 }),
+          );
+          this.tone(1174.66, { at: 0.16, dur: 0.5, gain: 0.045 });
           break;
         case "wrong": // gentle low nudge, never harsh
           this.tone(196, { dur: 0.22, type: "triangle", gain: 0.1 });

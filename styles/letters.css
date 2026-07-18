@@ -1313,3 +1313,47 @@ body {
   filter: saturate(0.3);
   transition: opacity 480ms var(--lg-out), filter 480ms var(--lg-out);
 }
+
+/* ---------- ambient life (specs/02): the garden breathes even at rest ---------- */
+.lg-ambient {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4; /* a soft overlay above the scene, below the topbar (z 5) */
+  overflow: hidden;
+  opacity: 0.9;
+}
+.lg-butterfly {
+  position: absolute;
+  left: -60px;
+  width: 34px;
+  animation: bf-cross var(--amb-dur, 26s) linear var(--amb-delay, 0s) infinite;
+}
+.lg-butterfly svg { width: 100%; display: block; }
+.bf-wing { transform-origin: 20px 17px; animation: bf-flap 0.32s ease-in-out infinite; }
+.bf-l { animation-name: bf-flap-l; }
+.bf-r { animation-name: bf-flap-r; }
+@keyframes bf-flap-l { 0%,100% { transform: scaleX(1); } 50% { transform: scaleX(0.35); } }
+@keyframes bf-flap-r { 0%,100% { transform: scaleX(1); } 50% { transform: scaleX(0.35); } }
+@keyframes bf-cross {
+  0%   { transform: translate(0, 0) rotate(-4deg); }
+  50%  { transform: translate(52vw, var(--amb-rise, -20px)) rotate(6deg); }
+  100% { transform: translate(108vw, 0) rotate(-4deg); }
+}
+.lg-firefly-amb {
+  position: absolute;
+  left: -20px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 10%, #ffe27a 45%, transparent 72%);
+  animation: ff-cross var(--amb-dur, 26s) linear var(--amb-delay, 0s) infinite,
+             ff-glow 2.4s ease-in-out infinite;
+}
+@keyframes ff-cross {
+  0%   { transform: translate(0, 0); }
+  50%  { transform: translate(52vw, var(--amb-rise, -24px)); }
+  100% { transform: translate(106vw, 0); }
+}
+@keyframes ff-glow { 0%,100% { opacity: 0.25; } 50% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .lg-ambient { display: none; } }
