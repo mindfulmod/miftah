@@ -143,6 +143,7 @@ window.SN = window.SN || {};
     haven: `<g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="0" cy="-5.5" r="2.2"/><path d="M0 -3.3 V7 M0 7 c-3.6 0 -6.4 -2.4 -6.8 -5.4 M0 7 c3.6 0 6.4 -2.4 6.8 -5.4 M-8 3 l1.4 1.8 M8 3 l-1.4 1.8"/></g>`,
     boss: `<g><circle cx="0" cy="0" r="7" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="0" cy="0" r="3" fill="currentColor"/></g>`,
     cursed: `<g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="-7" y="-3" width="14" height="9" rx="1.5"/><path d="M-7 -3 Q0 -8 7 -3"/><path d="M-3 1.5 h6" stroke-width="2.4"/></g>`,
+    harvest: `<g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="0" cy="0" r="4.5"/><path d="M0 -9 v3 M0 6 v3 M-9 0 h3 M6 0 h3 M-6.4 -6.4 l2 2 M4.4 4.4 l2 2 M6.4 -6.4 l-2 2 M-4.4 4.4 l-2 2"/></g>`,
   };
 
   function nodeLabel(n) {
@@ -150,6 +151,7 @@ window.SN = window.SN || {};
     if (n.type === "enc") return C.formats[n.format].name;
     if (n.type === "mystery") return run.mods.foresight ? n.event.title : "Mystery waters";
     if (n.type === "haven") return "A sheltered haven";
+    if (n.type === "harvest") return "The day's harvest";
     return "The Watcher";
   }
 
@@ -243,11 +245,34 @@ window.SN = window.SN || {};
     run.at = id;
     run.visited.add(id);
     const n = nodeById(id);
-    if (n.type === "enc") startEncounter({ format: n.format, ayahRef: n.ayahRef });
+    if (n.type === "enc") startEncounter({ format: n.format, ayahRef: n.ayahRef, day: n.day });
     else if (n.type === "cursed") cursedIntro(n);
     else if (n.type === "mystery") renderEvent(n.event);
     else if (n.type === "haven") renderHaven();
+    else if (n.type === "harvest") harvestEnd();
     else bossIntro();
+  }
+
+  // The day-voyage close: the crew hauls up the day's salvage — a warm pearl
+  // haul and a soft landing, then home. No Watcher, no reckoning.
+  function harvestEnd() {
+    const haul = 14 + run.cleared * 4;
+    SN.audio.relic();
+    setSeaMood("day");
+    SN.render(`
+      <div style="padding-top:22px;max-width:520px;margin:0 auto;text-align:center">
+        <div class="sum-banner" style="--crew-color:#e8b45f">
+          <span class="sum-ar ar" lang="ar">الحصاد</span>
+          <h2 style="color:#e8b45f">A good day's harvest</h2>
+          <p>The sun stays kind the whole way in. Nets heavy, hold full — pearls, coral, a rescued soul or two. Some days the sea just gives.</p>
+        </div>
+        <div class="sum-stat panel" style="max-width:200px;margin:12px auto"><b>+${haul}</b><span>pearls salvaged</span></div>
+        <div class="sum-actions">
+          <button class="btn btn-gold btn-big" data-harvest-home>Sail home ☀</button>
+        </div>
+      </div>`);
+    addPearls(haul, true);
+    $("[data-harvest-home]").onclick = () => { SN.audio.click(); finishRun("harvest"); };
   }
 
   // ------------------------------------------------------------ cursed cargo
@@ -329,11 +354,36 @@ window.SN = window.SN || {};
       addPip(vessel.crew);
       run.crewAligned = true;
     }
-    run.chart = genChart();
-    run.bossPhases = computeBossPhases();
+    // Sun-runs (specs/03): once the navigator has a few voyages behind them,
+    // some dawns break gentle — a day of salvage and rescue rather than the
+    // hunt. No boss, no marked enemies, softer seas. The harvest, not the kill.
+    run.isDay = (SN.state.meta.runs || 0) >= 2 && Math.random() < 0.3;
+    run.chart = run.isDay ? genDayChart() : genChart();
+    run.bossPhases = run.isDay ? [] : computeBossPhases();
     if (mods.startBoon) offerBoons(() => renderChart(), "The Lantern of Departure is lit — the crew sends you off with a blessing.");
     else renderChart();
   };
+
+  // A gentle day-voyage chart: two short rows of light encounters and a
+  // discovery, ending in the harvest — salvage hauled up, no Watcher waiting.
+  function genDayChart() {
+    const fmts = SN.shuffle(BASE_FORMATS);
+    const nodes = [];
+    let id = 0;
+    const add = (row, x, type, extra) => {
+      const n = Object.assign({ id: "d" + id++, row, x, type, next: [] }, extra);
+      nodes.push(n);
+      return n;
+    };
+    const r1 = [add(1, 0.3, "enc", { format: fmts[0], day: true }), add(1, 0.7, "enc", { format: fmts[1], day: true })];
+    const r2 = [add(2, 0.3, "mystery", { event: SN.pick(C.events) }), add(2, 0.7, "enc", { format: fmts[2], day: true })];
+    const harvest = add(3, 0.5, "harvest");
+    r1[0].next = [r2[0].id, r2[1].id];
+    r1[1].next = [r2[0].id, r2[1].id];
+    r2[0].next = [harvest.id];
+    r2[1].next = [harvest.id];
+    return nodes;
+  }
 
   const resultFor = (card) => {
     if (!run.results[card.k]) {
@@ -503,14 +553,16 @@ window.SN = window.SN || {};
     if (mood) document.body.classList.add("mood-" + mood);
   }
 
-  function startEncounter({ format, boss = false, phase = 0, ayahRef = null, cursed = false }) {
+  function startEncounter({ format, boss = false, phase = 0, ayahRef = null, cursed = false, day = false }) {
     const node = run.at != null ? nodeById(run.at) : null;
     const lastRow = Math.max(...run.chart.map((n) => n.row));
-    if (boss) setSeaMood("eclipse");
+    if (run.isDay) setSeaMood("day");
+    else if (boss) setSeaMood("eclipse");
     else if (node && node.row >= lastRow - 1) setSeaMood("deep");
     else setSeaMood("shallows");
     const f = C.formats[format];
-    const hpBase = boss ? 70 : f.hp;
+    // Day seas are gentler — creatures surface half-asleep in the sun.
+    const hpBase = boss ? 70 : Math.round(f.hp * (day ? 0.7 : 1));
     enc = {
       format, boss, phase, ayahRef, cursed,
       hp: cursed ? Math.round(hpBase * 0.8) : hpBase, maxHp: cursed ? Math.round(hpBase * 0.8) : hpBase,
@@ -748,8 +800,9 @@ window.SN = window.SN || {};
 
     const f = C.formats[enc.format];
     const showTranslit = run.mods.showTranslit;
-    // A marked word wears its wanted poster into battle.
-    const bountyHTML = SN.isBounty(card.k)
+    // A marked word wears its wanted poster into battle — but not on a
+    // sun-run, where the day is for harvest, not the hunt.
+    const bountyHTML = SN.isBounty(card.k) && !run.isDay
       ? `<div class="bounty-chip">⚑ Marked — this one got away last voyage</div>`
       : "";
     let promptHTML;
@@ -1531,8 +1584,9 @@ window.SN = window.SN || {};
       rescued: rescued.length, struggled: struggled.length,
       banked, flawless: run.flawless && outcome === "victory", bestStreak: run.bestStreak,
     };
-    // Words that fought back go up on the wanted board for next voyage.
-    if (struggled.length) SN.postBounties(struggled.map((r) => r.card.k));
+    // Words that fought back go up on the wanted board for next voyage — but
+    // a sun-run is a harvest, not a hunt, so it posts no bounties.
+    if (struggled.length && !run.isDay) SN.postBounties(struggled.map((r) => r.card.k));
 
     // The logbook page: the two-way learning contract made visible. Counts
     // only words the trainer knows (the ones syncBack actually credited).
@@ -1657,7 +1711,14 @@ window.SN = window.SN || {};
       </a>`;
 
     let banner;
-    if (win) {
+    if (outcome === "harvest") {
+      banner = `
+        <div class="sum-banner" style="--crew-color:#e8b45f">
+          <span class="sum-ar ar" lang="ar">الحصاد</span>
+          <h2 style="color:#e8b45f">Home by sunset</h2>
+          <p>A gentle day well sailed — the hold full, the crew laughing, nothing lost to the dark. Not every voyage is a battle.</p>
+        </div>`;
+    } else if (win) {
       banner = `
         <div class="sum-banner victory">
           ${FLARE}

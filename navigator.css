@@ -2240,3 +2240,13 @@ body.mood-eclipse::after {
 }
 .harbor-brazier { position: absolute; bottom: 9%; left: 9%; font-size: 20px; filter: drop-shadow(0 0 6px rgba(216,138,63,0.6)); }
 @media (prefers-reduced-motion: reduce) { .harbor-moored { animation: none; } }
+
+/* ---------- sun-run: the day sea (specs/03) ---------- */
+/* Gold-and-coral warmth instead of night indigo — the harvest, not the hunt. */
+body.mood-day::after {
+  opacity: 1;
+  background:
+    radial-gradient(120% 70% at 50% -15%, rgba(232, 180, 95, 0.28), transparent 60%),
+    radial-gradient(130% 60% at 50% 115%, rgba(240, 150, 110, 0.14), transparent 62%),
+    linear-gradient(180deg, rgba(255, 226, 170, 0.12), transparent 45%);
+}
