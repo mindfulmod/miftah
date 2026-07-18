@@ -11,12 +11,24 @@
 > (hull→health, ward→shield, vessel→ship, salvage→treasure).
 >
 > **Reskin ownership (owner directive 2026-07-17): Fable owns the look of
-> all three games.** First passes done: trainer manuscript pass (reverent
-> glow replaces confetti, milestone frames), navigator encounter legibility +
-> sea-mood tint layer, Letter Garden biome chapters (bands + scenery decals).
-> Remaining named look work: KFGQPC Uthmanic Hafs font swap (needs owner
-> approval to download the font file), LG ambient-life + mini-game scenes,
-> SN island home + card/HUD passes, trainer Today-screen styling.
+> all three games.**
+>
+> **All three apps' Milestones 1–4 are now built and browser-verified
+> (2026-07-18).** Trainer: unified FSRS, follow mode, Today screen + first-run,
+> full Urdu layer (data pipeline, display overlay, Nastaliq webfont, UI
+> localization), manuscript reskin + KFGQPC Uthmanic Hafs, anticipation teaser,
+> weekly letter, coverage heat-map + root-gem collection (`progress.html`).
+> Letter Garden: strength model + adaptive daily, blend machine, scaffolded
+> retry + warm pet, biome chapters, ambient life + melody moments, mastery
+> garden. Star Navigator: two-way FSRS sync, zero-crew One Piece recruitment,
+> logbook + marked bounties, encounter legibility + sea moods, heat system +
+> living island home.
+>
+> **Open on purpose (not built):** grammar micro-lessons (owner-authored
+> content), opt-in reminder notifications, the free recorded-audio bake-off
+> for the Letter Garden, LG mini-game per-scene backdrops, and the Star
+> Navigator's chaptered story arcs / crew arcs / sun-runs (story-authoring
+> passes). These are content/authoring efforts rather than engine work.
 
 Written from the 2026-07-16 discovery interviews (72 questions across the
 three apps). Each spec ends with a **Declined** list — check it before
