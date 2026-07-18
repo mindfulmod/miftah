@@ -10,6 +10,7 @@
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="preload" href="vendor/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="vendor/fonts/noto-nastaliq-urdu-400.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="vendor/fonts/fonts.css" />
     <link rel="stylesheet" href="styles.css" />
     <style>
@@ -46,8 +47,7 @@
       .wizard-pace { display: flex; flex-direction: column; gap: 3px; padding: 13px 16px; }
       .wizard-pace b { font-size: var(--fs-lg); }
       .wizard-pace span { color: var(--muted); font-size: var(--fs-xs); }
-      /* Urdu mode: RTL + Nastaliq where the OS has it (Apple ships Noto
-         Nastaliq Urdu); the coming Urdu layer will bundle the webfont. */
+      /* Urdu mode: RTL + bundled Noto Nastaliq Urdu (vendor/fonts). */
       body.lang-ur { direction: rtl; }
       body.lang-ur .today-hero,
       body.lang-ur .today-links,

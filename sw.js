@@ -4,7 +4,7 @@
 // - Shell (HTML/CSS/JS/fonts): stale-while-revalidate, ignoring ?v= cache-busters.
 // - data/*.json: network-first so rebuilt data lands promptly; cache fallback offline.
 // - Remote recitation audio: deliberately NOT intercepted — see AUDIO_HOSTS below.
-const VERSION = "miftah-v10";
+const VERSION = "miftah-v11";
 const SHELL_CACHE = `shell-${VERSION}`;
 const DATA_CACHE = `data-${VERSION}`;
 
@@ -38,6 +38,7 @@ const SHELL = [
   "vendor/fonts/amiri-quran-400-arabic.woff2",
   "vendor/fonts/amiri-quran-400-latin.woff2",
   "vendor/fonts/inter-latin.woff2",
+  "vendor/fonts/noto-nastaliq-urdu-400.woff2",
   "vendor/fonts/inter-latin-ext.woff2",
 ];
 

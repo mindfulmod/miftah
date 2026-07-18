@@ -3,6 +3,19 @@
    weight-specific files Google serves are deduplicated here.
    latin-ext matters: transliterations use U+1E00-1E9F (ḥ, ṣ, ā …). */
 
+/* Noto Nastaliq Urdu — the Urdu reading face. Anything the trainer stamps
+   lang="ur" renders in this (glosses, options, tarjuma, UI chrome). Nastaliq
+   hangs deep below the baseline, so consuming CSS pairs it with a loose
+   line-height. Arabic block only — Latin falls through to Inter. */
+@font-face {
+  font-family: "Noto Nastaliq Urdu";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(noto-nastaliq-urdu-400.woff2) format("woff2");
+  unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+200C-200F;
+}
+
 /* KFGQPC Uthmanic Hafs v22 — the King Fahd Complex mushaf face. Trainer
    Arabic renders in this so on-screen letterforms match the printed mushaf
    the learner recites from (specs/01, transfer argument). Amiri Quran stays
