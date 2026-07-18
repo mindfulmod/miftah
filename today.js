@@ -48,6 +48,7 @@ const STRINGS = {
     practice: "Practice",
     glossary: "Glossary",
     journey: "Journey",
+    patterns: "Patterns",
     // wizard
     stepLang: "Which language feels like home?",
     stepPace: "How much time each day?",
@@ -85,6 +86,7 @@ const STRINGS = {
     practice: "مشق",
     glossary: "فرہنگ",
     journey: "سفر",
+    patterns: "قواعد",
     stepLang: "کون سی زبان اپنی لگتی ہے؟",
     stepPace: "روزانہ کتنا وقت؟",
     paceGentle: "ہلکا",
@@ -242,6 +244,7 @@ function render() {
     </section>
     <nav class="today-links">
       <a class="ghost-btn" href="progress.html">${t.journey}</a>
+      <a class="ghost-btn" href="lessons.html">${t.patterns}</a>
       <a class="ghost-btn" href="surahs.html">${t.surahs}</a>
       <a class="ghost-btn" href="review.html">${t.practice}</a>
       <a class="ghost-btn" href="glossary.html">${t.glossary}</a>
