@@ -72,7 +72,14 @@
         document.fonts && document.fonts.load
           ? document.fonts.load('64px "Amiri Quran"')
           : Promise.resolve();
-      Promise.allSettled([this.worlds.loadWords(), fontReady]).then(() =>
+      // Optical centering (2026-07-19) needs each letter's true ink extent,
+      // which can only be measured by rasterizing actual SVG output (see
+      // LettersArt's inkShift comment) — an async pass, so warm the whole
+      // fixed alphabet before the first screen ever paints.
+      const inkReady = fontReady.then(() =>
+        Art.warmInk(this.worlds.letters.map((l) => l.char)),
+      );
+      Promise.allSettled([this.worlds.loadWords(), inkReady]).then(() =>
         this.pet ? this.renderHome() : this.renderHatch(),
       );
     }

@@ -15,39 +15,120 @@
   let uid = 0;
   const gradId = () => `lgg${(uid += 1)}`;
 
-  // Optical centering (2026-07-18): Amiri Quran's ink lands all over its huge
-  // em box — ط rides high above the baseline, م hangs deep below — so no fixed
-  // baseline trick (dominant-baseline, a constant dy) can centre every glyph.
-  // Measure the real ink once per string with canvas TextMetrics and return
-  // the nudges that put the ink's centre exactly on the anchor point:
+  // Optical centering (2026-07-19): Amiri Quran's ink lands all over its huge
+  // em box — ط rides high above the baseline, م hangs deep below — so no
+  // fixed baseline trick (dominant-baseline, a constant dy) can centre every
+  // glyph. Canvas TextMetrics' actualBoundingBox* can't be trusted either:
+  // for some letters (confirmed on ع, ي, ن) Canvas2D and the SVG renderer
+  // paint the SAME text/font/size measurably differently in this browser —
+  // a real engine divergence, not just an API quirk — so a correction
+  // measured via canvas fillText doesn't transfer to the <text> we actually
+  // ship. The only source of truth both agree on is the SVG's own rendered
+  // pixels, so we rasterize a throwaway <svg> to a canvas via an Image and
+  // read back which pixels got ink.
+  //
+  // That rasterization is unavoidably async (Image decode), so results are
+  // cached as a dx/dy-per-em RATIO (ink scales ~linearly with font-size) and
+  // warmed up front for the fixed alphabet via warmInk() — see LettersGame's
+  // boot sequence. inkShift() itself stays synchronous: a cache hit returns
+  // the true ratio-based shift, a miss (an un-warmed multi-letter string)
+  // falls back to the old canvas-metrics estimate, which is fine for
+  // multi-glyph runs since no single letter's stray ink dominates the box.
   //   dx     — add to the text x (with text-anchor:middle)
   //   dy     — the text y offset (baseline placement below the anchor)
   //   htmlDy — translateY for an inline-centred HTML span of the same string
-  // Results are only cached once the web font is actually loaded, so early
-  // calls measured against the fallback serif don't poison later renders.
   const inkCtx = document.createElement("canvas").getContext("2d");
   const inkCache = new Map();
+  const inkRatioCache = new Map();
   const AMIRI = "'Amiri Quran', serif";
   const LATIN_FONT = "ui-rounded, system-ui, sans-serif";
+  const INK_REF_SIZE = 200;
+
+  function rasterInkCenter(text, fontFamily, fontSize, direction) {
+    const pad = fontSize * 1.5;
+    const w = pad * 2;
+    const svgMarkup =
+      `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${w}" width="${w}" height="${w}">` +
+      `<text x="${pad}" y="${pad}" text-anchor="middle" direction="${direction}" ` +
+      `font-family="${fontFamily}" font-size="${fontSize}" fill="#000">${text}</text></svg>`;
+    const svg64 = "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svgMarkup)));
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        const c = document.createElement("canvas");
+        c.width = w;
+        c.height = w;
+        const ctx = c.getContext("2d");
+        ctx.drawImage(img, 0, 0, w, w);
+        const { data } = ctx.getImageData(0, 0, w, w);
+        let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+        for (let y = 0; y < w; y++) {
+          const row = y * w;
+          for (let x = 0; x < w; x++) {
+            if (data[(row + x) * 4 + 3] > 10) {
+              if (x < minX) minX = x;
+              if (x > maxX) maxX = x;
+              if (y < minY) minY = y;
+              if (y > maxY) maxY = y;
+            }
+          }
+        }
+        if (minX > maxX) return resolve(null); // nothing painted (blank string)
+        resolve({ dx: pad - (minX + maxX) / 2, dy: pad - (minY + maxY) / 2 });
+      };
+      img.onerror = reject;
+      img.src = svg64;
+    });
+  }
+
+  // Measures `text` once at a large reference size and caches the shift as a
+  // fraction of em, so inkShift() can scale it to whatever size a given
+  // card/tile/coin actually renders at without re-measuring per size.
+  async function warmInk(texts, latin = false) {
+    const fontFamily = latin ? LATIN_FONT : AMIRI;
+    const direction = latin ? "ltr" : "rtl";
+    await Promise.all(
+      Array.from(new Set(texts)).map(async (text) => {
+        const key = `${latin}|${text}`;
+        if (inkRatioCache.has(key)) return;
+        try {
+          const ink = await rasterInkCenter(text, fontFamily, INK_REF_SIZE, direction);
+          inkRatioCache.set(
+            key,
+            ink ? { dxR: ink.dx / INK_REF_SIZE, dyR: ink.dy / INK_REF_SIZE } : { dxR: 0, dyR: 0 },
+          );
+        } catch {
+          inkRatioCache.set(key, { dxR: 0, dyR: 0 });
+        }
+      }),
+    );
+  }
+
   function inkShift(text, size, latin = false) {
     const font = `${size}px ${latin ? LATIN_FONT : AMIRI}`;
-    const key = `${font}|${text}`;
-    const hit = inkCache.get(key);
+    const cacheKey = `${font}|${text}`;
+    const hit = inkCache.get(cacheKey);
     if (hit) return hit;
     const out = { dx: 0, dy: 0, htmlDy: 0 };
     try {
       inkCtx.font = font;
       const m = inkCtx.measureText(text);
-      // Ink spans [-actualBoundingBoxLeft, actualBoundingBoxRight] around the
-      // anchor; text-anchor:middle centres the ADVANCE, so shift by the gap
-      // between advance-centre and ink-centre.
-      out.dx = m.width / 2 - (m.actualBoundingBoxRight - m.actualBoundingBoxLeft) / 2;
-      out.dy = (m.actualBoundingBoxAscent - m.actualBoundingBoxDescent) / 2;
+      const ratio = inkRatioCache.get(`${latin}|${text}`);
+      if (ratio) {
+        out.dx = ratio.dxR * size;
+        out.dy = ratio.dyR * size;
+      } else {
+        // Fallback for strings not warmed (usually multi-letter runs): the
+        // old canvas-metrics estimate. Imperfect, but no single glyph's
+        // stray ink dominates a multi-letter box the way it does alone.
+        out.dx = m.width / 2 - (m.actualBoundingBoxRight - m.actualBoundingBoxLeft) / 2;
+        out.dy = (m.actualBoundingBoxAscent - m.actualBoundingBoxDescent) / 2;
+      }
       out.htmlDy =
         out.dy - (m.fontBoundingBoxAscent - m.fontBoundingBoxDescent) / 2;
       const ready =
         latin || !document.fonts || document.fonts.check(`${size}px "Amiri Quran"`);
-      if (ready) inkCache.set(key, out);
+      if (ready) inkCache.set(cacheKey, out);
     } catch {}
     return out;
   }
@@ -694,6 +775,6 @@
   ns.LettersArt = {
     keyMascot, blobCard, creature, icon, backdrop, dayPhase, PHASES, mapStop,
     bloomCluster, confetti, ICONS, pet, egg, sticker, stickerPack, skillFlower,
-    inkShift,
+    inkShift, warmInk,
   };
 })(window.MiftahGame || (window.MiftahGame = {}));
