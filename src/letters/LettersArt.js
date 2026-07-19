@@ -15,6 +15,43 @@
   let uid = 0;
   const gradId = () => `lgg${(uid += 1)}`;
 
+  // Optical centering (2026-07-18): Amiri Quran's ink lands all over its huge
+  // em box — ط rides high above the baseline, م hangs deep below — so no fixed
+  // baseline trick (dominant-baseline, a constant dy) can centre every glyph.
+  // Measure the real ink once per string with canvas TextMetrics and return
+  // the nudges that put the ink's centre exactly on the anchor point:
+  //   dx     — add to the text x (with text-anchor:middle)
+  //   dy     — the text y offset (baseline placement below the anchor)
+  //   htmlDy — translateY for an inline-centred HTML span of the same string
+  // Results are only cached once the web font is actually loaded, so early
+  // calls measured against the fallback serif don't poison later renders.
+  const inkCtx = document.createElement("canvas").getContext("2d");
+  const inkCache = new Map();
+  const AMIRI = "'Amiri Quran', serif";
+  const LATIN_FONT = "ui-rounded, system-ui, sans-serif";
+  function inkShift(text, size, latin = false) {
+    const font = `${size}px ${latin ? LATIN_FONT : AMIRI}`;
+    const key = `${font}|${text}`;
+    const hit = inkCache.get(key);
+    if (hit) return hit;
+    const out = { dx: 0, dy: 0, htmlDy: 0 };
+    try {
+      inkCtx.font = font;
+      const m = inkCtx.measureText(text);
+      // Ink spans [-actualBoundingBoxLeft, actualBoundingBoxRight] around the
+      // anchor; text-anchor:middle centres the ADVANCE, so shift by the gap
+      // between advance-centre and ink-centre.
+      out.dx = m.width / 2 - (m.actualBoundingBoxRight - m.actualBoundingBoxLeft) / 2;
+      out.dy = (m.actualBoundingBoxAscent - m.actualBoundingBoxDescent) / 2;
+      out.htmlDy =
+        out.dy - (m.fontBoundingBoxAscent - m.fontBoundingBoxDescent) / 2;
+      const ready =
+        latin || !document.fonts || document.fonts.check(`${size}px "Amiri Quran"`);
+      if (ready) inkCache.set(key, out);
+    } catch {}
+    return out;
+  }
+
   // A friendly face used by every character. Mascot-grade eyes (the Duolingo/
   // Lingokids lesson): big white sclera with a slight outward tilt, large dark
   // pupils angled toward the viewer, and a double highlight — that's what makes
@@ -155,25 +192,24 @@
         <rect x="55" y="164" width="140" height="90" rx="18" fill="${p.clothDark}"/>
         <rect x="55" y="157" width="140" height="90" rx="18" fill="#fff8e9" stroke="${INK}" stroke-width="6"/>
         <path d="M70 171 H180" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity="0.7"/>
-        ${cardGlyph(label, 125, 187, latin)}
+        ${cardGlyph(label, 125, 202, latin)}
         <circle cx="55" cy="190" r="11" fill="${p.inner}" stroke="${INK}" stroke-width="4"/>
         <circle cx="195" cy="190" r="11" fill="${p.inner}" stroke="${INK}" stroke-width="4"/>
       </g>
     </svg>`;
   }
 
-  // Optically centered card text: dominant-baseline central + a small lift
-  // (Amiri Quran's em box towers above its ink), sized by skeleton length so
-  // long form-strings and words never spill off the card.
+  // Optically centered card text: the ink is measured (inkShift) and the
+  // baseline placed so the visible glyph — not the em box — sits dead centre,
+  // sized by skeleton length so long form-strings never spill off the card.
   function cardGlyph(label, cx, cy, latin) {
     const len = [...(label || "").replace(/[ً-ْٰٓ-ٟؐ-ؚۖ-ۭ]/g, "")].length;
     const size = latin
       ? Math.min(40, 240 / Math.max(4, len))
       : len <= 1 ? 64 : len <= 3 ? 52 : len <= 5 ? 40 : 26;
-    return `<text x="${cx}" y="${cy}" dy="${latin ? "0.04em" : "-0.06em"}" text-anchor="middle"
-      dominant-baseline="central"
-      alignment-baseline="middle"
-      font-family="${latin ? "ui-rounded, system-ui, sans-serif" : "'Amiri Quran', serif"}"
+    const s = inkShift(label || "", size, latin);
+    return `<text x="${(cx + s.dx).toFixed(1)}" y="${(cy + s.dy).toFixed(1)}" text-anchor="middle"
+      font-family="${latin ? LATIN_FONT : AMIRI}"
       font-size="${size}" fill="${INK}" ${latin ? "" : `direction="rtl"`}>${label}</text>`;
   }
 
@@ -228,6 +264,8 @@
     paw: `<ellipse cx="32" cy="40" rx="13" ry="11" fill="currentColor"/>
       <circle cx="16" cy="28" r="6" fill="currentColor"/><circle cx="27" cy="20" r="6" fill="currentColor"/>
       <circle cx="38" cy="20" r="6" fill="currentColor"/><circle cx="48" cy="28" r="6" fill="currentColor"/>`,
+    book: `<path d="M32 14 C26 9 16 8 8 10 V50 C16 48 26 49 32 54 C38 49 48 48 56 50 V10 C48 8 38 9 32 14 Z" fill="currentColor" opacity="0.25"/>
+      <path d="M32 14 C26 9 16 8 8 10 V50 C16 48 26 49 32 54 M32 14 C38 9 48 8 56 10 V50 C48 48 38 49 32 54 M32 14 V54" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>`,
   };
 
   function icon(name, size = 30) {
@@ -326,7 +364,13 @@
       ${
         status === "locked"
           ? `<g transform="translate(-21 -23) scale(0.66)" fill="#87909e">${ICONS.lock}</g>`
-          : `<text y="${latin ? -1 : 4}" dy="${latin ? "0.04em" : "-0.06em"}" text-anchor="middle" dominant-baseline="central" alignment-baseline="middle" font-family="${latin ? "ui-rounded, system-ui, sans-serif" : "'Amiri Quran', serif"}" font-size="${latin ? 24 : [...label.replace(/[ً-ْٰٓ-ٟؐ-ؚۖ-ۭ]/g, "")].length >= 3 ? 27 : 39}" fill="${INK}" ${latin ? "" : `direction="rtl"`}>${label}</text>`
+          : (() => {
+              const size = latin ? 24 : [...label.replace(/[ً-ْٰٓ-ٟؐ-ؚۖ-ۭ]/g, "")].length >= 3 ? 27 : 39;
+              // Optical centre, nudged 3 up so the star row below reads as a
+              // caption rather than crowding the glyph.
+              const s = inkShift(label, size, latin);
+              return `<text x="${s.dx.toFixed(1)}" y="${(s.dy - 3).toFixed(1)}" text-anchor="middle" font-family="${latin ? LATIN_FONT : AMIRI}" font-size="${size}" fill="${INK}" ${latin ? "" : `direction="rtl"`}>${label}</text>`;
+            })()
       }
       ${status !== "locked" ? starRow : ""}
     </svg>`;
@@ -618,27 +662,11 @@
     </svg>`;
   }
 
-  const CHARACTER_ASSETS = {
-    squirrel: {
-      idle: "assets/letters/characters/squirrel_idle",
-      listening: "assets/letters/characters/squirrel_listening",
-      presenting: "assets/letters/characters/squirrel_presenting",
-      success: "assets/letters/characters/squirrel_success",
-    },
-  };
-
-  function character({ species = "squirrel", pose = "idle", size = 76 } = {}) {
-    const poses = CHARACTER_ASSETS[species] || CHARACTER_ASSETS.squirrel;
-    const base = poses[pose] || poses.idle;
-    return `
-    <picture class="art-character art-character-${species}" data-pose="${pose}" style="--art-character-size:${size}px">
-      <source type="image/webp" srcset="${base}.webp 1x, ${base}@2x.webp 2x">
-      <img class="art-character-img" src="${base}.webp" width="480" height="480" alt="" draggable="false" decoding="async">
-    </picture>`;
-  }
-
   // Confetti burst — appended to body, cleans itself up.
   function confetti(x, y, golden) {
+    // Perf: on a fast correct-streak bursts can stack up; two at once is
+    // plenty of party, three is a frame drop on tablets.
+    if (document.querySelectorAll(".lg-confetti-layer").length >= 2) return;
     const layer = document.createElement("div");
     layer.className = "lg-confetti-layer";
     layer.style.left = `${x}px`;
@@ -666,6 +694,6 @@
   ns.LettersArt = {
     keyMascot, blobCard, creature, icon, backdrop, dayPhase, PHASES, mapStop,
     bloomCluster, confetti, ICONS, pet, egg, sticker, stickerPack, skillFlower,
-    character,
+    inkShift,
   };
 })(window.MiftahGame || (window.MiftahGame = {}));

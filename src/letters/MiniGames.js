@@ -43,19 +43,18 @@
   const isArabic = (s) => /[؀-ۿ]/.test(s || "");
   const DIACRITICS = /[ً-ْٰٓ-ٟؐ-ؚۖ-ۭ]/g;
 
-  // Optically centered glyph text. Amiri Quran reserves a large amount of
-  // space above its visible ink for stacked marks, so mathematical baseline
-  // centering leaves Arabic sitting on the tile's floor. The negative dy is
-  // an intentional ink-box correction, not ordinary line-height alignment.
+  // Optically centered glyph text. Amiri Quran's ink lands all over its huge
+  // em box (ط rides high, م hangs low), so the tile measures each string's
+  // real ink (Art.inkShift, canvas TextMetrics) and places the baseline so
+  // the visible glyph — not the em box — sits dead centre.
   function glyphText(display, { fill = "#2b2233", maxSize = 44 } = {}) {
     const latin = !isArabic(display);
     const len = [...display.replace(DIACRITICS, "")].length;
     const size = latin
       ? Math.min(maxSize * 0.6, 26)
       : len <= 1 ? maxSize : len <= 2 ? maxSize * 0.9 : len <= 3 ? maxSize * 0.72 : maxSize * 0.58;
-    return `<text x="0" y="0" dy="${latin ? "0.06em" : "-0.06em"}" text-anchor="middle"
-      dominant-baseline="central"
-      alignment-baseline="middle"
+    const s = Art.inkShift(display, size, latin);
+    return `<text x="${s.dx.toFixed(1)}" y="${s.dy.toFixed(1)}" text-anchor="middle"
       font-family="${latin ? "ui-rounded, system-ui, sans-serif" : "'Amiri Quran', serif"}"
       font-size="${size}" fill="${fill}" ${latin ? "" : `direction="rtl"`}>${display}</text>`;
   }
@@ -96,6 +95,11 @@
       this.bubbles = [];
       ctx.stage.innerHTML = `<div class="pop-sky"></div>`;
       this.sky = ctx.stage.querySelector(".pop-sky");
+      // Perf: bubbles move via transform (composited), not top (layout).
+      // The sky height is measured once and on resize, never per frame.
+      this.skyH = this.sky.clientHeight || 1;
+      this.onResize = () => (this.skyH = this.sky.clientHeight || 1);
+      window.addEventListener("resize", this.onResize);
       this.startRound();
       this.lastTime = performance.now();
       this.tick = this.tick.bind(this);
@@ -108,7 +112,10 @@
       this.ctx.say(round.target);
       for (const b of this.bubbles) b.el.remove();
       this.bubbles = [];
-      const lanes = shuffle([0, 1, 2]);
+      // One lane per option — seasoned replayers get 4 options, so the lane
+      // count must follow (a fixed [0,1,2] left the 4th bubble unplaced).
+      this.laneCount = round.options.length;
+      const lanes = shuffle([...Array(this.laneCount).keys()]);
       round.options.forEach((item, i) => this.spawn(item, lanes[i], i * 0.33));
     }
 
@@ -117,11 +124,12 @@
       el.type = "button";
       el.className = "pop-bubble";
       el.innerHTML = tileHTML(item, this.ctx.hue);
-      const laneX = 8 + lane * 30 + Math.random() * 8; // percent
+      const laneW = 84 / Math.max(3, this.laneCount || 3);
+      const laneX = 6 + lane * laneW + Math.random() * Math.min(8, laneW * 0.25); // percent
       el.style.left = `${laneX}%`;
       const pace = 1 + 0.22 * (this.ctx.level || 0);
       const bubble = { el, item, y: 1.15 + delay, speed: (0.06 + Math.random() * 0.025) * pace };
-      el.style.top = `${bubble.y * 100}%`;
+      el.style.transform = `translate3d(0, ${bubble.y * this.skyH}px, 0)`;
       el.addEventListener("pointerdown", () => this.popAttempt(bubble));
       this.sky.appendChild(el);
       this.bubbles.push(bubble);
@@ -144,9 +152,13 @@
         // Rich wrong-pick feedback: the bubble shakes, tints red and wears a
         // ✗ for a beat, while the prompt bubble pulses — "look HERE, listen
         // again" — before the target sound repeats.
-        bubble.el.classList.remove("is-shake");
-        void bubble.el.offsetWidth;
-        bubble.el.classList.add("is-shake", "is-no");
+        // Shake the inner svg, not the button: the button's transform is the
+        // bubble's position now, and the shake animation would override it.
+        const svg = bubble.el.querySelector("svg");
+        svg.classList.remove("is-shake");
+        void svg.offsetWidth;
+        svg.classList.add("is-shake");
+        bubble.el.classList.add("is-no");
         const cross = document.createElement("i");
         cross.className = "pop-cross";
         cross.innerHTML = `<svg viewBox="0 0 64 64"><path d="M18 18 L46 46 M46 18 L18 46" stroke="#c23a2b" stroke-width="10" stroke-linecap="round"/></svg>`;
@@ -176,7 +188,7 @@
         if (b.el.classList.contains("is-popped") || b.el.classList.contains("is-scaffolded")) continue;
         b.y -= b.speed * this.heat.factor() * dt;
         if (b.y < -0.18) b.y = 1.12; // drift forever until popped
-        b.el.style.top = `${b.y * 100}%`;
+        b.el.style.transform = `translate3d(0, ${b.y * this.skyH}px, 0)`;
       }
       requestAnimationFrame(this.tick);
     }
@@ -188,6 +200,7 @@
 
     destroy() {
       this.alive = false;
+      window.removeEventListener("resize", this.onResize);
     }
   }
 
@@ -210,6 +223,10 @@
         </div>`;
       this.field = ctx.stage.querySelector(".catch-field");
       this.basket = ctx.stage.querySelector(".catch-basket");
+      // Perf: fallers move via transform, height measured outside the loop.
+      this.fieldH = this.field.clientHeight || 1;
+      this.onResize = () => (this.fieldH = this.field.clientHeight || 1);
+      window.addEventListener("resize", this.onResize);
       this.heat = makeHeat();
       this.basketX = 0.5;
       const move = (event) => {
@@ -235,10 +252,13 @@
     spawn() {
       const round = this.rounds[this.roundIndex];
       // Always keep the target reachable: alternate target / distractor.
+      // (options is shuffled, so the target's slot is unknown — filter it out
+      // rather than assuming it sits at index 0.)
       this.spawnFlip = !this.spawnFlip;
+      const distractors = round.options.filter((o) => o.id !== round.target.id);
       const item = this.spawnFlip
         ? round.target
-        : round.options[1 + Math.floor(Math.random() * (round.options.length - 1))] || round.target;
+        : distractors[Math.floor(Math.random() * distractors.length)] || round.target;
       const el = document.createElement("div");
       el.className = "catch-faller";
       el.innerHTML = tileHTML(item, this.ctx.hue);
@@ -246,7 +266,9 @@
       el.style.left = `${x * 100}%`;
       this.field.appendChild(el);
       const pace = 1 + 0.2 * (this.ctx.level || 0);
-      this.fallers.push({ el, item, x, y: -0.15, speed: (0.16 + Math.random() * 0.05) * pace });
+      const f = { el, item, x, y: -0.15, speed: (0.16 + Math.random() * 0.05) * pace };
+      el.style.transform = `translate3d(-50%, ${f.y * this.fieldH}px, 0)`;
+      this.fallers.push(f);
     }
 
     tick(now) {
@@ -261,7 +283,7 @@
       const round = this.rounds[this.roundIndex];
       for (const f of this.fallers.slice()) {
         f.y += f.speed * this.heat.factor() * dt;
-        f.el.style.top = `${f.y * 100}%`;
+        f.el.style.transform = `translate3d(-50%, ${f.y * this.fieldH}px, 0)`;
         // Catch zone: bottom strip, basket overlap.
         if (f.y > 0.78 && f.y < 0.9 && Math.abs(f.x - this.basketX) < 0.13) {
           this.remove(f);
@@ -310,6 +332,7 @@
 
     destroy() {
       this.alive = false;
+      window.removeEventListener("resize", this.onResize);
     }
   }
 
@@ -639,6 +662,22 @@
       this.drawing = true;
       this.last = this.pos(e);
       this.canvas.setPointerCapture?.(e.pointerId);
+      // A plain tap must leave ink too — kids dot the dots with single taps,
+      // and letters like ب can't pass their dot-cluster check without it.
+      if (this.g) {
+        const [x, y] = this.last;
+        const r = this.brush / 2;
+        this.g.beginPath();
+        this.g.arc(x, y, r, 0, Math.PI * 2);
+        this.g.fillStyle = this.g.strokeStyle;
+        this.g.fill();
+        for (let dy = -r; dy <= r; dy += 5) {
+          for (let dx = -r; dx <= r; dx += 5) {
+            if (dx * dx + dy * dy > r * r) continue;
+            this.paint.add(`${Math.round((x + dx) / 5) * 5}|${Math.round((y + dy) / 5) * 5}`);
+          }
+        }
+      }
     }
 
     penMove(e) {
@@ -1121,6 +1160,358 @@
     destroy() {}
   }
 
+  // ---------- Un-fuse: pull a joined shape apart, find who was hiding ----------
+  // The reverse of the fuse — and literally decoding practice. Phase A is
+  // pure joy (grab the fused shape, pull, it splits and each letter says its
+  // name); phase B is the verdict (three letters wait, "find the one you
+  // heard" — the strength model records the single letter).
+  class UnfuseGame {
+    constructor(ctx) {
+      this.ctx = ctx;
+      const pool = ctx.items.filter((i) => i.parts && i.parts.length === 2);
+      this.targets = shuffle(pool).slice(0, 4);
+      while (this.targets.length < 4 && pool.length)
+        this.targets.push(pool[this.targets.length % pool.length]);
+      this.roundIndex = 0;
+      this.slips = 0;
+      this.startRound();
+    }
+
+    startRound() {
+      const ctx = this.ctx;
+      const target = this.targets[this.roundIndex];
+      ctx.setPrompt(target);
+      ctx.say(target);
+      ctx.stage.innerHTML = `
+        <div class="unfuse-scene">
+          <button type="button" class="unfuse-whole">${tileHTML({ display: target.display }, ctx.hue)}</button>
+          <div class="unfuse-halves" hidden>
+            <span class="unfuse-half is-r">${tileHTML({ display: target.parts[0].display }, ctx.hue)}</span>
+            <span class="unfuse-half is-l">${tileHTML({ display: target.parts[1].display }, ctx.hue)}</span>
+          </div>
+          <div class="unfuse-quiz" hidden></div>
+        </div>`;
+      const whole = ctx.stage.querySelector(".unfuse-whole");
+      let sx = 0;
+      let sy = 0;
+      let pulled = false;
+      whole.addEventListener("pointerdown", (e) => {
+        whole.setPointerCapture(e.pointerId);
+        sx = e.clientX;
+        sy = e.clientY;
+        pulled = false;
+        whole.classList.add("is-held");
+      });
+      whole.addEventListener("pointermove", (e) => {
+        if (!whole.classList.contains("is-held") || pulled) return;
+        const d = Math.hypot(e.clientX - sx, e.clientY - sy);
+        // The tile strains as the child pulls, then gives way.
+        whole.style.setProperty("--strain", String(Math.min(1, d / 46)));
+        if (d > 46) {
+          pulled = true;
+          this.split();
+        }
+      });
+      whole.addEventListener("pointerup", () => {
+        whole.classList.remove("is-held");
+        whole.style.setProperty("--strain", "0");
+        if (!pulled) {
+          // A plain tap wobbles and replays the sound — the hint IS the toy.
+          whole.classList.remove("is-shake");
+          void whole.offsetWidth;
+          whole.classList.add("is-shake");
+          this.ctx.say(this.targets[this.roundIndex]);
+        }
+      });
+    }
+
+    split() {
+      const ctx = this.ctx;
+      const target = this.targets[this.roundIndex];
+      const whole = ctx.stage.querySelector(".unfuse-whole");
+      const halves = ctx.stage.querySelector(".unfuse-halves");
+      whole.hidden = true;
+      halves.hidden = false;
+      ctx.sfx("hatch");
+      ctx.confettiAt(halves);
+      // Each freed letter introduces itself, right one (read first) first.
+      ctx.say({ display: target.parts[0].display, speak: target.parts[0].speak });
+      setTimeout(
+        () => ctx.say({ display: target.parts[1].display, speak: target.parts[1].speak }),
+        900,
+      );
+      setTimeout(() => this.quiz(), 1900);
+    }
+
+    quiz() {
+      const ctx = this.ctx;
+      const target = this.targets[this.roundIndex];
+      // Ask for one of the two freed letters; a third letter crashes the
+      // line-up as the decoy.
+      const wanted = target.parts[Math.floor(Math.random() * 2)];
+      const decoyPool = (ctx.extraItems || []).filter(
+        (l) => l.display !== target.parts[0].display && l.display !== target.parts[1].display,
+      );
+      const decoy = shuffle(decoyPool)[0];
+      const options = shuffle([
+        { display: target.parts[0].display, speak: target.parts[0].speak },
+        { display: target.parts[1].display, speak: target.parts[1].speak },
+        ...(decoy ? [{ display: decoy.display, speak: decoy.speak }] : []),
+      ]);
+      ctx.setPrompt({ id: wanted.display, display: wanted.display, speak: wanted.speak });
+      ctx.say({ display: wanted.display, speak: wanted.speak });
+      const quizEl = ctx.stage.querySelector(".unfuse-quiz");
+      ctx.stage.querySelector(".unfuse-halves").hidden = true;
+      quizEl.hidden = false;
+      quizEl.innerHTML = options
+        .map((o, i) => `<button type="button" class="unfuse-pick" data-i="${i}">${tileHTML({ display: o.display }, ctx.hue)}</button>`)
+        .join("");
+      for (const btn of quizEl.querySelectorAll(".unfuse-pick")) {
+        btn.addEventListener("pointerdown", () => {
+          const o = options[Number(btn.dataset.i)];
+          if (o.display === wanted.display) {
+            ctx.sfx("correct");
+            ctx.confettiAt(btn);
+            ctx.say({ display: o.display, speak: o.speak });
+            setTimeout(() => {
+              this.roundIndex += 1;
+              if (this.roundIndex >= this.targets.length) return ctx.onDone(this.slips);
+              this.startRound();
+            }, 900);
+          } else {
+            this.slips += 1;
+            ctx.sfx("wrong");
+            const svg = btn.querySelector("svg");
+            svg.classList.remove("is-shake");
+            void svg.offsetWidth;
+            svg.classList.add("is-shake");
+            setTimeout(() => btn.classList.add("is-scaffolded"), 600);
+            if (ctx.pulsePrompt) ctx.pulsePrompt();
+            ctx.say({ display: wanted.display, speak: wanted.speak });
+          }
+        });
+      }
+    }
+
+    destroy() {}
+  }
+
+  // ---------- Chain: grow a two-letter join into three ----------
+  // The bridge to real words. A fused pair sits on stage; the child heard
+  // the full three-name chain and must drag the right third letter on —
+  // the chain grows leftward, exactly the direction Arabic reads.
+  class ChainGame {
+    constructor(ctx) {
+      this.ctx = ctx;
+      const pool = ctx.items.filter((i) => i.parts && i.parts.length === 2 && i.join2);
+      const singles = (ctx.extraItems || []).slice();
+      this.rounds = shuffle(pool).slice(0, 4).map((pair, r) => {
+        const candidates = shuffle(
+          singles.filter(
+            (l) => l.display !== pair.parts[0].display && l.display !== pair.parts[1].display,
+          ),
+        );
+        const third = candidates[0];
+        const decoy = r >= 1 ? candidates[1] : null;
+        return { pair, third, decoy };
+      }).filter((r) => r.third);
+      const unique = this.rounds.length;
+      while (this.rounds.length < 4 && unique) {
+        this.rounds.push(this.rounds[this.rounds.length % unique]);
+      }
+      this.roundIndex = 0;
+      this.slips = 0;
+      this.startRound();
+    }
+
+    startRound() {
+      const ctx = this.ctx;
+      const { pair, third, decoy } = this.rounds[this.roundIndex];
+      const chain = {
+        id: pair.display + third.display,
+        display: pair.display + third.display,
+        speak: `${pair.speak}، ${third.speak}`,
+      };
+      this.chain = chain;
+      ctx.setPrompt(chain);
+      ctx.say(chain);
+      const thirds = [{ l: third, x: 22, y: decoy ? 30 : 50 }];
+      if (decoy) thirds.push({ l: decoy, x: 22, y: 68 });
+      ctx.stage.innerHTML = `
+        <div class="blend-scene chain-scene">
+          <div class="blend-glow"></div>
+          <span class="chain-base">${tileHTML({ display: pair.display }, ctx.hue)}</span>
+          ${thirds
+            .map(
+              (t, i) => `<button type="button" class="blend-part chain-third" data-i="${i}"
+                style="left:${t.x}%; top:${t.y}%">${tileHTML({ display: t.l.display }, ctx.hue)}</button>`,
+            )
+            .join("")}
+        </div>`;
+      this.thirds = thirds;
+      this.base = ctx.stage.querySelector(".chain-base");
+      for (const el of ctx.stage.querySelectorAll(".chain-third")) this.wireDrag(el);
+    }
+
+    wireDrag(el) {
+      let sx = 0;
+      let sy = 0;
+      let baseL = 0;
+      let baseT = 0;
+      let moved = false;
+      el.addEventListener("pointerdown", (e) => {
+        if (el.classList.contains("is-gone") || el.classList.contains("is-scaffolded")) return;
+        el.setPointerCapture(e.pointerId);
+        sx = e.clientX;
+        sy = e.clientY;
+        baseL = el.offsetLeft;
+        baseT = el.offsetTop;
+        moved = false;
+        el.classList.add("is-held");
+        const t = this.thirds[Number(el.dataset.i)].l;
+        this.ctx.say({ display: t.display, speak: t.speak });
+      });
+      el.addEventListener("pointermove", (e) => {
+        if (!el.classList.contains("is-held")) return;
+        const dx = e.clientX - sx;
+        const dy = e.clientY - sy;
+        if (Math.hypot(dx, dy) > 8) moved = true;
+        if (moved) {
+          el.style.left = `${baseL + dx}px`;
+          el.style.top = `${baseT + dy}px`;
+          this.base.classList.toggle("is-near", this.hitsBase(el));
+        }
+      });
+      el.addEventListener("pointerup", () => {
+        if (!el.classList.contains("is-held")) return;
+        el.classList.remove("is-held");
+        this.base.classList.remove("is-near");
+        const drop = moved ? this.hitsBase(el) : true; // tap = try it too
+        if (drop) this.tryChain(el);
+        else this.springHome(el);
+      });
+    }
+
+    hitsBase(el) {
+      const r = el.getBoundingClientRect();
+      const b = this.base.getBoundingClientRect();
+      return (
+        Math.hypot(
+          b.left + b.width / 2 - (r.left + r.width / 2),
+          b.top + b.height / 2 - (r.top + r.height / 2),
+        ) < r.width * 0.85
+      );
+    }
+
+    springHome(el) {
+      const t = this.thirds[Number(el.dataset.i)];
+      el.style.left = `${t.x}%`;
+      el.style.top = `${t.y}%`;
+    }
+
+    tryChain(el) {
+      const ctx = this.ctx;
+      const { third } = this.rounds[this.roundIndex];
+      const picked = this.thirds[Number(el.dataset.i)].l;
+      if (picked.display !== third.display) {
+        this.slips += 1;
+        ctx.sfx("wrong");
+        const svg = el.querySelector("svg");
+        svg.classList.remove("is-shake");
+        void svg.offsetWidth;
+        svg.classList.add("is-shake");
+        setTimeout(() => {
+          this.springHome(el);
+          el.classList.add("is-scaffolded");
+          ctx.say(this.chain);
+        }, 550);
+        return;
+      }
+      el.classList.add("is-fusing");
+      el.style.left = "50%";
+      el.style.top = "46%";
+      setTimeout(() => {
+        el.classList.add("is-gone");
+        this.base.innerHTML = tileHTML({ display: this.chain.display }, ctx.hue);
+        this.base.classList.add("is-grown");
+        ctx.sfx("correct");
+        ctx.say(this.chain);
+        ctx.confettiAt(this.base);
+      }, 380);
+      setTimeout(() => {
+        this.roundIndex += 1;
+        if (this.roundIndex >= this.rounds.length) return ctx.onDone(this.slips);
+        this.startRound();
+      }, 1900);
+    }
+
+    destroy() {}
+  }
+
+  // ---------- Costume parade: one letter, three outfits ----------
+  // The gentle one. A letter stands center stage; three dressing spots wait
+  // in reading order. Each tap dresses the letter in that position's
+  // costume and speaks its name. No verdicts (like Pairs, deliberately
+  // untracked) — this is recognition by wandering, not testing.
+  class ParadeGame {
+    constructor(ctx) {
+      this.ctx = ctx;
+      const TATWEEL = "ـ";
+      const joiners = (ctx.extraItems || []).filter((l) => l.joins);
+      const pool = joiners.length
+        ? joiners
+        : ctx.items.filter((i) => i.parts).map((i) => ({ display: i.parts[0].display, speak: i.parts[0].speak, joins: true }));
+      this.letters = shuffle(pool).slice(0, 3);
+      this.formsOf = (ch) => [ch + TATWEEL, TATWEEL + ch + TATWEEL, TATWEEL + ch];
+      this.roundIndex = 0;
+      ctx.setPrompt(null);
+      this.startRound();
+    }
+
+    startRound() {
+      const ctx = this.ctx;
+      const letter = this.letters[this.roundIndex];
+      const forms = this.formsOf(letter.display);
+      ctx.say({ display: letter.display, speak: letter.speak });
+      ctx.stage.innerHTML = `
+        <div class="parade-scene">
+          <span class="parade-star">${tileHTML({ display: letter.display }, ctx.hue)}</span>
+          <div class="parade-spots" dir="rtl">
+            ${forms
+              .map(
+                (f, i) => `<button type="button" class="parade-spot" data-i="${i}">
+                  <span class="parade-mystery">✨</span>
+                  <span class="parade-form" hidden>${tileHTML({ display: f }, ctx.hue)}</span>
+                </button>`,
+              )
+              .join("")}
+          </div>
+        </div>`;
+      this.dressed = 0;
+      for (const spot of ctx.stage.querySelectorAll(".parade-spot")) {
+        spot.addEventListener("pointerdown", () => {
+          if (!spot.querySelector(".parade-form").hidden) return;
+          spot.querySelector(".parade-mystery").hidden = true;
+          spot.querySelector(".parade-form").hidden = false;
+          spot.classList.add("is-dressed");
+          ctx.sfx("seed");
+          ctx.say({ display: letter.display, speak: letter.speak });
+          this.dressed += 1;
+          if (this.dressed >= 3) {
+            ctx.confettiAt(ctx.stage.querySelector(".parade-spots"));
+            setTimeout(() => {
+              this.roundIndex += 1;
+              if (this.roundIndex >= this.letters.length) return ctx.onDone(0);
+              this.startRound();
+            }, 1200);
+          }
+        });
+      }
+    }
+
+    destroy() {}
+  }
+
   ns.LettersMiniGames = {
     pop: PopGame,
     catch: CatchGame,
@@ -1130,5 +1521,11 @@
     burst: BurstGame,
     build: BuildGame,
     blend: BlendGame,
+    // The joining stage (2026-07-18): fuse IS the blend machine — same
+    // mechanic, letter+letter instead of letter+haraka.
+    fuse: BlendGame,
+    unfuse: UnfuseGame,
+    chain: ChainGame,
+    parade: ParadeGame,
   };
 })(window.MiftahGame || (window.MiftahGame = {}));

@@ -49,6 +49,15 @@
         ns.LETTERS_DATA.packs.flatMap((p) => p.letters).map((l) => [l.char, l.name.toLowerCase()]),
       );
       this.missingClips = new Set();
+      // Prime the async voice list now so the FIRST spoken prompt already
+      // has the premium Arabic voices to choose from (getVoices() returns []
+      // until the browser finishes loading them).
+      if ("speechSynthesis" in window) {
+        try {
+          speechSynthesis.getVoices();
+          speechSynthesis.addEventListener?.("voiceschanged", () => speechSynthesis.getVoices(), { once: true });
+        } catch {}
+      }
       this.pet = this.loadJSON("quran-trainer:letters:pet", null);
       this.skills = this.loadJSON("quran-trainer:letters:skills", {});
       this.wallet = this.loadJSON("quran-trainer:letters:wallet", { earned: 0, spent: 0 });
@@ -56,7 +65,16 @@
       this.applyPhase();
       this.initSparkles();
       this.initAmbient();
-      this.worlds.loadWords().finally(() => (this.pet ? this.renderHome() : this.renderHatch()));
+      // Wait for the Quran font alongside the word data: the glyph tiles
+      // measure their ink to centre optically, and measuring against the
+      // fallback serif would bake wrong offsets into the first screens.
+      const fontReady =
+        document.fonts && document.fonts.load
+          ? document.fonts.load('64px "Amiri Quran"')
+          : Promise.resolve();
+      Promise.allSettled([this.worlds.loadWords(), fontReady]).then(() =>
+        this.pet ? this.renderHome() : this.renderHatch(),
+      );
     }
 
     // Ambient life (spec: specs/02): a few creatures drift across the garden
@@ -70,17 +88,27 @@
       const layer = document.createElement("div");
       layer.className = "lg-ambient";
       layer.setAttribute("aria-hidden", "true");
-      const n = night ? 7 : 5;
+      // Just 2-3 butterflies by day (a crowd reads as wallpaper, a few read
+      // as visitors), and they don't all ride the same conveyor: alternate
+      // ones fly the other way, each on its own meandering timing.
+      const n = night ? 7 : 2 + Math.round(Math.random());
       for (let i = 0; i < n; i += 1) {
         const c = document.createElement("i");
         c.className = night ? "lg-firefly-amb" : "lg-butterfly";
+        const dir = i % 2 === 0 ? 1 : -1;
         if (!night) {
           const hues = [340, 45, 275, 200];
           c.style.setProperty("--bf-hue", String(hues[i % hues.length]));
+          c.style.setProperty("--amb-dir", String(dir));
+          c.style.setProperty("--flap-dur", `${(0.26 + Math.random() * 0.14).toFixed(2)}s`);
+          if (dir === -1) {
+            c.style.left = "auto";
+            c.style.right = "-60px";
+          }
           c.innerHTML = butterflySVG();
         }
         c.style.top = `${8 + Math.random() * 78}%`;
-        c.style.setProperty("--amb-dur", `${18 + Math.random() * 20}s`);
+        c.style.setProperty("--amb-dur", `${22 + Math.random() * 20}s`);
         c.style.setProperty("--amb-delay", `${-Math.random() * 30}s`);
         c.style.setProperty("--amb-rise", `${Math.round(Math.random() * 60 - 30)}px`);
         layer.appendChild(c);
@@ -97,7 +125,9 @@
       const p = Art.PHASES[Art.dayPhase()] || Art.PHASES.day;
       const s = document.body.style;
       s.setProperty("--lg-sky-hi", p.hi);
-      s.setProperty("--lg-sky-mid", p.lo);
+      // A true mid band keeps the sky a three-stop gradient instead of
+      // flattening the lower two thirds into one colour.
+      s.setProperty("--lg-sky-mid", `color-mix(in srgb, ${p.hi} 45%, ${p.lo})`);
       s.setProperty("--lg-sky-lo", p.lo);
     }
 
@@ -109,6 +139,19 @@
       let lx = 0;
       let ly = 0;
       const colors = ["", "is-pink", "is-blue"];
+      // Perf (iPad, 2026-07-18): a fixed pool of spark nodes gets recycled
+      // instead of creating/destroying DOM mid-drag — drags happen exactly
+      // when mini-games are busiest.
+      const POOL = 12;
+      const pool = [];
+      let next = 0;
+      for (let i = 0; i < POOL; i += 1) {
+        const s = document.createElement("i");
+        s.className = "lg-spark";
+        s.style.display = "none";
+        document.body.appendChild(s);
+        pool.push(s);
+      }
       this.root.addEventListener("pointermove", (e) => {
         if (e.pointerType === "mouse" && e.buttons === 0) return; // drags only, not hover
         const now = performance.now();
@@ -116,14 +159,18 @@
         last = now;
         lx = e.clientX;
         ly = e.clientY;
-        const s = document.createElement("i");
+        const s = pool[next];
+        next = (next + 1) % POOL;
         s.className = `lg-spark ${colors[Math.floor(Math.random() * colors.length)]}`;
+        s.style.display = "";
         s.style.left = `${e.clientX}px`;
         s.style.top = `${e.clientY}px`;
         s.style.setProperty("--sx", `${Math.round(Math.random() * 24 - 12)}px`);
         s.style.setProperty("--sy", `${Math.round(Math.random() * 20 + 6)}px`);
-        document.body.appendChild(s);
-        setTimeout(() => s.remove(), 750);
+        // Restart the fade animation on the recycled node.
+        s.style.animation = "none";
+        void s.offsetWidth;
+        s.style.animation = "";
       });
     }
 
@@ -243,14 +290,21 @@
     // Tap the pet, and it recites something the child has taught it — the
     // child's own progress, spoken back by their creature.
     petRecite(bubbleEl) {
+      // The bubble carries its own backing art, so only the glyph inside gets
+      // the optical-centering nudge — never the bubble itself.
+      const setBubble = (text) => {
+        if (!bubbleEl) return;
+        const s = Art.inkShift(text, 26, false);
+        bubbleEl.innerHTML = `<span style="display:inline-block; transform:translate(${s.dx.toFixed(1)}px, ${s.htmlDy.toFixed(1)}px)">${text}</span>`;
+      };
       const known = this.petKnowledge();
       if (!known.length) {
         this.sound.play("click");
-        if (bubbleEl) bubbleEl.textContent = "؟";
+        setBubble("؟");
         return;
       }
       const letter = known[Math.floor(Math.random() * known.length)];
-      if (bubbleEl) bubbleEl.textContent = letter.char;
+      setBubble(letter.char);
       this.say({ display: letter.char, speak: letter.arName });
     }
 
@@ -317,19 +371,27 @@
           ${owned ? "" : `<span class="pet-acc-cost">${Art.icon("star", 12)} ${acc.cost}</span>`}
         </button>`;
       }).join("");
+      // Wardrobe layout (locked 2026-07-18): the pet is pinned large in the
+      // top half and never scrolls away; bodies + accessories live on
+      // horizontally-swiping shelves below, so a try-on always shows
+      // instantly on the big pet.
       const el = this.screen(
         "lg-pet",
         `${this.topBar()}
-        <div class="pet-stage" style="--pet-radiance:${this.petRadiance().toFixed(2)}">
-          <span class="lg-star-chip">${Art.icon("star", 20)} <b>${this.starBalance()}</b></span>
-          <button type="button" class="pet-big${this.petRadiance() > 0.15 ? " is-radiant" : ""}">
-            <span class="pet-aura" aria-hidden="true"></span>
-            <span class="pet-bubble" hidden></span>
-            ${this.petSVG(230)}
-          </button>
-          ${Object.keys(this.skills).length ? `<div class="pet-flower">${Art.skillFlower({ scores: this.skills, size: 130 })}</div>` : ""}
-          <div class="pet-shelf pet-bodies lg-panel">${bodyShelf}</div>
-          <div class="pet-shelf lg-panel">${shelf}</div>
+        <div class="pet-stage pet-room" style="--pet-radiance:${this.petRadiance().toFixed(2)}">
+          <div class="pet-hero">
+            <span class="lg-star-chip">${Art.icon("star", 20)} <b>${this.starBalance()}</b></span>
+            <button type="button" class="pet-big${this.petRadiance() > 0.15 ? " is-radiant" : ""}">
+              <span class="pet-aura" aria-hidden="true"></span>
+              <span class="pet-bubble" hidden></span>
+              ${this.petSVG(210)}
+            </button>
+            ${Object.keys(this.skills).length ? `<div class="pet-flower">${Art.skillFlower({ scores: this.skills, size: 92 })}</div>` : ""}
+          </div>
+          <div class="pet-racks">
+            <div class="pet-shelf pet-bodies lg-panel">${bodyShelf}</div>
+            <div class="pet-shelf lg-panel">${shelf}</div>
+          </div>
         </div>`,
       );
       this.wireTopBar(el);
@@ -481,14 +543,21 @@
       const file = item.display && item.display.length === 1 ? this.letterFiles.get(item.display) : null;
       if (file && !this.missingClips.has(file) && this.sound.enabled) {
         if (!this.clipEl) this.clipEl = new Audio();
-        const fallback = () => {
-          this.missingClips.add(file);
+        // One fallback per attempt (onerror + play().catch can both fire),
+        // and only a real load failure blacklists the file — an autoplay-
+        // policy rejection (NotAllowedError) means the clip EXISTS but this
+        // gesture couldn't start it, so it must stay eligible for next tap.
+        let fell = false;
+        const fallback = (blame) => {
+          if (fell) return;
+          fell = true;
+          if (blame) this.missingClips.add(file);
           this.speak(item.speak || item.display);
         };
-        this.clipEl.onerror = fallback;
+        this.clipEl.onerror = () => fallback(true);
         this.clipEl.src = `assets/audio/letters/${file}.mp3`;
         const p = this.clipEl.play();
-        if (p && p.catch) p.catch(fallback);
+        if (p && p.catch) p.catch((err) => fallback(!(err && err.name === "NotAllowedError")));
         return;
       }
       this.speak(item.speak || item.display);
@@ -526,6 +595,10 @@
     screen(className, inner) {
       if (this.game && this.game.destroy) this.game.destroy();
       this.game = null;
+      // Perf (iPad, 2026-07-18): while a mini-game runs, the ambient
+      // butterfly/firefly layer is invisible behind the play panel anyway —
+      // stop compositing it so game frames get the whole budget.
+      document.body.classList.toggle("lg-in-game", className === "lg-play");
       this.root.innerHTML = `${Art.backdrop()}<div class="lg-screen ${className}">${inner}</div>`;
       return this.root.querySelector(".lg-screen");
     }
@@ -554,6 +627,7 @@
         this.sound.toggle ? this.sound.toggle() : (this.sound.enabled = !this.sound.enabled);
         if (!this.sound.enabled) {
           this.recite.stop();
+          if (this.clipEl) try { this.clipEl.pause(); } catch {}
           try { speechSynthesis.cancel(); } catch {}
         }
         syncSound();
@@ -937,18 +1011,43 @@
       else this.startGame();
     }
 
+    // Make-it-happen intros (locked 2026-07-18): the child CAUSES every
+    // reveal instead of watching a card. Three variants:
+    //   replay  — finished worlds get one quick tap-to-hear card, then games;
+    //   assemble — cards with parts (syllables, joins, muqattaat) arrive as
+    //             pieces the child taps together; the fused card is the reveal;
+    //   wake    — everything else sleeps inside a sparkle bud until tapped.
     renderMeet() {
       const s = this.session;
       const card = s.world.meet[s.meetIndex];
+      const latin = !/[؀-ۿ]/.test(card.display);
+      const isReplay = this.progress.done.includes(s.world.id);
+      const parts =
+        !isReplay && Array.isArray(card.parts) && card.parts.length >= 2 ? card.parts : null;
+      const bigCard = Art.blobCard({ hue: s.world.hue, label: card.display, latin });
+      const hidden = isReplay ? "" : "hidden";
+      const opener = isReplay
+        ? ""
+        : parts
+          ? `<div class="meet-make" dir="rtl">
+              ${parts
+                .map(
+                  (p, i) => `<button type="button" class="meet-piece" data-i="${i}" style="--pi:${i}">
+                    ${Art.blobCard({ hue: s.world.hue, label: p.display, latin: false })}</button>`,
+                )
+                .join("")}
+            </div>`
+          : `<button type="button" class="meet-bud" aria-label="wake"><span>✨</span></button>`;
       const el = this.screen(
         "lg-meet",
         `${this.topBar()}
         <div class="meet-stage lg-panel">
-          <button type="button" class="meet-card">${Art.blobCard({ hue: s.world.hue, label: card.display, latin: !/[؀-ۿ]/.test(card.display) })}</button>
+          ${opener}
+          <button type="button" class="meet-card" ${hidden}>${bigCard}</button>
           <div class="meet-dots">${s.world.meet.map((_, i) => `<i class="${i === s.meetIndex ? "is-on" : ""}"></i>`).join("")}</div>
           <div class="meet-nav">
-            <button type="button" class="lg-round-btn meet-hear">${Art.icon("speaker", 36)}</button>
-            <button type="button" class="lg-big-btn meet-next">${Art.icon("next", 40)}</button>
+            <button type="button" class="lg-round-btn meet-hear" ${hidden}>${Art.icon("speaker", 36)}</button>
+            <button type="button" class="lg-big-btn meet-next" ${hidden}>${Art.icon("next", 40)}</button>
           </div>
         </div>`,
       );
@@ -972,15 +1071,72 @@
           speakCard(); // the echo — "yes, like that"
         }, 2600);
       };
+      // The reveal moment all three variants funnel into.
+      const reveal = () => {
+        cardEl.hidden = false;
+        cardEl.classList.add("is-born");
+        el.querySelector(".meet-hear").hidden = false;
+        el.querySelector(".meet-next").hidden = false;
+        sayWithMe();
+      };
       cardEl.addEventListener("pointerdown", speakCard);
       el.querySelector(".meet-hear").addEventListener("click", speakCard);
       el.querySelector(".meet-next").addEventListener("click", () => {
         this.sound.play("page");
+        // Replays shorten to a single card — respect that replay is play,
+        // not re-teaching.
+        if (isReplay) return this.startGame();
         s.meetIndex += 1;
         if (s.meetIndex >= s.world.meet.length) this.startGame();
         else this.renderMeet();
       });
-      setTimeout(sayWithMe, 450);
+
+      if (isReplay) {
+        setTimeout(sayWithMe, 450);
+        return;
+      }
+      if (parts) {
+        // Assemble: each tapped piece speaks and lights up; when every piece
+        // is lit they rush together and the whole is born.
+        const make = el.querySelector(".meet-make");
+        let setCount = 0;
+        for (const piece of make.querySelectorAll(".meet-piece")) {
+          piece.addEventListener("pointerdown", () => {
+            if (piece.classList.contains("is-set")) {
+              const p = parts[Number(piece.dataset.i)];
+              this.say({ display: p.display, speak: p.speak || p.display });
+              return;
+            }
+            piece.classList.add("is-set");
+            const p = parts[Number(piece.dataset.i)];
+            this.say({ display: p.display, speak: p.speak || p.display });
+            this.sound.play("click");
+            setCount += 1;
+            if (setCount >= parts.length) {
+              setTimeout(() => {
+                make.classList.add("is-fusing");
+                this.sound.play("hatch");
+                setTimeout(() => {
+                  make.hidden = true;
+                  reveal();
+                }, 460);
+              }, 500);
+            }
+          });
+        }
+        // A soft voice hint so the child knows there's something to hear.
+        setTimeout(speakCard, 500);
+      } else {
+        const bud = el.querySelector(".meet-bud");
+        bud.addEventListener("pointerdown", () => {
+          bud.classList.add("is-popped");
+          this.sound.play("seed");
+          setTimeout(() => {
+            bud.hidden = true;
+            reveal();
+          }, 320);
+        });
+      }
     }
 
     startGame() {
@@ -991,7 +1147,7 @@
         "lg-play",
         `${this.topBar()}
         <div class="play-prompt lg-panel">
-          <span class="play-pet play-character">${Art.character({ size: 76, pose: "idle" })}</span>
+          <span class="play-pet">${this.petSVG(64)}</span>
           <span class="play-mascot">${Art.keyMascot({ size: 66 })}</span>
           <button type="button" class="play-bubble" hidden>
             <span class="play-bubble-glyph" dir="rtl" lang="ar"></span>
@@ -1011,15 +1167,19 @@
       const petEl = el.querySelector(".play-pet");
       let poseTimer = null;
       let poseLockedUntil = 0;
+      // The presenter is the child's own blob pet (squirrel reverted
+      // 2026-07-18). Poses map to blob moods: listening/success open the
+      // mouth in delight, everything else is the usual happy face.
+      const petMood = (pose) => (pose === "listening" || pose === "success" ? "open" : "happy");
       const setPetPose = (pose, hold = 0, lock = false) => {
         if (!petEl) return;
-        petEl.innerHTML = Art.character({ size: 76, pose });
+        petEl.innerHTML = this.petSVG(64, petMood(pose));
         if (poseTimer) clearTimeout(poseTimer);
         poseLockedUntil = lock ? Date.now() + hold : 0;
         if (hold > 0) {
           poseTimer = setTimeout(() => {
             poseLockedUntil = 0;
-            petEl.innerHTML = Art.character({ size: 76, pose: currentTarget ? "presenting" : "idle" });
+            petEl.innerHTML = this.petSVG(64, petMood(currentTarget ? "presenting" : "idle"));
           }, hold);
         }
       };
@@ -1090,8 +1250,13 @@
             // the check-up's visualize round shows the isolated letter while
             // the bubbles wear its in-word forms.
             const shown = item.promptDisplay || item.display;
+            const latinPrompt = !/[؀-ۿ]/.test(shown);
             glyph.textContent = shown;
-            glyph.classList.toggle("is-latin", !/[؀-ۿ]/.test(shown));
+            glyph.classList.toggle("is-latin", latinPrompt);
+            // Optically centre the ink inside the bubble (same measured-ink
+            // correction the SVG tiles use — Amiri's em box is way off).
+            const shift = Art.inkShift(shown, latinPrompt ? 22 : 38, latinPrompt);
+            glyph.style.transform = `translate(${shift.dx.toFixed(1)}px, ${shift.htmlDy.toFixed(1)}px)`;
             setPetPose("presenting");
           } else {
             setPetPose("idle");
