@@ -1,6 +1,8 @@
 # Letter Garden v2 — locked decisions (discovery interview 2026-07-16)
 
 Interviewed and locked 2026-07-16. Declined options at the bottom.
+v2.1 addendum (2026-07-18 interview) at the end — joining stage, make-it-happen
+intros, pet-room layout, performance pass.
 
 ## The child & the truth standard
 
@@ -127,3 +129,82 @@ Interviewed and locked 2026-07-16. Declined options at the bottom.
 - Whether a Bismillah graduation ceremony caps the Quran-words summit (revisit
   after milestone 3).
 - Character art direction long-term (blocked on owner's AI-art workflow research).
+
+---
+
+# v2.1 addendum — locked 2026-07-18 (mid-build interview)
+
+Owner field-tested with a real child (iPad Air 4) and came back with a
+polish + pathway round. Two AskUserQuestion rounds; everything below is locked.
+
+## The diagnosis
+
+- The child hit a **cliff between single letters and multi-letter shapes**:
+  nothing in the game teaches the *act of joining* — the forms worlds showed
+  letter "costumes" for recognition but never the merge event itself.
+- The blend machine (letter + haraka fuse) is the mechanic that works; the
+  game should lean into "you make it, it talks" as its teaching grammar.
+
+## Pathway: the joining stage (replaces the forms worlds)
+
+- **New joining worlds sit right after the letter packs, before vowels.**
+- **Names-first voicing:** fusing ب + ت → بت speaks the letter names in order
+  ("ba… ta"). This is Noorani Qaida lesson 2 (murakkabat) and honors the
+  locked names-first convention. No vowels sneak in early.
+- **The two forms worlds RETIRE** — joining teaches shape-change better than
+  costume-matching. Their letter ranges carry over to the join worlds.
+- **Muqattaat stays where it is** (owner explicitly declined moving it);
+  the joining stage before it softens the cliff.
+- **Four join game modes** (all chosen):
+  1. **Fuse** — drag letters together, watch the morph, hear the names.
+  2. **Un-fuse** — pull a joined shape apart to reveal the letters inside
+     (decoding practice; doubles content from the same data).
+  3. **Chain-building** — add a third letter to a two-letter join (بت → بتم);
+     the bridge to three-letter words.
+  4. **Costume parade** — the same letter walks through initial/medial/final
+     spots; gentle recognition reusing the old forms data.
+
+## Make-it-happen intros (all worlds)
+
+- **Every meet screen becomes interactive:** the child drags/taps pieces to
+  CAUSE the reveal (letters snap together, haraka drops on, word assembles),
+  then it speaks. Passive card+audio meets retire everywhere, including
+  single letters.
+- **Replays shorten:** first visit gets the full interactive intro; replaying
+  a finished world gets one quick tap-to-hear card, then straight to games.
+
+## Pet room layout
+
+- **Pinned pet + horizontal shelves:** pet stays fixed and large in the top
+  half; bodies/accessories become horizontally-swiping shelves below (Toca
+  wardrobe pattern). Vertical scroll never hides the character; try-ons show
+  instantly on the big pet.
+
+## Polish + performance
+
+- **Squirrel presenter REVERTED** — the webp squirrel character in the play
+  bar goes; the child's own blob pet returns as presenter (poses map to blob
+  states). Squirrel assets stay on disk but unreferenced.
+- **Butterfly pass:** fewer at once (2–3), mirrored directions, curved
+  flutter paths with pauses — no more single-direction conveyor.
+- **Performance target: mini-games on iPad Air 4** (owner saw lag there).
+  Audit list: sparkle-trail DOM churn on pointermove, confetti bursts,
+  ambient layer running behind games, full-innerHTML screen swaps, SVG
+  filter/shadow repaints.
+
+## Declined (2026-07-18)
+
+- Moving muqattaat later — owner kept qaida position.
+- Speakable-joins-only ordering (با/بو before harakat) — breaks qaida order.
+- Keeping forms worlds as post-joining practice — rerun risk.
+- Always-full intros on replay / child-chooses door — toll booth for a 5yo.
+
+## Recommended models (this round)
+
+| Task | Model |
+|---|---|
+| Joining worlds + 4 join games | **Fable** (new core mechanic) |
+| Make-it-happen intro rework | **Fable** (learning-critical feel) |
+| Pet room pinned layout | Sonnet |
+| Squirrel revert + butterfly pass | Sonnet |
+| Mini-game performance audit | Sonnet (Fable review if regressions) |

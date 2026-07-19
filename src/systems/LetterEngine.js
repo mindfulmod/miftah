@@ -96,19 +96,19 @@
       const joining = (from, to) =>
         packs.slice(from, to).flatMap((p) => p.letters).filter((l) => l.joins);
       units.push({
-        id: "forms-1",
+        id: "join-1",
         type: "forms",
-        title: "Shape Shifters I",
-        icon: "ﺑ",
-        blurb: "Letters change costume when they hold hands inside a word. Can you still spot them?",
+        title: "Letters Hold Hands I",
+        icon: "بت",
+        blurb: "Push two letters together and watch them change shape — the moment letters become words.",
         letters: joining(0, 4),
       });
       units.push({
-        id: "forms-2",
+        id: "join-2",
         type: "forms",
-        title: "Shape Shifters II",
-        icon: "ﻌ",
-        blurb: "The rest of the crew in their word costumes — start, middle and end.",
+        title: "Letters Hold Hands II",
+        icon: "عم",
+        blurb: "The rest of the crew learns to hold hands — fuse them, pull them apart, grow a chain.",
         letters: joining(4, 7),
       });
       units.push({

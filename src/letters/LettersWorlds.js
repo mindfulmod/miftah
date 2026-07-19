@@ -97,27 +97,44 @@
         });
       });
 
-      const joining = (from, to) =>
-        this.data.packs.slice(from, to).flatMap((p) => p.letters).filter((l) => l.joins);
+      // The joining stage (locked 2026-07-18, replaces the old forms worlds):
+      // Noorani Qaida lesson 2 — murakkabat. A fused shape speaks its
+      // letters' NAMES in reading order ("ba… ta"), never a vowelled sound,
+      // so the lesson is purely "letters change shape when they hold hands".
+      // The merge EVENT is the curriculum — fuse, un-fuse, chain, parade.
       for (const [i, range] of [[0, 4], [4, 7]].entries()) {
-        const letters = joining(range[0], range[1]);
+        const rangeLetters = this.data.packs.slice(range[0], range[1]).flatMap((p) => p.letters);
+        const firsts = rangeLetters.filter((l) => l.joins);
+        // Canonical partners (each joiner holds the NEXT letter's hand) keep
+        // item ids stable across sessions, so the strength model can track
+        // each pair as one skill instead of chasing random couples.
+        const partnerOf = (l) => rangeLetters[(rangeLetters.indexOf(l) + 1) % rangeLetters.length];
+        const pairItem = (l1, l2) => ({
+          id: l1.char + l2.char,
+          display: l1.char + l2.char,
+          speak: `${l1.arName}، ${l2.arName}`,
+          // join2 marks pairs whose SECOND letter also joins — only those can
+          // grow a third letter in the chain game.
+          join2: !!l2.joins,
+          parts: [
+            { display: l1.char, speak: l1.arName },
+            { display: l2.char, speak: l2.arName },
+          ],
+        });
         worlds.push({
-          id: `forms-${i + 1}`,
-          icon: i === 0 ? "ﺑ" : "ﻌ",
-          kind: "forms",
-          meet: letters.slice(0, 5).map((l) => {
-            const f = formsOf(l);
-            return { display: `${f.initial} ${f.medial} ${f.final}`, speak: l.arName, letter: l };
+          id: `join-${i + 1}`,
+          icon: i === 0 ? "بت" : "عم",
+          kind: "join",
+          meet: firsts.slice(0, 3).map((l) => {
+            const item = pairItem(l, partnerOf(l));
+            return { display: item.display, speak: item.speak, parts: item.parts };
           }),
-          // Item display is a contextual form; the "match" is the isolated
-          // letter — pairs and pop teach that the costume hides the same friend.
-          items: () =>
-            shuffle(letters).map((l) => {
-              const f = formsOf(l);
-              const pos = shuffle(["initial", "medial", "final"])[0];
-              return { id: l.char, display: f[pos], speak: l.arName, match: l.char };
-            }),
-          games: ["pairs", "pop", "feed"],
+          items: () => shuffle(firsts).map((l) => pairItem(l, partnerOf(l))),
+          // The range's single letters ride along: un-fuse verdicts, chain
+          // thirds and decoys all draw from here.
+          extraItems: () =>
+            rangeLetters.map((l) => ({ id: l.char, display: l.char, speak: l.arName, joins: !!l.joins })),
+          games: i === 0 ? ["fuse", "unfuse", "parade"] : ["fuse", "chain", "unfuse"],
         });
       }
 
@@ -136,9 +153,27 @@
             speak: nameSeq("الم"),
             title: "The mystery letters",
             sub: "Some surahs open with secret letters. Read each one by its NAME: Alif… Lam… Meem.",
+            parts: [..."الم"].map((ch) => ({
+              display: ch,
+              speak: (letterByChar.get(ch) || { arName: ch }).arName,
+            })),
           },
-          { display: "طه", speak: nameSeq("طه") },
-          { display: "يس", speak: nameSeq("يس") },
+          {
+            display: "طه",
+            speak: nameSeq("طه"),
+            parts: [..."طه"].map((ch) => ({
+              display: ch,
+              speak: (letterByChar.get(ch) || { arName: ch }).arName,
+            })),
+          },
+          {
+            display: "يس",
+            speak: nameSeq("يس"),
+            parts: [..."يس"].map((ch) => ({
+              display: ch,
+              speak: (letterByChar.get(ch) || { arName: ch }).arName,
+            })),
+          },
         ],
         items: () =>
           this.data.muqattaat.map((combo) => ({
@@ -162,11 +197,19 @@
         { display: l.char, speak: l.arName },
         { display: TATWEEL + v.char, speak: v.arName },
       ];
+      const meetBa = this.letters.find((l) => l.char === "ب");
       const vowelWorld = (id, icon, vowels) => ({
         id,
         icon,
         kind: "syllables",
-        meet: vowels.map((v) => ({ display: `ب${v.char}`, speak: `ب${v.char}`, vowel: v })),
+        // parts feed the make-it-happen intro: the child fuses ب + the mark
+        // to cause the reveal.
+        meet: vowels.map((v) => ({
+          display: `ب${v.char}`,
+          speak: `ب${v.char}`,
+          vowel: v,
+          parts: meetBa ? syllableParts(meetBa, v) : undefined,
+        })),
         items: () =>
           syllableLetters().flatMap((l) =>
             vowels.map((v) => ({
@@ -461,7 +504,7 @@
       // orchard, long-sound lagoon, sukoon night-garden, shaddah peaks, and
       // the decode riverlands at the summit.
       const biomeOf = (w) => {
-        if (w.kind === "letters" || w.kind === "forms" || w.kind === "muqattaat") return "meadow";
+        if (w.kind === "letters" || w.kind === "join" || w.kind === "muqattaat") return "meadow";
         if (["fatha", "kasra-damma", "tanween", "standing"].includes(w.id)) return "orchard";
         if (["long-sounds", "leen"].includes(w.id)) return "lagoon";
         if (w.id === "sukoon") return "night";
@@ -490,7 +533,7 @@
       const plan = [];
       plan.push({ skill: "identify", game: "pop", items: letterItems().slice(0, 8) });
       plan.push({ skill: "memorize", game: "pairs", items: letterItems() });
-      if (doneIds.includes("forms-1")) {
+      if (doneIds.includes("join-1") || doneIds.includes("forms-1")) {
         const joining = doneLetters.filter((l) => l.joins);
         plan.push({
           skill: "visualize",
