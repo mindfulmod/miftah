@@ -18,8 +18,13 @@
   --lg-cream: #fffaf0;
   --lg-cream-edge: #e5dcc8;
   --lg-paper-muted: #f4f0e4;
-  --lg-blue: #5c91e8;
-  --lg-blue-edge: #3767ba;
+  /* Primary action. Warm on purpose: the storybook palette is cream, espresso
+     and green, and a cool blue button was the one element that read as app
+     chrome rather than part of the toy. Tangerine keeps the same "press me"
+     prominence while staying inside the language, and sits clear of the gold
+     used for stars and finished stops. */
+  --lg-action: #e8743c;
+  --lg-action-edge: #b0501f;
   --lg-gold: #f3c955;
   --lg-gold-hi: #ffe49a;
   --lg-gold-edge: #c69434;
@@ -134,14 +139,14 @@ body {
   height: 74px;
   border: var(--lg-outline);
   border-radius: var(--lg-radius-sm);
-  background: var(--lg-blue);
-  box-shadow: 0 6px 0 var(--lg-blue-edge), 0 9px 0 var(--lg-ink);
+  background: var(--lg-action);
+  box-shadow: 0 6px 0 var(--lg-action-edge), 0 9px 0 var(--lg-ink);
   color: #fff;
   cursor: pointer;
   transition: transform 140ms var(--lg-spring), box-shadow 140ms var(--lg-out);
 }
 
-.lg-big-btn:active { transform: translateY(6px) scale(0.98); box-shadow: 0 1px 0 var(--lg-blue-edge), 0 4px 0 var(--lg-ink); }
+.lg-big-btn:active { transform: translateY(6px) scale(0.98); box-shadow: 0 1px 0 var(--lg-action-edge), 0 4px 0 var(--lg-ink); }
 
 /* ---------- living art ---------- */
 .art-eyes { animation: lg-blink 4.6s infinite; transform-origin: center; transform-box: fill-box; }
@@ -296,7 +301,9 @@ body {
 
 /* ---------- meet a letter ---------- */
 .meet-stage {
-  flex: 1;
+  /* Hug the content instead of stretching to fill the column, and stay
+     centred in whatever space is left. */
+  flex: 0 1 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -305,7 +312,7 @@ body {
   z-index: 2;
   width: min(520px, calc(100% - 12px));
   max-height: min(680px, calc(100% - 86px));
-  margin: 14px auto 9px;
+  margin: auto;
   padding: clamp(22px, 4vh, 40px);
   border: var(--lg-outline);
   border-radius: var(--lg-radius-lg);
@@ -473,6 +480,12 @@ body {
 
 .play-stage {
   flex: 1;
+  /* Cap the playfield (2026-07-24). Unbounded, this filled the whole column —
+     on a tablet that's ~800px of sky for 3 or 4 bubbles, so targets sat far
+     from the prompt and the field read as empty. Capped, the action happens
+     just under the prompt and the backdrop hills fill the space below, which
+     is what the scenery is there for. */
+  max-height: min(620px, 62vh);
   position: relative;
   overflow: hidden;
   z-index: 2;
@@ -1660,3 +1673,61 @@ body.lg-in-game .lg-ambient { display: none; }
   50% { transform: translate(-50%, -50%) scale(1.06); }
 }
 @media (prefers-reduced-motion: reduce) { .pet-aura { animation: none; } }
+
+/* ---------- touch impact (2026-07-24): the tactile channel iOS leaves open ----------
+   The Vibration API is Android-only — iPadOS Safari has no haptics for web
+   apps at all — so on the target device the *visual* recoil is what makes a
+   tap feel physical. Fired from Haptics.impact() on whatever the finger hit,
+   alongside the buzz wherever a buzz is actually available. */
+.is-impact { animation: lg-impact 130ms var(--lg-out, ease-out); }
+.is-impact-soft { animation: lg-impact-soft 160ms var(--lg-out, ease-out); }
+@keyframes lg-impact {
+  0% { transform: scale(1); }
+  38% { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+@keyframes lg-impact-soft {
+  0% { transform: scale(1); }
+  40% { transform: scale(0.965); }
+  100% { transform: scale(1); }
+}
+/* Reduced motion still deserves confirmation that the tap registered — keep a
+   brief opacity dip instead of the scale punch. */
+@media (prefers-reduced-motion: reduce) {
+  .is-impact, .is-impact-soft { animation: lg-impact-flat 120ms ease-out; }
+  @keyframes lg-impact-flat {
+    0% { opacity: 1; }
+    45% { opacity: 0.72; }
+    100% { opacity: 1; }
+  }
+}
+
+/* The egg answers every tap: a sharp shudder that settles. Paired with the
+   escalating cracks in Art.egg() so tap 1 and tap 2 are unmistakably
+   different — the old build repainted so fast the child saw nothing. */
+.art-egg.is-wobble { animation: lg-egg-wobble 420ms var(--lg-out, ease-out); transform-origin: 50% 92%; }
+@keyframes lg-egg-wobble {
+  0% { transform: rotate(0deg) scale(1); }
+  18% { transform: rotate(-5deg) scale(1.04, 0.96); }
+  40% { transform: rotate(4.5deg) scale(0.97, 1.03); }
+  62% { transform: rotate(-2.5deg) scale(1.02, 0.98); }
+  82% { transform: rotate(1.2deg) scale(1); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) { .art-egg.is-wobble { animation: none; } }
+
+/* Journey-map hierarchy (2026-07-24): the live stop must win the screen.
+   Locked stops sit back — smaller, softer, no competing contour — so a garden
+   full of not-yet-earned worlds reads as "more to grow" instead of a wall of
+   locks. The current stop already bounces and carries a halo; recessing its
+   neighbours is what actually makes it read as the one place to go. */
+.map-stop.is-locked { opacity: 0.92; }
+.map-stop.is-locked .map-stop-art { transform: scale(0.8); }
+.map-stop.is-locked:active .map-stop-art { transform: scale(0.78); }
+/* Done stops stay warm and golden but stop shouting over the live one. */
+.map-stop.is-done .map-stop-art { transform: scale(0.94); }
+.map-stop.is-current .map-stop-art { transform-origin: 50% 60%; }
+@media (prefers-reduced-motion: reduce) {
+  .map-stop.is-current .map-stop-art { animation: none; }
+  .map-stop.is-current::before { animation: none; }
+}

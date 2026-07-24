@@ -34,6 +34,23 @@
     constructor(root) {
       this.root = root;
       this.sound = new ns.SoundSystem();
+      // Haptics ride along with the sound vocabulary: decorating the two cue
+      // entry points here means every existing play()/streakMelody() call site
+      // buzzes correctly, with nothing new to keep in sync. Deliberately
+      // OUTSIDE SoundSystem.play(), which early-returns when muted — a muted
+      // tablet is exactly when touch feedback matters most.
+      if (ns.Haptics) {
+        const rawPlay = this.sound.play.bind(this.sound);
+        this.sound.play = (name) => {
+          ns.Haptics.pulse(name);
+          return rawPlay(name);
+        };
+        const rawMelody = this.sound.streakMelody.bind(this.sound);
+        this.sound.streakMelody = (streak) => {
+          ns.Haptics.pulse("correct"); // the melody IS the correct-answer cue
+          return rawMelody(streak);
+        };
+      }
       this.recite = new ns.RecitationAudio(() => this.sound.enabled);
       this.worlds = new ns.LettersWorlds();
       this.progress = this.loadProgress();
@@ -65,6 +82,7 @@
       this.applyPhase();
       this.initSparkles();
       this.initAmbient();
+      this.initTouchFeedback();
       // Wait for the Quran font alongside the word data: the glyph tiles
       // measure their ink to centre optically, and measuring against the
       // fallback serif would bake wrong offsets into the first screens.
@@ -81,6 +99,34 @@
       );
       Promise.allSettled([this.worlds.loadWords(), inkReady]).then(() =>
         this.pet ? this.renderHome() : this.renderHatch(),
+      );
+    }
+
+    // Every tappable thing gives way under the finger. One delegated listener
+    // beats sprinkling calls through every mini-game, and it can't drift out of
+    // sync as games are added.
+    //
+    // The catch: game pieces are POSITIONED by transform (.catch-faller rides
+    // on translateX, bubbles rise on transform), so animating scale on the
+    // wrapper would fling them across the screen. Where a transform is already
+    // doing layout work, recoil the inner <svg> instead — visually identical,
+    // and it never fights the motion system.
+    initTouchFeedback() {
+      if (!ns.Haptics) return;
+      const TAPPABLE =
+        "button, .pop-bubble, .catch-faller, .map-stop, .meet-bud, .meet-piece, [data-tap]";
+      this.root.addEventListener(
+        "pointerdown",
+        (e) => {
+          const el = e.target.closest && e.target.closest(TAPPABLE);
+          if (!el) return;
+          const transformed = getComputedStyle(el).transform !== "none";
+          const target = transformed ? el.querySelector(":scope > svg") : el;
+          // No inner svg to recoil on a transform-positioned piece: skip the
+          // visual rather than break its position. The buzz still fires.
+          if (target) ns.Haptics.impact(target, el.tagName === "BUTTON" ? "soft" : "tap");
+        },
+        { passive: true },
       );
     }
 
@@ -331,14 +377,29 @@
         </div>`,
       );
       if (!hatched) {
-        el.querySelector(".hatch-egg").addEventListener("pointerdown", () => {
-          this.sound.play(cracks >= 2 ? "hatch" : "click");
-          if (cracks >= 2) {
+        const eggBtn = el.querySelector(".hatch-egg");
+        let n = cracks;
+        eggBtn.addEventListener("pointerdown", () => {
+          n += 1;
+          this.sound.play(n >= 3 ? "hatch" : "click");
+          if (n >= 3) {
             this.pet = this.pet || { hue: 200, species: "blob", worn: [], bodies: ["blob"] };
             this.saveJSON("quran-trainer:letters:pet", this.pet);
-            this.confettiAt(el.querySelector(".hatch-egg"), true);
+            this.confettiAt(eggBtn, true);
+            this.renderHatch(3);
+            return;
           }
-          this.renderHatch(cracks + 1);
+          // Repaint the egg in place instead of re-rendering the screen. The
+          // full re-render used to replace this element on the same frame,
+          // killing the wobble before it drew — which is exactly why the first
+          // taps read as "nothing happened".
+          eggBtn.innerHTML = Art.egg({ size: 190, cracks: n });
+          const art = eggBtn.querySelector(".art-egg");
+          if (art) {
+            art.classList.remove("is-wobble");
+            void art.offsetWidth;
+            art.classList.add("is-wobble");
+          }
         });
         return;
       }

@@ -426,25 +426,40 @@
   // One map stop: a circular badge with the same navy rim, warm face and
   // shallow physical lift as every interactive card.
   function mapStop({ hue, label, status, stars = 0, latin = false }) {
-    const faceColor = status === "done" ? "#f3c955" : status === "current" ? `hsl(${hue} 54% 70%)` : "#efe7d4";
-    const insetColor = status === "done" ? "#fff1c9" : status === "current" ? `hsl(${hue} 55% 88%)` : "#f7f2e6";
+    const faceColor = status === "done" ? "#f3c955" : status === "current" ? `hsl(${hue} 54% 70%)` : "#e8dcc2";
+    const insetColor = status === "done" ? "#fff1c9" : status === "current" ? `hsl(${hue} 55% 88%)` : "#f2e9d6";
     // Warm bronze coin-rim gives the whole path a sunlit, treasure-map feel —
     // no more cold navy drop under the stops.
-    const rim = status === "done" ? "#c08a1e" : status === "current" ? "#a9782e" : "#c2a877";
+    const rim = status === "done" ? "#c08a1e" : status === "current" ? "#a9782e" : "#bfae90";
     const starRow = [0, 1, 2]
       .map(
         (i) =>
           `<g transform="translate(${(i - 1) * 19 - 10} 34) scale(0.21)" class="${i < stars ? "map-star-on" : "map-star-off"}"><g transform="translate(-32 -32)">${ICONS.star}</g></g>`,
       )
       .join("");
+    // Locked stops are drawn RECESSIVE on purpose (2026-07-24). They used to
+    // carry a cool-grey padlock at full contrast and full size, which made a
+    // screen of not-yet-earned stops the loudest thing in the garden — a wall
+    // of "you can't" for a child who can't read a tooltip explaining why. Now
+    // they're soft warm outlines holding a seed: same information, but the
+    // reading is "not grown yet", and the live stop is unambiguously the hero.
+    // Recession comes from SIZE and muted warm colour, never from opacity: a
+    // translucent cream disc over the night sky desaturates straight to grey,
+    // which is how these ended up looking like dead slate coins.
+    const locked = status === "locked";
+    const contour = locked ? "#b9a68a" : INK;
     return `
     <svg viewBox="-60 -60 120 120" class="map-stop-art" aria-hidden="true">
       <circle cy="6" r="47" fill="${rim}"/>
-      <circle r="47" fill="${faceColor}" stroke="${INK}" stroke-width="5"/>
-      <circle r="36" fill="${insetColor}" stroke="${INK}" stroke-width="3"/>
+      <circle r="47" fill="${faceColor}" stroke="${contour}" stroke-width="${locked ? 3.5 : 5}"/>
+      <circle r="36" fill="${insetColor}" stroke="${contour}" stroke-width="${locked ? 2 : 3}"/>
       ${
-        status === "locked"
-          ? `<g transform="translate(-21 -23) scale(0.66)" fill="#87909e">${ICONS.lock}</g>`
+        locked
+          ? `<g class="map-stop-seed" transform="translate(0 4)">
+               <ellipse cx="0" cy="0" rx="10" ry="12.5" fill="#c0ac85" stroke="#95815f" stroke-width="2.6" transform="rotate(-14)"/>
+               <path d="M0 -12 Q1 -19 0 -24" fill="none" stroke="#95815f" stroke-width="2.4" stroke-linecap="round"/>
+               <path d="M0 -20 Q-7 -23 -9 -29 Q-1 -28 0 -20 Z" fill="#a8bd8b" stroke="#7f9268" stroke-width="1.8" stroke-linejoin="round"/>
+             </g>`
           : (() => {
               const size = latin ? 24 : [...label.replace(/[ً-ْٰٓ-ٟؐ-ؚۖ-ۭ]/g, "")].length >= 3 ? 27 : 39;
               // Optical centre, nudged 3 up so the star row below reads as a
@@ -623,8 +638,26 @@
           fill="url(#${id})" stroke="#d8ab4e" stroke-width="4"/>
         <circle cx="-12" cy="-22" r="8" fill="#fff" opacity="0.7"/>
         <g fill="#ffc22e" opacity="0.8"><circle cx="14" cy="6" r="5"/><circle cx="-16" cy="18" r="4"/><circle cx="4" cy="32" r="3.4"/></g>
-        ${cracks >= 1 ? `<path d="M-20 -10 L-10 -2 L-16 8" fill="none" stroke="#b0812a" stroke-width="3" stroke-linecap="round"/>` : ""}
-        ${cracks >= 2 ? `<path d="M18 -18 L10 -8 L20 0 L12 10" fill="none" stroke="#b0812a" stroke-width="3" stroke-linecap="round"/>` : ""}
+        ${
+          // Each tap has to be unmistakable, so the stages escalate hard: a
+          // real fissure, then a second one plus a chip knocked loose and warm
+          // light leaking from inside. The old version drew two thin hairlines
+          // that a child couldn't tell apart from the shell speckles.
+          cracks >= 1
+            ? `<path d="M-26 -14 L-14 -6 L-22 4 L-10 12" fill="none" stroke="#8a6320" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+               <path d="M-14 -6 L-4 -12" fill="none" stroke="#8a6320" stroke-width="3" stroke-linecap="round"/>`
+            : ""
+        }
+        ${
+          cracks >= 2
+            ? `<path d="M22 -22 L12 -10 L24 -2 L14 10 L22 20" fill="none" stroke="#8a6320" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+               <path d="M-10 12 L2 16 L14 10" fill="none" stroke="#8a6320" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+               <path d="M2 16 L0 30" fill="none" stroke="#8a6320" stroke-width="3" stroke-linecap="round"/>
+               <path d="M12 -10 L24 -2 L14 10 Z" fill="#3a2c1a" opacity="0.5"/>
+               <circle cx="18" cy="-1" r="9" fill="#fff6c9" opacity="0.75"/>
+               <circle cx="18" cy="-1" r="4.5" fill="#fffdf0"/>`
+            : ""
+        }
       </g>
     </svg>`;
   }
