@@ -5,3 +5,11 @@ scripts/.cache/
 
 # sprite-sheet slicing debug overlays
 assets/tilesets/*.debug.png
+
+# Voice-audition material: ~300 candidate clips kept locally for reference.
+# None of it shipped (2026-07-24 decision: stick with the existing audio), and
+# the whole repo is the GitHub Pages artifact, so publishing it would just be
+# 4.6MB of dead weight on every deploy.
+assets/audio/bakeoff/
+audio-bakeoff.html
+audio-tune.html
