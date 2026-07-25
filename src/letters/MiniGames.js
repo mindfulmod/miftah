@@ -66,7 +66,7 @@
       <svg viewBox="-52 -54 104 106" aria-hidden="true">
         <rect x="-46" y="-38" width="92" height="84" rx="22" fill="#4a3620"/>
         <rect x="-46" y="-46" width="92" height="84" rx="22" fill="hsl(${hue} 52% 86%)" stroke="#4a3620" stroke-width="4"/>
-        <rect class="tile-face" x="-39" y="-39" width="78" height="70" rx="16" fill="#fffaf0" stroke="#4a3620" stroke-width="2"/>
+        <rect class="tile-face" x="-39" y="-39" width="78" height="70" rx="16" fill="#fffaf0" stroke="#4a3620" stroke-width="2.4"/>
         <g transform="translate(0 -4)">${glyphText(item.display, { maxSize: 42 })}</g>
       </svg>`;
   }
@@ -776,8 +776,8 @@
       ctx.stage.innerHTML = `
         <div class="burst-head">
           <svg class="burst-ring" viewBox="0 0 60 60" aria-hidden="true">
-            <circle cx="30" cy="30" r="25" fill="#fffdf4" stroke="#e6dcc2" stroke-width="7"/>
-            <circle class="burst-ring-fill" cx="30" cy="30" r="25" fill="none" stroke="#f3a53c" stroke-width="7"
+            <circle cx="30" cy="30" r="25" fill="#fffdf4" stroke="#e6dcc2" stroke-width="6"/>
+            <circle class="burst-ring-fill" cx="30" cy="30" r="25" fill="none" stroke="#f3a53c" stroke-width="6"
               stroke-linecap="round" stroke-dasharray="157" transform="rotate(-90 30 30)"/>
           </svg>
           <span class="burst-count">0</span>

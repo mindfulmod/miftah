@@ -818,7 +818,7 @@
       const ink = "#3a2c48";
       const D = {
         meadow: `<svg viewBox="0 0 64 48"><g stroke="${ink}" stroke-width="2.5" stroke-linecap="round"><path d="M14 42V26M32 44V22M50 42V28" fill="none"/><ellipse cx="14" cy="21" rx="6" ry="7" fill="#ff8fb1"/><ellipse cx="32" cy="16" rx="7" ry="8" fill="#ffc22e"/><ellipse cx="50" cy="23" rx="6" ry="7" fill="#b48be8"/></g></svg>`,
-        orchard: `<svg viewBox="0 0 64 48"><g stroke="${ink}" stroke-width="2.5"><rect x="28" y="28" width="8" height="16" rx="3" fill="#b07a4a"/><circle cx="32" cy="19" r="15" fill="#5cc23e"/><circle cx="25" cy="16" r="3.4" fill="#ff6b5e" stroke-width="2"/><circle cx="38" cy="22" r="3.4" fill="#ff6b5e" stroke-width="2"/><circle cx="33" cy="11" r="3.4" fill="#ffc22e" stroke-width="2"/></g></svg>`,
+        orchard: `<svg viewBox="0 0 64 48"><g stroke="${ink}" stroke-width="2.5"><rect x="28" y="28" width="8" height="16" rx="3" fill="#b07a4a"/><circle cx="32" cy="19" r="15" fill="#5cc23e"/><circle cx="25" cy="16" r="3.4" fill="#ff6b5e" stroke-width="2.4"/><circle cx="38" cy="22" r="3.4" fill="#ff6b5e" stroke-width="2.4"/><circle cx="33" cy="11" r="3.4" fill="#ffc22e" stroke-width="2.4"/></g></svg>`,
         lagoon: `<svg viewBox="0 0 64 48"><g stroke="${ink}" stroke-width="2.5" stroke-linecap="round" fill="none"><path d="M18 44V20M18 20c-5-1-7-5-7-9 5 0 8 3 7 9ZM26 44V26m0 0c5-1 7-5 7-9-5 0-8 3-7 9Z"/><path d="M8 44c6-4 12-4 18 0s12 4 18 0 8-3 12-1" stroke="#4fb3e8"/></g></svg>`,
         night: `<svg viewBox="0 0 64 48"><g stroke="${ink}" stroke-width="2.5"><path d="M38 8a14 14 0 1 0 12 21A16 16 0 0 1 38 8Z" fill="#ffe9a8"/><circle cx="16" cy="14" r="2.4" fill="#fff7d9" stroke="none"/><circle cx="22" cy="30" r="1.8" fill="#c9f26e" stroke="none"/><circle cx="12" cy="38" r="1.8" fill="#c9f26e" stroke="none"/></g></svg>`,
         peaks: `<svg viewBox="0 0 64 48"><g stroke="${ink}" stroke-width="2.5" stroke-linejoin="round"><path d="M6 44 22 16l14 28Z" fill="#9fb7d9"/><path d="M28 44 44 10l16 34Z" fill="#c3d3ea"/><path d="M44 10l5 10-4 2-4-3-3 2Z" fill="#fffaf0"/></g></svg>`,
@@ -854,7 +854,7 @@
       }
       if (m < 0.72) {
         // bud: full stem, leaves, closed bud
-        return `<svg viewBox="0 0 48 50">${stem}${leaves}<ellipse cx="24" cy="22" rx="6" ry="8" fill="#ff8fb1" stroke="${ink}" stroke-width="1.5"/><path d="M24 14 C22 18 22 20 24 22 C26 20 26 18 24 14 Z" fill="#ffa9c4"/></svg>`;
+        return `<svg viewBox="0 0 48 50">${stem}${leaves}<ellipse cx="24" cy="22" rx="6" ry="8" fill="#ff8fb1" stroke="${ink}" stroke-width="1.6"/><path d="M24 14 C22 18 22 20 24 22 C26 20 26 18 24 14 Z" fill="#ffa9c4"/></svg>`;
       }
       // bloom: open flower
       const petals = [0, 72, 144, 216, 288]
@@ -949,7 +949,7 @@
       trail.innerHTML = `
         <path d="${d}" fill="none" stroke="#caa96f" stroke-width="17" stroke-linecap="round" opacity="0.8"/>
         <path d="${d}" fill="none" stroke="#fffaf0" stroke-width="13" stroke-linecap="round"/>
-        <path d="${d}" fill="none" stroke="#7fc6a4" stroke-width="5" stroke-linecap="round" stroke-dasharray="1 22"/>`;
+        <path d="${d}" fill="none" stroke="#7fc6a4" stroke-width="6" stroke-linecap="round" stroke-dasharray="1 22"/>`;
       for (const btn of el.querySelectorAll(".map-stop[data-world]")) {
         btn.addEventListener("click", () => {
           const world = worlds.find((w) => w.id === btn.dataset.world);

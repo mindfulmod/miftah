@@ -43,6 +43,17 @@
   --lg-sky-mid: #96ecff;
   --lg-sky-lo: #ccfbef;
   /* motion */
+  /* Duration scale (2026-07-24). Before this there were ~48 different
+     sub-second timings, so nothing felt like it belonged to the same machine.
+     Ambient loops (breathe, drift, twinkle) sit ABOVE this scale on purpose and
+     keep their own long, hand-tuned periods and easings. */
+  --lg-t-tick: 90ms;
+  --lg-t-tap: 140ms;
+  --lg-t-quick: 220ms;
+  --lg-t-move: 320ms;
+  --lg-t-enter: 460ms;
+  --lg-t-arrive: 620ms;
+  --lg-t-beat: 900ms;
   --lg-out: cubic-bezier(0.23, 1, 0.32, 1);
   --lg-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   --lg-spring: cubic-bezier(0.34, 1.56, 0.44, 1);
@@ -63,7 +74,7 @@ html, body {
 body {
   background: linear-gradient(180deg, var(--lg-sky-hi) 0%, var(--lg-sky-mid) 45%, var(--lg-sky-lo) 100%);
   font-family: ui-rounded, "Hiragino Maru Gothic ProN", system-ui, sans-serif;
-  transition: background 600ms ease;
+  transition: background 620ms ease;
 }
 
 .lg-app { position: fixed; inset: 0; }
@@ -83,7 +94,7 @@ body {
   display: flex;
   flex-direction: column;
   padding: max(10px, env(safe-area-inset-top)) 12px max(10px, env(safe-area-inset-bottom));
-  animation: lg-screen-in 420ms var(--lg-spring) both;
+  animation: lg-screen-in 460ms var(--lg-spring) both;
 }
 
 /* Shared tactile primitives. Gameplay stays open; these surfaces are reserved
@@ -193,7 +204,7 @@ body {
   pointer-events: none;
   background: radial-gradient(circle, #fff 20%, var(--lg-gold) 55%, transparent 72%);
   border-radius: 50%;
-  animation: lg-spark 700ms var(--lg-out) forwards;
+  animation: lg-spark 620ms var(--lg-out) forwards;
 }
 
 .lg-spark.is-pink { background: radial-gradient(circle, #fff 20%, var(--lg-coral) 55%, transparent 72%); }
@@ -286,7 +297,7 @@ body {
   z-index: 1;
 }
 
-.art-bloom { animation: lg-bloom-in 600ms var(--lg-spring) both, lg-sway 4.4s ease-in-out infinite 600ms; transform-box: fill-box; transform-origin: 50% 100%; }
+.art-bloom { animation: lg-bloom-in 620ms var(--lg-spring) both, lg-sway 4.4s ease-in-out infinite 600ms; transform-box: fill-box; transform-origin: 50% 100%; }
 @keyframes lg-bloom-in {
   from { opacity: 0; transform: scale(0.9); }
   to { opacity: 1; transform: scale(1); }
@@ -346,9 +357,9 @@ body {
   background: none;
   padding: 0;
   cursor: pointer;
-  animation: lg-arrive 420ms var(--lg-spring) backwards;
+  animation: lg-arrive 460ms var(--lg-spring) backwards;
   animation-delay: calc(var(--pi, 0) * 90ms);
-  transition: transform 160ms var(--lg-spring), filter 160ms var(--lg-out);
+  transition: transform 140ms var(--lg-spring), filter 140ms var(--lg-out);
 }
 .meet-piece .art-blob { width: clamp(110px, 26vw, 150px); height: auto; }
 .meet-piece:active { transform: scale(0.94); }
@@ -403,7 +414,7 @@ body {
   border: 2px solid var(--lg-ink);
   background: var(--lg-paper-muted);
   box-shadow: none;
-  transition: transform 300ms var(--lg-spring), background 200ms ease;
+  transition: transform 320ms var(--lg-spring), background 220ms var(--lg-out);
 }
 .meet-dots i.is-on, .play-dots i.is-on { background: var(--lg-gold); transform: scale(1.22); }
 .play-dots i.is-done { background: var(--lg-green); }
@@ -517,7 +528,7 @@ body {
 
 .pop-bubble svg { width: 100%; display: block; }
 .pop-bubble.is-popped { pointer-events: none; }
-.pop-bubble.is-popped svg { animation: lg-pop 400ms var(--lg-out) forwards; }
+.pop-bubble.is-popped svg { animation: lg-pop 460ms var(--lg-out) forwards; }
 
 @keyframes lg-pop {
   30% { transform: scale(1.22); opacity: 1; }
@@ -582,8 +593,8 @@ body {
   border: none;
   background: none;
   cursor: pointer;
-  transition: transform 150ms var(--lg-spring);
-  animation: lg-arrive 380ms var(--lg-spring) backwards;
+  transition: transform 140ms var(--lg-spring);
+  animation: lg-arrive 320ms var(--lg-spring) backwards;
 }
 
 .pairs-card:nth-child(2) { animation-delay: 50ms; }
@@ -595,7 +606,7 @@ body {
 .pairs-card svg { width: 100%; display: block; }
 .pairs-card:active { transform: scale(0.95); }
 .pairs-card.is-selected { transform: translateY(-5px) scale(1.08); filter: drop-shadow(0 6px 0 var(--lg-ink)); }
-.pairs-card.is-matched { animation: lg-matched 550ms var(--lg-out) forwards; pointer-events: none; }
+.pairs-card.is-matched { animation: lg-matched 620ms var(--lg-out) forwards; pointer-events: none; }
 
 @keyframes lg-matched {
   40% { transform: scale(1.18); opacity: 1; }
@@ -615,7 +626,7 @@ body {
 
 .feed-creature { width: clamp(170px, 44vw, 230px); }
 .feed-creature svg { width: 100%; display: block; }
-.feed-creature.is-chomp .art-creature-body { animation: lg-chomp 520ms var(--lg-spring); transform-origin: 50% 70%; }
+.feed-creature.is-chomp .art-creature-body { animation: lg-chomp 460ms var(--lg-spring); transform-origin: 50% 70%; }
 
 @keyframes lg-chomp {
   30% { transform: scale(1.14, 0.86); }
@@ -631,8 +642,8 @@ body {
   background: none;
   cursor: pointer;
   filter: drop-shadow(0 5px 0 var(--lg-ink));
-  transition: transform 150ms var(--lg-spring);
-  animation: lg-arrive 380ms var(--lg-spring) backwards;
+  transition: transform 140ms var(--lg-spring);
+  animation: lg-arrive 320ms var(--lg-spring) backwards;
 }
 
 .feed-food:nth-child(2) { animation-delay: 60ms; }
@@ -645,7 +656,7 @@ body {
 .feed-food.is-flying {
   transform: translate(var(--fly-x), var(--fly-y)) scale(0.25);
   opacity: 0;
-  transition: transform 500ms var(--lg-in-out), opacity 500ms ease;
+  transition: transform 460ms var(--lg-in-out), opacity 460ms var(--lg-out);
   pointer-events: none;
 }
 
@@ -673,7 +684,7 @@ body {
 .stars-star { color: rgba(140, 128, 160, 0.3); transform: scale(0.6); }
 .stars-star.is-on {
   color: var(--lg-gold);
-  animation: lg-star-land 640ms var(--lg-spring-big) forwards;
+  animation: lg-star-land 620ms var(--lg-spring-big) forwards;
 }
 .stars-star.is-on svg path { stroke: var(--lg-gold-edge); stroke-width: 3; }
 
@@ -850,7 +861,7 @@ body {
 }
 
 .burst-ring { width: 56px; height: 56px; }
-.burst-ring-fill { transition: stroke-dashoffset 200ms linear; }
+.burst-ring-fill { transition: stroke-dashoffset 220ms var(--lg-out); }
 
 .burst-count {
   min-width: 46px;
@@ -885,12 +896,12 @@ body {
   background: none;
   cursor: pointer;
   filter: drop-shadow(0 5px 7px var(--lg-shadow));
-  transition: transform 130ms var(--lg-spring);
+  transition: transform 140ms var(--lg-spring);
 }
 
 .burst-tile:active { transform: scale(0.94); }
 .burst-tile svg { width: 100%; display: block; }
-.burst-tile.is-popped { animation: lg-pop 300ms var(--lg-out) forwards; }
+.burst-tile.is-popped { animation: lg-pop 320ms var(--lg-out) forwards; }
 
 /* ---------- the Letter Pet & sticker album ---------- */
 .map-pet, .map-album {
@@ -954,7 +965,7 @@ body {
   60% { transform: rotate(4deg); }
 }
 
-.hatch-pet { animation: lg-arrive 560ms var(--lg-spring-big); }
+.hatch-pet { animation: lg-arrive 620ms var(--lg-spring-big); }
 .art-pet-body { transform-origin: 50% 82%; }
 .pet-big .art-pet-body, .party-pet .art-pet-body, .hatch-pet .art-pet-body { animation: lg-breathe 3s ease-in-out infinite; }
 
@@ -988,12 +999,12 @@ body {
   font-size: 26px;
   line-height: 1;
   z-index: 2;
-  animation: lg-arrive 300ms var(--lg-spring);
+  animation: lg-arrive 320ms var(--lg-spring);
 }
 
 .play-pet { flex: 0 0 auto; cursor: pointer; }
 .is-hop .art-pet-body, .play-pet.is-hop .art-pet-body {
-  animation: lg-hop 560ms var(--lg-spring-big);
+  animation: lg-hop 620ms var(--lg-spring-big);
 }
 @keyframes lg-hop {
   0% { transform: translateY(0); }
@@ -1075,7 +1086,7 @@ body {
   border-radius: var(--lg-radius-sm);
   background: var(--lg-paper-muted);
 }
-.album-slot.is-new { animation: lg-sticker-land 700ms var(--lg-spring-big); }
+.album-slot.is-new { animation: lg-sticker-land 620ms var(--lg-spring-big); }
 @keyframes lg-sticker-land {
   0% { transform: scale(2) rotate(14deg); opacity: 0; }
   60% { transform: scale(0.94) rotate(-3deg); opacity: 1; }
@@ -1117,7 +1128,7 @@ body {
 }
 
 .build-slot.is-filled { border-style: solid; border-color: rgba(74, 54, 32, 0.15); }
-.build-slot svg { width: 100%; display: block; animation: lg-arrive 300ms var(--lg-spring); }
+.build-slot svg { width: 100%; display: block; animation: lg-arrive 320ms var(--lg-spring); }
 
 .build-tray { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(6px, 2vw, 16px); }
 
@@ -1128,8 +1139,8 @@ body {
   background: none;
   cursor: pointer;
   filter: drop-shadow(0 6px 8px var(--lg-shadow));
-  transition: transform 150ms var(--lg-spring), opacity 200ms ease;
-  animation: lg-arrive 380ms var(--lg-spring) backwards;
+  transition: transform 140ms var(--lg-spring), opacity 200ms ease;
+  animation: lg-arrive 320ms var(--lg-spring) backwards;
 }
 
 .build-tile:nth-child(2) { animation-delay: 50ms; }
@@ -1155,14 +1166,14 @@ body {
 
 .pop-cross svg { width: 46%; }
 
-.play-bubble.is-pulse { animation: lg-prompt-pulse 800ms var(--lg-spring); }
+.play-bubble.is-pulse { animation: lg-prompt-pulse 900ms var(--lg-spring); }
 @keyframes lg-prompt-pulse {
   0%, 100% { transform: scale(1); }
   30% { transform: scale(1.14); box-shadow: 0 5px 0 var(--lg-cream-edge), 0 0 24px rgba(255, 226, 122, 0.95); }
   60% { transform: scale(1.05); }
 }
 
-.pairs-card.is-demo { animation: lg-demo-glow 750ms ease 2; }
+.pairs-card.is-demo { animation: lg-demo-glow 620ms ease 2; }
 @keyframes lg-demo-glow {
   0%, 100% { transform: scale(1); filter: none; }
   50% { transform: scale(1.14); filter: drop-shadow(0 0 14px rgba(255, 214, 110, 1)); }
@@ -1176,7 +1187,7 @@ body {
   border: 5px solid #f59a1d;
   border-radius: 50%;
   box-shadow: 0 0 14px rgba(255, 214, 110, 0.9);
-  animation: lg-hint-pulse 600ms ease 2;
+  animation: lg-hint-pulse 620ms ease 2;
   pointer-events: none;
 }
 
@@ -1285,7 +1296,7 @@ body {
   .art-cloud-a, .art-cloud-b, .art-sun-glow, .art-stars circle,
   .art-fireflies circle, .art-bloom, .hatch-egg .art-egg-body,
   .album-pack .art-pack, .map-tap { animation: none; }
-  .lg-screen { animation: lg-screen-fade 200ms ease both; }
+  .lg-screen { animation: lg-screen-fade 220ms ease both; }
   .lg-spark { display: none; }
   @keyframes lg-screen-fade {
     from { opacity: 0; }
@@ -1312,7 +1323,7 @@ body {
   transform: translate(-50%, -50%);
   border-radius: 50%;
   background: radial-gradient(circle, rgba(255, 240, 180, 0.55), rgba(255, 240, 180, 0));
-  animation: blend-breathe 2600ms ease-in-out infinite;
+  animation: blend-breathe 2600ms var(--lg-out) infinite;
   pointer-events: none;
 }
 @keyframes blend-breathe {
@@ -1327,17 +1338,17 @@ body {
   border: 0;
   padding: 0;
   cursor: grab;
-  transition: left 420ms var(--lg-spring), top 420ms var(--lg-spring), scale 200ms var(--lg-out);
-  animation: lg-arrive 380ms var(--lg-spring) backwards;
+  transition: left 460ms var(--lg-spring), top 420ms var(--lg-spring), scale 200ms var(--lg-out);
+  animation: lg-arrive 320ms var(--lg-spring) backwards;
 }
 .blend-part svg { width: 100%; display: block; pointer-events: none; }
 .blend-part.is-held { transition: none; cursor: grabbing; z-index: 3; scale: 1.08; }
 .blend-part.is-lifted { scale: 1.12; filter: drop-shadow(0 10px 14px rgba(58, 44, 72, 0.28)); }
 .blend-part.is-near { scale: 1.16; }
 .blend-part.is-fusing {
-  transition: left 380ms var(--lg-out), top 380ms var(--lg-out);
+  transition: left 320ms var(--lg-out), top 380ms var(--lg-out);
   z-index: 2;
-  animation: blend-squash 420ms var(--lg-out) 320ms both;
+  animation: blend-squash 460ms var(--lg-out) 320ms both;
 }
 .blend-part.is-gone { opacity: 0; pointer-events: none; }
 @keyframes blend-squash {
@@ -1351,7 +1362,7 @@ body {
   top: 46%;
   width: clamp(110px, 32vw, 150px);
   transform: translate(-50%, -50%);
-  animation: blend-born-in 540ms var(--lg-spring-big) both;
+  animation: blend-born-in 620ms var(--lg-spring-big) both;
   pointer-events: none;
 }
 .blend-born svg { width: 100%; display: block; }
@@ -1379,7 +1390,7 @@ body {
   /* --strain: the tile stretches sideways as the child pulls, telegraphing
      that it WANTS to come apart. */
   transform: scaleX(calc(1 + var(--strain, 0) * 0.22)) scaleY(calc(1 - var(--strain, 0) * 0.1));
-  transition: transform 120ms var(--lg-out);
+  transition: transform 140ms var(--lg-out);
 }
 .unfuse-whole.is-held { cursor: grabbing; }
 .unfuse-whole svg { width: 100%; display: block; pointer-events: none; }
@@ -1390,8 +1401,8 @@ body {
 }
 .unfuse-half { width: clamp(96px, 26vw, 128px); }
 .unfuse-half svg { width: 100%; display: block; }
-.unfuse-half.is-r { animation: unfuse-fly-r 520ms var(--lg-spring-big) both; }
-.unfuse-half.is-l { animation: unfuse-fly-l 520ms var(--lg-spring-big) both; }
+.unfuse-half.is-r { animation: unfuse-fly-r 460ms var(--lg-spring-big) both; }
+.unfuse-half.is-l { animation: unfuse-fly-l 460ms var(--lg-spring-big) both; }
 @keyframes unfuse-fly-r {
   0% { transform: translateX(-40px) scale(0.6); opacity: 0; }
   100% { transform: translateX(0) scale(1); opacity: 1; }
@@ -1407,7 +1418,7 @@ body {
   border: 0;
   background: none;
   cursor: pointer;
-  animation: lg-arrive 380ms var(--lg-spring) backwards;
+  animation: lg-arrive 320ms var(--lg-spring) backwards;
 }
 .unfuse-pick:nth-child(2) { animation-delay: 70ms; }
 .unfuse-pick:nth-child(3) { animation-delay: 140ms; }
@@ -1419,13 +1430,13 @@ body {
   top: 46%;
   width: clamp(110px, 30vw, 148px);
   transform: translate(-50%, -50%);
-  transition: width 380ms var(--lg-spring);
+  transition: width 320ms var(--lg-spring);
 }
 .chain-base svg { width: 100%; display: block; }
 .chain-base.is-near { scale: 1.1; }
 .chain-base.is-grown {
   width: clamp(140px, 40vw, 190px);
-  animation: blend-born-in 540ms var(--lg-spring-big);
+  animation: blend-born-in 620ms var(--lg-spring-big);
 }
 
 .parade-scene {
@@ -1459,7 +1470,7 @@ body {
 .parade-mystery { font-size: 30px; animation: lg-bounce 1.4s var(--lg-spring) infinite; }
 .parade-spot.is-dressed { border-style: solid; border-color: var(--lg-gold); }
 .parade-spot .parade-form { width: 100%; }
-.parade-spot .parade-form svg { width: 100%; display: block; animation: lg-arrive 380ms var(--lg-spring-big); }
+.parade-spot .parade-form svg { width: 100%; display: block; animation: lg-arrive 320ms var(--lg-spring-big); }
 
 /* ---------- biome chapters on the journey map (specs/02) ---------- */
 /* Feathered color washes behind the trail — one land per qaida chapter. */
@@ -1507,7 +1518,7 @@ body {
   opacity: 0.1 !important;
   pointer-events: none !important;
   filter: saturate(0.3);
-  transition: opacity 480ms var(--lg-out), filter 480ms var(--lg-out);
+  transition: opacity 460ms var(--lg-out), filter 480ms var(--lg-out);
 }
 
 /* ---------- ambient life (specs/02): the garden breathes even at rest ---------- */
@@ -1583,7 +1594,7 @@ body.lg-in-game .lg-ambient { display: none; }
   border: 2px solid rgba(74, 54, 32, 0.25);
   background: rgba(255, 250, 240, 0.5);
   cursor: pointer; padding: 0;
-  transition: transform 0.2s var(--lg-out), background 0.2s ease;
+  transition: transform 220ms var(--lg-out), background 0.2s ease;
 }
 .lg-grownup-dot::after { content: "•••"; font-size: 11px; color: rgba(74,54,32,0.5); line-height: 22px; }
 .lg-grownup-dot.is-holding { transform: scale(1.25); background: var(--lg-gold-hi); animation: gu-hold 3s linear; }
@@ -1640,7 +1651,7 @@ body.lg-in-game .lg-ambient { display: none; }
   border: var(--lg-outline);
   color: var(--lg-gold-deep); font-weight: 800; font-size: 0.95rem;
   text-align: center; line-height: 1.35;
-  animation: lg-pop 0.6s var(--lg-spring-big) both;
+  animation: lg-pop 620ms var(--lg-spring-big) both;
 }
 .party-capstone svg { flex-shrink: 0; }
 
@@ -1679,8 +1690,8 @@ body.lg-in-game .lg-ambient { display: none; }
    apps at all — so on the target device the *visual* recoil is what makes a
    tap feel physical. Fired from Haptics.impact() on whatever the finger hit,
    alongside the buzz wherever a buzz is actually available. */
-.is-impact { animation: lg-impact 130ms var(--lg-out, ease-out); }
-.is-impact-soft { animation: lg-impact-soft 160ms var(--lg-out, ease-out); }
+.is-impact { animation: lg-impact 140ms var(--lg-out, var(--lg-out)); }
+.is-impact-soft { animation: lg-impact-soft 140ms var(--lg-out, var(--lg-out)); }
 @keyframes lg-impact {
   0% { transform: scale(1); }
   38% { transform: scale(0.9); }
@@ -1694,7 +1705,7 @@ body.lg-in-game .lg-ambient { display: none; }
 /* Reduced motion still deserves confirmation that the tap registered — keep a
    brief opacity dip instead of the scale punch. */
 @media (prefers-reduced-motion: reduce) {
-  .is-impact, .is-impact-soft { animation: lg-impact-flat 120ms ease-out; }
+  .is-impact, .is-impact-soft { animation: lg-impact-flat 140ms var(--lg-out); }
   @keyframes lg-impact-flat {
     0% { opacity: 1; }
     45% { opacity: 0.72; }
@@ -1705,7 +1716,7 @@ body.lg-in-game .lg-ambient { display: none; }
 /* The egg answers every tap: a sharp shudder that settles. Paired with the
    escalating cracks in Art.egg() so tap 1 and tap 2 are unmistakably
    different — the old build repainted so fast the child saw nothing. */
-.art-egg.is-wobble { animation: lg-egg-wobble 420ms var(--lg-out, ease-out); transform-origin: 50% 92%; }
+.art-egg.is-wobble { animation: lg-egg-wobble 460ms var(--lg-out, var(--lg-out)); transform-origin: 50% 92%; }
 @keyframes lg-egg-wobble {
   0% { transform: rotate(0deg) scale(1); }
   18% { transform: rotate(-5deg) scale(1.04, 0.96); }
@@ -1730,4 +1741,17 @@ body.lg-in-game .lg-ambient { display: none; }
 @media (prefers-reduced-motion: reduce) {
   .map-stop.is-current .map-stop-art { animation: none; }
   .map-stop.is-current::before { animation: none; }
+}
+
+/* ---------- reduced motion, comprehensively (2026-07-24) ----------
+   There were 30 infinite animations and 9 hand-written guards, and the guards
+   were never going to keep up one selector at a time. Looping ambient motion is
+   what actually causes vestibular discomfort, while brief one-shot feedback is
+   what makes a wordless UI legible — a child still needs to see the tile respond
+   to a tap. So: every loop stops after a single pass, one-shots are untouched,
+   and this covers animations added later without needing a new guard. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-iteration-count: 1 !important; }
+  /* One allowed pass of a 52-74s cloud drift is still a minute of crawl. */
+  .art-cloud-a, .art-cloud-b { animation: none !important; }
 }

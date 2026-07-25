@@ -9,7 +9,29 @@
 // defs get unique ids because a url(#…) reference breaks when its
 // defining screen is display:none.
 (function (ns) {
-  const INK = "#4a3620"; // warm espresso — shared with the tactile UI system
+  // ---------- design tokens (2026-07-24) ----------
+  // Everything drawn in this file picks from these. Before this existed the art
+  // layer carried 109 loose hex values and 19 different stroke widths, and each
+  // creature outlined itself in a darker shade of its OWN fill — blue fish with
+  // blue contours, a grey-purple elephant, a cold-navy crow. That's the thing
+  // that made a carefully built game read as a prototype: in flat vector art the
+  // contour is what tells the eye "one set, one hand". So there is exactly ONE
+  // ink family, and a fill never picks its own outline.
+  //
+  // See docs/letter-garden-tokens.md for the rules these encode.
+  const INKS = {
+    hero: "#3b2a19", // mascot + hero silhouettes, the darkest thing on screen
+    base: "#4a3620", // THE contour: creatures, cards, props, UI
+    soft: "#7c5c3a", // pale or delicate pieces that base would overpower
+    faint: "#a89478", // recessive by design — locked stops, seeds, "not yet"
+    night: "#524f66", // scenery only, after dark
+  };
+  const INK = INKS.base; // warm espresso — shared with the tactile UI system
+  // Contour weight scale. Snapped from the 19 ad-hoc widths that were in use;
+  // nothing outside this set should appear in new art.
+  const STROKE = { hair: 1.6, fine: 2.4, base: 3, bold: 4, hero: 6, mascot: 8 };
+  // Gold is a motif, not a contour: coin rims, stars, treasure, the sun.
+  const GOLD = { deep: "#b8781a", mid: "#c47f12", light: "#d8ab4e", glow: "#fff3c2" };
   const SHADOW = "rgba(74, 54, 32, 0.2)";
 
   let uid = 0;
@@ -140,8 +162,8 @@
   const face = (x, y, s, mood = "happy") => `
     <g class="art-face" transform="translate(${x} ${y}) scale(${s})">
       <g class="art-eyes">
-        <ellipse cx="-12" cy="0" rx="11" ry="13.5" fill="#fff" stroke="${INK}" stroke-width="2" transform="rotate(-3 -12 0)"/>
-        <ellipse cx="12" cy="0" rx="11" ry="13.5" fill="#fff" stroke="${INK}" stroke-width="2" transform="rotate(3 12 0)"/>
+        <ellipse cx="-12" cy="0" rx="11" ry="13.5" fill="#fff" stroke="${INK}" stroke-width="2.4" transform="rotate(-3 -12 0)"/>
+        <ellipse cx="12" cy="0" rx="11" ry="13.5" fill="#fff" stroke="${INK}" stroke-width="2.4" transform="rotate(3 12 0)"/>
         <circle class="art-pupil" cx="-7.6" cy="2.6" r="4.9" fill="${INK}"/>
         <circle class="art-pupil" cx="7.6" cy="2.6" r="4.9" fill="${INK}"/>
         <circle cx="-9.4" cy="0.6" r="1.8" fill="#fffaf0"/>
@@ -152,7 +174,7 @@
       ${mood === "open"
         ? `<path d="M-8 13.5 A 8 7 0 0 0 8 13.5 Z" fill="#7c2d4a"/><ellipse cx="0" cy="18.2" rx="4.2" ry="2.4" fill="#ff9db1"/>`
         : mood === "sad"
-          ? `<path d="M-6 17.5 Q0 12 6 17.5" fill="none" stroke="${INK}" stroke-width="2.8" stroke-linecap="round"/>`
+          ? `<path d="M-6 17.5 Q0 12 6 17.5" fill="none" stroke="${INK}" stroke-width="3" stroke-linecap="round"/>`
           : `<path d="M-6.5 13.5 A 6.5 5.5 0 0 0 6.5 13.5 Z" fill="#7c2d4a"/><ellipse cx="0" cy="16.8" rx="3.4" ry="2" fill="#ff9db1"/>`}
       <ellipse cx="-22" cy="9" rx="5" ry="3.6" fill="#ff9db1" opacity="0.65"/>
       <ellipse cx="22" cy="9" rx="5" ry="3.6" fill="#ff9db1" opacity="0.65"/>
@@ -233,9 +255,9 @@
         <rect x="-9" y="62" width="30" height="11" rx="5.5" fill="#dc9c28"/>
         <rect x="-9" y="78" width="24" height="11" rx="5.5" fill="#dc9c28"/>
         <circle r="40" fill="url(#${id})"/>
-        <path d="M-38 -8 A40 40 0 0 1 4 -40" fill="none" stroke="#fff3c2" stroke-width="6" stroke-linecap="round" opacity="0.55"/>
+        <path d="M-38 -8 A40 40 0 0 1 4 -40" fill="none" stroke="${GOLD.glow}" stroke-width="6" stroke-linecap="round" opacity="0.55"/>
         <circle cy="-6" r="13" fill="#fff8e2"/>
-        <circle cy="-6" r="13" fill="none" stroke="#e89a1e" stroke-width="4"/>
+        <circle cy="-6" r="13" fill="none" stroke="${GOLD.mid}" stroke-width="4"/>
         <circle cx="-13" cy="-24" r="6" fill="#fff" opacity="0.55"/>
         ${face(0, 16, 1.05, mood)}
       </g>
@@ -261,8 +283,8 @@
           <g transform="translate(2 -82)">${sproutArt(1.5, p.leaf, p.leafDark)}</g>
           ${[-1, 1].map((d) => `
             <g transform="translate(${d * 44} 122)">
-              <path d="M-19 8 C -21.5 -4 -14.5 -13 0 -13 C 14.5 -13 21.5 -4 19 8 C 9 12.5 -9 12.5 -19 8 Z" fill="${p.body}" stroke="${INK}" stroke-width="5.6"/>
-              <path d="M-8 1 Q0 6.5 8 1" fill="none" stroke="${INK}" stroke-width="3.6" stroke-linecap="round"/>
+              <path d="M-19 8 C -21.5 -4 -14.5 -13 0 -13 C 14.5 -13 21.5 -4 19 8 C 9 12.5 -9 12.5 -19 8 Z" fill="${p.body}" stroke="${INK}" stroke-width="6"/>
+              <path d="M-8 1 Q0 6.5 8 1" fill="none" stroke="${INK}" stroke-width="4" stroke-linecap="round"/>
             </g>`).join("")}
         </g>
         ${face(125, 92, 1.75, "happy")}
@@ -321,19 +343,19 @@
   // they look identical on every device a child might hold.
   const ICONS = {
     speaker: `<path d="M14 20 L24 20 L38 9 L38 55 L24 44 L14 44 Z" fill="currentColor"/>
-      <path d="M45 22 Q52 32 45 42 M50 15 Q61 32 50 49" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>`,
+      <path d="M45 22 Q52 32 45 42 M50 15 Q61 32 50 49" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>`,
     play: `<path d="M20 12 L52 32 L20 52 Z" fill="currentColor"/>`,
     next: `<path d="M14 12 L40 32 L14 52 Z" fill="currentColor"/><rect x="44" y="12" width="8" height="40" rx="3" fill="currentColor"/>`,
-    replay: `<path d="M32 12 A20 20 0 1 1 13 26" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+    replay: `<path d="M32 12 A20 20 0 1 1 13 26" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
       <path d="M8 10 L15 28 L30 18 Z" fill="currentColor"/>`,
     home: `<path d="M10 32 L32 12 L54 32 L48 32 L48 52 L38 52 L38 38 L26 38 L26 52 L16 52 L16 32 Z" fill="currentColor"/>`,
     star: `<path d="M32 6 L39 24 L58 25 L43 37 L48 56 L32 45 L16 56 L21 37 L6 25 L25 24 Z" fill="currentColor"/>`,
     lock: `<rect x="16" y="28" width="32" height="26" rx="6" fill="currentColor"/>
       <path d="M22 28 V20 a10 10 0 0 1 20 0 V28" fill="none" stroke="currentColor" stroke-width="6"/>`,
-    check: `<path d="M12 34 L26 48 L52 16" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>`,
-    arrow: `<path d="M32 8 V44 M16 30 L32 48 L48 30" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>`,
+    check: `<path d="M12 34 L26 48 L52 16" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>`,
+    arrow: `<path d="M32 8 V44 M16 30 L32 48 L48 30" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>`,
     sun: `<circle cx="32" cy="32" r="13" fill="currentColor"/>
-      <g stroke="currentColor" stroke-width="5" stroke-linecap="round">
+      <g stroke="currentColor" stroke-width="6" stroke-linecap="round">
         <path d="M32 6 V14 M32 50 V58 M6 32 H14 M50 32 H58 M13 13 L19 19 M45 45 L51 51 M51 13 L45 19 M19 45 L13 51"/>
       </g>`,
     flower: `<g>${[0, 72, 144, 216, 288].map((a) => `<ellipse cx="0" cy="-17" rx="9" ry="14" transform="translate(32 32) rotate(${a})" fill="currentColor"/>`).join("")}<circle cx="32" cy="32" r="9" fill="#fff"/></g>`,
@@ -346,7 +368,7 @@
       <circle cx="16" cy="28" r="6" fill="currentColor"/><circle cx="27" cy="20" r="6" fill="currentColor"/>
       <circle cx="38" cy="20" r="6" fill="currentColor"/><circle cx="48" cy="28" r="6" fill="currentColor"/>`,
     book: `<path d="M32 14 C26 9 16 8 8 10 V50 C16 48 26 49 32 54 C38 49 48 48 56 50 V10 C48 8 38 9 32 14 Z" fill="currentColor" opacity="0.25"/>
-      <path d="M32 14 C26 9 16 8 8 10 V50 C16 48 26 49 32 54 M32 14 C38 9 48 8 56 10 V50 C48 48 38 49 32 54 M32 14 V54" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>`,
+      <path d="M32 14 C26 9 16 8 8 10 V50 C16 48 26 49 32 54 M32 14 C38 9 48 8 56 10 V50 C48 48 38 49 32 54 M32 14 V54" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>`,
   };
 
   function icon(name, size = 30) {
@@ -383,8 +405,8 @@
       ? `<g class="art-moon">
            <circle cx="620" cy="92" r="54" fill="${INK}" opacity="0.18"/>
            <circle cx="620" cy="82" r="47" fill="#f4ecc8" stroke="${sceneryInk}" stroke-width="3"/>
-           <circle cx="603" cy="72" r="9" fill="#ddd3a8" stroke="${sceneryInk}" stroke-width="1.5"/>
-           <circle cx="636" cy="98" r="6" fill="#ddd3a8" stroke="${sceneryInk}" stroke-width="1.5"/>
+           <circle cx="603" cy="72" r="9" fill="#ddd3a8" stroke="${sceneryInk}" stroke-width="1.6"/>
+           <circle cx="636" cy="98" r="6" fill="#ddd3a8" stroke="${sceneryInk}" stroke-width="1.6"/>
            <circle cx="633" cy="65" r="4.4" fill="#ddd3a8"/>
          </g>
          <g fill="#fff8d8" class="art-stars">
@@ -400,23 +422,23 @@
     return `
     <svg class="art-backdrop" viewBox="0 0 800 600" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
       ${celestial}
-      <g fill="${night ? "#777ca7" : "#fffaf0"}" opacity="${night ? 0.72 : 0.9}" stroke="${sceneryInk}" stroke-width="2" class="art-clouds">
+      <g fill="${night ? "#777ca7" : "#fffaf0"}" opacity="${night ? 0.72 : 0.9}" stroke="${sceneryInk}" stroke-width="2.4" class="art-clouds">
         <g class="art-cloud-a"><path d="M78 122 Q83 92 112 98 Q124 64 160 84 Q181 70 201 92 Q229 91 236 119 Q205 133 156 130 Q111 134 78 122 Z"/></g>
         <g class="art-cloud-b"><path d="M362 91 Q368 66 392 70 Q403 44 432 61 Q451 51 466 70 Q489 70 496 91 Q467 102 429 100 Q391 104 362 91 Z"/></g>
       </g>
       <path d="M-10 445 Q145 370 305 429 Q462 480 625 417 Q727 380 812 425 L812 615 L-10 615 Z" fill="${p.far}" stroke="${sceneryInk}" stroke-width="2.4" stroke-linejoin="round"/>
       <path d="M-10 485 Q198 392 420 462 Q622 526 812 440 L812 615 L-10 615 Z" fill="${p.mid}" stroke="${sceneryInk}" stroke-width="2.4" stroke-linejoin="round"/>
       <path d="M-10 535 Q257 450 521 522 Q682 565 812 516 L812 615 L-10 615 Z" fill="${p.near}" stroke="${sceneryInk}" stroke-width="2.4" stroke-linejoin="round"/>
-      <g fill="${night ? "#294638" : "#5f8d55"}" stroke="${sceneryInk}" stroke-width="2.2">
+      <g fill="${night ? "#294638" : "#5f8d55"}" stroke="${sceneryInk}" stroke-width="2.4">
         <path d="M113 501 V468" fill="none" stroke-linecap="round"/><circle cx="113" cy="452" r="27"/>
         <path d="M704 535 V495" fill="none" stroke-linecap="round"/><circle cx="704" cy="476" r="31"/>
       </g>
       <g stroke="${sceneryInk}" stroke-width="1.6" stroke-linecap="round">
-        <g transform="translate(246 526)"><path d="M0 22 V2"/><circle cy="0" r="8" fill="#ee806f"/><circle r="3" fill="#f3c955" stroke-width="1.5"/></g>
-        <g transform="translate(562 548)"><path d="M0 20 V1"/><circle r="7" fill="#9c8bd8"/><circle r="2.7" fill="#f3c955" stroke-width="1.5"/></g>
-        <g transform="translate(386 566)"><path d="M0 18 V0"/><circle r="7" fill="#73b9dc"/><circle r="2.7" fill="#f3c955" stroke-width="1.5"/></g>
+        <g transform="translate(246 526)"><path d="M0 22 V2"/><circle cy="0" r="8" fill="#ee806f"/><circle r="3" fill="#f3c955" stroke-width="1.6"/></g>
+        <g transform="translate(562 548)"><path d="M0 20 V1"/><circle r="7" fill="#9c8bd8"/><circle r="2.7" fill="#f3c955" stroke-width="1.6"/></g>
+        <g transform="translate(386 566)"><path d="M0 18 V0"/><circle r="7" fill="#73b9dc"/><circle r="2.7" fill="#f3c955" stroke-width="1.6"/></g>
       </g>
-      <g fill="#fffaf0" stroke="${sceneryInk}" stroke-width="1.5" opacity="0.8">
+      <g fill="#fffaf0" stroke="${sceneryInk}" stroke-width="1.6" opacity="0.8">
         <path d="M42 556 q14 -14 28 0 q-14 14 -28 0Z"/><path d="M744 560 q13 -13 26 0 q-13 13 -26 0Z"/>
       </g>
       ${night ? `<g class="art-fireflies" fill="#ffe98a">${[[210, 480], [470, 510], [650, 540]].map(([x, y], i) => `<circle cx="${x}" cy="${y}" r="4" style="animation-delay:${i * 1.1}s"/>`).join("")}</g>` : ""}
@@ -456,9 +478,9 @@
       ${
         locked
           ? `<g class="map-stop-seed" transform="translate(0 4)">
-               <ellipse cx="0" cy="0" rx="10" ry="12.5" fill="#c0ac85" stroke="#95815f" stroke-width="2.6" transform="rotate(-14)"/>
-               <path d="M0 -12 Q1 -19 0 -24" fill="none" stroke="#95815f" stroke-width="2.4" stroke-linecap="round"/>
-               <path d="M0 -20 Q-7 -23 -9 -29 Q-1 -28 0 -20 Z" fill="#a8bd8b" stroke="#7f9268" stroke-width="1.8" stroke-linejoin="round"/>
+               <ellipse cx="0" cy="0" rx="10" ry="12.5" fill="#c0ac85" stroke="${INKS.faint}" stroke-width="2.4" transform="rotate(-14)"/>
+               <path d="M0 -12 Q1 -19 0 -24" fill="none" stroke="${INKS.faint}" stroke-width="2.4" stroke-linecap="round"/>
+               <path d="M0 -20 Q-7 -23 -9 -29 Q-1 -28 0 -20 Z" fill="#a8bd8b" stroke="${INKS.soft}" stroke-width="1.6" stroke-linejoin="round"/>
              </g>`
           : (() => {
               const size = latin ? 24 : [...label.replace(/[ً-ْٰٓ-ٟؐ-ؚۖ-ۭ]/g, "")].length >= 3 ? 27 : 39;
@@ -487,8 +509,8 @@
       return `
       <g class="art-bloom" style="animation-delay:${(n * 0.35).toFixed(2)}s" transform="translate(${x.toFixed(1)} ${(6 - n * 3).toFixed(1)}) scale(${s.toFixed(2)})">
         <path d="M0 17 V1" fill="none" stroke="${INK}" stroke-width="4" stroke-linecap="round"/>
-        ${[0, 60, 120, 180, 240, 300].map((a) => `<ellipse rx="4.8" ry="7.6" transform="rotate(${a}) translate(0 -7.4)" fill="hsl(${hue} 64% 70%)" stroke="${INK}" stroke-width="2"/>`).join("")}
-        <circle r="4.6" fill="#f3c955" stroke="${INK}" stroke-width="2"/>
+        ${[0, 60, 120, 180, 240, 300].map((a) => `<ellipse rx="4.8" ry="7.6" transform="rotate(${a}) translate(0 -7.4)" fill="hsl(${hue} 64% 70%)" stroke="${INK}" stroke-width="2.4"/>`).join("")}
+        <circle r="4.6" fill="#f3c955" stroke="${INK}" stroke-width="2.4"/>
       </g>`;
     });
     return `
@@ -518,13 +540,13 @@
     blob: (body, rim) => ({
       back: `
         <g transform="translate(0 -43)">${sproutArt(0.9)}</g>
-        <path d="M42 30 Q61 34 54 47 Q47 53 41 44 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>`,
+        <path d="M42 30 Q61 34 54 47 Q47 53 41 44 Z" fill="${body}" stroke="${rim}" stroke-width="3"/>`,
       front: "",
     }),
     bunny: (body, rim, belly) => ({
       back: `
-        <path d="M-24 -38 Q-34 -86 -12 -66 Q-4 -56 -8 -40 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>
-        <path d="M24 -38 Q34 -86 12 -66 Q4 -56 8 -40 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>
+        <path d="M-24 -38 Q-34 -86 -12 -66 Q-4 -56 -8 -40 Z" fill="${body}" stroke="${rim}" stroke-width="3"/>
+        <path d="M24 -38 Q34 -86 12 -66 Q4 -56 8 -40 Z" fill="${body}" stroke="${rim}" stroke-width="3"/>
         <path d="M-21 -44 Q-26 -74 -13 -60 Q-9 -52 -12 -44 Z" fill="${belly}"/>
         <path d="M21 -44 Q26 -74 13 -60 Q9 -52 12 -44 Z" fill="${belly}"/>
         <circle cx="44" cy="36" r="10" fill="${belly}" stroke="${rim}" stroke-width="3"/>`,
@@ -532,30 +554,30 @@
     }),
     chick: (body, rim, belly) => ({
       back: `
-        <path d="M-4 -50 Q-10 -66 0 -60 Q6 -68 8 -56 Q16 -60 10 -48 Z" fill="#ffb03a" stroke="#d98a14" stroke-width="3"/>
-        <path d="M-44 6 Q-62 14 -50 30 Q-42 38 -34 26 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>
-        <path d="M44 6 Q62 14 50 30 Q42 38 34 26 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>
-        <path d="M-6 46 Q-16 62 0 58 Q16 62 6 46 Z" fill="#ffb03a" stroke="#d98a14" stroke-width="3"/>`,
-      front: `<path d="M-5 14 L0 21 L5 14 Q0 10 -5 14 Z" fill="#ffb03a" stroke="#d98a14" stroke-width="2.4"/>`,
+        <path d="M-4 -50 Q-10 -66 0 -60 Q6 -68 8 -56 Q16 -60 10 -48 Z" fill="#ffb03a" stroke="${GOLD.mid}" stroke-width="3"/>
+        <path d="M-44 6 Q-62 14 -50 30 Q-42 38 -34 26 Z" fill="${body}" stroke="${rim}" stroke-width="3"/>
+        <path d="M44 6 Q62 14 50 30 Q42 38 34 26 Z" fill="${body}" stroke="${rim}" stroke-width="3"/>
+        <path d="M-6 46 Q-16 62 0 58 Q16 62 6 46 Z" fill="#ffb03a" stroke="${GOLD.mid}" stroke-width="3"/>`,
+      front: `<path d="M-5 14 L0 21 L5 14 Q0 10 -5 14 Z" fill="#ffb03a" stroke="${GOLD.mid}" stroke-width="2.4"/>`,
     }),
     cat: (body, rim, belly) => ({
       back: `
-        <path d="M-34 -26 Q-44 -58 -12 -42 Q-20 -34 -22 -26 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>
-        <path d="M34 -26 Q44 -58 12 -42 Q20 -34 22 -26 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>
+        <path d="M-34 -26 Q-44 -58 -12 -42 Q-20 -34 -22 -26 Z" fill="${body}" stroke="${rim}" stroke-width="3"/>
+        <path d="M34 -26 Q44 -58 12 -42 Q20 -34 22 -26 Z" fill="${body}" stroke="${rim}" stroke-width="3"/>
         <path d="M-30 -34 Q-35 -49 -20 -41 Z" fill="#ff9db1"/>
         <path d="M30 -34 Q35 -49 20 -41 Z" fill="#ff9db1"/>
-        <path d="M40 28 Q66 24 60 2 Q57 -8 48 -2 Q54 6 46 12 Q34 18 38 30 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>`,
+        <path d="M40 28 Q66 24 60 2 Q57 -8 48 -2 Q54 6 46 12 Q34 18 38 30 Z" fill="${body}" stroke="${rim}" stroke-width="3"/>`,
       front: `
-        <g stroke="${rim}" stroke-width="2" stroke-linecap="round" opacity="0.8">
+        <g stroke="${rim}" stroke-width="2.4" stroke-linecap="round" opacity="0.8">
           <path d="M-28 4 L-44 0 M-28 9 L-44 10 M28 4 L44 0 M28 9 L44 10"/>
         </g>`,
     }),
     dragon: (body, rim, belly) => ({
       back: `
         <path d="M-16 -42 L-8 -64 L-1 -46 L7 -68 L14 -46 L20 -60 L23 -41 Z" fill="${belly}" stroke="${rim}" stroke-width="3"/>
-        <path d="M-44 -8 Q-74 -26 -66 2 Q-60 16 -40 12 Z" fill="${belly}" stroke="${rim}" stroke-width="3.4"/>
-        <path d="M44 -8 Q74 -26 66 2 Q60 16 40 12 Z" fill="${belly}" stroke="${rim}" stroke-width="3.4"/>
-        <path d="M38 34 Q62 44 58 56 L48 50 Q54 58 44 60 Q32 58 34 42 Z" fill="${body}" stroke="${rim}" stroke-width="3.4"/>
+        <path d="M-44 -8 Q-74 -26 -66 2 Q-60 16 -40 12 Z" fill="${belly}" stroke="${rim}" stroke-width="3"/>
+        <path d="M44 -8 Q74 -26 66 2 Q60 16 40 12 Z" fill="${belly}" stroke="${rim}" stroke-width="3"/>
+        <path d="M38 34 Q62 44 58 56 L48 50 Q54 58 44 60 Q32 58 34 42 Z" fill="${body}" stroke="${rim}" stroke-width="3"/>
         <path d="M-16 -48 Q-20 -58 -12 -54 Z" fill="${rim}"/>
         <path d="M16 -48 Q20 -58 12 -54 Z" fill="${rim}"/>`,
       front: "",
@@ -590,20 +612,20 @@
   }
 
   const ACCESSORY_ART = {
-    cap: `<g transform="translate(0 -46)"><path d="M-24 2 A24 16 0 0 1 24 2 L26 6 L-30 6 Z" fill="#f0503f" stroke="#b32c1d" stroke-width="3"/><circle cy="-12" r="4" fill="#ffd23e"/></g>`,
-    crown: `<g transform="translate(0 -48)"><path d="M-20 8 L-20 -8 L-10 0 L0 -12 L10 0 L20 -8 L20 8 Z" fill="#ffc22e" stroke="#c47f12" stroke-width="3"/><circle cy="2" r="3.4" fill="#f0503f"/></g>`,
-    bow: `<g transform="translate(26 -34) rotate(20)"><path d="M0 0 L-14 -9 L-14 9 Z M0 0 L14 -9 L14 9 Z" fill="#ff7d96" stroke="#cf3f60" stroke-width="3"/><circle r="4" fill="#cf3f60"/></g>`,
-    glasses: `<g transform="translate(0 -6)"><circle cx="-12" cy="0" r="9" fill="none" stroke="${INK}" stroke-width="3.4"/><circle cx="12" cy="0" r="9" fill="none" stroke="${INK}" stroke-width="3.4"/><path d="M-3 0 H3" stroke="${INK}" stroke-width="3.4"/></g>`,
-    scarf: `<g transform="translate(0 22)"><path d="M-24 0 Q0 12 24 0 L22 10 Q0 20 -22 10 Z" fill="#2fc487" stroke="#1d8a5c" stroke-width="3"/><path d="M14 8 L20 30 L8 26 Z" fill="#2fc487" stroke="#1d8a5c" stroke-width="3"/></g>`,
+    cap: `<g transform="translate(0 -46)"><path d="M-24 2 A24 16 0 0 1 24 2 L26 6 L-30 6 Z" fill="#f0503f" stroke="${INKS.base}" stroke-width="3"/><circle cy="-12" r="4" fill="#ffd23e"/></g>`,
+    crown: `<g transform="translate(0 -48)"><path d="M-20 8 L-20 -8 L-10 0 L0 -12 L10 0 L20 -8 L20 8 Z" fill="#ffc22e" stroke="${GOLD.mid}" stroke-width="3"/><circle cy="2" r="3.4" fill="#f0503f"/></g>`,
+    bow: `<g transform="translate(26 -34) rotate(20)"><path d="M0 0 L-14 -9 L-14 9 Z M0 0 L14 -9 L14 9 Z" fill="#ff7d96" stroke="${INKS.base}" stroke-width="3"/><circle r="4" fill="#cf3f60"/></g>`,
+    glasses: `<g transform="translate(0 -6)"><circle cx="-12" cy="0" r="9" fill="none" stroke="${INK}" stroke-width="3"/><circle cx="12" cy="0" r="9" fill="none" stroke="${INK}" stroke-width="3"/><path d="M-3 0 H3" stroke="${INK}" stroke-width="3"/></g>`,
+    scarf: `<g transform="translate(0 22)"><path d="M-24 0 Q0 12 24 0 L22 10 Q0 20 -22 10 Z" fill="#2fc487" stroke="${INKS.base}" stroke-width="3"/><path d="M14 8 L20 30 L8 26 Z" fill="#2fc487" stroke="${INKS.base}" stroke-width="3"/></g>`,
     flower: `<g transform="translate(-27 -36)">${[0, 60, 120, 180, 240, 300].map((a) => `<ellipse rx="5" ry="8" transform="rotate(${a}) translate(0 -8)" fill="#ff7d96"/>`).join("")}<circle r="5" fill="#ffd23e"/></g>`,
-    balloon: `<g transform="translate(42 -30)"><path d="M0 18 Q-3 34 0 40" fill="none" stroke="#84739f" stroke-width="2.4"/><ellipse rx="13" ry="16" fill="#54c6ff" stroke="#1f87c2" stroke-width="3"/><circle cx="-4" cy="-5" r="3.4" fill="#fff" opacity="0.7"/></g>`,
-    wand: `<g transform="translate(-42 6) rotate(-24)"><rect x="-2" y="0" width="4" height="34" rx="2" fill="#c47f12"/><g transform="translate(0 -6) scale(0.32)" fill="#ffd23e"><path d="M0 -26 L7 -6 L27 -5 L11 8 L16 27 L0 16 L-16 27 L-11 8 L-27 -5 L-7 -6 Z" stroke="#c47f12" stroke-width="6"/></g></g>`,
-    taqiyah: `<g transform="translate(0 -46)"><path d="M-22 6 A22 14 0 0 1 22 6 L22 10 L-22 10 Z" fill="#fffaf0" stroke="#cbbf9e" stroke-width="3"/><path d="M-14 -2 Q0 -8 14 -2 M-18 4 Q0 -2 18 4" fill="none" stroke="#cbbf9e" stroke-width="2"/></g>`,
-    cape: `<g transform="translate(0 4)"><path d="M-34 -22 Q-52 20 -38 44 L-20 34 Q-30 6 -26 -18 Z" fill="#f0503f" stroke="#b32c1d" stroke-width="3"/><path d="M34 -22 Q52 20 38 44 L20 34 Q30 6 26 -18 Z" fill="#f0503f" stroke="#b32c1d" stroke-width="3"/></g>`,
-    medal: `<g transform="translate(0 30)"><path d="M-6 -14 L0 -4 L6 -14" stroke="#2f8a1f" stroke-width="4" fill="none"/><circle cy="4" r="9" fill="#ffc22e" stroke="#c47f12" stroke-width="3"/><path d="M0 -1 L2 3 L6 3 L3 6 L4 10 L0 8 L-4 10 L-3 6 L-6 3 L-2 3 Z" fill="#fff6da"/></g>`,
-    kite: `<g transform="translate(44 -22) rotate(14)"><path d="M0 -16 L12 0 L0 16 L-12 0 Z" fill="#54c6ff" stroke="#1f87c2" stroke-width="3"/><path d="M0 -16 V16 M-12 0 H12" stroke="#1f87c2" stroke-width="2"/><path d="M0 16 Q-4 26 0 34 Q4 40 0 46" fill="none" stroke="#84739f" stroke-width="2.4"/></g>`,
-    sprout: `<g transform="translate(0 -50)"><path d="M0 10 Q0 2 0 -2" stroke="#2f8a1f" stroke-width="3.4" fill="none"/><path d="M0 -2 Q-12 -6 -13 -16 Q-2 -14 0 -2 Z" fill="#5cc23e" stroke="#2f8a1f" stroke-width="2.6"/><path d="M0 -2 Q12 -8 14 -17 Q3 -15 0 -2 Z" fill="#98dc74" stroke="#2f8a1f" stroke-width="2.6"/></g>`,
-    moonpin: `<g transform="translate(-26 26)"><path d="M4 -10 A11 11 0 1 0 4 10 A8 8 0 1 1 4 -10" fill="#ffedb0" stroke="#c47f12" stroke-width="2.6"/><circle cx="8" cy="-9" r="2.4" fill="#ffd23e" stroke="#c47f12" stroke-width="1.6"/></g>`,
+    balloon: `<g transform="translate(42 -30)"><path d="M0 18 Q-3 34 0 40" fill="none" stroke="${INKS.base}" stroke-width="2.4"/><ellipse rx="13" ry="16" fill="#54c6ff" stroke="${INKS.base}" stroke-width="3"/><circle cx="-4" cy="-5" r="3.4" fill="#fff" opacity="0.7"/></g>`,
+    wand: `<g transform="translate(-42 6) rotate(-24)"><rect x="-2" y="0" width="4" height="34" rx="2" fill="#c47f12"/><g transform="translate(0 -6) scale(0.32)" fill="#ffd23e"><path d="M0 -26 L7 -6 L27 -5 L11 8 L16 27 L0 16 L-16 27 L-11 8 L-27 -5 L-7 -6 Z" stroke="${GOLD.mid}" stroke-width="6"/></g></g>`,
+    taqiyah: `<g transform="translate(0 -46)"><path d="M-22 6 A22 14 0 0 1 22 6 L22 10 L-22 10 Z" fill="#fffaf0" stroke="${INKS.faint}" stroke-width="3"/><path d="M-14 -2 Q0 -8 14 -2 M-18 4 Q0 -2 18 4" fill="none" stroke="${INKS.faint}" stroke-width="2.4"/></g>`,
+    cape: `<g transform="translate(0 4)"><path d="M-34 -22 Q-52 20 -38 44 L-20 34 Q-30 6 -26 -18 Z" fill="#f0503f" stroke="${INKS.base}" stroke-width="3"/><path d="M34 -22 Q52 20 38 44 L20 34 Q30 6 26 -18 Z" fill="#f0503f" stroke="${INKS.base}" stroke-width="3"/></g>`,
+    medal: `<g transform="translate(0 30)"><path d="M-6 -14 L0 -4 L6 -14" stroke="${INKS.base}" stroke-width="4" fill="none"/><circle cy="4" r="9" fill="#ffc22e" stroke="${GOLD.mid}" stroke-width="3"/><path d="M0 -1 L2 3 L6 3 L3 6 L4 10 L0 8 L-4 10 L-3 6 L-6 3 L-2 3 Z" fill="#fff6da"/></g>`,
+    kite: `<g transform="translate(44 -22) rotate(14)"><path d="M0 -16 L12 0 L0 16 L-12 0 Z" fill="#54c6ff" stroke="${INKS.base}" stroke-width="3"/><path d="M0 -16 V16 M-12 0 H12" stroke="${INKS.base}" stroke-width="2.4"/><path d="M0 16 Q-4 26 0 34 Q4 40 0 46" fill="none" stroke="${INKS.base}" stroke-width="2.4"/></g>`,
+    sprout: `<g transform="translate(0 -50)"><path d="M0 10 Q0 2 0 -2" stroke="${INKS.base}" stroke-width="3" fill="none"/><path d="M0 -2 Q-12 -6 -13 -16 Q-2 -14 0 -2 Z" fill="#5cc23e" stroke="${INKS.base}" stroke-width="2.4"/><path d="M0 -2 Q12 -8 14 -17 Q3 -15 0 -2 Z" fill="#98dc74" stroke="${INKS.base}" stroke-width="2.4"/></g>`,
+    moonpin: `<g transform="translate(-26 26)"><path d="M4 -10 A11 11 0 1 0 4 10 A8 8 0 1 1 4 -10" fill="#ffedb0" stroke="${GOLD.mid}" stroke-width="2.4"/><circle cx="8" cy="-9" r="2.4" fill="#ffd23e" stroke="${GOLD.mid}" stroke-width="1.6"/></g>`,
   };
 
   ns.LETTERS_ACCESSORIES = [
@@ -635,7 +657,7 @@
       <g class="art-egg-body">
         <ellipse cy="56" rx="34" ry="7" fill="${SHADOW}"/>
         <path d="M0 -52 C30 -52 42 -18 42 8 C42 36 24 52 0 52 C-24 52 -42 36 -42 8 C-42 -18 -30 -52 0 -52 Z"
-          fill="url(#${id})" stroke="#d8ab4e" stroke-width="4"/>
+          fill="url(#${id})" stroke="${GOLD.light}" stroke-width="4"/>
         <circle cx="-12" cy="-22" r="8" fill="#fff" opacity="0.7"/>
         <g fill="#ffc22e" opacity="0.8"><circle cx="14" cy="6" r="5"/><circle cx="-16" cy="18" r="4"/><circle cx="4" cy="32" r="3.4"/></g>
         ${
@@ -644,15 +666,15 @@
           // light leaking from inside. The old version drew two thin hairlines
           // that a child couldn't tell apart from the shell speckles.
           cracks >= 1
-            ? `<path d="M-26 -14 L-14 -6 L-22 4 L-10 12" fill="none" stroke="#8a6320" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-               <path d="M-14 -6 L-4 -12" fill="none" stroke="#8a6320" stroke-width="3" stroke-linecap="round"/>`
+            ? `<path d="M-26 -14 L-14 -6 L-22 4 L-10 12" fill="none" stroke="${INKS.soft}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+               <path d="M-14 -6 L-4 -12" fill="none" stroke="${INKS.soft}" stroke-width="3" stroke-linecap="round"/>`
             : ""
         }
         ${
           cracks >= 2
-            ? `<path d="M22 -22 L12 -10 L24 -2 L14 10 L22 20" fill="none" stroke="#8a6320" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-               <path d="M-10 12 L2 16 L14 10" fill="none" stroke="#8a6320" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
-               <path d="M2 16 L0 30" fill="none" stroke="#8a6320" stroke-width="3" stroke-linecap="round"/>
+            ? `<path d="M22 -22 L12 -10 L24 -2 L14 10 L22 20" fill="none" stroke="${INKS.soft}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+               <path d="M-10 12 L2 16 L14 10" fill="none" stroke="${INKS.soft}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+               <path d="M2 16 L0 30" fill="none" stroke="${INKS.soft}" stroke-width="3" stroke-linecap="round"/>
                <path d="M12 -10 L24 -2 L14 10 Z" fill="#3a2c1a" opacity="0.5"/>
                <circle cx="18" cy="-1" r="9" fill="#fff6c9" opacity="0.75"/>
                <circle cx="18" cy="-1" r="4.5" fill="#fffdf0"/>`
@@ -677,9 +699,9 @@
 
   const PETAL_ICONS = {
     identify: `<circle r="5.5" fill="none" stroke="#fff" stroke-width="2.4"/><circle r="1.8" fill="#fff"/>`,
-    memorize: `<rect x="-7" y="-5" width="8" height="10" rx="2" fill="none" stroke="#fff" stroke-width="2.2"/><rect x="-1" y="-5" width="8" height="10" rx="2" fill="none" stroke="#fff" stroke-width="2.2"/>`,
+    memorize: `<rect x="-7" y="-5" width="8" height="10" rx="2" fill="none" stroke="#fff" stroke-width="2.4"/><rect x="-1" y="-5" width="8" height="10" rx="2" fill="none" stroke="#fff" stroke-width="2.4"/>`,
     visualize: `<text y="5" text-anchor="middle" font-family="'Amiri Quran', serif" font-size="15" fill="#fff">ﺑ</text>`,
-    blend: `<circle cx="-4" cy="0" r="4.5" fill="none" stroke="#fff" stroke-width="2.2"/><circle cx="4" cy="0" r="4.5" fill="none" stroke="#fff" stroke-width="2.2"/>`,
+    blend: `<circle cx="-4" cy="0" r="4.5" fill="none" stroke="#fff" stroke-width="2.4"/><circle cx="4" cy="0" r="4.5" fill="none" stroke="#fff" stroke-width="2.4"/>`,
     write: `<path d="M-5 6 L3 -6 L6 -3 L-2 8 Z M-5 6 L-6 9 L-3 8 Z" fill="#fff"/>`,
   };
 
@@ -700,7 +722,7 @@
     return `
     <svg class="art-flower" viewBox="-70 -70 140 140" width="${size}" height="${size}" aria-hidden="true">
       ${petals}
-      <circle r="17" fill="#ffd23e" stroke="#c47f12" stroke-width="3.4"/>
+      <circle r="17" fill="#ffd23e" stroke="${GOLD.mid}" stroke-width="3"/>
       ${face(0, -1, 0.55)}
     </svg>`;
   }
@@ -711,31 +733,31 @@
   // tilt playfully in the album; unowned slots are grey question blanks.
 
   const STICKER_ART = {
-    sun: `<circle r="16" fill="#ffd23e"/><circle cx="-5" cy="-5" r="5" fill="#fff" opacity="0.5"/><g stroke="#f59a1d" stroke-width="4" stroke-linecap="round">${[0, 45, 90, 135, 180, 225, 270, 315].map((a) => `<path d="M0 -22 L0 -28" transform="rotate(${a})"/>`).join("")}</g>`,
-    moon: `<path d="M8 -20 A22 22 0 1 0 8 20 A17 17 0 1 1 8 -20" fill="#ffe9a8" stroke="#d8ab4e" stroke-width="3"/>`,
-    star: `<path d="M0 -22 L6 -6 L23 -5 L9 6 L14 22 L0 13 L-14 22 L-9 6 L-23 -5 L-6 -6 Z" fill="#ffc22e" stroke="#c47f12" stroke-width="3"/>`,
-    rainbow: `<g fill="none" stroke-width="5"><path d="M-22 14 A22 22 0 0 1 22 14" stroke="#f0503f"/><path d="M-16 14 A16 16 0 0 1 16 14" stroke="#ffc22e"/><path d="M-10 14 A10 10 0 0 1 10 14" stroke="#2fc487"/></g><circle cx="-22" cy="16" r="5" fill="#fff"/><circle cx="22" cy="16" r="5" fill="#fff"/>`,
+    sun: `<circle r="16" fill="#ffd23e"/><circle cx="-5" cy="-5" r="5" fill="#fff" opacity="0.5"/><g stroke="${GOLD.mid}" stroke-width="4" stroke-linecap="round">${[0, 45, 90, 135, 180, 225, 270, 315].map((a) => `<path d="M0 -22 L0 -28" transform="rotate(${a})"/>`).join("")}</g>`,
+    moon: `<path d="M8 -20 A22 22 0 1 0 8 20 A17 17 0 1 1 8 -20" fill="#ffe9a8" stroke="${GOLD.light}" stroke-width="3"/>`,
+    star: `<path d="M0 -22 L6 -6 L23 -5 L9 6 L14 22 L0 13 L-14 22 L-9 6 L-23 -5 L-6 -6 Z" fill="#ffc22e" stroke="${GOLD.mid}" stroke-width="3"/>`,
+    rainbow: `<g fill="none" stroke-width="6"><path d="M-22 14 A22 22 0 0 1 22 14" stroke="${INKS.base}"/><path d="M-16 14 A16 16 0 0 1 16 14" stroke="${GOLD.light}"/><path d="M-10 14 A10 10 0 0 1 10 14" stroke="${INKS.base}"/></g><circle cx="-22" cy="16" r="5" fill="#fff"/><circle cx="22" cy="16" r="5" fill="#fff"/>`,
     palm: `<rect x="-3" y="-2" width="7" height="26" rx="3" fill="#b06322"/><g fill="#2fc487">${[-150, -110, -70, -30].map((a) => `<ellipse rx="16" ry="6" transform="translate(0 -6) rotate(${a}) translate(12 0)"/>`).join("")}</g>`,
     flower: `${[0, 60, 120, 180, 240, 300].map((a) => `<ellipse rx="7" ry="12" transform="rotate(${a}) translate(0 -12)" fill="#ff7d96"/>`).join("")}<circle r="7" fill="#ffd23e"/>`,
-    butterfly: `<g><ellipse cx="-11" cy="-8" rx="10" ry="12" fill="#54c6ff" transform="rotate(-20 -11 -8)"/><ellipse cx="11" cy="-8" rx="10" ry="12" fill="#54c6ff" transform="rotate(20 11 -8)"/><ellipse cx="-9" cy="9" rx="8" ry="9" fill="#ff7d96" transform="rotate(20 -9 9)"/><ellipse cx="9" cy="9" rx="8" ry="9" fill="#ff7d96" transform="rotate(-20 9 9)"/><rect x="-2.4" y="-14" width="5" height="28" rx="2.5" fill="${INK}"/></g>`,
+    butterfly: `<g><ellipse cx="-11" cy="-8" rx="10" ry="12" fill="#54c6ff" stroke="${INKS.base}" stroke-width="2.4" transform="rotate(-20 -11 -8)"/><ellipse cx="11" cy="-8" rx="10" ry="12" fill="#54c6ff" stroke="${INKS.base}" stroke-width="2.4" transform="rotate(20 11 -8)"/><ellipse cx="-9" cy="9" rx="8" ry="9" fill="#ff7d96" stroke="${INKS.base}" stroke-width="2.4" transform="rotate(20 -9 9)"/><ellipse cx="9" cy="9" rx="8" ry="9" fill="#ff7d96" stroke="${INKS.base}" stroke-width="2.4" transform="rotate(-20 9 9)"/><rect x="-2.4" y="-14" width="5" height="28" rx="2.5" fill="${INK}"/></g>`,
     bee: `<ellipse rx="15" ry="11" fill="#ffd23e" stroke="${INK}" stroke-width="3"/><path d="M-5 -11 V11 M5 -11 V11" stroke="${INK}" stroke-width="4"/><ellipse cx="-8" cy="-14" rx="7" ry="5" fill="#d0f2ff" opacity="0.9"/><ellipse cx="8" cy="-14" rx="7" ry="5" fill="#d0f2ff" opacity="0.9"/><circle cx="17" cy="-2" r="2.4" fill="${INK}"/>`,
-    dove: `<path d="M-18 4 Q-8 -14 8 -8 Q22 -4 20 8 Q10 18 -6 14 Z" fill="#fffaf0" stroke="#b8aecc" stroke-width="3"/><path d="M-2 -6 Q-12 -18 2 -16 Z" fill="#fffaf0" stroke="#b8aecc" stroke-width="3"/><circle cx="12" cy="-2" r="1.8" fill="${INK}"/><path d="M20 2 L27 4 L20 7 Z" fill="#f59a1d"/>`,
-    fish: `<path d="M-20 0 Q-4 -14 10 -8 Q20 -4 20 0 Q20 4 10 8 Q-4 14 -20 0 Z" fill="#54c6ff" stroke="#1f87c2" stroke-width="3"/><path d="M-20 0 L-28 -8 L-28 8 Z" fill="#1f87c2"/><circle cx="10" cy="-2" r="2" fill="${INK}"/>`,
-    boat: `<path d="M-22 6 L22 6 L14 18 L-14 18 Z" fill="#b06322" stroke="#7c4210" stroke-width="3"/><path d="M2 6 L2 -20 L18 -2 Z" fill="#fffaf0" stroke="#b8aecc" stroke-width="3"/>`,
-    lantern: `<rect x="-4" y="-24" width="8" height="5" rx="2" fill="#c47f12"/><path d="M-12 -18 L12 -18 L16 8 Q0 16 -16 8 Z" fill="#ffd23e" stroke="#c47f12" stroke-width="3"/><circle cy="-2" r="6" fill="#fff" opacity="0.75"/>`,
-    key: `<circle cx="0" cy="-12" r="10" fill="none" stroke="#ffc22e" stroke-width="6"/><rect x="-3" y="-4" width="6" height="26" rx="3" fill="#ffc22e"/><rect x="-3" y="12" width="12" height="5" rx="2" fill="#ffc22e"/><rect x="-3" y="20" width="9" height="5" rx="2" fill="#ffc22e"/>`,
-    egg: `<path d="M0 -20 C12 -20 17 -7 17 3 C17 14 10 20 0 20 C-10 20 -17 14 -17 3 C-17 -7 -12 -20 0 -20 Z" fill="#fdf0d2" stroke="#d8ab4e" stroke-width="3"/><circle cx="-5" cy="-8" r="3.4" fill="#fff"/>`,
-    cat: `<circle cy="2" r="16" fill="#f59a1d" stroke="#b06322" stroke-width="3"/><path d="M-12 -10 L-16 -22 L-5 -14 Z M12 -10 L16 -22 L5 -14 Z" fill="#f59a1d" stroke="#b06322" stroke-width="3"/><circle cx="-6" cy="0" r="2" fill="${INK}"/><circle cx="6" cy="0" r="2" fill="${INK}"/><path d="M-3 7 Q0 10 3 7" fill="none" stroke="${INK}" stroke-width="2"/>`,
-    cloud: `<ellipse cx="-8" cy="2" rx="14" ry="10" fill="#fffaf0"/><ellipse cx="8" cy="-2" rx="13" ry="11" fill="#fffaf0"/><ellipse cx="0" cy="6" rx="20" ry="9" fill="#fffaf0"/><ellipse cx="0" cy="2" rx="19" ry="10" fill="none" stroke="#a8d4ec" stroke-width="3"/>`,
+    dove: `<path d="M-18 4 Q-8 -14 8 -8 Q22 -4 20 8 Q10 18 -6 14 Z" fill="#fffaf0" stroke="${INKS.base}" stroke-width="3"/><path d="M-2 -6 Q-12 -18 2 -16 Z" fill="#fffaf0" stroke="${INKS.base}" stroke-width="3"/><circle cx="12" cy="-2" r="1.8" fill="${INK}"/><path d="M20 2 L27 4 L20 7 Z" fill="#f59a1d"/>`,
+    fish: `<path d="M-20 0 Q-4 -14 10 -8 Q20 -4 20 0 Q20 4 10 8 Q-4 14 -20 0 Z" fill="#54c6ff" stroke="${INKS.base}" stroke-width="3"/><path d="M-20 0 L-28 -8 L-28 8 Z" fill="#1f87c2"/><circle cx="10" cy="-2" r="2" fill="${INK}"/>`,
+    boat: `<path d="M-22 6 L22 6 L14 18 L-14 18 Z" fill="#b06322" stroke="${INKS.base}" stroke-width="3"/><path d="M2 6 L2 -20 L18 -2 Z" fill="#fffaf0" stroke="${INKS.soft}" stroke-width="3"/>`,
+    lantern: `<rect x="-4" y="-24" width="8" height="5" rx="2" fill="#c47f12"/><path d="M-12 -18 L12 -18 L16 8 Q0 16 -16 8 Z" fill="#ffd23e" stroke="${GOLD.mid}" stroke-width="3"/><circle cy="-2" r="6" fill="#fff" opacity="0.75"/>`,
+    key: `<circle cx="0" cy="-12" r="10" fill="none" stroke="${GOLD.light}" stroke-width="6"/><rect x="-3" y="-4" width="6" height="26" rx="3" fill="#ffc22e"/><rect x="-3" y="12" width="12" height="5" rx="2" fill="#ffc22e"/><rect x="-3" y="20" width="9" height="5" rx="2" fill="#ffc22e"/>`,
+    egg: `<path d="M0 -20 C12 -20 17 -7 17 3 C17 14 10 20 0 20 C-10 20 -17 14 -17 3 C-17 -7 -12 -20 0 -20 Z" fill="#fdf0d2" stroke="${GOLD.light}" stroke-width="3"/><circle cx="-5" cy="-8" r="3.4" fill="#fff"/>`,
+    cat: `<circle cy="2" r="16" fill="#f59a1d" stroke="${INKS.base}" stroke-width="3"/><path d="M-12 -10 L-16 -22 L-5 -14 Z M12 -10 L16 -22 L5 -14 Z" fill="#f59a1d" stroke="${INKS.base}" stroke-width="3"/><circle cx="-6" cy="0" r="2" fill="${INK}"/><circle cx="6" cy="0" r="2" fill="${INK}"/><path d="M-3 7 Q0 10 3 7" fill="none" stroke="${INK}" stroke-width="2.4"/>`,
+    cloud: `<path d="M-14 11 Q-22 11 -22 4 Q-22 -2 -15 -3 Q-14 -12 -4 -12 Q3 -16 9 -10 Q17 -10 18 -2 Q23 -1 23 4 Q23 11 16 11 Z" fill="#fffaf0" stroke="${INKS.base}" stroke-width="3" stroke-linejoin="round"/>`,
     // The Quranic animals — the island's cast, sticker-sized.
-    camel: `<path d="M-18 12 Q-20 -2 -10 -4 Q-6 -12 2 -8 Q6 -14 12 -10 L14 -18 L18 -16 L16 -6 Q20 0 18 12 Z" fill="#e8a936" stroke="#b06322" stroke-width="3"/><rect x="-14" y="12" width="5" height="9" rx="2" fill="#b06322"/><rect x="8" y="12" width="5" height="9" rx="2" fill="#b06322"/><circle cx="14" cy="-13" r="1.6" fill="${INK}"/>`,
-    elephant: `<circle cx="-2" cy="0" r="15" fill="#b8aecc" stroke="#84739f" stroke-width="3"/><circle cx="-12" cy="-4" r="8" fill="#d2c9e2" stroke="#84739f" stroke-width="3"/><path d="M12 -4 Q22 0 18 12 Q16 16 12 14" fill="none" stroke="#84739f" stroke-width="5" stroke-linecap="round"/><circle cx="4" cy="-4" r="2" fill="${INK}"/>`,
-    ant: `<circle cx="-11" cy="4" r="7" fill="#7c4e22"/><circle cx="0" cy="0" r="6" fill="#7c4e22"/><circle cx="10" cy="-4" r="7" fill="#7c4e22"/><path d="M8 -10 L4 -18 M14 -10 L18 -18" stroke="#7c4e22" stroke-width="2.4" stroke-linecap="round"/><circle cx="12" cy="-6" r="1.6" fill="#fff"/><path d="M-14 10 L-18 16 M-8 11 L-9 18 M0 6 L-2 14 M4 5 L8 13" stroke="#7c4e22" stroke-width="2.4" stroke-linecap="round"/>`,
-    spider: `<circle cy="2" r="11" fill="#4a3b5c"/><circle cy="-10" r="6" fill="#4a3b5c"/><g stroke="#4a3b5c" stroke-width="2.6" stroke-linecap="round" fill="none"><path d="M-9 -2 Q-20 -8 -22 -16 M9 -2 Q20 -8 22 -16 M-11 4 Q-22 4 -25 -2 M11 4 Q22 4 25 -2 M-10 9 Q-18 16 -22 15 M10 9 Q18 16 22 15"/></g><circle cx="-2" cy="-11" r="1.5" fill="#fff"/><circle cx="2" cy="-11" r="1.5" fill="#fff"/>`,
-    crow: `<path d="M-16 6 Q-12 -10 4 -10 Q16 -10 16 0 Q16 10 2 12 L-8 12 Z" fill="#413a52" stroke="#28223a" stroke-width="3"/><path d="M14 -2 L23 0 L14 4 Z" fill="#f59a1d"/><circle cx="8" cy="-3" r="1.8" fill="#fff"/><path d="M-14 8 L-22 2" stroke="#28223a" stroke-width="3" stroke-linecap="round"/>`,
-    hoopoe: `<path d="M-14 6 Q-10 -8 4 -8 Q14 -8 14 0 Q14 9 2 10 L-7 10 Z" fill="#f0a660" stroke="#b06322" stroke-width="3"/><path d="M12 -4 L21 -2 L12 1 Z" fill="#4a3b5c"/><g stroke="#b06322" stroke-width="2.6" stroke-linecap="round"><path d="M2 -8 L-1 -18 M5 -8 L5 -19 M8 -8 L11 -17"/></g><circle cx="3" cy="-15" r="2" fill="${INK}"/><circle cx="7" cy="-2" r="1.7" fill="${INK}"/>`,
-    whale: `<path d="M-20 2 Q-12 -12 4 -10 Q20 -8 20 2 Q20 10 4 10 Q-12 12 -20 2 Z" fill="#4f92e8" stroke="#2b5cad" stroke-width="3"/><path d="M-18 0 L-27 -6 L-24 2 L-27 8 Z" fill="#2b5cad"/><path d="M4 -10 Q4 -18 -1 -20 M4 -10 Q9 -17 7 -21" stroke="#2b5cad" stroke-width="2.6" fill="none" stroke-linecap="round"/><circle cx="11" cy="-2" r="2" fill="#fff"/>`,
-    snake: `<path d="M-18 12 Q-8 4 0 10 Q10 16 16 6 Q20 -2 12 -8 Q6 -12 2 -8" fill="none" stroke="#2fc487" stroke-width="7" stroke-linecap="round"/><circle cx="0" cy="-9" r="6" fill="#2fc487" stroke="#1d8a5c" stroke-width="2.6"/><circle cx="-2" cy="-10" r="1.5" fill="${INK}"/><path d="M-6 -9 L-12 -11" stroke="#cf3f60" stroke-width="2" stroke-linecap="round"/>`,
+    camel: `<path d="M-18 12 Q-20 -2 -10 -4 Q-6 -12 2 -8 Q6 -14 12 -10 L14 -18 L18 -16 L16 -6 Q20 0 18 12 Z" fill="#e8a936" stroke="${INKS.base}" stroke-width="3"/><rect x="-14" y="12" width="5" height="9" rx="2" fill="#b06322"/><rect x="8" y="12" width="5" height="9" rx="2" fill="#b06322"/><circle cx="14" cy="-13" r="1.6" fill="${INK}"/>`,
+    elephant: `<circle cx="-2" cy="0" r="15" fill="#bdb2ae" stroke="${INKS.base}" stroke-width="3"/><circle cx="-12" cy="-4" r="8" fill="#d6cbc5" stroke="${INKS.base}" stroke-width="3"/><path d="M12 -4 Q22 0 18 12 Q16 16 12 14" fill="none" stroke="${INKS.base}" stroke-width="6" stroke-linecap="round"/><circle cx="4" cy="-4" r="2" fill="${INK}"/>`,
+    ant: `<circle cx="-11" cy="4" r="7" fill="#7c4e22"/><circle cx="0" cy="0" r="6" fill="#7c4e22"/><circle cx="10" cy="-4" r="7" fill="#7c4e22"/><path d="M8 -10 L4 -18 M14 -10 L18 -18" stroke="${INKS.base}" stroke-width="2.4" stroke-linecap="round"/><circle cx="12" cy="-6" r="1.6" fill="#fff"/><path d="M-14 10 L-18 16 M-8 11 L-9 18 M0 6 L-2 14 M4 5 L8 13" stroke="${INKS.base}" stroke-width="2.4" stroke-linecap="round"/>`,
+    spider: `<circle cy="2" r="11" fill="#4a3b5c"/><circle cy="-10" r="6" fill="#4a3b5c"/><g stroke="${INKS.base}" stroke-width="2.4" stroke-linecap="round" fill="none"><path d="M-9 -2 Q-20 -8 -22 -16 M9 -2 Q20 -8 22 -16 M-11 4 Q-22 4 -25 -2 M11 4 Q22 4 25 -2 M-10 9 Q-18 16 -22 15 M10 9 Q18 16 22 15"/></g><circle cx="-2" cy="-11" r="1.5" fill="#fff"/><circle cx="2" cy="-11" r="1.5" fill="#fff"/>`,
+    crow: `<path d="M-16 6 Q-12 -10 4 -10 Q16 -10 16 0 Q16 10 2 12 L-8 12 Z" fill="#413a52" stroke="${INKS.base}" stroke-width="3"/><path d="M14 -2 L23 0 L14 4 Z" fill="#f59a1d"/><circle cx="8" cy="-3" r="1.8" fill="#fff"/><path d="M-14 8 L-22 2" stroke="${INKS.base}" stroke-width="3" stroke-linecap="round"/>`,
+    hoopoe: `<path d="M-14 6 Q-10 -8 4 -8 Q14 -8 14 0 Q14 9 2 10 L-7 10 Z" fill="#f0a660" stroke="${INKS.base}" stroke-width="3"/><path d="M12 -4 L21 -2 L12 1 Z" fill="#4a3b5c"/><g stroke="${INKS.base}" stroke-width="2.4" stroke-linecap="round"><path d="M2 -8 L-1 -18 M5 -8 L5 -19 M8 -8 L11 -17"/></g><circle cx="3" cy="-15" r="2" fill="${INK}"/><circle cx="7" cy="-2" r="1.7" fill="${INK}"/>`,
+    whale: `<path d="M-20 2 Q-12 -12 4 -10 Q20 -8 20 2 Q20 10 4 10 Q-12 12 -20 2 Z" fill="#4f92e8" stroke="${INKS.base}" stroke-width="3"/><path d="M-18 0 L-27 -6 L-24 2 L-27 8 Z" fill="#2b5cad"/><path d="M4 -10 Q4 -18 -1 -20 M4 -10 Q9 -17 7 -21" stroke="${INKS.base}" stroke-width="2.4" fill="none" stroke-linecap="round"/><circle cx="11" cy="-2" r="2" fill="#fff"/>`,
+    snake: `<path d="M-18 12 Q-8 4 0 10 Q10 16 16 6 Q20 -2 12 -8 Q6 -12 2 -8" fill="none" stroke="${INKS.base}" stroke-width="6" stroke-linecap="round"/><circle cx="0" cy="-9" r="6" fill="#2fc487" stroke="${INKS.base}" stroke-width="2.4"/><circle cx="-2" cy="-10" r="1.5" fill="${INK}"/><path d="M-6 -9 L-12 -11" stroke="${INKS.base}" stroke-width="2.4" stroke-linecap="round"/>`,
   };
 
   ns.LETTERS_STICKERS = Object.keys(STICKER_ART).map((id) => ({ id }));
@@ -755,7 +777,7 @@
         <path d="${DIECUT}" fill="${owned ? "#fff" : "rgba(255,255,255,0.45)"}"/>
         ${owned
           ? `<g transform="scale(0.78)">${art}</g>
-             <path d="M-24 -14 Q-16 -26 -2 -28" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity="0.8"/>`
+             <path d="M-24 -14 Q-16 -26 -2 -28" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity="0.8"/>`
           : `<text y="9" text-anchor="middle" font-size="26" fill="rgba(130,118,148,0.55)" font-weight="900" font-family="ui-rounded, system-ui, sans-serif">?</text>`}
       </g>
     </svg>`;
@@ -770,7 +792,7 @@
         <rect x="-34" y="-38" width="68" height="84" rx="14" fill="hsl(272 55% 40%)"/>
         <rect x="-34" y="-42" width="68" height="84" rx="14" fill="url(#${id})"/>
         <path d="M-34 -18 Q0 -4 34 -18 L34 -42 Q34 -42 22 -42 L-22 -42 Q-34 -42 -34 -42 Z" fill="hsl(272 72% 74%)"/>
-        <g transform="scale(0.7) translate(0 8)" fill="#ffd23e"><path d="M0 -22 L6 -6 L23 -5 L9 6 L14 22 L0 13 L-14 22 L-9 6 L-23 -5 L-6 -6 Z" stroke="#c47f12" stroke-width="3"/></g>
+        <g transform="scale(0.7) translate(0 8)" fill="#ffd23e"><path d="M0 -22 L6 -6 L23 -5 L9 6 L14 22 L0 13 L-14 22 L-9 6 L-23 -5 L-6 -6 Z" stroke="${GOLD.mid}" stroke-width="3"/></g>
         <circle cx="-20" cy="-30" r="4" fill="#fff" opacity="0.5"/>
       </g>
     </svg>`;
