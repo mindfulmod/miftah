@@ -180,15 +180,15 @@
     neutral:   { lid: null,    pd: [0, 0],       ps: 1,    mouth: "smile", cheeks: 0.5, tilt: 0,
                  browL: "M-19 -19 Q-12 -22.5 -5 -19",   browR: "M5 -19 Q12 -22.5 19 -19" },
     curious:   { lid: null,    pd: [2.6, -1.6],  ps: 1,    mouth: "oh",    cheeks: 0.5, tilt: 4,
-                 browL: "M-19 -24 Q-12 -28 -5 -22.5",   browR: "M5 -16 Q12 -18 19 -17" },
+                 browL: "M-19 -24 Q-12 -28 -5 -22.5",   browR: "M5 -18.5 Q12 -20 19 -19" },
     delighted: { lid: "squint",pd: [0, -0.6],    ps: 1,    mouth: "grin",  cheeks: 1,   tilt: -2,
                  browL: "M-19 -23 Q-12 -27.5 -5 -22.5", browR: "M5 -22.5 Q12 -27.5 19 -23" },
     sleepy:    { lid: "heavy", pd: [0, 3.2],     ps: 1,    mouth: "tiny",  cheeks: 0.5, tilt: 6,
-                 browL: "M-19 -16 Q-12 -17 -5 -15",     browR: "M5 -15 Q12 -17 19 -16" },
+                 browL: "M-19 -19 Q-12 -20.5 -5 -18.5", browR: "M5 -18.5 Q12 -20.5 19 -19" },
     proud:     { lid: "low",   pd: [0, -0.6],    ps: 1,    mouth: "wide",  cheeks: 1,   tilt: 0,
                  browL: "M-19 -20 L-5 -20.8",           browR: "M5 -20.8 L19 -20" },
     thinking:  { lid: "halfL", pd: [-3.2, -2.4], ps: 1,    mouth: "purse", cheeks: 0.5, tilt: -3,
-                 browL: "M-19 -15.5 Q-12 -17 -5 -16.5", browR: "M5 -24.5 Q12 -29 19 -24" },
+                 browL: "M-19 -18.5 Q-12 -20 -5 -19.5", browR: "M5 -24.5 Q12 -29 19 -24" },
     listening: { lid: null,    pd: [0, 0],       ps: 1.12, mouth: "small", cheeks: 0.5, tilt: -6,
                  browL: "M-19 -22 Q-12 -26 -5 -22",     browR: "M5 -22 Q12 -26 19 -22" },
   };
@@ -230,14 +230,15 @@
     const eye = (sign) => {
       const cx = sign * E.cx;
       const tilt = sign * 3; // outward tilt, ART.md §6
-      const px = cx + sign * 4.4 + st.pd[0];
+      const px = cx - sign * 4.4 + st.pd[0]; // -sign = inward: eye contact
       const py = 2.6 + st.pd[1];
       const pr = 4.9 * st.ps;
       return `
         <g transform="rotate(${tilt} ${cx} 0)">
           <ellipse cx="${cx}" cy="0" rx="${E.rx}" ry="${E.ry}" fill="#fffdf7" stroke="${INK}" stroke-width="2.4"/>
           <circle class="art-pupil" cx="${px}" cy="${py}" r="${pr.toFixed(2)}" fill="${INK}"/>
-          <circle cx="${(px - pr * 0.36).toFixed(2)}" cy="${(py - pr * 0.42).toFixed(2)}" r="${(pr * 0.34).toFixed(2)}" fill="#fffdf7"/>
+          <circle cx="${(px - 1.8).toFixed(2)}" cy="${(py - 2).toFixed(2)}" r="${(1.8 * st.ps).toFixed(2)}" fill="#fffdf7"/>
+          <circle cx="${(px + 1.6).toFixed(2)}" cy="${(py + 2.6).toFixed(2)}" r="${(0.9 * st.ps).toFixed(2)}" fill="#fffdf7" opacity="0.85"/>
           ${st.lid && (st.lid !== "halfL" || sign < 0)
             ? (() => {
                 const L = lidParts(cx, st.lid === "halfL" ? "half" : st.lid);
