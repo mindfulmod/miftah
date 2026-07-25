@@ -1812,3 +1812,32 @@ body.lg-in-game .lg-ambient { display: none; }
   .unfuse-whole.is-tugging { animation: none; }
   .unfuse-pull:has(.is-tugging) .unfuse-arrow { animation: none; opacity: 1; }
 }
+
+/* ---------- drag demonstration for Fuse and Chain (2026-07-24) ----------
+   Both games accept a plain tap, so unlike un-fuse they never dead-end — but
+   nothing showed that a piece is meant to TRAVEL to a target, and the is-near
+   highlight only appears once a drag is already under way. Each draggable drifts
+   a short way along its own vector toward the target (--hint-dx/--hint-dy, set
+   from live geometry) and settles. Applied to every candidate, never only the
+   correct one: Chain is a quiz and demoing the right tile would give it away. */
+.is-dragdemo {
+  animation: drag-demo 1250ms var(--lg-out);
+}
+@keyframes drag-demo {
+  0%, 100% { transform: translate(0, 0); }
+  42% {
+    transform: translate(calc(var(--hint-dx, 0) * 15px), calc(var(--hint-dy, 0) * 15px));
+  }
+  62% {
+    transform: translate(calc(var(--hint-dx, 0) * 15px), calc(var(--hint-dy, 0) * 15px));
+  }
+}
+/* The receiving end answers, so the pair reads as "from here, to there". */
+.is-drop-target { animation: drop-target 1250ms var(--lg-out); }
+@keyframes drop-target {
+  0%, 100% { transform: scale(1); filter: none; }
+  50% { transform: scale(1.06); filter: brightness(1.07); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .is-dragdemo, .is-drop-target { animation: none; }
+}

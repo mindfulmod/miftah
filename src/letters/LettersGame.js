@@ -171,7 +171,11 @@
           const target = transformed ? el.querySelector(":scope > svg") : el;
           // No inner svg to recoil on a transform-positioned piece: skip the
           // visual rather than break its position. The buzz still fires.
-          if (target) ns.Haptics.impact(target, el.tagName === "BUTTON" ? "soft" : "tap");
+          // On iOS there is no Vibration API at all, so the recoil is the ONLY
+          // tactile channel a web app gets. Where we can't buzz, press harder:
+          // use the full recoil everywhere instead of the softer button variant.
+          const kind = ns.Haptics.supported && el.tagName === "BUTTON" ? "soft" : "tap";
+          if (target) ns.Haptics.impact(target, kind);
         },
         { passive: true },
       );

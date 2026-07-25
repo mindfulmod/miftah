@@ -1011,6 +1011,10 @@
       this.merging = false;
       this.selected = null;
       this.els.forEach((el) => this.wireDrag(el));
+      // Nudge the pieces toward the middle of the machine so "bring these
+      // together" is visible before the child has tried anything.
+      if (this.stopHint) this.stopHint();
+      this.stopHint = dragHint(this.els, this.scene);
     }
 
     // Drag with a tap fallback: a real drag pushes a tile around; a simple
@@ -1031,6 +1035,7 @@
         baseL = el.offsetLeft;
         baseT = el.offsetTop;
         moved = false;
+        if (this.stopHint) this.stopHint();
         el.classList.add("is-held");
         const idx = Number(el.dataset.i);
         const p = this.parts[idx].part;
@@ -1165,6 +1170,52 @@
   // pure joy (grab the fused shape, pull, it splits and each letter says its
   // name); phase B is the verdict (three letters wait, "find the one you
   // heard" — the strength model records the single letter).
+  // Teach a drag without giving the answer away (2026-07-24). Fuse and Chain both
+  // accept a plain tap, so unlike un-fuse they can't dead-end a child — but
+  // nothing showed that pieces are meant to travel to a target, and the
+  // "is-near" highlight only appears once you're ALREADY dragging.
+  //
+  // Every draggable nudges a little way toward the target and settles, on a loop,
+  // until the child touches something. Deliberately applied to ALL candidates and
+  // never just the correct one: Chain is a quiz, so demoing the right tile would
+  // hand over the answer.
+  function dragHint(tiles, target) {
+    if (!tiles.length || !target) return () => {};
+    let timer = null;
+    const pulse = () => {
+      const t = target.getBoundingClientRect();
+      const tx = t.left + t.width / 2;
+      const ty = t.top + t.height / 2;
+      let live = false;
+      for (const el of tiles) {
+        if (!el.isConnected || el.classList.contains("is-gone")) continue;
+        live = true;
+        const r = el.getBoundingClientRect();
+        const dx = tx - (r.left + r.width / 2);
+        const dy = ty - (r.top + r.height / 2);
+        const len = Math.hypot(dx, dy) || 1;
+        el.style.setProperty("--hint-dx", (dx / len).toFixed(3));
+        el.style.setProperty("--hint-dy", (dy / len).toFixed(3));
+        el.classList.remove("is-dragdemo");
+        void el.offsetWidth;
+        el.classList.add("is-dragdemo");
+      }
+      target.classList.remove("is-drop-target");
+      void target.offsetWidth;
+      target.classList.add("is-drop-target");
+      if (!live) stop();
+    };
+    const stop = () => {
+      clearInterval(timer);
+      timer = null;
+      for (const el of tiles) el.classList.remove("is-dragdemo");
+      target.classList.remove("is-drop-target");
+    };
+    setTimeout(() => timer !== null && pulse(), 1300);
+    timer = setInterval(pulse, 3400);
+    return stop;
+  }
+
   class UnfuseGame {
     constructor(ctx) {
       this.ctx = ctx;
@@ -1391,7 +1442,10 @@
         </div>`;
       this.thirds = thirds;
       this.base = ctx.stage.querySelector(".chain-base");
-      for (const el of ctx.stage.querySelectorAll(".chain-third")) this.wireDrag(el);
+      const thirdEls = [...ctx.stage.querySelectorAll(".chain-third")];
+      for (const el of thirdEls) this.wireDrag(el);
+      if (this.stopHint) this.stopHint();
+      this.stopHint = dragHint(thirdEls, this.base);
     }
 
     wireDrag(el) {
@@ -1408,6 +1462,7 @@
         baseL = el.offsetLeft;
         baseT = el.offsetTop;
         moved = false;
+        if (this.stopHint) this.stopHint();
         el.classList.add("is-held");
         const t = this.thirds[Number(el.dataset.i)].l;
         this.ctx.say({ display: t.display, speak: t.speak });
