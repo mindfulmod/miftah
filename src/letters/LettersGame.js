@@ -891,7 +891,7 @@
             <h2>For grown-ups</h2>
             <p>A quiet look at how the letters are settling in.</p>
             <div class="gu-stat-row">
-              <div class="gu-stat"><b>${days}</b><span>day${days === 1 ? "" : "s"} played</span></div>
+              <button type="button" class="gu-stat gu-stamps-link"><b>${days}</b><span>day${days === 1 ? "" : "s"} played</span></button>
               <div class="gu-stat"><b>${counts.strong}</b><span>strong</span></div>
               <div class="gu-stat"><b>${counts.growing}</b><span>growing</span></div>
               <div class="gu-stat"><b>${counts.love}</b><span>needs love</span></div>
@@ -924,6 +924,19 @@
         this.sound.toggle ? this.sound.toggle() : (this.sound.enabled = !this.sound.enabled);
         st.textContent = this.sound.enabled ? "Sound is on" : "Sound is off";
       });
+      // The stamp calendar lives here now, not in the child's toolbar (2026-07-25).
+      // A date grid is a parent's artifact: a 4-6 year old has no stable model of
+      // weeks, the cells are literal numerals in an otherwise wordless game, and a
+      // visible streak is the classic route back to the guilt this project bans.
+      // stampToday() and the daily ritual are untouched — only the audience moved.
+      // For the child, the mastery garden already says "you keep coming back" in a
+      // form they can read: things grow.
+      const stampsLink = el.querySelector(".gu-stamps-link");
+      if (stampsLink)
+        stampsLink.addEventListener("click", () => {
+          this.sound.play("page");
+          this.renderStamps();
+        });
     }
 
     // ---------- home: the journey map ----------
@@ -1002,7 +1015,6 @@
           ${daily ? `<button type="button" class="map-checkup">${Art.icon("flower", 34)}</button>` : ""}
           <button type="button" class="map-pet">${this.petSVG(46)}</button>
           <button type="button" class="map-album">${Art.icon("star", 26)}<b>${this.starBalance()}</b></button>
-          <button type="button" class="map-calendar">${Art.icon("calendar", 30)}</button>
         </div>
         <div class="map-scroll">
           <div class="map-path" style="height:${height}px">
@@ -1080,10 +1092,6 @@
           this.sound.play("click");
           this.startDaily();
         });
-      el.querySelector(".map-calendar").addEventListener("click", () => {
-        this.sound.play("page");
-        this.renderStamps();
-      });
       const checkupBtn = el.querySelector(".map-checkup");
       if (checkupBtn)
         checkupBtn.addEventListener("click", () => {

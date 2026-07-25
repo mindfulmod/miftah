@@ -1861,3 +1861,15 @@ body.lg-in-game .lg-ambient { display: none; }
   -webkit-mask-image: linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%);
           mask-image: linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%);
 }
+
+/* The day-count stat doubles as the way into the stamp calendar, which moved out
+   of the child's toolbar and into the grown-up corner (2026-07-25). */
+.gu-stat.gu-stamps-link {
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
+  transition: transform 140ms var(--lg-out);
+}
+.gu-stat.gu-stamps-link:active { transform: scale(0.97); }
