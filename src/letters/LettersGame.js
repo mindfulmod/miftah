@@ -39,12 +39,23 @@
       // buzzes correctly, with nothing new to keep in sync. Deliberately
       // OUTSIDE SoundSystem.play(), which early-returns when muted — a muted
       // tablet is exactly when touch feedback matters most.
-      if (ns.Haptics) {
+      {
         const rawPlay = this.sound.play.bind(this.sound);
         this.sound.play = (name) => {
-          ns.Haptics.pulse(name);
+          if (ns.Haptics) ns.Haptics.pulse(name);
+          // Every tappable thing now chimes from one delegated listener, but
+          // plenty of handlers still play their own "click" on the following
+          // click event. Swallow the duplicate so a single tap is a single
+          // sound instead of a stutter.
+          if (name === "click") {
+            const now = performance.now();
+            if (now - (this._lastTapSound || 0) < 220) return;
+            this._lastTapSound = now;
+          }
           return rawPlay(name);
         };
+      }
+      if (ns.Haptics) {
         const rawMelody = this.sound.streakMelody.bind(this.sound);
         this.sound.streakMelody = (streak) => {
           ns.Haptics.pulse("correct"); // the melody IS the correct-answer cue
@@ -142,8 +153,20 @@
         "pointerdown",
         (e) => {
           this.unlockSpeech();
+          // Unlock WebAudio here too, on a real touch. Celebrations, star bells
+          // and melodies all fire from setTimeout — outside any gesture — so if
+          // the context has never been resumed they are silently dropped and the
+          // game feels mute even though every cue is wired. One in-gesture
+          // unlock on the very first touch makes all later timed audio work.
+          try {
+            this.sound.unlock();
+          } catch {}
           const el = e.target.closest && e.target.closest(TAPPABLE);
           if (!el) return;
+          // Audible confirmation on EVERY tappable, not just the ones whose
+          // handlers happen to play something. A child needs to hear that the
+          // thing they touched was the thing that responded.
+          this.sound.play("click");
           const transformed = getComputedStyle(el).transform !== "none";
           const target = transformed ? el.querySelector(":scope > svg") : el;
           // No inner svg to recoil on a transform-positioned piece: skip the

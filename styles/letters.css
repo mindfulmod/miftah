@@ -1764,3 +1764,51 @@ body.lg-in-game .lg-ambient { display: none; }
   /* One allowed pass of a 52-74s cloud drift is still a minute of crawl. */
   .art-cloud-a, .art-cloud-b { animation: none !important; }
 }
+
+/* ---------- un-fuse: make the PULL discoverable (2026-07-24) ----------
+   This is the only mini-game that needs a drag; every other one is tapped, and
+   the joined tile looked identical to a tappable tile. A child tapped it
+   forever. Three wordless cues now say "two things, stuck": a seam, arrows
+   pointing apart, and an idle tug that performs the gesture on their behalf. */
+.unfuse-pull { display: flex; align-items: center; justify-content: center; gap: 6px; }
+.unfuse-whole { position: relative; }
+.unfuse-seam {
+  position: absolute;
+  top: 16%; bottom: 22%; left: 50%;
+  width: 3px; margin-left: -1.5px;
+  border-radius: 2px;
+  background: repeating-linear-gradient(to bottom, var(--lg-ink) 0 5px, transparent 5px 10px);
+  opacity: 0.32;
+  pointer-events: none;
+}
+.unfuse-arrow {
+  color: var(--lg-action);
+  width: clamp(20px, 5vw, 28px);
+  opacity: 0.75;
+  pointer-events: none;
+}
+.unfuse-arrow svg { width: 100%; display: block; }
+.unfuse-arrow.is-r { transform: scaleX(-1); }
+/* The demonstration: both arrows lean out and the tile strains, then lets go —
+   the same stretch the child's own drag produces, so the gesture is legible. */
+.unfuse-whole.is-tugging { animation: unfuse-tug 1100ms var(--lg-out); }
+@keyframes unfuse-tug {
+  0%, 100% { transform: scaleX(1) scaleY(1); }
+  38% { transform: scaleX(1.16) scaleY(0.94); }
+  56% { transform: scaleX(1.16) scaleY(0.94); }
+}
+.unfuse-whole.is-tugging ~ .unfuse-arrow,
+.unfuse-pull:has(.is-tugging) .unfuse-arrow { animation: unfuse-arrow-out 1100ms var(--lg-out); }
+@keyframes unfuse-arrow-out {
+  0%, 100% { transform: translateX(0); opacity: 0.75; }
+  38%, 56% { transform: translateX(-7px); opacity: 1; }
+}
+.unfuse-pull:has(.is-tugging) .unfuse-arrow.is-r { animation-name: unfuse-arrow-out-r; }
+@keyframes unfuse-arrow-out-r {
+  0%, 100% { transform: scaleX(-1) translateX(0); opacity: 0.75; }
+  38%, 56% { transform: scaleX(-1) translateX(-7px); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .unfuse-whole.is-tugging { animation: none; }
+  .unfuse-pull:has(.is-tugging) .unfuse-arrow { animation: none; opacity: 1; }
+}

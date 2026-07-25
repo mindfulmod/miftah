@@ -1182,9 +1182,23 @@
       const target = this.targets[this.roundIndex];
       ctx.setPrompt(target);
       ctx.say(target);
+      // Discoverability (2026-07-24): this is the ONLY game that needs a drag —
+      // every other one is tapped — and the tile looked exactly like a tappable
+      // one, so a child taps it forever and nothing happens. Three wordless
+      // affordances now say "pull me apart": a seam down the middle, arrows
+      // pointing out, and an idle tug that DEMONSTRATES the gesture.
+      const arrow = (dir) =>
+        `<span class="unfuse-arrow is-${dir}" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 5 L3 12 L9 19" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`;
       ctx.stage.innerHTML = `
         <div class="unfuse-scene">
-          <button type="button" class="unfuse-whole">${tileHTML({ display: target.display }, ctx.hue)}</button>
+          <div class="unfuse-pull">
+            ${arrow("l")}
+            <button type="button" class="unfuse-whole">
+              ${tileHTML({ display: target.display }, ctx.hue)}
+              <span class="unfuse-seam" aria-hidden="true"></span>
+            </button>
+            ${arrow("r")}
+          </div>
           <div class="unfuse-halves" hidden>
             <span class="unfuse-half is-r">${tileHTML({ display: target.parts[0].display }, ctx.hue)}</span>
             <span class="unfuse-half is-l">${tileHTML({ display: target.parts[1].display }, ctx.hue)}</span>
@@ -1195,11 +1209,27 @@
       let sx = 0;
       let sy = 0;
       let pulled = false;
+      let taps = 0;
+      // Demonstrate the pull on a loop until the child manages one themselves.
+      clearInterval(this.hintTimer);
+      const tug = () => {
+        if (pulled || !whole.isConnected) return clearInterval(this.hintTimer);
+        whole.classList.remove("is-tugging");
+        void whole.offsetWidth;
+        whole.classList.add("is-tugging");
+      };
+      setTimeout(tug, 1200);
+      this.hintTimer = setInterval(tug, 3200);
+      const stopHint = () => {
+        clearInterval(this.hintTimer);
+        whole.classList.remove("is-tugging");
+      };
       whole.addEventListener("pointerdown", (e) => {
         whole.setPointerCapture(e.pointerId);
         sx = e.clientX;
         sy = e.clientY;
         pulled = false;
+        stopHint(); // they're engaging — stop nagging
         whole.classList.add("is-held");
       });
       whole.addEventListener("pointermove", (e) => {
@@ -1221,16 +1251,27 @@
           void whole.offsetWidth;
           whole.classList.add("is-shake");
           this.ctx.say(this.targets[this.roundIndex]);
+          // No dead ends (locked: no failable moments). If tapping hasn't
+          // turned into a pull after a few tries, open it for them — they still
+          // see the halves fly apart and still answer the quiz, which is where
+          // the learning actually is.
+          taps += 1;
+          if (taps >= 3) {
+            pulled = true;
+            stopHint();
+            this.split();
+          }
         }
       });
     }
 
     split() {
       const ctx = this.ctx;
+      clearInterval(this.hintTimer);
       const target = this.targets[this.roundIndex];
-      const whole = ctx.stage.querySelector(".unfuse-whole");
+      const pull = ctx.stage.querySelector(".unfuse-pull");
       const halves = ctx.stage.querySelector(".unfuse-halves");
-      whole.hidden = true;
+      if (pull) pull.hidden = true;
       halves.hidden = false;
       ctx.sfx("hatch");
       ctx.confettiAt(halves);
