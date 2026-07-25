@@ -426,9 +426,9 @@
         <g class="art-cloud-a"><path d="M78 122 Q83 92 112 98 Q124 64 160 84 Q181 70 201 92 Q229 91 236 119 Q205 133 156 130 Q111 134 78 122 Z"/></g>
         <g class="art-cloud-b"><path d="M362 91 Q368 66 392 70 Q403 44 432 61 Q451 51 466 70 Q489 70 496 91 Q467 102 429 100 Q391 104 362 91 Z"/></g>
       </g>
-      <path d="M-10 445 Q145 370 305 429 Q462 480 625 417 Q727 380 812 425 L812 615 L-10 615 Z" fill="${p.far}" stroke="${sceneryInk}" stroke-width="2.4" stroke-linejoin="round"/>
-      <path d="M-10 485 Q198 392 420 462 Q622 526 812 440 L812 615 L-10 615 Z" fill="${p.mid}" stroke="${sceneryInk}" stroke-width="2.4" stroke-linejoin="round"/>
-      <path d="M-10 535 Q257 450 521 522 Q682 565 812 516 L812 615 L-10 615 Z" fill="${p.near}" stroke="${sceneryInk}" stroke-width="2.4" stroke-linejoin="round"/>
+      <path d="M-10 445 Q145 370 305 429 Q462 480 625 417 Q727 380 812 425 L812 615 L-10 615 Z" fill="${p.far}"/>
+      <path d="M-10 485 Q198 392 420 462 Q622 526 812 440 L812 615 L-10 615 Z" fill="${p.mid}"/>
+      <path d="M-10 535 Q257 450 521 522 Q682 565 812 516 L812 615 L-10 615 Z" fill="${p.near}"/>
       <g fill="${night ? "#294638" : "#5f8d55"}" stroke="${sceneryInk}" stroke-width="2.4">
         <path d="M113 501 V468" fill="none" stroke-linecap="round"/><circle cx="113" cy="452" r="27"/>
         <path d="M704 535 V495" fill="none" stroke-linecap="round"/><circle cx="704" cy="476" r="31"/>

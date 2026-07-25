@@ -43,9 +43,15 @@ sheet. Toca outlines objects and leaves scenery bare; contour therefore carries
 
 | What it is | Contour |
 |---|---|
-| Touchable — tiles, cards, buttons, pet, map stops, tappable props | Chunky ink: `3 / 4 / 6 / 8` |
-| Small organic detail on a touchable thing | `1.6 / 2.4` |
-| **Scenery — sky, hills, distant clouds, background plants, biome masses** | **NO contour.** Separated by value only |
+| Touchable — tiles, cards, buttons, pet, map stops, tappable props | Chunky ink `3 / 4 / 6 / 8` |
+| Small discrete props, and detail on a touchable thing | `1.6 / 2.4` |
+| **Masses — sky, hill/ground bands, biome fills, anything in the FAR layer** | **NO contour.** Value separation only |
+| Discrete celestial objects (moon, sun) | `INKS.night` at `1.6 / 3` — they must read as objects |
+
+Rule of thumb (added after review 1, which the original wording got wrong): if it
+spans more than roughly a third of the frame, or sits in the far layer, it gets no
+contour. Size and layer decide this — not whether the child can touch it. Toca
+leaves big masses bare but *does* outline small props thinly.
 
 One ink family only (§2 Ink ramp). Never cold, never grey, never a darker shade
 of the object's own fill.
@@ -59,10 +65,17 @@ Three layers, always:
 Rules:
 - Any filled shape wider than ~24px uses a ramp (light band + base + shadow band).
   Single flat fills are for shapes smaller than that only.
-- **Warm light pool:** exactly ONE per screen — a radial gold glow (alpha
-  `0.35–0.5`) behind whatever the child should touch next. Never two.
-- **Value tiers are mandatory:** every screen must contain something at `L > 80%`,
-  something at `L 45–70%`, and something at `L < 30%`. This is what kills mud.
+- **Warm light pool:** **at most one** per screen — a radial gold glow (alpha
+  `0.35–0.5`) behind whatever the child should touch next. **Required** when the
+  next action is ambiguous (the map). Screens with one obvious action (a meet
+  card, a single tile) may have none: a glow on an already-unmistakable button is
+  noise. Never two. *(Loosened after review 1, which failed meet and play for
+  having zero — wrongly.)*
+- **Value tiers are mandatory and measured:** at least **8%** of scene pixels above
+  `L 80`, at least **12%** within `L 45–70`, and at least **5%** below `L 30`.
+  *Presence alone is not enough — review 1 passed this on a technicality at
+  4.0 / 20.7 / 4.4 while 71% of backdrop pixels sat in the dead `30–45` and
+  `70–80` bands, which is exactly the mush the rule exists to prevent.*
 - **Characters carry the colour.** Scenery saturation stays at or below `S 60%`;
   the pet and letter cards are the most saturated things on screen.
 - Day/night phases must differ in *value and temperature*, not just sky hue.
@@ -130,7 +143,15 @@ landed — recorded so reviews don't rediscover it and so progress is countable:
 - **37 pure-white uses** (ban 2) — nudge to `#fffdf7`.
 - **15 off-scale stroke widths** across `1.4 / 2.5 / 10 / 13 / 17`, all in
   `LettersGame.js` and `MiniGames.js`. `LettersArt.js` is already clean on widths.
-- Scenery masses (hills, clouds) still carry contours — violates §3 / ban 13.
+- ~~Scenery masses (hills) still carry contours~~ — **fixed in review 1**: the
+  three full-width hill bands are now unstroked and separate by value alone.
+- Still contoured against §3: the **cloud group** (group-level stroke, so the
+  first audit query missed it) plus three unnamed scenery groups (bushes, grass,
+  flowers). Clouds are masses and should lose it; the small props may keep
+  `1.6/2.4` under the amended §3.
+- **Value range is compressed** (the real finding behind "colour feels thin"):
+  measured 4.0% above `L 80` / 20.7% in `L 45–70` / 4.4% below `L 30`, with ~71%
+  of backdrop pixels in the dead bands. Needs 8 / 12 / 5 to pass amended §4.
 - Most fills are single flat colours, not ramps — violates ban 3.
 - Scene density is ~3 props per screen, well under the 6–10 in §5.
 - Only one warm light pool exists (the map's current-stop halo); other screens
