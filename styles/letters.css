@@ -1841,3 +1841,23 @@ body.lg-in-game .lg-ambient { display: none; }
 @media (prefers-reduced-motion: reduce) {
   .is-dragdemo, .is-drop-target { animation: none; }
 }
+
+/* ---------- wardrobe shelves: show that they scroll (2026-07-25) ----------
+   The shelves hid the scrollbar and replaced it with nothing, so a shelf whose
+   last tile happened to land flush read as COMPLETE and children never swiped.
+   The edge holding more content now fades, and tiles snap, so the gesture has
+   both an invitation and a satisfying landing. Classes come from wireShelf(). */
+.pet-room .pet-shelf { scroll-snap-type: x proximity; scroll-padding-left: 12px; }
+.pet-room .pet-acc { scroll-snap-align: center; }
+.pet-room .pet-shelf.can-right {
+  -webkit-mask-image: linear-gradient(to right, #000 0, #000 84%, transparent 100%);
+          mask-image: linear-gradient(to right, #000 0, #000 84%, transparent 100%);
+}
+.pet-room .pet-shelf.can-left {
+  -webkit-mask-image: linear-gradient(to left, #000 0, #000 84%, transparent 100%);
+          mask-image: linear-gradient(to left, #000 0, #000 84%, transparent 100%);
+}
+.pet-room .pet-shelf.can-left.can-right {
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%);
+          mask-image: linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%);
+}

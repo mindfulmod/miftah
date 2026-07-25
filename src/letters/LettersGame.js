@@ -469,6 +469,46 @@
       });
     }
 
+    // Wardrobe shelves swipe horizontally, but the CSS hid the scrollbar
+    // (scrollbar-width:none plus a ::-webkit-scrollbar reset) and put nothing in
+    // its place — no fade, no arrows, no guaranteed half-cut item. With fixed
+    // 82px tiles the last visible one can land flush, so the shelf looks
+    // COMPLETE and a child has no reason to swipe. Three cues fix that:
+    //   - the edge that has more content fades out, so content visibly continues
+    //   - snap points make a swipe land cleanly instead of drifting
+    //   - a one-time nudge performs the swipe once, on the child's behalf
+    wireShelf(shelf) {
+      const sync = () => {
+        const max = shelf.scrollWidth - shelf.clientWidth;
+        if (max <= 4) {
+          shelf.classList.remove("can-left", "can-right");
+          return false;
+        }
+        shelf.classList.toggle("can-left", shelf.scrollLeft > 4);
+        shelf.classList.toggle("can-right", shelf.scrollLeft < max - 4);
+        return true;
+      };
+      shelf.addEventListener("scroll", sync, { passive: true });
+      // Layout may not be settled on the frame the screen mounts.
+      requestAnimationFrame(() => {
+        if (!sync() || !shelf.isConnected) return;
+        // Demonstrate once per screen, and never fight a child already swiping.
+        let touched = false;
+        shelf.addEventListener("pointerdown", () => (touched = true), { once: true, passive: true });
+        setTimeout(() => {
+          if (touched || !shelf.isConnected || shelf.scrollLeft > 4) return;
+          try {
+            shelf.scrollTo({ left: 54, behavior: "smooth" });
+            setTimeout(() => {
+              if (!touched && shelf.isConnected) shelf.scrollTo({ left: 0, behavior: "smooth" });
+            }, 620);
+          } catch {
+            shelf.scrollLeft = 0;
+          }
+        }, 900);
+      });
+    }
+
     // The pet's room: the body shop (new species bought with stars), the
     // dress-up shelf, and the tap-to-recite thought bubble.
     renderPet() {
@@ -514,6 +554,7 @@
         </div>`,
       );
       this.wireTopBar(el);
+      for (const shelf of el.querySelectorAll(".pet-shelf")) this.wireShelf(shelf);
       const bubble = el.querySelector(".pet-bubble");
       el.querySelector(".pet-big").addEventListener("pointerdown", () => {
         bubble.hidden = false;
