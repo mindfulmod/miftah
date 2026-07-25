@@ -20,14 +20,14 @@
   const butterflySVG = () => `
     <svg viewBox="0 0 40 34" aria-hidden="true">
       <g class="bf-wing bf-l">
-        <path d="M20 17 C8 2 -2 6 3 16 C-2 26 10 32 20 17 Z" fill="hsl(var(--bf-hue) 78% 68%)" stroke="#3a2c48" stroke-width="1.6"/>
+        <path d="M20 17 C8 2 -2 6 3 16 C-2 26 10 32 20 17 Z" fill="hsl(var(--bf-hue) 78% 68%)" stroke="#4a3620" stroke-width="1.6"/>
         <circle cx="8" cy="12" r="2.2" fill="#fffaf0"/>
       </g>
       <g class="bf-wing bf-r">
-        <path d="M20 17 C32 2 42 6 37 16 C42 26 30 32 20 17 Z" fill="hsl(var(--bf-hue) 78% 62%)" stroke="#3a2c48" stroke-width="1.6"/>
+        <path d="M20 17 C32 2 42 6 37 16 C42 26 30 32 20 17 Z" fill="hsl(var(--bf-hue) 78% 62%)" stroke="#4a3620" stroke-width="1.6"/>
         <circle cx="32" cy="12" r="2.2" fill="#fffaf0"/>
       </g>
-      <ellipse cx="20" cy="18" rx="2" ry="7" fill="#3a2c48"/>
+      <ellipse cx="20" cy="18" rx="2" ry="7" fill="#4a3620"/>
     </svg>`;
 
   class LettersGame {
