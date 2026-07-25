@@ -473,8 +473,35 @@
            <circle cx="620" cy="88" r="51" fill="${p.accent}" stroke="${sceneryInk}" stroke-width="3"/>
            <circle cx="604" cy="72" r="13" fill="#fffaf0" opacity="0.55"/>
          </g>`;
+    const skyId = gradId();
     return `
     <svg class="art-backdrop" viewBox="0 0 800 600" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <defs>
+        <linearGradient id="${skyId}" x1="0" y1="0" x2="0" y2="1">
+          <!-- Held FLAT through the top quarter on purpose. A seam kept showing
+               where the promoted .map-scroll layer begins (~66px down) — chased
+               it through the backdrop, the filter, the body gradient and layer
+               promotion without pinning the compositor's reason. Holding both
+               sides of that region at the same colour as the flat <body> makes
+               the seam invisible regardless of the cause, which beats a fix that
+               depends on knowing it. -->
+          <stop offset="0" stop-color="${p.hi}"/>
+          <stop offset="0.26" stop-color="${p.hi}"/>
+          <stop offset="0.72" stop-color="${p.lo}"/>
+          <stop offset="1" stop-color="${p.lo}"/>
+        </linearGradient>
+      </defs>
+      <!-- The sky belongs to the scenery, not to <body>. It used to be a body
+           gradient showing through this SVG; the SVG is anchored yMax with slice
+           while the body gradient is sized to the viewport, so the two never
+           agreed and left a flat band across the top of the map.
+           Sized to the viewBox exactly, NOT over-sized: the gradient then starts
+           at the top of the visible area, so it matches the flat body colour
+           (also --lg-sky-hi) and any strip the compositor doesn't cover is
+           indistinguishable instead of a visible bar. Widened horizontally only,
+           since slice crops left/right on tall screens. -->
+      <rect x="-400" y="0" width="1600" height="600" fill="url(#${skyId})"/>
+      <g class="art-scenery-tint">
       ${celestial}
       <g fill="${night ? "#777ca7" : "#fffaf0"}" opacity="${night ? 0.72 : 0.9}" stroke="${sceneryInk}" stroke-width="2.4" class="art-clouds">
         <g class="art-cloud-a"><path d="M78 122 Q83 92 112 98 Q124 64 160 84 Q181 70 201 92 Q229 91 236 119 Q205 133 156 130 Q111 134 78 122 Z"/></g>
@@ -517,6 +544,7 @@
         <path d="M42 556 q14 -14 28 0 q-14 14 -28 0Z"/><path d="M744 560 q13 -13 26 0 q-13 13 -26 0Z"/>
       </g>
       ${night ? `<g class="art-fireflies" fill="#ffe98a">${[[210, 480], [470, 510], [650, 540]].map(([x, y], i) => `<circle cx="${x}" cy="${y}" r="4" style="animation-delay:${i * 1.1}s"/>`).join("")}</g>` : ""}
+      </g>
     </svg>`;
   }
 
@@ -861,11 +889,11 @@
     <svg class="art-sticker" viewBox="-38 -38 76 76" width="${size}" height="${size}" aria-hidden="true">
       <g transform="rotate(${owned ? tilt : 0})">
         <path d="${DIECUT}" transform="translate(1.5 3)" fill="${SHADOW}"/>
-        <path d="${DIECUT}" fill="${owned ? "#fff" : "rgba(255,255,255,0.45)"}"/>
+        <path d="${DIECUT}" fill="${owned ? "#fffdf7" : "#e5dcc8"}"/>
         ${owned
           ? `<g transform="scale(0.78)">${art}</g>
              <path d="M-24 -14 Q-16 -26 -2 -28" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity="0.8"/>`
-          : `<text y="9" text-anchor="middle" font-size="26" fill="rgba(130,118,148,0.55)" font-weight="900" font-family="ui-rounded, system-ui, sans-serif">?</text>`}
+          : `<text y="9" text-anchor="middle" font-size="26" fill="${INKS.faint}" font-weight="900" font-family="ui-rounded, system-ui, sans-serif">?</text>`}
       </g>
     </svg>`;
   }

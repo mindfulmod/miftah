@@ -72,7 +72,10 @@ html, body {
 }
 
 body {
-  background: linear-gradient(180deg, var(--lg-sky-hi) 0%, var(--lg-sky-mid) 45%, var(--lg-sky-lo) 100%);
+  /* Flat, not a gradient: the sky is painted by the backdrop SVG now. A second
+     gradient here could only disagree with it (different box, different
+     anchoring) and that disagreement was the navy bar across the top. */
+  background: var(--lg-sky-hi);
   font-family: ui-rounded, "Hiragino Maru Gothic ProN", system-ui, sans-serif;
   transition: background 620ms ease;
 }
@@ -312,8 +315,14 @@ body {
   50% { rotate: 3deg; }
 }
 
-.map-star-on path { fill: #fffaf0; stroke: var(--lg-ink); stroke-width: 4; }
-.map-star-off path { fill: rgba(255, 250, 240, 0.45); stroke: var(--lg-ink); stroke-width: 4; opacity: 0.45; }
+/* Earned vs unearned must be a CATEGORY difference, not a transparency one
+   (2026-07-25). These were both cream — #fffaf0 filled versus the same cream at
+   45% opacity — sitting on a cream/mint coin face, so an earned star was nearly
+   invisible and children concluded they hadn't earned any. Gold-filled versus
+   hollow reads instantly at a glance and at any size, and gold is already the
+   game's reward motif (ART.md §2: gold is a motif, not a contour). */
+.map-star-on path { fill: var(--lg-gold); stroke: var(--lg-gold-edge); stroke-width: 4; }
+.map-star-off path { fill: none; stroke: var(--lg-ink); stroke-width: 4; opacity: 0.5; }
 
 /* ---------- meet a letter ---------- */
 .meet-stage {
@@ -726,7 +735,11 @@ body {
 }
 
 /* ---------- per-world scenery tint ---------- */
-.art-backdrop { filter: saturate(1.28) hue-rotate(calc((var(--lg-hue, 150) - 150) * 0.35deg)); }
+/* Tint the SCENERY, never the sky. Applied to the whole SVG this saturated the
+   sky rect too, so the sky rendered more saturated than the identical hex on
+   <body> behind it — and that mismatch was visible as a band across the top
+   wherever the compositor let the body show through. */
+.art-scenery-tint { filter: saturate(1.28) hue-rotate(calc((var(--lg-hue, 150) - 150) * 0.35deg)); }
 
 /* ---------- daily training & stamp calendar ---------- */
 .map-daily-row {
@@ -1059,7 +1072,11 @@ body {
 }
 
 .pet-acc:active { transform: translateY(3px) scale(0.98); box-shadow: 0 1px 0 var(--lg-ink); }
-.pet-acc:not(.is-owned) .pet-acc-art { opacity: 0.45; filter: grayscale(0.6); }
+/* "Not yours yet" must not look like "broken". At 45% opacity plus grayscale a
+   child reads a disabled control, not a thing to save up for — so keep it fully
+   opaque and legible, and let the loss of COLOUR carry the state while the gold
+   price tag says it is obtainable. */
+.pet-acc:not(.is-owned) .pet-acc-art { opacity: 0.92; filter: grayscale(0.9); }
 .pet-acc.is-worn { border-color: var(--lg-ink); background: #fff1c9; outline: 3px solid var(--lg-gold); outline-offset: 2px; }
 
 .pet-acc-cost {

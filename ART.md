@@ -148,7 +148,7 @@ Project extensions (from this interview's pain points):
 Measured baseline from `node scripts/check-palette.mjs` on the day the bible
 landed — recorded so reviews don't rediscover it and so progress is countable:
 
-- **141 distinct off-palette hexes, 297 uses** (ban 1). Biggest offenders:
+- **141 distinct off-palette hexes, 296 uses** (ban 1). Biggest offenders:
   `#fff` ×37, `#ffc22e` ×13, `#ffd23e` ×12, `#54c6ff` ×9, `#5cc23e` ×8.
   *Up from 130/280 on 2026-07-25: the twelve new stickers added 13 fills. They
   obey the enforced rules — contour law and stroke scale (off-scale widths held
