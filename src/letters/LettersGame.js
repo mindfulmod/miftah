@@ -112,6 +112,8 @@
       this.pet = this.loadJSON("quran-trainer:letters:pet", null);
       this.skills = this.loadJSON("quran-trainer:letters:skills", {});
       this.wallet = this.loadJSON("quran-trainer:letters:wallet", { earned: 0, spent: 0 });
+      // Best stars per world+game, so stars pay for improvement not repetition.
+      this.bests = this.loadJSON("quran-trainer:letters:bests", {});
       this.stickers = this.loadJSON("quran-trainer:letters:stickers", { owned: [] });
       this.applyPhase();
       this.initSparkles();
@@ -1471,9 +1473,24 @@
       const stars = slips === 0 ? 3 : slips <= 2 ? 2 : 1;
       s.starTotal += stars;
       s.lastStars = stars;
-      // Stars are also the spending currency for stickers and pet gear —
-      // replays and dailies keep earning, so coming back always pays.
-      this.earnStars(stars);
+      // Stars are the spending currency for stickers and pet gear. Pay for
+      // PROGRESS, not repetition (2026-07-25): the wallet used to be credited on
+      // every finish while replay only rolled back session bookkeeping, so
+      // replaying one easy game farmed unlimited currency and the 24-sticker
+      // album completed in a couple of sittings.
+      //
+      // Now a game pays only the amount by which it beats its own previous best,
+      // so a first 3-star run pays 3, a replay pays 0, and going 1 -> 3 pays 2.
+      // Deliberately NOT a cap or a cooldown: replaying stays free and still gets
+      // the full celebration, which keeps the locked "no artificial scarcity"
+      // rule intact — you simply don't get paid twice for the same work.
+      const bestKey = `${s.world.id}:${s.plan ? "plan" + s.gameIndex : s.world.games[s.gameIndex]}`;
+      const prevBest = this.bests[bestKey] || 0;
+      if (stars > prevBest) {
+        this.earnStars(stars - prevBest);
+        this.bests[bestKey] = stars;
+        this.saveJSON("quran-trainer:letters:bests", this.bests);
+      }
       // Check-up rounds grade a skill: the LATEST score is the petal size —
       // it's a health check, not a high-score board.
       if (s.plan && s.plan[s.gameIndex] && s.plan[s.gameIndex].skill) {

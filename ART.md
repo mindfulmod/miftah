@@ -148,8 +148,12 @@ Project extensions (from this interview's pain points):
 Measured baseline from `node scripts/check-palette.mjs` on the day the bible
 landed — recorded so reviews don't rediscover it and so progress is countable:
 
-- **130 distinct off-palette hexes, 280 uses** (ban 1). Biggest offenders:
+- **141 distinct off-palette hexes, 297 uses** (ban 1). Biggest offenders:
   `#fff` ×37, `#ffc22e` ×13, `#ffd23e` ×12, `#54c6ff` ×9, `#5cc23e` ×8.
+  *Up from 130/280 on 2026-07-25: the twelve new stickers added 13 fills. They
+  obey the enforced rules — contour law and stroke scale (off-scale widths held
+  at 15, none of them new) — but their fills are picked, not ramped, so they join
+  the same debt every other fill is in.*
 - **37 pure-white uses** (ban 2) — nudge to `#fffdf7`.
 - **15 off-scale stroke widths** across `1.4 / 2.5 / 10 / 13 / 17`, all in
   `LettersGame.js` and `MiniGames.js`. `LettersArt.js` is already clean on widths.

@@ -57,6 +57,9 @@ for (const file of files) {
     if (/^\s*(\/\/|\*|\/\*)/.test(line)) return;
     // Opt-out for pixels that are computed, not displayed (ink measurement).
     if (line.includes("art-exempt")) return;
+    // A mask is an alpha channel, not paint: #000 there means "fully opaque",
+    // so mask gradients are not palette violations.
+    if (/mask-image/.test(line)) return;
     const where = `${relative(ROOT, file)}:${i + 1}`;
 
     for (const raw of line.match(/#[0-9a-fA-F]{3,6}\b/g) || []) {
