@@ -531,7 +531,7 @@
     const starRow = [0, 1, 2]
       .map(
         (i) =>
-          `<g transform="translate(${(i - 1) * 19 - 10} 34) scale(0.21)" class="${i < stars ? "map-star-on" : "map-star-off"}"><g transform="translate(-32 -32)">${ICONS.star}</g></g>`,
+          `<g transform="translate(${(i - 1) * 19} 34) scale(0.21)" class="${i < stars ? "map-star-on" : "map-star-off"}"><g transform="translate(-32 -32)">${ICONS.star}</g></g>`,
       )
       .join("");
     // Locked stops are drawn RECESSIVE on purpose (2026-07-24). They used to

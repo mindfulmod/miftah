@@ -160,13 +160,18 @@ body {
 .lg-big-btn:active { transform: translateY(6px) scale(0.98); box-shadow: 0 1px 0 var(--lg-action-edge), 0 4px 0 var(--lg-ink); }
 
 /* ---------- living art ---------- */
+/* NB: never use a PERCENTAGE transform-origin on art whose viewBox has a
+   negative min-x (pet, mascot, egg, map stop, tile, pack). The percentage is
+   applied as a raw user coordinate, so 50% lands half a viewBox to the RIGHT of
+   the art's centre line and the piece drifts sideways as it animates. Use
+   explicit px equal to the user coordinate you want, or transform-box: fill-box. */
 .art-eyes { animation: lg-blink 4.6s infinite; transform-origin: center; transform-box: fill-box; }
 @keyframes lg-blink {
   0%, 93%, 100% { transform: scaleY(1); }
   95.5% { transform: scaleY(0.08); }
 }
 
-.art-mascot-body { animation: lg-breathe 2.6s ease-in-out infinite; transform-origin: 50% 88%; }
+.art-mascot-body { animation: lg-breathe 2.6s ease-in-out infinite; transform-origin: 0px 72px; }
 .art-blob-body, .art-sprig-body { animation: lg-breathe 2.9s ease-in-out infinite; transform-origin: 50% 90%; }
 .art-creature-body { animation: lg-breathe 3.1s ease-in-out infinite; transform-origin: 50% 92%; }
 @keyframes lg-breathe {
@@ -694,7 +699,7 @@ body {
   100% { transform: scale(1) rotate(0); opacity: 1; }
 }
 
-.party-mascot { animation: lg-dance 1s ease-in-out infinite; transform-origin: 50% 90%; }
+.party-mascot { animation: lg-dance 1s ease-in-out infinite; transform-origin: 0px 72px; }
 .party-pet .art-pet-body { animation: lg-dance 1s ease-in-out infinite reverse; }
 @keyframes lg-dance {
   0%, 100% { transform: rotate(-6deg) translateY(0); }
@@ -958,7 +963,7 @@ body {
   cursor: pointer;
 }
 
-.hatch-egg .art-egg-body { animation: lg-wiggle 1.6s ease-in-out infinite; transform-origin: 50% 85%; }
+.hatch-egg .art-egg-body { animation: lg-wiggle 1.6s ease-in-out infinite; transform-origin: 0px 52px; }
 @keyframes lg-wiggle {
   0%, 100% { transform: rotate(0); }
   30% { transform: rotate(-4deg); }
@@ -966,7 +971,11 @@ body {
 }
 
 .hatch-pet { animation: lg-arrive 620ms var(--lg-spring-big); }
-.art-pet-body { transform-origin: 50% 82%; }
+/* User-space pivot: the body axis (x=0) at ground level (y=50). A percentage
+   here resolves against the view-box, and because this viewBox starts at
+   min-x=-70 that put the pivot at user x=70 — scaling the pet 9.8 units off
+   centre, which is why it read as misaligned in the map button. */
+.art-pet-body { transform-origin: 0px 50px; }
 .pet-big .art-pet-body, .party-pet .art-pet-body, .hatch-pet .art-pet-body { animation: lg-breathe 3s ease-in-out infinite; }
 
 .hatch-hues { display: flex; gap: 12px; }
@@ -1064,7 +1073,7 @@ body {
 
 .album-pack { position: relative; padding: 0; border: none; background: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; transition: transform 140ms var(--lg-spring); }
 .album-pack:active { transform: scale(0.95); }
-.album-pack .art-pack { animation: lg-wiggle 2s ease-in-out infinite; transform-origin: 50% 90%; }
+.album-pack .art-pack { animation: lg-wiggle 2s ease-in-out infinite; transform-origin: 0px 44px; }
 
 .album-grid {
   display: grid;
@@ -1716,7 +1725,7 @@ body.lg-in-game .lg-ambient { display: none; }
 /* The egg answers every tap: a sharp shudder that settles. Paired with the
    escalating cracks in Art.egg() so tap 1 and tap 2 are unmistakably
    different — the old build repainted so fast the child saw nothing. */
-.art-egg.is-wobble { animation: lg-egg-wobble 460ms var(--lg-out, var(--lg-out)); transform-origin: 50% 92%; }
+.art-egg.is-wobble { animation: lg-egg-wobble 460ms var(--lg-out, var(--lg-out)); transform-origin: 0px 52px; }
 @keyframes lg-egg-wobble {
   0% { transform: rotate(0deg) scale(1); }
   18% { transform: rotate(-5deg) scale(1.04, 0.96); }
@@ -1737,7 +1746,7 @@ body.lg-in-game .lg-ambient { display: none; }
 .map-stop.is-locked:active .map-stop-art { transform: scale(0.78); }
 /* Done stops stay warm and golden but stop shouting over the live one. */
 .map-stop.is-done .map-stop-art { transform: scale(0.94); }
-.map-stop.is-current .map-stop-art { transform-origin: 50% 60%; }
+.map-stop.is-current .map-stop-art { transform-origin: 0px 50px; }
 @media (prefers-reduced-motion: reduce) {
   .map-stop.is-current .map-stop-art { animation: none; }
   .map-stop.is-current::before { animation: none; }
