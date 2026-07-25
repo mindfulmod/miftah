@@ -1274,6 +1274,48 @@
         sayWithMe();
       };
       cardEl.addEventListener("pointerdown", speakCard);
+      // Fingers on every new letter (2026-07-25). The owner's read was right —
+      // finger involvement is the strongest engagement lever here — but leading a
+      // world with the graded trace would put PRODUCTION first, which is the
+      // hardest of the five skills and the likeliest place to manufacture the
+      // failure the "no failable moments" rule exists to prevent.
+      //
+      // So the finger goes in the meet screen instead of the grade: drag across
+      // the card and the letter warms up, sparkles (the global spark layer gives
+      // that for free) and speaks again. Always succeeds, earns nothing, and
+      // crucially does NOT gate Next — a toll booth on the intro is on the
+      // declined list. It primes motor memory before the scored trace later in
+      // the world.
+      {
+        let down = false;
+        let dist = 0;
+        let px = 0;
+        let py = 0;
+        let lit = false;
+        cardEl.addEventListener("pointerdown", (e) => {
+          down = true;
+          px = e.clientX;
+          py = e.clientY;
+        });
+        cardEl.addEventListener("pointermove", (e) => {
+          if (!down || lit) return;
+          dist += Math.hypot(e.clientX - px, e.clientY - py);
+          px = e.clientX;
+          py = e.clientY;
+          const t = Math.min(1, dist / 210);
+          cardEl.style.setProperty("--traced", t.toFixed(3));
+          if (t >= 1) {
+            lit = true;
+            cardEl.classList.add("is-traced");
+            this.sound.play("seed");
+            this.confettiAt(cardEl);
+            speakCard();
+          }
+        });
+        const release = () => (down = false); // progress is kept, never reset
+        cardEl.addEventListener("pointerup", release);
+        cardEl.addEventListener("pointercancel", release);
+      }
       el.querySelector(".meet-hear").addEventListener("click", speakCard);
       el.querySelector(".meet-next").addEventListener("click", () => {
         this.sound.play("page");
