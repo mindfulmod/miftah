@@ -159,26 +159,108 @@
   // Lingokids lesson): big white sclera with a slight outward tilt, large dark
   // pupils angled toward the viewer, and a double highlight — that's what makes
   // a character hold eye contact instead of reading as a toy on a shelf.
-  const face = (x, y, s, mood = "happy") => `
-    <g class="art-face" transform="translate(${x} ${y}) scale(${s})">
-      <g class="art-eyes">
-        <ellipse cx="-12" cy="0" rx="11" ry="13.5" fill="#fff" stroke="${INK}" stroke-width="2.4" transform="rotate(-3 -12 0)"/>
-        <ellipse cx="12" cy="0" rx="11" ry="13.5" fill="#fff" stroke="${INK}" stroke-width="2.4" transform="rotate(3 12 0)"/>
-        <circle class="art-pupil" cx="-7.6" cy="2.6" r="4.9" fill="${INK}"/>
-        <circle class="art-pupil" cx="7.6" cy="2.6" r="4.9" fill="${INK}"/>
-        <circle cx="-9.4" cy="0.6" r="1.8" fill="#fffaf0"/>
-        <circle cx="5.8" cy="0.6" r="1.8" fill="#fffaf0"/>
-        <circle cx="-6" cy="5.2" r="0.9" fill="#fffaf0" opacity="0.85"/>
-        <circle cx="9.2" cy="5.2" r="0.9" fill="#fffaf0" opacity="0.85"/>
+  //
+  // EXPRESSION SYSTEM (2026-07-25). ART.md §6 requires at least six face states;
+  // the game shipped with three, and one of them was "sad" — which contradicts
+  // the locked rule that an error is information, never disapproval. There is no
+  // sad state now: a wrong answer makes the pet CURIOUS and lean in.
+  //
+  // Ported from the Claude Design visual kit as DECISIONS rather than
+  // coordinates (its blob is a different, wider body, so its absolute paths
+  // would not fit): brow shape, eyelid depth, pupil offset and dilation, mouth,
+  // cheeks and head tilt per state. Parts carry class names so each can be
+  // animated on its own — art-brow-l/r, art-lid-l/r, art-pupil, art-mouth,
+  // art-cheeks.
+  //
+  // This also brings the face onto the palette: the eye white was #fff (banned
+  // pure white) and the mouth and cheeks were off-palette #7c2d4a / #ff9db1.
+  // They are now paper-light and the accent-coral ramp the bible already defines.
+  const EYE = { cx: 12, rx: 11, ry: 13.5 };
+  const FACE_STATES = {
+    neutral:   { lid: null,    pd: [0, 0],       ps: 1,    mouth: "smile", cheeks: 0.5, tilt: 0,
+                 browL: "M-19 -19 Q-12 -22.5 -5 -19",   browR: "M5 -19 Q12 -22.5 19 -19" },
+    curious:   { lid: null,    pd: [2.6, -1.6],  ps: 1,    mouth: "oh",    cheeks: 0.5, tilt: 4,
+                 browL: "M-19 -24 Q-12 -28 -5 -22.5",   browR: "M5 -16 Q12 -18 19 -17" },
+    delighted: { lid: "squint",pd: [0, -0.6],    ps: 1,    mouth: "grin",  cheeks: 1,   tilt: -2,
+                 browL: "M-19 -23 Q-12 -27.5 -5 -22.5", browR: "M5 -22.5 Q12 -27.5 19 -23" },
+    sleepy:    { lid: "heavy", pd: [0, 3.2],     ps: 1,    mouth: "tiny",  cheeks: 0.5, tilt: 6,
+                 browL: "M-19 -16 Q-12 -17 -5 -15",     browR: "M5 -15 Q12 -17 19 -16" },
+    proud:     { lid: "low",   pd: [0, -0.6],    ps: 1,    mouth: "wide",  cheeks: 1,   tilt: 0,
+                 browL: "M-19 -20 L-5 -20.8",           browR: "M5 -20.8 L19 -20" },
+    thinking:  { lid: "halfL", pd: [-3.2, -2.4], ps: 1,    mouth: "purse", cheeks: 0.5, tilt: -3,
+                 browL: "M-19 -15.5 Q-12 -17 -5 -16.5", browR: "M5 -24.5 Q12 -29 19 -24" },
+    listening: { lid: null,    pd: [0, 0],       ps: 1.12, mouth: "small", cheeks: 0.5, tilt: -6,
+                 browL: "M-19 -22 Q-12 -26 -5 -22",     browR: "M5 -22 Q12 -26 19 -22" },
+  };
+  // Legacy mood names still used by callers. "sad" deliberately resolves to
+  // curious — the de-sad decision, enforced at the art layer so no screen can
+  // reintroduce a disappointed pet.
+  const FACE_ALIAS = { happy: "neutral", open: "delighted", sad: "curious" };
+
+  // Eyelids are filled with the body colour so they read as skin closing over
+  // the eye rather than as a separate object.
+  // Returns the lid as a FILL plus a separate crease stroke. Stroking the whole
+  // closed shape outlines the chord too, which on a round eye reads as goggles
+  // rather than an eyelid — so only the crease carries ink.
+  const lidParts = (cx, kind) => {
+    const { rx, ry } = EYE;
+    const build = (y, bulge, sweep) => ({
+      fill: `M${cx - rx} ${y} A${rx} ${ry} 0 0 ${sweep} ${cx + rx} ${y} Q${cx} ${y + bulge} ${cx - rx} ${y} Z`,
+      crease: `M${cx + rx} ${y} Q${cx} ${y + bulge} ${cx - rx} ${y}`,
+    });
+    if (kind === "squint") return build(1, -8, 0);
+    if (kind === "heavy") return build(-2, 8.5, 1);
+    if (kind === "half") return build(-4.5, 1.5, 1);
+    return build(-6.5, -3, 1); // "low"
+  };
+
+  const MOUTHS = {
+    smile: `<path d="M-6.5 13.5 A 6.5 5.5 0 0 0 6.5 13.5 Z" fill="#8a3a2d"/><ellipse cx="0" cy="16.8" rx="3.4" ry="2" fill="#ffa798"/>`,
+    grin: `<path d="M-9 12.8 A 9 8 0 0 0 9 12.8 Z" fill="#8a3a2d"/><ellipse cx="0" cy="17.6" rx="4.4" ry="2.6" fill="#ffa798"/>`,
+    oh: `<ellipse cx="2.4" cy="15" rx="3" ry="3.4" fill="#8a3a2d" stroke="${INK}" stroke-width="1.6"/>`,
+    tiny: `<path d="M-3.4 14.4 Q0 17.2 3.4 14.4" fill="none" stroke="${INK}" stroke-width="2.4" stroke-linecap="round"/>`,
+    wide: `<path d="M-8.5 12.6 Q0 19.6 8.5 12.6" fill="none" stroke="${INK}" stroke-width="3" stroke-linecap="round"/>`,
+    purse: `<ellipse cx="4.2" cy="15" rx="2.8" ry="2.2" fill="#8a3a2d"/><path d="M-5 13.6 Q-1.4 15.8 1.6 14.2" fill="none" stroke="${INK}" stroke-width="1.6" stroke-linecap="round"/>`,
+    small: `<ellipse cx="0" cy="15" rx="2.6" ry="2.6" fill="#8a3a2d" stroke="${INK}" stroke-width="1.6"/>`,
+  };
+
+  const face = (x, y, s, mood = "happy", bodyFill = "#b7e779") => {
+    const st = FACE_STATES[FACE_ALIAS[mood] || mood] || FACE_STATES.neutral;
+    const E = EYE;
+    const eye = (sign) => {
+      const cx = sign * E.cx;
+      const tilt = sign * 3; // outward tilt, ART.md §6
+      const px = cx + sign * 4.4 + st.pd[0];
+      const py = 2.6 + st.pd[1];
+      const pr = 4.9 * st.ps;
+      return `
+        <g transform="rotate(${tilt} ${cx} 0)">
+          <ellipse cx="${cx}" cy="0" rx="${E.rx}" ry="${E.ry}" fill="#fffdf7" stroke="${INK}" stroke-width="2.4"/>
+          <circle class="art-pupil" cx="${px}" cy="${py}" r="${pr.toFixed(2)}" fill="${INK}"/>
+          <circle cx="${(px - pr * 0.36).toFixed(2)}" cy="${(py - pr * 0.42).toFixed(2)}" r="${(pr * 0.34).toFixed(2)}" fill="#fffdf7"/>
+          ${st.lid && (st.lid !== "halfL" || sign < 0)
+            ? (() => {
+                const L = lidParts(cx, st.lid === "halfL" ? "half" : st.lid);
+                return `<g class="art-lid art-lid-${sign < 0 ? "l" : "r"}">
+            <path d="${L.fill}" fill="${bodyFill}"/>
+            <path d="${L.crease}" fill="none" stroke="${INK}" stroke-width="2.4" stroke-linecap="round"/>
+          </g>`;
+              })()
+            : ""}
+        </g>`;
+    };
+    return `
+    <g class="art-face" data-mood="${FACE_ALIAS[mood] || mood}" transform="translate(${x} ${y}) scale(${s}) rotate(${st.tilt})">
+      <g class="art-cheeks" opacity="${st.cheeks}">
+        <ellipse cx="-22" cy="9" rx="${st.cheeks > 0.6 ? 6 : 5}" ry="${st.cheeks > 0.6 ? 4.2 : 3.6}" fill="#ffa798"/>
+        <ellipse cx="22" cy="9" rx="${st.cheeks > 0.6 ? 6 : 5}" ry="${st.cheeks > 0.6 ? 4.2 : 3.6}" fill="#ffa798"/>
       </g>
-      ${mood === "open"
-        ? `<path d="M-8 13.5 A 8 7 0 0 0 8 13.5 Z" fill="#7c2d4a"/><ellipse cx="0" cy="18.2" rx="4.2" ry="2.4" fill="#ff9db1"/>`
-        : mood === "sad"
-          ? `<path d="M-6 17.5 Q0 12 6 17.5" fill="none" stroke="${INK}" stroke-width="3" stroke-linecap="round"/>`
-          : `<path d="M-6.5 13.5 A 6.5 5.5 0 0 0 6.5 13.5 Z" fill="#7c2d4a"/><ellipse cx="0" cy="16.8" rx="3.4" ry="2" fill="#ff9db1"/>`}
-      <ellipse cx="-22" cy="9" rx="5" ry="3.6" fill="#ff9db1" opacity="0.65"/>
-      <ellipse cx="22" cy="9" rx="5" ry="3.6" fill="#ff9db1" opacity="0.65"/>
+      <g class="art-eyes">${eye(-1)}${eye(1)}</g>
+      <path class="art-brow art-brow-l" d="${st.browL}" fill="none" stroke="${INK}" stroke-width="2.4" stroke-linecap="round"/>
+      <path class="art-brow art-brow-r" d="${st.browR}" fill="none" stroke="${INK}" stroke-width="2.4" stroke-linecap="round"/>
+      <g class="art-mouth">${MOUTHS[st.mouth] || MOUTHS.smile}</g>
     </g>`;
+  };
 
   // Shared body lighting: a restrained two-tone wash rather than a glossy
   // candy gradient, matching the flatter card and scenery system.
@@ -667,8 +749,8 @@
       back: `
         <path d="M-34 -26 Q-44 -58 -12 -42 Q-20 -34 -22 -26 Z" fill="${body}" stroke="${rim}" stroke-width="3"/>
         <path d="M34 -26 Q44 -58 12 -42 Q20 -34 22 -26 Z" fill="${body}" stroke="${rim}" stroke-width="3"/>
-        <path d="M-30 -34 Q-35 -49 -20 -41 Z" fill="#ff9db1"/>
-        <path d="M30 -34 Q35 -49 20 -41 Z" fill="#ff9db1"/>
+        <path d="M-30 -34 Q-35 -49 -20 -41 Z" fill="#ffa798"/>
+        <path d="M30 -34 Q35 -49 20 -41 Z" fill="#ffa798"/>
         <path d="M40 28 Q66 24 60 2 Q57 -8 48 -2 Q54 6 46 12 Q34 18 38 30 Z" fill="${body}" stroke="${rim}" stroke-width="3"/>`,
       front: `
         <g stroke="${rim}" stroke-width="2.4" stroke-linecap="round" opacity="0.8">
@@ -707,7 +789,7 @@
         <ellipse cx="-17" cy="-17" rx="10" ry="8" fill="#fff" opacity="0.45"/>
         <ellipse cx="-18" cy="52" rx="11" ry="7" fill="${rim}"/>
         <ellipse cx="18" cy="52" rx="11" ry="7" fill="${rim}"/>
-        ${face(0, -4, 1.1, mood)}
+        ${face(0, -4, 1.1, mood, body)}
         ${parts.front}
         ${worn.map((wid) => ACCESSORY_ART[wid] || "").join("")}
       </g>

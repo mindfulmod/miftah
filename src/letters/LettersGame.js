@@ -1406,7 +1406,20 @@
       // The presenter is the child's own blob pet (squirrel reverted
       // 2026-07-18). Poses map to blob moods: listening/success open the
       // mouth in delight, everything else is the usual happy face.
-      const petMood = (pose) => (pose === "listening" || pose === "success" ? "open" : "happy");
+      // The pet had two usable faces; it now has seven (ART.md §6). Map the poses
+      // the game already produces onto them. Note "wrong" resolves to CURIOUS,
+      // never sad — an error makes the pet lean in, not droop.
+      const petMood = (pose) =>
+        ({
+          success: "delighted",
+          listening: "listening",
+          presenting: "neutral",
+          wrong: "curious",
+          thinking: "thinking",
+          proud: "proud",
+          sleepy: "sleepy",
+          idle: "neutral",
+        })[pose] || "neutral";
       const setPetPose = (pose, hold = 0, lock = false) => {
         if (!petEl) return;
         petEl.innerHTML = this.petSVG(64, petMood(pose));
