@@ -394,6 +394,60 @@
     return "night";
   }
 
+  // ---------- ramps (ART.md §2, ban 3) ----------
+  // Any mass wider than ~24px must be a ramp, not one flat colour. Derives the
+  // light and shadow bands from a base so scenery gets depth without anybody
+  // hand-picking new hexes.
+  //
+  // "Light shifts warmer, shadow shifts cooler" has to be done by ANCHOR, not by
+  // a fixed hue offset: for a green (H≈140) a naive +4 goes toward cyan, i.e.
+  // colder — the opposite of the rule. So light rotates toward the warm anchor
+  // (45°, sunlight) and shadow toward the cool anchor (250°, skylight), each
+  // along the shorter arc, and shadow is clamped so it can never arrive at the
+  // cold navy this project bans.
+  const WARM_ANCHOR = 45;
+  const COOL_ANCHOR = 250;
+
+  function hexToHsl(hex) {
+    const n = parseInt(hex.slice(1), 16);
+    const r = ((n >> 16) & 255) / 255, g = ((n >> 8) & 255) / 255, b = (n & 255) / 255;
+    const max = Math.max(r, g, b), min = Math.min(r, g, b), d = max - min;
+    const l = (max + min) / 2;
+    if (!d) return { h: 0, s: 0, l: l * 100 };
+    const s = d / (1 - Math.abs(2 * l - 1));
+    let h;
+    if (max === r) h = 60 * (((g - b) / d) % 6);
+    else if (max === g) h = 60 * ((b - r) / d + 2);
+    else h = 60 * ((r - g) / d + 4);
+    return { h: (h + 360) % 360, s: s * 100, l: l * 100 };
+  }
+
+  function hslToHex(h, s, l) {
+    h = ((h % 360) + 360) % 360; s = Math.max(0, Math.min(100, s)) / 100; l = Math.max(0, Math.min(100, l)) / 100;
+    const c = (1 - Math.abs(2 * l - 1)) * s, x = c * (1 - Math.abs(((h / 60) % 2) - 1)), m = l - c / 2;
+    const seg = Math.floor(h / 60) % 6;
+    const rgb = [[c,x,0],[x,c,0],[0,c,x],[0,x,c],[x,0,c],[c,0,x]][seg];
+    return "#" + rgb.map((v) => Math.round((v + m) * 255).toString(16).padStart(2, "0")).join("");
+  }
+
+  // Rotate `h` toward `anchor` by `deg`, along the shorter arc.
+  function towardHue(h, anchor, deg) {
+    let diff = ((anchor - h + 540) % 360) - 180;
+    return h + Math.sign(diff) * Math.min(deg, Math.abs(diff));
+  }
+
+  function ramp(hex) {
+    const { h, s, l } = hexToHsl(hex);
+    return {
+      base: hex,
+      light: hslToHex(towardHue(h, WARM_ANCHOR, 8), s - 8, Math.min(94, l + 14)),
+      // A flat −18 collapses already-dark bases to near-black: night's ground
+      // (L≈31) became #0a1f1a, which read as a hole and made the trees vanish
+      // against the hills. Floor it proportionally so dark phases stay legible.
+      shadow: hslToHex(towardHue(h, COOL_ANCHOR, 6), s + 6, Math.max(l * 0.55, l - 18)),
+    };
+  }
+
   // Phase-aware storybook backdrop. Every layer uses the same navy contour
   // and flat paper-like color construction as the UI, so scenery and controls
   // feel like pieces from one physical playset.
@@ -426,13 +480,34 @@
         <g class="art-cloud-a"><path d="M78 122 Q83 92 112 98 Q124 64 160 84 Q181 70 201 92 Q229 91 236 119 Q205 133 156 130 Q111 134 78 122 Z"/></g>
         <g class="art-cloud-b"><path d="M362 91 Q368 66 392 70 Q403 44 432 61 Q451 51 466 70 Q489 70 496 91 Q467 102 429 100 Q391 104 362 91 Z"/></g>
       </g>
-      <path d="M-10 445 Q145 370 305 429 Q462 480 625 417 Q727 380 812 425 L812 615 L-10 615 Z" fill="${p.far}"/>
-      <path d="M-10 485 Q198 392 420 462 Q622 526 812 440 L812 615 L-10 615 Z" fill="${p.mid}"/>
-      <path d="M-10 535 Q257 450 521 522 Q682 565 812 516 L812 615 L-10 615 Z" fill="${p.near}"/>
-      <g fill="${night ? "#294638" : "#5f8d55"}" stroke="${sceneryInk}" stroke-width="2.4">
-        <path d="M113 501 V468" fill="none" stroke-linecap="round"/><circle cx="113" cy="452" r="27"/>
-        <path d="M704 535 V495" fill="none" stroke-linecap="round"/><circle cx="704" cy="476" r="31"/>
+      ${[
+        { d: "M-10 445 Q145 370 305 429 Q462 480 625 417 Q727 380 812 425 L812 615 L-10 615 Z", c: p.far, crest: 13 },
+        { d: "M-10 485 Q198 392 420 462 Q622 526 812 440 L812 615 L-10 615 Z", c: p.mid, crest: 15 },
+        { d: "M-10 535 Q257 450 521 522 Q682 565 812 516 L812 615 L-10 615 Z", c: p.near, crest: 17 },
+      ]
+        .map(({ d, c, crest }) => {
+          // Ramped ground plane (ban 3): the silhouette in the light tone, with
+          // the base mass dropped over it so only a sunlit strip along the ridge
+          // shows. Two tones per band, no contour — the ridge reads by value,
+          // which is how Toca separates ground planes.
+          const r = ramp(c);
+          return `<path d="${d}" fill="${r.light}"/><path d="${d}" fill="${r.base}" transform="translate(0 ${crest})"/>`;
+        })
+        .join("")}
+      ${(() => {
+        // Trees are the darkest scenery in every phase, which is what supplies
+        // the dark tier §4 demands. Crown gets a light kiss so it ramps too.
+        // The trunks are stroke-drawn, so the group must carry a stroke or they
+        // vanish — they read as shade-on-shade here, not as a contour.
+        const t = ramp(p.near);
+        return `<g fill="${t.shadow}" stroke="${t.shadow}" stroke-width="4" stroke-linecap="round">
+        <path d="M113 501 V468" fill="none"/><circle cx="113" cy="452" r="27"/>
+        <path d="M704 535 V495" fill="none"/><circle cx="704" cy="476" r="31"/>
       </g>
+      <g fill="${t.light}" opacity="0.45">
+        <circle cx="105" cy="443" r="12"/><circle cx="695" cy="466" r="14"/>
+      </g>`;
+      })()}
       <g stroke="${sceneryInk}" stroke-width="1.6" stroke-linecap="round">
         <g transform="translate(246 526)"><path d="M0 22 V2"/><circle cy="0" r="8" fill="#ee806f"/><circle r="3" fill="#f3c955" stroke-width="1.6"/></g>
         <g transform="translate(562 548)"><path d="M0 20 V1"/><circle r="7" fill="#9c8bd8"/><circle r="2.7" fill="#f3c955" stroke-width="1.6"/></g>

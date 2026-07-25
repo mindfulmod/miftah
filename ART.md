@@ -32,8 +32,16 @@ navy or grey; it stops at warm mauve.
 
 **Generated colour** (pet hue, biome hue) is allowed but must obey these bands —
 this is how hue-driven code stays on-palette:
-- Fill: `S 52–76%`, `L 54–70%`. Light band: `H +4`, `S −8`, `L +14`.
-  Shadow band: `H −6`, `S +6`, `L −18`.
+- Fill: `S 52–76%`, `L 54–70%`.
+- Light band: rotate hue **toward the warm anchor (45°)** by 8°, `S −8`, `L +14`.
+- Shadow band: rotate hue **toward the cool anchor (250°)** by 6°, `S +6`,
+  `L −18` but never below `L × 0.55`.
+- *Corrected after the ramp build: this was originally written as a fixed `H +4` /
+  `H −6`, which is hue-direction-naive — for a green (H≈140) `+4` moves toward
+  cyan, i.e. colder, the exact opposite of the rule. Warmth is a direction toward
+  an anchor, not an offset. The proportional shadow floor was added because a flat
+  `−18` collapsed night's ground (L≈31) to `#0a1f1a`, a near-black hole that made
+  the trees disappear.* Implemented as `ramp()` in `LettersArt.js`.
 - Never `S > 80%` (neon), never fill `L < 34%` or `L > 88%` (mud / blowout).
 
 ## 3. Contour law — weight means interactivity
@@ -71,11 +79,13 @@ Rules:
   card, a single tile) may have none: a glow on an already-unmistakable button is
   noise. Never two. *(Loosened after review 1, which failed meet and play for
   having zero — wrongly.)*
-- **Value tiers are mandatory and measured:** at least **8%** of scene pixels above
-  `L 80`, at least **12%** within `L 45–70`, and at least **5%** below `L 30`.
-  *Presence alone is not enough — review 1 passed this on a technicality at
-  4.0 / 20.7 / 4.4 while 71% of backdrop pixels sat in the dead `30–45` and
-  `70–80` bands, which is exactly the mush the rule exists to prevent.*
+- **Value tiers are mandatory and measured on the COMPOSED FRAME:** at least **8%**
+  of pixels above `L 80`, at least **12%** within `L 45–70`, and at least **5%**
+  below `L 30`. Presence alone is not enough.
+  *Measure the whole rendered screen, never the backdrop SVG alone. The sky is a
+  CSS gradient on the app root and the path, cards and topbar are cream — so a
+  backdrop-only sample excludes every major light source and understated light by
+  ~22 points, which is how review 1 graded this a FAIL when the real frame passes.*
 - **Characters carry the colour.** Scenery saturation stays at or below `S 60%`;
   the pet and letter cards are the most saturated things on screen.
 - Day/night phases must differ in *value and temperature*, not just sky hue.
@@ -149,9 +159,15 @@ landed — recorded so reviews don't rediscover it and so progress is countable:
   first audit query missed it) plus three unnamed scenery groups (bushes, grass,
   flowers). Clouds are masses and should lose it; the small props may keep
   `1.6/2.4` under the amended §3.
-- **Value range is compressed** (the real finding behind "colour feels thin"):
-  measured 4.0% above `L 80` / 20.7% in `L 45–70` / 4.4% below `L 30`, with ~71%
-  of backdrop pixels in the dead bands. Needs 8 / 12 / 5 to pass amended §4.
+- ~~Value range is compressed~~ — **resolved, and the original grade was wrong.**
+  Measured on the composed frame the build sits at **26.5 / 27.2 / 7.1**, clearing
+  8 / 12 / 5. The earlier 4.0 / 20.7 / 4.4 came from sampling the backdrop SVG in
+  isolation, which excludes the CSS sky and every cream surface. I cannot claim the
+  ramp work caused the pass — it likely passed before. What the ramps did fix is
+  measurable separately: the backdrop's own dead-band share fell from **71% → 54%**
+  and the ground planes now read with depth.
+- Ground planes and trees are ramped (§4, ban 3). **Still flat single fills:** map
+  stop faces, the meet/prompt cards, tiles, pet bodies, stickers.
 - Most fills are single flat colours, not ramps — violates ban 3.
 - Scene density is ~3 props per screen, well under the 6–10 in §5.
 - Only one warm light pool exists (the map's current-stop halo); other screens
