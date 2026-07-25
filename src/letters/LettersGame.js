@@ -66,6 +66,29 @@
         ns.LETTERS_DATA.packs.flatMap((p) => p.letters).map((l) => [l.char, l.name.toLowerCase()]),
       );
       this.missingClips = new Set();
+      // Probe ONCE at boot whether clips exist at all, instead of rediscovering
+      // their absence through a 404 on every tap.
+      //
+      // This is why letters went silent on iOS while the chimes kept working: no
+      // clips ship yet, so say() always tried the mp3 first, and the 404 arrives
+      // ASYNCHRONOUSLY — meaning the TTS fallback ran outside the tap that caused
+      // it. iOS Safari silently drops speech that isn't inside a user gesture, so
+      // the letter never spoke. WebAudio was unaffected because it only needs one
+      // unlock. With this flag say() can reach speak() synchronously, in-gesture.
+      //
+      // null = probe unfinished, and that deliberately reads as "no clips": a
+      // silent-but-correct TTS path beats a dropped utterance.
+      this.clipsReady = null;
+      const probe = [...this.letterFiles.values()][0];
+      if (probe) {
+        fetch(`assets/audio/letters/${probe}.mp3`, { method: "HEAD" })
+          .then((r) => {
+            this.clipsReady = r.ok;
+          })
+          .catch(() => {
+            this.clipsReady = false;
+          });
+      }
       // Prime the async voice list now so the FIRST spoken prompt already
       // has the premium Arabic voices to choose from (getVoices() returns []
       // until the browser finishes loading them).
@@ -118,6 +141,7 @@
       this.root.addEventListener(
         "pointerdown",
         (e) => {
+          this.unlockSpeech();
           const el = e.target.closest && e.target.closest(TAPPABLE);
           if (!el) return;
           const transformed = getComputedStyle(el).transform !== "none";
@@ -602,6 +626,27 @@
 
     // ---------- audio ----------
 
+    // iOS Safari only honours speechSynthesis.speak() from inside a user
+    // gesture's synchronous window. Nearly every voicing in this game is
+    // deliberately DELAYED — the bud pops for 320ms before the letter is
+    // revealed, assembled pieces fuse over 960ms, replays wait 450ms — so on iOS
+    // every one of those utterances was being dropped and letters were simply
+    // silent, while the WebAudio chimes played normally.
+    //
+    // Speaking one throwaway utterance inside the first real touch unlocks the
+    // queue for the rest of the page session, after which the timed calls are
+    // honoured. This keeps the choreography the spec asks for instead of forcing
+    // the voice to fire at tap time.
+    unlockSpeech() {
+      if (this._speechUnlocked || !("speechSynthesis" in window)) return;
+      this._speechUnlocked = true;
+      try {
+        const u = new SpeechSynthesisUtterance(" ");
+        u.volume = 0; // inaudible; this exists only to open the queue
+        speechSynthesis.speak(u);
+      } catch {}
+    }
+
     say(item) {
       if (!item) return;
       if (item.audioPath) {
@@ -609,7 +654,10 @@
         return;
       }
       const file = item.display && item.display.length === 1 ? this.letterFiles.get(item.display) : null;
-      if (file && !this.missingClips.has(file) && this.sound.enabled) {
+      // clipsReady gates the whole clip branch: when no clips ship, fall through
+      // to speak() SYNCHRONOUSLY so the utterance stays inside the user gesture
+      // that iOS requires (see the probe in the constructor).
+      if (this.clipsReady && file && !this.missingClips.has(file) && this.sound.enabled) {
         if (!this.clipEl) this.clipEl = new Audio();
         // One fallback per attempt (onerror + play().catch can both fire),
         // and only a real load failure blacklists the file — an autoplay-
