@@ -13,6 +13,7 @@
     <link rel="preload" href="vendor/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="vendor/fonts/fonts.css" />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="memorize-entry.css?v=1" />
   </head>
   <body>
     <header class="topbar">
@@ -40,6 +41,24 @@
 
     <main class="app">
       <section id="home-hero" class="home-hero" hidden></section>
+      <section class="memorize-home-module" aria-labelledby="memorize-module-title">
+        <div class="memorize-module-mark" aria-hidden="true">
+          <span>۝</span>
+        </div>
+        <div class="memorize-module-copy">
+          <p class="memorize-module-kicker">Guided Hifz · Juz ʿAmma</p>
+          <h2 id="memorize-module-title">Memorize short surahs</h2>
+          <p>Follow the reciter word by word, retrieve without the page, and repair only where memory breaks.</p>
+          <div class="memorize-module-progress" aria-live="polite">
+            <span id="memorize-module-status">37 surahs ready</span>
+            <span class="memorize-module-track" aria-hidden="true"><span id="memorize-module-fill"></span></span>
+          </div>
+        </div>
+        <a id="memorize-module-action" class="memorize-module-action" href="memorize.html?surah=114">
+          <span id="memorize-module-action-label">Begin with An-Nas</span>
+          <span aria-hidden="true">→</span>
+        </a>
+      </section>
       <!-- Skeleton mirrors the surah-card rows so the list doesn't jump when
            the manifest lands. picker.js swaps in the error text on failure. -->
       <div id="loading" class="loading" role="status">
@@ -97,6 +116,7 @@
       <a href="index.html"><svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12.5 21c0-5.5-.7-9.3-2.4-12.3"/><path d="M10 8.7C8.6 5.9 6.2 4.8 3.7 5.7c1.7 2 3.8 2.9 6.3 3Z"/><path d="M10 8.7c-.4-3 1.3-5.4 4.3-5.9.4 3-1.3 5.2-4.3 5.9Z"/><path d="M10 8.7c3-1.1 5.9-.4 7.9 1.9-2.9.9-5.9.2-7.9-1.9Z"/><path d="M5.5 21h13"/></svg>Island</a>
     </div>
     <script src="tabbar.js"></script>
+    <script src="memorize-entry.js?v=1"></script>
     <script src="picker.js"></script>
   </body>
 </html>

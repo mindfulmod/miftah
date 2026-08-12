@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Miftah - Guided memorization</title>
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#2b1e12" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fffaf0" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="vendor/fonts/uthmanic-hafs-v22.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="vendor/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="vendor/fonts/fonts.css" />
+    <link rel="stylesheet" href="styles.css?v=20260811-architecture1" />
+    <link rel="stylesheet" href="memorize.css?v=7" />
+  </head>
+  <body class="memorize-page miftah-shell miftah-memorize">
+    <header class="mh-header">
+      <div class="mh-header-inner">
+        <a class="mh-brand" href="surahs.html" aria-label="Back to Miftah surahs">
+          <span class="mh-brand-mark" aria-hidden="true">م</span>
+          <span>Miftah</span>
+        </a>
+        <div class="mh-heading">
+          <p>Guided memorization</p>
+          <h1 id="surah-title">Preparing your practice</h1>
+        </div>
+        <a class="mh-close" href="surahs.html">Done</a>
+      </div>
+    </header>
+
+    <main class="mh-main">
+      <section class="mh-surah-switcher" aria-label="Short-surah curriculum">
+        <button
+          id="surah-catalog-button"
+          class="mh-surah-catalog-button"
+          type="button"
+          aria-haspopup="dialog"
+          aria-controls="surah-catalog-dialog"
+        >
+          <span class="mh-catalog-symbol" aria-hidden="true">۝</span>
+          <span class="mh-catalog-current">
+            <small>Juz ʿAmma · 37 short surahs</small>
+            <strong id="catalog-current-name">Choose a surah</strong>
+            <span id="catalog-current-progress">Progress stays on this device</span>
+          </span>
+          <span class="mh-catalog-arabic" id="catalog-current-arabic" lang="ar" dir="rtl"></span>
+          <span class="mh-catalog-chevron" aria-hidden="true">⌄</span>
+        </button>
+      </section>
+
+      <dialog id="surah-catalog-dialog" class="mh-catalog-dialog" aria-labelledby="catalog-title">
+        <div class="mh-catalog-sheet">
+          <header class="mh-catalog-header">
+            <div>
+              <p>Memorization library</p>
+              <h2 id="catalog-title">Juz ʿAmma</h2>
+            </div>
+            <form method="dialog">
+              <button class="mh-catalog-close" type="submit" aria-label="Close surah library">Done</button>
+            </form>
+          </header>
+          <p class="mh-catalog-intro">Begin with the last surahs and work backward when you are ready.</p>
+          <label class="mh-catalog-search">
+            <span class="sr-only">Search short surahs</span>
+            <input id="surah-search" type="search" inputmode="search" autocomplete="off" placeholder="Search by name or number" />
+          </label>
+          <div class="mh-catalog-overview" aria-live="polite">
+            <span id="catalog-total-progress">0 of 37 surahs linked</span>
+            <span>Surahs 78–114</span>
+          </div>
+          <div id="surah-catalog-list" class="mh-catalog-list"></div>
+          <p id="surah-catalog-empty" class="mh-catalog-empty" hidden>No matching short surah.</p>
+        </div>
+      </dialog>
+
+      <section id="loading" class="mh-loading" role="status">
+        <p>Loading verified Quran text...</p>
+        <div class="mh-skeleton" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </section>
+
+      <section id="practice" class="mh-practice" hidden aria-labelledby="practice-title">
+        <div class="mh-session-meta">
+          <span id="task-kind">New ayah</span>
+          <span id="ayah-reference" dir="ltr"></span>
+        </div>
+
+        <ol id="step-list" class="mh-steps" aria-label="Practice steps">
+          <li data-step="listen">Follow</li>
+          <li data-step="fade">Chase</li>
+          <li data-step="recall">Recall</li>
+          <li data-step="link">Link</li>
+          <li data-step="return">Return</li>
+        </ol>
+
+        <div class="mh-instruction">
+          <p id="practice-label" class="mh-practice-label">Listen</p>
+          <h2 id="practice-title">Follow every word with your eyes.</h2>
+          <p id="practice-help">Listen once, then repeat the ayah aloud.</p>
+        </div>
+
+        <article id="scripture-card" class="mh-scripture-card">
+          <p id="basmala" class="mh-basmala" lang="ar" dir="rtl"></p>
+          <div id="ayah-lines" class="mh-ayah-lines" lang="ar" dir="rtl"></div>
+          <div id="meaning-cue" class="mh-meaning" hidden>
+            <span>Meaning cue</span>
+            <p id="meaning-text"></p>
+          </div>
+          <p id="peek-note" class="mh-peek-note" hidden>Tap a blank word for a brief peek.</p>
+        </article>
+
+        <div class="mh-controls">
+          <button id="audio-button" class="mh-audio-button" type="button">
+            <span class="mh-play-mark" aria-hidden="true"></span>
+            <span id="audio-label">Listen</span>
+          </button>
+          <p id="audio-status" class="mh-audio-status" aria-live="polite"></p>
+
+          <button id="primary-action" class="mh-primary-action" type="button">Continue</button>
+
+          <div id="self-check" class="mh-self-check" hidden>
+            <p id="self-check-prompt">Compare every word, ending, and order.</p>
+            <div>
+              <button id="again-action" class="mh-check-button" type="button">I hesitated</button>
+              <button id="success-action" class="mh-check-button is-success" type="button">Clean recall</button>
+            </div>
+          </div>
+
+          <div id="drill-choice" class="mh-drill-choice" hidden>
+            <p>Choose the recovery that feels useful now.</p>
+            <div>
+              <button id="repair-choice" class="mh-drill-button" type="button">
+                <span>Find the weak spot</span>
+                <small>Tap where memory broke</small>
+              </button>
+              <button id="build-choice" class="mh-drill-button" type="button">
+                <span>Build the ayah</span>
+                <small>Restore the word order</small>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <p id="local-note" class="mh-local-note">Progress stays on this device.</p>
+      </section>
+
+      <section id="pause-screen" class="mh-pause" hidden aria-labelledby="pause-title">
+        <div class="mh-pause-mark" aria-hidden="true">✓</div>
+        <p id="pause-kicker">Ayah linked</p>
+        <h2 id="pause-title">A steady step forward.</h2>
+        <p id="pause-copy"></p>
+        <div class="mh-pause-actions">
+          <button id="continue-session" class="mh-primary-action" type="button">Learn the next ayah</button>
+          <a class="mh-text-action" href="surahs.html">Finish for now</a>
+        </div>
+      </section>
+
+      <section id="rest-screen" class="mh-rest" hidden aria-labelledby="rest-title">
+        <div class="mh-rest-mark" aria-hidden="true">۝</div>
+        <p>Review is scheduled</p>
+        <h2 id="rest-title">This surah is resting.</h2>
+        <p id="rest-copy"></p>
+        <div class="mh-rest-actions">
+          <button id="free-practice" class="mh-primary-action" type="button">Practice the full surah</button>
+          <button id="reset-progress" class="mh-text-button" type="button">Reset this surah</button>
+        </div>
+      </section>
+
+      <section id="error-screen" class="mh-error" hidden role="alert">
+        <h2>Practice could not load.</h2>
+        <p id="error-copy">The verified Quran data is unavailable right now.</p>
+        <button id="retry-load" class="mh-primary-action" type="button">Try again</button>
+      </section>
+    </main>
+
+    <footer class="mh-footer">
+      <p>Hafs recitation. Uthmani text. Adaptive self-checking.</p>
+      <a href="docs/memorization-prototype-research.md">Read the research</a>
+    </footer>
+
+    <script src="tabbar.js"></script>
+    <script src="memorize.js?v=6"></script>
+  </body>
+</html>
