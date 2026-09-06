@@ -134,6 +134,7 @@
     const out = { dx: 0, dy: 0, htmlDy: 0 };
     try {
       inkCtx.font = font;
+      inkCtx.textAlign = "left"; inkCtx.textBaseline = "alphabetic";
       const m = inkCtx.measureText(text);
       const ratio = inkRatioCache.get(`${latin}|${text}`);
       if (ratio) {
@@ -153,6 +154,42 @@
       if (ready) inkCache.set(cacheKey, out);
     } catch {}
     return out;
+  }
+
+  // Measure the loaded font's ink rather than its em box. SVG getBBox includes
+  // Amiri's very tall font box; a raster SVG image may substitute another font.
+  function fitStickerArt(root) {
+    // Vector motifs have different natural origins; center their painted shape.
+    for (const el of root.querySelectorAll('[data-sticker-art]')) {
+      const b=el.getBBox();
+      if(b.width && b.height) {
+        const scale=Math.min(1.15,43/Math.max(b.width,b.height));
+        el.setAttribute('transform',`scale(${scale}) translate(${-b.x-b.width/2} ${-b.y-b.height/2})`);
+      }
+    }
+  }
+  function fitGlyphs(root) {
+    for(const el of root.querySelectorAll('text[data-fit-box]')) {
+      if(!el.isConnected)continue;
+      const [cx,cy,w,h,maxSize]=el.dataset.fitBox.split(',').map(Number);
+      const family=el.getAttribute('font-family');
+      const measure=size=>{
+        inkCtx.font=`${size}px ${family}`;inkCtx.textAlign='center';inkCtx.textBaseline='alphabetic';inkCtx.direction=el.getAttribute('direction')||'ltr';
+        const m=inkCtx.measureText(el.textContent);
+        return {left:m.actualBoundingBoxLeft,right:m.actualBoundingBoxRight,up:m.actualBoundingBoxAscent,down:m.actualBoundingBoxDescent};
+      };
+      let b=measure(maxSize);const width=b.left+b.right,height=b.up+b.down;
+      if(!width||!height)continue;
+      const size=maxSize*Math.min(1,w/width,h/height);b=measure(size);
+      el.setAttribute('font-size',size);el.setAttribute('x',cx+(b.left-b.right)/2);el.setAttribute('y',cy+(b.up-b.down)/2);
+    }
+  }
+  function watchGlyphs(root) {
+    let pending=false;
+    const schedule=()=>{if(pending)return;pending=true;requestAnimationFrame(()=>{pending=false;fitGlyphs(root);fitStickerArt(root);});};
+    const observer=new MutationObserver(schedule);observer.observe(root,{childList:true,subtree:true});
+    document.fonts?.ready.then(schedule);document.fonts?.addEventListener('loadingdone',schedule);schedule();
+    return ()=>{observer.disconnect();document.fonts?.removeEventListener('loadingdone',schedule);};
   }
 
   // A friendly face used by every character. Mascot-grade eyes (the Duolingo/
@@ -181,11 +218,11 @@
                  browL: "M-19 -19 Q-12 -22.5 -5 -19",   browR: "M5 -19 Q12 -22.5 19 -19" },
     curious:   { lid: null,    pd: [2.6, -1.6],  ps: 1,    mouth: "oh",    cheeks: 0.5, tilt: 4,
                  browL: "M-19 -24 Q-12 -28 -5 -22.5",   browR: "M5 -18.5 Q12 -20 19 -19" },
-    delighted: { lid: "squint",pd: [0, -0.6],    ps: 1,    mouth: "grin",  cheeks: 1,   tilt: -2,
+    delighted: { lid: null,    pd: [0, -0.6],    ps: 1,    mouth: "grin",  cheeks: 1,   tilt: -2,
                  browL: "M-19 -23 Q-12 -27.5 -5 -22.5", browR: "M5 -22.5 Q12 -27.5 19 -23" },
     sleepy:    { lid: "heavy", pd: [0, 3.2],     ps: 1,    mouth: "tiny",  cheeks: 0.5, tilt: 6,
                  browL: "M-19 -19 Q-12 -20.5 -5 -18.5", browR: "M5 -18.5 Q12 -20.5 19 -19" },
-    proud:     { lid: "low",   pd: [0, -0.6],    ps: 1,    mouth: "wide",  cheeks: 1,   tilt: 0,
+    proud:     { lid: null,    pd: [0, -0.6],    ps: 1,    mouth: "wide",  cheeks: 1,   tilt: 0,
                  browL: "M-19 -20 L-5 -20.8",           browR: "M5 -20.8 L19 -20" },
     thinking:  { lid: "halfL", pd: [-3.2, -2.4], ps: 1,    mouth: "purse", cheeks: 0.5, tilt: -3,
                  browL: "M-19 -18.5 Q-12 -20 -5 -19.5", browR: "M5 -24.5 Q12 -29 19 -24" },
@@ -394,7 +431,7 @@
       ? Math.min(40, 240 / Math.max(4, len))
       : len <= 1 ? 64 : len <= 3 ? 52 : len <= 5 ? 40 : 26;
     const s = inkShift(label || "", size, latin);
-    return `<text x="${(cx + s.dx).toFixed(1)}" y="${(cy + s.dy).toFixed(1)}" text-anchor="middle"
+    return `<text data-fit-box="${cx},${cy},108,62,${size}" x="${(cx + s.dx).toFixed(1)}" y="${(cy + s.dy).toFixed(1)}" text-anchor="middle"
       font-family="${latin ? LATIN_FONT : AMIRI}"
       font-size="${size}" fill="${INK}" ${latin ? "" : `direction="rtl"`}>${label}</text>`;
   }
@@ -428,7 +465,7 @@
     speaker: `<path d="M14 20 L24 20 L38 9 L38 55 L24 44 L14 44 Z" fill="currentColor"/>
       <path d="M45 22 Q52 32 45 42 M50 15 Q61 32 50 49" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>`,
     play: `<path d="M20 12 L52 32 L20 52 Z" fill="currentColor"/>`,
-    next: `<path d="M14 12 L40 32 L14 52 Z" fill="currentColor"/><rect x="44" y="12" width="8" height="40" rx="3" fill="currentColor"/>`,
+    next: `<path d="M12 32H50M34 15L51 32L34 49" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>`,
     replay: `<path d="M32 12 A20 20 0 1 1 13 26" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
       <path d="M8 10 L15 28 L30 18 Z" fill="currentColor"/>`,
     home: `<path d="M10 32 L32 12 L54 32 L48 32 L48 52 L38 52 L38 38 L26 38 L26 52 L16 52 L16 32 Z" fill="currentColor"/>`,
@@ -611,11 +648,14 @@
         // vanish — they read as shade-on-shade here, not as a contour.
         const t = ramp(p.near);
         return `<g fill="${t.shadow}" stroke="${t.shadow}" stroke-width="4" stroke-linecap="round">
-        <path d="M113 501 V468" fill="none"/><circle cx="113" cy="452" r="27"/>
-        <path d="M704 535 V495" fill="none"/><circle cx="704" cy="476" r="31"/>
+        <path d="M113 501V457M113 484L101 473M113 478L125 465" fill="none"/>
+        <path d="M88 465Q73 449 88 437Q85 416 107 421Q126 410 135 430Q156 436 140 458Q130 477 113 467Q98 477 88 465Z"/>
+        <path d="M704 535V482M704 514L689 500M704 505L719 491" fill="none"/>
+        <path d="M677 490Q659 474 676 457Q674 437 697 441Q717 427 729 451Q751 460 735 481Q727 503 704 493Q690 502 677 490Z"/>
       </g>
       <g fill="${t.light}" opacity="0.45">
-        <circle cx="105" cy="443" r="12"/><circle cx="695" cy="466" r="14"/>
+        <path d="M86 444Q88 425 106 427Q120 416 129 433Q105 427 94 450Z"/>
+        <path d="M675 464Q678 444 697 448Q713 435 723 454Q695 445 685 472Z"/>
       </g>`;
       })()}
       <g stroke="${sceneryInk}" stroke-width="1.6" stroke-linecap="round">
@@ -642,7 +682,7 @@
     const starRow = [0, 1, 2]
       .map(
         (i) =>
-          `<g transform="translate(${(i - 1) * 19} 34) scale(0.21)" class="${i < stars ? "map-star-on" : "map-star-off"}"><g transform="translate(-32 -32)">${ICONS.star}</g></g>`,
+          `<g transform="translate(${(i - 1) * 24} 43) scale(0.32)" class="${i < stars ? "map-star-on" : "map-star-off"}"><g transform="translate(-32 -32)">${ICONS.star}</g></g>`,
       )
       .join("");
     // Locked stops are drawn RECESSIVE on purpose (2026-07-24). They used to
@@ -673,10 +713,10 @@
               // Optical centre, nudged 3 up so the star row below reads as a
               // caption rather than crowding the glyph.
               const s = inkShift(label, size, latin);
-              return `<text x="${s.dx.toFixed(1)}" y="${(s.dy - 3).toFixed(1)}" text-anchor="middle" font-family="${latin ? LATIN_FONT : AMIRI}" font-size="${size}" fill="${INK}" ${latin ? "" : `direction="rtl"`}>${label}</text>`;
+              return `<text data-fit-box="0,-3,51,44,${size}" x="${s.dx.toFixed(1)}" y="${(s.dy - 3).toFixed(1)}" text-anchor="middle" font-family="${latin ? LATIN_FONT : AMIRI}" font-size="${size}" fill="${INK}" ${latin ? "" : `direction="rtl"`}>${label}</text>`;
             })()
       }
-      ${status !== "locked" ? starRow : ""}
+      ${status !== "locked" ? `<rect class="map-star-plaque" x="-39" y="29" width="78" height="29" rx="14" fill="#fff8df" stroke="#806341" stroke-width="2"/>${starRow}` : ""}
     </svg>`;
   }
 
@@ -714,6 +754,9 @@
 
   ns.LETTERS_BODIES = [
     { id: "blob", cost: 0 },
+    { id: "lumi", name: "Lumi · garden bird", cost: 0 },
+    { id: "mina", name: "Mina · meadow rabbit", cost: 0 },
+    { id: "rafi", name: "Rafi · bear cub", cost: 0 },
     { id: "bunny", cost: 20 },
     { id: "chick", cost: 20 },
     { id: "cat", cost: 25 },
@@ -771,6 +814,7 @@
   };
 
   function pet({ hue = 200, species = "blob", stage = 1, worn = [], size = 140, mood = "happy" } = {}) {
+    if (ns.LettersAnimalArt?.characters[species]) return ns.LettersAnimalArt.render(species, {hue, items: worn, size, stage, mood});
     const scale = stage >= 3 ? 1.14 : stage >= 2 ? 1 : 0.86;
     const id = gradId();
     const body = `hsl(${hue} 72% 62%)`;
@@ -972,11 +1016,12 @@
     <svg class="art-sticker" viewBox="-38 -38 76 76" width="${size}" height="${size}" aria-hidden="true">
       <g transform="rotate(${owned ? tilt : 0})">
         <path d="${DIECUT}" transform="translate(1.5 3)" fill="${SHADOW}"/>
-        <path d="${DIECUT}" fill="${owned ? "#fffdf7" : "#e5dcc8"}"/>
+        <path d="${DIECUT}" fill="${owned ? "#fffdf7" : "#e5dcc8"}" stroke="${owned ? '#d4c3a0' : '#d4c8ae'}" stroke-width="1"/>
+        ${owned ? '<circle r="25" fill="#f7ecd5"/>' : ''}
         ${owned
-          ? `<g transform="scale(0.78)">${art}</g>
+          ? `<g data-sticker-art="${id}" stroke-linecap="round" stroke-linejoin="round">${art}</g>
              <path d="M-24 -14 Q-16 -26 -2 -28" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity="0.8"/>`
-          : `<text y="9" text-anchor="middle" font-size="26" fill="${INKS.faint}" font-weight="900" font-family="ui-rounded, system-ui, sans-serif">?</text>`}
+          : `<path d="M-7 -7Q-7 -17 3 -15Q15 -12 7 -3L0 3V5M0 13V14" fill="none" stroke="${INKS.faint}" stroke-width="5" stroke-linecap="round"/>`}
       </g>
     </svg>`;
   }
@@ -991,7 +1036,9 @@
         <rect x="-34" y="-42" width="68" height="84" rx="14" fill="url(#${id})"/>
         <path d="M-34 -18 Q0 -4 34 -18 L34 -42 Q34 -42 22 -42 L-22 -42 Q-34 -42 -34 -42 Z" fill="hsl(272 72% 74%)"/>
         <g transform="scale(0.7) translate(0 8)" fill="#ffd23e"><path d="M0 -22 L6 -6 L23 -5 L9 6 L14 22 L0 13 L-14 22 L-9 6 L-23 -5 L-6 -6 Z" stroke="${GOLD.mid}" stroke-width="3"/></g>
-        <circle cx="-20" cy="-30" r="4" fill="#fff" opacity="0.5"/>
+        <path d="M-24 -29H24M-23 32H23" fill="none" stroke="#fffdf7" stroke-width="2" stroke-dasharray="3 5" opacity=".65"/>
+        <path d="M-27 -15V23Q-27 31 -21 32" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".3"/>
+        <path d="M21 42L34 29L34 33Q34 42 21 42" fill="#e8d6fa"/>
       </g>
     </svg>`;
   }
@@ -1028,6 +1075,6 @@
   ns.LettersArt = {
     keyMascot, blobCard, creature, icon, backdrop, dayPhase, PHASES, mapStop,
     bloomCluster, confetti, ICONS, pet, egg, sticker, stickerPack, skillFlower,
-    inkShift, warmInk,
+    inkShift, warmInk, fitGlyphs, watchGlyphs,
   };
 })(window.MiftahGame || (window.MiftahGame = {}));

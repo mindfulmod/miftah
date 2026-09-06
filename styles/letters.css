@@ -1057,6 +1057,33 @@ body {
 
 .pet-shelf.pet-bodies { grid-template-columns: repeat(5, minmax(0, 1fr)); }
 
+.pet-color-rack {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  max-width: 420px;
+  padding: 10px 14px;
+  border: var(--lg-outline);
+  border-radius: var(--lg-radius);
+  background: rgba(255, 250, 240, 0.92);
+  box-shadow: var(--lg-lift);
+}
+.pet-color-rack > strong { color: var(--lg-ink); font-size: 14px; }
+.pet-color-options { display: flex; gap: 9px; }
+.pet-color-swatch {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 3px solid #fffdf7;
+  border-radius: 50%;
+  background: hsl(var(--h) 72% 62%);
+  box-shadow: 0 0 0 2px var(--lg-ink), 0 3px 0 var(--lg-ink);
+  cursor: pointer;
+}
+.pet-color-swatch.is-picked { outline: 4px solid var(--lg-gold); outline-offset: 3px; }
+.pet-color-swatch:active { transform: translateY(2px); box-shadow: 0 0 0 2px var(--lg-ink), 0 1px 0 var(--lg-ink); }
+
 .pet-acc {
   position: relative;
   display: flex;
@@ -1916,3 +1943,187 @@ body.lg-in-game .lg-ambient { display: none; }
 @media (prefers-reduced-motion: reduce) {
   .meet-card.is-traced { animation: none; }
 }
+
+/* Boat Letters: the live chapter, grounded in one quiet paper riverbank. */
+.lg-boat-chapter {
+  background: radial-gradient(ellipse at 50% 32%, #fffdf7 0%, #fffaf0 42%, #ccfbef 100%);
+}
+.lg-boat-chapter[data-garden-phase="night"] {
+  background: radial-gradient(ellipse at 50% 32%, #6064a0, #34375f);
+}
+.garden-scenery, .garden-land { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.garden-shore-boat { position: absolute; bottom: 1%; left: 4%; width: clamp(180px, 25vw, 310px); }
+.garden-boat { display: block; width: 100%; height: auto; overflow: visible; }
+.garden-reeds { position: absolute; width: clamp(76px, 12vw, 150px); right: 1%; bottom: 1%; }
+.lg-calm-garden .lg-ambient, .lg-calm-garden .lg-spark { display: none; }
+.lg-boat-chapter .lg-screen { animation: lg-screen-fade 220ms ease both; }
+.lg-boat-chapter .meet-stage,
+.lg-boat-chapter .stars-stage,
+.lg-boat-chapter .party-stage {
+  border: 0; background: none; box-shadow: none; padding: 12px;
+  width: min(620px, 100%); margin: auto; flex: 0 1 auto;
+}
+.lg-boat-chapter .meet-stage { gap: 18px; padding-bottom: 72px; }
+.lg-boat-chapter .meet-card .art-blob { width: clamp(260px, 34vw, 390px); max-height: 49vh; }
+.lg-boat-chapter .meet-card { padding: 0; }
+.lg-boat-chapter .meet-bud { border: 3px solid #4a3620; background: radial-gradient(circle at 35% 28%, #fffdf7, #ffe49a 65%, #c69434); box-shadow: 0 7px 0 #70501b; }
+.lg-boat-chapter .meet-dots { padding: 10px 16px; background: #fffaf0; border-radius: 24px; }
+.lg-boat-chapter .play-prompt { width: min(660px, 100%); min-height: 120px; background: none; border: 0; box-shadow: none; padding: 0 10px; margin: 0 auto; gap: 20px; }
+.play-pet { border: 0; padding: 0; background: none; cursor: pointer; }
+.lg-boat-chapter .play-pet > svg { width: 108px; height: 126px; }
+.lg-boat-chapter .play-mascot > svg { width: 78px; height: 98px; }
+.lg-boat-chapter .play-bubble { min-width: 124px; padding: 12px 20px; background: linear-gradient(#fffdf7, #fffaf0 70%, #e5dcc8); border: 3px solid #4a3620; box-shadow: 0 5px 0 #4a3620; }
+.lg-boat-chapter .play-bubble::before { background: #fffaf0; border-color: #4a3620; }
+.lg-boat-chapter .play-bubble-glyph { font-size: 54px; }
+.lg-boat-chapter .play-dots { position: static; align-self: center; padding: 9px 12px; background: #fffaf0; border-radius: 30px; gap: 7px; }
+.lg-boat-chapter .play-stage { width: min(760px, 100%); flex: 1; max-height: min(540px, 60vh); min-height: 0; margin: 0 auto 10px; mask-image: none; -webkit-mask-image: none; overflow: hidden; }
+.lg-boat-chapter [data-activity="pop"] .play-stage { background: linear-gradient(#fffaf0, #ccfbef 60%, #96ecff); border: 3px solid #4e9677; border-radius: 48% 48% 28px 28px / 11% 11% 28px 28px; box-shadow: 0 9px 0 #e5dcc8; }
+.lg-boat-chapter .pop-bubble { width: clamp(86px, 22vw, 126px); max-width: 126px; }
+.lg-boat-chapter .trace-wrap { background: linear-gradient(140deg, #fffdf7, #fffaf0 65%, #e5dcc8); border: 3px solid #c9bda4; border-radius: 36px; box-shadow: inset 0 6px 0 #e5dcc8; }
+.lg-boat-chapter .feed-scene { padding: 0 5px 16px; }
+.lg-boat-chapter .feed-creature { width: clamp(190px, 27vw, 264px); max-height: 58%; }
+.lg-boat-chapter .feed-creature > svg { height: 100%; max-height: 32vh; }
+.lg-boat-chapter .art-creature-body > path:first-of-type { stroke: #4a3620; stroke-width: 3; }
+.lg-boat-chapter .art-creature-mouth > ellipse:first-child { fill: #4a3620; }
+.lg-boat-chapter .art-creature-mouth > ellipse:nth-child(2) { fill: #ee806f; }
+.lg-boat-chapter .art-creature-mouth > path { fill: #fffdf7; }
+.lg-boat-chapter .feed-tray { width: 100%; justify-content: center; gap: 10px; padding: 10px 4px; border-bottom: 9px solid #c9bda4; border-radius: 30px; background: #fffaf0; }
+.lg-boat-chapter .feed-food { width: min(22%, 124px); }
+.lg-boat-chapter .stars-stage { gap: 18px; padding-bottom: 70px; }
+.garden-reward { width: clamp(220px, 38vw, 370px); }
+.garden-reward .is-grown .garden-petals { animation: garden-bloom 620ms var(--lg-spring) both; transform-box: fill-box; transform-origin: center bottom; }
+@keyframes garden-bloom { from { opacity: 0; scale: .7; } to { opacity: 1; scale: 1; } }
+.lg-boat-chapter .stars-row { padding: 10px 22px; border-radius: 40px; background: #fffaf0; }
+.lg-boat-chapter .party-stage { gap: 8px; padding-bottom: 28px; }
+.lg-boat-chapter .party-pair { gap: 16px; }
+.lg-boat-chapter .party-pair svg { max-height: 150px; }
+.lg-boat-chapter .party-stars { padding: 0 20px; border-radius: 40px; background: #fffaf0; }
+.lg-boat-chapter .party-stars svg { width: 44px; height: 44px; }
+.garden-reward-finished { width: clamp(180px, 30vw, 290px); }
+.map-boat-landmark { position: absolute; width: 200px; transform: translate(-50%, -38%); pointer-events: none; z-index: 1; }
+.lg-boat-chapter button:focus-visible { outline: 4px solid #e8743c; outline-offset: 5px; }
+@media (max-width: 600px) {
+  .lg-boat-chapter .play-prompt { min-height: 110px; gap: 10px; padding: 0; }
+  .lg-boat-chapter .play-pet > svg { width: 76px; height: 95px; }
+  .lg-boat-chapter .play-mascot { display: none; }
+  .lg-boat-chapter .play-bubble { min-width: 105px; padding: 8px 12px; }
+  .lg-boat-chapter .play-bubble-glyph { font-size: 48px; }
+  .lg-boat-chapter .play-dots { padding: 8px; gap: 5px; }
+  .lg-boat-chapter .play-dots i { width: 11px; height: 11px; }
+  .lg-boat-chapter .play-stage { max-height: 58vh; margin-bottom: 80px; }
+  .lg-boat-chapter .meet-stage { padding-bottom: 84px; }
+  .garden-shore-boat { left: 0; width: 180px; bottom: 0; }
+  .map-boat-landmark { width: 160px; }
+}
+@media (max-height: 650px) {
+  .lg-boat-chapter .meet-stage { gap: 8px; padding-bottom: 10px; }
+  .lg-boat-chapter .meet-card .art-blob { max-height: 45vh; width: 250px; }
+  .lg-boat-chapter .play-prompt { min-height: 86px; }
+  .lg-boat-chapter .play-pet > svg { height: 80px; width: 70px; }
+  .lg-boat-chapter .play-stage { margin-bottom: 22px; max-height: 61vh; }
+  .lg-boat-chapter .feed-creature > svg { max-height: 26vh; }
+  .lg-boat-chapter .stars-stage { padding-bottom: 0; gap: 8px; }
+  .garden-reward { width: 220px; }
+  .garden-reward-finished { width: 170px; }
+  .lg-boat-chapter .party-pair svg { max-height: 94px; }
+  .lg-boat-chapter .party-stage { padding-bottom: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lg-boat-chapter *, .lg-boat-chapter *::before, .lg-boat-chapter *::after { animation: none !important; transition: none !important; }
+  .lg-boat-chapter .feed-food.is-flying { transform: none; opacity: .25; }
+}
+.lg-boat-chapter:has(.lg-stars, .lg-party) .garden-shore-boat { visibility: hidden; }
+.gu-motion-toggle { margin-top: 12px; }
+.gu-motion-toggle[aria-pressed="true"] { background: #b7e779; }
+.lg-reduce-motion *, .lg-reduce-motion *::before, .lg-reduce-motion *::after { animation: none !important; transition: none !important; }
+body.lg-reduce-motion .lg-ambient, body.lg-reduce-motion .lg-spark { display: none; }
+.lg-reduce-motion .feed-food.is-flying { transform: none; opacity: .25; }
+
+/* A calm corrective cue for a first recognition activity. */
+.lg-boat-chapter .pop-bubble.is-helpful{filter:drop-shadow(0 0 9px #f3c955)}
+/* Reward portraits keep eye contact even during the idle blink cycle. */
+.art-face[data-mood="delighted"] .art-eyes,
+.art-face[data-mood="proud"] .art-eyes { animation: none; transform: none; }
+/* Live optional practice: the learning object remains the focus. */
+.garden-practice-links{display:flex;gap:10px;justify-content:center}
+.garden-practice-links button,.practice-button,.practice-replay{border:3px solid #4a3620;border-radius:20px;background:#fffaf0;color:#4a3620;min-width:54px;min-height:50px;font:28px 'Amiri Quran',serif;cursor:pointer;box-shadow:0 4px 0 #c9bda4}
+.garden-practice-links button{padding:0 14px;font-size:24px}.garden-practice-links span{font:16px system-ui}
+.practice-heading{display:flex;align-items:center;justify-content:center;gap:24px;margin:76px auto 4px;flex-shrink:0}
+.practice-replay{font-size:44px;width:96px}
+.practice-stage{width:min(760px,96%);min-height:0;flex:1;margin:0 auto 14px}
+.dot-garden,.garden-paths{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px}
+.dot-bed,.path-paper{position:relative;width:min(500px,94%);background:#fffaf0;border:3px solid #a89478;border-radius:36px}
+.dot-bed{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;min-height:190px;max-height:340px}
+.dot-base{font:140px/1 'Geeza Pro','Arial',sans-serif;pointer-events:none;color:#4a3620}
+.dot-zone{height:54px;width:150px;box-shadow:none;border:2px dashed #a89478;min-height:48px;font:24px system-ui;letter-spacing:12px;background:#e5dcc8}
+.practice-tools{display:flex;gap:18px;justify-content:center}.dot-seed{touch-action:none;position:relative;z-index:3;font:30px system-ui}
+.practice-button:disabled{opacity:.45;cursor:default}.is-dragging{z-index:20!important;position:relative;pointer-events:auto;filter:drop-shadow(0 8px 6px #a89478)}
+.practice-button.is-selected,.feed-food[aria-pressed=true]{outline:4px solid #4e9677;outline-offset:4px}
+.dot-zone.is-help,.dot-answers .is-help{background:#ffe49a}.dot-answers{display:flex;gap:28px}.dot-answers button{font-size:80px;min-width:100px;min-height:120px}
+.practice-listen{font-size:50px;color:#4e9677}.practice-status{height:20px;color:#4e9677}
+.path-paper{flex:1;max-height:360px;min-height:180px;overflow:hidden}
+.path-paper canvas{width:100%;height:100%;position:absolute;inset:0;touch-action:none}
+.path-guide{position:absolute;inset:0;display:grid;place-items:center;font:180px 'Geeza Pro',Arial,sans-serif;color:#c9bda4;pointer-events:none}
+.path-guide[hidden]{display:none}
+.lg-boat-chapter .feed-scene{gap:8px}.feed-basket{width:150px;min-height:58px;border:3px solid #4a3620;border-radius:12px 12px 32px 32px;background:#e5dcc8;color:#4a3620;font:48px/1 system-ui;cursor:pointer;flex-shrink:0}
+.lg-boat-chapter .feed-food{touch-action:none;position:relative}.lg-boat-chapter .feed-creature{display:flex;justify-content:center;max-height:38%;pointer-events:none}
+.lg-boat-chapter .feed-creature>.lg-animal{height:100%!important;width:auto!important;aspect-ratio:420/470}
+.lg-boat-chapter .feed-creature>svg{max-height:22vh}
+@media(max-height:650px){.practice-heading{margin-top:64px;height:70px}.practice-heading>.lg-animal{height:68px!important;width:61px!important}.practice-heading>svg{height:68px;width:62px}.dot-garden,.garden-paths{gap:8px}.dot-base{font-size:110px}.dot-zone{height:48px}.practice-tools{gap:12px}.practice-button{min-height:46px}.lg-boat-chapter .stars-stage,.lg-boat-chapter .party-stage{gap:10px}.lg-boat-chapter .feed-creature{max-height:29%}.feed-basket{min-height:48px;font-size:36px}}
+
+.lg-boat-chapter .feed-scene{justify-content:flex-start;gap:4px}
+.lg-boat-chapter .feed-creature{height:180px;max-height:none;flex-shrink:0}
+.lg-boat-chapter .feed-tray{margin-top:auto}
+.feed-basket{background:none;border:0;box-shadow:none;padding:0;width:150px;height:60px}
+.feed-basket svg{display:block;width:100%;height:100%}
+@media(max-height:650px){.lg-boat-chapter .feed-creature{height:120px;max-height:none}.feed-basket{height:48px;min-height:48px}}
+
+.dot-zone{position:relative}.dot-zone::before{content:attr(data-hint);position:absolute;inset:0;display:grid;place-items:center;color:#a89478;opacity:.30;pointer-events:none;letter-spacing:12px}
+.dot-zone span{position:relative;z-index:1}
+.feed-creature.is-chomp .lg-animal{animation:lg-seed-thanks 450ms ease-out}
+@keyframes lg-seed-thanks{50%{transform:translateY(-5px) rotate(3deg)}}
+@media(prefers-reduced-motion:reduce){.feed-creature.is-chomp .lg-animal{animation:none}}
+.lg-reduce-motion .feed-creature.is-chomp .lg-animal{animation:none}
+.practice-heading{margin:6px auto;height:86px}
+.practice-replay{height:76px;line-height:1;font-family:'Geeza Pro',Arial,sans-serif}
+.practice-tools{flex-shrink:0}.practice-tools .practice-button{height:52px;line-height:1;font-family:system-ui,sans-serif}
+@media(max-height:650px){.practice-heading{margin:4px auto;height:72px}.practice-replay{height:66px}.practice-stage{margin-bottom:4px}}
+
+.dot-zone::before{content:none}.dot-zone .dot-hint,.dot-zone .dot-placed{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
+.dot-zone .dot-hint{opacity:.25}.dot-zone .dot-cluster{position:relative;display:flex;justify-content:center;gap:5px;letter-spacing:0;line-height:1;font:18px/1 system-ui}
+.dot-cluster i{font-style:normal}.dot-zone .dots-3{display:grid;grid-template-columns:18px 18px;grid-template-rows:15px 15px;gap:0}.dots-3 i:first-child{grid-column:1/3;justify-self:center}
+/* A quieter, permanent garden map. Clear destinations, one current stop. */
+.lg-screen.lg-home{background:transparent}
+.map-title{position:absolute;left:22px;top:15px;margin:0;font:700 24px/44px ui-rounded,system-ui,sans-serif;color:#4a3620}
+.lg-home .lg-topbar{min-height:56px;flex-shrink:0}
+.lg-home .map-daily-row{position:relative;top:auto;left:auto;transform:none;align-self:center;max-width:100%;margin:12px 0 8px;padding:6px 12px;border:1px solid #e5dcc8;border-radius:26px;box-shadow:0 5px 0 #e5dcc8;gap:12px;flex-shrink:0}
+.lg-home .map-daily-row button{width:58px;height:58px;min-width:48px;border-radius:18px;background:#fffdf7;border:2px solid #c9bda4;box-shadow:0 3px 0 #c9bda4}
+.map-practice-garden{display:flex;align-items:center;justify-content:center;gap:14px;align-self:center;width:min(400px,94%);min-height:52px;margin:8px 0 14px;border:2px solid #4e9677;border-radius:20px;background:#fffaf0;color:#2f5c46;box-shadow:0 4px 0 #c9bda4;font:600 17px system-ui;cursor:pointer;flex-shrink:0}
+.map-practice-garden:disabled{opacity:.45;cursor:default}.map-practice-garden:active:not(:disabled){transform:translateY(2px)}
+.lg-home .map-scroll{mask-image:linear-gradient(transparent,#000 22px,#000 calc(100% - 20px),transparent)}
+.lg-home .map-path{max-width:470px}.lg-home .map-stop{width:clamp(100px,27vw,126px)}
+.lg-home .map-stop.is-current .map-stop-art{animation:none;transform:scale(1.04);transform-origin:center}
+.lg-home .map-stop.is-current::before{animation:none;inset:-7px;border:3px solid #4e9677;background:#b7e77955;border-radius:50%}
+.lg-home .map-stop.is-locked .map-stop-art{transform:scale(.72);opacity:.8}
+.lg-home .map-here{pointer-events:none}.lg-home .map-deco{opacity:1}.lg-home .map-band{opacity:.55}
+.lg-home .map-boat-landmark{width:160px}
+.practice-garden-hub{width:min(700px,100%);margin:auto;z-index:2;text-align:center;color:#4a3620}
+.practice-garden-hub h1{font:700 28px ui-rounded,system-ui}.practice-garden-hub p{font:16px system-ui;color:#4e9677}
+.practice-garden-choices{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:24px 0}
+.practice-garden-choices button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;min-height:190px;padding:12px;border:3px solid #4a3620;border-radius:26px;background:#fffaf0;box-shadow:0 6px 0 #c9bda4;cursor:pointer;color:#4a3620}
+.practice-garden-choices strong{font:600 16px system-ui}.practice-symbol{display:grid;place-items:center;min-height:110px;font:38px 'Geeza Pro',Arial,sans-serif}
+.practice-garden-choices button:active{transform:translateY(3px);box-shadow:0 3px 0 #c9bda4}
+.lg-screen button:focus-visible{outline:3px solid #e8743c;outline-offset:4px}
+@media(max-width:600px){.map-title{left:18px;font-size:22px}.lg-home .map-daily-row{gap:8px;padding:6px 8px}.lg-home .map-daily-row button{width:52px;height:52px}.practice-garden-choices{grid-template-columns:1fr;gap:12px;margin:16px 0}.practice-garden-choices button{flex-direction:row;justify-content:flex-start;min-height:92px;padding:6px 18px}.practice-garden-choices button>.lg-animal{width:68px!important;height:76px!important}.practice-garden-choices button>svg{width:68px;height:76px}.practice-symbol{min-height:76px;width:88px;font-size:32px}.practice-garden-hub h1{margin:12px 0}}
+.lg-home .map-daily-row .map-daily{color:#b0501f}
+.lg-home .map-daily-row .map-checkup{color:#4e9677}
+
+/* Keep the scenery; navigation is readable through pictures, never prose. */
+.map-practice-garden{width:112px;min-height:54px;gap:18px;margin:8px 0 10px}
+.practice-garden-choices button{position:relative;gap:8px;overflow:hidden;background:linear-gradient(#fffdf7,#fff4dc)}
+.practice-garden-choices .practice-picture{display:block;width:100%;height:auto;max-height:200px;flex:1;min-width:0}
+.practice-play{display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:#b7e779;flex-shrink:0}
+.album-grid{width:min(420px,100%);box-sizing:border-box;gap:10px;flex-shrink:0;background:#fff8e7;border-color:#806341;box-shadow:0 6px 0 #bda580}
+.album-slot{min-width:0;min-height:0;aspect-ratio:1;padding:3px;border:1px dashed #c7b796;border-radius:18px;background:#f2e7cf;box-shadow:inset 0 2px 3px #80634112}
+.album-slot .art-sticker{display:block;width:100%;height:100%;max-width:88px;max-height:88px;min-width:0}
+@media(max-width:600px){.practice-garden-choices button{flex-direction:row;justify-content:center;min-height:118px;padding:8px 16px}.practice-garden-choices .practice-picture{width:160px;height:110px;flex:0 1 190px}.album-grid{gap:7px;padding:10px}}
