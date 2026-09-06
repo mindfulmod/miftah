@@ -2,7 +2,7 @@
 
 Every visual change must comply with this file. When in doubt, this file wins over
 anyone's taste — including the user's in-the-moment whims (amend the bible first,
-then build). Companion doc: `docs/letter-garden-tokens.md` holds the code-level
+then build). Owner instructions take precedence over this document. Companion doc: `docs/letter-garden-tokens.md` holds the code-level
 token names; this file holds the *reasons* and the review bar.
 
 ## 1. North star
@@ -10,7 +10,7 @@ token names; this file holds the *reasons* and the review bar.
 - One-sentence look: *warm storybook paper diorama where the cast carries all the
   colour and the world quietly frames them.*
 - Gut test: if a new asset wouldn't look at home in a Toca Life World screenshot,
-  it fails. Blobs stay as the cast — Bumble/teddy rebuilds are permanently closed.
+  it fails. Existing blob pets remain available. Owner-approved prototype animals Lumi, Mina and Rafi now join the live selectable cast, preserving their anatomy and wardrobe.
 - No words anywhere. The art IS the interface.
 
 ## 2. Palette (LOCKED — no other hexes may appear in code)
@@ -91,8 +91,9 @@ Rules:
 - Day/night phases must differ in *value and temperature*, not just sky hue.
 
 ## 5. World density (anti-empty rules)
-- **6–10 set-dressing items per screen**, arranged in **2–4 clusters of 2–4** —
-  never evenly scattered, never a lone prop.
+- Group scenery at the edges around a clear learning zone. The live Boat chapter
+  uses one boat-and-flower cluster and one reed cluster; no fixed prop quota.
+  The owner prioritized calmer screens on 2026-09-05.
 - Every placed object gets ground-cover or a contact shadow ellipse touching its
   base. **Nothing floats.**
 - The interactive zone keeps a clear margin: no set dressing within ~15% of the
@@ -121,7 +122,7 @@ Rules:
 6. No lone props — clusters from the grammar or nothing.
 7. No uniform copies — 3 sizes + jitter.
 8. Post/lighting stack ON before judging any art.
-9. Nothing alive is perfectly still; nothing emissive is steady.
+9. Use restrained idle motion where it supports attention; reduced motion may keep the entire scene still.
 10. No screenshot, no opinion — art may not be called done unseen.
 
 Project extensions (from this interview's pain points):
@@ -138,9 +139,9 @@ Project extensions (from this interview's pain points):
 - [ ] Every shape >24px shows a ramp, not a flat fill
 - [ ] Three value tiers present; scenery `S ≤ 60%`; cast is the most saturated thing
 - [ ] Exactly one warm light pool, on the next action
-- [ ] 6–10 props in 2–4 clusters; nothing floating; 3 sizes + jitter
+- [ ] Scenery clusters frame a clear learning zone; nothing floating; varied prop sizes
 - [ ] Silhouette test passes at 64px; node budgets respected
-- [ ] Idle + secondary motion present; nothing alive perfectly still
+- [ ] Restrained idle/secondary motion where useful; reduced motion remains fully usable
 - [ ] Screenshots attached (map, meet card, one mini-game) at tablet size
 - [ ] Gut test: passes as a Toca Life World screenshot
 
@@ -180,3 +181,11 @@ landed — recorded so reviews don't rediscover it and so progress is countable:
 Turn on `--strict` in CI once the hex and width rows reach zero. The contour law
 (§3) and the value tiers (§4) are the two highest-value items — they are what the
 Toca comparison actually turned on.
+
+## Live animal port — owner direction 2026-09-05
+
+Lumi, Mina and Rafi reuse the approved prototype anatomy and wardrobe palette as a bounded exception to the older blob-only and palette rules. Keep their live styles scoped. Celebrations retain visible pupils, with no opaque lid covering the eyes. Existing pets remain selectable.
+
+## World map usability — 2026-09-06
+
+Child navigation is wordless: use action pictures and accessible names, not visible written labels. Preserve the established sky, hills and garden scenery; refine assets rather than covering the world with flat UI. No child-facing button exits Letter Garden. Live SVG glyph bounds govern card fit after font loading.

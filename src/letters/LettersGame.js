@@ -33,6 +33,7 @@
   class LettersGame {
     constructor(root) {
       this.root = root;
+      this.stopGlyphFit = Art.watchGlyphs?.(root);
       this.sound = new ns.SoundSystem();
       // Haptics ride along with the sound vocabulary: decorating the two cue
       // entry points here means every existing play()/streakMelody() call site
@@ -62,7 +63,6 @@
           return rawMelody(streak);
         };
       }
-      this.recite = new ns.RecitationAudio(() => this.sound.enabled);
       this.worlds = new ns.LettersWorlds();
       this.progress = this.loadProgress();
       this.stars = this.loadStars();
@@ -71,35 +71,8 @@
       this.island = null;
       this.game = null; // active mini-game instance
       this.stamps = this.loadStamps();
-      // Recorded letter clips (assets/audio/letters/<name>.mp3) win over TTS
-      // whenever they exist; 404s are remembered so we only knock once.
-      this.letterFiles = new Map(
-        ns.LETTERS_DATA.packs.flatMap((p) => p.letters).map((l) => [l.char, l.name.toLowerCase()]),
-      );
-      this.missingClips = new Set();
-      // Probe ONCE at boot whether clips exist at all, instead of rediscovering
-      // their absence through a 404 on every tap.
-      //
-      // This is why letters went silent on iOS while the chimes kept working: no
-      // clips ship yet, so say() always tried the mp3 first, and the 404 arrives
-      // ASYNCHRONOUSLY — meaning the TTS fallback ran outside the tap that caused
-      // it. iOS Safari silently drops speech that isn't inside a user gesture, so
-      // the letter never spoke. WebAudio was unaffected because it only needs one
-      // unlock. With this flag say() can reach speak() synchronously, in-gesture.
-      //
-      // null = probe unfinished, and that deliberately reads as "no clips": a
-      // silent-but-correct TTS path beats a dropped utterance.
-      this.clipsReady = null;
-      const probe = [...this.letterFiles.values()][0];
-      if (probe) {
-        fetch(`assets/audio/letters/${probe}.mp3`, { method: "HEAD" })
-          .then((r) => {
-            this.clipsReady = r.ok;
-          })
-          .catch(() => {
-            this.clipsReady = false;
-          });
-      }
+      // Letter Garden uses generated speech only; no recording probes or playback.
+      this.speechTurn = 0;
       // Prime the async voice list now so the FIRST spoken prompt already
       // has the premium Arabic voices to choose from (getVoices() returns []
       // until the browser finishes loading them).
@@ -110,6 +83,7 @@
         } catch {}
       }
       this.pet = this.loadJSON("quran-trainer:letters:pet", null);
+      this.reduceMotion = this.loadJSON("quran-trainer:letters:reduced-motion", false);
       this.skills = this.loadJSON("quran-trainer:letters:skills", {});
       this.wallet = this.loadJSON("quran-trainer:letters:wallet", { earned: 0, spent: 0 });
       // Best stars per world+game, so stars pay for improvement not repetition.
@@ -421,14 +395,17 @@
       const hatched = cracks >= 3;
       const el = this.screen(
         "lg-hatch",
-        `<div class="hatch-stage">
+        `${this.topBar({ home: false })}
+        <div class="hatch-stage">
           ${hatched
             ? `<div class="hatch-pet">${this.petSVG(220, "open")}</div>
                <div class="hatch-hues">${hues.map((h) => `<button type="button" class="hatch-hue${(this.pet?.hue ?? 200) === h ? " is-picked" : ""}" data-hue="${h}" style="--h:${h}"></button>`).join("")}</div>
                <button type="button" class="lg-big-btn hatch-go">${Art.icon("check", 40)}</button>`
-            : `<button type="button" class="hatch-egg">${Art.egg({ size: 190, cracks })}</button>`}
+            : `<button type="button" class="hatch-egg" aria-label="Tap the egg to hatch your pet">${Art.egg({ size: 190, cracks })}</button>`}
         </div>`,
       );
+      // No external exit is exposed during hatching.
+      this.wireTopBar(el);
       if (!hatched) {
         const eggBtn = el.querySelector(".hatch-egg");
         let n = cracks;
@@ -516,10 +493,12 @@
     renderPet() {
       const worn = this.pet.worn || [];
       const species = this.pet.species || "blob";
+      const petHues = [200, 320, 95, 268, 28];
+      const petHueNames = { 200: "Sky blue", 320: "Berry pink", 95: "Leaf green", 268: "Plum purple", 28: "Honey gold" };
       const ownedBodies = this.pet.bodies || (this.pet.bodies = ["blob"]);
       const bodyShelf = ns.LETTERS_BODIES.map((b) => {
-        const owned = ownedBodies.includes(b.id);
-        return `<button type="button" class="pet-acc${owned ? " is-owned" : ""}${species === b.id ? " is-worn" : ""}" data-body="${b.id}">
+        const owned = b.cost === 0 || ownedBodies.includes(b.id);
+        return `<button type="button" class="pet-acc${owned ? " is-owned" : ""}${species === b.id ? " is-worn" : ""}" aria-label="${b.name || b.id}" data-body="${b.id}">
           <span class="pet-acc-art">${Art.pet({ hue: this.pet.hue, species: b.id, stage: 1, size: 54 })}</span>
           ${owned ? "" : `<span class="pet-acc-cost">${Art.icon("star", 12)} ${b.cost}</span>`}
         </button>`;
@@ -542,7 +521,7 @@
         <div class="pet-stage pet-room" style="--pet-radiance:${this.petRadiance().toFixed(2)}">
           <div class="pet-hero">
             <span class="lg-star-chip">${Art.icon("star", 20)} <b>${this.starBalance()}</b></span>
-            <button type="button" class="pet-big${this.petRadiance() > 0.15 ? " is-radiant" : ""}">
+            <button type="button" aria-label="Play with your pet" class="pet-big${this.petRadiance() > 0.15 ? " is-radiant" : ""}">
               <span class="pet-aura" aria-hidden="true"></span>
               <span class="pet-bubble" hidden></span>
               ${this.petSVG(210)}
@@ -550,6 +529,10 @@
             ${Object.keys(this.skills).length ? `<div class="pet-flower">${Art.skillFlower({ scores: this.skills, size: 92 })}</div>` : ""}
           </div>
           <div class="pet-racks">
+            <div class="pet-color-rack lg-panel" aria-label="Pet color">
+              <span class="pet-color-icon" aria-hidden="true">${Art.icon("flower",24)}</span>
+              <div class="pet-color-options">${petHues.map((h) => `<button type="button" class="pet-color-swatch${this.pet.hue === h ? " is-picked" : ""}" data-pet-hue="${h}" style="--h:${h}" aria-label="${petHueNames[h]}" title="${petHueNames[h]}"></button>`).join("")}</div>
+            </div>
             <div class="pet-shelf pet-bodies lg-panel">${bodyShelf}</div>
             <div class="pet-shelf lg-panel">${shelf}</div>
           </div>
@@ -557,6 +540,14 @@
       );
       this.wireTopBar(el);
       for (const shelf of el.querySelectorAll(".pet-shelf")) this.wireShelf(shelf);
+      for (const swatch of el.querySelectorAll("[data-pet-hue]")) {
+        swatch.addEventListener("click", () => {
+          this.pet.hue = Number(swatch.dataset.petHue);
+          this.saveJSON("quran-trainer:letters:pet", this.pet);
+          this.sound.play("click");
+          this.renderPet();
+        });
+      }
       const bubble = el.querySelector(".pet-bubble");
       el.querySelector(".pet-big").addEventListener("pointerdown", () => {
         bubble.hidden = false;
@@ -717,61 +708,58 @@
       } catch {}
     }
 
-    say(item) {
+    say(item, onEnd) {
       if (!item) return;
-      if (item.audioPath) {
-        this.recite.playWord(item.audioPath);
-        return;
-      }
-      const file = item.display && item.display.length === 1 ? this.letterFiles.get(item.display) : null;
-      // clipsReady gates the whole clip branch: when no clips ship, fall through
-      // to speak() SYNCHRONOUSLY so the utterance stays inside the user gesture
-      // that iOS requires (see the probe in the constructor).
-      if (this.clipsReady && file && !this.missingClips.has(file) && this.sound.enabled) {
-        if (!this.clipEl) this.clipEl = new Audio();
-        // One fallback per attempt (onerror + play().catch can both fire),
-        // and only a real load failure blacklists the file — an autoplay-
-        // policy rejection (NotAllowedError) means the clip EXISTS but this
-        // gesture couldn't start it, so it must stay eligible for next tap.
-        let fell = false;
-        const fallback = (blame) => {
-          if (fell) return;
-          fell = true;
-          if (blame) this.missingClips.add(file);
-          this.speak(item.speak || item.display);
-        };
-        this.clipEl.onerror = () => fallback(true);
-        this.clipEl.src = `assets/audio/letters/${file}.mp3`;
-        const p = this.clipEl.play();
-        if (p && p.catch) p.catch((err) => fallback(!(err && err.name === "NotAllowedError")));
-        return;
-      }
-      this.speak(item.speak || item.display);
+      // Keep names/diacritics from the curriculum, including word displays.
+      // audioPath is deliberately ignored: this game uses generated speech only.
+      return this.speak(item.speak || item.display, onEnd);
     }
 
-    // Warm and unhurried: slow rate, slightly lowered pitch, gentle volume,
-    // and the best Arabic voice the device offers (premium voices first).
-    speak(text) {
+    stopSpeech() {
+      this.speechTurn = (this.speechTurn || 0) + 1;
+      this.utterance = null;
+      try { window.speechSynthesis?.cancel(); } catch {}
+    }
+
+    speak(text, onEnd) {
+      this.stopSpeech();
       if (!text || !this.sound.enabled || !("speechSynthesis" in window)) return;
       try {
-        speechSynthesis.cancel();
+        const turn = this.speechTurn;
         const u = new SpeechSynthesisUtterance(text);
-        u.lang = "ar-SA";
-        u.rate = 0.55;
-        u.pitch = 0.9;
-        u.volume = 0.85;
-        const voices = speechSynthesis.getVoices().filter((v) => (v.lang || "").startsWith("ar"));
-        const pick =
-          voices.find((v) => /premium|enhanced|natural/i.test(v.name)) ||
-          voices.find((v) => /majed|laila|mariam|tarik/i.test(v.name)) ||
-          voices.find((v) => /google/i.test(v.name)) ||
-          voices[0];
+        const voices = speechSynthesis.getVoices().filter((v) => /^ar(?:[-_]|$)/i.test(v.lang || ""));
+        const quality = (v) =>
+          (/premium|enhanced|natural|neural/i.test(v.name) ? 100 : 0) +
+          (/^ar[-_]SA$/i.test(v.lang) ? 10 : 0) +
+          (/majed|laila|mariam|tarik/i.test(v.name) ? 2 : 0);
+        const pick = voices.sort((a, b) => quality(b) - quality(a))[0];
         if (pick) u.voice = pick;
+        u.lang = pick?.lang || "ar-SA";
+        // A quieter delivery with a little more space between sounds.
+        // Keep native pitch so softening does not distort the letter names.
+        u.rate = 0.8;
+        u.pitch = 1;
+        u.volume = 0.62;
+        this.utterance = u; // retain it while the native speech engine plays
+        u.onend = () => {
+          if (turn !== this.speechTurn) return;
+          this.utterance = null;
+          if (onEnd) onEnd(turn);
+        };
+        u.onerror = () => {
+          if (turn === this.speechTurn) this.utterance = null;
+        };
         speechSynthesis.speak(u);
+        return u;
       } catch {}
     }
 
+    prefersReducedMotion() {
+      return this.reduceMotion || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    }
+
     confettiAt(el, golden) {
+      if (!el?.isConnected || this.prefersReducedMotion()) return;
       const rect = el.getBoundingClientRect();
       Art.confetti(rect.left + rect.width / 2, rect.top + rect.height / 2, golden);
     }
@@ -779,22 +767,34 @@
     // ---------- chrome ----------
 
     screen(className, inner) {
+      this.stopSpeech();
       if (this.game && this.game.destroy) this.game.destroy();
       this.game = null;
       // Perf (iPad, 2026-07-18): while a mini-game runs, the ambient
       // butterfly/firefly layer is invisible behind the play panel anyway —
       // stop compositing it so game frames get the whole budget.
       document.body.classList.toggle("lg-in-game", className === "lg-play");
-      this.root.innerHTML = `${Art.backdrop()}<div class="lg-screen ${className}">${inner}</div>`;
+      const garden = this.session?.world.id === "pack-boat" && ["lg-meet", "lg-play", "lg-stars", "lg-party"].includes(className);
+      const step = this.session?.gameIndex || 0;
+      const activity = this.session?.plan?.[step]?.game || this.session?.world.games[step];
+      const pond = ["lg-play", "lg-stars"].includes(className) && activity === "pop";
+      this.root.classList.toggle("lg-pond-activity", pond);
+      this.root.classList.toggle("lg-boat-chapter", garden);
+      this.root.classList.toggle("lg-reduce-motion", !!this.reduceMotion);
+      document.body.classList.toggle("lg-reduce-motion", !!this.reduceMotion);
+      document.body.classList.toggle("lg-calm-garden", garden || pond);
+      this.root.dataset.gardenPhase = Art.dayPhase();
+      const stage = ns.LettersGardenArt.growth(this.progress, this.bests);
+      this.root.innerHTML = `${garden || pond ? ns.LettersGardenArt.backdrop(stage) : Art.backdrop()}<div class="lg-screen ${className}">${inner}</div>`;
       return this.root.querySelector(".lg-screen");
     }
 
     topBar({ home = true } = {}) {
       return `
         <div class="lg-topbar">
-          ${home ? `<button type="button" class="lg-round-btn lg-home">${Art.icon("home", 32)}</button>` : "<span></span>"}
+          ${home ? `<button type="button" class="lg-round-btn lg-home" aria-label="Home">${Art.icon("home", 32)}</button>` : "<span></span>"}
           <div class="lg-topbar-right">
-            <button type="button" class="lg-round-btn lg-sound">${Art.icon("speaker", 32)}</button>
+            <button type="button" class="lg-round-btn lg-sound" aria-label="Toggle sound">${Art.icon("speaker", 32)}</button>
             <button type="button" class="lg-grownup-dot" aria-label="For grown-ups (hold)" title="For grown-ups — hold"></button>
           </div>
         </div>`;
@@ -808,13 +808,11 @@
           onHome ? onHome() : this.renderHome();
         });
       const soundBtn = el.querySelector(".lg-sound");
-      const syncSound = () => soundBtn.classList.toggle("is-off", !this.sound.enabled);
+      const syncSound = () => { soundBtn.classList.toggle("is-off", !this.sound.enabled); soundBtn.setAttribute("aria-pressed", String(this.sound.enabled)); };
       soundBtn.addEventListener("click", () => {
         this.sound.toggle ? this.sound.toggle() : (this.sound.enabled = !this.sound.enabled);
         if (!this.sound.enabled) {
-          this.recite.stop();
-          if (this.clipEl) try { this.clipEl.pause(); } catch {}
-          try { speechSynthesis.cancel(); } catch {}
+          this.stopSpeech();
         }
         syncSound();
       });
@@ -915,12 +913,18 @@
             ${askHTML}
           </div>
           <div class="gu-section lg-panel">
-            <h3>Sound</h3>
+            <h3>Sound and motion</h3>
             <button type="button" class="lg-big-btn gu-sound-toggle">${this.sound.enabled ? "Sound is on" : "Sound is off"}</button>
+            <button type="button" class="lg-big-btn gu-motion-toggle" aria-pressed="${!!this.reduceMotion}">Reduce motion</button>
           </div>
         </div>`,
       );
       this.wireTopBar(el, null);
+      el.querySelector(".gu-motion-toggle").addEventListener("click", () => {
+        this.reduceMotion = !this.reduceMotion;
+        this.saveJSON("quran-trainer:letters:reduced-motion", this.reduceMotion);
+        this.renderGrownup();
+      });
       const st = el.querySelector(".gu-sound-toggle");
       st.addEventListener("click", () => {
         this.sound.toggle ? this.sound.toggle() : (this.sound.enabled = !this.sound.enabled);
@@ -955,7 +959,7 @@
         peaks: `<svg viewBox="0 0 64 48"><g stroke="${ink}" stroke-width="2.5" stroke-linejoin="round"><path d="M6 44 22 16l14 28Z" fill="#9fb7d9"/><path d="M28 44 44 10l16 34Z" fill="#c3d3ea"/><path d="M44 10l5 10-4 2-4-3-3 2Z" fill="#fffaf0"/></g></svg>`,
         river: `<svg viewBox="0 0 64 48"><g stroke="${ink}" stroke-width="2.5" stroke-linecap="round" fill="none"><path d="M6 18c7-5 14-5 21 0s14 5 21 0 8-4 10-3" stroke="#4fb3e8"/><path d="M6 30c7-5 14-5 21 0s14 5 21 0" stroke="#7fd0f2"/><ellipse cx="18" cy="42" rx="7" ry="4" fill="#e8d9b8"/><ellipse cx="40" cy="43" rx="5" ry="3" fill="#d9c49a"/></g></svg>`,
       };
-      return D[biome] || "";
+      return biome === "meadow" ? ns.LettersGardenArt.flowerBed({size:76}) : D[biome] || "";
     }
 
     // The mastery garden (spec: specs/02): every chapter grows a plant beside
@@ -1004,20 +1008,21 @@
       // A winding trail read bottom-to-top: world 1 sits at the bottom of
       // the scroll, one bend per world, and when everything is done a door
       // to the island crowns the path. Finished stops grow flower gardens.
-      const GAP = 200;
-      const total = worlds.length + (allDone ? 1 : 0);
+      const GAP = window.innerWidth < 600 ? 150 : 200;
+      const total = worlds.length;
       const height = total * GAP + 240;
       const yOf = (i) => height - 150 - i * GAP;
       const xOf = (i) => (i % 2 === 0 ? 28 : 72); // percent of the path width
       const el = this.screen(
         "lg-home",
         `${this.topBar({ home: false })}
-        <div class="map-daily-row lg-tray">
-          ${daily ? `<button type="button" class="map-daily${stampedToday ? " is-stamped" : ""}">${Art.icon("sun", 34)}${stampedToday ? `<i class="map-daily-check">${Art.icon("check", 16)}</i>` : ""}</button>` : ""}
-          ${daily ? `<button type="button" class="map-checkup">${Art.icon("flower", 34)}</button>` : ""}
-          <button type="button" class="map-pet">${this.petSVG(46)}</button>
-          <button type="button" class="map-album">${Art.icon("star", 26)}<b>${this.starBalance()}</b></button>
+        <div class="map-daily-row lg-tray" aria-label="Garden activities">
+          ${daily ? `<button type="button" aria-label="Daily letter practice" class="map-daily${stampedToday ? " is-stamped" : ""}">${Art.icon("sun", 34)}${stampedToday ? `<i class="map-daily-check">${Art.icon("check", 16)}</i>` : ""}</button>` : ""}
+          ${daily ? `<button type="button" class="map-checkup" aria-label="Letter check-up">${Art.icon("flower", 34)}</button>` : ""}
+          <button type="button" class="map-pet" aria-label="Your pet and wardrobe">${this.petSVG(46)}</button>
+          <button type="button" class="map-album" aria-label="Rewards and stickers">${Art.icon("star", 26)}<b>${this.starBalance()}</b></button>
         </div>
+        <button type="button" class="map-practice-garden" aria-label="Open the practice garden" title="Available after your first Boat activity" ${this.progress.done.includes('pack-boat') || Object.keys(this.bests).some(k=>k.startsWith('pack-boat:')) ? '' : 'disabled'}>${Art.icon('flower',30)}${Art.icon('next',22)}</button>
         <div class="map-scroll">
           <div class="map-path" style="height:${height}px">
             ${(() => {
@@ -1037,7 +1042,7 @@
               return bands.join("");
             })()}
             <svg class="map-trail" aria-hidden="true"></svg>
-            ${allDone ? `<a class="map-stop is-door" href="index.html" style="left:${xOf(worlds.length)}%; top:${yOf(worlds.length)}px">${Art.mapStop({ hue: 45, label: "🏝", status: "done", stars: 3, latin: true })}</a>` : ""}
+
             ${worlds
               .map((world, i) => {
                 const status = this.statusOf(world);
@@ -1048,20 +1053,22 @@
                   ? `<span class="map-plant" style="left:${xOf(i) + (i % 2 === 0 ? -30 : 30)}%; top:${yOf(i) + 40}px">${this.masteryPlant(this.worldMasteryOf(world))}</span>`
                   : "";
                 return `
-                  ${status === "done" ? `<span class="map-bloom" style="${at}">${Art.bloomCluster({ seed: i + 1 })}</span>` : ""}
                   ${plant}
-                  <span class="map-deco" style="left:${xOf(i) + (i % 2 === 0 ? 34 : -34)}%; top:${yOf(i) + 46}px">${this.biomeDeco(world.biome)}</span>
-                  <button type="button" class="map-stop is-${status}" data-world="${world.id}" ${status === "locked" ? "disabled" : ""} style="${at}">
+                  ${world.id === "pack-boat" ? `<span class="map-boat-landmark" style="left:${xOf(i) + 37}%;top:${yOf(i) - 10}px">${ns.LettersGardenArt.boat({stage: ns.LettersGardenArt.growth(this.progress, this.bests)})}</span>` : ""}
+                  <span class="map-deco" style="left:${xOf(i) + (i % 2 === 0 ? 34 : -34)}%; top:${yOf(i) + 46}px">${world.id === "pack-boat" ? "" : this.biomeDeco(world.biome)}</span>
+                  <div class="map-node" data-node-world="${world.id}" style="${at}"><button type="button" class="map-stop is-${status}" data-world="${world.id}" ${status === "current" ? 'aria-current="step"' : ""} aria-label="${world.id === 'pack-boat' ? 'Boat Letters' : world.icon}" ${status === "locked" ? "disabled" : ""}>
                     ${Art.mapStop({ hue: world.hue, label: world.icon, status, stars: this.stars[world.id] || 0, latin: !/[؀-ۿ]/.test(world.icon) })}
-                  </button>
-                  ${status === "current" ? `<span class="map-here" style="left:${xOf(i) + (i % 2 === 0 ? 17 : -17)}%; top:${yOf(i)}px">${Art.keyMascot({ size: 58 })}${this.petSVG(40)}</span>` : ""}
+                  </button>${status === "done" ? `<span class="map-flower-bed" aria-hidden="true">${ns.LettersGardenArt.flowerBed({size:88})}</span>` : ""}</div>
+                  ${status === "current" ? `<span class="map-here" style="left:${xOf(i) + (i % 2 === 0 ? 17 : -17)}%; top:${yOf(i)}px">${this.petSVG(64)}</span>` : ""}
                   ${status === "current" && !this.progress.done.length ? `<span class="map-tap" style="left:${xOf(i)}%; top:${yOf(i) - 96}px; bottom:auto; margin:0;">${Art.icon("arrow", 44)}</span>` : ""}`;
               })
               .join("")}
           </div>
         </div>`,
       );
-      this.wireTopBar(el, null);
+      // The child-facing map has no external exit. Home elsewhere returns here.
+      this.wireTopBar(el);
+      el.querySelector(".map-practice-garden").onclick=()=>this.renderPracticeGarden();
       // The dotted trail needs real pixel coordinates, so it's drawn after
       // layout against the path's actual width.
       const pathEl = el.querySelector(".map-path");
@@ -1237,36 +1244,39 @@
         `${this.topBar()}
         <div class="meet-stage lg-panel">
           ${opener}
-          <button type="button" class="meet-card" ${hidden}>${bigCard}</button>
+          <button type="button" class="meet-card" aria-label="Listen to ${card.display}" ${hidden}>${bigCard}</button>
           <div class="meet-dots">${s.world.meet.map((_, i) => `<i class="${i === s.meetIndex ? "is-on" : ""}"></i>`).join("")}</div>
           <div class="meet-nav">
-            <button type="button" class="lg-round-btn meet-hear" ${hidden}>${Art.icon("speaker", 36)}</button>
-            <button type="button" class="lg-big-btn meet-next" ${hidden}>${Art.icon("next", 40)}</button>
+            <button type="button" class="lg-round-btn meet-hear" aria-label="Hear the letter again" ${hidden}>${Art.icon("speaker", 36)}</button>
+            <button type="button" class="lg-big-btn meet-next" aria-label="Continue" ${hidden}>${Art.icon("next", 40)}</button>
           </div>
         </div>`,
       );
       this.wireTopBar(el);
       const cardEl = el.querySelector(".meet-card");
-      const speakCard = () => this.say(card);
+      const speakCard = () => { if (el.isConnected) this.say(card); };
       // Say-it-with-me (spec: specs/02): the game says it, then the card
       // opens its arms and waits — an inviting pause for the child to say it
       // back out loud. No mic; the pause IS the feature, and a soft chime
       // rewards the turn-taking whether or not they spoke.
       const sayWithMe = () => {
-        speakCard();
-        setTimeout(() => {
-          if (!cardEl.isConnected) return;
+        if (!cardEl.isConnected) return;
+        cardEl.classList.remove("is-your-turn");
+        this.say(card, (turn) => {
+          if (!cardEl.isConnected || turn !== this.speechTurn) return;
           cardEl.classList.add("is-your-turn");
           this.sound.play("click");
-        }, 950);
-        setTimeout(() => {
-          if (!cardEl.isConnected) return;
-          cardEl.classList.remove("is-your-turn");
-          speakCard(); // the echo — "yes, like that"
-        }, 2600);
+          setTimeout(() => {
+            if (!cardEl.isConnected) return;
+            cardEl.classList.remove("is-your-turn");
+            // A replay, another prompt, mute or navigation cancels this echo.
+            if (turn === this.speechTurn) speakCard();
+          }, 1600);
+        });
       };
       // The reveal moment all three variants funnel into.
       const reveal = () => {
+        if (!el.isConnected) return;
         cardEl.hidden = false;
         cardEl.classList.add("is-born");
         el.querySelector(".meet-hear").hidden = false;
@@ -1361,7 +1371,7 @@
           });
         }
         // A soft voice hint so the child knows there's something to hear.
-        setTimeout(speakCard, 500);
+        setTimeout(() => { if (el.isConnected) speakCard(); }, 500);
       } else {
         const bud = el.querySelector(".meet-bud");
         bud.addEventListener("pointerdown", () => {
@@ -1383,9 +1393,9 @@
         "lg-play",
         `${this.topBar()}
         <div class="play-prompt lg-panel">
-          <span class="play-pet">${this.petSVG(64)}</span>
+          <button type="button" class="play-pet" aria-label="Listen to your pet">${this.petSVG(64)}</button>
           <span class="play-mascot">${Art.keyMascot({ size: 66 })}</span>
-          <button type="button" class="play-bubble" hidden>
+          <button type="button" class="play-bubble" aria-label="Hear the letter again" hidden>
             <span class="play-bubble-glyph" dir="rtl" lang="ar"></span>
             <span class="play-bubble-icon">${Art.icon("speaker", 22)}</span>
           </button>
@@ -1393,6 +1403,7 @@
         </div>
         <div class="play-stage"></div>`,
       );
+      el.dataset.activity = gameName;
       this.wireTopBar(el);
       const stage = el.querySelector(".play-stage");
       const bubble = el.querySelector(".play-bubble");
@@ -1421,12 +1432,13 @@
           idle: "neutral",
         })[pose] || "neutral";
       const setPetPose = (pose, hold = 0, lock = false) => {
-        if (!petEl) return;
+        if (!petEl?.isConnected) return;
         petEl.innerHTML = this.petSVG(64, petMood(pose));
         if (poseTimer) clearTimeout(poseTimer);
         poseLockedUntil = lock ? Date.now() + hold : 0;
         if (hold > 0) {
           poseTimer = setTimeout(() => {
+            if (!petEl.isConnected) return;
             poseLockedUntil = 0;
             petEl.innerHTML = this.petSVG(64, petMood(currentTarget ? "presenting" : "idle"));
           }, hold);
@@ -1436,7 +1448,7 @@
         if (Date.now() >= poseLockedUntil) setPetPose("listening", 900);
         this.say(item);
       };
-      petEl.addEventListener("pointerdown", () => {
+      petEl.addEventListener("click", () => {
         setPetPose("success", 900);
         this.petRecite(null);
       });
@@ -1448,11 +1460,15 @@
       const strength = ns.LettersStrength;
       const ctx = {
         stage,
+        garden: s.world.id === "pack-boat",
+        petArt: () => this.petSVG(180,"listening"),
+        reducedMotion: () => this.prefersReducedMotion(),
         items: planStep ? planStep.items : s.items,
         extraItems: s.extraItems,
         rounds: 4,
         hue: s.world.hue,
-        level: this.stars[s.world.id] || 0,
+        level: s.world.id === "pack-boat" ? (this.bests[`${s.world.id}:${gameName}`] || 0) : (this.stars[s.world.id] || 0),
+        beginner: s.world.id === "pack-boat" && !(this.bests[`${s.world.id}:${gameName}`] > 0),
         say: (item) => sayWithPose(item),
         // The pet watches the child play: it hops on every right answer and
         // leans in, curious, on a wrong pick — never scolding, never sad.
@@ -1518,7 +1534,7 @@
           void bubble.offsetWidth;
           bubble.classList.add("is-pulse");
         },
-        onDone: (slips) => this.finishGame(slips),
+        onDone: (slips) => { if (el.isConnected) this.finishGame(slips); },
       };
       this.game = new ns.LettersMiniGames[gameName](ctx);
     }
@@ -1555,6 +1571,36 @@
       this.renderStars(stars);
     }
 
+    renderPracticeGarden() {
+      const world=this.worlds.worlds.find(w=>w.id==='pack-boat');
+      this.session={world,items:world.items()};
+      const el=this.screen('lg-meet',`${this.topBar()}<div class="practice-garden-hub"><div class="practice-garden-choices">${['Feed','DotGarden','GardenPaths'].map((kind,i)=>`<button type="button" data-kind="${kind}" aria-label="${['Feed a friend','Dot Garden: place the dots','Garden Paths: draw letters'][i]}">${ns.LettersGardenArt.practicePicture(kind)}<span class="practice-play" aria-hidden="true">${Art.icon('next',24)}</span></button>`).join('')}</div></div>`);
+      this.wireTopBar(el);
+      el.querySelectorAll('[data-kind]').forEach(b=>b.onclick=()=>this.startPractice(b.dataset.kind,()=>this.renderPracticeGarden()));
+    }
+
+    practiceButtons() {
+      return `<div class="garden-practice-links" aria-label="Optional practice"><button type="button" data-practice="DotGarden" aria-label="Optional Dot Garden practice">ب <span>●</span></button><button type="button" data-practice="GardenPaths" aria-label="Optional Garden Paths drawing practice">〰 <span>✎</span></button></div>`;
+    }
+    wirePractice(el,back) {
+      el.querySelectorAll('[data-practice]').forEach(b=>b.onclick=()=>this.startPractice(b.dataset.practice,back));
+    }
+    startPractice(kind,back) {
+      const s=this.session;
+      const el=this.screen('lg-play',`${this.topBar()}<div class="practice-heading">${this.petSVG(76)}<button class="practice-replay" type="button" aria-label="Hear the letter again"></button></div><div class="practice-stage"></div>`);
+      el.dataset.activity=kind==='Feed'?'feed':'practice';
+      if(kind==='Feed')el.querySelector('.practice-stage').classList.add('play-stage');
+      this.wireTopBar(el,back);
+      const replay=el.querySelector('.practice-replay');let current=null;
+      replay.onclick=()=>{if(current)this.say(current);};
+      const ctx={stage:el.querySelector('.practice-stage'),items:s.items||s.world.items(),
+        prompt:item=>{current=item;replay.textContent=item?item.display:'♫';},
+        say:item=>{current=item;this.say(item);},correct:()=>this.sound.play('correct'),
+        done:()=>{if(el.isConnected)back();}};
+      if(kind==='Feed')this.game=new ns.LettersMiniGames.feed({...ctx,garden:true,beginner:true,level:0,rounds:4,hue:150,extraItems:[],petArt:()=>this.petSVG(180),setPrompt:ctx.prompt,sfx:name=>this.sound.play(name),confettiAt:target=>this.confettiAt(target),onDone:ctx.done});
+      else this.game=new ns.GardenPractice[kind](ctx);
+    }
+
     renderStars(stars) {
       const s = this.session;
       const lastGame = s.gameIndex >= s.world.games.length - 1;
@@ -1562,27 +1608,31 @@
         "lg-stars",
         `${this.topBar()}
         <div class="stars-stage lg-panel">
+          ${`<div class="garden-reward" role="img" aria-label="Garden flowers: ${ns.LettersGardenArt.growth(this.progress, this.bests)}">${ns.LettersGardenArt.boat({stage: ns.LettersGardenArt.growth(this.progress, this.bests)})}</div>`}
           <div class="stars-row">
             ${[0, 1, 2].map((i) => `<span class="stars-star ${i < stars ? "is-on" : ""}" style="animation-delay:${i * 220}ms">${Art.icon("star", 74)}</span>`).join("")}
           </div>
+          ${s.world.id === "pack-boat" ? this.practiceButtons() : ""}
           <div class="stars-nav">
-            <button type="button" class="lg-round-btn stars-replay">${Art.icon("replay", 34)}</button>
-            <button type="button" class="lg-big-btn stars-next">${Art.icon(lastGame ? "check" : "next", 40)}</button>
+            <button type="button" class="lg-round-btn stars-replay" aria-label="Play again">${Art.icon("replay", 34)}</button>
+            <button type="button" class="lg-big-btn stars-next" aria-label="Continue">${Art.icon(lastGame ? "check" : "next", 40)}</button>
           </div>
         </div>`,
       );
       this.wireTopBar(el);
+      this.wirePractice(el,()=>this.renderStars(stars));
       const row = el.querySelector(".stars-row");
       // Climb the star ladder: one bright, rising bell per star as it drops
       // in (synced to the stagger), then the payoff chord once the last one
       // is home — a bigger fanfare the more stars you earned.
       for (let i = 0; i < stars; i += 1) {
-        setTimeout(() => this.sound.play(`star${i + 1}`), i * 220 + 150);
+        setTimeout(() => { if (el.isConnected) this.sound.play(`star${i + 1}`); }, i * 220 + 150);
       }
       setTimeout(() => {
+        if (!el.isConnected) return;
         this.sound.play(stars === 3 ? "fanfare" : stars === 2 ? "cheer2" : "cheer1");
         this.confettiAt(row, stars === 3);
-        if (stars === 3) setTimeout(() => this.confettiAt(row, true), 280);
+        if (stars === 3) setTimeout(() => { if (el.isConnected) this.confettiAt(row, true); }, 280);
       }, stars * 220 + 200);
       el.querySelector(".stars-replay").addEventListener("click", () => {
         this.sound.play("click");
@@ -1631,16 +1681,17 @@
       // reading real words from the Quran. Mark the moment.
       const isQuranWords = this.session && this.session.world && this.session.world.kind === "words";
       const capstone = isQuranWords && newlyDone
-        ? `<div class="party-capstone">✨ ${Art.icon("book", 26)} You just read real words from the Quran! ✨</div>`
+        ? `<div class="party-capstone">✨ ${Art.icon("book", 26)}  ✨</div>`
         : "";
       const el = this.screen(
         "lg-party",
         `<div class="party-stage lg-panel">
           ${capstone}
+          ${`<div class="garden-reward garden-reward-finished" role="img" aria-label="Your garden">${ns.LettersGardenArt.boat({stage: ns.LettersGardenArt.growth(this.progress,this.bests)})}</div>`}
           ${flower ? `<div class="party-flower">${Art.skillFlower({ scores: this.skills, size: 200 })}</div>` : ""}
           <div class="party-pair">
             <div class="party-mascot">${Art.keyMascot({ size: flower ? 110 : 150, mood: "open" })}</div>
-            <button type="button" class="party-pet">
+            <button type="button" class="party-pet" aria-label="Celebrate with your pet">
               <span class="pet-bubble" hidden></span>
               ${this.petSVG(flower ? 95 : 130, "open")}
             </button>
@@ -1648,13 +1699,15 @@
           <div class="party-stars">
             ${[0, 1, 2].map((i) => `<span class="stars-star ${i < stars ? "is-on" : ""}" style="animation-delay:${i * 240}ms">${Art.icon("star", 64)}</span>`).join("")}
           </div>
-          <button type="button" class="lg-big-btn party-next">${Art.icon("next", 44)}</button>
+          ${this.session?.world.id === "pack-boat" ? this.practiceButtons() : ""}
+          <button type="button" class="lg-big-btn party-next" aria-label="Return to the garden">${Art.icon("next", 44)}</button>
         </div>`,
       );
       this.sound.play(newlyDone ? "worldClear" : "perfect");
       this.confettiAt(el.querySelector(".party-mascot"), true);
-      setTimeout(() => this.confettiAt(el.querySelector(".party-stars"), true), 500);
-      if (newlyDone) setTimeout(() => this.confettiAt(el.querySelector(".party-mascot"), true), 900);
+      setTimeout(() => { if (el.isConnected) this.confettiAt(el.querySelector(".party-stars"), true); }, 500);
+      if (newlyDone) setTimeout(() => { if (el.isConnected) this.confettiAt(el.querySelector(".party-mascot"), true); }, 900);
+      this.wirePractice(el,()=>this.renderParty(stars,false,{flower}));
       const partyPet = el.querySelector(".party-pet");
       partyPet.addEventListener("pointerdown", () => {
         this.petRecite(partyPet.querySelector(".pet-bubble"));

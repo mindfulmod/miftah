@@ -1,0 +1,29 @@
+id,family,purpose,priority,native_width,native_height,grid,pivot,views,frames,alpha,palette_role,anchor_asset,dependencies,status
+lumi,character,continuous garden bird,1,420,470,none,"210 420",front,4,true,blue-anchor,lumi,none,prototype-approved
+mina,character,haunch-led meadow rabbit,1,420,470,none,"210 420",front,4,true,berry-variant,mina,shared-rig,prototype-approved
+rafi,character,barrel-bodied cedar bear,1,420,470,none,"210 420",front,4,true,warm-variant,rafi,shared-rig,prototype-approved
+pet-colorways,system,five derived body hue families,1,420,470,none,"rig palette",front,5,true,player-selected,none,"lumi mina rafi",qa-passed
+cap,accessory,species-fitted cap,1,420,470,none,"210 95",front,1,true,production-red,none,headwear-slot,qa-passed
+taqiyah,accessory,species-fitted taqiyah,1,420,470,none,"210 95",front,1,true,production-cream,none,headwear-slot,qa-passed
+crown,accessory,species-fitted crown,1,420,470,none,"210 95",front,1,true,production-yellow,none,headwear-slot,qa-passed
+sprout,accessory,species-fitted sprout,1,420,470,none,"210 95",front,1,true,production-green,none,headwear-slot,qa-passed
+bow,accessory,ear-side bow,1,420,470,none,"species side",front,1,true,production-pink,none,head-side-slot,qa-passed
+flower,accessory,ear-side flower,1,420,470,none,"species side",front,1,true,production-pink,none,head-side-slot,qa-passed
+glasses,accessory,shared registered eyewear,1,420,470,none,"210 180",front,1,true,espresso,none,eye-line,qa-passed
+scarf,accessory,four-plane fitted neck wrap,1,420,470,none,"species neck",front,1,true,production-green,none,neck-envelope,qa-passed
+cape,accessory,two-plane back cape,1,420,470,none,"210 340",front,1,true,production-red,none,back-slot,qa-passed
+medal,accessory,chest medal,1,420,470,none,"210 340",front,1,true,production-yellow,none,chest-slot,qa-passed
+moonpin,accessory,body moon pin,1,420,470,none,"170 370",front,1,true,production-cream,none,body-pin-slot,qa-passed
+balloon,accessory,right-hand balloon,1,420,470,none,"330 330",front,1,true,production-blue,none,hand-right-slot,qa-passed
+kite,accessory,right-hand kite,1,420,470,none,"330 330",front,1,true,production-blue,none,hand-right-slot,qa-passed
+wand,accessory,left-hand wand,1,420,470,none,"90 300",front,1,true,production-gold,none,hand-left-slot,qa-passed
+live-boat-landmark,live-garden,Boat chapter landmark and earned flowers,1,260,200,none,130 180,front,1,true,existing-garden-palette,live-pet,existing-progress,implemented-local
+live-boat-riverbank,live-garden,Quiet Boat chapter background,1,1280,720,none,640 720,front,1,true,existing-garden-palette,live-boat-landmark,none,implemented-local
+
+live-lumi,live-pet,bird selectable pet,1,420,470,none,210 423,front,1,true,prototype-pet-palette,lumi,live-wardrobe,implemented-local
+live-mina,live-pet,rabbit selectable pet,1,420,470,none,210 423,front,1,true,prototype-pet-palette,mina,live-wardrobe,implemented-local
+live-rafi,live-pet,bear selectable pet,1,420,470,none,210 423,front,1,true,prototype-pet-palette,rafi,live-wardrobe,implemented-local
+map-star-plaque,progress,readable earned and empty stars,1,78,29,none,"0 43",front,1,true,warm-paper,live-map-stop,LettersArt.js,local-verified
+shared-live-surfaces,interface,consistent controls and play framing,1,0,0,responsive,center,front,1,true,warm-paper,live-letter-garden,letters-art-pass.css,local-verified
+garden-flower-bed,environment,meadow and completion planting bed,1,100,80,none,"50 71",front,1,true,meadow-pastels,live-boat-landmark,LettersGardenArt.js,calibration-awaiting-review
+garden-pond-detail,environment,edge water ripples behind Pop targets,1,600,420,responsive,center,front,1,true,aqua-pond,live-boat-riverbank,LettersGardenArt.js,calibration-awaiting-review
