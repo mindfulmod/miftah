@@ -1,0 +1,72 @@
+.lg-animal{display:inline-block;flex:none;position:relative;vertical-align:middle;max-width:100%;--spring:cubic-bezier(.2,.8,.2,1)}
+.lg-animal svg{display:block;width:100%;height:100%;overflow:visible}
+.lg-animal .rig{transform-origin:210px 423px}
+.lg-animal[data-stage="1"] .rig{transform:scale(.90)}
+.lg-animal .ground{fill:#31594222}
+.lg-animal .rig{transform-origin:210px 420px;}
+.lg-animal .body{fill:var(--body)}
+.lg-animal .overlay,.lg-animal .limb,.lg-animal .species-fore{fill:var(--overlay)}
+.lg-animal .ear-inner{fill:var(--inner)}
+.lg-animal .foot{fill:var(--accent-dark)}
+.lg-animal .face-patch{fill:var(--overlay)}
+.lg-animal .eye-white{fill:#fff}
+.lg-animal .pupil{fill:#29282e}
+.lg-animal .eye-shine{fill:#fff}
+.lg-animal .brow{fill:none;stroke:var(--highlight);stroke-width:13;stroke-linecap:round}
+.lg-animal .muzzle{fill:var(--muzzle)}
+.lg-animal .nose{fill:var(--accent)}
+.lg-animal .mouth-fill{fill:var(--accent-dark)}
+.lg-animal .tongue{fill:#ffaaa9}
+.lg-animal .belly-mark{fill:none;stroke:var(--highlight);stroke-width:12;stroke-linecap:round}
+.lg-animal .limb{transform-box:fill-box;transition:transform 430ms var(--spring)}
+.lg-animal .limb-left{transform-origin:85% 20%}
+.lg-animal .limb-right{transform-origin:15% 20%}
+.lg-animal .pupils{transform-box:fill-box;transition:transform 400ms var(--spring);}
+.lg-animal .eyes-open{transform-box:fill-box;transform-origin:50% 54%;}
+.lg-animal .eyes-happy{display:none;fill:none;stroke:#29282e;stroke-width:13;stroke-linecap:round}
+.lg-animal .attention,.lg-animal .success-stars{opacity:0;fill:#ffc54a;transform-box:fill-box}
+.lg-animal .beak-bottom,.lg-animal .tongue,.lg-animal .brow,.lg-animal .mouth-fill{transform-box:fill-box;transform-origin:50% 0;transition:transform 300ms var(--spring),opacity 180ms ease}
+.lg-animal .accessory{display:block;pointer-events:none}
+.lg-animal .prod-acc{stroke:#4a3620;stroke-width:7;stroke-linejoin:round;stroke-linecap:round}
+.lg-animal .species-head,.lg-animal .species-torso{fill:var(--body)}
+.lg-animal .rabbit-belly{fill:#f8cddd}
+.lg-animal .rabbit-foot{fill:var(--overlay)}
+.lg-animal .rabbit-tail{stroke:var(--overlay);stroke-width:9}
+.lg-animal .rabbit-paw-pad{fill:var(--inner)}
+.lg-animal .paw-line,.lg-animal .toe-line{fill:none;stroke:var(--highlight);stroke-width:7;stroke-linecap:round}
+.lg-animal .bear-belly{fill:#efbd89}
+.lg-animal .bear-foot{fill:var(--overlay)}
+.lg-animal .bear-paw-pad{fill:#efbd89}
+.lg-animal .rabbit-forepaw{fill:var(--overlay)}
+.lg-animal .bear-arm{fill:var(--body)}
+.lg-animal .cheek-glow{fill:#f6a5b8;opacity:.72}
+.lg-animal.pet-rafi .cheek-glow{fill:#efb377;opacity:.65}
+.lg-animal .fitted-cap .cap-visor{stroke-width:6}
+.lg-animal .rabbit-ear,.lg-animal .bear-ear{transform-box:fill-box;transition:transform 430ms var(--spring)}
+.lg-animal .rabbit-ear-left,.lg-animal .bear-ear-left{transform-origin:75% 90%}
+.lg-animal .rabbit-ear-right,.lg-animal .bear-ear-right{transform-origin:25% 90%}
+.lg-animal.pet-mina[data-state=listen] .rabbit-ear-right{transform:rotate(-7deg)}
+.lg-animal.pet-mina[data-state=think] .rabbit-ear-left{transform:rotate(6deg)}
+.lg-animal.pet-mina[data-state=think] .rabbit-ear-right{transform:rotate(-6deg)}
+.lg-animal.pet-mina[data-state=success] .rabbit-ear-left{transform:rotate(-5deg)}
+.lg-animal.pet-mina[data-state=success] .rabbit-ear-right{transform:rotate(5deg)}
+.lg-animal.pet-rafi[data-state=listen] .bear-ear-right{transform:translateY(-5px)}
+.lg-animal.pet-rafi[data-state=think] .bear-ear-left{transform:rotate(5deg)}
+.lg-animal.pet-rafi[data-state=think] .bear-ear-right{transform:rotate(-5deg)}
+/* Keep visible pupils in celebration; never overlay an eyelid across them. */
+.lg-animal .eyes-open{display:block}.lg-animal .eyes-happy,.lg-animal .rig-anchors{display:none}
+.lg-animal[data-state=success] .limb-left{transform:translate(4px,-12px) rotate(14deg)}
+.lg-animal[data-state=success] .limb-right{transform:translate(-4px,-12px) rotate(-14deg)}
+.lg-animal[data-state=success] .success-stars{opacity:1}
+.lg-animal[data-state=listen] .pupils{transform:translate(3px,-2px)}
+.lg-animal[data-state=think] .pupils{transform:translate(0,-4px)}
+.lg-animal[data-state=listen] .tongue,.lg-animal[data-state=think] .tongue{opacity:0}
+@media(prefers-reduced-motion:reduce){.lg-animal *{animation:none!important;transition:none!important}}
+.lg-reduce-motion .lg-animal *{animation:none!important;transition:none!important}
+.lg-animal[data-stage="3"] .rig{transform:scale(1.04)}
+
+.lg-boat-chapter .play-pet > .lg-animal{width:108px!important;height:126px!important}
+@media(max-width:600px){.lg-boat-chapter .play-pet > .lg-animal{width:76px!important;height:95px!important}}
+@media(max-height:650px){.lg-boat-chapter .play-pet > .lg-animal{width:70px!important;height:80px!important}}
+/* Keep the animal's ground aligned with its companion in short screens. */
+@media(max-height:650px){.lg-boat-chapter .party-pet > .lg-animal{height:94px!important;width:84px!important}}

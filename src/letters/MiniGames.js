@@ -23,10 +23,10 @@
     const pool = shuffle(ctx.items);
     const targets = pool.slice(0, ctx.rounds);
     while (targets.length < ctx.rounds) targets.push(pool[targets.length % pool.length]);
-    const optionCount = (ctx.level || 0) >= 2 ? 4 : 3;
+    const optionCount = ctx.beginner ? 2 : (ctx.level || 0) >= (ctx.garden ? 3 : 2) ? 4 : 3;
     return targets.map((target) => {
       const wrong = shuffle(
-        ctx.items.concat(ctx.extraItems || []).filter((i) => i.id !== target.id),
+        ctx.items.concat(ctx.beginner ? [] : (ctx.extraItems || [])).filter((i) => i.id !== target.id),
       );
       const seen = new Set([target.id]);
       const options = [target];
@@ -54,7 +54,7 @@
       ? Math.min(maxSize * 0.6, 26)
       : len <= 1 ? maxSize : len <= 2 ? maxSize * 0.9 : len <= 3 ? maxSize * 0.72 : maxSize * 0.58;
     const s = Art.inkShift(display, size, latin);
-    return `<text x="${s.dx.toFixed(1)}" y="${s.dy.toFixed(1)}" text-anchor="middle"
+    return `<text data-fit-box="0,0,72,62,${size}" x="${s.dx.toFixed(1)}" y="${s.dy.toFixed(1)}" text-anchor="middle"
       font-family="${latin ? "ui-rounded, system-ui, sans-serif" : "'Amiri Quran', serif"}"
       font-size="${size}" fill="${fill}" ${latin ? "" : `direction="rtl"`}>${display}</text>`;
   }
@@ -66,7 +66,7 @@
       <svg viewBox="-52 -54 104 106" aria-hidden="true">
         <rect x="-46" y="-38" width="92" height="84" rx="22" fill="#4a3620"/>
         <rect x="-46" y="-46" width="92" height="84" rx="22" fill="hsl(${hue} 52% 86%)" stroke="#4a3620" stroke-width="4"/>
-        <rect class="tile-face" x="-39" y="-39" width="78" height="70" rx="16" fill="#fffaf0" stroke="#4a3620" stroke-width="2.4"/>
+        <rect class="tile-face" x="-39" y="-39" width="78" height="70" rx="16" fill="#fffaf0"/><path d="M-28 -32H26" stroke="#fff" stroke-width="4" stroke-linecap="round"/><path d="M-28 29H28" stroke="#e5dcc8" stroke-width="2" stroke-linecap="round"/>
         <g transform="translate(0 -4)">${glyphText(item.display, { maxSize: 42 })}</g>
       </svg>`;
   }
@@ -83,6 +83,19 @@
     };
   }
 
+  // Activity-specific materials share real, optically fitted curriculum ink.
+  function workshopTile(display, material = "wood") {
+    const leaf = material === "leaf";
+    return `<svg viewBox="-52 -54 104 110" aria-hidden="true">
+      <path d="M-45-31Q-45-47-29-47H31Q45-47 45-31V31Q45 47 29 47H-29Q-45 47-45 31Z" fill="${leaf?'#739367':'#b58a56'}" stroke="#655239" stroke-width="3"/>
+      <rect x="-40" y="-43" width="80" height="84" rx="16" fill="${leaf?'#e5edcc':'#eed4a5'}"/>
+      <rect x="-35" y="-35" width="70" height="70" rx="13" fill="#fffaf0"/>
+      <path d="M-28-39H26" stroke="#fffdf4" stroke-width="3" stroke-linecap="round"/>
+      ${glyphText(display,{maxSize:42})}
+      ${leaf?'<path d="M30 43Q18 36 24 34Q32 32 34 41Q40 31 43 35Q44 40 34 44" fill="#6c8c58"/>':'<path d="M-28 44H24" stroke="#b59462" stroke-width="2" stroke-linecap="round"/>'}
+    </svg>`;
+  }
+
   // ---------- Bubble Pop: hear it, find it, pop it ----------
   class PopGame {
     constructor(ctx) {
@@ -93,7 +106,7 @@
       this.alive = true;
       this.heat = makeHeat();
       this.bubbles = [];
-      ctx.stage.innerHTML = `<div class="pop-sky"></div>`;
+      ctx.stage.innerHTML = `${ns.LettersGardenArt.pond()}<div class="pop-sky"></div>`;
       this.sky = ctx.stage.querySelector(".pop-sky");
       // Perf: bubbles move via transform (composited), not top (layout).
       // The sky height is measured once and on resize, never per frame.
@@ -107,6 +120,8 @@
     }
 
     startRound() {
+      if (!this.alive) return;
+      this.advancing = false;
       const round = this.rounds[this.roundIndex];
       this.ctx.setPrompt(round.target);
       this.ctx.say(round.target);
@@ -123,22 +138,33 @@
       const el = document.createElement("button");
       el.type = "button";
       el.className = "pop-bubble";
-      el.innerHTML = tileHTML(item, this.ctx.hue);
-      const laneW = 84 / Math.max(3, this.laneCount || 3);
-      const laneX = 6 + lane * laneW + Math.random() * Math.min(8, laneW * 0.25); // percent
+      el.innerHTML = this.ctx.garden ? `<svg viewBox="-52 -66 104 132" aria-hidden="true">
+          <path d="M-43-58Q0-66 43-58L46 52Q0 65-46 52Z" fill="#e9c995" stroke="#59452e" stroke-width="3"/>
+          <path d="M-40-48Q0-53 40-48M-41 47Q0 54 41 47" fill="none" stroke="#b28c57" stroke-width="2" stroke-dasharray="3 3"/>
+          <rect x="-39" y="-38" width="78" height="78" rx="16" fill="#fffaf0"/>
+          ${glyphText(item.display,{maxSize:44})}
+          <path d="M0-48Q-15-60-17-51Q-15-44 0-46Q14-60 18-53Q18-45 0-46" fill="#739463"/>
+        </svg>` : tileHTML(item, this.ctx.hue);
+      el.setAttribute("aria-label", item.display);
+      const laneW = 84 / Math.max(2, this.laneCount || 3);
+      const gardenGrid = this.ctx.garden && this.laneCount > 2;
+      const laneX = this.ctx.garden ? (gardenGrid ? 28 + (lane % 2) * 44 : 8 + (lane + 0.5) * laneW) : 6 + lane * laneW;
+      el.style.width = `${this.ctx.garden ? 32 : laneW - 2}%`;
       el.style.left = `${laneX}%`;
       const pace = 1 + 0.22 * (this.ctx.level || 0);
-      const bubble = { el, item, y: 1.15 + delay, speed: (0.06 + Math.random() * 0.025) * pace };
-      el.style.transform = `translate3d(0, ${bubble.y * this.skyH}px, 0)`;
-      el.addEventListener("pointerdown", () => this.popAttempt(bubble));
+      const bubble = { el, item, y: this.ctx.garden ? (gardenGrid ? .18 + Math.floor(lane / 2) * .40 : .35) : 1.15 + delay, speed: (0.06 + Math.random() * 0.025) * pace };
+      bubble.restY = bubble.y;
+      el.style.transform = `translate3d(${this.ctx.garden ? "-50%" : "0"}, ${bubble.y * this.skyH}px, 0)`;
+      el.addEventListener("click", () => this.popAttempt(bubble));
       this.sky.appendChild(el);
       this.bubbles.push(bubble);
     }
 
     popAttempt(bubble) {
-      if (!this.alive || bubble.el.classList.contains("is-popped")) return;
+      if (!this.alive || this.advancing || bubble.el.classList.contains("is-popped") || bubble.el.classList.contains("is-scaffolded") || bubble.el.classList.contains("is-no")) return;
       const round = this.rounds[this.roundIndex];
       if (bubble.item.id === round.target.id) {
+        this.advancing = true;
         bubble.el.classList.add("is-popped");
         this.heat.up();
         this.ctx.sfx("correct");
@@ -162,7 +188,8 @@
         const cross = document.createElement("i");
         cross.className = "pop-cross";
         cross.innerHTML = `<svg viewBox="0 0 64 64"><path d="M18 18 L46 46 M46 18 L18 46" stroke="#c23a2b" stroke-width="10" stroke-linecap="round"/></svg>`;
-        bubble.el.appendChild(cross);
+        if (!this.ctx.beginner) bubble.el.appendChild(cross);
+        if (this.ctx.beginner) this.bubbles.find(b => b.item.id === round.target.id)?.el.classList.add("is-helpful");
         setTimeout(() => {
           bubble.el.classList.remove("is-no");
           cross.remove();
@@ -175,6 +202,7 @@
     }
 
     advance() {
+      if (!this.alive) return;
       this.roundIndex += 1;
       if (this.roundIndex >= this.rounds.length) return this.finish();
       this.startRound();
@@ -186,9 +214,10 @@
       this.lastTime = now;
       for (const b of this.bubbles) {
         if (b.el.classList.contains("is-popped") || b.el.classList.contains("is-scaffolded")) continue;
-        b.y -= b.speed * this.heat.factor() * dt;
+        if (!this.ctx.garden && !this.ctx.beginner && !this.ctx.reducedMotion?.()) b.y -= b.speed * this.heat.factor() * dt;
+        else b.y = this.ctx.garden ? b.restY : 0.35;
         if (b.y < -0.18) b.y = 1.12; // drift forever until popped
-        b.el.style.transform = `translate3d(0, ${b.y * this.skyH}px, 0)`;
+        b.el.style.transform = `translate3d(${this.ctx.garden ? "-50%" : "0"}, ${b.y * this.skyH}px, 0)`;
       }
       requestAnimationFrame(this.tick);
     }
@@ -214,12 +243,9 @@
       this.alive = true;
       this.fallers = [];
       ctx.stage.innerHTML = `
-        <div class="catch-field"></div>
+        <svg class="catch-canopy" viewBox="0 0 600 90" preserveAspectRatio="none" aria-hidden="true"><path d="M-10 4Q60 80 151 24M610 3Q544 71 455 21" fill="none" stroke="#907049" stroke-width="10" stroke-linecap="round"/><g fill="#83a56c" stroke="#647e50" stroke-width="2"><path d="M31 24Q18 62 62 53Q66 27 31 24M90 36Q96 4 129 13Q132 37 90 36M552 21Q574 47 539 57Q520 37 552 21M502 35Q504 8 473 11Q459 36 502 35"/></g></svg><div class="catch-field"></div>
         <div class="catch-basket">
-          <svg viewBox="0 0 120 70" aria-hidden="true">
-            <path d="M8 12 L112 12 L98 62 Q60 72 22 62 Z" fill="hsl(${ctx.hue} 55% 55%)" stroke="hsl(${ctx.hue} 50% 38%)" stroke-width="6"/>
-            <path d="M8 12 L112 12" stroke="hsl(${ctx.hue} 50% 38%)" stroke-width="10" stroke-linecap="round"/>
-          </svg>
+          ${ns.LettersGardenArt.seedBasket()}
         </div>`;
       this.field = ctx.stage.querySelector(".catch-field");
       this.basket = ctx.stage.querySelector(".catch-basket");
@@ -231,9 +257,11 @@
       this.basketX = 0.5;
       const move = (event) => {
         const rect = ctx.stage.getBoundingClientRect();
-        this.basketX = Math.max(0.08, Math.min(0.92, (event.clientX - rect.left) / rect.width));
+        const edge = Math.min(.3, (this.basket.getBoundingClientRect().width / 2 + 2) / rect.width);
+        this.basketX = Math.max(edge, Math.min(1-edge, (event.clientX - rect.left) / rect.width));
         this.basket.style.left = `${this.basketX * 100}%`;
       };
+      this.moveBasket = move;
       ctx.stage.addEventListener("pointermove", move);
       ctx.stage.addEventListener("pointerdown", move);
       this.startRound();
@@ -261,7 +289,7 @@
         : distractors[Math.floor(Math.random() * distractors.length)] || round.target;
       const el = document.createElement("div");
       el.className = "catch-faller";
-      el.innerHTML = tileHTML(item, this.ctx.hue);
+      el.innerHTML = workshopTile(item.display,"leaf");
       const x = 0.12 + Math.random() * 0.76;
       el.style.left = `${x * 100}%`;
       this.field.appendChild(el);
@@ -327,12 +355,16 @@
 
     finish() {
       this.alive = false;
+      this.destroy();
       this.ctx.onDone(this.slips);
     }
 
     destroy() {
       this.alive = false;
       window.removeEventListener("resize", this.onResize);
+      this.ctx.stage.removeEventListener("pointermove",this.moveBasket);
+      this.ctx.stage.removeEventListener("pointerdown",this.moveBasket);
+      this.clearFallers();
     }
   }
 
@@ -340,6 +372,7 @@
   class PairsGame {
     constructor(ctx) {
       this.ctx = ctx;
+      this.alive = true;
       this.slips = 0;
       this.boards = 2;
       this.boardIndex = 0;
@@ -347,6 +380,7 @@
     }
 
     buildBoard() {
+      if (!this.alive) return;
       const ctx = this.ctx;
       // Three pairs. When items carry a `match` (forms worlds), the pair is
       // form ↔ isolated letter; otherwise two copies of the same item.
@@ -378,8 +412,9 @@
         const el = document.createElement("button");
         el.type = "button";
         el.className = "pairs-card";
-        el.innerHTML = tileHTML(card, ctx.hue);
-        el.addEventListener("pointerdown", () => this.pick(card, el));
+        el.innerHTML = workshopTile(card.display,"leaf");
+        el.setAttribute("aria-label",card.display);
+        el.addEventListener("click", () => this.pick(card, el));
         card.el = el;
         grid.appendChild(el);
       }
@@ -389,12 +424,13 @@
       const demoEls = this.cards.filter((c) => c.id === demoId).map((c) => c.el);
       for (const el of demoEls) el.classList.add("is-demo");
       setTimeout(() => {
+        if (!this.alive) return;
         for (const el of demoEls) el.classList.remove("is-demo");
       }, 1500);
     }
 
     pick(card, el) {
-      if (el.classList.contains("is-matched")) return;
+      if (!this.alive || el.classList.contains("is-matched")) return;
       this.ctx.say(card);
       if (!this.selected) {
         this.selected = { card, el };
@@ -428,32 +464,41 @@
     }
 
     nextBoard() {
+      if (!this.alive) return;
       this.boardIndex += 1;
-      if (this.boardIndex >= this.boards) return this.ctx.onDone(this.slips);
+      if (this.boardIndex >= this.boards) { this.alive=false; return this.ctx.onDone(this.slips); }
       this.buildBoard();
     }
 
-    destroy() {}
+    destroy() { this.alive = false; this.stopHint?.(); }
   }
 
   // ---------- Feed: give the hungry creature what it asks for ----------
   class FeedGame {
     constructor(ctx) {
       this.ctx = ctx;
+      this.alive = true;
       this.rounds = buildRounds(ctx);
       this.roundIndex = 0;
       this.slips = 0;
       ctx.stage.innerHTML = `
         <div class="feed-scene">
-          <div class="feed-creature">${Art.creature({ hue: (ctx.hue + 140) % 360 })}</div>
+          <div class="feed-creature">${ctx.garden && ctx.petArt ? ctx.petArt() : Art.creature({ hue: ctx.garden ? 150 : (ctx.hue + 140) % 360 })}</div>
+          ${ctx.garden ? `<button type="button" class="feed-basket" aria-label="Deliver the selected seed packet" aria-disabled="true">${ns.LettersGardenArt.seedBasket()}</button>` : ""}
           <div class="feed-tray"></div>
         </div>`;
       this.creatureEl = ctx.stage.querySelector(".feed-creature");
       this.tray = ctx.stage.querySelector(".feed-tray");
+      this.dragResets=[];
+      this.basket=ctx.stage.querySelector('.feed-basket');
+      if(this.basket)this.basket.onclick=()=>{if(this.selected)this.offer(this.selected.item,this.selected.el);};
       this.startRound();
     }
 
     startRound() {
+      if (!this.alive) return;
+      this.dragResets.forEach(reset=>reset());this.dragResets=[];this.selected=null;
+      if(this.basket){this.basket.classList.remove("is-ready","is-filled");this.basket.setAttribute("aria-disabled","true");}
       const round = this.rounds[this.roundIndex];
       this.ctx.setPrompt(round.target);
       this.ctx.say(round.target);
@@ -462,16 +507,34 @@
         const el = document.createElement("button");
         el.type = "button";
         el.className = "feed-food";
-        el.innerHTML = tileHTML(item, this.ctx.hue);
-        el.addEventListener("pointerdown", () => this.offer(item, el));
+        el.innerHTML = this.ctx.garden ? `<svg viewBox="-52 -66 104 132" aria-hidden="true">
+          <path d="M-43-58Q0-66 43-58L46 52Q0 65-46 52Z" fill="#e9c995" stroke="#59452e" stroke-width="3"/>
+          <path d="M-40-48Q0-53 40-48M-41 47Q0 54 41 47" fill="none" stroke="#b28c57" stroke-width="2" stroke-dasharray="3 3"/>
+          <rect x="-39" y="-38" width="78" height="78" rx="16" fill="#fffaf0"/>
+          ${glyphText(item.display,{maxSize:44})}
+          <path d="M0-48Q-15-60-17-51Q-15-44 0-46Q14-60 18-53Q18-45 0-46" fill="#739463"/>
+        </svg>` : tileHTML(item, this.ctx.hue);
+        el.setAttribute("aria-label", item.display);
+        if(this.ctx.garden){
+          this.dragResets.push(ns.GardenPractice.draggable(el,{enabled:()=>this.alive&&!this.feeding&&!el.disabled,drop:(x,y)=>{if(ns.GardenPractice.inside(this.basket,x,y))this.offer(item,el);}}));
+          el.addEventListener('click',()=>{
+            if(this.feeding||el.disabled)return;
+            this.selected={item,el};
+            this.basket.classList.add("is-ready");this.basket.setAttribute("aria-disabled","false");
+            this.tray.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b===el)));
+          });
+        }else el.addEventListener("click", () => this.offer(item, el));
         this.tray.appendChild(el);
       }
     }
 
     offer(item, el) {
       const round = this.rounds[this.roundIndex];
-      if (this.feeding) return;
+      if (!this.alive || this.feeding || el.disabled || el.classList.contains("is-scaffolded")) return;
       if (item.id !== round.target.id) {
+        el.disabled=true; this.selected=null;
+        el.setAttribute("aria-pressed","false");
+        if(this.basket){this.basket.classList.remove("is-ready");this.basket.setAttribute("aria-disabled","true");}
         this.slips += 1;
         this.ctx.sfx("wrong");
         el.classList.remove("is-shake");
@@ -479,18 +542,21 @@
         el.classList.add("is-shake");
         this.ctx.say(round.target);
         // Scaffolded retry: the refused food quietly leaves the tray.
-        setTimeout(() => el.classList.add("is-scaffolded"), 650);
+        setTimeout(() => {if(this.alive)el.classList.add("is-scaffolded");}, 650);
         return;
       }
       this.feeding = true;
-      // The food flies into the creature's mouth.
+      // Match the delivery destination to the interaction: basket for seeds, mouth for food.
+      if(this.basket){this.basket.classList.remove("is-ready");this.basket.setAttribute("aria-disabled","true");}
       const from = el.getBoundingClientRect();
-      const mouth = this.creatureEl.getBoundingClientRect();
+      const mouth = (this.basket || this.creatureEl).getBoundingClientRect();
       el.style.setProperty("--fly-x", `${mouth.left + mouth.width / 2 - (from.left + from.width / 2)}px`);
-      el.style.setProperty("--fly-y", `${mouth.top + mouth.height * 0.68 - (from.top + from.height / 2)}px`);
+      el.style.setProperty("--fly-y", `${mouth.top + mouth.height * (this.basket ? 0.48 : 0.68) - (from.top + from.height / 2)}px`);
       el.classList.add("is-flying");
       this.ctx.sfx("correct");
       setTimeout(() => {
+        if (!this.alive) return;
+        if(this.basket)this.basket.classList.add("is-filled");
         this.creatureEl.classList.remove("is-chomp");
         void this.creatureEl.offsetWidth;
         this.creatureEl.classList.add("is-chomp");
@@ -498,14 +564,15 @@
         this.ctx.say(round.target);
       }, 420);
       setTimeout(() => {
+        if (!this.alive) return;
         this.feeding = false;
         this.roundIndex += 1;
-        if (this.roundIndex >= this.rounds.length) return this.ctx.onDone(this.slips);
+        if (this.roundIndex >= this.rounds.length) { this.alive = false; return this.ctx.onDone(this.slips); }
         this.startRound();
       }, 1000);
     }
 
-    destroy() {}
+    destroy() { this.alive = false; this.dragResets?.forEach(reset=>reset()); }
   }
 
   // ---------- Trace: write the letter with your finger ----------
@@ -522,14 +589,19 @@
       this.alive = true;
       ctx.stage.innerHTML = `
         <div class="trace-wrap">
-          <canvas class="trace-canvas"></canvas>
-          <button type="button" class="lg-round-btn trace-clear">${Art.icon("replay", 30)}</button>
+          <div class="trace-paper"><canvas class="trace-canvas" aria-label="Draw over the letter with your finger"></canvas></div>
+          <div class="trace-tools">
+            <svg class="trace-crayon" viewBox="0 0 150 40" aria-hidden="true"><path d="M8 20L29 7H128Q140 20 128 33H29Z" fill="#579475" stroke="#4a5940" stroke-width="3" stroke-linejoin="round"/><path d="M8 20L29 7V33Z" fill="#e5c68e"/><path d="M8 20L16 15V25Z" fill="#387258"/><path d="M48 8H110V32H48Z" fill="#cce4b8"/><path d="M57 13H100" stroke="#f9ffe9" stroke-width="3" stroke-linecap="round"/><path d="M73 28Q62 17 70 18Q78 18 81 28Q83 13 91 17Q95 24 81 28" fill="#65965c"/></svg>
+            <button type="button" class="lg-round-btn trace-clear" aria-label="Clear your drawing"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M10 28L27 10Q30 7 33 10L41 18Q43 21 40 24L24 40H20Z" fill="#eb9d9a" stroke="#59452e" stroke-width="3" stroke-linejoin="round"/><path d="M10 28L18 20L32 32L24 40H20Z" fill="#fff4db" stroke="#59452e" stroke-width="3"/><path d="M30 40H42" stroke="#927f62" stroke-width="3" stroke-linecap="round"/></svg></button>
+          </div>
         </div>`;
       this.canvas = ctx.stage.querySelector(".trace-canvas");
       ctx.stage.querySelector(".trace-clear").addEventListener("click", () => this.clearDrawing());
       this.drawing = false;
       this.canvas.addEventListener("pointerdown", (e) => this.penDown(e));
       this.canvas.addEventListener("pointermove", (e) => this.penMove(e));
+      this.canvas.addEventListener("pointercancel", () => { this.drawing = false; });
+      this.canvas.addEventListener("lostpointercapture", () => { this.drawing = false; });
       window.addEventListener("pointerup", (this.penUpBound = () => this.penUp()));
       // The glyph guide needs the Quran font; wait for it, then start.
       const ready = document.fonts && document.fonts.load ? document.fonts.load('100px "Amiri Quran"') : Promise.resolve();
@@ -546,9 +618,9 @@
       this.g.textAlign = "center";
       this.g.textBaseline = "middle";
       this.g.direction = "rtl";
-      this.g.fillStyle = "#dbe9f5";
+      this.g.fillStyle = "#e2e9cf";
       this.g.fillText(target.display, x, y);
-      this.g.strokeStyle = "#a9c6de";
+      this.g.strokeStyle = "#9bae80";
       this.g.lineWidth = 2;
       this.g.strokeText(target.display, x, y);
     }
@@ -571,6 +643,8 @@
     }
 
     startRound() {
+      if (!this.alive) return;
+      this.advancing = false;
       const target = this.targets[this.roundIndex];
       this.ctx.setPrompt(target);
       this.ctx.say(target);
@@ -584,7 +658,7 @@
       // Amiri Quran's font metrics put the ink far from the em-box centre,
       // so we measure the actual drawn pixels and re-draw with a correction
       // (shrinking first if the glyph would spill past the paper).
-      let size = Math.min(w, h) * 0.7;
+      let size = Math.min(w, h) * 0.95;
       this.g.clearRect(0, 0, w, h);
       this.drawGuideText(size, w / 2, h * 0.5);
       let box = this.inkBounds(w, h);
@@ -644,21 +718,22 @@
       this.brush = Math.max(20, size * 0.1);
       this.g.lineCap = "round";
       this.g.lineJoin = "round";
-      this.g.strokeStyle = `hsl(${this.ctx.hue} 70% 50%)`;
+      this.g.strokeStyle = "#4e9677";
       this.g.lineWidth = this.brush;
       this.paint = new Set(); // painted sample cells, keyed x|y
     }
 
     clearDrawing() {
-      if (this.alive) this.startRound();
+      if (this.alive && !this.advancing) this.startRound();
     }
 
     pos(e) {
       const rect = this.canvas.getBoundingClientRect();
-      return [e.clientX - rect.left, e.clientY - rect.top];
+      return [(e.clientX - rect.left) * this.canvas.width / rect.width, (e.clientY - rect.top) * this.canvas.height / rect.height];
     }
 
     penDown(e) {
+      if (!this.alive || this.advancing) return;
       this.drawing = true;
       this.last = this.pos(e);
       this.canvas.setPointerCapture?.(e.pointerId);
@@ -681,7 +756,7 @@
     }
 
     penMove(e) {
-      if (!this.drawing || !this.alive) return;
+      if (!this.drawing || !this.alive || this.advancing) return;
       const [x, y] = this.pos(e);
       this.g.beginPath();
       this.g.moveTo(this.last[0], this.last[1]);
@@ -710,7 +785,7 @@
     }
 
     penUp() {
-      if (!this.drawing || !this.alive) return;
+      if (!this.drawing || !this.alive || this.advancing) return;
       this.drawing = false;
       if (!this.guide.length) return;
       const covered = this.guide.reduce(
@@ -720,11 +795,13 @@
       const total = covered / this.guide.length;
       const missing = (this.clusters || []).filter((c) => this.clusterCoverage(c) < 0.45);
       if (total >= 0.55 && !missing.length) {
+        this.advancing = true;
         const target = this.targets[this.roundIndex];
         this.ctx.sfx("correct");
         this.ctx.confettiAt(this.canvas);
         this.ctx.say(target);
         setTimeout(() => {
+          if (!this.alive) return;
           this.roundIndex += 1;
           if (this.roundIndex >= this.targets.length) return this.finish();
           this.startRound();
@@ -792,7 +869,7 @@
       requestAnimationFrame(this.tick);
       // rAF stalls in hidden/backgrounded tabs — a plain interval guarantees
       // the round still ends on time.
-      this.endTimer = setInterval(() => this.tick(performance.now()), 500);
+      this.endTimer = setInterval(() => this.tick(performance.now(), false), 500);
     }
 
     nextTarget() {
@@ -810,8 +887,9 @@
         const el = document.createElement("button");
         el.type = "button";
         el.className = "burst-tile";
-        el.innerHTML = tileHTML(item, this.ctx.hue);
-        el.addEventListener("pointerdown", () => this.tap(item, el));
+        el.innerHTML = workshopTile(item.display,"leaf");
+        el.setAttribute("aria-label",item.display);
+        el.addEventListener("click", () => this.tap(item, el));
         this.grid.appendChild(el);
       }
     }
@@ -834,7 +912,7 @@
       }
     }
 
-    tick(now) {
+    tick(now, schedule = true) {
       if (!this.alive) return;
       const left = Math.max(0, this.endsAt - now);
       this.ringEl.style.strokeDashoffset = String(157 * (1 - left / this.duration));
@@ -845,7 +923,7 @@
         this.ctx.onDone(this.count >= 10 ? 0 : this.count >= 6 ? 2 : 3);
         return;
       }
-      requestAnimationFrame(this.tick);
+      if(schedule)requestAnimationFrame(this.tick);
     }
 
     destroy() {
@@ -862,6 +940,7 @@
   class BuildGame {
     constructor(ctx) {
       this.ctx = ctx;
+      this.alive = true;
       const pool = ctx.items.filter((i) => i.parts && i.parts.length >= 2);
       this.targets = shuffle(pool).slice(0, 4);
       this.roundIndex = 0;
@@ -870,6 +949,7 @@
     }
 
     startRound() {
+      if (!this.alive) return;
       const ctx = this.ctx;
       const target = this.targets[this.roundIndex];
       ctx.setPrompt(target);
@@ -894,21 +974,21 @@
             ${target.parts.map(() => `<span class="build-slot"></span>`).join("")}
           </div>
           <div class="build-tray">
-            ${this.tray.map((part, i) => `<button type="button" class="build-tile" data-i="${i}">${tileHTML({ display: part.display }, ctx.hue)}</button>`).join("")}
+            ${this.tray.map((part, i) => `<button type="button" class="build-tile" data-i="${i}" aria-label="${part.display}">${workshopTile(part.display)}</button>`).join("")}
           </div>
         </div>`;
       this.slots = [...ctx.stage.querySelectorAll(".build-slot")];
       for (const btn of ctx.stage.querySelectorAll(".build-tile")) {
-        btn.addEventListener("pointerdown", () => this.place(btn));
+        btn.addEventListener("click", () => this.place(btn));
       }
     }
 
     place(btn) {
       const target = this.targets[this.roundIndex];
-      if (btn.classList.contains("is-used") || this.placed.length >= target.parts.length) return;
+      if (!this.alive || btn.classList.contains("is-scaffolded") || btn.classList.contains("is-used") || this.placed.length >= target.parts.length) return;
       const part = this.tray[Number(btn.dataset.i)];
       const slot = this.slots[this.placed.length];
-      slot.innerHTML = tileHTML({ display: part.display }, this.ctx.hue);
+      slot.innerHTML = workshopTile(part.display);
       slot.classList.add("is-filled");
       btn.classList.add("is-used");
       this.placed.push({ part, btn, slot });
@@ -920,10 +1000,14 @@
         this.ctx.sfx("correct");
         this.ctx.confettiAt(this.ctx.stage.querySelector(".build-slots"));
         // The payoff: the parts become the whole, and the whole speaks.
-        setTimeout(() => this.ctx.say(target), 500);
+        setTimeout(() => { if(!this.alive)return;
+          this.ctx.stage.querySelector('.build-slots').innerHTML=`<div class="build-whole">${workshopTile(target.display)}</div>`;
+          this.ctx.say(target);
+        }, 500);
         setTimeout(() => {
+        if (!this.alive) return;
           this.roundIndex += 1;
-          if (this.roundIndex >= this.targets.length) return this.ctx.onDone(this.slips);
+          if (this.roundIndex >= this.targets.length) { this.alive=false; return this.ctx.onDone(this.slips); }
           this.startRound();
         }, 1400);
       } else {
@@ -938,6 +1022,7 @@
           (p) => !target.parts.some((tp) => tp.display === p.part.display),
         );
         setTimeout(() => {
+        if (!this.alive) return;
           for (const p of this.placed) {
             p.slot.innerHTML = "";
             p.slot.classList.remove("is-filled");
@@ -950,7 +1035,7 @@
       }
     }
 
-    destroy() {}
+    destroy() { this.alive = false; this.stopHint?.(); }
   }
 
   // ---------- Blend Machine: drag letter and vowel together, hear them fuse ----------
@@ -962,6 +1047,7 @@
   class BlendGame {
     constructor(ctx) {
       this.ctx = ctx;
+      this.alive = true;
       const pool = ctx.items.filter((i) => i.parts && i.parts.length === 2);
       const targets = shuffle(pool).slice(0, 4);
       while (targets.length < 4 && pool.length) targets.push(pool[targets.length % pool.length]);
@@ -981,6 +1067,7 @@
     }
 
     startRound() {
+      if (!this.alive) return;
       const ctx = this.ctx;
       const { target, decoy } = this.rounds[this.roundIndex];
       ctx.setPrompt(target);
@@ -999,8 +1086,8 @@
           ${parts
             .map(
               (p, i) => `
-            <button type="button" class="blend-part" data-i="${i}" data-kind="${p.kind}"
-              style="left:${p.x}%; top:${p.y}%">${tileHTML({ display: p.part.display }, ctx.hue)}</button>`,
+            <button type="button" class="blend-part" data-i="${i}" data-kind="${p.kind}" aria-label="${p.part.display}"
+              style="left:${p.x}%; top:${p.y}%">${workshopTile(p.part.display)}</button>`,
             )
             .join("")}
         </div>`;
@@ -1009,6 +1096,7 @@
       this.parts = parts;
       this.els = [...ctx.stage.querySelectorAll(".blend-part")];
       this.merging = false;
+      this.retrying = false;
       this.selected = null;
       this.els.forEach((el) => this.wireDrag(el));
       // Nudge the pieces toward the middle of the machine so "bring these
@@ -1028,7 +1116,7 @@
       let moved = false;
 
       el.addEventListener("pointerdown", (e) => {
-        if (this.merging || el.classList.contains("is-gone")) return;
+        if (!this.alive || this.merging || this.retrying || el.classList.contains("is-scaffolded") || el.classList.contains("is-gone")) return;
         el.setPointerCapture(e.pointerId);
         startX = e.clientX;
         startY = e.clientY;
@@ -1044,8 +1132,9 @@
 
       el.addEventListener("pointermove", (e) => {
         if (!el.classList.contains("is-held") || this.merging) return;
-        const dx = e.clientX - startX;
-        const dy = e.clientY - startY;
+        const bounds = this.scene.getBoundingClientRect();
+        const dx = (e.clientX - startX) * this.scene.clientWidth / bounds.width;
+        const dy = (e.clientY - startY) * this.scene.clientHeight / bounds.height;
         if (Math.hypot(dx, dy) > 8) moved = true;
         if (moved) {
           el.style.left = `${baseL + dx}px`;
@@ -1055,6 +1144,11 @@
         }
       });
 
+      el.addEventListener("pointercancel", () => {
+        el.classList.remove("is-held");
+        this.els.forEach(o=>o.classList.remove("is-near"));
+        if(this.alive&&!this.merging)this.springBack(el);
+      });
       el.addEventListener("pointerup", () => {
         if (!el.classList.contains("is-held")) return;
         el.classList.remove("is-held");
@@ -1103,6 +1197,7 @@
     }
 
     tryBlend(a, b) {
+      if (!this.alive || this.merging || this.retrying) return;
       const { target } = this.rounds[this.roundIndex];
       const pa = this.parts[Number(a.dataset.i)];
       const pb = this.parts[Number(b.dataset.i)];
@@ -1115,6 +1210,7 @@
         displays.has(target.parts[0].display) && displays.has(target.parts[1].display);
 
       if (!isTarget) {
+        this.retrying = true;
         this.slips += 1;
         this.ctx.sfx("wrong");
         a.classList.add("is-shake");
@@ -1125,6 +1221,8 @@
           return p.kind === "vowel" && p.part.display !== target.parts[1].display;
         });
         setTimeout(() => {
+        if (!this.alive) return;
+          this.retrying = false;
           a.classList.remove("is-shake");
           b.classList.remove("is-shake");
           this.springBack(a);
@@ -1135,6 +1233,7 @@
         return;
       }
 
+      this.stopHint?.();
       // The fuse: both tiles rush to the middle, squash, and the syllable is born.
       this.merging = true;
       const scene = this.scene.getBoundingClientRect();
@@ -1144,25 +1243,28 @@
         el.style.top = "46%";
       }
       setTimeout(() => {
+        if (!this.alive) return;
         a.classList.add("is-gone");
         b.classList.add("is-gone");
         const born = document.createElement("div");
         born.className = "blend-born";
-        born.innerHTML = tileHTML({ display: target.display }, this.ctx.hue);
+        born.innerHTML = workshopTile(target.display);
         this.scene.appendChild(born);
         this.ctx.sfx("correct");
         this.ctx.say(target);
         this.ctx.confettiAt(born);
       }, 420);
       setTimeout(() => {
+        if (!this.alive) return;
         this.roundIndex += 1;
-        if (this.roundIndex >= this.rounds.length) return this.ctx.onDone(this.slips);
+        if (this.roundIndex >= this.rounds.length) { this.alive=false; return this.ctx.onDone(this.slips); }
         this.merging = false;
+      this.retrying = false;
         this.startRound();
       }, 1800);
     }
 
-    destroy() {}
+    destroy() { this.alive = false; this.stopHint?.(); }
   }
 
   // ---------- Un-fuse: pull a joined shape apart, find who was hiding ----------
@@ -1219,6 +1321,7 @@
   class UnfuseGame {
     constructor(ctx) {
       this.ctx = ctx;
+      this.alive = true;
       const pool = ctx.items.filter((i) => i.parts && i.parts.length === 2);
       this.targets = shuffle(pool).slice(0, 4);
       while (this.targets.length < 4 && pool.length)
@@ -1229,6 +1332,8 @@
     }
 
     startRound() {
+      if(!this.alive)return;
+      this.busy=false;
       const ctx = this.ctx;
       const target = this.targets[this.roundIndex];
       ctx.setPrompt(target);
@@ -1244,15 +1349,15 @@
         <div class="unfuse-scene">
           <div class="unfuse-pull">
             ${arrow("l")}
-            <button type="button" class="unfuse-whole">
-              ${tileHTML({ display: target.display }, ctx.hue)}
+            <button type="button" class="unfuse-whole" aria-label="Pull the letters apart">
+              ${workshopTile(target.display)}
               <span class="unfuse-seam" aria-hidden="true"></span>
             </button>
             ${arrow("r")}
           </div>
           <div class="unfuse-halves" hidden>
-            <span class="unfuse-half is-r">${tileHTML({ display: target.parts[0].display }, ctx.hue)}</span>
-            <span class="unfuse-half is-l">${tileHTML({ display: target.parts[1].display }, ctx.hue)}</span>
+            <span class="unfuse-half is-r">${workshopTile(target.parts[0].display)}</span>
+            <span class="unfuse-half is-l">${workshopTile(target.parts[1].display)}</span>
           </div>
           <div class="unfuse-quiz" hidden></div>
         </div>`;
@@ -1264,7 +1369,7 @@
       // Demonstrate the pull on a loop until the child manages one themselves.
       clearInterval(this.hintTimer);
       const tug = () => {
-        if (pulled || !whole.isConnected) return clearInterval(this.hintTimer);
+        if (!this.alive || pulled || !whole.isConnected) return clearInterval(this.hintTimer);
         whole.classList.remove("is-tugging");
         void whole.offsetWidth;
         whole.classList.add("is-tugging");
@@ -1276,6 +1381,7 @@
         whole.classList.remove("is-tugging");
       };
       whole.addEventListener("pointerdown", (e) => {
+        if(!this.alive||this.busy)return;
         whole.setPointerCapture(e.pointerId);
         sx = e.clientX;
         sy = e.clientY;
@@ -1293,6 +1399,7 @@
           this.split();
         }
       });
+      whole.addEventListener("pointercancel",()=>{whole.classList.remove("is-held");whole.style.setProperty("--strain","0");});
       whole.addEventListener("pointerup", () => {
         whole.classList.remove("is-held");
         whole.style.setProperty("--strain", "0");
@@ -1317,6 +1424,8 @@
     }
 
     split() {
+      if(!this.alive||this.busy)return;
+      this.busy=true;
       const ctx = this.ctx;
       clearInterval(this.hintTimer);
       const target = this.targets[this.roundIndex];
@@ -1329,13 +1438,15 @@
       // Each freed letter introduces itself, right one (read first) first.
       ctx.say({ display: target.parts[0].display, speak: target.parts[0].speak });
       setTimeout(
-        () => ctx.say({ display: target.parts[1].display, speak: target.parts[1].speak }),
+        () => {if(this.alive)ctx.say({ display: target.parts[1].display, speak: target.parts[1].speak });},
         900,
       );
       setTimeout(() => this.quiz(), 1900);
     }
 
     quiz() {
+      if(!this.alive)return;
+      this.busy=false;
       const ctx = this.ctx;
       const target = this.targets[this.roundIndex];
       // Ask for one of the two freed letters; a third letter crashes the
@@ -1356,21 +1467,25 @@
       ctx.stage.querySelector(".unfuse-halves").hidden = true;
       quizEl.hidden = false;
       quizEl.innerHTML = options
-        .map((o, i) => `<button type="button" class="unfuse-pick" data-i="${i}">${tileHTML({ display: o.display }, ctx.hue)}</button>`)
+        .map((o, i) => `<button type="button" class="unfuse-pick" data-i="${i}" aria-label="${o.display}">${workshopTile(o.display)}</button>`)
         .join("");
       for (const btn of quizEl.querySelectorAll(".unfuse-pick")) {
-        btn.addEventListener("pointerdown", () => {
+        btn.addEventListener("click", () => {
+          if(!this.alive||this.busy||btn.disabled)return;
           const o = options[Number(btn.dataset.i)];
           if (o.display === wanted.display) {
+            this.busy=true;
             ctx.sfx("correct");
             ctx.confettiAt(btn);
             ctx.say({ display: o.display, speak: o.speak });
             setTimeout(() => {
+              if(!this.alive)return;
               this.roundIndex += 1;
-              if (this.roundIndex >= this.targets.length) return ctx.onDone(this.slips);
+              if (this.roundIndex >= this.targets.length) {this.alive=false;return ctx.onDone(this.slips);}
               this.startRound();
             }, 900);
           } else {
+            btn.disabled=true;
             this.slips += 1;
             ctx.sfx("wrong");
             const svg = btn.querySelector("svg");
@@ -1385,7 +1500,7 @@
       }
     }
 
-    destroy() {}
+    destroy() { this.alive=false; this.stopHint?.(); clearInterval(this.hintTimer); }
   }
 
   // ---------- Chain: grow a two-letter join into three ----------
@@ -1395,6 +1510,7 @@
   class ChainGame {
     constructor(ctx) {
       this.ctx = ctx;
+      this.alive = true;
       const pool = ctx.items.filter((i) => i.parts && i.parts.length === 2 && i.join2);
       const singles = (ctx.extraItems || []).slice();
       this.rounds = shuffle(pool).slice(0, 4).map((pair, r) => {
@@ -1417,6 +1533,8 @@
     }
 
     startRound() {
+      if(!this.alive)return;
+      this.busy=false;
       const ctx = this.ctx;
       const { pair, third, decoy } = this.rounds[this.roundIndex];
       const chain = {
@@ -1432,11 +1550,11 @@
       ctx.stage.innerHTML = `
         <div class="blend-scene chain-scene">
           <div class="blend-glow"></div>
-          <span class="chain-base">${tileHTML({ display: pair.display }, ctx.hue)}</span>
+          <span class="chain-base">${workshopTile(pair.display)}</span>
           ${thirds
             .map(
-              (t, i) => `<button type="button" class="blend-part chain-third" data-i="${i}"
-                style="left:${t.x}%; top:${t.y}%">${tileHTML({ display: t.l.display }, ctx.hue)}</button>`,
+              (t, i) => `<button type="button" class="blend-part chain-third" data-i="${i}" aria-label="${t.l.display}"
+                style="left:${t.x}%; top:${t.y}%">${workshopTile(t.l.display)}</button>`,
             )
             .join("")}
         </div>`;
@@ -1455,7 +1573,7 @@
       let baseT = 0;
       let moved = false;
       el.addEventListener("pointerdown", (e) => {
-        if (el.classList.contains("is-gone") || el.classList.contains("is-scaffolded")) return;
+        if (!this.alive || this.busy || el.classList.contains("is-gone") || el.classList.contains("is-scaffolded")) return;
         el.setPointerCapture(e.pointerId);
         sx = e.clientX;
         sy = e.clientY;
@@ -1469,8 +1587,9 @@
       });
       el.addEventListener("pointermove", (e) => {
         if (!el.classList.contains("is-held")) return;
-        const dx = e.clientX - sx;
-        const dy = e.clientY - sy;
+        const scene=this.base.parentElement;const bounds=scene.getBoundingClientRect();
+        const dx = (e.clientX - sx)*scene.clientWidth/bounds.width;
+        const dy = (e.clientY - sy)*scene.clientHeight/bounds.height;
         if (Math.hypot(dx, dy) > 8) moved = true;
         if (moved) {
           el.style.left = `${baseL + dx}px`;
@@ -1478,6 +1597,7 @@
           this.base.classList.toggle("is-near", this.hitsBase(el));
         }
       });
+      el.addEventListener("pointercancel",()=>{el.classList.remove("is-held");this.base.classList.remove("is-near");if(this.alive&&!this.busy)this.springHome(el);});
       el.addEventListener("pointerup", () => {
         if (!el.classList.contains("is-held")) return;
         el.classList.remove("is-held");
@@ -1506,6 +1626,9 @@
     }
 
     tryChain(el) {
+      if(!this.alive||this.busy||el.classList.contains("is-scaffolded"))return;
+      this.busy=true;
+      this.stopHint?.();
       const ctx = this.ctx;
       const { third } = this.rounds[this.roundIndex];
       const picked = this.thirds[Number(el.dataset.i)].l;
@@ -1517,6 +1640,8 @@
         void svg.offsetWidth;
         svg.classList.add("is-shake");
         setTimeout(() => {
+              if(!this.alive)return;
+          this.busy=false;
           this.springHome(el);
           el.classList.add("is-scaffolded");
           ctx.say(this.chain);
@@ -1527,21 +1652,23 @@
       el.style.left = "50%";
       el.style.top = "46%";
       setTimeout(() => {
+              if(!this.alive)return;
         el.classList.add("is-gone");
-        this.base.innerHTML = tileHTML({ display: this.chain.display }, ctx.hue);
+        this.base.innerHTML = workshopTile(this.chain.display);
         this.base.classList.add("is-grown");
         ctx.sfx("correct");
         ctx.say(this.chain);
         ctx.confettiAt(this.base);
       }, 380);
       setTimeout(() => {
+              if(!this.alive)return;
         this.roundIndex += 1;
-        if (this.roundIndex >= this.rounds.length) return ctx.onDone(this.slips);
+        if (this.roundIndex >= this.rounds.length) {this.alive=false;return ctx.onDone(this.slips);}
         this.startRound();
       }, 1900);
     }
 
-    destroy() {}
+    destroy() { this.alive=false; this.stopHint?.(); clearInterval(this.hintTimer); }
   }
 
   // ---------- Costume parade: one letter, three outfits ----------
@@ -1552,6 +1679,7 @@
   class ParadeGame {
     constructor(ctx) {
       this.ctx = ctx;
+      this.alive = true;
       const TATWEEL = "ـ";
       const joiners = (ctx.extraItems || []).filter((l) => l.joins);
       const pool = joiners.length
@@ -1565,19 +1693,21 @@
     }
 
     startRound() {
+      if(!this.alive)return;
+      this.busy=false;
       const ctx = this.ctx;
       const letter = this.letters[this.roundIndex];
       const forms = this.formsOf(letter.display);
       ctx.say({ display: letter.display, speak: letter.speak });
       ctx.stage.innerHTML = `
         <div class="parade-scene">
-          <span class="parade-star">${tileHTML({ display: letter.display }, ctx.hue)}</span>
+          <span class="parade-star">${workshopTile(letter.display)}</span>
           <div class="parade-spots" dir="rtl">
             ${forms
               .map(
-                (f, i) => `<button type="button" class="parade-spot" data-i="${i}">
-                  <span class="parade-mystery">✨</span>
-                  <span class="parade-form" hidden>${tileHTML({ display: f }, ctx.hue)}</span>
+                (f, i) => `<button type="button" class="parade-spot" data-i="${i}" aria-label="Reveal letter form ${i+1}">
+                  <span class="parade-mystery" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M15 49V20Q32 7 49 20V49" fill="#dce7bd" stroke="#7c9163" stroke-width="3"/><path d="M31 16V49M15 49H49" stroke="#7c9163" stroke-width="3"/><path d="M23 32L18 36L23 40M41 32L46 36L41 40" fill="none" stroke="#fffaf0" stroke-width="3" stroke-linecap="round"/></svg></span>
+                  <span class="parade-form" hidden>${workshopTile(f)}</span>
                 </button>`,
               )
               .join("")}
@@ -1585,8 +1715,8 @@
         </div>`;
       this.dressed = 0;
       for (const spot of ctx.stage.querySelectorAll(".parade-spot")) {
-        spot.addEventListener("pointerdown", () => {
-          if (!spot.querySelector(".parade-form").hidden) return;
+        spot.addEventListener("click", () => {
+          if (!this.alive || !spot.querySelector(".parade-form").hidden) return;
           spot.querySelector(".parade-mystery").hidden = true;
           spot.querySelector(".parade-form").hidden = false;
           spot.classList.add("is-dressed");
@@ -1596,8 +1726,9 @@
           if (this.dressed >= 3) {
             ctx.confettiAt(ctx.stage.querySelector(".parade-spots"));
             setTimeout(() => {
+              if(!this.alive)return;
               this.roundIndex += 1;
-              if (this.roundIndex >= this.letters.length) return ctx.onDone(0);
+              if (this.roundIndex >= this.letters.length) {this.alive=false;return ctx.onDone(0);}
               this.startRound();
             }, 1200);
           }
@@ -1605,9 +1736,10 @@
       }
     }
 
-    destroy() {}
+    destroy() { this.alive=false; this.stopHint?.(); clearInterval(this.hintTimer); }
   }
 
+  ns.LettersRoundBuilder = buildRounds;
   ns.LettersMiniGames = {
     pop: PopGame,
     catch: CatchGame,
