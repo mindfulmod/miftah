@@ -456,7 +456,7 @@
     //   - the edge that has more content fades out, so content visibly continues
     //   - snap points make a swipe land cleanly instead of drifting
     //   - a one-time nudge performs the swipe once, on the child's behalf
-    wireShelf(shelf) {
+    wireShelf(shelf, { demonstrate = true } = {}) {
       const sync = () => {
         const max = shelf.scrollWidth - shelf.clientWidth;
         if (max <= 4) {
@@ -470,12 +470,13 @@
       shelf.addEventListener("scroll", sync, { passive: true });
       // Layout may not be settled on the frame the screen mounts.
       requestAnimationFrame(() => {
-        if (!sync() || !shelf.isConnected) return;
+        if (!sync() || !shelf.isConnected || !demonstrate || this.prefersReducedMotion()) return;
         // Demonstrate once per screen, and never fight a child already swiping.
         let touched = false;
-        shelf.addEventListener("pointerdown", () => (touched = true), { once: true, passive: true });
+        for(const type of ['pointerdown','focusin','wheel'])
+          shelf.addEventListener(type, () => (touched = true), { once: true, passive: true });
         setTimeout(() => {
-          if (touched || !shelf.isConnected || shelf.scrollLeft > 4) return;
+          if (touched || !shelf.isConnected || shelf.scrollLeft > 4 || this.prefersReducedMotion()) return;
           try {
             shelf.scrollTo({ left: 54, behavior: "smooth" });
             setTimeout(() => {
@@ -491,6 +492,13 @@
     // The pet's room: the body shop (new species bought with stars), the
     // dress-up shelf, and the tap-to-recite thought bubble.
     renderPet() {
+      const previous=this.root.querySelector('.lg-pet');
+      const shelfPositions=previous?[...previous.querySelectorAll('.pet-shelf')].map(shelf=>shelf.scrollLeft):[];
+      const roomTop=previous?.querySelector('.pet-room')?.scrollTop || 0;
+      const focused=previous?.contains(document.activeElement)?document.activeElement:null;
+      const focusKey=focused?.dataset.body?`[data-body="${focused.dataset.body}"]`:
+        focused?.dataset.acc?`[data-acc="${focused.dataset.acc}"]`:
+        focused?.dataset.petHue?`[data-pet-hue="${focused.dataset.petHue}"]`:null;
       const worn = this.pet.worn || [];
       const species = this.pet.species || "blob";
       const petHues = [200, 320, 95, 268, 28];
@@ -498,16 +506,18 @@
       const ownedBodies = this.pet.bodies || (this.pet.bodies = ["blob"]);
       const bodyShelf = ns.LETTERS_BODIES.map((b) => {
         const owned = b.cost === 0 || ownedBodies.includes(b.id);
-        return `<button type="button" class="pet-acc${owned ? " is-owned" : ""}${species === b.id ? " is-worn" : ""}" aria-label="${b.name || b.id}" data-body="${b.id}">
+        return `<button type="button" class="pet-acc${owned ? " is-owned" : ""}${species === b.id ? " is-worn" : ""}" aria-label="${b.name || b.id}${owned?'':`, ${b.cost} stars`}" aria-pressed="${species === b.id}" data-body="${b.id}">
           <span class="pet-acc-art">${Art.pet({ hue: this.pet.hue, species: b.id, stage: 1, size: 54 })}</span>
+          ${species===b.id?`<span class="pet-selected-mark" aria-hidden="true">${Art.icon('check',16)}</span>`:''}
           ${owned ? "" : `<span class="pet-acc-cost">${Art.icon("star", 12)} ${b.cost}</span>`}
         </button>`;
       }).join("");
       const shelf = ns.LETTERS_ACCESSORIES.map((acc) => {
         const owned = (this.pet.accessories || []).includes(acc.id);
         const wearing = worn.includes(acc.id);
-        return `<button type="button" class="pet-acc${owned ? " is-owned" : ""}${wearing ? " is-worn" : ""}" data-acc="${acc.id}">
+        return `<button type="button" class="pet-acc${owned ? " is-owned" : ""}${wearing ? " is-worn" : ""}" data-acc="${acc.id}" aria-label="${acc.id}${owned?'':`, ${acc.cost} stars`}" aria-pressed="${wearing}">
           <span class="pet-acc-art">${Art.pet({ hue: this.pet.hue, species, stage: 1, worn: [acc.id], size: 62 })}</span>
+          ${wearing?`<span class="pet-selected-mark" aria-hidden="true">${Art.icon('check',16)}</span>`:''}
           ${owned ? "" : `<span class="pet-acc-cost">${Art.icon("star", 12)} ${acc.cost}</span>`}
         </button>`;
       }).join("");
@@ -531,7 +541,7 @@
           <div class="pet-racks">
             <div class="pet-color-rack lg-panel" aria-label="Pet color">
               <span class="pet-color-icon" aria-hidden="true">${Art.icon("flower",24)}</span>
-              <div class="pet-color-options">${petHues.map((h) => `<button type="button" class="pet-color-swatch${this.pet.hue === h ? " is-picked" : ""}" data-pet-hue="${h}" style="--h:${h}" aria-label="${petHueNames[h]}" title="${petHueNames[h]}"></button>`).join("")}</div>
+              <div class="pet-color-options">${petHues.map((h) => `<button type="button" class="pet-color-swatch${this.pet.hue === h ? " is-picked" : ""}" data-pet-hue="${h}" aria-pressed="${this.pet.hue === h}" style="--h:${h}" aria-label="${petHueNames[h]}" title="${petHueNames[h]}"></button>`).join("")}</div>
             </div>
             <div class="pet-shelf pet-bodies lg-panel">${bodyShelf}</div>
             <div class="pet-shelf lg-panel">${shelf}</div>
@@ -539,7 +549,12 @@
         </div>`,
       );
       this.wireTopBar(el);
-      for (const shelf of el.querySelectorAll(".pet-shelf")) this.wireShelf(shelf);
+      [...el.querySelectorAll('.pet-shelf')].forEach((shelf,i)=>{
+        shelf.scrollLeft=shelfPositions[i] || 0;
+        this.wireShelf(shelf,{demonstrate:!previous});
+      });
+      el.querySelector('.pet-room').scrollTop=roomTop;
+      if(focusKey)el.querySelector(focusKey)?.focus({preventScroll:true});
       for (const swatch of el.querySelectorAll("[data-pet-hue]")) {
         swatch.addEventListener("click", () => {
           this.pet.hue = Number(swatch.dataset.petHue);
@@ -549,7 +564,7 @@
         });
       }
       const bubble = el.querySelector(".pet-bubble");
-      el.querySelector(".pet-big").addEventListener("pointerdown", () => {
+      el.querySelector(".pet-big").addEventListener("click", () => {
         bubble.hidden = false;
         this.petRecite(bubble);
         el.querySelector(".pet-big").classList.remove("is-hop");
@@ -789,6 +804,7 @@
       // butterfly/firefly layer is invisible behind the play panel anyway —
       // stop compositing it so game frames get the whole budget.
       document.body.classList.toggle("lg-in-game", className === "lg-play");
+      document.body.classList.toggle("lg-reward-screen", className === "lg-stars" || className === "lg-party");
       const garden = this.session?.world.id === "pack-boat" && ["lg-meet", "lg-play", "lg-stars", "lg-party"].includes(className);
       const step = this.session?.gameIndex || 0;
       const activity = this.session?.plan?.[step]?.game || this.session?.world.games[step];
@@ -965,16 +981,16 @@
     // Tiny biome scenery decals stamped along the trail — same tactile SVG
     // language as the rest of the garden (plum ink, candy fills, no black).
     biomeDeco(biome) {
-      const ink = "#3a2c48";
+      // A miniature habitat at the existing decorative anchor. Silhouettes,
+      // not extra size, distinguish the region from its neighboring stop.
       const D = {
-        meadow: `<svg viewBox="0 0 64 48"><g stroke="${ink}" stroke-width="2.5" stroke-linecap="round"><path d="M14 42V26M32 44V22M50 42V28" fill="none"/><ellipse cx="14" cy="21" rx="6" ry="7" fill="#ff8fb1"/><ellipse cx="32" cy="16" rx="7" ry="8" fill="#ffc22e"/><ellipse cx="50" cy="23" rx="6" ry="7" fill="#b48be8"/></g></svg>`,
-        orchard: `<svg viewBox="0 0 64 48"><g stroke="${ink}" stroke-width="2.5"><rect x="28" y="28" width="8" height="16" rx="3" fill="#b07a4a"/><circle cx="32" cy="19" r="15" fill="#5cc23e"/><circle cx="25" cy="16" r="3.4" fill="#ff6b5e" stroke-width="2.4"/><circle cx="38" cy="22" r="3.4" fill="#ff6b5e" stroke-width="2.4"/><circle cx="33" cy="11" r="3.4" fill="#ffc22e" stroke-width="2.4"/></g></svg>`,
-        lagoon: `<svg viewBox="0 0 64 48"><g stroke="${ink}" stroke-width="2.5" stroke-linecap="round" fill="none"><path d="M18 44V20M18 20c-5-1-7-5-7-9 5 0 8 3 7 9ZM26 44V26m0 0c5-1 7-5 7-9-5 0-8 3-7 9Z"/><path d="M8 44c6-4 12-4 18 0s12 4 18 0 8-3 12-1" stroke="#4fb3e8"/></g></svg>`,
-        night: `<svg viewBox="0 0 64 48"><g stroke="${ink}" stroke-width="2.5"><path d="M38 8a14 14 0 1 0 12 21A16 16 0 0 1 38 8Z" fill="#ffe9a8"/><circle cx="16" cy="14" r="2.4" fill="#fff7d9" stroke="none"/><circle cx="22" cy="30" r="1.8" fill="#c9f26e" stroke="none"/><circle cx="12" cy="38" r="1.8" fill="#c9f26e" stroke="none"/></g></svg>`,
-        peaks: `<svg viewBox="0 0 64 48"><g stroke="${ink}" stroke-width="2.5" stroke-linejoin="round"><path d="M6 44 22 16l14 28Z" fill="#9fb7d9"/><path d="M28 44 44 10l16 34Z" fill="#c3d3ea"/><path d="M44 10l5 10-4 2-4-3-3 2Z" fill="#fffaf0"/></g></svg>`,
-        river: `<svg viewBox="0 0 64 48"><g stroke="${ink}" stroke-width="2.5" stroke-linecap="round" fill="none"><path d="M6 18c7-5 14-5 21 0s14 5 21 0 8-4 10-3" stroke="#4fb3e8"/><path d="M6 30c7-5 14-5 21 0s14 5 21 0" stroke="#7fd0f2"/><ellipse cx="18" cy="42" rx="7" ry="4" fill="#e8d9b8"/><ellipse cx="40" cy="43" rx="5" ry="3" fill="#d9c49a"/></g></svg>`,
+        orchard: `<ellipse cx="32" cy="43" rx="24" ry="4" fill="#7ca66c" opacity=".4"/><path d="M30 42V25M34 32L42 24M30 33L21 25" fill="none" stroke="#90724d" stroke-width="5" stroke-linecap="round"/><path d="M15 28Q5 22 12 14Q10 5 22 6Q30-1 38 6Q50 3 51 15Q61 21 49 28Q39 33 32 28Q23 34 15 28Z" fill="#80a963" stroke="#587a4d" stroke-width="1.8"/><path d="M14 17Q15 9 23 11Q31 4 37 10Q44 7 47 14" fill="none" stroke="#b8cd84" stroke-width="3" stroke-linecap="round"/><g fill="#df8a6d" stroke="#a36c52" stroke-width="1.2"><circle cx="21" cy="21" r="4"/><circle cx="40" cy="24" r="4"/><circle cx="34" cy="13" r="3.6"/></g><path d="M20 16L22 18M39 19L42 20M33 8L35 10" stroke="#5d794b" stroke-width="1.5" stroke-linecap="round"/>`,
+        lagoon: `<path d="M5 39Q10 31 29 33Q48 29 59 38Q61 44 34 45Q9 47 5 39Z" fill="#8ac9cb" stroke="#609e9a" stroke-width="1.5"/><path d="M19 40Q20 22 18 9M25 40Q31 21 31 14M15 40Q13 29 7 23" fill="none" stroke="#628954" stroke-width="2.2" stroke-linecap="round"/><path d="M19 34Q8 28 10 15Q19 24 19 34M25 37Q39 31 41 20Q29 27 25 37" fill="#8da965"/><path d="M17 8V17M31 12V21" stroke="#ad8b5c" stroke-width="5" stroke-linecap="round"/><path d="M35 40H49M10 41H17" stroke="#d8efdf" stroke-width="1.8" stroke-linecap="round"/><path d="M42 32Q52 26 56 33L49 35Z" fill="#759c66"/><path d="M48 30Q43 23 48 24Q51 19 53 25Q58 25 53 31Z" fill="#e5acb5" stroke="#ac8490" stroke-width="1"/>`,
+        night: `<path d="M8 42Q16 32 30 36Q44 31 56 41Q47 47 32 45Q14 47 8 42Z" fill="#789888"/><path d="M38 5C21 1 17 21 28 27Q40 34 48 21C34 27 27 11 38 5Z" fill="#eddb9c" stroke="#ac9a69" stroke-width="1.5"/><path d="M18 40Q19 32 15 29M41 42Q43 35 48 32" fill="none" stroke="#526e62" stroke-width="2" stroke-linecap="round"/><path d="M17 36Q9 35 10 29Q17 29 17 36M44 37Q54 37 53 30Q46 30 44 37" fill="#b0c39a"/><g fill="#f6e8a5"><circle cx="13" cy="17" r="2"/><circle cx="50" cy="12" r="1.5"/><circle cx="28" cy="37" r="1.6"/></g><g stroke="#c3cfb0" stroke-width="1" fill="none"><path d="M10 13L8 11M16 13L18 11M48 8L46 6M52 8L54 6"/></g>`,
+        peaks: `<path d="M4 43L21 12L39 43Z" fill="#a7b6b3" stroke="#7b9290" stroke-width="1.6" stroke-linejoin="round"/><path d="M21 12L25 43H39Z" fill="#8aa0a0"/><path d="M23 43L42 5L61 43Z" fill="#c4d0c7" stroke="#7b9290" stroke-width="1.6" stroke-linejoin="round"/><path d="M42 5L44 42H61Z" fill="#9db4b0"/><path d="M42 5L50 21L44 18L40 23L34 21Z" fill="#fff8e4" stroke="#a4b8ad" stroke-width="1"/><path d="M14 26L21 12L28 25L22 22L19 27Z" fill="#e6eddf"/><path d="M3 43Q17 37 30 42Q44 35 61 43L58 46H7Z" fill="#87a575"/>`,
+        river: `<path d="M28 4Q15 12 32 20Q53 31 36 44H56Q66 29 45 20Q26 11 41 4Z" fill="#d7c9a5"/><path d="M31 4Q20 12 36 20Q56 31 40 44H52Q63 30 41 20Q23 11 38 4Z" fill="#8ec9cb"/><path d="M30 10Q28 14 37 18M44 25Q53 31 48 35" fill="none" stroke="#d8efdf" stroke-width="2" stroke-linecap="round"/><path d="M5 40Q7 31 17 34Q23 29 28 39Q17 46 5 40Z" fill="#a5b2a0" stroke="#7e9182" stroke-width="1.4"/><path d="M9 37Q13 34 17 36" fill="none" stroke="#e0e5ca" stroke-width="2" stroke-linecap="round"/><path d="M18 32Q20 20 15 16M21 34Q24 24 29 22" fill="none" stroke="#769a67" stroke-width="2" stroke-linecap="round"/><ellipse cx="29" cy="43" rx="5" ry="2.8" fill="#c0baa1"/>`,
       };
-      return biome === "meadow" ? ns.LettersGardenArt.flowerBed({size:76}) : D[biome] || "";
+      return biome === "meadow" ? ns.LettersGardenArt.flowerBed({size:76}) : D[biome] ? `<svg viewBox="0 0 64 48" aria-hidden="true">${D[biome]}</svg>` : "";
     }
 
     // The mastery garden (spec: specs/02): every chapter grows a plant beside
@@ -1589,9 +1605,36 @@
     renderPracticeGarden() {
       const world=this.worlds.worlds.find(w=>w.id==='pack-boat');
       this.session={world,items:world.items()};
-      const el=this.screen('lg-meet',`${this.topBar()}<div class="practice-garden-hub"><div class="practice-garden-choices">${['Feed','DotGarden','GardenPaths'].map((kind,i)=>`<button type="button" data-kind="${kind}" aria-label="${['Feed a friend','Dot Garden: place the dots','Garden Paths: draw letters'][i]}">${ns.LettersGardenArt.practicePicture(kind)}<span class="practice-play" aria-hidden="true">${Art.icon('next',24)}</span></button>`).join('')}</div></div>`);
+      const choices=['Feed','DotGarden','GardenPaths'];
+      if(this.workshopWorlds().length)choices.push('Workshop');
+      const el=this.screen('lg-meet',`${this.topBar()}<div class="practice-garden-hub"><div class="practice-garden-choices">${choices.map((kind,i)=>`<button type="button" data-kind="${kind}" aria-label="${['Feed a friend','Dot Garden: place the dots','Garden Paths: draw letters','Word Workshop: build familiar sounds'][i]}">${ns.LettersGardenArt.practicePicture(kind)}<span class="practice-play" aria-hidden="true">${Art.icon('next',24)}</span></button>`).join('')}</div></div>`);
       this.wireTopBar(el);
-      el.querySelectorAll('[data-kind]').forEach(b=>b.onclick=()=>this.startPractice(b.dataset.kind,()=>this.renderPracticeGarden()));
+      el.querySelectorAll('[data-kind]').forEach(b=>b.onclick=()=>b.dataset.kind==='Workshop'?this.renderWorkshop():this.startPractice(b.dataset.kind,()=>this.renderPracticeGarden()));
+    }
+
+    // Offer only chapters whose Build mechanic is already familiar. Keep each
+    // chapter's own item pool together so unlike sound rules are not mixed.
+    workshopWorlds() {
+      return this.worlds.worlds.filter(world=>world.games.includes('build') &&
+        ((this.progress.done || []).includes(world.id) || this.bests[`${world.id}:build`] > 0))
+        .map(world=>({world,items:world.items().filter(item=>item.parts?.length>=2)}))
+        .filter(entry=>entry.items.length);
+    }
+
+    renderWorkshop() {
+      const entries=this.workshopWorlds();
+      if(!entries.length)return this.renderPracticeGarden();
+      const el=this.screen('lg-meet',`${this.topBar()}<div class="workshop-picker">
+        <div class="workshop-sign" aria-hidden="true">${ns.LettersGardenArt.practicePicture('Workshop')}</div>
+        <div class="workshop-chapters">${entries.map(({world},i)=>`<button type="button" data-workshop="${i}" aria-label="Practice building ${/[؀-ۿ]/.test(world.icon)?world.icon:'familiar words'}">
+          <svg viewBox="0 0 140 110" aria-hidden="true"><rect x="8" y="10" width="124" height="86" rx="20" fill="#e0c79b" stroke="#947a52" stroke-width="3"/><rect x="15" y="16" width="110" height="70" rx="15" fill="#fff8e7"/>${/[؀-ۿ]/.test(world.icon)?`<text x="70" y="50" text-anchor="middle" font-family="Amiri Quran, serif" font-size="40" fill="#4a3620" data-fit-box="70,50,84,46,42">${world.icon}</text>`:`<g transform="translate(43 24)">${Art.icon('book',54)}</g>`}</svg>
+          <span class="practice-play" aria-hidden="true">${Art.icon('next',24)}</span></button>`).join('')}</div></div>`);
+      this.wireTopBar(el,()=>this.renderPracticeGarden());
+      el.querySelectorAll('[data-workshop]').forEach(button=>button.onclick=()=>{
+        const {world,items}=entries[Number(button.dataset.workshop)];
+        this.session={world,items,gameIndex:world.games.indexOf('build')};
+        this.startPractice('Workshop',()=>this.renderWorkshop());
+      });
     }
 
     practiceButtons() {
@@ -1603,17 +1646,29 @@
     startPractice(kind,back) {
       const s=this.session;
       const el=this.screen('lg-play',`${this.topBar()}<div class="practice-heading">${this.petSVG(76)}<button class="practice-replay" type="button" aria-label="Hear the letter again"></button></div><div class="practice-stage"></div>`);
-      el.dataset.activity=kind==='Feed'?'feed':'practice';
-      if(kind==='Feed')el.querySelector('.practice-stage').classList.add('play-stage');
+      el.dataset.activity=kind==='Feed'?'feed':kind==='Workshop'?'build':'practice';
+      if(kind==='Feed'||kind==='Workshop')el.querySelector('.practice-stage').classList.add('play-stage');
       this.wireTopBar(el,back);
       const replay=el.querySelector('.practice-replay');let current=null;
       replay.onclick=()=>{if(current)this.say(current);};
       const ctx={stage:el.querySelector('.practice-stage'),items:s.items||s.world.items(),
-        prompt:item=>{current=item;replay.textContent=item?item.display:'♫';},
-        say:item=>{current=item;this.say(item);},correct:()=>this.sound.play('correct'),
+        prompt:item=>{current=item;
+          if(kind==='Workshop' && item)replay.innerHTML=`<svg viewBox="0 0 120 80" aria-hidden="true"><text x="60" y="40" text-anchor="middle" font-family="Amiri Quran, serif" font-size="42" fill="#4a3620" data-fit-box="60,40,94,52,42">${item.display}</text></svg>`;
+          else replay.textContent=item?item.display:'♫';
+        },
+        say:item=>{if(kind!=='Workshop')current=item;this.say(item);},correct:()=>this.sound.play('correct'),
         done:()=>{if(el.isConnected)back();}};
       if(kind==='Feed')this.game=new ns.LettersMiniGames.feed({...ctx,garden:true,beginner:true,level:0,rounds:4,hue:150,extraItems:[],petArt:()=>this.petSVG(180),setPrompt:ctx.prompt,sfx:name=>this.sound.play(name),confettiAt:target=>this.confettiAt(target),onDone:ctx.done});
+      else if(kind==='Workshop')this.game=new ns.LettersMiniGames.build({...ctx,setPrompt:ctx.prompt,sfx:name=>this.sound.play(name),confettiAt:target=>this.confettiAt(target),onDone:ctx.done});
       else this.game=new ns.GardenPractice[kind](ctx);
+    }
+
+    gardenReward(finished=false) {
+      const world=this.session?.world;
+      const stage=ns.LettersGardenArt.chapterGrowth(this.progress,this.bests,world);
+      const scene=world?.id==='pack-boat'?ns.LettersGardenArt.boat({stage}):
+        ns.LettersGardenArt.habitatReward({biome:world?.biome || 'meadow',stage,habitat:this.biomeDeco(world?.biome)});
+      return `<div class="garden-reward${finished?' garden-reward-finished':''}" role="img" aria-label="Garden flowers: ${stage}">${scene}</div>`;
     }
 
     renderStars(stars) {
@@ -1623,7 +1678,7 @@
         "lg-stars",
         `${this.topBar()}
         <div class="stars-stage lg-panel">
-          ${`<div class="garden-reward" role="img" aria-label="Garden flowers: ${ns.LettersGardenArt.growth(this.progress, this.bests)}">${ns.LettersGardenArt.boat({stage: ns.LettersGardenArt.growth(this.progress, this.bests)})}</div>`}
+          ${this.gardenReward()}
           <div class="stars-row">
             ${[0, 1, 2].map((i) => `<span class="stars-star ${i < stars ? "is-on" : ""}" style="animation-delay:${i * 220}ms">${Art.icon("star", 74)}</span>`).join("")}
           </div>
@@ -1702,7 +1757,7 @@
         "lg-party",
         `<div class="party-stage lg-panel">
           ${capstone}
-          ${`<div class="garden-reward garden-reward-finished" role="img" aria-label="Your garden">${ns.LettersGardenArt.boat({stage: ns.LettersGardenArt.growth(this.progress,this.bests)})}</div>`}
+          ${this.gardenReward(true)}
           ${flower ? `<div class="party-flower">${Art.skillFlower({ scores: this.skills, size: 200 })}</div>` : ""}
           <div class="party-pair">
             <div class="party-mascot">${Art.keyMascot({ size: flower ? 110 : 150, mood: "open" })}</div>

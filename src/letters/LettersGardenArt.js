@@ -6,6 +6,22 @@
     if (progress.done.includes('pack-boat')) return 3;
     return ['pop', 'trace', 'feed'].filter(game => (bests[`pack-boat:${game}`] || 0) > 0).length;
   }
+  function chapterGrowth(progress, bests, world) {
+    if(!world)return 0;
+    if((progress.done || []).includes(world.id))return 3;
+    return Math.min(3,[...new Set(world.games || [])].filter(game=>(bests[`${world.id}:${game}`] || 0)>0).length);
+  }
+  function habitatReward({biome='meadow',stage=0,habitat=''}={}) {
+    const flowers=flowerBed({size:100,count:stage});
+    return `<svg class="garden-habitat-reward" viewBox="0 0 260 200" aria-hidden="true">
+      <ellipse cx="130" cy="177" rx="107" ry="12" fill="#4e7156" opacity=".18"/>
+      <path d="M23 146Q118 122 237 148L218 171Q130 192 43 169Z" fill="#b4cf8c"/>
+      <path d="M24 149Q124 174 234 151L218 172Q127 192 43 170Z" fill="#86a76d"/>
+      <path d="M38 147Q125 129 222 148" fill="none" stroke="#d1e3ab" stroke-width="4" stroke-linecap="round"/>
+      ${biome==='meadow'||!habitat?`<svg x="40" y="25" width="180" height="144" viewBox="0 0 100 80">${flowerBed({size:100,count:stage})}</svg>`:
+        `<svg x="28" y="5" width="190" height="143" viewBox="0 0 64 48">${habitat.replace('<svg ','<svg width="64" height="48" ')}</svg><svg x="139" y="103" width="90" height="72" viewBox="0 0 100 80">${flowers}</svg>`}
+    </svg>`;
+  }
   function boat({ stage = 0 } = {}) {
     const id = `garden-boat-${serial++}`;
     const flowers = [[55, 130, .86], [166, 139, 1.1], [205, 124, .72]];
@@ -63,18 +79,19 @@
     const basket = `<path d="M102 80H177L167 116H112Z" fill="#d9a75c" stroke="#4a3620" stroke-width="3"/><path d="M107 91H173M110 103H169M126 81L129 114M151 81L148 114" stroke="#aa763c" stroke-width="2"/>`;
     let scene;
     if(kind==='Feed')scene=`<circle cx="54" cy="65" r="35" fill="#73b9dc" stroke="#4a3620" stroke-width="3"/><path d="M52 30Q39 12 48 9Q61 12 54 29" fill="#4e9677"/><g fill="#fffdf7" stroke="#4a3620" stroke-width="2"><ellipse cx="43" cy="59" rx="10" ry="13"/><ellipse cx="67" cy="59" rx="10" ry="13"/></g><g fill="#4a3620"><circle cx="47" cy="61" r="5"/><circle cx="70" cy="61" r="5"/></g><path d="M45 80Q56 94 69 79Z" fill="#4a3620"/>${basket}<rect x="121" y="34" width="34" height="39" rx="9" fill="#fffdf7" stroke="#4a3620" stroke-width="2"/><path d="M138 43V61" stroke="#4a3620" stroke-width="5" stroke-linecap="round"/><path d="M162 46Q181 53 169 72L176 68M169 72L166 64" fill="none" stroke="#4e9677" stroke-width="3" stroke-linecap="round"/>`;
+    else if(kind==='Workshop')scene=`<path d="M26 101H174V114H26Z" fill="#bb9763" stroke="#826b48" stroke-width="2"/><rect x="42" y="17" width="116" height="51" rx="13" fill="#fff8e7" stroke="#947a52" stroke-width="3"/><path d="M58 31H86V54H58ZM99 31H142V54H99Z" fill="#e6d8b8" stroke="#b99e70" stroke-width="2" stroke-dasharray="3 4"/><g fill="#fff8e7" stroke="#947a52" stroke-width="2.5"><rect x="35" y="77" width="46" height="39" rx="9" transform="rotate(-8 58 96)"/><rect x="110" y="76" width="52" height="39" rx="9" transform="rotate(7 136 95)"/></g><path d="M57 87V103M125 91Q121 101 136 101Q149 101 146 91" fill="none" stroke="#4a3620" stroke-width="4" stroke-linecap="round"/><circle cx="136" cy="107" r="2.5" fill="#4a3620"/><path d="M86 87Q101 80 103 64L98 69M103 64L108 70" fill="none" stroke="#719b77" stroke-width="3" stroke-linecap="round"/>`;
     else if(kind==='DotGarden')scene=`<rect x="34" y="23" width="129" height="85" rx="22" fill="#fffdf7" stroke="#4a3620" stroke-width="3"/><path d="M60 56Q51 83 97 82Q146 82 139 56" fill="none" stroke="#4a3620" stroke-width="8" stroke-linecap="round"/><circle cx="99" cy="96" r="6" fill="#c9bda4"/><circle cx="167" cy="109" r="10" fill="#e8743c" stroke="#4a3620" stroke-width="2"/><path d="M151 114Q126 123 111 104L113 113M111 104L120 105" fill="none" stroke="#4e9677" stroke-width="3" stroke-linecap="round"/>`;
     else scene=`<rect x="30" y="21" width="138" height="92" rx="22" fill="#fffdf7" stroke="#4a3620" stroke-width="3"/><path d="M61 47Q52 84 103 82Q145 82 141 50" fill="none" stroke="#c9bda4" stroke-width="8" stroke-linecap="round" stroke-dasharray="2 12"/><path d="M61 47Q52 84 100 82" fill="none" stroke="#4e9677" stroke-width="8" stroke-linecap="round"/><circle cx="102" cy="98" r="5" fill="#4e9677"/><g transform="translate(114 72) rotate(35)"><path d="M-7 -47H7V0L0 15L-7 0Z" fill="#f3c955" stroke="#4a3620" stroke-width="2.5"/><path d="M-7 0H7L0 15Z" fill="#e5dcc8"/><path d="M-3 9L0 15L3 9" fill="#4a3620"/><path d="M-3 -41V-5" stroke="#fff8db" stroke-width="3"/></g>`;
     return `<svg class="practice-picture" viewBox="0 0 200 140" aria-hidden="true">${common}${scene}</svg>`;
   }
   // Placement belongs to the wrapper; the petals have their own motion layer.
-  function flowerBed({size=90}={}) {
+  function flowerBed({size=90,count=3}={}) {
     const flowers=[[24,33,.72,'#ed8ca6'],[48,23,1,'#f3ce63'],[74,38,.68,'#b19bd5']];
     return `<svg class="garden-flower-bed" viewBox="0 0 100 80" width="${size}" height="${size*.8}" aria-hidden="true">
       <ellipse cx="50" cy="71" rx="43" ry="6" fill="#315942" opacity=".16"/>
       <path d="M8 65Q24 54 47 60Q77 51 93 65Q83 75 48 73Q18 76 8 65Z" fill="#9bc977"/>
       <path d="M12 64Q31 57 48 63Q70 55 89 65" fill="none" stroke="#c6e6a5" stroke-width="3" stroke-linecap="round"/>
-      ${flowers.map(([x,y,k,c])=>`<g transform="translate(${x} ${y}) scale(${k})">
+      ${flowers.slice(0,Math.max(0,Math.min(3,count))).map(([x,y,k,c])=>`<g transform="translate(${x} ${y}) scale(${k})">
         <path d="M0 39Q3 19 0 0" fill="none" stroke="#537a46" stroke-width="4" stroke-linecap="round"/>
         <path d="M1 28Q-15 29 -14 15Q-3 16 1 28M2 20Q15 21 17 8Q6 10 2 20" fill="#719c56"/>
         <path d="M-10 20L0 27M12 13L2 20" stroke="#a7c883" stroke-width="1.3" stroke-linecap="round"/>
@@ -104,5 +121,5 @@
       <path d="M85 83Q65 67 64 81Q65 94 87 92Q104 69 115 79Q113 93 91 94" fill="#80a46a" stroke="#526c45" stroke-width="2"/>
     </svg>`;
   }
-  ns.LettersGardenArt = { growth, boat, backdrop, practicePicture, flowerBed, pond, seedBasket };
+  ns.LettersGardenArt = { growth, chapterGrowth, habitatReward, boat, backdrop, practicePicture, flowerBed, pond, seedBasket };
 })(window.MiftahGame || (window.MiftahGame = {}));
