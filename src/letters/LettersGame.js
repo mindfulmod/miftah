@@ -616,7 +616,9 @@
       const owned = new Set(this.stickers.owned || []);
       const grid = ns.LETTERS_STICKERS.map(
         (s) =>
-          `<span class="album-slot${justOpened === s.id ? " is-new" : ""}">${Art.sticker({ id: s.id, owned: owned.has(s.id), size: 78 })}</span>`,
+          owned.has(s.id)
+            ? `<button type="button" class="album-slot${justOpened === s.id ? " is-new" : ""}" data-sticker="${s.id}" aria-label="View ${s.id} sticker">${Art.sticker({id:s.id,size:78})}</button>`
+            : `<span class="album-slot" role="img" aria-label="Sticker not collected">${Art.sticker({id:s.id,owned:false,size:78})}</span>`,
       ).join("");
       const allOwned = owned.size >= ns.LETTERS_STICKERS.length;
       const el = this.screen(
@@ -626,11 +628,24 @@
           <span class="lg-star-chip">${Art.icon("star", 20)} <b>${this.starBalance()}</b></span>
           ${allOwned
             ? `<div class="album-complete">${Art.icon("star", 40)}</div>`
-            : `<button type="button" class="album-pack">${Art.stickerPack({ size: 104 })}<span class="pet-acc-cost">${Art.icon("star", 14)} 5</span></button>`}
+            : `<button type="button" class="album-pack" aria-label="Open a sticker pack for 5 stars">${Art.stickerPack({ size: 104 })}<span class="pet-acc-cost">${Art.icon("star", 14)} 5</span></button>`}
           <div class="album-grid lg-panel">${grid}</div>
         </div>`,
       );
       this.wireTopBar(el);
+      const inspect = button => {
+        const id=button.dataset.sticker;
+        const dialog=document.createElement('dialog');
+        dialog.className='sticker-inspect';dialog.setAttribute('aria-label',`${id} sticker`);
+        dialog.innerHTML=`<div class="sticker-inspect-art">${Art.sticker({id,size:280})}</div><button type="button" class="lg-round-btn sticker-inspect-close" aria-label="Back to stickers">${Art.icon('check',32)}</button>`;
+        el.appendChild(dialog);
+        dialog.querySelector('button').onclick=()=>dialog.close();
+        dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close();}});
+        dialog.addEventListener('close',()=>{dialog.remove();if(button.isConnected)button.focus();},{once:true});
+        dialog.showModal();
+      };
+      el.querySelectorAll('[data-sticker]').forEach(button=>button.onclick=()=>inspect(button));
+      if(justOpened){const button=el.querySelector(`[data-sticker="${justOpened}"]`);if(button)inspect(button);}
       const pack = el.querySelector(".album-pack");
       if (pack)
         pack.addEventListener("click", () => {
@@ -1580,7 +1595,7 @@
     }
 
     practiceButtons() {
-      return `<div class="garden-practice-links" aria-label="Optional practice"><button type="button" data-practice="DotGarden" aria-label="Optional Dot Garden practice">ب <span>●</span></button><button type="button" data-practice="GardenPaths" aria-label="Optional Garden Paths drawing practice">〰 <span>✎</span></button></div>`;
+      return `<div class="garden-practice-links" aria-label="Optional practice">${['DotGarden','GardenPaths'].map(kind=>`<button type="button" data-practice="${kind}" aria-label="Optional ${kind==='DotGarden'?'Dot Garden':'Garden Paths drawing'} practice">${ns.LettersGardenArt.practicePicture(kind)}</button>`).join('')}</div>`;
     }
     wirePractice(el,back) {
       el.querySelectorAll('[data-practice]').forEach(b=>b.onclick=()=>this.startPractice(b.dataset.practice,back));
