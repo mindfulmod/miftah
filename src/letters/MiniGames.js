@@ -896,6 +896,10 @@
 
     tap(item, el) {
       if (!this.alive) return;
+      // Input and timer callbacks can arrive in either order at the deadline.
+      // Settle the round before accepting a final tap, using the same clock.
+      this.tick(performance.now(), false);
+      if (!this.alive || !this.grid.contains(el)) return;
       if (item.id === this.target.id) {
         this.count += 1;
         this.heat.up();
@@ -971,13 +975,14 @@
       ctx.stage.innerHTML = `
         <div class="build-scene">
           <div class="build-slots" dir="rtl">
-            ${target.parts.map(() => `<span class="build-slot"></span>`).join("")}
+            ${target.parts.map((_,i) => `<button type="button" class="build-slot" data-slot="${i}" aria-label="Empty building space" disabled></button>`).join("")}
           </div>
           <div class="build-tray">
             ${this.tray.map((part, i) => `<button type="button" class="build-tile" data-i="${i}" aria-label="${part.display}">${workshopTile(part.display)}</button>`).join("")}
           </div>
         </div>`;
       this.slots = [...ctx.stage.querySelectorAll(".build-slot")];
+      this.slots.forEach((slot,i)=>slot.addEventListener('click',()=>this.returnFrom(i)));
       for (const btn of ctx.stage.querySelectorAll(".build-tile")) {
         btn.addEventListener("click", () => this.place(btn));
       }
@@ -988,13 +993,16 @@
       if (!this.alive || btn.classList.contains("is-scaffolded") || btn.classList.contains("is-used") || this.placed.length >= target.parts.length) return;
       const part = this.tray[Number(btn.dataset.i)];
       const slot = this.slots[this.placed.length];
-      slot.innerHTML = workshopTile(part.display);
+      slot.innerHTML = workshopTile(part.display)+`<span class="build-undo-cue" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M5 7H11A5 5 0 1 1 10 17M5 7L8 3M5 7L9 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`;
+      slot.disabled=false;
+      slot.setAttribute('aria-label',`Return ${part.display} and following pieces`);
       slot.classList.add("is-filled");
       btn.classList.add("is-used");
       this.placed.push({ part, btn, slot });
       this.ctx.say({ display: part.display, speak: part.speak || part.display });
 
       if (this.placed.length < target.parts.length) return;
+      this.slots.forEach(slot=>{slot.disabled=true;});
       const built = this.placed.every((p, i) => p.part.display === target.parts[i].display);
       if (built) {
         this.ctx.sfx("correct");
@@ -1025,6 +1033,8 @@
         if (!this.alive) return;
           for (const p of this.placed) {
             p.slot.innerHTML = "";
+            p.slot.disabled=true;
+            p.slot.setAttribute('aria-label','Empty building space');
             p.slot.classList.remove("is-filled");
             p.btn.classList.remove("is-used");
           }
@@ -1033,6 +1043,21 @@
           this.ctx.say(target);
         }, 800);
       }
+    }
+
+    returnFrom(index) {
+      if(!this.alive || !Number.isInteger(index) || index<0 || index>=this.placed.length ||
+        this.placed.length>=this.targets[this.roundIndex].parts.length)return;
+      const removed=this.placed.splice(index);
+      for(const {slot,btn} of removed){
+        slot.innerHTML='';slot.disabled=true;
+        slot.setAttribute('aria-label','Empty building space');
+        slot.classList.remove('is-filled');btn.classList.remove('is-used');
+      }
+      // Keep the order of the surviving prefix. A motor correction is not a
+      // completed answer, so it neither adds a slip nor triggers reward logic.
+      removed[0].btn.focus({preventScroll:true});
+      this.ctx.say(this.targets[this.roundIndex]);
     }
 
     destroy() { this.alive = false; this.stopHint?.(); }

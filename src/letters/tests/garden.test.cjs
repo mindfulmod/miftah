@@ -3,10 +3,10 @@ const assert = require('node:assert/strict');
 const vm = require('node:vm');
 const fs = require('node:fs');
 const path = require('node:path');
-function runtime(){
+function runtime(now = () => 0){
   const timers=[];const frames=[];
   const window={MiftahGame:{LettersArt:{}},removeEventListener(){}};
-  const context={window,setTimeout:f=>timers.push(f),clearInterval(){},requestAnimationFrame:f=>frames.push(f)};
+  const context={window,performance:{now},setTimeout:f=>timers.push(f),clearInterval(){},requestAnimationFrame:f=>frames.push(f)};
   for(const file of ['MiniGames.js','LettersGardenArt.js']) vm.runInNewContext(fs.readFileSync(path.join(__dirname,'..',file),'utf8'),context);
   return {ns:window.MiftahGame,timers,frames};
 }
@@ -146,7 +146,7 @@ test('leaving Pairs invalidates its pending final-board completion',()=>{
 test('leaving Build during success prevents speech, reveal and payout',()=>{
  const {ns,timers}=runtime();let effects=0;
  const classes={contains(){return false},add(){},remove(){}};
- const btn={dataset:{i:'0'},classList:classes};const slot={classList:classes};
+ const btn={dataset:{i:'0'},classList:classes};const slot={classList:classes,setAttribute(){}};
  const part={display:'a'};const game=Object.create(ns.LettersMiniGames.build.prototype);
  Object.assign(game,{alive:true,targets:[{display:'a',parts:[part]}],roundIndex:0,placed:[],tray:[part],slots:[slot],ctx:{hue:100,say(){effects++},sfx(){},confettiAt(){},stage:{querySelector(){return {}}},onDone(){effects++}}});
  ns.LettersArt.inkShift=()=>({dx:0,dy:0});
@@ -198,4 +198,110 @@ test('Burst fallback timer does not multiply animation loops and completes once'
  game.tick(500,false);game.tick(1000,false);assert.equal(frames.length,0);
  game.tick(1500);assert.equal(frames.length,1);
  game.tick(30000,false);game.tick(30500,false);assert.equal(paid,1);
+});
+
+
+test('Burst settles an expired round before accepting input at the scoring boundary',()=>{
+ let now=29999;const {ns}=runtime(()=>now);let result=null,targets=0;
+ const game=Object.create(ns.LettersMiniGames.burst.prototype);
+ const target={id:'ba'},tile={classList:{add(){}}};
+ Object.assign(game,{alive:true,endsAt:30000,duration:30000,count:8,target,
+  ringEl:{style:{}},countEl:{textContent:''},grid:{contains:el=>el===tile},
+  heat:{up(){},down(){}},nextTarget(){targets++},ctx:{sfx(){},onDone:value=>{result=value}}});
+ game.tap(target,tile);assert.equal(game.count,9);assert.equal(targets,1);
+ now=30000;game.tap(target,tile);
+ assert.equal(game.count,9);assert.equal(result,2);assert.equal(targets,1);
+ game.tick(30500,false);game.tap(target,tile);assert.equal(game.count,9);
+});
+
+test('Burst ignores events from a tile removed by the previous answer',()=>{
+ const {ns}=runtime();let effects=0;const game=Object.create(ns.LettersMiniGames.burst.prototype);
+ Object.assign(game,{alive:true,endsAt:30000,duration:30000,count:0,target:{id:'ba'},ringEl:{style:{}},
+  grid:{contains:()=>false},ctx:{sfx(){effects++}}});
+ game.tap({id:'ba'},{});assert.equal(game.count,0);assert.equal(effects,0);
+});
+
+
+test('Workshop exposes completed Build chapters only and keeps their item pools separate',()=>{
+ const window={MiftahGame:{LettersArt:{}}};
+ vm.runInNewContext(fs.readFileSync(path.join(__dirname,'..','LettersGame.js'),'utf8'),{window});
+ const game=Object.create(window.MiftahGame.LettersGame.prototype);
+ const item=id=>({id,parts:[{display:'a'},{display:'b'}]});
+ const world=(id,games,items)=>({id,games,items:()=>items});
+ game.worlds={worlds:[world('future',['build'],[item('future')]),world('partial',['build'],[item('partial')]),world('old',['build'],[item('old'),{id:'no-parts'}]),world('other',['pop'],[item('other')]),world('empty',['build'],[])]};
+ game.progress={done:['old','other','empty']};game.bests={'partial:build':1,'future:pop':3};
+ const entries=game.workshopWorlds();
+ assert.deepEqual(Array.from(entries,e=>e.world.id),['partial','old']);
+ assert.deepEqual(Array.from(entries,e=>Array.from(e.items,i=>i.id)),[['partial'],['old']]);
+ game.progress.done=[];game.bests={};assert.equal(game.workshopWorlds().length,0);
+});
+
+test('Workshop completion returns without reward writes and replay keeps the whole target',()=>{
+ let context,returns=0;const spoken=[];
+ const window={MiftahGame:{LettersArt:{},LettersMiniGames:{build:class{constructor(ctx){context=ctx}}}}};
+ vm.runInNewContext(fs.readFileSync(path.join(__dirname,'..','LettersGame.js'),'utf8'),{window});
+ const game=Object.create(window.MiftahGame.LettersGame.prototype);
+ const replay={},stage={classList:{add(){}}},el={isConnected:true,dataset:{},querySelector:s=>s==='.practice-replay'?replay:stage};
+ Object.assign(game,{session:{items:[{id:'whole'}],world:{}},screen:()=>el,topBar:()=>'',petSVG:()=>'',wireTopBar(){},say:item=>spoken.push(item),sound:{play(){}},confettiAt(){},saveJSON(){throw Error('practice must not write rewards')}});
+ game.startPractice('Workshop',()=>returns++);
+ const whole={display:'بت'},part={display:'ب'};context.setPrompt(whole);context.say(part);replay.onclick();
+ assert.equal(spoken[1],whole);assert.equal(el.dataset.activity,'build');
+ context.onDone(0);assert.equal(returns,1);el.isConnected=false;context.onDone(0);assert.equal(returns,1);
+});
+
+
+test('Wardrobe shelf demonstration respects reduced motion, keyboard focus and rerenders',()=>{
+ const frames=[],timers=[];const window={MiftahGame:{LettersArt:{}}};
+ vm.runInNewContext(fs.readFileSync(path.join(__dirname,'..','LettersGame.js'),'utf8'),{window,requestAnimationFrame:f=>frames.push(f),setTimeout:f=>timers.push(f)});
+ const game=Object.create(window.MiftahGame.LettersGame.prototype);let reduced=true,scrolls=0;
+ game.prefersReducedMotion=()=>reduced;
+ const shelf=()=>({isConnected:true,scrollWidth:900,clientWidth:300,scrollLeft:0,classList:{remove(){},toggle(){}},events:{},addEventListener(type,fn){this.events[type]=fn},scrollTo(){scrolls++}});
+ game.wireShelf(shelf());frames.shift()();assert.equal(timers.length,0);
+ reduced=false;game.wireShelf(shelf(),{demonstrate:false});frames.shift()();assert.equal(timers.length,0);
+ const focused=shelf();game.wireShelf(focused);frames.shift()();focused.events.focusin();timers.shift()();assert.equal(scrolls,0);
+ const detached=shelf();game.wireShelf(detached);frames.shift()();detached.isConnected=false;timers.shift()();assert.equal(scrolls,0);
+ const untouched=shelf();game.wireShelf(untouched);frames.shift()();timers.shift()();assert.equal(scrolls,1);timers.shift()();assert.equal(scrolls,2);
+});
+
+
+test('Build lets a child return a partial suffix without an error or changing its prefix',()=>{
+ const {ns}=runtime();let spoken=0,focused=null;
+ const parts=['a','b','c'].map(display=>({display}));
+ const placed=parts.slice(0,2).map((part,i)=>({part,slot:{innerHTML:part.display,disabled:false,setAttribute(){},classList:{remove(){}}},btn:{classList:{remove(){}},focus(){focused=i}}}));
+ const removed=placed[1];const game=Object.create(ns.LettersMiniGames.build.prototype);
+ Object.assign(game,{alive:true,roundIndex:0,targets:[{parts}],placed,slips:0,ctx:{say(){spoken++}}});
+ game.returnFrom(1);assert.equal(game.placed.length,1);assert.equal(game.placed[0].part.display,'a');
+ assert.equal(removed.slot.innerHTML,'');assert.equal(removed.slot.disabled,true);assert.equal(focused,1);assert.equal(spoken,1);assert.equal(game.slips,0);
+ game.returnFrom(-1);game.returnFrom(9);assert.equal(spoken,1);
+ game.returnFrom(0);assert.equal(game.placed.length,0);assert.equal(focused,0);
+});
+
+test('Build locks piece returns while a complete answer is being checked or after exit',()=>{
+ const {ns}=runtime();const game=Object.create(ns.LettersMiniGames.build.prototype);
+ const part={display:'a'};const placed=[{part},{part}];
+ Object.assign(game,{alive:true,roundIndex:0,targets:[{parts:[part,part]}],placed,ctx:{say(){throw Error('unexpected replay')}}});
+ game.returnFrom(0);assert.equal(game.placed.length,2);
+ game.placed.pop();game.destroy();game.returnFrom(0);assert.equal(game.placed.length,1);
+});
+
+
+test('Habitat growth derives only from distinct successes in the current chapter',()=>{
+ const {ns}=runtime();const grow=ns.LettersGardenArt.chapterGrowth;
+ const world={id:'orchard',games:['pop','build','pop']};
+ const bests={'pack-boat:pop':3,'orchard:pop':2,'orchard:build':0};
+ assert.equal(grow({done:[]},bests,world),1);
+ bests['orchard:build']=1;assert.equal(grow({done:[]},bests,world),2);
+ assert.equal(grow({done:['orchard']},{},world),3);
+ assert.equal(grow({done:[]},{},world),0);
+ assert.equal(grow({done:[]},{},null),0);
+});
+
+test('Reward rendering preserves Boat and uses the current habitat without changing progress',()=>{
+ let boat=0,habitat=0;const world={id:'orchard',biome:'orchard',games:['build']};
+ const window={MiftahGame:{LettersArt:{},LettersGardenArt:{chapterGrowth:()=>1,boat(){boat++;return 'boat-art'},habitatReward(args){habitat++;assert.equal(args.biome,'orchard');assert.equal(args.stage,1);return 'orchard-art'}}}};
+ vm.runInNewContext(fs.readFileSync(path.join(__dirname,'..','LettersGame.js'),'utf8'),{window});
+ const game=Object.create(window.MiftahGame.LettersGame.prototype);
+ Object.assign(game,{session:{world},progress:{done:[]},bests:{'orchard:build':3},biomeDeco:()=>'<svg/>',saveJSON(){throw Error('art must not save')}});
+ const before=JSON.stringify([game.progress,game.bests]);assert.match(game.gardenReward(),/orchard-art/);assert.equal(boat,0);assert.equal(habitat,1);
+ game.session.world={id:'pack-boat'};assert.match(game.gardenReward(true),/garden-reward-finished/);assert.equal(boat,1);assert.equal(JSON.stringify([game.progress,game.bests]),before);
 });
