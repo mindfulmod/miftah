@@ -257,3 +257,16 @@
 .practice-listen svg{width:58px;height:58px}
 .practice-status svg{width:24px;height:24px}
 @media(max-height:650px){.lg-app .lg-play[data-activity="burst"] .play-stage{max-height:59vh;margin-bottom:38px}.lg-app .practice-tools{padding:6px 12px;gap:14px}.lg-app .practice-tools .practice-button{width:48px;height:48px;min-width:48px;min-height:48px}.lg-app .path-paper{min-height:160px}}
+
+/* Collected art can be explored at a child's scale without spending again. */
+button.album-slot{cursor:pointer;appearance:none;font:inherit;display:grid;place-items:center}
+button.album-slot:focus-visible{outline:3px solid #577c4c;outline-offset:3px}
+button.album-slot:active{transform:scale(.96)}
+.sticker-inspect{width:min(340px,calc(100vw - 44px));max-height:calc(100dvh - 36px);box-sizing:border-box;padding:22px 16px 18px;border:3px solid #aa956d;border-radius:36px;background:radial-gradient(ellipse at 50% 35%,#fffef2,#e6edcf);box-shadow:0 8px 0 #80684433;overflow:auto;text-align:center}
+.sticker-inspect::backdrop{background:#344b3b88}
+.sticker-inspect-art{display:grid;place-items:center;padding:6px 0 14px}
+.sticker-inspect-art svg{display:block;width:100%;height:auto;max-width:280px}
+.sticker-inspect-close{margin:0 auto;background:#f7e5b0}
+.garden-practice-links button{width:110px;height:76px;padding:0 6px;display:grid;place-items:center}
+.garden-practice-links .practice-picture{width:100%;height:100%;display:block;pointer-events:none}
+@media(max-height:650px){.sticker-inspect-art svg{max-width:230px}.garden-practice-links button{width:92px;height:62px}}
