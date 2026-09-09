@@ -643,12 +643,13 @@
           <span class="lg-star-chip">${Art.icon("star", 20)} <b>${this.starBalance()}</b></span>
           ${allOwned
             ? `<div class="album-complete">${Art.icon("star", 40)}</div>`
-            : `<button type="button" class="album-pack" aria-label="Open a sticker pack for 5 stars">${Art.stickerPack({ size: 104 })}<span class="pet-acc-cost">${Art.icon("star", 14)} 5</span></button>`}
+            : `<button type="button" class="album-pack" aria-label="Open a sticker pack for 5 stars" ${this.starBalance()<5?'disabled':''}>${Art.stickerPack({ size: 104 })}<span class="pet-acc-cost">${Art.icon("star", 14)} 5</span></button>`}
           <div class="album-grid lg-panel">${grid}</div>
         </div>`,
       );
       this.wireTopBar(el);
       const inspect = button => {
+        if(!el.isConnected||el.querySelector("dialog"))return;
         const id=button.dataset.sticker;
         const dialog=document.createElement('dialog');
         dialog.className='sticker-inspect';dialog.setAttribute('aria-label',`${id} sticker`);
@@ -664,6 +665,7 @@
       const pack = el.querySelector(".album-pack");
       if (pack)
         pack.addEventListener("click", () => {
+          if(!el.isConnected||pack.disabled)return;
           const unowned = ns.LETTERS_STICKERS.filter((s) => !owned.has(s.id));
           if (!unowned.length) return;
           if (!this.spendStars(5)) {
@@ -805,6 +807,7 @@
       // stop compositing it so game frames get the whole budget.
       document.body.classList.toggle("lg-in-game", className === "lg-play");
       document.body.classList.toggle("lg-reward-screen", className === "lg-stars" || className === "lg-party");
+      document.body.classList.toggle("lg-wardrobe-screen", className === "lg-pet");
       const garden = this.session?.world.id === "pack-boat" && ["lg-meet", "lg-play", "lg-stars", "lg-party"].includes(className);
       const step = this.session?.gameIndex || 0;
       const activity = this.session?.plan?.[step]?.game || this.session?.world.games[step];
@@ -1607,7 +1610,7 @@
       this.session={world,items:world.items()};
       const choices=['Feed','DotGarden','GardenPaths'];
       if(this.workshopWorlds().length)choices.push('Workshop');
-      const el=this.screen('lg-meet',`${this.topBar()}<div class="practice-garden-hub"><div class="practice-garden-choices">${choices.map((kind,i)=>`<button type="button" data-kind="${kind}" aria-label="${['Feed a friend','Dot Garden: place the dots','Garden Paths: draw letters','Word Workshop: build familiar sounds'][i]}">${ns.LettersGardenArt.practicePicture(kind)}<span class="practice-play" aria-hidden="true">${Art.icon('next',24)}</span></button>`).join('')}</div></div>`);
+      const el=this.screen('lg-meet',`${this.topBar()}<div class="practice-garden-hub"><div class="practice-garden-choices">${choices.map((kind,i)=>`<button type="button" data-kind="${kind}" aria-label="${['Feed a friend','Dot Garden: place the dots','Garden Paths: draw letters','Word Workshop: build familiar sounds'][i]}">${ns.LettersGardenArt.practicePicture(kind,{petArt:kind==='Feed'?this.petSVG(100):''})}<span class="practice-play" aria-hidden="true">${Art.icon('next',24)}</span></button>`).join('')}</div></div>`);
       this.wireTopBar(el);
       el.querySelectorAll('[data-kind]').forEach(b=>b.onclick=()=>b.dataset.kind==='Workshop'?this.renderWorkshop():this.startPractice(b.dataset.kind,()=>this.renderPracticeGarden()));
     }
@@ -1638,7 +1641,7 @@
     }
 
     practiceButtons() {
-      return `<div class="garden-practice-links" aria-label="Optional practice">${['DotGarden','GardenPaths'].map(kind=>`<button type="button" data-practice="${kind}" aria-label="Optional ${kind==='DotGarden'?'Dot Garden':'Garden Paths drawing'} practice">${ns.LettersGardenArt.practicePicture(kind)}</button>`).join('')}</div>`;
+      return `<div class="garden-practice-links" aria-label="Optional practice">${['DotGarden','GardenPaths'].map(kind=>`<button type="button" data-practice="${kind}" aria-label="Optional ${kind==='DotGarden'?'Dot Garden':'Garden Paths drawing'} practice">${ns.LettersGardenArt.practicePicture(kind,{petArt:kind==='Feed'?this.petSVG(100):''})}</button>`).join('')}</div>`;
     }
     wirePractice(el,back) {
       el.querySelectorAll('[data-practice]').forEach(b=>b.onclick=()=>this.startPractice(b.dataset.practice,back));

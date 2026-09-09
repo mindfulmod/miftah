@@ -304,3 +304,32 @@ button.build-slot:focus-visible{outline:3px solid #507758;outline-offset:3px}
 .garden-habitat-reward{display:block;width:100%;height:auto}
 
 body.lg-reward-screen .lg-ambient{display:none}
+
+/* Foreground butterflies must not cross the pet, balance or costume controls. */
+body.lg-wardrobe-screen .lg-ambient{display:none}
+
+/* Show the same friend here that receives packets in Feed. */
+.practice-friend-picture{display:block;position:relative;width:100%;aspect-ratio:10/7}
+.practice-friend-picture>.practice-picture{width:100%;height:100%}
+.practice-friend{position:absolute;left:5%;top:7%;width:45%;height:77%;display:grid;place-items:center}
+.practice-friend>.lg-animal,.practice-friend>svg{width:auto!important;height:100%!important;max-width:100%}
+.practice-garden-choices .practice-friend-picture{width:100%;height:auto;max-height:200px;flex:1;min-width:0}
+.practice-garden-choices:has([data-kind="Workshop"]) .practice-friend-picture{height:156px;flex:0 1 156px}
+@media(max-width:600px){.practice-garden-choices .practice-friend-picture{width:160px;height:110px;flex:0 1 190px}.practice-garden-choices:has([data-kind="Workshop"]) .practice-friend-picture{width:100%;height:98px;flex-basis:98px}}
+.practice-garden-choices .practice-friend-picture>.practice-picture{width:100%;height:100%;max-height:none}
+
+.catch-basket:focus-visible{outline:3px solid #4a3620;outline-offset:-3px;border-radius:28px}
+
+/* Reduced motion keeps the listening choice untimed and stationary. */
+.catch-still .catch-choice{border:0;padding:0;background:none;cursor:pointer;width:24%;max-width:110px;transform:translateX(-50%);transition:none;animation:none}
+.catch-still .catch-choice:focus-visible{outline:3px solid #4a3620;outline-offset:3px;border-radius:18px}
+.catch-still .catch-basket{transition:none;animation:none}
+
+/* Recall cards frame the actual ink rather than the font line box. */
+.lg-app .dot-answers{align-items:center;justify-content:center;gap:18px;width:100%}
+.lg-app .dot-answers button{display:grid;place-items:center;flex:0 1 150px;width:42%;min-width:0;min-height:110px;height:150px;padding:10px;line-height:1}
+.dot-recall-glyph{width:100%;height:100%;max-height:120px;display:block}
+.lg-app .dot-answers button.is-help{background:#ffe49a;border-color:#70501b}
+.path-progress{display:flex;gap:8px;justify-content:center;align-items:center;height:16px;flex-shrink:0}
+.path-progress i{width:9px;height:9px;border-radius:50%;border:2px solid #70501b;background:#fffaf0}
+.path-progress i.is-on{background:#f3c955}

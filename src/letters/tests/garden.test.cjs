@@ -3,10 +3,10 @@ const assert = require('node:assert/strict');
 const vm = require('node:vm');
 const fs = require('node:fs');
 const path = require('node:path');
-function runtime(now = () => 0){
+function runtime(now = () => 0, extra = {}){
   const timers=[];const frames=[];
   const window={MiftahGame:{LettersArt:{}},removeEventListener(){}};
-  const context={window,performance:{now},setTimeout:f=>timers.push(f),clearInterval(){},requestAnimationFrame:f=>frames.push(f)};
+  const context={window,performance:{now},setTimeout:f=>timers.push(f),clearInterval(){},requestAnimationFrame:f=>frames.push(f),...extra};
   for(const file of ['MiniGames.js','LettersGardenArt.js']) vm.runInNewContext(fs.readFileSync(path.join(__dirname,'..',file),'utf8'),context);
   return {ns:window.MiftahGame,timers,frames};
 }
@@ -148,7 +148,7 @@ test('leaving Build during success prevents speech, reveal and payout',()=>{
  const classes={contains(){return false},add(){},remove(){}};
  const btn={dataset:{i:'0'},classList:classes};const slot={classList:classes,setAttribute(){}};
  const part={display:'a'};const game=Object.create(ns.LettersMiniGames.build.prototype);
- Object.assign(game,{alive:true,targets:[{display:'a',parts:[part]}],roundIndex:0,placed:[],tray:[part],slots:[slot],ctx:{hue:100,say(){effects++},sfx(){},confettiAt(){},stage:{querySelector(){return {}}},onDone(){effects++}}});
+ Object.assign(game,{alive:true,targets:[{display:'a',parts:[part]}],roundIndex:0,placed:[],tray:[part],slots:[slot],ctx:{hue:100,say(){effects++},sfx(){},confettiAt(){},stage:{contains:()=>true,querySelectorAll:()=>[],querySelector(){return {}}},onDone(){effects++}}});
  ns.LettersArt.inkShift=()=>({dx:0,dy:0});
  game.place(btn);assert.equal(effects,1);game.destroy();timers.forEach(f=>f());assert.equal(effects,1);assert.equal(game.roundIndex,0);
 });
@@ -271,7 +271,7 @@ test('Build lets a child return a partial suffix without an error or changing it
  const removed=placed[1];const game=Object.create(ns.LettersMiniGames.build.prototype);
  Object.assign(game,{alive:true,roundIndex:0,targets:[{parts}],placed,slips:0,ctx:{say(){spoken++}}});
  game.returnFrom(1);assert.equal(game.placed.length,1);assert.equal(game.placed[0].part.display,'a');
- assert.equal(removed.slot.innerHTML,'');assert.equal(removed.slot.disabled,true);assert.equal(focused,1);assert.equal(spoken,1);assert.equal(game.slips,0);
+ assert.equal(removed.slot.innerHTML,'');assert.equal(removed.slot.disabled,true);assert.equal(removed.btn.disabled,false);assert.equal(focused,1);assert.equal(spoken,1);assert.equal(game.slips,0);
  game.returnFrom(-1);game.returnFrom(9);assert.equal(spoken,1);
  game.returnFrom(0);assert.equal(game.placed.length,0);assert.equal(focused,0);
 });
@@ -304,4 +304,94 @@ test('Reward rendering preserves Boat and uses the current habitat without chang
  Object.assign(game,{session:{world},progress:{done:[]},bests:{'orchard:build':3},biomeDeco:()=>'<svg/>',saveJSON(){throw Error('art must not save')}});
  const before=JSON.stringify([game.progress,game.bests]);assert.match(game.gardenReward(),/orchard-art/);assert.equal(boat,0);assert.equal(habitat,1);
  game.session.world={id:'pack-boat'};assert.match(game.gardenReward(true),/garden-reward-finished/);assert.equal(boat,1);assert.equal(JSON.stringify([game.progress,game.bests]),before);
+});
+
+test('Pairs mismatch retains the reference, replays it and accepts a new partner',()=>{
+ const {ns}=runtime();const spoken=[];let correct=0;
+ const make=(id)=>{const flags=new Set();return {id,el:{setAttribute(k,v){this[k]=v},classList:{contains:c=>flags.has(c),add:c=>flags.add(c),remove:c=>flags.delete(c)}}}};
+ const first=make('a'),wrong=make('b'),mate=make('a');
+ const game=Object.create(ns.LettersMiniGames.pairs.prototype);
+ Object.assign(game,{alive:true,cards:[first,wrong,mate],selected:null,matched:0,slips:0,ctx:{say:c=>spoken.push(c.id),sfx:k=>{if(k==='correct')correct++},confettiAt(){}}});
+ first.el.classList.add("is-demo");game.pick(first,first.el);assert.equal(first.el.classList.contains("is-demo"),false);game.pick(wrong,wrong.el);
+ assert.equal(first.el['aria-pressed'],'true');assert.equal(game.selected.card,first);assert.equal(first.el.classList.contains('is-selected'),true);
+ assert.equal(first.el.classList.contains('is-shake'),false);assert.equal(game.slips,1);assert.deepEqual(spoken,['a','a']);
+ game.pick(mate,mate.el);assert.equal(game.selected,null);assert.equal(game.matched,1);assert.equal(first.el.disabled,true);assert.equal(mate.el.disabled,true);assert.equal(correct,1);assert.equal(game.slips,1);
+});
+
+test('Pairs retained reference can be cancelled and cannot change after exit',()=>{
+ const {ns}=runtime();const flags=new Set();const el={setAttribute(k,v){this[k]=v},classList:{contains:c=>flags.has(c),add:c=>flags.add(c),remove:c=>flags.delete(c)}};const card={id:'a',el};
+ const game=Object.create(ns.LettersMiniGames.pairs.prototype);Object.assign(game,{alive:true,cards:[card],selected:{card,el},ctx:{say(){throw Error('cancel should not speak')}}});
+ flags.add('is-selected');game.pick(card,el);assert.equal(game.selected,null);assert.equal(flags.has('is-selected'),false);
+ game.destroy();game.pick(card,el);assert.equal(game.selected,null);
+});
+
+
+test('Pop retires wrong choices from keyboard input and ignores stale retry feedback',()=>{
+ const {ns,timers}=runtime(()=>0,{document:{createElement:()=>({remove(){}})}});
+ const flags=new Set();const el={disabled:false,classList:{contains:c=>flags.has(c),add:c=>flags.add(c),remove:c=>flags.delete(c)},querySelector:()=>({classList:{add(){},remove(){}}})};
+ const bubble={item:{id:'wrong'},el};const game=Object.create(ns.LettersMiniGames.pop.prototype);
+ Object.assign(game,{alive:true,advancing:false,roundIndex:0,rounds:[{target:{id:'right'}}],bubbles:[bubble],slips:0,heat:{down(){}},ctx:{beginner:true,sfx(){},say(){}}});
+ game.popAttempt(bubble);assert.equal(el.disabled,true);assert.equal(game.slips,1);
+ game.popAttempt(bubble);assert.equal(game.slips,1);
+ game.destroy();timers.shift()();assert.equal(flags.has('is-scaffolded'),false);
+});
+
+test('Pop rejects detached cards from an earlier round',()=>{
+ const {ns}=runtime();const game=Object.create(ns.LettersMiniGames.pop.prototype);
+ Object.assign(game,{alive:true,advancing:false,bubbles:[],ctx:{say(){throw Error('stale input spoke')}}});
+ game.popAttempt({item:{id:'old'}});
+});
+
+test('Catch basket clamps to rendered bounds and exposes normalized keyboard position',()=>{
+ const {ns}=runtime();const game=Object.create(ns.LettersMiniGames.catch.prototype);let width=300;
+ const attrs={};Object.assign(game,{alive:true,ctx:{stage:{getBoundingClientRect:()=>({width})}},basket:{style:{},getBoundingClientRect:()=>({width:120}),setAttribute:(k,v)=>attrs[k]=v}});
+ game.positionBasket(-1);assert.equal(game.basketX,62/300);assert.equal(attrs['aria-valuenow'],'0');
+ game.positionBasket(2);assert.equal(game.basketX,1-62/300);assert.equal(attrs['aria-valuenow'],'100');
+ game.positionBasket(.5);assert.equal(attrs['aria-valuenow'],'50');
+ width=80;game.positionBasket(1);assert.equal(game.basketX,.5);
+ game.alive=false;game.positionBasket(0);assert.equal(game.basketX,.5);
+});
+
+test('Calm Catch keeps mistakes, rejects duplicate success and stops on exit',()=>{
+ const {ns,timers}=runtime();const game=Object.create(ns.LettersMiniGames.catch.prototype);let done=0;
+ const wrong={item:{id:'b'},el:{remove(){}}},right={item:{id:'a'},x:.5,el:{style:{},disabled:false}};
+ Object.assign(game,{alive:true,still:true,settling:false,slips:0,roundIndex:0,rounds:[{target:{id:'a'},options:[{id:'a'},{id:'b'}]}],fallers:[wrong,right],positionBasket(){},heat:{up(){},down(){}},ctx:{say(){},sfx(){}},finish(){done++}});
+ game.catchStationary(wrong);assert.equal(game.slips,1);assert.equal(game.fallers.length,1);
+ game.catchStationary(wrong);assert.equal(game.slips,1);
+ game.catchStationary(right);game.catchStationary(right);assert.equal(timers.length,1);assert.equal(right.el.disabled,true);
+ timers.shift()();assert.equal(done,1);assert.equal(game.roundIndex,1);
+ game.roundIndex=0;game.settling=false;game.catchStationary(right);game.alive=false;timers.shift()();assert.equal(done,1);
+});
+
+test('Calm Catch does not spawn an animation loop',()=>{
+ const {ns,frames}=runtime();const game=Object.create(ns.LettersMiniGames.catch.prototype);
+ Object.assign(game,{alive:true,still:true});game.tick(1000);assert.equal(frames.length,0);
+});
+
+function interactivePiece(i=0){const flags=new Set(),events={},attrs={};let capture=null;return {dataset:{i:String(i)},style:{},offsetLeft:50,offsetTop:50,offsetWidth:30,offsetHeight:30,events,attrs,flags,classList:{contains:k=>flags.has(k),add:k=>flags.add(k),remove:k=>flags.delete(k),toggle(k,on){on?flags.add(k):flags.delete(k)}},setAttribute:(k,v)=>attrs[k]=v,addEventListener:(k,f)=>events[k]=f,setPointerCapture:id=>capture=id,hasPointerCapture:id=>capture===id,releasePointerCapture:()=>capture=null,getBoundingClientRect:()=>({left:0,top:0,width:30,height:30})};}
+test('Blend keyboard select/cancel/join and retired input preserve state',()=>{
+ const {ns}=runtime();const a=interactivePiece(),b=interactivePiece(1),old=interactivePiece(2);let joined=0;
+ const game=Object.create(ns.LettersMiniGames.blend.prototype);Object.assign(game,{alive:true,els:[a,b],parts:[{part:{display:'a'}},{part:{display:'b'}}],ctx:{say(){}},tryBlend(){joined++}});
+ game.selectPart(a);assert.equal(a.attrs['aria-pressed'],'true');game.selectPart(a);assert.equal(a.attrs['aria-pressed'],'false');
+ game.selectPart(a);game.selectPart(b);assert.equal(joined,1);game.selectPart(old);assert.equal(game.selected,null);
+ b.disabled=true;game.selectPart(b);assert.equal(game.selected,null);
+});
+test('Blend pointer guards, clamped drag and lost capture recovery',()=>{
+ const {ns}=runtime();const el=interactivePiece();const game=Object.create(ns.LettersMiniGames.blend.prototype);
+ Object.assign(game,{alive:true,els:[el],parts:[{x:50,y:50,part:{display:'a'}}],scene:{clientWidth:100,clientHeight:100,getBoundingClientRect:()=>({width:100,height:100})},ctx:{say(){}},hitOther:()=>null});
+ game.wireDrag(el);el.events.pointerdown({button:2,pointerId:1,clientX:0,clientY:0});assert.equal(el.flags.has('is-held'),false);
+ el.events.pointerdown({button:0,pointerId:1,clientX:0,clientY:0});el.events.pointermove({clientX:1000,clientY:-1000});assert.equal(el.style.left,'85px');assert.equal(el.style.top,'15px');
+ el.events.lostpointercapture();assert.equal(el.flags.has('is-held'),false);assert.equal(el.style.left,'50%');
+});
+test('Chain keyboard, pointer release, clamped drag and lost capture recover',()=>{
+ const {ns}=runtime();const el=interactivePiece();let attempts=0;const scene={clientWidth:100,clientHeight:100,getBoundingClientRect:()=>({width:100,height:100})};const base=interactivePiece();base.parentElement=scene;
+ const game=Object.create(ns.LettersMiniGames.chain.prototype);Object.assign(game,{alive:true,base,thirds:[{x:20,y:30,l:{display:'a'}}],ctx:{say(){}},hitsBase:()=>false,tryChain(){attempts++}});
+ game.wireDrag(el);el.events.keydown({key:'Enter',preventDefault(){}});assert.equal(attempts,1);
+ el.events.pointerdown({button:2});assert.equal(el.flags.has('is-held'),false);
+ el.events.pointerdown({button:0,pointerId:1,clientX:0,clientY:0});el.events.pointermove({clientX:500,clientY:500});assert.equal(el.style.left,'85px');el.events.pointerup({pointerId:1});assert.equal(el.hasPointerCapture(1),false);assert.equal(el.style.left,'20%');
+ el.events.pointerdown({button:0,pointerId:2,clientX:0,clientY:0});el.events.lostpointercapture();assert.equal(el.flags.has('is-held'),false);
+});
+test('Trace ignores unreadied, secondary and concurrent strokes; clear cancels drawing',()=>{
+ const {ns}=runtime();const game=Object.create(ns.LettersMiniGames.trace.prototype);Object.assign(game,{alive:true,drawing:false,advancing:false,startRound(){}});
+ game.penDown({button:0});assert.equal(game.drawing,false);game.g={};game.penDown({button:2});assert.equal(game.drawing,false);game.drawing=true;game.penDown({button:0});game.clearDrawing();assert.equal(game.drawing,false);
 });
