@@ -31,6 +31,8 @@
   const tool = name => ns.LettersArt.icon(name,30);
   const eye = `<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M3 20Q20 1 37 20Q20 39 3 20Z" fill="#dce8c3" stroke="#617b50" stroke-width="3"/><circle cx="20" cy="20" r="7" fill="#617b50"/><circle cx="18" cy="17" r="2" fill="#fffaf0"/></svg>`;
   const seedDot = `<svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="10" fill="#4a3620"/><circle cx="17" cy="16" r="2.5" fill="#c9b28b"/></svg>`;
+  const eraser=`<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M6 25L23 8Q26 5 29 8L35 14Q38 17 35 20L19 35H15Z" fill="#ee806f" stroke="#4a3620" stroke-width="3"/><path d="M6 25L13 18 26 28 19 35H15Z" fill="#fffaf0" stroke="#4a3620" stroke-width="3"/><path d="M25 35H36" stroke="#4a3620" stroke-width="3"/></svg>`;
+  const recallGlyph=display=>{const shift=ns.LettersArt.inkShift(display,44,false);return `<svg class="dot-recall-glyph" viewBox="-50 -50 100 100" aria-hidden="true"><text data-fit-box="0,0,72,62,44" x="${shift.dx}" y="${shift.dy}" text-anchor="middle" font-family="'Amiri Quran',serif" font-size="44" fill="#4a3620" direction="rtl">${display}</text></svg>`;};
   const validDots=(display,above,below)=>display==='ب' ? above===0&&below===1 : (display==='ت'||display==='ث') && below===0&&above===(display==='ت'?2:3);
   const dots=count=>`<span class="dot-cluster dots-${count}">${Array.from({length:count},()=>'<i>●</i>').join('')}</span>`;
   class DotGarden {
@@ -41,19 +43,21 @@
     }
     show(){
       if(!this.alive)return;
+      const view=this.view=(this.view||0)+1;
+      const active=()=>this.alive&&this.view===view;
       this.resetDrag?.();this.busy=false;this.above=0;this.below=0;
       const recall=this.index>=this.targets.length;
       this.target=this.targets[this.index%this.targets.length];
-      if(!this.target){this.ctx.done();return;}
+      if(!this.target){this.alive=false;this.ctx.done();return;}
       this.ctx.prompt(recall ? null : this.target);this.ctx.say(this.target);
       if(recall){
         const other=this.targets[(this.index+1)%this.targets.length];
-        const options=this.index%2 ? [this.target,other] : [other,this.target];
-        this.ctx.stage.innerHTML=`<div class="dot-garden"><div class="practice-listen" aria-hidden="true">${tool("speaker")}</div><div class="dot-answers">${options.map(i=>button(i.display,i.display)).join('')}</div></div>`;
+        const options=[...new Map((this.index%2 ? [this.target,other] : [other,this.target]).map(i=>[i.id,i])).values()];
+        this.ctx.stage.innerHTML=`<div class="dot-garden"><div class="practice-listen" aria-hidden="true">${tool("speaker")}</div><div class="dot-answers">${options.map(i=>button(i.display,recallGlyph(i.display))).join('')}</div></div>`;
         this.ctx.stage.querySelectorAll('.dot-answers button').forEach((b,i)=>b.onclick=()=>{
-          if(this.busy)return;
+          if(!active()||this.busy)return;
           if(options[i].id===this.target.id)this.advance();
-          else {this.ctx.say(this.target); b.classList.add('is-help');}
+          else {this.ctx.say(this.target); b.disabled=true;this.ctx.stage.querySelectorAll('.dot-answers button').forEach((choice,j)=>{if(options[j].id===this.target.id)choice.classList.add('is-help');});}
         });
         return;
       }
@@ -68,21 +72,27 @@
       const guidedCount=this.target.display==='ب'?1:this.target.display==='ت'?2:3;
       const guidedZone=this.target.display==='ب'?1:0;
       this.zones[guidedZone].querySelector('.dot-hint').innerHTML=dots(guidedCount);
-      this.history=[];
-      const add=name=>{if(this.busy || this.above+this.below>=3)return;this[name]++;this.history.push(name);this.paint();};
+      this.history=[];this.ctx.stage.querySelector('.dot-undo').disabled=true;
+      const add=name=>{if(!active()||this.busy || this.above+this.below>=3)return;this[name]++;this.history.push(name);source.classList.remove("is-selected");source.setAttribute("aria-pressed","false");this.paint();};
       this.zones.forEach((el,i)=>el.onclick=()=>add(i?'below':'above'));
-      source.onclick=()=>{source.classList.toggle('is-selected');source.setAttribute('aria-pressed',String(source.classList.contains('is-selected')));};
-      this.resetDrag=draggable(source,{enabled:()=>this.alive&&!this.busy,drop:(x,y)=>this.zones.forEach((z,i)=>{if(inside(z,x,y))add(i?'below':'above');})});
-      this.ctx.stage.querySelector('.dot-undo').onclick=()=>{if(this.busy)return;const last=this.history.pop();if(last)this[last]--;this.paint();};
+      source.setAttribute('aria-pressed','false');
+      source.onclick=()=>{if(!active()||this.busy)return;source.classList.toggle('is-selected');source.setAttribute('aria-pressed',String(source.classList.contains('is-selected')));};
+      this.resetDrag=draggable(source,{enabled:()=>active()&&!this.busy,drop:(x,y)=>this.zones.forEach((z,i)=>{if(inside(z,x,y))add(i?'below':'above');})});
+      this.ctx.stage.querySelector('.dot-undo').onclick=()=>{if(!active()||this.busy)return;const last=this.history.pop();if(last)this[last]--;this.paint();};
       this.ctx.stage.querySelector('.dot-check').onclick=()=>{
-        if(this.busy)return;
+        if(!active()||this.busy)return;
         const correct=validDots(this.target.display,this.above,this.below);
         if(correct){this.ctx.stage.querySelector('.dot-base').textContent=this.target.display;this.zones.forEach(z=>z.style.visibility='hidden');this.advance();}
         else {this.ctx.say(this.target);this.ctx.stage.querySelector('.practice-status').innerHTML=tool('replay');this.zones[this.target.display==='ب'?1:0].classList.add('is-help');}
       };
     }
-    paint(){this.zones.forEach((z,i)=>{z.querySelector('.dot-placed').innerHTML=dots(i?this.below:this.above);z.classList.remove('is-help');});}
-    advance(){if(this.busy||!this.alive)return;this.busy=true;this.ctx.correct();this.ctx.say(this.target);setTimeout(()=>{if(!this.alive)return;this.index++;if(this.index>=this.targets.length*2)this.ctx.done();else this.show();},800);}
+    paint(){
+      this.ctx.stage.querySelector('.dot-undo').disabled=this.history.length===0;
+      this.ctx.stage.querySelector('.practice-status').innerHTML='';
+      this.zones.forEach((z,i)=>{const count=i?this.below:this.above;z.querySelector('.dot-placed').innerHTML=dots(count);z.classList.remove('is-help');z.disabled=this.above+this.below>=3;z.setAttribute('aria-label',`Place a dot ${i?'below':'above'}; ${count} placed`);});
+    }
+
+    advance(){if(this.busy||!this.alive)return;this.busy=true;this.ctx.stage.querySelectorAll('button').forEach(b=>b.disabled=true);this.ctx.correct();this.ctx.say(this.target);setTimeout(()=>{if(!this.alive)return;this.index++;if(this.index>=this.targets.length*2){this.alive=false;this.ctx.done();}else this.show();},800);}
     destroy(){this.alive=false;this.resetDrag?.();}
   }
 
@@ -90,21 +100,24 @@
     constructor(ctx){this.ctx=ctx;this.alive=true;this.index=0;this.copy=false;this.targets=ctx.items.filter(i=>['ا','ب','ت'].includes(i.display));this.show();}
     show(){
       if(!this.alive)return;
-      const target=this.targets[this.index];if(!target){this.ctx.done();return;}
+      const view=this.view=(this.view||0)+1;
+      const active=()=>this.alive&&this.view===view;
+      const target=this.targets[this.index];if(!target){this.alive=false;this.ctx.done();return;}
       this.ctx.prompt(target);this.ctx.say(target);this.hasInk=false;this.pointer=null;
-      this.ctx.stage.innerHTML=`<div class="garden-paths"><div class="path-paper"><span class="path-guide" lang="ar">${target.display}</span><canvas aria-label="Draw the letter here"></canvas></div><div class="practice-tools">${button('Clear drawing',tool('replay'),'path-clear')}${button('Show or hide guide',eye,'path-guide-toggle')}${button(this.copy?'Finish this drawing':'Try without the guide',tool('check'),'path-next')}</div></div>`;
+      this.ctx.stage.innerHTML=`<div class="garden-paths"><div class="path-progress" aria-label="Drawing ${this.index+1} of ${this.targets.length}, ${this.copy?'copy':'guided'}">${Array.from({length:this.targets.length*2},(_,i)=>`<i class="${i<=this.index*2+Number(this.copy)?'is-on':''}"></i>`).join('')}</div><div class="path-paper"><span class="path-guide" lang="ar">${target.display}</span><canvas aria-label="Draw ${target.display} here"></canvas></div><div class="practice-tools">${button('Clear drawing',eraser,'path-clear')}${button('Show or hide guide',eye,'path-guide-toggle')}${button(this.copy?'Finish this drawing':'Try without the guide',tool('check'),'path-next')}</div></div>`;
       const canvas=this.ctx.stage.querySelector('canvas'),guide=this.ctx.stage.querySelector('.path-guide'),next=this.ctx.stage.querySelector('.path-next');
       const g=canvas.getContext('2d');canvas.width=800;canvas.height=500;
       guide.hidden=this.copy;next.disabled=true;
-      const toggle=this.ctx.stage.querySelector('.path-guide-toggle');toggle.setAttribute('aria-pressed',String(!guide.hidden));
-      toggle.onclick=()=>{guide.hidden=!guide.hidden;toggle.setAttribute('aria-pressed',String(!guide.hidden));};
-      this.ctx.stage.querySelector('.path-clear').onclick=()=>{g.clearRect(0,0,800,500);this.hasInk=false;next.disabled=true;};
-      const point=e=>{const r=canvas.getBoundingClientRect();return [(e.clientX-r.left)*800/r.width,(e.clientY-r.top)*500/r.height];};
-      canvas.onpointerdown=e=>{if(!this.alive||this.pointer!==null||e.button>0)return;this.pointer=e.pointerId;canvas.setPointerCapture(e.pointerId);const [x,y]=point(e);g.beginPath();g.moveTo(x,y);g.lineTo(x+.1,y+.1);g.strokeStyle='#4e9677';g.lineWidth=14;g.lineCap=g.lineJoin='round';g.stroke();this.hasInk=true;next.disabled=false;};
-      canvas.onpointermove=e=>{if(e.pointerId!==this.pointer)return;g.lineTo(...point(e));g.stroke();};
+      const clear=this.ctx.stage.querySelector(".path-clear");clear.disabled=true;
+      const toggle=this.ctx.stage.querySelector('.path-guide-toggle');toggle.setAttribute('aria-pressed',String(!guide.hidden));toggle.setAttribute('aria-label',guide.hidden?'Show guide':'Hide guide');
+      toggle.onclick=()=>{if(!active())return;guide.hidden=!guide.hidden;toggle.setAttribute('aria-pressed',String(!guide.hidden));toggle.setAttribute('aria-label',guide.hidden?'Show guide':'Hide guide');};
+      this.ctx.stage.querySelector('.path-clear').onclick=()=>{if(!active())return;this.release?.();g.clearRect(0,0,800,500);this.hasInk=false;next.disabled=true;clear.disabled=true;};
+      const point=e=>{const r=canvas.getBoundingClientRect();if(r.width<=0||r.height<=0)return null;return [Math.max(0,Math.min(800,(e.clientX-r.left)*800/r.width)),Math.max(0,Math.min(500,(e.clientY-r.top)*500/r.height))];};
+      canvas.onpointerdown=e=>{if(!active()||this.pointer!==null||e.button>0||e.isPrimary===false)return;const pos=point(e);if(!pos)return;this.pointer=e.pointerId;canvas.setPointerCapture(e.pointerId);const [x,y]=pos;g.beginPath();g.moveTo(x,y);g.lineTo(Math.min(800,x+.1),Math.min(500,y+.1));g.strokeStyle='#4e9677';g.lineWidth=14;g.lineCap=g.lineJoin='round';g.stroke();this.hasInk=true;next.disabled=false;clear.disabled=false;};
+      canvas.onpointermove=e=>{if(!active()||e.pointerId!==this.pointer)return;const pos=point(e);if(!pos)return;g.lineTo(...pos);g.stroke();};
       const release=()=>{const id=this.pointer;this.pointer=null;if(id!==null&&canvas.hasPointerCapture(id))canvas.releasePointerCapture(id);};
       canvas.onpointerup=release;canvas.onpointercancel=release;canvas.onlostpointercapture=()=>{this.pointer=null;};this.release=release;
-      next.onclick=()=>{if(!this.hasInk||this.pointer!==null)return;this.ctx.correct();this.release();if(this.copy){this.index++;this.copy=false;}else this.copy=true;this.show();};
+      next.onclick=()=>{if(!active()||!this.hasInk||this.pointer!==null)return;this.ctx.correct();this.release();if(this.copy){this.index++;this.copy=false;}else this.copy=true;this.show();};
     }
     destroy(){this.alive=false;this.release?.();}
   }

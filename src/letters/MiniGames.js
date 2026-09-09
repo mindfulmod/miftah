@@ -161,11 +161,12 @@
     }
 
     popAttempt(bubble) {
-      if (!this.alive || this.advancing || bubble.el.classList.contains("is-popped") || bubble.el.classList.contains("is-scaffolded") || bubble.el.classList.contains("is-no")) return;
+      if (!this.alive || this.advancing || !this.bubbles.includes(bubble) || bubble.el.classList.contains("is-popped") || bubble.el.classList.contains("is-scaffolded") || bubble.el.classList.contains("is-no")) return;
       const round = this.rounds[this.roundIndex];
       if (bubble.item.id === round.target.id) {
         this.advancing = true;
         bubble.el.classList.add("is-popped");
+        this.bubbles.forEach(b=>b.el.disabled=true);
         this.heat.up();
         this.ctx.sfx("correct");
         this.ctx.confettiAt(bubble.el);
@@ -185,12 +186,15 @@
         void svg.offsetWidth;
         svg.classList.add("is-shake");
         bubble.el.classList.add("is-no");
+        bubble.el.disabled = true;
+        const retryRound = this.roundIndex;
         const cross = document.createElement("i");
         cross.className = "pop-cross";
         cross.innerHTML = `<svg viewBox="0 0 64 64"><path d="M18 18 L46 46 M46 18 L18 46" stroke="#c23a2b" stroke-width="10" stroke-linecap="round"/></svg>`;
         if (!this.ctx.beginner) bubble.el.appendChild(cross);
         if (this.ctx.beginner) this.bubbles.find(b => b.item.id === round.target.id)?.el.classList.add("is-helpful");
         setTimeout(() => {
+          if (!this.alive || this.roundIndex !== retryRound || !this.bubbles.includes(bubble)) return;
           bubble.el.classList.remove("is-no");
           cross.remove();
           // Scaffolded retry: the wrong pick quietly leaves the sky.
@@ -242,25 +246,37 @@
       this.slips = 0;
       this.alive = true;
       this.fallers = [];
+      this.still = !!ctx.reducedMotion?.();
       ctx.stage.innerHTML = `
         <svg class="catch-canopy" viewBox="0 0 600 90" preserveAspectRatio="none" aria-hidden="true"><path d="M-10 4Q60 80 151 24M610 3Q544 71 455 21" fill="none" stroke="#907049" stroke-width="10" stroke-linecap="round"/><g fill="#83a56c" stroke="#647e50" stroke-width="2"><path d="M31 24Q18 62 62 53Q66 27 31 24M90 36Q96 4 129 13Q132 37 90 36M552 21Q574 47 539 57Q520 37 552 21M502 35Q504 8 473 11Q459 36 502 35"/></g></svg><div class="catch-field"></div>
-        <div class="catch-basket">
+        <div class="catch-basket" tabindex="0" role="slider" aria-label="Move the basket" aria-orientation="horizontal" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
           ${ns.LettersGardenArt.seedBasket()}
         </div>`;
       this.field = ctx.stage.querySelector(".catch-field");
       this.basket = ctx.stage.querySelector(".catch-basket");
+      ctx.stage.classList.toggle("catch-still",this.still);
+      if(this.still){this.basket.removeAttribute("role");this.basket.removeAttribute("tabindex");this.basket.setAttribute("aria-hidden","true");}
       // Perf: fallers move via transform, height measured outside the loop.
       this.fieldH = this.field.clientHeight || 1;
-      this.onResize = () => (this.fieldH = this.field.clientHeight || 1);
+      this.onResize = () => {
+        this.fieldH = this.field.clientHeight || 1;
+        this.positionBasket(this.basketX);
+      };
       window.addEventListener("resize", this.onResize);
       this.heat = makeHeat();
       this.basketX = 0.5;
       const move = (event) => {
+        if(this.still)return;
         const rect = ctx.stage.getBoundingClientRect();
-        const edge = Math.min(.3, (this.basket.getBoundingClientRect().width / 2 + 2) / rect.width);
-        this.basketX = Math.max(edge, Math.min(1-edge, (event.clientX - rect.left) / rect.width));
-        this.basket.style.left = `${this.basketX * 100}%`;
+        if (rect.width > 0) this.positionBasket((event.clientX - rect.left) / rect.width);
       };
+      this.keyBasket = event => {
+        const steps = {ArrowLeft:-.08, ArrowRight:.08};
+        if (!(event.key in steps) && event.key !== 'Home' && event.key !== 'End') return;
+        event.preventDefault();
+        this.positionBasket(event.key === 'Home' ? 0 : event.key === 'End' ? 1 : this.basketX + steps[event.key]);
+      };
+      this.basket.addEventListener('keydown', this.keyBasket);
       this.moveBasket = move;
       ctx.stage.addEventListener("pointermove", move);
       ctx.stage.addEventListener("pointerdown", move);
@@ -271,10 +287,56 @@
       requestAnimationFrame(this.tick);
     }
 
+    positionBasket(x) {
+      if (!this.alive || !Number.isFinite(x)) return;
+      const width = this.ctx.stage.getBoundingClientRect().width;
+      if (width <= 0) return;
+      const edge = Math.min(.5, (this.basket.getBoundingClientRect().width / 2 + 2) / width);
+      this.basketX = Math.max(edge, Math.min(1-edge, x));
+      this.basket.style.left = `${this.basketX * 100}%`;
+      const available = 1-2*edge;
+      this.basket.setAttribute('aria-valuenow', String(available > 0 ? Math.round((this.basketX-edge)/available*100) : 50));
+    }
+
     startRound() {
       const round = this.rounds[this.roundIndex];
       this.ctx.setPrompt(round.target);
       this.ctx.say(round.target);
+      if(this.still)this.stationaryChoices(round);
+    }
+
+    stationaryChoices(round) {
+      this.clearFallers();
+      this.settling = false;
+      round.options.forEach((item,i) => {
+        const el=document.createElement('button');
+        el.type='button';el.className='catch-faller catch-choice';
+        el.setAttribute('aria-label',item.display);
+        el.innerHTML=workshopTile(item.display,'leaf');
+        const x=.18+(round.options.length>1?i*.64/(round.options.length-1):.32);
+        el.style.left=`${x*100}%`;el.style.top='25%';
+        const f={el,item,x};this.fallers.push(f);this.field.appendChild(el);
+        el.addEventListener('click',()=>this.catchStationary(f));
+      });
+    }
+
+    catchStationary(f) {
+      if(!this.alive || this.settling || !this.fallers.includes(f))return;
+      const round=this.rounds[this.roundIndex];
+      this.positionBasket(f.x);
+      if(f.item.id!==round.target.id){
+        this.slips++;this.heat.down();this.ctx.sfx('wrong');
+        round.options=round.options.filter(o=>o.id!==f.item.id);
+        this.remove(f);this.ctx.say(round.target);return;
+      }
+      this.settling=true;f.el.disabled=true;f.el.style.top='72%';
+      this.heat.up();this.ctx.sfx('correct');this.ctx.say(round.target);
+      setTimeout(()=>{
+        if(!this.alive)return;
+        this.roundIndex++;
+        if(this.roundIndex>=this.rounds.length)return this.finish();
+        this.startRound();
+      },550);
     }
 
     spawn() {
@@ -300,7 +362,7 @@
     }
 
     tick(now) {
-      if (!this.alive) return;
+      if (!this.alive || this.still) return;
       const dt = Math.min(0.05, (now - this.lastTime) / 1000);
       this.lastTime = now;
       this.spawnTimer -= dt;
@@ -364,6 +426,7 @@
       window.removeEventListener("resize", this.onResize);
       this.ctx.stage.removeEventListener("pointermove",this.moveBasket);
       this.ctx.stage.removeEventListener("pointerdown",this.moveBasket);
+      this.basket.removeEventListener('keydown',this.keyBasket);
       this.clearFallers();
     }
   }
@@ -414,6 +477,7 @@
         el.className = "pairs-card";
         el.innerHTML = workshopTile(card.display,"leaf");
         el.setAttribute("aria-label",card.display);
+        el.setAttribute("aria-pressed","false");
         el.addEventListener("click", () => this.pick(card, el));
         card.el = el;
         grid.appendChild(el);
@@ -431,31 +495,43 @@
 
     pick(card, el) {
       if (!this.alive || el.classList.contains("is-matched")) return;
-      this.ctx.say(card);
+      this.cards.forEach(c=>c.el.classList.remove("is-demo"));
       if (!this.selected) {
+        this.ctx.say(card);
         this.selected = { card, el };
         el.classList.add("is-selected");
+        el.setAttribute("aria-pressed","true");
         return;
       }
       if (this.selected.el === el) {
         el.classList.remove("is-selected");
+        el.setAttribute("aria-pressed","false");
         this.selected = null;
         return;
       }
       const first = this.selected;
       this.selected = null;
       first.el.classList.remove("is-selected");
+      first.el.setAttribute("aria-pressed","false");
       if (first.card.id === card.id) {
+        this.ctx.say(card);
         first.el.classList.add("is-matched");
         el.classList.add("is-matched");
+        first.el.disabled=true;el.disabled=true;
         this.ctx.sfx("correct");
         this.ctx.confettiAt(el);
         this.matched += 1;
         if (this.matched >= 3) setTimeout(() => this.nextBoard(), 650);
       } else {
+        // Keep the reference visible: retry means finding its partner, not
+        // remembering and selecting the first card all over again.
+        this.selected = first;
+        first.el.classList.add("is-selected");
+        first.el.setAttribute("aria-pressed","true");
+        this.ctx.say(first.card);
         this.slips += 1;
         this.ctx.sfx("wrong");
-        for (const e of [first.el, el]) {
+        for (const e of [el]) {
           e.classList.remove("is-shake");
           void e.offsetWidth;
           e.classList.add("is-shake");
@@ -484,7 +560,7 @@
       ctx.stage.innerHTML = `
         <div class="feed-scene">
           <div class="feed-creature">${ctx.garden && ctx.petArt ? ctx.petArt() : Art.creature({ hue: ctx.garden ? 150 : (ctx.hue + 140) % 360 })}</div>
-          ${ctx.garden ? `<button type="button" class="feed-basket" aria-label="Deliver the selected seed packet" aria-disabled="true">${ns.LettersGardenArt.seedBasket()}</button>` : ""}
+          ${ctx.garden ? `<button type="button" class="feed-basket" aria-label="Deliver the selected seed packet" aria-disabled="true" disabled>${ns.LettersGardenArt.seedBasket()}</button>` : ""}
           <div class="feed-tray"></div>
         </div>`;
       this.creatureEl = ctx.stage.querySelector(".feed-creature");
@@ -498,7 +574,7 @@
     startRound() {
       if (!this.alive) return;
       this.dragResets.forEach(reset=>reset());this.dragResets=[];this.selected=null;
-      if(this.basket){this.basket.classList.remove("is-ready","is-filled");this.basket.setAttribute("aria-disabled","true");}
+      if(this.basket){this.basket.classList.remove("is-ready","is-filled");this.basket.setAttribute("aria-disabled","true");this.basket.disabled=true;}
       const round = this.rounds[this.roundIndex];
       this.ctx.setPrompt(round.target);
       this.ctx.say(round.target);
@@ -516,11 +592,13 @@
         </svg>` : tileHTML(item, this.ctx.hue);
         el.setAttribute("aria-label", item.display);
         if(this.ctx.garden){
+          el.setAttribute("aria-pressed","false");
           this.dragResets.push(ns.GardenPractice.draggable(el,{enabled:()=>this.alive&&!this.feeding&&!el.disabled,drop:(x,y)=>{if(ns.GardenPractice.inside(this.basket,x,y))this.offer(item,el);}}));
           el.addEventListener('click',()=>{
-            if(this.feeding||el.disabled)return;
+            if(!this.alive||this.feeding||el.disabled)return;
+            if(this.selected?.el===el){this.selected=null;el.setAttribute("aria-pressed","false");this.basket.classList.remove("is-ready");this.basket.setAttribute("aria-disabled","true");this.basket.disabled=true;return;}
             this.selected={item,el};
-            this.basket.classList.add("is-ready");this.basket.setAttribute("aria-disabled","false");
+            this.basket.classList.add("is-ready");this.basket.setAttribute("aria-disabled","false");this.basket.disabled=false;
             this.tray.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b===el)));
           });
         }else el.addEventListener("click", () => this.offer(item, el));
@@ -534,7 +612,7 @@
       if (item.id !== round.target.id) {
         el.disabled=true; this.selected=null;
         el.setAttribute("aria-pressed","false");
-        if(this.basket){this.basket.classList.remove("is-ready");this.basket.setAttribute("aria-disabled","true");}
+        if(this.basket){this.basket.classList.remove("is-ready");this.basket.setAttribute("aria-disabled","true");this.basket.disabled=true;}
         this.slips += 1;
         this.ctx.sfx("wrong");
         el.classList.remove("is-shake");
@@ -542,12 +620,14 @@
         el.classList.add("is-shake");
         this.ctx.say(round.target);
         // Scaffolded retry: the refused food quietly leaves the tray.
-        setTimeout(() => {if(this.alive)el.classList.add("is-scaffolded");}, 650);
+        const retryRound=this.roundIndex;
+        setTimeout(() => {if(this.alive&&this.roundIndex===retryRound)el.classList.add("is-scaffolded");}, 650);
         return;
       }
       this.feeding = true;
+      this.tray?.querySelectorAll("button").forEach(b=>b.disabled=true);
       // Match the delivery destination to the interaction: basket for seeds, mouth for food.
-      if(this.basket){this.basket.classList.remove("is-ready");this.basket.setAttribute("aria-disabled","true");}
+      if(this.basket){this.basket.classList.remove("is-ready");this.basket.setAttribute("aria-disabled","true");this.basket.disabled=true;}
       const from = el.getBoundingClientRect();
       const mouth = (this.basket || this.creatureEl).getBoundingClientRect();
       el.style.setProperty("--fly-x", `${mouth.left + mouth.width / 2 - (from.left + from.width / 2)}px`);
@@ -724,7 +804,7 @@
     }
 
     clearDrawing() {
-      if (this.alive && !this.advancing) this.startRound();
+      if (this.alive && !this.advancing) {this.drawing=false;this.startRound();}
     }
 
     pos(e) {
@@ -733,7 +813,7 @@
     }
 
     penDown(e) {
-      if (!this.alive || this.advancing) return;
+      if (!this.alive || this.advancing || !this.g || this.drawing || e.button>0) return;
       this.drawing = true;
       this.last = this.pos(e);
       this.canvas.setPointerCapture?.(e.pointerId);
@@ -990,19 +1070,20 @@
 
     place(btn) {
       const target = this.targets[this.roundIndex];
-      if (!this.alive || btn.classList.contains("is-scaffolded") || btn.classList.contains("is-used") || this.placed.length >= target.parts.length) return;
+      if (!this.alive || btn.disabled || (this.ctx.stage&&!this.ctx.stage.contains(btn)) || btn.classList.contains("is-scaffolded") || btn.classList.contains("is-used") || this.placed.length >= target.parts.length) return;
       const part = this.tray[Number(btn.dataset.i)];
       const slot = this.slots[this.placed.length];
       slot.innerHTML = workshopTile(part.display)+`<span class="build-undo-cue" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M5 7H11A5 5 0 1 1 10 17M5 7L8 3M5 7L9 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`;
       slot.disabled=false;
       slot.setAttribute('aria-label',`Return ${part.display} and following pieces`);
       slot.classList.add("is-filled");
-      btn.classList.add("is-used");
+      btn.classList.add("is-used");btn.disabled=true;
       this.placed.push({ part, btn, slot });
       this.ctx.say({ display: part.display, speak: part.speak || part.display });
 
       if (this.placed.length < target.parts.length) return;
       this.slots.forEach(slot=>{slot.disabled=true;});
+      this.ctx.stage.querySelectorAll(".build-tile").forEach(b=>b.disabled=true);
       const built = this.placed.every((p, i) => p.part.display === target.parts[i].display);
       if (built) {
         this.ctx.sfx("correct");
@@ -1036,10 +1117,11 @@
             p.slot.disabled=true;
             p.slot.setAttribute('aria-label','Empty building space');
             p.slot.classList.remove("is-filled");
-            p.btn.classList.remove("is-used");
+            p.btn.classList.remove("is-used");p.btn.disabled=false;
           }
+          this.ctx.stage.querySelectorAll(".build-tile").forEach(b=>b.disabled=b.classList.contains("is-scaffolded"));
           this.placed = [];
-          if (strayed) strayed.btn.classList.add("is-scaffolded");
+          if (strayed) {strayed.btn.classList.add("is-scaffolded");strayed.btn.disabled=true;}
           this.ctx.say(target);
         }, 800);
       }
@@ -1052,7 +1134,7 @@
       for(const {slot,btn} of removed){
         slot.innerHTML='';slot.disabled=true;
         slot.setAttribute('aria-label','Empty building space');
-        slot.classList.remove('is-filled');btn.classList.remove('is-used');
+        slot.classList.remove('is-filled');btn.classList.remove('is-used');btn.disabled=false;
       }
       // Keep the order of the surviving prefix. A motor correction is not a
       // completed answer, so it neither adds a slip nor triggers reward logic.
@@ -1123,7 +1205,7 @@
       this.merging = false;
       this.retrying = false;
       this.selected = null;
-      this.els.forEach((el) => this.wireDrag(el));
+      this.els.forEach((el) => {el.setAttribute("aria-pressed","false");this.wireDrag(el);});
       // Nudge the pieces toward the middle of the machine so "bring these
       // together" is visible before the child has tried anything.
       if (this.stopHint) this.stopHint();
@@ -1141,7 +1223,7 @@
       let moved = false;
 
       el.addEventListener("pointerdown", (e) => {
-        if (!this.alive || this.merging || this.retrying || el.classList.contains("is-scaffolded") || el.classList.contains("is-gone")) return;
+        if (e.button>0 || !this.alive || this.merging || this.retrying || el.classList.contains("is-scaffolded") || el.classList.contains("is-gone")) return;
         el.setPointerCapture(e.pointerId);
         startX = e.clientX;
         startY = e.clientY;
@@ -1162,18 +1244,20 @@
         const dy = (e.clientY - startY) * this.scene.clientHeight / bounds.height;
         if (Math.hypot(dx, dy) > 8) moved = true;
         if (moved) {
-          el.style.left = `${baseL + dx}px`;
-          el.style.top = `${baseT + dy}px`;
+          el.style.left = `${Math.max(el.offsetWidth/2,Math.min(this.scene.clientWidth-el.offsetWidth/2,baseL+dx))}px`;
+          el.style.top = `${Math.max(el.offsetHeight/2,Math.min(this.scene.clientHeight-el.offsetHeight/2,baseT+dy))}px`;
           const hit = this.hitOther(el);
           this.els.forEach((o) => o.classList.toggle("is-near", o === hit));
         }
       });
 
-      el.addEventListener("pointercancel", () => {
+      const cancel = () => {
         el.classList.remove("is-held");
         this.els.forEach(o=>o.classList.remove("is-near"));
         if(this.alive&&!this.merging)this.springBack(el);
-      });
+      };
+      el.addEventListener("pointercancel",cancel);
+      el.addEventListener("lostpointercapture",()=>{if(el.classList.contains("is-held"))cancel();});
       el.addEventListener("pointerup", () => {
         if (!el.classList.contains("is-held")) return;
         el.classList.remove("is-held");
@@ -1185,20 +1269,21 @@
           else this.springBack(el);
           return;
         }
-        // Tap path: select, then blend into the next tapped tile.
-        if (this.selected && this.selected !== el) {
-          const a = this.selected;
-          this.selected.classList.remove("is-lifted");
-          this.selected = null;
-          this.tryBlend(a, el);
-        } else if (this.selected === el) {
-          el.classList.remove("is-lifted");
-          this.selected = null;
-        } else {
-          this.selected = el;
-          el.classList.add("is-lifted");
-        }
+        this.selectPart(el);
       });
+      el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();this.selectPart(el);}});
+    }
+
+    selectPart(el) {
+      if(!this.alive||this.merging||this.retrying||el.disabled||!this.els.includes(el))return;
+      this.stopHint?.();
+      const previous=this.selected;
+      this.els.forEach(e=>{e.classList.remove('is-lifted');e.setAttribute('aria-pressed','false');});
+      this.selected=null;
+      if(previous&&previous!==el){this.tryBlend(previous,el);return;}
+      if(previous===el)return;
+      this.selected=el;el.classList.add('is-lifted');el.setAttribute('aria-pressed','true');
+      this.ctx.say(this.parts[Number(el.dataset.i)].part);
     }
 
     hitOther(el) {
@@ -1206,7 +1291,7 @@
       const cx = r.left + r.width / 2;
       const cy = r.top + r.height / 2;
       for (const other of this.els) {
-        if (other === el || other.classList.contains("is-gone")) continue;
+        if (other === el || other.disabled || other.classList.contains("is-scaffolded") || other.classList.contains("is-gone")) continue;
         const o = other.getBoundingClientRect();
         if (Math.hypot(o.left + o.width / 2 - cx, o.top + o.height / 2 - cy) < r.width * 0.72) {
           return other;
@@ -1222,7 +1307,7 @@
     }
 
     tryBlend(a, b) {
-      if (!this.alive || this.merging || this.retrying) return;
+      if (!this.alive || this.merging || this.retrying || (this.els && (!this.els.includes(a)||!this.els.includes(b)))) return;
       const { target } = this.rounds[this.roundIndex];
       const pa = this.parts[Number(a.dataset.i)];
       const pb = this.parts[Number(b.dataset.i)];
@@ -1252,7 +1337,7 @@
           b.classList.remove("is-shake");
           this.springBack(a);
           this.springBack(b);
-          if (decoyEl) decoyEl.classList.add("is-scaffolded");
+          if (decoyEl) {decoyEl.classList.add("is-scaffolded");decoyEl.disabled=true;}
           this.ctx.say(target);
         }, 550);
         return;
@@ -1598,7 +1683,7 @@
       let baseT = 0;
       let moved = false;
       el.addEventListener("pointerdown", (e) => {
-        if (!this.alive || this.busy || el.classList.contains("is-gone") || el.classList.contains("is-scaffolded")) return;
+        if (e.button>0 || !this.alive || this.busy || el.classList.contains("is-gone") || el.classList.contains("is-scaffolded")) return;
         el.setPointerCapture(e.pointerId);
         sx = e.clientX;
         sy = e.clientY;
@@ -1617,15 +1702,18 @@
         const dy = (e.clientY - sy)*scene.clientHeight/bounds.height;
         if (Math.hypot(dx, dy) > 8) moved = true;
         if (moved) {
-          el.style.left = `${baseL + dx}px`;
-          el.style.top = `${baseT + dy}px`;
+          el.style.left = `${Math.max(el.offsetWidth/2,Math.min(scene.clientWidth-el.offsetWidth/2,baseL+dx))}px`;
+          el.style.top = `${Math.max(el.offsetHeight/2,Math.min(scene.clientHeight-el.offsetHeight/2,baseT+dy))}px`;
           this.base.classList.toggle("is-near", this.hitsBase(el));
         }
       });
       el.addEventListener("pointercancel",()=>{el.classList.remove("is-held");this.base.classList.remove("is-near");if(this.alive&&!this.busy)this.springHome(el);});
-      el.addEventListener("pointerup", () => {
+      el.addEventListener("lostpointercapture",()=>{if(el.classList.contains("is-held")){el.classList.remove("is-held");this.base.classList.remove("is-near");if(this.alive&&!this.busy)this.springHome(el);}});
+      el.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();this.tryChain(el);}});
+      el.addEventListener("pointerup", (e) => {
         if (!el.classList.contains("is-held")) return;
         el.classList.remove("is-held");
+        if(el.hasPointerCapture(e.pointerId))el.releasePointerCapture(e.pointerId);
         this.base.classList.remove("is-near");
         const drop = moved ? this.hitsBase(el) : true; // tap = try it too
         if (drop) this.tryChain(el);
@@ -1651,7 +1739,7 @@
     }
 
     tryChain(el) {
-      if(!this.alive||this.busy||el.classList.contains("is-scaffolded"))return;
+      if(!this.alive||this.busy||el.disabled||el.classList.contains("is-scaffolded")||(this.ctx.stage&&!this.ctx.stage.contains(el)))return;
       this.busy=true;
       this.stopHint?.();
       const ctx = this.ctx;
@@ -1668,12 +1756,12 @@
               if(!this.alive)return;
           this.busy=false;
           this.springHome(el);
-          el.classList.add("is-scaffolded");
+          el.classList.add("is-scaffolded");el.disabled=true;
           ctx.say(this.chain);
         }, 550);
         return;
       }
-      el.classList.add("is-fusing");
+      el.classList.add("is-fusing");el.disabled=true;
       el.style.left = "50%";
       el.style.top = "46%";
       setTimeout(() => {

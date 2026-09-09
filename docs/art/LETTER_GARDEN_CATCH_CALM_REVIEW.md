@@ -1,0 +1,7 @@
+# Calm Catch — September 8
+
+With reduced motion enabled on activity entry, Catch presents the current round's choices as stationary leaf buttons. Choosing a leaf positions the basket beneath it without animated travel. A wrong choice is removed and the target replayed; a correct choice rests above the basket for 550 ms before advancing. Normal Catch retains its falling behavior and basket controls. Curriculum targets, number of rounds, mistake accumulation and reward path are shared; the motor timing demand is intentionally removed in the accessibility mode.
+
+Phone play-through completed all four marked-letter rounds using keyboard choices, including a verified incorrect-choice removal followed by correction. Completion reached the existing garden reward screen. Regression tests cover duplicate correct input, removed choices, leaving during success and absence of a continuous animation loop. All 44 tests pass. A browser automation MutationObserver error without source attribution was logged once; subsequent keyboard interactions and completion worked. Follow-up desktop verification at 1024 × 768: completed all four rounds using Enter, reached rewards, replayed into stationary choices, then pressed Home immediately after a correct choice. Home remained after the pending success callback. Normal falling-mode keyboard completion and replay were also verified in the subsequent keyboard review.
+
+Local only: 20260908-catchcalm1. Pre-change MiniGames.js is in .codex-checkpoints/letter-garden-catch-calm-20260908/.
