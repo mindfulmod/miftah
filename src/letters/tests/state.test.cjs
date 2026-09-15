@@ -148,7 +148,7 @@ test("strength uses resilient state, rejects negative fast times, and clamps fut
   strength.record("a", true, -10);
   assert.equal(strength.map.a.fast, 1);
   assert.equal(strength.map.a.slow, 1);
-  const expectedWithoutNegativeStaleness = (0 + 1) / (2 + 0 + 2) * 3 + (1 / 2) * 0.6 - 2 * 0.3;
+  const expectedWithoutNegativeStaleness = (0 + 1) / (2 + 0 + 2) * 3 - 2 * 0.3;
   assert.ok(Math.abs(strength.weakness("a") - expectedWithoutNegativeStaleness) < 0.01);
   assert.ok(Number.isFinite(futureWeakness));
 });

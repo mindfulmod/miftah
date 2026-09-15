@@ -1,0 +1,55 @@
+/* Letter Delivery: tactile paper packets moving into one quiet garden bed. */
+.letter-delivery{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;width:min(720px,100%);height:100%;min-height:0;margin:auto;color:#4a3620}
+.delivery-top{position:relative;display:flex;align-items:center;justify-content:center;width:100%;min-height:46px}.delivery-progress{display:flex;gap:9px;align-items:center;justify-content:center;flex:0 0 14px}
+.delivery-progress i{width:10px;height:10px;border:2px solid #70501b;border-radius:50%;background:#fffaf0}
+.delivery-progress i.is-on{background:#ffe49a}.delivery-progress i.is-done{background:#7fce54}
+.delivery-listen{position:absolute;right:8px;display:grid;place-items:center;width:44px;height:44px;padding:8px;border:2px solid #70501b;border-radius:15px;background:#fffaf0;color:#4a3620;box-shadow:0 4px 0 #c9bda4;cursor:pointer}.delivery-listen>svg{width:27px;height:27px}.delivery-listen:active{transform:translateY(2px);box-shadow:0 2px 0 #c9bda4}
+.delivery-scene{position:relative;display:flex;align-items:flex-end;justify-content:center;width:100%;min-height:190px;flex:1}
+.delivery-pet{position:absolute;left:3%;bottom:8%;width:clamp(76px,18%,126px);height:clamp(84px,20%,138px);pointer-events:none;transform-origin:50% 100%}
+.delivery-pet>svg{width:100%;height:100%}
+.delivery-destination{position:relative;width:min(58%,330px);min-width:230px;margin:0;padding:0;border:0;background:none;color:#4a3620;cursor:pointer;touch-action:manipulation}
+.delivery-destination:focus-visible{outline:4px solid #e8743c;outline-offset:3px;border-radius:34px}
+.delivery-garden-art{display:block;width:100%;height:auto;filter:drop-shadow(0 5px 2px rgb(74 54 32 / .13))}
+.delivery-destination.is-ready .delivery-destination-mark,.delivery-destination.is-help .delivery-destination-mark{filter:drop-shadow(0 0 9px #ffe49a)}
+.delivery-destination.is-delivered{animation:delivery-grow 650ms ease-out}
+.delivery-packets{display:flex;align-items:flex-end;justify-content:center;gap:clamp(8px,3vw,22px);width:100%;min-height:116px;padding:4px 12px 8px}
+.delivery-packet{display:grid;place-items:center;width:clamp(84px,20vw,118px);height:clamp(96px,22vw,128px);padding:0;border:3px solid transparent;border-radius:22px;background:#fffaf0;color:#4a3620;box-shadow:0 5px 0 #c9bda4;cursor:pointer;touch-action:none;transition:transform 130ms ease-out,opacity 130ms ease-out,border-color 130ms ease-out}
+.delivery-packet-art{display:block;width:90%;height:94%;pointer-events:none}
+.delivery-packet:active,.delivery-packet.is-dragging{transform:translateY(-5px)}
+.delivery-packet.is-selected,.delivery-packet.is-help{border-color:#e8743c;background:#ffe49a}
+.delivery-packet.is-removed{opacity:.22;box-shadow:none}
+.delivery-packet:focus-visible{outline:4px solid #e8743c;outline-offset:3px}
+.delivery-status{display:grid;place-items:center;min-height:34px;color:#4e9677}
+.delivery-status>svg{width:30px;height:30px}
+.delivery-pet.is-delighted{animation:delivery-pet-delight 650ms ease-out}
+@keyframes delivery-grow{45%{transform:scale(1.045)}80%{transform:scale(.985)}}
+@keyframes delivery-pet-delight{38%{transform:translateY(-10px) rotate(-4deg)}70%{transform:rotate(3deg)}}
+
+/* The selected earned object stays visible beside the tray while placing it. */
+.decorate-selection{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:52px;margin:-5px 0 -7px;color:#4e9677}
+.decorate-selection-preview{display:grid;place-items:center;width:52px;height:52px;padding:3px;border:3px solid #70501b;border-radius:17px;background:#ffe49a;box-shadow:0 4px 0 #c9bda4}
+.decorate-selection-preview>svg{width:46px;height:46px}.decorate-selection-arrow{width:26px;height:26px;transform:rotate(180deg)}
+.decorate-selection[hidden]{display:none}
+.decorate-pet-reaction{position:absolute;left:calc(50% + 42px);top:10px;display:grid;place-items:center;width:36px;height:36px;border:2px solid #70501b;border-radius:50%;background:#fffaf0;color:#e8743c;opacity:0;transform:translateY(5px);pointer-events:none}
+.decorate-pet-reaction>svg{width:22px;height:22px}
+.decorate-pet.is-place+.decorate-pet-reaction,.decorate-pet.is-remove+.decorate-pet-reaction,.decorate-pet.is-undo+.decorate-pet-reaction{opacity:1;transform:none}
+.decorate-pet.is-remove+.decorate-pet-reaction{color:#4e9677}.decorate-pet.is-undo+.decorate-pet-reaction{color:#c69434}
+@media(max-height:650px){.delivery-scene{min-height:150px}.delivery-packets{min-height:94px}.decorate-selection{min-height:44px}.decorate-selection-preview{width:44px;height:44px}.decorate-selection-preview>svg{width:38px;height:38px}}
+@media(prefers-reduced-motion:reduce){.delivery-destination.is-delivered,.delivery-pet.is-delighted{animation:none}.delivery-packet{transition:none}}
+.lg-reduce-motion .delivery-destination.is-delivered,.lg-reduce-motion .delivery-pet.is-delighted{animation:none}.lg-reduce-motion .delivery-packet{transition:none}
+.delivery-top{justify-content:space-between;padding:0 12px;gap:12px}.delivery-progress{flex:0 0 auto}
+.delivery-support{display:flex;align-items:center;gap:12px}.delivery-support .delivery-listen,.delivery-help{position:static;display:grid;place-items:center;flex:0 0 44px;width:44px;height:44px;padding:8px;border:2px solid #70501b;border-radius:15px;background:#fffaf0;color:#4a3620;box-shadow:0 4px 0 #c9bda4;cursor:pointer}
+.delivery-help svg{width:28px;height:28px}.delivery-support button:disabled{opacity:.45;box-shadow:none}.delivery-support button:focus-visible{outline:3px solid #e8743c;outline-offset:3px}
+.lg-play[data-activity=delivery] .practice-stage{padding-top:8px;width:min(720px,100%)}
+.decorate-tools .decorate-delivery{min-width:52px;padding:3px 6px}.decorate-delivery svg{width:50px;height:42px}
+@media(max-height:450px){.lg-play[data-activity=delivery] .practice-stage{flex:0 0 auto;min-height:360px}.letter-delivery{min-height:360px}}
+/* Keep the listening sign, helper and seed bed large enough to read at 320px. */
+.letter-delivery{gap:12px;justify-content:flex-start}
+.delivery-scene{flex:1 1 260px;min-height:240px;max-height:370px;align-items:center;justify-content:flex-end}
+.delivery-destination{width:min(86%,420px);min-width:0}
+.delivery-pet{left:-1%;bottom:14%;width:32%;height:53%;z-index:1}.delivery-pet>svg,.delivery-pet>.lg-animal{width:100%!important;height:100%!important}
+.delivery-packets{min-height:112px;padding:4px 8px 8px;gap:10px}.delivery-packet{width:clamp(90px,26vw,120px);height:clamp(108px,29vw,136px);background:none;border-color:transparent;box-shadow:none}
+.delivery-packet.is-selected,.delivery-packet.is-help{border-color:#e8743c;background:#fff0c8;box-shadow:0 4px 0 #c9bda4}.delivery-packet-art{width:100%;height:100%}
+@media(max-height:650px){.delivery-scene{min-height:235px;max-height:260px}.delivery-status{min-height:26px}.letter-delivery{gap:8px}}
+
+.delivery-route{display:grid;place-items:center;transform:rotate(180deg)}.delivery-route svg{width:28px;height:28px}

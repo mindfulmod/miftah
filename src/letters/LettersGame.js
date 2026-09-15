@@ -43,7 +43,7 @@
     constructor(root) {
       this.root = root;
       this.stopGlyphFit = Art.watchGlyphs?.(root);
-      this.sound = new ns.SoundSystem();
+      this.sound = new ns.LettersSound(new ns.SoundSystem());
       // Haptics ride along with the sound vocabulary: decorating the two cue
       // entry points here means every existing play()/streakMelody() call site
       // buzzes correctly, with nothing new to keep in sync. Deliberately
@@ -377,12 +377,12 @@
       const el = this.screen(
         "lg-hatch",
         `${this.topBar({ home: false })}
-        <div class="hatch-stage">
+        <div class="hatch-stage"><div class="hatch-hero"><div class="hatch-nest" aria-hidden="true">${ns.LettersRoomArt.nest()}</div>
           ${hatched
-            ? `<button class="hatch-pet" type="button" aria-label="Listen to your new pet">${this.petSVG(220, "open")}</button>
+            ? `<button class="hatch-pet" type="button" aria-label="Listen to your new pet">${this.petSVG(220, "open")}</button></div>
                <div class="hatch-hues">${hues.map((h) => `<button type="button" class="hatch-hue${(this.pet?.hue ?? 200) === h ? " is-picked" : ""}" data-hue="${h}" aria-label="${({200:'Blue',320:'Pink',95:'Green',268:'Purple',28:'Orange'})[h]} pet" aria-pressed="${(this.pet?.hue ?? 200) === h}" style="--h:${h}"></button>`).join("")}</div>
                <button type="button" class="lg-big-btn hatch-go" aria-label="Enter the garden">${Art.icon("check", 40)}</button>`
-            : `<button type="button" class="hatch-egg" aria-label="Tap the egg to hatch your pet">${Art.egg({ size: 190, cracks })}</button>`}
+            : `<button type="button" class="hatch-egg" aria-label="Tap the egg to hatch your pet">${Art.egg({ size: 190, cracks })}</button></div>`}
         </div>`,
       );
       // No external exit is exposed during hatching.
@@ -474,27 +474,31 @@
     // The pet's room: the body shop (new species bought with stars), the
     // dress-up shelf, and the tap-to-recite thought bubble.
     renderPet() {
+      const tab=['friends','outfits','colors'].includes(this.wardrobeTab)?this.wardrobeTab:'outfits';
       const previous=this.root.querySelector('.lg-pet');
-      const shelfPositions=previous?[...previous.querySelectorAll('.pet-shelf')].map(shelf=>shelf.scrollLeft):[];
+      this.wardrobeScroll ||= {};
+      if(previous?.dataset.wardrobeTab)this.wardrobeScroll[previous.dataset.wardrobeTab]=previous.querySelector('.pet-shelf')?.scrollLeft||0;
+      const shelfPositions=[this.wardrobeScroll[tab]||0];
       const roomTop=previous?.querySelector('.pet-room')?.scrollTop || 0;
       const focused=previous?.contains(document.activeElement)?document.activeElement:null;
       const focusKey=focused?.dataset.body?`[data-body="${focused.dataset.body}"]`:
         focused?.dataset.acc?`[data-acc="${focused.dataset.acc}"]`:
-        focused?.dataset.petHue?`[data-pet-hue="${focused.dataset.petHue}"]`:null;
+        focused?.dataset.petHue?`[data-pet-hue="${focused.dataset.petHue}"]`:
+        focused?.dataset.wardrobeTab?`[data-wardrobe-tab="${focused.dataset.wardrobeTab}"]`:null;
       const worn = this.pet.worn || [];
       const species = this.pet.species || "blob";
       const petHues = [200, 320, 95, 268, 28];
       const petHueNames = { 200: "Sky blue", 320: "Berry pink", 95: "Leaf green", 268: "Plum purple", 28: "Honey gold" };
       const ownedBodies = this.pet.bodies || (this.pet.bodies = ["blob"]);
-      const bodyShelf = ns.LETTERS_BODIES.map((b) => {
+      const bodyShelf = tab==='friends' ? ns.LETTERS_BODIES.map((b) => {
         const owned = b.cost === 0 || ownedBodies.includes(b.id);
         return `<button type="button" class="pet-acc${owned ? " is-owned" : ""}${species === b.id ? " is-worn" : ""}" aria-label="${b.name || b.id}${owned?'':`, ${b.cost} stars`}" aria-pressed="${species === b.id}" data-body="${b.id}">
           <span class="pet-acc-art">${Art.pet({ hue: this.pet.hue, species: b.id, stage: 1, size: 54 })}</span>
           ${species===b.id?`<span class="pet-selected-mark" aria-hidden="true">${Art.icon('check',16)}</span>`:''}
           ${owned ? "" : `<span class="pet-acc-cost">${Art.icon("star", 12)} ${b.cost}</span>`}
         </button>`;
-      }).join("");
-      const shelf = ns.LETTERS_ACCESSORIES.map((acc) => {
+      }).join("") : "";
+      const shelf = tab==='outfits' ? ns.LETTERS_ACCESSORIES.map((acc) => {
         const owned = (this.pet.accessories || []).includes(acc.id);
         const wearing = worn.includes(acc.id);
         return `<button type="button" class="pet-acc${owned ? " is-owned" : ""}${wearing ? " is-worn" : ""}" data-acc="${acc.id}" aria-label="${acc.id}${owned?'':`, ${acc.cost} stars`}" aria-pressed="${wearing}">
@@ -502,16 +506,15 @@
           ${wearing?`<span class="pet-selected-mark" aria-hidden="true">${Art.icon('check',16)}</span>`:''}
           ${owned ? "" : `<span class="pet-acc-cost">${Art.icon("star", 12)} ${acc.cost}</span>`}
         </button>`;
-      }).join("");
-      // Wardrobe layout (locked 2026-07-18): the pet is pinned large in the
-      // top half and never scrolls away; bodies + accessories live on
-      // horizontally-swiping shelves below, so a try-on always shows
-      // instantly on the big pet.
+      }).join("") : "";
+      // Keep the pet visible while one picture-selected shelf is browsed.
+      // Render only that shelf; preserve its scroll and focus after a try-on.
       const el = this.screen(
         "lg-pet",
         `${this.topBar()}
         <div class="pet-stage pet-room" style="--pet-radiance:${this.petRadiance().toFixed(2)}">
           <div class="pet-hero">
+            <div class="pet-alcove" aria-hidden="true">${ns.LettersRoomArt.alcove()}</div>
             <span class="lg-star-chip">${Art.icon("star", 20)} <b>${this.starBalance()}</b></span>
             <button type="button" aria-label="Play with your pet" class="pet-big${this.petRadiance() > 0.15 ? " is-radiant" : ""}">
               <span class="pet-aura" aria-hidden="true"></span>
@@ -521,16 +524,31 @@
             ${Object.keys(this.skills).length ? `<div class="pet-flower">${Art.skillFlower({ scores: this.skills, size: 92 })}</div>` : ""}
           </div>
           <div class="pet-racks">
-            <div class="pet-color-rack lg-panel" aria-label="Pet color">
-              <span class="pet-color-icon" aria-hidden="true">${Art.icon("flower",24)}</span>
-              <div class="pet-color-options">${petHues.map((h) => `<button type="button" class="pet-color-swatch${this.pet.hue === h ? " is-picked" : ""}" data-pet-hue="${h}" aria-pressed="${this.pet.hue === h}" style="--h:${h}" aria-label="${petHueNames[h]}" title="${petHueNames[h]}"></button>`).join("")}</div>
+            <div class="wardrobe-tabs" role="tablist" aria-label="Wardrobe choices">
+              ${['friends','outfits','colors'].map(kind=>`<button type="button" role="tab" id="wardrobe-tab-${kind}" data-wardrobe-tab="${kind}" aria-controls="wardrobe-panel" aria-selected="${tab===kind}" tabindex="${tab===kind?0:-1}" aria-label="Pet ${kind}">${ns.LettersRoomArt.tab(kind)}</button>`).join('')}
             </div>
-            <div class="pet-shelf pet-bodies lg-panel">${bodyShelf}</div>
-            <div class="pet-shelf lg-panel">${shelf}</div>
+            <div class="wardrobe-panel" id="wardrobe-panel" role="tabpanel" aria-labelledby="wardrobe-tab-${tab}">
+              ${tab==='colors' ? `<div class="pet-color-rack lg-panel" aria-label="Pet color"><div class="pet-color-options">${petHues.map(h=>`<button type="button" class="pet-color-swatch${this.pet.hue===h?' is-picked':''}" data-pet-hue="${h}" aria-pressed="${this.pet.hue===h}" style="--h:${h}" aria-label="${petHueNames[h]}"></button>`).join('')}</div></div>` : `<button type="button" class="wardrobe-prev" aria-label="Previous ${tab}">${Art.icon('next',22)}</button><div class="pet-shelf ${tab==='friends'?'pet-bodies':''} lg-panel">${tab==='friends'?bodyShelf:shelf}</div><button type="button" class="wardrobe-more" aria-label="More ${tab}">${Art.icon('next',22)}</button>`}
+            </div>
           </div>
         </div>`,
       );
+      el.dataset.wardrobeTab=tab;
       this.wireTopBar(el);
+      const tabs=[...el.querySelectorAll('[data-wardrobe-tab]')];
+      tabs.forEach((button,index)=>{
+        button.onclick=()=>{if(!el.isConnected)return;this.wardrobeTab=button.dataset.wardrobeTab;this.renderPet();};
+        button.onkeydown=e=>{const next=e.key==='ArrowRight'?(index+1)%3:e.key==='ArrowLeft'?(index+2)%3:e.key==='Home'?0:e.key==='End'?2:null;if(next===null)return;e.preventDefault();this.wardrobeTab=tabs[next].dataset.wardrobeTab;this.renderPet();this.root.querySelector('[role="tab"][aria-selected="true"]')?.focus();};
+      });
+      const activeShelf=el.querySelector('.pet-shelf');
+      if(activeShelf){
+        const prev=el.querySelector('.wardrobe-prev'),more=el.querySelector('.wardrobe-more');
+        const sync=()=>{prev.disabled=activeShelf.scrollLeft<2;more.disabled=activeShelf.scrollLeft+activeShelf.clientWidth>=activeShelf.scrollWidth-2;};
+        prev.onclick=()=>activeShelf.scrollBy({left:-180,behavior:this.prefersReducedMotion()?'auto':'smooth'});
+        more.onclick=()=>activeShelf.scrollBy({left:180,behavior:this.prefersReducedMotion()?'auto':'smooth'});
+        activeShelf.addEventListener('scroll',sync,{passive:true});requestAnimationFrame(()=>{if(el.isConnected)sync();});
+        if(typeof ResizeObserver!=='undefined'){const observer=new ResizeObserver(sync);observer.observe(activeShelf);this.stopWardrobeResize=()=>observer.disconnect();}
+      }
       [...el.querySelectorAll('.pet-shelf')].forEach((shelf,i)=>{
         shelf.scrollLeft=shelfPositions[i] || 0;
         this.wireShelf(shelf,{demonstrate:!previous});
@@ -625,7 +643,7 @@
           <span class="lg-star-chip">${Art.icon("star", 20)} <b>${this.starBalance()}</b></span>
           ${allOwned
             ? `<div class="album-complete" role="img" aria-label="All stickers collected">${Art.icon("star", 40)}</div>`
-            : `<button type="button" class="album-pack" aria-label="Open a sticker pack for 5 stars" ${this.starBalance()<5?'disabled':''}>${Art.stickerPack({ size: 104 })}<span class="pet-acc-cost">${Art.icon("star", 14)} 5</span></button>`}
+            : `<button type="button" class="album-pack" aria-label="Open a sticker pack for 5 stars" ${this.starBalance()<5?'disabled':''}>${ns.LettersRoomArt.pack(112)}<span class="pet-acc-cost">${Art.icon("star", 14)} 5</span></button>`}
           <div class="album-grid lg-panel">${grid}</div>
         </div>`,
       );
@@ -721,6 +739,7 @@
     }
 
     stopSpeech() {
+      this.sound.setSpeaking?.(false);
       this.speechTurn = (this.speechTurn || 0) + 1;
       this.utterance = null;
       try { window.speechSynthesis?.cancel(); } catch {}
@@ -746,17 +765,20 @@
         u.pitch = 1;
         u.volume = 0.62;
         this.utterance = u; // retain it while the native speech engine plays
+        this.sound.setSpeaking?.(true);
+        u.onstart = () => { if(turn === this.speechTurn)this.sound.setSpeaking?.(true); };
         u.onend = () => {
           if (turn !== this.speechTurn) return;
           this.utterance = null;
+          this.sound.setSpeaking?.(false);
           if (onEnd) onEnd(turn);
         };
         u.onerror = () => {
-          if (turn === this.speechTurn) this.utterance = null;
+          if (turn === this.speechTurn) { this.utterance = null; this.sound.setSpeaking?.(false); }
         };
         speechSynthesis.speak(u);
         return u;
-      } catch {}
+      } catch { this.sound.setSpeaking?.(false); }
     }
 
     prefersReducedMotion() {
@@ -772,6 +794,7 @@
     // ---------- chrome ----------
 
     screen(className, inner) {
+      this.stopWardrobeResize?.();this.stopWardrobeResize=null;
       this.screenRevision=(this.screenRevision||0)+1;
       this.stopMapResize?.();
       this.stopMapResize=null;
@@ -1330,11 +1353,11 @@
                 )
                 .join("")}
             </div>`
-          : `<button type="button" class="meet-bud" aria-label="Wake the letter">${this.isReferenceJourney() ? '<svg viewBox="0 0 140 140" aria-hidden="true"><ellipse cx="70" cy="112" rx="43" ry="9" fill="#c9b28b"/><path d="M70 110V72" stroke="#617b50" stroke-width="7"/><path d="M67 95Q28 99 30 76Q56 71 67 95M73 90Q110 91 108 69Q84 68 73 90" fill="#83a56c" stroke="#617b50" stroke-width="3"/><path d="M70 81Q30 79 36 50Q40 34 54 44Q51 16 70 19Q89 16 86 44Q100 34 104 50Q110 79 70 81Z" fill="#eead86" stroke="#655239" stroke-width="4"/><path d="M58 54Q70 67 82 54" fill="none" stroke="#fffaf0" stroke-width="4" stroke-linecap="round"/></svg>' : '<span>✨</span>'}</button>`;
+          : `<button type="button" class="meet-bud" aria-label="Wake the letter">${ns.LettersRoomArt.bud()}</button>`;
       const el = this.screen(
         "lg-meet",
         `${this.topBar()}
-        <div class="meet-stage lg-panel">
+        <div class="meet-stage lg-panel"><div class="lesson-furniture" aria-hidden="true">${ns.LettersRoomArt.lesson()}</div>
           ${opener}
           <button type="button" class="meet-card" aria-label="Listen to ${card.display}" ${hidden}>${bigCard}</button>
           ${this.journeyRoute()}
@@ -1582,12 +1605,11 @@
         setPetPose("success", 900);
         this.petRecite(null);
       });
-      // The quiet strength model listens from here: every game announces its
-      // target via setPrompt and its verdicts via sfx("correct"/"wrong"), so
-      // one wiretap covers all of them (Pairs passes a null prompt and is
-      // deliberately untracked — matching pairs isn't a recall verdict).
-      let promptAt = 0;
-      const strength = ns.LettersStrength;
+      // Learning evidence travels on its own explicit channel. Prompt replay
+      // and sound effects remain presentation and cannot manufacture verdicts.
+      const learning = ns.LettersLearning?.LearningSession
+        ? new ns.LettersLearning.LearningSession(ns.LettersStrength)
+        : null;
       const ctx = {
         stage,
         garden: s.world.id === "pack-boat" || this.isGentleDaily(),
@@ -1610,6 +1632,7 @@
         beginner: this.isGentleDaily() || ((this.isReferenceJourney(s.world) || (!s.plan && ["pairs","catch"].includes(gameName))) && !(this.bests[`${s.world.id}:${gameName}`] > 0)),
         onPauseChange: paused => {if(paused && el.isConnected)this.stopSpeech();},
         say: (item) => sayWithPose(item),
+        reportOutcome: (outcome) => learning?.report(outcome),
         // The pet watches the child play: it hops on every right answer and
         // leans in, curious, on a wrong pick — never scolding, never sad.
         sfx: (name) => {
@@ -1623,14 +1646,6 @@
             this.sound.play(name);
           } else {
             this.sound.play(name);
-          }
-          if (strength && currentTarget && (name === "correct" || name === "wrong")) {
-            strength.record(
-              currentTarget.id,
-              name === "correct",
-              promptAt ? performance.now() - promptAt : NaN,
-            );
-            if (name === "wrong") promptAt = performance.now(); // re-time the retry
           }
           if (name === "correct" && petEl) {
             setPetPose("success", 1300, true);
@@ -1648,7 +1663,7 @@
         confettiAt: (target) => this.confettiAt(target),
         setPrompt: (item) => {
           currentTarget = item;
-          promptAt = item ? performance.now() : 0;
+          learning?.beginPrompt(item);
           bubble.hidden = !item;
           if (item) {
             // promptDisplay lets the question differ from the answer tile —
@@ -1716,9 +1731,10 @@
       const world=this.worlds.worlds.find(w=>w.id==='pack-boat');
       this.session={world,items:world.items()};
       const choices=['Feed','DotGarden','GardenPaths'];
+      if(this.petKnowledge().length)choices.push('LetterDelivery');
       if(this.workshopWorlds().length)choices.push('Workshop');
       if(this.worlds.dailySession(this.progress.done))choices.push('Burst');
-      const el=this.screen('lg-meet',`${this.topBar()}<div class="practice-garden-hub"><div class="practice-garden-choices">${choices.map(kind=>`<button type="button" data-kind="${kind}" aria-label="${({Feed:'Feed a friend',DotGarden:'Dot Garden: place the dots',GardenPaths:'Garden Paths: draw letters',Workshop:'Word Workshop: build familiar sounds',Burst:'Optional timed letter challenge'})[kind]}">${ns.LettersGardenArt.practicePicture(kind,{petArt:kind==='Feed'?this.petSVG(100):''})}<span class="practice-play" aria-hidden="true">${Art.icon('next',24)}</span></button>`).join('')}</div></div>`);
+      const el=this.screen('lg-meet',`${this.topBar()}<div class="practice-garden-hub"><div class="practice-garden-choices">${choices.map(kind=>`<button type="button" data-kind="${kind}" aria-label="${({Feed:'Feed a friend',DotGarden:'Dot Garden: place the dots',GardenPaths:'Garden Paths: draw letters',LetterDelivery:'Letter Delivery: familiar letters',Workshop:'Word Workshop: build familiar sounds',Burst:'Optional timed letter challenge'})[kind]}">${kind==='LetterDelivery'?ns.LetterDelivery.icon(120):ns.LettersGardenArt.practicePicture(kind,{petArt:kind==='Feed'?this.petSVG(100):''})}<span class="practice-play" aria-hidden="true">${Art.icon('next',24)}</span></button>`).join('')}</div></div>`);
       this.wireTopBar(el);
       el.querySelectorAll('[data-kind]').forEach(b=>b.onclick=()=>b.dataset.kind==='Burst'?this.startDaily(true):b.dataset.kind==='Workshop'?this.renderWorkshop():this.startPractice(b.dataset.kind,()=>this.renderPracticeGarden()));
     }
@@ -1734,6 +1750,12 @@
         onChange:layout=>{if(!el.isConnected)return;this.gardenLayout=layout;this.saveJSON('quran-trainer:letters:garden-layout',layout);},
         onDone:()=>{if(el.isConnected)this.renderHome();}
       });
+      if(this.petKnowledge().length){
+        const launch=document.createElement('button');launch.type='button';launch.className='decorate-delivery practice-button';
+        launch.setAttribute('aria-label','Play Letter Delivery');launch.innerHTML=ns.LetterDelivery.icon(44);
+        el.querySelector('.decorate-tools').prepend(launch);
+        launch.onclick=()=>{if(!el.isConnected)return;this.startPractice('LetterDelivery',()=>this.renderDecoratingGarden());};
+      }
     }
 
     // Offer only chapters whose Build mechanic is already familiar. Keep each
@@ -1768,24 +1790,35 @@
       el.querySelectorAll('[data-practice]').forEach(b=>b.onclick=()=>this.startPractice(b.dataset.practice,back));
     }
     startPractice(kind,back) {
-      if(!['Feed','Workshop','DotGarden','GardenPaths'].includes(kind))return back?.();
+      if(!['Feed','Workshop','DotGarden','GardenPaths','LetterDelivery'].includes(kind))return back?.();
+      if(kind==='LetterDelivery'){const items=this.petKnowledge().map(letter=>({id:letter.char,display:letter.char,speak:letter.arName}));if(!items.length)return back?.();this.session={world:this.worlds.worlds.find(w=>w.id==='pack-boat'),items};}
       const s=this.session;
       if(!s?.world || !(s.items||s.world.items()).length)return back?.();
       const el=this.screen('lg-play',`${this.topBar()}<div class="practice-heading">${this.petSVG(76)}<button class="practice-replay" type="button" aria-label="Hear the letter again"></button></div><div class="practice-stage"></div>`);
-      el.dataset.activity=kind==='Feed'?'feed':kind==='Workshop'?'build':'practice';
+      el.dataset.activity=kind==='Feed'?'feed':kind==='Workshop'?'build':kind==='LetterDelivery'?'delivery':'practice';
+      if(kind==='LetterDelivery')el.querySelector('.practice-heading').hidden=true;
       if(kind==='Feed'||kind==='Workshop')el.querySelector('.practice-stage').classList.add('play-stage');
       this.wireTopBar(el,back);
       const replay=el.querySelector('.practice-replay');let current=null;
       replay.onclick=()=>{if(current)this.say(current);};
+      const learning=ns.LettersLearning?.LearningSession
+        ? new ns.LettersLearning.LearningSession(ns.LettersStrength)
+        : null;
       const ctx={stage:el.querySelector('.practice-stage'),items:s.items||s.world.items(),
+        reducedMotion:()=>this.prefersReducedMotion(),petArt:()=>this.petSVG(140,'open'),
+        canListen:()=>this.sound.enabled && 'speechSynthesis' in window,
         prompt:item=>{current=item;
+          learning?.beginPrompt(item);
           if(kind==='Workshop' && item)replay.innerHTML=`<svg viewBox="0 0 120 80" aria-hidden="true"><text x="60" y="40" text-anchor="middle" font-family="Amiri Quran, serif" font-size="42" fill="#4a3620" data-fit-box="60,40,94,52,42">${item.display}</text></svg>`;
           else if(item)replay.textContent=item.display;else replay.innerHTML=Art.icon('speaker',32);
         },
-        say:item=>{if(kind!=='Workshop')current=item;this.say(item);},correct:()=>this.sound.play('correct'),
+        say:item=>{if(kind!=='Workshop')current=item;this.say(item);},
+        reportOutcome:outcome=>learning?.report(outcome),
+        correct:()=>{if((kind==='DotGarden'||kind==='GardenPaths')&&current?.id)learning?.report({itemId:current.id,evidence:'motor_assembly_participation',affectsStrength:false});this.sound.play('correct');},
         done:()=>{if(el.isConnected)back();}};
       if(kind==='Feed')this.game=new ns.LettersMiniGames.feed({...ctx,garden:true,beginner:true,level:0,rounds:4,hue:150,extraItems:[],petArt:()=>this.petSVG(180),setPrompt:ctx.prompt,sfx:name=>this.sound.play(name),confettiAt:target=>this.confettiAt(target),onDone:ctx.done});
       else if(kind==='Workshop')this.game=new ns.LettersMiniGames.build({...ctx,setPrompt:ctx.prompt,sfx:name=>this.sound.play(name),confettiAt:target=>this.confettiAt(target),onDone:ctx.done});
+      else if(kind==='LetterDelivery')this.game=new ns.LetterDelivery(ctx);
       else this.game=new ns.GardenPractice[kind](ctx);
     }
 
@@ -1797,6 +1830,12 @@
       return `<div class="garden-reward${finished?' garden-reward-finished':''}" role="img" aria-label="Garden flowers: ${stage}">${scene}</div>`;
     }
 
+    rewardScene(finished=false,flower=false) {
+      return `<div class="reward-scene"><div class="reward-ground" aria-hidden="true">${ns.LettersRoomArt.podium()}</div>${this.gardenReward(finished)}
+        ${flower?`<div class="party-flower">${Art.skillFlower({scores:this.skills,size:120})}</div>`:''}
+        ${finished?`<div class="party-pair"><div class="party-mascot">${Art.keyMascot({size:120,mood:'open'})}</div><button type="button" class="party-pet" aria-label="Celebrate with your pet"><span class="pet-bubble" hidden></span>${this.petSVG(150,'open')}</button></div>`: `<div class="reward-friend" aria-hidden="true">${this.petSVG(150,'proud')}</div>`}</div>`;
+    }
+
     renderStars(stars) {
       const s = this.session;
       const lastGame = s.gameIndex >= s.world.games.length - 1;
@@ -1804,7 +1843,7 @@
         "lg-stars",
         `${this.topBar()}
         <div class="stars-stage lg-panel">
-          ${this.isReferenceJourney() ? `<div class="journey-celebration"><div class="journey-companion">${this.petSVG(110,'proud')}</div>${this.gardenReward()}</div>` : this.gardenReward()}
+          ${this.rewardScene()}
           ${this.journeyRoute(s.gameIndex+1)}
           <div class="stars-row" role="img" aria-label="${stars} of 3 stars">
             ${[0, 1, 2].map((i) => `<span class="stars-star ${i < stars ? "is-on" : ""}" style="animation-delay:${i * 220}ms">${Art.icon("star", 74)}</span>`).join("")}
@@ -1886,16 +1925,8 @@
         "lg-party",
         `<div class="party-stage lg-panel">
           ${capstone}
-          ${this.gardenReward(true)}
-          ${flower ? `<div class="party-flower">${Art.skillFlower({ scores: this.skills, size: 200 })}</div>` : ""}
-          <div class="party-pair">
-            <div class="party-mascot">${Art.keyMascot({ size: flower ? 110 : 150, mood: "open" })}</div>
-            <button type="button" class="party-pet" aria-label="Celebrate with your pet">
-              <span class="pet-bubble" hidden></span>
-              ${this.petSVG(flower ? 95 : 130, "open")}
-            </button>
-          </div>
-          <div class="party-stars">
+          ${this.rewardScene(true,flower)}
+          <div class="party-stars" role="img" aria-label="${stars} of 3 stars">
             ${[0, 1, 2].map((i) => `<span class="stars-star ${i < stars ? "is-on" : ""}" style="animation-delay:${i * 240}ms">${Art.icon("star", 64)}</span>`).join("")}
           </div>
           ${this.session?.world.id === "pack-boat" ? this.practiceButtons() : ""}
@@ -1908,7 +1939,7 @@
       if (newlyDone) setTimeout(() => { if (el.isConnected) this.confettiAt(el.querySelector(".party-mascot"), true); }, 900);
       this.wirePractice(el,()=>this.renderParty(stars,false,{flower}));
       const partyPet = el.querySelector(".party-pet");
-      partyPet.addEventListener("pointerdown", () => {
+      partyPet.addEventListener("click", () => {
         this.petRecite(partyPet.querySelector(".pet-bubble"));
         partyPet.querySelector(".pet-bubble").hidden = false;
       });

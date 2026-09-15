@@ -1,11 +1,34 @@
 // The Letter Garden mini-games. Each game receives a context from the shell:
 //   { stage, items, extraItems, rounds, hue, say(item), sfx(name), setPrompt(item),
+//     reportOutcome({ itemId, correct, evidence, affectsStrength }),
 //     confettiAt(el), onDone(slips) }
 // and quizzes the world's items with zero written instructions — the prompt
 // is always something the child hears (and sees in the mascot's bubble), and
 // the answer is always something they tap.
 (function (ns) {
   const Art = ns.LettersArt;
+
+  function reportOutcome(ctx, item, correct, evidence, affectsStrength = true) {
+    if (!item?.id) return;
+    ctx.reportOutcome?.({
+      itemId: item.id,
+      correct,
+      evidence,
+      // Participation is useful evidence, but it is not an answer and must not
+      // refresh the legacy answer-recency signal.
+      affectsStrength: typeof correct === "boolean" ? affectsStrength : false,
+    });
+  }
+
+  // These games speak the target and keep its glyph visible in the prompt
+  // bubble. Their choices still inform strength, but they are supported visual
+  // matching rather than independent listening evidence.
+  const reportPromptMatch = (ctx, item, correct) =>
+    reportOutcome(ctx, item, correct, "supported_visible_matching");
+  const reportAssembly = (ctx, item, correct) =>
+    reportOutcome(ctx, item, correct, "motor_assembly_participation");
+  const reportVisibleMatch = (ctx, item, correct) =>
+    reportOutcome(ctx, item, correct, "supported_visible_matching", false);
 
   function shuffle(arr) {
     const a = arr.slice();
@@ -200,6 +223,7 @@
         bubble.el.classList.add("is-popped");
         this.bubbles.forEach(b=>b.el.disabled=true);
         this.heat.up();
+        reportPromptMatch(this.ctx, round.target, true);
         this.ctx.sfx("correct");
         this.ctx.confettiAt(bubble.el);
         this.ctx.say(round.target);
@@ -207,6 +231,7 @@
       } else {
         this.slips += 1;
         this.heat.down();
+        reportPromptMatch(this.ctx, round.target, false);
         this.ctx.sfx("wrong");
         // Rich wrong-pick feedback: the bubble shakes, tints red and wears a
         // ✗ for a beat, while the prompt bubble pulses — "look HERE, listen
@@ -363,12 +388,12 @@
       const round=this.rounds[this.roundIndex];
       this.positionBasket(f.x);
       if(f.item.id!==round.target.id){
-        this.slips++;this.heat.down();this.ctx.sfx('wrong');
+        this.slips++;this.heat.down();reportPromptMatch(this.ctx,round.target,false);this.ctx.sfx('wrong');
         round.options=round.options.filter(o=>o.id!==f.item.id);
         this.remove(f);this.ctx.say(round.target);return;
       }
       this.settling=true;f.el.disabled=true;f.el.style.top='72%';
-      this.heat.up();this.ctx.sfx('correct');this.ctx.say(round.target);
+      this.heat.up();reportPromptMatch(this.ctx,round.target,true);this.ctx.sfx('correct');this.ctx.say(round.target);
       setTimeout(()=>{
         if(!this.alive)return;
         this.roundIndex++;
@@ -417,6 +442,7 @@
           this.remove(f);
           if (f.item.id === round.target.id) {
             this.heat.up();
+            reportPromptMatch(this.ctx, round.target, true);
             this.ctx.sfx("correct");
             this.ctx.confettiAt(this.basket);
             this.ctx.say(round.target);
@@ -428,6 +454,7 @@
           }
           this.slips += 1;
           this.heat.down();
+          reportPromptMatch(this.ctx, round.target, false);
           this.ctx.sfx("wrong");
           this.basket.classList.remove("is-shake");
           void this.basket.offsetWidth;
@@ -598,6 +625,7 @@
         first.el.classList.add("is-matched");
         el.classList.add("is-matched");
         first.el.disabled=true;el.disabled=true;
+        reportVisibleMatch(this.ctx, first.card, true);
         this.ctx.sfx("correct");
         this.ctx.confettiAt(el);
         this.matched += 1;
@@ -610,6 +638,7 @@
         first.el.setAttribute("aria-pressed","true");
         this.ctx.say(first.card);
         this.slips += 1;
+        reportVisibleMatch(this.ctx, first.card, false);
         this.ctx.sfx("wrong");
         for (const e of [el]) {
           e.classList.remove("is-shake");
@@ -696,6 +725,7 @@
         el.setAttribute("aria-pressed","false");
         if(this.basket){this.basket.classList.remove("is-ready");this.basket.setAttribute("aria-disabled","true");this.basket.disabled=true;}
         this.slips += 1;
+        reportPromptMatch(this.ctx, round.target, false);
         this.ctx.sfx("wrong");
         el.classList.remove("is-shake");
         void el.offsetWidth;
@@ -715,6 +745,7 @@
       el.style.setProperty("--fly-x", `${mouth.left + mouth.width / 2 - (from.left + from.width / 2)}px`);
       el.style.setProperty("--fly-y", `${mouth.top + mouth.height * (this.basket ? 0.48 : 0.68) - (from.top + from.height / 2)}px`);
       el.classList.add("is-flying");
+      reportPromptMatch(this.ctx, round.target, true);
       this.ctx.sfx("correct");
       setTimeout(() => {
         if (!this.alive) return;
@@ -987,6 +1018,7 @@
       if (total >= 0.55 && !missing.length) {
         this.advancing = true;
         const target = this.targets[this.roundIndex];
+        reportAssembly(this.ctx, target, true);
         this.ctx.sfx("correct");
         this.ctx.confettiAt(this.canvas);
         this.ctx.say(target);
@@ -1169,11 +1201,13 @@
         this.count += 1;
         this.heat.up();
         this.countEl.textContent = String(this.count);
+        reportPromptMatch(this.ctx, this.target, true);
         this.ctx.sfx("correct");
         el.classList.add("is-popped");
         this.nextTarget();
       } else {
         this.heat.down();
+        reportPromptMatch(this.ctx, this.target, false);
         this.ctx.sfx("wrong");
         el.classList.remove("is-shake");
         void el.offsetWidth;
@@ -1287,6 +1321,7 @@
       this.ctx.stage.querySelectorAll(".build-tile").forEach(b=>b.disabled=true);
       const built = this.placed.every((p, i) => p.part.display === target.parts[i].display);
       if (built) {
+        reportAssembly(this.ctx, target, true);
         this.ctx.sfx("correct");
         this.ctx.confettiAt(this.ctx.stage.querySelector(".build-slots"));
         // The payoff: the parts become the whole, and the whole speaks.
@@ -1302,6 +1337,7 @@
         }, 1400);
       } else {
         this.slips += 1;
+        reportAssembly(this.ctx, target, false);
         this.ctx.sfx("wrong");
         const slotsEl = this.ctx.stage.querySelector(".build-slots");
         slotsEl.classList.remove("is-shake");
@@ -1536,6 +1572,7 @@
       if (!isTarget) {
         this.retrying = true;
         this.slips += 1;
+        reportAssembly(this.ctx, target, false);
         this.ctx.sfx("wrong");
         a.classList.add("is-shake");
         b.classList.add("is-shake");
@@ -1574,6 +1611,7 @@
         born.className = "blend-born";
         born.innerHTML = workshopTile(target.display);
         this.scene.appendChild(born);
+        reportAssembly(this.ctx, target, true);
         this.ctx.sfx("correct");
         this.ctx.say(target);
         this.ctx.confettiAt(born);
@@ -1781,6 +1819,7 @@
       const halves = ctx.stage.querySelector(".unfuse-halves");
       if (pull) pull.hidden = true;
       halves.hidden = false;
+      reportAssembly(ctx, target, undefined);
       ctx.sfx("hatch");
       ctx.confettiAt(halves);
       // Each freed letter introduces itself, right one (read first) first.
@@ -1828,6 +1867,7 @@
           const o = options[Number(btn.dataset.i)];
           if (o.display === wanted.display) {
             this.busy=true;
+            reportPromptMatch(ctx, { id: wanted.display }, true);
             ctx.sfx("correct");
             ctx.confettiAt(btn);
             ctx.say({ display: o.display, speak: o.speak });
@@ -1840,6 +1880,7 @@
           } else {
             btn.disabled=true;
             this.slips += 1;
+            reportPromptMatch(ctx, { id: wanted.display }, false);
             ctx.sfx("wrong");
             const svg = btn.querySelector("svg");
             svg.classList.remove("is-shake");
@@ -1998,6 +2039,7 @@
       const picked = this.thirds[Number(el.dataset.i)].l;
       if (picked.display !== third.display) {
         this.slips += 1;
+        reportPromptMatch(ctx, this.chain, false);
         ctx.sfx("wrong");
         const svg = el.querySelector("svg");
         svg.classList.remove("is-shake");
@@ -2020,6 +2062,7 @@
         el.classList.add("is-gone");
         this.base.innerHTML = workshopTile(this.chain.display);
         this.base.classList.add("is-grown");
+        reportPromptMatch(ctx, this.chain, true);
         ctx.sfx("correct");
         ctx.say(this.chain);
         ctx.confettiAt(this.base);
@@ -2089,6 +2132,7 @@
           ctx.say({ display: letter.display, speak: letter.speak });
           this.dressed += 1;
           if (this.dressed >= 3) {
+            reportOutcome(ctx, { id: letter.id || letter.display }, undefined, "motor_assembly_participation", false);
             ctx.confettiAt(ctx.stage.querySelector(".parade-spots"));
             setTimeout(() => {
               if(!this.alive)return;

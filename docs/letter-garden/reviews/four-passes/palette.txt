@@ -1,0 +1,51 @@
+Palette check — 26 art files, 33 bible colours
+
+OFF-PALETTE HEXES: 680 distinct, 950 uses
+  #fff       29x  e.g. src/letters/LettersArt.js:338
+  #fff8e7    17x  e.g. src/letters/LettersGame.js:1776
+  #59452e     8x  e.g. src/letters/LettersGardenArt.js:117
+  #ffc22e     7x  e.g. src/letters/LettersAnimalArt.js:20
+  #5cc23e     7x  e.g. src/letters/LettersAnimalArt.js:20
+  #c2b28c     7x  e.g. styles/letters-art-pass.css:12
+  #54c6ff     6x  e.g. src/letters/LettersAnimalArt.js:24
+  #b6a17c     6x  e.g. styles/letters-art-pass.css:30
+  #6a5842     6x  e.g. styles/letters.css:1659
+  #617b50     5x  e.g. src/letters/GardenPractice.js:33
+  #c47f12     5x  e.g. src/letters/LettersAnimalArt.js:25
+  #8b6b51     5x  e.g. src/letters/LettersArt.js:991
+  #83a56c     5x  e.g. src/letters/LettersGame.js:16
+  #967b52     5x  e.g. styles/letters-art-pass.css:13
+  #ff7d96     4x  e.g. src/letters/LettersAnimalArt.js:21
+  #fff1c9     4x  e.g. src/letters/LettersArt.js:682
+  #ffd23e     4x  e.g. src/letters/LettersArt.js:833
+  #65969f     4x  e.g. src/letters/LettersArt.js:995
+  #ed8ca6     4x  e.g. src/letters/LettersGardenArt.js:49
+  #805014     4x  e.g. styles/letters-art-pass.css:8
+  #8b7350     4x  e.g. styles/letters-art-pass.css:50
+  #f0503f     3x  e.g. src/letters/LettersAnimalArt.js:19
+  #fff6de     3x  e.g. src/letters/LettersAnimalArt.js:56
+  #efd080     3x  e.g. src/letters/LettersAnimalArt.js:66
+  #ffe27a     3x  e.g. src/letters/LettersArt.js:367
+  …and 655 more
+
+OFF-SCALE STROKE WIDTHS: 18 distinct, 212 uses
+  7           6x  e.g. src/letters/LettersAnimalArt.js:45
+  11          1x  e.g. src/letters/LettersAnimalArt.js:56
+  2          69x  e.g. src/letters/LettersAnimalArt.js:57
+  12          3x  e.g. src/letters/LettersAnimalArt.js:69
+  2.2         3x  e.g. src/letters/LettersArt.js:664
+  1           9x  e.g. src/letters/LettersArt.js:666
+  2.5        14x  e.g. src/letters/LettersArt.js:849
+  1.5        28x  e.g. src/letters/LettersArt.js:849
+  1.3        12x  e.g. src/letters/LettersArt.js:849
+  2.3         6x  e.g. src/letters/LettersArt.js:849
+  1.2         6x  e.g. src/letters/LettersArt.js:852
+  1.8        28x  e.g. src/letters/LettersArt.js:861
+  1.7         5x  e.g. src/letters/LettersArt.js:975
+  5           6x  e.g. src/letters/LettersArt.js:979
+  1.4        12x  e.g. src/letters/LettersArt.js:980
+  17          1x  e.g. src/letters/LettersGame.js:1172
+  13          1x  e.g. src/letters/LettersGame.js:1173
+  10          2x  e.g. src/letters/MiniGames.js:250
+
+Reported only. Run with --strict in CI once ART.md §9 debt is cleared.

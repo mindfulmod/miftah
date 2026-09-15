@@ -5,6 +5,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 function setup() {
   const spoken = [];
+  const speaking = [];
   let cancelled = 0;
   const speechSynthesis = {
     getVoices: () => [{name:'English Natural',lang:'en-US'}, {name:'Majed',lang:'ar-SA'}, {name:'Arabic Enhanced',lang:'ar-EG'}],
@@ -15,8 +16,8 @@ function setup() {
     window, speechSynthesis, SpeechSynthesisUtterance: class {constructor(text){this.text=text;}},
   });
   const game = Object.create(window.MiftahGame.LettersGame.prototype);
-  game.sound = {enabled:true};
-  return {game,spoken,speechSynthesis,cancelled:()=>cancelled};
+  game.sound = {enabled:true, setSpeaking: value => speaking.push(value)};
+  return {game,spoken,speechSynthesis,cancelled:()=>cancelled,speaking};
 }
 test('recording-backed items use their curriculum text and an Arabic voice',()=>{
   const {game,spoken} = setup();
@@ -47,4 +48,19 @@ test('word display fallback and a voice list that loads later both work',()=>{
   assert.equal(spoken[0].text,'بِسْمِ'); assert.equal(spoken[0].lang,'ar-SA');
   speechSynthesis.getVoices=()=>[{name:'Majed Enhanced',lang:'ar-SA'}];
   game.say({display:'ا'}); assert.equal(spoken[1].voice.name,'Majed Enhanced');
+});
+
+test('speech lifecycle ducks active prompt and stale callbacks cannot unduck its replacement',()=>{
+  const {game,spoken,speaking}=setup();
+  game.say({display:'ا'});
+  spoken[0].onstart();
+  game.say({display:'ب'});
+  assert.deepEqual(speaking,[false,true,true,false,true]);
+  spoken[0].onend();
+  assert.equal(speaking.at(-1),true);
+  spoken[1].onstart(); spoken[1].onerror();
+  assert.equal(speaking.at(-1),false);
+  game.say({display:'ت'}); game.stopSpeech();
+  spoken[2].onend();
+  assert.equal(speaking.at(-1),false);
 });

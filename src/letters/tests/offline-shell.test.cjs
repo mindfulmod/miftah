@@ -132,7 +132,12 @@ test('install precaches the complete local Letter Garden entry graph and Quran w
     'vendor/fonts/amiri-quran-400-arabic.woff2',
     'vendor/fonts/amiri-quran-400-latin.woff2',
   ];
-  for (const asset of expectedShell) {
+  // Derive the live entry dependencies too, so a new script/style cannot
+  // silently fall outside offline installation as the shell grows.
+  const html = fs.readFileSync(path.join(root, 'letters.html'), 'utf8');
+  expectedShell.push(...[...html.matchAll(/(?:src|href)="([^"]+)"/g)]
+    .map(match => match[1].split('?')[0]).filter(url => !/^(?:https?:|data:)/.test(url)));
+  for (const asset of new Set(expectedShell)) {
     assert.ok(shell.added.includes(asset), `${asset} is not in the shell precache`);
     assert.ok(fs.existsSync(path.join(root, asset)), `${asset} does not resolve locally`);
   }

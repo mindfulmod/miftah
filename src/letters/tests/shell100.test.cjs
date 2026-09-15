@@ -6,7 +6,7 @@ function runtime(extra={}) {
   const store=new Map();
   const context={window:{MiftahGame:{}},setTimeout,clearTimeout,AbortController,
     localStorage:{getItem:k=>store.get(k)??null,setItem:(k,v)=>store.set(k,v)},...extra};
-  for(const file of ['LettersBoot.js','LettersState.js','LettersWorlds.js','MiniGames.js','LettersGame.js'])vm.runInNewContext(source(file),context);
+  for(const file of ['LettersBoot.js','LettersState.js','LettersWorlds.js','MiniGames.js','LettersSound.js','LettersGame.js'])vm.runInNewContext(source(file),context);
   return {ns:context.window.MiftahGame,context,store};
 }
 const plain=x=>JSON.parse(JSON.stringify(x));
@@ -67,7 +67,7 @@ function bootGame() {
   const words=deferred(),font=deferred(),warm=deferred(),counts={home:0,hatch:0,fit:0,loading:0};
   const art={warmInk:()=>warm.promise,fitGlyphs:()=>counts.fit++,watchGlyphs(){}};
   const {ns}=runtime({document:{fonts:{load:()=>font.promise}},window:{MiftahGame:{LettersArt:art}},performance:{now:()=>300}});
-  ns.SoundSystem=class{play(){} };ns.LettersWorlds=class{letters=[];loadWords(){return words.promise;}};
+  ns.SoundSystem=class{play(){};unlock(){return true;} };ns.LettersWorlds=class{letters=[];loadWords(){return words.promise;}};
   const p=ns.LettersGame.prototype;
   for(const name of ['applyPhase','initSparkles','initAmbient','initTouchFeedback'])p[name]=()=>{};
   p.showLoading=()=>counts.loading++;p.renderHome=()=>counts.home++;p.renderHatch=()=>counts.hatch++;

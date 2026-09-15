@@ -1,0 +1,69 @@
+/* Letter Garden feedback and compact activity layout. Keep this file scoped
+   to the garden shell so the shared game and Codex surfaces keep their own
+   motion and sizing rules. */
+.lg-app .lg-play > .lg-topbar button:not(.lg-grownup-dot),
+.lg-app .lg-play .play-stage button,
+.lg-app .lg-play .play-stage [data-tap],
+.lg-app .lg-play .pop-bubble,
+.lg-app .lg-play .catch-faller,
+.lg-app .lg-play .feed-food,
+.lg-app .lg-play .build-tile,
+.lg-app .lg-play .pairs-card {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.lg-app .lg-play > .lg-topbar button:not(.lg-grownup-dot),
+.lg-app .lg-play .play-stage button,
+.lg-app .lg-play .play-stage [data-tap] {
+  transition: transform var(--lg-t-tap, 140ms) var(--lg-spring, ease-out),
+    filter var(--lg-t-tap, 140ms) ease-out;
+}
+
+.lg-app .lg-play > .lg-topbar button:not(.lg-grownup-dot):active,
+.lg-app .lg-play .play-stage button:active,
+.lg-app .lg-play .play-stage [data-tap]:active {
+  filter: brightness(0.98);
+}
+
+/* Existing activity art contains 210–300px minimum stages and several fixed
+   prompt/tray rows. On short landscape screens the screen itself must be the
+   scroll container or the tray is clipped below the viewport. */
+@media (orientation: landscape) and (max-height: 450px) {
+  .lg-app .lg-screen.lg-play {
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .lg-app .lg-screen.lg-play .play-stage {
+    flex: 0 0 auto;
+    min-height: 210px;
+  }
+
+  .lg-app .lg-screen.lg-play .play-prompt {
+    flex: 0 0 auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lg-app .lg-play > .lg-topbar button:not(.lg-grownup-dot),
+  .lg-app .lg-play .play-stage button,
+  .lg-app .lg-play .play-stage [data-tap],
+  .lg-app.lg-reduce-motion .lg-play > .lg-topbar button:not(.lg-grownup-dot),
+  .lg-app.lg-reduce-motion .lg-play .play-stage button,
+  .lg-app.lg-reduce-motion .lg-play .play-stage [data-tap] {
+    transition: none;
+  }
+}
+
+/* Position-driven pieces own their transforms; never interpolate their
+   wrapper when a drag/fall animation is running. */
+.lg-app .lg-play .pop-bubble,
+.lg-app .lg-play .catch-faller { transition: none; }
+.lg-app.lg-reduce-motion .lg-play .pop-bubble,
+.lg-app.lg-reduce-motion .lg-play .catch-faller { animation: none; }
+
+.lg-app.lg-reduce-motion .lg-play > .lg-topbar button:not(.lg-grownup-dot),
+.lg-app.lg-reduce-motion .lg-play .play-stage button,
+.lg-app.lg-reduce-motion .lg-play .play-stage [data-tap]{transition:none}

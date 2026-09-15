@@ -19,9 +19,9 @@
       this.selected=null;this.selectedSlot=null;this.undo=[];this.dragResets=[];
       const stage=ctx.stage;
       stage.innerHTML=`<div class="decorate-board" aria-label="Your decorating garden">
-        ${landscape()}<button type="button" class="decorate-pet" aria-label="Play with your garden pet">${ctx.petArt()}</button>
+        ${landscape()}<button type="button" class="decorate-pet" aria-label="Play with your garden pet">${ctx.petArt()}</button><span class="decorate-pet-reaction" aria-hidden="true"></span>
         ${Array.from({length:4},(_,i)=>`<button class="decorate-slot" type="button" data-slot="${i}" aria-label="Garden space ${i+1}"></button>`).join('')}
-        </div><div class="decorate-shelf"><button type="button" class="decorate-prev" aria-label="Previous decorations">${ns.LettersArt.icon('next',22)}</button><div class="decorate-tray" role="group" aria-label="Your earned decorations">${this.catalog.length?this.catalog.map(item=>`<button type="button" class="decorate-choice" data-decoration="${item.id}" aria-label="Place ${item.label}" aria-pressed="false">${decorationArt(item,76)}<span class="decorate-used" aria-hidden="true">${ns.LettersArt.icon('check',18)}</span></button>`).join(''):`<button type="button" class="decorate-earn" aria-label="Play a lesson to grow garden flowers">${ns.LettersGardenArt.practicePicture('DotGarden')}${ns.LettersArt.icon('next',28)}</button>`}</div><button type="button" class="decorate-more" aria-label="More decorations">${ns.LettersArt.icon('next',22)}</button></div>
+        </div><div class="decorate-selection" hidden aria-live="polite"><span class="decorate-selection-preview"></span><span class="decorate-selection-arrow" aria-hidden="true">${ns.LettersArt.icon('arrow',24)}</span></div><div class="decorate-shelf"><button type="button" class="decorate-prev" aria-label="Previous decorations">${ns.LettersArt.icon('next',22)}</button><div class="decorate-tray" role="group" aria-label="Your earned decorations">${this.catalog.length?this.catalog.map(item=>`<button type="button" class="decorate-choice" data-decoration="${item.id}" aria-label="Place ${item.label}" aria-pressed="false">${decorationArt(item,76)}<span class="decorate-used" aria-hidden="true">${ns.LettersArt.icon('check',18)}</span></button>`).join(''):`<button type="button" class="decorate-earn" aria-label="Play a lesson to grow garden flowers">${ns.LettersGardenArt.practicePicture('DotGarden')}${ns.LettersArt.icon('next',28)}</button>`}</div><button type="button" class="decorate-more" aria-label="More decorations">${ns.LettersArt.icon('next',22)}</button></div>
         <div class="decorate-tools"><button type="button" class="decorate-undo practice-button" aria-label="Undo garden change" disabled>${ns.LettersArt.icon('replay',30)}</button><button type="button" class="decorate-remove practice-button" aria-label="Return selected decoration to the tray" disabled>${removeIcon}</button><button type="button" class="decorate-done practice-button" aria-label="Finish decorating">${ns.LettersArt.icon('check',32)}</button></div>`;
       this.tray=stage.querySelector('.decorate-tray');
       const prev=stage.querySelector('.decorate-prev'),more=stage.querySelector('.decorate-more');
@@ -49,16 +49,18 @@
       });
       stage.querySelector('.decorate-undo').onclick=()=>{
         if(!this.alive||!this.undo.length)return;
-        this.layout=this.undo.pop();this.selected=null;this.selectedSlot=null;this.save();
+        this.layout=this.undo.pop();this.selected=null;this.selectedSlot=null;this.save();this.react('undo');
       };
       stage.querySelector('.decorate-remove').onclick=()=>{
         if(!this.alive||this.selectedSlot===null)return;
-        this.commit(ns.LettersDecorations.remove(this.layout,this.selectedSlot));
+        this.commit(ns.LettersDecorations.remove(this.layout,this.selectedSlot),'remove');
       };
       stage.querySelector('.decorate-done').onclick=()=>{if(this.alive)ctx.onDone();};
       stage.querySelector('.decorate-earn')?.addEventListener('click',()=>{if(this.alive)ctx.onDone();});
       this.pet=stage.querySelector('.decorate-pet');
-      this.pet.onclick=()=>{if(this.alive)this.react();};
+      this.petReaction=stage.querySelector('.decorate-pet-reaction');
+      this.pet.onclick=()=>{if(this.alive)this.react('place');};
+      this.selection=stage.querySelector('.decorate-selection');this.selectionPreview=stage.querySelector('.decorate-selection-preview');
       this.onKey=e=>{if(e.key==='Escape'&&this.alive){this.dragResets.forEach(reset=>reset());this.selected=null;this.selectedSlot=null;this.paint();}};
       stage.addEventListener('keydown',this.onKey);
       this.paint();
@@ -108,13 +110,13 @@
     }
     place(slot,id){
       if(!this.alive)return;
-      this.commit(ns.LettersDecorations.place(this.layout,slot,id,this.catalog));
+      this.commit(ns.LettersDecorations.place(this.layout,slot,id,this.catalog),'place');
     }
-    commit(next){
+    commit(next,reaction='place'){
       if(!this.alive||!next)return;
       this.undo.push(this.layout);if(this.undo.length>20)this.undo.shift();
       this.layout=next;this.selected=null;this.selectedSlot=null;
-      this.save();this.react();
+      this.save();this.react(reaction);
     }
     save(){
       this.dragResets.forEach(reset=>reset());
@@ -135,14 +137,20 @@
         button.setAttribute('aria-pressed',String(this.selected===button.dataset.decoration));
         button.classList.toggle('is-placed',ids.includes(button.dataset.decoration));
       });
+      const selectedItem=this.items.get(this.selected);
+      this.selection.hidden=!selectedItem;
+      this.selectionPreview.innerHTML=selectedItem?decorationArt(selectedItem,48):'';
+      this.selection.setAttribute('aria-label',selectedItem?`${selectedItem.label} selected. Choose a garden space.`:'');
       this.ctx.stage.querySelector('.decorate-undo').disabled=!this.undo.length;
       this.ctx.stage.querySelector('.decorate-remove').disabled=this.selectedSlot===null;
     }
-    react(){
+    react(kind='place'){
       this.ctx.play('correct');
-      if(this.ctx.reducedMotion?.())return;
-      this.pet.classList.remove('is-happy');void this.pet.offsetWidth;this.pet.classList.add('is-happy');
-      clearTimeout(this.reactTimer);this.reactTimer=setTimeout(()=>{if(this.alive)this.pet.classList.remove('is-happy');},450);
+      ['is-happy','is-place','is-remove','is-undo'].forEach(name=>this.pet.classList.remove(name));
+      if(!this.ctx.reducedMotion?.())void this.pet.offsetWidth;
+      this.pet.classList.add('is-happy','is-'+kind);
+      this.petReaction.innerHTML=ns.LettersArt.icon(kind==='undo'?'replay':kind==='remove'?'arrow':'flower',22);
+      clearTimeout(this.reactTimer);this.reactTimer=setTimeout(()=>{if(this.alive)['is-happy','is-place','is-remove','is-undo'].forEach(name=>this.pet.classList.remove(name));},450);
     }
     destroy(){this.alive=false;this.shelfObserver?.disconnect();this.tray.removeEventListener('scroll',this.refreshShelf);clearTimeout(this.reactTimer);this.dragResets.forEach(reset=>reset());this.ctx.stage.removeEventListener('keydown',this.onKey);}
   }
