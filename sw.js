@@ -4,11 +4,36 @@
 // - Shell (HTML/CSS/JS/fonts): stale-while-revalidate, ignoring ?v= cache-busters.
 // - data/*.json: network-first so rebuilt data lands promptly; cache fallback offline.
 // - Remote recitation audio: deliberately NOT intercepted — see AUDIO_HOSTS below.
-const VERSION = "miftah-v38-letter-garden-batch50";
+const VERSION = "miftah-v39-letter-garden-major-candidate-20260915";
 const SHELL_CACHE = `shell-${VERSION}`;
 const DATA_CACHE = `data-${VERSION}`;
 
 const SHELL = [
+  "letters.html",
+  "styles/letters.css",
+  "styles/letters-animals.css",
+  "styles/letters-art-pass.css",
+  "styles/letters-map-world.css",
+  "styles/letters-activities.css",
+  "src/data/letters.js",
+  "src/data/animals.js",
+  "src/core/SoundSystem.js",
+  "src/core/Haptics.js",
+  "src/systems/ProgressionSystem.js",
+  "src/letters/LettersAnimalArt.js",
+  "src/letters/LettersArt.js",
+  "src/letters/LettersDecorations.js",
+  "src/letters/LettersState.js",
+  "src/letters/LettersBoot.js",
+  "src/letters/LettersStrength.js",
+  "src/letters/LettersWorlds.js",
+  "src/letters/GardenPractice.js",
+  "src/letters/MiniGames.js",
+  "src/letters/LettersGardenArt.js",
+  "src/letters/LettersMapArt.js",
+  "src/letters/LettersActivityArt.js",
+  "src/letters/DecoratingGarden.js",
+  "src/letters/LettersGame.js",
   "today.html",
   "today.js",
   "progress.html",
@@ -52,13 +77,28 @@ const SHELL = [
   "vendor/fonts/inter-latin-ext.woff2",
 ];
 
+const DATA = [
+  "data/surah-1.json",
+  "data/surah-105.json",
+  "data/surah-106.json",
+  "data/surah-107.json",
+  "data/surah-108.json",
+  "data/surah-109.json",
+  "data/surah-110.json",
+  "data/surah-111.json",
+  "data/surah-112.json",
+  "data/surah-113.json",
+  "data/surah-114.json",
+];
+
 const AUDIO_HOSTS = new Set(["audio.qurancdn.com", "verses.quran.com"]);
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches
-      .open(SHELL_CACHE)
-      .then((cache) => cache.addAll(SHELL))
+    Promise.all([
+      caches.open(SHELL_CACHE).then((cache) => cache.addAll(SHELL)),
+      caches.open(DATA_CACHE).then((cache) => cache.addAll(DATA)),
+    ])
       .then(() => self.skipWaiting())
   );
 });
@@ -97,7 +137,7 @@ self.addEventListener("fetch", (event) => {
       caches.open(DATA_CACHE).then(async (cache) => {
         try {
           const res = await fetch(req);
-          if (res.ok) cache.put(req, res.clone());
+          if (res.ok) await cache.put(url.origin + url.pathname, res.clone());
           return res;
         } catch {
           const hit = await cache.match(req, { ignoreSearch: true });

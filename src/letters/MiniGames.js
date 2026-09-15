@@ -20,6 +20,7 @@
   // ctx.level (stars already earned on this world) scales the challenge:
   // seasoned replayers face one extra distractor — adaptive, Brain Age style.
   function buildRounds(ctx) {
+    if (!ctx.items || !ctx.items.length || !(ctx.rounds > 0)) return [];
     const pool = shuffle(ctx.items);
     const targets = pool.slice(0, ctx.rounds);
     while (targets.length < ctx.rounds) targets.push(pool[targets.length % pool.length]);
@@ -38,6 +39,33 @@
       }
       return { target, options: shuffle(options) };
     });
+  }
+
+  // Keep constructor preconditions in one place so the shell can route an
+  // incomplete or partially loaded curriculum back to its retry screen before
+  // any game creates UI or reaches a completion callback.
+  function canStartMiniGame(game, items, extraItems) {
+    const pool = Array.isArray(items) ? items : [];
+    const extras = Array.isArray(extraItems) ? extraItems : [];
+    if (!pool.length) return false;
+    if (["pop", "catch", "pairs", "feed", "trace", "burst"].includes(game)) return true;
+    if (game === "build") return pool.some((item) => item.parts && item.parts.length >= 2);
+    if (["blend", "fuse", "unfuse"].includes(game)) {
+      return pool.some((item) => item.parts && item.parts.length === 2);
+    }
+    if (game === "chain") {
+      return pool.some((pair) =>
+        pair.parts && pair.parts.length === 2 && pair.join2 &&
+        extras.some((letter) =>
+          letter.display !== pair.parts[0].display && letter.display !== pair.parts[1].display,
+        ),
+      );
+    }
+    if (game === "parade") {
+      return extras.some((letter) => letter.joins && letter.display) ||
+        pool.some((item) => item.parts && item.parts[0] && item.parts[0].display);
+    }
+    return false;
   }
 
   const isArabic = (s) => /[؀-ۿ]/.test(s || "");
@@ -104,6 +132,7 @@
       this.roundIndex = 0;
       this.slips = 0;
       this.alive = true;
+      if (!this.rounds.length) { this.alive = false; ctx.onDone(0); return; }
       this.heat = makeHeat();
       this.bubbles = [];
       ctx.stage.innerHTML = `${ns.LettersGardenArt.pond()}<div class="pop-sky"></div>`;
@@ -121,8 +150,10 @@
 
     startRound() {
       if (!this.alive) return;
+      this.releaseActiveDrag?.();
       this.advancing = false;
       const round = this.rounds[this.roundIndex];
+      this.ctx.setRoundProgress?.(this.roundIndex + 1, this.rounds.length);
       this.ctx.setPrompt(round.target);
       this.ctx.say(round.target);
       for (const b of this.bubbles) b.el.remove();
@@ -147,14 +178,15 @@
         </svg>` : tileHTML(item, this.ctx.hue);
       el.setAttribute("aria-label", item.display);
       const laneW = 84 / Math.max(2, this.laneCount || 3);
-      const gardenGrid = this.ctx.garden && this.laneCount > 2;
-      const laneX = this.ctx.garden ? (gardenGrid ? 28 + (lane % 2) * 44 : 8 + (lane + 0.5) * laneW) : 6 + lane * laneW;
-      el.style.width = `${this.ctx.garden ? 32 : laneW - 2}%`;
+      const stationary = this.ctx.garden || this.ctx.referenceJourney;
+      const gardenGrid = stationary && this.laneCount > 2;
+      const laneX = stationary ? (gardenGrid ? 28 + (lane % 2) * 44 : 8 + (lane + 0.5) * laneW) : 6 + lane * laneW;
+      el.style.width = `${stationary && this.ctx.garden ? 32 : laneW - 2}%`;
       el.style.left = `${laneX}%`;
       const pace = 1 + 0.22 * (this.ctx.level || 0);
-      const bubble = { el, item, y: this.ctx.garden ? (gardenGrid ? .18 + Math.floor(lane / 2) * .40 : .35) : 1.15 + delay, speed: (0.06 + Math.random() * 0.025) * pace };
+      const bubble = { el, item, y: stationary ? (gardenGrid ? .18 + Math.floor(lane / 2) * .40 : .35) : 1.15 + delay, speed: (0.06 + Math.random() * 0.025) * pace };
       bubble.restY = bubble.y;
-      el.style.transform = `translate3d(${this.ctx.garden ? "-50%" : "0"}, ${bubble.y * this.skyH}px, 0)`;
+      el.style.transform = `translate3d(${stationary ? "-50%" : "0"}, ${bubble.y * this.skyH}px, 0)`;
       el.addEventListener("click", () => this.popAttempt(bubble));
       this.sky.appendChild(el);
       this.bubbles.push(bubble);
@@ -218,16 +250,21 @@
       this.lastTime = now;
       for (const b of this.bubbles) {
         if (b.el.classList.contains("is-popped") || b.el.classList.contains("is-scaffolded")) continue;
-        if (!this.ctx.garden && !this.ctx.beginner && !this.ctx.reducedMotion?.()) b.y -= b.speed * this.heat.factor() * dt;
-        else b.y = this.ctx.garden ? b.restY : 0.35;
-        if (b.y < -0.18) b.y = 1.12; // drift forever until popped
-        b.el.style.transform = `translate3d(${this.ctx.garden ? "-50%" : "0"}, ${b.y * this.skyH}px, 0)`;
+        const stationary = this.ctx.garden || this.ctx.referenceJourney;
+        if (!stationary && !this.ctx.beginner && !this.ctx.reducedMotion?.()) b.y -= b.speed * this.heat.factor() * dt;
+        else if (this.ctx.garden) b.y = b.restY;
+        else if (this.ctx.referenceJourney && !this.ctx.reducedMotion?.()) b.y = b.restY + Math.sin(now * 0.002 + b.restY * 9) * 0.018;
+        else b.y = stationary ? b.restY : 0.35;
+        if (!stationary && b.y < -0.18) b.y = 1.12; // drift forever until popped
+        b.el.style.transform = `translate3d(${stationary ? "-50%" : "0"}, ${b.y * this.skyH}px, 0)`;
       }
       requestAnimationFrame(this.tick);
     }
 
     finish() {
+      if (!this.alive) return;
       this.alive = false;
+      window.removeEventListener("resize", this.onResize);
       this.ctx.onDone(this.slips);
     }
 
@@ -245,6 +282,7 @@
       this.roundIndex = 0;
       this.slips = 0;
       this.alive = true;
+      if (!this.rounds.length) { this.alive = false; ctx.onDone(0); return; }
       this.fallers = [];
       this.still = !!ctx.reducedMotion?.();
       ctx.stage.innerHTML = `
@@ -399,7 +437,20 @@
             (o) => o.id === round.target.id || o.id !== f.item.id,
           );
         } else if (f.y > 1.05) {
+          const missedTarget = f.item.id === round.target.id;
           this.remove(f);
+          if (missedTarget) {
+            // Missing the basket is motor practice, not evidence that the child
+            // chose a wrong letter. Slow the stream, replay the prompt, and make
+            // the next spawn the target without adding a slip or recording a
+            // wrong recognition in the shell's sfx wiretap.
+            this.heat.down();
+            this.spawnFlip = false;
+            this.spawnTimer = Math.min(this.spawnTimer, 0.18);
+            this.ctx.setPrompt(round.target);
+            this.ctx.say(round.target);
+            this.ctx.pulsePrompt?.();
+          }
         }
       }
       requestAnimationFrame(this.tick);
@@ -411,7 +462,7 @@
     }
 
     clearFallers() {
-      for (const f of this.fallers) f.el.remove();
+      for (const f of (this.fallers || [])) f.el.remove();
       this.fallers = [];
     }
 
@@ -424,9 +475,9 @@
     destroy() {
       this.alive = false;
       window.removeEventListener("resize", this.onResize);
-      this.ctx.stage.removeEventListener("pointermove",this.moveBasket);
-      this.ctx.stage.removeEventListener("pointerdown",this.moveBasket);
-      this.basket.removeEventListener('keydown',this.keyBasket);
+      this.ctx.stage?.removeEventListener?.("pointermove",this.moveBasket);
+      this.ctx.stage?.removeEventListener?.("pointerdown",this.moveBasket);
+      this.basket?.removeEventListener?.('keydown',this.keyBasket);
       this.clearFallers();
     }
   }
@@ -439,22 +490,51 @@
       this.slips = 0;
       this.boards = 2;
       this.boardIndex = 0;
+      if (ctx.beginner) {
+        const seen = new Set();
+        this.beginnerPairs = [];
+        for (const item of shuffle(ctx.items)) {
+          if (seen.has(item.id)) continue;
+          seen.add(item.id);
+          this.beginnerPairs.push(item);
+          if (this.beginnerPairs.length >= 4) break;
+        }
+      }
       this.buildBoard();
     }
 
     buildBoard() {
       if (!this.alive) return;
       const ctx = this.ctx;
+      this.pairCount = ctx.beginner ? 2 : 3;
+      ctx.setRoundProgress?.(this.boardIndex + 1, this.boards);
       // Three pairs. When items carry a `match` (forms worlds), the pair is
       // form ↔ isolated letter; otherwise two copies of the same item.
       const picks = [];
       const seen = new Set();
-      for (const item of shuffle(ctx.items)) {
-        if (picks.length >= 3) break;
-        if (seen.has(item.id)) continue;
-        seen.add(item.id);
-        picks.push(item);
+      if (ctx.beginner) {
+        const pool = this.beginnerPairs || [];
+        for (const item of pool.slice(this.boardIndex * 2, this.boardIndex * 2 + 2)) {
+          seen.add(item.id);
+          picks.push(item);
+        }
+        // Very small curricula still get a complete second board; repeat only
+        // after every available familiar item has appeared once.
+        for (const item of pool) {
+          if (picks.length >= Math.min(2, pool.length)) break;
+          if (seen.has(item.id)) continue;
+          seen.add(item.id);
+          picks.push(item);
+        }
+      } else {
+        for (const item of shuffle(ctx.items)) {
+          if (picks.length >= this.pairCount) break;
+          if (seen.has(item.id)) continue;
+          seen.add(item.id);
+          picks.push(item);
+        }
       }
+      this.pairCount = picks.length;
       const cards = [];
       for (const item of picks) {
         cards.push({ id: item.id, display: item.display, speak: item.speak, audioPath: item.audioPath });
@@ -521,7 +601,7 @@
         this.ctx.sfx("correct");
         this.ctx.confettiAt(el);
         this.matched += 1;
-        if (this.matched >= 3) setTimeout(() => this.nextBoard(), 650);
+        if (this.matched >= this.pairCount) setTimeout(() => this.nextBoard(), 650);
       } else {
         // Keep the reference visible: retry means finding its partner, not
         // remembering and selecting the first card all over again.
@@ -557,6 +637,7 @@
       this.rounds = buildRounds(ctx);
       this.roundIndex = 0;
       this.slips = 0;
+      if (!this.rounds.length) { this.alive = false; ctx.onDone(0); return; }
       ctx.stage.innerHTML = `
         <div class="feed-scene">
           <div class="feed-creature">${ctx.garden && ctx.petArt ? ctx.petArt() : Art.creature({ hue: ctx.garden ? 150 : (ctx.hue + 140) % 360 })}</div>
@@ -576,6 +657,7 @@
       this.dragResets.forEach(reset=>reset());this.dragResets=[];this.selected=null;
       if(this.basket){this.basket.classList.remove("is-ready","is-filled");this.basket.setAttribute("aria-disabled","true");this.basket.disabled=true;}
       const round = this.rounds[this.roundIndex];
+      this.ctx.setRoundProgress?.(this.roundIndex + 1, this.rounds.length);
       this.ctx.setPrompt(round.target);
       this.ctx.say(round.target);
       this.tray.innerHTML = "";
@@ -676,13 +758,15 @@
           </div>
         </div>`;
       this.canvas = ctx.stage.querySelector(".trace-canvas");
-      ctx.stage.querySelector(".trace-clear").addEventListener("click", () => this.clearDrawing());
+      this.clearBtn = ctx.stage.querySelector(".trace-clear");
+      this.clearBtn.disabled = true;
+      this.clearBtn.addEventListener("click", () => this.clearDrawing());
       this.drawing = false;
       this.canvas.addEventListener("pointerdown", (e) => this.penDown(e));
       this.canvas.addEventListener("pointermove", (e) => this.penMove(e));
-      this.canvas.addEventListener("pointercancel", () => { this.drawing = false; });
-      this.canvas.addEventListener("lostpointercapture", () => { this.drawing = false; });
-      window.addEventListener("pointerup", (this.penUpBound = () => this.penUp()));
+      this.canvas.addEventListener("pointercancel", (e) => this.cancelStroke(e));
+      this.canvas.addEventListener("lostpointercapture", (e) => this.cancelStroke(e));
+      window.addEventListener("pointerup", (this.penUpBound = (e) => this.penUp(e)));
       // The glyph guide needs the Quran font; wait for it, then start.
       const ready = document.fonts && document.fonts.load ? document.fonts.load('100px "Amiri Quran"') : Promise.resolve();
       ready.finally(() => {
@@ -724,13 +808,17 @@
 
     startRound() {
       if (!this.alive) return;
+      this.canvas?.parentElement?.querySelectorAll?.(".trace-hint")?.forEach((el) => el.remove());
+      if (this.clearBtn) this.clearBtn.disabled = true;
       this.advancing = false;
       const target = this.targets[this.roundIndex];
+      this.ctx.setRoundProgress?.(this.roundIndex + 1, this.targets.length);
       this.ctx.setPrompt(target);
       this.ctx.say(target);
       const wrap = this.canvas.parentElement;
       const w = wrap.clientWidth;
       const h = wrap.clientHeight;
+      if (w <= 0 || h <= 0) { this.g = null; this.guide = []; return; }
       this.canvas.width = w;
       this.canvas.height = h;
       this.g = this.canvas.getContext("2d", { willReadFrequently: true });
@@ -804,18 +892,38 @@
     }
 
     clearDrawing() {
-      if (this.alive && !this.advancing) {this.drawing=false;this.startRound();}
+      if (this.alive && !this.advancing && this.g) {this.cancelStroke();this.startRound();}
     }
 
     pos(e) {
       const rect = this.canvas.getBoundingClientRect();
-      return [(e.clientX - rect.left) * this.canvas.width / rect.width, (e.clientY - rect.top) * this.canvas.height / rect.height];
+      if (rect.width <= 0 || rect.height <= 0 || this.canvas.width <= 0 || this.canvas.height <= 0) return null;
+      return [Math.max(0, Math.min(this.canvas.width, (e.clientX - rect.left) * this.canvas.width / rect.width)), Math.max(0, Math.min(this.canvas.height, (e.clientY - rect.top) * this.canvas.height / rect.height))];
+    }
+
+    cancelStroke(e) {
+      if (e && e.pointerId !== this.activePointer) return;
+      const id = this.activePointer;
+      this.activePointer = null;
+      this.drawing = false;
+      if (id != null && this.canvas?.hasPointerCapture?.(id)) this.canvas.releasePointerCapture(id);
+    }
+
+    cancelStroke(e) {
+      if (e && e.pointerId !== this.activePointer) return;
+      const id = this.activePointer;
+      this.activePointer = null;
+      this.drawing = false;
+      if (id != null && this.canvas?.hasPointerCapture?.(id)) this.canvas.releasePointerCapture(id);
     }
 
     penDown(e) {
-      if (!this.alive || this.advancing || !this.g || this.drawing || e.button>0) return;
+      if (!this.alive || this.advancing || !this.g || this.drawing || e.button>0 || e.isPrimary===false) return;
+      this.activePointer = e.pointerId;
       this.drawing = true;
       this.last = this.pos(e);
+      if (!this.last) { this.drawing = false; this.activePointer = null; return; }
+      if (this.clearBtn) this.clearBtn.disabled = false;
       this.canvas.setPointerCapture?.(e.pointerId);
       // A plain tap must leave ink too — kids dot the dots with single taps,
       // and letters like ب can't pass their dot-cluster check without it.
@@ -836,8 +944,10 @@
     }
 
     penMove(e) {
-      if (!this.drawing || !this.alive || this.advancing) return;
-      const [x, y] = this.pos(e);
+      if (!this.drawing || !this.alive || this.advancing || e.pointerId !== this.activePointer) return;
+      const point = this.pos(e);
+      if (!point) return;
+      const [x, y] = point;
       this.g.beginPath();
       this.g.moveTo(this.last[0], this.last[1]);
       this.g.lineTo(x, y);
@@ -864,9 +974,9 @@
       return n / cluster.length;
     }
 
-    penUp() {
-      if (!this.drawing || !this.alive || this.advancing) return;
-      this.drawing = false;
+    penUp(e) {
+      if (!this.drawing || !this.alive || this.advancing || (e && e.pointerId !== this.activePointer)) return;
+      this.cancelStroke();
       if (!this.guide.length) return;
       const covered = this.guide.reduce(
         (n, [x, y]) => n + (this.paint.has(`${x}|${y}`) ? 1 : 0),
@@ -910,12 +1020,15 @@
 
     finish() {
       this.alive = false;
+      this.cancelStroke();
+      this.canvas?.parentElement?.querySelectorAll?.(".trace-hint")?.forEach((el) => el.remove());
       window.removeEventListener("pointerup", this.penUpBound);
       this.ctx.onDone(this.slips);
     }
 
     destroy() {
       this.alive = false;
+      this.cancelStroke();
       window.removeEventListener("pointerup", this.penUpBound);
     }
   }
@@ -928,8 +1041,12 @@
       this.ctx = ctx;
       this.count = 0;
       this.alive = true;
+      this.paused = false;
       this.duration = 30000;
-      this.endsAt = performance.now() + this.duration;
+      this.remaining = this.duration;
+      this.endsAt = performance.now() + this.remaining;
+      this.frameSequence = 0;
+      this.pendingFrame = null;
       ctx.stage.innerHTML = `
         <div class="burst-head">
           <svg class="burst-ring" viewBox="0 0 60 60" aria-hidden="true">
@@ -938,18 +1055,86 @@
               stroke-linecap="round" stroke-dasharray="157" transform="rotate(-90 30 30)"/>
           </svg>
           <span class="burst-count">0</span>
+          <button type="button" class="burst-pause" aria-label="Pause challenge">
+            <svg viewBox="0 0 64 64" aria-hidden="true"><rect x="17" y="12" width="10" height="40" rx="4" fill="currentColor"/><rect x="37" y="12" width="10" height="40" rx="4" fill="currentColor"/></svg>
+          </button>
         </div>
         <div class="burst-grid"></div>`;
       this.ringEl = ctx.stage.querySelector(".burst-ring-fill");
       this.countEl = ctx.stage.querySelector(".burst-count");
+      this.pauseButton = ctx.stage.querySelector(".burst-pause");
       this.grid = ctx.stage.querySelector(".burst-grid");
+      this.onPauseClick = () => (this.paused ? this.resume() : this.pause());
+      this.pauseButton?.addEventListener?.("click", this.onPauseClick);
+      this.onVisibilityChange = () => {
+        if (document.hidden) this.pause();
+      };
+      if (typeof document !== "undefined" && document.addEventListener) {
+        document.addEventListener("visibilitychange", this.onVisibilityChange);
+      }
       this.heat = makeHeat();
       this.nextTarget();
       this.tick = this.tick.bind(this);
-      requestAnimationFrame(this.tick);
-      // rAF stalls in hidden/backgrounded tabs — a plain interval guarantees
-      // the round still ends on time.
+      this.scheduleFrame();
+      this.startEndTimer();
+      if (typeof document !== "undefined" && document.hidden) this.pause();
+    }
+
+    scheduleFrame() {
+      if (!this.alive || this.paused || this.pendingFrame != null) return;
+      const token = ++this.frameSequence;
+      this.pendingFrame = token;
+      requestAnimationFrame((now) => {
+        if (this.pendingFrame === token) this.pendingFrame = null;
+        if (!this.alive || this.paused || token !== this.frameSequence) return;
+        this.tick(now);
+      });
+    }
+
+    startEndTimer() {
+      clearInterval(this.endTimer);
+      if (!this.alive || this.paused) return;
       this.endTimer = setInterval(() => this.tick(performance.now(), false), 500);
+    }
+
+    setPausedUI(paused) {
+      this.ctx.stage?.classList?.toggle?.("is-paused", paused);
+      if (this.grid) this.grid.inert = paused;
+      if (!this.pauseButton) return;
+      this.pauseButton.setAttribute("aria-label", paused ? "Resume challenge" : "Pause challenge");
+      this.pauseButton.innerHTML = paused
+        ? Art.icon("next", 30)
+        : `<svg viewBox="0 0 64 64" aria-hidden="true"><rect x="17" y="12" width="10" height="40" rx="4" fill="currentColor"/><rect x="37" y="12" width="10" height="40" rx="4" fill="currentColor"/></svg>`;
+    }
+
+    pause() {
+      if (!this.alive || this.paused) return;
+      const now = performance.now();
+      // Settle a deadline that elapsed before the pause/visibility event.
+      this.tick(now, false);
+      if (!this.alive) return;
+      this.remaining = Math.max(0, this.endsAt - now);
+      this.paused = true;
+      this.frameSequence += 1;
+      this.pendingFrame = null;
+      clearInterval(this.endTimer);
+      this.setPausedUI(true);
+      this.ctx.onPauseChange?.(true);
+    }
+
+    resume() {
+      if (!this.alive || !this.paused) return;
+      if (typeof document !== "undefined" && document.hidden) return;
+      this.paused = false;
+      this.endsAt = performance.now() + this.remaining;
+      this.setPausedUI(false);
+      this.ctx.onPauseChange?.(false);
+      // This is a fresh auditory prompt after pause cancelled the old one;
+      // announce it again so the shell also restarts response-time evidence.
+      this.ctx.setPrompt(this.target);
+      this.ctx.say(this.target);
+      this.scheduleFrame();
+      this.startEndTimer();
     }
 
     nextTarget() {
@@ -975,7 +1160,7 @@
     }
 
     tap(item, el) {
-      if (!this.alive) return;
+      if (!this.alive || this.paused) return;
       // Input and timer callbacks can arrive in either order at the deadline.
       // Settle the round before accepting a final tap, using the same clock.
       this.tick(performance.now(), false);
@@ -997,22 +1182,38 @@
     }
 
     tick(now, schedule = true) {
-      if (!this.alive) return;
+      if (!this.alive || this.paused) return;
       const left = Math.max(0, this.endsAt - now);
+      this.remaining = left;
       this.ringEl.style.strokeDashoffset = String(157 * (1 - left / this.duration));
       if (left <= 0) {
         this.alive = false;
-        clearInterval(this.endTimer);
+        this.teardown();
         // Stars by harvest: 10+ shines, 6+ solid, anything else still a star.
         this.ctx.onDone(this.count >= 10 ? 0 : this.count >= 6 ? 2 : 3);
         return;
       }
-      if(schedule)requestAnimationFrame(this.tick);
+      if (schedule) this.scheduleFrame();
+    }
+
+    teardown() {
+      clearInterval(this.endTimer);
+      this.frameSequence += 1;
+      this.pendingFrame = null;
+      if (typeof document !== "undefined" && document.removeEventListener) {
+        document.removeEventListener("visibilitychange", this.onVisibilityChange);
+      }
+      this.pauseButton?.removeEventListener?.("click", this.onPauseClick);
+      if (this.paused) this.ctx.onPauseChange?.(false);
+      this.paused = false;
+      this.setPausedUI(false);
+      this.pauseButton?.remove?.();
+      this.pauseButton = null;
     }
 
     destroy() {
       this.alive = false;
-      clearInterval(this.endTimer);
+      this.teardown();
     }
   }
 
@@ -1223,7 +1424,11 @@
       let moved = false;
 
       el.addEventListener("pointerdown", (e) => {
-        if (e.button>0 || !this.alive || this.merging || this.retrying || el.classList.contains("is-scaffolded") || el.classList.contains("is-gone")) return;
+        if (e.button>0 || e.isPrimary === false || el.__lgPointer != null || this.activeDrag || !this.alive || this.merging || this.retrying || el.classList.contains("is-scaffolded") || el.classList.contains("is-gone")) return;
+        const bounds = this.scene.getBoundingClientRect();
+        if (!Number.isFinite(bounds.width) || !Number.isFinite(bounds.height) || bounds.width <= 0 || bounds.height <= 0 || !Number.isFinite(this.scene.clientWidth) || !Number.isFinite(this.scene.clientHeight) || this.scene.clientWidth <= 0 || this.scene.clientHeight <= 0) return;
+        el.__lgPointer = e.pointerId;
+        this.activeDrag = { el, id: e.pointerId };
         el.setPointerCapture(e.pointerId);
         startX = e.clientX;
         startY = e.clientY;
@@ -1238,8 +1443,9 @@
       });
 
       el.addEventListener("pointermove", (e) => {
-        if (!el.classList.contains("is-held") || this.merging) return;
+        if (!el.classList.contains("is-held") || this.merging || (e.pointerId != null && e.pointerId !== el.__lgPointer)) return;
         const bounds = this.scene.getBoundingClientRect();
+        if (!Number.isFinite(bounds.width) || !Number.isFinite(bounds.height) || bounds.width <= 0 || bounds.height <= 0 || !Number.isFinite(this.scene.clientWidth) || !Number.isFinite(this.scene.clientHeight) || this.scene.clientWidth <= 0 || this.scene.clientHeight <= 0) return;
         const dx = (e.clientX - startX) * this.scene.clientWidth / bounds.width;
         const dy = (e.clientY - startY) * this.scene.clientHeight / bounds.height;
         if (Math.hypot(dx, dy) > 8) moved = true;
@@ -1251,17 +1457,25 @@
         }
       });
 
-      const cancel = () => {
+      const cancel = (e) => {
+        if (e && e.pointerId !== el.__lgPointer) return;
+        const id = el.__lgPointer;
+        el.__lgPointer = null;
+        if (this.activeDrag?.el === el && (e == null || e.pointerId === this.activeDrag.id)) this.activeDrag = null;
         el.classList.remove("is-held");
         this.els.forEach(o=>o.classList.remove("is-near"));
         if(this.alive&&!this.merging)this.springBack(el);
+        if (id != null && el.hasPointerCapture?.(id)) el.releasePointerCapture(id);
       };
       el.addEventListener("pointercancel",cancel);
-      el.addEventListener("lostpointercapture",()=>{if(el.classList.contains("is-held"))cancel();});
-      el.addEventListener("pointerup", () => {
-        if (!el.classList.contains("is-held")) return;
+      el.addEventListener("lostpointercapture",(e)=>{if(el.classList.contains("is-held"))cancel(e);});
+      el.addEventListener("pointerup", (e) => {
+        if (!el.classList.contains("is-held") || (e.pointerId != null && e.pointerId !== el.__lgPointer)) return;
+        el.__lgPointer = null;
+        if (this.activeDrag?.el === el) this.activeDrag = null;
         el.classList.remove("is-held");
         this.els.forEach((o) => o.classList.remove("is-near"));
+        if (el.hasPointerCapture?.(e.pointerId)) el.releasePointerCapture(e.pointerId);
         if (this.merging) return;
         if (moved) {
           const other = this.hitOther(el);
@@ -1374,7 +1588,8 @@
       }, 1800);
     }
 
-    destroy() { this.alive = false; this.stopHint?.(); }
+    releaseActiveDrag() { const active=this.activeDrag; if (!active) return; const el=active.el; if (el?.hasPointerCapture?.(active.id)) el.releasePointerCapture(active.id); el.__lgPointer=null; el.classList.remove("is-held"); this.activeDrag=null; }
+    destroy() { this.alive = false; this.stopHint?.(); this.releaseActiveDrag(); (this.els || []).forEach((el) => { const id=el.__lgPointer; if(id != null && el.hasPointerCapture?.(id)) el.releasePointerCapture(id); el.__lgPointer=null; el.classList.remove("is-held"); }); }
   }
 
   // ---------- Un-fuse: pull a joined shape apart, find who was hiding ----------
@@ -1476,6 +1691,7 @@
       let sy = 0;
       let pulled = false;
       let taps = 0;
+      this.whole = whole;
       // Demonstrate the pull on a loop until the child manages one themselves.
       clearInterval(this.hintTimer);
       const tug = () => {
@@ -1490,8 +1706,18 @@
         clearInterval(this.hintTimer);
         whole.classList.remove("is-tugging");
       };
+      whole.addEventListener("keydown", (e) => {
+        if(e.key!=="Enter" && e.key!==" ")return;
+        e.preventDefault();
+        if(e.repeat || !this.alive || this.busy || !whole.isConnected)return;
+        pulled=true;
+        stopHint();
+        this.split();
+      });
       whole.addEventListener("pointerdown", (e) => {
-        if(!this.alive||this.busy)return;
+        if(e.button>0 || e.isPrimary === false || whole.__lgPointer != null || !this.alive||this.busy)return;
+        if (!this.canStartDrag(whole)) return;
+        whole.__lgPointer = e.pointerId;
         whole.setPointerCapture(e.pointerId);
         sx = e.clientX;
         sy = e.clientY;
@@ -1500,7 +1726,8 @@
         whole.classList.add("is-held");
       });
       whole.addEventListener("pointermove", (e) => {
-        if (!whole.classList.contains("is-held") || pulled) return;
+        if (!whole.classList.contains("is-held") || pulled || e.pointerId !== whole.__lgPointer) return;
+        if (!this.canStartDrag(whole)) { release(e); return; }
         const d = Math.hypot(e.clientX - sx, e.clientY - sy);
         // The tile strains as the child pulls, then gives way.
         whole.style.setProperty("--strain", String(Math.min(1, d / 46)));
@@ -1509,10 +1736,18 @@
           this.split();
         }
       });
-      whole.addEventListener("pointercancel",()=>{whole.classList.remove("is-held");whole.style.setProperty("--strain","0");});
-      whole.addEventListener("pointerup", () => {
+      const release = (e) => {
+        if (e && e.pointerId !== whole.__lgPointer) return;
+        const id = whole.__lgPointer; whole.__lgPointer = null;
         whole.classList.remove("is-held");
         whole.style.setProperty("--strain", "0");
+        if (id != null && whole.hasPointerCapture?.(id)) whole.releasePointerCapture(id);
+      };
+      whole.addEventListener("pointercancel",release);
+      whole.addEventListener("lostpointercapture",(e)=>{if(whole.classList.contains("is-held"))release(e);});
+      whole.addEventListener("pointerup", (e) => {
+        if (e.pointerId !== whole.__lgPointer) return;
+        release(e);
         if (!pulled) {
           // A plain tap wobbles and replays the sound — the hint IS the toy.
           whole.classList.remove("is-shake");
@@ -1535,6 +1770,9 @@
 
     split() {
       if(!this.alive||this.busy)return;
+      const active = this.whole?.__lgPointer;
+      if (active != null && this.whole?.hasPointerCapture?.(active)) this.whole.releasePointerCapture(active);
+      if (this.whole) { this.whole.__lgPointer = null; this.whole.classList.remove("is-held"); this.whole.style.setProperty("--strain", "0"); }
       this.busy=true;
       const ctx = this.ctx;
       clearInterval(this.hintTimer);
@@ -1552,6 +1790,11 @@
         900,
       );
       setTimeout(() => this.quiz(), 1900);
+    }
+
+    canStartDrag(el) {
+      const bounds = el?.getBoundingClientRect?.();
+      return !!bounds && Number.isFinite(bounds.width) && Number.isFinite(bounds.height) && bounds.width > 0 && bounds.height > 0;
     }
 
     quiz() {
@@ -1610,7 +1853,7 @@
       }
     }
 
-    destroy() { this.alive=false; this.stopHint?.(); clearInterval(this.hintTimer); }
+    destroy() { this.alive=false; this.stopHint?.(); clearInterval(this.hintTimer); const el=this.whole; const id=el?.__lgPointer; if(el&&id!=null&&el.hasPointerCapture?.(id))el.releasePointerCapture(id); if(el)el.__lgPointer=null; }
   }
 
   // ---------- Chain: grow a two-letter join into three ----------
@@ -1644,6 +1887,7 @@
 
     startRound() {
       if(!this.alive)return;
+      this.releaseActiveDrag?.();
       this.busy=false;
       const ctx = this.ctx;
       const { pair, third, decoy } = this.rounds[this.roundIndex];
@@ -1683,7 +1927,12 @@
       let baseT = 0;
       let moved = false;
       el.addEventListener("pointerdown", (e) => {
-        if (e.button>0 || !this.alive || this.busy || el.classList.contains("is-gone") || el.classList.contains("is-scaffolded")) return;
+        if (e.button>0 || e.isPrimary === false || el.__lgPointer != null || this.activeDrag || !this.alive || this.busy || el.classList.contains("is-gone") || el.classList.contains("is-scaffolded")) return;
+        const scene = this.base.parentElement;
+        const bounds = scene.getBoundingClientRect();
+        if (!Number.isFinite(bounds.width) || !Number.isFinite(bounds.height) || bounds.width <= 0 || bounds.height <= 0 || !Number.isFinite(scene.clientWidth) || !Number.isFinite(scene.clientHeight) || scene.clientWidth <= 0 || scene.clientHeight <= 0) return;
+        el.__lgPointer = e.pointerId;
+        this.activeDrag = { el, id: e.pointerId };
         el.setPointerCapture(e.pointerId);
         sx = e.clientX;
         sy = e.clientY;
@@ -1696,8 +1945,9 @@
         this.ctx.say({ display: t.display, speak: t.speak });
       });
       el.addEventListener("pointermove", (e) => {
-        if (!el.classList.contains("is-held")) return;
+        if (!el.classList.contains("is-held") || (e.pointerId != null && e.pointerId !== el.__lgPointer)) return;
         const scene=this.base.parentElement;const bounds=scene.getBoundingClientRect();
+        if (!Number.isFinite(bounds.width) || !Number.isFinite(bounds.height) || bounds.width <= 0 || bounds.height <= 0 || !Number.isFinite(scene.clientWidth) || !Number.isFinite(scene.clientHeight) || scene.clientWidth <= 0 || scene.clientHeight <= 0) return;
         const dx = (e.clientX - sx)*scene.clientWidth/bounds.width;
         const dy = (e.clientY - sy)*scene.clientHeight/bounds.height;
         if (Math.hypot(dx, dy) > 8) moved = true;
@@ -1707,12 +1957,13 @@
           this.base.classList.toggle("is-near", this.hitsBase(el));
         }
       });
-      el.addEventListener("pointercancel",()=>{el.classList.remove("is-held");this.base.classList.remove("is-near");if(this.alive&&!this.busy)this.springHome(el);});
-      el.addEventListener("lostpointercapture",()=>{if(el.classList.contains("is-held")){el.classList.remove("is-held");this.base.classList.remove("is-near");if(this.alive&&!this.busy)this.springHome(el);}});
+      const release = (e)=>{if(e&&e.pointerId!==el.__lgPointer)return;const id=el.__lgPointer;el.__lgPointer=null;if(this.activeDrag?.el===el)this.activeDrag=null;el.classList.remove("is-held");this.base.classList.remove("is-near");if(this.alive&&!this.busy)this.springHome(el);if(id!=null&&el.hasPointerCapture?.(id))el.releasePointerCapture(id);};
+      el.addEventListener("pointercancel",release);
+      el.addEventListener("lostpointercapture",release);
       el.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();this.tryChain(el);}});
       el.addEventListener("pointerup", (e) => {
-        if (!el.classList.contains("is-held")) return;
-        el.classList.remove("is-held");
+        if (!el.classList.contains("is-held") || e.pointerId !== el.__lgPointer) return;
+        el.__lgPointer=null; if(this.activeDrag?.el===el)this.activeDrag=null; el.classList.remove("is-held");
         if(el.hasPointerCapture(e.pointerId))el.releasePointerCapture(e.pointerId);
         this.base.classList.remove("is-near");
         const drop = moved ? this.hitsBase(el) : true; // tap = try it too
@@ -1781,7 +2032,8 @@
       }, 1900);
     }
 
-    destroy() { this.alive=false; this.stopHint?.(); clearInterval(this.hintTimer); }
+    releaseActiveDrag() { const active=this.activeDrag; if (!active) return; const el=active.el; if (el?.hasPointerCapture?.(active.id)) el.releasePointerCapture(active.id); el.__lgPointer=null; el.classList.remove("is-held"); this.activeDrag=null; }
+    destroy() { this.alive=false; this.stopHint?.(); clearInterval(this.hintTimer); this.releaseActiveDrag(); (this.thirds||[]).forEach((_,i)=>{const el=this.ctx.stage?.querySelector?.(`.chain-third[data-i="${i}"]`);const id=el?.__lgPointer;if(el&&id!=null&&el.hasPointerCapture?.(id))el.releasePointerCapture(id);if(el)el.__lgPointer=null;}); }
   }
 
   // ---------- Costume parade: one letter, three outfits ----------
@@ -1853,6 +2105,7 @@
   }
 
   ns.LettersRoundBuilder = buildRounds;
+  ns.LettersMiniGameCanStart = canStartMiniGame;
   ns.LettersMiniGames = {
     pop: PopGame,
     catch: CatchGame,

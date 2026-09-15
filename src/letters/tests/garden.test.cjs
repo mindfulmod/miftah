@@ -368,6 +368,16 @@ test('Calm Catch does not spawn an animation loop',()=>{
  Object.assign(game,{alive:true,still:true});game.tick(1000);assert.equal(frames.length,0);
 });
 
+test('Moving Catch replays a missed target without recording a wrong answer',()=>{
+ const {ns}=runtime();const game=Object.create(ns.LettersMiniGames.catch.prototype);
+ const target={id:'a'},events=[],faller={item:target,y:1.06,speed:0,el:{style:{},remove(){events.push('remove')}}};
+ Object.assign(game,{alive:true,still:false,lastTime:0,spawnTimer:1,spawnFlip:true,basketX:.5,fallers:[faller],roundIndex:0,rounds:[{target,options:[target]}],slips:0,
+  heat:{factor:()=>1,down:()=>events.push('slow')},ctx:{setPrompt:item=>events.push(`prompt:${item.id}`),say:item=>events.push(`say:${item.id}`),pulsePrompt:()=>events.push('pulse'),sfx:name=>events.push(`sfx:${name}`)}});
+ game.tick(16);
+ assert.equal(game.slips,0);assert.equal(game.spawnFlip,false);assert.equal(game.spawnTimer,.18);assert.equal(game.fallers.length,0);
+ assert.deepEqual(events,['remove','slow','prompt:a','say:a','pulse']);
+});
+
 function interactivePiece(i=0){const flags=new Set(),events={},attrs={};let capture=null;return {dataset:{i:String(i)},style:{},offsetLeft:50,offsetTop:50,offsetWidth:30,offsetHeight:30,events,attrs,flags,classList:{contains:k=>flags.has(k),add:k=>flags.add(k),remove:k=>flags.delete(k),toggle(k,on){on?flags.add(k):flags.delete(k)}},setAttribute:(k,v)=>attrs[k]=v,addEventListener:(k,f)=>events[k]=f,setPointerCapture:id=>capture=id,hasPointerCapture:id=>capture===id,releasePointerCapture:()=>capture=null,getBoundingClientRect:()=>({left:0,top:0,width:30,height:30})};}
 test('Blend keyboard select/cancel/join and retired input preserve state',()=>{
  const {ns}=runtime();const a=interactivePiece(),b=interactivePiece(1),old=interactivePiece(2);let joined=0;

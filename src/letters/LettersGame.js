@@ -10,6 +10,15 @@
   const STAMPS_KEY = "quran-trainer:letters:stamps";
   const Art = ns.LettersArt;
 
+  // Shared, wordless activity signs for the first two chapter journeys.
+  const journeyPictures = {
+    pop: '<ellipse cx="24" cy="29" rx="19" ry="10" fill="#a9e2dc"/><path d="M9 30Q24 24 39 30" fill="none"/><circle cx="24" cy="17" r="8" fill="#fffaf0"/><path d="M20 14L24 12" stroke="#fff"/>',
+    trace: '<path d="M9 32L13 22 31 5 42 16 23 34Z" fill="#83a56c"/><path d="M9 32L13 22 23 34Z" fill="#eed4a5"/><path d="M9 32L14 28 16 33Z" fill="#4a3620"/><path d="M9 41H36" fill="none"/>',
+    pairs: '<rect x="5" y="8" width="23" height="29" rx="6" fill="#dce8c3"/><rect x="20" y="15" width="23" height="29" rx="6" fill="#fffaf0"/><path d="M25 32Q25 23 36 24Q36 34 25 32" fill="#83a56c"/>',
+    feed: '<path d="M8 23H40L36 40H12Z" fill="#e0bc7d"/><path d="M14 24V18A10 10 0 0 1 34 18V24M10 31H38M20 25V38M29 25V38" fill="none"/><path d="M21 17Q10 6 15 5Q26 5 25 17Q26 7 36 9Q37 18 25 19" fill="#83a56c"/>'
+  };
+  const journeyPicture = name => `<svg viewBox="0 0 48 48" aria-hidden="true"><g stroke="#655239" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">${journeyPictures[name] || journeyPictures.pop}</g></svg>`;
+
   const todayStr = () => {
     const d = new Date();
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
@@ -89,27 +98,28 @@
       // Best stars per world+game, so stars pay for improvement not repetition.
       this.bests = this.loadJSON("quran-trainer:letters:bests", {});
       this.stickers = this.loadJSON("quran-trainer:letters:stickers", { owned: [] });
+      this.gardenLayout = this.loadJSON("quran-trainer:letters:garden-layout", {version:1,slots:[null,null,null,null]});
       this.applyPhase();
       this.initSparkles();
       this.initAmbient();
       this.initTouchFeedback();
-      // Wait for the Quran font alongside the word data: the glyph tiles
-      // measure their ink to centre optically, and measuring against the
-      // fallback serif would bake wrong offsets into the first screens.
-      const fontReady =
-        document.fonts && document.fonts.load
-          ? document.fonts.load('64px "Amiri Quran"')
-          : Promise.resolve();
-      // Optical centering (2026-07-19) needs each letter's true ink extent,
-      // which can only be measured by rasterizing actual SVG output (see
-      // LettersArt's inkShift comment) — an async pass, so warm the whole
-      // fixed alphabet before the first screen ever paints.
-      const inkReady = fontReady.then(() =>
-        Art.warmInk(this.worlds.letters.map((l) => l.char)),
-      );
-      Promise.allSettled([this.worlds.loadWords(), inkReady]).then(() =>
-        this.pet ? this.renderHome() : this.renderHatch(),
-      );
+      this.showLoading();
+      const initialRevision = this.screenRevision || 0;
+      const fontReady = Promise.resolve().then(() => document.fonts?.load?.('64px "Amiri Quran"'));
+      const inkReady = fontReady.then(() => Art.warmInk(this.worlds.letters.map(l=>l.char))).then(()=>Art.fitGlyphs?.(this.root));
+      // Late font completion still refreshes fitting; it never replaces the current screen.
+      this.ready = Promise.all([
+        ns.LettersBoot.settle(inkReady,1800),
+        ns.LettersBoot.settle(this.worlds.loadWords(),5500)
+      ]).then(() => {
+        if ((this.screenRevision || 0)!==initialRevision)return;
+        this.pet ? this.renderHome() : this.renderHatch();
+      });
+    }
+
+    showLoading() {
+      this.root.classList.toggle('lg-reduce-motion',!!this.reduceMotion);
+      this.root.innerHTML=`${Art.backdrop()}<div class="lg-screen lg-loading" role="status" aria-label="Preparing your garden"><div class="loading-flower">${Art.icon('flower',80)}</div><div class="loading-seeds" aria-hidden="true"><i></i><i></i><i></i></div></div>`;
     }
 
     // Every tappable thing gives way under the finger. One delegated listener
@@ -256,49 +266,18 @@
 
     // ---------- storage (shared with the Codex letters track) ----------
 
-    loadProgress() {
-      try {
-        const data = JSON.parse(localStorage.getItem(PROGRESS_KEY) || "{}");
-        return { done: Array.isArray(data.done) ? data.done : [], skipped: !!data.skipped };
-      } catch {
-        return { done: [], skipped: false };
-      }
+    loadProgress() { return this.loadJSON(PROGRESS_KEY,{done:[],skipped:false}); }
+    saveProgress() { return this.saveJSON(PROGRESS_KEY,this.progress); }
+    loadStars() { return this.loadJSON(STARS_KEY,{}); }
+    saveStars() { return this.saveJSON(STARS_KEY,this.stars); }
+    loadJSON(key,fallback) {
+      if(ns.LettersState)return ns.LettersState.read(key,fallback);
+      try {return JSON.parse(localStorage.getItem(key)||'null') ?? fallback;}catch{return fallback;}
     }
-
-    saveProgress() {
-      try {
-        localStorage.setItem(PROGRESS_KEY, JSON.stringify(this.progress));
-      } catch {}
-    }
-
-    loadStars() {
-      try {
-        const data = JSON.parse(localStorage.getItem(STARS_KEY) || "{}");
-        return data && typeof data === "object" ? data : {};
-      } catch {
-        return {};
-      }
-    }
-
-    saveStars() {
-      try {
-        localStorage.setItem(STARS_KEY, JSON.stringify(this.stars));
-      } catch {}
-    }
-
-    loadJSON(key, fallback) {
-      try {
-        const data = JSON.parse(localStorage.getItem(key) || "null");
-        return data === null ? fallback : data;
-      } catch {
-        return fallback;
-      }
-    }
-
-    saveJSON(key, value) {
-      try {
-        localStorage.setItem(key, JSON.stringify(value));
-      } catch {}
+    saveJSON(key,value) {
+      const saved=ns.LettersState ? ns.LettersState.write(key,value) : (()=>{try{localStorage.setItem(key,JSON.stringify(value));return true;}catch{return false;}})();
+      if(!saved)this.saveFailed=true;
+      return saved;
     }
 
     // ---------- the Letter Pet ----------
@@ -308,11 +287,13 @@
     }
 
     earnStars(n) {
+      if(!Number.isSafeInteger(n)||n<=0)return false;
       this.wallet.earned = (this.wallet.earned || 0) + n;
       this.saveJSON("quran-trainer:letters:wallet", this.wallet);
     }
 
     spendStars(n) {
+      if(!Number.isSafeInteger(n)||n<=0)return false;
       if (this.starBalance() < n) return false;
       this.wallet.spent = (this.wallet.spent || 0) + n;
       this.saveJSON("quran-trainer:letters:wallet", this.wallet);
@@ -398,9 +379,9 @@
         `${this.topBar({ home: false })}
         <div class="hatch-stage">
           ${hatched
-            ? `<div class="hatch-pet">${this.petSVG(220, "open")}</div>
-               <div class="hatch-hues">${hues.map((h) => `<button type="button" class="hatch-hue${(this.pet?.hue ?? 200) === h ? " is-picked" : ""}" data-hue="${h}" style="--h:${h}"></button>`).join("")}</div>
-               <button type="button" class="lg-big-btn hatch-go">${Art.icon("check", 40)}</button>`
+            ? `<button class="hatch-pet" type="button" aria-label="Listen to your new pet">${this.petSVG(220, "open")}</button>
+               <div class="hatch-hues">${hues.map((h) => `<button type="button" class="hatch-hue${(this.pet?.hue ?? 200) === h ? " is-picked" : ""}" data-hue="${h}" aria-label="${({200:'Blue',320:'Pink',95:'Green',268:'Purple',28:'Orange'})[h]} pet" aria-pressed="${(this.pet?.hue ?? 200) === h}" style="--h:${h}"></button>`).join("")}</div>
+               <button type="button" class="lg-big-btn hatch-go" aria-label="Enter the garden">${Art.icon("check", 40)}</button>`
             : `<button type="button" class="hatch-egg" aria-label="Tap the egg to hatch your pet">${Art.egg({ size: 190, cracks })}</button>`}
         </div>`,
       );
@@ -409,7 +390,8 @@
       if (!hatched) {
         const eggBtn = el.querySelector(".hatch-egg");
         let n = cracks;
-        eggBtn.addEventListener("pointerdown", () => {
+        eggBtn.addEventListener("click", () => {
+          if(!el.isConnected || n>=3)return;
           n += 1;
           this.sound.play(n >= 3 ? "hatch" : "click");
           if (n >= 3) {
@@ -441,7 +423,7 @@
           this.renderHatch(3);
         });
       }
-      el.querySelector(".hatch-pet").addEventListener("pointerdown", () => this.petRecite(null));
+      el.querySelector(".hatch-pet").addEventListener("click", () => this.petRecite(null));
       el.querySelector(".hatch-go").addEventListener("click", () => {
         this.sound.play("page");
         this.renderHome();
@@ -635,14 +617,14 @@
             ? `<button type="button" class="album-slot${justOpened === s.id ? " is-new" : ""}" data-sticker="${s.id}" aria-label="View ${s.id} sticker">${Art.sticker({id:s.id,size:78})}</button>`
             : `<span class="album-slot" role="img" aria-label="Sticker not collected">${Art.sticker({id:s.id,owned:false,size:78})}</span>`,
       ).join("");
-      const allOwned = owned.size >= ns.LETTERS_STICKERS.length;
+      const allOwned = ns.LETTERS_STICKERS.every(sticker=>owned.has(sticker.id));
       const el = this.screen(
         "lg-album",
         `${this.topBar()}
         <div class="album-stage">
           <span class="lg-star-chip">${Art.icon("star", 20)} <b>${this.starBalance()}</b></span>
           ${allOwned
-            ? `<div class="album-complete">${Art.icon("star", 40)}</div>`
+            ? `<div class="album-complete" role="img" aria-label="All stickers collected">${Art.icon("star", 40)}</div>`
             : `<button type="button" class="album-pack" aria-label="Open a sticker pack for 5 stars" ${this.starBalance()<5?'disabled':''}>${Art.stickerPack({ size: 104 })}<span class="pet-acc-cost">${Art.icon("star", 14)} 5</span></button>`}
           <div class="album-grid lg-panel">${grid}</div>
         </div>`,
@@ -684,14 +666,7 @@
         });
     }
 
-    loadStamps() {
-      try {
-        const data = JSON.parse(localStorage.getItem(STAMPS_KEY) || "{}");
-        return { dates: Array.isArray(data.dates) ? data.dates : [] };
-      } catch {
-        return { dates: [] };
-      }
-    }
+    loadStamps() { return this.loadJSON(STAMPS_KEY,{dates:[]}); }
 
     // Brain Age's calendar stamp: one per day the child plays. Returns true
     // only for the first stamp of the day (that's when the island pays out).
@@ -699,9 +674,7 @@
       const today = todayStr();
       if (this.stamps.dates.includes(today)) return false;
       this.stamps.dates.push(today);
-      try {
-        localStorage.setItem(STAMPS_KEY, JSON.stringify(this.stamps));
-      } catch {}
+      this.saveJSON(STAMPS_KEY,this.stamps);
       return true;
     }
 
@@ -799,7 +772,16 @@
     // ---------- chrome ----------
 
     screen(className, inner) {
+      this.screenRevision=(this.screenRevision||0)+1;
+      this.stopMapResize?.();
+      this.stopMapResize=null;
+      this.cancelMeetPointer?.();
+      this.cancelMeetPointer=null;
+      this.cancelAdultHold?.();
+      this.cancelAdultHold = null;
       this.stopSpeech();
+      this.unmountActivityArt?.();
+      this.unmountActivityArt=null;
       if (this.game && this.game.destroy) this.game.destroy();
       this.game = null;
       // Perf (iPad, 2026-07-18): while a mini-game runs, the ambient
@@ -808,12 +790,13 @@
       document.body.classList.toggle("lg-in-game", className === "lg-play");
       document.body.classList.toggle("lg-reward-screen", className === "lg-stars" || className === "lg-party");
       document.body.classList.toggle("lg-wardrobe-screen", className === "lg-pet");
-      const garden = this.session?.world.id === "pack-boat" && ["lg-meet", "lg-play", "lg-stars", "lg-party"].includes(className);
+      const garden = (this.isReferenceJourney() || this.isGentleDaily()) && ["lg-meet", "lg-play", "lg-stars", "lg-party"].includes(className);
       const step = this.session?.gameIndex || 0;
       const activity = this.session?.plan?.[step]?.game || this.session?.world.games[step];
       const pond = ["lg-play", "lg-stars"].includes(className) && activity === "pop";
       this.root.classList.toggle("lg-pond-activity", pond);
       this.root.classList.toggle("lg-boat-chapter", garden);
+      this.root.classList.toggle("lg-reference-journey", garden);
       this.root.classList.toggle("lg-reduce-motion", !!this.reduceMotion);
       document.body.classList.toggle("lg-reduce-motion", !!this.reduceMotion);
       document.body.classList.toggle("lg-calm-garden", garden || pond);
@@ -834,6 +817,32 @@
         </div>`;
     }
 
+    toggleSound() {
+      this.sound.toggle ? this.sound.toggle() : (this.sound.enabled = !this.sound.enabled);
+      if (!this.sound.enabled) this.stopSpeech();
+      this.root.querySelectorAll(".lg-sound").forEach(button => {
+        button.classList.toggle("is-off", !this.sound.enabled);
+        button.setAttribute("aria-pressed", String(this.sound.enabled));
+      });
+      this.root.querySelectorAll(".gu-sound-toggle").forEach(button => {
+        button.textContent = this.sound.enabled ? "Sound is on" : "Sound is off";
+        button.setAttribute("aria-pressed", String(this.sound.enabled));
+      });
+    }
+
+    toggleSound() {
+      this.sound.toggle ? this.sound.toggle() : (this.sound.enabled = !this.sound.enabled);
+      if (!this.sound.enabled) this.stopSpeech();
+      this.root.querySelectorAll(".lg-sound").forEach(button => {
+        button.classList.toggle("is-off", !this.sound.enabled);
+        button.setAttribute("aria-pressed", String(this.sound.enabled));
+      });
+      this.root.querySelectorAll(".gu-sound-toggle").forEach(button => {
+        button.textContent = this.sound.enabled ? "Sound is on" : "Sound is off";
+        button.setAttribute("aria-pressed", String(this.sound.enabled));
+      });
+    }
+
     wireTopBar(el, onHome) {
       const home = el.querySelector(".lg-home");
       if (home)
@@ -844,11 +853,7 @@
       const soundBtn = el.querySelector(".lg-sound");
       const syncSound = () => { soundBtn.classList.toggle("is-off", !this.sound.enabled); soundBtn.setAttribute("aria-pressed", String(this.sound.enabled)); };
       soundBtn.addEventListener("click", () => {
-        this.sound.toggle ? this.sound.toggle() : (this.sound.enabled = !this.sound.enabled);
-        if (!this.sound.enabled) {
-          this.stopSpeech();
-        }
-        syncSound();
+        this.toggleSound();
       });
       syncSound();
 
@@ -857,23 +862,40 @@
       const dot = el.querySelector(".lg-grownup-dot");
       if (dot) {
         let timer = null;
-        const start = () => {
+        let held = null;
+        let generation = 0;
+        const cancel = () => {
+          generation++;
+          dot.classList.remove("is-holding");
+          if (timer !== null) clearTimeout(timer);
+          timer = null;
+          held = null;
+        };
+        const start = source => {
+          if (held !== null || !el.isConnected) return;
+          held = source;
+          const turn = ++generation;
           dot.classList.add("is-holding");
           timer = setTimeout(() => {
-            dot.classList.remove("is-holding");
+            if (turn !== generation) return;
+            cancel();
+            if (!el.isConnected) return;
             this.sound.play("page");
             this.renderGrownup();
           }, 3000);
         };
-        const cancel = () => {
-          dot.classList.remove("is-holding");
-          if (timer) clearTimeout(timer);
-          timer = null;
-        };
-        dot.addEventListener("pointerdown", start);
-        dot.addEventListener("pointerup", cancel);
+        dot.addEventListener("pointerdown", e => {if(e.button===0)start(e.pointerId);});
+        dot.addEventListener("pointerup", e => {if(held===e.pointerId)cancel();});
         dot.addEventListener("pointerleave", cancel);
         dot.addEventListener("pointercancel", cancel);
+        dot.addEventListener("blur", cancel);
+        dot.addEventListener("keydown", e => {
+          if(e.key!=="Enter" && e.key!==" ")return;
+          e.preventDefault();
+          if(!e.repeat)start(e.key);
+        });
+        dot.addEventListener("keyup", e => {if(held===e.key)cancel();});
+        this.cancelAdultHold = cancel;
       }
     }
 
@@ -923,6 +945,7 @@
         <div class="gu-scroll">
           <div class="gu-head lg-panel">
             <h2>For grown-ups</h2>
+            ${this.saveFailed ? '<p class="gu-save-notice" role="status">This browser could not save the latest changes. Keep this page open and check that browser storage is available.</p>' : ''}
             <p>A quiet look at how the letters are settling in.</p>
             <div class="gu-stat-row">
               <button type="button" class="gu-stat gu-stamps-link"><b>${days}</b><span>day${days === 1 ? "" : "s"} played</span></button>
@@ -960,10 +983,8 @@
         this.renderGrownup();
       });
       const st = el.querySelector(".gu-sound-toggle");
-      st.addEventListener("click", () => {
-        this.sound.toggle ? this.sound.toggle() : (this.sound.enabled = !this.sound.enabled);
-        st.textContent = this.sound.enabled ? "Sound is on" : "Sound is off";
-      });
+      st.setAttribute("aria-pressed", String(this.sound.enabled));
+      st.addEventListener("click", () => this.toggleSound());
       // The stamp calendar lives here now, not in the child's toolbar (2026-07-25).
       // A date grid is a parent's artifact: a 4-6 year old has no stable model of
       // weeks, the cells are literal numerals in an otherwise wordless game, and a
@@ -1042,7 +1063,7 @@
       // A winding trail read bottom-to-top: world 1 sits at the bottom of
       // the scroll, one bend per world, and when everything is done a door
       // to the island crowns the path. Finished stops grow flower gardens.
-      const GAP = window.innerWidth < 600 ? 150 : 200;
+      const GAP = window.innerWidth < 600 ? 170 : 250;
       const total = worlds.length;
       const height = total * GAP + 240;
       const yOf = (i) => height - 150 - i * GAP;
@@ -1056,7 +1077,10 @@
           <button type="button" class="map-pet" aria-label="Your pet and wardrobe">${this.petSVG(46)}</button>
           <button type="button" class="map-album" aria-label="Rewards and stickers">${Art.icon("star", 26)}<b>${this.starBalance()}</b></button>
         </div>
-        <button type="button" class="map-practice-garden" aria-label="Open the practice garden" title="Available after your first Boat activity" ${this.progress.done.includes('pack-boat') || Object.keys(this.bests).some(k=>k.startsWith('pack-boat:')) ? '' : 'disabled'}>${Art.icon('flower',30)}${Art.icon('next',22)}</button>
+        <div class="map-play-places" aria-label="Places to play">
+          <button type="button" class="map-practice-garden" aria-label="Open the practice garden" title="Available after your first Boat activity" ${this.progress.done.includes('pack-boat') || Object.keys(this.bests).some(k=>k.startsWith('pack-boat:')) ? '' : 'disabled'}>${ns.LettersGardenArt.practicePicture('DotGarden')}${Art.icon('next',20)}</button>
+          <button type="button" class="map-decorate" aria-label="Decorate your garden">${ns.DecoratingGarden.icon(44)}${Art.icon('next',20)}</button>
+        </div>
         <div class="map-scroll">
           <div class="map-path" style="height:${height}px">
             ${(() => {
@@ -1088,9 +1112,10 @@
                   : "";
                 return `
                   ${plant}
+                  <div class="map-terrain" style="top:${yOf(i)-82}px" aria-hidden="true">${ns.LettersMapArt.bank({biome:world.biome,side:i%2,night:Art.dayPhase()==='night'})}</div>
                   ${world.id === "pack-boat" ? `<span class="map-boat-landmark" style="left:${xOf(i) + 37}%;top:${yOf(i) - 10}px">${ns.LettersGardenArt.boat({stage: ns.LettersGardenArt.growth(this.progress, this.bests)})}</span>` : ""}
-                  <span class="map-deco" style="left:${xOf(i) + (i % 2 === 0 ? 34 : -34)}%; top:${yOf(i) + 46}px">${world.id === "pack-boat" ? "" : this.biomeDeco(world.biome)}</span>
-                  <div class="map-node" data-node-world="${world.id}" style="${at}"><button type="button" class="map-stop is-${status}" data-world="${world.id}" ${status === "current" ? 'aria-current="step"' : ""} aria-label="${world.id === 'pack-boat' ? 'Boat Letters' : world.icon}" ${status === "locked" ? "disabled" : ""}>
+                  ${world.id === "pack-boat" ? "" : `<span class="map-landmark" aria-hidden="true" style="left:${i%2===0?74:26}%; top:${yOf(i)+35}px">${ns.LettersMapArt.landmark(world.biome,i)}</span>`}
+                  <div class="map-node" data-node-world="${world.id}" style="${at}"><button type="button" class="map-stop is-${status}" data-world="${world.id}" ${status === "current" ? 'aria-current="step"' : ""} aria-label="${world.id === 'pack-boat' ? 'Boat Letters' : world.icon}${status==='done' ? `, completed, ${this.stars[world.id]||0} of 3 stars` : status==='current' ? ', next chapter' : ', locked'}" ${status === "locked" ? "disabled" : ""}>
                     ${Art.mapStop({ hue: world.hue, label: world.icon, status, stars: this.stars[world.id] || 0, latin: !/[؀-ۿ]/.test(world.icon) })}
                   </button>${status === "done" ? `<span class="map-flower-bed" aria-hidden="true">${ns.LettersGardenArt.flowerBed({size:88})}</span>` : ""}</div>
                   ${status === "current" ? `<span class="map-here" style="left:${xOf(i) + (i % 2 === 0 ? 17 : -17)}%; top:${yOf(i)}px">${this.petSVG(64)}</span>` : ""}
@@ -1103,10 +1128,13 @@
       // The child-facing map has no external exit. Home elsewhere returns here.
       this.wireTopBar(el);
       el.querySelector(".map-practice-garden").onclick=()=>this.renderPracticeGarden();
+      el.querySelector(".map-decorate").onclick=()=>this.renderDecoratingGarden();
       // The dotted trail needs real pixel coordinates, so it's drawn after
       // layout against the path's actual width.
       const pathEl = el.querySelector(".map-path");
       const trail = el.querySelector(".map-trail");
+      const drawTrail=()=>{
+        if(!el.isConnected)return;
       const w = pathEl.clientWidth || 430;
       trail.setAttribute("viewBox", `0 0 ${w} ${height}`);
       const pts = [];
@@ -1121,6 +1149,15 @@
         <path d="${d}" fill="none" stroke="#caa96f" stroke-width="17" stroke-linecap="round" opacity="0.8"/>
         <path d="${d}" fill="none" stroke="#fffaf0" stroke-width="13" stroke-linecap="round"/>
         <path d="${d}" fill="none" stroke="#7fc6a4" stroke-width="6" stroke-linecap="round" stroke-dasharray="1 22"/>`;
+      };
+      drawTrail();
+      if(typeof ResizeObserver!=='undefined'){
+        const observer=new ResizeObserver(drawTrail);observer.observe(pathEl);
+        this.stopMapResize=()=>observer.disconnect();
+      }else{
+        window.addEventListener('resize',drawTrail);
+        this.stopMapResize=()=>window.removeEventListener('resize',drawTrail);
+      }
       for (const btn of el.querySelectorAll(".map-stop[data-world]")) {
         btn.addEventListener("click", () => {
           const world = worlds.find((w) => w.id === btn.dataset.world);
@@ -1150,8 +1187,12 @@
         this.renderAlbum();
       });
       // Start the journey at the child's current stop.
-      const current = el.querySelector(".map-stop.is-current") || el.querySelector(".map-stop.is-door");
-      if (current) current.scrollIntoView({ block: "center" });
+      const current = el.querySelector(".map-stop.is-current") || el.querySelector(".map-stop.is-door") || (allDone ? Array.from(el.querySelectorAll(".map-stop.is-done")).pop() : null);
+      if (current) {
+        const scroll=el.querySelector(".map-scroll");
+        const node=current.closest(".map-node");
+        if(node&&scroll)scroll.scrollTop=node.offsetTop-scroll.clientHeight*(allDone ? .28 : window.innerWidth < 600 ? .50 : .58);
+      }
     }
 
     // ---------- the stamp calendar (Brain Age's daily ritual, wordless) ----------
@@ -1174,7 +1215,8 @@
           (stamped.has(day) ? " is-stamped" : "") +
           (day === today ? " is-today" : "") +
           (day > today ? " is-future" : "");
-        cells += `<span class="${cls}">${stamped.has(day) ? Art.icon("star", 26) : `<i>${day}</i>`}</span>`;
+        const date=`${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+        cells += `<span class="${cls}" role="img" aria-label="${date}${stamped.has(day)?', played':''}" ${day===today?'aria-current="date"':''}>${stamped.has(day) ? Art.icon("star", 26) : `<i>${day}</i>`}</span>`;
       }
       const el = this.screen(
         "lg-stamps",
@@ -1184,7 +1226,7 @@
           <div class="stamps-grid lg-panel">${cells}</div>
         </div>`,
       );
-      this.wireTopBar(el);
+      this.wireTopBar(el,()=>this.renderGrownup());
     }
 
     // ---------- the check-up (one round per skill → the flower) ----------
@@ -1207,8 +1249,8 @@
 
     // ---------- daily review session ----------
 
-    startDaily() {
-      const world = this.worlds.dailySession(this.progress.done);
+    startDaily(challenge=false) {
+      const world = this.worlds.dailySession(this.progress.done,{challenge});
       if (!world) return;
       this.session = {
         world,
@@ -1216,15 +1258,31 @@
         gameIndex: 0,
         starTotal: 0,
         items: world.items(),
-        // The non-bouquet pool rides along as distractors so weak-letter
-        // rounds still face a full field of options.
+        // Distractors come from familiar content; each activity controls
+        // how many choices the child sees.
         extraItems: world.extraItems ? world.extraItems() : [],
         daily: true,
+        challenge,
       };
       this.startGame();
     }
 
     // ---------- world flow: meet → games → party ----------
+
+    isGentleDaily() { return !!this.session?.daily && !this.session.challenge; }
+
+    showsRoundProgress() { return this.isReferenceJourney() || this.isGentleDaily(); }
+
+    isReferenceJourney(world = this.session?.world) {
+      return world?.id === 'pack-boat' || world?.id === 'pack-smile';
+    }
+
+    journeyRoute(completed = 0) {
+      const world = this.session?.world;
+      if (!this.isReferenceJourney(world) && !this.isGentleDaily()) return '';
+      const labels = {pop:'Pond letters',trace:'Draw letters',feed:'Feed a friend',pairs:'Match letters'};
+      return `<div class="journey-route" role="list" aria-label="${this.isGentleDaily()?'Daily activities':'Chapter activities'}">${world.games.map((name,i)=>`<span class="journey-stop ${i < completed ? 'is-done' : ''}" role="listitem" aria-label="${labels[name] || name}${i < completed ? ', completed' : ''}">${journeyPicture(name)}${i < completed ? `<i>${Art.icon('check',12)}</i>` : ''}</span>`).join('')}</div>`;
+    }
 
     startWorld(world) {
       // A soft flourish when stepping into a new biome/land (spec: melody
@@ -1267,18 +1325,19 @@
           ? `<div class="meet-make" dir="rtl">
               ${parts
                 .map(
-                  (p, i) => `<button type="button" class="meet-piece" data-i="${i}" style="--pi:${i}">
+                  (p, i) => `<button type="button" class="meet-piece" aria-label="Join ${p.display}" data-i="${i}" style="--pi:${i}">
                     ${Art.blobCard({ hue: s.world.hue, label: p.display, latin: false })}</button>`,
                 )
                 .join("")}
             </div>`
-          : `<button type="button" class="meet-bud" aria-label="wake"><span>✨</span></button>`;
+          : `<button type="button" class="meet-bud" aria-label="Wake the letter">${this.isReferenceJourney() ? '<svg viewBox="0 0 140 140" aria-hidden="true"><ellipse cx="70" cy="112" rx="43" ry="9" fill="#c9b28b"/><path d="M70 110V72" stroke="#617b50" stroke-width="7"/><path d="M67 95Q28 99 30 76Q56 71 67 95M73 90Q110 91 108 69Q84 68 73 90" fill="#83a56c" stroke="#617b50" stroke-width="3"/><path d="M70 81Q30 79 36 50Q40 34 54 44Q51 16 70 19Q89 16 86 44Q100 34 104 50Q110 79 70 81Z" fill="#eead86" stroke="#655239" stroke-width="4"/><path d="M58 54Q70 67 82 54" fill="none" stroke="#fffaf0" stroke-width="4" stroke-linecap="round"/></svg>' : '<span>✨</span>'}</button>`;
       const el = this.screen(
         "lg-meet",
         `${this.topBar()}
         <div class="meet-stage lg-panel">
           ${opener}
           <button type="button" class="meet-card" aria-label="Listen to ${card.display}" ${hidden}>${bigCard}</button>
+          ${this.journeyRoute()}
           <div class="meet-dots">${s.world.meet.map((_, i) => `<i class="${i === s.meetIndex ? "is-on" : ""}"></i>`).join("")}</div>
           <div class="meet-nav">
             <button type="button" class="lg-round-btn meet-hear" aria-label="Hear the letter again" ${hidden}>${Art.icon("speaker", 36)}</button>
@@ -1309,15 +1368,17 @@
         });
       };
       // The reveal moment all three variants funnel into.
+      let revealed = isReplay;
       const reveal = () => {
-        if (!el.isConnected) return;
+        if (!el.isConnected || revealed) return;
+        revealed = true;
         cardEl.hidden = false;
         cardEl.classList.add("is-born");
         el.querySelector(".meet-hear").hidden = false;
         el.querySelector(".meet-next").hidden = false;
         sayWithMe();
       };
-      cardEl.addEventListener("pointerdown", speakCard);
+      cardEl.addEventListener("click", speakCard);
       // Fingers on every new letter (2026-07-25). The owner's read was right —
       // finger involvement is the strongest engagement lever here — but leading a
       // world with the graded trace would put PRODUCTION first, which is the
@@ -1331,18 +1392,20 @@
       // declined list. It primes motor memory before the scored trace later in
       // the world.
       {
-        let down = false;
+        let pointer = null;
         let dist = 0;
         let px = 0;
         let py = 0;
         let lit = false;
         cardEl.addEventListener("pointerdown", (e) => {
-          down = true;
+          if(pointer!==null || e.button>0 || e.isPrimary===false || !el.isConnected)return;
+          pointer=e.pointerId;
+          cardEl.setPointerCapture(pointer);
           px = e.clientX;
           py = e.clientY;
         });
         cardEl.addEventListener("pointermove", (e) => {
-          if (!down || lit) return;
+          if (e.pointerId!==pointer || lit || !el.isConnected) return;
           dist += Math.hypot(e.clientX - px, e.clientY - py);
           px = e.clientX;
           py = e.clientY;
@@ -1356,12 +1419,19 @@
             speakCard();
           }
         });
-        const release = () => (down = false); // progress is kept, never reset
+        const release = e => {
+          if(e && e.pointerId!==pointer)return;
+          const id=pointer;pointer=null;
+          if(id!==null && cardEl.hasPointerCapture(id))cardEl.releasePointerCapture(id);
+        };
         cardEl.addEventListener("pointerup", release);
         cardEl.addEventListener("pointercancel", release);
+        cardEl.addEventListener("lostpointercapture", release);
+        this.cancelMeetPointer=release;
       }
       el.querySelector(".meet-hear").addEventListener("click", speakCard);
       el.querySelector(".meet-next").addEventListener("click", () => {
+        if(!el.isConnected)return;
         this.sound.play("page");
         // Replays shorten to a single card — respect that replay is play,
         // not re-teaching.
@@ -1381,7 +1451,8 @@
         const make = el.querySelector(".meet-make");
         let setCount = 0;
         for (const piece of make.querySelectorAll(".meet-piece")) {
-          piece.addEventListener("pointerdown", () => {
+          piece.addEventListener("click", () => {
+            if(!el.isConnected)return;
             if (piece.classList.contains("is-set")) {
               const p = parts[Number(piece.dataset.i)];
               this.say({ display: p.display, speak: p.speak || p.display });
@@ -1394,9 +1465,11 @@
             setCount += 1;
             if (setCount >= parts.length) {
               setTimeout(() => {
+                if(!el.isConnected)return;
                 make.classList.add("is-fusing");
                 this.sound.play("hatch");
                 setTimeout(() => {
+                  if(!el.isConnected)return;
                   make.hidden = true;
                   reveal();
                 }, 460);
@@ -1408,10 +1481,13 @@
         setTimeout(() => { if (el.isConnected) speakCard(); }, 500);
       } else {
         const bud = el.querySelector(".meet-bud");
-        bud.addEventListener("pointerdown", () => {
+        bud.addEventListener("click", () => {
+          if (bud.disabled || !el.isConnected) return;
+          bud.disabled = true;
           bud.classList.add("is-popped");
           this.sound.play("seed");
           setTimeout(() => {
+            if (!el.isConnected) return;
             bud.hidden = true;
             reveal();
           }, 320);
@@ -1419,10 +1495,30 @@
       }
     }
 
+    renderMissingItems() {
+      const session=this.session;
+      const el=this.screen('lg-loading',`${this.topBar()}<div class="loading-flower">${Art.icon('flower',80)}</div><button type="button" class="lg-big-btn retry-words" aria-label="Try loading the letters again">${Art.icon('replay',36)}</button>`);
+      this.wireTopBar(el);
+      const retry=el.querySelector('.retry-words');
+      retry.onclick=async()=>{
+        if(retry.disabled || !el.isConnected)return;
+        retry.disabled=true;
+        await this.worlds.loadWords();
+        if(!el.isConnected || this.session!==session)return;
+        session.items=session.world.items?.() || [];
+        if(session.items.length)this.startGame();else retry.disabled=false;
+      };
+    }
+
     startGame() {
       const s = this.session;
       const planStep = s.plan ? s.plan[s.gameIndex] : null;
       const gameName = planStep ? planStep.game : s.world.games[s.gameIndex];
+      const gameItems = planStep ? planStep.items : s.items;
+      const canStart = ns.LettersMiniGameCanStart;
+      if (!(canStart ? canStart(gameName, gameItems, s.extraItems) : gameItems?.length)) {
+        return this.renderMissingItems();
+      }
       const el = this.screen(
         "lg-play",
         `${this.topBar()}
@@ -1433,7 +1529,7 @@
             <span class="play-bubble-glyph" dir="rtl" lang="ar"></span>
             <span class="play-bubble-icon">${Art.icon("speaker", 22)}</span>
           </button>
-          <span class="play-dots">${s.world.games.map((_, i) => `<i class="${i < s.gameIndex ? "is-done" : i === s.gameIndex ? "is-on" : ""}"></i>`).join("")}</span>
+          <span class="play-dots" ${this.showsRoundProgress() ? 'role="progressbar" aria-label="Activity progress" aria-valuemin="0" aria-valuemax="4" aria-valuenow="0"' : ''}>${s.world.games.map((_, i) => `<i class="${i < s.gameIndex ? "is-done" : i === s.gameIndex ? "is-on" : ""}"></i>`).join("")}</span>
         </div>
         <div class="play-stage"></div>`,
       );
@@ -1443,7 +1539,7 @@
       const bubble = el.querySelector(".play-bubble");
       const glyph = el.querySelector(".play-bubble-glyph");
       let currentTarget = null;
-      bubble.addEventListener("pointerdown", () => sayWithPose(currentTarget));
+      bubble.addEventListener("click", () => sayWithPose(currentTarget));
 
       const petEl = el.querySelector(".play-pet");
       let poseTimer = null;
@@ -1494,7 +1590,16 @@
       const strength = ns.LettersStrength;
       const ctx = {
         stage,
-        garden: s.world.id === "pack-boat",
+        garden: s.world.id === "pack-boat" || this.isGentleDaily(),
+        referenceJourney: this.isReferenceJourney(s.world),
+        setRoundProgress: (current,total) => {
+          if (!this.showsRoundProgress() || !el.isConnected) return;
+          const dots=el.querySelector('.play-dots');
+          dots.setAttribute('aria-valuemax', String(total));
+          dots.setAttribute('aria-valuenow', String(current-1));
+          dots.setAttribute('aria-valuetext', `Round ${current} of ${total}`);
+          dots.innerHTML=Array.from({length:total},(_,i)=>`<i class="${i<current-1?'is-done':i===current-1?'is-on':''}"></i>`).join('');
+        },
         petArt: () => this.petSVG(180,"listening"),
         reducedMotion: () => this.prefersReducedMotion(),
         items: planStep ? planStep.items : s.items,
@@ -1502,7 +1607,8 @@
         rounds: 4,
         hue: s.world.hue,
         level: s.world.id === "pack-boat" ? (this.bests[`${s.world.id}:${gameName}`] || 0) : (this.stars[s.world.id] || 0),
-        beginner: s.world.id === "pack-boat" && !(this.bests[`${s.world.id}:${gameName}`] > 0),
+        beginner: this.isGentleDaily() || ((this.isReferenceJourney(s.world) || (!s.plan && ["pairs","catch"].includes(gameName))) && !(this.bests[`${s.world.id}:${gameName}`] > 0)),
+        onPauseChange: paused => {if(paused && el.isConnected)this.stopSpeech();},
         say: (item) => sayWithPose(item),
         // The pet watches the child play: it hops on every right answer and
         // leans in, curious, on a wrong pick — never scolding, never sad.
@@ -1571,6 +1677,7 @@
         onDone: (slips) => { if (el.isConnected) this.finishGame(slips); },
       };
       this.game = new ns.LettersMiniGames[gameName](ctx);
+      this.unmountActivityArt=ns.LettersActivityArt?.mount(stage,gameName);
     }
 
     finishGame(slips) {
@@ -1610,9 +1717,23 @@
       this.session={world,items:world.items()};
       const choices=['Feed','DotGarden','GardenPaths'];
       if(this.workshopWorlds().length)choices.push('Workshop');
-      const el=this.screen('lg-meet',`${this.topBar()}<div class="practice-garden-hub"><div class="practice-garden-choices">${choices.map((kind,i)=>`<button type="button" data-kind="${kind}" aria-label="${['Feed a friend','Dot Garden: place the dots','Garden Paths: draw letters','Word Workshop: build familiar sounds'][i]}">${ns.LettersGardenArt.practicePicture(kind,{petArt:kind==='Feed'?this.petSVG(100):''})}<span class="practice-play" aria-hidden="true">${Art.icon('next',24)}</span></button>`).join('')}</div></div>`);
+      if(this.worlds.dailySession(this.progress.done))choices.push('Burst');
+      const el=this.screen('lg-meet',`${this.topBar()}<div class="practice-garden-hub"><div class="practice-garden-choices">${choices.map(kind=>`<button type="button" data-kind="${kind}" aria-label="${({Feed:'Feed a friend',DotGarden:'Dot Garden: place the dots',GardenPaths:'Garden Paths: draw letters',Workshop:'Word Workshop: build familiar sounds',Burst:'Optional timed letter challenge'})[kind]}">${ns.LettersGardenArt.practicePicture(kind,{petArt:kind==='Feed'?this.petSVG(100):''})}<span class="practice-play" aria-hidden="true">${Art.icon('next',24)}</span></button>`).join('')}</div></div>`);
       this.wireTopBar(el);
-      el.querySelectorAll('[data-kind]').forEach(b=>b.onclick=()=>b.dataset.kind==='Workshop'?this.renderWorkshop():this.startPractice(b.dataset.kind,()=>this.renderPracticeGarden()));
+      el.querySelectorAll('[data-kind]').forEach(b=>b.onclick=()=>b.dataset.kind==='Burst'?this.startDaily(true):b.dataset.kind==='Workshop'?this.renderWorkshop():this.startPractice(b.dataset.kind,()=>this.renderPracticeGarden()));
+    }
+
+    renderDecoratingGarden() {
+      this.session=null;
+      const el=this.screen('lg-my-garden',`${this.topBar()}<div class="my-garden-stage"></div>`);
+      this.wireTopBar(el);
+      this.game=new ns.DecoratingGarden({
+        stage:el.querySelector('.my-garden-stage'),layout:this.gardenLayout,
+        catalog:ns.LettersDecorations.catalog(this),petArt:()=>this.petSVG(112,'proud'),
+        reducedMotion:()=>this.prefersReducedMotion(),play:name=>this.sound.play(name),
+        onChange:layout=>{if(!el.isConnected)return;this.gardenLayout=layout;this.saveJSON('quran-trainer:letters:garden-layout',layout);},
+        onDone:()=>{if(el.isConnected)this.renderHome();}
+      });
     }
 
     // Offer only chapters whose Build mechanic is already familiar. Keep each
@@ -1647,7 +1768,9 @@
       el.querySelectorAll('[data-practice]').forEach(b=>b.onclick=()=>this.startPractice(b.dataset.practice,back));
     }
     startPractice(kind,back) {
+      if(!['Feed','Workshop','DotGarden','GardenPaths'].includes(kind))return back?.();
       const s=this.session;
+      if(!s?.world || !(s.items||s.world.items()).length)return back?.();
       const el=this.screen('lg-play',`${this.topBar()}<div class="practice-heading">${this.petSVG(76)}<button class="practice-replay" type="button" aria-label="Hear the letter again"></button></div><div class="practice-stage"></div>`);
       el.dataset.activity=kind==='Feed'?'feed':kind==='Workshop'?'build':'practice';
       if(kind==='Feed'||kind==='Workshop')el.querySelector('.practice-stage').classList.add('play-stage');
@@ -1657,7 +1780,7 @@
       const ctx={stage:el.querySelector('.practice-stage'),items:s.items||s.world.items(),
         prompt:item=>{current=item;
           if(kind==='Workshop' && item)replay.innerHTML=`<svg viewBox="0 0 120 80" aria-hidden="true"><text x="60" y="40" text-anchor="middle" font-family="Amiri Quran, serif" font-size="42" fill="#4a3620" data-fit-box="60,40,94,52,42">${item.display}</text></svg>`;
-          else replay.textContent=item?item.display:'♫';
+          else if(item)replay.textContent=item.display;else replay.innerHTML=Art.icon('speaker',32);
         },
         say:item=>{if(kind!=='Workshop')current=item;this.say(item);},correct:()=>this.sound.play('correct'),
         done:()=>{if(el.isConnected)back();}};
@@ -1681,8 +1804,9 @@
         "lg-stars",
         `${this.topBar()}
         <div class="stars-stage lg-panel">
-          ${this.gardenReward()}
-          <div class="stars-row">
+          ${this.isReferenceJourney() ? `<div class="journey-celebration"><div class="journey-companion">${this.petSVG(110,'proud')}</div>${this.gardenReward()}</div>` : this.gardenReward()}
+          ${this.journeyRoute(s.gameIndex+1)}
+          <div class="stars-row" role="img" aria-label="${stars} of 3 stars">
             ${[0, 1, 2].map((i) => `<span class="stars-star ${i < stars ? "is-on" : ""}" style="animation-delay:${i * 220}ms">${Art.icon("star", 74)}</span>`).join("")}
           </div>
           ${s.world.id === "pack-boat" ? this.practiceButtons() : ""}
@@ -1708,11 +1832,13 @@
         if (stars === 3) setTimeout(() => { if (el.isConnected) this.confettiAt(row, true); }, 280);
       }, stars * 220 + 200);
       el.querySelector(".stars-replay").addEventListener("click", () => {
+        if(!el.isConnected)return;
         this.sound.play("click");
         s.starTotal -= s.lastStars;
         this.startGame();
       });
       el.querySelector(".stars-next").addEventListener("click", () => {
+        if(!el.isConnected)return;
         this.sound.play("click");
         s.gameIndex += 1;
         if (s.gameIndex >= s.world.games.length) this.finishWorld();
@@ -1773,7 +1899,7 @@
             ${[0, 1, 2].map((i) => `<span class="stars-star ${i < stars ? "is-on" : ""}" style="animation-delay:${i * 240}ms">${Art.icon("star", 64)}</span>`).join("")}
           </div>
           ${this.session?.world.id === "pack-boat" ? this.practiceButtons() : ""}
-          <button type="button" class="lg-big-btn party-next" aria-label="Return to the garden">${Art.icon("next", 44)}</button>
+          <div class="party-actions"><button type="button" class="party-decorate" aria-label="Decorate with your earned rewards">${ns.DecoratingGarden.icon(50)}</button><button type="button" class="lg-big-btn party-next" aria-label="Return to the garden">${Art.icon("next", 44)}</button></div>
         </div>`,
       );
       this.sound.play(newlyDone ? "worldClear" : "perfect");
@@ -1786,7 +1912,9 @@
         this.petRecite(partyPet.querySelector(".pet-bubble"));
         partyPet.querySelector(".pet-bubble").hidden = false;
       });
+      el.querySelector(".party-decorate").onclick=()=>{if(el.isConnected)this.renderDecoratingGarden();};
       el.querySelector(".party-next").addEventListener("click", () => {
+        if(!el.isConnected)return;
         this.sound.play("page");
         this.renderHome();
       });

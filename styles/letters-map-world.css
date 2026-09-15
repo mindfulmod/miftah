@@ -1,0 +1,37 @@
+/* The home trail is a landscape at the same scale as the activity garden. */
+.lg-home .map-path{max-width:780px}
+.lg-app:has(.lg-home)>.art-backdrop{filter:saturate(.78)}
+.lg-home .map-scroll{position:relative;margin:0 -12px;isolation:isolate;scroll-padding:90px 0 130px}
+.lg-home .map-band{opacity:.2;filter:none}
+.map-terrain{position:absolute;left:50%;width:100vw;transform:translateX(-50%);height:300px;pointer-events:none;z-index:0;filter:saturate(.74)}
+.map-terrain>svg{display:block;width:100%;height:100%}
+.lg-home .map-trail{z-index:1}
+.lg-home .map-node{z-index:3}
+.lg-home .map-here{z-index:4}
+.lg-home .map-landmark{position:absolute;width:clamp(122px,29vw,200px);height:auto;transform:translate(-50%,-50%);pointer-events:none;z-index:2;filter:saturate(.8)}
+.map-landmark>svg{width:100%;height:auto;display:block}
+.lg-home .map-boat-landmark{width:clamp(140px,32vw,218px);z-index:2}
+.lg-home .map-flower-bed{top:calc(100% + 12px);width:88px;height:71px}
+.lg-home .map-node>.map-stop{filter:drop-shadow(0 7px 0 #2f5c4620)}
+.lg-home .map-stop.is-current::before{inset:-12px;background:radial-gradient(ellipse,#ffe49a88,transparent 70%);border:none}
+.lg-home .map-plant{z-index:2}
+.lg-home .map-daily-row{position:relative;z-index:5;box-shadow:0 5px 0 #c9bda4,inset 0 3px 0 #fffdf7;background:#fffaf0;border-color:#a89478}
+.lg-home .map-daily-row button{background:#fffaf0;box-shadow:0 3px 0 #c9bda4;border-color:#a89478}
+.lg-home .map-play-places{position:relative;z-index:5;margin:6px 0 13px}
+.lg-home .map-play-places button{border:3px solid #a89478;border-radius:18px 18px 22px 22px;box-shadow:0 5px 0 #c9bda4,inset 0 3px 0 #fffdf7;background:#fffaf0}
+.lg-home .map-play-places button:active{transform:translateY(3px);box-shadow:0 2px 0 #c9bda4}
+.lg-home .map-play-places button:focus-visible{outline:3px solid #70501b;outline-offset:3px}
+.lg-home .map-stop:focus-visible{outline:3px solid #70501b;outline-offset:8px;border-radius:50%}
+@media(min-width:1000px){.lg-home .map-node{width:160px;height:160px}.lg-home .map-here .art-pet{width:84px}.lg-home .map-daily-row{position:absolute;left:24px;top:12px;margin:0}.lg-home .map-play-places{position:absolute;left:50%;top:12px;transform:translateX(-50%);margin:0;gap:14px}.lg-home .map-scroll{margin-top:24px}.lg-screen.lg-home>.lg-topbar{min-height:74px}}
+@media(max-width:600px){.map-terrain{height:254px}.lg-home .map-landmark{width:clamp(110px,34vw,160px)}.lg-home .map-boat-landmark{width:clamp(130px,38vw,178px)}.lg-home .map-play-places{margin:4px 0 10px}.lg-home .map-daily-row{margin-top:2px}}
+@media(prefers-reduced-motion:reduce){.lg-home .map-stop,.lg-home .map-stop-art,.lg-home .map-stop::before{animation:none!important;transition:none!important}}
+.lg-reduce-motion .lg-home .map-stop,.lg-reduce-motion .lg-home .map-stop-art,.lg-reduce-motion .lg-home .map-stop::before{animation:none!important;transition:none!important}
+
+.lg-home .map-here .art-pet{width:68px;height:auto;margin:0}
+
+@media(max-width:600px){
+ .lg-screen.lg-home>.lg-topbar{height:48px;min-height:48px;margin-bottom:0}
+ .lg-screen.lg-home .lg-topbar .lg-round-btn{width:48px;height:48px}
+ .lg-screen.lg-home .map-daily-row{padding:5px 8px;gap:8px;margin:3px auto 6px}
+ .lg-screen.lg-home .map-daily-row button{width:48px;height:48px;min-width:48px}
+}

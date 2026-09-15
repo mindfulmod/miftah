@@ -189,3 +189,18 @@ Lumi, Mina and Rafi reuse the approved prototype anatomy and wardrobe palette as
 ## World map usability — 2026-09-06
 
 Child navigation is wordless: use action pictures and accessible names, not visible written labels. Preserve the established sky, hills and garden scenery; refine assets rather than covering the world with flat UI. No child-facing button exits Letter Garden. Live SVG glyph bounds govern card fit after font loading.
+
+## Native SVG ownership — next-major local package
+
+- `LettersMapArt.js` owns decorative home-trail terrain banks and biome
+  landmarks. It may provide native SVG scenery and material ramps; it does not
+  own world IDs, unlocks, stars, flowers or saved progress.
+- `LettersActivityArt.js` owns the quiet native SVG scenery layer for the pairs,
+  catch, workbench and parade families. Live glyphs, prompts, hit targets and
+  game state remain in the activity/game modules.
+- Home landmarks and activity scenery must stay behind the learning zone. Keep
+  the current-stop warm pool, star row, flower growth and pet marker inside the
+  map's reserved safe zones; scenery must never overlap those controls or become
+  a second destination cue.
+- These ownership notes describe local implementation boundaries only. Visual
+  browser review and final qualification remain pending.

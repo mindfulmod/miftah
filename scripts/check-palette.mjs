@@ -19,7 +19,7 @@ const ROOT = new URL("..", import.meta.url).pathname;
 const STRICT = process.argv.includes("--strict");
 
 // Files that draw. Data and vendor code are not art.
-const TARGETS = ["src/letters", "styles/letters.css"];
+const TARGETS = ["src/letters", ...readdirSync(join(ROOT, "styles")).filter(name => /^letters.*\.css$/.test(name)).map(name => `styles/${name}`)];
 const EXT = /\.(js|css)$/;
 
 const ALLOWED_WIDTHS = new Set(["1.6", "2.4", "3", "4", "6", "8"]);

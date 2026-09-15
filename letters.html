@@ -11,11 +11,12 @@
     <meta property="og:title" content="Miftah — Letter Garden" />
     <meta property="og:description" content="A wordless letters game for kids: hatch a pet, learn every Arabic letter and sound, and read real Quran words." />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles/letters.css?v=20260908-batch50" />
-    <link rel="stylesheet" href="styles/letters-animals.css?v=20260908-batch50" />
-    <link rel="stylesheet" href="styles/letters-art-pass.css?v=20260908-batch50" />
+    <link href="vendor/fonts/fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="styles/letters.css?v=20260915-world-journeys1" />
+    <link rel="stylesheet" href="styles/letters-animals.css?v=20260915-world-journeys1" />
+    <link rel="stylesheet" href="styles/letters-art-pass.css?v=20260915-world-journeys1" />
+    <link rel="stylesheet" href="styles/letters-map-world.css?v=20260915-world-journeys1" />
+    <link rel="stylesheet" href="styles/letters-activities.css?v=20260915-world-journeys1" />
   </head>
   <body>
     <div id="letters-app" class="lg-app"></div>
@@ -25,16 +26,25 @@
     <script src="src/core/SoundSystem.js?v=20260718-fable9"></script>
     <script src="src/core/Haptics.js?v=20260724-haptics1"></script>
     <script src="src/systems/ProgressionSystem.js"></script>
-    <script src="src/letters/LettersAnimalArt.js?v=20260908-batch50"></script>
-    <script src="src/letters/LettersArt.js?v=20260908-batch50"></script>
-    <script src="src/letters/LettersStrength.js?v=20260718-fable9"></script>
-    <script src="src/letters/LettersWorlds.js?v=20260718-join2"></script>
-    <script src="src/letters/GardenPractice.js?v=20260908-batch50"></script>
-    <script src="src/letters/MiniGames.js?v=20260908-batch50"></script>
-    <script src="src/letters/LettersGardenArt.js?v=20260908-batch50"></script>
-    <script src="src/letters/LettersGame.js?v=20260908-batch50"></script>
+    <script src="src/letters/LettersAnimalArt.js?v=20260915-world-journeys1"></script>
+    <script src="src/letters/LettersArt.js?v=20260915-world-journeys1"></script>
+    <script src="src/letters/LettersDecorations.js?v=20260915-world-journeys1"></script>
+    <script src="src/letters/LettersState.js?v=20260915-world-journeys1"></script>
+    <script src="src/letters/LettersBoot.js?v=20260915-world-journeys1"></script>
+    <script src="src/letters/LettersStrength.js?v=20260915-world-journeys1"></script>
+    <script src="src/letters/LettersWorlds.js?v=20260915-world-journeys1"></script>
+    <script src="src/letters/GardenPractice.js?v=20260915-world-journeys1"></script>
+    <script src="src/letters/MiniGames.js?v=20260915-world-journeys1"></script>
+    <script src="src/letters/LettersGardenArt.js?v=20260915-world-journeys1"></script>
+    <script src="src/letters/LettersMapArt.js?v=20260915-world-journeys1"></script>
+    <script src="src/letters/LettersActivityArt.js?v=20260915-world-journeys1"></script>
+    <script src="src/letters/DecoratingGarden.js?v=20260915-world-journeys1"></script>
+    <script src="src/letters/LettersGame.js?v=20260915-world-journeys1"></script>
     <script>
       new window.MiftahGame.LettersGame(document.getElementById("letters-app"));
+      if(location.protocol === "https:" && "serviceWorker" in navigator){
+        navigator.serviceWorker.register("sw.js").catch(()=>{});
+      }
     </script>
   </body>
 </html>

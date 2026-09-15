@@ -1,0 +1,6 @@
+const {test}=require('node:test');
+const assert=require('node:assert/strict');
+const vm=require('node:vm'),fs=require('node:fs'),path=require('node:path');
+function game(world){const window={MiftahGame:{LettersArt:{icon:()=>'<svg></svg>'}}};vm.runInNewContext(fs.readFileSync(path.join(__dirname,'../LettersGame.js'),'utf8'),{window});const g=Object.create(window.MiftahGame.LettersGame.prototype);g.session={world};return g;}
+test('chapter pictures follow the real game sequence and completion without mutating it',()=>{const world={id:'pack-smile',games:['pairs','trace','pop']};const g=game(world),route=g.journeyRoute(1);assert.ok(route.indexOf('Match letters, completed')<route.indexOf('Draw letters'));assert.ok(route.indexOf('Draw letters')<route.indexOf('Pond letters'));assert.equal((route.match(/class="journey-stop is-done"/g)||[]).length,1);assert.deepEqual(world.games,['pairs','trace','pop']);});
+test('reference journey styling stays restricted to the first two chapters',()=>{for(const id of ['daily','checkup','fatha','pack-little']){const g=game({id,games:['pop']});assert.equal(g.isReferenceJourney(),false);assert.equal(g.journeyRoute(),'');}assert.equal(game({id:'pack-boat'}).isReferenceJourney(),true);});

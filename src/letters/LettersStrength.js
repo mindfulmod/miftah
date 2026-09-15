@@ -21,6 +21,11 @@
 
   class LettersStrength {
     constructor() {
+      const state = ns.LettersState;
+      if (state) {
+        this.map = state.read(KEY, {});
+        return;
+      }
       try {
         const raw = localStorage.getItem(KEY);
         const data = raw ? JSON.parse(raw) : {};
@@ -31,9 +36,13 @@
     }
 
     save() {
+      if (ns.LettersState) return ns.LettersState.write(KEY, this.map);
       try {
         localStorage.setItem(KEY, JSON.stringify(this.map));
-      } catch {}
+        return true;
+      } catch {
+        return false;
+      }
     }
 
     record(id, correct, elapsedMs) {
@@ -42,7 +51,7 @@
       if (correct) {
         e.r += 1;
         e.streak += 1;
-        if (Number.isFinite(elapsedMs) && elapsedMs <= FAST_MS) e.fast += 1;
+        if (Number.isFinite(elapsedMs) && elapsedMs >= 0 && elapsedMs <= FAST_MS) e.fast += 1;
         else e.slow += 1;
       } else {
         e.w += 1;
@@ -64,7 +73,7 @@
       if (!e) return 1.5; // unseen: worth a look, not an emergency
       const errorRate = (e.w + 1) / (e.r + e.w + 2); // smoothed 0..1
       const hesitancy = e.r > 0 ? e.slow / (e.fast + e.slow || 1) : 0;
-      const staleDays = Math.min((Date.now() - e.last) / DAY, 14);
+      const staleDays = Math.max(0, Math.min((Date.now() - e.last) / DAY, 14));
       return errorRate * 3 + hesitancy * 0.6 + staleDays * 0.07 - Math.min(e.streak, 4) * 0.3;
     }
 

@@ -38,29 +38,29 @@
     // its real words with real recitation clips.
     async loadWords() {
       const surahs = [1, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114];
-      const results = await Promise.allSettled(
-        surahs.map(async (n) => {
-          const res = await fetch(`data/surah-${n}.json`, { cache: "no-store" });
+      const results = await Promise.allSettled(surahs.map(async n => {
+        const controller = new AbortController();
+        const request = (async () => {
+          const res = await fetch(`data/surah-${n}.json`, {signal:controller.signal});
           if (!res.ok) throw new Error(String(res.status));
-          return { n, data: await res.json() };
-        }),
-      );
-      const seen = new Set();
-      for (const r of results) {
-        if (r.status !== "fulfilled") continue;
-        const { n, data } = r.value;
+          return {n,data:await res.json()};
+        })();
+        return ns.LettersBoot.settle(request, 5000, () => controller.abort());
+      }));
+      const seen = new Set(this.examplePool.map(w=>w.skel));
+      for (const result of results) {
+        if (result.status !== 'fulfilled' || !result.value) continue;
+        const {n,data}=result.value;
+        if (!Array.isArray(data?.ayahs)) continue;
         for (const ayah of data.ayahs) {
+          if (!Array.isArray(ayah?.words)) continue;
           for (const w of ayah.words) {
-            const skel = skeleton(w.arabic);
-            if (!skel || skel.length < 2 || skel.length > 5 || seen.has(skel)) continue;
+            if(typeof w?.arabic !== 'string')continue;
+            const skel=skeleton(w.arabic);
+            if (!skel || skel.length<2 || skel.length>5 || seen.has(skel))continue;
             seen.add(skel);
-            this.examplePool.push({
-              id: w.arabic,
-              display: w.arabic,
-              speak: "",
-              skel,
-              audioPath: w.audio || `wbw/${pad3(n)}_${pad3(ayah.number)}_${pad3(w.position)}.mp3`,
-            });
+            this.examplePool.push({id:w.arabic,display:w.arabic,speak:'',skel,
+              audioPath:w.audio || `wbw/${pad3(n)}_${pad3(ayah.number)}_${pad3(w.position)}.mp3`});
           }
         }
       }
@@ -575,7 +575,7 @@
     // the child's weakest skills from every finished world, dressed as a
     // fresh bouquet. No meet phase, no unlocks — and no visible ranking:
     // the pick is shuffled so it never smells like a remedial list.
-    dailySession(doneIds) {
+    dailySession(doneIds, { challenge = false } = {}) {
       const done = this.worlds.filter((w) => doneIds.includes(w.id));
       if (!done.length) return null;
       const pool = [];
@@ -595,12 +595,14 @@
         hue: 45,
         icon: "☀",
         kind: "daily",
+        optional: challenge,
+        timed: challenge,
         meet: [],
         items: () => bouquet,
-        // The rest of the pool still visits as distractors, so a weak-letter
-        // round is never a two-horse race between two shaky friends.
+        // Keep distractors within completed content. Gentle practice shows
+        // two choices; the optional challenge keeps its larger field.
         extraItems: () => pool.filter((i) => !bouquet.includes(i)),
-        games: ["burst", "pop", "feed"],
+        games: challenge ? ["burst"] : ["pop", "feed"],
       };
     }
   }

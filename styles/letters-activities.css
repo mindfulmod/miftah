@@ -1,0 +1,127 @@
+/* Activity-family surfaces. The SVG is scenery; every learning mark remains a
+   live MiniGames tile above it. */
+.lg-activity-art {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.lg-activity-art > svg { display: block; width: 100%; height: 100%; }
+
+.lg-play[data-activity="pairs"] .pairs-grid,
+.lg-play[data-activity="catch"] .catch-field,
+.lg-play[data-activity="catch"] .catch-basket,
+.lg-play[data-activity="build"] .build-scene,
+.lg-play:is([data-activity="blend"], [data-activity="fuse"], [data-activity="chain"]) .blend-scene,
+.lg-play[data-activity="unfuse"] .unfuse-scene,
+.lg-play[data-activity="parade"] .parade-scene {
+  z-index: 1;
+}
+
+/* Matching beds: foliage stays at the outer rail and the six cards own the
+   center. The surface still works in the compact two-column layout. */
+.lg-play[data-activity="pairs"] .play-stage {
+  background: linear-gradient(155deg, #fffdf7, #fffaf0 48%, #e5dcc8);
+  border-color: #4e9677;
+  box-shadow: 0 6px 0 #c9bda4;
+}
+
+.lg-play[data-activity="pairs"] .pairs-grid { inset: 4% 10%; }
+
+/* Orchard Catch: keep the full fall corridor clear and use the basket's own
+   contact shadow at the bottom of the field. */
+.lg-play[data-activity="catch"] .play-stage {
+  background: linear-gradient(#ccfbef, #fffdf7 63%, #fffaf0);
+  border-color: #4e9677;
+  box-shadow: 0 6px 0 #c9bda4;
+}
+
+.lg-play[data-activity="catch"] .catch-canopy { opacity: .28; }
+.lg-play[data-activity="catch"] .catch-basket { bottom: 1%; }
+
+/* One joining workbench serves Build, Blend, Fuse, Unfuse and Chain so the
+   child recognizes the same physical idea as it becomes more complex. */
+.lg-play:is([data-activity="build"], [data-activity="blend"], [data-activity="fuse"], [data-activity="unfuse"], [data-activity="chain"]) .play-stage {
+  background: linear-gradient(145deg, #fffdf7, #fffaf0 42%, #e5dcc8);
+  border-color: #a89478;
+  box-shadow: 0 6px 0 #c9bda4;
+}
+
+.lg-play[data-activity="build"] .build-scene { inset: 3% 9% 10%; }
+.lg-play[data-activity="build"] .build-slots {
+  background: linear-gradient(#c9bda4, #e5dcc8);
+  border: 3px solid #a89478;
+  box-shadow: inset 0 3px 0 #fffdf7;
+}
+.lg-play[data-activity="build"] .build-tray {
+  background: linear-gradient(#fffdf7, #fffaf0);
+  border: 3px solid #c9bda4;
+  box-shadow: 0 4px 0 #a89478;
+}
+
+.lg-play:is([data-activity="blend"], [data-activity="fuse"]) .blend-glow {
+  background: radial-gradient(circle, #ffe49a 0, #f3c955 22%, transparent 68%);
+  opacity: .38;
+  border-color: #c69434;
+}
+
+.lg-play[data-activity="chain"] .blend-glow {
+  background: linear-gradient(90deg, #e5dcc8, #fffdf7 48%, #e5dcc8);
+  border: 3px dashed #a89478;
+  opacity: .74;
+}
+
+.lg-play[data-activity="unfuse"] .unfuse-scene {
+  background: linear-gradient(90deg, transparent 49.7%, #a89478 49.7% 50.3%, transparent 50.3%);
+}
+
+/* Parade becomes a small wardrobe bench. The rail and empty hangers explain
+   dressing without adding a second animated prompt. */
+.lg-play[data-activity="parade"] .play-stage {
+  background: linear-gradient(155deg, #fffdf7, #fffaf0 52%, #e5dcc8);
+  border-color: #c69434;
+  box-shadow: 0 6px 0 #c9bda4;
+}
+.lg-play[data-activity="parade"] .parade-scene { padding-bottom: 13%; }
+.lg-play[data-activity="parade"] .parade-spots {
+  background: linear-gradient(#fffdf7, #e5dcc8);
+  border: 3px solid #a89478;
+  box-shadow: 0 4px 0 #c9bda4;
+}
+
+@media (max-width: 600px) {
+  .lg-play[data-activity="pairs"] .pairs-grid { inset: 2% 12%; }
+  .lg-app .lg-play[data-activity="build"] .build-scene { inset: 2% 5% 8%; padding: 4px; gap: 12px; }
+  .lg-app .lg-play[data-activity="build"] .build-tray { box-sizing: border-box; }
+  .lg-app .lg-play[data-activity="build"] .build-tile { width: calc((100% - 16px) / 3); max-width: 100px; }
+  .lg-play[data-activity="parade"] .parade-scene { padding-bottom: 16%; }
+}
+
+@media (max-height: 650px) {
+  .lg-play[data-activity="pairs"] .pairs-grid { inset-block: 1%; }
+  .lg-play[data-activity="build"] .build-scene { inset-block: 1% 7%; }
+  .lg-play[data-activity="parade"] .parade-scene { gap: 12px; padding-bottom: 11%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lg-activity-art * { animation: none !important; }
+}
+
+/* A short phone has room for one horizontal tray, not three stacked rows. */
+@media (orientation: landscape) and (max-height: 450px) {
+  .lg-screen.lg-play[data-activity="build"] { padding: 6px 12px; }
+  .lg-play[data-activity="build"] > .lg-topbar { position: absolute; inset: 6px 12px auto; height: 44px; min-height: 44px; margin: 0; }
+  .lg-play[data-activity="build"] .lg-topbar .lg-round-btn { width: 44px; height: 44px; }
+  .lg-play[data-activity="build"] .play-prompt { height: 76px; min-height: 76px; margin: 0 auto 6px; gap: 6px; }
+  .lg-play[data-activity="build"] .play-pet { width: 44px; height: 48px; }
+  .lg-play[data-activity="build"] .play-bubble { width: 102px; height: 66px; min-height: 66px; }
+  .lg-app .lg-play[data-activity="build"] .play-stage { width: 100%; margin: 0 auto; max-height: none; min-height: 210px; flex: 1; }
+  .lg-app .lg-play[data-activity="build"] .build-scene { inset: 3px 5%; padding: 3px; gap: 6px; }
+  .lg-app .lg-play[data-activity="build"] .build-slots { min-height: 72px; padding: 4px; gap: 6px; }
+  .lg-app .lg-play[data-activity="build"] .build-slot { width: 60px; }
+  .lg-app .lg-play[data-activity="build"] .build-tray { padding: 5px; flex-wrap: nowrap; gap: 6px; }
+  .lg-app .lg-play[data-activity="build"] .build-tile { width: 64px; flex: 0 1 64px; min-width: 44px; }
+}
