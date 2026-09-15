@@ -1,0 +1,475 @@
+{
+  "status": "generated-awaiting-listening-review",
+  "source": "src/data/letters.js",
+  "model": "ResembleAI/chatterbox — Multilingual V3",
+  "voice": "Built-in model voice",
+  "disclosure": "AI-generated speech audition; pronunciation and voice are not yet approved for the game.",
+  "letters": [
+    {
+      "index": 1,
+      "letter": "ا",
+      "name": "Alif",
+      "input": "أَلِفْ",
+      "file": "01-alif.wav"
+    },
+    {
+      "index": 2,
+      "letter": "ب",
+      "name": "Ba",
+      "input": "بَاءْ",
+      "file": "02-ba.wav"
+    },
+    {
+      "index": 3,
+      "letter": "ت",
+      "name": "Ta",
+      "input": "تَاءْ",
+      "file": "03-ta.wav"
+    },
+    {
+      "index": 4,
+      "letter": "ث",
+      "name": "Tha",
+      "input": "ثَاءْ",
+      "file": "04-tha.wav"
+    },
+    {
+      "index": 5,
+      "letter": "ج",
+      "name": "Jeem",
+      "input": "جِيمْ",
+      "file": "05-jeem.wav"
+    },
+    {
+      "index": 6,
+      "letter": "ح",
+      "name": "Haa",
+      "input": "حَاءْ",
+      "file": "06-haa.wav"
+    },
+    {
+      "index": 7,
+      "letter": "خ",
+      "name": "Khaa",
+      "input": "خَاءْ",
+      "file": "07-khaa.wav"
+    },
+    {
+      "index": 8,
+      "letter": "د",
+      "name": "Dal",
+      "input": "دَالْ",
+      "file": "08-dal.wav"
+    },
+    {
+      "index": 9,
+      "letter": "ذ",
+      "name": "Dhal",
+      "input": "ذَالْ",
+      "file": "09-dhal.wav"
+    },
+    {
+      "index": 10,
+      "letter": "ر",
+      "name": "Ra",
+      "input": "رَاءْ",
+      "file": "10-ra.wav"
+    },
+    {
+      "index": 11,
+      "letter": "ز",
+      "name": "Zay",
+      "input": "زَايْ",
+      "file": "11-zay.wav"
+    },
+    {
+      "index": 12,
+      "letter": "س",
+      "name": "Seen",
+      "input": "سِينْ",
+      "file": "12-seen.wav"
+    },
+    {
+      "index": 13,
+      "letter": "ش",
+      "name": "Sheen",
+      "input": "شِينْ",
+      "file": "13-sheen.wav"
+    },
+    {
+      "index": 14,
+      "letter": "ص",
+      "name": "Saad",
+      "input": "صَادْ",
+      "file": "14-saad.wav"
+    },
+    {
+      "index": 15,
+      "letter": "ض",
+      "name": "Daad",
+      "input": "ضَادْ",
+      "file": "15-daad.wav"
+    },
+    {
+      "index": 16,
+      "letter": "ط",
+      "name": "Taa",
+      "input": "طَاءْ",
+      "file": "16-taa.wav"
+    },
+    {
+      "index": 17,
+      "letter": "ظ",
+      "name": "Zaa",
+      "input": "ظَاءْ",
+      "file": "17-zaa.wav"
+    },
+    {
+      "index": 18,
+      "letter": "ع",
+      "name": "Ayn",
+      "input": "عَيْنْ",
+      "file": "18-ayn.wav"
+    },
+    {
+      "index": 19,
+      "letter": "غ",
+      "name": "Ghayn",
+      "input": "غَيْنْ",
+      "file": "19-ghayn.wav"
+    },
+    {
+      "index": 20,
+      "letter": "ف",
+      "name": "Fa",
+      "input": "فَاءْ",
+      "file": "20-fa.wav"
+    },
+    {
+      "index": 21,
+      "letter": "ق",
+      "name": "Qaf",
+      "input": "قَافْ",
+      "file": "21-qaf.wav"
+    },
+    {
+      "index": 22,
+      "letter": "ك",
+      "name": "Kaf",
+      "input": "كَافْ",
+      "file": "22-kaf.wav"
+    },
+    {
+      "index": 23,
+      "letter": "ل",
+      "name": "Lam",
+      "input": "لَامْ",
+      "file": "23-lam.wav"
+    },
+    {
+      "index": 24,
+      "letter": "م",
+      "name": "Meem",
+      "input": "مِيمْ",
+      "file": "24-meem.wav"
+    },
+    {
+      "index": 25,
+      "letter": "ن",
+      "name": "Noon",
+      "input": "نُونْ",
+      "file": "25-noon.wav"
+    },
+    {
+      "index": 26,
+      "letter": "ه",
+      "name": "Ha",
+      "input": "هَاءْ",
+      "file": "26-ha.wav"
+    },
+    {
+      "index": 27,
+      "letter": "و",
+      "name": "Waw",
+      "input": "وَاوْ",
+      "file": "27-waw.wav"
+    },
+    {
+      "index": 28,
+      "letter": "ي",
+      "name": "Ya",
+      "input": "يَاءْ",
+      "file": "28-ya.wav"
+    }
+  ],
+  "engine": "local Chatterbox 0.1.7",
+  "license": "MIT",
+  "settings": {
+    "language_id": "ar",
+    "exaggeration": 0.25,
+    "cfg_weight": 0.0,
+    "temperature": 0.6,
+    "repetition_penalty": 1.3,
+    "min_p": 0.05,
+    "top_p": 1.0
+  },
+  "device": "mps",
+  "generated": [
+    "01-alif.wav",
+    "02-ba.wav",
+    "03-ta.wav",
+    "04-tha.wav",
+    "05-jeem.wav",
+    "06-haa.wav",
+    "07-khaa.wav",
+    "08-dal.wav",
+    "09-dhal.wav",
+    "10-ra.wav",
+    "11-zay.wav",
+    "12-seen.wav",
+    "13-sheen.wav",
+    "14-saad.wav",
+    "15-daad.wav",
+    "16-taa.wav",
+    "17-zaa.wav",
+    "18-ayn.wav",
+    "19-ghayn.wav",
+    "20-fa.wav",
+    "21-qaf.wav",
+    "22-kaf.wav",
+    "23-lam.wav",
+    "24-meem.wav",
+    "25-noon.wav",
+    "26-ha.wav",
+    "27-waw.wav",
+    "28-ya.wav"
+  ],
+  "processing": "Silence padding, gentle 7 kHz low-pass, capped level adjustment, 5 ms fades; AI watermark applied after processing",
+  "clips": {
+    "01-alif.wav": {
+      "duration": 0.58,
+      "sampleRate": 24000,
+      "peak": 0.6222,
+      "seed": 260916,
+      "sha256": "38bd8d525818e5547a2f97134671063107519d5b5ae5df6a2b952953089d2cbe",
+      "generationSeconds": 27.19
+    },
+    "02-ba.wav": {
+      "duration": 0.64,
+      "sampleRate": 24000,
+      "peak": 0.6628,
+      "seed": 260917,
+      "sha256": "bac113ebc97dc1ab287af4908009502c57d84b8cbaa9700fc31abb7cc53f8358",
+      "generationSeconds": 5.15
+    },
+    "03-ta.wav": {
+      "duration": 0.63,
+      "sampleRate": 24000,
+      "peak": 0.6631,
+      "seed": 260918,
+      "sha256": "14f830761f0a8f3e96bc5fa88f76a27f2f4fda7155dd83ebf40463a30d12ea37",
+      "generationSeconds": 3.97
+    },
+    "04-tha.wav": {
+      "duration": 0.46,
+      "sampleRate": 24000,
+      "peak": 0.6576,
+      "seed": 260919,
+      "sha256": "e45d841aa5dc093ba4fed16702d47391ea52b16cb36a19fbcdcde8556552a9c9",
+      "generationSeconds": 6.18
+    },
+    "05-jeem.wav": {
+      "duration": 0.66,
+      "sampleRate": 24000,
+      "peak": 0.5426,
+      "seed": 260920,
+      "sha256": "f7405ba6788792922e60c27078f0d0750fa6530585acf0f0c4cd169e744f74ec",
+      "generationSeconds": 4.7
+    },
+    "06-haa.wav": {
+      "duration": 0.51,
+      "sampleRate": 24000,
+      "peak": 0.6304,
+      "seed": 260921,
+      "sha256": "805e50ab4c3ad32164666a4353eafefe43a8d30fabad2c8232fa79382307d00b",
+      "generationSeconds": 4.31
+    },
+    "07-khaa.wav": {
+      "duration": 0.7,
+      "sampleRate": 24000,
+      "peak": 0.5289,
+      "seed": 260922,
+      "sha256": "da405336ee2bfb5a89c830253d97da3cd30e2f72cf63c300372ea05474108da2",
+      "generationSeconds": 4.47
+    },
+    "08-dal.wav": {
+      "duration": 0.63,
+      "sampleRate": 24000,
+      "peak": 0.6107,
+      "seed": 260923,
+      "sha256": "9cbd81892c61c6c09751d570469e6cf5b2783d6e6fbbf342f04a5eaa8864a8bf",
+      "generationSeconds": 3.83
+    },
+    "09-dhal.wav": {
+      "duration": 0.61,
+      "sampleRate": 24000,
+      "peak": 0.6544,
+      "seed": 260924,
+      "sha256": "f0dc242e45ce2aab78159f28c3b96b57ac3d04afda9c1e10ca1e27ef8b35370a",
+      "generationSeconds": 4.64
+    },
+    "10-ra.wav": {
+      "duration": 1.37,
+      "sampleRate": 24000,
+      "peak": 0.6417,
+      "seed": 260925,
+      "sha256": "568c55992bcf5ae6f2cae460fdf7d9c4c551501e78d36256d57d57e877966751",
+      "generationSeconds": 8.22
+    },
+    "11-zay.wav": {
+      "duration": 0.65,
+      "sampleRate": 24000,
+      "peak": 0.6527,
+      "seed": 260926,
+      "sha256": "74e078059a89c656ef349b0e602295f013acbd923d8eb8a854828b5f9e42cf0c",
+      "generationSeconds": 3.67
+    },
+    "12-seen.wav": {
+      "duration": 0.89,
+      "sampleRate": 24000,
+      "peak": 0.5551,
+      "seed": 260927,
+      "sha256": "dfc7e0617b9e71912ff010ad1762d8af58c9fad8ec42ca0045888b2b460f1763",
+      "generationSeconds": 5.43
+    },
+    "13-sheen.wav": {
+      "duration": 0.7,
+      "sampleRate": 24000,
+      "peak": 0.635,
+      "seed": 260928,
+      "sha256": "555fa148f8ee32a2236cbcd132a362c6d8cd7252774886bfe78774ad79215c12",
+      "generationSeconds": 4.53
+    },
+    "14-saad.wav": {
+      "duration": 0.66,
+      "sampleRate": 24000,
+      "peak": 0.6653,
+      "seed": 260929,
+      "sha256": "769955d32675bdfd383a3c393862c8d2a09fe843a795c16fb6c456448278a382",
+      "generationSeconds": 4.6
+    },
+    "15-daad.wav": {
+      "duration": 0.6,
+      "sampleRate": 24000,
+      "peak": 0.7089,
+      "seed": 260930,
+      "sha256": "78a5917a27ac41252c44f3d9712401b0d1f605a8707448a9b9a19b8e20b57180",
+      "generationSeconds": 4.6
+    },
+    "16-taa.wav": {
+      "duration": 1.22,
+      "sampleRate": 24000,
+      "peak": 0.6576,
+      "seed": 260931,
+      "sha256": "d13a042b1959bd352924ea5bf9d62a82e68dad341cf2dff7eb1bf65044731a30",
+      "generationSeconds": 6.32
+    },
+    "17-zaa.wav": {
+      "duration": 0.57,
+      "sampleRate": 24000,
+      "peak": 0.6605,
+      "seed": 260932,
+      "sha256": "4ec8f413ff9af1d8a8029e73d1ad3ef892db699d74bf1f1ee5724e4d198acbe2",
+      "generationSeconds": 5.91
+    },
+    "18-ayn.wav": {
+      "duration": 0.74,
+      "sampleRate": 24000,
+      "peak": 0.6822,
+      "seed": 260933,
+      "sha256": "194dce823bb625030db92f9a305b63717a1bba6a14d5034d4451e6352805aeb8",
+      "generationSeconds": 5.71
+    },
+    "19-ghayn.wav": {
+      "duration": 0.83,
+      "sampleRate": 24000,
+      "peak": 0.6384,
+      "seed": 260934,
+      "sha256": "4f12eb605851df8f2ab45948b199317bbe2e0db78ace2fe1acae2d2b1c043d87",
+      "generationSeconds": 3.76
+    },
+    "20-fa.wav": {
+      "duration": 0.66,
+      "sampleRate": 24000,
+      "peak": 0.6588,
+      "seed": 260935,
+      "sha256": "f072f65ee566f28085ed456acd3aba332aea3724c7dcfc656d58886aa476b6df",
+      "generationSeconds": 3.5
+    },
+    "21-qaf.wav": {
+      "duration": 0.71,
+      "sampleRate": 24000,
+      "peak": 0.6896,
+      "seed": 260936,
+      "sha256": "2b3fa736d766aae336151c821c9a6a58cab54ba3f6a30647ceca4e396f9678f0",
+      "generationSeconds": 3.76
+    },
+    "22-kaf.wav": {
+      "duration": 1.59,
+      "sampleRate": 24000,
+      "peak": 0.6744,
+      "seed": 260937,
+      "sha256": "423599ab003aa8516a22347943215accf5bd761647efac333800a35b4428082b",
+      "generationSeconds": 5.17
+    },
+    "23-lam.wav": {
+      "duration": 0.78,
+      "sampleRate": 24000,
+      "peak": 0.65,
+      "seed": 260938,
+      "sha256": "c44cb3086d958bf1488d2499881e5f2687acaa96de8163ee80aed7e825f20a98",
+      "generationSeconds": 5.72
+    },
+    "24-meem.wav": {
+      "duration": 0.6,
+      "sampleRate": 24000,
+      "peak": 0.5874,
+      "seed": 260939,
+      "sha256": "1b084f5b7bd29014571ffe43d75b15140e16febb479725636d5710c2febed869",
+      "generationSeconds": 3.71
+    },
+    "25-noon.wav": {
+      "duration": 0.71,
+      "sampleRate": 24000,
+      "peak": 0.4566,
+      "seed": 260940,
+      "sha256": "ff6be82ff554a49962f9b7267b171d1a96e4a8247014bc597def82b0cec15f11",
+      "generationSeconds": 3.77
+    },
+    "26-ha.wav": {
+      "duration": 0.58,
+      "sampleRate": 24000,
+      "peak": 0.6359,
+      "seed": 260941,
+      "sha256": "d29e260519269f89f8bc2cfe452f3efd4dc511bd62afa64fdaeb4f08aa4e73c4",
+      "generationSeconds": 3.53
+    },
+    "27-waw.wav": {
+      "duration": 0.69,
+      "sampleRate": 24000,
+      "peak": 0.6332,
+      "seed": 260942,
+      "sha256": "543ade8e4dc13cd3182fa8428ca0bc00d5124e055eda656aef90d317e18bd01f",
+      "generationSeconds": 3.74
+    },
+    "28-ya.wav": {
+      "duration": 0.8,
+      "sampleRate": 24000,
+      "peak": 0.486,
+      "seed": 260943,
+      "sha256": "c902cbd1cb8b64072f701d81f2aa3f92234f7ff5c8f825a5a297615104647819",
+      "generationSeconds": 3.95
+    }
+  },
+  "engineRevision": "5de7a54aa4e5e2baadb0182dde554908b48b85c2"
+}

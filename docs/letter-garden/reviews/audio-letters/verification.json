@@ -1,0 +1,180 @@
+{
+  "filesVerified": 28,
+  "curriculumNamesMatch": true,
+  "format": "24 kHz mono PCM 16-bit WAV",
+  "allNonSilentAndUnclipped": true,
+  "allHttpDownloadsMatchLocalFiles": true,
+  "combinedSeconds": 43.17,
+  "combinedBytes": 2072204,
+  "phoneticReview": "Not verified: requires listening review",
+  "clips": [
+    {
+      "file": "01-alif.wav",
+      "seconds": 0.58,
+      "peak": 0.6222,
+      "rms": 0.107
+    },
+    {
+      "file": "02-ba.wav",
+      "seconds": 0.64,
+      "peak": 0.6628,
+      "rms": 0.0822
+    },
+    {
+      "file": "03-ta.wav",
+      "seconds": 0.63,
+      "peak": 0.6631,
+      "rms": 0.0779
+    },
+    {
+      "file": "04-tha.wav",
+      "seconds": 0.46,
+      "peak": 0.6576,
+      "rms": 0.0895
+    },
+    {
+      "file": "05-jeem.wav",
+      "seconds": 0.66,
+      "peak": 0.5426,
+      "rms": 0.0974
+    },
+    {
+      "file": "06-haa.wav",
+      "seconds": 0.51,
+      "peak": 0.6304,
+      "rms": 0.085
+    },
+    {
+      "file": "07-khaa.wav",
+      "seconds": 0.7,
+      "peak": 0.5289,
+      "rms": 0.1056
+    },
+    {
+      "file": "08-dal.wav",
+      "seconds": 0.63,
+      "peak": 0.6107,
+      "rms": 0.0802
+    },
+    {
+      "file": "09-dhal.wav",
+      "seconds": 0.61,
+      "peak": 0.6544,
+      "rms": 0.0662
+    },
+    {
+      "file": "10-ra.wav",
+      "seconds": 1.37,
+      "peak": 0.6417,
+      "rms": 0.0642
+    },
+    {
+      "file": "11-zay.wav",
+      "seconds": 0.65,
+      "peak": 0.6527,
+      "rms": 0.0998
+    },
+    {
+      "file": "12-seen.wav",
+      "seconds": 0.89,
+      "peak": 0.5551,
+      "rms": 0.0992
+    },
+    {
+      "file": "13-sheen.wav",
+      "seconds": 0.7,
+      "peak": 0.635,
+      "rms": 0.0871
+    },
+    {
+      "file": "14-saad.wav",
+      "seconds": 0.66,
+      "peak": 0.6653,
+      "rms": 0.0736
+    },
+    {
+      "file": "15-daad.wav",
+      "seconds": 0.6,
+      "peak": 0.7089,
+      "rms": 0.0567
+    },
+    {
+      "file": "16-taa.wav",
+      "seconds": 1.22,
+      "peak": 0.6577,
+      "rms": 0.0988
+    },
+    {
+      "file": "17-zaa.wav",
+      "seconds": 0.57,
+      "peak": 0.6605,
+      "rms": 0.106
+    },
+    {
+      "file": "18-ayn.wav",
+      "seconds": 0.74,
+      "peak": 0.6822,
+      "rms": 0.0781
+    },
+    {
+      "file": "19-ghayn.wav",
+      "seconds": 0.83,
+      "peak": 0.6383,
+      "rms": 0.1091
+    },
+    {
+      "file": "20-fa.wav",
+      "seconds": 0.66,
+      "peak": 0.6588,
+      "rms": 0.0611
+    },
+    {
+      "file": "21-qaf.wav",
+      "seconds": 0.71,
+      "peak": 0.6896,
+      "rms": 0.094
+    },
+    {
+      "file": "22-kaf.wav",
+      "seconds": 1.59,
+      "peak": 0.6744,
+      "rms": 0.0848
+    },
+    {
+      "file": "23-lam.wav",
+      "seconds": 0.78,
+      "peak": 0.65,
+      "rms": 0.0847
+    },
+    {
+      "file": "24-meem.wav",
+      "seconds": 0.6,
+      "peak": 0.5874,
+      "rms": 0.0926
+    },
+    {
+      "file": "25-noon.wav",
+      "seconds": 0.71,
+      "peak": 0.4566,
+      "rms": 0.0928
+    },
+    {
+      "file": "26-ha.wav",
+      "seconds": 0.58,
+      "peak": 0.6359,
+      "rms": 0.1041
+    },
+    {
+      "file": "27-waw.wav",
+      "seconds": 0.69,
+      "peak": 0.6331,
+      "rms": 0.0812
+    },
+    {
+      "file": "28-ya.wav",
+      "seconds": 0.8,
+      "peak": 0.486,
+      "rms": 0.1045
+    }
+  ]
+}

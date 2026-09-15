@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Arabic letter audio review</title>
+  <style>
+    :root{color-scheme:light;--ink:#3b2a19;--paper:#fffaf0;--cream:#fffdf7;--line:#c9bda4;--green:#4e9677;--gold:#f3c955;--coral:#c25a49}
+    *{box-sizing:border-box}
+    body{margin:0;background:#e5dcc8;color:var(--ink);font:15px/1.45 system-ui,-apple-system,sans-serif}
+    main{width:min(1040px,calc(100% - 24px));margin:24px auto 48px}
+    header,.player{background:var(--cream);border:1px solid var(--line);border-radius:18px;box-shadow:0 4px 0 var(--line)}
+    header{padding:20px 22px;margin-bottom:14px}
+    h1{margin:0 0 5px;font-size:clamp(22px,4vw,34px);letter-spacing:-.025em}
+    p{margin:5px 0}.notice{color:#7a3512;font-weight:650}.meta{color:#70501b;font-size:13px}
+    .player{position:sticky;top:8px;z-index:2;display:grid;grid-template-columns:auto auto auto minmax(180px,1fr);align-items:center;gap:8px;padding:10px 12px;margin-bottom:16px}
+    button,.download{min-height:42px;border:2px solid var(--ink);border-radius:12px;background:var(--paper);color:var(--ink);font:600 14px system-ui;cursor:pointer}
+    .player button{padding:7px 13px}.player button:first-child{background:var(--gold)}
+    button:disabled{cursor:not-allowed;opacity:.42}.player audio{width:100%;height:42px}
+    .status{grid-column:1/-1;min-height:20px;color:#70501b;font-size:13px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+    .clip{display:grid;grid-template-columns:1fr 42px;gap:7px;padding:8px;background:var(--cream);border:1px solid var(--line);border-radius:15px}
+    .clip-play{display:grid;grid-template-columns:52px 1fr;align-items:center;text-align:left;padding:7px 10px}
+    .letter{grid-row:1/3;font:38px/1.1 "Geeza Pro","Noto Naskh Arabic",serif;text-align:center}
+    .name{font-weight:750}.arabic-name{direction:rtl;color:#70501b;font:18px/1.2 "Geeza Pro","Noto Naskh Arabic",serif}
+    .clip-play.is-playing{background:#b7e779;box-shadow:inset 0 0 0 2px var(--green)}
+    .download{display:grid;place-items:center;text-decoration:none;font-size:18px}.download[aria-disabled="true"]{pointer-events:none;opacity:.35}
+    .missing{grid-column:1/-1;margin:0;color:#8a3a2d;font-size:11px;text-align:right}
+    @media(max-width:620px){main{margin-top:12px}.player{grid-template-columns:repeat(3,1fr)}.player audio{grid-column:1/-1}.grid{grid-template-columns:1fr}}
+    @media(max-width:410px){.grid{grid-template-columns:1fr}.player{position:static}}
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Arabic letter audio review</h1>
+      <p class="notice">AI-generated speech audition. Pronunciation and voice are not approved for the game.</p>
+      <p class="meta" id="batch-meta">Loading batch manifest…</p>
+      <p><a id="combined-download" href="all-28-arabic-letter-names.wav" download hidden>Download the whole alphabet with pauses (WAV)</a></p>
+    </header>
+    <section class="player" aria-label="Shared audio controls">
+      <button type="button" id="play-all" disabled>Play all</button>
+      <button type="button" id="pause" disabled>Pause</button>
+      <button type="button" id="stop" disabled>Stop</button>
+      <audio id="audio" controls preload="none"></audio>
+      <div class="status" id="status" role="status" aria-live="polite"></div>
+    </section>
+    <section class="grid" id="clips" aria-label="Letter recordings"></section>
+  </main>
+  <script>
+    (()=>{
+      const audio=document.querySelector('#audio'),grid=document.querySelector('#clips'),status=document.querySelector('#status');
+      const playAll=document.querySelector('#play-all'),pause=document.querySelector('#pause'),stop=document.querySelector('#stop'),meta=document.querySelector('#batch-meta');
+      let batch=null,available=[],queue=[],queueIndex=-1,current=null,playGeneration=0;
+      const generatedKey=value=>typeof value==='string'||typeof value==='number'?String(value):String(value?.file||value?.index||value?.letter||'');
+      const setStatus=text=>{status.textContent=text;};
+      const isGenerated=(item,set)=>set.has(String(item.file))||set.has(String(item.index))||set.has(String(item.letter));
+      const markPlaying=item=>grid.querySelectorAll('.clip-play').forEach(button=>button.classList.toggle('is-playing',button.dataset.file===item?.file));
+      const play=item=>{
+        if(!item)return;const generation=++playGeneration;current=item;audio.src=item.file;markPlaying(item);setStatus(`Playing ${item.index} of 28 — ${item.name}`);
+        audio.play().catch(error=>{if(generation===playGeneration&&error.name!=='AbortError')setStatus(`Could not play ${item.name}. Check that ${item.file} is present.`);});
+      };
+      const endQueue=(message='Playback finished.')=>{queue=[];queueIndex=-1;current=null;playGeneration+=1;pause.textContent='Pause';pause.disabled=true;stop.disabled=true;markPlaying(null);setStatus(message);};
+      playAll.onclick=()=>{if(!available.length)return;queue=available.slice();queueIndex=0;pause.disabled=false;stop.disabled=false;pause.textContent='Pause';play(queue[0]);};
+      pause.onclick=()=>{if(!audio.src)return;if(audio.paused){audio.play().catch(()=>setStatus('Playback could not resume. Select a letter to retry.'));}else{audio.pause();pause.textContent='Resume';}};
+      stop.onclick=()=>{audio.pause();audio.currentTime=0;endQueue('Playback stopped.');};
+      audio.addEventListener('play',()=>{pause.textContent='Pause';pause.disabled=false;stop.disabled=false;});
+      audio.addEventListener('pause',()=>{if(!audio.ended&&current)pause.textContent='Resume';});
+      audio.addEventListener('ended',()=>{if(queue.length&&queueIndex+1<queue.length){queueIndex+=1;play(queue[queueIndex]);}else endQueue();});
+      audio.addEventListener('error',()=>{if(current)setStatus(`Missing or unreadable clip: ${current.file}`);});
+      fetch('batch.json',{cache:'no-store'}).then(response=>{if(!response.ok)throw Error(`HTTP ${response.status}`);return response.json();}).then(data=>{
+        batch=data;const generated=new Set((data.generated||[]).map(generatedKey));available=(data.letters||[]).filter(item=>isGenerated(item,generated));
+        meta.textContent=`${data.letters?.length||0} letters · ${available.length} generated · ${data.model||'model pending'} · voice ${data.voice||'pending'}`;
+        playAll.disabled=!available.length;
+        document.querySelector('#combined-download').hidden=available.length!==28;
+        grid.innerHTML=(data.letters||[]).map(item=>{
+          const ready=isGenerated(item,generated),label=`Play ${item.name}, ${item.input}`;
+          return `<article class="clip"><button type="button" class="clip-play" data-file="${item.file}" aria-label="${label}" ${ready?'':'disabled'}><span class="letter" lang="ar">${item.letter}</span><span class="name">${String(item.index).padStart(2,'0')} · ${item.name}</span><span class="arabic-name" lang="ar">${item.input}</span></button>${ready?`<a class="download" href="${item.file}" download="${item.file}" aria-label="Download ${item.name}">⇩</a>`:`<span class="download" aria-disabled="true" aria-label="${item.name} audio not generated">⇩</span>`}${ready?'':'<p class="missing">Not generated</p>'}</article>`;
+        }).join('');
+        grid.querySelectorAll('.clip-play:not(:disabled)').forEach(button=>button.onclick=()=>{queue=[];queueIndex=-1;play(data.letters.find(item=>item.file===button.dataset.file));});
+        setStatus(available.length?'Choose a letter or play the generated set in order.':'No generated clips are listed yet.');
+      }).catch(error=>{meta.textContent='Could not read batch.json';setStatus(`Manifest error: ${error.message}`);});
+    })();
+  </script>
+</body>
+</html>
