@@ -1,0 +1,201 @@
+.lg-app .drawing-palette {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.lg-app .drawing-color {
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  min-width: 46px;
+  min-height: 46px;
+  padding: 7px;
+  border: 3px solid #4a3620;
+  border-radius: 50%;
+  background: #fffaf0;
+  box-shadow: 0 3px 0 #c9bda4;
+}
+
+.lg-app .drawing-color span {
+  width: 24px;
+  height: 24px;
+  border: 1.6px solid #4a3620;
+  border-radius: 50%;
+  background: var(--drawing-color);
+}
+
+.lg-app .drawing-color[aria-pressed="true"] {
+  box-shadow: 0 3px 0 #c9bda4, inset 0 0 0 4px #ffe49a;
+  transform: translateY(-2px);
+}
+
+.lg-app .garden-paths > .drawing-palette {
+  padding: 4px 10px;
+  border-radius: 28px;
+  background: #e5dcc8;
+}
+
+.lg-app .path-guide:not([hidden]) {
+  display: block;
+}
+
+.lg-app .path-guide[hidden] {
+  display: none;
+}
+
+.lg-app .path-guide > .path-guide-glyph {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.lg-app .trace-tools .drawing-palette {
+  margin-inline: auto;
+}
+
+@media (max-width: 560px), (max-height: 650px) {
+  .lg-app .drawing-palette { gap: 5px; }
+  .lg-app .drawing-color {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 6px;
+  }
+  .lg-app .drawing-color span { width: 22px; height: 22px; }
+  .lg-app .trace-tools .trace-crayon { display: none; }
+  .lg-app .trace-paper { bottom: 110px; }
+  .lg-app .trace-tools {
+    height: 94px;
+    gap: 10px;
+    justify-content: center;
+  }
+  .lg-app .trace-tools .drawing-palette {
+    display: grid;
+    grid-template-columns: repeat(3, 44px);
+    width: 142px;
+    margin-inline: 0;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 450px) {
+  .lg-app .lg-screen.lg-play[data-activity="trace"] {
+    overflow: hidden;
+    padding: 4px 8px;
+  }
+  .lg-app .lg-screen.lg-play[data-activity="trace"] > .lg-topbar {
+    height: 48px;
+    min-height: 48px;
+  }
+  .lg-app .lg-screen.lg-play[data-activity="trace"] > .play-prompt {
+    position: absolute;
+    top: 4px;
+    right: 64px;
+    left: 64px;
+    width: auto;
+    height: 48px;
+    min-height: 48px;
+    margin: 0;
+  }
+  .lg-app .lg-screen.lg-play[data-activity="trace"] > .play-stage {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none;
+    margin: 4px auto 0;
+  }
+  .lg-app .lg-screen.lg-play[data-activity="trace"] .play-bubble {
+    height: 46px;
+    padding: 3px 8px;
+    border-radius: 16px;
+  }
+  .lg-app .lg-screen.lg-play[data-activity="trace"] .play-bubble-glyph {
+    font-size: 32px;
+    min-height: 34px;
+    line-height: 1.1;
+  }
+  .lg-app .lg-screen.lg-play[data-activity="trace"] .play-pet > svg,
+  .lg-app .lg-screen.lg-play[data-activity="trace"] .play-pet > .lg-animal {
+    width: 40px !important;
+    height: 44px !important;
+  }
+  .lg-app .lg-screen.lg-play[data-activity="trace"] .trace-paper {
+    bottom: 67px;
+  }
+  .lg-app .lg-screen.lg-play[data-activity="trace"] .trace-tools {
+    height: 48px;
+    gap: 10px;
+  }
+  .lg-app .lg-screen.lg-play[data-activity="trace"] .trace-tools .drawing-palette {
+    display: flex;
+    width: auto;
+  }
+
+  .lg-app .lg-screen.lg-play:has(.garden-paths) {
+    overflow: hidden;
+    padding: 4px 8px;
+  }
+  .lg-app .lg-screen.lg-play:has(.garden-paths) > .lg-topbar {
+    height: 48px;
+    min-height: 48px;
+  }
+  .lg-app .lg-screen.lg-play:has(.garden-paths) > .practice-heading {
+    position: absolute;
+    top: 4px;
+    right: 64px;
+    left: 64px;
+    height: 48px;
+    margin: 0;
+  }
+  .lg-app .lg-screen.lg-play:has(.garden-paths) > .practice-stage {
+    flex: 1 1 auto;
+    min-height: 0;
+    margin: 4px auto 0;
+  }
+  .lg-app .lg-screen.lg-play:has(.garden-paths) .practice-replay {
+    height: 44px;
+    min-height: 44px;
+    font-size: 32px;
+  }
+  .lg-app .lg-screen.lg-play:has(.garden-paths) .practice-heading > svg,
+  .lg-app .lg-screen.lg-play:has(.garden-paths) .practice-heading > .lg-animal {
+    width: 40px !important;
+    height: 44px !important;
+  }
+  .lg-app .garden-paths {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr) 54px;
+    grid-template-rows: 16px minmax(110px, 1fr) 52px;
+    gap: 6px 8px;
+    width: 100%;
+    height: 100%;
+  }
+  .lg-app .garden-paths .path-progress { grid-column: 2; grid-row: 1; }
+  .lg-app .garden-paths .path-reference { grid-column: 1; grid-row: 2; width: 44px; height: 44px; }
+  .lg-app .garden-paths .path-paper {
+    grid-column: 2;
+    grid-row: 2;
+    width: 100%;
+    min-height: 110px;
+    max-height: none;
+  }
+  .lg-app .garden-paths > .drawing-palette {
+    grid-column: 3;
+    grid-row: 1 / 4;
+    flex-direction: column;
+    gap: 3px;
+    padding: 2px;
+  }
+  .lg-app .garden-paths > .practice-tools {
+    grid-column: 1 / 3;
+    grid-row: 3;
+    padding-block: 2px;
+  }
+}

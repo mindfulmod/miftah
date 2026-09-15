@@ -9,6 +9,10 @@
   const skeleton = (s) =>
     (s || "").normalize("NFC").replace(DIACRITICS, "").replace(/[أإآٱ]/g, "ا");
   const pad3 = (n) => String(n).padStart(3, "0");
+  const MARKS = /[ً-ْٰٓ-ٟؐ-ؚۖ-ۭ]/g;
+  const BASE_MARKS = new Set(["َ", "ِ", "ُ"]);
+  const TANWEEN_MARKS = new Set(["ً", "ٍ", "ٌ"]);
+  const STANDING_MARKS = new Set(["ٰ", "ٖ", "ٗ"]);
 
   const formsOf = (l) => ({
     isolated: l.char,
@@ -64,13 +68,44 @@
           }
         }
       }
+      this.refreshWordCatalogues();
     }
 
-    // Real-word pools by skeleton length, with a graceful fallback when a
-    // band is thin (offline sample, small surahs).
-    wordPool(minLen, maxLen) {
-      const band = this.examplePool.filter((w) => w.skel.length >= minLen && w.skel.length <= maxLen);
-      return band.length >= 6 ? band : this.examplePool;
+    // A thin band stays thin. Borrowing a longer or not-yet-taught word makes
+    // an apparently easy chapter dishonest; callers repeat or omit instead.
+    wordPool(minLen, maxLen, prerequisiteWorldIds = this.worlds?.map((w) => w.id) || []) {
+      const taught = new Set(prerequisiteWorldIds);
+      return this.examplePool.filter((word) => {
+        const tags = this.wordTags(word.display);
+        return tags.wordLength >= minLen && tags.wordLength <= maxLen
+          && tags.valid && tags.prerequisiteWorldIds.every((id) => taught.has(id));
+      });
+    }
+
+    wordTags(arabic) {
+      const normalized = (arabic || "").normalize("NFC");
+      const knownLetters = new Set(this.letters.map((l) => l.char));
+      const baseLetters = [...skeleton(normalized)];
+      const rawMarks = normalized.match(MARKS) || [];
+      const recognized = rawMarks.every((mark) =>
+        BASE_MARKS.has(mark) || TANWEEN_MARKS.has(mark) || STANDING_MARKS.has(mark) || mark === "ْ" || mark === "ّ"
+      );
+      const validBases = baseLetters.every((letter) => knownLetters.has(letter));
+      const prerequisiteWorldIds = [];
+      const require = (id) => { if (!prerequisiteWorldIds.includes(id)) prerequisiteWorldIds.push(id); };
+      if (rawMarks.some((m) => BASE_MARKS.has(m))) require(rawMarks.some((m) => m === "ِ" || m === "ُ") ? "kasra-damma" : "fatha");
+      if (rawMarks.some((m) => TANWEEN_MARKS.has(m))) require("tanween");
+      if (rawMarks.some((m) => STANDING_MARKS.has(m))) require("standing");
+      if (rawMarks.includes("ْ")) require("sukoon");
+      if (rawMarks.includes("ّ")) require("shaddah");
+      return {
+        valid: !!normalized && recognized && validBases,
+        prerequisiteWorldIds,
+        wordLength: skeleton(normalized).length,
+        marks: [...new Set(rawMarks)],
+        joiningFeatures: baseLetters.some((letter, i) => i < baseLetters.length - 1 && this.letters.find((l) => l.char === letter)?.joins)
+          ? ["connected"] : ["disconnected"],
+      };
     }
 
     buildWorlds() {
@@ -78,19 +113,23 @@
       const worlds = [];
 
       this.data.packs.forEach((pack, i) => {
+        const catalogue = pack.letters.map((l) => ({ id: l.char, display: l.char, speak: l.arName }));
         worlds.push({
           id: `pack-${pack.id}`,
           hue: 0,
           icon: pack.letters[1] ? pack.letters[1].char : pack.letters[0].char,
           kind: "letters",
           meet: pack.letters.map((l) => ({ display: l.char, speak: l.arName, letter: l })),
-          items: () =>
-            pack.letters.map((l) => ({ id: l.char, display: l.char, speak: l.arName })),
+          catalogue,
+          items: () => catalogue.slice(),
           // Earlier letters sneak back in as extra distractors once known.
-          extraItems: () =>
-            this.letters
-              .filter((l) => !pack.letters.includes(l))
-              .map((l) => ({ id: l.char, display: l.char, speak: l.arName })),
+          extraItems: (doneIds = []) =>
+            this.data.packs.slice(0, i)
+              .filter((earlier) => doneIds.includes(`pack-${earlier.id}`))
+              .flatMap((earlier) => earlier.letters.map((l) => ({
+                id: l.char, display: l.char, speak: l.arName, objective: "letter-name",
+                prerequisiteWorldIds: [`pack-${earlier.id}`],
+              }))),
           // Every pack writes (trace); the rest of the menu alternates so
           // neighbouring packs never feel like reruns.
           games: i % 2 === 0 ? ["pop", "trace", "feed"] : ["pairs", "trace", "pop"],
@@ -121,6 +160,7 @@
             { display: l2.char, speak: l2.arName },
           ],
         });
+        const catalogue = firsts.map((l) => pairItem(l, partnerOf(l)));
         worlds.push({
           id: `join-${i + 1}`,
           icon: i === 0 ? "بت" : "عم",
@@ -129,11 +169,15 @@
             const item = pairItem(l, partnerOf(l));
             return { display: item.display, speak: item.speak, parts: item.parts };
           }),
-          items: () => shuffle(firsts).map((l) => pairItem(l, partnerOf(l))),
+          catalogue,
+          items: () => shuffle(catalogue),
           // The range's single letters ride along: un-fuse verdicts, chain
           // thirds and decoys all draw from here.
           extraItems: () =>
-            rangeLetters.map((l) => ({ id: l.char, display: l.char, speak: l.arName, joins: !!l.joins })),
+            rangeLetters.map((l) => ({
+              id: l.char, display: l.char, speak: l.arName, joins: !!l.joins,
+              objective: "letter-name", prerequisiteWorldIds: [`join-${i + 1}`],
+            })),
           games: i === 0 ? ["fuse", "unfuse", "parade"] : ["fuse", "chain", "unfuse"],
         });
       }
@@ -175,8 +219,7 @@
             })),
           },
         ],
-        items: () =>
-          this.data.muqattaat.map((combo) => ({
+        catalogue: this.data.muqattaat.map((combo) => ({
             id: combo,
             display: combo,
             speak: nameSeq(combo),
@@ -188,6 +231,8 @@
           })),
         games: ["pop", "build", "feed"],
       });
+      const muqattaatWorld = worlds[worlds.length - 1];
+      muqattaatWorld.items = () => shuffle(muqattaatWorld.catalogue);
 
       const syllableLetters = () =>
         shuffle(this.letters.filter((l) => l.char !== "ا")).slice(0, 6);
@@ -198,10 +243,18 @@
         { display: TATWEEL + v.char, speak: v.arName },
       ];
       const meetBa = this.letters.find((l) => l.char === "ب");
-      const vowelWorld = (id, icon, vowels) => ({
-        id,
-        icon,
-        kind: "syllables",
+      const vowelWorld = (id, icon, vowels) => {
+        const makeItem = (l, v) => ({
+          id: l.char + v.char,
+          display: l.char + v.char,
+          speak: l.char + v.char,
+          marks: [v.char],
+          parts: syllableParts(l, v),
+        });
+        const catalogue = this.letters.filter((l) => l.char !== "ا")
+          .flatMap((l) => vowels.map((v) => makeItem(l, v)));
+        return {
+        id, icon, kind: "syllables", catalogue,
         // parts feed the make-it-happen intro: the child fuses ب + the mark
         // to cause the reveal.
         meet: vowels.map((v) => ({
@@ -210,17 +263,9 @@
           vowel: v,
           parts: meetBa ? syllableParts(meetBa, v) : undefined,
         })),
-        items: () =>
-          syllableLetters().flatMap((l) =>
-            vowels.map((v) => ({
-              id: l.char + v.char,
-              display: l.char + v.char,
-              speak: l.char + v.char,
-              parts: syllableParts(l, v),
-            })),
-          ),
+        items: () => syllableLetters().flatMap((l) => vowels.map((v) => makeItem(l, v))),
         games: ["pop", "catch", "feed"],
-      });
+      }};
       // The blend machine leads both vowel worlds — fusing letter + haraka
       // IS the lesson; pop/trace/catch then rehearse what the fuse taught.
       worlds.push({ ...vowelWorld("fatha", "بَ", [this.data.harakat[0]]), games: ["blend", "pop", "trace"] });
@@ -231,6 +276,13 @@
       // side and the child must hear one "n" of difference.
       const tanweenWorld = { ...vowelWorld("tanween", "بً", this.data.tanween), games: ["pop", "build", "feed"] };
       const tanweenBase = tanweenWorld.items;
+      const baseContrastCatalogue = this.letters.filter((l) => l.char !== "ا").flatMap((l) =>
+        this.data.harakat.slice(0, 2).map((v) => ({
+          id: l.char + v.char, display: l.char + v.char, speak: l.char + v.char,
+          marks: [v.char], parts: syllableParts(l, v),
+        })),
+      );
+      tanweenWorld.catalogue = tanweenWorld.catalogue.concat(baseContrastCatalogue);
       tanweenWorld.items = () => {
         const items = tanweenBase();
         for (const l of shuffle(this.letters.filter((x) => x.char !== "ا")).slice(0, 2)) {
@@ -249,6 +301,18 @@
 
       // Lesson 7: standing vowels. The display wears the tiny mark; the
       // spoken form is its long-vowel twin so TTS says the right sound.
+      const standingItem = (l, sv) => ({
+        id: l.char + sv.char,
+        display: l.char + sv.char,
+        speak: sv.speakAs(l.char),
+        marks: [sv.char],
+        parts: [
+          { display: l.char, speak: l.arName },
+          { display: TATWEEL + sv.char, speak: sv.speakAs("ب") },
+        ],
+      });
+      const standingCatalogue = this.letters.filter((l) => l.char !== "ا")
+        .flatMap((l) => this.data.standing.map((sv) => standingItem(l, sv)));
       worlds.push({
         id: "standing",
         icon: "بٰ",
@@ -258,22 +322,25 @@
           speak: sv.speakAs("ب"),
           sub: sv.blurb,
         })),
-        items: () =>
-          syllableLetters().flatMap((l) =>
-            this.data.standing.map((sv) => ({
-              id: l.char + sv.char,
-              display: l.char + sv.char,
-              speak: sv.speakAs(l.char),
-              parts: [
-                { display: l.char, speak: l.arName },
-                { display: TATWEEL + sv.char, speak: sv.speakAs("ب") },
-              ],
-            })),
-          ),
+        catalogue: standingCatalogue,
+        items: () => syllableLetters().flatMap((l) => this.data.standing.map((sv) => standingItem(l, sv))),
         games: ["pop", "feed", "catch"],
       });
 
       // Lesson 8a: pure madd — the three stretching letters, nothing else.
+      const longSoundItem = (l, lv) => ({
+        id: l.char + lv.vowel + lv.char,
+        display: l.char + lv.vowel + lv.char,
+        speak: l.char + lv.vowel + lv.char,
+        marks: [lv.vowel],
+        joiningFeatures: ["long-vowel"],
+        parts: [
+          { display: l.char + lv.vowel, speak: l.char + lv.vowel },
+          { display: lv.char, speak: letterByChar.get(lv.char).arName },
+        ],
+      });
+      const longSoundCatalogue = this.letters.filter((l) => l.char !== "ا")
+        .flatMap((l) => this.data.longVowels.map((lv) => longSoundItem(l, lv)));
       worlds.push({
         id: "long-sounds",
         icon: "بَا",
@@ -282,20 +349,13 @@
           display: `ب${lv.vowel}${lv.char}`,
           speak: `ب${lv.vowel}${lv.char}`,
         })),
+        catalogue: longSoundCatalogue,
         items: () => {
           const letters = syllableLetters().slice(0, 4);
           const items = [];
           for (const lv of this.data.longVowels) {
             for (const l of letters) {
-              items.push({
-                id: l.char + lv.vowel + lv.char,
-                display: l.char + lv.vowel + lv.char,
-                speak: l.char + lv.vowel + lv.char,
-                parts: [
-                  { display: l.char + lv.vowel, speak: l.char + lv.vowel },
-                  { display: lv.char, speak: letterByChar.get(lv.char).arName },
-                ],
-              });
+              items.push(longSoundItem(l, lv));
             }
           }
           return items;
@@ -304,6 +364,19 @@
       });
 
       // Lesson 8b: the leen glide — fatha then a resting Waw or Ya.
+      const leenItem = (l, ln) => ({
+        id: l.char + "َ" + ln.char,
+        display: l.char + "َ" + ln.char,
+        speak: l.char + "َ" + ln.char,
+        marks: ["َ", "ْ"],
+        joiningFeatures: ["leen"],
+        parts: [
+          { display: l.char + "َ", speak: l.char + "َ" },
+          { display: ln.char, speak: "" },
+        ],
+      });
+      const leenCatalogue = this.letters.filter((l) => l.char !== "ا")
+        .flatMap((l) => this.data.leen.map((ln) => leenItem(l, ln)));
       worlds.push({
         id: "leen",
         icon: "بَوْ",
@@ -313,23 +386,24 @@
           speak: `بَ${ln.char}`,
           sub: ln.blurb,
         })),
-        items: () =>
-          syllableLetters().slice(0, 5).flatMap((l) =>
-            this.data.leen.map((ln) => ({
-              id: l.char + "َ" + ln.char,
-              display: l.char + "َ" + ln.char,
-              speak: l.char + "َ" + ln.char,
-              parts: [
-                { display: l.char + "َ", speak: l.char + "َ" },
-                { display: ln.char, speak: "" },
-              ],
-            })),
-          ),
+        catalogue: leenCatalogue,
+        items: () => syllableLetters().slice(0, 5).flatMap((l) => this.data.leen.map((ln) => leenItem(l, ln))),
         games: ["pop", "build", "feed"],
       });
 
       // Lessons 10–11: sukoon gets its own world — closed syllables with
       // every short vowel, not just fatha.
+      const sukoonCatalogue = [
+        { id: "بَتْ", display: "بَتْ", speak: "بَتْ", marks: ["َ", "ْ"], parts: [
+          { display: "بَ", speak: "بَ" }, { display: "تْ", speak: "تَاءْ" },
+        ] },
+        { id: "مِنْ", display: "مِنْ", speak: "مِنْ", marks: ["ِ", "ْ"], parts: [
+          { display: "مِ", speak: "مِ" }, { display: "نْ", speak: "نُونْ" },
+        ] },
+        { id: "كُمْ", display: "كُمْ", speak: "كُمْ", marks: ["ُ", "ْ"], parts: [
+          { display: "كُ", speak: "كُ" }, { display: "مْ", speak: "مِيمْ" },
+        ] },
+      ];
       worlds.push({
         id: "sukoon",
         icon: "بَتْ",
@@ -339,30 +413,20 @@
           { display: "مِنْ", speak: "مِنْ" },
           { display: "كُمْ", speak: "كُمْ" },
         ],
-        items: () => {
-          const simple = shuffle(this.letters.filter((l) => l.char !== "ا" && /^[a-z]$/.test(l.translit)));
-          const items = [];
-          for (let i = 0; i + 1 < simple.length && items.length < 9; i += 2) {
-            const v = this.data.harakat[items.length % 3];
-            const word = simple[i].char + v.char + simple[i + 1].char + "ْ";
-            items.push({
-              id: word,
-              display: word,
-              speak: word,
-              parts: [
-                { display: simple[i].char + v.char, speak: simple[i].char + v.char },
-                { display: simple[i + 1].char + "ْ", speak: simple[i + 1].arName },
-              ],
-            });
-          }
-          return items;
-        },
+        catalogue: sukoonCatalogue,
+        items: () => shuffle(sukoonCatalogue),
         games: ["build", "pop", "catch"],
       });
 
       // Lessons 12–13: shaddah — the doubling mark, pressed and held.
-      const shaddahLetters = () =>
-        shuffle(this.letters.filter((l) => l.char !== "ا" && /^[a-z]$/.test(l.translit)));
+      const shaddahCatalogue = [
+        { id: "بَدَّ", display: "بَدَّ", speak: "بَدَّ", marks: ["َ", "ّ"], parts: [
+          { display: "بَ", speak: "بَ" }, { display: "دَّ", speak: "دَّ" },
+        ] },
+        { id: "رَبَّ", display: "رَبَّ", speak: "رَبَّ", marks: ["َ", "ّ"], parts: [
+          { display: "رَ", speak: "رَ" }, { display: "بَّ", speak: "بَّ" },
+        ] },
+      ];
       worlds.push({
         id: "shaddah",
         icon: "بَّ",
@@ -371,28 +435,21 @@
           { display: "بَدَّ", speak: "بَدَّ", sub: this.data.shaddah.blurb },
           { display: "رَبَّ", speak: "رَبَّ" },
         ],
-        items: () => {
-          const simple = shaddahLetters();
-          const items = [];
-          for (let i = 0; i + 1 < simple.length && items.length < 8; i += 2) {
-            const word = simple[i].char + "َ" + simple[i + 1].char + "ّ" + "َ";
-            items.push({
-              id: word,
-              display: word,
-              speak: word,
-              parts: [
-                { display: simple[i].char + "َ", speak: simple[i].char + "َ" },
-                { display: simple[i + 1].char + "َّ", speak: simple[i + 1].char + "َّ" },
-              ],
-            });
-          }
-          return items;
-        },
+        catalogue: shaddahCatalogue,
+        items: () => shuffle(shaddahCatalogue),
         games: ["pop", "build", "feed"],
       });
 
       // Lessons 14–16: shaddah in company — with tanween (a real Quran
       // pattern: حَبٌّ) and with the madd letters.
+      const shaddahMixCatalogue = [
+        { id: "حَبٌّ", display: "حَبٌّ", speak: "حَبٌّ", marks: ["َ", "ٌ", "ّ"], parts: [
+          { display: "حَ", speak: "حَ" }, { display: "بٌّ", speak: "بٌّ" },
+        ] },
+        { id: "شَدَّا", display: "شَدَّا", speak: "شَدَّا", marks: ["َ", "ّ"], joiningFeatures: ["long-vowel"], parts: [
+          { display: "شَ", speak: "شَ" }, { display: "دَّا", speak: "دَّا" },
+        ] },
+      ];
       worlds.push({
         id: "shaddah-mix",
         icon: "بٌّ",
@@ -401,50 +458,8 @@
           { display: "حَبٌّ", speak: "حَبٌّ" },
           { display: "شَدَّا", speak: "شَدَّا" },
         ],
-        items: () => {
-          const simple = shaddahLetters();
-          const items = [];
-          for (let i = 0; i + 1 < simple.length && items.length < 4; i += 2) {
-            const word = simple[i].char + "َ" + simple[i + 1].char + "ٌّ";
-            items.push({
-              id: word,
-              display: word,
-              speak: word,
-              parts: [
-                { display: simple[i].char + "َ", speak: simple[i].char + "َ" },
-                { display: simple[i + 1].char + "ٌّ", speak: simple[i + 1].char + "ٌّ" },
-              ],
-            });
-          }
-          for (let i = 0; i + 1 < simple.length && items.length < 6; i += 2) {
-            const word = simple[i].char + "َ" + simple[i + 1].char + "َّ" + "ا";
-            items.push({
-              id: word,
-              display: word,
-              speak: word,
-              parts: [
-                { display: simple[i].char + "َ", speak: simple[i].char + "َ" },
-                { display: simple[i + 1].char + "َّا", speak: simple[i + 1].char + "َّا" },
-              ],
-            });
-          }
-          // Lesson 14: shaddah met by sukoon — three-beat builds (شَدَّتْ).
-          for (let i = 0; i + 2 < simple.length && items.length < 9; i += 3) {
-            const word =
-              simple[i].char + "َ" + simple[i + 1].char + "َّ" + simple[i + 2].char + "ْ";
-            items.push({
-              id: word,
-              display: word,
-              speak: word,
-              parts: [
-                { display: simple[i].char + "َ", speak: simple[i].char + "َ" },
-                { display: simple[i + 1].char + "َّ", speak: simple[i + 1].char + "َّ" },
-                { display: simple[i + 2].char + "ْ", speak: simple[i + 2].arName },
-              ],
-            });
-          }
-          return items;
-        },
+        catalogue: shaddahMixCatalogue,
+        items: () => shuffle(shaddahMixCatalogue),
         games: ["pop", "build", "pairs"],
       });
 
@@ -458,46 +473,18 @@
         }
         return clusters;
       };
-      const wordItems = (minLen, maxLen, n) =>
-        shuffle(this.wordPool(minLen, maxLen))
-          .slice(0, n)
-          .map((w) => {
-            const clusters = clusterSplit(w.display);
-            return {
-              ...w,
-              parts:
-                clusters.length >= 2 && clusters.length <= 3
-                  ? clusters.map((c) => ({ display: c, speak: c }))
-                  : undefined,
-            };
-          });
+      this.clusterSplit = clusterSplit;
+      const addWordWorld = (id, icon, minLen, maxLen, games) => {
+        const world = { id, icon, kind: "words", meet: [], catalogue: [], wordBand: [minLen, maxLen], games };
+        world.items = () => shuffle(world.catalogue).slice(0, 8);
+        worlds.push(world);
+      };
 
       // The word ramp: two-letter words, then three, then the long ones —
       // each with the reciter's real audio.
-      worlds.push({
-        id: "words-2",
-        icon: "مِن",
-        kind: "words",
-        meet: [],
-        items: () => wordItems(2, 2, 8),
-        games: ["feed", "build", "pop"],
-      });
-      worlds.push({
-        id: "decode",
-        icon: "📖",
-        kind: "words",
-        meet: [],
-        items: () => wordItems(3, 3, 8),
-        games: ["feed", "build", "pop"],
-      });
-      worlds.push({
-        id: "decode-4",
-        icon: "📗",
-        kind: "words",
-        meet: [],
-        items: () => wordItems(4, 5, 8),
-        games: ["feed", "pop", "pairs"],
-      });
+      addWordWorld("words-2", "مِن", 2, 2, ["feed", "build", "pop"]);
+      addWordWorld("decode", "📖", 3, 3, ["feed", "build", "pop"]);
+      addWordWorld("decode-4", "📗", 4, 5, ["feed", "pop", "pairs"]);
 
       // Biome chapters (specs/02): each stretch of the qaida ladder lives in
       // its own land, so progress feels like TRAVEL — letters meadow, syllable
@@ -514,8 +501,48 @@
       worlds.forEach((w, i) => {
         w.hue = hues[i % hues.length];
         w.biome = biomeOf(w);
+        w.objective = w.kind === "letters" ? "letter-name"
+          : w.kind === "join" || w.kind === "muqattaat" ? "sequence-recognition"
+          : w.kind === "words" ? "word-reading" : "syllable";
+        w.prerequisiteWorldIds = i ? [worlds[i - 1].id] : [];
+        w.onboarding = w.kind === "join" || w.kind === "muqattaat"
+          ? { voicing: "letter-names", support: "visible" }
+          : w.kind === "words" ? { voicing: "decoding", support: "visible" }
+          : undefined;
+        const originalItems = w.items;
+        w.items = () => originalItems().map((item) => this.tagItem(item, w));
+        w.catalogue.forEach((item) => this.tagItem(item, w));
+        w.catalogueItems = () => w.catalogue.slice();
       });
       return worlds;
+    }
+
+    tagItem(item, world) {
+      item.objective = item.objective || world.objective;
+      item.worldId = item.worldId || world.id;
+      const requirements = [...world.prerequisiteWorldIds, ...(item.prerequisiteWorldIds || [])];
+      item.prerequisiteWorldIds = [...new Set(requirements)];
+      if (world.kind === "words" && item.wordLength === undefined) item.wordLength = skeleton(item.display).length;
+      return item;
+    }
+
+    refreshWordCatalogues() {
+      if (!this.worlds) return;
+      const taughtBeforeWords = this.worlds.slice(0, this.worlds.findIndex((w) => w.id === "words-2")).map((w) => w.id);
+      for (const world of this.worlds.filter((w) => w.kind === "words")) {
+        const [minLen, maxLen] = world.wordBand;
+        world.catalogue.length = 0;
+        for (const word of this.wordPool(minLen, maxLen, taughtBeforeWords)) {
+          const clusters = this.clusterSplit(word.display);
+          const tags = this.wordTags(word.display);
+          world.catalogue.push(this.tagItem({
+            ...word,
+            ...tags,
+            parts: clusters.length >= 2 && clusters.length <= 3
+              ? clusters.map((cluster) => ({ display: cluster, speak: cluster })) : undefined,
+          }, world));
+        }
+      }
     }
 
     // The check-up (Big Brain Academy's Test mode, kid-sized): one quick
@@ -581,15 +608,60 @@
       const pool = [];
       const seen = new Set();
       for (const world of done) {
-        for (const item of world.items()) {
-          if (seen.has(item.id)) continue;
-          seen.add(item.id);
+        const catalogue = world.catalogueItems ? world.catalogueItems() : world.items();
+        for (const item of catalogue) {
+          const key = `${item.objective || world.objective || "item"}:${item.id}`;
+          if (seen.has(key)) continue;
+          seen.add(key);
           pool.push(item);
         }
       }
       if (pool.length < 3) return null;
       const strength = ns.LettersStrength;
-      const bouquet = strength ? strength.weakest(pool, 6) : pool.slice(0, 6);
+      const hasReviewPlanner = typeof strength?.reviewItems === "function";
+      const proposed = hasReviewPlanner
+        ? strength.reviewItems(pool, 6)
+        : strength?.weakest ? strength.weakest(pool, 6) : pool.slice(0, 6);
+      const selected = Array.isArray(proposed) ? proposed : [];
+      const poolByKey = new Map(pool.map((item) => [`${item.objective || "item"}:${item.id}`, item]));
+      const bouquet = [];
+      for (const candidate of selected) {
+        const item = poolByKey.get(`${candidate.objective || "item"}:${candidate.id}`);
+        if (item && !bouquet.includes(item)) bouquet.push(item);
+        if (bouquet.length === 6) break;
+      }
+      if (bouquet.length < 3) return null;
+
+      // Plans are data only. reviewItems is explicitly read-only; beginReview
+      // belongs at the play boundary so opening/re-rendering Daily changes no
+      // scheduler cursor or history.
+      let plan;
+      if (!challenge && hasReviewPlanner) {
+        const learnedGames = new Set(done.flatMap((world) => world.games));
+        const middleGame = learnedGames.has("catch") ? "catch" : learnedGames.has("pairs") ? "pairs" : "feed";
+        const rotate = (offset) => bouquet.slice(offset).concat(bouquet.slice(0, offset)).slice(0, Math.min(4, bouquet.length));
+        const uniformSkill = (items) => {
+          const objectives = [...new Set(items.map((item) => item.objective).filter(Boolean))];
+          return objectives.length === 1 ? objectives[0] : undefined;
+        };
+        const step = (game, items, skill = uniformSkill(items)) => ({
+          game, items, rounds: 2, ...(skill ? { skill } : {}),
+        });
+        const buildable = done.slice().reverse()
+          .filter((world) => world.games.includes("build"))
+          .map((world) => bouquet.filter((item) => item.worldId === world.id && item.parts?.length >= 2))
+          .find((items) => items.length >= 2);
+        const traceable = learnedGames.has("trace")
+          ? bouquet.filter((item) => item.objective === "letter-name").slice(0, 4) : [];
+        plan = [
+          step("pop", rotate(0)),
+          step(middleGame, rotate(1)),
+          buildable
+            ? step("build", buildable.slice(0, 4), "construction")
+            : traceable.length >= 2 ? step("trace", traceable) : step("feed", rotate(2)),
+        ];
+      }
+      const games = challenge ? ["burst"] : plan ? plan.map((step) => step.game) : ["pop", "feed"];
       return {
         id: "daily",
         hue: 45,
@@ -599,10 +671,11 @@
         timed: challenge,
         meet: [],
         items: () => bouquet,
+        plan,
         // Keep distractors within completed content. Gentle practice shows
         // two choices; the optional challenge keeps its larger field.
         extraItems: () => pool.filter((i) => !bouquet.includes(i)),
-        games: challenge ? ["burst"] : ["pop", "feed"],
+        games,
       };
     }
   }

@@ -62,7 +62,8 @@
     petArt(){const art=typeof this.ctx.petArt==='function'?this.ctx.petArt('listening'):this.ctx.petArt;return art||'';}
     choices(){
       if(this.items.length<=1)return this.items.slice();
-      const target=this.target,wanted=Math.min(this.items.length,this.index===0?2:3),list=[target];
+      const fallback=this.index===0?2:3;
+      const target=this.target,wanted=Math.min(this.items.length,this.roundProfile?.choiceCount||fallback),list=[target];
       const distractors=this.items.filter(item=>item.id!==target.id),spin=this.index%distractors.length;
       for(let step=0;list.length<wanted;step++)list.push(distractors[(spin+step)%distractors.length]);
       return this.index%2?[list[1],target,...list.slice(2)]:list;
@@ -72,10 +73,13 @@
       this.dragResets.forEach(reset=>reset());this.dragResets=[];this.busy=false;this.selected=null;this.assisted=false;this.revealed=false;
       this.target=this.rounds[this.index];
       if(!this.target){this.finish();return;}
+      this.promptGeneration=(this.promptGeneration||0)+1;this.speechAttempt=0;this.speechConfirmed=false;this.waitingForSpeech=false;
+      this.roundProfile=ns.LettersLearning?.profile?.(this.target,{...this.ctx,activity:'LetterDelivery',skill:'letter-name'})||null;
       this.listening=this.ctx.canListen?.()!==false;
-      this.assisted=this.items.length===1||!this.listening;this.revealed=!this.listening;
-      this.ctx.prompt?.(this.revealed?this.target:null);if(this.listening)this.ctx.say?.(this.target);
+      const wantsListening=(this.roundProfile?.promptMode||'listen')==='listen';
+      this.assisted=this.items.length===1||!this.listening;this.revealed=!this.listening||!wantsListening;
       const options=this.options=this.choices();
+      this.ctx.prompt?.(this.revealed?this.target:null,this.promptContext());
       this.ctx.stage.innerHTML=`<div class="letter-delivery">
         <div class="delivery-top"><div class="delivery-progress" role="progressbar" aria-label="Letter delivery progress" aria-valuemin="0" aria-valuemax="4" aria-valuenow="${this.index}">${Array.from({length:4},(_,i)=>`<i class="${i<this.index?'is-done':i===this.index?'is-on':''}" aria-hidden="true"></i>`).join('')}</div><span class="delivery-support"><button type="button" class="delivery-help" aria-label="Show the matching letter">${helpIcon}</button><button type="button" class="delivery-listen" aria-label="Hear the letter again" ${this.listening?'':'disabled'}>${Art().icon('speaker',28)}</button></span></div>
         <div class="delivery-scene"><div class="delivery-pet" aria-hidden="true">${this.petArt()}</div><button type="button" class="delivery-destination" aria-label="Deliver the selected seed packet to the garden">${garden(this.target,this.revealed,this.index)}</button></div>
@@ -83,7 +87,7 @@
         <div class="delivery-status" role="status" aria-live="polite"></div>
       </div>`;
       this.destination=this.ctx.stage.querySelector('.delivery-destination');
-      this.listen=this.ctx.stage.querySelector('.delivery-listen');this.listen.onclick=()=>{if(this.alive&&!this.busy&&this.listening)this.ctx.say?.(this.target);};
+      this.listen=this.ctx.stage.querySelector('.delivery-listen');this.listen.onclick=()=>{if(this.alive&&!this.busy&&this.listening)this.requestSpeech(true);};
       this.helpButton=this.ctx.stage.querySelector('.delivery-help');this.helpButton.onclick=()=>{if(this.alive&&!this.busy)this.help();};
       this.status=this.ctx.stage.querySelector('.delivery-status');
       this.pet=this.ctx.stage.querySelector('.delivery-pet');
@@ -94,8 +98,67 @@
         button.onclick=()=>{if(!this.alive||this.busy||button.disabled)return;this.select(item,button);};
         this.dragResets.push(ns.GardenPractice.draggable(button,{enabled:()=>this.alive&&!this.busy&&!button.disabled,drop:(x,y)=>{if(ns.GardenPractice.inside(this.destination,x,y))this.offer(item);}}));
       });
-      if(this.revealed){this.destination.classList.add('is-help');this.packetButtons.find(button=>button.dataset.item===this.target.id)?.classList.add('is-help');}
+      if(this.revealed){this.destination.classList.add('is-help');if(this.assisted)this.packetButtons.find(button=>button.dataset.item===this.target.id)?.classList.add('is-help');}
+      if(this.listening)this.requestSpeech(false);
       if(this.keyboardFocus)this.packetButtons[0]?.focus?.();
+    }
+    promptContext(){return {promptMode:this.revealed?'match':(this.roundProfile?.promptMode||'listen'),skill:this.roundProfile?.skill||'letter-name',choiceIds:(this.options||[]).map(item=>item.id),activity:'LetterDelivery'};}
+    setChoicesWaiting(waiting){
+      this.waitingForSpeech=waiting;
+      this.packetButtons?.forEach(button=>{
+        if(waiting){button.__deliveryWaitingDisabled=!button.disabled;button.disabled=true;}
+        else if(button.__deliveryWaitingDisabled){button.disabled=false;button.__deliveryWaitingDisabled=false;}
+      });
+      if(this.destination){
+        if(waiting){this.destination.__deliveryWaitingDisabled=!this.destination.disabled;this.destination.disabled=true;}
+        else if(this.destination.__deliveryWaitingDisabled){this.destination.disabled=false;this.destination.__deliveryWaitingDisabled=false;}
+      }
+      if(waiting&&this.status)this.status.innerHTML=Art().icon('speaker',30);
+    }
+    requestSpeech(replay=false){
+      if(!this.alive||!this.listening)return;
+      const generation=this.promptGeneration,attempt=++this.speechAttempt,alreadyConfirmed=this.speechConfirmed;
+      const requiresSpeech=!alreadyConfirmed&&!this.revealed;
+      if(requiresSpeech&&!this.waitingForSpeech)this.setChoicesWaiting(true);
+      if(this.speechTimer){clearTimeout(this.speechTimer);this.timers.delete(this.speechTimer);}
+      if(requiresSpeech){
+        const timeout=setTimeout(()=>this.settleSpeech(generation,attempt,false,alreadyConfirmed),2500);
+        this.timers.add(timeout);this.speechTimer=timeout;
+      }else this.speechTimer=null;
+      let result;
+      try{result=this.ctx.say?.(this.target);}catch(_error){result=false;}
+      // Only an explicit confirmation is usable. A legacy adapter returning
+      // nothing (or Array#push's length) cannot establish that sound played.
+      if(!result||typeof result.then!=='function'){
+        this.settleSpeech(generation,attempt,result===true,alreadyConfirmed);
+        return;
+      }
+      Promise.resolve(result).then(
+        ok=>this.settleSpeech(generation,attempt,ok===true,alreadyConfirmed),
+        ()=>this.settleSpeech(generation,attempt,false,alreadyConfirmed),
+      );
+    }
+    settleSpeech(generation,attempt,played,alreadyConfirmed=false){
+      if(!this.alive||generation!==this.promptGeneration||attempt!==this.speechAttempt)return;
+      if(this.speechTimer){clearTimeout(this.speechTimer);this.timers.delete(this.speechTimer);this.speechTimer=null;}
+      if(played){this.speechConfirmed=true;if(!alreadyConfirmed)this.setChoicesWaiting(false);return;}
+      // A free replay cannot revoke evidence from the prompt that already
+      // played. A failed initial attempt must become a visible supported round.
+      if(alreadyConfirmed||this.revealed)return;
+      this.revealForSpeechFailure();
+    }
+    revealForSpeechFailure(){
+      if(!this.alive||this.busy)return;
+      this.speechAttempt+=1;
+      if(this.speechTimer){clearTimeout(this.speechTimer);this.timers.delete(this.speechTimer);this.speechTimer=null;}
+      this.setChoicesWaiting(false);this.assisted=true;this.revealed=true;
+      this.ctx.prompt?.(this.target,this.promptContext());
+      if(this.destination){this.destination.innerHTML=garden(this.target,true,this.index);this.destination.classList.add('is-help');}
+      this.packetButtons?.find(button=>button.dataset.item===this.target.id)?.classList.add('is-help');
+      if(this.status)this.status.innerHTML=Art().icon('speaker',30);
+    }
+    onSoundChange(){
+      if(this.alive&&!this.busy&&this.ctx.canListen?.()===false)this.revealForSpeechFailure();
     }
     select(item,button){
       this.selected=item;
@@ -103,18 +166,18 @@
       this.destination.classList.add('is-ready');this.status.innerHTML=`<span class="delivery-route">${Art().icon('arrow',28)}</span>`;
     }
     offer(item){
-      if(!this.alive||this.busy||!item)return;
-      if(item.id!==this.target.id){this.help(item);return;}
+      if(!this.alive||this.busy||this.waitingForSpeech||!item)return;
+      if(item.id!==this.target.id){this.report(item,false);this.help(item);return;}
       this.busy=true;this.dragResets.forEach(reset=>reset());
       this.destination.innerHTML=garden(this.target,true,this.index+1);this.destination.classList.add('is-delivered');this.pet?.classList.add('is-delighted');this.status.innerHTML=Art().icon('check',32);
       this.packetButtons.forEach(button=>button.disabled=true);
       this.ctx.correct?.();
-      this.ctx.reportOutcome?.({activity:'LetterDelivery',item:this.target,itemId:this.target.id,round:this.index+1,assisted:this.assisted,independent:!this.assisted});
+      this.report(item,true);
       this.later(()=>{this.index++;if(this.index>=this.rounds.length)this.finish();else this.show();},this.ctx.reducedMotion?.()?0:650);
     }
     help(item=null){
       this.assisted=true;this.revealed=true;this.selected=null;
-      this.ctx.prompt?.(this.target);if(this.listening)this.ctx.say?.(this.target);
+      this.ctx.prompt?.(this.target,this.promptContext());if(this.listening)this.requestSpeech(true);
       this.destination.innerHTML=garden(this.target,true,this.index);this.destination.classList.remove('is-ready');this.destination.classList.add('is-help');
       this.status.innerHTML=Art().icon('speaker',30);
       this.packetButtons.forEach(button=>{
@@ -125,11 +188,21 @@
       });
       this.packetButtons.find(button=>button.dataset.item===this.target.id)?.focus?.();
     }
+    report(item,correct){
+      this.ctx.reportOutcome?.({
+        activity:'LetterDelivery',item:this.target,itemId:this.target.id,round:this.index+1,correct,
+        assisted:this.assisted,independent:this.speechConfirmed&&!this.assisted&&!this.revealed,
+        evidence:this.assisted?'assisted_response':this.speechConfirmed&&!this.revealed?'independent_listening':'supported_visible_matching',
+        selectedId:item?.id,choiceIds:(this.options||[]).map(option=>option.id),
+        skill:this.roundProfile?.skill||'letter-name',
+      });
+    }
     finish(){
       if(!this.alive)return;
       this.alive=false;this.cleanup();this.ctx.done?.();
     }
     cleanup(){
+      this.promptGeneration=(this.promptGeneration||0)+1;this.speechAttempt=(this.speechAttempt||0)+1;
       this.timers.forEach(clearTimeout);this.timers.clear();this.dragResets.forEach(reset=>reset());this.dragResets=[];
       this.ctx.stage.removeEventListener?.('keydown',this.onStageKey);this.ctx.stage.removeEventListener?.('pointerdown',this.onStagePointer);
     }

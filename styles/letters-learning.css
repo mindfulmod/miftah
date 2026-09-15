@@ -1,0 +1,27 @@
+/* Learning support stays beside the task, within the existing game rooms. */
+.lg-play .learning-help { flex:0 0 44px; width:44px; height:44px; min-height:44px; padding:7px; color:#4a3620; }
+.lg-play .learning-help[hidden], .lg-play .play-bubble-glyph[hidden], .learning-hint[hidden] { display:none !important; }
+.lg-play .play-bubble.is-listening-only { min-width:66px; justify-content:center; }
+.play-bubble.is-listening-only .play-bubble-icon svg { width:34px; height:34px; color:#4a3620; }
+.learning-hint { display:flex; align-items:center; justify-content:center; gap:12px; margin:0 auto 8px; padding:5px 14px; width:max-content; max-width:calc(100% - 24px); background:linear-gradient(#fffdf7,#fffaf0 72%,#e5dcc8); border:3px solid #4a3620; border-radius:22px; box-shadow:0 3px 0 #c9bda4; z-index:4; }
+.learning-compare { display:grid; place-items:center; min-width:48px; height:52px; padding:0 8px; font:36px/1.3 'Amiri Quran',serif; color:#4a3620; }
+.learning-compare>svg { display:block; width:64px; height:52px; }
+.learning-compare.is-target { border-bottom:4px solid #4e9677; border-radius:12px; background:#fffdf7; }
+.learning-hint[data-feature="dots"] .learning-compare.is-target { box-shadow:inset 0 0 0 3px #f3c955; }
+.learning-hint[data-feature="marks"] .learning-compare.is-target { box-shadow:inset 0 0 0 3px #ee806f; }
+.parade-transfer .parade-spots { display:flex; align-items:center; justify-content:center; gap:clamp(12px,4vw,32px); }
+.parade-transfer .parade-choice { position:relative; width:clamp(78px,20vw,145px); height:auto; aspect-ratio:1; }
+.parade-transfer .parade-choice>svg { width:100%; height:100%; }
+.chain-bridge .chain-base.is-demo { filter:drop-shadow(0 0 6px #f3c955); }
+.build-slot.is-hint { box-shadow:0 0 0 4px #f3c955; }
+@media(max-width:420px) {
+  .lg-play .play-prompt:has(.learning-help:not([hidden])) { gap:6px; padding-inline:8px; }
+  .lg-play .play-prompt:has(.learning-help:not([hidden])) .play-pet { width:48px; flex-basis:48px; }
+  .learning-hint { gap:8px; padding:2px 10px; margin-bottom:5px; }
+  .learning-compare { font-size:32px; height:44px; }
+  .learning-compare>svg { width:54px; height:44px; }
+}
+@media(max-height:440px) and (orientation:landscape) {
+  .learning-hint { position:absolute; left:50%; top:88px; transform:translateX(-50%); }
+  .learning-compare { font-size:28px; height:36px; }
+}

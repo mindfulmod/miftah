@@ -1,0 +1,1204 @@
+TAP version 13
+# Subtest: the 22 chapter boundaries form one explicit, eligible progression
+ok 1 - the 22 chapter boundaries form one explicit, eligible progression
+  ---
+  duration_ms: 15.955791
+  type: 'test'
+  ...
+# Subtest: letter-pack distractors come only from completed earlier packs
+ok 2 - letter-pack distractors come only from completed earlier packs
+  ---
+  duration_ms: 4.99525
+  type: 'test'
+  ...
+# Subtest: canonical catalogues stay complete while lesson targets may be sampled
+ok 3 - canonical catalogues stay complete while lesson targets may be sampled
+  ---
+  duration_ms: 4.708208
+  type: 'test'
+  ...
+# Subtest: word bands never fall back and reject untaught or unsupported spelling features
+ok 4 - word bands never fall back and reject untaught or unsupported spelling features
+  ---
+  duration_ms: 7.855375
+  type: 'test'
+  ...
+# Subtest: sukoon and shaddah practice reuses reviewed curriculum examples
+ok 5 - sukoon and shaddah practice reuses reviewed curriculum examples
+  ---
+  duration_ms: 1.39725
+  type: 'test'
+  ...
+# Subtest: daily planning is read-only, bounded, and rotates only learned mechanics
+ok 6 - daily planning is read-only, bounded, and rotates only learned mechanics
+  ---
+  duration_ms: 2.751208
+  type: 'test'
+  ...
+# Subtest: daily activities are learned, and Build never mixes chapter rule families
+ok 7 - daily activities are learned, and Build never mixes chapter rule families
+  ---
+  duration_ms: 5.051125
+  type: 'test'
+  ...
+# Subtest: Burst freezes its budget while hidden and waits for an explicit resume
+ok 8 - Burst freezes its budget while hidden and waits for an explicit resume
+  ---
+  duration_ms: 6.948166
+  type: 'test'
+  ...
+# Subtest: Burst refreshes prompt timing before replaying speech on resume
+ok 9 - Burst refreshes prompt timing before replaying speech on resume
+  ---
+  duration_ms: 1.536333
+  type: 'test'
+  ...
+# Subtest: Burst settles a deadline reached before the tab becomes hidden
+ok 10 - Burst settles a deadline reached before the tab becomes hidden
+  ---
+  duration_ms: 1.099375
+  type: 'test'
+  ...
+# Subtest: Burst invalidates stale frames and removes listeners and timers on teardown
+ok 11 - Burst invalidates stale frames and removes listeners and timers on teardown
+  ---
+  duration_ms: 0.837417
+  type: 'test'
+  ...
+# Subtest: daily sessions use only taught pools and separate gentle from timed play
+ok 12 - daily sessions use only taught pools and separate gentle from timed play
+  ---
+  duration_ms: 2.457959
+  type: 'test'
+  ...
+# Subtest: legacy daily activity best keys pay only improvements and replays pay zero
+ok 13 - legacy daily activity best keys pay only improvements and replays pay zero
+  ---
+  duration_ms: 4.770959
+  type: 'test'
+  ...
+# Subtest: daily completion stamps and rewards the island once without advancing chapters
+ok 14 - daily completion stamps and rewards the island once without advancing chapters
+  ---
+  duration_ms: 2.700917
+  type: 'test'
+  ...
+# Subtest: garden layout uses its own key and the production decoration normalizer
+ok 15 - garden layout uses its own key and the production decoration normalizer
+  ---
+  duration_ms: 1.943583
+  type: 'test'
+  ...
+# Subtest: select then place changes layout once and keeps four slots
+ok 16 - select then place changes layout once and keeps four slots
+  ---
+  duration_ms: 3.146375
+  type: 'test'
+  ...
+# Subtest: click moving is unique; replacement can be undone
+ok 17 - click moving is unique; replacement can be undone
+  ---
+  duration_ms: 5.066459
+  type: 'test'
+  ...
+# Subtest: remove then undo restores the selected decoration
+ok 18 - remove then undo restores the selected decoration
+  ---
+  duration_ms: 0.747875
+  type: 'test'
+  ...
+# Subtest: empty catalog disables inert slots and stale callbacks after destroy do nothing
+ok 19 - empty catalog disables inert slots and stale callbacks after destroy do nothing
+  ---
+  duration_ms: 0.568708
+  type: 'test'
+  ...
+# Subtest: cancel, wrong pointer, and destroy clean up drag without saving
+ok 20 - cancel, wrong pointer, and destroy clean up drag without saving
+  ---
+  duration_ms: 1.836208
+  type: 'test'
+  ...
+# Subtest: valid drag between stationary slot targets saves and removes ghost
+ok 21 - valid drag between stationary slot targets saves and removes ghost
+  ---
+  duration_ms: 0.734875
+  type: 'test'
+  ...
+# Subtest: catalog gates earned flowers and boat, and filters known owned stickers
+ok 22 - catalog gates earned flowers and boat, and filters known owned stickers
+  ---
+  duration_ms: 1.489292
+  type: 'test'
+  ...
+# Subtest: normalize repairs four slots, dedupes, and preserves unknown strings
+ok 23 - normalize repairs four slots, dedupes, and preserves unknown strings
+  ---
+  duration_ms: 0.44275
+  type: 'test'
+  ...
+# Subtest: visibleSlots hides unavailable entries while retaining the saved layout
+ok 24 - visibleSlots hides unavailable entries while retaining the saved layout
+  ---
+  duration_ms: 0.39
+  type: 'test'
+  ...
+# Subtest: place moves uniquely, replaces, rejects invalid or unowned IDs, and stays immutable
+ok 25 - place moves uniquely, replaces, rejects invalid or unowned IDs, and stays immutable
+  ---
+  duration_ms: 0.978291
+  type: 'test'
+  ...
+# Subtest: remove clears a slot, preserves other including hidden entries, and no-ops cleanly
+ok 26 - remove clears a slot, preserves other including hidden entries, and no-ops cleanly
+  ---
+  duration_ms: 0.398458
+  type: 'test'
+  ...
+# Subtest: Letter Delivery normalizes completed-pack knowledge and passes speech/motion settings
+ok 27 - Letter Delivery normalizes completed-pack knowledge and passes speech/motion settings
+  ---
+  duration_ms: 7.3985
+  type: 'test'
+  ...
+# Subtest: Letter Delivery keeps reduced-motion and listen capability observable
+ok 28 - Letter Delivery keeps reduced-motion and listen capability observable
+  ---
+  duration_ms: 0.759417
+  type: 'test'
+  ...
+# Subtest: empty completed-pack knowledge returns through back without opening or awarding
+ok 29 - empty completed-pack knowledge returns through back without opening or awarding
+  ---
+  duration_ms: 1.179334
+  type: 'test'
+  ...
+# Subtest: beginner matching profile keeps all Delivery rounds at two visible choices
+ok 30 - beginner matching profile keeps all Delivery rounds at two visible choices
+  ---
+  duration_ms: 3.571084
+  type: 'test'
+  ...
+# Subtest: unconfirmed adapters never count as heard, and pending prompts reject delivery
+ok 31 - unconfirmed adapters never count as heard, and pending prompts reject delivery
+  ---
+  duration_ms: 3.377333
+  type: 'test'
+  ...
+# Subtest: visible matching records its own evidence without revealing the correct packet
+ok 32 - visible matching records its own evidence without revealing the correct packet
+  ---
+  duration_ms: 0.760541
+  type: 'test'
+  ...
+# Subtest: speech API presence does not earn listening credit when playback fails
+ok 33 - speech API presence does not earn listening credit when playback fails
+  ---
+  duration_ms: 1.848583
+  type: 'test'
+  ...
+# Subtest: muting during a pending prompt reveals support and ignores its late success
+ok 34 - muting during a pending prompt reveals support and ignores its late success
+  ---
+  duration_ms: 3.335334
+  type: 'test'
+  ...
+# Subtest: replay supersedes a stale speech attempt without causing spurious help
+ok 35 - replay supersedes a stale speech attempt without causing spurious help
+  ---
+  duration_ms: 2.09025
+  type: 'test'
+  ...
+# Subtest: shared palette is wordless, exposes five named choices, and persists without storage
+ok 36 - shared palette is wordless, exposes five named choices, and persists without storage
+  ---
+  duration_ms: 3.300125
+  type: 'test'
+  ...
+# Subtest: Garden Paths switches future strokes, releases mid-stroke, and keeps color through clear and rounds
+ok 37 - Garden Paths switches future strokes, releases mid-stroke, and keeps color through clear and rounds
+  ---
+  duration_ms: 2.261916
+  type: 'test'
+  ...
+# Subtest: Trace color changes preserve existing ink and coverage while clear keeps the pencil
+ok 38 - Trace color changes preserve existing ink and coverage while clear keeps the pencil
+  ---
+  duration_ms: 2.519208
+  type: 'test'
+  ...
+# Subtest: drawing palette stylesheet keeps every target at least 44px and uses only approved colors
+ok 39 - drawing palette stylesheet keeps every target at least 44px and uses only approved colors
+  ---
+  duration_ms: 0.418
+  type: 'test'
+  ...
+# Subtest: recognition games consume the shared item-evidence round plan unchanged
+ok 40 - recognition games consume the shared item-evidence round plan unchanged
+  ---
+  duration_ms: 2.55375
+  type: 'test'
+  ...
+# Subtest: Pop presents round metadata and reports the selected contrast before showing help
+ok 41 - Pop presents round metadata and reports the selected contrast before showing help
+  ---
+  duration_ms: 1.393208
+  type: 'test'
+  ...
+# Subtest: Pop movement follows the planned round rather than garden stars
+ok 42 - Pop movement follows the planned round rather than garden stars
+  ---
+  duration_ms: 1.514459
+  type: 'test'
+  ...
+# Subtest: Build repair keeps the correct prefix and returns only the first wrong and later pieces
+ok 43 - Build repair keeps the correct prefix and returns only the first wrong and later pieces
+  ---
+  duration_ms: 0.963542
+  type: 'test'
+  ...
+# Subtest: garden rewards derive from existing activity bests and old completed saves
+ok 44 - garden rewards derive from existing activity bests and old completed saves
+  ---
+  duration_ms: 3.240083
+  type: 'test'
+  ...
+# Subtest: additional strokes during trace success cannot skip the next letter
+ok 45 - additional strokes during trace success cannot skip the next letter
+  ---
+  duration_ms: 0.836959
+  type: 'test'
+  ...
+# Subtest: leaving a successful trace invalidates the pending advance
+ok 46 - leaving a successful trace invalidates the pending advance
+  ---
+  duration_ms: 0.68375
+  type: 'test'
+  ...
+# Subtest: a completed activity cannot pay twice if a late callback arrives
+ok 47 - a completed activity cannot pay twice if a late callback arrives
+  ---
+  duration_ms: 4.054333
+  type: 'test'
+  ...
+# Subtest: Boat beginners see two introduced choices; activity mastery gates four
+ok 48 - Boat beginners see two introduced choices; activity mastery gates four
+  ---
+  duration_ms: 2.161708
+  type: 'test'
+  ...
+# Subtest: animal render preserves every worn item and keeps renderer calls isolated
+ok 49 - animal render preserves every worn item and keeps renderer calls isolated
+  ---
+  duration_ms: 2.054458
+  type: 'test'
+  ...
+# Subtest: celebration and proud legacy faces expose pupils without eyelid masks
+ok 50 - celebration and proud legacy faces expose pupils without eyelid masks
+  ---
+  duration_ms: 2.184333
+  type: 'test'
+  ...
+# Subtest: loaded-font ink fitting handles tall descenders and wide strings
+ok 51 - loaded-font ink fitting handles tall descenders and wide strings
+  ---
+  duration_ms: 2.306
+  type: 'test'
+  ...
+# Subtest: garden Pop preserves distinct resting rows with and without reduced motion
+ok 52 - garden Pop preserves distinct resting rows with and without reduced motion
+  ---
+  duration_ms: 1.212292
+  type: 'test'
+  ...
+# Subtest: Pop pond follows the activity across chapters and clears when leaving it
+ok 53 - Pop pond follows the activity across chapters and clears when leaving it
+  ---
+  duration_ms: 1.70375
+  type: 'test'
+  ...
+# Subtest: seed delivery targets the basket and locks repeated input until completion
+ok 54 - seed delivery targets the basket and locks repeated input until completion
+  ---
+  duration_ms: 0.780459
+  type: 'test'
+  ...
+# Subtest: Trace maps pointer positions into its actual canvas when the board is scaled
+ok 55 - Trace maps pointer positions into its actual canvas when the board is scaled
+  ---
+  duration_ms: 2.113583
+  type: 'test'
+  ...
+# Subtest: leaving Pairs invalidates its pending final-board completion
+ok 56 - leaving Pairs invalidates its pending final-board completion
+  ---
+  duration_ms: 1.391042
+  type: 'test'
+  ...
+# Subtest: leaving Build during success prevents speech, reveal and payout
+ok 57 - leaving Build during success prevents speech, reveal and payout
+  ---
+  duration_ms: 1.010083
+  type: 'test'
+  ...
+# Subtest: leaving Blend prevents a pending merge from revealing or paying
+ok 58 - leaving Blend prevents a pending merge from revealing or paying
+  ---
+  duration_ms: 1.100625
+  type: 'test'
+  ...
+# Subtest: Blend ignores repeated choices during an incorrect-pair retry
+ok 59 - Blend ignores repeated choices during an incorrect-pair retry
+  ---
+  duration_ms: 0.633541
+  type: 'test'
+  ...
+# Subtest: Unfuse splits only once and exiting cancels delayed quiz and speech
+ok 60 - Unfuse splits only once and exiting cancels delayed quiz and speech
+  ---
+  duration_ms: 1.891125
+  type: 'test'
+  ...
+# Subtest: Chain accepts one addition during success and cannot advance after exit
+ok 61 - Chain accepts one addition during success and cannot advance after exit
+  ---
+  duration_ms: 0.693875
+  type: 'test'
+  ...
+# Subtest: Parade reveals each form once and cancels pending completion on exit
+ok 62 - Parade reveals each form once and cancels pending completion on exit
+  ---
+  duration_ms: 1.131916
+  type: 'test'
+  ...
+# Subtest: Burst fallback timer does not multiply animation loops and completes once
+ok 63 - Burst fallback timer does not multiply animation loops and completes once
+  ---
+  duration_ms: 0.787875
+  type: 'test'
+  ...
+# Subtest: Burst settles an expired round before accepting input at the scoring boundary
+ok 64 - Burst settles an expired round before accepting input at the scoring boundary
+  ---
+  duration_ms: 0.831209
+  type: 'test'
+  ...
+# Subtest: Burst ignores events from a tile removed by the previous answer
+ok 65 - Burst ignores events from a tile removed by the previous answer
+  ---
+  duration_ms: 1.642625
+  type: 'test'
+  ...
+# Subtest: Workshop exposes completed Build chapters only and keeps their item pools separate
+ok 66 - Workshop exposes completed Build chapters only and keeps their item pools separate
+  ---
+  duration_ms: 1.525917
+  type: 'test'
+  ...
+# Subtest: Workshop completion returns without reward writes and replay keeps the whole target
+ok 67 - Workshop completion returns without reward writes and replay keeps the whole target
+  ---
+  duration_ms: 1.325667
+  type: 'test'
+  ...
+# Subtest: Wardrobe shelf demonstration respects reduced motion, keyboard focus and rerenders
+ok 68 - Wardrobe shelf demonstration respects reduced motion, keyboard focus and rerenders
+  ---
+  duration_ms: 0.887458
+  type: 'test'
+  ...
+# Subtest: Build lets a child return a partial suffix without an error or changing its prefix
+ok 69 - Build lets a child return a partial suffix without an error or changing its prefix
+  ---
+  duration_ms: 2.900208
+  type: 'test'
+  ...
+# Subtest: Build locks piece returns while a complete answer is being checked or after exit
+ok 70 - Build locks piece returns while a complete answer is being checked or after exit
+  ---
+  duration_ms: 0.65825
+  type: 'test'
+  ...
+# Subtest: Habitat growth derives only from distinct successes in the current chapter
+ok 71 - Habitat growth derives only from distinct successes in the current chapter
+  ---
+  duration_ms: 1.27325
+  type: 'test'
+  ...
+# Subtest: Reward rendering preserves Boat and uses the current habitat without changing progress
+ok 72 - Reward rendering preserves Boat and uses the current habitat without changing progress
+  ---
+  duration_ms: 0.940375
+  type: 'test'
+  ...
+# Subtest: Pairs mismatch retains the reference, replays it and accepts a new partner
+ok 73 - Pairs mismatch retains the reference, replays it and accepts a new partner
+  ---
+  duration_ms: 0.805792
+  type: 'test'
+  ...
+# Subtest: Pairs retained reference can be cancelled and cannot change after exit
+ok 74 - Pairs retained reference can be cancelled and cannot change after exit
+  ---
+  duration_ms: 1.125292
+  type: 'test'
+  ...
+# Subtest: Pop retires wrong choices from keyboard input and ignores stale retry feedback
+ok 75 - Pop retires wrong choices from keyboard input and ignores stale retry feedback
+  ---
+  duration_ms: 1.568583
+  type: 'test'
+  ...
+# Subtest: Pop rejects detached cards from an earlier round
+ok 76 - Pop rejects detached cards from an earlier round
+  ---
+  duration_ms: 1.357625
+  type: 'test'
+  ...
+# Subtest: Catch basket clamps to rendered bounds and exposes normalized keyboard position
+ok 77 - Catch basket clamps to rendered bounds and exposes normalized keyboard position
+  ---
+  duration_ms: 1.399417
+  type: 'test'
+  ...
+# Subtest: Calm Catch keeps mistakes, rejects duplicate success and stops on exit
+ok 78 - Calm Catch keeps mistakes, rejects duplicate success and stops on exit
+  ---
+  duration_ms: 1.415917
+  type: 'test'
+  ...
+# Subtest: Calm Catch does not spawn an animation loop
+ok 79 - Calm Catch does not spawn an animation loop
+  ---
+  duration_ms: 0.89675
+  type: 'test'
+  ...
+# Subtest: Moving Catch replays a missed target without recording a wrong answer
+ok 80 - Moving Catch replays a missed target without recording a wrong answer
+  ---
+  duration_ms: 0.786708
+  type: 'test'
+  ...
+# Subtest: Blend keyboard select/cancel/join and retired input preserve state
+ok 81 - Blend keyboard select/cancel/join and retired input preserve state
+  ---
+  duration_ms: 1.504458
+  type: 'test'
+  ...
+# Subtest: Blend pointer guards, clamped drag and lost capture recovery
+ok 82 - Blend pointer guards, clamped drag and lost capture recovery
+  ---
+  duration_ms: 3.762708
+  type: 'test'
+  ...
+# Subtest: Chain keyboard, pointer release, clamped drag and lost capture recover
+ok 83 - Chain keyboard, pointer release, clamped drag and lost capture recover
+  ---
+  duration_ms: 1.801833
+  type: 'test'
+  ...
+# Subtest: Trace ignores unreadied, secondary and concurrent strokes; clear cancels drawing
+ok 84 - Trace ignores unreadied, secondary and concurrent strokes; clear cancels drawing
+  ---
+  duration_ms: 0.75875
+  type: 'test'
+  ...
+# Subtest: round builder and empty Pop/Catch/Feed inputs finish cleanly
+ok 85 - round builder and empty Pop/Catch/Feed inputs finish cleanly
+  ---
+  duration_ms: 2.377375
+  type: 'test'
+  ...
+# Subtest: mini-game eligibility mirrors filtered constructor pools
+ok 86 - mini-game eligibility mirrors filtered constructor pools
+  ---
+  duration_ms: 1.023
+  type: 'test'
+  ...
+# Subtest: Trace clamps rendered coordinates and rejects zero geometry
+ok 87 - Trace clamps rendered coordinates and rejects zero geometry
+  ---
+  duration_ms: 2.842958
+  type: 'test'
+  ...
+# Subtest: Blend and Chain own one pointer across pieces and release on exit
+ok 88 - Blend and Chain own one pointer across pieces and release on exit
+  ---
+  duration_ms: 1.243542
+  type: 'test'
+  ...
+# Subtest: Trace restart clears old hints and resets clear readiness even on collapsed paper
+ok 89 - Trace restart clears old hints and resets clear readiness even on collapsed paper
+  ---
+  duration_ms: 0.723792
+  type: 'test'
+  ...
+# Subtest: Pop removes its resize listener and emits completion only once
+ok 90 - Pop removes its resize listener and emits completion only once
+  ---
+  duration_ms: 0.558375
+  type: 'test'
+  ...
+# Subtest: Blend and Chain reject collapsed geometry and release capture on normal up
+ok 91 - Blend and Chain reject collapsed geometry and release capture on normal up
+  ---
+  duration_ms: 0.621833
+  type: 'test'
+  ...
+# Subtest: Blend ignores stale lost-capture events and Unfuse ignores collapsed drags
+ok 92 - Blend ignores stale lost-capture events and Unfuse ignores collapsed drags
+  ---
+  duration_ms: 1.526458
+  type: 'test'
+  ...
+# Subtest: Unfuse split releases a held pointer before hiding its tile
+ok 93 - Unfuse split releases a held pointer before hiding its tile
+  ---
+  duration_ms: 0.661625
+  type: 'test'
+  ...
+# Subtest: journey games report one-based progress with their actual totals
+ok 94 - journey games report one-based progress with their actual totals
+  ---
+  duration_ms: 3.867875
+  type: 'test'
+  ...
+# Subtest: Pairs beginner boards cover four familiar items as two disjoint pairs
+ok 95 - Pairs beginner boards cover four familiar items as two disjoint pairs
+  ---
+  duration_ms: 2.456375
+  type: 'test'
+  ...
+# Subtest: Pairs replay keeps three-pair boards
+ok 96 - Pairs replay keeps three-pair boards
+  ---
+  duration_ms: 2.179167
+  type: 'test'
+  ...
+# Subtest: pack-smile reference Pop starts choices in the scene and keeps them near their lane
+ok 97 - pack-smile reference Pop starts choices in the scene and keeps them near their lane
+  ---
+  duration_ms: 2.937417
+  type: 'test'
+  ...
+# Subtest: non-reference reduced-motion Pop keeps legacy choices in the visible band
+ok 98 - non-reference reduced-motion Pop keeps legacy choices in the visible band
+  ---
+  duration_ms: 1.782084
+  type: 'test'
+  ...
+# Subtest: chapter pictures follow the real game sequence and completion without mutating it
+ok 99 - chapter pictures follow the real game sequence and completion without mutating it
+  ---
+  duration_ms: 2.35375
+  type: 'test'
+  ...
+# Subtest: reference journey styling stays restricted to the first two chapters
+ok 100 - reference journey styling stays restricted to the first two chapters
+  ---
+  duration_ms: 4.0455
+  type: 'test'
+  ...
+# Subtest: a visibly prompted Pop choice reports supported matching and still informs strength
+ok 101 - a visibly prompted Pop choice reports supported matching and still informs strength
+  ---
+  duration_ms: 5.847584
+  type: 'test'
+  ...
+# Subtest: Unfuse motor participation cannot refresh answer strength or recency
+ok 102 - Unfuse motor participation cannot refresh answer strength or recency
+  ---
+  duration_ms: 0.826417
+  type: 'test'
+  ...
+# Subtest: learning session distinguishes independent, helped, visible, and assembly evidence
+ok 103 - learning session distinguishes independent, helped, visible, and assembly evidence
+  ---
+  duration_ms: 2.254208
+  type: 'test'
+  ...
+# Subtest: Letter Delivery success shape joins the same evidence contract
+ok 104 - Letter Delivery success shape joins the same evidence contract
+  ---
+  duration_ms: 1.421792
+  type: 'test'
+  ...
+# Subtest: prompt replay and repeated completion do not duplicate a verdict
+ok 105 - prompt replay and repeated completion do not duplicate a verdict
+  ---
+  duration_ms: 1.252833
+  type: 'test'
+  ...
+# Subtest: old strength records survive and response speed is neutral
+ok 106 - old strength records survive and response speed is neutral
+  ---
+  duration_ms: 2.289292
+  type: 'test'
+  ...
+# Subtest: supported evidence is stored without inflating recognition progress
+ok 107 - supported evidence is stored without inflating recognition progress
+  ---
+  duration_ms: 1.256125
+  type: 'test'
+  ...
+# Subtest: per-evidence results retain legacy totals and separate right, wrong, and participation
+ok 108 - per-evidence results retain legacy totals and separate right, wrong, and participation
+  ---
+  duration_ms: 0.601792
+  type: 'test'
+  ...
+# Subtest: fresh play stays at two-choice visible matching and still despite unrelated difficulty inputs
+ok 109 - fresh play stays at two-choice visible matching and still despite unrelated difficulty inputs
+  ---
+  duration_ms: 2.438166
+  type: 'test'
+  ...
+# Subtest: a beginner first attempt caps an established skill at match two and still
+ok 110 - a beginner first attempt caps an established skill at match two and still
+  ---
+  duration_ms: 0.698125
+  type: 'test'
+  ...
+# Subtest: three matching successes unlock listen two without movement
+ok 111 - three matching successes unlock listen two without movement
+  ---
+  duration_ms: 0.499958
+  type: 'test'
+  ...
+# Subtest: four independent successes across two sessions unlock listen three but remain still
+ok 112 - four independent successes across two sessions unlock listen three but remain still
+  ---
+  duration_ms: 0.52675
+  type: 'test'
+  ...
+# Subtest: eight independent successes across three sessions unlock gentle listen three
+ok 113 - eight independent successes across three sessions unlock gentle listen three
+  ---
+  duration_ms: 0.494
+  type: 'test'
+  ...
+# Subtest: one visit cannot jump the session-gated listening tiers
+ok 114 - one visit cannot jump the session-gated listening tiers
+  ---
+  duration_ms: 1.627875
+  type: 'test'
+  ...
+# Subtest: one eligible option is guided matching and every option id is unique
+ok 115 - one eligible option is guided matching and every option id is unique
+  ---
+  duration_ms: 2.182292
+  type: 'test'
+  ...
+# Subtest: future-prerequisite extras are filtered from otherwise eligible choices
+ok 116 - future-prerequisite extras are filtered from otherwise eligible choices
+  ---
+  duration_ms: 0.634708
+  type: 'test'
+  ...
+# Subtest: skill-specific evidence survives reload and drawing does not postpone letter listening
+ok 117 - skill-specific evidence survives reload and drawing does not postpone letter listening
+  ---
+  duration_ms: 1.685416
+  type: 'test'
+  ...
+# Subtest: wrong selectedId is retained as a skill-specific confusion after reload
+ok 118 - wrong selectedId is retained as a skill-specific confusion after reload
+  ---
+  duration_ms: 2.59825
+  type: 'test'
+  ...
+# Subtest: LearningSession accepts the independent-listening evidence enum and persists it
+ok 119 - LearningSession accepts the independent-listening evidence enum and persists it
+  ---
+  duration_ms: 1.252666
+  type: 'test'
+  ...
+# Subtest: new evidence preserves legacy right/wrong fields and mastery behavior
+ok 120 - new evidence preserves legacy right/wrong fields and mastery behavior
+  ---
+  duration_ms: 1.341458
+  type: 'test'
+  ...
+# Subtest: review planning is read-only while beginReview rotates and persists its cursor
+ok 121 - review planning is read-only while beginReview rotates and persists its cursor
+  ---
+  duration_ms: 1.360791
+  type: 'test'
+  ...
+# Subtest: learning speech confirms completion, not API presence or utterance start
+ok 122 - learning speech confirms completion, not API presence or utterance start
+  ---
+  duration_ms: 7.788792
+  type: 'test'
+  ...
+# Subtest: replay cancellation, error, mute and timeout resolve learning speech safely
+ok 123 - replay cancellation, error, mute and timeout resolve learning speech safely
+  ---
+  duration_ms: 2.870459
+  type: 'test'
+  ...
+# Subtest: rotating daily plans preserve existing activity best keys and checkup skill scores
+ok 124 - rotating daily plans preserve existing activity best keys and checkup skill scores
+  ---
+  duration_ms: 3.19375
+  type: 'test'
+  ...
+# Subtest: chapter entry passes only actual completed IDs into its distractor supplier
+ok 125 - chapter entry passes only actual completed IDs into its distractor supplier
+  ---
+  duration_ms: 0.686167
+  type: 'test'
+  ...
+# Subtest: long assembly tasks add manual pieces gradually without reading old stars as mastery
+ok 126 - long assembly tasks add manual pieces gradually without reading old stars as mastery
+  ---
+  duration_ms: 0.586875
+  type: 'test'
+  ...
+# Subtest: tap delivery supports replay and reports four independent untimed rounds
+ok 127 - tap delivery supports replay and reports four independent untimed rounds
+  ---
+  duration_ms: 6.5225
+  type: 'test'
+  ...
+# Subtest: choice pools stay distinct and expand gently after the first success
+ok 128 - choice pools stay distinct and expand gently after the first success
+  ---
+  duration_ms: 8.716417
+  type: 'test'
+  ...
+# Subtest: successive sessions rotate their practiced four-letter window
+ok 129 - successive sessions rotate their practiced four-letter window
+  ---
+  duration_ms: 1.503208
+  type: 'test'
+  ...
+# Subtest: hub icon is native SVG and gives each rendered gradient unique ids
+ok 130 - hub icon is native SVG and gives each rendered gradient unique ids
+  ---
+  duration_ms: 0.992333
+  type: 'test'
+  ...
+# Subtest: wrong packet reveals help, reduces choices, and records assisted success
+ok 131 - wrong packet reveals help, reduces choices, and records assisted success
+  ---
+  duration_ms: 0.717917
+  type: 'test'
+  ...
+# Subtest: explicit help reveals the answer without requiring a wrong response
+ok 132 - explicit help reveals the answer without requiring a wrong response
+  ---
+  duration_ms: 3.700959
+  type: 'test'
+  ...
+# Subtest: unavailable listening starts with visible support and a single choice is assisted
+ok 133 - unavailable listening starts with visible support and a single choice is assisted
+  ---
+  duration_ms: 2.597834
+  type: 'test'
+  ...
+# Subtest: drag cancellation and exit clean up; a later drag can deliver once
+ok 134 - drag cancellation and exit clean up; a later drag can deliver once
+  ---
+  duration_ms: 2.233416
+  type: 'test'
+  ...
+# Subtest: speech ducking restores after end and stale fallback cannot restore early
+ok 135 - speech ducking restores after end and stale fallback cannot restore early
+  ---
+  duration_ms: 1.231334
+  type: 'test'
+  ...
+# Subtest: mute is preserved and immediately drives the adapter gain to zero
+ok 136 - mute is preserved and immediately drives the adapter gain to zero
+  ---
+  duration_ms: 0.438042
+  type: 'test'
+  ...
+# Subtest: rapid identical rewards are throttled and reward volume is reduced
+ok 137 - rapid identical rewards are throttled and reward volume is reduced
+  ---
+  duration_ms: 0.721542
+  type: 'test'
+  ...
+# Subtest: replacement speech remains ducked until its own fallback ends
+ok 138 - replacement speech remains ducked until its own fallback ends
+  ---
+  duration_ms: 0.861041
+  type: 'test'
+  ...
+# Subtest: long utterance guard stays ducked until completion or the 15 second cap
+ok 139 - long utterance guard stays ducked until completion or the 15 second cap
+  ---
+  duration_ms: 0.374542
+  type: 'test'
+  ...
+# Subtest: ordinary cues unlock first and use local material synthesis when available
+ok 140 - ordinary cues unlock first and use local material synthesis when available
+  ---
+  duration_ms: 0.419208
+  type: 'test'
+  ...
+# Subtest: install precaches the complete local Letter Garden entry graph and Quran word pool
+ok 141 - install precaches the complete local Letter Garden entry graph and Quran word pool
+  ---
+  duration_ms: 4.264125
+  type: 'test'
+  ...
+# Subtest: Letter Garden keeps its original self-hosted Amiri Quran face and WOFF2 closure
+ok 142 - Letter Garden keeps its original self-hosted Amiri Quran face and WOFF2 closure
+  ---
+  duration_ms: 2.008917
+  type: 'test'
+  ...
+# Subtest: versioned shell requests hit the bare precache while offline
+ok 143 - versioned shell requests hit the bare precache while offline
+  ---
+  duration_ms: 2.436958
+  type: 'test'
+  ...
+# Subtest: data remains network-first, updates its cache, and falls back ignoring query versions
+ok 144 - data remains network-first, updates its cache, and falls back ignoring query versions
+  ---
+  duration_ms: 1.12275
+  type: 'test'
+  ...
+# Subtest: drag cancellation and missed movement never deliver; successful drag delivers only once
+ok 145 - drag cancellation and missed movement never deliver; successful drag delivers only once
+  ---
+  duration_ms: 1.549834
+  type: 'test'
+  ...
+# Subtest: teardown releases the pointer and suppresses a late delivery
+ok 146 - teardown releases the pointer and suppresses a late delivery
+  ---
+  duration_ms: 1.0175
+  type: 'test'
+  ...
+# Subtest: leaving optional dot practice invalidates delayed completion
+ok 147 - leaving optional dot practice invalidates delayed completion
+  ---
+  duration_ms: 0.496625
+  type: 'test'
+  ...
+# Subtest: dot answers require exact number and side, including no surplus dots
+ok 148 - dot answers require exact number and side, including no surplus dots
+  ---
+  duration_ms: 0.459916
+  type: 'test'
+  ...
+# Subtest: Garden Paths clear releases the stroke and retired controls cannot advance
+ok 149 - Garden Paths clear releases the stroke and retired controls cannot advance
+  ---
+  duration_ms: 1.015167
+  type: 'test'
+  ...
+# Subtest: Dot success locks every activity tool before the delayed transition
+ok 150 - Dot success locks every activity tool before the delayed transition
+  ---
+  duration_ms: 1.290375
+  type: 'test'
+  ...
+# Subtest: Garden Paths clamps strokes, rejects invalid geometry and secondary pointers, and finishes once
+ok 151 - Garden Paths clamps strokes, rejects invalid geometry and secondary pointers, and finishes once
+  ---
+  duration_ms: 2.399375
+  type: 'test'
+  ...
+# Subtest: Dot final transition completes once even if callback is delivered again
+ok 152 - Dot final transition completes once even if callback is delivered again
+  ---
+  duration_ms: 0.531875
+  type: 'test'
+  ...
+# Subtest: Dot controls reject old views, cap dots, reset seed selection and deduplicate recall
+ok 153 - Dot controls reject old views, cap dots, reset seed selection and deduplicate recall
+  ---
+  duration_ms: 2.911167
+  type: 'test'
+  ...
+# Subtest: practice100 pointer ownership, cancelled click suppression, and zero-size drops
+ok 154 - practice100 pointer ownership, cancelled click suppression, and zero-size drops
+  ---
+  duration_ms: 2.859875
+  type: 'test'
+  ...
+# Subtest: practice100 disabled source resets an active drag
+ok 155 - practice100 disabled source resets an active drag
+  ---
+  duration_ms: 0.587959
+  type: 'test'
+  ...
+# Subtest: practice100 exposes shared eraser and validates exact dot counts
+ok 156 - practice100 exposes shared eraser and validates exact dot counts
+  ---
+  duration_ms: 0.530667
+  type: 'test'
+  ...
+# Subtest: practice100 path rejects stale pointer releases
+ok 157 - practice100 path rejects stale pointer releases
+  ---
+  duration_ms: 0.8375
+  type: 'test'
+  ...
+# Subtest: release contract: every curriculum world has usable generated inputs for each game
+ok 158 - release contract: every curriculum world has usable generated inputs for each game
+  ---
+  duration_ms: 23.415084
+  type: 'test'
+  ...
+# Subtest: release contract: letters.html local references resolve
+ok 159 - release contract: letters.html local references resolve
+  ---
+  duration_ms: 0.6305
+  type: 'test'
+  ...
+# Subtest: release contract: actual unlock methods expose one sequential current world
+ok 160 - release contract: actual unlock methods expose one sequential current world
+  ---
+  duration_ms: 2.2795
+  type: 'test'
+  ...
+# Subtest: release contract: actual finishGame bests only pay score improvements
+ok 161 - release contract: actual finishGame bests only pay score improvements
+  ---
+  duration_ms: 2.154583
+  type: 'test'
+  ...
+# Subtest: mute cancels speech once and synchronizes the control state
+ok 162 - mute cancels speech once and synchronizes the control state
+  ---
+  duration_ms: 4.532542
+  type: 'test'
+  ...
+# Subtest: adult hold rejects key repeat, early release and stale timer callbacks
+ok 163 - adult hold rejects key repeat, early release and stale timer callbacks
+  ---
+  duration_ms: 0.844375
+  type: 'test'
+  ...
+# Subtest: adult hold cancels on blur and cannot navigate from an old screen
+ok 164 - adult hold cancels on blur and cannot navigate from an old screen
+  ---
+  duration_ms: 1.2845
+  type: 'test'
+  ...
+# Subtest: Trace only paints and completes for the owning pointer
+ok 165 - Trace only paints and completes for the owning pointer
+  ---
+  duration_ms: 1.042459
+  type: 'test'
+  ...
+# Subtest: startup wait handles success, rejection, timeout and late completion once
+ok 166 - startup wait handles success, rejection, timeout and late completion once
+  ---
+  duration_ms: 9.945083
+  type: 'test'
+  ...
+# Subtest: word loading keeps valid partial results, skips malformed entries and is idempotent
+ok 167 - word loading keeps valid partial results, skips malformed entries and is idempotent
+  ---
+  duration_ms: 3.822833
+  type: 'test'
+  ...
+# Subtest: save routes report denial and do not fabricate wallet rewards from invalid amounts
+ok 168 - save routes report denial and do not fabricate wallet rewards from invalid amounts
+  ---
+  duration_ms: 1.2405
+  type: 'test'
+  ...
+# Subtest: empty lesson and unknown practice route out before creating a game or awarding
+ok 169 - empty lesson and unknown practice route out before creating a game or awarding
+  ---
+  duration_ms: 1.412667
+  type: 'test'
+  ...
+# Subtest: filtered-empty game inputs route to retry before constructing or rewarding
+ok 170 - filtered-empty game inputs route to retry before constructing or rewarding
+  ---
+  duration_ms: 1.041791
+  type: 'test'
+  ...
+# Subtest: initial loading appears synchronously and font rejection still opens hatch
+ok 171 - initial loading appears synchronously and font rejection still opens hatch
+  ---
+  duration_ms: 1.21325
+  type: 'test'
+  ...
+# Subtest: late startup work fits glyphs without replacing a newer screen
+ok 172 - late startup work fits glyphs without replacing a newer screen
+  ---
+  duration_ms: 1.4675
+  type: 'test'
+  ...
+# Subtest: recording-backed items use their curriculum text and an Arabic voice
+ok 173 - recording-backed items use their curriculum text and an Arabic voice
+  ---
+  duration_ms: 2.437792
+  type: 'test'
+  ...
+# Subtest: replay replaces the utterance and suppresses the old completion callback
+ok 174 - replay replaces the utterance and suppresses the old completion callback
+  ---
+  duration_ms: 0.617
+  type: 'test'
+  ...
+# Subtest: stop or mute invalidates pending speech without starting another utterance
+ok 175 - stop or mute invalidates pending speech without starting another utterance
+  ---
+  duration_ms: 0.902208
+  type: 'test'
+  ...
+# Subtest: word display fallback and a voice list that loads later both work
+ok 176 - word display fallback and a voice list that loads later both work
+  ---
+  duration_ms: 0.540208
+  type: 'test'
+  ...
+# Subtest: speech lifecycle ducks active prompt and stale callbacks cannot unduck its replacement
+ok 177 - speech lifecycle ducks active prompt and stale callbacks cannot unduck its replacement
+  ---
+  duration_ms: 0.908834
+  type: 'test'
+  ...
+# Subtest: read tolerates malformed JSON, wrong roots, denied storage, and leaves live data untouched
+ok 178 - read tolerates malformed JSON, wrong roots, denied storage, and leaves live data untouched
+  ---
+  duration_ms: 2.289
+  type: 'test'
+  ...
+# Subtest: recovery stores the exact first damaged value once
+ok 179 - recovery stores the exact first damaged value once
+  ---
+  duration_ms: 0.37925
+  type: 'test'
+  ...
+# Subtest: writes report success and storage or serialization failure
+ok 180 - writes report success and storage or serialization failure
+  ---
+  duration_ms: 1.021
+  type: 'test'
+  ...
+# Subtest: progress filters and deduplicates done ids and requires a boolean skipped flag
+ok 181 - progress filters and deduplicates done ids and requires a boolean skipped flag
+  ---
+  duration_ms: 0.315458
+  type: 'test'
+  ...
+# Subtest: stars and bests retain ids and clamp only finite nonnegative numbers
+ok 182 - stars and bests retain ids and clamp only finite nonnegative numbers
+  ---
+  duration_ms: 0.423041
+  type: 'test'
+  ...
+# Subtest: map ids named __proto__ survive as safe own properties
+ok 183 - map ids named __proto__ survive as safe own properties
+  ---
+  duration_ms: 0.449333
+  type: 'test'
+  ...
+# Subtest: wallet accepts nonnegative numeric strings and preserves unknown earned data
+ok 184 - wallet accepts nonnegative numeric strings and preserves unknown earned data
+  ---
+  duration_ms: 0.527167
+  type: 'test'
+  ...
+# Subtest: pet repairs known fields, deduplicates inventories, and retains the selected body
+ok 185 - pet repairs known fields, deduplicates inventories, and retains the selected body
+  ---
+  duration_ms: 0.409875
+  type: 'test'
+  ...
+# Subtest: stickers and stamps filter strings, invalid dates, and duplicates
+ok 186 - stickers and stamps filter strings, invalid dates, and duplicates
+  ---
+  duration_ms: 0.461417
+  type: 'test'
+  ...
+# Subtest: skills retain valid score/date records and their unknown fields
+ok 187 - skills retain valid score/date records and their unknown fields
+  ---
+  duration_ms: 1.139167
+  type: 'test'
+  ...
+# Subtest: reduced motion accepts booleans only
+ok 188 - reduced motion accepts booleans only
+  ---
+  duration_ms: 0.931291
+  type: 'test'
+  ...
+# Subtest: strength validates records while retaining valid legacy values and fields
+ok 189 - strength validates records while retaining valid legacy values and fields
+  ---
+  duration_ms: 0.757166
+  type: 'test'
+  ...
+# Subtest: strength uses resilient state, rejects negative fast times, and clamps future staleness
+ok 190 - strength uses resilient state, rejects negative fast times, and clamps future staleness
+  ---
+  duration_ms: 1.03125
+  type: 'test'
+  ...
+# Subtest: strength still loads and saves when the state helper is absent
+ok 191 - strength still loads and saves when the state helper is absent
+  ---
+  duration_ms: 0.351125
+  type: 'test'
+  ...
+# Subtest: failed strength saves surface through shared storage status
+ok 192 - failed strength saves surface through shared storage status
+  ---
+  duration_ms: 0.314083
+  type: 'test'
+  ...
+# Subtest: repair content defines explicit families, including valid zero-dot targets
+ok 193 - repair content defines explicit families, including valid zero-dot targets
+  ---
+  duration_ms: 1.667958
+  type: 'test'
+  ...
+# Subtest: repair plans use provided taught items only and stay within six rounds
+ok 194 - repair plans use provided taught items only and stay within six rounds
+  ---
+  duration_ms: 1.016292
+  type: 'test'
+  ...
+# Subtest: muted or unconfirmed recall remains visibly supported and reports matching evidence
+ok 195 - muted or unconfirmed recall remains visibly supported and reports matching evidence
+  ---
+  duration_ms: 2.444583
+  type: 'test'
+  ...
+# Subtest: recall hides its prompt only after speech confirms playback
+ok 196 - recall hides its prompt only after speech confirms playback
+  ---
+  duration_ms: 1.025125
+  type: 'test'
+  ...
+# Subtest: pending speech never leaks the visible target and muting reveals it promptly
+ok 197 - pending speech never leaks the visible target and muting reveals it promptly
+  ---
+  duration_ms: 1.317708
+  type: 'test'
+  ...
+# Subtest: replaying a pending prompt ignores the canceled earlier speech result
+ok 198 - replaying a pending prompt ignores the canceled earlier speech result
+  ---
+  duration_ms: 1.55175
+  type: 'test'
+  ...
+# Subtest: Garden Paths caps and rotates taught isolated letters, then reports drawing participation
+ok 199 - Garden Paths caps and rotates taught isolated letters, then reports drawing participation
+  ---
+  duration_ms: 1.2865
+  type: 'test'
+  ...
+1..199
+# tests 199
+# suites 0
+# pass 199
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 527.870375

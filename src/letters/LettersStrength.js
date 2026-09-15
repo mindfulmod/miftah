@@ -18,6 +18,7 @@
 //            do not change r/w (such as Pairs and verdict-free motor play)
 (function (ns) {
   const KEY = "quran-trainer:letters:strength";
+  const REVIEW_KEY = "quran-trainer:letters:review";
   const FAST_MS = 3500;
   const DAY = 86400000;
 
@@ -26,15 +27,17 @@
       const state = ns.LettersState;
       if (state) {
         this.map = state.read(KEY, {});
-        return;
-      }
-      try {
+      } else try {
         const raw = localStorage.getItem(KEY);
         const data = raw ? JSON.parse(raw) : {};
         this.map = data && typeof data === "object" ? data : {};
       } catch {
         this.map = {};
       }
+      let review;
+      try { review = state ? state.read(REVIEW_KEY, {}) : JSON.parse(localStorage.getItem(REVIEW_KEY) || '{}'); } catch {}
+      this.review = { cursor: Math.max(0, Number.isSafeInteger(review?.cursor) ? review.cursor : 0),
+        recent: Array.isArray(review?.recent) ? review.recent.filter(id => typeof id === 'string').slice(-12) : [] };
     }
 
     save() {
@@ -82,6 +85,7 @@
       else if (outcome.correct === false) counts.w += 1;
       else counts.participation += 1;
       e.evidenceResults[outcome.evidence] = counts;
+      this.recordSkill(e, outcome);
       if (outcome.affectsStrength !== false && typeof outcome.correct === "boolean") {
         if (outcome.correct) {
           e.r += 1;
@@ -98,6 +102,73 @@
       this.map[id] = e;
       this.save();
       return true;
+    }
+
+    recordSkill(entry, outcome) {
+      // New evidence is additive. Historical r/w cannot tell us whether a
+      // prompt was hidden or a child received help, so it is never backfilled.
+      const skill = typeof outcome.skill === 'string' ? outcome.skill : 'recognition';
+      entry.skills = entry.skills && typeof entry.skills === 'object' && !Array.isArray(entry.skills) ? entry.skills : {};
+      const previous = Object.prototype.hasOwnProperty.call(entry.skills, skill) ? entry.skills[skill] : null;
+      const state = previous && typeof previous === 'object' ? previous : {};
+      const kind = ({supported_visible_matching:'matching', independent_listening:'listening', assisted_response:'assisted', motor_assembly_participation:'motor'})[outcome.evidence];
+      if (!kind) return;
+      const old = state[kind] || {};
+      const number = value => Number.isFinite(value) && value >= 0 ? value : 0;
+      const bucket = {r:number(old.r),w:number(old.w),streak:number(old.streak),participation:number(old.participation),last:number(old.last),sessions:Array.isArray(old.sessions)?old.sessions.filter(s=>typeof s==='string').slice(-4):[]};
+      if (outcome.correct === true) { bucket.r++; bucket.streak++; }
+      else if (outcome.correct === false) { bucket.w++; bucket.streak=0; }
+      else bucket.participation++;
+      bucket.last = Date.now();
+      if (outcome.correct === true && outcome.sessionId && !bucket.sessions.includes(outcome.sessionId)) bucket.sessions = [...bucket.sessions, outcome.sessionId].slice(-4);
+      state[kind] = bucket;
+      if (outcome.correct === false && outcome.selectedId && outcome.selectedId !== outcome.itemId) {
+        const before = state.confusions && typeof state.confusions === 'object' ? state.confusions : {};
+        state.confusions = Object.fromEntries(Object.entries({...before,[outcome.selectedId]:number(before[outcome.selectedId])+1}).slice(-8));
+      }
+      state.lastActivity = outcome.activity || '';
+      Object.defineProperty(entry.skills, skill, {value:state,enumerable:true,writable:true,configurable:true});
+    }
+
+    skillProfile(id, skill) {
+      const entry = this.map[id]?.skills?.[skill];
+      if (!entry || typeof entry !== 'object') return {attempts:0};
+      const count = value => Number.isFinite(value) && value >= 0 ? value : 0;
+      const attempts = ['matching','listening','assisted','motor'].reduce((n,key)=>n+count(entry[key]?.r)+count(entry[key]?.w),0);
+      return {...entry,attempts};
+    }
+
+    reviewItems(pool, n = 6) {
+      const items = [...new Map(pool.filter(item=>item?.id).map(item=>[item.id,item])).values()];
+      const cursor = this.review?.cursor || 0;
+      const recent = new Set(this.review?.recent || []);
+      const rows = items.map((item,index)=>{
+        const skill = ns.LettersLearning?.skillFor(item) || item.objective || 'recognition';
+        const p = this.skillProfile(item.id, skill);
+        const independent = p.listening || {};
+        const matching = p.matching || {};
+        const last = independent.last || 0;
+        const days = last ? Math.max(0,Math.min(14,(Date.now()-last)/DAY)) : 14;
+        const score = days*.2 + Math.min(4,p.assisted?.r || 0)*.25 + Math.min(4,independent.w || 0)*.5 - Math.min(4,independent.streak || 0)*.3 - (recent.has(item.id)?5:0);
+        return {item,p,score,comfortable:(independent.r || 0)>=2 || (matching.r || 0)>=3,order:(index-cursor+items.length*100)%Math.max(1,items.length)};
+      }).sort((a,b)=>b.score-a.score || a.order-b.order);
+      const chosen=[];
+      const add = row => {if(row && chosen.length<n && !chosen.some(i=>i.id===row.item.id))chosen.push(row.item);};
+      // An easy opening, two due reviews, one lightly practised item, then
+      // remaining due material. Rendering this plan never changes its cursor.
+      add(rows.find(row=>row.comfortable && !recent.has(row.item.id)) || rows.find(row=>row.comfortable));
+      rows.slice(0,2).forEach(add);
+      add(rows.find(row=>row.p.attempts<3 && !chosen.some(i=>i.id===row.item.id)));
+      rows.forEach(add);
+      return chosen;
+    }
+
+    beginReview(items) {
+      const ids = [...new Set((items || []).map(i=>i?.id).filter(Boolean))];
+      this.review = {cursor:((this.review?.cursor || 0)+1)%100000,
+        recent:[...(this.review?.recent || []),...ids].slice(-12)};
+      if (ns.LettersState) return ns.LettersState.write(REVIEW_KEY, this.review);
+      try {localStorage.setItem(REVIEW_KEY,JSON.stringify(this.review));return true;} catch {return false;}
     }
 
     // Weakness score — higher = needs more love. Three honest signals:

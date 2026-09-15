@@ -28,7 +28,7 @@ function runtime({reduced=false,canListen=true,items=[{id:'alif',display:'ا'},{
   vm.runInNewContext(fs.readFileSync(path.join(__dirname,'..','GardenPractice.js'),'utf8'),context);
   vm.runInNewContext(fs.readFileSync(path.join(__dirname,'..','LetterDelivery.js'),'utf8'),context);
   const calls={said:[],prompted:[],outcomes:[],correct:0,done:0};
-  const ctx={stage,items,reducedMotion:()=>reduced,canListen:()=>canListen,petArt:'<pet/>',say:item=>calls.said.push(item.id),prompt:item=>calls.prompted.push(item&&item.id),correct:()=>calls.correct++,reportOutcome:o=>calls.outcomes.push(o),done:()=>calls.done++};
+  const ctx={stage,items,reducedMotion:()=>reduced,canListen:()=>canListen,petArt:'<pet/>',say:item=>{calls.said.push(item.id);return true;},prompt:item=>calls.prompted.push(item&&item.id),correct:()=>calls.correct++,reportOutcome:o=>calls.outcomes.push(o),done:()=>calls.done++};
   const game=new window.MiftahGame.LetterDelivery(ctx);
   const flush=()=>{const timer=timers.find(t=>!t.cleared&&!t.ran);if(timer){timer.ran=true;timer.fn();}return timer;};
   return {game,stage,nodes,calls,timers,flush,LetterDelivery:window.MiftahGame.LetterDelivery,ctx,get packets(){return packets;}};
@@ -85,7 +85,8 @@ test('wrong packet reveals help, reduces choices, and records assisted success',
   assert.equal(wrong.disabled,true);assert.equal(wrong.classList.contains('is-removed'),true);assert.equal(target.classList.contains('is-help'),true);
   assert.equal(r.calls.prompted.at(-1),'alif');assert.equal(r.calls.correct,0);
   target.onclick();r.nodes.destination.onclick();
-  assert.equal(r.calls.outcomes[0].assisted,true);assert.equal(r.calls.outcomes[0].independent,false);
+  assert.equal(r.calls.outcomes[0].correct,false);assert.equal(r.calls.outcomes[0].independent,true);
+  assert.equal(r.calls.outcomes.at(-1).correct,true);assert.equal(r.calls.outcomes.at(-1).assisted,true);assert.equal(r.calls.outcomes.at(-1).independent,false);
 });
 
 test('explicit help reveals the answer without requiring a wrong response',()=>{

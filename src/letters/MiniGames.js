@@ -7,13 +7,15 @@
 // the answer is always something they tap.
 (function (ns) {
   const Art = ns.LettersArt;
+  const DrawingPalette = ns.DrawingPalette || {current:()=>"#4e9677",markup:()=>"",wire:()=>[]};
 
-  function reportOutcome(ctx, item, correct, evidence, affectsStrength = true) {
+  function reportOutcome(ctx, item, correct, evidence, affectsStrength = true, details = {}) {
     if (!item?.id) return;
     ctx.reportOutcome?.({
       itemId: item.id,
       correct,
       evidence,
+      ...details,
       // Participation is useful evidence, but it is not an answer and must not
       // refresh the legacy answer-recency signal.
       affectsStrength: typeof correct === "boolean" ? affectsStrength : false,
@@ -23,8 +25,19 @@
   // These games speak the target and keep its glyph visible in the prompt
   // bubble. Their choices still inform strength, but they are supported visual
   // matching rather than independent listening evidence.
-  const reportPromptMatch = (ctx, item, correct) =>
-    reportOutcome(ctx, item, correct, "supported_visible_matching");
+  const reportPromptMatch = (ctx, round, correct, selected, activity) => {
+    const target = round?.target || round;
+    const diagnostics = Array.isArray(round?.options) ? {
+      selectedId: selected?.id,
+      choiceIds: round.options.map((item) => item.id),
+      skill: round.skill,
+      activity,
+    } : {};
+    // The shell owns prompt visibility and knows whether speech actually
+    // completed. Request supported evidence here; it upgrades a successful,
+    // genuinely audio-only prompt to independent listening.
+    reportOutcome(ctx, target, correct, "supported_visible_matching", true, diagnostics);
+  };
   const reportAssembly = (ctx, item, correct) =>
     reportOutcome(ctx, item, correct, "motor_assembly_participation");
   const reportVisibleMatch = (ctx, item, correct) =>
@@ -44,6 +57,10 @@
   // seasoned replayers face one extra distractor — adaptive, Brain Age style.
   function buildRounds(ctx) {
     if (!ctx.items || !ctx.items.length || !(ctx.rounds > 0)) return [];
+    const planned = ns.LettersLearning?.planRounds?.(ctx);
+    if (Array.isArray(planned) && planned.length) {
+      return planned.filter((round) => round?.target && Array.isArray(round.options) && round.options.length);
+    }
     const pool = shuffle(ctx.items);
     const targets = pool.slice(0, ctx.rounds);
     while (targets.length < ctx.rounds) targets.push(pool[targets.length % pool.length]);
@@ -60,8 +77,23 @@
         seen.add(w.id);
         options.push(w);
       }
-      return { target, options: shuffle(options) };
+      return { target, options: shuffle(options), promptMode: "match",
+        skill: "letter_recognition", movement: ctx.beginner ? "still" : "gentle" };
     });
+  }
+
+  function presentRound(ctx, round, activity) {
+    ctx.setPrompt(round.target, {
+      promptMode: round.promptMode || "match",
+      skill: round.skill || "letter_recognition",
+      choiceIds: round.options.map((item) => item.id),
+      activity,
+    });
+    ctx.say(round.target);
+  }
+
+  function helpAfterWrong(ctx, round, selected) {
+    ctx.showLearningHint?.(round.target, selected);
   }
 
   // Keep constructor preconditions in one place so the shell can route an
@@ -177,8 +209,7 @@
       this.advancing = false;
       const round = this.rounds[this.roundIndex];
       this.ctx.setRoundProgress?.(this.roundIndex + 1, this.rounds.length);
-      this.ctx.setPrompt(round.target);
-      this.ctx.say(round.target);
+      presentRound(this.ctx, round, "pop");
       for (const b of this.bubbles) b.el.remove();
       this.bubbles = [];
       // One lane per option — seasoned replayers get 4 options, so the lane
@@ -201,7 +232,9 @@
         </svg>` : tileHTML(item, this.ctx.hue);
       el.setAttribute("aria-label", item.display);
       const laneW = 84 / Math.max(2, this.laneCount || 3);
-      const stationary = this.ctx.garden || this.ctx.referenceJourney;
+      const movement = this.rounds?.[this.roundIndex]?.movement ||
+        ((this.ctx.garden || this.ctx.referenceJourney || this.ctx.beginner) ? "still" : "gentle");
+      const stationary = movement !== "gentle" || !!this.ctx.reducedMotion?.();
       const gardenGrid = stationary && this.laneCount > 2;
       const laneX = stationary ? (gardenGrid ? 28 + (lane % 2) * 44 : 8 + (lane + 0.5) * laneW) : 6 + lane * laneW;
       el.style.width = `${stationary && this.ctx.garden ? 32 : laneW - 2}%`;
@@ -223,7 +256,7 @@
         bubble.el.classList.add("is-popped");
         this.bubbles.forEach(b=>b.el.disabled=true);
         this.heat.up();
-        reportPromptMatch(this.ctx, round.target, true);
+        reportPromptMatch(this.ctx, round, true, bubble.item, "pop");
         this.ctx.sfx("correct");
         this.ctx.confettiAt(bubble.el);
         this.ctx.say(round.target);
@@ -231,7 +264,8 @@
       } else {
         this.slips += 1;
         this.heat.down();
-        reportPromptMatch(this.ctx, round.target, false);
+        reportPromptMatch(this.ctx, round, false, bubble.item, "pop");
+        helpAfterWrong(this.ctx, round, bubble.item);
         this.ctx.sfx("wrong");
         // Rich wrong-pick feedback: the bubble shakes, tints red and wears a
         // ✗ for a beat, while the prompt bubble pulses — "look HERE, listen
@@ -275,10 +309,12 @@
       this.lastTime = now;
       for (const b of this.bubbles) {
         if (b.el.classList.contains("is-popped") || b.el.classList.contains("is-scaffolded")) continue;
-        const stationary = this.ctx.garden || this.ctx.referenceJourney;
-        if (!stationary && !this.ctx.beginner && !this.ctx.reducedMotion?.()) b.y -= b.speed * this.heat.factor() * dt;
-        else if (this.ctx.garden) b.y = b.restY;
-        else if (this.ctx.referenceJourney && !this.ctx.reducedMotion?.()) b.y = b.restY + Math.sin(now * 0.002 + b.restY * 9) * 0.018;
+        const movement = this.rounds?.[this.roundIndex]?.movement ||
+          ((this.ctx.garden || this.ctx.referenceJourney || this.ctx.beginner) ? "still" : "gentle");
+        const stationary = movement !== "gentle" || !!this.ctx.reducedMotion?.();
+        if (!stationary && movement === "gentle" && !this.ctx.reducedMotion?.()) b.y -= b.speed * this.heat.factor() * dt;
+        else if (movement === "gentle" && !this.ctx.reducedMotion?.()) b.y = b.restY + Math.sin(now * 0.002 + b.restY * 9) * 0.018;
+        else if (this.ctx.reducedMotion?.() && !this.ctx.garden && !this.ctx.referenceJourney && !this.rounds?.[this.roundIndex]) b.y = 0.35;
         else b.y = stationary ? b.restY : 0.35;
         if (!stationary && b.y < -0.18) b.y = 1.12; // drift forever until popped
         b.el.style.transform = `translate3d(${stationary ? "-50%" : "0"}, ${b.y * this.skyH}px, 0)`;
@@ -309,7 +345,7 @@
       this.alive = true;
       if (!this.rounds.length) { this.alive = false; ctx.onDone(0); return; }
       this.fallers = [];
-      this.still = !!ctx.reducedMotion?.();
+      this.still = !!ctx.reducedMotion?.() || this.rounds[0]?.movement !== "gentle";
       ctx.stage.innerHTML = `
         <svg class="catch-canopy" viewBox="0 0 600 90" preserveAspectRatio="none" aria-hidden="true"><path d="M-10 4Q60 80 151 24M610 3Q544 71 455 21" fill="none" stroke="#907049" stroke-width="10" stroke-linecap="round"/><g fill="#83a56c" stroke="#647e50" stroke-width="2"><path d="M31 24Q18 62 62 53Q66 27 31 24M90 36Q96 4 129 13Q132 37 90 36M552 21Q574 47 539 57Q520 37 552 21M502 35Q504 8 473 11Q459 36 502 35"/></g></svg><div class="catch-field"></div>
         <div class="catch-basket" tabindex="0" role="slider" aria-label="Move the basket" aria-orientation="horizontal" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
@@ -363,9 +399,25 @@
 
     startRound() {
       const round = this.rounds[this.roundIndex];
-      this.ctx.setPrompt(round.target);
-      this.ctx.say(round.target);
+      const wasStill = this.still;
+      this.still = !!this.ctx.reducedMotion?.() || round.movement !== "gentle";
+      this.ctx.stage.classList.toggle("catch-still", this.still);
+      this.clearFallers();
+      if (this.still) {
+        this.basket.removeAttribute("role");
+        this.basket.removeAttribute("tabindex");
+        this.basket.setAttribute("aria-hidden", "true");
+      } else {
+        this.basket.setAttribute("role", "slider");
+        this.basket.setAttribute("tabindex", "0");
+        this.basket.removeAttribute("aria-hidden");
+      }
+      presentRound(this.ctx, round, "catch");
       if(this.still)this.stationaryChoices(round);
+      else if (wasStill && this.tick) {
+        this.lastTime = performance.now();
+        requestAnimationFrame(this.tick);
+      }
     }
 
     stationaryChoices(round) {
@@ -388,12 +440,12 @@
       const round=this.rounds[this.roundIndex];
       this.positionBasket(f.x);
       if(f.item.id!==round.target.id){
-        this.slips++;this.heat.down();reportPromptMatch(this.ctx,round.target,false);this.ctx.sfx('wrong');
+        this.slips++;this.heat.down();reportPromptMatch(this.ctx,round,false,f.item,"catch");helpAfterWrong(this.ctx,round,f.item);this.ctx.sfx('wrong');
         round.options=round.options.filter(o=>o.id!==f.item.id);
         this.remove(f);this.ctx.say(round.target);return;
       }
       this.settling=true;f.el.disabled=true;f.el.style.top='72%';
-      this.heat.up();reportPromptMatch(this.ctx,round.target,true);this.ctx.sfx('correct');this.ctx.say(round.target);
+      this.heat.up();reportPromptMatch(this.ctx,round,true,f.item,"catch");this.ctx.sfx('correct');this.ctx.say(round.target);
       setTimeout(()=>{
         if(!this.alive)return;
         this.roundIndex++;
@@ -442,7 +494,7 @@
           this.remove(f);
           if (f.item.id === round.target.id) {
             this.heat.up();
-            reportPromptMatch(this.ctx, round.target, true);
+            reportPromptMatch(this.ctx, round, true, f.item, "catch");
             this.ctx.sfx("correct");
             this.ctx.confettiAt(this.basket);
             this.ctx.say(round.target);
@@ -454,7 +506,8 @@
           }
           this.slips += 1;
           this.heat.down();
-          reportPromptMatch(this.ctx, round.target, false);
+          reportPromptMatch(this.ctx, round, false, f.item, "catch");
+          helpAfterWrong(this.ctx, round, f.item);
           this.ctx.sfx("wrong");
           this.basket.classList.remove("is-shake");
           void this.basket.offsetWidth;
@@ -474,8 +527,7 @@
             this.heat.down();
             this.spawnFlip = false;
             this.spawnTimer = Math.min(this.spawnTimer, 0.18);
-            this.ctx.setPrompt(round.target);
-            this.ctx.say(round.target);
+            presentRound(this.ctx, round, "catch");
             this.ctx.pulsePrompt?.();
           }
         }
@@ -515,7 +567,7 @@
       this.ctx = ctx;
       this.alive = true;
       this.slips = 0;
-      this.boards = 2;
+      this.boards = ctx.rounds === 2 ? 1 : 2;
       this.boardIndex = 0;
       if (ctx.beginner) {
         const seen = new Set();
@@ -687,8 +739,7 @@
       if(this.basket){this.basket.classList.remove("is-ready","is-filled");this.basket.setAttribute("aria-disabled","true");this.basket.disabled=true;}
       const round = this.rounds[this.roundIndex];
       this.ctx.setRoundProgress?.(this.roundIndex + 1, this.rounds.length);
-      this.ctx.setPrompt(round.target);
-      this.ctx.say(round.target);
+      presentRound(this.ctx, round, "feed");
       this.tray.innerHTML = "";
       for (const item of round.options) {
         const el = document.createElement("button");
@@ -725,7 +776,8 @@
         el.setAttribute("aria-pressed","false");
         if(this.basket){this.basket.classList.remove("is-ready");this.basket.setAttribute("aria-disabled","true");this.basket.disabled=true;}
         this.slips += 1;
-        reportPromptMatch(this.ctx, round.target, false);
+        reportPromptMatch(this.ctx, round, false, item, "feed");
+        helpAfterWrong(this.ctx, round, item);
         this.ctx.sfx("wrong");
         el.classList.remove("is-shake");
         void el.offsetWidth;
@@ -745,7 +797,7 @@
       el.style.setProperty("--fly-x", `${mouth.left + mouth.width / 2 - (from.left + from.width / 2)}px`);
       el.style.setProperty("--fly-y", `${mouth.top + mouth.height * (this.basket ? 0.48 : 0.68) - (from.top + from.height / 2)}px`);
       el.classList.add("is-flying");
-      reportPromptMatch(this.ctx, round.target, true);
+      reportPromptMatch(this.ctx, round, true, item, "feed");
       this.ctx.sfx("correct");
       setTimeout(() => {
         if (!this.alive) return;
@@ -775,8 +827,9 @@
   class TraceGame {
     constructor(ctx) {
       this.ctx = ctx;
+      this.inkColor = DrawingPalette.current();
       const pool = shuffle(ctx.items).filter((i) => (i.display || "").length <= 3);
-      this.targets = (pool.length ? pool : shuffle(ctx.items)).slice(0, 3);
+      this.targets = (pool.length ? pool : shuffle(ctx.items)).slice(0, Math.min(3, ctx.rounds || 3));
       this.roundIndex = 0;
       this.slips = 0;
       this.alive = true;
@@ -785,6 +838,7 @@
           <div class="trace-paper"><canvas class="trace-canvas" aria-label="Draw over the letter with your finger"></canvas></div>
           <div class="trace-tools">
             <svg class="trace-crayon" viewBox="0 0 150 40" aria-hidden="true"><path d="M8 20L29 7H128Q140 20 128 33H29Z" fill="#579475" stroke="#4a5940" stroke-width="3" stroke-linejoin="round"/><path d="M8 20L29 7V33Z" fill="#e5c68e"/><path d="M8 20L16 15V25Z" fill="#387258"/><path d="M48 8H110V32H48Z" fill="#cce4b8"/><path d="M57 13H100" stroke="#f9ffe9" stroke-width="3" stroke-linecap="round"/><path d="M73 28Q62 17 70 18Q78 18 81 28Q83 13 91 17Q95 24 81 28" fill="#65965c"/></svg>
+            ${DrawingPalette.markup()}
             <button type="button" class="lg-round-btn trace-clear" aria-label="Clear your drawing"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M10 28L27 10Q30 7 33 10L41 18Q43 21 40 24L24 40H20Z" fill="#eb9d9a" stroke="#59452e" stroke-width="3" stroke-linejoin="round"/><path d="M10 28L18 20L32 32L24 40H20Z" fill="#fff4db" stroke="#59452e" stroke-width="3"/><path d="M30 40H42" stroke="#927f62" stroke-width="3" stroke-linecap="round"/></svg></button>
           </div>
         </div>`;
@@ -798,6 +852,7 @@
       this.canvas.addEventListener("pointercancel", (e) => this.cancelStroke(e));
       this.canvas.addEventListener("lostpointercapture", (e) => this.cancelStroke(e));
       window.addEventListener("pointerup", (this.penUpBound = (e) => this.penUp(e)));
+      this.paletteButtons = DrawingPalette.wire(ctx.stage,{active:()=>this.alive,release:()=>this.cancelStroke(),onChange:color=>{this.inkColor=color;if(this.g)this.g.strokeStyle=color;}});
       // The glyph guide needs the Quran font; wait for it, then start.
       const ready = document.fonts && document.fonts.load ? document.fonts.load('100px "Amiri Quran"') : Promise.resolve();
       ready.finally(() => {
@@ -917,7 +972,7 @@
       this.brush = Math.max(20, size * 0.1);
       this.g.lineCap = "round";
       this.g.lineJoin = "round";
-      this.g.strokeStyle = "#4e9677";
+      this.g.strokeStyle = this.inkColor || DrawingPalette.current();
       this.g.lineWidth = this.brush;
       this.paint = new Set(); // painted sample cells, keyed x|y
     }
@@ -930,14 +985,6 @@
       const rect = this.canvas.getBoundingClientRect();
       if (rect.width <= 0 || rect.height <= 0 || this.canvas.width <= 0 || this.canvas.height <= 0) return null;
       return [Math.max(0, Math.min(this.canvas.width, (e.clientX - rect.left) * this.canvas.width / rect.width)), Math.max(0, Math.min(this.canvas.height, (e.clientY - rect.top) * this.canvas.height / rect.height))];
-    }
-
-    cancelStroke(e) {
-      if (e && e.pointerId !== this.activePointer) return;
-      const id = this.activePointer;
-      this.activePointer = null;
-      this.drawing = false;
-      if (id != null && this.canvas?.hasPointerCapture?.(id)) this.canvas.releasePointerCapture(id);
     }
 
     cancelStroke(e) {
@@ -1261,7 +1308,8 @@
       this.ctx = ctx;
       this.alive = true;
       const pool = ctx.items.filter((i) => i.parts && i.parts.length >= 2);
-      this.targets = shuffle(pool).slice(0, 4);
+      this.targets = shuffle(pool).slice(0, ctx.rounds || 4);
+      if(ctx.beginner)this.targets.sort((a,b)=>a.parts.length-b.parts.length);
       this.roundIndex = 0;
       this.slips = 0;
       this.startRound();
@@ -1271,22 +1319,29 @@
       if (!this.alive) return;
       const ctx = this.ctx;
       const target = this.targets[this.roundIndex];
-      ctx.setPrompt(target);
+      ctx.setPrompt(target, {
+        promptMode: "match", skill: "construction",
+        choiceIds: target.parts.map((part) => part.id || part.display), activity: "build",
+      });
       ctx.say(target);
       this.placed = [];
-      // Tray: the real parts plus two decoy parts from other items.
+      const support=ns.LettersLearning?.assemblyProfile(target,ctx);
+      this.fixedCount=support?Math.max(0,target.parts.length-support.pieceBudget):0;
+      // First encounters demonstrate the sequence without distractors. Later
+      // guided rounds add one new choice at a time.
       const decoys = [];
+      const decoyLimit = support? support.decoyCount : ctx.beginner && this.roundIndex === 0 ? 0 : 1;
       const seen = new Set(target.parts.map((p) => p.display));
       for (const item of shuffle(ctx.items)) {
-        if (decoys.length >= 2) break;
+        if (decoys.length >= decoyLimit) break;
         for (const part of item.parts || []) {
-          if (decoys.length >= 2) break;
+          if (decoys.length >= decoyLimit) break;
           if (seen.has(part.display)) continue;
           seen.add(part.display);
           decoys.push(part);
         }
       }
-      this.tray = shuffle([...target.parts, ...decoys]);
+      this.tray = shuffle([...target.parts.slice(this.fixedCount), ...decoys]);
       ctx.stage.innerHTML = `
         <div class="build-scene">
           <div class="build-slots" dir="rtl">
@@ -1297,6 +1352,12 @@
           </div>
         </div>`;
       this.slots = [...ctx.stage.querySelectorAll(".build-slot")];
+      for(let i=0;i<this.fixedCount;i++){
+        const slot=this.slots[i],part=target.parts[i];
+        slot.innerHTML=workshopTile(part.display);slot.disabled=true;slot.classList.add('is-filled','is-prepared');
+        slot.setAttribute('aria-label',`Prepared piece ${part.display}`);
+        this.placed.push({part,slot,btn:null,fixed:true});
+      }
       this.slots.forEach((slot,i)=>slot.addEventListener('click',()=>this.returnFrom(i)));
       for (const btn of ctx.stage.querySelectorAll(".build-tile")) {
         btn.addEventListener("click", () => this.place(btn));
@@ -1312,6 +1373,7 @@
       slot.disabled=false;
       slot.setAttribute('aria-label',`Return ${part.display} and following pieces`);
       slot.classList.add("is-filled");
+      slot.classList.remove("is-hint");
       btn.classList.add("is-used");btn.disabled=true;
       this.placed.push({ part, btn, slot });
       this.ctx.say({ display: part.display, speak: part.speak || part.display });
@@ -1337,19 +1399,27 @@
         }, 1400);
       } else {
         this.slips += 1;
-        reportAssembly(this.ctx, target, false);
+        const firstWrong = this.placed.findIndex((p, i) => p.part.display !== target.parts[i].display);
+        this.slots?.[firstWrong]?.classList.add('is-hint');
+        const selected = this.placed[firstWrong]?.part;
+        reportOutcome(this.ctx, target, false, "motor_assembly_participation", true, {
+          selectedId: selected?.id || selected?.display,
+          choiceIds: this.tray.map((part) => part.id || part.display),
+          skill: "construction", activity: "build",
+        });
+        this.ctx.showLearningHint?.(target.parts[firstWrong], selected);
         this.ctx.sfx("wrong");
         const slotsEl = this.ctx.stage.querySelector(".build-slots");
         slotsEl.classList.remove("is-shake");
         void slotsEl.offsetWidth;
         slotsEl.classList.add("is-shake");
         // Scaffolded retry: one decoy that led the build astray leaves.
-        const strayed = this.placed.find(
-          (p) => !target.parts.some((tp) => tp.display === p.part.display),
-        );
+        const strayed = this.placed.slice(firstWrong).find(
+          (p) => !target.parts.some((tp) => tp.display === p.part.display));
         setTimeout(() => {
         if (!this.alive) return;
-          for (const p of this.placed) {
+          const removed = this.placed.splice(firstWrong);
+          for (const p of removed) {
             p.slot.innerHTML = "";
             p.slot.disabled=true;
             p.slot.setAttribute('aria-label','Empty building space');
@@ -1357,7 +1427,7 @@
             p.btn.classList.remove("is-used");p.btn.disabled=false;
           }
           this.ctx.stage.querySelectorAll(".build-tile").forEach(b=>b.disabled=b.classList.contains("is-scaffolded"));
-          this.placed = [];
+          this.placed.forEach(p=>{p.slot.disabled=!!p.fixed;if(p.btn)p.btn.disabled=true;});
           if (strayed) {strayed.btn.classList.add("is-scaffolded");strayed.btn.disabled=true;}
           this.ctx.say(target);
         }, 800);
@@ -1365,7 +1435,7 @@
     }
 
     returnFrom(index) {
-      if(!this.alive || !Number.isInteger(index) || index<0 || index>=this.placed.length ||
+      if(!this.alive || !Number.isInteger(index) || index<0 || index>=this.placed.length || this.placed[index]?.fixed ||
         this.placed.length>=this.targets[this.roundIndex].parts.length)return;
       const removed=this.placed.splice(index);
       for(const {slot,btn} of removed){
@@ -1393,8 +1463,8 @@
       this.ctx = ctx;
       this.alive = true;
       const pool = ctx.items.filter((i) => i.parts && i.parts.length === 2);
-      const targets = shuffle(pool).slice(0, 4);
-      while (targets.length < 4 && pool.length) targets.push(pool[targets.length % pool.length]);
+      const targets = shuffle(pool).slice(0, ctx.rounds || 4);
+      while (targets.length < (ctx.rounds || 4) && pool.length) targets.push(pool[targets.length % pool.length]);
       this.rounds = targets.map((target, r) => {
         let decoy = null;
         if (r >= 2) {
@@ -1414,7 +1484,12 @@
       if (!this.alive) return;
       const ctx = this.ctx;
       const { target, decoy } = this.rounds[this.roundIndex];
-      ctx.setPrompt(target);
+      ctx.setPrompt(target, {
+        promptMode: "match", skill: "joining",
+        choiceIds: [target.parts[0], target.parts[1], ...(decoy ? [decoy] : [])]
+          .map((part) => part.id || part.display),
+        activity: ctx.activity || "blend",
+      });
       ctx.say(target);
 
       // Letter enters from the right (reading direction), vowels wait left.
@@ -1572,7 +1647,14 @@
       if (!isTarget) {
         this.retrying = true;
         this.slips += 1;
-        reportAssembly(this.ctx, target, false);
+        const selected = [pa, pb].find((part) =>
+          part.kind === "vowel" && part.part.display !== target.parts[1].display)?.part;
+        reportOutcome(this.ctx, target, false, "motor_assembly_participation", true, {
+          selectedId: selected?.id || selected?.display,
+          choiceIds: this.parts.map((part) => part.part.id || part.part.display),
+          skill: "joining", activity: this.ctx.activity || "blend",
+        });
+        this.ctx.showLearningHint?.(target, selected);
         this.ctx.sfx("wrong");
         a.classList.add("is-shake");
         b.classList.add("is-shake");
@@ -1686,7 +1768,7 @@
       this.ctx = ctx;
       this.alive = true;
       const pool = ctx.items.filter((i) => i.parts && i.parts.length === 2);
-      this.targets = shuffle(pool).slice(0, 4);
+      this.targets = shuffle(pool).slice(0, ctx.rounds || 4);
       while (this.targets.length < 4 && pool.length)
         this.targets.push(pool[this.targets.length % pool.length]);
       this.roundIndex = 0;
@@ -1853,8 +1935,12 @@
         { display: target.parts[1].display, speak: target.parts[1].speak },
         ...(decoy ? [{ display: decoy.display, speak: decoy.speak }] : []),
       ]);
-      ctx.setPrompt({ id: wanted.display, display: wanted.display, speak: wanted.speak });
-      ctx.say({ display: wanted.display, speak: wanted.speak });
+      const promptTarget = { id: wanted.id || wanted.display, display: wanted.display, speak: wanted.speak };
+      const quizRound = {
+        target: promptTarget, options: options.map((option) => ({ ...option, id: option.id || option.display })),
+        promptMode: "match", skill: "segmenting",
+      };
+      presentRound(ctx, quizRound, "unfuse");
       const quizEl = ctx.stage.querySelector(".unfuse-quiz");
       ctx.stage.querySelector(".unfuse-halves").hidden = true;
       quizEl.hidden = false;
@@ -1867,7 +1953,7 @@
           const o = options[Number(btn.dataset.i)];
           if (o.display === wanted.display) {
             this.busy=true;
-            reportPromptMatch(ctx, { id: wanted.display }, true);
+            reportPromptMatch(ctx, quizRound, true, { ...o, id: o.id || o.display }, "unfuse");
             ctx.sfx("correct");
             ctx.confettiAt(btn);
             ctx.say({ display: o.display, speak: o.speak });
@@ -1880,7 +1966,8 @@
           } else {
             btn.disabled=true;
             this.slips += 1;
-            reportPromptMatch(ctx, { id: wanted.display }, false);
+            reportPromptMatch(ctx, quizRound, false, { ...o, id: o.id || o.display }, "unfuse");
+            helpAfterWrong(ctx, quizRound, o);
             ctx.sfx("wrong");
             const svg = btn.querySelector("svg");
             svg.classList.remove("is-shake");
@@ -1907,7 +1994,7 @@
       this.alive = true;
       const pool = ctx.items.filter((i) => i.parts && i.parts.length === 2 && i.join2);
       const singles = (ctx.extraItems || []).slice();
-      this.rounds = shuffle(pool).slice(0, 4).map((pair, r) => {
+      this.rounds = shuffle(pool).slice(0, ctx.rounds || 4).map((pair, r) => {
         const candidates = shuffle(
           singles.filter(
             (l) => l.display !== pair.parts[0].display && l.display !== pair.parts[1].display,
@@ -1918,7 +2005,7 @@
         return { pair, third, decoy };
       }).filter((r) => r.third);
       const unique = this.rounds.length;
-      while (this.rounds.length < 4 && unique) {
+      while (this.rounds.length < (ctx.rounds || 4) && unique) {
         this.rounds.push(this.rounds[this.rounds.length % unique]);
       }
       this.roundIndex = 0;
@@ -1938,12 +2025,15 @@
         speak: `${pair.speak}، ${third.speak}`,
       };
       this.chain = chain;
-      ctx.setPrompt(chain);
-      ctx.say(chain);
       const thirds = [{ l: third, x: 22, y: decoy ? 30 : 50 }];
       if (decoy) thirds.push({ l: decoy, x: 22, y: 68 });
+      ctx.setPrompt(chain, {
+        promptMode: "match", skill: "joining",
+        choiceIds: thirds.map(({ l }) => l.id || l.display), activity: "chain",
+      });
+      ctx.say(chain);
       ctx.stage.innerHTML = `
-        <div class="blend-scene chain-scene">
+        <div class="blend-scene chain-scene chain-bridge" data-skill="joining">
           <div class="blend-glow"></div>
           <span class="chain-base">${workshopTile(pair.display)}</span>
           ${thirds
@@ -1957,6 +2047,15 @@
       this.base = ctx.stage.querySelector(".chain-base");
       const thirdEls = [...ctx.stage.querySelectorAll(".chain-third")];
       for (const el of thirdEls) this.wireDrag(el);
+      if (this.roundIndex === 0 && thirdEls[0]) {
+        this.base.classList.add("is-demo");
+        thirdEls[0].classList.add("is-demo");
+        setTimeout(() => {
+          if (!this.alive || this.roundIndex !== 0) return;
+          this.base.classList.remove("is-demo");
+          thirdEls[0].classList.remove("is-demo");
+        }, 1400);
+      }
       if (this.stopHint) this.stopHint();
       this.stopHint = dragHint(thirdEls, this.base);
     }
@@ -2039,7 +2138,12 @@
       const picked = this.thirds[Number(el.dataset.i)].l;
       if (picked.display !== third.display) {
         this.slips += 1;
-        reportPromptMatch(ctx, this.chain, false);
+        reportOutcome(ctx, this.chain, false, "supported_visible_matching", true, {
+          selectedId: picked.id || picked.display,
+          choiceIds: this.thirds.map(({ l }) => l.id || l.display),
+          skill: "joining", activity: "chain",
+        });
+        ctx.showLearningHint?.(this.chain, picked);
         ctx.sfx("wrong");
         const svg = el.querySelector("svg");
         svg.classList.remove("is-shake");
@@ -2062,7 +2166,11 @@
         el.classList.add("is-gone");
         this.base.innerHTML = workshopTile(this.chain.display);
         this.base.classList.add("is-grown");
-        reportPromptMatch(ctx, this.chain, true);
+        reportOutcome(ctx, this.chain, true, "supported_visible_matching", true, {
+          selectedId: picked.id || picked.display,
+          choiceIds: this.thirds.map(({ l }) => l.id || l.display),
+          skill: "joining", activity: "chain",
+        });
         ctx.sfx("correct");
         ctx.say(this.chain);
         ctx.confettiAt(this.base);
@@ -2106,6 +2214,7 @@
       const ctx = this.ctx;
       const letter = this.letters[this.roundIndex];
       const forms = this.formsOf(letter.display);
+      ctx.setPrompt?.(null, { promptMode: "match", skill: "contextual_forms", choiceIds: [], activity: "parade" });
       ctx.say({ display: letter.display, speak: letter.speak });
       ctx.stage.innerHTML = `
         <div class="parade-scene">
@@ -2136,11 +2245,61 @@
             ctx.confettiAt(ctx.stage.querySelector(".parade-spots"));
             setTimeout(() => {
               if(!this.alive)return;
+              const alternate = this.letters.find((item) => item.display !== letter.display);
+              if (alternate) return this.startTransfer(letter, forms[this.roundIndex % forms.length], alternate);
               this.roundIndex += 1;
               if (this.roundIndex >= this.letters.length) {this.alive=false;return ctx.onDone(0);}
               this.startRound();
             }, 1200);
           }
+        });
+      }
+    }
+
+    startTransfer(letter, form, alternate) {
+      const ctx = this.ctx;
+      const target = { id: letter.id || letter.display, display: form, speak: letter.speak };
+      const options = shuffle([letter, alternate]);
+      ctx.setPrompt(target, {
+        promptMode: "match", skill: "contextual_forms",
+        choiceIds: options.map((item) => item.id || item.display), activity: "parade",
+      });
+      ctx.say(letter);
+      ctx.stage.innerHTML = `<div class="parade-scene parade-transfer">
+        <span class="parade-star">${workshopTile(form)}</span>
+        <div class="parade-spots">${options.map((item, i) =>
+          `<button type="button" class="parade-spot parade-choice" data-i="${i}" aria-label="${item.display}">${workshopTile(item.display)}</button>`).join("")}</div>
+      </div>`;
+      for (const button of ctx.stage.querySelectorAll(".parade-choice")) {
+        button.addEventListener("click", () => {
+          if (!this.alive || this.busy || button.disabled) return;
+          const selected = options[Number(button.dataset.i)];
+          const details = {
+            selectedId: selected.id || selected.display,
+            choiceIds: options.map((item) => item.id || item.display),
+            skill: "contextual_forms", activity: "parade",
+          };
+          if (selected.display !== letter.display) {
+            button.disabled = true;
+            this.slips = (this.slips || 0) + 1;
+            reportOutcome(ctx, target, false, "supported_visible_matching", true, details);
+            ctx.showLearningHint?.(target, selected);
+            ctx.sfx("wrong");
+            button.classList.add("is-shake");
+            ctx.say(letter);
+            return;
+          }
+          this.busy = true;
+          reportOutcome(ctx, target, true, "supported_visible_matching", true, details);
+          ctx.sfx("correct");
+          ctx.confettiAt(button);
+          ctx.say(letter);
+          setTimeout(() => {
+            if (!this.alive) return;
+            this.roundIndex += 1;
+            if (this.roundIndex >= this.letters.length) { this.alive = false; return ctx.onDone(this.slips || 0); }
+            this.startRound();
+          }, 900);
         });
       }
     }

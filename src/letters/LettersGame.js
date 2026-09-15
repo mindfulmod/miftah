@@ -739,6 +739,8 @@
     }
 
     stopSpeech() {
+      this._learningSpeechCancel?.();
+      this._learningSpeechCancel = null;
       this.sound.setSpeaking?.(false);
       this.speechTurn = (this.speechTurn || 0) + 1;
       this.utterance = null;
@@ -781,6 +783,29 @@
       } catch { this.sound.setSpeaking?.(false); }
     }
 
+    // A learning prompt is usable only after its utterance actually completes.
+    // Keep say()'s existing public API for introductions and pet recitation.
+    sayForLearning(item) {
+      const utterance = this.say(item);
+      if (!utterance || typeof utterance !== 'object') return Promise.resolve(false);
+      return new Promise(resolve => {
+        let settled = false;
+        const finish = heard => {
+          if (settled) return;
+          settled = true;
+          clearTimeout(timer);
+          if (this._learningSpeechCancel === cancel) this._learningSpeechCancel = null;
+          resolve(heard);
+        };
+        const cancel = () => finish(false);
+        const end = utterance.onend, error = utterance.onerror;
+        const timer = setTimeout(cancel, 6500);
+        this._learningSpeechCancel = cancel;
+        utterance.onend = event => { end?.(event); finish(true); };
+        utterance.onerror = event => { error?.(event); finish(false); };
+      });
+    }
+
     prefersReducedMotion() {
       return this.reduceMotion || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     }
@@ -794,6 +819,7 @@
     // ---------- chrome ----------
 
     screen(className, inner) {
+      this.onLearningSoundChange = null;
       this.stopWardrobeResize?.();this.stopWardrobeResize=null;
       this.screenRevision=(this.screenRevision||0)+1;
       this.stopMapResize?.();
@@ -843,19 +869,8 @@
     toggleSound() {
       this.sound.toggle ? this.sound.toggle() : (this.sound.enabled = !this.sound.enabled);
       if (!this.sound.enabled) this.stopSpeech();
-      this.root.querySelectorAll(".lg-sound").forEach(button => {
-        button.classList.toggle("is-off", !this.sound.enabled);
-        button.setAttribute("aria-pressed", String(this.sound.enabled));
-      });
-      this.root.querySelectorAll(".gu-sound-toggle").forEach(button => {
-        button.textContent = this.sound.enabled ? "Sound is on" : "Sound is off";
-        button.setAttribute("aria-pressed", String(this.sound.enabled));
-      });
-    }
-
-    toggleSound() {
-      this.sound.toggle ? this.sound.toggle() : (this.sound.enabled = !this.sound.enabled);
-      if (!this.sound.enabled) this.stopSpeech();
+      this.onLearningSoundChange?.();
+      this.game?.onSoundChange?.();
       this.root.querySelectorAll(".lg-sound").forEach(button => {
         button.classList.toggle("is-off", !this.sound.enabled);
         button.setAttribute("aria-pressed", String(this.sound.enabled));
@@ -1277,16 +1292,18 @@
       if (!world) return;
       this.session = {
         world,
+        plan: world.plan || null,
         meetIndex: 0,
         gameIndex: 0,
         starTotal: 0,
         items: world.items(),
         // Distractors come from familiar content; each activity controls
         // how many choices the child sees.
-        extraItems: world.extraItems ? world.extraItems() : [],
+        extraItems: world.extraItems ? world.extraItems(this.progress.done) : [],
         daily: true,
         challenge,
       };
+      ns.LettersStrength?.beginReview?.(this.session.items);
       this.startGame();
     }
 
@@ -1321,7 +1338,7 @@
         gameIndex: 0,
         starTotal: 0,
         items: world.items(),
-        extraItems: world.extraItems ? world.extraItems() : [],
+        extraItems: world.extraItems ? world.extraItems(this.progress.done) : [],
       };
       if (world.meet.length) this.renderMeet();
       else this.startGame();
@@ -1552,8 +1569,10 @@
             <span class="play-bubble-glyph" dir="rtl" lang="ar"></span>
             <span class="play-bubble-icon">${Art.icon("speaker", 22)}</span>
           </button>
+          <button type="button" class="learning-help lg-round-btn" aria-label="Show the letter" hidden><svg width="26" height="26" viewBox="0 0 40 40" aria-hidden="true"><path d="M3 20Q20 1 37 20Q20 39 3 20Z" fill="#fffaf0" stroke="#4a3620" stroke-width="3"/><circle cx="20" cy="20" r="7" fill="#4e9677"/><circle cx="18" cy="17" r="2" fill="#fffdf7"/></svg></button>
           <span class="play-dots" ${this.showsRoundProgress() ? 'role="progressbar" aria-label="Activity progress" aria-valuemin="0" aria-valuemax="4" aria-valuenow="0"' : ''}>${s.world.games.map((_, i) => `<i class="${i < s.gameIndex ? "is-done" : i === s.gameIndex ? "is-on" : ""}"></i>`).join("")}</span>
         </div>
+        <div class="learning-hint" role="status" aria-live="polite" hidden></div>
         <div class="play-stage"></div>`,
       );
       el.dataset.activity = gameName;
@@ -1561,7 +1580,11 @@
       const stage = el.querySelector(".play-stage");
       const bubble = el.querySelector(".play-bubble");
       const glyph = el.querySelector(".play-bubble-glyph");
+      const help = el.querySelector(".learning-help");
+      const hint = el.querySelector(".learning-hint");
       let currentTarget = null;
+      let presentation = {version:0,hidden:false,heard:false,choiceIds:[]};
+      let speechAttempt = 0;
       bubble.addEventListener("click", () => sayWithPose(currentTarget));
 
       const petEl = el.querySelector(".play-pet");
@@ -1599,7 +1622,15 @@
       };
       const sayWithPose = (item) => {
         if (Date.now() >= poseLockedUntil) setPetPose("listening", 900);
-        this.say(item);
+        const version = presentation.version, attempt = ++speechAttempt;
+        const answer = currentTarget?.id;
+        return this.sayForLearning(item).then(heard => {
+          if (!el.isConnected || version !== presentation.version || attempt !== speechAttempt || answer !== item?.id) return false;
+          presentation.heard = heard;
+          stage.inert = false;
+          if (!heard && presentation.hidden) revealPrompt(true);
+          return heard;
+        });
       };
       petEl.addEventListener("click", () => {
         setPetPose("success", 900);
@@ -1610,6 +1641,18 @@
       const learning = ns.LettersLearning?.LearningSession
         ? new ns.LettersLearning.LearningSession(ns.LettersStrength)
         : null;
+      const revealPrompt = (assisted = true) => {
+        if (!el.isConnected || !currentTarget) return;
+        if (assisted) learning?.assist();
+        presentation.hidden = false;
+        stage.inert = false;
+        glyph.hidden = false;
+        help.hidden = true;
+        bubble.classList.remove('is-listening-only');
+      };
+      help.onclick = () => {revealPrompt(true);sayWithPose(currentTarget);};
+      this.onLearningSoundChange = () => {if (!this.sound.enabled) revealPrompt(presentation.hidden);};
+      const firstAttempt = !(this.bests[`${s.world.id}:${gameName}`] > 0) && !s.daily && !s.checkup;
       const ctx = {
         stage,
         garden: s.world.id === "pack-boat" || this.isGentleDaily(),
@@ -1626,13 +1669,51 @@
         reducedMotion: () => this.prefersReducedMotion(),
         items: planStep ? planStep.items : s.items,
         extraItems: s.extraItems,
-        rounds: 4,
+        activity: gameName,
+        worldId: s.world.id,
+        completedWorldIds: this.progress.done,
+        challenge: !!s.challenge,
+        // Existing word/sequence speech has not been qualified for independent
+        // decoding; those activities retain a visible model and explicit help.
+        allowRecall: s.world.kind === 'letters' || s.daily || s.checkup,
+        rounds: planStep?.rounds || 4,
         hue: s.world.hue,
-        level: s.world.id === "pack-boat" ? (this.bests[`${s.world.id}:${gameName}`] || 0) : (this.stars[s.world.id] || 0),
-        beginner: this.isGentleDaily() || ((this.isReferenceJourney(s.world) || (!s.plan && ["pairs","catch"].includes(gameName))) && !(this.bests[`${s.world.id}:${gameName}`] > 0)),
+        level: 0,
+        beginner: firstAttempt || gameName === 'pairs' && gameItems.some(item => (ns.LettersStrength?.skillProfile?.(item.id,'matching-memory')?.matching?.r || 0) < 3),
         onPauseChange: paused => {if(paused && el.isConnected)this.stopSpeech();},
         say: (item) => sayWithPose(item),
-        reportOutcome: (outcome) => learning?.report(outcome),
+        reportOutcome: (outcome) => {
+          const active = outcome.itemId === currentTarget?.id;
+          const prompted = active && outcome.evidence === 'supported_visible_matching' && gameName !== 'pairs';
+          return learning?.report({...outcome,
+            skill: active ? presentation.skill : outcome.skill || ns.LettersLearning?.skillFor({id:outcome.itemId,display:outcome.itemId},gameName),
+            activity: gameName,
+            choiceIds: outcome.choiceIds || (active ? presentation.choiceIds : []),
+            ...(prompted ? {evidence:presentation.hidden && presentation.heard && presentation.choiceIds.length>1 ? 'independent_listening' : 'supported_visible_matching',
+              assisted:outcome.assisted || presentation.choiceIds.length===1} : {}),
+          });
+        },
+        showLearningHint: (target, selected) => {
+          revealPrompt(true);
+          if (!selected || (target.id || target.display)===(selected.id || selected.display)) return;
+          const feature=ns.LettersLearning?.contrast(target,selected) || 'shape';
+          hint.hidden=false;hint.dataset.feature=feature;
+          hint.replaceChildren();
+          const before=document.createElement('span'),after=document.createElement('span'),arrow=document.createElement('span');
+          before.className='learning-compare';after.className='learning-compare is-target';
+          before.lang=after.lang='ar';before.dir=after.dir='rtl';
+          const putGlyph=(container,display)=>{
+            const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+            svg.setAttribute('viewBox','0 0 80 66');svg.setAttribute('aria-hidden','true');
+            const text=document.createElementNS('http://www.w3.org/2000/svg','text');
+            for(const [name,value] of Object.entries({x:40,y:30,'text-anchor':'middle','font-family':'Amiri Quran, serif','font-size':46,fill:'#4a3620',direction:'rtl','data-fit-box':'40,30,66,56,46'}))text.setAttribute(name,String(value));
+            text.textContent=display;svg.append(text);container.append(svg);
+          };
+          putGlyph(before,selected.display);putGlyph(after,target.display);
+          arrow.innerHTML=Art.icon('next',24);arrow.setAttribute('aria-hidden','true');
+          hint.append(before,arrow,after);
+          hint.setAttribute('aria-label',`Compare ${selected.display} with ${target.display}: ${feature}`);
+        },
         // The pet watches the child play: it hops on every right answer and
         // leans in, curious, on a wrong pick — never scolding, never sad.
         sfx: (name) => {
@@ -1661,9 +1742,17 @@
           }
         },
         confettiAt: (target) => this.confettiAt(target),
-        setPrompt: (item) => {
+        setPrompt: (item, meta = {}) => {
           currentTarget = item;
-          learning?.beginPrompt(item);
+          const skill = meta.skill || ns.LettersLearning?.skillFor(item,gameName) || 'recognition';
+          learning?.beginPrompt(item,{skill,activity:gameName,choiceIds:meta.choiceIds || []});
+          presentation = {version:presentation.version+1,skill,choiceIds:meta.choiceIds || [],heard:false,
+            hidden:!!item && meta.promptMode==='listen' && this.sound.enabled && 'speechSynthesis' in window && (meta.choiceIds || []).length>1};
+          stage.inert=presentation.hidden;
+          hint.hidden=true;
+          glyph.hidden=presentation.hidden;
+          help.hidden=!presentation.hidden;
+          bubble.classList.toggle('is-listening-only',presentation.hidden);
           bubble.hidden = !item;
           if (item) {
             // promptDisplay lets the question differ from the answer tile —
@@ -1711,7 +1800,7 @@
       // Deliberately NOT a cap or a cooldown: replaying stays free and still gets
       // the full celebration, which keeps the locked "no artificial scarcity"
       // rule intact — you simply don't get paid twice for the same work.
-      const bestKey = `${s.world.id}:${s.plan ? "plan" + s.gameIndex : s.world.games[s.gameIndex]}`;
+      const bestKey = `${s.world.id}:${s.plan && !s.daily ? "plan" + s.gameIndex : s.world.games[s.gameIndex]}`;
       const prevBest = this.bests[bestKey] || 0;
       if (stars > prevBest) {
         this.earnStars(stars - prevBest);
@@ -1720,7 +1809,7 @@
       }
       // Check-up rounds grade a skill: the LATEST score is the petal size —
       // it's a health check, not a high-score board.
-      if (s.plan && s.plan[s.gameIndex] && s.plan[s.gameIndex].skill) {
+      if (s.checkup && s.plan && s.plan[s.gameIndex] && s.plan[s.gameIndex].skill) {
         this.skills[s.plan[s.gameIndex].skill] = { score: stars, at: todayStr() };
         this.saveJSON("quran-trainer:letters:skills", this.skills);
       }
@@ -1729,7 +1818,8 @@
 
     renderPracticeGarden() {
       const world=this.worlds.worlds.find(w=>w.id==='pack-boat');
-      this.session={world,items:world.items()};
+      const familiar=this.petKnowledge().map(letter=>({id:letter.char,display:letter.char,speak:letter.arName,objective:'letter-name'}));
+      this.session={world,items:familiar.length?familiar:world.items()};
       const choices=['Feed','DotGarden','GardenPaths'];
       if(this.petKnowledge().length)choices.push('LetterDelivery');
       if(this.workshopWorlds().length)choices.push('Workshop');
@@ -1800,21 +1890,22 @@
       if(kind==='Feed'||kind==='Workshop')el.querySelector('.practice-stage').classList.add('play-stage');
       this.wireTopBar(el,back);
       const replay=el.querySelector('.practice-replay');let current=null;
-      replay.onclick=()=>{if(current)this.say(current);};
+      replay.onclick=()=>{if(this.game?.replayPrompt)this.game.replayPrompt();else if(current)this.sayForLearning(current);};
       const learning=ns.LettersLearning?.LearningSession
         ? new ns.LettersLearning.LearningSession(ns.LettersStrength)
         : null;
       const ctx={stage:el.querySelector('.practice-stage'),items:s.items||s.world.items(),
+        activity:kind,worldId:s.world.id,completedWorldIds:this.progress?.done || [],
         reducedMotion:()=>this.prefersReducedMotion(),petArt:()=>this.petSVG(140,'open'),
         canListen:()=>this.sound.enabled && 'speechSynthesis' in window,
         prompt:item=>{current=item;
-          learning?.beginPrompt(item);
+          learning?.beginPrompt(item,{activity:kind,skill:ns.LettersLearning?.skillFor(item,kind==='Workshop'?'build':kind)});
           if(kind==='Workshop' && item)replay.innerHTML=`<svg viewBox="0 0 120 80" aria-hidden="true"><text x="60" y="40" text-anchor="middle" font-family="Amiri Quran, serif" font-size="42" fill="#4a3620" data-fit-box="60,40,94,52,42">${item.display}</text></svg>`;
           else if(item)replay.textContent=item.display;else replay.innerHTML=Art.icon('speaker',32);
         },
-        say:item=>{if(kind!=='Workshop')current=item;this.say(item);},
+        say:item=>{if(kind!=='Workshop')current=item;return this.sayForLearning(item);},
         reportOutcome:outcome=>learning?.report(outcome),
-        correct:()=>{if((kind==='DotGarden'||kind==='GardenPaths')&&current?.id)learning?.report({itemId:current.id,evidence:'motor_assembly_participation',affectsStrength:false});this.sound.play('correct');},
+        correct:()=>this.sound.play('correct'),
         done:()=>{if(el.isConnected)back();}};
       if(kind==='Feed')this.game=new ns.LettersMiniGames.feed({...ctx,garden:true,beginner:true,level:0,rounds:4,hue:150,extraItems:[],petArt:()=>this.petSVG(180),setPrompt:ctx.prompt,sfx:name=>this.sound.play(name),confettiAt:target=>this.confettiAt(target),onDone:ctx.done});
       else if(kind==='Workshop')this.game=new ns.LettersMiniGames.build({...ctx,setPrompt:ctx.prompt,sfx:name=>this.sound.play(name),confettiAt:target=>this.confettiAt(target),onDone:ctx.done});
