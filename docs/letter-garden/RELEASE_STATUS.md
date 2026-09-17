@@ -21,6 +21,14 @@ Scope: Letter Garden only. Preserve curriculum, pets, rewards and earned progres
 No running voice service or AI API calls are needed for the bundled clips. No
 publishing authorization for this major release.
 
+Next focus (September 16): audio generation is parked at the owner's request;
+the full FM recording scripts remain in `reviews/fm-curriculum-scripts/`.
+The next five proposed passes focus on tactile feedback, connected chapter
+journeys, learning through experimentation, participating pets, and lasting
+garden ownership. See [CHILD_EXPERIENCE_NEXT_FIVE.md](CHILD_EXPERIENCE_NEXT_FIVE.md)
+for current observations, implementation order and child-experience checks.
+This is a planning update; those five passes are not yet implemented.
+
 Remaining: physical-device/touch and installed update testing; audible verification; Arabic educator and child-session review; the complete character/accessory fitting matrix. Parent-page work is explicitly deferred. Continue from [NEXT_MAJOR_RELEASE.md](NEXT_MAJOR_RELEASE.md), not a count-driven rewrite.
 
 Delegation: bounded Sol and Luna tasks for gameplay guards, recovery/offline and release contracts/docs; root owned art direction, integration, browser play and corrections. No measured token-savings claim.
