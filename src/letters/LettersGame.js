@@ -1152,22 +1152,7 @@
         </div>
         <div class="map-scroll">
           <div class="map-path" style="height:${height}px">
-            ${(() => {
-              // Soft biome bands behind the trail: one wash of color per
-              // chapter of the ladder, feathered so the day-phase sky still
-              // owns the mood. Computed from each biome's world range.
-              const bands = [];
-              let s = 0;
-              for (let i = 1; i <= worlds.length; i += 1) {
-                if (i === worlds.length || worlds[i].biome !== worlds[s].biome) {
-                  const top = yOf(i - 1) - GAP * 0.62;
-                  const bottom = yOf(s) + GAP * 0.62;
-                  bands.push(`<i class="map-band biome-${worlds[s].biome}" style="top:${Math.max(top, 0)}px;height:${bottom - Math.max(top, 0)}px"></i>`);
-                  s = i;
-                }
-              }
-              return bands.join("");
-            })()}
+            <div class="map-landscape" aria-hidden="true"></div>
             <svg class="map-trail" aria-hidden="true"></svg>
 
             ${worlds
@@ -1177,11 +1162,10 @@
                 // A mastery plant grows beside every met world, its stage set
                 // by how well the child holds that chapter's letters.
                 const plant = status !== "locked"
-                  ? `<span class="map-plant" style="left:${xOf(i) + (i % 2 === 0 ? -30 : 30)}%; top:${yOf(i) + 40}px">${this.masteryPlant(this.worldMasteryOf(world))}</span>`
+                  ? `<span class="map-plant" style="left:${xOf(i) + (i % 2 === 0 ? -18 : 18)}%; top:${yOf(i) + 40}px">${this.masteryPlant(this.worldMasteryOf(world))}</span>`
                   : "";
                 return `
                   ${plant}
-                  <div class="map-terrain" style="top:${yOf(i)-82}px" aria-hidden="true">${ns.LettersMapArt.bank({biome:world.biome,side:i%2,night:Art.dayPhase()==='night'})}</div>
                   ${world.id === "pack-boat" ? `<span class="map-boat-landmark" style="left:${xOf(i) + 37}%;top:${yOf(i) - 10}px">${ns.LettersGardenArt.boat({stage: ns.LettersGardenArt.growth(this.progress, this.bests)})}</span>` : ""}
                   ${world.id === "pack-boat" ? "" : `<span class="map-landmark" aria-hidden="true" style="left:${i%2===0?74:26}%; top:${yOf(i)+35}px">${ns.LettersMapArt.landmark(world.biome,i)}</span>`}
                   <div class="map-node" data-node-world="${world.id}" style="${at}"><button type="button" class="map-stop is-${status}" data-world="${world.id}" ${status === "current" ? 'aria-current="step"' : ""} aria-label="${world.id === 'pack-boat' ? 'Boat Letters' : world.icon}${status==='done' ? `, completed, ${this.stars[world.id]||0} of 3 stars` : status==='current' ? ', next chapter' : ', locked'}" ${status === "locked" ? "disabled" : ""}>
@@ -1202,9 +1186,19 @@
       // layout against the path's actual width.
       const pathEl = el.querySelector(".map-path");
       const trail = el.querySelector(".map-trail");
+      const terrain = el.querySelector(".map-landscape");
+      const scroll = el.querySelector(".map-scroll");
+      let drawnWidth=0;
       const drawTrail=()=>{
         if(!el.isConnected)return;
       const w = pathEl.clientWidth || 430;
+      const landscapeWidth=scroll.clientWidth||w;
+      if(landscapeWidth!==drawnWidth){
+        drawnWidth=landscapeWidth;
+        terrain.style.width=`${landscapeWidth}px`;
+        terrain.innerHTML=ns.LettersMapArt.landscape({width:landscapeWidth,height,pathWidth:w,
+          stops:worlds.map((world,i)=>({y:yOf(i),biome:world.biome,left:i%2===0})),night:Art.dayPhase()==='night'});
+      }
       trail.setAttribute("viewBox", `0 0 ${w} ${height}`);
       const pts = [];
       for (let i = 0; i < total; i += 1) pts.push([(w * xOf(i)) / 100, yOf(i)]);
@@ -1221,7 +1215,7 @@
       };
       drawTrail();
       if(typeof ResizeObserver!=='undefined'){
-        const observer=new ResizeObserver(drawTrail);observer.observe(pathEl);
+        const observer=new ResizeObserver(drawTrail);observer.observe(pathEl);observer.observe(scroll);
         this.stopMapResize=()=>observer.disconnect();
       }else{
         window.addEventListener('resize',drawTrail);

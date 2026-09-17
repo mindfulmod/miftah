@@ -204,3 +204,17 @@ Child navigation is wordless: use action pictures and accessible names, not visi
   a second destination cue.
 - These ownership notes describe local implementation boundaries only. Visual
   browser review and final qualification remain pending.
+
+## Home landscape continuity — 2026-09-16
+
+- The home journey is one continuous landscape in scroll space. A chapter may
+  change the planting and landmarks, but cannot restart a full-width ground slab,
+  waterline or horizon. Do not mirror disconnected river slices at each stop.
+- Draw shorelines across chapter boundaries with shared endpoints and tangents.
+  Blend habitat materials through overlapping irregular clearings; keep the
+  trail, water and land in the same perspective and coordinate system.
+- Scenery continues behind the floating home controls. Protect their readability
+  and keep the current stop, stars and pet clear in portrait and short landscape.
+  Decorative progress plants must stay within the visible map, not at -2/102%.
+- Judge several adjacent chapters in the composed scrolling view, including a
+  habitat boundary and day/night, rather than reviewing each island in isolation.

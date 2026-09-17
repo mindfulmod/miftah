@@ -1,6 +1,6 @@
 # Letter Garden major release — local status
 
-Preview: `http://letter-garden-next.localhost:8790/letters.html?v=20260916-touch1`.
+Preview: `http://letter-garden-next.localhost:8790/letters.html?v=20260916-coast1`.
 Durable checkout: `/Users/main/Documents/GitHub/miftah/.local-work/letter-garden-next-major`.
 Branch: `codex/letter-garden-next-major`.
 Production baseline: `55f34576f0ebfc02bcf115452101b37adfbb4536` / `20260908-batch50`.
@@ -33,6 +33,11 @@ completion and rotation-safe canvas mapping. **225 tests pass.** See
 [TACTILE_PASS_REVIEW.md](TACTILE_PASS_REVIEW.md) for actual browser checks,
 limitations and recovery from the pre-pass checkpoint `e7e59c2`.
 Passes 2–5 remain proposed.
+
+The home-map continuity pass replaces per-chapter terrain strips with a shared
+landscape and riverbank, keeps habitat landmarks, and refines portrait/landscape
+controls. **228 tests pass.** See [HOME_CONTINUITY_REVIEW.md](HOME_CONTINUITY_REVIEW.md).
+The earlier touch checkpoint `3e35484` is on GitHub; this art pass remains local.
 
 Remaining: physical-device/touch and installed update testing; audible verification; Arabic educator and child-session review; the complete character/accessory fitting matrix. Parent-page work is explicitly deferred. Continue from [NEXT_MAJOR_RELEASE.md](NEXT_MAJOR_RELEASE.md), not a count-driven rewrite.
 

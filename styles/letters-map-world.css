@@ -1,10 +1,13 @@
 /* The home trail is a landscape at the same scale as the activity garden. */
 .lg-home .map-path{max-width:780px}
 .lg-app:has(.lg-home)>.art-backdrop{filter:saturate(.78)}
-.lg-home .map-scroll{position:relative;margin:0 -12px;isolation:isolate;scroll-padding:90px 0 130px}
-.lg-home .map-band{opacity:.2;filter:none}
-.map-terrain{position:absolute;left:50%;width:100vw;transform:translateX(-50%);height:300px;pointer-events:none;z-index:0;filter:saturate(.74)}
-.map-terrain>svg{display:block;width:100%;height:100%}
+.lg-home .map-scroll{position:absolute;inset:0;margin:0;isolation:isolate;scroll-padding:210px 0 100px;mask-image:none;-webkit-mask-image:none;z-index:1;scrollbar-width:thin;scrollbar-color:#a89478 transparent}
+.lg-home .map-scroll{background:color-mix(in srgb,#62cdf4 70%,#a89478)}
+.lg-app[data-garden-phase="night"] .lg-home .map-scroll{background:color-mix(in srgb,#3a8fc4 60%,#6064a0)}
+.lg-screen.lg-home>.lg-topbar{position:relative;z-index:6;pointer-events:none}
+.lg-screen.lg-home>.lg-topbar>*{pointer-events:auto}
+.map-landscape{position:absolute;inset:0 auto 0 50%;width:100vw;transform:translateX(-50%);pointer-events:none;z-index:0;filter:saturate(.68)}
+.map-landscape>svg{display:block;width:100%;height:100%}
 .lg-home .map-trail{z-index:1}
 .lg-home .map-node{z-index:3}
 .lg-home .map-here{z-index:4}
@@ -14,7 +17,7 @@
 .lg-home .map-flower-bed{top:calc(100% + 12px);width:88px;height:71px}
 .lg-home .map-node>.map-stop{filter:drop-shadow(0 7px 0 #2f5c4620)}
 .lg-home .map-stop.is-current::before{inset:-12px;background:radial-gradient(ellipse,#ffe49a88,transparent 70%);border:none}
-.lg-home .map-plant{z-index:2}
+.lg-home .map-plant{z-index:2;width:38px}
 .lg-home .map-daily-row{position:relative;z-index:5;box-shadow:0 5px 0 #c9bda4,inset 0 3px 0 #fffdf7;background:#fffaf0;border-color:#a89478}
 .lg-home .map-daily-row button{background:#fffaf0;box-shadow:0 3px 0 #c9bda4;border-color:#a89478}
 .lg-home .map-play-places{position:relative;z-index:5;margin:6px 0 13px}
@@ -22,16 +25,28 @@
 .lg-home .map-play-places button:active{transform:translateY(3px);box-shadow:0 2px 0 #c9bda4}
 .lg-home .map-play-places button:focus-visible{outline:3px solid #70501b;outline-offset:3px}
 .lg-home .map-stop:focus-visible{outline:3px solid #70501b;outline-offset:8px;border-radius:50%}
-@media(min-width:1000px){.lg-home .map-node{width:160px;height:160px}.lg-home .map-here .art-pet{width:84px}.lg-home .map-daily-row{position:absolute;left:24px;top:12px;margin:0}.lg-home .map-play-places{position:absolute;left:50%;top:12px;transform:translateX(-50%);margin:0;gap:14px}.lg-home .map-scroll{margin-top:24px}.lg-screen.lg-home>.lg-topbar{min-height:74px}}
-@media(max-width:600px){.map-terrain{height:254px}.lg-home .map-landmark{width:clamp(110px,34vw,160px)}.lg-home .map-boat-landmark{width:clamp(130px,38vw,178px)}.lg-home .map-play-places{margin:4px 0 10px}.lg-home .map-daily-row{margin-top:2px}}
+@media(min-width:1000px){.lg-home .map-node{width:160px;height:160px}.lg-home .map-here .art-pet{width:84px}.lg-home .map-daily-row{position:absolute;left:24px;top:12px;margin:0}.lg-home .map-play-places{position:absolute;left:50%;top:12px;transform:translateX(-50%);margin:0;gap:14px}.lg-home .map-scroll{scroll-padding-top:100px}.lg-screen.lg-home>.lg-topbar{min-height:74px}}
+@media(max-width:600px){.lg-home .map-landmark{width:clamp(104px,29vw,145px)}.lg-home .map-boat-landmark{width:clamp(130px,38vw,178px)}.lg-home .map-play-places{margin:4px 0 10px}.lg-home .map-daily-row{margin-top:2px}}
 @media(prefers-reduced-motion:reduce){.lg-home .map-stop,.lg-home .map-stop-art,.lg-home .map-stop::before{animation:none!important;transition:none!important}}
 .lg-reduce-motion .lg-home .map-stop,.lg-reduce-motion .lg-home .map-stop-art,.lg-reduce-motion .lg-home .map-stop::before{animation:none!important;transition:none!important}
 
 .lg-home .map-here .art-pet{width:68px;height:auto;margin:0}
+
 
 @media(max-width:600px){
  .lg-screen.lg-home>.lg-topbar{height:48px;min-height:48px;margin-bottom:0}
  .lg-screen.lg-home .lg-topbar .lg-round-btn{width:48px;height:48px}
  .lg-screen.lg-home .map-daily-row{padding:5px 8px;gap:8px;margin:3px auto 6px}
  .lg-screen.lg-home .map-daily-row button{width:48px;height:48px;min-width:48px}
+}
+
+/* In short landscape viewports the pictorial controls share one compact row. */
+@media(min-width:540px) and (max-height:500px){
+ .lg-screen.lg-home .map-daily-row{position:absolute;left:12px;top:10px;margin:0;padding:4px 6px;gap:5px}
+ .lg-screen.lg-home .map-daily-row button{width:44px;height:44px;min-width:44px;border-radius:14px}
+ .lg-screen.lg-home .map-play-places{position:absolute;left:234px;top:10px;transform:none;margin:0;gap:8px}
+ .lg-screen.lg-home .map-play-places button{width:72px;height:54px;padding:4px;gap:2px;border-radius:16px}
+ .lg-screen.lg-home .map-play-places button>svg:first-child{width:42px;height:42px}
+ .lg-screen.lg-home .map-play-places button>svg:last-child{width:16px;height:16px}
+ .lg-screen.lg-home .map-scroll{scroll-padding-top:80px}
 }
