@@ -1,13 +1,23 @@
-# Recorded letter audio (optional, wins over TTS)
+# Bundled AI letter-name voice
 
-Drop one mp3 per letter here and the Letter Garden uses it automatically
-(no code change); missing files fall back to the device's Arabic voice.
+`marin-v1/` contains 25 short WAV clips from the owner's OpenAI.fm Marin export.
+The explicit name-to-file map is `src/letters/LetterVoiceClips.js`; placing an
+unlisted file here does not automatically activate it. The game never probes
+missing filenames or calls an AI service during playback.
 
-Required filenames (letter name, lowercase):
+Three names are absent from the supplied export: **Seen (س), Waw (و), Ya (ي)**.
+They retain browser Arabic speech, as do vowel syllables and Quran words. The
+available Sheen (ش) clip was identified by the owner before mapping it.
 
-alif.mp3 ba.mp3 ta.mp3 tha.mp3 jeem.mp3 haa.mp3 khaa.mp3 dal.mp3 dhal.mp3
-ra.mp3 zay.mp3 seen.mp3 sheen.mp3 saad.mp3 daad.mp3 taa.mp3 zaa.mp3 ayn.mp3
-ghayn.mp3 fa.mp3 qaf.mp3 kaf.mp3 lam.mp3 meem.mp3 noon.mp3 ha.mp3 waw.mp3 ya.mp3
+The adapter decodes the local files through the game's unlocked WebAudio context.
+Effects duck during speech; voice is routed separately. Replay, mute and screen
+changes cancel old playback. A missing/corrupt file falls back to browser speech;
+learning counts audio as heard only after playback actually ends.
 
-Note the near-twins: haa=ح vs ha=ه, taa=ط vs ta=ت, zaa=ظ vs zay=ز.
-Keep clips short (~1s), clear single voice, normalized volume.
+See `docs/letter-garden/reviews/marin-letters/` for the original source, timestamps,
+hashes, listening page and remaining work. All mapped clips are in the service
+worker's offline shell. No voice server or model is needed for these files.
+
+Names stay distinct: `haa`=ح / `ha`=ه, `taa`=ط / `ta`=ت, `zaa`=ظ / `zay`=ز.
+Pronunciation still needs human review; waveform and transcription checks are
+not a substitute for Arabic listening qualification.

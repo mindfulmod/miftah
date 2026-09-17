@@ -1,0 +1,519 @@
+{
+  "status": "partial-source",
+  "model": "OpenAI.fm — supplied AI speech",
+  "voice": "Marin",
+  "source": "original.mp3",
+  "sourceSha256": "c3906c3d3702dccf0d968fe5a527502bba37eae513962991fb59284e52180a49",
+  "sourceSeconds": 21.12,
+  "sourceSegmentCount": 25,
+  "sibilantIdentification": "sheen",
+  "letters": [
+    {
+      "index": 1,
+      "letter": "ا",
+      "name": "Alif",
+      "input": "أَلِفْ",
+      "file": "../../../../assets/audio/letters/marin-v1/alif.wav"
+    },
+    {
+      "index": 2,
+      "letter": "ب",
+      "name": "Ba",
+      "input": "بَاءْ",
+      "file": "../../../../assets/audio/letters/marin-v1/ba.wav"
+    },
+    {
+      "index": 3,
+      "letter": "ت",
+      "name": "Ta",
+      "input": "تَاءْ",
+      "file": "../../../../assets/audio/letters/marin-v1/ta.wav"
+    },
+    {
+      "index": 4,
+      "letter": "ث",
+      "name": "Tha",
+      "input": "ثَاءْ",
+      "file": "../../../../assets/audio/letters/marin-v1/tha.wav"
+    },
+    {
+      "index": 5,
+      "letter": "ج",
+      "name": "Jeem",
+      "input": "جِيمْ",
+      "file": "../../../../assets/audio/letters/marin-v1/jeem.wav"
+    },
+    {
+      "index": 6,
+      "letter": "ح",
+      "name": "Haa",
+      "input": "حَاءْ",
+      "file": "../../../../assets/audio/letters/marin-v1/haa.wav"
+    },
+    {
+      "index": 7,
+      "letter": "خ",
+      "name": "Khaa",
+      "input": "خَاءْ",
+      "file": "../../../../assets/audio/letters/marin-v1/khaa.wav"
+    },
+    {
+      "index": 8,
+      "letter": "د",
+      "name": "Dal",
+      "input": "دَالْ",
+      "file": "../../../../assets/audio/letters/marin-v1/dal.wav"
+    },
+    {
+      "index": 9,
+      "letter": "ذ",
+      "name": "Dhal",
+      "input": "ذَالْ",
+      "file": "../../../../assets/audio/letters/marin-v1/dhal.wav"
+    },
+    {
+      "index": 10,
+      "letter": "ر",
+      "name": "Ra",
+      "input": "رَاءْ",
+      "file": "../../../../assets/audio/letters/marin-v1/ra.wav"
+    },
+    {
+      "index": 11,
+      "letter": "ز",
+      "name": "Zay",
+      "input": "زَايْ",
+      "file": "../../../../assets/audio/letters/marin-v1/zay.wav"
+    },
+    {
+      "index": 12,
+      "letter": "س",
+      "name": "Seen",
+      "input": "سِينْ",
+      "file": "12-seen.wav"
+    },
+    {
+      "index": 13,
+      "letter": "ش",
+      "name": "Sheen",
+      "input": "شِينْ",
+      "file": "../../../../assets/audio/letters/marin-v1/sheen.wav"
+    },
+    {
+      "index": 14,
+      "letter": "ص",
+      "name": "Saad",
+      "input": "صَادْ",
+      "file": "../../../../assets/audio/letters/marin-v1/saad.wav"
+    },
+    {
+      "index": 15,
+      "letter": "ض",
+      "name": "Daad",
+      "input": "ضَادْ",
+      "file": "../../../../assets/audio/letters/marin-v1/daad.wav"
+    },
+    {
+      "index": 16,
+      "letter": "ط",
+      "name": "Taa",
+      "input": "طَاءْ",
+      "file": "../../../../assets/audio/letters/marin-v1/taa.wav"
+    },
+    {
+      "index": 17,
+      "letter": "ظ",
+      "name": "Zaa",
+      "input": "ظَاءْ",
+      "file": "../../../../assets/audio/letters/marin-v1/zaa.wav"
+    },
+    {
+      "index": 18,
+      "letter": "ع",
+      "name": "Ayn",
+      "input": "عَيْنْ",
+      "file": "../../../../assets/audio/letters/marin-v1/ayn.wav"
+    },
+    {
+      "index": 19,
+      "letter": "غ",
+      "name": "Ghayn",
+      "input": "غَيْنْ",
+      "file": "../../../../assets/audio/letters/marin-v1/ghayn.wav"
+    },
+    {
+      "index": 20,
+      "letter": "ف",
+      "name": "Fa",
+      "input": "فَاءْ",
+      "file": "../../../../assets/audio/letters/marin-v1/fa.wav"
+    },
+    {
+      "index": 21,
+      "letter": "ق",
+      "name": "Qaf",
+      "input": "قَافْ",
+      "file": "../../../../assets/audio/letters/marin-v1/qaf.wav"
+    },
+    {
+      "index": 22,
+      "letter": "ك",
+      "name": "Kaf",
+      "input": "كَافْ",
+      "file": "../../../../assets/audio/letters/marin-v1/kaf.wav"
+    },
+    {
+      "index": 23,
+      "letter": "ل",
+      "name": "Lam",
+      "input": "لَامْ",
+      "file": "../../../../assets/audio/letters/marin-v1/lam.wav"
+    },
+    {
+      "index": 24,
+      "letter": "م",
+      "name": "Meem",
+      "input": "مِيمْ",
+      "file": "../../../../assets/audio/letters/marin-v1/meem.wav"
+    },
+    {
+      "index": 25,
+      "letter": "ن",
+      "name": "Noon",
+      "input": "نُونْ",
+      "file": "../../../../assets/audio/letters/marin-v1/noon.wav"
+    },
+    {
+      "index": 26,
+      "letter": "ه",
+      "name": "Ha",
+      "input": "هَاءْ",
+      "file": "../../../../assets/audio/letters/marin-v1/ha.wav"
+    },
+    {
+      "index": 27,
+      "letter": "و",
+      "name": "Waw",
+      "input": "وَاوْ",
+      "file": "27-waw.wav"
+    },
+    {
+      "index": 28,
+      "letter": "ي",
+      "name": "Ya",
+      "input": "يَاءْ",
+      "file": "28-ya.wav"
+    }
+  ],
+  "generated": [
+    "../../../../assets/audio/letters/marin-v1/alif.wav",
+    "../../../../assets/audio/letters/marin-v1/ba.wav",
+    "../../../../assets/audio/letters/marin-v1/ta.wav",
+    "../../../../assets/audio/letters/marin-v1/tha.wav",
+    "../../../../assets/audio/letters/marin-v1/jeem.wav",
+    "../../../../assets/audio/letters/marin-v1/haa.wav",
+    "../../../../assets/audio/letters/marin-v1/khaa.wav",
+    "../../../../assets/audio/letters/marin-v1/dal.wav",
+    "../../../../assets/audio/letters/marin-v1/dhal.wav",
+    "../../../../assets/audio/letters/marin-v1/ra.wav",
+    "../../../../assets/audio/letters/marin-v1/zay.wav",
+    "../../../../assets/audio/letters/marin-v1/sheen.wav",
+    "../../../../assets/audio/letters/marin-v1/saad.wav",
+    "../../../../assets/audio/letters/marin-v1/daad.wav",
+    "../../../../assets/audio/letters/marin-v1/taa.wav",
+    "../../../../assets/audio/letters/marin-v1/zaa.wav",
+    "../../../../assets/audio/letters/marin-v1/ayn.wav",
+    "../../../../assets/audio/letters/marin-v1/ghayn.wav",
+    "../../../../assets/audio/letters/marin-v1/fa.wav",
+    "../../../../assets/audio/letters/marin-v1/qaf.wav",
+    "../../../../assets/audio/letters/marin-v1/kaf.wav",
+    "../../../../assets/audio/letters/marin-v1/lam.wav",
+    "../../../../assets/audio/letters/marin-v1/meem.wav",
+    "../../../../assets/audio/letters/marin-v1/noon.wav",
+    "../../../../assets/audio/letters/marin-v1/ha.wav"
+  ],
+  "missingLetters": [
+    "س",
+    "و",
+    "ي"
+  ],
+  "disclosure": "AI-generated voice. Transcript-assisted mapping; human pronunciation review remains pending.",
+  "processing": "Quiet-gap segmentation, 100/160 ms edge padding where available, 4 ms edge fades. Original levels and pitch preserved.",
+  "segments": [
+    {
+      "sourcePosition": 1,
+      "sourceStart": 0.02,
+      "sourceEnd": 0.705,
+      "duration": 0.685,
+      "peak": 0.37797,
+      "letter": "ا",
+      "input": "أَلِفْ",
+      "file": "assets/audio/letters/marin-v1/alif.wav",
+      "sha256": "7348d36e1d01dff1a875d9c385770b01af92b75f94fe842de60411419e00a91c"
+    },
+    {
+      "sourcePosition": 2,
+      "sourceStart": 1.075,
+      "sourceEnd": 1.77,
+      "duration": 0.695,
+      "peak": 0.60441,
+      "letter": "ب",
+      "input": "بَاءْ",
+      "file": "assets/audio/letters/marin-v1/ba.wav",
+      "sha256": "dfa0283408058d46cfd39f814774dc743893a3b99d50fde75c294b1a46ad1a37"
+    },
+    {
+      "sourcePosition": 3,
+      "sourceStart": 2.175,
+      "sourceEnd": 2.795,
+      "duration": 0.62,
+      "peak": 0.53939,
+      "letter": "ت",
+      "input": "تَاءْ",
+      "file": "assets/audio/letters/marin-v1/ta.wav",
+      "sha256": "99cf921bc9b04a2ab8c24b72014814957af0e9cb396bd4dc4c490b3c1937b209"
+    },
+    {
+      "sourcePosition": 4,
+      "sourceStart": 3.06,
+      "sourceEnd": 3.72,
+      "duration": 0.66,
+      "peak": 0.48518,
+      "letter": "ث",
+      "input": "ثَاءْ",
+      "file": "assets/audio/letters/marin-v1/tha.wav",
+      "sha256": "413709281f2b33919bcdb2e3301451c0814c7e4f25439a8ea7c7835bbb6eb36a"
+    },
+    {
+      "sourcePosition": 5,
+      "sourceStart": 4.17,
+      "sourceEnd": 4.97,
+      "duration": 0.8,
+      "peak": 0.36766,
+      "letter": "ج",
+      "input": "جِيمْ",
+      "file": "assets/audio/letters/marin-v1/jeem.wav",
+      "sha256": "c1a317165bfc446fea73229a2479b0671b3c4ef4fe567493152bde9d34e88863"
+    },
+    {
+      "sourcePosition": 6,
+      "sourceStart": 5.11,
+      "sourceEnd": 5.795,
+      "duration": 0.685,
+      "peak": 0.50572,
+      "letter": "ح",
+      "input": "حَاءْ",
+      "file": "assets/audio/letters/marin-v1/haa.wav",
+      "sha256": "c721f150f1f5d6bc168ae5944b709a2b4287e459e102845d548fe6ec6b9c21f7"
+    },
+    {
+      "sourcePosition": 7,
+      "sourceStart": 6.115,
+      "sourceEnd": 6.815,
+      "duration": 0.7,
+      "peak": 0.36574,
+      "letter": "خ",
+      "input": "خَاءْ",
+      "file": "assets/audio/letters/marin-v1/khaa.wav",
+      "sha256": "20820a049fdf8e0e93411a8d2935bb07e7024a03ff89b0c1598b8af374b11a35"
+    },
+    {
+      "sourcePosition": 8,
+      "sourceStart": 7.01,
+      "sourceEnd": 7.715,
+      "duration": 0.705,
+      "peak": 0.45488,
+      "letter": "د",
+      "input": "دَالْ",
+      "file": "assets/audio/letters/marin-v1/dal.wav",
+      "sha256": "5db67ab20deaefc7d4c16682bd62f685c78427dbaf2804a05edff508e9771644"
+    },
+    {
+      "sourcePosition": 9,
+      "sourceStart": 7.715,
+      "sourceEnd": 8.46,
+      "duration": 0.745,
+      "peak": 0.50714,
+      "letter": "ذ",
+      "input": "ذَالْ",
+      "file": "assets/audio/letters/marin-v1/dhal.wav",
+      "sha256": "529f35b9d95c5126e943d784679712867d8799ab9b6642eb773f4298247b1c3d"
+    },
+    {
+      "sourcePosition": 10,
+      "sourceStart": 8.595,
+      "sourceEnd": 9.25,
+      "duration": 0.655,
+      "peak": 0.60943,
+      "letter": "ر",
+      "input": "رَاءْ",
+      "file": "assets/audio/letters/marin-v1/ra.wav",
+      "sha256": "b4e57507c3d3a71829013a215f3e032213178f02bd6fe550fc5795404def2fc1"
+    },
+    {
+      "sourcePosition": 11,
+      "sourceStart": 9.355,
+      "sourceEnd": 10.065,
+      "duration": 0.71,
+      "peak": 0.53566,
+      "letter": "ز",
+      "input": "زَايْ",
+      "file": "assets/audio/letters/marin-v1/zay.wav",
+      "sha256": "48fc0d44c9ffd4aac61c2dd1ce40345a57fe8a30b4334a9e7c7523d30b06bee5"
+    },
+    {
+      "sourcePosition": 12,
+      "sourceStart": 10.195,
+      "sourceEnd": 10.975,
+      "duration": 0.78,
+      "peak": 0.33597,
+      "letter": "ش",
+      "input": "شِينْ",
+      "file": "assets/audio/letters/marin-v1/sheen.wav",
+      "sha256": "5663354a39c0fdd5e3e258a40275b22012da5736b566a38c9aad4f4d97002af5"
+    },
+    {
+      "sourcePosition": 13,
+      "sourceStart": 11.06,
+      "sourceEnd": 11.81,
+      "duration": 0.75,
+      "peak": 0.39421,
+      "letter": "ص",
+      "input": "صَادْ",
+      "file": "assets/audio/letters/marin-v1/saad.wav",
+      "sha256": "b3056e815e8d254dfc4b857d6a7384eb6d2113338693ff93ab8ccd6a8fac39cf"
+    },
+    {
+      "sourcePosition": 14,
+      "sourceStart": 11.925,
+      "sourceEnd": 12.625,
+      "duration": 0.7,
+      "peak": 0.42391,
+      "letter": "ض",
+      "input": "ضَادْ",
+      "file": "assets/audio/letters/marin-v1/daad.wav",
+      "sha256": "0598f7155a448c05be9333787947881c21d182051e52052c722723175201636e"
+    },
+    {
+      "sourcePosition": 15,
+      "sourceStart": 12.79,
+      "sourceEnd": 13.405,
+      "duration": 0.615,
+      "peak": 0.50414,
+      "letter": "ط",
+      "input": "طَاءْ",
+      "file": "assets/audio/letters/marin-v1/taa.wav",
+      "sha256": "ef598c0a7bc1caf49dfd6f57d6dd2b8df37f38cdcd8d1c3613d997e6838a3c1c"
+    },
+    {
+      "sourcePosition": 16,
+      "sourceStart": 13.49,
+      "sourceEnd": 14.2,
+      "duration": 0.71,
+      "peak": 0.54162,
+      "letter": "ظ",
+      "input": "ظَاءْ",
+      "file": "assets/audio/letters/marin-v1/zaa.wav",
+      "sha256": "32c1d393966cc9fe38ec724f7c55b7e0d78eed31f869a7142d0a4625136d2798"
+    },
+    {
+      "sourcePosition": 17,
+      "sourceStart": 14.28,
+      "sourceEnd": 14.99,
+      "duration": 0.71,
+      "peak": 0.61885,
+      "letter": "ع",
+      "input": "عَيْنْ",
+      "file": "assets/audio/letters/marin-v1/ayn.wav",
+      "sha256": "cd75d12248b4fbb9e28d302ec0c83033c1072c4dc3b5699513e21a914d8ca515"
+    },
+    {
+      "sourcePosition": 18,
+      "sourceStart": 15.02,
+      "sourceEnd": 15.73,
+      "duration": 0.71,
+      "peak": 0.50583,
+      "letter": "غ",
+      "input": "غَيْنْ",
+      "file": "assets/audio/letters/marin-v1/ghayn.wav",
+      "sha256": "021c4d6046b71bf4b3eb3c46ae987170b53f7f4381bcf8d6c7eafc421d9f7ee2"
+    },
+    {
+      "sourcePosition": 19,
+      "sourceStart": 15.825,
+      "sourceEnd": 16.505,
+      "duration": 0.68,
+      "peak": 0.54804,
+      "letter": "ف",
+      "input": "فَاءْ",
+      "file": "assets/audio/letters/marin-v1/fa.wav",
+      "sha256": "f59ac7de6feab5ee3bec12a005c080b9413bd503e3af68cf81950164f85af3f2"
+    },
+    {
+      "sourcePosition": 20,
+      "sourceStart": 16.615,
+      "sourceEnd": 17.26,
+      "duration": 0.645,
+      "peak": 0.57868,
+      "letter": "ق",
+      "input": "قَافْ",
+      "file": "assets/audio/letters/marin-v1/qaf.wav",
+      "sha256": "586fa55214a7920a4478c4a6231016ab095b4bc88da4527333030bc637d6f4cd"
+    },
+    {
+      "sourcePosition": 21,
+      "sourceStart": 17.44,
+      "sourceEnd": 18.065,
+      "duration": 0.625,
+      "peak": 0.60081,
+      "letter": "ك",
+      "input": "كَافْ",
+      "file": "assets/audio/letters/marin-v1/kaf.wav",
+      "sha256": "615cc68e8895bd364165ddace8bd4b724c669e77ad26541e2b7467325e62d1ea"
+    },
+    {
+      "sourcePosition": 22,
+      "sourceStart": 18.16,
+      "sourceEnd": 18.8875,
+      "duration": 0.7275,
+      "peak": 0.50234,
+      "letter": "ل",
+      "input": "لَامْ",
+      "file": "assets/audio/letters/marin-v1/lam.wav",
+      "sha256": "780094f03d2c6e0d92be4c4790c5ff3e08c4a0d38b826ef5c4185d469ccc0d8b"
+    },
+    {
+      "sourcePosition": 23,
+      "sourceStart": 18.92,
+      "sourceEnd": 19.57,
+      "duration": 0.65,
+      "peak": 0.31356,
+      "letter": "م",
+      "input": "مِيمْ",
+      "file": "assets/audio/letters/marin-v1/meem.wav",
+      "sha256": "4c756b5af09366e73c85e98f68d8b48a970c5aa270f885c573a34975e1c3ba98"
+    },
+    {
+      "sourcePosition": 24,
+      "sourceStart": 19.655,
+      "sourceEnd": 20.355,
+      "duration": 0.7,
+      "peak": 0.45481,
+      "letter": "ن",
+      "input": "نُونْ",
+      "file": "assets/audio/letters/marin-v1/noon.wav",
+      "sha256": "33e510fb45db2c0043d75d6a6518eaed948dfcf316e9ebaec3c32cb705e86336"
+    },
+    {
+      "sourcePosition": 25,
+      "sourceStart": 20.42,
+      "sourceEnd": 21.01,
+      "duration": 0.59,
+      "peak": 0.31937,
+      "letter": "ه",
+      "input": "هَاءْ",
+      "file": "assets/audio/letters/marin-v1/ha.wav",
+      "sha256": "b48241d4c6c1d2dc1c51a9a0f620fe44e0d9bd02743b4f950a667512aef9d39f"
+    }
+  ]
+}

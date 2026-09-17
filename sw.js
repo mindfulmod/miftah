@@ -4,11 +4,39 @@
 // - Shell (HTML/CSS/JS/fonts): stale-while-revalidate, ignoring ?v= cache-busters.
 // - data/*.json: network-first so rebuilt data lands promptly; cache fallback offline.
 // - Remote recitation audio: deliberately NOT intercepted — see AUDIO_HOSTS below.
-const VERSION = "miftah-v41-letter-garden-learning-candidate-20260915";
+const VERSION = "miftah-v42-letter-garden-marin-candidate-20260916";
 const SHELL_CACHE = `shell-${VERSION}`;
 const DATA_CACHE = `data-${VERSION}`;
 
 const SHELL = [
+  "src/letters/LetterVoiceClips.js",
+  "src/letters/LettersVoice.js",
+  "assets/audio/letters/marin-v1/alif.wav",
+  "assets/audio/letters/marin-v1/ba.wav",
+  "assets/audio/letters/marin-v1/ta.wav",
+  "assets/audio/letters/marin-v1/tha.wav",
+  "assets/audio/letters/marin-v1/jeem.wav",
+  "assets/audio/letters/marin-v1/haa.wav",
+  "assets/audio/letters/marin-v1/khaa.wav",
+  "assets/audio/letters/marin-v1/dal.wav",
+  "assets/audio/letters/marin-v1/dhal.wav",
+  "assets/audio/letters/marin-v1/ra.wav",
+  "assets/audio/letters/marin-v1/zay.wav",
+  "assets/audio/letters/marin-v1/sheen.wav",
+  "assets/audio/letters/marin-v1/saad.wav",
+  "assets/audio/letters/marin-v1/daad.wav",
+  "assets/audio/letters/marin-v1/taa.wav",
+  "assets/audio/letters/marin-v1/zaa.wav",
+  "assets/audio/letters/marin-v1/ayn.wav",
+  "assets/audio/letters/marin-v1/ghayn.wav",
+  "assets/audio/letters/marin-v1/fa.wav",
+  "assets/audio/letters/marin-v1/qaf.wav",
+  "assets/audio/letters/marin-v1/kaf.wav",
+  "assets/audio/letters/marin-v1/lam.wav",
+  "assets/audio/letters/marin-v1/meem.wav",
+  "assets/audio/letters/marin-v1/noon.wav",
+  "assets/audio/letters/marin-v1/ha.wav",
+
   "letters.html",
   "styles/letters-rooms.css",
   "styles/letters-delivery.css",

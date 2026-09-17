@@ -1,0 +1,23 @@
+{
+  "sourcePreserved": true,
+  "sourceSeconds": 21.12,
+  "importedClips": 25,
+  "missingLetters": [
+    "س",
+    "و",
+    "ي"
+  ],
+  "sibilantIdentification": "Sheen, confirmed by user",
+  "httpAndWavIntegrity": "25/25 passed",
+  "phoneticQualification": "Not independently certified",
+  "serviceCallsAtPlayback": 0,
+  "automatedTestsPassed": 219,
+  "browserChecks": [
+    "Boat entry requests local alif.wav",
+    "Pond entry and replay",
+    "mute/unmute",
+    "Home cancels active playback",
+    "12 rewards and existing unlocks retained",
+    "split Ba clip decoded, readyState 4, no media error"
+  ]
+}

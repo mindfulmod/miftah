@@ -80,8 +80,11 @@
       this.island = null;
       this.game = null; // active mini-game instance
       this.stamps = this.loadStamps();
-      // Letter Garden uses generated speech only; no recording probes or playback.
+      // Bundled AI letter names play locally; the remaining curriculum keeps TTS.
       this.speechTurn = 0;
+      this.voice = ns.LettersVoice ? new ns.LettersVoice({
+        clips: ns.LETTER_VOICE_CLIPS || {}, getContext: () => this.sound.base?.ctx,
+      }) : null;
       // Prime the async voice list now so the FIRST spoken prompt already
       // has the premium Arabic voices to choose from (getVoices() returns []
       // until the browser finishes loading them).
@@ -734,8 +737,16 @@
     say(item, onEnd) {
       if (!item) return;
       // Keep names/diacritics from the curriculum, including word displays.
-      // audioPath is deliberately ignored: this game uses generated speech only.
+      // The local voice bank matches spoken names only. Remote word audioPath
+      // remains unrelated to this child's letter-name playback.
       return this.speak(item.speak || item.display, onEnd);
+    }
+
+    canSpeak(item) {
+      if (!this.sound.enabled) return false;
+      return 'speechSynthesis' in window || !!(item
+        ? this.voice?.has(item.speak || item.display)
+        : this.voice?.available);
     }
 
     stopSpeech() {
@@ -744,14 +755,42 @@
       this.sound.setSpeaking?.(false);
       this.speechTurn = (this.speechTurn || 0) + 1;
       this.utterance = null;
+      this.nativeUtterance = null;
+      this.voice?.cancel();
       try { window.speechSynthesis?.cancel(); } catch {}
     }
 
     speak(text, onEnd) {
       this.stopSpeech();
-      if (!text || !this.sound.enabled || !("speechSynthesis" in window)) return;
+      if (!text || !this.sound.enabled) return;
+      const turn = this.speechTurn;
+      let settled = false;
+      const job = {
+        onstart: () => { if (!settled && turn === this.speechTurn) this.sound.setSpeaking?.(true); },
+        onend: () => {
+          if (settled || turn !== this.speechTurn) return;
+          settled = true;
+          this.utterance = this.nativeUtterance = null;
+          this.sound.setSpeaking?.(false);
+          onEnd?.(turn);
+        },
+        onerror: () => {
+          if (settled || turn !== this.speechTurn) return;
+          settled = true;
+          this.utterance = this.nativeUtterance = null;
+          this.sound.setSpeaking?.(false);
+        },
+      };
+      this.utterance = job;
+      this.sound.setSpeaking?.(true);
+      const fallback = () => turn === this.speechTurn && this.sound.enabled && this.startNativeSpeech(text, job);
+      if (this.voice?.play(text, job, fallback) || fallback()) return job;
+      job.onerror();
+    }
+
+    startNativeSpeech(text, job) {
+      if (!("speechSynthesis" in window)) return false;
       try {
-        const turn = this.speechTurn;
         const u = new SpeechSynthesisUtterance(text);
         const voices = speechSynthesis.getVoices().filter((v) => /^ar(?:[-_]|$)/i.test(v.lang || ""));
         const quality = (v) =>
@@ -766,21 +805,13 @@
         u.rate = 0.8;
         u.pitch = 1;
         u.volume = 0.62;
-        this.utterance = u; // retain it while the native speech engine plays
-        this.sound.setSpeaking?.(true);
-        u.onstart = () => { if(turn === this.speechTurn)this.sound.setSpeaking?.(true); };
-        u.onend = () => {
-          if (turn !== this.speechTurn) return;
-          this.utterance = null;
-          this.sound.setSpeaking?.(false);
-          if (onEnd) onEnd(turn);
-        };
-        u.onerror = () => {
-          if (turn === this.speechTurn) { this.utterance = null; this.sound.setSpeaking?.(false); }
-        };
+        this.nativeUtterance = u; // retain the native engine's active utterance
+        u.onstart = event => job.onstart?.(event);
+        u.onend = event => job.onend?.(event);
+        u.onerror = event => job.onerror?.(event);
         speechSynthesis.speak(u);
-        return u;
-      } catch { this.sound.setSpeaking?.(false); }
+        return true;
+      } catch { return false; }
     }
 
     // A learning prompt is usable only after its utterance actually completes.
@@ -1747,7 +1778,7 @@
           const skill = meta.skill || ns.LettersLearning?.skillFor(item,gameName) || 'recognition';
           learning?.beginPrompt(item,{skill,activity:gameName,choiceIds:meta.choiceIds || []});
           presentation = {version:presentation.version+1,skill,choiceIds:meta.choiceIds || [],heard:false,
-            hidden:!!item && meta.promptMode==='listen' && this.sound.enabled && 'speechSynthesis' in window && (meta.choiceIds || []).length>1};
+            hidden:!!item && meta.promptMode==='listen' && this.canSpeak(item) && (meta.choiceIds || []).length>1};
           stage.inert=presentation.hidden;
           hint.hidden=true;
           glyph.hidden=presentation.hidden;
@@ -1897,7 +1928,7 @@
       const ctx={stage:el.querySelector('.practice-stage'),items:s.items||s.world.items(),
         activity:kind,worldId:s.world.id,completedWorldIds:this.progress?.done || [],
         reducedMotion:()=>this.prefersReducedMotion(),petArt:()=>this.petSVG(140,'open'),
-        canListen:()=>this.sound.enabled && 'speechSynthesis' in window,
+        canListen:()=>this.canSpeak(),
         prompt:item=>{current=item;
           learning?.beginPrompt(item,{activity:kind,skill:ns.LettersLearning?.skillFor(item,kind==='Workshop'?'build':kind)});
           if(kind==='Workshop' && item)replay.innerHTML=`<svg viewBox="0 0 120 80" aria-hidden="true"><text x="60" y="40" text-anchor="middle" font-family="Amiri Quran, serif" font-size="42" fill="#4a3620" data-fit-box="60,40,94,52,42">${item.display}</text></svg>`;

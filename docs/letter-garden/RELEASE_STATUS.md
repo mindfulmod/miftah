@@ -1,6 +1,6 @@
 # Letter Garden major release — local status
 
-Preview: `http://letter-garden-next.localhost:8790/letters.html?v=20260915-learning1`.
+Preview: `http://letter-garden-next.localhost:8790/letters.html?v=20260916-marin1`.
 Durable checkout: `/Users/main/Documents/GitHub/miftah/.local-work/letter-garden-next-major`.
 Branch: `codex/letter-garden-next-major`.
 Production baseline: `55f34576f0ebfc02bcf115452101b37adfbb4536` / `20260908-batch50`.
@@ -11,7 +11,15 @@ The current five learning/game passes add shared gradual difficulty, eligible cu
 
 The old temporary checkout disappeared. Previous source was reconstructed from recorded edit history and passed its 115-test baseline before this stage. The old checkpoint objects and screenshot binaries were not recoverable; see [RECOVERY_MANIFEST.md](RECOVERY_MANIFEST.md). Work now lives in this durable checkout and a sibling Git bundle.
 
-Scope: Letter Garden only. Preserve curriculum, pets, rewards and earned progress. Voice replacement is the next proposed focus; no generated clips or new service have been integrated. No publishing authorization for this major release.
+The owner's OpenAI.fm export now supplies 25 locally bundled Marin letter names.
+Seen, Waw and Ya were absent and retain device-speech fallback. Replay, mute,
+navigation, failed playback and learning completion share a cancel-safe voice
+lifecycle. **219 tests pass.** See [Marin import review](reviews/marin-letters/README.md)
+for source provenance, mapping, playback checks and the three missing names.
+
+Scope: Letter Garden only. Preserve curriculum, pets, rewards and earned progress.
+No running voice service or AI API calls are needed for the bundled clips. No
+publishing authorization for this major release.
 
 Remaining: physical-device/touch and installed update testing; audible verification; Arabic educator and child-session review; the complete character/accessory fitting matrix. Parent-page work is explicitly deferred. Continue from [NEXT_MAJOR_RELEASE.md](NEXT_MAJOR_RELEASE.md), not a count-driven rewrite.
 

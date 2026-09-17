@@ -174,6 +174,23 @@ test('Letter Garden keeps its original self-hosted Amiri Quran face and WOFF2 cl
   assert.equal(sha256('vendor/fonts/amiri-quran-400-latin.woff2'), '1a014fa9368c5419754e5a11d38527094e4a37c54858adc4f4e8c5061ba87c7e');
 });
 
+test('every mapped Marin name is bundled and available offline without an AI service', async () => {
+  const window = { MiftahGame: {} };
+  vm.runInNewContext(fs.readFileSync(path.join(root, 'src/letters/LetterVoiceClips.js'), 'utf8'), { window });
+  const clips = window.MiftahGame.LETTER_VOICE_CLIPS;
+  assert.equal(Object.keys(clips).length, 25);
+  for (const missing of ['سِينْ', 'وَاوْ', 'يَاءْ']) assert.equal(clips[missing], undefined);
+  const app = runtime();
+  await app.install();
+  app.setNetwork(async () => { throw Error('offline'); });
+  for (const asset of Object.values(clips)) {
+    assert.ok(asset.startsWith('assets/audio/letters/marin-v1/'));
+    const bytes = fs.readFileSync(path.join(root, asset));
+    assert.equal(bytes.subarray(0, 4).toString(), 'RIFF');
+    assert.equal((await app.request(asset + '?v=20260916-marin1')).body, `precache:${asset}`);
+  }
+});
+
 test('versioned shell requests hit the bare precache while offline', async () => {
   const app = runtime();
   await app.install();
