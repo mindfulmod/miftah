@@ -1,6 +1,6 @@
 const {test}=require('node:test');const assert=require('node:assert/strict');const vm=require('node:vm');const fs=require('node:fs');const path=require('node:path');
 function runtime(){const timers=[];const window={MiftahGame:{LettersArt:{icon:()=>"",inkShift:()=>({dx:0,dy:0})}}};vm.runInNewContext(fs.readFileSync(path.join(__dirname,'..','GardenPractice.js'),'utf8'),{window,performance:{now:()=>100},setTimeout:f=>timers.push(f)});return {api:window.MiftahGame.GardenPractice,timers};}
-function source(){const handlers={},classes=new Set();let captured=null;return {handlers,style:{},classList:{add:s=>classes.add(s),remove:s=>classes.delete(s)},addEventListener:(name,f)=>handlers[name]=f,setPointerCapture:id=>captured=id,hasPointerCapture:id=>captured===id,releasePointerCapture:()=>captured=null};}
+function source(){const handlers={},classes=new Set();let captured=null;return {handlers,style:{},classList:{add:s=>classes.add(s),remove:s=>classes.delete(s)},addEventListener:(name,f)=>handlers[name]=f,setPointerCapture:id=>captured=id,hasPointerCapture:id=>captured===id,releasePointerCapture:()=>captured=null,getBoundingClientRect:()=>({left:0,top:0,width:20,height:20})};}
 test('drag cancellation and missed movement never deliver; successful drag delivers only once',()=>{
  const {api}=runtime();const el=source();let drops=0;api.draggable(el,{drop:()=>drops++});
  const down={pointerId:1,clientX:10,clientY:10,pointerType:'touch',button:0};

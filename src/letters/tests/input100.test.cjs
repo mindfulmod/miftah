@@ -8,7 +8,7 @@ function runtime() {
   const removed = [];
   const window = { MiftahGame: { LettersArt: {}, LettersGardenArt: { pond: () => '' } }, addEventListener() {}, removeEventListener(...args) { removed.push(args); } };
   const document = { createElement: () => ({ style: {}, classList: { add() {}, remove() {} }, setAttribute() {}, addEventListener() {} }) };
-  const context = { window, document, performance: { now: () => 0 }, requestAnimationFrame() {}, setTimeout() {}, setInterval() {}, clearInterval() {} };
+  const context = { window, document, performance: { now: () => 0 }, requestAnimationFrame() {}, setTimeout() {}, clearTimeout() {}, setInterval() {}, clearInterval() {} };
   vm.runInNewContext(fs.readFileSync(path.join(__dirname, '..', 'MiniGames.js'), 'utf8'), context);
   return { ns: window.MiftahGame, removed };
 }
@@ -43,11 +43,11 @@ test('mini-game eligibility mirrors filtered constructor pools', () => {
   assert.equal(can('parade', [plain], [{ display: 't', joins: true }]), true);
 });
 
-test('Trace clamps rendered coordinates and rejects zero geometry', () => {
+test('Trace maps rendered coordinates and rejects outside or zero geometry', () => {
   const { ns } = runtime();
   const trace = Object.create(ns.LettersMiniGames.trace.prototype);
   trace.canvas = { width: 100, height: 80, getBoundingClientRect: () => ({ left: 10, top: 20, width: 50, height: 40 }) };
-  assert.deepEqual(Array.from(trace.pos({ clientX: -100, clientY: 1000 })), [0, 80]);
+  assert.equal(trace.pos({ clientX: -100, clientY: 1000 }), null);
   trace.canvas.getBoundingClientRect = () => ({ left: 0, top: 0, width: 0, height: 0 });
   assert.equal(trace.pos({ clientX: 1, clientY: 1 }), null);
 });
@@ -73,7 +73,7 @@ test('Blend and Chain own one pointer across pieces and release on exit', () => 
 test('Trace restart clears old hints and resets clear readiness even on collapsed paper', () => {
   const {ns}=runtime();let removed=0;
   const trace=Object.create(ns.LettersMiniGames.trace.prototype);
-  Object.assign(trace,{alive:true,roundIndex:0,targets:[{display:'a'}],clearBtn:{disabled:false},ctx:{setPrompt(){},say(){}},canvas:{parentElement:{clientWidth:0,clientHeight:0,querySelectorAll:()=>[{remove:()=>removed++}]}}});
+  Object.assign(trace,{alive:true,roundIndex:0,targets:[{display:'a'}],clearBtn:{disabled:false},finishEl:{hidden:true},nextBtn:{disabled:true,addEventListener(){},setAttribute(){},focus(){}},ctx:{setPrompt(){},say(){}},canvas:{parentElement:{classList:{remove(){}},clientWidth:0,clientHeight:0,parentElement:{classList:{remove(){}},querySelectorAll:()=>[]},querySelectorAll:()=>[{remove:()=>removed++}]}}});
   trace.startRound();assert.equal(removed,1);assert.equal(trace.clearBtn.disabled,true);assert.equal(trace.g,null);
 });
 

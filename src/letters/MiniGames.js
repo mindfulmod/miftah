@@ -243,13 +243,33 @@
       const bubble = { el, item, y: stationary ? (gardenGrid ? .18 + Math.floor(lane / 2) * .40 : .35) : 1.15 + delay, speed: (0.06 + Math.random() * 0.025) * pace };
       bubble.restY = bubble.y;
       el.style.transform = `translate3d(${stationary ? "-50%" : "0"}, ${bubble.y * this.skyH}px, 0)`;
-      el.addEventListener("click", () => this.popAttempt(bubble));
+      el.addEventListener("click", (event) => this.popAttempt(bubble, event));
       this.sky.appendChild(el);
       this.bubbles.push(bubble);
     }
 
-    popAttempt(bubble) {
+    pondRipple(bubble, event) {
+      // The ring belongs to the water, not to the packet's positioning transform.
+      const water = this.sky?.getBoundingClientRect?.();
+      if (!water?.width || !water?.height) return;
+      const packet = bubble.el.getBoundingClientRect();
+      const ring = document.createElement('span');
+      ring.className = 'pond-touch-ring';
+      ring.setAttribute('aria-hidden', 'true');
+      const point = event?.detail > 0 && Number.isFinite(event.clientX);
+      const x = point ? event.clientX : packet.left + packet.width / 2;
+      // Water reacts at the packet's contact edge, where it stays visible as
+      // the paper lifts away instead of hiding underneath the letter.
+      const y = packet.top + packet.height * .9;
+      ring.style.left = `${Math.max(4, Math.min(96, (x-water.left)/water.width*100))}%`;
+      ring.style.top = `${Math.max(4, Math.min(96, (y-water.top)/water.height*100))}%`;
+      this.sky.appendChild(ring);
+      setTimeout(() => ring.remove(), 620);
+    }
+
+    popAttempt(bubble, event) {
       if (!this.alive || this.advancing || !this.bubbles.includes(bubble) || bubble.el.classList.contains("is-popped") || bubble.el.classList.contains("is-scaffolded") || bubble.el.classList.contains("is-no")) return;
+      this.pondRipple(bubble, event);
       const round = this.rounds[this.roundIndex];
       if (bubble.item.id === round.target.id) {
         this.advancing = true;
@@ -718,17 +738,19 @@
       this.rounds = buildRounds(ctx);
       this.roundIndex = 0;
       this.slips = 0;
+      this.timers = new Set();
       if (!this.rounds.length) { this.alive = false; ctx.onDone(0); return; }
       ctx.stage.innerHTML = `
         <div class="feed-scene">
           <div class="feed-creature">${ctx.garden && ctx.petArt ? ctx.petArt() : Art.creature({ hue: ctx.garden ? 150 : (ctx.hue + 140) % 360 })}</div>
-          ${ctx.garden ? `<button type="button" class="feed-basket" aria-label="Deliver the selected seed packet" aria-disabled="true" disabled>${ns.LettersGardenArt.seedBasket()}</button>` : ""}
+          ${ctx.garden ? `<button type="button" class="feed-basket" aria-label="Deliver the selected seed packet" aria-disabled="true" disabled><span class="feed-delivered" aria-hidden="true"></span>${ns.LettersGardenArt.seedBasket()}</button>` : ""}
           <div class="feed-tray"></div>
         </div>`;
       this.creatureEl = ctx.stage.querySelector(".feed-creature");
       this.tray = ctx.stage.querySelector(".feed-tray");
       this.dragResets=[];
       this.basket=ctx.stage.querySelector('.feed-basket');
+      this.delivered=ctx.stage.querySelector('.feed-delivered');
       if(this.basket)this.basket.onclick=()=>{if(this.selected)this.offer(this.selected.item,this.selected.el);};
       this.startRound();
     }
@@ -736,7 +758,8 @@
     startRound() {
       if (!this.alive) return;
       this.dragResets.forEach(reset=>reset());this.dragResets=[];this.selected=null;
-      if(this.basket){this.basket.classList.remove("is-ready","is-filled");this.basket.setAttribute("aria-disabled","true");this.basket.disabled=true;}
+      if(this.basket){this.basket.classList.remove("is-ready","is-near","is-filled");this.basket.setAttribute("aria-disabled","true");this.basket.disabled=true;}
+      if(this.delivered)this.delivered.innerHTML='';
       const round = this.rounds[this.roundIndex];
       this.ctx.setRoundProgress?.(this.roundIndex + 1, this.rounds.length);
       presentRound(this.ctx, round, "feed");
@@ -755,7 +778,12 @@
         el.setAttribute("aria-label", item.display);
         if(this.ctx.garden){
           el.setAttribute("aria-pressed","false");
-          this.dragResets.push(ns.GardenPractice.draggable(el,{enabled:()=>this.alive&&!this.feeding&&!el.disabled,drop:(x,y)=>{if(ns.GardenPractice.inside(this.basket,x,y))this.offer(item,el);}}));
+          this.dragResets.push(ns.GardenPractice.draggable(el,{
+            enabled:()=>this.alive&&!this.feeding&&!el.disabled,
+            onDragMove:(x,y)=>this.basket.classList.toggle('is-near',this.deliveryContains(x,y)),
+            onDragEnd:()=>this.basket.classList.remove('is-near'),
+            drop:(x,y,released)=>{if(this.deliveryContains(x,y))this.offer(item,el,released);}
+          }));
           el.addEventListener('click',()=>{
             if(!this.alive||this.feeding||el.disabled)return;
             if(this.selected?.el===el){this.selected=null;el.setAttribute("aria-pressed","false");this.basket.classList.remove("is-ready");this.basket.setAttribute("aria-disabled","true");this.basket.disabled=true;return;}
@@ -768,7 +796,18 @@
       }
     }
 
-    offer(item, el) {
+    deliveryContains(x,y) {
+      const r=this.basket.getBoundingClientRect();
+      // A little motor forgiveness around the visible basket, never a letter hint.
+      return r.width>0&&r.height>0&&x>=r.left-16&&x<=r.right+16&&y>=r.top-16&&y<=r.bottom+16;
+    }
+
+    later(fn, delay) {
+      const timer=setTimeout(()=>{this.timers.delete(timer);if(this.alive)fn();},delay);
+      this.timers.add(timer);
+    }
+
+    offer(item, el, releaseRect = null) {
       const round = this.rounds[this.roundIndex];
       if (!this.alive || this.feeding || el.disabled || el.classList.contains("is-scaffolded")) return;
       if (item.id !== round.target.id) {
@@ -785,31 +824,33 @@
         this.ctx.say(round.target);
         // Scaffolded retry: the refused food quietly leaves the tray.
         const retryRound=this.roundIndex;
-        setTimeout(() => {if(this.alive&&this.roundIndex===retryRound)el.classList.add("is-scaffolded");}, 650);
+        this.later(() => {if(this.roundIndex===retryRound)el.classList.add("is-scaffolded");}, 650);
         return;
       }
       this.feeding = true;
       this.tray?.querySelectorAll("button").forEach(b=>b.disabled=true);
       // Match the delivery destination to the interaction: basket for seeds, mouth for food.
       if(this.basket){this.basket.classList.remove("is-ready");this.basket.setAttribute("aria-disabled","true");this.basket.disabled=true;}
-      const from = el.getBoundingClientRect();
+      const base = el.getBoundingClientRect();
+      const from = releaseRect || base;
       const mouth = (this.basket || this.creatureEl).getBoundingClientRect();
-      el.style.setProperty("--fly-x", `${mouth.left + mouth.width / 2 - (from.left + from.width / 2)}px`);
-      el.style.setProperty("--fly-y", `${mouth.top + mouth.height * (this.basket ? 0.48 : 0.68) - (from.top + from.height / 2)}px`);
+      el.style.setProperty("--fly-start-x", `${from.left+from.width/2-(base.left+base.width/2)}px`);
+      el.style.setProperty("--fly-start-y", `${from.top+from.height/2-(base.top+base.height/2)}px`);
+      el.style.setProperty("--fly-x", `${mouth.left + mouth.width / 2 - (base.left + base.width / 2)}px`);
+      el.style.setProperty("--fly-y", `${mouth.top + mouth.height * (this.basket ? 0.48 : 0.68) - (base.top + base.height / 2)}px`);
       el.classList.add("is-flying");
       reportPromptMatch(this.ctx, round, true, item, "feed");
       this.ctx.sfx("correct");
-      setTimeout(() => {
-        if (!this.alive) return;
+      this.later(() => {
+        if(this.delivered)this.delivered.innerHTML=el.innerHTML;
         if(this.basket)this.basket.classList.add("is-filled");
         this.creatureEl.classList.remove("is-chomp");
         void this.creatureEl.offsetWidth;
         this.creatureEl.classList.add("is-chomp");
         this.ctx.confettiAt(this.creatureEl);
         this.ctx.say(round.target);
-      }, 420);
-      setTimeout(() => {
-        if (!this.alive) return;
+      }, this.ctx.reducedMotion?.() ? 0 : 320);
+      this.later(() => {
         this.feeding = false;
         this.roundIndex += 1;
         if (this.roundIndex >= this.rounds.length) { this.alive = false; return this.ctx.onDone(this.slips); }
@@ -817,7 +858,7 @@
       }, 1000);
     }
 
-    destroy() { this.alive = false; this.dragResets?.forEach(reset=>reset()); }
+    destroy() { this.alive = false; this.dragResets?.forEach(reset=>reset());this.timers?.forEach(clearTimeout);this.timers?.clear(); }
   }
 
   // ---------- Trace: write the letter with your finger ----------
@@ -840,10 +881,14 @@
             <svg class="trace-crayon" viewBox="0 0 150 40" aria-hidden="true"><path d="M8 20L29 7H128Q140 20 128 33H29Z" fill="#579475" stroke="#4a5940" stroke-width="3" stroke-linejoin="round"/><path d="M8 20L29 7V33Z" fill="#e5c68e"/><path d="M8 20L16 15V25Z" fill="#387258"/><path d="M48 8H110V32H48Z" fill="#cce4b8"/><path d="M57 13H100" stroke="#f9ffe9" stroke-width="3" stroke-linecap="round"/><path d="M73 28Q62 17 70 18Q78 18 81 28Q83 13 91 17Q95 24 81 28" fill="#65965c"/></svg>
             ${DrawingPalette.markup()}
             <button type="button" class="lg-round-btn trace-clear" aria-label="Clear your drawing"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M10 28L27 10Q30 7 33 10L41 18Q43 21 40 24L24 40H20Z" fill="#eb9d9a" stroke="#59452e" stroke-width="3" stroke-linejoin="round"/><path d="M10 28L18 20L32 32L24 40H20Z" fill="#fff4db" stroke="#59452e" stroke-width="3"/><path d="M30 40H42" stroke="#927f62" stroke-width="3" stroke-linecap="round"/></svg></button>
+            <div class="trace-finish" hidden><span class="trace-made" role="status" aria-label="Drawing complete">${Art.icon('check',32)}</span><button type="button" class="lg-big-btn trace-next" aria-label="Next letter" disabled>${Art.icon('next',34)}</button></div>
           </div>
         </div>`;
       this.canvas = ctx.stage.querySelector(".trace-canvas");
       this.clearBtn = ctx.stage.querySelector(".trace-clear");
+      this.finishEl = ctx.stage.querySelector('.trace-finish');
+      this.nextBtn = ctx.stage.querySelector('.trace-next');
+      this.nextBtn.addEventListener('click',()=>this.continueDrawing());
       this.clearBtn.disabled = true;
       this.clearBtn.addEventListener("click", () => this.clearDrawing());
       this.drawing = false;
@@ -852,7 +897,7 @@
       this.canvas.addEventListener("pointercancel", (e) => this.cancelStroke(e));
       this.canvas.addEventListener("lostpointercapture", (e) => this.cancelStroke(e));
       window.addEventListener("pointerup", (this.penUpBound = (e) => this.penUp(e)));
-      this.paletteButtons = DrawingPalette.wire(ctx.stage,{active:()=>this.alive,release:()=>this.cancelStroke(),onChange:color=>{this.inkColor=color;if(this.g)this.g.strokeStyle=color;}});
+      this.paletteButtons = DrawingPalette.wire(ctx.stage,{active:()=>this.alive&&!this.advancing,release:()=>this.cancelStroke(),onChange:color=>{this.inkColor=color;if(this.g)this.g.strokeStyle=color;}});
       // The glyph guide needs the Quran font; wait for it, then start.
       const ready = document.fonts && document.fonts.load ? document.fonts.load('100px "Amiri Quran"') : Promise.resolve();
       ready.finally(() => {
@@ -897,6 +942,12 @@
       this.canvas?.parentElement?.querySelectorAll?.(".trace-hint")?.forEach((el) => el.remove());
       if (this.clearBtn) this.clearBtn.disabled = true;
       this.advancing = false;
+      this.completionReady = false;
+      if(this.finishEl)this.finishEl.hidden=true;
+      if(this.nextBtn){this.nextBtn.disabled=true;this.nextBtn.setAttribute('aria-label',this.roundIndex===this.targets.length-1?'Finish drawing activity':'Next letter');}
+      this.paletteButtons?.forEach(button=>button.disabled=false);
+      this.canvas.parentElement.classList.remove('is-complete');
+      this.canvas.parentElement.parentElement.classList.remove('is-complete');
       const target = this.targets[this.roundIndex];
       this.ctx.setRoundProgress?.(this.roundIndex + 1, this.targets.length);
       this.ctx.setPrompt(target);
@@ -984,7 +1035,14 @@
     pos(e) {
       const rect = this.canvas.getBoundingClientRect();
       if (rect.width <= 0 || rect.height <= 0 || this.canvas.width <= 0 || this.canvas.height <= 0) return null;
-      return [Math.max(0, Math.min(this.canvas.width, (e.clientX - rect.left) * this.canvas.width / rect.width)), Math.max(0, Math.min(this.canvas.height, (e.clientY - rect.top) * this.canvas.height / rect.height))];
+      // object-fit preserves a child's ink during rotation. Map the finger to
+      // that contained image, not to the surrounding letterboxed paper.
+      const scale = Math.min(rect.width/this.canvas.width,rect.height/this.canvas.height);
+      const left = rect.left+(rect.width-this.canvas.width*scale)/2;
+      const top = rect.top+(rect.height-this.canvas.height*scale)/2;
+      const x=(e.clientX-left)/scale,y=(e.clientY-top)/scale;
+      if(x<0||y<0||x>this.canvas.width||y>this.canvas.height)return null;
+      return [x,y];
     }
 
     cancelStroke(e) {
@@ -1063,18 +1121,7 @@
       const total = covered / this.guide.length;
       const missing = (this.clusters || []).filter((c) => this.clusterCoverage(c) < 0.45);
       if (total >= 0.55 && !missing.length) {
-        this.advancing = true;
-        const target = this.targets[this.roundIndex];
-        reportAssembly(this.ctx, target, true);
-        this.ctx.sfx("correct");
-        this.ctx.confettiAt(this.canvas);
-        this.ctx.say(target);
-        setTimeout(() => {
-          if (!this.alive) return;
-          this.roundIndex += 1;
-          if (this.roundIndex >= this.targets.length) return this.finish();
-          this.startRound();
-        }, 700);
+        this.completeDrawing();
         return;
       }
       // Body done but a cluster (usually the dots!) still untouched: pulse a
@@ -1097,8 +1144,38 @@
       }
     }
 
+    completeDrawing() {
+      if(!this.alive||this.advancing)return;
+      this.cancelStroke();
+      this.advancing=true;
+      this.completionReady=true;
+      this.clearBtn.disabled=true;
+      this.paletteButtons?.forEach(button=>button.disabled=true);
+      this.canvas.parentElement.querySelectorAll?.('.trace-hint').forEach(el=>el.remove());
+      this.canvas.parentElement.classList.add('is-complete');
+      this.canvas.parentElement.parentElement.classList.add('is-complete');
+      this.finishEl.hidden=false;
+      this.nextBtn.disabled=false;
+      const target=this.targets[this.roundIndex];
+      reportAssembly(this.ctx,target,true);
+      this.ctx.sfx('correct');
+      this.ctx.confettiAt(this.canvas);
+      this.ctx.say(target);
+      this.nextBtn.focus?.({preventScroll:true});
+    }
+
+    continueDrawing() {
+      if(!this.alive||!this.completionReady)return;
+      this.completionReady=false;
+      this.nextBtn.disabled=true;
+      this.roundIndex+=1;
+      if(this.roundIndex>=this.targets.length)this.finish();
+      else this.startRound();
+    }
+
     finish() {
       this.alive = false;
+      this.completionReady = false;
       this.cancelStroke();
       this.canvas?.parentElement?.querySelectorAll?.(".trace-hint")?.forEach((el) => el.remove());
       window.removeEventListener("pointerup", this.penUpBound);
@@ -1107,6 +1184,7 @@
 
     destroy() {
       this.alive = false;
+      this.completionReady = false;
       this.cancelStroke();
       window.removeEventListener("pointerup", this.penUpBound);
     }

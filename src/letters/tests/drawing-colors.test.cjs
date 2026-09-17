@@ -13,9 +13,9 @@ function context2d(){
 function stageFixture(){
   let palette=[],captured=null;const stage={};
   Object.defineProperty(stage,'innerHTML',{set(html){this.html=html;palette=[['green','#4e9677'],['ink','#4a3620'],['coral','#c25a49'],['blue','#3a8fc4'],['purple','#6064a0']].map(([,color])=>node({color}));},get(){return this.html;}});
-  const g=context2d(),paper={clientWidth:400,clientHeight:240,querySelectorAll:()=>[],appendChild(){}};
+  const g=context2d(),outer={classList:classes()},paper={classList:classes(),clientWidth:400,clientHeight:240,parentElement:outer,querySelectorAll:()=>[],appendChild(){}};
   const canvas=node();Object.assign(canvas,{width:800,height:500,parentElement:paper,getContext:()=>g,getBoundingClientRect:()=>({left:0,top:0,width:400,height:240}),setPointerCapture:id=>{captured=id;},hasPointerCapture:id=>captured===id,releasePointerCapture:()=>{captured=null;}});
-  const fixed={'canvas':canvas,'.path-guide':node(),'.path-next':node(),'.path-clear':node(),'.path-guide-toggle':node(),'.trace-canvas':canvas,'.trace-clear':node()};
+  const fixed={'canvas':canvas,'.path-guide':node(),'.path-next':node(),'.path-clear':node(),'.path-guide-toggle':node(),'.trace-canvas':canvas,'.trace-clear':node(),'.trace-finish':node(),'.trace-next':node()};
   stage.querySelector=selector=>fixed[selector];stage.querySelectorAll=selector=>selector==='.drawing-color'?palette:selector==='button'?[]:[];
   return {stage,g,canvas,fixed,get palette(){return palette;},capture:()=>captured};
 }
@@ -57,6 +57,7 @@ test('Garden Paths switches future strokes, releases mid-stroke, and keeps color
 test('Trace color changes preserve existing ink and coverage while clear keeps the pencil',async()=>{
   const ns=runtime(),f=stageFixture(),ctx={stage:f.stage,items:[{id:'ب',display:'ب'}],rounds:1,setPrompt(){},say(){},sfx(){},confettiAt(){},onDone(){}};
   const trace=new ns.LettersMiniGames.trace(ctx);await Promise.resolve();await Promise.resolve();
+  trace.g=f.g;trace.g.strokeStyle='#4e9677';trace.brush=20;trace.guide=[];trace.paint=new Set();trace.canvas.width=400;trace.canvas.height=240;
   trace.penDown({pointerId:7,button:0,clientX:50,clientY:50});assert.equal(f.capture(),7);
   const painted=[...trace.paint],coverageBefore=trace.clusterCoverage(painted);assert.equal(f.g.marks.at(-1)[1],'#4e9677');
   const oldPalette=f.palette;oldPalette[4].onclick();assert.equal(trace.drawing,false);assert.equal(f.capture(),null);assert.equal(trace.inkColor,'#6064a0');assert.equal(trace.clusterCoverage(painted),coverageBefore);
@@ -74,5 +75,5 @@ test('drawing palette stylesheet keeps every target at least 44px and uses only 
   assert.match(css,/lg-play:has\(\.garden-paths\)[\s\S]*grid-template-columns:\s*48px minmax\(0, 1fr\) 54px/);
   assert.match(css,/\.path-guide\[hidden\]\s*\{\s*display:\s*none/);assert.match(css,/\.path-guide > \.path-guide-glyph\s*\{[\s\S]*position:\s*absolute/);
   const hex=[...css.matchAll(/#[0-9a-f]{6}/gi)].map(match=>match[0].toLowerCase());
-  const approved=new Set(['#4a3620','#fffaf0','#c9bda4','#ffe49a','#e5dcc8']);assert.ok(hex.every(color=>approved.has(color)));
+  const approved=new Set(['#4a3620','#fffaf0','#fffdf7','#c9bda4','#ffe49a','#e5dcc8','#2f5c46','#4e9677']);assert.ok(hex.every(color=>approved.has(color)));
 });

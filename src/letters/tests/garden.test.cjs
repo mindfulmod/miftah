@@ -22,17 +22,16 @@ test('garden rewards derive from existing activity bests and old completed saves
 function successfulTrace(){
   const {ns,timers}=runtime(); const trace=Object.create(ns.LettersMiniGames.trace.prototype);
   let advances=0;
-  Object.assign(trace,{alive:true,drawing:true,roundIndex:0,guide:[[0,0]],paint:new Set(['0|0']),clusters:[['0|0']],targets:[{}, {}, {}],ctx:{sfx(){},say(){},confettiAt(){}},startRound(){advances++;}});
+  Object.assign(trace,{alive:true,drawing:true,advancing:false,completionReady:false,roundIndex:0,guide:[[0,0]],paint:new Set(['0|0']),clusters:[['0|0']],targets:[{}, {}, {}],clearBtn:{disabled:false},paletteButtons:[],finishEl:{hidden:true},nextBtn:{disabled:true,focus(){}},canvas:{parentElement:{classList:{add(){}},parentElement:{classList:{add(){}},querySelectorAll:()=>[]},querySelectorAll:()=>[]},hasPointerCapture:()=>false},ctx:{sfx(){},say(){},confettiAt(){},reportOutcome(){}},startRound(){advances++;this.advancing=false;this.completionReady=false;}});
   return {trace,timers,advances:()=>advances};
 }
 test('additional strokes during trace success cannot skip the next letter',()=>{
   const {trace,timers,advances}=successfulTrace();
   trace.penUp(); trace.penDown({}); trace.penUp();
-  assert.equal(timers.length,1);
-  timers[0](); assert.equal(trace.roundIndex,1); assert.equal(advances(),1);
+  assert.equal(timers.length,0); trace.continueDrawing(); assert.equal(trace.roundIndex,1); assert.equal(advances(),1);
 });
 test('leaving a successful trace invalidates the pending advance',()=>{
-  const {trace,timers,advances}=successfulTrace(); trace.penUp(); trace.destroy(); timers[0]();
+  const {trace,timers,advances}=successfulTrace(); trace.penUp(); trace.destroy(); trace.continueDrawing();
   assert.equal(trace.roundIndex,0); assert.equal(advances(),0);
 });
 test('a completed activity cannot pay twice if a late callback arrives',()=>{
@@ -125,7 +124,7 @@ test('seed delivery targets the basket and locks repeated input until completion
   const creature=node({left:0,top:0,width:100,height:100});
   const offsets={};const packet={...node({left:100,top:300,width:100,height:100}),style:{setProperty:(k,v)=>offsets[k]=v}};
   const game=Object.create(ns.LettersMiniGames.feed.prototype);
-  Object.assign(game,{alive:true,roundIndex:0,rounds:[{target:{id:'a'}}],basket,creatureEl:creature,ctx:{sfx(){correct++},say(){},confettiAt(){},onDone(){paid++}}});
+  Object.assign(game,{alive:true,roundIndex:0,rounds:[{target:{id:'a'}}],timers:new Set(),basket,creatureEl:creature,ctx:{sfx(){correct++},say(){},confettiAt(){},onDone(){paid++}}});
   game.offer({id:'a'},packet);game.offer({id:'a'},packet);
   assert.equal(offsets['--fly-x'],'40px');assert.equal(offsets['--fly-y'],'-196.24px');
   assert.equal(correct,1);assert.equal(timers.length,2);

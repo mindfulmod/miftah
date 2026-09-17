@@ -1,10 +1,11 @@
 # Letter Garden — the next five child-experience passes
 
-Planning checkpoint: 2026-09-16, current local preview `20260916-marin1`.
+Planning checkpoint: 2026-09-16; pass 1 local preview `20260916-touch1`.
 Scope: ages 4–6, new to Arabic. Audio generation and the FM recording package are
 parked. Keep the existing bundled clips/fallback. Parent-page work and publishing
-remain deferred. This document is the proposed next build sequence, not a report
-that these changes have been implemented or tested with children.
+remain deferred. Pass 1 is implemented locally; see
+[TACTILE_PASS_REVIEW.md](TACTILE_PASS_REVIEW.md). Passes 2–5 remain proposed.
+None of these changes has been tested with children yet.
 
 ## Direction
 
@@ -37,6 +38,10 @@ would waste work. Extend their relationships and the quality of their response.
   Isolated checks were muted; physical-device touch was not tested this turn.
 
 ## 1. Make actions feel physical — “I made that happen”
+
+**Status:** implemented locally, including child-led Trace completion, continuous
+packet handoff, basket landing, restrained Pond/workbench feedback, reduced
+motion, and rotation-safe drawings. See the review for validation and limits.
 
 **Priority:** first. Start with Pond, Feed and Trace in Boat; extend the same rules
 to Catch and the joining workbench after comparison.

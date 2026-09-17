@@ -1,6 +1,6 @@
 # Letter Garden major release — local status
 
-Preview: `http://letter-garden-next.localhost:8790/letters.html?v=20260916-marin1`.
+Preview: `http://letter-garden-next.localhost:8790/letters.html?v=20260916-touch1`.
 Durable checkout: `/Users/main/Documents/GitHub/miftah/.local-work/letter-garden-next-major`.
 Branch: `codex/letter-garden-next-major`.
 Production baseline: `55f34576f0ebfc02bcf115452101b37adfbb4536` / `20260908-batch50`.
@@ -27,7 +27,12 @@ The next five proposed passes focus on tactile feedback, connected chapter
 journeys, learning through experimentation, participating pets, and lasting
 garden ownership. See [CHILD_EXPERIENCE_NEXT_FIVE.md](CHILD_EXPERIENCE_NEXT_FIVE.md)
 for current observations, implementation order and child-experience checks.
-This is a planning update; those five passes are not yet implemented.
+Pass 1 is now implemented locally: direct packet dragging with a continuous
+handoff into a reacting basket, Pond/workbench touch feedback, child-led drawing
+completion and rotation-safe canvas mapping. **225 tests pass.** See
+[TACTILE_PASS_REVIEW.md](TACTILE_PASS_REVIEW.md) for actual browser checks,
+limitations and recovery from the pre-pass checkpoint `e7e59c2`.
+Passes 2–5 remain proposed.
 
 Remaining: physical-device/touch and installed update testing; audible verification; Arabic educator and child-session review; the complete character/accessory fitting matrix. Parent-page work is explicitly deferred. Continue from [NEXT_MAJOR_RELEASE.md](NEXT_MAJOR_RELEASE.md), not a count-driven rewrite.
 

@@ -11,7 +11,7 @@ function runtime(){
 }
 function draggableSource(){
   const handlers={},classes=new Set();let captured=null;
-  return {handlers,style:{},classList:{add:x=>classes.add(x),remove:x=>classes.delete(x)},addEventListener:(k,f)=>handlers[k]=f,setPointerCapture:id=>captured=id,hasPointerCapture:id=>captured===id,releasePointerCapture:()=>captured=null};
+  return {handlers,style:{},classList:{add:x=>classes.add(x),remove:x=>classes.delete(x)},addEventListener:(k,f)=>handlers[k]=f,setPointerCapture:id=>captured=id,hasPointerCapture:id=>captured===id,releasePointerCapture:()=>captured=null,getBoundingClientRect:()=>({left:0,top:0,width:20,height:20})};
 }
 
 test('practice100 pointer ownership, cancelled click suppression, and zero-size drops',()=>{

@@ -67,3 +67,145 @@
 .lg-app.lg-reduce-motion .lg-play > .lg-topbar button:not(.lg-grownup-dot),
 .lg-app.lg-reduce-motion .lg-play .play-stage button,
 .lg-app.lg-reduce-motion .lg-play .play-stage [data-tap]{transition:none}
+
+/* Material feedback: the carrier responds; its position and hit target stay put. */
+.lg-app .lg-play .pop-bubble > svg,
+.lg-app .lg-play .feed-food > svg {
+  transform-origin: 50% 80%;
+  transition: transform var(--lg-t-tick) var(--lg-out), filter var(--lg-t-tap) var(--lg-out);
+  filter: drop-shadow(0 3px 1px rgb(74 54 32 / .16));
+}
+.lg-app .lg-play .pop-bubble:not(:disabled):active > svg,
+.lg-app .lg-play .feed-food:not(:disabled):not(.is-dragging):active > svg {
+  transform: translateY(2px) scale(.98);
+  filter: drop-shadow(0 1px 0 rgb(74 54 32 / .2));
+}
+.lg-app .lg-play .pop-bubble.is-popped > svg {
+  animation: lg-paper-collect var(--lg-t-enter) var(--lg-out) both;
+}
+@keyframes lg-paper-collect {
+  0% { transform: translateY(2px) scale(.98); opacity: 1; }
+  35% { transform: translateY(-8px) scale(1.02); opacity: 1; }
+  100% { transform: translateY(-24px) scale(.82); opacity: 0; }
+}
+.pond-touch-ring {
+  position: absolute;
+  width: 82px;
+  height: 32px;
+  margin: -16px 0 0 -41px;
+  border: 3px solid #fffaf0;
+  box-shadow: 0 3px 0 rgb(78 150 119 / .22), inset 0 2px 0 rgb(78 150 119 / .16);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: lg-water-touch var(--lg-t-arrive) var(--lg-out) both;
+}
+@keyframes lg-water-touch {
+  from { transform: scale(.45); opacity: .85; }
+  to { transform: scale(1.5); opacity: 0; }
+}
+/* Finger tracking must never inherit the generic button easing. */
+.lg-app .lg-play .feed-food.is-dragging,
+.lg-app .practice-stage .is-dragging {
+  transition: none;
+  animation: none;
+  z-index: 8;
+}
+.lg-app .lg-play .feed-food.is-dragging > svg {
+  transform: translateY(-3px) scale(1.03);
+  filter: drop-shadow(0 9px 3px rgb(74 54 32 / .24));
+}
+.lg-app .lg-play .feed-basket { position: relative; }
+.lg-app .lg-play .feed-basket.is-near {
+  outline: 3px solid #4e9677;
+  outline-offset: 4px;
+  filter: drop-shadow(0 3px 2px rgb(74 54 32 / .2));
+}
+.lg-app .lg-play .feed-basket.is-filled {
+  animation: lg-basket-land var(--lg-t-quick) var(--lg-out) both;
+}
+@keyframes lg-basket-land {
+  0% { transform: translateY(3px) scale(1.03,.97); }
+  60% { transform: translateY(-1px); }
+  100% { transform: none; }
+}
+.feed-delivered {
+  position: absolute;
+  width: 30%;
+  left: 35%;
+  bottom: 27%;
+  opacity: 0;
+  pointer-events: none;
+}
+.feed-basket > .feed-delivered > svg { width: 100%; height: auto; display: block; }
+.is-filled > .feed-delivered { opacity: 1; transform: rotate(-6deg); }
+.lg-app .lg-play .feed-food.is-flying {
+  animation: lg-seed-deliver var(--lg-t-move) var(--lg-out) both;
+  transition: none;
+}
+@keyframes lg-seed-deliver {
+  from { transform: translate(var(--fly-start-x, 0px), var(--fly-start-y, 0px)) scale(1); opacity: 1; }
+  85% { opacity: 1; }
+  to { transform: translate(var(--fly-x), var(--fly-y)) scale(.38); opacity: 0; }
+}
+
+/* The same touch language on the orchard and joining workbench. */
+.lg-app .lg-play .catch-choice > svg,
+.lg-app .lg-play .build-tile > svg,
+.lg-app .lg-play .blend-part > svg,
+.lg-app .lg-play .unfuse-whole > svg {
+  transition: transform var(--lg-t-tick) var(--lg-out), filter var(--lg-t-tap) var(--lg-out);
+}
+.lg-app .lg-play .catch-choice:not(:disabled):active > svg,
+.lg-app .lg-play .build-tile:not(:disabled):active > svg,
+.lg-app .lg-play .unfuse-whole:not(:disabled):active > svg {
+  transform: translateY(2px) scale(.98);
+}
+.lg-app .lg-play .blend-part.is-held {
+  animation: none;
+  transition: none;
+  filter: drop-shadow(0 7px 3px rgb(74 54 32 / .22));
+}
+.lg-app .lg-play .blend-part.is-lifted {
+  filter: drop-shadow(0 7px 3px rgb(74 54 32 / .22));
+}
+.lg-app .lg-play .blend-part.is-fusing {
+  animation: lg-piece-close var(--lg-t-move) var(--lg-out) var(--lg-t-move) both;
+}
+@keyframes lg-piece-close {
+  from { opacity: 1; scale: 1; }
+  to { opacity: 0; scale: .94; }
+}
+.lg-app .lg-play .blend-born {
+  animation: lg-joined-settle var(--lg-t-quick) var(--lg-out) both;
+}
+@keyframes lg-joined-settle {
+  from { transform: translate(-50%, -54%) scale(.98); opacity: .7; }
+  to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+.lg-app.lg-reduce-motion .pond-touch-ring { animation: none; opacity: .65; }
+.lg-app.lg-reduce-motion .lg-play .pop-bubble > svg,
+.lg-app.lg-reduce-motion .lg-play .feed-food > svg { transition: none; transform: none; }
+.lg-app.lg-reduce-motion .lg-play .pop-bubble.is-popped > svg { animation: none; opacity: .25; }
+.lg-app.lg-reduce-motion .lg-play .feed-food.is-flying { animation: none; opacity: 0; transform: none; }
+.lg-app.lg-reduce-motion .lg-play .feed-basket.is-filled { animation: none; }
+.lg-app.lg-reduce-motion .lg-play .blend-part.is-fusing,
+.lg-app.lg-reduce-motion .lg-play .blend-born { animation: none; }
+.lg-app.lg-reduce-motion .lg-play .catch-choice > svg,
+.lg-app.lg-reduce-motion .lg-play .build-tile > svg,
+.lg-app.lg-reduce-motion .lg-play .blend-part > svg,
+.lg-app.lg-reduce-motion .lg-play .unfuse-whole > svg { transition: none; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .lg-app .pond-touch-ring { animation: none; opacity: .65; }
+  .lg-app .lg-play .pop-bubble > svg,
+  .lg-app .lg-play .feed-food > svg { transition: none; transform: none; }
+  .lg-app .lg-play .pop-bubble.is-popped > svg { animation: none; opacity: .25; }
+  .lg-app .lg-play .feed-food.is-flying { animation: none; opacity: 0; transform: none; }
+  .lg-app .lg-play .feed-basket.is-filled { animation: none; }
+  .lg-app .lg-play .blend-part.is-fusing,
+  .lg-app .lg-play .blend-born { animation: none; }
+  .lg-app .lg-play .catch-choice > svg,
+  .lg-app .lg-play .build-tile > svg,
+  .lg-app .lg-play .blend-part > svg,
+  .lg-app .lg-play .unfuse-whole > svg { transition: none; transform: none; }
+}

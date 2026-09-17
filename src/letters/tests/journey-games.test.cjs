@@ -29,11 +29,10 @@ test('journey games report one-based progress with their actual totals', () => {
   assert.deepEqual(calls, [[2, 2]]);
 
   const trace = Object.create(ns.LettersMiniGames.trace.prototype);
-  Object.assign(trace, { alive: true, advancing: false, roundIndex: 0, targets: items.slice(0, 3), ctx: { setRoundProgress: (...args) => calls.push(args), setPrompt() {}, say() {} }, canvas: { parentElement: { clientWidth: 1, clientHeight: 1 }, getContext() { return { }; } } });
-  // The callback is emitted before canvas setup, so a minimal trace stub is enough.
-  trace.startRound = ns.LettersMiniGames.trace.prototype.startRound;
-  trace.g = null;
-  assert.throws(() => trace.startRound(), /clearRect|Cannot/);
+  const paper = { clientWidth: 0, clientHeight: 0, classList: { remove() {} }, parentElement: { classList: { remove() {} } } };
+  Object.assign(trace, { alive: true, advancing: false, roundIndex: 0, targets: items.slice(0, 3), ctx: { setRoundProgress: (...args) => calls.push(args), setPrompt() {}, say() {} }, canvas: { parentElement: paper } });
+  // Progress is announced even while the paper is waiting for usable geometry.
+  trace.startRound();
   assert.deepEqual(calls.at(-1), [1, 3]);
 });
 

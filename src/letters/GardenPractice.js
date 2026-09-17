@@ -1,11 +1,11 @@
 // Optional live practice. No currency, mastery or progression writes.
 (function(ns){
-  function draggable(el,{enabled=()=>true,drop}){
+  function draggable(el,{enabled=()=>true,drop,onDragStart=()=>{},onDragMove=()=>{},onDragEnd=()=>{}}){
     let pointer=null,moved=false,start=null,suppressUntil=0;
-    const reset=()=>{const id=pointer;pointer=null;el.style.transform='';el.classList.remove('is-dragging');if(id!==null&&el.hasPointerCapture?.(id))el.releasePointerCapture(id);};
+    const reset=()=>{const id=pointer;pointer=null;el.style.transform='';el.classList.remove('is-dragging');if(id!==null){onDragEnd();if(el.hasPointerCapture?.(id))el.releasePointerCapture(id);}};
     el.addEventListener('pointerdown',e=>{if(!enabled()||e.isPrimary===false||(e.pointerType==='mouse'&&e.button!==0)||pointer!==null)return;pointer=e.pointerId;start=[e.clientX,e.clientY];moved=false;el.setPointerCapture?.(pointer);});
-    el.addEventListener('pointermove',e=>{if(e.pointerId!==pointer||e.isPrimary===false)return;if(!enabled()){reset();return;}const dx=e.clientX-start[0],dy=e.clientY-start[1];if(Math.hypot(dx,dy)>8)moved=true;if(moved){el.classList.add('is-dragging');el.style.transform=`translate(${dx}px,${dy}px)`;}});
-    el.addEventListener('pointerup',e=>{if(e.pointerId!==pointer||e.isPrimary===false)return;const dragged=moved;reset();if(dragged){suppressUntil=performance.now()+500;if(enabled())drop(e.clientX,e.clientY);}});
+    el.addEventListener('pointermove',e=>{if(e.pointerId!==pointer||e.isPrimary===false)return;if(!enabled()){reset();return;}const dx=e.clientX-start[0],dy=e.clientY-start[1];if(!moved&&Math.hypot(dx,dy)>8){moved=true;onDragStart();}if(moved){el.classList.add('is-dragging');el.style.transform=`translate(${dx}px,${dy}px)`;onDragMove(e.clientX,e.clientY);}});
+    el.addEventListener('pointerup',e=>{if(e.pointerId!==pointer||e.isPrimary===false)return;const dragged=moved;const released=dragged?el.getBoundingClientRect():null;reset();if(dragged){suppressUntil=performance.now()+500;if(enabled())drop(e.clientX,e.clientY,released);}});
     el.addEventListener('pointercancel',e=>{if(!e||e.pointerId===pointer){if(moved)suppressUntil=performance.now()+500;reset();}});
     el.addEventListener('lostpointercapture',e=>{if(pointer!==null&&(!e||e.pointerId===undefined||e.pointerId===pointer)){if(moved)suppressUntil=performance.now()+500;reset();}});
     el.addEventListener('click',e=>{if(performance.now()<suppressUntil){e.preventDefault();e.stopImmediatePropagation();}},true);

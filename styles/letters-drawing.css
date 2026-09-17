@@ -61,6 +61,45 @@
   margin-inline: auto;
 }
 
+/* Finished ink remains on the same paper until the child chooses to move on. */
+.lg-app .trace-canvas { object-fit: contain; }
+.trace-paper.is-complete {
+  box-shadow: 0 0 0 3px #4e9677, 0 4px 0 #c9bda4;
+}
+.trace-wrap.is-complete .trace-canvas { cursor: default; }
+.trace-wrap.is-complete .trace-tools > .drawing-palette,
+.trace-wrap.is-complete .trace-tools > .trace-crayon,
+.trace-wrap.is-complete .trace-tools > .trace-clear { visibility: hidden; }
+.trace-finish:not([hidden]) {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding-inline: 8px;
+}
+.trace-finish[hidden] { display: none; }
+.trace-made {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: linear-gradient(#fffdf7, #fffaf0 65%, #e5dcc8);
+  border: 3px solid #4e9677;
+  color: #2f5c46;
+}
+.lg-app .trace-tools .trace-next {
+  position: relative;
+  inset: auto;
+  min-width: 86px;
+  min-height: 48px;
+  height: 48px;
+  padding: 6px 24px;
+}
+.lg-app .trace-next:focus-visible { outline: 3px solid #4a3620; outline-offset: 5px; }
+
 @media (max-width: 560px), (max-height: 650px) {
   .lg-app .drawing-palette { gap: 5px; }
   .lg-app .drawing-color {
