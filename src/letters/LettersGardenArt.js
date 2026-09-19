@@ -122,5 +122,19 @@
       <path d="M85 83Q65 67 64 81Q65 94 87 92Q104 69 115 79Q113 93 91 94" fill="#80a46a" stroke="#526c45" stroke-width="2"/>
     </svg>`;
   }
-  ns.LettersGardenArt = { growth, chapterGrowth, habitatReward, boat, backdrop, practicePicture, flowerBed, pond, seedBasket };
+  // One packet material follows the child from the pond to the drawing table
+  // and picnic. Callers supply trusted fitted glyphs or validated local ink.
+  function seedPacket(ink = '') {
+    return `<svg class="garden-seed-packet" viewBox="-52 -66 104 132" aria-hidden="true">
+      <ellipse cy="60" rx="43" ry="5" fill="#4a3620" opacity=".15"/>
+      <path d="M-43-58Q0-66 43-58L46 52Q0 65-46 52Z" fill="#e5dcc8" stroke="#4a3620" stroke-width="3"/>
+      <path d="M-40-56Q0-64 40-56L40-45Q0-52-40-45Z" fill="#fffaf0"/>
+      <path d="M-43 44Q0 54 43 44L43 51Q0 61-43 51Z" fill="#c9bda4"/>
+      <path d="M-40-48Q0-53 40-48M-41 47Q0 54 41 47" fill="none" stroke="#a89478" stroke-width="1.6" stroke-dasharray="3 3"/>
+      <rect x="-39" y="-38" width="78" height="78" rx="16" fill="#fffaf0"/>
+      <path d="M-29-33H27" stroke="#fffdf7" stroke-width="3" stroke-linecap="round"/>
+      ${ink}<path d="M0-48Q-15-60-17-51Q-15-44 0-46Q14-60 18-53Q18-45 0-46" fill="#4e9677"/>
+    </svg>`;
+  }
+  ns.LettersGardenArt = { growth, chapterGrowth, habitatReward, boat, backdrop, practicePicture, flowerBed, pond, seedBasket, seedPacket };
 })(window.MiftahGame || (window.MiftahGame = {}));

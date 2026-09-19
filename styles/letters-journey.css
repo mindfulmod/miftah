@@ -1,0 +1,88 @@
+/* Boat is one picnic journey. These wrappers reserve space for every prop;
+   none changes curriculum, hit targets, or learning evidence. */
+.adventure-route { display:flex; align-items:center; justify-content:center; gap:28px; flex:0 0 auto; margin:0 auto; padding:4px 0; }
+.adventure-stop { position:relative; display:grid; place-items:center; width:54px; height:50px; border:2px solid transparent; border-radius:16px; background:#e5dcc8; }
+.adventure-stop > svg { width:42px; height:40px; }
+.adventure-stop:not(:last-child)::after { content:''; position:absolute; width:26px; height:3px; left:calc(100% + 3px); top:50%; background:#c9bda4; border-radius:3px; }
+.adventure-stop.is-done { background:#ccfbef; }
+.adventure-stop.is-done::after { background:#4e9677; }
+.adventure-stop[aria-current] { border-color:#4a3620; background:linear-gradient(#fffdf7,#fffaf0 65%,#e5dcc8); box-shadow:0 3px 0 #c9bda4; }
+.adventure-stop i { position:absolute; display:grid; place-items:center; right:-6px; bottom:-3px; width:21px; height:21px; background:#4e9677; color:#fffdf7; border:2px solid #fffaf0; border-radius:50%; }
+.adventure-scene { position:relative; width:min(480px,100%); aspect-ratio:420/260; flex:0 1 auto; isolation:isolate; }
+.adventure-scene > * { position:absolute; margin:0; }
+.adventure-ground { inset:0; width:100%; height:100%; }
+.adventure-boat { left:0; bottom:13%; width:50%; height:72%; }
+.adventure-boat > svg { width:100%; height:100%; }
+.adventure-friend { right:5%; bottom:13%; width:29%; height:60%; display:grid; place-items:end center; z-index:2; border:0; padding:0; background:none; }
+.adventure-friend > svg,.adventure-friend > .lg-animal { width:100%!important; height:100%!important; max-width:100%; object-fit:contain; }
+.adventure-cargo { left:29%; bottom:20%; width:30%; display:flex; align-items:end; justify-content:center; z-index:3; }
+.adventure-cargo > span { width:40%; flex:0 0 40%; transform:rotate(var(--packet-turn)); transform-origin:bottom center; margin-inline:-2%; }
+.adventure-cargo svg { width:100%; height:auto; display:block; }
+.adventure-pencil { width:21%; height:26%; left:43%; bottom:19%; z-index:4; transform:rotate(12deg); }
+.adventure-pencil > svg { width:100%; height:100%; }
+.adventure-basket { width:35%; left:34%; bottom:7%; z-index:4; }
+.adventure-basket > svg { width:100%; height:auto; display:block; }
+.adventure-scene:is([data-journey-phase="2"],[data-journey-phase="3"]) .adventure-cargo { left:34%; bottom:34%; width:32%; }
+.lg-app.lg-boat-adventure .stars-stage,.lg-app.lg-boat-adventure .party-stage { width:min(680px,100%); gap:14px; padding:12px 6px 20px; }
+.lg-app.lg-boat-adventure .stars-row { padding:6px 22px; }
+.lg-boat-adventure .stars-row .stars-star svg,.lg-boat-adventure .party-stars .stars-star svg { width:50px; height:50px; }
+.lg-boat-adventure .stars-nav { gap:22px; }
+.lg-app.lg-boat-adventure .stars-next { display:flex; align-items:center; justify-content:center; min-width:150px; gap:12px; padding:8px 20px; }
+.adventure-next-icon { display:grid; place-items:center; width:48px; height:48px; }
+.adventure-next-icon > svg { width:100%; height:100%; }
+.lg-boat-adventure .meet-nav .adventure-companion { position:relative; width:72px; height:76px; padding:0; border:0; box-shadow:none; background:none; }
+.adventure-companion > svg,.adventure-companion > .lg-animal { width:100%!important; height:100%!important; }
+.adventure-companion > span { position:absolute; display:grid; place-items:center; right:-5px; bottom:0; width:29px; height:29px; border:2px solid #4a3620; border-radius:50%; background:#fffaf0; }
+.lg-boat-adventure .party-actions { gap:12px; align-items:center; }
+.lg-boat-adventure .party-actions .party-next { min-width:108px; }
+.lg-boat-adventure .party-actions .party-decorate { width:56px; min-width:56px; height:56px; padding:5px; }
+.lg-boat-adventure .party-actions .party-replay { width:52px; height:52px; }
+.lg-boat-adventure .lg-play > .adventure-route { margin-top:-5px; margin-bottom:9px; gap:20px; }
+.lg-boat-adventure .lg-play .adventure-stop { width:34px; height:31px; border-radius:10px; }
+.lg-boat-adventure .lg-play .adventure-stop > svg { width:26px; height:26px; }
+.lg-boat-adventure .lg-play .adventure-stop::after { width:18px; }
+.lg-boat-adventure .lg-play .adventure-stop i { width:15px; height:15px; right:-5px; bottom:-2px; }
+.lg-boat-adventure .lg-play .adventure-stop i svg { width:10px; height:10px; }
+.lg-app.lg-boat-adventure .lg-play[data-activity="feed"] .play-prompt { grid-template-columns:minmax(0,max-content) auto; }
+.lg-app.lg-boat-adventure .lg-play[data-activity="feed"] .play-prompt:not(:has(.learning-help:not([hidden]))) { grid-template-columns:minmax(0,max-content); }
+.lg-boat-adventure .lg-play[data-activity="feed"] .play-bubble::before { display:none; }
+.lg-app.lg-boat-adventure .lg-play[data-activity="feed"] .play-bubble { grid-column:1; }
+.lg-app.lg-boat-adventure .lg-play[data-activity="feed"] .play-dots { grid-column:1 / -1; }
+.lg-app.lg-boat-adventure .lg-play[data-activity="feed"] .learning-help { grid-column:2; }
+.lg-app .play-pet[hidden] { display:none!important; }
+.lg-boat-adventure button.feed-creature { position:relative; padding:0; border:0; background:none; margin:0 auto; cursor:pointer; }
+.lg-boat-adventure button.feed-creature:focus-visible { outline:3px solid #e8743c; outline-offset:4px; border-radius:32px; }
+.lg-boat-adventure .feed-creature[data-pose="thinking"] > :is(svg,.lg-animal) { rotate:-3deg; translate:0 3px; }
+.lg-boat-adventure .feed-creature[data-pose="proud"] > :is(svg,.lg-animal) { rotate:2deg; translate:0 -3px; }
+.lg-boat-adventure .feed-creature > :is(svg,.lg-animal) { transition:rotate 180ms ease-out,translate 180ms ease-out; }
+.lg-boat-adventure .trace-wrap { background:linear-gradient(120deg,#fffaf0,#e5dcc8 65%,#c9bda4); }
+.lg-boat-adventure .trace-paper { border:3px solid #a89478; border-radius:20px; background:linear-gradient(#fffdf7,#fffaf0); }
+.lg-boat-adventure .trace-wrap::after { content:''; position:absolute; inset:9px 24px auto; height:4px; border-block:2px dashed #a89478; pointer-events:none; }
+.map-picnic-memento { position:absolute; width:34%; right:10%; bottom:10%; pointer-events:none; }
+.map-picnic-memento > svg { display:block; width:100%; height:auto; }
+@media (prefers-reduced-motion:no-preference) {
+  .lg-app:not(.lg-reduce-motion) .adventure-scene .adventure-cargo { animation:adventure-settle 260ms ease-out both; }
+  @keyframes adventure-settle { from { opacity:.4; translate:0 -8px; } to { opacity:1; translate:0 0; } }
+}
+.lg-reduce-motion .feed-creature > :is(svg,.lg-animal) { transition:none; rotate:none!important; translate:none!important; }
+@media(prefers-reduced-motion:reduce) { .lg-boat-adventure .feed-creature > :is(svg,.lg-animal) { transition:none; rotate:none!important; translate:none!important; } }
+@media(max-width:350px),(max-height:650px) {
+  .lg-app.lg-boat-adventure .stars-stage,.lg-app.lg-boat-adventure .party-stage { gap:9px; padding:6px 0; }
+  .lg-boat-adventure .adventure-scene { width:min(340px,100%); }
+  .lg-boat-adventure .adventure-stop { width:44px; height:40px; }
+  .lg-boat-adventure .adventure-stop > svg { width:34px; height:34px; }
+  .lg-boat-adventure .stars-row .stars-star svg,.lg-boat-adventure .party-stars .stars-star svg { width:40px; height:40px; }
+}
+@media(max-height:450px) and (orientation:landscape) {
+  .lg-app.lg-boat-adventure :is(.stars-stage,.party-stage) { display:grid; grid-template-columns:minmax(0,1fr) 210px; grid-template-rows:56px 66px 78px; align-content:center; column-gap:14px; padding:0; }
+  .lg-boat-adventure :is(.stars-stage,.party-stage) > .adventure-scene { grid-column:1; grid-row:1 / 4; width:100%; }
+  .lg-boat-adventure :is(.stars-stage,.party-stage) > .adventure-route { grid-column:2; grid-row:1; }
+  .lg-boat-adventure :is(.stars-row,.party-stars) { grid-column:2; grid-row:2; }
+  .lg-boat-adventure :is(.stars-nav,.party-actions) { grid-column:2; grid-row:3; gap:8px; }
+  .lg-boat-adventure .stars-next { min-width:128px; padding:6px 12px; }
+  .lg-boat-adventure .party-actions .party-next { min-width:74px; padding-inline:14px; }
+  .lg-boat-adventure .lg-play > .adventure-route { display:none; }
+  .lg-boat-adventure .lg-meet .adventure-route { gap:20px; padding:0; }
+  .lg-boat-adventure .lg-meet .adventure-stop { height:28px; width:32px; }
+  .lg-boat-adventure .lg-meet .adventure-stop > svg { width:26px; height:26px; }
+}

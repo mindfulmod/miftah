@@ -852,6 +852,8 @@
     // ---------- chrome ----------
 
     screen(className, inner) {
+      this.stopJourneyPose?.();
+      this.stopJourneyPose = null;
       this.onLearningSoundChange = null;
       this.stopWardrobeResize?.();this.stopWardrobeResize=null;
       this.screenRevision=(this.screenRevision||0)+1;
@@ -879,6 +881,7 @@
       this.root.classList.toggle("lg-pond-activity", pond);
       this.root.classList.toggle("lg-boat-chapter", garden);
       this.root.classList.toggle("lg-reference-journey", garden);
+      this.root.classList.toggle("lg-boat-adventure", this.isBoatAdventure() && garden);
       this.root.classList.toggle("lg-reduce-motion", !!this.reduceMotion);
       document.body.classList.toggle("lg-reduce-motion", !!this.reduceMotion);
       document.body.classList.toggle("lg-calm-garden", garden || pond);
@@ -1168,7 +1171,7 @@
                   : "";
                 return `
                   ${plant}
-                  ${world.id === "pack-boat" ? `<span class="map-boat-landmark" style="left:${xOf(i) + 37}%;top:${yOf(i) - 10}px">${ns.LettersGardenArt.boat({stage: ns.LettersGardenArt.growth(this.progress, this.bests)})}</span>` : ""}
+                  ${world.id === "pack-boat" ? `<span class="map-boat-landmark" style="left:${xOf(i) + 37}%;top:${yOf(i) - 10}px">${ns.LettersGardenArt.boat({stage: ns.LettersGardenArt.growth(this.progress, this.bests)})}${ns.LettersJourney?.memento(this.progress) || ''}</span>` : ""}
                   ${world.id === "pack-boat" ? "" : `<span class="map-landmark" aria-hidden="true" style="left:${i%2===0?74:26}%; top:${yOf(i)+35}px">${ns.LettersMapArt.landmark(world.biome,i)}</span>`}
                   <div class="map-node" data-node-world="${world.id}" style="${at}"><button type="button" class="map-stop is-${status}" data-world="${world.id}" ${status === "current" ? 'aria-current="step"' : ""} aria-label="${world.id === 'pack-boat' ? 'Boat Letters' : world.icon}${status==='done' ? `, completed, ${this.stars[world.id]||0} of 3 stars` : status==='current' ? ', next chapter' : ', locked'}" ${status === "locked" ? "disabled" : ""}>
                     ${Art.mapStop({ hue: world.hue, label: world.icon, status, stars: this.stars[world.id] || 0, latin: !/[؀-ۿ]/.test(world.icon) })}
@@ -1344,8 +1347,22 @@
       return world?.id === 'pack-boat' || world?.id === 'pack-smile';
     }
 
+    isBoatAdventure() {
+      const s = this.session;
+      return !!s && !s.daily && !s.checkup && !s.plan && !!ns.LettersJourney?.forWorld(s.world);
+    }
+
+    adventureScene(completed, interactivePet = false) {
+      if (!this.isBoatAdventure()) return '';
+      return ns.LettersJourney.scene({ completed, interactivePet, items: this.session.items,
+        drawings: this.session.journeyDrawings,
+        pet: this.petSVG(150, completed === 3 ? 'delighted' : 'proud'),
+        growth: ns.LettersGardenArt.growth(this.progress, this.bests) });
+    }
+
     journeyRoute(completed = 0) {
       const world = this.session?.world;
+      if (this.isBoatAdventure()) return ns.LettersJourney.route(world, completed);
       if (!this.isReferenceJourney(world) && !this.isGentleDaily()) return '';
       const labels = {pop:'Pond letters',trace:'Draw letters',feed:'Feed a friend',pairs:'Match letters'};
       return `<div class="journey-route" role="list" aria-label="${this.isGentleDaily()?'Daily activities':'Chapter activities'}">${world.games.map((name,i)=>`<span class="journey-stop ${i < completed ? 'is-done' : ''}" role="listitem" aria-label="${labels[name] || name}${i < completed ? ', completed' : ''}">${journeyPicture(name)}${i < completed ? `<i>${Art.icon('check',12)}</i>` : ''}</span>`).join('')}</div>`;
@@ -1407,7 +1424,7 @@
           ${this.journeyRoute()}
           <div class="meet-dots">${s.world.meet.map((_, i) => `<i class="${i === s.meetIndex ? "is-on" : ""}"></i>`).join("")}</div>
           <div class="meet-nav">
-            <button type="button" class="lg-round-btn meet-hear" aria-label="Hear the letter again" ${hidden}>${Art.icon("speaker", 36)}</button>
+            <button type="button" class="lg-round-btn meet-hear${this.isBoatAdventure() ? ' adventure-companion' : ''}" aria-label="Hear the letter again" ${hidden}>${this.isBoatAdventure() ? `${this.petSVG(66)}<span>${Art.icon('speaker',20)}</span>` : Art.icon("speaker", 36)}</button>
             <button type="button" class="lg-big-btn meet-next" aria-label="Continue" ${hidden}>${Art.icon("next", 40)}</button>
           </div>
         </div>`,
@@ -1582,6 +1599,8 @@
       const planStep = s.plan ? s.plan[s.gameIndex] : null;
       const gameName = planStep ? planStep.game : s.world.games[s.gameIndex];
       const gameItems = planStep ? planStep.items : s.items;
+      const adventure = this.isBoatAdventure();
+      if (adventure) s.boatCelebrationShown = false;
       const canStart = ns.LettersMiniGameCanStart;
       if (!(canStart ? canStart(gameName, gameItems, s.extraItems) : gameItems?.length)) {
         return this.renderMissingItems();
@@ -1590,7 +1609,7 @@
         "lg-play",
         `${this.topBar()}
         <div class="play-prompt lg-panel">
-          <button type="button" class="play-pet" aria-label="Listen to your pet">${this.petSVG(64)}</button>
+          <button type="button" class="play-pet" aria-label="Listen to your pet" ${adventure && gameName === 'feed' ? 'hidden' : ''}>${this.petSVG(64)}</button>
           <span class="play-mascot">${Art.keyMascot({ size: 66 })}</span>
           <button type="button" class="play-bubble" aria-label="Hear the letter again" hidden>
             <span class="play-bubble-glyph" data-fit-ink dir="rtl" lang="ar"></span>
@@ -1599,6 +1618,7 @@
           <button type="button" class="learning-help lg-round-btn" aria-label="Show the letter" hidden><svg width="26" height="26" viewBox="0 0 40 40" aria-hidden="true"><path d="M3 20Q20 1 37 20Q20 39 3 20Z" fill="#fffaf0" stroke="#4a3620" stroke-width="3"/><circle cx="20" cy="20" r="7" fill="#4e9677"/><circle cx="18" cy="17" r="2" fill="#fffdf7"/></svg></button>
           <span class="play-dots" ${this.showsRoundProgress() ? 'role="progressbar" aria-label="Activity progress" aria-valuemin="0" aria-valuemax="4" aria-valuenow="0"' : ''}>${s.world.games.map((_, i) => `<i class="${i < s.gameIndex ? "is-done" : i === s.gameIndex ? "is-on" : ""}"></i>`).join("")}</span>
         </div>
+        ${adventure ? this.journeyRoute(s.gameIndex) : ''}
         <div class="learning-hint" role="status" aria-live="polite" hidden></div>
         <div class="play-stage"></div>`,
       );
@@ -1616,6 +1636,7 @@
 
       const petEl = el.querySelector(".play-pet");
       let poseTimer = null;
+      this.stopJourneyPose = () => {clearTimeout(poseTimer);};
       let poseLockedUntil = 0;
       // The presenter is the child's own blob pet (squirrel reverted
       // 2026-07-18). Poses map to blob moods: listening/success open the
@@ -1635,15 +1656,18 @@
           idle: "neutral",
         })[pose] || "neutral";
       const setPetPose = (pose, hold = 0, lock = false) => {
-        if (!petEl?.isConnected) return;
-        petEl.innerHTML = this.petSVG(64, petMood(pose));
+        const friend = adventure && gameName === 'feed' ? el.querySelector('.feed-creature') : petEl;
+        if (!friend?.isConnected) return;
+        friend.dataset.pose = pose;
+        friend.innerHTML = this.petSVG(adventure && gameName === 'feed' ? 180 : 64, petMood(pose));
         if (poseTimer) clearTimeout(poseTimer);
         poseLockedUntil = lock ? Date.now() + hold : 0;
         if (hold > 0) {
           poseTimer = setTimeout(() => {
-            if (!petEl.isConnected) return;
+            if (!friend.isConnected) return;
             poseLockedUntil = 0;
-            petEl.innerHTML = this.petSVG(64, petMood(currentTarget ? "presenting" : "idle"));
+            friend.dataset.pose = 'presenting';
+            friend.innerHTML = this.petSVG(adventure && gameName === 'feed' ? 180 : 64, petMood(currentTarget ? "presenting" : "idle"));
           }, hold);
         }
       };
@@ -1682,6 +1706,23 @@
       const firstAttempt = !(this.bests[`${s.world.id}:${gameName}`] > 0) && !s.daily && !s.checkup;
       const ctx = {
         stage,
+        adventure,
+        petReact: pose => {if(adventure)setPetPose(pose, 850, pose === 'proud');},
+        onDrawingMade: (item, canvas) => {
+          if (!adventure || !el.isConnected || this.session !== s) return;
+          // Carry the child's ink into the handoff, not into answer tiles or
+          // saved mastery. These tiny pictures live only for this chapter visit.
+          try {
+            const picture = document.createElement('canvas');
+            picture.width = 160; picture.height = 160;
+            const scale = Math.min(160 / canvas.width, 160 / canvas.height);
+            const width = canvas.width * scale, height = canvas.height * scale;
+            picture.getContext('2d').drawImage(canvas, (160-width)/2, (160-height)/2, width, height);
+            s.journeyDrawings ||= {};
+            s.journeyDrawings[item.display] = picture.toDataURL('image/png');
+          } catch { /* A thumbnail must never block drawing completion. */ }
+        },
+        onPetTap: () => {setPetPose('listening', 900); if(currentTarget)sayWithPose(currentTarget);},
         garden: s.world.id === "pack-boat" || this.isGentleDaily(),
         referenceJourney: this.isReferenceJourney(s.world),
         setRoundProgress: (current,total) => {
@@ -1692,7 +1733,7 @@
           dots.setAttribute('aria-valuetext', `Round ${current} of ${total}`);
           dots.innerHTML=Array.from({length:total},(_,i)=>`<i class="${i<current-1?'is-done':i===current-1?'is-on':''}"></i>`).join('');
         },
-        petArt: () => this.petSVG(180,"listening"),
+        petArt: (mood = 'listening') => this.petSVG(180,mood),
         reducedMotion: () => this.prefersReducedMotion(),
         items: planStep ? planStep.items : s.items,
         extraItems: s.extraItems,
@@ -1956,19 +1997,28 @@
     renderStars(stars) {
       const s = this.session;
       const lastGame = s.gameIndex >= s.world.games.length - 1;
+      const adventure = this.isBoatAdventure();
+      // Feed closes the picnic and chapter in one celebration. Star accounting
+      // already happened in finishGame; the chapter save still uses finishWorld.
+      if (adventure && lastGame) {
+        if (s.boatCelebrationShown) return;
+        s.boatCelebrationShown = true;
+        s.gameIndex = s.world.games.length;
+        return this.finishWorld();
+      }
+      const nextStep = adventure ? ns.LettersJourney.forWorld(s.world).steps[s.gameIndex + 1] : null;
       const el = this.screen(
         "lg-stars",
         `${this.topBar()}
         <div class="stars-stage lg-panel">
-          ${this.rewardScene()}
+          ${adventure ? this.adventureScene(s.gameIndex+1) : this.rewardScene()}
           ${this.journeyRoute(s.gameIndex+1)}
           <div class="stars-row" role="img" aria-label="${stars} of 3 stars">
             ${[0, 1, 2].map((i) => `<span class="stars-star ${i < stars ? "is-on" : ""}" style="animation-delay:${i * 220}ms">${Art.icon("star", 74)}</span>`).join("")}
           </div>
-          ${s.world.id === "pack-boat" ? this.practiceButtons() : ""}
           <div class="stars-nav">
             <button type="button" class="lg-round-btn stars-replay" aria-label="Play again">${Art.icon("replay", 34)}</button>
-            <button type="button" class="lg-big-btn stars-next" aria-label="Continue">${Art.icon(lastGame ? "check" : "next", 40)}</button>
+            <button type="button" class="lg-big-btn stars-next" aria-label="${nextStep?.label || 'Continue'}">${nextStep ? `<span class="adventure-next-icon">${ns.LettersJourney.icon(nextStep.game)}</span>` : ''}${Art.icon(lastGame ? "check" : "next", 40)}</button>
           </div>
         </div>`,
       );
@@ -1988,18 +2038,34 @@
         if (stars === 3) setTimeout(() => { if (el.isConnected) this.confettiAt(row, true); }, 280);
       }, stars * 220 + 200);
       el.querySelector(".stars-replay").addEventListener("click", () => {
-        if(!el.isConnected)return;
-        this.sound.play("click");
-        s.starTotal -= s.lastStars;
-        this.startGame();
+        this.replayActivity(el);
       });
       el.querySelector(".stars-next").addEventListener("click", () => {
-        if(!el.isConnected)return;
-        this.sound.play("click");
-        s.gameIndex += 1;
-        if (s.gameIndex >= s.world.games.length) this.finishWorld();
-        else this.startGame();
+        this.continueActivity(el);
       });
+    }
+
+    replayActivity(el, final = false) {
+      if (!el.isConnected || el.dataset.journeyConsumed) return;
+      el.dataset.journeyConsumed = 'true';
+      const s = this.session;
+      this.sound.play('click');
+      if (final) {
+        s.gameIndex = s.world.games.length - 1;
+        s.boatCelebrationShown = false;
+      }
+      s.starTotal -= s.lastStars;
+      this.startGame();
+    }
+
+    continueActivity(el) {
+      if (!el.isConnected || el.dataset.journeyConsumed) return;
+      el.dataset.journeyConsumed = 'true';
+      const s = this.session;
+      this.sound.play('click');
+      s.gameIndex += 1;
+      if (s.gameIndex >= s.world.games.length) this.finishWorld();
+      else this.startGame();
     }
 
     finishWorld() {
@@ -2031,6 +2097,7 @@
     }
 
     renderParty(stars, newlyDone, { flower = false } = {}) {
+      const adventure = this.isBoatAdventure();
       // The Quran-word capstone (spec: specs/02 summit): finishing a
       // word-decoding world isn't just another world — it's the child
       // reading real words from the Quran. Mark the moment.
@@ -2042,12 +2109,12 @@
         "lg-party",
         `<div class="party-stage lg-panel">
           ${capstone}
-          ${this.rewardScene(true,flower)}
+          ${adventure ? this.adventureScene(3,true) : this.rewardScene(true,flower)}
+          ${adventure ? this.journeyRoute(3) : ''}
           <div class="party-stars" role="img" aria-label="${stars} of 3 stars">
             ${[0, 1, 2].map((i) => `<span class="stars-star ${i < stars ? "is-on" : ""}" style="animation-delay:${i * 240}ms">${Art.icon("star", 64)}</span>`).join("")}
           </div>
-          ${this.session?.world.id === "pack-boat" ? this.practiceButtons() : ""}
-          <div class="party-actions"><button type="button" class="party-decorate" aria-label="Decorate with your earned rewards">${ns.DecoratingGarden.icon(50)}</button><button type="button" class="lg-big-btn party-next" aria-label="Return to the garden">${Art.icon("next", 44)}</button></div>
+          <div class="party-actions">${adventure ? `<button type="button" class="lg-round-btn party-replay" aria-label="Play the delivery again">${Art.icon('replay',32)}</button>` : ''}<button type="button" class="party-decorate" aria-label="Decorate with your earned rewards">${ns.DecoratingGarden.icon(50)}</button><button type="button" class="lg-big-btn party-next" aria-label="Return to the garden">${Art.icon(adventure ? "home" : "next", 44)}</button></div>
         </div>`,
       );
       this.sound.play(newlyDone ? "worldClear" : "perfect");
@@ -2055,6 +2122,8 @@
       setTimeout(() => { if (el.isConnected) this.confettiAt(el.querySelector(".party-stars"), true); }, 500);
       if (newlyDone) setTimeout(() => { if (el.isConnected) this.confettiAt(el.querySelector(".party-mascot"), true); }, 900);
       this.wirePractice(el,()=>this.renderParty(stars,false,{flower}));
+      const replay = el.querySelector('.party-replay');
+      if(replay)replay.onclick=()=>this.replayActivity(el,true);
       const partyPet = el.querySelector(".party-pet");
       partyPet.addEventListener("click", () => {
         this.petRecite(partyPet.querySelector(".pet-bubble"));

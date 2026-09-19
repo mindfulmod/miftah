@@ -1,6 +1,6 @@
 # Letter Garden major release — local status
 
-Preview: `http://letter-garden-next.localhost:8790/letters.html?v=20260918-curriculum-audio2`.
+Preview: `http://letter-garden-next.localhost:8790/letters.html?v=20260918-boat-adventure1`.
 Durable checkout: `/Users/main/Documents/GitHub/miftah/.local-work/letter-garden-next-major`.
 Branch: `codex/letter-garden-next-major`.
 Production baseline: `55f34576f0ebfc02bcf115452101b37adfbb4536` / `20260908-batch50`.
@@ -23,7 +23,8 @@ speech; 49 have candidate excerpts and 328 need reliable individual mapping.
 The owner identified the 3.70–4.85 second excerpt as Dammataan only; that cut is
 now assigned to Dammataan. Damma and Fathataan remain unassigned. Fluent
 pronunciation review remains outstanding. No claim of full audio coverage or
-production qualification. These audio changes are local and uncommitted.
+production qualification. These audio changes are preserved in local checkpoint
+`5473287`; remaining audio review is parked by the owner's explicit decision.
 
 Scope: Letter Garden only. Preserve curriculum, pets, rewards and earned progress.
 No running voice service or AI API calls are needed for the bundled clips. No
@@ -40,7 +41,7 @@ handoff into a reacting basket, Pond/workbench touch feedback, child-led drawing
 completion and rotation-safe canvas mapping. **225 tests pass.** See
 [TACTILE_PASS_REVIEW.md](TACTILE_PASS_REVIEW.md) for actual browser checks,
 limitations and recovery from the pre-pass checkpoint `e7e59c2`.
-Passes 2–5 remain proposed.
+Pass 2 and the Boat portions of passes 4–5 are now implemented; details below.
 
 The home-map continuity pass replaces per-chapter terrain strips with a shared
 landscape and riverbank, keeps habitat landmarks, and refines portrait/landscape
@@ -59,11 +60,15 @@ actual input checks and remaining art-bible debt. Learning/game major passes are
 still pending; parent-page work remains deferred. Audio import status above
 supersedes the earlier parked-generation notes.
 
-Next proposed implementation: the connected Boat adventure from pass 2 of
-[CHILD_EXPERIENCE_NEXT_FIVE.md](CHILD_EXPERIENCE_NEXT_FIVE.md), with the necessary
-contextual pet actions from pass 4. Keep Pond → Trace → Feed and existing rewards,
-make one pictorial purpose carry through the chapter, simplify the next action,
-and show its existing earned change on return to the map. The owner's latest
-request made starting the next update conditional on finished audio; clarification
-is pending on whether to park the unresolved audio and proceed. No new major
-gameplay work has started in this turn.
+September 18: connected Boat adventure implemented locally after the owner
+chose to park remaining audio. Pond → Trace → Feed carries shared seed packets
+and the child's actual ink through pictorial handoffs. The selected pet joins
+the journey; final delivery completes one picnic celebration and a saved-progress
+map memento. Existing stars, replay, chapter unlocks and learning rules remain.
+**253 tests pass.** Actual chapter play, replay without repeat payout, reload,
+phone/landscape/tablet/desktop, reduced motion and keyboard delivery were checked.
+See [BOAT_ADVENTURE_REVIEW.md](BOAT_ADVENTURE_REVIEW.md) for evidence and limits.
+A bounded Luna task supplied regression tests; integration and sighted review
+stayed with the primary agent. No push or deployment. Next: pass 3's exploratory
+learning interactions, then broader pet/garden follow-through; parent work stays
+deferred.

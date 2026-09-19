@@ -223,13 +223,7 @@
       const el = document.createElement("button");
       el.type = "button";
       el.className = "pop-bubble";
-      el.innerHTML = this.ctx.garden ? `<svg viewBox="-52 -66 104 132" aria-hidden="true">
-          <path d="M-43-58Q0-66 43-58L46 52Q0 65-46 52Z" fill="#e9c995" stroke="#59452e" stroke-width="3"/>
-          <path d="M-40-48Q0-53 40-48M-41 47Q0 54 41 47" fill="none" stroke="#b28c57" stroke-width="2" stroke-dasharray="3 3"/>
-          <rect x="-39" y="-38" width="78" height="78" rx="16" fill="#fffaf0"/>
-          ${glyphText(item.display,{maxSize:44})}
-          <path d="M0-48Q-15-60-17-51Q-15-44 0-46Q14-60 18-53Q18-45 0-46" fill="#739463"/>
-        </svg>` : tileHTML(item, this.ctx.hue);
+      el.innerHTML = this.ctx.garden ? ns.LettersGardenArt.seedPacket(glyphText(item.display,{maxSize:44})) : tileHTML(item, this.ctx.hue);
       el.setAttribute("aria-label", item.display);
       const laneW = 84 / Math.max(2, this.laneCount || 3);
       const movement = this.rounds?.[this.roundIndex]?.movement ||
@@ -742,11 +736,12 @@
       if (!this.rounds.length) { this.alive = false; ctx.onDone(0); return; }
       ctx.stage.innerHTML = `
         <div class="feed-scene">
-          <div class="feed-creature">${ctx.garden && ctx.petArt ? ctx.petArt() : Art.creature({ hue: ctx.garden ? 150 : (ctx.hue + 140) % 360 })}</div>
+          <${ctx.adventure ? 'button type="button" aria-label="Listen to your pet"' : 'div'} class="feed-creature">${ctx.garden && ctx.petArt ? ctx.petArt() : Art.creature({ hue: ctx.garden ? 150 : (ctx.hue + 140) % 360 })}</${ctx.adventure ? 'button' : 'div'}>
           ${ctx.garden ? `<button type="button" class="feed-basket" aria-label="Deliver the selected seed packet" aria-disabled="true" disabled><span class="feed-delivered" aria-hidden="true"></span>${ns.LettersGardenArt.seedBasket()}</button>` : ""}
           <div class="feed-tray"></div>
         </div>`;
       this.creatureEl = ctx.stage.querySelector(".feed-creature");
+      if(ctx.adventure)this.creatureEl.onclick=()=>{if(this.alive)ctx.onPetTap?.();};
       this.tray = ctx.stage.querySelector(".feed-tray");
       this.dragResets=[];
       this.basket=ctx.stage.querySelector('.feed-basket');
@@ -768,26 +763,22 @@
         const el = document.createElement("button");
         el.type = "button";
         el.className = "feed-food";
-        el.innerHTML = this.ctx.garden ? `<svg viewBox="-52 -66 104 132" aria-hidden="true">
-          <path d="M-43-58Q0-66 43-58L46 52Q0 65-46 52Z" fill="#e9c995" stroke="#59452e" stroke-width="3"/>
-          <path d="M-40-48Q0-53 40-48M-41 47Q0 54 41 47" fill="none" stroke="#b28c57" stroke-width="2" stroke-dasharray="3 3"/>
-          <rect x="-39" y="-38" width="78" height="78" rx="16" fill="#fffaf0"/>
-          ${glyphText(item.display,{maxSize:44})}
-          <path d="M0-48Q-15-60-17-51Q-15-44 0-46Q14-60 18-53Q18-45 0-46" fill="#739463"/>
-        </svg>` : tileHTML(item, this.ctx.hue);
+        el.innerHTML = this.ctx.garden ? ns.LettersGardenArt.seedPacket(glyphText(item.display,{maxSize:44})) : tileHTML(item, this.ctx.hue);
         el.setAttribute("aria-label", item.display);
         if(this.ctx.garden){
           el.setAttribute("aria-pressed","false");
           this.dragResets.push(ns.GardenPractice.draggable(el,{
             enabled:()=>this.alive&&!this.feeding&&!el.disabled,
+            onDragStart:()=>this.ctx.petReact?.('thinking'),
             onDragMove:(x,y)=>this.basket.classList.toggle('is-near',this.deliveryContains(x,y)),
-            onDragEnd:()=>this.basket.classList.remove('is-near'),
+            onDragEnd:()=>{this.basket.classList.remove('is-near');this.ctx.petReact?.('presenting');},
             drop:(x,y,released)=>{if(this.deliveryContains(x,y))this.offer(item,el,released);}
           }));
           el.addEventListener('click',()=>{
             if(!this.alive||this.feeding||el.disabled)return;
             if(this.selected?.el===el){this.selected=null;el.setAttribute("aria-pressed","false");this.basket.classList.remove("is-ready");this.basket.setAttribute("aria-disabled","true");this.basket.disabled=true;return;}
             this.selected={item,el};
+            this.ctx.petReact?.('thinking');
             this.basket.classList.add("is-ready");this.basket.setAttribute("aria-disabled","false");this.basket.disabled=false;
             this.tray.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b===el)));
           });
@@ -844,6 +835,7 @@
       this.later(() => {
         if(this.delivered)this.delivered.innerHTML=el.innerHTML;
         if(this.basket)this.basket.classList.add("is-filled");
+        this.ctx.petReact?.("proud");
         this.creatureEl.classList.remove("is-chomp");
         void this.creatureEl.offsetWidth;
         this.creatureEl.classList.add("is-chomp");
@@ -1061,6 +1053,7 @@
       if (!this.last) { this.drawing = false; this.activePointer = null; return; }
       if (this.clearBtn) this.clearBtn.disabled = false;
       this.canvas.setPointerCapture?.(e.pointerId);
+      this.ctx.petReact?.("thinking");
       // A plain tap must leave ink too — kids dot the dots with single taps,
       // and letters like ب can't pass their dot-cluster check without it.
       if (this.g) {
@@ -1157,8 +1150,10 @@
       this.finishEl.hidden=false;
       this.nextBtn.disabled=false;
       const target=this.targets[this.roundIndex];
+      this.ctx.onDrawingMade?.(target, this.canvas);
       reportAssembly(this.ctx,target,true);
       this.ctx.sfx('correct');
+      this.ctx.petReact?.('proud');
       this.ctx.confettiAt(this.canvas);
       this.ctx.say(target);
       this.nextBtn.focus?.({preventScroll:true});

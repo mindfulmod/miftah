@@ -4,7 +4,10 @@ Planning checkpoint: 2026-09-16; pass 1 local preview `20260916-touch1`.
 Scope: ages 4–6, new to Arabic. Audio generation and the FM recording package are
 parked. Keep the existing bundled clips/fallback. Parent-page work and publishing
 remain deferred. Pass 1 is implemented locally; see
-[TACTILE_PASS_REVIEW.md](TACTILE_PASS_REVIEW.md). Passes 2–5 remain proposed.
+[TACTILE_PASS_REVIEW.md](TACTILE_PASS_REVIEW.md). Pass 2 and the Boat portions of
+passes 4–5 are now implemented locally in `20260918-boat-adventure1`; see
+[BOAT_ADVENTURE_REVIEW.md](BOAT_ADVENTURE_REVIEW.md). Pass 3 and the remaining
+pet/garden interactions remain proposed.
 None of these changes has been tested with children yet.
 
 ## Direction
@@ -69,6 +72,11 @@ alongside this experience. Compare identical content before and after.
 
 ## 2. Connect a chapter into one small adventure — “I am going somewhere”
 
+**Status:** implemented for Boat. Shared packets connect Pond → Trace → Feed;
+the child's actual ink appears in the handoff, one selected pet participates,
+and a single final picnic unlocks a persistent map memento. Curriculum, scoring
+and progression remain unchanged. Extension to other habitats is still proposed.
+
 **Priority:** establish alongside pass 1 in Boat before spreading across habitats.
 
 - Keep Boat's Pond → Trace → Feed order, but carry one pictorial purpose and a
@@ -122,6 +130,11 @@ still cannot become a false letter-knowledge failure.
 
 ## 4. Let the pet participate — “My friend is doing this with me”
 
+**Status:** Boat subset implemented: the same selected pet accompanies entry,
+play and handoffs, responds to drawing/packet actions, and occupies one clear
+role in Feed. Gaze tracking, workbench gestures and wider propagation remain
+proposed.
+
 **Priority:** integrate into the Boat reference; propagate once the behavior reads
 clearly on small screens.
 
@@ -143,6 +156,10 @@ from the letter. Responses remain readable with sound off and reduced motion,
 and never cover glyphs, stars or controls.
 
 ## 5. Make progress personal and lasting — “I changed my garden”
+
+**Status:** Boat picnic memento and a single final stopping point implemented.
+The memento derives from saved chapter completion. Interactive owned props and
+the broader garden-placement follow-through remain proposed.
 
 **Priority:** connect completion to the existing map and My Garden after the
 reference chapter works end to end.
