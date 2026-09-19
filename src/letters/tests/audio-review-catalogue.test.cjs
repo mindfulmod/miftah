@@ -13,7 +13,8 @@ test('audio catalogue has the complete, disjoint 612-entry partition', () => {
   assert.equal(new Set(catalogue.items.map((item) => item.id)).size, 612);
   const counts = Object.fromEntries(['installed', 'candidate', 'sequence', 'unmapped', 'policy']
     .map((status) => [status, catalogue.items.filter((item) => item.status === status).length]));
-  assert.deepEqual(counts, { installed: 92, candidate: 20, sequence: 149, unmapped: 322, policy: 29 });
+  const fresh = catalogue.reviewQueues.find(queue => queue.id === 'individuals').itemIds.length;
+  assert.deepEqual(counts, { installed: 92, candidate: 20 + fresh, sequence: 149, unmapped: 322 - fresh, policy: 29 });
 });
 
 test('all installed entries point to the current hashed clips and alphabet names are first-class', () => {

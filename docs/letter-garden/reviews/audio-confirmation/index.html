@@ -4,17 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Letter Garden · Audio confirmation</title>
-  <link rel="stylesheet" href="review.css?v=5">
-  <script defer src="review-core.js?v=5"></script>
-  <script defer src="review.js?v=5"></script>
+  <link rel="stylesheet" href="review.css?v=6">
+  <script defer src="review-core.js?v=6"></script>
+  <script defer src="review.js?v=6"></script>
 </head>
 <body>
 <main>
   <header>
     <p class="eyebrow">LETTER GARDEN · ADULT REVIEW</p>
-    <h1>Your review has been applied.</h1>
-    <p class="intro">Your saved decisions and notes are preserved below. For any item still needing a decision, play it and choose <strong>Correct</strong>, <strong>Needs fixing</strong> or <strong>Unsure</strong>. Your decisions save in this browser.</p>
-    <p class="intro"><strong>The three approved word excerpts are installed.</strong> The game now uses 92 approved recordings. Your three new corrections and the 17 earlier rejected clips remain excluded. The unchanged approved prompts do not need another review.</p>
+    <h1>Your next listening review.</h1>
+    <p class="intro"><strong>Next:</strong> open the new listening items below. Play each clip, then choose <strong>Correct</strong>, <strong>Needs fixing</strong> or <strong>Unsure</strong>. If something is wrong, write what you heard. Continue with <strong>Next batch →</strong>.</p>
+    <p class="intro">This pass checks individual syllables and sounds from your recordings. These are proposed cuts: please check both the pronunciation and the beginning and ending. Your earlier decisions and notes are preserved; the game still uses its 92 approved recordings.</p>
+    <p class="intro"><strong>When finished:</strong> download your review results and attach the JSON file in our conversation. I’ll apply approved clips and work through your correction notes. If downloading does not work, tell me you have finished and leave this page open.</p>
     <div id="totals" class="totals" aria-label="Audio coverage">Loading the complete audio catalogue…</div>
     <p id="progress" class="progress" role="status"></p>
     <p id="save-status" class="hint" role="status">Reviews do not change the game. Export your results when you finish or take a break.</p>
@@ -49,7 +50,7 @@
 
   <section class="toolbar" aria-label="Choose audio to review">
     <label>Review section<select id="section" disabled>
-      <option value="next100">Next 100 items</option>
+      <option value="next100">Previous 100 · review completed</option>
       <option value="installed">1 · Installed clips</option>
       <option value="candidate">2 · Candidate clips</option>
       <option value="revised">Revised cuts from your notes</option>
@@ -69,6 +70,7 @@
     <h2 id="queue-title">Start with the installed alphabet</h2>
     <p id="queue-help" class="hint"></p>
     <p id="queue-progress" class="progress" role="status" hidden></p>
+    <p id="queue-next-step" class="hint" role="status" hidden></p>
     <div class="pagination">
       <button id="previous" type="button" disabled>← Previous batch</button>
       <span id="page-status" role="status"></span>
@@ -90,7 +92,7 @@
   <p class="hint footer">Review page only · no game progress, rewards, audio mappings or production files are changed.</p>
 </main>
 <aside class="player-bar" aria-label="Review player">
-  <div><strong id="now-playing">Choose a clip to begin</strong><span id="play-state" class="hint" role="status">Normal speed · the same files used by the game</span></div>
+  <div><strong id="now-playing">Choose a clip to begin</strong><span id="play-state" class="hint" role="status">Normal speed · candidate cuts await your approval</span></div>
   <audio id="player" controls preload="none" aria-label="Current review audio" hidden></audio>
   <button id="stop" type="button" disabled>Stop</button>
 </aside>

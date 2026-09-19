@@ -19,12 +19,13 @@
     catch{message('Browser saving is unavailable. Your decisions are in this tab only—download the results before closing it.',true);}
     summary();refreshCard(item);
   }
-  function queueItems(){const ids=manifest?.reviewQueues?.find(q=>q.id==='next100')?.itemIds||[];const byId=new Map(items.map(item=>[item.id,item]));return ids.map(id=>byId.get(id)).filter(Boolean);}
-  function queueSummary(){const c=Core.counts(queueItems(),state);$('#queue-progress').hidden=$('#section').value!=='next100';$('#queue-progress').textContent=`${c.correct+c.fix+c.unsure} of ${c.ready} in this queue reviewed · ${c.correct} correct · ${c.fix} need fixing · ${c.unsure} unsure`; }
+  function selectedQueue(){return manifest?.reviewQueues?.find(q=>q.id===$('#section').value);}
+  function queueItems(){const ids=selectedQueue()?.itemIds||[];const byId=new Map(items.map(item=>[item.id,item]));return ids.map(id=>byId.get(id)).filter(Boolean);}
+  function queueSummary(){const c=Core.counts(queueItems(),state);$('#queue-progress').hidden=!selectedQueue();$('#queue-progress').textContent=`${c.correct+c.fix+c.unsure} of ${c.ready} in this queue reviewed · ${c.correct} correct · ${c.fix} need fixing · ${c.unsure} unsure`;const next=$('#queue-next-step');next.hidden=!selectedQueue();next.textContent=c.ready&&c.correct+c.fix+c.unsure===c.ready?'Next: download your review results and attach the JSON file in our conversation. This queue is complete.':'Next: play each clip, choose a decision, then continue with Next batch →. You can stop and resume anytime.'; }
   function summary(){queueSummary();const c=Core.counts(items,state);$('#progress').textContent=`${c.correct+c.fix+c.unsure} of ${c.ready} playable items reviewed · ${c.correct} correct · ${c.fix} need fixing · ${c.unsure} unsure${c.stale?` · ${c.stale} changed clips need another listen`:''}`;}
-  function filtered(){const q=$('#search').value.trim().normalize('NFC').toLowerCase(),section=$('#section').value,family=$('#family').value,decision=$('#decision').value;return (section==='next100'?queueItems():items).filter(item=>{
+  function filtered(){const q=$('#search').value.trim().normalize('NFC').toLowerCase(),section=$('#section').value,family=$('#family').value,decision=$('#decision').value;return (selectedQueue()?queueItems():items).filter(item=>{
     const d=Core.current(item,state),hay=[item.text,item.id,...item.displays,item.family].join(' ').normalize('NFC').toLowerCase();
-    return (section==='next100'||section==='all'||item.status===section||(section==='revised'&&item.revision))&&(family==='all'||item.family===family)&&(!q||hay.includes(q))&&(decision==='all'||(decision==='unreviewed'?!d.verdict:item.parts.length&&(decision==='stale'?d.stale:d.verdict===decision)));
+    return (selectedQueue()||section==='all'||item.status===section||(section==='revised'&&item.revision))&&(family==='all'||item.family===family)&&(!q||hay.includes(q))&&(decision==='all'||(decision==='unreviewed'?!d.verdict:item.parts.length&&(decision==='stale'?d.stale:d.verdict===decision)));
   });}
   function refreshCard(item){
     const card=document.getElementById(item.id);if(!card)return;
@@ -37,23 +38,23 @@
     card.classList.toggle('is-playing',active?.id===item.id);
   }
   function render(){
-    const PAGE_SIZE=$('#section').value==='next100'?10:8;queueSummary();
+    const PAGE_SIZE=selectedQueue()?10:8;queueSummary();
     const list=filtered(),pages=Math.max(1,Math.ceil(list.length/PAGE_SIZE));page=Math.min(page,pages-1);
-    $('#queue-title').textContent=headings[$('#section').value];$('#queue-help').textContent=$('#section').value==='next100'?(manifest.reviewQueues?.find(q=>q.id==='next100')?.description||help.next100):help[$('#section').value];
-    $('#page-status').textContent=list.length?`${page*PAGE_SIZE+1}–${Math.min((page+1)*PAGE_SIZE,list.length)} of ${list.length}${$('#section').value==='next100'?` · Batch ${page+1} of ${pages}`:''}`:'No matching items';
+    $('#queue-title').textContent=selectedQueue()?.title||headings[$('#section').value];$('#queue-help').textContent=selectedQueue()?.description||help[$('#section').value];
+    $('#page-status').textContent=list.length?`${page*PAGE_SIZE+1}–${Math.min((page+1)*PAGE_SIZE,list.length)} of ${list.length}${selectedQueue()?` · Batch ${page+1} of ${pages}`:''}`:'No matching items';
     $('#previous').disabled=page===0;$('#next').disabled=page>=pages-1;
     $('#previous-bottom').disabled=page===0;$('#next-bottom').disabled=page>=pages-1;$('#page-status-bottom').textContent=$('#page-status').textContent;
     $('#items').replaceChildren();
     for(const item of list.slice(page*PAGE_SIZE,(page+1)*PAGE_SIZE)){
       const d=Core.current(item,state),card=node('article',undefined,'item');card.id=item.id;card.setAttribute('aria-label',`Review ${item.text}`);
-      const top=node('div',undefined,'item-top');top.append(node('span',item.family),node('span','','badge'));card.append(top);if($('#section').value==='next100')card.append(node('p',item.status==='sequence'?'NAME SEQUENCE · check order and gaps':'WHOLE WORD · check consonants, vowels and ending','hint'));
+      const top=node('div',undefined,'item-top');top.append(node('span',item.family),node('span','','badge'));card.append(top);if(selectedQueue()){const kind=item.status==='sequence'?'NAME SEQUENCE · check order and gaps':/vowel|Tanween|Leen|Sukun/.test(item.family)?'SYLLABLE · check the vowel, length and ending':'WORD · check consonants, vowels and ending';card.append(node('p',`${queueItems().findIndex(x=>x.id===item.id)+1} / ${queueItems().length} · ${kind}`,'hint'));}
       const arabic=node('div',item.text,'arabic');arabic.lang='ar';arabic.dir='rtl';card.append(arabic);
       const actions=node('div',undefined,'clip-actions');
       if(item.parts.length){const play=button(item.parts.length>1?'▶ Play full sequence':'▶ Play clip',()=>playItem(item),'play');play.setAttribute('aria-label',`Play ${item.text}`);actions.append(play);}
       else actions.append(node('span',item.status==='policy'?'Teaching guidance needed':'Awaiting a reliable cut','hint'));
       if(item.source){const b=button('Compare original',()=>compareSource(item));b.setAttribute('aria-label',`Compare original for ${item.text}`);actions.append(b);}
       card.append(actions);
-      if(item.revision)card.append(node('p',item.note,'item-note'));
+      if(item.revision||(selectedQueue()?.individualOnly&&item.status==='candidate'))card.append(node('p',item.note,'item-note'));
       if(item.parts.length){
         const votes=node('div',undefined,'votes');votes.setAttribute('role','group');votes.setAttribute('aria-label',`Decision for ${item.text}`);
         for(const verdict of ['correct','fix','unsure']){const b=button(labels[verdict],()=>{try{save(item,{verdict});}catch(error){message(error.message,true);}});b.dataset.vote=verdict;b.setAttribute('aria-pressed','false');votes.append(b);}card.append(votes,node('p','','listen-hint'));
@@ -142,7 +143,7 @@
   for(const id of ['section','family','decision','search'])$('#'+id).addEventListener(id==='search'?'input':'change',()=>{stopEverything();page=0;render();});
   for(const [id,delta] of [['previous',-1],['next',1],['previous-bottom',-1],['next-bottom',1]])$('#'+id).onclick=()=>{stopEverything();page+=delta;render();$('#queue-title').scrollIntoView({block:'start',behavior:'instant'});};
   $('#stop').onclick=stopEverything;
-  $('#review-next100').onclick=()=>{stopEverything();$('#section').value='next100';$('#family').value='all';$('#decision').value='all';$('#search').value='';const first=queueItems().findIndex(item=>!Core.current(item,state).verdict);page=first<0?0:Math.floor(first/10);render();$('#queue-title').scrollIntoView({block:'start',behavior:'instant'});};
+  $('#review-next100').onclick=()=>{stopEverything();$('#section').value=manifest.reviewQueues.at(-1).id;$('#family').value='all';$('#decision').value='all';$('#search').value='';const first=queueItems().findIndex(item=>!Core.current(item,state).verdict);page=first<0?0:Math.floor(first/10);render();$('#queue-title').scrollIntoView({block:'start',behavior:'instant'});};
   $('#review-revisions').onclick=()=>{stopEverything();$('#section').value='revised';$('#family').value='all';$('#decision').value='all';$('#search').value='';page=0;render();$('#queue-title').scrollIntoView({block:'start',behavior:'instant'});};
   $('#start-review').onclick=()=>$('#queue-title').scrollIntoView({block:'start',behavior:'instant'});
   document.addEventListener('visibilitychange',()=>{if(document.hidden)stopEverything();});
@@ -152,9 +153,11 @@
     if(data.schemaVersion!==1||!Array.isArray(data.items))throw Error('Unrecognized review catalogue.');
     manifest=data;items=data.items;state=read();$('#totals').replaceChildren();
     for(const [count,label] of [[data.summary.installed,'installed clips'],[data.summary.candidate,'candidate cuts'],[data.summary.sequence,'name sequences'],[data.summary.unmapped,'awaiting cuts'],[data.summary.policy,'teaching decisions']]){const el=node('span',undefined,'total');el.append(node('strong',count),document.createTextNode(label));$('#totals').append(el);}
+    for(const queue of data.reviewQueues||[]){if(queue.id==='next100')continue;const option=node('option',queue.title);option.value=queue.id;$('#section').prepend(option);}
+    const latest=data.reviewQueues?.at(-1);if(latest)$('#review-next100').textContent=`Open ${latest.itemIds.length} ${latest.individualOnly?'new listening items':'previous review items'} ↓`;
     for(const family of [...new Set(items.map(item=>item.family))]){const option=node('option',family);option.value=family;$('#family').append(option);}
     for(const id of ['section','family','search','decision','export','export-bottom','copy','import','start-review','show-results','review-revisions','review-next100'])$('#'+id).disabled=false;
-    const requested=new URLSearchParams(location.search).get('section');$('#section').value=requested==='next100'&&queueItems().length?'next100':requested==='revised'?'revised':'installed';if($('#section').value==='next100'){const first=queueItems().findIndex(item=>!Core.current(item,state).verdict);page=first<0?0:Math.floor(first/10);}
+    const requested=new URLSearchParams(location.search).get('section');$('#section').value=data.reviewQueues?.some(q=>q.id===requested)?requested:requested==='revised'?'revised':latest?.id||'installed';if(selectedQueue()){const first=queueItems().findIndex(item=>!Core.current(item,state).verdict);page=first<0?0:Math.floor(first/10);}
     renderSources();summary();render();
   }).catch(error=>{$('#totals').textContent='Catalogue unavailable';message(`${error.message} Open this page through the local preview server, not file://.`,true);});
 })();

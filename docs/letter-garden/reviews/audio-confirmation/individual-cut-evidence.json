@@ -1,0 +1,931 @@
+{
+  "purpose": "Review candidates, not pronunciation certification. Selection excludes every previously reviewed item. No audio was synthesized or stretched.",
+  "sources": [
+    {
+      "id": "batch-1",
+      "file": "sources/batch-1.mp3",
+      "originalFilename": "openai-fm-marin-calm.mp3",
+      "sha256": "99728b8336d5caaab61a50f2f4394a5c7ffdae1e6380ba72e2732a66a4d51c05"
+    },
+    {
+      "id": "batch-2",
+      "file": "sources/batch-2.mp3",
+      "originalFilename": "openai-fm-marin-calm-2.mp3",
+      "sha256": "5e3b2f778bf5b339a12825f4cbb8cdacedd4cdc1877ef4cbf9f6b1408f213cc0"
+    }
+  ],
+  "candidates": [
+    {
+      "text": "بَ",
+      "source": "batch-1",
+      "start": 7.64,
+      "end": 7.9,
+      "evidence": "Unprompted group transcript ببيبو preserves the base and /a i u/ sequence; internal bounds are repeated high-novelty bilabial onsets at 7.90 and 8.17.",
+      "confidence": "high",
+      "caveat": "Verify the first vowel and that each boundary retains the complete stop release."
+    },
+    {
+      "text": "بِ",
+      "source": "batch-1",
+      "start": 7.9,
+      "end": 8.17,
+      "evidence": "Unprompted group transcript ببيبو preserves the base and /a i u/ sequence; internal bounds are repeated high-novelty bilabial onsets at 7.90 and 8.17.",
+      "confidence": "high",
+      "caveat": "Verify the first vowel and that each boundary retains the complete stop release."
+    },
+    {
+      "text": "بُ",
+      "source": "batch-1",
+      "start": 8.17,
+      "end": 8.38,
+      "evidence": "Unprompted group transcript ببيبو preserves the base and /a i u/ sequence; internal bounds are repeated high-novelty bilabial onsets at 7.90 and 8.17.",
+      "confidence": "high",
+      "caveat": "Verify the first vowel and that each boundary retains the complete stop release."
+    },
+    {
+      "text": "تَ",
+      "source": "batch-1",
+      "start": 8.89,
+      "end": 9.2,
+      "evidence": "The full unprompted transcript identifies تاتيتو and the isolated pass preserves /a i u/ as داتيتو; 9.20 and 9.415 are strong repeated stop onsets.",
+      "confidence": "medium",
+      "caveat": "The isolated recognizer confused ت with د; verify the consonant on each cut."
+    },
+    {
+      "text": "تِ",
+      "source": "batch-1",
+      "start": 9.2,
+      "end": 9.415,
+      "evidence": "The full unprompted transcript identifies تاتيتو and the isolated pass preserves /a i u/ as داتيتو; 9.20 and 9.415 are strong repeated stop onsets.",
+      "confidence": "medium",
+      "caveat": "The isolated recognizer confused ت with د; verify the consonant on each cut."
+    },
+    {
+      "text": "تُ",
+      "source": "batch-1",
+      "start": 9.415,
+      "end": 9.57,
+      "evidence": "The full unprompted transcript identifies تاتيتو and the isolated pass preserves /a i u/ as داتيتو; 9.20 and 9.415 are strong repeated stop onsets.",
+      "confidence": "medium",
+      "caveat": "The isolated recognizer confused ت with د; verify the consonant on each cut."
+    },
+    {
+      "text": "جَ",
+      "source": "batch-1",
+      "start": 11.24,
+      "end": 11.695,
+      "evidence": "The isolated transcript begins جا in a silence-delimited ج group; 11.695 is the next repeated palatal onset transition.",
+      "confidence": "high",
+      "caveat": "Verify that the following جِ onset is excluded."
+    },
+    {
+      "text": "جِ",
+      "source": "batch-1",
+      "start": 11.695,
+      "end": 11.98,
+      "evidence": "The isolated transcript renders the middle token جي and the full-window transcript repeatedly identifies ج; bounds are repeated onset transitions at 11.695 and 11.98.",
+      "confidence": "medium",
+      "caveat": "The following token was misrecognized, so verify the right edge carefully."
+    },
+    {
+      "text": "جُ",
+      "source": "batch-1",
+      "start": 11.98,
+      "end": 12.16,
+      "evidence": "The parent group is independently identified with ج in both the full and isolated unprompted transcripts. A high-prominence repeated palatal onset at 11.98 isolates the final utterance before silence at 12.16.",
+      "confidence": "low",
+      "caveat": "The final token is very short and was misrecognized as دري/جي rather than جُ. Verify consonant, vowel, and completeness."
+    },
+    {
+      "text": "حَ",
+      "source": "batch-1",
+      "start": 12.64,
+      "end": 13.095,
+      "evidence": "The full-window transcript identifies the group as حاحيخو and the isolated pass renders ها هي هو, preserving the three vowel qualities; repeated breathy onsets occur at 13.095 and 13.375.",
+      "confidence": "medium",
+      "caveat": "Arabic ASR confuses ح/ه and the final token once appeared as خو; verify the pharyngeal consonant."
+    },
+    {
+      "text": "حِ",
+      "source": "batch-1",
+      "start": 13.095,
+      "end": 13.375,
+      "evidence": "The full-window transcript identifies the group as حاحيخو and the isolated pass renders ها هي هو, preserving the three vowel qualities; repeated breathy onsets occur at 13.095 and 13.375.",
+      "confidence": "medium",
+      "caveat": "Arabic ASR confuses ح/ه and the final token once appeared as خو; verify the pharyngeal consonant."
+    },
+    {
+      "text": "حُ",
+      "source": "batch-1",
+      "start": 13.375,
+      "end": 13.56,
+      "evidence": "The full-window transcript identifies the group as حاحيخو and the isolated pass renders ها هي هو, preserving the three vowel qualities; repeated breathy onsets occur at 13.095 and 13.375.",
+      "confidence": "medium",
+      "caveat": "Arabic ASR confuses ح/ه and the final token once appeared as خو; verify the pharyngeal consonant."
+    },
+    {
+      "text": "دَ",
+      "source": "batch-1",
+      "start": 13.93,
+      "end": 14.275,
+      "evidence": "Unprompted isolated transcript دا دي دو exactly preserves د and /a i u/; internal bounds follow repeated stop transitions at 14.275 and 14.60.",
+      "confidence": "high",
+      "caveat": "The final token is short; verify complete onset and release."
+    },
+    {
+      "text": "دِ",
+      "source": "batch-1",
+      "start": 14.275,
+      "end": 14.6,
+      "evidence": "Unprompted isolated transcript دا دي دو exactly preserves د and /a i u/; internal bounds follow repeated stop transitions at 14.275 and 14.60.",
+      "confidence": "high",
+      "caveat": "The final token is short; verify complete onset and release."
+    },
+    {
+      "text": "دُ",
+      "source": "batch-1",
+      "start": 14.6,
+      "end": 14.74,
+      "evidence": "Unprompted isolated transcript دا دي دو exactly preserves د and /a i u/; internal bounds follow repeated stop transitions at 14.275 and 14.60.",
+      "confidence": "high",
+      "caveat": "The final token is short; verify complete onset and release."
+    },
+    {
+      "text": "ذَ",
+      "source": "batch-1",
+      "start": 15.21,
+      "end": 15.725,
+      "evidence": "Unprompted group transcript ذا ذا دي ذو preserves ذ and independently shows /a i u/ despite splitting the middle token; repeated fricative transitions occur at 15.725 and 16.005.",
+      "confidence": "medium",
+      "caveat": "The middle token was over-segmented; verify all three edge trims."
+    },
+    {
+      "text": "ذِ",
+      "source": "batch-1",
+      "start": 15.725,
+      "end": 16.005,
+      "evidence": "Unprompted group transcript ذا ذا دي ذو preserves ذ and independently shows /a i u/ despite splitting the middle token; repeated fricative transitions occur at 15.725 and 16.005.",
+      "confidence": "medium",
+      "caveat": "The middle token was over-segmented; verify all three edge trims."
+    },
+    {
+      "text": "ذُ",
+      "source": "batch-1",
+      "start": 16.005,
+      "end": 16.38,
+      "evidence": "Unprompted group transcript ذا ذا دي ذو preserves ذ and independently shows /a i u/ despite splitting the middle token; repeated fricative transitions occur at 15.725 and 16.005.",
+      "confidence": "medium",
+      "caveat": "The middle token was over-segmented; verify all three edge trims."
+    },
+    {
+      "text": "رَ",
+      "source": "batch-1",
+      "start": 16.75,
+      "end": 17.14,
+      "evidence": "Unprompted group transcript رار ایرو preserves ر and the /a i u/ progression; repeated rhotic/vowel transitions occur at 17.14 and 17.425.",
+      "confidence": "medium",
+      "caveat": "The recognizer merged token tails; verify that the three clips are isolated."
+    },
+    {
+      "text": "رِ",
+      "source": "batch-1",
+      "start": 17.14,
+      "end": 17.425,
+      "evidence": "Unprompted group transcript رار ایرو preserves ر and the /a i u/ progression; repeated rhotic/vowel transitions occur at 17.14 and 17.425.",
+      "confidence": "medium",
+      "caveat": "The recognizer merged token tails; verify that the three clips are isolated."
+    },
+    {
+      "text": "رُ",
+      "source": "batch-1",
+      "start": 17.425,
+      "end": 17.6,
+      "evidence": "Unprompted group transcript رار ایرو preserves ر and the /a i u/ progression; repeated rhotic/vowel transitions occur at 17.14 and 17.425.",
+      "confidence": "medium",
+      "caveat": "The recognizer merged token tails; verify that the three clips are isolated."
+    },
+    {
+      "text": "زَ",
+      "source": "batch-1",
+      "start": 18.36,
+      "end": 18.795,
+      "evidence": "Unprompted isolated transcript زازيزو preserves ز and /a i u/; repeated fricative onsets are visible at 18.795 and 19.19.",
+      "confidence": "high",
+      "caveat": "The final clip is short; verify its leading ز is complete."
+    },
+    {
+      "text": "زِ",
+      "source": "batch-1",
+      "start": 18.795,
+      "end": 19.19,
+      "evidence": "Unprompted isolated transcript زازيزو preserves ز and /a i u/; repeated fricative onsets are visible at 18.795 and 19.19.",
+      "confidence": "high",
+      "caveat": "The final clip is short; verify its leading ز is complete."
+    },
+    {
+      "text": "زُ",
+      "source": "batch-1",
+      "start": 19.19,
+      "end": 19.32,
+      "evidence": "Unprompted isolated transcript زازيزو preserves ز and /a i u/; repeated fricative onsets are visible at 18.795 and 19.19.",
+      "confidence": "high",
+      "caveat": "The final clip is short; verify its leading ز is complete."
+    },
+    {
+      "text": "سَ",
+      "source": "batch-1",
+      "start": 19.74,
+      "end": 20.145,
+      "evidence": "Unprompted isolated transcript ساسي سو preserves س and /a i u/; boundaries use strong repeated fricative transitions at 20.145 and 20.49.",
+      "confidence": "high",
+      "caveat": "Frication creates nearby spectral peaks; verify the exact edge trims."
+    },
+    {
+      "text": "سِ",
+      "source": "batch-1",
+      "start": 20.145,
+      "end": 20.49,
+      "evidence": "Unprompted isolated transcript ساسي سو preserves س and /a i u/; boundaries use strong repeated fricative transitions at 20.145 and 20.49.",
+      "confidence": "high",
+      "caveat": "Frication creates nearby spectral peaks; verify the exact edge trims."
+    },
+    {
+      "text": "سُ",
+      "source": "batch-1",
+      "start": 20.49,
+      "end": 20.74,
+      "evidence": "Unprompted isolated transcript ساسي سو preserves س and /a i u/; boundaries use strong repeated fricative transitions at 20.145 and 20.49.",
+      "confidence": "high",
+      "caveat": "Frication creates nearby spectral peaks; verify the exact edge trims."
+    },
+    {
+      "text": "شَ",
+      "source": "batch-1",
+      "start": 21.11,
+      "end": 21.5,
+      "evidence": "Unprompted isolated transcript شاشي شو preserves ش and /a i u/; repeated fricative-onset transitions occur at 21.50 and 21.815.",
+      "confidence": "high",
+      "caveat": "Verify that the middle clip does not include the following fricative onset."
+    },
+    {
+      "text": "شِ",
+      "source": "batch-1",
+      "start": 21.5,
+      "end": 21.815,
+      "evidence": "Unprompted isolated transcript شاشي شو preserves ش and /a i u/; repeated fricative-onset transitions occur at 21.50 and 21.815.",
+      "confidence": "high",
+      "caveat": "Verify that the middle clip does not include the following fricative onset."
+    },
+    {
+      "text": "شُ",
+      "source": "batch-1",
+      "start": 21.815,
+      "end": 22.08,
+      "evidence": "Unprompted isolated transcript شاشي شو preserves ش and /a i u/; repeated fricative-onset transitions occur at 21.50 and 21.815.",
+      "confidence": "high",
+      "caveat": "Verify that the middle clip does not include the following fricative onset."
+    },
+    {
+      "text": "كَ",
+      "source": "batch-1",
+      "start": 29.64,
+      "end": 29.995,
+      "evidence": "Unprompted isolated transcript كا كا كيكو repeatedly identifies ك and includes the /a i u/ vowel sequence; bounds use strong repeated velar-stop transitions at 29.995 and 30.39.",
+      "confidence": "medium",
+      "caveat": "The recognizer over-segmented the group; verify that these are كَ كِ كُ and not a neighboring ق group."
+    },
+    {
+      "text": "كِ",
+      "source": "batch-1",
+      "start": 29.995,
+      "end": 30.39,
+      "evidence": "Unprompted isolated transcript كا كا كيكو repeatedly identifies ك and includes the /a i u/ vowel sequence; bounds use strong repeated velar-stop transitions at 29.995 and 30.39.",
+      "confidence": "medium",
+      "caveat": "The recognizer over-segmented the group; verify that these are كَ كِ كُ and not a neighboring ق group."
+    },
+    {
+      "text": "كُ",
+      "source": "batch-1",
+      "start": 30.39,
+      "end": 30.81,
+      "evidence": "Unprompted isolated transcript كا كا كيكو repeatedly identifies ك and includes the /a i u/ vowel sequence; bounds use strong repeated velar-stop transitions at 29.995 and 30.39.",
+      "confidence": "medium",
+      "caveat": "The recognizer over-segmented the group; verify that these are كَ كِ كُ and not a neighboring ق group."
+    },
+    {
+      "text": "لَ",
+      "source": "batch-1",
+      "start": 31.16,
+      "end": 31.58,
+      "evidence": "Unprompted isolated transcript لا ليلي لو consistently identifies ل and /a i u/; 31.58 is a strong liquid transition and 31.86 is the next acoustic cycle boundary.",
+      "confidence": "low",
+      "caveat": "The recognizer merged the middle repetitions and the latter boundary has low spectral prominence; careful owner review is required."
+    },
+    {
+      "text": "لِ",
+      "source": "batch-1",
+      "start": 31.58,
+      "end": 31.86,
+      "evidence": "Unprompted isolated transcript لا ليلي لو consistently identifies ل and /a i u/; 31.58 is a strong liquid transition and 31.86 is the next acoustic cycle boundary.",
+      "confidence": "low",
+      "caveat": "The recognizer merged the middle repetitions and the latter boundary has low spectral prominence; careful owner review is required."
+    },
+    {
+      "text": "لُ",
+      "source": "batch-1",
+      "start": 31.86,
+      "end": 32.22,
+      "evidence": "Unprompted isolated transcript لا ليلي لو consistently identifies ل and /a i u/; 31.58 is a strong liquid transition and 31.86 is the next acoustic cycle boundary.",
+      "confidence": "low",
+      "caveat": "The recognizer merged the middle repetitions and the latter boundary has low spectral prominence; careful owner review is required."
+    },
+    {
+      "text": "مَ",
+      "source": "batch-1",
+      "start": 32.63,
+      "end": 32.995,
+      "evidence": "Unprompted isolated transcript ماميمو preserves م and /a i u/; repeated nasal/vowel transitions occur at 32.995 and 33.278.",
+      "confidence": "medium",
+      "caveat": "The final onset is low contrast because both consonant and tail are nasal; verify the boundary."
+    },
+    {
+      "text": "مِ",
+      "source": "batch-1",
+      "start": 32.995,
+      "end": 33.278,
+      "evidence": "Unprompted isolated transcript ماميمو preserves م and /a i u/; repeated nasal/vowel transitions occur at 32.995 and 33.278.",
+      "confidence": "medium",
+      "caveat": "The final onset is low contrast because both consonant and tail are nasal; verify the boundary."
+    },
+    {
+      "text": "مُ",
+      "source": "batch-1",
+      "start": 33.278,
+      "end": 33.51,
+      "evidence": "Unprompted isolated transcript ماميمو preserves م and /a i u/; repeated nasal/vowel transitions occur at 32.995 and 33.278.",
+      "confidence": "medium",
+      "caveat": "The final onset is low contrast because both consonant and tail are nasal; verify the boundary."
+    },
+    {
+      "text": "نَ",
+      "source": "batch-1",
+      "start": 33.85,
+      "end": 34.208,
+      "evidence": "Unprompted isolated transcript نانينو preserves ن and /a i u/; repeated nasal/vowel transitions occur at 34.208 and 34.55.",
+      "confidence": "medium",
+      "caveat": "The final clip is short; verify complete نُ onset."
+    },
+    {
+      "text": "نِ",
+      "source": "batch-1",
+      "start": 34.208,
+      "end": 34.55,
+      "evidence": "Unprompted isolated transcript نانينو preserves ن and /a i u/; repeated nasal/vowel transitions occur at 34.208 and 34.55.",
+      "confidence": "medium",
+      "caveat": "The final clip is short; verify complete نُ onset."
+    },
+    {
+      "text": "نُ",
+      "source": "batch-1",
+      "start": 34.55,
+      "end": 34.71,
+      "evidence": "Unprompted isolated transcript نانينو preserves ن and /a i u/; repeated nasal/vowel transitions occur at 34.208 and 34.55.",
+      "confidence": "medium",
+      "caveat": "The final clip is short; verify complete نُ onset."
+    },
+    {
+      "text": "هَ",
+      "source": "batch-1",
+      "start": 35.12,
+      "end": 35.47,
+      "evidence": "The later silence-delimited group independently begins ها; 35.47 is the next strong breathy-onset spectral transition.",
+      "confidence": "high",
+      "caveat": "Only the first member is stable; verify that this is هَ rather than حَ."
+    },
+    {
+      "text": "يَ",
+      "source": "batch-1",
+      "start": 37.77,
+      "end": 38.13,
+      "evidence": "The isolated final group transcript begins يا and consistently identifies ي; 38.13 is a repeated glide/vowel transition.",
+      "confidence": "medium",
+      "caveat": "Verify the right edge because glide transitions have low spectral contrast."
+    },
+    {
+      "text": "يِ",
+      "source": "batch-1",
+      "start": 38.13,
+      "end": 38.39,
+      "evidence": "The silence-delimited group is independently transcribed يا يا يو and consistently preserves ي. Repeated glide/vowel transitions at 38.13 and 38.39 isolate the middle utterance.",
+      "confidence": "low",
+      "caveat": "ASR heard /ya/ rather than /yi/. Verify that this is يِ and not a repeated يَ."
+    },
+    {
+      "text": "يُ",
+      "source": "batch-1",
+      "start": 38.39,
+      "end": 38.64,
+      "evidence": "The isolated final group transcript ends يو, independently supporting ي and /u/; 38.39 is the last glide/vowel transition and 38.64 begins sustained silence.",
+      "confidence": "medium",
+      "caveat": "Short clip; verify a complete initial glide."
+    },
+    {
+      "text": "بً",
+      "source": "batch-1",
+      "start": 39.01,
+      "end": 39.47,
+      "evidence": "The silence-delimited group is repeatedly transcribed with ب and has distinct bilabial onsets at 39.01, 39.47, and 39.78. This is the complete first waveform-delimited utterance.",
+      "confidence": "low",
+      "caveat": "Whisper rendered the early repetitions بام rather than distinguishing fathatan/kasratan. Verify that this token is بً and not another ب ending."
+    },
+    {
+      "text": "بٍ",
+      "source": "batch-1",
+      "start": 39.47,
+      "end": 39.78,
+      "evidence": "Within the independently identified ب group, repeated bilabial onset transitions isolate this middle utterance between 39.47 and 39.78.",
+      "confidence": "low",
+      "caveat": "Whisper rendered the early repetitions بام and did not confirm /in/. Verify both kasratan identity and completeness."
+    },
+    {
+      "text": "بٌ",
+      "source": "batch-1",
+      "start": 39.78,
+      "end": 40.27,
+      "evidence": "The silence-delimited ب group is 39.01–40.27. Its unprompted isolated transcript ends بون; 39.78 is a strong repeated-onset spectral transition and 40.27 begins sustained silence.",
+      "confidence": "medium",
+      "caveat": "The group transcript also over-segments the earlier repetitions; verify that this final token is بٌ and that the onset is clean."
+    },
+    {
+      "text": "تً",
+      "source": "batch-1",
+      "start": 40.685,
+      "end": 41.075,
+      "evidence": "Unprompted isolated transcription begins تان in the silence-delimited ت group. Both bounds are high-prominence waveform/spectral transitions, with the next repeated ت onset at 41.075.",
+      "confidence": "high",
+      "caveat": "Whisper omits diacritics; owner should verify the exact fathatan realization and final /n/."
+    },
+    {
+      "text": "تٍ",
+      "source": "batch-1",
+      "start": 41.075,
+      "end": 41.4,
+      "evidence": "The parent group is independently transcribed with ت, and strong repeated stop onsets at 41.075 and 41.40 isolate one complete middle utterance.",
+      "confidence": "low",
+      "caveat": "The unprompted transcript repeated تان rather than confirming /tin/. Verify that this is تٍ rather than a repeated تً."
+    },
+    {
+      "text": "تٌ",
+      "source": "batch-1",
+      "start": 41.4,
+      "end": 41.67,
+      "evidence": "Unprompted isolated transcription ends تون in the ت group. 41.40 is the strongest repeated-onset transition in the group and 41.67 begins sustained silence.",
+      "confidence": "high",
+      "caveat": "Short clip; verify that the onset retains the complete ت release."
+    },
+    {
+      "text": "ثً",
+      "source": "batch-1",
+      "start": 42.12,
+      "end": 42.505,
+      "evidence": "The full-window unprompted transcript identifies ثان at the start of this silence-delimited group. 42.505 is a prominent spectral change into the next utterance rather than an equal subdivision.",
+      "confidence": "medium",
+      "caveat": "A shorter isolated run confused ث with ت; verify the initial interdental and complete /an/ ending."
+    },
+    {
+      "text": "خً",
+      "source": "batch-1",
+      "start": 43.82,
+      "end": 44.205,
+      "evidence": "The isolated group transcript begins خا and the full transcript labels the group خ. Repeated matching fricative-onset spectra mark the group at 43.82, 44.205, and 44.505; the first vowel is independently rendered /a/.",
+      "confidence": "medium",
+      "caveat": "Whisper merged the three utterances as خافيفون; verify the final nasal and the 44.205 boundary."
+    },
+    {
+      "text": "خٍ",
+      "source": "batch-1",
+      "start": 44.205,
+      "end": 44.505,
+      "evidence": "Within the independently identified خ group, this waveform-delimited middle utterance has the high front vowel rendered في in the unprompted merged transcript خافيفون; matching fricative onset recurs at 44.205.",
+      "confidence": "medium",
+      "caveat": "The recognizer rendered the repeated fricative as ف after merging; verify that the consonant is خ and the /in/ tail is complete."
+    },
+    {
+      "text": "خٌ",
+      "source": "batch-1",
+      "start": 44.505,
+      "end": 45.01,
+      "evidence": "The final waveform-delimited utterance in the خ group is rendered فون in the unprompted merged transcript خافيفون, independently supporting the /un/ ending; its repeated fricative onset is at 44.505 and silence starts at 45.01.",
+      "confidence": "medium",
+      "caveat": "The recognizer rendered the repeated fricative as ف after merging; verify خٌ rather than فٌ."
+    },
+    {
+      "text": "دً",
+      "source": "batch-1",
+      "start": 45.41,
+      "end": 45.92,
+      "evidence": "Unprompted isolated transcription begins دان in the silence-delimited د group. 45.92 is the next clear repeated stop onset.",
+      "confidence": "high",
+      "caveat": "Verify exact end placement; the nasal tail runs close to the next stop."
+    },
+    {
+      "text": "دٍ",
+      "source": "batch-1",
+      "start": 45.92,
+      "end": 46.27,
+      "evidence": "The silence-delimited group is independently transcribed دان دان دون. Repeated د stop-onset transitions at 45.92 and 46.27 isolate the middle utterance.",
+      "confidence": "low",
+      "caveat": "ASR heard /an/ rather than /in/. Verify that this is دٍ and not a repeated دً."
+    },
+    {
+      "text": "دٌ",
+      "source": "batch-1",
+      "start": 46.27,
+      "end": 46.5,
+      "evidence": "Unprompted isolated transcription ends دون in the د group. 46.27 is a repeated stop-onset transition and 46.50 begins the quiet gap.",
+      "confidence": "high",
+      "caveat": "Very short token; verify complete initial stop and final nasal."
+    },
+    {
+      "text": "ذً",
+      "source": "batch-1",
+      "start": 46.83,
+      "end": 47.335,
+      "evidence": "Unprompted isolated transcription begins ذان in the silence-delimited ذ group. The next repeated fricative onset is a spectral transition at 47.335.",
+      "confidence": "high",
+      "caveat": "Verify that the cut does not carry the following onset."
+    },
+    {
+      "text": "ذٍ",
+      "source": "batch-1",
+      "start": 47.335,
+      "end": 47.68,
+      "evidence": "The parent group is independently identified as ذ, with repeated fricative-onset transitions at 47.335 and 47.68 bounding the middle utterance.",
+      "confidence": "low",
+      "caveat": "The unprompted transcript repeated ذان rather than confirming /dhin/. Verify the kasratan vowel by listening."
+    },
+    {
+      "text": "ذٌ",
+      "source": "batch-1",
+      "start": 47.68,
+      "end": 47.9,
+      "evidence": "The final token of the independently identified ذ group is rendered دون by the isolated recognizer, supporting the /un/ ending despite consonant confusion. 47.68 is the last repeated onset and 47.90 begins the quiet gap.",
+      "confidence": "medium",
+      "caveat": "Whisper confused ذ with د in this short final token; verify the interdental onset and completeness."
+    },
+    {
+      "text": "زً",
+      "source": "batch-1",
+      "start": 49.45,
+      "end": 49.985,
+      "evidence": "Unprompted isolated transcription begins زان in the silence-delimited ز group. 49.985 is the next high-prominence repeated fricative onset.",
+      "confidence": "high",
+      "caveat": "Verify the final /n/ and trim at the following onset."
+    },
+    {
+      "text": "زٍ",
+      "source": "batch-1",
+      "start": 49.985,
+      "end": 50.325,
+      "evidence": "The silence-delimited group is independently transcribed with repeated ز. High-prominence fricative onsets at 49.985 and 50.325 isolate the middle utterance.",
+      "confidence": "low",
+      "caveat": "ASR rendered repeated زان and did not confirm /zin/. Verify that this is زٍ rather than a repeated زً."
+    },
+    {
+      "text": "زٌ",
+      "source": "batch-1",
+      "start": 50.325,
+      "end": 50.81,
+      "evidence": "This is the final waveform-delimited token in the independently identified ز group; the group transcript ends دون, supporting /un/ while showing consonant confusion. 50.325 is the strongest final repeated onset and 50.81 begins silence.",
+      "confidence": "medium",
+      "caveat": "Whisper confused the short fricative with د; verify that this is زٌ and not a stray token."
+    },
+    {
+      "text": "شً",
+      "source": "batch-1",
+      "start": 51.24,
+      "end": 51.7,
+      "evidence": "Unprompted isolated transcription begins شان in the silence-delimited ش group. Spectral novelty marks the next repeated fricative onset around 51.66–51.70.",
+      "confidence": "medium",
+      "caveat": "The fricative creates several nearby spectral peaks; owner should verify the right edge."
+    },
+    {
+      "text": "شٍ",
+      "source": "batch-1",
+      "start": 51.7,
+      "end": 52.12,
+      "evidence": "The parent group is independently transcribed with ش. Dense but repeatable fricative transitions place the next utterance onsets near 51.70 and 52.12, isolating this middle token.",
+      "confidence": "low",
+      "caveat": "The recognizer repeated شان and the fricative produces several nearby peaks. Verify both /in/ and the exact edges."
+    },
+    {
+      "text": "شٌ",
+      "source": "batch-1",
+      "start": 52.12,
+      "end": 52.65,
+      "evidence": "This is the final waveform-delimited utterance in the independently identified ش group; 52.12 is the last repeated fricative onset and 52.65 begins sustained silence.",
+      "confidence": "low",
+      "caveat": "The isolated transcript ends تون, losing the ش consonant. Verify that the onset is ش and the ending is /un/."
+    },
+    {
+      "text": "لً",
+      "source": "batch-1",
+      "start": 64.11,
+      "end": 64.46,
+      "evidence": "The silence-delimited group is independently transcribed لا لي لي لو, consistently identifying ل and an initial /a/ token. 64.46 is a repeated liquid-onset spectral transition.",
+      "confidence": "low",
+      "caveat": "The recognizer did not preserve the nasal in text; verify that this is لً rather than plain لَ."
+    },
+    {
+      "text": "لٍ",
+      "source": "batch-1",
+      "start": 64.46,
+      "end": 64.83,
+      "evidence": "The middle waveform-delimited utterance in the independently identified ل group has an /i/ vowel in the unprompted transcript. Bounds are repeated spectral onsets at 64.46 and 64.83.",
+      "confidence": "low",
+      "caveat": "Whisper split/repeated لي and did not preserve the nasal; verify both identity and completeness."
+    },
+    {
+      "text": "لٌ",
+      "source": "batch-1",
+      "start": 64.83,
+      "end": 65.24,
+      "evidence": "The final waveform-delimited utterance in the ل group is rendered لو, independently supporting the base and /u/ vowel. 64.83 is a repeated onset and 65.24 begins sustained silence.",
+      "confidence": "low",
+      "caveat": "The recognizer did not preserve the nasal; verify that this is لٌ rather than plain لُ."
+    },
+    {
+      "text": "بَوْ",
+      "source": "batch-1",
+      "start": 70.14,
+      "end": 70.85,
+      "evidence": "Full-source Whisper independently transcribed the utterance as بو; the waveform is bounded by low-energy intervals at 69.81–70.14 and 70.85–70.90.",
+      "confidence": "medium",
+      "caveat": "Consonant identity and isolation are supported; owner must certify that the vowel is /aw/ rather than a long /u/ reading."
+    },
+    {
+      "text": "بَيْ",
+      "source": "batch-1",
+      "start": 70.9,
+      "end": 71.16,
+      "evidence": "Full-source Whisper independently transcribed the neighboring utterance as بي; waveform valleys isolate this activity from the preceding and following items.",
+      "confidence": "medium",
+      "caveat": "Owner must certify /ay/ and confirm the short cut preserves the complete final glide."
+    },
+    {
+      "text": "تَوْ",
+      "source": "batch-1",
+      "start": 71.21,
+      "end": 71.5,
+      "evidence": "Full-source Whisper independently transcribed تو in this local region; the waveform has low-energy boundaries on both sides.",
+      "confidence": "medium",
+      "caveat": "Owner must certify /aw/ rather than long /u/."
+    },
+    {
+      "text": "تَيْ",
+      "source": "batch-1",
+      "start": 71.9,
+      "end": 72.17,
+      "evidence": "Full-source Whisper independently transcribed تي in this local region; the utterance is bracketed by a long preceding silence and a following waveform valley.",
+      "confidence": "medium-low",
+      "caveat": "The automatic timestamp is earlier than the strongest silence-derived activity boundary, so the owner must confirm both consonant and /ay/ vowel before use."
+    },
+    {
+      "text": "شَوْ",
+      "source": "batch-2",
+      "start": 0.06,
+      "end": 0.51,
+      "evidence": "Full-source Whisper independently transcribed شو; waveform silence cleanly separates the utterance from the next item.",
+      "confidence": "medium-high",
+      "caveat": "Owner must certify /aw/ rather than long /u/."
+    },
+    {
+      "text": "شَيْ",
+      "source": "batch-2",
+      "start": 0.81,
+      "end": 1.29,
+      "evidence": "Full-source Whisper independently transcribed شي; low-energy intervals of about 300 ms and 220 ms bracket the utterance.",
+      "confidence": "medium-high",
+      "caveat": "Owner must certify /ay/ rather than long /i/."
+    },
+    {
+      "text": "صَوْ",
+      "source": "batch-2",
+      "start": 1.51,
+      "end": 1.94,
+      "evidence": "Full-source Whisper independently transcribed صو; the consonant is supported independently and waveform valleys isolate the item.",
+      "confidence": "medium-high",
+      "caveat": "Owner must certify /aw/ rather than long /u/."
+    },
+    {
+      "text": "صَيْ",
+      "source": "batch-2",
+      "start": 2.05,
+      "end": 2.45,
+      "evidence": "Full-source Whisper independently transcribed صي; waveform valleys isolate the item.",
+      "confidence": "medium-high",
+      "caveat": "Owner must certify /ay/ rather than long /i/."
+    },
+    {
+      "text": "ضَوْ",
+      "source": "batch-2",
+      "start": 2.67,
+      "end": 3.06,
+      "evidence": "Full-source Whisper independently transcribed ضو; approximately 220 ms of low energy precedes the utterance and a clear valley follows it.",
+      "confidence": "medium-high",
+      "caveat": "Owner must certify /aw/ rather than long /u/."
+    },
+    {
+      "text": "ضَيْ",
+      "source": "batch-2",
+      "start": 3.21,
+      "end": 3.58,
+      "evidence": "Full-source Whisper independently transcribed ضي; waveform silence cleanly separates the item from the next utterance.",
+      "confidence": "medium-high",
+      "caveat": "Owner must certify /ay/ rather than long /i/."
+    },
+    {
+      "text": "طَوْ",
+      "source": "batch-2",
+      "start": 3.91,
+      "end": 4.24,
+      "evidence": "Full-source Whisper independently transcribed طو; the waveform has a 330 ms preceding silence and a following valley.",
+      "confidence": "medium-high",
+      "caveat": "Owner must certify /aw/ rather than long /u/."
+    },
+    {
+      "text": "عَوْ",
+      "source": "batch-2",
+      "start": 4.97,
+      "end": 5.3,
+      "evidence": "Full-source Whisper independently transcribed عو; waveform silence brackets the utterance.",
+      "confidence": "medium-high",
+      "caveat": "Owner must certify /aw/ rather than long /u/."
+    },
+    {
+      "text": "عَيْ",
+      "source": "batch-2",
+      "start": 5.46,
+      "end": 5.8,
+      "evidence": "Full-source Whisper independently transcribed عي; waveform valleys isolate it from both neighbors.",
+      "confidence": "medium-high",
+      "caveat": "Owner must certify /ay/ rather than long /i/."
+    },
+    {
+      "text": "غَوْ",
+      "source": "batch-2",
+      "start": 6.08,
+      "end": 6.48,
+      "evidence": "Full-source Whisper independently transcribed غو; waveform silence brackets the utterance.",
+      "confidence": "medium-high",
+      "caveat": "Owner must certify /aw/ rather than long /u/."
+    },
+    {
+      "text": "فَوْ",
+      "source": "batch-2",
+      "start": 7.24,
+      "end": 7.58,
+      "evidence": "Full-source Whisper recognized the two-utterance group as فوفي, preserving the ف onset and first و vowel carrier. The waveform independently separates the first activity at 7.24–7.58 from the second by a low-energy valley.",
+      "confidence": "medium",
+      "caveat": "This is an internal half of a grouped ASR token. Owner must certify /aw/ rather than long /u/ and confirm the final glide is complete."
+    },
+    {
+      "text": "فَيْ",
+      "source": "batch-2",
+      "start": 7.68,
+      "end": 7.97,
+      "evidence": "Full-source Whisper recognized the two-utterance group as فوفي, preserving the second ف onset and ي vowel carrier. A waveform valley separates this second activity from the first, and a long silence follows it.",
+      "confidence": "medium",
+      "caveat": "This is an internal half of a grouped ASR token. Owner must certify /ay/ rather than long /i/."
+    },
+    {
+      "text": "قَوْ",
+      "source": "batch-2",
+      "start": 8.28,
+      "end": 8.54,
+      "evidence": "Full-source Whisper recognized the two-utterance group as قوقي, preserving the ق onset and first و vowel carrier. The waveform independently separates the first activity from the second.",
+      "confidence": "medium",
+      "caveat": "This is an internal half of a grouped ASR token. Owner must certify /aw/ rather than long /u/ and confirm the short cut is complete."
+    },
+    {
+      "text": "قَيْ",
+      "source": "batch-2",
+      "start": 8.63,
+      "end": 8.93,
+      "evidence": "Full-source Whisper recognized the two-utterance group as قوقي, preserving the second ق onset and ي vowel carrier. A waveform valley separates this activity from the first, and a long silence follows it.",
+      "confidence": "medium",
+      "caveat": "This is an internal half of a grouped ASR token. Owner must certify /ay/ rather than long /i/."
+    },
+    {
+      "text": "لَوْ",
+      "source": "batch-2",
+      "start": 9.22,
+      "end": 9.61,
+      "evidence": "Full-source Whisper independently transcribed لو; a long preceding silence and following valley isolate the item.",
+      "confidence": "medium-high",
+      "caveat": "Owner must certify /aw/ rather than long /u/."
+    },
+    {
+      "text": "لَيْ",
+      "source": "batch-2",
+      "start": 9.74,
+      "end": 10.12,
+      "evidence": "Full-source Whisper independently transcribed لي; waveform valleys isolate the item.",
+      "confidence": "medium-high",
+      "caveat": "Owner must certify /ay/ rather than long /i/."
+    },
+    {
+      "text": "مَوْ",
+      "source": "batch-2",
+      "start": 10.27,
+      "end": 10.63,
+      "evidence": "Full-source Whisper independently transcribed مو; waveform valleys isolate the item.",
+      "confidence": "medium-high",
+      "caveat": "Owner must certify /aw/ rather than long /u/."
+    },
+    {
+      "text": "مَيْ",
+      "source": "batch-2",
+      "start": 10.71,
+      "end": 11.07,
+      "evidence": "Full-source Whisper independently transcribed مي; waveform valleys isolate the item.",
+      "confidence": "medium-high",
+      "caveat": "Owner must certify /ay/ rather than long /i/."
+    },
+    {
+      "text": "نَوْ",
+      "source": "batch-2",
+      "start": 11.38,
+      "end": 11.76,
+      "evidence": "Full-source Whisper independently transcribed نو; a long preceding silence and a following valley isolate the item.",
+      "confidence": "medium-high",
+      "caveat": "Owner must certify /aw/ rather than long /u/."
+    },
+    {
+      "text": "نَيْ",
+      "source": "batch-2",
+      "start": 11.87,
+      "end": 12.23,
+      "evidence": "Full-source Whisper independently transcribed ني; waveform valleys isolate the item.",
+      "confidence": "medium-high",
+      "caveat": "Owner must certify /ay/ rather than long /i/."
+    },
+    {
+      "text": "وَيْ",
+      "source": "batch-2",
+      "start": 13.8,
+      "end": 14.12,
+      "evidence": "Full-source Whisper independently transcribed وَيْ with explicit final sukun; waveform valleys isolate the utterance.",
+      "confidence": "high-for-review",
+      "caveat": "Owner must still certify the exact vowel and that the initial consonant is complete."
+    },
+    {
+      "text": "بَتْ",
+      "source": "batch-2",
+      "start": 15.32,
+      "end": 15.81,
+      "evidence": "Full-source Whisper independently transcribed بَتْ; the activity begins after a long silence and ends before the next speech activity, with only brief stop-closure valleys inside the word.",
+      "confidence": "medium-high",
+      "caveat": "Owner must confirm that the final stop closure and release are complete; this is a review proposal only."
+    },
+    {
+      "text": "يَدُعُّ",
+      "source": "batch-2",
+      "start": 31.21,
+      "end": 31.825,
+      "evidence": "Word-level Whisper independently recognized the requested root as يدعو. The strongest local waveform activity after the preceding long pause is isolated between 31.21 and 31.825 seconds.",
+      "confidence": "medium-low",
+      "caveat": "The automatic word timestamp spans an earlier silence and spells the ending as و; owner must verify this onset-shifted cut, the damma, and the final shaddah."
+    },
+    {
+      "text": "يَحُضُّ",
+      "source": "batch-2",
+      "start": 31.89,
+      "end": 32.295,
+      "evidence": "Word-level Whisper recognized the neighboring root approximately as يحد, supporting ي-ح/د while missing the emphatic consonant distinction. The waveform provides a separate activity region between clear valleys.",
+      "confidence": "low-review-only",
+      "caveat": "ASR does not establish ض or shaddah. Owner must confirm the entire word; reject if the consonant is د or if either edge clips speech."
+    },
+    {
+      "text": "إِنَّآ",
+      "source": "batch-2",
+      "start": 32.6,
+      "end": 33.22,
+      "evidence": "Word-level Whisper split the requested utterance into adjacent إن and آه tokens. They coincide with one continuous acoustic activity region bounded by low-energy intervals.",
+      "confidence": "medium-low",
+      "caveat": "Owner must confirm the two ASR pieces are one إِنَّآ utterance, including shaddah and the final long vowel."
+    }
+  ],
+  "excludedOverlaps": [
+    {
+      "text": "عَبَدتُّمْ",
+      "source": "batch-2",
+      "start": 67.79,
+      "end": 68.665,
+      "evidence": "Two independent transcript passes recognized عبدت or عبدتم in this local region. The proposed onset follows a 0.9-second low-energy interval, and the word-sized activity ends at the next strong valley.",
+      "confidence": "medium",
+      "caveat": "Owner must confirm the internal shaddah/damma and final m sound; the attention timestamp begins earlier than the silence-derived onset.",
+      "reason": "Overlaps an owner-reviewed clip; source boundary is not safe to reuse."
+    }
+  ]
+}

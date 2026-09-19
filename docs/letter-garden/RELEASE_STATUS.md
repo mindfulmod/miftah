@@ -71,3 +71,13 @@ A bounded Luna task supplied regression tests; integration and sighted review
 stayed with the primary agent. No push or deployment. Next: pass 3's exploratory
 learning interactions, then broader pet/garden follow-through; parent work stays
 deferred.
+
+September 19: the next 100 **individual** audio candidates are ready locally:
+46 short-vowel syllables, 25 tanween syllables, 25 glides, one sukun example and
+three words. The previous reviews are preserved and these cuts are excluded
+from runtime until approved. **272 tests pass**; all 100 files decode and all ten
+review batches were checked in the browser. See
+[NEXT_INDIVIDUAL_100_20260919.md](reviews/audio-confirmation/NEXT_INDIVIDUAL_100_20260919.md).
+Next owner action: open the individual review queue, listen and mark decisions,
+then attach the downloaded results (or leave the review page open and say done).
+Every future task handoff should clearly state the next user action.

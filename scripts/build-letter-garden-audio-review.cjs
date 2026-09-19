@@ -160,14 +160,25 @@ for (const entry of policyEntries) statusMap.set(entry.id, 'policy');
 if (new Set(ordered.map((entry) => entry.id)).size !== fm.counts.uniqueRequests) throw new Error('Catalogue source entries are not unique or complete');
 
 const items = ordered.map((entry) => makeItem(entry, statusMap.get(entry.id)));
-const queueFile = 'docs/letter-garden/reviews/audio-confirmation/next-100.json';
-let reviewQueues = [];
-if (fs.existsSync(path.join(ROOT, queueFile))) {
-  const queue = readJson(queueFile);
-  const byId = new Map(items.map(item => [item.id, item]));
-  if (queue.id !== 'next100' || queue.itemIds.length !== 100 || new Set(queue.itemIds).size !== 100) throw Error('Next review queue must contain 100 distinct items');
-  for (const id of queue.itemIds) if (!byId.get(id)?.parts.length) throw Error(`Review queue has no playable audio: ${id}`);
-  reviewQueues = [queue];
+const queueFiles = ['next-100.json', 'next-individuals.json'];
+const reviewQueues = [];
+const byId = new Map(items.map(item => [item.id, item]));
+for (const name of queueFiles) {
+  const file = 'docs/letter-garden/reviews/audio-confirmation/' + name;
+  if (!fs.existsSync(path.join(ROOT, file))) continue;
+  const queue = readJson(file);
+  if (!/^[a-z][a-z0-9-]*$/.test(queue.id) || reviewQueues.some(q => q.id === queue.id)
+      || !queue.itemIds.length || new Set(queue.itemIds).size !== queue.itemIds.length) throw Error('Review queues must have unique IDs and distinct items');
+  if (queue.itemIds.length !== queue.expectedCount) {
+    // Preserve the original 100-item queue's pre-count schema.
+    if (queue.id !== 'next100' || queue.itemIds.length !== 100) throw Error('Review queue count does not match its declaration');
+  }
+  for (const id of queue.itemIds) {
+    const item = byId.get(id);
+    if (!item?.parts.length) throw Error(`Review queue has no playable audio: ${id}`);
+    if (queue.individualOnly && (item.parts.length !== 1 || item.status === 'sequence')) throw Error(`Individual queue contains a sequence: ${id}`);
+  }
+  reviewQueues.push(queue);
 }
 const counts = Object.fromEntries(['installed', 'candidate', 'sequence', 'unmapped', 'policy'].map((status) => [status, items.filter((item) => item.status === status).length]));
 const out = {
