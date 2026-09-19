@@ -5,6 +5,10 @@ Open through the preview server:
 This adult-only review does not load or modify the game, audio mappings, rewards
 or learning progress. No external service is called.
 
+## Applied September 19 review
+
+85 approved individual recordings are now installed. All 21 rejections are excluded; four have revised boundary candidates in **Revised cuts from your notes**. All owner notes are preserved. See [the applied review and remaining corrections](APPLIED_REVIEW_20260919.md). The remaining 17 rejected clips are unchanged and do not need another listen yet.
+
 ## Owner workflow
 
 1. Choose **Start reviewing**. The first 28 items are alphabet names.
@@ -15,7 +19,7 @@ or learning progress. No external service is called.
 5. Review **Candidate clips** after the installed clips. **Joined name prompts**
    are the existing name clips played in the game's order with a nominal 90 ms
    gap; check the order/transitions, not blended syllable reading.
-6. **Download review results**, then attach that JSON file in the conversation.
+6. **Download review results**, then attach that JSON file in the conversation. If downloads or the clipboard fail, use **Show results text**.
    Download at any pause; partial feedback is useful. **Restore saved results**
    merges a prior download, preserving newer decisions.
 
@@ -23,8 +27,8 @@ The catalogue covers all 612 distinct current curriculum requests:
 
 | Section | Items | Review action |
 |---|---:|---|
-| Installed clips | 57 | Confirm pronunciation and cut quality; 28 names first |
-| Candidate excerpts | 49 | Confirm whether the proposed cut matches the item |
+| Installed clips | 85 | Confirm pronunciation and cut quality; 28 names first |
+| Candidate excerpts | 21 | Confirm whether the proposed cut matches the item |
 | Joined name prompts | 149 | Check exact name order and transitions |
 | Awaiting isolated cuts | 328 | No approval needed yet; mapping work remains |
 | Assembly teaching decisions | 29 | Optional pronunciation-in-context guidance |
@@ -64,7 +68,7 @@ The catalogue reads existing manifests and actual voice-bank paths. It preserves
 exact Arabic text and includes file hashes, available source bounds and teaching
 context. It never derives new cuts from list position.
 
-Validation: **261/261 tests pass**, including eight catalogue/decision tests.
+Original desk validation: **261/261 tests passed**, including eight catalogue/decision tests.
 Browser QA on the isolated origin checked installed and candidate playback,
 source comparison, full name sequence, interrupted playback, reload persistence,
 notes, filters, batch navigation and real download/restore. Small-phone

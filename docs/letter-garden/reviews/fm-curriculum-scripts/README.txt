@@ -8,14 +8,14 @@ Save each original audio download under the batch ID shown in FULL-LIST.md.
 {
   "worlds": 22,
   "uniqueRequests": 612,
-  "exactLocalClips": 57,
-  "alreadyBundled": 57,
-  "recordAndReview": 377,
+  "exactLocalClips": 85,
+  "alreadyBundled": 85,
+  "recordAndReview": 349,
   "reuseNameSequences": 149,
   "assemblyPolicyReview": 29,
   "sequenceNeedsNameClips": 0,
-  "batches": 45,
-  "wordEntries": 71,
+  "batches": 41,
+  "wordEntries": 43,
   "wordCatalogueEntries": 97
 }
 

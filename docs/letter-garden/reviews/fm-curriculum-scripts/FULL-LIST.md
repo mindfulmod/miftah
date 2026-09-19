@@ -4,12 +4,12 @@ Prepared from the current local curriculum on 2026-09-19. This is an adult produ
 
 The audit covers **22 chapters** and **612 distinct spoken requests**, including introductions, full item catalogues, assembly pieces, distractors, and every possible three-letter chain. Daily practice, checkups, pets and the workshop reuse these requests.
 
-- **57** exact local clips are already bundled (letter names, marks, syllables, or words as available): do not regenerate them.
-- **377** new items are arranged below in **45 small recording batches**, including **71 word entries**.
+- **85** exact local clips are already bundled (letter names, marks, syllables, or words as available): do not regenerate them.
+- **349** new items are arranged below in **41 small recording batches**, including **43 word entries**.
 - **149** letter-name sequences are fully supported by the local playback queue; **0** still need one or more exact name clips.
 - **29** standalone assembly pieces need a teaching/pronunciation decision first; their complete list is included below.
 
-The current word-stage catalogue has **97** entries and **71** outstanding exact word recording requests after existing local clips are reused. Standing-vowel display forms reuse their matching long-vowel recordings.
+The current word-stage catalogue has **97** entries and **43** outstanding exact word recording requests after existing local clips are reused. Standing-vowel display forms reuse their matching long-vowel recordings.
 
 ## How to record
 
@@ -60,9 +60,9 @@ These are isolated Arabic reading exercises from the game's Quran-word catalogue
 | Tanween syllables | 81 |
 | Leen: aw and ay glides | 54 |
 | Sukun, shaddah and mixed examples | 7 |
-| Two-letter word stage | 10 |
-| Three-letter word stage | 28 |
-| Four- and five-letter word stage | 33 |
+| Two-letter word stage | 7 |
+| Three-letter word stage | 16 |
+| Four- and five-letter word stage | 20 |
 
 ### Missing letter names
 
@@ -918,14 +918,12 @@ Save audio as `35-sukun-shaddah-01.mp3`. [Arabic-only text file](batches/35-suku
 
 Voice direction: **words**.
 
-#### 36-words-2-01 — 9 items
+#### 36-words-2-01 — 7 items
 
 Save audio as `36-words-2-01.mp3`. [Arabic-only text file](batches/36-words-2-01.txt).
 
 ```text
 رَبِّ
-
-تَرَ
 
 مِّن
 
@@ -938,80 +936,42 @@ Save audio as `36-words-2-01.mp3`. [Arabic-only text file](batches/36-words-2-01
 قُلْ
 
 لَآ
-
-لَمْ
-```
-
-#### 37-words-2-02 — 1 items
-
-Save audio as `37-words-2-02.mp3`. [Arabic-only text file](batches/37-words-2-02.txt).
-
-```text
-شَرِّ
 ```
 
 ### Three-letter word stage
 
 Voice direction: **words**.
 
-#### 38-words-3-01 — 9 items
+#### 37-words-3-01 — 9 items
 
-Save audio as `38-words-3-01.mp3`. [Arabic-only text file](batches/38-words-3-01.txt).
+Save audio as `37-words-3-01.mp3`. [Arabic-only text file](batches/37-words-3-01.txt).
 
 ```text
 بِسْمِ
 
-لِلَّهِ
-
-مَـٰلِكِ
-
-يَوْمِ
-
 صِرَٰطَ
 
-غَيْرِ
-
-كَيْفَ
-
-فَعَلَ
-
 يَدُعُّ
-```
 
-#### 39-words-3-02 — 9 items
-
-Save audio as `39-words-3-02.mp3`. [Arabic-only text file](batches/39-words-3-02.txt).
-
-```text
 يَحُضُّ
 
 إِنَّآ
-
-فَصَلِّ
 
 لَكُمْ
 
 دِينِ
 
-نَصْرُ
-
-كَانَ
-
-تَبَّتْ
-
 يَدَآ
-```
-
-#### 40-words-3-03 — 9 items
-
-Save audio as `40-words-3-03.mp3`. [Arabic-only text file](batches/40-words-3-03.txt).
-
-```text
-وَمَا
 
 كَسَبَ
+```
 
-يَلِدْ
+#### 38-words-3-02 — 7 items
+
+Save audio as `38-words-3-02.mp3`. [Arabic-only text file](batches/38-words-3-02.txt).
+
+```text
+ذَاتَ
 
 وَلَمْ
 
@@ -1023,14 +983,6 @@ Save audio as `40-words-3-03.mp3`. [Arabic-only text file](batches/40-words-3-03
 
 وَقَبَ
 
-حَسَدَ
-```
-
-#### 41-words-3-04 — 1 items
-
-Save audio as `41-words-3-04.mp3`. [Arabic-only text file](batches/41-words-3-04.txt).
-
-```text
 إِلَـٰهِ
 ```
 
@@ -1038,64 +990,40 @@ Save audio as `41-words-3-04.mp3`. [Arabic-only text file](batches/41-words-3-04
 
 Voice direction: **words**.
 
-#### 42-words-4-5-01 — 9 items
+#### 39-words-4-5-01 — 9 items
 
-Save audio as `42-words-4-5-01.mp3`. [Arabic-only text file](batches/42-words-4-5-01.txt).
+Save audio as `39-words-4-5-01.mp3`. [Arabic-only text file](batches/39-words-4-5-01.txt).
 
 ```text
+ٱللَّهِ
+
+ٱلْحَمْدُ
+
 ٱلدِّينِ
-
-نَعْبُدُ
-
-ٱهْدِنَا
-
-ٱلصِّرَٰطَ
-
-أَنْعَمْتَ
-
-ٱلْفِيلِ
 
 يَجْعَلْ
 
-وَأَرْسَلَ
-
-طَيْرًا
-```
-
-#### 43-words-4-5-02 — 9 items
-
-Save audio as `43-words-4-5-02.mp3`. [Arabic-only text file](batches/43-words-4-5-02.txt).
-
-```text
 لِإِيلَـٰفِ
-
-قُرَيْشٍ
 
 ٱلْبَيْتِ
 
 يُكَذِّبُ
 
-فَذَٰلِكَ
-
 وَٱنْحَرْ
 
 أَعْبُدُ
+```
 
+#### 40-words-4-5-02 — 9 items
+
+Save audio as `40-words-4-5-02.mp3`. [Arabic-only text file](batches/40-words-4-5-02.txt).
+
+```text
 أَنتُمْ
 
 عَـٰبِدُونَ
-```
 
-#### 44-words-4-5-03 — 9 items
-
-Save audio as `44-words-4-5-03.mp3`. [Arabic-only text file](batches/44-words-4-5-03.txt).
-
-```text
 عَبَدتُّمْ
-
-دِينُكُمْ
-
-ٱلنَّاسَ
 
 بِحَمْدِ
 
@@ -1103,34 +1031,26 @@ Save audio as `44-words-4-5-03.mp3`. [Arabic-only text file](batches/44-words-4-
 
 ٱلصَّمَدُ
 
-يُولَدْ
-
-كُفُوًا
-
-أَعُوذُ
-```
-
-#### 45-words-4-5-04 — 6 items
-
-Save audio as `45-words-4-5-04.mp3`. [Arabic-only text file](batches/45-words-4-5-04.txt).
-
-```text
 ٱلْفَلَقِ
 
 غَاسِقٍ
 
 ٱلْعُقَدِ
+```
 
+#### 41-words-4-5-03 — 2 items
+
+Save audio as `41-words-4-5-03.mp3`. [Arabic-only text file](batches/41-words-4-5-03.txt).
+
+```text
 حَاسِدٍ
-
-يُوَسْوِسُ
 
 صُدُورِ
 ```
 
 ## Already bundled exact clips — curriculum reference only
 
-These 57 requested items currently have exact local clips. Pronunciation review remains separate from file coverage.
+These 85 requested items currently have exact local clips. Pronunciation review remains separate from file coverage.
 
 ```text
 أَلِفْ
@@ -1165,31 +1085,59 @@ These 57 requested items currently have exact local clips. Pronunciation review 
 كَسْرَة
 كَسْرَتَانْ
 ضَمَّتَانْ
+تَرَ
 هُوَ
+لَمْ
+شَرِّ
+لِلَّهِ
+مَـٰلِكِ
+يَوْمِ
+غَيْرِ
 وَلَا
 أَلَمْ
+كَيْفَ
+فَعَلَ
 رَبُّكَ
 هَـٰذَا
+فَصَلِّ
 إِذَا
+نَصْرُ
+كَانَ
+تَبَّتْ
 وَتَبَّ
 عَنْهُ
-ذَاتَ
+وَمَا
 أَحَدٌ
+يَلِدْ
 بِرَبِّ
-ٱللَّهِ
-ٱلْحَمْدُ
+حَسَدَ
 إِيَّاكَ
+نَعْبُدُ
 وَإِيَّاكَ
+ٱهْدِنَا
+ٱلصِّرَٰطَ
 ٱلَّذِينَ
+أَنْعَمْتَ
 عَلَيْهِمْ
 بِأَصْحَـٰبِ
+ٱلْفِيلِ
 كَيْدَهُمْ
+وَأَرْسَلَ
+طَيْرًا
+قُرَيْشٍ
+فَذَٰلِكَ
 طَعَامِ
 سَاهُونَ
 لِرَبِّكَ
+دِينُكُمْ
 وَرَأَيْتَ
+ٱلنَّاسَ
 فَسَبِّحْ
 جِيدِهَا
+يُولَدْ
+كُفُوًا
+أَعُوذُ
+يُوَسْوِسُ
 ```
 
 ## Assembly pieces — review before recording

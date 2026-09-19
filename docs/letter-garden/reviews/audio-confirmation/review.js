@@ -5,8 +5,8 @@
   const qa=new URLSearchParams(location.search).has('qa');
   const storageKey='letter-garden.audio-confirmation.v1'+(qa?'.qa':'');
   const labels={correct:'Correct',fix:'Needs fixing',unsure:'Unsure',stale:'Audio changed'};
-  const headings={installed:'1 · Confirm the installed clips',candidate:'2 · Check the proposed cuts',sequence:'3 · Check joined letter-name prompts',unmapped:'4 · Items still needing an isolated clip',policy:'5 · Teaching decisions before recording',all:'The complete audio catalogue'};
-  const help={installed:'The 28 alphabet names come first, followed by mark names and words. Installed means connected to the local game; it does not mean pronunciation-approved.',candidate:'These 49 excerpts are not connected to the game. Check that each contains exactly the displayed item, with complete vowels and endings.',sequence:'These 149 prompts queue existing names in the game’s order, with its 90 ms gap. Review the name order and transitions after the individual alphabet clips.',unmapped:'These 328 items have no reliable individual cut yet. They are not confirmed missing. No listening decision is required here; I still need to map them. Optional notes can identify something you noticed in the originals.',policy:'These 29 requests are standalone assembly pieces. Their pronunciation needs a teaching decision in context; no clip is offered. You can leave guidance in the notes.',all:'All 612 distinct curriculum requests, including playable clips, name sequences and items still needing work.'};
+  const headings={revised:'Revised cuts from your notes',installed:'1 · Confirm the installed clips',candidate:'2 · Check the proposed cuts',sequence:'3 · Check joined letter-name prompts',unmapped:'4 · Items still needing an isolated clip',policy:'5 · Teaching decisions before recording',all:'The complete audio catalogue'};
+  const help={revised:'Only these four boundaries have changed. Please check the complete word and written ending again. They remain excluded from the game until approved. Your previous note is shown below each clip.',installed:'The 28 alphabet names come first, followed by mark names and words. Installed means connected to the local game; it does not mean pronunciation-approved.',candidate:'These excerpts are not connected to the game. Check that each contains exactly the displayed item, with complete vowels and endings.',sequence:'These 149 prompts queue existing names in the game’s order, with its 90 ms gap. Review the name order and transitions after the individual alphabet clips.',unmapped:'These 328 items have no reliable individual cut yet. They are not confirmed missing. No listening decision is required here; I still need to map them. Optional notes can identify something you noticed in the originals.',policy:'These 29 requests are standalone assembly pieces. Their pronunciation needs a teaching decision in context; no clip is offered. You can leave guidance in the notes.',all:'All 612 distinct curriculum requests, including playable clips, name sequences and items still needing work.'};
   let manifest,items=[],state=Core.empty(),page=0,run=0,active=null,partTimer=null,controller=null;
   const PAGE_SIZE=8,player=$('#player'),blobCache=new Map(),sourcePlayers=new Map();
   function node(tag,text,className){const el=document.createElement(tag);if(text!==undefined)el.textContent=text;if(className)el.className=className;return el;}
@@ -22,7 +22,7 @@
   function summary(){const c=Core.counts(items,state);$('#progress').textContent=`${c.correct+c.fix+c.unsure} of ${c.ready} playable items reviewed · ${c.correct} correct · ${c.fix} need fixing · ${c.unsure} unsure${c.stale?` · ${c.stale} changed clips need another listen`:''}`;}
   function filtered(){const q=$('#search').value.trim().normalize('NFC').toLowerCase(),section=$('#section').value,family=$('#family').value,decision=$('#decision').value;return items.filter(item=>{
     const d=Core.current(item,state),hay=[item.text,item.id,...item.displays,item.family].join(' ').normalize('NFC').toLowerCase();
-    return (section==='all'||item.status===section)&&(family==='all'||item.family===family)&&(!q||hay.includes(q))&&(decision==='all'||(decision==='unreviewed'?!d.verdict:item.parts.length&&(decision==='stale'?d.stale:d.verdict===decision)));
+    return (section==='all'||item.status===section||(section==='revised'&&item.revision))&&(family==='all'||item.family===family)&&(!q||hay.includes(q))&&(decision==='all'||(decision==='unreviewed'?!d.verdict:item.parts.length&&(decision==='stale'?d.stale:d.verdict===decision)));
   });}
   function refreshCard(item){
     const card=document.getElementById(item.id);if(!card)return;
@@ -50,6 +50,7 @@
       else actions.append(node('span',item.status==='policy'?'Teaching guidance needed':'Awaiting a reliable cut','hint'));
       if(item.source){const b=button('Compare original',()=>compareSource(item));b.setAttribute('aria-label',`Compare original for ${item.text}`);actions.append(b);}
       card.append(actions);
+      if(item.revision)card.append(node('p',item.note,'item-note'));
       if(item.parts.length){
         const votes=node('div',undefined,'votes');votes.setAttribute('role','group');votes.setAttribute('aria-label',`Decision for ${item.text}`);
         for(const verdict of ['correct','fix','unsure']){const b=button(labels[verdict],()=>{try{save(item,{verdict});}catch(error){message(error.message,true);}});b.dataset.vote=verdict;b.setAttribute('aria-pressed','false');votes.append(b);}card.append(votes,node('p','','listen-hint'));
@@ -122,6 +123,8 @@
   $('#export').onclick=()=>{const url=URL.createObjectURL(new Blob([JSON.stringify(exported(),null,2)],{type:'application/json'})),a=node('a');a.href=url;a.download=`letter-garden-audio-review${qa?'-QA-TEST':''}-${new Date().toISOString().replace(/[:.]/g,'-')}.json`;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),30000);message('Results downloaded. Attach the JSON file in our conversation when you are ready.');};
   $('#copy').onclick=async()=>{try{await navigator.clipboard.writeText(JSON.stringify(exported(),null,2));message('Results copied. Paste them in our conversation, or keep the downloaded file as your backup.');}catch{message('Clipboard access was unavailable. Use Download review results instead.',true);}};
   $('#export-bottom').onclick=()=>$('#export').click();
+  $('#show-results').onclick=()=>{$('#results-text').value=JSON.stringify(exported(),null,2);$('#results-panel').hidden=false;$('#results-text').focus();$('#results-text').select();};
+  $('#hide-results').onclick=()=>{$('#results-panel').hidden=true;};
   $('#import').onclick=()=>$('#import-file').click();
   $('#import-file').onchange=async event=>{
     const file=event.target.files[0];if(!file)return;
@@ -136,6 +139,7 @@
   for(const id of ['section','family','decision','search'])$('#'+id).addEventListener(id==='search'?'input':'change',()=>{stopEverything();page=0;render();});
   for(const [id,delta] of [['previous',-1],['next',1],['previous-bottom',-1],['next-bottom',1]])$('#'+id).onclick=()=>{stopEverything();page+=delta;render();$('#queue-title').scrollIntoView({block:'start',behavior:'instant'});};
   $('#stop').onclick=stopEverything;
+  $('#review-revisions').onclick=()=>{stopEverything();$('#section').value='revised';$('#family').value='all';$('#decision').value='all';$('#search').value='';page=0;render();$('#queue-title').scrollIntoView({block:'start',behavior:'instant'});};
   $('#start-review').onclick=()=>$('#queue-title').scrollIntoView({block:'start',behavior:'instant'});
   document.addEventListener('visibilitychange',()=>{if(document.hidden)stopEverything();});
   window.addEventListener('pagehide',stopEverything);
@@ -145,7 +149,8 @@
     manifest=data;items=data.items;state=read();$('#totals').replaceChildren();
     for(const [count,label] of [[data.summary.installed,'installed clips'],[data.summary.candidate,'candidate cuts'],[data.summary.sequence,'name sequences'],[data.summary.unmapped,'awaiting cuts'],[data.summary.policy,'teaching decisions']]){const el=node('span',undefined,'total');el.append(node('strong',count),document.createTextNode(label));$('#totals').append(el);}
     for(const family of [...new Set(items.map(item=>item.family))]){const option=node('option',family);option.value=family;$('#family').append(option);}
-    for(const id of ['section','family','search','decision','export','export-bottom','copy','import','start-review'])$('#'+id).disabled=false;
+    for(const id of ['section','family','search','decision','export','export-bottom','copy','import','start-review','show-results','review-revisions'])$('#'+id).disabled=false;
+    if(new URLSearchParams(location.search).get('section')==='revised')$('#section').value='revised';
     renderSources();summary();render();
   }).catch(error=>{$('#totals').textContent='Catalogue unavailable';message(`${error.message} Open this page through the local preview server, not file://.`,true);});
 })();

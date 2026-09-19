@@ -1,0 +1,99 @@
+Running…
+PASS decode alif.wav
+PASS decode ba.wav
+PASS decode ta.wav
+PASS decode tha.wav
+PASS decode jeem.wav
+PASS decode haa.wav
+PASS decode khaa.wav
+PASS decode dal.wav
+PASS decode dhal.wav
+PASS decode ra.wav
+PASS decode zay.wav
+PASS decode sheen.wav
+PASS decode saad.wav
+PASS decode daad.wav
+PASS decode taa.wav
+PASS decode zaa.wav
+PASS decode ayn.wav
+PASS decode ghayn.wav
+PASS decode fa.wav
+PASS decode qaf.wav
+PASS decode kaf.wav
+PASS decode lam.wav
+PASS decode meem.wav
+PASS decode noon.wav
+PASS decode ha.wav
+PASS decode lg-0f4c7785aba9.wav
+PASS decode lg-9398dd2463eb.wav
+PASS decode lg-cf74c943ec31.wav
+PASS decode lg-94eee3c61cac.wav
+PASS decode lg-cb624b7d0ef4.wav
+PASS decode lg-9e233c3067bd.wav
+PASS decode lg-6f7ddec18d79.wav
+PASS decode lg-82b658e5075c.wav
+PASS decode lg-7af96a47a4b6.wav
+PASS decode lg-d4ed5209d00e.wav
+PASS decode lg-474f763a4173.wav
+PASS decode lg-43ac82f76e3c.wav
+PASS decode lg-f01edb5de2d9.wav
+PASS decode lg-c8b4a821d5b9.wav
+PASS decode lg-09c6b807ef8d.wav
+PASS decode lg-73d38b2d5bed.wav
+PASS decode lg-f9b77a966b34.wav
+PASS decode lg-6e9485c46650.wav
+PASS decode lg-f65ba0692d34.wav
+PASS decode lg-98c207c85669.wav
+PASS decode lg-3062586698e2.wav
+PASS decode lg-5daa6e6fadf0.wav
+PASS decode lg-41a5ef4bf942.wav
+PASS decode lg-3468a09a4e0b.wav
+PASS decode lg-f14ab1770a44.wav
+PASS decode lg-6a7ad426ba6c.wav
+PASS decode lg-2f846091a5f9.wav
+PASS decode lg-7242f6a466e3.wav
+PASS decode lg-a61229b543f7.wav
+PASS decode lg-5e79a2002dd0.wav
+PASS decode lg-4c9adc018513.wav
+PASS decode lg-f26ead2a68a3.wav
+PASS decode lg-509b1b7cc314.wav
+PASS decode lg-f663e61203ed.wav
+PASS decode lg-2578ff399d5d.wav
+PASS decode lg-c7d727cb3393.wav
+PASS decode lg-5d2d48da3857.wav
+PASS decode lg-dda0619e94e4.wav
+PASS decode lg-628d855112ee.wav
+PASS decode lg-810b404e2d29.wav
+PASS decode lg-c8846e99d100.wav
+PASS decode lg-50fede0b75aa.wav
+PASS decode lg-7c3fe273aa51.wav
+PASS decode lg-07324b4a3020.wav
+PASS decode lg-b1b97c29972a.wav
+PASS decode lg-bfcddfe94739.wav
+PASS decode lg-c3ebf3ec2afa.wav
+PASS decode lg-e732a36fd0d0.wav
+PASS decode lg-94d3b4fa6e7f.wav
+PASS decode lg-de88736412f6.wav
+PASS decode lg-81d4f87ac87d.wav
+PASS decode lg-ae6c4c49d483.wav
+PASS decode lg-cfc53afaefe5.wav
+PASS decode lg-d8738fe07ca3.wav
+PASS decode lg-1b42fe0a2f60.wav
+PASS decode lg-ce78ac63493c.wav
+PASS decode lg-8a6ad95fff8d.wav
+PASS decode lg-47b825034366.wav
+PASS decode lg-fa3853f6a7be.wav
+PASS decode lg-0e63f0f59473.wav
+PASS completed local سِينْ
+PASS completed local وَاوْ
+PASS completed local يَاءْ
+PASS completed local تَرَ
+PASS completed local أَعُوذُ
+PASS completed local يُوَسْوِسُ
+PASS completed curriculum word تَرَ
+PASS complete three-name queue
+PASS cancelled sequence does not complete lesson
+PASS rapid replay only completes replacement
+PASS mute prevents prompt completion
+PASS saved progress unchanged
+ALL CHECKS PASSED

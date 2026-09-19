@@ -50,7 +50,7 @@ test('bundled names count as heard only when the actual audio source ends', asyn
 
 test('new alphabet names and curriculum words use exact imported recordings until their source ends', async () => {
   const { game, spoken, sources, requests } = setup();
-  for (const text of ['سِينْ', 'وَاوْ', 'يَاءْ', 'هُوَ']) {
+  for (const text of ['سِينْ', 'وَاوْ', 'يَاءْ', 'هُوَ', 'تَرَ', 'أَعُوذُ', 'يُوَسْوِسُ']) {
     let complete = false;
     const heard = game.sayForLearning({ speak: text }).then(value => { complete = true; return value; });
     await tick();
@@ -61,6 +61,13 @@ test('new alphabet names and curriculum words use exact imported recordings unti
     assert.equal(await heard, true);
   }
   assert.equal(spoken.length, 0);
+});
+
+test('owner-rejected words use the existing exact-text fallback without loading rejected recordings', () => {
+  const { game, spoken, requests } = setup();
+  for (const text of ['ذَاتَ', 'ٱللَّهِ', 'ٱلْحَمْدُ']) game.say({ speak: text });
+  assert.deepEqual(spoken.map(u => u.text), ['ذَاتَ', 'ٱللَّهِ', 'ٱلْحَمْدُ']);
+  assert.deepEqual(requests, []);
 });
 
 test('unmapped short vowels, long vowels, and tanween preserve their distinct curriculum TTS', () => {

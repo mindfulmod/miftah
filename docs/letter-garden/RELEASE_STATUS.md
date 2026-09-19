@@ -1,6 +1,6 @@
 # Letter Garden major release — local status
 
-Preview: `http://letter-garden-next.localhost:8790/letters.html?v=20260918-boat-adventure1`.
+Preview: `http://letter-garden-next.localhost:8790/letters.html?v=20260919-audio-reviewed1`.
 Durable checkout: `/Users/main/Documents/GitHub/miftah/.local-work/letter-garden-next-major`.
 Branch: `codex/letter-garden-next-major`.
 Production baseline: `55f34576f0ebfc02bcf115452101b37adfbb4536` / `20260908-batch50`.
@@ -11,24 +11,19 @@ The current five learning/game passes add shared gradual difficulty, eligible cu
 
 The old temporary checkout disappeared. Previous source was reconstructed from recorded edit history and passed its 115-test baseline before this stage. The old checkpoint objects and screenshot binaries were not recoverable; see [RECOVERY_MANIFEST.md](RECOVERY_MANIFEST.md). Work now lives in this durable checkout and a sibling Git bundle.
 
-The first OpenAI.fm import supplied 25 alphabet names. The September 18
-curriculum import adds 32 clips: the remaining three alphabet names, four mark
-names and 25 words. The local bank now has 57 exact clips and can reuse the
-complete alphabet for 149 comma-separated name prompts. **241 tests pass.**
-Replay, mute, navigation, failed playback and learning completion share a
-cancel-safe voice lifecycle. See the [current audio review](reviews/marin-curriculum/README.md).
+September 19 owner audio review applied locally: **85 approved exact clips**,
+including all 28 alphabet names, and 149 reusable name sequences (55 approved).
+31 approved candidates were installed byte-for-byte; three rejected active clips
+were removed. All 21 rejections are excluded from the bank and offline cache.
+Four boundary revisions are ready for a focused recheck; the other 17 remain
+unrepaired. Saved decisions and original notes are retained.
 
-**Audio is incomplete:** 377 of the 409 new requested items retain device
-speech; 49 have candidate excerpts and 328 need reliable individual mapping.
-The owner identified the 3.70–4.85 second excerpt as Dammataan only; that cut is
-now assigned to Dammataan. Damma and Fathataan remain unassigned. Fluent
-pronunciation review remains outstanding. No claim of full audio coverage or
-production qualification. These audio changes are preserved in local checkpoint
-`5473287`. The owner has resumed audio review and will judge pronunciation using
-the [Audio confirmation desk](reviews/audio-confirmation/index.html). It provides
-saved decisions, notes and export for all playable items, with the complete
-pending inventory. **261 tests pass.** Game development is paused while the
-owner reviews; no extra audio has been connected by the review tooling.
+**Audio remains incomplete:** 349 of the 409 additional requested items use
+device speech: 21 rejected/revised clips and 328 still without reliable isolated
+mappings. Damma and Fathataan are still unmapped; the earlier Dammataan correction
+is preserved. The 29 teaching-policy requests remain separate. **266 tests pass.**
+See [applied review, corrections and recovery](reviews/audio-confirmation/APPLIED_REVIEW_20260919.md).
+The complete owner export is preserved in the checkout. No new game pass started.
 
 Scope: Letter Garden only. Preserve curriculum, pets, rewards and earned progress.
 No running voice service or AI API calls are needed for the bundled clips. No

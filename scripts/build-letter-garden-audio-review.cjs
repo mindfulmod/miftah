@@ -25,18 +25,16 @@ const sourceDefinitions = [
     id: 'marin-letters-original', title: 'Original alphabet recording (25 names)',
     file: 'docs/letter-garden/reviews/marin-letters/original.mp3',
     duration: original.sourceSeconds,
-    transcriptText: [
-      fs.readFileSync(path.join(ROOT, 'docs/letter-garden/reviews/marin-curriculum/request-1.txt'), 'utf8').trim(),
-      fs.readFileSync(path.join(ROOT, 'docs/letter-garden/reviews/marin-curriculum/request-2.txt'), 'utf8').trim(),
-    ].join('\n'),
   },
   {
     id: 'marin-curriculum-batch-1', title: 'Marin curriculum — supplied batch 1',
     file: 'docs/letter-garden/reviews/marin-curriculum/sources/batch-1.mp3', duration: marin.sources[0].duration,
+    transcriptText: fs.readFileSync(path.join(ROOT, 'docs/letter-garden/reviews/marin-curriculum/request-1.txt'), 'utf8').trim(),
   },
   {
     id: 'marin-curriculum-batch-2', title: 'Marin curriculum — supplied batch 2',
     file: 'docs/letter-garden/reviews/marin-curriculum/sources/batch-2.mp3', duration: marin.sources[1].duration,
+    transcriptText: fs.readFileSync(path.join(ROOT, 'docs/letter-garden/reviews/marin-curriculum/request-2.txt'), 'utf8').trim(),
   },
 ];
 const sources = sourceDefinitions.map((source) => ({ ...source, file: rel(source.file), sha256: sha256(source.file) }));
@@ -140,6 +138,7 @@ function makeItem(entry, status) {
     file: file?.file || null, sha256: file?.sha256 || null, parts,
   };
   if (source) item.source = source;
+  if (marinItem?.revision) item.revision = marinItem.revision;
   item.signature = signature(text, fileHashes, source);
   return item;
 }

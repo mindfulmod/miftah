@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Letter Garden · Audio confirmation</title>
-  <link rel="stylesheet" href="review.css?v=1">
-  <script defer src="review-core.js?v=1"></script>
-  <script defer src="review.js?v=1"></script>
+  <link rel="stylesheet" href="review.css?v=3">
+  <script defer src="review-core.js?v=3"></script>
+  <script defer src="review.js?v=3"></script>
 </head>
 <body>
 <main>
@@ -14,16 +14,24 @@
     <p class="eyebrow">LETTER GARDEN · ADULT REVIEW</p>
     <h1>Give every sound a careful listen.</h1>
     <p class="intro">Start with the alphabet. Play each clip, compare it with the Arabic shown, then choose <strong>Correct</strong>, <strong>Needs fixing</strong> or <strong>Unsure</strong>. Your decisions save in this browser.</p>
+    <p class="intro"><strong>Your September 19 review is applied locally.</strong> The game now uses 85 approved recordings. All 21 rejected recordings are excluded. Four revised cuts are ready below; your previous notes are kept. You do not need to repeat the unchanged clips.</p>
     <div id="totals" class="totals" aria-label="Audio coverage">Loading the complete audio catalogue…</div>
     <p id="progress" class="progress" role="status"></p>
     <p id="save-status" class="hint" role="status">Reviews do not change the game. Export your results when you finish or take a break.</p>
     <div class="actions">
       <button id="start-review" type="button" class="primary" disabled>Start reviewing ↓</button>
+      <button id="review-revisions" type="button" disabled>Review revised cuts ↓</button>
       <button id="export" type="button" disabled>Download review results</button>
       <button id="copy" type="button" disabled>Copy review results</button>
+      <button id="show-results" type="button" disabled>Show results text</button>
       <button id="import" type="button" disabled>Restore saved results</button>
       <input id="import-file" type="file" accept="application/json,.json" hidden>
     </div>
+    <section id="results-panel" hidden aria-label="Review results text">
+      <label class="note-label">Review results JSON<textarea id="results-text" readonly rows="10" aria-label="Review results JSON"></textarea></label>
+      <p class="hint">Download or clipboard unavailable? Select this text and copy it. It contains your saved decisions and notes.</p>
+      <button id="hide-results" type="button">Close results text</button>
+    </section>
     <details>
       <summary>What should I listen for?</summary>
       <ul>
@@ -42,6 +50,7 @@
     <label>Review section<select id="section" disabled>
       <option value="installed">1 · Installed clips</option>
       <option value="candidate">2 · Candidate clips</option>
+      <option value="revised">Revised cuts from your notes</option>
       <option value="sequence">3 · Joined name prompts</option>
       <option value="unmapped">4 · Still needs cutting</option>
       <option value="policy">5 · Teaching decisions</option>

@@ -6,6 +6,7 @@ records source hashes, exact curriculum keys, bounds and mapping evidence.
 Uncertain clips can be auditioned, but are never added to runtime playback.
 """
 import hashlib
+import io
 import json
 import re
 import unicodedata
@@ -66,14 +67,25 @@ def main():
                 clip[:fade] *= np.linspace(0, 1, fade)
                 clip[-fade:] *= np.linspace(1, 0, fade)
                 assert .008 < np.max(np.abs(clip)) < .999
+                revision = item.get('revision', '')
+                assert not revision or re.fullmatch(r'r[1-9][0-9]*', revision)
+                suffix = f'-{revision}' if revision else ''
                 destination = ((ASSETS if item['status'] == 'imported' else REVIEW / 'candidates')
-                               / f"{item['id']}.wav")
-                sf.write(destination, clip, sr, subtype='PCM_16')
-                item.update(file=destination.relative_to(ROOT).as_posix(), sha256=sha(destination),
+                               / f"{item['id']}{suffix}.wav")
+                encoded = io.BytesIO()
+                sf.write(encoded, clip, sr, format='WAV', subtype='PCM_16')
+                wav_bytes = encoded.getvalue()
+                item.update(file=destination.relative_to(ROOT).as_posix(), sha256=hashlib.sha256(wav_bytes).hexdigest(),
                             duration=round(len(clip) / sr, 4), peak=round(float(np.abs(clip).max()), 5))
                 if item['status'] == 'imported':
                     assert item.get('evidence'), 'An active clip needs explicit mapping evidence'
+                    if item.get('ownerReview'):
+                        approval = item['ownerReview']
+                        assert approval['verdict'] == 'correct', 'Owner rejected this clip'
+                        assert approval['audioSha256'] == item['sha256'], 'Changed clip needs a new owner review'
+                        assert sha(ROOT / approval['file']) == approval['sha256'], 'Owner review evidence changed'
                     clips[text] = item['file']
+                destination.write_bytes(wav_bytes)
             else:
                 assert item['status'] != 'imported'
         items.append(item)
