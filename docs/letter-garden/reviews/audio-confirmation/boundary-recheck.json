@@ -1,12 +1,12 @@
 {
   "id": "boundary-recheck",
-  "title": "Recheck 22 revised cuts",
+  "title": "Previous 22 revisions · results saved",
   "preparedOn": "2026-09-19",
   "expectedCount": 22,
   "individualOnly": true,
   "revisionOnly": true,
   "selectionEvidence": "owner-reviews/20260919-individuals.json",
-  "description": "Only these changed clips need another listen. Play the revised clip; use Play previous cut to compare with the version you flagged. Check that the extra syllable is gone and the intended sound is still complete. Your original notes are kept. These revisions remain excluded from the game until approved.",
+  "description": "Your 17 approvals are installed unchanged. Three clips remain rejected. Two have notes but no decision: تً is tan and ثً is than (th as in thin); tun/thun would be تٌ/ثٌ. Finish those two if ready. Earlier notes and original cuts remain available.",
   "itemIds": [
     "lg-e006f0b8074f",
     "lg-2d6a557df5ca",

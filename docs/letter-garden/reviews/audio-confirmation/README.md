@@ -5,13 +5,24 @@ Open through the preview server:
 This adult-only review does not load or modify the game, audio mappings, rewards
 or learning progress. No external service is called.
 
-## Latest completed review
+## Current handoff · September 19
 
-All 100 choices are saved: **97 approved, three flagged**. The approved words are
-installed, taking the local bank to 92 recordings; all 149 name sequences are
-reviewed. The three flagged words remain excluded. See [results, notes and the
-replacement script](NEXT_100_APPLIED_20260919.md). No unchanged audio needs
-another review.
+The boundary follow-up has **17 approved, 3 rejected and 2 undecided**. All 17
+approved files are installed without changing their audio. See
+[the applied review](BOUNDARY_APPLIED_20260919.md).
+
+- [Nine additional listening candidates](index.html?section=additional-glides)
+  are available from the existing source. They remain outside the game.
+- [Next 100 recording requests](next-recordings/index.html) contain 2 mark names,
+  35 short vowels and 63 long vowels, none previously reviewed. This is **not** a
+  playable queue. Generate the eight-item batch 02 pilot and attach it in Codex
+  before generating the rest. All 14 scripts fit within 999 characters each.
+- تً and ثً remain undecided. Their expected endings are tan/than, not tun/thun.
+  The notes are retained in the previous 22-item queue.
+
+The bank has **155 approved exact recordings**. The catalogue also has 66
+candidates (55 rejected, 2 undecided, 9 new), 149 reviewed name sequences,
+213 unmapped items and 29 teaching-policy entries: 612 requests in total.
 
 ## Queue preparation (historical)
 
@@ -31,7 +42,7 @@ At that checkpoint, 85 approved individual recordings were installed. At that po
 2. Play each complete clip and compare its consonants, vowels, length and ending
    with the displayed Arabic. Check for cut-off speech or a neighbouring item.
 3. Choose **Correct**, **Needs fixing**, or **Unsure**. Add a note when useful.
-4. Use **Next batch** for another eight items. Decisions and notes save locally.
+4. Use **Next batch** for another ten items. Decisions and notes save locally.
 5. Review **Candidate clips** after the installed clips. **Joined name prompts**
    are the existing name clips played in the game's order with a nominal 90 ms
    gap; check the order/transitions, not blended syllable reading.
@@ -39,19 +50,10 @@ At that checkpoint, 85 approved individual recordings were installed. At that po
    Download at any pause; partial feedback is useful. **Restore saved results**
    merges a prior download, preserving newer decisions.
 
-The catalogue covers all 612 distinct current curriculum requests:
-
-| Section | Items | Review action |
-|---|---:|---|
-| Installed clips | 92 | Confirm pronunciation and cut quality; 28 names first |
-| Candidate excerpts | 20 | Confirm whether the proposed cut matches the item |
-| Joined name prompts | 149 | Check exact name order and transitions |
-| Awaiting isolated cuts | 322 | No approval needed yet; mapping work remains |
-| Assembly teaching decisions | 29 | Optional pronunciation-in-context guidance |
-
-The full three source recordings and original submitted scripts are available
-under **Original recordings and submitted text**. Unmapped does not mean missing.
-Listening to a source does not count as hearing its individual clips.
+The original recordings and submitted scripts are available under **Original
+recordings and submitted text**. Unmapped does not mean proven absent. An
+automatic transcript cannot certify vowels or endings. Playing a source does
+not count as hearing its individual clips.
 
 ## Storage and integration contract
 

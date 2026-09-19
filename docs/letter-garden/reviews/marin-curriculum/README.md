@@ -1,5 +1,11 @@
 # Marin curriculum import — local update, 2026-09-19
 
+**Current September 19 checkpoint:** 155 approved recordings are installed,
+66 candidate clips remain outside the game, and 149 name sequences are reviewed.
+See [current applied results and next steps](../audio-confirmation/BOUNDARY_APPLIED_20260919.md).
+The counts below describe earlier imports and are retained as history.
+
+
 For the complete owner review with saved decisions and downloadable results,
 use the [Audio confirmation desk](../audio-confirmation/index.html) through the
 preview server. It combines all 92 approved installed clips, 20 rejected candidates and 149 local

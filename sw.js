@@ -4,7 +4,7 @@
 // - Shell (HTML/CSS/JS/fonts): stale-while-revalidate, ignoring ?v= cache-busters.
 // - data/*.json: network-first so rebuilt data lands promptly; cache fallback offline.
 // - Remote recitation audio: deliberately NOT intercepted — see AUDIO_HOSTS below.
-const VERSION = "miftah-v52-letter-garden-audio-boundaries-20260919";
+const VERSION = "miftah-v53-letter-garden-audio-approved-20260919";
 const SHELL_CACHE = `shell-${VERSION}`;
 const DATA_CACHE = `data-${VERSION}`;
 
@@ -21,13 +21,19 @@ const SHELL = [
   "assets/audio/letters/marin-curriculum-v1/lg-ba861d96a2da.wav",
   "assets/audio/letters/marin-curriculum-v1/lg-07b43bc69877.wav",
   "assets/audio/letters/marin-curriculum-v1/lg-780f94e60087.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-c781688bdfdc-r1.wav",
   "assets/audio/letters/marin-curriculum-v1/lg-50e6cddd272b.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-65ebd28d0327-r1.wav",
   "assets/audio/letters/marin-curriculum-v1/lg-2b8af86d7225.wav",
   "assets/audio/letters/marin-curriculum-v1/lg-3b719e0537b9.wav",
   "assets/audio/letters/marin-curriculum-v1/lg-291b92e492fb.wav",
   "assets/audio/letters/marin-curriculum-v1/lg-924bb86de5f8.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-64cbd95c7cd8-r1.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-413cd9ef9615-r1.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-0c204c583369-r1.wav",
   "assets/audio/letters/marin-curriculum-v1/lg-34fa019fc0cf.wav",
   "assets/audio/letters/marin-curriculum-v1/lg-f106b520337d.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-c70774f9ecbf-r1.wav",
   "assets/audio/letters/marin-curriculum-v1/lg-b395574965f1.wav",
   "assets/audio/letters/marin-curriculum-v1/lg-4866a45a046c.wav",
   "assets/audio/letters/marin-curriculum-v1/lg-c73467ff1741.wav",
@@ -38,10 +44,18 @@ const SHELL = [
   "assets/audio/letters/marin-curriculum-v1/lg-b49450735a14.wav",
   "assets/audio/letters/marin-curriculum-v1/lg-e2fece36d71a.wav",
   "assets/audio/letters/marin-curriculum-v1/lg-ed132d80ef2e.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-ec9450ee268e-r1.wav",
   "assets/audio/letters/marin-curriculum-v1/lg-b428ea1f6041.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-8258de63d74e-r1.wav",
   "assets/audio/letters/marin-curriculum-v1/lg-aa8811b378b0.wav",
   "assets/audio/letters/marin-curriculum-v1/lg-3d0a28c28b20.wav",
   "assets/audio/letters/marin-curriculum-v1/lg-3bbe8da7a5b1.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-8679f2dad70d-r1.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-9ed6a9c073f8-r1.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-3b8e1495833d-r1.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-ca3af558ba11-r1.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-340740d00ba1-r1.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-427032b8a68b-r1.wav",
   "assets/audio/letters/marin-curriculum-v1/lg-91fd914ee86c.wav",
   "assets/audio/letters/marin-curriculum-v1/lg-c3b5afe7cc08.wav",
   "assets/audio/letters/marin-curriculum-v1/lg-a5756baa80ee.wav",
@@ -62,6 +76,7 @@ const SHELL = [
   "assets/audio/letters/marin-curriculum-v1/lg-4e89a5b4afe4.wav",
   "assets/audio/letters/marin-curriculum-v1/lg-e66d423a3dd9.wav",
   "assets/audio/letters/marin-curriculum-v1/lg-8f627810c512.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-a8549d663ab9-r1.wav",
   "assets/audio/letters/marin-curriculum-v1/lg-82b658e5075c.wav",
   "assets/audio/letters/marin-curriculum-v1/lg-7af96a47a4b6.wav",
   "assets/audio/letters/marin-curriculum-v1/lg-d4ed5209d00e.wav",
@@ -77,6 +92,8 @@ const SHELL = [
   "assets/audio/letters/marin-curriculum-v1/lg-f65ba0692d34.wav",
   "assets/audio/letters/marin-curriculum-v1/lg-98c207c85669.wav",
   "assets/audio/letters/marin-curriculum-v1/lg-3062586698e2.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-66a8d70cd9ef-r1.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-74d733b4d22c-r1.wav",
   "assets/audio/letters/marin-curriculum-v1/lg-c7841a362473.wav",
   "assets/audio/letters/marin-curriculum-v1/lg-5daa6e6fadf0.wav",
   "assets/audio/letters/marin-curriculum-v1/lg-9e3de7854832.wav",

@@ -1,0 +1,19 @@
+{
+  "id": "additional-glides",
+  "title": "9 additional sounds to verify",
+  "preparedOn": "2026-09-19",
+  "expectedCount": 9,
+  "individualOnly": true,
+  "description": "These nine additional excerpts have matching consonant/transcript and waveform evidence. Please check the whole glide and both cut edges. None is connected to the game yet. The 100-item recording pack is separate: it needs new audio before listening review.",
+  "itemIds": [
+    "lg-8aa63c060c0b",
+    "lg-7339da8be97f",
+    "lg-2700319fe52a",
+    "lg-049b7c17697e",
+    "lg-1267bbed040f",
+    "lg-7b0b8febe4a8",
+    "lg-bfcf70752bf3",
+    "lg-6552de8f1eb2",
+    "lg-38f6528617ad"
+  ]
+}

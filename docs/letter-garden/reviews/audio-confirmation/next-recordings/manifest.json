@@ -1,0 +1,1266 @@
+{
+  "schemaVersion": 1,
+  "id": "next-recordings-100",
+  "preparedOn": "2026-09-19",
+  "status": "awaiting-recording",
+  "description": "100 distinct unmapped items, selected in curriculum order. No playable audio is assigned. These are recording requests, not an audio-review queue.",
+  "sourceReview": "owner-reviews/20260919-boundary-recheck.json",
+  "items": [
+    {
+      "id": "lg-60e3b82e5a3e",
+      "text": "ضَمَّة",
+      "family": "Vowel and tanween names",
+      "group": "mark-names",
+      "direction": "names"
+    },
+    {
+      "id": "lg-4f057689d289",
+      "text": "فَتْحَتَانْ",
+      "family": "Vowel and tanween names",
+      "group": "mark-names",
+      "direction": "names"
+    },
+    {
+      "id": "lg-79a5e4461bac",
+      "text": "ثَ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-81a333ca8e19",
+      "text": "ثِ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-cc4c2e4dbfda",
+      "text": "ثُ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-147954761063",
+      "text": "خَ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-f3d5f289598a",
+      "text": "خِ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-e7757adcd376",
+      "text": "خُ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-f33099a288ef",
+      "text": "صَ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-ea38bdb8dbab",
+      "text": "صِ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-a8429e61a006",
+      "text": "صُ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-1ebb7dbf1c58",
+      "text": "ضَ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-3942d76b714f",
+      "text": "ضِ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-040d0fff887a",
+      "text": "ضُ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-8845ef789954",
+      "text": "طَ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-05d7abc3e058",
+      "text": "طِ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-e49934a2356f",
+      "text": "طُ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-84e9e184b660",
+      "text": "ظَ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-f8b192cd3a04",
+      "text": "ظِ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-8f13db9909e5",
+      "text": "ظُ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-470dbb77d4df",
+      "text": "عَ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-36a1e7188648",
+      "text": "عِ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-76bad5b506e7",
+      "text": "عُ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-f6bfae64253c",
+      "text": "غَ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-3b8732d73847",
+      "text": "غِ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-b03e507decd7",
+      "text": "غُ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-139a6ba5cae1",
+      "text": "فَ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-390d2843328d",
+      "text": "فِ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-ea02a7a1f92e",
+      "text": "فُ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-d73b8f256e66",
+      "text": "قَ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-2155dba94601",
+      "text": "قِ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-96d6e5707674",
+      "text": "قُ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-9d34621d847e",
+      "text": "هِ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-33fae2c3fa92",
+      "text": "هُ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-8ce960a3420a",
+      "text": "وَ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-e7bebb428fb2",
+      "text": "وِ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-31d16c7f5df3",
+      "text": "وُ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-7c7afb90ab10",
+      "text": "بَا",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-45d4256ab31e",
+      "text": "بِي",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-5a23f168330e",
+      "text": "بُو",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-3bc5f0ae9739",
+      "text": "تَا",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-00ad57f4c686",
+      "text": "تِي",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-e455bbaee2ef",
+      "text": "تُو",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-80cdd720e239",
+      "text": "ثَا",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-a1abac806544",
+      "text": "ثِي",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-e163d245aa74",
+      "text": "ثُو",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-794864096e4f",
+      "text": "جَا",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-932469a7bdb8",
+      "text": "جِي",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-8a12dca934bb",
+      "text": "جُو",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-150434feb214",
+      "text": "حَا",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-02f7085adb89",
+      "text": "حِي",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-cc7d73f1885c",
+      "text": "حُو",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-408f1c4dddea",
+      "text": "خَا",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-913b0f56f2c5",
+      "text": "خِي",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-d5fb917d9db6",
+      "text": "خُو",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-57bf496ca1ac",
+      "text": "دَا",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-55cfa486d155",
+      "text": "دِي",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-d10d0df617af",
+      "text": "دُو",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-54d4a8b5461c",
+      "text": "ذَا",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-b68c9d45eea8",
+      "text": "ذِي",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-1cee009449b6",
+      "text": "ذُو",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-1f16e40d6192",
+      "text": "رَا",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-899917db1c13",
+      "text": "رِي",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-b7865f1b44f7",
+      "text": "رُو",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-63a493773b8a",
+      "text": "زَا",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-3d827a5a43cd",
+      "text": "زِي",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-0bc47ef6eebc",
+      "text": "زُو",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-06df41524ddd",
+      "text": "سَا",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-7dc1cb03c870",
+      "text": "سِي",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-07848031d3b5",
+      "text": "سُو",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-563436b5f189",
+      "text": "شَا",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-7e330ac82db4",
+      "text": "شِي",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-697fef431da6",
+      "text": "شُو",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-2401c0433020",
+      "text": "صَا",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-0fca749ce8c2",
+      "text": "صِي",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-11ba12301e3f",
+      "text": "صُو",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-c03effb5dffc",
+      "text": "ضَا",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-38534123f710",
+      "text": "ضِي",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-3cc6e720f8c3",
+      "text": "ضُو",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-89fbe36986ba",
+      "text": "طَا",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-e264bcf86158",
+      "text": "طِي",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-b702f2d63993",
+      "text": "طُو",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-8bd19f151c78",
+      "text": "ظَا",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-14a79786ec2d",
+      "text": "ظِي",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-56bd2764fabd",
+      "text": "ظُو",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-89c5c6f454a0",
+      "text": "عَا",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-af930182cb0f",
+      "text": "عِي",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-00fc50872e5a",
+      "text": "عُو",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-8cb8de042947",
+      "text": "غَا",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-ce78b75fbf7c",
+      "text": "غِي",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-24dad8c7f05a",
+      "text": "غُو",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-6512126eea52",
+      "text": "فَا",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-db7696accf25",
+      "text": "فِي",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-4d86b5e40014",
+      "text": "فُو",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-9cd952ad821d",
+      "text": "قَا",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-cfabc85d40c4",
+      "text": "قِي",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-05d82cf0f520",
+      "text": "قُو",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-ffafb835b249",
+      "text": "كَا",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-0f8a24138157",
+      "text": "كِي",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-e70d18ecbedd",
+      "text": "كُو",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables"
+    }
+  ],
+  "batches": [
+    {
+      "id": "01-mark-names",
+      "file": "batches/01-mark-names.txt",
+      "family": "Vowel and tanween names",
+      "direction": "names",
+      "characters": 19,
+      "count": 2,
+      "sha256": "bbef69f523c20f65f3de8372ce33f6a908f1c797eb9a23559510213cfb87a98a",
+      "items": [
+        {
+          "id": "lg-60e3b82e5a3e",
+          "text": "ضَمَّة"
+        },
+        {
+          "id": "lg-4f057689d289",
+          "text": "فَتْحَتَانْ"
+        }
+      ]
+    },
+    {
+      "id": "02-short-vowels",
+      "file": "batches/02-short-vowels.txt",
+      "family": "Short vowels",
+      "direction": "syllables",
+      "characters": 30,
+      "count": 8,
+      "sha256": "2dd734d308249dd289ce27cc9b8f3d2e59282a0a79642ea2d8581f67a4cccb22",
+      "items": [
+        {
+          "id": "lg-79a5e4461bac",
+          "text": "ثَ"
+        },
+        {
+          "id": "lg-81a333ca8e19",
+          "text": "ثِ"
+        },
+        {
+          "id": "lg-cc4c2e4dbfda",
+          "text": "ثُ"
+        },
+        {
+          "id": "lg-147954761063",
+          "text": "خَ"
+        },
+        {
+          "id": "lg-f3d5f289598a",
+          "text": "خِ"
+        },
+        {
+          "id": "lg-e7757adcd376",
+          "text": "خُ"
+        },
+        {
+          "id": "lg-f33099a288ef",
+          "text": "صَ"
+        },
+        {
+          "id": "lg-ea38bdb8dbab",
+          "text": "صِ"
+        }
+      ]
+    },
+    {
+      "id": "03-short-vowels",
+      "file": "batches/03-short-vowels.txt",
+      "family": "Short vowels",
+      "direction": "syllables",
+      "characters": 30,
+      "count": 8,
+      "sha256": "49c32cd84a359e29c1650e867b8546e314123ea940b2fa057c6f65b677c1994f",
+      "items": [
+        {
+          "id": "lg-a8429e61a006",
+          "text": "صُ"
+        },
+        {
+          "id": "lg-1ebb7dbf1c58",
+          "text": "ضَ"
+        },
+        {
+          "id": "lg-3942d76b714f",
+          "text": "ضِ"
+        },
+        {
+          "id": "lg-040d0fff887a",
+          "text": "ضُ"
+        },
+        {
+          "id": "lg-8845ef789954",
+          "text": "طَ"
+        },
+        {
+          "id": "lg-05d7abc3e058",
+          "text": "طِ"
+        },
+        {
+          "id": "lg-e49934a2356f",
+          "text": "طُ"
+        },
+        {
+          "id": "lg-84e9e184b660",
+          "text": "ظَ"
+        }
+      ]
+    },
+    {
+      "id": "04-short-vowels",
+      "file": "batches/04-short-vowels.txt",
+      "family": "Short vowels",
+      "direction": "syllables",
+      "characters": 30,
+      "count": 8,
+      "sha256": "094421236183f50fb1675b146ddb0012f1b4c7415a54c5ac0c54e05277a0d055",
+      "items": [
+        {
+          "id": "lg-f8b192cd3a04",
+          "text": "ظِ"
+        },
+        {
+          "id": "lg-8f13db9909e5",
+          "text": "ظُ"
+        },
+        {
+          "id": "lg-470dbb77d4df",
+          "text": "عَ"
+        },
+        {
+          "id": "lg-36a1e7188648",
+          "text": "عِ"
+        },
+        {
+          "id": "lg-76bad5b506e7",
+          "text": "عُ"
+        },
+        {
+          "id": "lg-f6bfae64253c",
+          "text": "غَ"
+        },
+        {
+          "id": "lg-3b8732d73847",
+          "text": "غِ"
+        },
+        {
+          "id": "lg-b03e507decd7",
+          "text": "غُ"
+        }
+      ]
+    },
+    {
+      "id": "05-short-vowels",
+      "file": "batches/05-short-vowels.txt",
+      "family": "Short vowels",
+      "direction": "syllables",
+      "characters": 30,
+      "count": 8,
+      "sha256": "dee7173106f26a86a7eb8b1f81c6c1c8519f6e6aa3bd20595c0f980064ade23c",
+      "items": [
+        {
+          "id": "lg-139a6ba5cae1",
+          "text": "فَ"
+        },
+        {
+          "id": "lg-390d2843328d",
+          "text": "فِ"
+        },
+        {
+          "id": "lg-ea02a7a1f92e",
+          "text": "فُ"
+        },
+        {
+          "id": "lg-d73b8f256e66",
+          "text": "قَ"
+        },
+        {
+          "id": "lg-2155dba94601",
+          "text": "قِ"
+        },
+        {
+          "id": "lg-96d6e5707674",
+          "text": "قُ"
+        },
+        {
+          "id": "lg-9d34621d847e",
+          "text": "هِ"
+        },
+        {
+          "id": "lg-33fae2c3fa92",
+          "text": "هُ"
+        }
+      ]
+    },
+    {
+      "id": "06-short-vowels",
+      "file": "batches/06-short-vowels.txt",
+      "family": "Short vowels",
+      "direction": "syllables",
+      "characters": 10,
+      "count": 3,
+      "sha256": "20d10a24f393ec2bc1e77eb9f1ac7a6396bd923107af40d4e2157fcfee390522",
+      "items": [
+        {
+          "id": "lg-8ce960a3420a",
+          "text": "وَ"
+        },
+        {
+          "id": "lg-e7bebb428fb2",
+          "text": "وِ"
+        },
+        {
+          "id": "lg-31d16c7f5df3",
+          "text": "وُ"
+        }
+      ]
+    },
+    {
+      "id": "07-long-vowels",
+      "file": "batches/07-long-vowels.txt",
+      "family": "Long vowels",
+      "direction": "syllables",
+      "characters": 38,
+      "count": 8,
+      "sha256": "da73275a418ec7c8b4b819eeb93c86b1496132386d3870dbfa0ab6e91e386ba4",
+      "items": [
+        {
+          "id": "lg-7c7afb90ab10",
+          "text": "بَا"
+        },
+        {
+          "id": "lg-45d4256ab31e",
+          "text": "بِي"
+        },
+        {
+          "id": "lg-5a23f168330e",
+          "text": "بُو"
+        },
+        {
+          "id": "lg-3bc5f0ae9739",
+          "text": "تَا"
+        },
+        {
+          "id": "lg-00ad57f4c686",
+          "text": "تِي"
+        },
+        {
+          "id": "lg-e455bbaee2ef",
+          "text": "تُو"
+        },
+        {
+          "id": "lg-80cdd720e239",
+          "text": "ثَا"
+        },
+        {
+          "id": "lg-a1abac806544",
+          "text": "ثِي"
+        }
+      ]
+    },
+    {
+      "id": "08-long-vowels",
+      "file": "batches/08-long-vowels.txt",
+      "family": "Long vowels",
+      "direction": "syllables",
+      "characters": 38,
+      "count": 8,
+      "sha256": "55d783ec283c6ec9ceac98e14c2692c7ae536f4ca746f6b88904738a18333fbe",
+      "items": [
+        {
+          "id": "lg-e163d245aa74",
+          "text": "ثُو"
+        },
+        {
+          "id": "lg-794864096e4f",
+          "text": "جَا"
+        },
+        {
+          "id": "lg-932469a7bdb8",
+          "text": "جِي"
+        },
+        {
+          "id": "lg-8a12dca934bb",
+          "text": "جُو"
+        },
+        {
+          "id": "lg-150434feb214",
+          "text": "حَا"
+        },
+        {
+          "id": "lg-02f7085adb89",
+          "text": "حِي"
+        },
+        {
+          "id": "lg-cc7d73f1885c",
+          "text": "حُو"
+        },
+        {
+          "id": "lg-408f1c4dddea",
+          "text": "خَا"
+        }
+      ]
+    },
+    {
+      "id": "09-long-vowels",
+      "file": "batches/09-long-vowels.txt",
+      "family": "Long vowels",
+      "direction": "syllables",
+      "characters": 38,
+      "count": 8,
+      "sha256": "7f8eda8fe1f398f322506465149401e4a5f80f00c705d7e08a566f1948013a50",
+      "items": [
+        {
+          "id": "lg-913b0f56f2c5",
+          "text": "خِي"
+        },
+        {
+          "id": "lg-d5fb917d9db6",
+          "text": "خُو"
+        },
+        {
+          "id": "lg-57bf496ca1ac",
+          "text": "دَا"
+        },
+        {
+          "id": "lg-55cfa486d155",
+          "text": "دِي"
+        },
+        {
+          "id": "lg-d10d0df617af",
+          "text": "دُو"
+        },
+        {
+          "id": "lg-54d4a8b5461c",
+          "text": "ذَا"
+        },
+        {
+          "id": "lg-b68c9d45eea8",
+          "text": "ذِي"
+        },
+        {
+          "id": "lg-1cee009449b6",
+          "text": "ذُو"
+        }
+      ]
+    },
+    {
+      "id": "10-long-vowels",
+      "file": "batches/10-long-vowels.txt",
+      "family": "Long vowels",
+      "direction": "syllables",
+      "characters": 38,
+      "count": 8,
+      "sha256": "6f516709a203424de120b1162136ce6f237ed9011b43adf08275c34c292b26f1",
+      "items": [
+        {
+          "id": "lg-1f16e40d6192",
+          "text": "رَا"
+        },
+        {
+          "id": "lg-899917db1c13",
+          "text": "رِي"
+        },
+        {
+          "id": "lg-b7865f1b44f7",
+          "text": "رُو"
+        },
+        {
+          "id": "lg-63a493773b8a",
+          "text": "زَا"
+        },
+        {
+          "id": "lg-3d827a5a43cd",
+          "text": "زِي"
+        },
+        {
+          "id": "lg-0bc47ef6eebc",
+          "text": "زُو"
+        },
+        {
+          "id": "lg-06df41524ddd",
+          "text": "سَا"
+        },
+        {
+          "id": "lg-7dc1cb03c870",
+          "text": "سِي"
+        }
+      ]
+    },
+    {
+      "id": "11-long-vowels",
+      "file": "batches/11-long-vowels.txt",
+      "family": "Long vowels",
+      "direction": "syllables",
+      "characters": 38,
+      "count": 8,
+      "sha256": "2353ca34c19c09d94e42dbc19e664fa1f54da4bf0fc51eeb0f26980cbcf356b0",
+      "items": [
+        {
+          "id": "lg-07848031d3b5",
+          "text": "سُو"
+        },
+        {
+          "id": "lg-563436b5f189",
+          "text": "شَا"
+        },
+        {
+          "id": "lg-7e330ac82db4",
+          "text": "شِي"
+        },
+        {
+          "id": "lg-697fef431da6",
+          "text": "شُو"
+        },
+        {
+          "id": "lg-2401c0433020",
+          "text": "صَا"
+        },
+        {
+          "id": "lg-0fca749ce8c2",
+          "text": "صِي"
+        },
+        {
+          "id": "lg-11ba12301e3f",
+          "text": "صُو"
+        },
+        {
+          "id": "lg-c03effb5dffc",
+          "text": "ضَا"
+        }
+      ]
+    },
+    {
+      "id": "12-long-vowels",
+      "file": "batches/12-long-vowels.txt",
+      "family": "Long vowels",
+      "direction": "syllables",
+      "characters": 38,
+      "count": 8,
+      "sha256": "e9e404085979430342d079f5fa89a58e2d9ff49826c0c9e4f03e3f597634ff1a",
+      "items": [
+        {
+          "id": "lg-38534123f710",
+          "text": "ضِي"
+        },
+        {
+          "id": "lg-3cc6e720f8c3",
+          "text": "ضُو"
+        },
+        {
+          "id": "lg-89fbe36986ba",
+          "text": "طَا"
+        },
+        {
+          "id": "lg-e264bcf86158",
+          "text": "طِي"
+        },
+        {
+          "id": "lg-b702f2d63993",
+          "text": "طُو"
+        },
+        {
+          "id": "lg-8bd19f151c78",
+          "text": "ظَا"
+        },
+        {
+          "id": "lg-14a79786ec2d",
+          "text": "ظِي"
+        },
+        {
+          "id": "lg-56bd2764fabd",
+          "text": "ظُو"
+        }
+      ]
+    },
+    {
+      "id": "13-long-vowels",
+      "file": "batches/13-long-vowels.txt",
+      "family": "Long vowels",
+      "direction": "syllables",
+      "characters": 38,
+      "count": 8,
+      "sha256": "f304171dc62811ffb699b70ed99e9794ac8a4a4b7bbaf5aa4acddf33d57ae632",
+      "items": [
+        {
+          "id": "lg-89c5c6f454a0",
+          "text": "عَا"
+        },
+        {
+          "id": "lg-af930182cb0f",
+          "text": "عِي"
+        },
+        {
+          "id": "lg-00fc50872e5a",
+          "text": "عُو"
+        },
+        {
+          "id": "lg-8cb8de042947",
+          "text": "غَا"
+        },
+        {
+          "id": "lg-ce78b75fbf7c",
+          "text": "غِي"
+        },
+        {
+          "id": "lg-24dad8c7f05a",
+          "text": "غُو"
+        },
+        {
+          "id": "lg-6512126eea52",
+          "text": "فَا"
+        },
+        {
+          "id": "lg-db7696accf25",
+          "text": "فِي"
+        }
+      ]
+    },
+    {
+      "id": "14-long-vowels",
+      "file": "batches/14-long-vowels.txt",
+      "family": "Long vowels",
+      "direction": "syllables",
+      "characters": 33,
+      "count": 7,
+      "sha256": "2b3e93a5aa190ce070e21ffdc00c0d3b3b1a439d82c022b4c4b2688cb1050eee",
+      "items": [
+        {
+          "id": "lg-4d86b5e40014",
+          "text": "فُو"
+        },
+        {
+          "id": "lg-9cd952ad821d",
+          "text": "قَا"
+        },
+        {
+          "id": "lg-cfabc85d40c4",
+          "text": "قِي"
+        },
+        {
+          "id": "lg-05d82cf0f520",
+          "text": "قُو"
+        },
+        {
+          "id": "lg-ffafb835b249",
+          "text": "كَا"
+        },
+        {
+          "id": "lg-0f8a24138157",
+          "text": "كِي"
+        },
+        {
+          "id": "lg-e70d18ecbedd",
+          "text": "كُو"
+        }
+      ]
+    }
+  ]
+}

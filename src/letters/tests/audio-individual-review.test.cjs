@@ -8,7 +8,7 @@ const base = 'docs/letter-garden/reviews/audio-confirmation/';
 const read = file => fs.readFileSync(path.join(root, file));
 const catalogue = JSON.parse(read(base + 'manifest.json'));
 const owner = JSON.parse(read(base + 'owner-reviews/20260919-next100-complete.json'));
-const completed = JSON.parse(read(base + 'owner-reviews/20260919-individuals.json'));
+const completed = JSON.parse(read(base + 'owner-reviews/20260919-boundary-recheck.json'));
 const queue = catalogue.reviewQueues.find(queue => queue.id === 'individuals');
 const byId = new Map(catalogue.items.map(item => [item.id, item]));
 
