@@ -3,14 +3,14 @@
   "counts": {
     "worlds": 22,
     "uniqueRequests": 612,
-    "exactLocalClips": 89,
-    "alreadyBundled": 89,
-    "recordAndReview": 345,
+    "exactLocalClips": 92,
+    "alreadyBundled": 92,
+    "recordAndReview": 342,
     "reuseNameSequences": 149,
     "assemblyPolicyReview": 29,
     "sequenceNeedsNameClips": 0,
-    "batches": 41,
-    "wordEntries": 39,
+    "batches": 40,
+    "wordEntries": 36,
     "wordCatalogueEntries": 97
   },
   "groups": [
@@ -57,12 +57,12 @@
     {
       "key": "words-3",
       "title": "Three-letter word stage",
-      "count": 13
+      "count": 11
     },
     {
       "key": "words-4-5",
       "title": "Four- and five-letter word stage",
-      "count": 19
+      "count": 18
     }
   ],
   "sources": [
@@ -80,7 +80,7 @@
     },
     {
       "file": "src/letters/LetterVoiceClips.js",
-      "sha256": "43316427b68fd450777be4f46252d634d99ecdb44532370fbace79cd98c534a4"
+      "sha256": "bb497068d9127950a1e33cbdc248b1ff6aa8f2935f09df06867d4625fb092616"
     },
     {
       "file": "src/letters/MiniGames.js",
@@ -1762,15 +1762,11 @@
       "file": "batches/37-words-3-01.txt",
       "count": 9,
       "directions": "directions/words.txt",
-      "sha256": "d546dd2036ad016752f3a2f7ad7cc24f1b3f8c23a29b2c8b33b8f19af70b184a",
+      "sha256": "c090f26b5294dabe6847c4600344ac2a00cbfec2f9dfa103e4ec916b28d75b1d",
       "entries": [
         {
           "id": "lg-1c562fd4a795",
           "text": "بِسْمِ"
-        },
-        {
-          "id": "lg-642b2eea6723",
-          "text": "صِرَٰطَ"
         },
         {
           "id": "lg-66a8d70cd9ef",
@@ -1789,27 +1785,13 @@
           "text": "لَكُمْ"
         },
         {
-          "id": "lg-9e3de7854832",
-          "text": "دِينِ"
-        },
-        {
           "id": "lg-513e420f5593",
           "text": "يَدَآ"
         },
         {
           "id": "lg-ccd65ecf3ee7",
           "text": "ذَاتَ"
-        }
-      ]
-    },
-    {
-      "id": "38-words-3-02",
-      "group": "words-3",
-      "file": "batches/38-words-3-02.txt",
-      "count": 4,
-      "directions": "directions/words.txt",
-      "sha256": "cb400d9e00e1a3a5e2f80764850e28a3b91198a072f2109c77d1b95e1cb09486",
-      "entries": [
+        },
         {
           "id": "lg-826565e1e4fd",
           "text": "خَلَقَ"
@@ -1817,7 +1799,17 @@
         {
           "id": "lg-cd1effff8877",
           "text": "وَمِن"
-        },
+        }
+      ]
+    },
+    {
+      "id": "38-words-3-02",
+      "group": "words-3",
+      "file": "batches/38-words-3-02.txt",
+      "count": 2,
+      "directions": "directions/words.txt",
+      "sha256": "5f15b16756b51c032106d09049ad94f3acef93079fc992956daea3ac09b0e991",
+      "entries": [
         {
           "id": "lg-e8865a8cf848",
           "text": "وَقَبَ"
@@ -1880,7 +1872,7 @@
       "file": "batches/40-words-4-5-02.txt",
       "count": 9,
       "directions": "directions/words.txt",
-      "sha256": "064693e797c1f276e6a8271497df434f143b264b85bcb4f609aa84c5c371c671",
+      "sha256": "4ec2bce7484579fd544b93d37ec1499d0c37867b7af98e25d8ce5ad8a743fde7",
       "entries": [
         {
           "id": "lg-8cc9ede801c1",
@@ -1893,10 +1885,6 @@
         {
           "id": "lg-64157ceae112",
           "text": "عَبَدتُّمْ"
-        },
-        {
-          "id": "lg-85ea5b820c79",
-          "text": "ٱلْحَطَبِ"
         },
         {
           "id": "lg-0488280621ca",
@@ -1917,17 +1905,7 @@
         {
           "id": "lg-5ef57aec13de",
           "text": "حَاسِدٍ"
-        }
-      ]
-    },
-    {
-      "id": "41-words-4-5-03",
-      "group": "words-4-5",
-      "file": "batches/41-words-4-5-03.txt",
-      "count": 1,
-      "directions": "directions/words.txt",
-      "sha256": "3401173a5c9c503292180240cca724f018ace46b02f2f0aaa9ec7832a522b50e",
-      "entries": [
+        },
         {
           "id": "lg-cae8bcdf693c",
           "text": "صُدُورِ"
@@ -18751,10 +18729,8 @@
           "existingWordAudioReference": "wbw/001_007_001.mp3"
         }
       ],
-      "status": "record-and-review",
-      "group": "words-3",
-      "batch": "37-words-3-01",
-      "position": 2
+      "status": "already-bundled",
+      "clip": "assets/audio/letters/marin-curriculum-v1/lg-642b2eea6723.wav"
     },
     {
       "id": "lg-076daabc0e31",
@@ -18924,7 +18900,7 @@
       "status": "record-and-review",
       "group": "words-3",
       "batch": "37-words-3-01",
-      "position": 3
+      "position": 2
     },
     {
       "id": "lg-573be8e756a8",
@@ -18955,7 +18931,7 @@
       "status": "record-and-review",
       "group": "words-3",
       "batch": "37-words-3-01",
-      "position": 4
+      "position": 3
     },
     {
       "id": "lg-d653510e19f8",
@@ -18986,7 +18962,7 @@
       "status": "record-and-review",
       "group": "words-3",
       "batch": "37-words-3-01",
-      "position": 5
+      "position": 4
     },
     {
       "id": "lg-5daa6e6fadf0",
@@ -19032,7 +19008,7 @@
       "status": "record-and-review",
       "group": "words-3",
       "batch": "37-words-3-01",
-      "position": 6
+      "position": 5
     },
     {
       "id": "lg-9e3de7854832",
@@ -19046,10 +19022,8 @@
           "existingWordAudioReference": "wbw/109_006_004.mp3"
         }
       ],
-      "status": "record-and-review",
-      "group": "words-3",
-      "batch": "37-words-3-01",
-      "position": 7
+      "status": "already-bundled",
+      "clip": "assets/audio/letters/marin-curriculum-v1/lg-9e3de7854832.wav"
     },
     {
       "id": "lg-68a74b816924",
@@ -19168,7 +19142,7 @@
       "status": "record-and-review",
       "group": "words-3",
       "batch": "37-words-3-01",
-      "position": 8
+      "position": 6
     },
     {
       "id": "lg-2f846091a5f9",
@@ -19259,7 +19233,7 @@
       "status": "record-and-review",
       "group": "words-3",
       "batch": "37-words-3-01",
-      "position": 9
+      "position": 7
     },
     {
       "id": "lg-5e79a2002dd0",
@@ -19364,8 +19338,8 @@
       ],
       "status": "record-and-review",
       "group": "words-3",
-      "batch": "38-words-3-02",
-      "position": 1
+      "batch": "37-words-3-01",
+      "position": 8
     },
     {
       "id": "lg-cd1effff8877",
@@ -19381,8 +19355,8 @@
       ],
       "status": "record-and-review",
       "group": "words-3",
-      "batch": "38-words-3-02",
-      "position": 2
+      "batch": "37-words-3-01",
+      "position": 9
     },
     {
       "id": "lg-e8865a8cf848",
@@ -19399,7 +19373,7 @@
       "status": "record-and-review",
       "group": "words-3",
       "batch": "38-words-3-02",
-      "position": 3
+      "position": 1
     },
     {
       "id": "lg-509b1b7cc314",
@@ -19431,7 +19405,7 @@
       "status": "record-and-review",
       "group": "words-3",
       "batch": "38-words-3-02",
-      "position": 4
+      "position": 2
     },
     {
       "id": "lg-07f25640a2b9",
@@ -19994,10 +19968,8 @@
           "existingWordAudioReference": "wbw/111_004_003.mp3"
         }
       ],
-      "status": "record-and-review",
-      "group": "words-4-5",
-      "batch": "40-words-4-5-02",
-      "position": 4
+      "status": "already-bundled",
+      "clip": "assets/audio/letters/marin-curriculum-v1/lg-85ea5b820c79.wav"
     },
     {
       "id": "lg-ce78ac63493c",
@@ -20029,7 +20001,7 @@
       "status": "record-and-review",
       "group": "words-4-5",
       "batch": "40-words-4-5-02",
-      "position": 5
+      "position": 4
     },
     {
       "id": "lg-8a6ad95fff8d",
@@ -20091,7 +20063,7 @@
       "status": "record-and-review",
       "group": "words-4-5",
       "batch": "40-words-4-5-02",
-      "position": 6
+      "position": 5
     },
     {
       "id": "lg-098c3e64cce6",
@@ -20108,7 +20080,7 @@
       "status": "record-and-review",
       "group": "words-4-5",
       "batch": "40-words-4-5-02",
-      "position": 7
+      "position": 6
     },
     {
       "id": "lg-6cd4010780cd",
@@ -20125,7 +20097,7 @@
       "status": "record-and-review",
       "group": "words-4-5",
       "batch": "40-words-4-5-02",
-      "position": 8
+      "position": 7
     },
     {
       "id": "lg-5ef57aec13de",
@@ -20142,7 +20114,7 @@
       "status": "record-and-review",
       "group": "words-4-5",
       "batch": "40-words-4-5-02",
-      "position": 9
+      "position": 8
     },
     {
       "id": "lg-0e63f0f59473",
@@ -20173,8 +20145,8 @@
       ],
       "status": "record-and-review",
       "group": "words-4-5",
-      "batch": "41-words-4-5-03",
-      "position": 1
+      "batch": "40-words-4-5-02",
+      "position": 9
     }
   ]
 }

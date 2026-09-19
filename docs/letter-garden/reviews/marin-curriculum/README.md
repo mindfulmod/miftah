@@ -2,7 +2,7 @@
 
 For the complete owner review with saved decisions and downloadable results,
 use the [Audio confirmation desk](../audio-confirmation/index.html) through the
-preview server. It combines all 89 approved installed clips, 23 candidates and 149 local
+preview server. It combines all 92 approved installed clips, 20 rejected candidates and 149 local
 name sequences, and lists every remaining item without implying it has a cut.
 
 The two owner-supplied recordings are preserved unmodified in `sources/`.
@@ -14,15 +14,15 @@ and `request-2.txt` (980 characters, 135 items).
 
 ## Coverage and outstanding review
 
-64 curriculum-source clips are connected locally: Seen, Waw, Ya, four mark
-names and 57 words. Together with the original 25 alphabet recordings, the
-bank contains 89 exact clips approved in the owner's September 19 review.
+67 curriculum-source clips are connected locally: Seen, Waw, Ya, four mark
+names and 60 words. Together with the original 25 alphabet recordings, the
+bank contains 92 exact clips approved in the owner's September 19 review.
 31 candidates were promoted unchanged; three rejected active clips were removed.
-The runtime can also queue 149 alphabet-name prompts (55 reviewed by the owner).
+The runtime can also queue 149 alphabet-name prompts (all reviewed by the owner).
 It does not construct syllables by splicing letter names.
 
-345 of the 409 requested items remain on existing device speech. Of those,
-17 have rejected excerpts and six have new word candidates awaiting review.
+342 of the 409 requested items remain on existing device speech. Of those,
+20 have rejected excerpts (17 earlier and three from the completed 100-item review).
 The four revised clips have been approved and installed. 322 still have no reliable individual mapping. No item is declared
 missing from the source based on ASR alone. See the [applied review and all
 correction notes](../audio-confirmation/APPLIED_REVIEW_20260919.md).
@@ -65,7 +65,7 @@ cache; candidate excerpts and full recordings are review material. Playback
 requires no voice-generation service or persistent local AI process.
 
 The regenerated recording manifest reports 612 unique curriculum requests:
-89 exact clips, 149 supported name sequences, 345 requiring recording/review,
+92 exact clips, 149 supported name sequences, 342 requiring recording/review,
 and 29 assembly-policy items. A review-needed entry is not an instruction to
 regenerate the entire recording; first inspect the supplied source.
 
@@ -90,4 +90,4 @@ deployment was made for this import.
 - Fluent pronunciation review, separate Damma and Fathataan cuts, the remaining
   377 mappings, and native iOS/Safari playback remain unfinished.
 
-Current verification: 268 tests pass; see the applied review above for current browser evidence.
+Current verification: 269 tests pass; see the applied review above for current browser evidence.

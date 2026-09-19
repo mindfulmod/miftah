@@ -5,7 +5,15 @@ Open through the preview server:
 This adult-only review does not load or modify the game, audio mappings, rewards
 or learning progress. No external service is called.
 
-## Current next review
+## Latest completed review
+
+All 100 choices are saved: **97 approved, three flagged**. The approved words are
+installed, taking the local bank to 92 recordings; all 149 name sequences are
+reviewed. The three flagged words remain excluded. See [results, notes and the
+replacement script](NEXT_100_APPLIED_20260919.md). No unchanged audio needs
+another review.
+
+## Queue preparation (historical)
 
 The four revised words are approved and installed: 89 exact recordings now use
 owner-approved files. Open [the next 100 items](index.html?section=next100): six
@@ -35,8 +43,8 @@ The catalogue covers all 612 distinct current curriculum requests:
 
 | Section | Items | Review action |
 |---|---:|---|
-| Installed clips | 89 | Confirm pronunciation and cut quality; 28 names first |
-| Candidate excerpts | 23 | Confirm whether the proposed cut matches the item |
+| Installed clips | 92 | Confirm pronunciation and cut quality; 28 names first |
+| Candidate excerpts | 20 | Confirm whether the proposed cut matches the item |
 | Joined name prompts | 149 | Check exact name order and transitions |
 | Awaiting isolated cuts | 322 | No approval needed yet; mapping work remains |
 | Assembly teaching decisions | 29 | Optional pronunciation-in-context guidance |

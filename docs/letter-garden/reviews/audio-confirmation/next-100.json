@@ -1,9 +1,9 @@
 {
   "id": "next100",
-  "title": "Next 100 audio items",
+  "title": "100-item review — results applied",
   "preparedOn": "2026-09-19",
   "selectionEvidence": "owner-reviews/20260919-revisions.json",
-  "description": "100 playable items in ten batches: six new whole-word excerpts first, then 94 joined-letter-name prompts with no recorded verdict. For words, check consonants, vowels and endings. For name sequences, check name order and gaps; these are not blended syllable readings. Nothing here repeats an approved or rejected item from your saved review.",
+  "description": "Your review results are saved here. Three approved word excerpts are now in the game; the three flagged words remain excluded. The queue stays in its original order: six whole-word excerpts and 94 joined-letter-name prompts. Previously approved items do not need another listen.",
   "itemIds": [
     "lg-1c562fd4a795",
     "lg-642b2eea6723",

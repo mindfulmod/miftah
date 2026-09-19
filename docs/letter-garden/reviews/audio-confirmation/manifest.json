@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "summary": {
     "total": 612,
-    "installed": 89,
-    "candidate": 23,
+    "installed": 92,
+    "candidate": 20,
     "sequence": 149,
     "unmapped": 322,
     "policy": 29,
@@ -37,10 +37,10 @@
   "reviewQueues": [
     {
       "id": "next100",
-      "title": "Next 100 audio items",
+      "title": "100-item review — results applied",
       "preparedOn": "2026-09-19",
       "selectionEvidence": "owner-reviews/20260919-revisions.json",
-      "description": "100 playable items in ten batches: six new whole-word excerpts first, then 94 joined-letter-name prompts with no recorded verdict. For words, check consonants, vowels and endings. For name sequences, check name order and gaps; these are not blended syllable readings. Nothing here repeats an approved or rejected item from your saved review.",
+      "description": "Your review results are saved here. Three approved word excerpts are now in the game; the three flagged words remain excluded. The queue stays in its original order: six whole-word excerpts and 94 joined-letter-name prompts. Previously approved items do not need another listen.",
       "itemIds": [
         "lg-1c562fd4a795",
         "lg-642b2eea6723",
@@ -5734,6 +5734,39 @@
       "signature": "0bc7ce04e92a7523c7725f91e16f7ca52827aa6321b11c2f5e90b1df152b9d77"
     },
     {
+      "id": "lg-642b2eea6723",
+      "text": "صِرَٰطَ",
+      "displays": [
+        "صِرَٰطَ"
+      ],
+      "family": "Curriculum words",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "decode",
+          "role": "target",
+          "display": "صِرَٰطَ",
+          "parent": null
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-642b2eea6723.wav",
+      "sha256": "839d087d9b872ab93bbd71bfdf33531620f2f1649a5a1487126962452881abb3",
+      "parts": [
+        {
+          "text": "صِرَٰطَ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-642b2eea6723.wav",
+          "sha256": "839d087d9b872ab93bbd71bfdf33531620f2f1649a5a1487126962452881abb3"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-2",
+        "start": 25.61,
+        "end": 26.13
+      },
+      "signature": "71d658f5ab25860bcf677344057946b19ad49fb00ebc816d3ae6a32efe79bb86"
+    },
+    {
       "id": "lg-09c6b807ef8d",
       "text": "غَيْرِ",
       "displays": [
@@ -5996,6 +6029,39 @@
         "end": 34.105
       },
       "signature": "253f84155fc6ddf5e1e96ce8046c55d8f436a58a518c1db542f699cfe631627c"
+    },
+    {
+      "id": "lg-9e3de7854832",
+      "text": "دِينِ",
+      "displays": [
+        "دِينِ"
+      ],
+      "family": "Curriculum words",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "decode",
+          "role": "target",
+          "display": "دِينِ",
+          "parent": null
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-9e3de7854832.wav",
+      "sha256": "2ca6dadca631e7e5447394939add081ef92e3979384192159147bcef8460087d",
+      "parts": [
+        {
+          "text": "دِينِ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-9e3de7854832.wav",
+          "sha256": "2ca6dadca631e7e5447394939add081ef92e3979384192159147bcef8460087d"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-2",
+        "start": 34.31,
+        "end": 34.71
+      },
+      "signature": "059ba34e3c85e9d1efe703f5836168575c2802e16fc677b7f796bbabe3187f12"
     },
     {
       "id": "lg-41a5ef4bf942",
@@ -7223,6 +7289,39 @@
       "signature": "7355ac3c8268b7d76ceee1c548bcaf89ebec33bf7741e2d146a0e73715745814"
     },
     {
+      "id": "lg-85ea5b820c79",
+      "text": "ٱلْحَطَبِ",
+      "displays": [
+        "ٱلْحَطَبِ"
+      ],
+      "family": "Curriculum words",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "decode-4",
+          "role": "target",
+          "display": "ٱلْحَطَبِ",
+          "parent": null
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-85ea5b820c79.wav",
+      "sha256": "790ad762f33be6a96efbd69d303c1d431e20af66d350d0a2019e6b1b81401714",
+      "parts": [
+        {
+          "text": "ٱلْحَطَبِ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-85ea5b820c79.wav",
+          "sha256": "790ad762f33be6a96efbd69d303c1d431e20af66d350d0a2019e6b1b81401714"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-2",
+        "start": 71.6,
+        "end": 72.09
+      },
+      "signature": "2b33ff53124ed5e2758f489b4a6b25c08de262710f87836939fbd4b223aa29c7"
+    },
+    {
       "id": "lg-ce78ac63493c",
       "text": "جِيدِهَا",
       "displays": [
@@ -7461,7 +7560,7 @@
       ],
       "family": "Three-letter words",
       "status": "candidate",
-      "note": "New review-only word excerpt. Raw chunk بِاسْمِ 23.20–23.62 and token alignment 23.14–23.56; bounded between the existing شر and لله excerpts. Check the written vowels and possible added alif. Not connected to the game until approved.",
+      "note": "Owner rejected this exact clip: sounds ilke ibismi. Excluded from the game pending a new reviewed cut or recording.",
       "uses": [
         {
           "world": "decode",
@@ -7485,39 +7584,6 @@
         "end": 23.59
       },
       "signature": "7116ced9df48ffdcb645acb4d7c77424cc0ef91a251be6ce0cae773ddeec2a85"
-    },
-    {
-      "id": "lg-642b2eea6723",
-      "text": "صِرَٰطَ",
-      "displays": [
-        "صِرَٰطَ"
-      ],
-      "family": "Three-letter words",
-      "status": "candidate",
-      "note": "New review-only word excerpt. Window-1 independently recognizes سراط ending 26.10; token alignment 25.58–26.10. Bounds fit between يوم and غير. This is not the later definite-article الصراط recording. Not connected to the game until approved.",
-      "uses": [
-        {
-          "world": "decode",
-          "role": "target",
-          "display": "صِرَٰطَ",
-          "parent": null
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-642b2eea6723.wav",
-      "sha256": "839d087d9b872ab93bbd71bfdf33531620f2f1649a5a1487126962452881abb3",
-      "parts": [
-        {
-          "text": "صِرَٰطَ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-642b2eea6723.wav",
-          "sha256": "839d087d9b872ab93bbd71bfdf33531620f2f1649a5a1487126962452881abb3"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-2",
-        "start": 25.61,
-        "end": 26.13
-      },
-      "signature": "71d658f5ab25860bcf677344057946b19ad49fb00ebc816d3ae6a32efe79bb86"
     },
     {
       "id": "lg-4c2f786c3e8d",
@@ -7553,39 +7619,6 @@
       "signature": "d231dfab31d1096f175d0e57b8482017f736fe5fbd9c6e29562cba8dddf262a9"
     },
     {
-      "id": "lg-9e3de7854832",
-      "text": "دِينِ",
-      "displays": [
-        "دِينِ"
-      ],
-      "family": "Three-letter words",
-      "status": "candidate",
-      "note": "New review-only word excerpt. Window-1 recognizes ديني and token alignment places it 34.28–34.74; bounded between لكم and إذا. Written final vowel needs owner review. Not connected to the game until approved.",
-      "uses": [
-        {
-          "world": "decode",
-          "role": "target",
-          "display": "دِينِ",
-          "parent": null
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-9e3de7854832.wav",
-      "sha256": "2ca6dadca631e7e5447394939add081ef92e3979384192159147bcef8460087d",
-      "parts": [
-        {
-          "text": "دِينِ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-9e3de7854832.wav",
-          "sha256": "2ca6dadca631e7e5447394939add081ef92e3979384192159147bcef8460087d"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-2",
-        "start": 34.31,
-        "end": 34.71
-      },
-      "signature": "059ba34e3c85e9d1efe703f5836168575c2802e16fc677b7f796bbabe3187f12"
-    },
-    {
       "id": "lg-513e420f5593",
       "text": "يَدَآ",
       "displays": [
@@ -7593,7 +7626,7 @@
       ],
       "family": "Three-letter words",
       "status": "candidate",
-      "note": "New review-only word excerpt. Transcript-2 independently identifies يد at 36.88–37.12 followed by آ at 37.12–37.34; token alignment supports the combined word. Check the long ending. Not connected to the game until approved.",
+      "note": "Owner rejected this exact clip: isnt this supposed to be yadaaaa? . Excluded from the game pending a new reviewed cut or recording.",
       "uses": [
         {
           "world": "decode",
@@ -7857,7 +7890,7 @@
       ],
       "family": "Four- and five-letter words",
       "status": "candidate",
-      "note": "New review-only word excerpt. Second occurrence recognized as لإلاف with matching transcript and token bounds 61.20–62.10. Check consonants, length and written ending. Not connected to the game until approved.",
+      "note": "Owner rejected this exact clip: cuts off too short. Excluded from the game pending a new reviewed cut or recording.",
       "uses": [
         {
           "world": "decode-4",
@@ -7947,39 +7980,6 @@
         "end": 64.37
       },
       "signature": "adb9ab93abc5771a9e4383902a8e8830718a12443618f412448b44940083d37d"
-    },
-    {
-      "id": "lg-85ea5b820c79",
-      "text": "ٱلْحَطَبِ",
-      "displays": [
-        "ٱلْحَطَبِ"
-      ],
-      "family": "Four- and five-letter words",
-      "status": "candidate",
-      "note": "New review-only word excerpt. Transcript-2 and token alignment place حطب at 71.60–72.06; end before the approved جيدها clip. The article and final vowel are not certified by ASR. Not connected to the game until approved.",
-      "uses": [
-        {
-          "world": "decode-4",
-          "role": "target",
-          "display": "ٱلْحَطَبِ",
-          "parent": null
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-85ea5b820c79.wav",
-      "sha256": "790ad762f33be6a96efbd69d303c1d431e20af66d350d0a2019e6b1b81401714",
-      "parts": [
-        {
-          "text": "ٱلْحَطَبِ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-85ea5b820c79.wav",
-          "sha256": "790ad762f33be6a96efbd69d303c1d431e20af66d350d0a2019e6b1b81401714"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-2",
-        "start": 71.6,
-        "end": 72.09
-      },
-      "signature": "2b33ff53124ed5e2758f489b4a6b25c08de262710f87836939fbd4b223aa29c7"
     },
     {
       "id": "lg-477e069132a4",

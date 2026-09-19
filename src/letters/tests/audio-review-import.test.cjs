@@ -7,7 +7,7 @@ const { applyReview } = require('../../../scripts/apply-letter-garden-audio-revi
 const root = path.resolve(__dirname, '../../..');
 const read = file => fs.readFileSync(path.join(root, file));
 const json = file => JSON.parse(read(file));
-const evidence = 'docs/letter-garden/reviews/audio-confirmation/owner-reviews/20260919-revisions.json';
+const evidence = 'docs/letter-garden/reviews/audio-confirmation/owner-reviews/20260919-next100-complete.json';
 const hash = value => crypto.createHash('sha256').update(value).digest('hex');
 const review = json(evidence);
 const catalogue = json('docs/letter-garden/reviews/audio-confirmation/manifest.json');
@@ -36,8 +36,8 @@ test('all owner approvals retain their reviewed audio; every rejected recording 
       assert.ok(!shell.includes(old.id));
     }
   }
-  assert.equal(approvedClips, 89);
-  assert.equal(rejected, 17);
+  assert.equal(approvedClips, 92);
+  assert.equal(rejected, 20);
 });
 
 test('reapplying exact owner evidence is idempotent and preserves rejection notes', () => {

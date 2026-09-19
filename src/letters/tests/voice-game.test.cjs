@@ -50,7 +50,7 @@ test('bundled names count as heard only when the actual audio source ends', asyn
 
 test('new alphabet names and curriculum words use exact imported recordings until their source ends', async () => {
   const { game, spoken, sources, requests } = setup();
-  for (const text of ['سِينْ', 'وَاوْ', 'يَاءْ', 'هُوَ', 'تَرَ', 'أَعُوذُ', 'يُوَسْوِسُ']) {
+  for (const text of ['سِينْ', 'وَاوْ', 'يَاءْ', 'هُوَ', 'تَرَ', 'أَعُوذُ', 'يُوَسْوِسُ', 'صِرَٰطَ', 'دِينِ', 'ٱلْحَطَبِ']) {
     let complete = false;
     const heard = game.sayForLearning({ speak: text }).then(value => { complete = true; return value; });
     await tick();
