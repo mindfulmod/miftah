@@ -5,10 +5,10 @@
   const qa=new URLSearchParams(location.search).has('qa');
   const storageKey='letter-garden.audio-confirmation.v1'+(qa?'.qa':'');
   const labels={correct:'Correct',fix:'Needs fixing',unsure:'Unsure',stale:'Audio changed'};
-  const headings={revised:'Revised cuts from your notes',installed:'1 · Confirm the installed clips',candidate:'2 · Check the proposed cuts',sequence:'3 · Check joined letter-name prompts',unmapped:'4 · Items still needing an isolated clip',policy:'5 · Teaching decisions before recording',all:'The complete audio catalogue'};
-  const help={revised:'Only these four boundaries have changed. Please check the complete word and written ending again. They remain excluded from the game until approved. Your previous note is shown below each clip.',installed:'The 28 alphabet names come first, followed by mark names and words. Installed means connected to the local game; it does not mean pronunciation-approved.',candidate:'These excerpts are not connected to the game. Check that each contains exactly the displayed item, with complete vowels and endings.',sequence:'These 149 prompts queue existing names in the game’s order, with its 90 ms gap. Review the name order and transitions after the individual alphabet clips.',unmapped:'These 328 items have no reliable individual cut yet. They are not confirmed missing. No listening decision is required here; I still need to map them. Optional notes can identify something you noticed in the originals.',policy:'These 29 requests are standalone assembly pieces. Their pronunciation needs a teaching decision in context; no clip is offered. You can leave guidance in the notes.',all:'All 612 distinct curriculum requests, including playable clips, name sequences and items still needing work.'};
+  const headings={next100:'Your next 100 audio items',revised:'Revised cuts from your notes',installed:'1 · Confirm the installed clips',candidate:'2 · Check the proposed cuts',sequence:'3 · Check joined letter-name prompts',unmapped:'4 · Items still needing an isolated clip',policy:'5 · Teaching decisions before recording',all:'The complete audio catalogue'};
+  const help={next100:'Listen to each complete item, then choose Correct, Needs fixing or Unsure. This queue contains 100 distinct items in ten batches; your progress saves automatically.',revised:'These four revised boundaries were approved and installed. Your previous correction notes are retained for history; no repeat review is needed.',installed:'The 28 alphabet names come first, followed by mark names and words. Installed means connected to the local game; it does not mean pronunciation-approved.',candidate:'These excerpts are not connected to the game. Check that each contains exactly the displayed item, with complete vowels and endings.',sequence:'These 149 prompts queue existing names in the game’s order, with its 90 ms gap. Review the name order and transitions after the individual alphabet clips.',unmapped:'These items have no reliable individual cut yet. They are not confirmed missing. No listening decision is required here; I still need to map them. Optional notes can identify something you noticed in the originals.',policy:'These 29 requests are standalone assembly pieces. Their pronunciation needs a teaching decision in context; no clip is offered. You can leave guidance in the notes.',all:'All 612 distinct curriculum requests, including playable clips, name sequences and items still needing work.'};
   let manifest,items=[],state=Core.empty(),page=0,run=0,active=null,partTimer=null,controller=null;
-  const PAGE_SIZE=8,player=$('#player'),blobCache=new Map(),sourcePlayers=new Map();
+  const player=$('#player'),blobCache=new Map(),sourcePlayers=new Map();
   function node(tag,text,className){const el=document.createElement(tag);if(text!==undefined)el.textContent=text;if(className)el.className=className;return el;}
   function button(text,callback,className){const el=node('button',text,className);el.type='button';el.onclick=callback;return el;}
   function message(text,error=false){$('#save-status').textContent=text;$('#save-status').classList.toggle('warning',error);}
@@ -19,10 +19,12 @@
     catch{message('Browser saving is unavailable. Your decisions are in this tab only—download the results before closing it.',true);}
     summary();refreshCard(item);
   }
-  function summary(){const c=Core.counts(items,state);$('#progress').textContent=`${c.correct+c.fix+c.unsure} of ${c.ready} playable items reviewed · ${c.correct} correct · ${c.fix} need fixing · ${c.unsure} unsure${c.stale?` · ${c.stale} changed clips need another listen`:''}`;}
-  function filtered(){const q=$('#search').value.trim().normalize('NFC').toLowerCase(),section=$('#section').value,family=$('#family').value,decision=$('#decision').value;return items.filter(item=>{
+  function queueItems(){const ids=manifest?.reviewQueues?.find(q=>q.id==='next100')?.itemIds||[];const byId=new Map(items.map(item=>[item.id,item]));return ids.map(id=>byId.get(id)).filter(Boolean);}
+  function queueSummary(){const c=Core.counts(queueItems(),state);$('#queue-progress').hidden=$('#section').value!=='next100';$('#queue-progress').textContent=`${c.correct+c.fix+c.unsure} of ${c.ready} in this queue reviewed · ${c.correct} correct · ${c.fix} need fixing · ${c.unsure} unsure`; }
+  function summary(){queueSummary();const c=Core.counts(items,state);$('#progress').textContent=`${c.correct+c.fix+c.unsure} of ${c.ready} playable items reviewed · ${c.correct} correct · ${c.fix} need fixing · ${c.unsure} unsure${c.stale?` · ${c.stale} changed clips need another listen`:''}`;}
+  function filtered(){const q=$('#search').value.trim().normalize('NFC').toLowerCase(),section=$('#section').value,family=$('#family').value,decision=$('#decision').value;return (section==='next100'?queueItems():items).filter(item=>{
     const d=Core.current(item,state),hay=[item.text,item.id,...item.displays,item.family].join(' ').normalize('NFC').toLowerCase();
-    return (section==='all'||item.status===section||(section==='revised'&&item.revision))&&(family==='all'||item.family===family)&&(!q||hay.includes(q))&&(decision==='all'||(decision==='unreviewed'?!d.verdict:item.parts.length&&(decision==='stale'?d.stale:d.verdict===decision)));
+    return (section==='next100'||section==='all'||item.status===section||(section==='revised'&&item.revision))&&(family==='all'||item.family===family)&&(!q||hay.includes(q))&&(decision==='all'||(decision==='unreviewed'?!d.verdict:item.parts.length&&(decision==='stale'?d.stale:d.verdict===decision)));
   });}
   function refreshCard(item){
     const card=document.getElementById(item.id);if(!card)return;
@@ -35,15 +37,16 @@
     card.classList.toggle('is-playing',active?.id===item.id);
   }
   function render(){
+    const PAGE_SIZE=$('#section').value==='next100'?10:8;queueSummary();
     const list=filtered(),pages=Math.max(1,Math.ceil(list.length/PAGE_SIZE));page=Math.min(page,pages-1);
-    $('#queue-title').textContent=headings[$('#section').value];$('#queue-help').textContent=help[$('#section').value];
-    $('#page-status').textContent=list.length?`${page*PAGE_SIZE+1}–${Math.min((page+1)*PAGE_SIZE,list.length)} of ${list.length}`:'No matching items';
+    $('#queue-title').textContent=headings[$('#section').value];$('#queue-help').textContent=$('#section').value==='next100'?(manifest.reviewQueues?.find(q=>q.id==='next100')?.description||help.next100):help[$('#section').value];
+    $('#page-status').textContent=list.length?`${page*PAGE_SIZE+1}–${Math.min((page+1)*PAGE_SIZE,list.length)} of ${list.length}${$('#section').value==='next100'?` · Batch ${page+1} of ${pages}`:''}`:'No matching items';
     $('#previous').disabled=page===0;$('#next').disabled=page>=pages-1;
     $('#previous-bottom').disabled=page===0;$('#next-bottom').disabled=page>=pages-1;$('#page-status-bottom').textContent=$('#page-status').textContent;
     $('#items').replaceChildren();
     for(const item of list.slice(page*PAGE_SIZE,(page+1)*PAGE_SIZE)){
       const d=Core.current(item,state),card=node('article',undefined,'item');card.id=item.id;card.setAttribute('aria-label',`Review ${item.text}`);
-      const top=node('div',undefined,'item-top');top.append(node('span',item.family),node('span','','badge'));card.append(top);
+      const top=node('div',undefined,'item-top');top.append(node('span',item.family),node('span','','badge'));card.append(top);if($('#section').value==='next100')card.append(node('p',item.status==='sequence'?'NAME SEQUENCE · check order and gaps':'WHOLE WORD · check consonants, vowels and ending','hint'));
       const arabic=node('div',item.text,'arabic');arabic.lang='ar';arabic.dir='rtl';card.append(arabic);
       const actions=node('div',undefined,'clip-actions');
       if(item.parts.length){const play=button(item.parts.length>1?'▶ Play full sequence':'▶ Play clip',()=>playItem(item),'play');play.setAttribute('aria-label',`Play ${item.text}`);actions.append(play);}
@@ -139,6 +142,7 @@
   for(const id of ['section','family','decision','search'])$('#'+id).addEventListener(id==='search'?'input':'change',()=>{stopEverything();page=0;render();});
   for(const [id,delta] of [['previous',-1],['next',1],['previous-bottom',-1],['next-bottom',1]])$('#'+id).onclick=()=>{stopEverything();page+=delta;render();$('#queue-title').scrollIntoView({block:'start',behavior:'instant'});};
   $('#stop').onclick=stopEverything;
+  $('#review-next100').onclick=()=>{stopEverything();$('#section').value='next100';$('#family').value='all';$('#decision').value='all';$('#search').value='';const first=queueItems().findIndex(item=>!Core.current(item,state).verdict);page=first<0?0:Math.floor(first/10);render();$('#queue-title').scrollIntoView({block:'start',behavior:'instant'});};
   $('#review-revisions').onclick=()=>{stopEverything();$('#section').value='revised';$('#family').value='all';$('#decision').value='all';$('#search').value='';page=0;render();$('#queue-title').scrollIntoView({block:'start',behavior:'instant'});};
   $('#start-review').onclick=()=>$('#queue-title').scrollIntoView({block:'start',behavior:'instant'});
   document.addEventListener('visibilitychange',()=>{if(document.hidden)stopEverything();});
@@ -149,8 +153,8 @@
     manifest=data;items=data.items;state=read();$('#totals').replaceChildren();
     for(const [count,label] of [[data.summary.installed,'installed clips'],[data.summary.candidate,'candidate cuts'],[data.summary.sequence,'name sequences'],[data.summary.unmapped,'awaiting cuts'],[data.summary.policy,'teaching decisions']]){const el=node('span',undefined,'total');el.append(node('strong',count),document.createTextNode(label));$('#totals').append(el);}
     for(const family of [...new Set(items.map(item=>item.family))]){const option=node('option',family);option.value=family;$('#family').append(option);}
-    for(const id of ['section','family','search','decision','export','export-bottom','copy','import','start-review','show-results','review-revisions'])$('#'+id).disabled=false;
-    if(new URLSearchParams(location.search).get('section')==='revised')$('#section').value='revised';
+    for(const id of ['section','family','search','decision','export','export-bottom','copy','import','start-review','show-results','review-revisions','review-next100'])$('#'+id).disabled=false;
+    const requested=new URLSearchParams(location.search).get('section');$('#section').value=requested==='next100'&&queueItems().length?'next100':requested==='revised'?'revised':'installed';if($('#section').value==='next100'){const first=queueItems().findIndex(item=>!Core.current(item,state).verdict);page=first<0?0:Math.floor(first/10);}
     renderSources();summary();render();
   }).catch(error=>{$('#totals').textContent='Catalogue unavailable';message(`${error.message} Open this page through the local preview server, not file://.`,true);});
 })();

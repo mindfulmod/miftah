@@ -160,6 +160,15 @@ for (const entry of policyEntries) statusMap.set(entry.id, 'policy');
 if (new Set(ordered.map((entry) => entry.id)).size !== fm.counts.uniqueRequests) throw new Error('Catalogue source entries are not unique or complete');
 
 const items = ordered.map((entry) => makeItem(entry, statusMap.get(entry.id)));
+const queueFile = 'docs/letter-garden/reviews/audio-confirmation/next-100.json';
+let reviewQueues = [];
+if (fs.existsSync(path.join(ROOT, queueFile))) {
+  const queue = readJson(queueFile);
+  const byId = new Map(items.map(item => [item.id, item]));
+  if (queue.id !== 'next100' || queue.itemIds.length !== 100 || new Set(queue.itemIds).size !== 100) throw Error('Next review queue must contain 100 distinct items');
+  for (const id of queue.itemIds) if (!byId.get(id)?.parts.length) throw Error(`Review queue has no playable audio: ${id}`);
+  reviewQueues = [queue];
+}
 const counts = Object.fromEntries(['installed', 'candidate', 'sequence', 'unmapped', 'policy'].map((status) => [status, items.filter((item) => item.status === status).length]));
 const out = {
   schemaVersion: 1,
@@ -169,6 +178,7 @@ const out = {
     policyNote: 'Assembly-policy items expose context only; no synthetic playable audio is assigned.',
   },
   sources,
+  reviewQueues,
   items,
 };
 const outputFile = path.join(ROOT, 'docs/letter-garden/reviews/audio-confirmation/manifest.json');

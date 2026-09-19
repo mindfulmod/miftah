@@ -7,20 +7,13 @@ const { applyReview } = require('../../../scripts/apply-letter-garden-audio-revi
 const root = path.resolve(__dirname, '../../..');
 const read = file => fs.readFileSync(path.join(root, file));
 const json = file => JSON.parse(read(file));
-const evidence = 'docs/letter-garden/reviews/audio-confirmation/owner-reviews/20260919.json';
+const evidence = 'docs/letter-garden/reviews/audio-confirmation/owner-reviews/20260919-revisions.json';
 const hash = value => crypto.createHash('sha256').update(value).digest('hex');
 const review = json(evidence);
 const catalogue = json('docs/letter-garden/reviews/audio-confirmation/manifest.json');
 const sheet = json('docs/letter-garden/reviews/marin-curriculum/cuts.json');
-// Reconstruct the reviewed cuts from retained history; their original WAV files remain available.
-const reviewedSheet = structuredClone(sheet);
-for (const cut of reviewedSheet.cuts.filter(cut => cut.revision)) {
-  const { file, sha256, ...previous } = cut.reviewHistory.pop();
-  Object.assign(cut, previous);
-  delete cut.revision;
-  if (!cut.reviewHistory.length) delete cut.reviewHistory;
-}
-const run = (data = review, readFile = read) => applyReview(data, { items: review.items }, reviewedSheet, evidence, hash(read(evidence)), readFile);
+const originalReview = json('docs/letter-garden/reviews/audio-confirmation/owner-reviews/20260919.json');
+const run = (data = review, readFile = read) => applyReview(data, catalogue, sheet, evidence, hash(read(evidence)), readFile);
 
 test('all owner approvals retain their reviewed audio; every rejected recording is excluded from runtime and precache', () => {
   const current = new Map(catalogue.items.map(item => [item.id, item]));
@@ -43,13 +36,13 @@ test('all owner approvals retain their reviewed audio; every rejected recording 
       assert.ok(!shell.includes(old.id));
     }
   }
-  assert.equal(approvedClips, 85);
-  assert.equal(rejected, 21);
+  assert.equal(approvedClips, 89);
+  assert.equal(rejected, 17);
 });
 
 test('reapplying exact owner evidence is idempotent and preserves rejection notes', () => {
   const result = run();
-  assert.deepEqual(result.sheet, reviewedSheet);
+  assert.deepEqual(result.sheet, sheet);
   assert.equal(result.changes.filter(change => change.from !== change.to).length, 0);
   for (const change of result.changes.filter(change => change.verdict === 'fix')) {
     const cut = sheet.cuts.find(cut => cut.text === change.text);
@@ -63,16 +56,17 @@ test('revised cuts retain the rejected originals and cannot inherit their previo
   const revisions = catalogue.items.filter(item => item.revision);
   assert.equal(revisions.length, 4);
   for (const item of revisions) {
-    const original = review.items.find(old => old.id === item.id);
-    assert.equal(item.status, 'candidate');
+    const original = originalReview.items.find(old => old.id === item.id);
+    assert.equal(item.status, 'installed');
+    assert.equal(current(item, review).verdict, 'correct');
     assert.notEqual(item.signature, original.signature);
     assert.equal(hash(read(original.parts[0].file)), original.parts[0].sha256);
     assert.equal(hash(read(item.parts[0].file)), item.parts[0].sha256);
-    assert.equal(current(item, review).stale, true);
+    assert.equal(current(item, originalReview).stale, true);
     assert.equal(current(item, review).note, review.decisions[item.id].note);
-    assert.equal(current(item, review).heardSignature, '');
+    assert.equal(current(item, originalReview).heardSignature, '');
   }
-  assert.throws(() => applyReview(review, catalogue, sheet, evidence, hash(read(evidence)), read), /Export is stale/);
+  assert.throws(() => applyReview(originalReview, catalogue, sheet, evidence, hash(read(evidence)), read), /Export is stale/);
 });
 
 test('import refuses QA decisions, stale mappings, incomplete approvals, and changed audio bytes before writing', () => {

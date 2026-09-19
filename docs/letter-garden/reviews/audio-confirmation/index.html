@@ -4,22 +4,23 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Letter Garden · Audio confirmation</title>
-  <link rel="stylesheet" href="review.css?v=3">
-  <script defer src="review-core.js?v=3"></script>
-  <script defer src="review.js?v=3"></script>
+  <link rel="stylesheet" href="review.css?v=4">
+  <script defer src="review-core.js?v=4"></script>
+  <script defer src="review.js?v=4"></script>
 </head>
 <body>
 <main>
   <header>
     <p class="eyebrow">LETTER GARDEN · ADULT REVIEW</p>
-    <h1>Give every sound a careful listen.</h1>
-    <p class="intro">Start with the alphabet. Play each clip, compare it with the Arabic shown, then choose <strong>Correct</strong>, <strong>Needs fixing</strong> or <strong>Unsure</strong>. Your decisions save in this browser.</p>
-    <p class="intro"><strong>Your September 19 review is applied locally.</strong> The game now uses 85 approved recordings. All 21 rejected recordings are excluded. Four revised cuts are ready below; your previous notes are kept. You do not need to repeat the unchanged clips.</p>
+    <h1>The next sounds are ready.</h1>
+    <p class="intro">Open the next 100 items. Play each clip, compare it with the Arabic shown, then choose <strong>Correct</strong>, <strong>Needs fixing</strong> or <strong>Unsure</strong>. Your decisions save in this browser.</p>
+    <p class="intro"><strong>Your four revised clips are approved and installed.</strong> The game now uses 89 approved recordings. The other 17 rejected recordings remain excluded. Your earlier reviews and notes are preserved.</p>
     <div id="totals" class="totals" aria-label="Audio coverage">Loading the complete audio catalogue…</div>
     <p id="progress" class="progress" role="status"></p>
     <p id="save-status" class="hint" role="status">Reviews do not change the game. Export your results when you finish or take a break.</p>
     <div class="actions">
       <button id="start-review" type="button" class="primary" disabled>Start reviewing ↓</button>
+      <button id="review-next100" type="button" class="primary" disabled>Review next 100 ↓</button>
       <button id="review-revisions" type="button" disabled>Review revised cuts ↓</button>
       <button id="export" type="button" disabled>Download review results</button>
       <button id="copy" type="button" disabled>Copy review results</button>
@@ -48,6 +49,7 @@
 
   <section class="toolbar" aria-label="Choose audio to review">
     <label>Review section<select id="section" disabled>
+      <option value="next100">Next 100 items</option>
       <option value="installed">1 · Installed clips</option>
       <option value="candidate">2 · Candidate clips</option>
       <option value="revised">Revised cuts from your notes</option>
@@ -66,6 +68,7 @@
   <section aria-labelledby="queue-title">
     <h2 id="queue-title">Start with the installed alphabet</h2>
     <p id="queue-help" class="hint"></p>
+    <p id="queue-progress" class="progress" role="status" hidden></p>
     <div class="pagination">
       <button id="previous" type="button" disabled>← Previous batch</button>
       <span id="page-status" role="status"></span>
@@ -81,7 +84,7 @@
   </section>
   <details class="sources-panel">
     <summary>Original recordings and submitted text</summary>
-    <p class="hint">Use the originals to check context. Playing a source does not approve an individual clip. The 328 uncut items still need my mapping work; you do not need to locate all their timestamps.</p>
+    <p class="hint">Use the originals to check context. Playing a source does not approve an individual clip. The remaining uncut items still need my mapping work; you do not need to locate all their timestamps.</p>
     <div id="sources" class="sources"></div>
   </details>
   <p class="hint footer">Review page only · no game progress, rewards, audio mappings or production files are changed.</p>

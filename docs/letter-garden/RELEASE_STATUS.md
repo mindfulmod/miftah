@@ -1,6 +1,6 @@
 # Letter Garden major release — local status
 
-Preview: `http://letter-garden-next.localhost:8790/letters.html?v=20260919-audio-reviewed1`.
+Preview: `http://letter-garden-next.localhost:8790/letters.html?v=20260919-audio-review-next1`.
 Durable checkout: `/Users/main/Documents/GitHub/miftah/.local-work/letter-garden-next-major`.
 Branch: `codex/letter-garden-next-major`.
 Production baseline: `55f34576f0ebfc02bcf115452101b37adfbb4536` / `20260908-batch50`.
@@ -11,19 +11,18 @@ The current five learning/game passes add shared gradual difficulty, eligible cu
 
 The old temporary checkout disappeared. Previous source was reconstructed from recorded edit history and passed its 115-test baseline before this stage. The old checkpoint objects and screenshot binaries were not recoverable; see [RECOVERY_MANIFEST.md](RECOVERY_MANIFEST.md). Work now lives in this durable checkout and a sibling Git bundle.
 
-September 19 owner audio review applied locally: **85 approved exact clips**,
-including all 28 alphabet names, and 149 reusable name sequences (55 approved).
-31 approved candidates were installed byte-for-byte; three rejected active clips
-were removed. All 21 rejections are excluded from the bank and offline cache.
-Four boundary revisions are ready for a focused recheck; the other 17 remain
-unrepaired. Saved decisions and original notes are retained.
+September 19: the owner approved the four revised words. **89 approved exact
+clips** are installed, plus 149 reusable name sequences (55 owner-reviewed).
+17 rejected clips remain excluded. The next 100-item review contains six new
+word excerpts and 94 undecided name sequences, in ten batches with saved notes.
+See [the next review and full list](reviews/audio-confirmation/NEXT_100_20260919.md).
 
-**Audio remains incomplete:** 349 of the 409 additional requested items use
-device speech: 21 rejected/revised clips and 328 still without reliable isolated
-mappings. Damma and Fathataan are still unmapped; the earlier Dammataan correction
-is preserved. The 29 teaching-policy requests remain separate. **266 tests pass.**
-See [applied review, corrections and recovery](reviews/audio-confirmation/APPLIED_REVIEW_20260919.md).
-The complete owner export is preserved in the checkout. No new game pass started.
+**Audio remains incomplete:** 345 additional requested items use device speech:
+23 candidate/rejected cuts and 322 without reliable isolated mappings. Damma and
+Fathataan are still unmapped; the Dammataan correction is preserved. The 29
+teaching-policy requests remain separate. **268 tests pass.** Both owner exports
+are preserved, and all previously approved audio remains byte-identical. No new
+game pass started, no push or deployment.
 
 Scope: Letter Garden only. Preserve curriculum, pets, rewards and earned progress.
 No running voice service or AI API calls are needed for the bundled clips. No

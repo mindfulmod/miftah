@@ -4,12 +4,12 @@ Prepared from the current local curriculum on 2026-09-19. This is an adult produ
 
 The audit covers **22 chapters** and **612 distinct spoken requests**, including introductions, full item catalogues, assembly pieces, distractors, and every possible three-letter chain. Daily practice, checkups, pets and the workshop reuse these requests.
 
-- **85** exact local clips are already bundled (letter names, marks, syllables, or words as available): do not regenerate them.
-- **349** new items are arranged below in **41 small recording batches**, including **43 word entries**.
+- **89** exact local clips are already bundled (letter names, marks, syllables, or words as available): do not regenerate them.
+- **345** new items are arranged below in **41 small recording batches**, including **39 word entries**.
 - **149** letter-name sequences are fully supported by the local playback queue; **0** still need one or more exact name clips.
 - **29** standalone assembly pieces need a teaching/pronunciation decision first; their complete list is included below.
 
-The current word-stage catalogue has **97** entries and **43** outstanding exact word recording requests after existing local clips are reused. Standing-vowel display forms reuse their matching long-vowel recordings.
+The current word-stage catalogue has **97** entries and **39** outstanding exact word recording requests after existing local clips are reused. Standing-vowel display forms reuse their matching long-vowel recordings.
 
 ## How to record
 
@@ -61,8 +61,8 @@ These are isolated Arabic reading exercises from the game's Quran-word catalogue
 | Leen: aw and ay glides | 54 |
 | Sukun, shaddah and mixed examples | 7 |
 | Two-letter word stage | 7 |
-| Three-letter word stage | 16 |
-| Four- and five-letter word stage | 20 |
+| Three-letter word stage | 13 |
+| Four- and five-letter word stage | 19 |
 
 ### Missing letter names
 
@@ -963,20 +963,14 @@ Save audio as `37-words-3-01.mp3`. [Arabic-only text file](batches/37-words-3-01
 
 يَدَآ
 
-كَسَبَ
+ذَاتَ
 ```
 
-#### 38-words-3-02 — 7 items
+#### 38-words-3-02 — 4 items
 
 Save audio as `38-words-3-02.mp3`. [Arabic-only text file](batches/38-words-3-02.txt).
 
 ```text
-ذَاتَ
-
-وَلَمْ
-
-يَكُن
-
 خَلَقَ
 
 وَمِن
@@ -1025,8 +1019,6 @@ Save audio as `40-words-4-5-02.mp3`. [Arabic-only text file](batches/40-words-4-
 
 عَبَدتُّمْ
 
-بِحَمْدِ
-
 ٱلْحَطَبِ
 
 ٱلصَّمَدُ
@@ -1036,21 +1028,21 @@ Save audio as `40-words-4-5-02.mp3`. [Arabic-only text file](batches/40-words-4-
 غَاسِقٍ
 
 ٱلْعُقَدِ
+
+حَاسِدٍ
 ```
 
-#### 41-words-4-5-03 — 2 items
+#### 41-words-4-5-03 — 1 items
 
 Save audio as `41-words-4-5-03.mp3`. [Arabic-only text file](batches/41-words-4-5-03.txt).
 
 ```text
-حَاسِدٍ
-
 صُدُورِ
 ```
 
 ## Already bundled exact clips — curriculum reference only
 
-These 85 requested items currently have exact local clips. Pronunciation review remains separate from file coverage.
+These 89 requested items currently have exact local clips. Pronunciation review remains separate from file coverage.
 
 ```text
 أَلِفْ
@@ -1107,8 +1099,11 @@ These 85 requested items currently have exact local clips. Pronunciation review 
 وَتَبَّ
 عَنْهُ
 وَمَا
+كَسَبَ
 أَحَدٌ
 يَلِدْ
+وَلَمْ
+يَكُن
 بِرَبِّ
 حَسَدَ
 إِيَّاكَ
@@ -1133,6 +1128,7 @@ These 85 requested items currently have exact local clips. Pronunciation review 
 وَرَأَيْتَ
 ٱلنَّاسَ
 فَسَبِّحْ
+بِحَمْدِ
 جِيدِهَا
 يُولَدْ
 كُفُوًا
