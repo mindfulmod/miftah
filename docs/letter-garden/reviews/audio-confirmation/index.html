@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Letter Garden · Audio confirmation</title>
+  <link rel="stylesheet" href="review.css?v=1">
+  <script defer src="review-core.js?v=1"></script>
+  <script defer src="review.js?v=1"></script>
+</head>
+<body>
+<main>
+  <header>
+    <p class="eyebrow">LETTER GARDEN · ADULT REVIEW</p>
+    <h1>Give every sound a careful listen.</h1>
+    <p class="intro">Start with the alphabet. Play each clip, compare it with the Arabic shown, then choose <strong>Correct</strong>, <strong>Needs fixing</strong> or <strong>Unsure</strong>. Your decisions save in this browser.</p>
+    <div id="totals" class="totals" aria-label="Audio coverage">Loading the complete audio catalogue…</div>
+    <p id="progress" class="progress" role="status"></p>
+    <p id="save-status" class="hint" role="status">Reviews do not change the game. Export your results when you finish or take a break.</p>
+    <div class="actions">
+      <button id="start-review" type="button" class="primary" disabled>Start reviewing ↓</button>
+      <button id="export" type="button" disabled>Download review results</button>
+      <button id="copy" type="button" disabled>Copy review results</button>
+      <button id="import" type="button" disabled>Restore saved results</button>
+      <input id="import-file" type="file" accept="application/json,.json" hidden>
+    </div>
+    <details>
+      <summary>What should I listen for?</summary>
+      <ul>
+        <li><strong>Letter names:</strong> the spoken name must match the displayed name; check similar consonants.</li>
+        <li><strong>Syllables:</strong> check the written vowel, short versus long sound, tanween, sukun, glides and doubled consonants. Do not approve a letter name in place of a syllable.</li>
+        <li><strong>Words:</strong> check every consonant, vowel and written ending. These are isolated teaching exercises, not connected recitation.</li>
+        <li><strong>Clip quality:</strong> the beginning and ending must be intact, with no neighbouring item, clicks or distracting noise. The voice should sound calm and clear.</li>
+        <li><strong>Joined name prompts:</strong> check the name order and gaps. These reuse existing letter-name clips; they do not demonstrate blended reading or qualified recitation.</li>
+      </ul>
+      <p>“Correct” becomes available after the whole item has played. Use “Needs fixing” for the wrong sound or a bad cut; add what you heard or what should change. “Unsure” is fine. Reviews are tied to the exact audio: a changed clip needs another listen.</p>
+      <p>Local saving stays on this browser and preview address. Download the JSON results and attach that file in our conversation when ready. I will use it to correct cuts and connect approved audio. Nothing uploads automatically.</p>
+    </details>
+  </header>
+
+  <section class="toolbar" aria-label="Choose audio to review">
+    <label>Review section<select id="section" disabled>
+      <option value="installed">1 · Installed clips</option>
+      <option value="candidate">2 · Candidate clips</option>
+      <option value="sequence">3 · Joined name prompts</option>
+      <option value="unmapped">4 · Still needs cutting</option>
+      <option value="policy">5 · Teaching decisions</option>
+      <option value="all">Everything</option>
+    </select></label>
+    <label>Learning family<select id="family" disabled><option value="all">All families</option></select></label>
+    <label class="search-label">Find Arabic or item ID<input id="search" type="search" placeholder="Search…" autocomplete="off" disabled></label>
+    <label>Decision<select id="decision" disabled>
+      <option value="all">All decisions</option><option value="unreviewed">Not reviewed</option>
+      <option value="correct">Correct</option><option value="fix">Needs fixing</option><option value="unsure">Unsure</option><option value="stale">Audio changed</option>
+    </select></label>
+  </section>
+  <section aria-labelledby="queue-title">
+    <h2 id="queue-title">Start with the installed alphabet</h2>
+    <p id="queue-help" class="hint"></p>
+    <div class="pagination">
+      <button id="previous" type="button" disabled>← Previous batch</button>
+      <span id="page-status" role="status"></span>
+      <button id="next" type="button" disabled>Next batch →</button>
+    </div>
+    <div id="items" class="items"></div>
+    <nav class="pagination" aria-label="Continue reviewing">
+      <button id="previous-bottom" type="button" disabled>← Previous batch</button>
+      <span id="page-status-bottom"></span>
+      <button id="next-bottom" type="button" disabled>Next batch →</button>
+    </nav>
+    <button id="export-bottom" type="button" disabled>Download results so far</button>
+  </section>
+  <details class="sources-panel">
+    <summary>Original recordings and submitted text</summary>
+    <p class="hint">Use the originals to check context. Playing a source does not approve an individual clip. The 328 uncut items still need my mapping work; you do not need to locate all their timestamps.</p>
+    <div id="sources" class="sources"></div>
+  </details>
+  <p class="hint footer">Review page only · no game progress, rewards, audio mappings or production files are changed.</p>
+</main>
+<aside class="player-bar" aria-label="Review player">
+  <div><strong id="now-playing">Choose a clip to begin</strong><span id="play-state" class="hint" role="status">Normal speed · the same files used by the game</span></div>
+  <audio id="player" controls preload="none" aria-label="Current review audio" hidden></audio>
+  <button id="stop" type="button" disabled>Stop</button>
+</aside>
+</body>
+</html>

@@ -24,7 +24,11 @@ The owner identified the 3.70–4.85 second excerpt as Dammataan only; that cut 
 now assigned to Dammataan. Damma and Fathataan remain unassigned. Fluent
 pronunciation review remains outstanding. No claim of full audio coverage or
 production qualification. These audio changes are preserved in local checkpoint
-`5473287`; remaining audio review is parked by the owner's explicit decision.
+`5473287`. The owner has resumed audio review and will judge pronunciation using
+the [Audio confirmation desk](reviews/audio-confirmation/index.html). It provides
+saved decisions, notes and export for all playable items, with the complete
+pending inventory. **261 tests pass.** Game development is paused while the
+owner reviews; no extra audio has been connected by the review tooling.
 
 Scope: Letter Garden only. Preserve curriculum, pets, rewards and earned progress.
 No running voice service or AI API calls are needed for the bundled clips. No

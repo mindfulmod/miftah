@@ -1,5 +1,10 @@
 # Marin curriculum import — local candidate, 2026-09-18
 
+For the complete owner review with saved decisions and downloadable results,
+use the [Audio confirmation desk](../audio-confirmation/index.html) through the
+preview server. It combines all 57 installed clips, 49 candidates and 149 local
+name sequences, and lists every remaining item without implying it has a cut.
+
 The two owner-supplied recordings are preserved unmodified in `sources/`.
 `cuts.json` records their original filenames, SHA-256 hashes, cut positions,
 mapping evidence, and review status. `request-items.json` preserves all 409
