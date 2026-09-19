@@ -9,6 +9,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const output = path.join(root, 'docs/letter-garden/reviews/fm-curriculum-scripts');
+const preparedOn = new Date().toISOString().slice(0, 10);
 const read = file => fs.readFileSync(path.join(root, file), 'utf8');
 const hash = value => createHash('sha256').update(value).digest('hex');
 const normalized = text => text.normalize('NFC').trim();
@@ -80,8 +81,12 @@ for (const entry of requests.values()) {
   }
   const sequence = entry.text.split('،').map(normalized);
   if (sequence.length > 1 && sequence.every(name => names.has(name))) {
-    entry.status = 'reuse-name-sequence'; entry.sequence = sequence;
-    entry.note = 'Future local sequencing can reuse the individual name clips. Current runtime still uses TTS for this whole prompt. Muqattaat entries are the current name-reading model, not qualified recitation.';
+    entry.sequence = sequence;
+    entry.missingSequenceClips = sequence.filter(name => !clips.has(name));
+    entry.status = entry.missingSequenceClips.length ? 'sequence-needs-name-clips' : 'reuse-name-sequence';
+    entry.note = entry.missingSequenceClips.length
+      ? 'The local name queue cannot play this prompt until every listed exact name clip exists. Muqattaat entries are the current name-reading model, not qualified recitation.'
+      : 'The runtime local queue can play these exact individual name clips. Muqattaat entries are the current name-reading model, not qualified recitation.';
     continue;
   }
   let group;
@@ -140,23 +145,35 @@ for (const group of groups) {
 const entries = [...requests.values()];
 const completed = entries.filter(entry => entry.status === 'already-bundled');
 const sequences = entries.filter(entry => entry.status === 'reuse-name-sequence');
+const unsupportedSequences = entries.filter(entry => entry.status === 'sequence-needs-name-clips');
 const held = entries.filter(entry => entry.status === 'assembly-policy-review');
 const recording = entries.filter(entry => entry.status === 'record-and-review');
 const counts = { worlds: curriculum.worlds.length, uniqueRequests: entries.length,
+  exactLocalClips: clips.size,
   alreadyBundled: completed.length, recordAndReview: recording.length,
   reuseNameSequences: sequences.length, assemblyPolicyReview: held.length,
+  sequenceNeedsNameClips: unsupportedSequences.length,
   batches: batches.length, wordEntries: groups.filter(group => group.direction === 'words')
     .reduce((total, group) => total + group.entries.length, 0),
   wordCatalogueEntries: curriculum.worlds.filter(world => world.kind === 'words')
     .reduce((total, world) => total + world.catalogue.length, 0) };
 assert.equal(new Set(entries.map(entry => entry.id)).size, entries.length);
 assert.equal(new Set(batches.flatMap(batch => batch.entries.map(entry => entry.id))).size, recording.length);
-assert.equal(completed.length + sequences.length + held.length + recording.length, entries.length);
+assert.equal(completed.length + sequences.length + unsupportedSequences.length + held.length + recording.length, entries.length);
 for (const batch of batches) {
   assert.ok(batch.count > 0 && batch.count <= 9);
   assert.equal(fs.readFileSync(path.join(output, batch.file), 'utf8').trim().split(/\n\n/).length, batch.count);
 }
 for (const entry of completed) assert.ok(fs.existsSync(path.join(root, entry.clip)), entry.clip);
+const batchDir = path.join(output, 'batches');
+const currentBatchFiles = new Set(batches.map(batch => batch.file));
+if (fs.existsSync(batchDir)) {
+  for (const filename of fs.readdirSync(batchDir)) {
+    if (!/^\d+-[a-z0-9-]+-\d+\.txt$/.test(filename)) continue;
+    const file = `batches/${filename}`;
+    if (!currentBatchFiles.has(file)) fs.rmSync(path.join(batchDir, filename));
+  }
+}
 const sources = [...sourceFiles, 'src/letters/MiniGames.js', 'src/letters/LettersGame.js',
   'src/letters/GardenPractice.js', 'src/letters/LetterDelivery.js', ...loadedData]
   .map(file => ({ file, sha256: hash(read(file)) }));
@@ -166,13 +183,13 @@ write('manifest.json', JSON.stringify({ scope: 'Current local Letter Garden curr
 
 const lines = [
   '# Letter Garden — complete audio recording list', '',
-  'Prepared from the current local curriculum on 2026-09-16. This is an adult production document; the child-facing game is unchanged.', '',
+  `Prepared from the current local curriculum on ${preparedOn}. This is an adult production document; the child-facing game is unchanged.`, '',
   `The audit covers **${counts.worlds} chapters** and **${counts.uniqueRequests} distinct spoken requests**, including introductions, full item catalogues, assembly pieces, distractors, and every possible three-letter chain. Daily practice, checkups, pets and the workshop reuse these requests.`, '',
-  `- **${completed.length}** names already have bundled Marin clips: do not regenerate them.`,
+  `- **${counts.exactLocalClips}** exact local clips are already bundled (letter names, marks, syllables, or words as available): do not regenerate them.`,
   `- **${recording.length}** new items are arranged below in **${batches.length} small recording batches**, including **${counts.wordEntries} word entries**.`,
-  `- **${sequences.length}** letter-name sequences can reuse individual name clips in a future playback update; no new FM recording is needed for the current name-reading lesson.`,
+  `- **${sequences.length}** letter-name sequences are fully supported by the local playback queue; **${unsupportedSequences.length}** still need one or more exact name clips.`,
   `- **${held.length}** standalone assembly pieces need a teaching/pronunciation decision first; their complete list is included below.`, '',
-  'The 97 word-stage entries need 96 additional word recordings: مَا already appears in the long-vowel batches. All 81 standing-vowel targets likewise reuse the long-vowel recordings.', '',
+  `The current word-stage catalogue has **${counts.wordCatalogueEntries}** entries and **${counts.wordEntries}** outstanding exact word recording requests after existing local clips are reused. Standing-vowel display forms reuse their matching long-vowel recordings.`, '',
   '## How to record', '',
   '1. Keep Marin and the same voice style used for the existing recording.',
   '2. Work through numbered batches one at a time. Put the matching voice direction in the separate instructions field, and only the Arabic block in the speech text field.',
@@ -195,19 +212,20 @@ for (const group of groups) {
       '```text', ...batch.entries.map(entry => entry.text).join('\n\n').split('\n'), '```', '');
   }
 }
-lines.push('## Already recorded — reference only', '', 'These 25 names are already in the local game. Pronunciation review remains separate from file coverage.', '',
+lines.push('## Already bundled exact clips — curriculum reference only', '', `These ${completed.length} requested items currently have exact local clips. Pronunciation review remains separate from file coverage.`, '',
   '```text', ...completed.map(entry => entry.text), '```', '',
   '## Assembly pieces — review before recording', '',
   'These exact strings are currently spoken when individual pieces are tapped. A resting consonant, a bare letter, a long-vowel carrier, or part of a doubled consonant does not always form a useful isolated syllable. Do not record an invented vowel or substitute a name without deciding what that tap should teach. Contexts are provided so these requests are not hidden or mistaken for completed coverage.', '',
   '| Exact request | Seen inside | Chapters |', '|---|---|---|');
 for (const entry of held) lines.push(`| ${entry.text} | ${[...new Set(entry.uses.map(use => use.parent).filter(Boolean))].join(' · ')} | ${[...new Set(entry.uses.map(use => use.world))].join(', ')} |`);
-lines.push('', '## Letter-name sequences — full list, no new recording recommended', '',
-  'These prompts name letters separately; they do not blend syllables. A local playback queue can reuse the existing names plus the three missing names. That queue is not yet implemented, so these prompts still use device speech today.', '',
+lines.push('', '## Letter-name sequences — local queue coverage', '',
+  'These prompts name letters separately; they do not blend syllables. The local playback queue uses them only when every exact alphabet-name clip is already bundled.', '',
   'The muqattaat rows reproduce the current game’s generic letter-name teaching strings. Their traditional reading and elongation need separate review; do not treat this table as a recitation script.', '');
 for (const worldId of ['join-1', 'join-2', 'muqattaat']) {
-  lines.push(`### ${worldId}`, '', '| Display | Current spoken request |', '|---|---|');
-  for (const entry of sequences.filter(entry => entry.uses.some(use => use.world === worldId))) {
-    lines.push(`| ${[...new Set(entry.uses.filter(use => use.world === worldId).map(use => use.display))].join(' · ')} | ${entry.text} |`);
+  lines.push(`### ${worldId}`, '', '| Display | Current spoken request | Local queue |', '|---|---|---|');
+  for (const entry of [...sequences, ...unsupportedSequences].filter(entry => entry.uses.some(use => use.world === worldId))) {
+    const support = entry.missingSequenceClips.length ? `Needs: ${entry.missingSequenceClips.join('، ')}` : 'Supported';
+    lines.push(`| ${[...new Set(entry.uses.filter(use => use.world === worldId).map(use => use.display))].join(' · ')} | ${entry.text} | ${support} |`);
   }
   if (worldId === 'muqattaat') lines.push('', 'The single-letter ق and ن entries reuse the Qaf and Noon clips already recorded.');
   lines.push('');
@@ -218,5 +236,5 @@ lines.push('## Reproduction and coverage', '',
   'The word list uses the game’s existing eligibility filters and skeleton deduplication across its 11 source surahs. It covers all current eligible word entries, not every word in every Quran data file. Expanding the curriculum requires rerunning this export.', '',
   'No application code, curriculum rules, progress or runtime audio was changed by preparing this package. No external voice service was called.', '');
 write('FULL-LIST.md', lines.join('\n') + '\n');
-write('README.txt', `LETTER GARDEN AUDIO RECORDING PACKAGE\n\nOpen FULL-LIST.md for the complete list and recording instructions.\nUse one numbered file in batches/ per generation. Each contains only Arabic speech text.\nUse the matching names, syllables or words direction in directions/.\nSave each original audio download under the batch ID shown in FULL-LIST.md.\n\n${JSON.stringify(counts, null, 2)}\n\nThe 25 existing clips, reusable name sequences and assembly-review items are reference sections, not extra batches to generate.\nNo gameplay changes or audio generation performed.\n`);
+write('README.txt', `LETTER GARDEN AUDIO RECORDING PACKAGE\n\nOpen FULL-LIST.md for the complete list and recording instructions.\nUse one numbered file in batches/ per generation. Each contains only Arabic speech text.\nUse the matching names, syllables or words direction in directions/.\nSave each original audio download under the batch ID shown in FULL-LIST.md.\n\n${JSON.stringify(counts, null, 2)}\n\nExisting exact clips, local-queue-supported name sequences and assembly-review items are reference sections, not extra batches to generate.\nNo gameplay changes or audio generation performed.\n`);
 console.log(JSON.stringify({ output, counts, groups: groups.map(group => ({ group: group.key, count: group.entries.length })) }, null, 2));

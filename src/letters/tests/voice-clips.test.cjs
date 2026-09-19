@@ -4,7 +4,7 @@ const vm = require('node:vm');
 const fs = require('node:fs');
 const path = require('node:path');
 
-function setup({ clips = { 'بَاءْ': '/ba.wav' }, state = 'running', fetcher } = {}) {
+function setup({ clips = { 'بَاءْ': '/ba.wav' }, state = 'running', fetcher, gapMs = 1, names = ['بَاءْ'], startImpl } = {}) {
   const events = [];
   const sources = [];
   const context = {
@@ -14,7 +14,8 @@ function setup({ clips = { 'بَاءْ': '/ba.wav' }, state = 'running', fetcher
     decodeAudioData: async bytes => { events.push(`decode:${bytes}`); return { bytes }; },
     createGain: () => ({ gain: { value: 0 }, connect(target) { this.target = target; }, disconnect() { events.push('gain-disconnect'); } }),
     createBufferSource: () => {
-      const source = { connect(target) { this.target = target; }, disconnect() { events.push('source-disconnect'); }, start() { events.push('start'); }, stop() { events.push('stop'); }, onended: null };
+      const ordinal = sources.length + 1;
+      const source = { connect(target) { this.target = target; }, disconnect() { events.push('source-disconnect'); }, start() { if (startImpl?.(ordinal)) throw new Error('start failed'); events.push('start'); }, stop() { events.push('stop'); }, onended: null };
       sources.push(source);
       return source;
     },
@@ -23,7 +24,7 @@ function setup({ clips = { 'بَاءْ': '/ba.wav' }, state = 'running', fetcher
   const fetchImpl = fetcher || (async url => { fetchCalls.push(url); return { ok: true, arrayBuffer: async () => `bytes:${url}` }; });
   const window = { MiftahGame: {} };
   vm.runInNewContext(fs.readFileSync(path.join(__dirname, '../LettersVoice.js'), 'utf8'), { window, fetch: fetchImpl, setTimeout, clearTimeout, Promise });
-  const voice = new window.MiftahGame.LettersVoice({ clips, getContext: () => context, fetch: fetchImpl, timeoutMs: 30 });
+  const voice = new window.MiftahGame.LettersVoice({ clips, getContext: () => context, fetch: fetchImpl, timeoutMs: 30, gapMs, names });
   return { voice, context, events, sources, fetchCalls };
 }
 
@@ -45,6 +46,81 @@ test('play resolves through real source end only', async () => {
   assert.deepEqual(events, ['decode:bytes:/ba.wav', 'start', 'onstart']);
   sources[0].onended();
   assert.deepEqual(events, ['decode:bytes:/ba.wav', 'start', 'onstart', 'source-disconnect', 'gain-disconnect', 'onend']);
+});
+
+test('a comma-separated phrase preloads exact clips and plays them as one job', async () => {
+  const { voice, sources, events, fetchCalls } = setup({ clips: { 'بَاءْ': '/ba.wav', 'تَاءْ': '/ta.wav' }, names: ['بَاءْ', 'تَاءْ'] });
+  const job = { onstart: () => events.push('onstart'), onend: () => events.push('onend') };
+  assert.equal(voice.play('بَاءْ، تَاءْ', job), true);
+  await flush(); await flush();
+  assert.deepEqual(fetchCalls.sort(), ['/ba.wav', '/ta.wav']);
+  assert.deepEqual(events, ['decode:bytes:/ba.wav', 'decode:bytes:/ta.wav', 'start', 'onstart']);
+  sources[0].onended();
+  await new Promise(resolve => setTimeout(resolve, 5));
+  assert.deepEqual(events.filter(event => event === 'onstart'), ['onstart']);
+  assert.equal(sources.length, 2);
+  sources[1].onended();
+  assert.deepEqual(events.slice(-3), ['source-disconnect', 'gain-disconnect', 'onend']);
+});
+
+test('an exact phrase clip takes precedence over its comma-separated components', async () => {
+  const { voice, fetchCalls } = setup({ clips: { 'بَاءْ': '/ba.wav', 'تَاءْ': '/ta.wav', 'بَاءْ، تَاءْ': '/phrase.wav' }, names: ['بَاءْ', 'تَاءْ'] });
+  assert.equal(voice.play('بَاءْ، تَاءْ', {}), true);
+  await flush(); await flush();
+  assert.deepEqual(fetchCalls, ['/phrase.wav']);
+});
+
+test('a missing sequence component leaves the full phrase for device fallback', () => {
+  const { voice } = setup({ clips: { 'بَاءْ': '/ba.wav' }, names: ['بَاءْ', 'تَاءْ'] });
+  assert.equal(voice.play('بَاءْ، تَاءْ', {}, () => { throw new Error('must not use local fallback'); }), false);
+});
+
+test('cancel during the natural sequence gap prevents the next clip and completion', async () => {
+  const { voice, sources, events } = setup({ clips: { 'بَاءْ': '/ba.wav', 'تَاءْ': '/ta.wav' }, names: ['بَاءْ', 'تَاءْ'], gapMs: 20 });
+  voice.play('بَاءْ، تَاءْ', { onend: () => events.push('onend') });
+  await flush(); await flush();
+  sources[0].onended();
+  voice.cancel();
+  await new Promise(resolve => setTimeout(resolve, 30));
+  assert.equal(sources.length, 1);
+  assert.equal(events.includes('onend'), false);
+});
+
+test('a later clip load failure falls back before any sequence clip starts', async () => {
+  const { voice, events } = setup({
+    clips: { 'بَاءْ': '/ba.wav', 'تَاءْ': '/ta.wav' },
+    names: ['بَاءْ', 'تَاءْ'],
+    fetcher: async url => url === '/ta.wav' ? { ok: false, arrayBuffer: async () => 'bad' } : { ok: true, arrayBuffer: async () => 'good' },
+  });
+  let fallback = 0;
+  voice.play('بَاءْ، تَاءْ', {}, () => { fallback++; return true; });
+  await flush(); await flush();
+  assert.equal(fallback, 1);
+  assert.equal(events.includes('start'), false);
+});
+
+test('has reports only a fully covered sequence of registered letter names', () => {
+  const { voice } = setup({ clips: { 'بَاءْ': '/ba.wav', 'تَاءْ': '/ta.wav', 'بَتْ': '/bat.wav' }, names: ['بَاءْ', 'تَاءْ'] });
+  assert.equal(voice.has('بَاءْ، تَاءْ'), true);
+  assert.equal(voice.has('بَاءْ، تَاءْ،'), false);
+  assert.equal(voice.has('بَاءْ، ثَاءْ'), false);
+  assert.equal(voice.has('بَتْ، تَاءْ'), false);
+  assert.equal(voice.play('بَتْ، تَاءْ', {}), false);
+});
+
+test('a second source start failure reports one error without repeating fallback', async () => {
+  const { voice, sources, events } = setup({
+    clips: { 'بَاءْ': '/ba.wav', 'تَاءْ': '/ta.wav' }, names: ['بَاءْ', 'تَاءْ'], startImpl: ordinal => ordinal === 2,
+  });
+  let fallback = 0, error = 0, ended = 0;
+  voice.play('بَاءْ، تَاءْ', { onerror: () => error++, onend: () => ended++ }, () => { fallback++; return true; });
+  await flush(); await flush();
+  sources[0].onended();
+  await new Promise(resolve => setTimeout(resolve, 5));
+  assert.equal(fallback, 0);
+  assert.equal(error, 1);
+  assert.equal(ended, 0);
+  assert.equal(events.filter(event => event === 'start').length, 1);
 });
 
 test('cancel while loading suppresses late start, fallback, and callbacks', async () => {

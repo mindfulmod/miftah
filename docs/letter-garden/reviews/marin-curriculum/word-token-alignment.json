@@ -1,0 +1,1002 @@
+[
+  {
+    "text": "عَرَبِّي",
+    "start": 18.38,
+    "end": 19.02,
+    "logprob": -1.403,
+    "originalTimestamp": [
+      18.58,
+      19.14
+    ]
+  },
+  {
+    "text": "تَرَ",
+    "start": 19.02,
+    "end": 19.62,
+    "logprob": -0.46,
+    "originalTimestamp": [
+      19.14,
+      19.64
+    ]
+  },
+  {
+    "text": "مِنْهُمْ",
+    "start": 19.62,
+    "end": 20.0,
+    "logprob": -1.365,
+    "originalTimestamp": [
+      19.64,
+      20.2
+    ]
+  },
+  {
+    "text": "عَنْ",
+    "start": 20.0,
+    "end": 20.3,
+    "logprob": -0.033,
+    "originalTimestamp": [
+      20.2,
+      20.48
+    ]
+  },
+  {
+    "text": "إِنَّ",
+    "start": 20.3,
+    "end": 20.58,
+    "logprob": -1.545,
+    "originalTimestamp": [
+      20.48,
+      20.7
+    ]
+  },
+  {
+    "text": "هُوَ",
+    "start": 20.58,
+    "end": 20.92,
+    "logprob": -0.807,
+    "originalTimestamp": [
+      20.7,
+      21.08
+    ]
+  },
+  {
+    "text": "كُلَّ",
+    "start": 20.92,
+    "end": 21.66,
+    "logprob": -0.335,
+    "originalTimestamp": [
+      21.08,
+      21.74
+    ]
+  },
+  {
+    "text": "آْ",
+    "start": 21.66,
+    "end": 21.96,
+    "logprob": -0.141,
+    "originalTimestamp": [
+      21.74,
+      22.12
+    ]
+  },
+  {
+    "text": "لَمْ",
+    "start": 21.96,
+    "end": 22.5,
+    "logprob": -1.882,
+    "originalTimestamp": [
+      22.12,
+      22.68
+    ]
+  },
+  {
+    "text": "شَرِّ",
+    "start": 22.5,
+    "end": 23.14,
+    "logprob": -0.24,
+    "originalTimestamp": [
+      22.68,
+      23.2
+    ]
+  },
+  {
+    "text": "بِاسْمِ",
+    "start": 23.14,
+    "end": 23.56,
+    "logprob": -0.521,
+    "originalTimestamp": [
+      23.2,
+      23.62
+    ]
+  },
+  {
+    "text": "لِلَّهِ",
+    "start": 23.56,
+    "end": 24.06,
+    "logprob": -0.231,
+    "originalTimestamp": [
+      23.62,
+      24.16
+    ]
+  },
+  {
+    "text": "مَالِكِ",
+    "start": 24.06,
+    "end": 24.86,
+    "logprob": -0.026,
+    "originalTimestamp": [
+      24.16,
+      24.96
+    ]
+  },
+  {
+    "text": "يَوْمِ",
+    "start": 24.86,
+    "end": 25.58,
+    "logprob": -0.232,
+    "originalTimestamp": [
+      24.96,
+      25.64
+    ]
+  },
+  {
+    "text": "سراط",
+    "start": 25.58,
+    "end": 26.1,
+    "logprob": -0.263,
+    "originalTimestamp": [
+      25.3,
+      26.1
+    ]
+  },
+  {
+    "text": "غير.",
+    "start": 26.1,
+    "end": 26.48,
+    "logprob": -0.243,
+    "originalTimestamp": [
+      26.1,
+      26.82
+    ]
+  },
+  {
+    "text": "ولا",
+    "start": 26.48,
+    "end": 27.42,
+    "logprob": -0.178,
+    "originalTimestamp": [
+      26.82,
+      27.48
+    ]
+  },
+  {
+    "text": "ألم",
+    "start": 27.28,
+    "end": 27.84,
+    "logprob": -1.983,
+    "originalTimestamp": [
+      27.48,
+      27.9
+    ]
+  },
+  {
+    "text": "كيف",
+    "start": 27.84,
+    "end": 28.58,
+    "logprob": -0.062,
+    "originalTimestamp": [
+      27.9,
+      28.58
+    ]
+  },
+  {
+    "text": "فعل",
+    "start": 28.58,
+    "end": 29.0,
+    "logprob": -0.018,
+    "originalTimestamp": [
+      28.58,
+      29.0
+    ]
+  },
+  {
+    "text": "ربك",
+    "start": 29.0,
+    "end": 29.56,
+    "logprob": -0.014,
+    "originalTimestamp": [
+      29.0,
+      29.56
+    ]
+  },
+  {
+    "text": "هذا.",
+    "start": 29.56,
+    "end": 30.28,
+    "logprob": -0.045,
+    "originalTimestamp": [
+      29.56,
+      30.78
+    ]
+  },
+  {
+    "text": "يدعو",
+    "start": 30.28,
+    "end": 31.64,
+    "logprob": -0.371,
+    "originalTimestamp": [
+      30.78,
+      31.62
+    ]
+  },
+  {
+    "text": "يحد",
+    "start": 31.64,
+    "end": 32.1,
+    "logprob": -0.254,
+    "originalTimestamp": [
+      31.62,
+      32.1
+    ]
+  },
+  {
+    "text": "إن",
+    "start": 32.1,
+    "end": 32.76,
+    "logprob": -0.429,
+    "originalTimestamp": [
+      32.1,
+      32.76
+    ]
+  },
+  {
+    "text": "آه",
+    "start": 32.76,
+    "end": 33.32,
+    "logprob": -0.896,
+    "originalTimestamp": [
+      32.76,
+      33.26
+    ]
+  },
+  {
+    "text": "فصل",
+    "start": 33.32,
+    "end": 33.9,
+    "logprob": -0.098,
+    "originalTimestamp": [
+      33.26,
+      33.9
+    ]
+  },
+  {
+    "text": "لكم",
+    "start": 33.9,
+    "end": 34.28,
+    "logprob": -0.046,
+    "originalTimestamp": [
+      33.9,
+      34.28
+    ]
+  },
+  {
+    "text": "ديني.",
+    "start": 34.28,
+    "end": 34.74,
+    "logprob": -0.086,
+    "originalTimestamp": [
+      34.28,
+      34.86
+    ]
+  },
+  {
+    "text": "إذا",
+    "start": 34.74,
+    "end": 35.64,
+    "logprob": -0.426,
+    "originalTimestamp": [
+      34.76,
+      35.64
+    ]
+  },
+  {
+    "text": "نصر",
+    "start": 35.64,
+    "end": 36.04,
+    "logprob": -0.013,
+    "originalTimestamp": [
+      35.64,
+      36.04
+    ]
+  },
+  {
+    "text": "كان",
+    "start": 36.04,
+    "end": 36.36,
+    "logprob": -0.046,
+    "originalTimestamp": [
+      36.04,
+      36.36
+    ]
+  },
+  {
+    "text": "تبت",
+    "start": 36.16,
+    "end": 36.88,
+    "logprob": -1.32,
+    "originalTimestamp": [
+      36.36,
+      36.88
+    ]
+  },
+  {
+    "text": "يد",
+    "start": 36.88,
+    "end": 37.12,
+    "logprob": -0.154,
+    "originalTimestamp": [
+      36.88,
+      37.12
+    ]
+  },
+  {
+    "text": "آ",
+    "start": 37.12,
+    "end": 37.32,
+    "logprob": -1.77,
+    "originalTimestamp": [
+      37.12,
+      37.34
+    ]
+  },
+  {
+    "text": "وتب",
+    "start": 37.32,
+    "end": 38.12,
+    "logprob": -2.115,
+    "originalTimestamp": [
+      37.34,
+      38.1
+    ]
+  },
+  {
+    "text": "عنه",
+    "start": 38.12,
+    "end": 38.56,
+    "logprob": -0.023,
+    "originalTimestamp": [
+      38.1,
+      38.58
+    ]
+  },
+  {
+    "text": "وما",
+    "start": 38.56,
+    "end": 39.18,
+    "logprob": -0.115,
+    "originalTimestamp": [
+      38.58,
+      39.18
+    ]
+  },
+  {
+    "text": "كسب",
+    "start": 39.18,
+    "end": 39.62,
+    "logprob": -0.025,
+    "originalTimestamp": [
+      39.18,
+      39.62
+    ]
+  },
+  {
+    "text": "ذات",
+    "start": 39.62,
+    "end": 39.98,
+    "logprob": -0.023,
+    "originalTimestamp": [
+      39.62,
+      39.96
+    ]
+  },
+  {
+    "text": "أحد",
+    "start": 39.98,
+    "end": 40.38,
+    "logprob": -0.35,
+    "originalTimestamp": [
+      39.96,
+      40.38
+    ]
+  },
+  {
+    "text": "يلد،",
+    "start": 40.38,
+    "end": 40.9,
+    "logprob": -0.482,
+    "originalTimestamp": [
+      40.38,
+      41.14
+    ]
+  },
+  {
+    "text": "ولم",
+    "start": 40.9,
+    "end": 41.82,
+    "logprob": -0.377,
+    "originalTimestamp": [
+      41.14,
+      41.82
+    ]
+  },
+  {
+    "text": "يكن",
+    "start": 41.82,
+    "end": 42.12,
+    "logprob": -0.006,
+    "originalTimestamp": [
+      41.82,
+      42.14
+    ]
+  },
+  {
+    "text": "برب",
+    "start": 42.12,
+    "end": 42.5,
+    "logprob": -0.034,
+    "originalTimestamp": [
+      42.14,
+      42.5
+    ]
+  },
+  {
+    "text": "خلق",
+    "start": 42.5,
+    "end": 43.06,
+    "logprob": -0.016,
+    "originalTimestamp": [
+      42.5,
+      43.06
+    ]
+  },
+  {
+    "text": "ومن",
+    "start": 43.06,
+    "end": 43.74,
+    "logprob": -0.081,
+    "originalTimestamp": [
+      43.06,
+      43.74
+    ]
+  },
+  {
+    "text": "وقب",
+    "start": 43.74,
+    "end": 44.16,
+    "logprob": -0.011,
+    "originalTimestamp": [
+      43.74,
+      44.14
+    ]
+  },
+  {
+    "text": "حسد،",
+    "start": 44.16,
+    "end": 44.58,
+    "logprob": -0.043,
+    "originalTimestamp": [
+      44.14,
+      44.78
+    ]
+  },
+  {
+    "text": "إله",
+    "start": 44.58,
+    "end": 45.38,
+    "logprob": -0.276,
+    "originalTimestamp": [
+      44.78,
+      45.4
+    ]
+  },
+  {
+    "text": "الله",
+    "start": 45.38,
+    "end": 45.86,
+    "logprob": -0.022,
+    "originalTimestamp": [
+      45.4,
+      45.86
+    ]
+  },
+  {
+    "text": "الحمد",
+    "start": 45.86,
+    "end": 46.38,
+    "logprob": -0.007,
+    "originalTimestamp": [
+      45.86,
+      46.38
+    ]
+  },
+  {
+    "text": "والديم،",
+    "start": 46.38,
+    "end": 46.94,
+    "logprob": -0.064,
+    "originalTimestamp": [
+      46.38,
+      47.32
+    ]
+  },
+  {
+    "text": "إياك",
+    "start": 46.94,
+    "end": 47.76,
+    "logprob": -0.104,
+    "originalTimestamp": [
+      47.32,
+      47.76
+    ]
+  },
+  {
+    "text": "نعبد،",
+    "start": 47.76,
+    "end": 48.22,
+    "logprob": -0.003,
+    "originalTimestamp": [
+      47.76,
+      48.48
+    ]
+  },
+  {
+    "text": "وإياك",
+    "start": 48.22,
+    "end": 49.52,
+    "logprob": -0.052,
+    "originalTimestamp": [
+      48.48,
+      49.52
+    ]
+  },
+  {
+    "text": "اهدنا",
+    "start": 49.52,
+    "end": 49.88,
+    "logprob": -0.09,
+    "originalTimestamp": [
+      49.52,
+      49.9
+    ]
+  },
+  {
+    "text": "الصراط",
+    "start": 49.88,
+    "end": 50.38,
+    "logprob": -0.014,
+    "originalTimestamp": [
+      49.9,
+      50.38
+    ]
+  },
+  {
+    "text": "الذين",
+    "start": 50.38,
+    "end": 50.9,
+    "logprob": -0.005,
+    "originalTimestamp": [
+      50.38,
+      50.9
+    ]
+  },
+  {
+    "text": "أنعمت",
+    "start": 50.9,
+    "end": 51.44,
+    "logprob": -0.001,
+    "originalTimestamp": [
+      50.9,
+      51.44
+    ]
+  },
+  {
+    "text": "عليهم",
+    "start": 51.44,
+    "end": 52.0,
+    "logprob": -0.0,
+    "originalTimestamp": [
+      51.44,
+      52.0
+    ]
+  },
+  {
+    "text": "بأصحاب",
+    "start": 52.0,
+    "end": 52.94,
+    "logprob": -0.001,
+    "originalTimestamp": [
+      52.0,
+      52.94
+    ]
+  },
+  {
+    "text": "الفيل",
+    "start": 52.94,
+    "end": 53.36,
+    "logprob": -0.01,
+    "originalTimestamp": [
+      52.94,
+      53.36
+    ]
+  },
+  {
+    "text": "يجعلها",
+    "start": 53.36,
+    "end": 54.38,
+    "logprob": -0.006,
+    "originalTimestamp": [
+      53.56,
+      54.36
+    ]
+  },
+  {
+    "text": "كيدهم",
+    "start": 54.38,
+    "end": 54.98,
+    "logprob": -0.002,
+    "originalTimestamp": [
+      54.36,
+      54.98
+    ]
+  },
+  {
+    "text": "وأرسل",
+    "start": 54.98,
+    "end": 55.9,
+    "logprob": -0.007,
+    "originalTimestamp": [
+      55.22,
+      55.9
+    ]
+  },
+  {
+    "text": "طيرا",
+    "start": 55.9,
+    "end": 56.36,
+    "logprob": -0.008,
+    "originalTimestamp": [
+      55.9,
+      56.36
+    ]
+  },
+  {
+    "text": "لإلاف",
+    "start": 56.36,
+    "end": 57.02,
+    "logprob": -0.21,
+    "originalTimestamp": [
+      56.36,
+      57.02
+    ]
+  },
+  {
+    "text": "قريش",
+    "start": 57.02,
+    "end": 57.54,
+    "logprob": -0.041,
+    "originalTimestamp": [
+      57.02,
+      57.54
+    ]
+  },
+  {
+    "text": "يكذبهم",
+    "start": 57.54,
+    "end": 59.36,
+    "logprob": -0.047,
+    "originalTimestamp": [
+      58.56,
+      59.36
+    ]
+  },
+  {
+    "text": "لكم",
+    "start": 59.36,
+    "end": 59.78,
+    "logprob": -0.0,
+    "originalTimestamp": [
+      59.36,
+      59.78
+    ]
+  },
+  {
+    "text": "وأرسل",
+    "start": 59.78,
+    "end": 60.68,
+    "logprob": -0.0,
+    "originalTimestamp": [
+      60.0,
+      60.68
+    ]
+  },
+  {
+    "text": "طيرا",
+    "start": 60.68,
+    "end": 61.2,
+    "logprob": -0.0,
+    "originalTimestamp": [
+      60.68,
+      61.2
+    ]
+  },
+  {
+    "text": "لإلاف",
+    "start": 61.2,
+    "end": 62.1,
+    "logprob": -0.001,
+    "originalTimestamp": [
+      61.2,
+      62.1
+    ]
+  },
+  {
+    "text": "قريش",
+    "start": 61.9,
+    "end": 62.64,
+    "logprob": -1.427,
+    "originalTimestamp": [
+      62.1,
+      62.64
+    ]
+  },
+  {
+    "text": "البيت",
+    "start": 62.64,
+    "end": 63.68,
+    "logprob": -0.726,
+    "originalTimestamp": [
+      63.14,
+      63.68
+    ]
+  },
+  {
+    "text": "يكذب",
+    "start": 63.68,
+    "end": 64.28,
+    "logprob": -0.008,
+    "originalTimestamp": [
+      63.68,
+      64.28
+    ]
+  },
+  {
+    "text": "فذلك",
+    "start": 64.28,
+    "end": 64.88,
+    "logprob": -0.013,
+    "originalTimestamp": [
+      64.44,
+      64.88
+    ]
+  },
+  {
+    "text": "طعام",
+    "start": 64.88,
+    "end": 65.36,
+    "logprob": -0.007,
+    "originalTimestamp": [
+      64.88,
+      65.36
+    ]
+  },
+  {
+    "text": "ساهون",
+    "start": 65.36,
+    "end": 65.96,
+    "logprob": -0.043,
+    "originalTimestamp": [
+      65.36,
+      65.94
+    ]
+  },
+  {
+    "text": "لربك",
+    "start": 65.96,
+    "end": 66.84,
+    "logprob": -0.012,
+    "originalTimestamp": [
+      66.2,
+      66.82
+    ]
+  },
+  {
+    "text": "عبدت",
+    "start": 66.84,
+    "end": 68.22,
+    "logprob": -0.133,
+    "originalTimestamp": [
+      66.82,
+      68.22
+    ]
+  },
+  {
+    "text": "دينكم",
+    "start": 68.22,
+    "end": 68.82,
+    "logprob": -0.034,
+    "originalTimestamp": [
+      68.22,
+      68.84
+    ]
+  },
+  {
+    "text": "ورأيت",
+    "start": 68.82,
+    "end": 69.76,
+    "logprob": -0.006,
+    "originalTimestamp": [
+      68.84,
+      69.76
+    ]
+  },
+  {
+    "text": "الناس",
+    "start": 69.76,
+    "end": 70.24,
+    "logprob": -0.001,
+    "originalTimestamp": [
+      69.76,
+      70.22
+    ]
+  },
+  {
+    "text": "فسبح",
+    "start": 70.02,
+    "end": 71.14,
+    "logprob": -0.038,
+    "originalTimestamp": [
+      70.22,
+      71.14
+    ]
+  },
+  {
+    "text": "بحمد",
+    "start": 71.14,
+    "end": 71.6,
+    "logprob": -0.004,
+    "originalTimestamp": [
+      71.14,
+      71.6
+    ]
+  },
+  {
+    "text": "حطب",
+    "start": 71.6,
+    "end": 72.06,
+    "logprob": -0.278,
+    "originalTimestamp": [
+      71.6,
+      72.06
+    ]
+  },
+  {
+    "text": "جيدها",
+    "start": 72.06,
+    "end": 72.58,
+    "logprob": -0.001,
+    "originalTimestamp": [
+      72.06,
+      72.58
+    ]
+  },
+  {
+    "text": "الفقدان",
+    "start": 72.58,
+    "end": 73.64,
+    "logprob": -0.047,
+    "originalTimestamp": [
+      72.58,
+      73.64
+    ]
+  },
+  {
+    "text": "يولد",
+    "start": 73.64,
+    "end": 74.08,
+    "logprob": -0.017,
+    "originalTimestamp": [
+      73.64,
+      74.08
+    ]
+  },
+  {
+    "text": "كفوا",
+    "start": 74.08,
+    "end": 74.52,
+    "logprob": -0.012,
+    "originalTimestamp": [
+      74.08,
+      74.52
+    ]
+  },
+  {
+    "text": "أعدادا",
+    "start": 74.52,
+    "end": 75.26,
+    "logprob": -0.164,
+    "originalTimestamp": [
+      74.52,
+      75.26
+    ]
+  },
+  {
+    "text": "أعوذ",
+    "start": 75.26,
+    "end": 77.24,
+    "logprob": -0.117,
+    "originalTimestamp": [
+      75.26,
+      77.24
+    ]
+  },
+  {
+    "text": "الفلق",
+    "start": 77.24,
+    "end": 77.74,
+    "logprob": -0.014,
+    "originalTimestamp": [
+      77.24,
+      77.76
+    ]
+  },
+  {
+    "text": "غاسق",
+    "start": 77.74,
+    "end": 78.32,
+    "logprob": -0.105,
+    "originalTimestamp": [
+      77.76,
+      78.32
+    ]
+  },
+  {
+    "text": "العقد",
+    "start": 78.12,
+    "end": 79.26,
+    "logprob": -0.078,
+    "originalTimestamp": [
+      78.32,
+      79.28
+    ]
+  },
+  {
+    "text": "حاسد",
+    "start": 79.26,
+    "end": 79.82,
+    "logprob": -0.006,
+    "originalTimestamp": [
+      79.28,
+      79.82
+    ]
+  },
+  {
+    "text": "يوسوس",
+    "start": 79.82,
+    "end": 80.78,
+    "logprob": -0.272,
+    "originalTimestamp": [
+      79.82,
+      80.78
+    ]
+  },
+  {
+    "text": "صدور",
+    "start": 80.78,
+    "end": 81.28,
+    "logprob": -0.018,
+    "originalTimestamp": [
+      80.78,
+      81.28
+    ]
+  }
+]

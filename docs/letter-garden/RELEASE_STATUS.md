@@ -1,6 +1,6 @@
 # Letter Garden major release — local status
 
-Preview: `http://letter-garden-next.localhost:8790/letters.html?v=20260918-art-foundation1`.
+Preview: `http://letter-garden-next.localhost:8790/letters.html?v=20260918-curriculum-audio2`.
 Durable checkout: `/Users/main/Documents/GitHub/miftah/.local-work/letter-garden-next-major`.
 Branch: `codex/letter-garden-next-major`.
 Production baseline: `55f34576f0ebfc02bcf115452101b37adfbb4536` / `20260908-batch50`.
@@ -11,11 +11,19 @@ The current five learning/game passes add shared gradual difficulty, eligible cu
 
 The old temporary checkout disappeared. Previous source was reconstructed from recorded edit history and passed its 115-test baseline before this stage. The old checkpoint objects and screenshot binaries were not recoverable; see [RECOVERY_MANIFEST.md](RECOVERY_MANIFEST.md). Work now lives in this durable checkout and a sibling Git bundle.
 
-The owner's OpenAI.fm export now supplies 25 locally bundled Marin letter names.
-Seen, Waw and Ya were absent and retain device-speech fallback. Replay, mute,
-navigation, failed playback and learning completion share a cancel-safe voice
-lifecycle. **219 tests pass.** See [Marin import review](reviews/marin-letters/README.md)
-for source provenance, mapping, playback checks and the three missing names.
+The first OpenAI.fm import supplied 25 alphabet names. The September 18
+curriculum import adds 32 clips: the remaining three alphabet names, four mark
+names and 25 words. The local bank now has 57 exact clips and can reuse the
+complete alphabet for 149 comma-separated name prompts. **241 tests pass.**
+Replay, mute, navigation, failed playback and learning completion share a
+cancel-safe voice lifecycle. See the [current audio review](reviews/marin-curriculum/README.md).
+
+**Audio is incomplete:** 377 of the 409 new requested items retain device
+speech; 49 have candidate excerpts and 328 need reliable individual mapping.
+The owner identified the 3.70–4.85 second excerpt as Dammataan only; that cut is
+now assigned to Dammataan. Damma and Fathataan remain unassigned. Fluent
+pronunciation review remains outstanding. No claim of full audio coverage or
+production qualification. These audio changes are local and uncommitted.
 
 Scope: Letter Garden only. Preserve curriculum, pets, rewards and earned progress.
 No running voice service or AI API calls are needed for the bundled clips. No
@@ -48,4 +56,14 @@ presenter/ink sizing, proportion-safe activity props, grounded room frames,
 refined Boat entry/play/rewards, workshop and sticker composition. **230 tests
 pass.** See [ART_FOUNDATION_REVIEW.md](ART_FOUNDATION_REVIEW.md) for screenshots,
 actual input checks and remaining art-bible debt. Learning/game major passes are
-still pending; audio generation and parent-page work remain deferred.
+still pending; parent-page work remains deferred. Audio import status above
+supersedes the earlier parked-generation notes.
+
+Next proposed implementation: the connected Boat adventure from pass 2 of
+[CHILD_EXPERIENCE_NEXT_FIVE.md](CHILD_EXPERIENCE_NEXT_FIVE.md), with the necessary
+contextual pet actions from pass 4. Keep Pond → Trace → Feed and existing rewards,
+make one pictorial purpose carry through the chapter, simplify the next action,
+and show its existing earned change on return to the map. The owner's latest
+request made starting the next update conditional on finished audio; clarification
+is pending on whether to park the unresolved audio and proceed. No new major
+gameplay work has started in this turn.

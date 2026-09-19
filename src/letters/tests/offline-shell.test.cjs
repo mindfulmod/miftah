@@ -8,6 +8,13 @@ const { createHash } = require('node:crypto');
 const root = path.join(__dirname, '../../..');
 const swSource = fs.readFileSync(path.join(root, 'sw.js'), 'utf8');
 const origin = 'https://miftah.test';
+const curriculumManifestPath = path.join(root, 'docs/letter-garden/reviews/marin-curriculum/manifest.json');
+
+function curriculumManifest() {
+  return fs.existsSync(curriculumManifestPath)
+    ? JSON.parse(fs.readFileSync(curriculumManifestPath, 'utf8'))
+    : { items: [] };
+}
 
 class Response {
   constructor(body, { ok = true } = {}) {
@@ -174,22 +181,34 @@ test('Letter Garden keeps its original self-hosted Amiri Quran face and WOFF2 cl
   assert.equal(sha256('vendor/fonts/amiri-quran-400-latin.woff2'), '1a014fa9368c5419754e5a11d38527094e4a37c54858adc4f4e8c5061ba87c7e');
 });
 
-test('every mapped Marin name is bundled and available offline without an AI service', async () => {
+test('every mapped Marin clip is bundled and available offline without an AI service', async () => {
   const window = { MiftahGame: {} };
   vm.runInNewContext(fs.readFileSync(path.join(root, 'src/letters/LetterVoiceClips.js'), 'utf8'), { window });
   const clips = window.MiftahGame.LETTER_VOICE_CLIPS;
-  assert.equal(Object.keys(clips).length, 25);
-  for (const missing of ['سِينْ', 'وَاوْ', 'يَاءْ']) assert.equal(clips[missing], undefined);
+  const imported = curriculumManifest().items.filter(item => item.status === 'imported');
+  assert.equal(Object.keys(clips).length, 25 + imported.length);
   const app = runtime();
   await app.install();
   app.setNetwork(async () => { throw Error('offline'); });
   for (const asset of Object.values(clips)) {
-    assert.ok(asset.startsWith('assets/audio/letters/marin-v1/'));
     const bytes = fs.readFileSync(path.join(root, asset));
     assert.equal(bytes.subarray(0, 4).toString(), 'RIFF');
     assert.equal((await app.request(asset + '?v=20260916-marin1')).body, `precache:${asset}`);
   }
+  for (const asset of Object.values(clips).filter(asset => asset.startsWith('assets/audio/letters/marin-v1/'))) {
+    assert.ok(asset.startsWith('assets/audio/letters/marin-v1/'));
+  }
+  assert.equal(Object.values(clips).filter(asset => asset.startsWith('assets/audio/letters/marin-v1/')).length, 25);
+  for (const item of imported) {
+    assert.equal(clips[item.text], item.file);
+    assert.ok(item.file.startsWith('assets/audio/letters/marin-curriculum-v1/'));
+    assert.ok(shellAssets(app).has(item.file), `${item.file} is not in SHELL`);
+  }
 });
+
+function shellAssets(app) {
+  return new Set([...app.stores].find(([name]) => name.startsWith('shell-'))?.[1]?.added || []);
+}
 
 test('versioned shell requests hit the bare precache while offline', async () => {
   const app = runtime();

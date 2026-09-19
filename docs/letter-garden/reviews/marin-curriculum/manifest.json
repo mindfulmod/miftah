@@ -1,0 +1,3612 @@
+{
+  "sources": [
+    {
+      "id": "batch-1",
+      "file": "sources/batch-1.mp3",
+      "originalFilename": "openai-fm-marin-calm.mp3",
+      "sha256": "99728b8336d5caaab61a50f2f4394a5c7ffdae1e6380ba72e2732a66a4d51c05",
+      "duration": 78.12
+    },
+    {
+      "id": "batch-2",
+      "file": "sources/batch-2.mp3",
+      "originalFilename": "openai-fm-marin-calm-2.mp3",
+      "sha256": "5e3b2f778bf5b339a12825f4cbb8cdacedd4cdc1877ef4cbf9f6b1408f213cc0",
+      "duration": 81.504
+    }
+  ],
+  "items": [
+    {
+      "id": "lg-0f4c7785aba9",
+      "position": 1,
+      "text": "سِينْ",
+      "status": "imported",
+      "note": "Exact named item mapped from the opening; pronunciation review remains separate.",
+      "source": "batch-1",
+      "start": 0,
+      "end": 0.44,
+      "evidence": "Unprompted transcript plus token attention alignment; owner confirmed opening name order.",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-0f4c7785aba9.wav",
+      "sha256": "e77728f58e337ac812275c8e82886950fa1f9df181657d6aadbe99fd07e40df6",
+      "duration": 0.44,
+      "peak": 0.24157
+    },
+    {
+      "id": "lg-9398dd2463eb",
+      "position": 2,
+      "text": "وَاوْ",
+      "status": "imported",
+      "note": "Exact named item mapped from the opening; pronunciation review remains separate.",
+      "source": "batch-1",
+      "start": 0.44,
+      "end": 1.08,
+      "evidence": "Unprompted transcript plus token attention alignment; owner confirmed opening name order.",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-9398dd2463eb.wav",
+      "sha256": "5fe14ff8655cba5c9f02ea997ffd7eb79e279a1f63c34d5fa399696163b21788",
+      "duration": 0.64,
+      "peak": 0.37109
+    },
+    {
+      "id": "lg-cf74c943ec31",
+      "position": 3,
+      "text": "يَاءْ",
+      "status": "imported",
+      "note": "Exact named item mapped from the opening; pronunciation review remains separate.",
+      "source": "batch-1",
+      "start": 1.1,
+      "end": 1.575,
+      "evidence": "Unprompted transcript plus token attention alignment; owner confirmed opening name order.",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-cf74c943ec31.wav",
+      "sha256": "9435ab999bb963e8a334eb06edda4fc8eca23e48094770fd4b8e1ac21490c43b",
+      "duration": 0.475,
+      "peak": 0.34584
+    },
+    {
+      "id": "lg-94eee3c61cac",
+      "position": 4,
+      "text": "فَتْحَة",
+      "status": "imported",
+      "note": "Exact named item mapped from the opening; pronunciation review remains separate.",
+      "source": "batch-1",
+      "start": 1.575,
+      "end": 2.6,
+      "evidence": "Unprompted transcript plus token attention alignment; owner confirmed opening name order.",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-94eee3c61cac.wav",
+      "sha256": "f722608e0098a8282e88afa6c2685fa2fcb93a21bb07c497dfddada2a126cf7e",
+      "duration": 1.025,
+      "peak": 0.33575
+    },
+    {
+      "id": "lg-cb624b7d0ef4",
+      "position": 5,
+      "text": "كَسْرَة",
+      "status": "imported",
+      "note": "Exact named item mapped from the opening; pronunciation review remains separate.",
+      "source": "batch-1",
+      "start": 2.62,
+      "end": 3.72,
+      "evidence": "Unprompted transcript plus token attention alignment; owner confirmed opening name order.",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-cb624b7d0ef4.wav",
+      "sha256": "fa7de0bf208ae4aaf23020b2f2e6a3f54fdf088d9dde48c45c957737d303d979",
+      "duration": 1.1,
+      "peak": 0.34685
+    },
+    {
+      "id": "lg-60e3b82e5a3e",
+      "position": 6,
+      "text": "ضَمَّة",
+      "status": "needs-review",
+      "note": "No isolated mapping yet. Owner identified the former shared 3.70–4.85 second candidate as Dammataan; it must not be used for this name. Existing device speech remains active."
+    },
+    {
+      "id": "lg-4f057689d289",
+      "position": 7,
+      "text": "فَتْحَتَانْ",
+      "status": "needs-review",
+      "note": "No isolated mapping yet. Owner identified the former shared 3.70–4.85 second candidate as Dammataan; it must not be used for this name. Existing device speech remains active."
+    },
+    {
+      "id": "lg-9e233c3067bd",
+      "position": 8,
+      "text": "كَسْرَتَانْ",
+      "status": "imported",
+      "note": "Exact named item mapped from the opening; pronunciation review remains separate.",
+      "source": "batch-1",
+      "start": 4.85,
+      "end": 6.06,
+      "evidence": "Unprompted transcript plus token attention alignment; owner confirmed opening name order.",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-9e233c3067bd.wav",
+      "sha256": "44520b7afcfb9b16e2c2a07d4e54e6286c6149225079fbc2e607238f941a32ab",
+      "duration": 1.21,
+      "peak": 0.37939
+    },
+    {
+      "id": "lg-6f7ddec18d79",
+      "position": 9,
+      "text": "ضَمَّتَانْ",
+      "status": "imported",
+      "note": "Owner-identified Dammataan. Replaces the earlier automatic 6.08–7.28 second mapping.",
+      "source": "batch-1",
+      "start": 3.7,
+      "end": 4.85,
+      "evidence": "Owner listened to the exact 3.70–4.85 second opening-check.wav excerpt and identified damatan only, not fathatan (2026-09-18).",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-6f7ddec18d79.wav",
+      "sha256": "f745639d18921b56358f48a7530e0593afb0939962c385744364341a84a05388",
+      "duration": 1.15,
+      "peak": 0.51315
+    },
+    {
+      "id": "lg-e006f0b8074f",
+      "position": 10,
+      "text": "بَ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-2701f008f06f",
+      "position": 11,
+      "text": "بِ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-f2768d97d70e",
+      "position": 12,
+      "text": "بُ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-2d6a557df5ca",
+      "position": 13,
+      "text": "تَ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-0ee7bf085410",
+      "position": 14,
+      "text": "تِ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-ba861d96a2da",
+      "position": 15,
+      "text": "تُ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-79a5e4461bac",
+      "position": 16,
+      "text": "ثَ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-81a333ca8e19",
+      "position": 17,
+      "text": "ثِ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-cc4c2e4dbfda",
+      "position": 18,
+      "text": "ثُ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-d4221add8206",
+      "position": 19,
+      "text": "جَ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-07b43bc69877",
+      "position": 20,
+      "text": "جِ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-45fc1490399d",
+      "position": 21,
+      "text": "جُ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-780f94e60087",
+      "position": 22,
+      "text": "حَ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-c781688bdfdc",
+      "position": 23,
+      "text": "حِ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-50e6cddd272b",
+      "position": 24,
+      "text": "حُ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-147954761063",
+      "position": 25,
+      "text": "خَ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-f3d5f289598a",
+      "position": 26,
+      "text": "خِ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-e7757adcd376",
+      "position": 27,
+      "text": "خُ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-65ebd28d0327",
+      "position": 28,
+      "text": "دَ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-2b8af86d7225",
+      "position": 29,
+      "text": "دِ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-3b719e0537b9",
+      "position": 30,
+      "text": "دُ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-a2b1661793d8",
+      "position": 31,
+      "text": "ذَ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-fd9537adfffb",
+      "position": 32,
+      "text": "ذِ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-ab7f40914177",
+      "position": 33,
+      "text": "ذُ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-291b92e492fb",
+      "position": 34,
+      "text": "رَ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-924bb86de5f8",
+      "position": 35,
+      "text": "رِ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-ba536aa2ea00",
+      "position": 36,
+      "text": "رُ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-64cbd95c7cd8",
+      "position": 37,
+      "text": "زَ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-413cd9ef9615",
+      "position": 38,
+      "text": "زِ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-224b9bc0b043",
+      "position": 39,
+      "text": "زُ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-0c204c583369",
+      "position": 40,
+      "text": "سَ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-34fa019fc0cf",
+      "position": 41,
+      "text": "سِ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-f106b520337d",
+      "position": 42,
+      "text": "سُ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-c70774f9ecbf",
+      "position": 43,
+      "text": "شَ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-b395574965f1",
+      "position": 44,
+      "text": "شِ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-4866a45a046c",
+      "position": 45,
+      "text": "شُ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-f33099a288ef",
+      "position": 46,
+      "text": "صَ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-ea38bdb8dbab",
+      "position": 47,
+      "text": "صِ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-a8429e61a006",
+      "position": 48,
+      "text": "صُ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-1ebb7dbf1c58",
+      "position": 49,
+      "text": "ضَ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-3942d76b714f",
+      "position": 50,
+      "text": "ضِ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-040d0fff887a",
+      "position": 51,
+      "text": "ضُ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-8845ef789954",
+      "position": 52,
+      "text": "طَ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-05d7abc3e058",
+      "position": 53,
+      "text": "طِ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-e49934a2356f",
+      "position": 54,
+      "text": "طُ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-84e9e184b660",
+      "position": 55,
+      "text": "ظَ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-f8b192cd3a04",
+      "position": 56,
+      "text": "ظِ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-8f13db9909e5",
+      "position": 57,
+      "text": "ظُ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-470dbb77d4df",
+      "position": 58,
+      "text": "عَ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-36a1e7188648",
+      "position": 59,
+      "text": "عِ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-76bad5b506e7",
+      "position": 60,
+      "text": "عُ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-f6bfae64253c",
+      "position": 61,
+      "text": "غَ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-3b8732d73847",
+      "position": 62,
+      "text": "غِ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-b03e507decd7",
+      "position": 63,
+      "text": "غُ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-139a6ba5cae1",
+      "position": 64,
+      "text": "فَ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-390d2843328d",
+      "position": 65,
+      "text": "فِ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-ea02a7a1f92e",
+      "position": 66,
+      "text": "فُ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-d73b8f256e66",
+      "position": 67,
+      "text": "قَ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-2155dba94601",
+      "position": 68,
+      "text": "قِ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-96d6e5707674",
+      "position": 69,
+      "text": "قُ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-c73467ff1741",
+      "position": 70,
+      "text": "كَ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-fc64a7da85e6",
+      "position": 71,
+      "text": "كِ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-6bf3f9e02464",
+      "position": 72,
+      "text": "كُ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-ba418754028b",
+      "position": 73,
+      "text": "لَ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-c09f1ab2e58c",
+      "position": 74,
+      "text": "لِ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-f9e63fd121fb",
+      "position": 75,
+      "text": "لُ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-31fc2e8f811d",
+      "position": 76,
+      "text": "مَ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-9e1d5e7f2d91",
+      "position": 77,
+      "text": "مِ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-7e363b4b23fc",
+      "position": 78,
+      "text": "مُ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-875ff90371bc",
+      "position": 79,
+      "text": "نَ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-2c61c719a264",
+      "position": 80,
+      "text": "نِ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-b49450735a14",
+      "position": 81,
+      "text": "نُ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-e2fece36d71a",
+      "position": 82,
+      "text": "هَ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-9d34621d847e",
+      "position": 83,
+      "text": "هِ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-33fae2c3fa92",
+      "position": 84,
+      "text": "هُ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-8ce960a3420a",
+      "position": 85,
+      "text": "وَ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-e7bebb428fb2",
+      "position": 86,
+      "text": "وِ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-31d16c7f5df3",
+      "position": 87,
+      "text": "وُ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-08208c74a20d",
+      "position": 88,
+      "text": "يَ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-209639ac36ba",
+      "position": 89,
+      "text": "يِ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-ed132d80ef2e",
+      "position": 90,
+      "text": "يُ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-7c7afb90ab10",
+      "position": 91,
+      "text": "بَا",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-45d4256ab31e",
+      "position": 92,
+      "text": "بِي",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-5a23f168330e",
+      "position": 93,
+      "text": "بُو",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-3bc5f0ae9739",
+      "position": 94,
+      "text": "تَا",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-00ad57f4c686",
+      "position": 95,
+      "text": "تِي",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-e455bbaee2ef",
+      "position": 96,
+      "text": "تُو",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-80cdd720e239",
+      "position": 97,
+      "text": "ثَا",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-a1abac806544",
+      "position": 98,
+      "text": "ثِي",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-e163d245aa74",
+      "position": 99,
+      "text": "ثُو",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-794864096e4f",
+      "position": 100,
+      "text": "جَا",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-932469a7bdb8",
+      "position": 101,
+      "text": "جِي",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-8a12dca934bb",
+      "position": 102,
+      "text": "جُو",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-150434feb214",
+      "position": 103,
+      "text": "حَا",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-02f7085adb89",
+      "position": 104,
+      "text": "حِي",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-cc7d73f1885c",
+      "position": 105,
+      "text": "حُو",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-408f1c4dddea",
+      "position": 106,
+      "text": "خَا",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-913b0f56f2c5",
+      "position": 107,
+      "text": "خِي",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-d5fb917d9db6",
+      "position": 108,
+      "text": "خُو",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-57bf496ca1ac",
+      "position": 109,
+      "text": "دَا",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-55cfa486d155",
+      "position": 110,
+      "text": "دِي",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-d10d0df617af",
+      "position": 111,
+      "text": "دُو",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-54d4a8b5461c",
+      "position": 112,
+      "text": "ذَا",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-b68c9d45eea8",
+      "position": 113,
+      "text": "ذِي",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-1cee009449b6",
+      "position": 114,
+      "text": "ذُو",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-1f16e40d6192",
+      "position": 115,
+      "text": "رَا",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-899917db1c13",
+      "position": 116,
+      "text": "رِي",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-b7865f1b44f7",
+      "position": 117,
+      "text": "رُو",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-63a493773b8a",
+      "position": 118,
+      "text": "زَا",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-3d827a5a43cd",
+      "position": 119,
+      "text": "زِي",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-0bc47ef6eebc",
+      "position": 120,
+      "text": "زُو",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-06df41524ddd",
+      "position": 121,
+      "text": "سَا",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-7dc1cb03c870",
+      "position": 122,
+      "text": "سِي",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-07848031d3b5",
+      "position": 123,
+      "text": "سُو",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-563436b5f189",
+      "position": 124,
+      "text": "شَا",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-7e330ac82db4",
+      "position": 125,
+      "text": "شِي",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-697fef431da6",
+      "position": 126,
+      "text": "شُو",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-2401c0433020",
+      "position": 127,
+      "text": "صَا",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-0fca749ce8c2",
+      "position": 128,
+      "text": "صِي",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-11ba12301e3f",
+      "position": 129,
+      "text": "صُو",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-c03effb5dffc",
+      "position": 130,
+      "text": "ضَا",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-38534123f710",
+      "position": 131,
+      "text": "ضِي",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-3cc6e720f8c3",
+      "position": 132,
+      "text": "ضُو",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-89fbe36986ba",
+      "position": 133,
+      "text": "طَا",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-e264bcf86158",
+      "position": 134,
+      "text": "طِي",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-b702f2d63993",
+      "position": 135,
+      "text": "طُو",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-8bd19f151c78",
+      "position": 136,
+      "text": "ظَا",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-14a79786ec2d",
+      "position": 137,
+      "text": "ظِي",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-56bd2764fabd",
+      "position": 138,
+      "text": "ظُو",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-89c5c6f454a0",
+      "position": 139,
+      "text": "عَا",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-af930182cb0f",
+      "position": 140,
+      "text": "عِي",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-00fc50872e5a",
+      "position": 141,
+      "text": "عُو",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-8cb8de042947",
+      "position": 142,
+      "text": "غَا",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-ce78b75fbf7c",
+      "position": 143,
+      "text": "غِي",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-24dad8c7f05a",
+      "position": 144,
+      "text": "غُو",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-6512126eea52",
+      "position": 145,
+      "text": "فَا",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-db7696accf25",
+      "position": 146,
+      "text": "فِي",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-4d86b5e40014",
+      "position": 147,
+      "text": "فُو",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-9cd952ad821d",
+      "position": 148,
+      "text": "قَا",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-cfabc85d40c4",
+      "position": 149,
+      "text": "قِي",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-05d82cf0f520",
+      "position": 150,
+      "text": "قُو",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-ffafb835b249",
+      "position": 151,
+      "text": "كَا",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-0f8a24138157",
+      "position": 152,
+      "text": "كِي",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-e70d18ecbedd",
+      "position": 153,
+      "text": "كُو",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-a4e8ac8696fd",
+      "position": 154,
+      "text": "لَا",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-2a7d9d0b5f72",
+      "position": 155,
+      "text": "لِي",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-ee4afc8b7d3e",
+      "position": 156,
+      "text": "لُو",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-36b3714f9b0b",
+      "position": 157,
+      "text": "مَا",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-2b226200cffc",
+      "position": 158,
+      "text": "مِي",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-97eed4f499be",
+      "position": 159,
+      "text": "مُو",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-9165baec42cb",
+      "position": 160,
+      "text": "نَا",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-24a289e02af7",
+      "position": 161,
+      "text": "نِي",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-2f1492ac8f9d",
+      "position": 162,
+      "text": "نُو",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-5b6517e3c3f4",
+      "position": 163,
+      "text": "هَا",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-8bd6f3ee1768",
+      "position": 164,
+      "text": "هِي",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-0825396f62b3",
+      "position": 165,
+      "text": "هُو",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-92b449692318",
+      "position": 166,
+      "text": "وَا",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-9d47cc35d146",
+      "position": 167,
+      "text": "وِي",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-d3e526870d87",
+      "position": 168,
+      "text": "وُو",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-56263c67be0e",
+      "position": 169,
+      "text": "يَا",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-ae9cda2207e9",
+      "position": 170,
+      "text": "يِي",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-448c21ba5b29",
+      "position": 171,
+      "text": "يُو",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-aff5a3784268",
+      "position": 172,
+      "text": "بً",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-1469680daf37",
+      "position": 173,
+      "text": "بٍ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-ec9450ee268e",
+      "position": 174,
+      "text": "بٌ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-825223ba5e41",
+      "position": 175,
+      "text": "تً",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-aaa90ea0f2e4",
+      "position": 176,
+      "text": "تٍ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-b428ea1f6041",
+      "position": 177,
+      "text": "تٌ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-6180327bb4fe",
+      "position": 178,
+      "text": "ثً",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-88cf7f28e5a5",
+      "position": 179,
+      "text": "ثٍ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-c248216c0092",
+      "position": 180,
+      "text": "ثٌ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-442c25fddbac",
+      "position": 181,
+      "text": "جً",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-6c2ac6c045aa",
+      "position": 182,
+      "text": "جٍ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-4d0b72756b81",
+      "position": 183,
+      "text": "جٌ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-c8a726adb4ba",
+      "position": 184,
+      "text": "حً",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-caf6f392b2fd",
+      "position": 185,
+      "text": "حٍ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-0cc0508c264a",
+      "position": 186,
+      "text": "حٌ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-218fec838167",
+      "position": 187,
+      "text": "خً",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-94475bdb6e1c",
+      "position": 188,
+      "text": "خٍ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-8258de63d74e",
+      "position": 189,
+      "text": "خٌ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-e41669b75828",
+      "position": 190,
+      "text": "دً",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-aa8811b378b0",
+      "position": 191,
+      "text": "دٍ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-3d0a28c28b20",
+      "position": 192,
+      "text": "دٌ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-11491c9dc768",
+      "position": 193,
+      "text": "ذً",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-264f2d6a2749",
+      "position": 194,
+      "text": "ذٍ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-3bbe8da7a5b1",
+      "position": 195,
+      "text": "ذٌ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-b64caf45e1bf",
+      "position": 196,
+      "text": "رً",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-97644250cb3f",
+      "position": 197,
+      "text": "رٍ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-c25f41474423",
+      "position": 198,
+      "text": "رٌ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-8679f2dad70d",
+      "position": 199,
+      "text": "زً",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-95512a1dac68",
+      "position": 200,
+      "text": "زٍ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-9622112d0c46",
+      "position": 201,
+      "text": "زٌ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-f9bf2271ebfc",
+      "position": 202,
+      "text": "سً",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-a4d878f2ddde",
+      "position": 203,
+      "text": "سٍ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-aa5c8483384a",
+      "position": 204,
+      "text": "سٌ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-9ed6a9c073f8",
+      "position": 205,
+      "text": "شً",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-d5dc38bd4c15",
+      "position": 206,
+      "text": "شٍ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-e6efccc0cf43",
+      "position": 207,
+      "text": "شٌ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-9975aa5a1d03",
+      "position": 208,
+      "text": "صً",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-70023d59c807",
+      "position": 209,
+      "text": "صٍ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-c8fff66159b3",
+      "position": 210,
+      "text": "صٌ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-bebdc49b4b33",
+      "position": 211,
+      "text": "ضً",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-de4bb33a3f35",
+      "position": 212,
+      "text": "ضٍ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-55c1cc57ce2e",
+      "position": 213,
+      "text": "ضٌ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-ab3a5a24da20",
+      "position": 214,
+      "text": "طً",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-5fd45680f580",
+      "position": 215,
+      "text": "طٍ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-8d03f21eacd2",
+      "position": 216,
+      "text": "طٌ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-4aaa2b9d1e51",
+      "position": 217,
+      "text": "ظً",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-86b9fd2810fc",
+      "position": 218,
+      "text": "ظٍ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-ffeba4e4f785",
+      "position": 219,
+      "text": "ظٌ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-6b60a2cc44b1",
+      "position": 220,
+      "text": "عً",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-3443cd8315b6",
+      "position": 221,
+      "text": "عٍ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-50c7f9dc9c4b",
+      "position": 222,
+      "text": "عٌ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-395c6270be02",
+      "position": 223,
+      "text": "غً",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-611a0fc75a47",
+      "position": 224,
+      "text": "غٍ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-65250ff7dc22",
+      "position": 225,
+      "text": "غٌ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-1183814c6599",
+      "position": 226,
+      "text": "فً",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-56b2436828a2",
+      "position": 227,
+      "text": "فٍ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-e5d1cc0cd142",
+      "position": 228,
+      "text": "فٌ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-507849af67a2",
+      "position": 229,
+      "text": "قً",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-e241de6189c2",
+      "position": 230,
+      "text": "قٍ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-223af94ba4de",
+      "position": 231,
+      "text": "قٌ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-64ce0a47ccf0",
+      "position": 232,
+      "text": "كً",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-636598d5032b",
+      "position": 233,
+      "text": "كٍ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-c962e57e792b",
+      "position": 234,
+      "text": "كٌ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-4cc52666fb5e",
+      "position": 235,
+      "text": "لً",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-f820bb01fafc",
+      "position": 236,
+      "text": "لٍ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-ed4048714f66",
+      "position": 237,
+      "text": "لٌ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-8bd6107cd397",
+      "position": 238,
+      "text": "مً",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-cc8e1e55f2aa",
+      "position": 239,
+      "text": "مٍ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-56801fde24ec",
+      "position": 240,
+      "text": "مٌ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-e772c79105d2",
+      "position": 241,
+      "text": "نً",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-1c6267a36c4a",
+      "position": 242,
+      "text": "نٍ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-eac418a09e83",
+      "position": 243,
+      "text": "نٌ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-c607adb54612",
+      "position": 244,
+      "text": "هً",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-60ed6c4db8ce",
+      "position": 245,
+      "text": "هٍ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-05364b31a94f",
+      "position": 246,
+      "text": "هٌ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-a70af41f7756",
+      "position": 247,
+      "text": "وً",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-e6360442efcf",
+      "position": 248,
+      "text": "وٍ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-783cbd303008",
+      "position": 249,
+      "text": "وٌ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-1a441a88e3f7",
+      "position": 250,
+      "text": "يً",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-481b1df1cd2f",
+      "position": 251,
+      "text": "يٍ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-6b2ef95b890d",
+      "position": 252,
+      "text": "يٌ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-3b8e1495833d",
+      "position": 253,
+      "text": "بَوْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-ca3af558ba11",
+      "position": 254,
+      "text": "بَيْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-340740d00ba1",
+      "position": 255,
+      "text": "تَوْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-427032b8a68b",
+      "position": 256,
+      "text": "تَيْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-8aa63c060c0b",
+      "position": 257,
+      "text": "ثَوْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-7339da8be97f",
+      "position": 258,
+      "text": "ثَيْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-2700319fe52a",
+      "position": 259,
+      "text": "جَوْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-049b7c17697e",
+      "position": 260,
+      "text": "جَيْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-1267bbed040f",
+      "position": 261,
+      "text": "حَوْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-7b0b8febe4a8",
+      "position": 262,
+      "text": "حَيْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-4ec6e5c6752e",
+      "position": 263,
+      "text": "خَوْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-43e96dae370c",
+      "position": 264,
+      "text": "خَيْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-bfcf70752bf3",
+      "position": 265,
+      "text": "دَوْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-6552de8f1eb2",
+      "position": 266,
+      "text": "دَيْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-38f6528617ad",
+      "position": 267,
+      "text": "ذَوْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-138ac79f97ce",
+      "position": 268,
+      "text": "ذَيْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-04b5c6435127",
+      "position": 269,
+      "text": "رَوْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-3856341cceac",
+      "position": 270,
+      "text": "رَيْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-9e9faf1327e8",
+      "position": 271,
+      "text": "زَوْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-495278a3b264",
+      "position": 272,
+      "text": "زَيْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-88645ab31121",
+      "position": 273,
+      "text": "سَوْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-f63514e65d9b",
+      "position": 274,
+      "text": "سَيْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-91fd914ee86c",
+      "position": 275,
+      "text": "شَوْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-c3b5afe7cc08",
+      "position": 276,
+      "text": "شَيْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-a5756baa80ee",
+      "position": 277,
+      "text": "صَوْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-8bc549d74bec",
+      "position": 278,
+      "text": "صَيْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-5c54409fd37a",
+      "position": 279,
+      "text": "ضَوْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-1bbac20141b3",
+      "position": 280,
+      "text": "ضَيْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-2d7c57749b54",
+      "position": 281,
+      "text": "طَوْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-8c90a8972bb8",
+      "position": 282,
+      "text": "طَيْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-c355d80d4e76",
+      "position": 283,
+      "text": "ظَوْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-cf6ed2a2b1c8",
+      "position": 284,
+      "text": "ظَيْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-43cc227f4e90",
+      "position": 285,
+      "text": "عَوْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-47f506e11b63",
+      "position": 286,
+      "text": "عَيْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-c4b11b1faa10",
+      "position": 287,
+      "text": "غَوْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-69e912df79f3",
+      "position": 288,
+      "text": "غَيْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-353bf3f68337",
+      "position": 289,
+      "text": "فَوْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-0512f62a1a38",
+      "position": 290,
+      "text": "فَيْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-1ef3ddb0017b",
+      "position": 291,
+      "text": "قَوْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-7d2fe98d3fcf",
+      "position": 292,
+      "text": "قَيْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-ffb111e6ea09",
+      "position": 293,
+      "text": "كَوْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-a08e0189ebdd",
+      "position": 294,
+      "text": "كَيْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-f86274109079",
+      "position": 295,
+      "text": "لَوْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-b39cbc7e3269",
+      "position": 296,
+      "text": "لَيْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-e9437b0a3e81",
+      "position": 297,
+      "text": "مَوْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-c445e7a21765",
+      "position": 298,
+      "text": "مَيْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-4e89a5b4afe4",
+      "position": 299,
+      "text": "نَوْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-e66d423a3dd9",
+      "position": 300,
+      "text": "نَيْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-7c8c179a254f",
+      "position": 301,
+      "text": "هَوْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-7b74bdccec55",
+      "position": 302,
+      "text": "هَيْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-5e2ab5971ba1",
+      "position": 303,
+      "text": "وَوْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-8f627810c512",
+      "position": 304,
+      "text": "وَيْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-d212844a5b4d",
+      "position": 305,
+      "text": "يَوْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-d066957055f5",
+      "position": 306,
+      "text": "يَيْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-a8549d663ab9",
+      "position": 307,
+      "text": "بَتْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-9f9e9e354c42",
+      "position": 308,
+      "text": "مِنْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-e19a67213fda",
+      "position": 309,
+      "text": "كُمْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-ff2f1e4fdf07",
+      "position": 310,
+      "text": "بَدَّ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-30abc74690ba",
+      "position": 311,
+      "text": "رَبَّ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-0cb3e6dd5b00",
+      "position": 312,
+      "text": "حَبٌّ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-346f9d232ce3",
+      "position": 313,
+      "text": "شَدَّا",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-e2e8512af7aa",
+      "position": 314,
+      "text": "رَبِّ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-82b658e5075c",
+      "position": 315,
+      "text": "تَرَ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 19.11,
+      "end": 19.65,
+      "evidence": "Unprompted local transcript 'تَرَ' matched in ordered context; attention alignment log-probability -0.46; quiet edges True/False.",
+      "isolatedTranscript": "تا دا",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-82b658e5075c.wav",
+      "sha256": "2f6f45aa767520e806e727278e47006013fb089e77b8ac5ad9e116a880030d9e",
+      "duration": 0.54,
+      "peak": 0.35921
+    },
+    {
+      "id": "lg-9963a09a494c",
+      "position": 316,
+      "text": "مِّن",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-0596b897010e",
+      "position": 317,
+      "text": "هُمْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-24d41584f68c",
+      "position": 318,
+      "text": "عَن",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 20.03,
+      "end": 20.39,
+      "evidence": "Unprompted local transcript 'عَنْ' matched in ordered context; attention alignment log-probability -0.033; quiet edges False/True.",
+      "isolatedTranscript": "مانا",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-24d41584f68c.wav",
+      "sha256": "3e6291b0c667c539735a7f9f2784fcf62cd986886290e0303e8662d4a2099a53",
+      "duration": 0.36,
+      "peak": 0.37116
+    },
+    {
+      "id": "lg-05eb551f8219",
+      "position": 319,
+      "text": "إِنَّ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 20.39,
+      "end": 20.61,
+      "evidence": "Unprompted local transcript 'إِنَّ' matched in ordered context; attention alignment log-probability -1.545; quiet edges True/False.",
+      "isolatedTranscript": "اشتركوا في القناة",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-05eb551f8219.wav",
+      "sha256": "686ca805abd4e79d7c7779d548c2ca1beed58046962ecc02ab7f1f4f2d828c3a",
+      "duration": 0.22,
+      "peak": 0.2163
+    },
+    {
+      "id": "lg-7af96a47a4b6",
+      "position": 320,
+      "text": "هُوَ",
+      "status": "imported",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "source": "batch-2",
+      "start": 20.61,
+      "end": 21.045,
+      "evidence": "Unprompted local transcript 'هُوَ' matched in ordered context; attention alignment log-probability -0.807; quiet edges False/True. Isolated extracted-clip transcription independently matches the word identity.",
+      "isolatedTranscript": "هو",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-7af96a47a4b6.wav",
+      "sha256": "12698afe55ed81d90252483ed7f17ea82cd29d331bba528d93f2d3ae3cf9bcc6",
+      "duration": 0.435,
+      "peak": 0.36947
+    },
+    {
+      "id": "lg-95da19a9c3af",
+      "position": 321,
+      "text": "قُلْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-c960de019d09",
+      "position": 322,
+      "text": "لَآ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-d4ed5209d00e",
+      "position": 323,
+      "text": "لَمْ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 22.085,
+      "end": 22.59,
+      "evidence": "Unprompted local transcript 'لَمْ' matched in ordered context; attention alignment log-probability -1.882; quiet edges True/True.",
+      "isolatedTranscript": "ترجمة نانسي قنقر",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-d4ed5209d00e.wav",
+      "sha256": "e60aa6f6fd1209dfa02cec7d94a0dbed5a2db82e45729dd94d890a4022d3ba6e",
+      "duration": 0.505,
+      "peak": 0.27434
+    },
+    {
+      "id": "lg-474f763a4173",
+      "position": 324,
+      "text": "شَرِّ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 22.59,
+      "end": 23.17,
+      "evidence": "Unprompted local transcript 'شَرِّ' matched in ordered context; attention alignment log-probability -0.24; quiet edges True/False.",
+      "isolatedTranscript": "شري",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-474f763a4173.wav",
+      "sha256": "52e10583ce8a7b33dfac072775b46942cd1023cc4d58948363449f9c3190c8e1",
+      "duration": 0.58,
+      "peak": 0.2698
+    },
+    {
+      "id": "lg-1c562fd4a795",
+      "position": 325,
+      "text": "بِسْمِ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-43ac82f76e3c",
+      "position": 326,
+      "text": "لِلَّهِ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 23.59,
+      "end": 24.15,
+      "evidence": "Unprompted local transcript 'لِلَّهِ' matched in ordered context; attention alignment log-probability -0.231; quiet edges False/True.",
+      "isolatedTranscript": "ترجمة نانسي قنقر",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-43ac82f76e3c.wav",
+      "sha256": "1e4d9162cb096b94ae40224502d20820cecfce9a5646cb4dfa710612a49e03f3",
+      "duration": 0.56,
+      "peak": 0.30764
+    },
+    {
+      "id": "lg-f01edb5de2d9",
+      "position": 327,
+      "text": "مَـٰلِكِ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 24.15,
+      "end": 25.005,
+      "evidence": "Unprompted local transcript 'مَالِكِ' matched in ordered context; attention alignment log-probability -0.026; quiet edges True/True.",
+      "isolatedTranscript": "مالكي",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-f01edb5de2d9.wav",
+      "sha256": "e83e2b927ed5d40d57e9ab1baff810f8e60d2fc27972949bcacd2cf599133ce4",
+      "duration": 0.855,
+      "peak": 0.30813
+    },
+    {
+      "id": "lg-c8b4a821d5b9",
+      "position": 328,
+      "text": "يَوْمِ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 25.005,
+      "end": 25.61,
+      "evidence": "Unprompted local transcript 'يَوْمِ' matched in ordered context; attention alignment log-probability -0.232; quiet edges True/False.",
+      "isolatedTranscript": "يوميكوكوكوكوكوكوكوكوكوكوكوكوكوكوكوكوك",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-c8b4a821d5b9.wav",
+      "sha256": "d292a045606abbb1fdc89a001df33b33805c01ee126c859a433a4cd667e0d258",
+      "duration": 0.605,
+      "peak": 0.36973
+    },
+    {
+      "id": "lg-642b2eea6723",
+      "position": 329,
+      "text": "صِرَٰطَ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-09c6b807ef8d",
+      "position": 330,
+      "text": "غَيْرِ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 26.13,
+      "end": 26.57,
+      "evidence": "Unprompted local transcript 'غير.' matched in ordered context; attention alignment log-probability -0.243; quiet edges False/True.",
+      "isolatedTranscript": "ترجمة نانسي قنقر",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-09c6b807ef8d.wav",
+      "sha256": "64580c152ef97a6ed09af4810e54848429dfdb573a8a219107a270e4592ddfac",
+      "duration": 0.44,
+      "peak": 0.325
+    },
+    {
+      "id": "lg-73d38b2d5bed",
+      "position": 331,
+      "text": "وَلَا",
+      "status": "imported",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "source": "batch-2",
+      "start": 26.57,
+      "end": 27.545,
+      "evidence": "Unprompted local transcript 'ولا' matched in ordered context; attention alignment log-probability -0.178; quiet edges True/True. Isolated extracted-clip transcription independently matches the word identity.",
+      "isolatedTranscript": "ولا",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-73d38b2d5bed.wav",
+      "sha256": "f68dd512d184ff2b457651eca839655cdee3921f128c6529405c1eb260d0bbe6",
+      "duration": 0.975,
+      "peak": 0.59918
+    },
+    {
+      "id": "lg-f9b77a966b34",
+      "position": 332,
+      "text": "أَلَمْ",
+      "status": "imported",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "source": "batch-2",
+      "start": 27.545,
+      "end": 27.955,
+      "evidence": "Unprompted local transcript 'ألم' matched in ordered context; attention alignment log-probability -1.983; quiet edges True/True. Isolated extracted-clip transcription independently matches the word identity.",
+      "isolatedTranscript": "ألم",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-f9b77a966b34.wav",
+      "sha256": "8a93f9ae4c32018583aba07f07ac03cac5711acd28a25c6f09f891a318d21dd4",
+      "duration": 0.41,
+      "peak": 0.34573
+    },
+    {
+      "id": "lg-6e9485c46650",
+      "position": 333,
+      "text": "كَيْفَ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 27.955,
+      "end": 28.61,
+      "evidence": "Unprompted local transcript 'كيف' matched in ordered context; attention alignment log-probability -0.062; quiet edges True/False.",
+      "isolatedTranscript": "ترجمة نانسي قنقر",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-6e9485c46650.wav",
+      "sha256": "48a4317c5d431641f61601efde1ac2021c6701ded8efb94aa1832f86ca294279",
+      "duration": 0.655,
+      "peak": 0.43079
+    },
+    {
+      "id": "lg-f65ba0692d34",
+      "position": 334,
+      "text": "فَعَلَ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 28.61,
+      "end": 29.03,
+      "evidence": "Unprompted local transcript 'فعل' matched in ordered context; attention alignment log-probability -0.018; quiet edges False/False.",
+      "isolatedTranscript": "فعلا",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-f65ba0692d34.wav",
+      "sha256": "291f4c3fa538c7065b45acb5937bea740c2ac907f257faee694624f31bb513b3",
+      "duration": 0.42,
+      "peak": 0.41522
+    },
+    {
+      "id": "lg-98c207c85669",
+      "position": 335,
+      "text": "رَبُّكَ",
+      "status": "imported",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "source": "batch-2",
+      "start": 29.03,
+      "end": 29.7,
+      "evidence": "Unprompted local transcript 'ربك' matched in ordered context; attention alignment log-probability -0.014; quiet edges False/True. Isolated extracted-clip transcription independently matches the word identity.",
+      "isolatedTranscript": "ربك",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-98c207c85669.wav",
+      "sha256": "e1b141a68c9fdeb0c8dde02664c04b021c7c83dc2a8656d2898084a7a7ad6f20",
+      "duration": 0.67,
+      "peak": 0.41089
+    },
+    {
+      "id": "lg-3062586698e2",
+      "position": 336,
+      "text": "هَـٰذَا",
+      "status": "imported",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "source": "batch-2",
+      "start": 29.7,
+      "end": 30.44,
+      "evidence": "Unprompted local transcript 'هذا.' matched in ordered context; attention alignment log-probability -0.045; quiet edges True/True. Isolated extracted-clip transcription independently matches the word identity.",
+      "isolatedTranscript": "هذا",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-3062586698e2.wav",
+      "sha256": "ca3557cb41264c32e44590b230867641658aab6d28a2664dec9b4398fe704def",
+      "duration": 0.74,
+      "peak": 0.38027
+    },
+    {
+      "id": "lg-66a8d70cd9ef",
+      "position": 337,
+      "text": "يَدُعُّ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-74d733b4d22c",
+      "position": 338,
+      "text": "يَحُضُّ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-c7841a362473",
+      "position": 339,
+      "text": "إِنَّآ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-5daa6e6fadf0",
+      "position": 340,
+      "text": "فَصَلِّ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 33.41,
+      "end": 34.105,
+      "evidence": "Unprompted local transcript 'فصل' matched in ordered context; attention alignment log-probability -0.098; quiet edges True/True.",
+      "isolatedTranscript": "فصللت",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-5daa6e6fadf0.wav",
+      "sha256": "4ce31ec8953b09bb8dd7649adde95c5e25f3d447d24e241945a4ac7e9dc27324",
+      "duration": 0.695,
+      "peak": 0.35106
+    },
+    {
+      "id": "lg-4c2f786c3e8d",
+      "position": 341,
+      "text": "لَكُمْ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 34.105,
+      "end": 34.31,
+      "evidence": "Unprompted local transcript 'لكم' matched in ordered context; attention alignment log-probability -0.046; quiet edges True/False.",
+      "isolatedTranscript": "ترجمة نانسي قنقر",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-4c2f786c3e8d.wav",
+      "sha256": "8c74839db78d6bccd59fe7edbfee1c2a701da9044439d21f186a463387fa7352",
+      "duration": 0.205,
+      "peak": 0.21999
+    },
+    {
+      "id": "lg-9e3de7854832",
+      "position": 342,
+      "text": "دِينِ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-41a5ef4bf942",
+      "position": 343,
+      "text": "إِذَا",
+      "status": "imported",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "source": "batch-2",
+      "start": 34.83,
+      "end": 35.67,
+      "evidence": "Unprompted local transcript 'إذا' matched in ordered context; attention alignment log-probability -0.426; quiet edges True/False. Isolated extracted-clip transcription independently matches the word identity.",
+      "isolatedTranscript": "إذا",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-41a5ef4bf942.wav",
+      "sha256": "d1f4c0145685cb6fe5bfd1776c00be5705357933130e2c92cb5da77d91f4ecfd",
+      "duration": 0.84,
+      "peak": 0.45108
+    },
+    {
+      "id": "lg-3468a09a4e0b",
+      "position": 344,
+      "text": "نَصْرُ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 35.67,
+      "end": 36.13,
+      "evidence": "Unprompted local transcript 'نصر' matched in ordered context; attention alignment log-probability -0.013; quiet edges False/True.",
+      "isolatedTranscript": "نصروب",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-3468a09a4e0b.wav",
+      "sha256": "40acdc7d6e2cea6095ef7b9b03ec2f5401dc0ef6e26ef8cb36b2ab66962c1ec0",
+      "duration": 0.46,
+      "peak": 0.35837
+    },
+    {
+      "id": "lg-f14ab1770a44",
+      "position": 345,
+      "text": "كَانَ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 36.13,
+      "end": 36.455,
+      "evidence": "Unprompted local transcript 'كان' matched in ordered context; attention alignment log-probability -0.046; quiet edges True/True.",
+      "isolatedTranscript": "ترجمة نانسي قنقر",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-f14ab1770a44.wav",
+      "sha256": "7d01b63e136f31a8c2cbcc4f6e5320fc07a93ad39ec54bf627913bedb2a04046",
+      "duration": 0.325,
+      "peak": 0.27039
+    },
+    {
+      "id": "lg-6a7ad426ba6c",
+      "position": 346,
+      "text": "تَبَّتْ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 36.455,
+      "end": 36.91,
+      "evidence": "Unprompted local transcript 'تبت' matched in ordered context; attention alignment log-probability -1.32; quiet edges True/False.",
+      "isolatedTranscript": "اشتركوا في القناة",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-6a7ad426ba6c.wav",
+      "sha256": "afcd8600ca7a54fe99d8d506420330dc147e27835c5190fceaadf3fa7d5b8fc1",
+      "duration": 0.455,
+      "peak": 0.29867
+    },
+    {
+      "id": "lg-513e420f5593",
+      "position": 347,
+      "text": "يَدَآ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-2f846091a5f9",
+      "position": 348,
+      "text": "وَتَبَّ",
+      "status": "imported",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "source": "batch-2",
+      "start": 37.42,
+      "end": 38.15,
+      "evidence": "Unprompted local transcript 'وتب' matched in ordered context; attention alignment log-probability -2.115; quiet edges True/False. Isolated extracted-clip transcription independently matches the word identity.",
+      "isolatedTranscript": "وتب",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-2f846091a5f9.wav",
+      "sha256": "23b4540cd2e6d355026db10972fc93c5dde8b1150c6fdc85c11bff30b7c3b5ea",
+      "duration": 0.73,
+      "peak": 0.28604
+    },
+    {
+      "id": "lg-7242f6a466e3",
+      "position": 349,
+      "text": "عَنْهُ",
+      "status": "imported",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "source": "batch-2",
+      "start": 38.15,
+      "end": 38.655,
+      "evidence": "Unprompted local transcript 'عنه' matched in ordered context; attention alignment log-probability -0.023; quiet edges False/True. Isolated extracted-clip transcription independently matches the word identity.",
+      "isolatedTranscript": "عنه",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-7242f6a466e3.wav",
+      "sha256": "be4baa886ae806db2b0218d96d764a9e0549bb431f2f405391b0ac8cf860408b",
+      "duration": 0.505,
+      "peak": 0.28125
+    },
+    {
+      "id": "lg-a61229b543f7",
+      "position": 350,
+      "text": "وَمَا",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 38.655,
+      "end": 39.27,
+      "evidence": "Unprompted local transcript 'وما' matched in ordered context; attention alignment log-probability -0.115; quiet edges True/True.",
+      "isolatedTranscript": "وما ترجمة نانسي قنقر",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-a61229b543f7.wav",
+      "sha256": "155419cbb6ec303d935259ed5cdaf54e293d7efc4f2915256710f78838c7057c",
+      "duration": 0.615,
+      "peak": 0.36354
+    },
+    {
+      "id": "lg-6d8b0837aad0",
+      "position": 351,
+      "text": "كَسَبَ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 39.27,
+      "end": 39.905,
+      "evidence": "Unprompted local transcript 'كسب' matched in ordered context; attention alignment log-probability -0.025; quiet edges True/True.",
+      "isolatedTranscript": "ترجمة نانسي قنقر",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-6d8b0837aad0.wav",
+      "sha256": "20d3cffad47c0f330acf3be6325ee5eb3220703930a0f1d5fd17b30e2de98226",
+      "duration": 0.635,
+      "peak": 0.26577
+    },
+    {
+      "id": "lg-ccd65ecf3ee7",
+      "position": 352,
+      "text": "ذَاتَ",
+      "status": "imported",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "source": "batch-2",
+      "start": 39.62,
+      "end": 39.98,
+      "evidence": "Unprompted local transcript 'ذات' matched in ordered context; attention alignment log-probability -0.023; quiet edges False/False. Isolated extracted-clip transcription independently matches the word identity.",
+      "isolatedTranscript": "ذات",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-ccd65ecf3ee7.wav",
+      "sha256": "cdb3aa4914139171f68106d9cb4bb6fa0f4d373c4ebb8748565a513d4397746c",
+      "duration": 0.36,
+      "peak": 0.25116
+    },
+    {
+      "id": "lg-5e79a2002dd0",
+      "position": 353,
+      "text": "أَحَدٌ",
+      "status": "imported",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "source": "batch-2",
+      "start": 40.01,
+      "end": 40.41,
+      "evidence": "Unprompted local transcript 'أحد' matched in ordered context; attention alignment log-probability -0.35; quiet edges False/False. Isolated extracted-clip transcription independently matches the word identity.",
+      "isolatedTranscript": "أحد",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-5e79a2002dd0.wav",
+      "sha256": "c93a020e92d1f0435418f5b8574947b11b16a3d39179eed2d46df7cddfbcd3b3",
+      "duration": 0.4,
+      "peak": 0.21793
+    },
+    {
+      "id": "lg-4c9adc018513",
+      "position": 354,
+      "text": "يَلِدْ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 40.41,
+      "end": 40.99,
+      "evidence": "Unprompted local transcript 'يلد،' matched in ordered context; attention alignment log-probability -0.482; quiet edges False/True.",
+      "isolatedTranscript": "ترجمة نانسي قنقر",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-4c9adc018513.wav",
+      "sha256": "0315a7ab80e05fa3967ede995c7386a72619769b1bd6f242badc44fd34d61214",
+      "duration": 0.58,
+      "peak": 0.18049
+    },
+    {
+      "id": "lg-db9d001d07f5",
+      "position": 355,
+      "text": "وَلَمْ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 40.99,
+      "end": 41.965,
+      "evidence": "Unprompted local transcript 'ولم' matched in ordered context; attention alignment log-probability -0.377; quiet edges True/True.",
+      "isolatedTranscript": "ولم يطلق",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-db9d001d07f5.wav",
+      "sha256": "a1bf179e9de78ae19b1e41ecc04c034af0a3b4abd3b42a76f36f6d778ff47c45",
+      "duration": 0.975,
+      "peak": 0.37726
+    },
+    {
+      "id": "lg-c8f6af9ae470",
+      "position": 356,
+      "text": "يَكُن",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 41.965,
+      "end": 42.15,
+      "evidence": "Unprompted local transcript 'يكن' matched in ordered context; attention alignment log-probability -0.006; quiet edges True/False.",
+      "isolatedTranscript": "ترجمة نانسي قنقر",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-c8f6af9ae470.wav",
+      "sha256": "baf8d9d65651752730a9111336ebcb397746abeec0ea433f82c69ddcec59f6e1",
+      "duration": 0.185,
+      "peak": 0.25616
+    },
+    {
+      "id": "lg-f26ead2a68a3",
+      "position": 357,
+      "text": "بِرَبِّ",
+      "status": "imported",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "source": "batch-2",
+      "start": 42.15,
+      "end": 42.53,
+      "evidence": "Unprompted local transcript 'برب' matched in ordered context; attention alignment log-probability -0.034; quiet edges False/False. Isolated extracted-clip transcription independently matches the word identity.",
+      "isolatedTranscript": "برب",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-f26ead2a68a3.wav",
+      "sha256": "f576b241c644657a66ff96ae1ca71a6cec978b7f46c687bd144927bbd0b11bf6",
+      "duration": 0.38,
+      "peak": 0.23865
+    },
+    {
+      "id": "lg-826565e1e4fd",
+      "position": 358,
+      "text": "خَلَقَ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 42.53,
+      "end": 43.185,
+      "evidence": "Unprompted local transcript 'خلق' matched in ordered context; attention alignment log-probability -0.016; quiet edges False/True.",
+      "isolatedTranscript": "بخلقة",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-826565e1e4fd.wav",
+      "sha256": "d48d39b5bd376b8e68092e7aeba7ad415b2046afee6dfb2b1d3f47c690de8bfc",
+      "duration": 0.655,
+      "peak": 0.3317
+    },
+    {
+      "id": "lg-cd1effff8877",
+      "position": 359,
+      "text": "وَمِن",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 43.185,
+      "end": 43.93,
+      "evidence": "Unprompted local transcript 'ومن' matched in ordered context; attention alignment log-probability -0.081; quiet edges True/True.",
+      "isolatedTranscript": "ومن وقت",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-cd1effff8877.wav",
+      "sha256": "b639e5570563cb17e56f4068bcb1579033a12de048c16e443c2c4302a441040f",
+      "duration": 0.745,
+      "peak": 0.44482
+    },
+    {
+      "id": "lg-e8865a8cf848",
+      "position": 360,
+      "text": "وَقَبَ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 43.93,
+      "end": 44.19,
+      "evidence": "Unprompted local transcript 'وقب' matched in ordered context; attention alignment log-probability -0.011; quiet edges True/False.",
+      "isolatedTranscript": "قبل",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-e8865a8cf848.wav",
+      "sha256": "28092fb547254db16bfa9339f7f11e4733966d0c9d22b1a48056a204fe258191",
+      "duration": 0.26,
+      "peak": 0.31118
+    },
+    {
+      "id": "lg-509b1b7cc314",
+      "position": 361,
+      "text": "حَسَدَ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 44.19,
+      "end": 44.67,
+      "evidence": "Unprompted local transcript 'حسد،' matched in ordered context; attention alignment log-probability -0.043; quiet edges False/True.",
+      "isolatedTranscript": "حسدة",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-509b1b7cc314.wav",
+      "sha256": "b9d411de94fba0ac764a0a73b239dcedd878a2060b13959223eb2e35d48a390e",
+      "duration": 0.48,
+      "peak": 0.29151
+    },
+    {
+      "id": "lg-e5dfc52647f5",
+      "position": 362,
+      "text": "إِلَـٰهِ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 44.67,
+      "end": 45.41,
+      "evidence": "Unprompted local transcript 'إله' matched in ordered context; attention alignment log-probability -0.276; quiet edges True/False.",
+      "isolatedTranscript": "إلا",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-e5dfc52647f5.wav",
+      "sha256": "332b9b0e18cff3b60a3b804d433b86325685efe06a57ba9b1e4954b0dd4e6474",
+      "duration": 0.74,
+      "peak": 0.33481
+    },
+    {
+      "id": "lg-07f25640a2b9",
+      "position": 363,
+      "text": "ٱللَّهِ",
+      "status": "imported",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "source": "batch-2",
+      "start": 45.41,
+      "end": 45.89,
+      "evidence": "Unprompted local transcript 'الله' matched in ordered context; attention alignment log-probability -0.022; quiet edges False/False. Isolated extracted-clip transcription independently matches the word identity.",
+      "isolatedTranscript": "الله",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-07f25640a2b9.wav",
+      "sha256": "a54884bd704b0794bab23bf818ffe99fd563c26d0e12fbdbd0cc6bef7039ccf4",
+      "duration": 0.48,
+      "peak": 0.38473
+    },
+    {
+      "id": "lg-a92c18c9f482",
+      "position": 364,
+      "text": "ٱلْحَمْدُ",
+      "status": "imported",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "source": "batch-2",
+      "start": 45.89,
+      "end": 46.41,
+      "evidence": "Unprompted local transcript 'الحمد' matched in ordered context; attention alignment log-probability -0.007; quiet edges False/False. Isolated extracted-clip transcription independently matches the word identity.",
+      "isolatedTranscript": "الحمد",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-a92c18c9f482.wav",
+      "sha256": "96708f1f1233b155c5bd913540964e7dcbc390916aced8c737baff5f74cdc858",
+      "duration": 0.52,
+      "peak": 0.29097
+    },
+    {
+      "id": "lg-c7332315d337",
+      "position": 365,
+      "text": "ٱلدِّينِ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-f663e61203ed",
+      "position": 366,
+      "text": "إِيَّاكَ",
+      "status": "imported",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "source": "batch-2",
+      "start": 47.03,
+      "end": 47.79,
+      "evidence": "Unprompted local transcript 'إياك' matched in ordered context; attention alignment log-probability -0.104; quiet edges True/False. Isolated extracted-clip transcription independently matches the word identity.",
+      "isolatedTranscript": "إياك",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-f663e61203ed.wav",
+      "sha256": "0db1bf6b5584209f776836dd2bff4fce8859df9851a577a6ada24b7630e89db9",
+      "duration": 0.76,
+      "peak": 0.36886
+    },
+    {
+      "id": "lg-2578ff399d5d",
+      "position": 367,
+      "text": "نَعْبُدُ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 47.79,
+      "end": 48.35,
+      "evidence": "Unprompted local transcript 'نعبد،' matched in ordered context; attention alignment log-probability -0.003; quiet edges False/True.",
+      "isolatedTranscript": "نابدو",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-2578ff399d5d.wav",
+      "sha256": "db1e945d59694a5c259de2c1fee14932772b8e4c0e4b49693545f0abce8f4487",
+      "duration": 0.56,
+      "peak": 0.2422
+    },
+    {
+      "id": "lg-c7d727cb3393",
+      "position": 368,
+      "text": "وَإِيَّاكَ",
+      "status": "imported",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "source": "batch-2",
+      "start": 48.35,
+      "end": 49.55,
+      "evidence": "Unprompted local transcript 'وإياك' matched in ordered context; attention alignment log-probability -0.052; quiet edges True/False. Isolated extracted-clip transcription independently matches the word identity.",
+      "isolatedTranscript": "وإياك",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-c7d727cb3393.wav",
+      "sha256": "edcc3b9c65838cd3ca1b7564cc3482a8ebcfcd88f6d2d15952fb3aec0794d406",
+      "duration": 1.2,
+      "peak": 0.40903
+    },
+    {
+      "id": "lg-5d2d48da3857",
+      "position": 369,
+      "text": "ٱهْدِنَا",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 49.55,
+      "end": 49.91,
+      "evidence": "Unprompted local transcript 'اهدنا' matched in ordered context; attention alignment log-probability -0.09; quiet edges False/False.",
+      "isolatedTranscript": "موسيقى موسيقى موسيقى موسيقى موسيقى موسيقى موسيقى",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-5d2d48da3857.wav",
+      "sha256": "18c9e2ac20dc1dce2443e5652a519880a30ca167236229051c1301d156c370f6",
+      "duration": 0.36,
+      "peak": 0.26976
+    },
+    {
+      "id": "lg-dda0619e94e4",
+      "position": 370,
+      "text": "ٱلصِّرَٰطَ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 49.91,
+      "end": 50.41,
+      "evidence": "Unprompted local transcript 'الصراط' matched in ordered context; attention alignment log-probability -0.014; quiet edges False/False.",
+      "isolatedTranscript": "سرات",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-dda0619e94e4.wav",
+      "sha256": "675db9b6b3d118d90d6cc6e93070317c6db3cd1d50e3e9621e7c5546113f316a",
+      "duration": 0.5,
+      "peak": 0.34194
+    },
+    {
+      "id": "lg-628d855112ee",
+      "position": 371,
+      "text": "ٱلَّذِينَ",
+      "status": "imported",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "source": "batch-2",
+      "start": 50.41,
+      "end": 50.93,
+      "evidence": "Unprompted local transcript 'الذين' matched in ordered context; attention alignment log-probability -0.005; quiet edges False/False. Isolated extracted-clip transcription independently matches the word identity.",
+      "isolatedTranscript": "الذين",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-628d855112ee.wav",
+      "sha256": "051dd0abcaa757d7eea77ec7199fbc747c8934a7b6f2e3b0e0a1c529aedd8882",
+      "duration": 0.52,
+      "peak": 0.22344
+    },
+    {
+      "id": "lg-810b404e2d29",
+      "position": 372,
+      "text": "أَنْعَمْتَ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 50.93,
+      "end": 51.47,
+      "evidence": "Unprompted local transcript 'أنعمت' matched in ordered context; attention alignment log-probability -0.001; quiet edges False/False.",
+      "isolatedTranscript": "أن أمت",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-810b404e2d29.wav",
+      "sha256": "49cb01afe52e7d2c53660e84894de9b727ee9d9ca22c9601412d061019d16fc2",
+      "duration": 0.54,
+      "peak": 0.38079
+    },
+    {
+      "id": "lg-c8846e99d100",
+      "position": 373,
+      "text": "عَلَيْهِمْ",
+      "status": "imported",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "source": "batch-2",
+      "start": 51.47,
+      "end": 52.09,
+      "evidence": "Unprompted local transcript 'عليهم' matched in ordered context; attention alignment log-probability -0.0; quiet edges False/True. Isolated extracted-clip transcription independently matches the word identity.",
+      "isolatedTranscript": "عليهم",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-c8846e99d100.wav",
+      "sha256": "b368b177fb930ad09f6f85ee303ae6d89250ae99b326c8daf087a9efaf1af8f2",
+      "duration": 0.62,
+      "peak": 0.38057
+    },
+    {
+      "id": "lg-50fede0b75aa",
+      "position": 374,
+      "text": "بِأَصْحَـٰبِ",
+      "status": "imported",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "source": "batch-2",
+      "start": 52.09,
+      "end": 52.97,
+      "evidence": "Unprompted local transcript 'بأصحاب' matched in ordered context; attention alignment log-probability -0.001; quiet edges True/False. Isolated extracted-clip transcription independently matches the word identity.",
+      "isolatedTranscript": "بأصحاب",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-50fede0b75aa.wav",
+      "sha256": "043e03dad1ee267751b1173e094db8742aa4b8bfdeca60ecca02e4283a3c8c16",
+      "duration": 0.88,
+      "peak": 0.40026
+    },
+    {
+      "id": "lg-7c3fe273aa51",
+      "position": 375,
+      "text": "ٱلْفِيلِ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 52.97,
+      "end": 53.45,
+      "evidence": "Unprompted local transcript 'الفيل' matched in ordered context; attention alignment log-probability -0.01; quiet edges False/True.",
+      "isolatedTranscript": "اشتركوا في القناة",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-7c3fe273aa51.wav",
+      "sha256": "9ca64c115406cf4ba91a6aeb69b948fe52008d1fcb8aef798221d8861e0534aa",
+      "duration": 0.48,
+      "peak": 0.2519
+    },
+    {
+      "id": "lg-32bb49a4f06b",
+      "position": 376,
+      "text": "يَجْعَلْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-07324b4a3020",
+      "position": 377,
+      "text": "كَيْدَهُمْ",
+      "status": "imported",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "source": "batch-2",
+      "start": 54.47,
+      "end": 55.07,
+      "evidence": "Unprompted local transcript 'كيدهم' matched in ordered context; attention alignment log-probability -0.002; quiet edges True/True. Isolated extracted-clip transcription independently matches the word identity.",
+      "isolatedTranscript": "كيدهم",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-07324b4a3020.wav",
+      "sha256": "2190e9869e372f38afc13e66e2407dbc4ddc3767372273c5d2bc0ff40a8ae72f",
+      "duration": 0.6,
+      "peak": 0.34596
+    },
+    {
+      "id": "lg-b1b97c29972a",
+      "position": 378,
+      "text": "وَأَرْسَلَ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 55.07,
+      "end": 55.99,
+      "evidence": "Unprompted local transcript 'وأرسل' matched in ordered context; attention alignment log-probability -0.007; quiet edges True/True.",
+      "isolatedTranscript": "وأرسل طريقه",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-b1b97c29972a.wav",
+      "sha256": "091a0c8950cc08ed17065338feb3707fa439ac21a51f01c3bebd2756ea39c3c6",
+      "duration": 0.92,
+      "peak": 0.42749
+    },
+    {
+      "id": "lg-bfcddfe94739",
+      "position": 379,
+      "text": "طَيْرًا",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 55.99,
+      "end": 56.39,
+      "evidence": "Unprompted local transcript 'طيرا' matched in ordered context; attention alignment log-probability -0.008; quiet edges True/False.",
+      "isolatedTranscript": "طيران",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-bfcddfe94739.wav",
+      "sha256": "4a1b46985c7b644fc7598c9f14413c26fd039739f093c9ab191e0c61d5d3ab3d",
+      "duration": 0.4,
+      "peak": 0.36719
+    },
+    {
+      "id": "lg-c73dc068845c",
+      "position": 380,
+      "text": "لِإِيلَـٰفِ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-c3ebf3ec2afa",
+      "position": 381,
+      "text": "قُرَيْشٍ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 57.11,
+      "end": 57.63,
+      "evidence": "Unprompted local transcript 'قريش' matched in ordered context; attention alignment log-probability -0.041; quiet edges True/True.",
+      "isolatedTranscript": "ترجمة نانسي قنقر",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-c3ebf3ec2afa.wav",
+      "sha256": "6d7da7b5fd5bab56f9951d368ff9d202e5c547d61b1c955ff490b31381182d28",
+      "duration": 0.52,
+      "peak": 0.31698
+    },
+    {
+      "id": "lg-4042899104ea",
+      "position": 382,
+      "text": "ٱلْبَيْتِ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 62.73,
+      "end": 63.87,
+      "evidence": "Unprompted local transcript 'البيت' matched in ordered context; attention alignment log-probability -0.726; quiet edges True/True.",
+      "isolatedTranscript": "البيت يكون",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-4042899104ea.wav",
+      "sha256": "41115a2e3cf5e0ef6d830dd3721479a88f927ecaace5b00b921c55085e2ee5ee",
+      "duration": 1.14,
+      "peak": 0.41473
+    },
+    {
+      "id": "lg-60de38416841",
+      "position": 383,
+      "text": "يُكَذِّبُ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 63.87,
+      "end": 64.37,
+      "evidence": "Unprompted local transcript 'يكذب' matched in ordered context; attention alignment log-probability -0.008; quiet edges True/True.",
+      "isolatedTranscript": "كزيبو",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-60de38416841.wav",
+      "sha256": "01ca49458121f7054ae8b91c48f98a04dda4df259c1b4a33e7590ae12be20480",
+      "duration": 0.5,
+      "peak": 0.3728
+    },
+    {
+      "id": "lg-e732a36fd0d0",
+      "position": 384,
+      "text": "فَذَٰلِكَ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 64.37,
+      "end": 64.97,
+      "evidence": "Unprompted local transcript 'فذلك' matched in ordered context; attention alignment log-probability -0.013; quiet edges True/True.",
+      "isolatedTranscript": "فذلك طبعاً",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-e732a36fd0d0.wav",
+      "sha256": "bc01fa6e6533e430811331332034f1a3ff284d091ec9efbcd4fec206be45063d",
+      "duration": 0.6,
+      "peak": 0.37037
+    },
+    {
+      "id": "lg-94d3b4fa6e7f",
+      "position": 385,
+      "text": "طَعَامِ",
+      "status": "imported",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "source": "batch-2",
+      "start": 64.97,
+      "end": 65.39,
+      "evidence": "Unprompted local transcript 'طعام' matched in ordered context; attention alignment log-probability -0.007; quiet edges True/False. Isolated extracted-clip transcription independently matches the word identity.",
+      "isolatedTranscript": "طعام",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-94d3b4fa6e7f.wav",
+      "sha256": "432cf6acde28858f994f888a0ba06678f80f885c30b0e135ceee18031a49490d",
+      "duration": 0.42,
+      "peak": 0.39029
+    },
+    {
+      "id": "lg-de88736412f6",
+      "position": 386,
+      "text": "سَاهُونَ",
+      "status": "imported",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "source": "batch-2",
+      "start": 65.39,
+      "end": 66.05,
+      "evidence": "Unprompted local transcript 'ساهون' matched in ordered context; attention alignment log-probability -0.043; quiet edges False/True. Isolated extracted-clip transcription independently matches the word identity.",
+      "isolatedTranscript": "ساهون",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-de88736412f6.wav",
+      "sha256": "1427e39b6ae4aed210296b190d5baccf0e0f6141ef7245a9f7d46221aabadaaf",
+      "duration": 0.66,
+      "peak": 0.32339
+    },
+    {
+      "id": "lg-81d4f87ac87d",
+      "position": 387,
+      "text": "لِرَبِّكَ",
+      "status": "imported",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "source": "batch-2",
+      "start": 66.05,
+      "end": 66.93,
+      "evidence": "Unprompted local transcript 'لربك' matched in ordered context; attention alignment log-probability -0.012; quiet edges True/True. Isolated extracted-clip transcription independently matches the word identity.",
+      "isolatedTranscript": "لربك",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-81d4f87ac87d.wav",
+      "sha256": "b18b308d33745df66f0c69c6da34f6b81717b8a8325ced83215c0319e5e5a3b6",
+      "duration": 0.88,
+      "peak": 0.38094
+    },
+    {
+      "id": "lg-5940b322496a",
+      "position": 388,
+      "text": "وَٱنْحَرْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-8e63d53ecde5",
+      "position": 389,
+      "text": "أَعْبُدُ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-8cc9ede801c1",
+      "position": 390,
+      "text": "أَنتُمْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-aec921530fa5",
+      "position": 391,
+      "text": "عَـٰبِدُونَ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-64157ceae112",
+      "position": 392,
+      "text": "عَبَدتُّمْ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-ae6c4c49d483",
+      "position": 393,
+      "text": "دِينُكُمْ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 68.25,
+      "end": 68.945,
+      "evidence": "Unprompted local transcript 'دينكم' matched in ordered context; attention alignment log-probability -0.034; quiet edges False/True.",
+      "isolatedTranscript": "ومدينة كوم",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-ae6c4c49d483.wav",
+      "sha256": "797d59e2bcbf889ad3e6aa4d7e5e38cfed984b44b5648c4e1b68d6234d3c7334",
+      "duration": 0.695,
+      "peak": 0.32262
+    },
+    {
+      "id": "lg-cfc53afaefe5",
+      "position": 394,
+      "text": "وَرَأَيْتَ",
+      "status": "imported",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "source": "batch-2",
+      "start": 68.945,
+      "end": 69.79,
+      "evidence": "Unprompted local transcript 'ورأيت' matched in ordered context; attention alignment log-probability -0.006; quiet edges True/False. Isolated extracted-clip transcription independently matches the word identity.",
+      "isolatedTranscript": "ورأيت",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-cfc53afaefe5.wav",
+      "sha256": "4c89799ff85abc4f8f6f9e183d0540b1e29d3a200923717a79754871b75d545f",
+      "duration": 0.845,
+      "peak": 0.43665
+    },
+    {
+      "id": "lg-d8738fe07ca3",
+      "position": 395,
+      "text": "ٱلنَّاسَ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 69.79,
+      "end": 70.345,
+      "evidence": "Unprompted local transcript 'الناس' matched in ordered context; attention alignment log-probability -0.001; quiet edges False/True.",
+      "isolatedTranscript": "النسا",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-d8738fe07ca3.wav",
+      "sha256": "6192f144c86372616eb57249e4da422409ef5abb4eae2a0e99c74d79478b36fe",
+      "duration": 0.555,
+      "peak": 0.29633
+    },
+    {
+      "id": "lg-1b42fe0a2f60",
+      "position": 396,
+      "text": "فَسَبِّحْ",
+      "status": "imported",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "source": "batch-2",
+      "start": 70.345,
+      "end": 71.21,
+      "evidence": "Unprompted local transcript 'فسبح' matched in ordered context; attention alignment log-probability -0.038; quiet edges True/True. Isolated extracted-clip transcription independently matches the word identity.",
+      "isolatedTranscript": "فسبح",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-1b42fe0a2f60.wav",
+      "sha256": "73aa0c581e21586f836ddba1ec555b8f6b9dafba1f5d40a5ffd5e676e1528168",
+      "duration": 0.865,
+      "peak": 0.36488
+    },
+    {
+      "id": "lg-4148486ef90f",
+      "position": 397,
+      "text": "بِحَمْدِ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 71.21,
+      "end": 71.855,
+      "evidence": "Unprompted local transcript 'بحمد' matched in ordered context; attention alignment log-probability -0.004; quiet edges True/True.",
+      "isolatedTranscript": "بحمد الحطب.",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-4148486ef90f.wav",
+      "sha256": "fe0a40ac7f24b99fbf6efe2044be1e62d8b2fc8b21245f50bc3ad7cc9399875a",
+      "duration": 0.645,
+      "peak": 0.30818
+    },
+    {
+      "id": "lg-85ea5b820c79",
+      "position": 398,
+      "text": "ٱلْحَطَبِ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-ce78ac63493c",
+      "position": 399,
+      "text": "جِيدِهَا",
+      "status": "imported",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "source": "batch-2",
+      "start": 72.09,
+      "end": 72.67,
+      "evidence": "Unprompted local transcript 'جيدها' matched in ordered context; attention alignment log-probability -0.001; quiet edges False/True. Isolated extracted-clip transcription independently matches the word identity.",
+      "isolatedTranscript": "جيدها",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-ce78ac63493c.wav",
+      "sha256": "c55d22fa3f90093ce8b4a1bbe743a660cb8d96f9c5a2fd6ad685e0e7dab9d644",
+      "duration": 0.58,
+      "peak": 0.35681
+    },
+    {
+      "id": "lg-0488280621ca",
+      "position": 400,
+      "text": "ٱلصَّمَدُ",
+      "status": "needs-review",
+      "note": "No reliable isolated mapping yet. Existing device speech remains active."
+    },
+    {
+      "id": "lg-8a6ad95fff8d",
+      "position": 401,
+      "text": "يُولَدْ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 73.67,
+      "end": 74.165,
+      "evidence": "Unprompted local transcript 'يولد' matched in ordered context; attention alignment log-probability -0.017; quiet edges False/True.",
+      "isolatedTranscript": "ترجمة نانسي قنقر",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-8a6ad95fff8d.wav",
+      "sha256": "fe15d2f7fd9e603fcb2747544d19f9bc5a75b92553c5744d29dbcc87b1d1d499",
+      "duration": 0.495,
+      "peak": 0.31078
+    },
+    {
+      "id": "lg-47b825034366",
+      "position": 402,
+      "text": "كُفُوًا",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 74.165,
+      "end": 74.55,
+      "evidence": "Unprompted local transcript 'كفوا' matched in ordered context; attention alignment log-probability -0.012; quiet edges True/False.",
+      "isolatedTranscript": "اشتركوا في القناة",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-47b825034366.wav",
+      "sha256": "83f404333063f1e63c985d23dbc8d244daa36b673d42d71d30336a03626c12a9",
+      "duration": 0.385,
+      "peak": 0.38592
+    },
+    {
+      "id": "lg-fa3853f6a7be",
+      "position": 403,
+      "text": "أَعُوذُ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 75.35,
+      "end": 77.27,
+      "evidence": "Unprompted local transcript 'أعوذ' matched in ordered context; attention alignment log-probability -0.117; quiet edges True/False.",
+      "isolatedTranscript": "أعود",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-fa3853f6a7be.wav",
+      "sha256": "6b99a09f02284758fccf72cc1480444ccd9205af58f43467ddfd05c2b116c3c2",
+      "duration": 1.92,
+      "peak": 0.31706
+    },
+    {
+      "id": "lg-477e069132a4",
+      "position": 404,
+      "text": "ٱلْفَلَقِ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 77.27,
+      "end": 77.77,
+      "evidence": "Unprompted local transcript 'الفلق' matched in ordered context; attention alignment log-probability -0.014; quiet edges False/False.",
+      "isolatedTranscript": "والفلاك",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-477e069132a4.wav",
+      "sha256": "67e1aaf374b350f1f6c2891e526a6eb93af129fcec8e9f47c65e1b1551d0d44d",
+      "duration": 0.5,
+      "peak": 0.272
+    },
+    {
+      "id": "lg-098c3e64cce6",
+      "position": 405,
+      "text": "غَاسِقٍ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 77.77,
+      "end": 78.5,
+      "evidence": "Unprompted local transcript 'غاسق' matched in ordered context; attention alignment log-probability -0.105; quiet edges False/True.",
+      "isolatedTranscript": "ترجمة نانسي قنقر",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-098c3e64cce6.wav",
+      "sha256": "cb8aee981590bcccf47d3521e6ad5170eba3abb6c0cb29c4d2d557c29df6ca99",
+      "duration": 0.73,
+      "peak": 0.35885
+    },
+    {
+      "id": "lg-6cd4010780cd",
+      "position": 406,
+      "text": "ٱلْعُقَدِ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 78.225,
+      "end": 79.29,
+      "evidence": "Unprompted local transcript 'العقد' matched in ordered context; attention alignment log-probability -0.078; quiet edges True/False.",
+      "isolatedTranscript": "العقدية",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-6cd4010780cd.wav",
+      "sha256": "b47ec5acda5c511c97eaa04eef9f2c9ebb2b5a05404f667125c43aafdfe8266c",
+      "duration": 1.065,
+      "peak": 0.26994
+    },
+    {
+      "id": "lg-5ef57aec13de",
+      "position": 407,
+      "text": "حَاسِدٍ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 79.29,
+      "end": 79.965,
+      "evidence": "Unprompted local transcript 'حاسد' matched in ordered context; attention alignment log-probability -0.006; quiet edges False/True.",
+      "isolatedTranscript": "حاسدين",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-5ef57aec13de.wav",
+      "sha256": "544549c6fb655e182445a691daacc7987dabeb1230ace992126878bd38dd062f",
+      "duration": 0.675,
+      "peak": 0.31616
+    },
+    {
+      "id": "lg-0e63f0f59473",
+      "position": 408,
+      "text": "يُوَسْوِسُ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 79.965,
+      "end": 80.81,
+      "evidence": "Unprompted local transcript 'يوسوس' matched in ordered context; attention alignment log-probability -0.272; quiet edges True/False.",
+      "isolatedTranscript": "اشتركوا في القناة",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-0e63f0f59473.wav",
+      "sha256": "3f035f8d418680ffffc50d873f64085bf8c6c89b330dc81cb414898036df4a10",
+      "duration": 0.845,
+      "peak": 0.39959
+    },
+    {
+      "id": "lg-cae8bcdf693c",
+      "position": 409,
+      "text": "صُدُورِ",
+      "status": "needs-review",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "source": "batch-2",
+      "start": 80.81,
+      "end": 81.37,
+      "evidence": "Unprompted local transcript 'صدور' matched in ordered context; attention alignment log-probability -0.018; quiet edges False/True.",
+      "isolatedTranscript": "ترجمة نانسي قنقر",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-cae8bcdf693c.wav",
+      "sha256": "6d651947e5fc5ceeccfa8d51e78f46a427397edc22cf1fa468b7ab3a3b046bfc",
+      "duration": 0.56,
+      "peak": 0.25422
+    }
+  ],
+  "processing": "Source-audited cuts; original pitch, speed and level; 4 ms edge fades.",
+  "qualification": "AI-generated speech. Mapping evidence is not pronunciation certification.",
+  "counts": {
+    "imported": 32,
+    "needs-review": 377,
+    "missing": 0
+  }
+}

@@ -1,0 +1,2047 @@
+[
+  {
+    "id": "lg-0f4c7785aba9",
+    "text": "سِينْ",
+    "group": "missing-names"
+  },
+  {
+    "id": "lg-9398dd2463eb",
+    "text": "وَاوْ",
+    "group": "missing-names"
+  },
+  {
+    "id": "lg-cf74c943ec31",
+    "text": "يَاءْ",
+    "group": "missing-names"
+  },
+  {
+    "id": "lg-94eee3c61cac",
+    "text": "فَتْحَة",
+    "group": "mark-names"
+  },
+  {
+    "id": "lg-cb624b7d0ef4",
+    "text": "كَسْرَة",
+    "group": "mark-names"
+  },
+  {
+    "id": "lg-60e3b82e5a3e",
+    "text": "ضَمَّة",
+    "group": "mark-names"
+  },
+  {
+    "id": "lg-4f057689d289",
+    "text": "فَتْحَتَانْ",
+    "group": "mark-names"
+  },
+  {
+    "id": "lg-9e233c3067bd",
+    "text": "كَسْرَتَانْ",
+    "group": "mark-names"
+  },
+  {
+    "id": "lg-6f7ddec18d79",
+    "text": "ضَمَّتَانْ",
+    "group": "mark-names"
+  },
+  {
+    "id": "lg-e006f0b8074f",
+    "text": "بَ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-2701f008f06f",
+    "text": "بِ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-f2768d97d70e",
+    "text": "بُ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-2d6a557df5ca",
+    "text": "تَ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-0ee7bf085410",
+    "text": "تِ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-ba861d96a2da",
+    "text": "تُ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-79a5e4461bac",
+    "text": "ثَ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-81a333ca8e19",
+    "text": "ثِ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-cc4c2e4dbfda",
+    "text": "ثُ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-d4221add8206",
+    "text": "جَ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-07b43bc69877",
+    "text": "جِ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-45fc1490399d",
+    "text": "جُ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-780f94e60087",
+    "text": "حَ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-c781688bdfdc",
+    "text": "حِ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-50e6cddd272b",
+    "text": "حُ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-147954761063",
+    "text": "خَ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-f3d5f289598a",
+    "text": "خِ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-e7757adcd376",
+    "text": "خُ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-65ebd28d0327",
+    "text": "دَ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-2b8af86d7225",
+    "text": "دِ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-3b719e0537b9",
+    "text": "دُ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-a2b1661793d8",
+    "text": "ذَ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-fd9537adfffb",
+    "text": "ذِ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-ab7f40914177",
+    "text": "ذُ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-291b92e492fb",
+    "text": "رَ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-924bb86de5f8",
+    "text": "رِ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-ba536aa2ea00",
+    "text": "رُ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-64cbd95c7cd8",
+    "text": "زَ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-413cd9ef9615",
+    "text": "زِ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-224b9bc0b043",
+    "text": "زُ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-0c204c583369",
+    "text": "سَ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-34fa019fc0cf",
+    "text": "سِ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-f106b520337d",
+    "text": "سُ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-c70774f9ecbf",
+    "text": "شَ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-b395574965f1",
+    "text": "شِ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-4866a45a046c",
+    "text": "شُ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-f33099a288ef",
+    "text": "صَ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-ea38bdb8dbab",
+    "text": "صِ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-a8429e61a006",
+    "text": "صُ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-1ebb7dbf1c58",
+    "text": "ضَ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-3942d76b714f",
+    "text": "ضِ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-040d0fff887a",
+    "text": "ضُ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-8845ef789954",
+    "text": "طَ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-05d7abc3e058",
+    "text": "طِ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-e49934a2356f",
+    "text": "طُ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-84e9e184b660",
+    "text": "ظَ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-f8b192cd3a04",
+    "text": "ظِ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-8f13db9909e5",
+    "text": "ظُ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-470dbb77d4df",
+    "text": "عَ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-36a1e7188648",
+    "text": "عِ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-76bad5b506e7",
+    "text": "عُ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-f6bfae64253c",
+    "text": "غَ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-3b8732d73847",
+    "text": "غِ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-b03e507decd7",
+    "text": "غُ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-139a6ba5cae1",
+    "text": "فَ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-390d2843328d",
+    "text": "فِ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-ea02a7a1f92e",
+    "text": "فُ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-d73b8f256e66",
+    "text": "قَ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-2155dba94601",
+    "text": "قِ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-96d6e5707674",
+    "text": "قُ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-c73467ff1741",
+    "text": "كَ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-fc64a7da85e6",
+    "text": "كِ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-6bf3f9e02464",
+    "text": "كُ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-ba418754028b",
+    "text": "لَ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-c09f1ab2e58c",
+    "text": "لِ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-f9e63fd121fb",
+    "text": "لُ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-31fc2e8f811d",
+    "text": "مَ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-9e1d5e7f2d91",
+    "text": "مِ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-7e363b4b23fc",
+    "text": "مُ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-875ff90371bc",
+    "text": "نَ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-2c61c719a264",
+    "text": "نِ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-b49450735a14",
+    "text": "نُ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-e2fece36d71a",
+    "text": "هَ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-9d34621d847e",
+    "text": "هِ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-33fae2c3fa92",
+    "text": "هُ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-8ce960a3420a",
+    "text": "وَ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-e7bebb428fb2",
+    "text": "وِ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-31d16c7f5df3",
+    "text": "وُ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-08208c74a20d",
+    "text": "يَ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-209639ac36ba",
+    "text": "يِ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-ed132d80ef2e",
+    "text": "يُ",
+    "group": "short-vowels"
+  },
+  {
+    "id": "lg-7c7afb90ab10",
+    "text": "بَا",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-45d4256ab31e",
+    "text": "بِي",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-5a23f168330e",
+    "text": "بُو",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-3bc5f0ae9739",
+    "text": "تَا",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-00ad57f4c686",
+    "text": "تِي",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-e455bbaee2ef",
+    "text": "تُو",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-80cdd720e239",
+    "text": "ثَا",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-a1abac806544",
+    "text": "ثِي",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-e163d245aa74",
+    "text": "ثُو",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-794864096e4f",
+    "text": "جَا",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-932469a7bdb8",
+    "text": "جِي",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-8a12dca934bb",
+    "text": "جُو",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-150434feb214",
+    "text": "حَا",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-02f7085adb89",
+    "text": "حِي",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-cc7d73f1885c",
+    "text": "حُو",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-408f1c4dddea",
+    "text": "خَا",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-913b0f56f2c5",
+    "text": "خِي",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-d5fb917d9db6",
+    "text": "خُو",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-57bf496ca1ac",
+    "text": "دَا",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-55cfa486d155",
+    "text": "دِي",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-d10d0df617af",
+    "text": "دُو",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-54d4a8b5461c",
+    "text": "ذَا",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-b68c9d45eea8",
+    "text": "ذِي",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-1cee009449b6",
+    "text": "ذُو",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-1f16e40d6192",
+    "text": "رَا",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-899917db1c13",
+    "text": "رِي",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-b7865f1b44f7",
+    "text": "رُو",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-63a493773b8a",
+    "text": "زَا",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-3d827a5a43cd",
+    "text": "زِي",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-0bc47ef6eebc",
+    "text": "زُو",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-06df41524ddd",
+    "text": "سَا",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-7dc1cb03c870",
+    "text": "سِي",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-07848031d3b5",
+    "text": "سُو",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-563436b5f189",
+    "text": "شَا",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-7e330ac82db4",
+    "text": "شِي",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-697fef431da6",
+    "text": "شُو",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-2401c0433020",
+    "text": "صَا",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-0fca749ce8c2",
+    "text": "صِي",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-11ba12301e3f",
+    "text": "صُو",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-c03effb5dffc",
+    "text": "ضَا",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-38534123f710",
+    "text": "ضِي",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-3cc6e720f8c3",
+    "text": "ضُو",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-89fbe36986ba",
+    "text": "طَا",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-e264bcf86158",
+    "text": "طِي",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-b702f2d63993",
+    "text": "طُو",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-8bd19f151c78",
+    "text": "ظَا",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-14a79786ec2d",
+    "text": "ظِي",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-56bd2764fabd",
+    "text": "ظُو",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-89c5c6f454a0",
+    "text": "عَا",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-af930182cb0f",
+    "text": "عِي",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-00fc50872e5a",
+    "text": "عُو",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-8cb8de042947",
+    "text": "غَا",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-ce78b75fbf7c",
+    "text": "غِي",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-24dad8c7f05a",
+    "text": "غُو",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-6512126eea52",
+    "text": "فَا",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-db7696accf25",
+    "text": "فِي",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-4d86b5e40014",
+    "text": "فُو",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-9cd952ad821d",
+    "text": "قَا",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-cfabc85d40c4",
+    "text": "قِي",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-05d82cf0f520",
+    "text": "قُو",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-ffafb835b249",
+    "text": "كَا",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-0f8a24138157",
+    "text": "كِي",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-e70d18ecbedd",
+    "text": "كُو",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-a4e8ac8696fd",
+    "text": "لَا",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-2a7d9d0b5f72",
+    "text": "لِي",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-ee4afc8b7d3e",
+    "text": "لُو",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-36b3714f9b0b",
+    "text": "مَا",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-2b226200cffc",
+    "text": "مِي",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-97eed4f499be",
+    "text": "مُو",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-9165baec42cb",
+    "text": "نَا",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-24a289e02af7",
+    "text": "نِي",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-2f1492ac8f9d",
+    "text": "نُو",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-5b6517e3c3f4",
+    "text": "هَا",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-8bd6f3ee1768",
+    "text": "هِي",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-0825396f62b3",
+    "text": "هُو",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-92b449692318",
+    "text": "وَا",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-9d47cc35d146",
+    "text": "وِي",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-d3e526870d87",
+    "text": "وُو",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-56263c67be0e",
+    "text": "يَا",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-ae9cda2207e9",
+    "text": "يِي",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-448c21ba5b29",
+    "text": "يُو",
+    "group": "long-vowels"
+  },
+  {
+    "id": "lg-aff5a3784268",
+    "text": "بً",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-1469680daf37",
+    "text": "بٍ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-ec9450ee268e",
+    "text": "بٌ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-825223ba5e41",
+    "text": "تً",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-aaa90ea0f2e4",
+    "text": "تٍ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-b428ea1f6041",
+    "text": "تٌ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-6180327bb4fe",
+    "text": "ثً",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-88cf7f28e5a5",
+    "text": "ثٍ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-c248216c0092",
+    "text": "ثٌ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-442c25fddbac",
+    "text": "جً",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-6c2ac6c045aa",
+    "text": "جٍ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-4d0b72756b81",
+    "text": "جٌ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-c8a726adb4ba",
+    "text": "حً",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-caf6f392b2fd",
+    "text": "حٍ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-0cc0508c264a",
+    "text": "حٌ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-218fec838167",
+    "text": "خً",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-94475bdb6e1c",
+    "text": "خٍ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-8258de63d74e",
+    "text": "خٌ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-e41669b75828",
+    "text": "دً",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-aa8811b378b0",
+    "text": "دٍ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-3d0a28c28b20",
+    "text": "دٌ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-11491c9dc768",
+    "text": "ذً",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-264f2d6a2749",
+    "text": "ذٍ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-3bbe8da7a5b1",
+    "text": "ذٌ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-b64caf45e1bf",
+    "text": "رً",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-97644250cb3f",
+    "text": "رٍ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-c25f41474423",
+    "text": "رٌ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-8679f2dad70d",
+    "text": "زً",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-95512a1dac68",
+    "text": "زٍ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-9622112d0c46",
+    "text": "زٌ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-f9bf2271ebfc",
+    "text": "سً",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-a4d878f2ddde",
+    "text": "سٍ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-aa5c8483384a",
+    "text": "سٌ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-9ed6a9c073f8",
+    "text": "شً",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-d5dc38bd4c15",
+    "text": "شٍ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-e6efccc0cf43",
+    "text": "شٌ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-9975aa5a1d03",
+    "text": "صً",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-70023d59c807",
+    "text": "صٍ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-c8fff66159b3",
+    "text": "صٌ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-bebdc49b4b33",
+    "text": "ضً",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-de4bb33a3f35",
+    "text": "ضٍ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-55c1cc57ce2e",
+    "text": "ضٌ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-ab3a5a24da20",
+    "text": "طً",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-5fd45680f580",
+    "text": "طٍ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-8d03f21eacd2",
+    "text": "طٌ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-4aaa2b9d1e51",
+    "text": "ظً",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-86b9fd2810fc",
+    "text": "ظٍ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-ffeba4e4f785",
+    "text": "ظٌ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-6b60a2cc44b1",
+    "text": "عً",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-3443cd8315b6",
+    "text": "عٍ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-50c7f9dc9c4b",
+    "text": "عٌ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-395c6270be02",
+    "text": "غً",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-611a0fc75a47",
+    "text": "غٍ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-65250ff7dc22",
+    "text": "غٌ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-1183814c6599",
+    "text": "فً",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-56b2436828a2",
+    "text": "فٍ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-e5d1cc0cd142",
+    "text": "فٌ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-507849af67a2",
+    "text": "قً",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-e241de6189c2",
+    "text": "قٍ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-223af94ba4de",
+    "text": "قٌ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-64ce0a47ccf0",
+    "text": "كً",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-636598d5032b",
+    "text": "كٍ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-c962e57e792b",
+    "text": "كٌ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-4cc52666fb5e",
+    "text": "لً",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-f820bb01fafc",
+    "text": "لٍ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-ed4048714f66",
+    "text": "لٌ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-8bd6107cd397",
+    "text": "مً",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-cc8e1e55f2aa",
+    "text": "مٍ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-56801fde24ec",
+    "text": "مٌ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-e772c79105d2",
+    "text": "نً",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-1c6267a36c4a",
+    "text": "نٍ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-eac418a09e83",
+    "text": "نٌ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-c607adb54612",
+    "text": "هً",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-60ed6c4db8ce",
+    "text": "هٍ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-05364b31a94f",
+    "text": "هٌ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-a70af41f7756",
+    "text": "وً",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-e6360442efcf",
+    "text": "وٍ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-783cbd303008",
+    "text": "وٌ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-1a441a88e3f7",
+    "text": "يً",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-481b1df1cd2f",
+    "text": "يٍ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-6b2ef95b890d",
+    "text": "يٌ",
+    "group": "tanween"
+  },
+  {
+    "id": "lg-3b8e1495833d",
+    "text": "بَوْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-ca3af558ba11",
+    "text": "بَيْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-340740d00ba1",
+    "text": "تَوْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-427032b8a68b",
+    "text": "تَيْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-8aa63c060c0b",
+    "text": "ثَوْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-7339da8be97f",
+    "text": "ثَيْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-2700319fe52a",
+    "text": "جَوْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-049b7c17697e",
+    "text": "جَيْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-1267bbed040f",
+    "text": "حَوْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-7b0b8febe4a8",
+    "text": "حَيْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-4ec6e5c6752e",
+    "text": "خَوْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-43e96dae370c",
+    "text": "خَيْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-bfcf70752bf3",
+    "text": "دَوْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-6552de8f1eb2",
+    "text": "دَيْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-38f6528617ad",
+    "text": "ذَوْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-138ac79f97ce",
+    "text": "ذَيْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-04b5c6435127",
+    "text": "رَوْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-3856341cceac",
+    "text": "رَيْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-9e9faf1327e8",
+    "text": "زَوْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-495278a3b264",
+    "text": "زَيْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-88645ab31121",
+    "text": "سَوْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-f63514e65d9b",
+    "text": "سَيْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-91fd914ee86c",
+    "text": "شَوْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-c3b5afe7cc08",
+    "text": "شَيْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-a5756baa80ee",
+    "text": "صَوْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-8bc549d74bec",
+    "text": "صَيْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-5c54409fd37a",
+    "text": "ضَوْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-1bbac20141b3",
+    "text": "ضَيْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-2d7c57749b54",
+    "text": "طَوْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-8c90a8972bb8",
+    "text": "طَيْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-c355d80d4e76",
+    "text": "ظَوْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-cf6ed2a2b1c8",
+    "text": "ظَيْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-43cc227f4e90",
+    "text": "عَوْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-47f506e11b63",
+    "text": "عَيْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-c4b11b1faa10",
+    "text": "غَوْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-69e912df79f3",
+    "text": "غَيْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-353bf3f68337",
+    "text": "فَوْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-0512f62a1a38",
+    "text": "فَيْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-1ef3ddb0017b",
+    "text": "قَوْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-7d2fe98d3fcf",
+    "text": "قَيْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-ffb111e6ea09",
+    "text": "كَوْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-a08e0189ebdd",
+    "text": "كَيْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-f86274109079",
+    "text": "لَوْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-b39cbc7e3269",
+    "text": "لَيْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-e9437b0a3e81",
+    "text": "مَوْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-c445e7a21765",
+    "text": "مَيْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-4e89a5b4afe4",
+    "text": "نَوْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-e66d423a3dd9",
+    "text": "نَيْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-7c8c179a254f",
+    "text": "هَوْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-7b74bdccec55",
+    "text": "هَيْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-5e2ab5971ba1",
+    "text": "وَوْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-8f627810c512",
+    "text": "وَيْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-d212844a5b4d",
+    "text": "يَوْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-d066957055f5",
+    "text": "يَيْ",
+    "group": "leen"
+  },
+  {
+    "id": "lg-a8549d663ab9",
+    "text": "بَتْ",
+    "group": "sukun-shaddah"
+  },
+  {
+    "id": "lg-9f9e9e354c42",
+    "text": "مِنْ",
+    "group": "sukun-shaddah"
+  },
+  {
+    "id": "lg-e19a67213fda",
+    "text": "كُمْ",
+    "group": "sukun-shaddah"
+  },
+  {
+    "id": "lg-ff2f1e4fdf07",
+    "text": "بَدَّ",
+    "group": "sukun-shaddah"
+  },
+  {
+    "id": "lg-30abc74690ba",
+    "text": "رَبَّ",
+    "group": "sukun-shaddah"
+  },
+  {
+    "id": "lg-0cb3e6dd5b00",
+    "text": "حَبٌّ",
+    "group": "sukun-shaddah"
+  },
+  {
+    "id": "lg-346f9d232ce3",
+    "text": "شَدَّا",
+    "group": "sukun-shaddah"
+  },
+  {
+    "id": "lg-e2e8512af7aa",
+    "text": "رَبِّ",
+    "group": "words-2"
+  },
+  {
+    "id": "lg-82b658e5075c",
+    "text": "تَرَ",
+    "group": "words-2"
+  },
+  {
+    "id": "lg-9963a09a494c",
+    "text": "مِّن",
+    "group": "words-2"
+  },
+  {
+    "id": "lg-0596b897010e",
+    "text": "هُمْ",
+    "group": "words-2"
+  },
+  {
+    "id": "lg-24d41584f68c",
+    "text": "عَن",
+    "group": "words-2"
+  },
+  {
+    "id": "lg-05eb551f8219",
+    "text": "إِنَّ",
+    "group": "words-2"
+  },
+  {
+    "id": "lg-7af96a47a4b6",
+    "text": "هُوَ",
+    "group": "words-2"
+  },
+  {
+    "id": "lg-95da19a9c3af",
+    "text": "قُلْ",
+    "group": "words-2"
+  },
+  {
+    "id": "lg-c960de019d09",
+    "text": "لَآ",
+    "group": "words-2"
+  },
+  {
+    "id": "lg-d4ed5209d00e",
+    "text": "لَمْ",
+    "group": "words-2"
+  },
+  {
+    "id": "lg-474f763a4173",
+    "text": "شَرِّ",
+    "group": "words-2"
+  },
+  {
+    "id": "lg-1c562fd4a795",
+    "text": "بِسْمِ",
+    "group": "words-3"
+  },
+  {
+    "id": "lg-43ac82f76e3c",
+    "text": "لِلَّهِ",
+    "group": "words-3"
+  },
+  {
+    "id": "lg-f01edb5de2d9",
+    "text": "مَـٰلِكِ",
+    "group": "words-3"
+  },
+  {
+    "id": "lg-c8b4a821d5b9",
+    "text": "يَوْمِ",
+    "group": "words-3"
+  },
+  {
+    "id": "lg-642b2eea6723",
+    "text": "صِرَٰطَ",
+    "group": "words-3"
+  },
+  {
+    "id": "lg-09c6b807ef8d",
+    "text": "غَيْرِ",
+    "group": "words-3"
+  },
+  {
+    "id": "lg-73d38b2d5bed",
+    "text": "وَلَا",
+    "group": "words-3"
+  },
+  {
+    "id": "lg-f9b77a966b34",
+    "text": "أَلَمْ",
+    "group": "words-3"
+  },
+  {
+    "id": "lg-6e9485c46650",
+    "text": "كَيْفَ",
+    "group": "words-3"
+  },
+  {
+    "id": "lg-f65ba0692d34",
+    "text": "فَعَلَ",
+    "group": "words-3"
+  },
+  {
+    "id": "lg-98c207c85669",
+    "text": "رَبُّكَ",
+    "group": "words-3"
+  },
+  {
+    "id": "lg-3062586698e2",
+    "text": "هَـٰذَا",
+    "group": "words-3"
+  },
+  {
+    "id": "lg-66a8d70cd9ef",
+    "text": "يَدُعُّ",
+    "group": "words-3"
+  },
+  {
+    "id": "lg-74d733b4d22c",
+    "text": "يَحُضُّ",
+    "group": "words-3"
+  },
+  {
+    "id": "lg-c7841a362473",
+    "text": "إِنَّآ",
+    "group": "words-3"
+  },
+  {
+    "id": "lg-5daa6e6fadf0",
+    "text": "فَصَلِّ",
+    "group": "words-3"
+  },
+  {
+    "id": "lg-4c2f786c3e8d",
+    "text": "لَكُمْ",
+    "group": "words-3"
+  },
+  {
+    "id": "lg-9e3de7854832",
+    "text": "دِينِ",
+    "group": "words-3"
+  },
+  {
+    "id": "lg-41a5ef4bf942",
+    "text": "إِذَا",
+    "group": "words-3"
+  },
+  {
+    "id": "lg-3468a09a4e0b",
+    "text": "نَصْرُ",
+    "group": "words-3"
+  },
+  {
+    "id": "lg-f14ab1770a44",
+    "text": "كَانَ",
+    "group": "words-3"
+  },
+  {
+    "id": "lg-6a7ad426ba6c",
+    "text": "تَبَّتْ",
+    "group": "words-3"
+  },
+  {
+    "id": "lg-513e420f5593",
+    "text": "يَدَآ",
+    "group": "words-3"
+  },
+  {
+    "id": "lg-2f846091a5f9",
+    "text": "وَتَبَّ",
+    "group": "words-3"
+  },
+  {
+    "id": "lg-7242f6a466e3",
+    "text": "عَنْهُ",
+    "group": "words-3"
+  },
+  {
+    "id": "lg-a61229b543f7",
+    "text": "وَمَا",
+    "group": "words-3"
+  },
+  {
+    "id": "lg-6d8b0837aad0",
+    "text": "كَسَبَ",
+    "group": "words-3"
+  },
+  {
+    "id": "lg-ccd65ecf3ee7",
+    "text": "ذَاتَ",
+    "group": "words-3"
+  },
+  {
+    "id": "lg-5e79a2002dd0",
+    "text": "أَحَدٌ",
+    "group": "words-3"
+  },
+  {
+    "id": "lg-4c9adc018513",
+    "text": "يَلِدْ",
+    "group": "words-3"
+  },
+  {
+    "id": "lg-db9d001d07f5",
+    "text": "وَلَمْ",
+    "group": "words-3"
+  },
+  {
+    "id": "lg-c8f6af9ae470",
+    "text": "يَكُن",
+    "group": "words-3"
+  },
+  {
+    "id": "lg-f26ead2a68a3",
+    "text": "بِرَبِّ",
+    "group": "words-3"
+  },
+  {
+    "id": "lg-826565e1e4fd",
+    "text": "خَلَقَ",
+    "group": "words-3"
+  },
+  {
+    "id": "lg-cd1effff8877",
+    "text": "وَمِن",
+    "group": "words-3"
+  },
+  {
+    "id": "lg-e8865a8cf848",
+    "text": "وَقَبَ",
+    "group": "words-3"
+  },
+  {
+    "id": "lg-509b1b7cc314",
+    "text": "حَسَدَ",
+    "group": "words-3"
+  },
+  {
+    "id": "lg-e5dfc52647f5",
+    "text": "إِلَـٰهِ",
+    "group": "words-3"
+  },
+  {
+    "id": "lg-07f25640a2b9",
+    "text": "ٱللَّهِ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-a92c18c9f482",
+    "text": "ٱلْحَمْدُ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-c7332315d337",
+    "text": "ٱلدِّينِ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-f663e61203ed",
+    "text": "إِيَّاكَ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-2578ff399d5d",
+    "text": "نَعْبُدُ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-c7d727cb3393",
+    "text": "وَإِيَّاكَ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-5d2d48da3857",
+    "text": "ٱهْدِنَا",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-dda0619e94e4",
+    "text": "ٱلصِّرَٰطَ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-628d855112ee",
+    "text": "ٱلَّذِينَ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-810b404e2d29",
+    "text": "أَنْعَمْتَ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-c8846e99d100",
+    "text": "عَلَيْهِمْ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-50fede0b75aa",
+    "text": "بِأَصْحَـٰبِ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-7c3fe273aa51",
+    "text": "ٱلْفِيلِ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-32bb49a4f06b",
+    "text": "يَجْعَلْ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-07324b4a3020",
+    "text": "كَيْدَهُمْ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-b1b97c29972a",
+    "text": "وَأَرْسَلَ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-bfcddfe94739",
+    "text": "طَيْرًا",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-c73dc068845c",
+    "text": "لِإِيلَـٰفِ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-c3ebf3ec2afa",
+    "text": "قُرَيْشٍ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-4042899104ea",
+    "text": "ٱلْبَيْتِ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-60de38416841",
+    "text": "يُكَذِّبُ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-e732a36fd0d0",
+    "text": "فَذَٰلِكَ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-94d3b4fa6e7f",
+    "text": "طَعَامِ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-de88736412f6",
+    "text": "سَاهُونَ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-81d4f87ac87d",
+    "text": "لِرَبِّكَ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-5940b322496a",
+    "text": "وَٱنْحَرْ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-8e63d53ecde5",
+    "text": "أَعْبُدُ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-8cc9ede801c1",
+    "text": "أَنتُمْ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-aec921530fa5",
+    "text": "عَـٰبِدُونَ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-64157ceae112",
+    "text": "عَبَدتُّمْ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-ae6c4c49d483",
+    "text": "دِينُكُمْ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-cfc53afaefe5",
+    "text": "وَرَأَيْتَ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-d8738fe07ca3",
+    "text": "ٱلنَّاسَ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-1b42fe0a2f60",
+    "text": "فَسَبِّحْ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-4148486ef90f",
+    "text": "بِحَمْدِ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-85ea5b820c79",
+    "text": "ٱلْحَطَبِ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-ce78ac63493c",
+    "text": "جِيدِهَا",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-0488280621ca",
+    "text": "ٱلصَّمَدُ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-8a6ad95fff8d",
+    "text": "يُولَدْ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-47b825034366",
+    "text": "كُفُوًا",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-fa3853f6a7be",
+    "text": "أَعُوذُ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-477e069132a4",
+    "text": "ٱلْفَلَقِ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-098c3e64cce6",
+    "text": "غَاسِقٍ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-6cd4010780cd",
+    "text": "ٱلْعُقَدِ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-5ef57aec13de",
+    "text": "حَاسِدٍ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-0e63f0f59473",
+    "text": "يُوَسْوِسُ",
+    "group": "words-4-5"
+  },
+  {
+    "id": "lg-cae8bcdf693c",
+    "text": "صُدُورِ",
+    "group": "words-4-5"
+  }
+]

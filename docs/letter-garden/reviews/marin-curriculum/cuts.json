@@ -1,0 +1,839 @@
+{
+  "sources": [
+    {
+      "id": "batch-1",
+      "file": "sources/batch-1.mp3",
+      "originalFilename": "openai-fm-marin-calm.mp3",
+      "sha256": "99728b8336d5caaab61a50f2f4394a5c7ffdae1e6380ba72e2732a66a4d51c05"
+    },
+    {
+      "id": "batch-2",
+      "file": "sources/batch-2.mp3",
+      "originalFilename": "openai-fm-marin-calm-2.mp3",
+      "sha256": "5e3b2f778bf5b339a12825f4cbb8cdacedd4cdc1877ef4cbf9f6b1408f213cc0"
+    }
+  ],
+  "cuts": [
+    {
+      "text": "سِينْ",
+      "source": "batch-1",
+      "start": 0,
+      "end": 0.44,
+      "status": "imported",
+      "evidence": "Unprompted transcript plus token attention alignment; owner confirmed opening name order.",
+      "note": "Exact named item mapped from the opening; pronunciation review remains separate."
+    },
+    {
+      "text": "وَاوْ",
+      "source": "batch-1",
+      "start": 0.44,
+      "end": 1.08,
+      "status": "imported",
+      "evidence": "Unprompted transcript plus token attention alignment; owner confirmed opening name order.",
+      "note": "Exact named item mapped from the opening; pronunciation review remains separate."
+    },
+    {
+      "text": "يَاءْ",
+      "source": "batch-1",
+      "start": 1.1,
+      "end": 1.575,
+      "status": "imported",
+      "evidence": "Unprompted transcript plus token attention alignment; owner confirmed opening name order.",
+      "note": "Exact named item mapped from the opening; pronunciation review remains separate."
+    },
+    {
+      "text": "فَتْحَة",
+      "source": "batch-1",
+      "start": 1.575,
+      "end": 2.6,
+      "status": "imported",
+      "evidence": "Unprompted transcript plus token attention alignment; owner confirmed opening name order.",
+      "note": "Exact named item mapped from the opening; pronunciation review remains separate."
+    },
+    {
+      "text": "كَسْرَة",
+      "source": "batch-1",
+      "start": 2.62,
+      "end": 3.72,
+      "status": "imported",
+      "evidence": "Unprompted transcript plus token attention alignment; owner confirmed opening name order.",
+      "note": "Exact named item mapped from the opening; pronunciation review remains separate."
+    },
+    {
+      "text": "كَسْرَتَانْ",
+      "source": "batch-1",
+      "start": 4.85,
+      "end": 6.06,
+      "status": "imported",
+      "evidence": "Unprompted transcript plus token attention alignment; owner confirmed opening name order.",
+      "note": "Exact named item mapped from the opening; pronunciation review remains separate."
+    },
+    {
+      "text": "ضَمَّتَانْ",
+      "source": "batch-1",
+      "start": 3.7,
+      "end": 4.85,
+      "status": "imported",
+      "evidence": "Owner listened to the exact 3.70–4.85 second opening-check.wav excerpt and identified damatan only, not fathatan (2026-09-18).",
+      "note": "Owner-identified Dammataan. Replaces the earlier automatic 6.08–7.28 second mapping."
+    },
+    {
+      "text": "ضَمَّة",
+      "status": "needs-review",
+      "note": "No isolated mapping yet. Owner identified the former shared 3.70–4.85 second candidate as Dammataan; it must not be used for this name. Existing device speech remains active."
+    },
+    {
+      "text": "فَتْحَتَانْ",
+      "status": "needs-review",
+      "note": "No isolated mapping yet. Owner identified the former shared 3.70–4.85 second candidate as Dammataan; it must not be used for this name. Existing device speech remains active."
+    },
+    {
+      "text": "تَرَ",
+      "source": "batch-2",
+      "start": 19.11,
+      "end": 19.65,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'تَرَ' matched in ordered context; attention alignment log-probability -0.46; quiet edges True/False.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "تا دا"
+    },
+    {
+      "text": "عَن",
+      "source": "batch-2",
+      "start": 20.03,
+      "end": 20.39,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'عَنْ' matched in ordered context; attention alignment log-probability -0.033; quiet edges False/True.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "مانا"
+    },
+    {
+      "text": "إِنَّ",
+      "source": "batch-2",
+      "start": 20.39,
+      "end": 20.61,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'إِنَّ' matched in ordered context; attention alignment log-probability -1.545; quiet edges True/False.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "اشتركوا في القناة"
+    },
+    {
+      "text": "هُوَ",
+      "source": "batch-2",
+      "start": 20.61,
+      "end": 21.045,
+      "status": "imported",
+      "evidence": "Unprompted local transcript 'هُوَ' matched in ordered context; attention alignment log-probability -0.807; quiet edges False/True. Isolated extracted-clip transcription independently matches the word identity.",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "isolatedTranscript": "هو"
+    },
+    {
+      "text": "لَمْ",
+      "source": "batch-2",
+      "start": 22.085,
+      "end": 22.59,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'لَمْ' matched in ordered context; attention alignment log-probability -1.882; quiet edges True/True.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "ترجمة نانسي قنقر"
+    },
+    {
+      "text": "شَرِّ",
+      "source": "batch-2",
+      "start": 22.59,
+      "end": 23.17,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'شَرِّ' matched in ordered context; attention alignment log-probability -0.24; quiet edges True/False.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "شري"
+    },
+    {
+      "text": "لِلَّهِ",
+      "source": "batch-2",
+      "start": 23.59,
+      "end": 24.15,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'لِلَّهِ' matched in ordered context; attention alignment log-probability -0.231; quiet edges False/True.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "ترجمة نانسي قنقر"
+    },
+    {
+      "text": "مَـٰلِكِ",
+      "source": "batch-2",
+      "start": 24.15,
+      "end": 25.005,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'مَالِكِ' matched in ordered context; attention alignment log-probability -0.026; quiet edges True/True.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "مالكي"
+    },
+    {
+      "text": "يَوْمِ",
+      "source": "batch-2",
+      "start": 25.005,
+      "end": 25.61,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'يَوْمِ' matched in ordered context; attention alignment log-probability -0.232; quiet edges True/False.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "يوميكوكوكوكوكوكوكوكوكوكوكوكوكوكوكوكوك"
+    },
+    {
+      "text": "غَيْرِ",
+      "source": "batch-2",
+      "start": 26.13,
+      "end": 26.57,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'غير.' matched in ordered context; attention alignment log-probability -0.243; quiet edges False/True.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "ترجمة نانسي قنقر"
+    },
+    {
+      "text": "وَلَا",
+      "source": "batch-2",
+      "start": 26.57,
+      "end": 27.545,
+      "status": "imported",
+      "evidence": "Unprompted local transcript 'ولا' matched in ordered context; attention alignment log-probability -0.178; quiet edges True/True. Isolated extracted-clip transcription independently matches the word identity.",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "isolatedTranscript": "ولا"
+    },
+    {
+      "text": "أَلَمْ",
+      "source": "batch-2",
+      "start": 27.545,
+      "end": 27.955,
+      "status": "imported",
+      "evidence": "Unprompted local transcript 'ألم' matched in ordered context; attention alignment log-probability -1.983; quiet edges True/True. Isolated extracted-clip transcription independently matches the word identity.",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "isolatedTranscript": "ألم"
+    },
+    {
+      "text": "كَيْفَ",
+      "source": "batch-2",
+      "start": 27.955,
+      "end": 28.61,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'كيف' matched in ordered context; attention alignment log-probability -0.062; quiet edges True/False.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "ترجمة نانسي قنقر"
+    },
+    {
+      "text": "فَعَلَ",
+      "source": "batch-2",
+      "start": 28.61,
+      "end": 29.03,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'فعل' matched in ordered context; attention alignment log-probability -0.018; quiet edges False/False.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "فعلا"
+    },
+    {
+      "text": "رَبُّكَ",
+      "source": "batch-2",
+      "start": 29.03,
+      "end": 29.7,
+      "status": "imported",
+      "evidence": "Unprompted local transcript 'ربك' matched in ordered context; attention alignment log-probability -0.014; quiet edges False/True. Isolated extracted-clip transcription independently matches the word identity.",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "isolatedTranscript": "ربك"
+    },
+    {
+      "text": "هَـٰذَا",
+      "source": "batch-2",
+      "start": 29.7,
+      "end": 30.44,
+      "status": "imported",
+      "evidence": "Unprompted local transcript 'هذا.' matched in ordered context; attention alignment log-probability -0.045; quiet edges True/True. Isolated extracted-clip transcription independently matches the word identity.",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "isolatedTranscript": "هذا"
+    },
+    {
+      "text": "فَصَلِّ",
+      "source": "batch-2",
+      "start": 33.41,
+      "end": 34.105,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'فصل' matched in ordered context; attention alignment log-probability -0.098; quiet edges True/True.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "فصللت"
+    },
+    {
+      "text": "لَكُمْ",
+      "source": "batch-2",
+      "start": 34.105,
+      "end": 34.31,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'لكم' matched in ordered context; attention alignment log-probability -0.046; quiet edges True/False.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "ترجمة نانسي قنقر"
+    },
+    {
+      "text": "إِذَا",
+      "source": "batch-2",
+      "start": 34.83,
+      "end": 35.67,
+      "status": "imported",
+      "evidence": "Unprompted local transcript 'إذا' matched in ordered context; attention alignment log-probability -0.426; quiet edges True/False. Isolated extracted-clip transcription independently matches the word identity.",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "isolatedTranscript": "إذا"
+    },
+    {
+      "text": "نَصْرُ",
+      "source": "batch-2",
+      "start": 35.67,
+      "end": 36.13,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'نصر' matched in ordered context; attention alignment log-probability -0.013; quiet edges False/True.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "نصروب"
+    },
+    {
+      "text": "كَانَ",
+      "source": "batch-2",
+      "start": 36.13,
+      "end": 36.455,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'كان' matched in ordered context; attention alignment log-probability -0.046; quiet edges True/True.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "ترجمة نانسي قنقر"
+    },
+    {
+      "text": "تَبَّتْ",
+      "source": "batch-2",
+      "start": 36.455,
+      "end": 36.91,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'تبت' matched in ordered context; attention alignment log-probability -1.32; quiet edges True/False.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "اشتركوا في القناة"
+    },
+    {
+      "text": "وَتَبَّ",
+      "source": "batch-2",
+      "start": 37.42,
+      "end": 38.15,
+      "status": "imported",
+      "evidence": "Unprompted local transcript 'وتب' matched in ordered context; attention alignment log-probability -2.115; quiet edges True/False. Isolated extracted-clip transcription independently matches the word identity.",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "isolatedTranscript": "وتب"
+    },
+    {
+      "text": "عَنْهُ",
+      "source": "batch-2",
+      "start": 38.15,
+      "end": 38.655,
+      "status": "imported",
+      "evidence": "Unprompted local transcript 'عنه' matched in ordered context; attention alignment log-probability -0.023; quiet edges False/True. Isolated extracted-clip transcription independently matches the word identity.",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "isolatedTranscript": "عنه"
+    },
+    {
+      "text": "وَمَا",
+      "source": "batch-2",
+      "start": 38.655,
+      "end": 39.27,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'وما' matched in ordered context; attention alignment log-probability -0.115; quiet edges True/True.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "وما ترجمة نانسي قنقر"
+    },
+    {
+      "text": "كَسَبَ",
+      "source": "batch-2",
+      "start": 39.27,
+      "end": 39.905,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'كسب' matched in ordered context; attention alignment log-probability -0.025; quiet edges True/True.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "ترجمة نانسي قنقر"
+    },
+    {
+      "text": "ذَاتَ",
+      "source": "batch-2",
+      "start": 39.62,
+      "end": 39.98,
+      "status": "imported",
+      "evidence": "Unprompted local transcript 'ذات' matched in ordered context; attention alignment log-probability -0.023; quiet edges False/False. Isolated extracted-clip transcription independently matches the word identity.",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "isolatedTranscript": "ذات"
+    },
+    {
+      "text": "أَحَدٌ",
+      "source": "batch-2",
+      "start": 40.01,
+      "end": 40.41,
+      "status": "imported",
+      "evidence": "Unprompted local transcript 'أحد' matched in ordered context; attention alignment log-probability -0.35; quiet edges False/False. Isolated extracted-clip transcription independently matches the word identity.",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "isolatedTranscript": "أحد"
+    },
+    {
+      "text": "يَلِدْ",
+      "source": "batch-2",
+      "start": 40.41,
+      "end": 40.99,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'يلد،' matched in ordered context; attention alignment log-probability -0.482; quiet edges False/True.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "ترجمة نانسي قنقر"
+    },
+    {
+      "text": "وَلَمْ",
+      "source": "batch-2",
+      "start": 40.99,
+      "end": 41.965,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'ولم' matched in ordered context; attention alignment log-probability -0.377; quiet edges True/True.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "ولم يطلق"
+    },
+    {
+      "text": "يَكُن",
+      "source": "batch-2",
+      "start": 41.965,
+      "end": 42.15,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'يكن' matched in ordered context; attention alignment log-probability -0.006; quiet edges True/False.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "ترجمة نانسي قنقر"
+    },
+    {
+      "text": "بِرَبِّ",
+      "source": "batch-2",
+      "start": 42.15,
+      "end": 42.53,
+      "status": "imported",
+      "evidence": "Unprompted local transcript 'برب' matched in ordered context; attention alignment log-probability -0.034; quiet edges False/False. Isolated extracted-clip transcription independently matches the word identity.",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "isolatedTranscript": "برب"
+    },
+    {
+      "text": "خَلَقَ",
+      "source": "batch-2",
+      "start": 42.53,
+      "end": 43.185,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'خلق' matched in ordered context; attention alignment log-probability -0.016; quiet edges False/True.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "بخلقة"
+    },
+    {
+      "text": "وَمِن",
+      "source": "batch-2",
+      "start": 43.185,
+      "end": 43.93,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'ومن' matched in ordered context; attention alignment log-probability -0.081; quiet edges True/True.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "ومن وقت"
+    },
+    {
+      "text": "وَقَبَ",
+      "source": "batch-2",
+      "start": 43.93,
+      "end": 44.19,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'وقب' matched in ordered context; attention alignment log-probability -0.011; quiet edges True/False.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "قبل"
+    },
+    {
+      "text": "حَسَدَ",
+      "source": "batch-2",
+      "start": 44.19,
+      "end": 44.67,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'حسد،' matched in ordered context; attention alignment log-probability -0.043; quiet edges False/True.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "حسدة"
+    },
+    {
+      "text": "إِلَـٰهِ",
+      "source": "batch-2",
+      "start": 44.67,
+      "end": 45.41,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'إله' matched in ordered context; attention alignment log-probability -0.276; quiet edges True/False.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "إلا"
+    },
+    {
+      "text": "ٱللَّهِ",
+      "source": "batch-2",
+      "start": 45.41,
+      "end": 45.89,
+      "status": "imported",
+      "evidence": "Unprompted local transcript 'الله' matched in ordered context; attention alignment log-probability -0.022; quiet edges False/False. Isolated extracted-clip transcription independently matches the word identity.",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "isolatedTranscript": "الله"
+    },
+    {
+      "text": "ٱلْحَمْدُ",
+      "source": "batch-2",
+      "start": 45.89,
+      "end": 46.41,
+      "status": "imported",
+      "evidence": "Unprompted local transcript 'الحمد' matched in ordered context; attention alignment log-probability -0.007; quiet edges False/False. Isolated extracted-clip transcription independently matches the word identity.",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "isolatedTranscript": "الحمد"
+    },
+    {
+      "text": "إِيَّاكَ",
+      "source": "batch-2",
+      "start": 47.03,
+      "end": 47.79,
+      "status": "imported",
+      "evidence": "Unprompted local transcript 'إياك' matched in ordered context; attention alignment log-probability -0.104; quiet edges True/False. Isolated extracted-clip transcription independently matches the word identity.",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "isolatedTranscript": "إياك"
+    },
+    {
+      "text": "نَعْبُدُ",
+      "source": "batch-2",
+      "start": 47.79,
+      "end": 48.35,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'نعبد،' matched in ordered context; attention alignment log-probability -0.003; quiet edges False/True.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "نابدو"
+    },
+    {
+      "text": "وَإِيَّاكَ",
+      "source": "batch-2",
+      "start": 48.35,
+      "end": 49.55,
+      "status": "imported",
+      "evidence": "Unprompted local transcript 'وإياك' matched in ordered context; attention alignment log-probability -0.052; quiet edges True/False. Isolated extracted-clip transcription independently matches the word identity.",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "isolatedTranscript": "وإياك"
+    },
+    {
+      "text": "ٱهْدِنَا",
+      "source": "batch-2",
+      "start": 49.55,
+      "end": 49.91,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'اهدنا' matched in ordered context; attention alignment log-probability -0.09; quiet edges False/False.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "موسيقى موسيقى موسيقى موسيقى موسيقى موسيقى موسيقى"
+    },
+    {
+      "text": "ٱلصِّرَٰطَ",
+      "source": "batch-2",
+      "start": 49.91,
+      "end": 50.41,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'الصراط' matched in ordered context; attention alignment log-probability -0.014; quiet edges False/False.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "سرات"
+    },
+    {
+      "text": "ٱلَّذِينَ",
+      "source": "batch-2",
+      "start": 50.41,
+      "end": 50.93,
+      "status": "imported",
+      "evidence": "Unprompted local transcript 'الذين' matched in ordered context; attention alignment log-probability -0.005; quiet edges False/False. Isolated extracted-clip transcription independently matches the word identity.",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "isolatedTranscript": "الذين"
+    },
+    {
+      "text": "أَنْعَمْتَ",
+      "source": "batch-2",
+      "start": 50.93,
+      "end": 51.47,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'أنعمت' matched in ordered context; attention alignment log-probability -0.001; quiet edges False/False.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "أن أمت"
+    },
+    {
+      "text": "عَلَيْهِمْ",
+      "source": "batch-2",
+      "start": 51.47,
+      "end": 52.09,
+      "status": "imported",
+      "evidence": "Unprompted local transcript 'عليهم' matched in ordered context; attention alignment log-probability -0.0; quiet edges False/True. Isolated extracted-clip transcription independently matches the word identity.",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "isolatedTranscript": "عليهم"
+    },
+    {
+      "text": "بِأَصْحَـٰبِ",
+      "source": "batch-2",
+      "start": 52.09,
+      "end": 52.97,
+      "status": "imported",
+      "evidence": "Unprompted local transcript 'بأصحاب' matched in ordered context; attention alignment log-probability -0.001; quiet edges True/False. Isolated extracted-clip transcription independently matches the word identity.",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "isolatedTranscript": "بأصحاب"
+    },
+    {
+      "text": "ٱلْفِيلِ",
+      "source": "batch-2",
+      "start": 52.97,
+      "end": 53.45,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'الفيل' matched in ordered context; attention alignment log-probability -0.01; quiet edges False/True.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "اشتركوا في القناة"
+    },
+    {
+      "text": "كَيْدَهُمْ",
+      "source": "batch-2",
+      "start": 54.47,
+      "end": 55.07,
+      "status": "imported",
+      "evidence": "Unprompted local transcript 'كيدهم' matched in ordered context; attention alignment log-probability -0.002; quiet edges True/True. Isolated extracted-clip transcription independently matches the word identity.",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "isolatedTranscript": "كيدهم"
+    },
+    {
+      "text": "وَأَرْسَلَ",
+      "source": "batch-2",
+      "start": 55.07,
+      "end": 55.99,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'وأرسل' matched in ordered context; attention alignment log-probability -0.007; quiet edges True/True.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "وأرسل طريقه"
+    },
+    {
+      "text": "طَيْرًا",
+      "source": "batch-2",
+      "start": 55.99,
+      "end": 56.39,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'طيرا' matched in ordered context; attention alignment log-probability -0.008; quiet edges True/False.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "طيران"
+    },
+    {
+      "text": "قُرَيْشٍ",
+      "source": "batch-2",
+      "start": 57.11,
+      "end": 57.63,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'قريش' matched in ordered context; attention alignment log-probability -0.041; quiet edges True/True.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "ترجمة نانسي قنقر"
+    },
+    {
+      "text": "ٱلْبَيْتِ",
+      "source": "batch-2",
+      "start": 62.73,
+      "end": 63.87,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'البيت' matched in ordered context; attention alignment log-probability -0.726; quiet edges True/True.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "البيت يكون"
+    },
+    {
+      "text": "يُكَذِّبُ",
+      "source": "batch-2",
+      "start": 63.87,
+      "end": 64.37,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'يكذب' matched in ordered context; attention alignment log-probability -0.008; quiet edges True/True.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "كزيبو"
+    },
+    {
+      "text": "فَذَٰلِكَ",
+      "source": "batch-2",
+      "start": 64.37,
+      "end": 64.97,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'فذلك' matched in ordered context; attention alignment log-probability -0.013; quiet edges True/True.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "فذلك طبعاً"
+    },
+    {
+      "text": "طَعَامِ",
+      "source": "batch-2",
+      "start": 64.97,
+      "end": 65.39,
+      "status": "imported",
+      "evidence": "Unprompted local transcript 'طعام' matched in ordered context; attention alignment log-probability -0.007; quiet edges True/False. Isolated extracted-clip transcription independently matches the word identity.",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "isolatedTranscript": "طعام"
+    },
+    {
+      "text": "سَاهُونَ",
+      "source": "batch-2",
+      "start": 65.39,
+      "end": 66.05,
+      "status": "imported",
+      "evidence": "Unprompted local transcript 'ساهون' matched in ordered context; attention alignment log-probability -0.043; quiet edges False/True. Isolated extracted-clip transcription independently matches the word identity.",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "isolatedTranscript": "ساهون"
+    },
+    {
+      "text": "لِرَبِّكَ",
+      "source": "batch-2",
+      "start": 66.05,
+      "end": 66.93,
+      "status": "imported",
+      "evidence": "Unprompted local transcript 'لربك' matched in ordered context; attention alignment log-probability -0.012; quiet edges True/True. Isolated extracted-clip transcription independently matches the word identity.",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "isolatedTranscript": "لربك"
+    },
+    {
+      "text": "دِينُكُمْ",
+      "source": "batch-2",
+      "start": 68.25,
+      "end": 68.945,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'دينكم' matched in ordered context; attention alignment log-probability -0.034; quiet edges False/True.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "ومدينة كوم"
+    },
+    {
+      "text": "وَرَأَيْتَ",
+      "source": "batch-2",
+      "start": 68.945,
+      "end": 69.79,
+      "status": "imported",
+      "evidence": "Unprompted local transcript 'ورأيت' matched in ordered context; attention alignment log-probability -0.006; quiet edges True/False. Isolated extracted-clip transcription independently matches the word identity.",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "isolatedTranscript": "ورأيت"
+    },
+    {
+      "text": "ٱلنَّاسَ",
+      "source": "batch-2",
+      "start": 69.79,
+      "end": 70.345,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'الناس' matched in ordered context; attention alignment log-probability -0.001; quiet edges False/True.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "النسا"
+    },
+    {
+      "text": "فَسَبِّحْ",
+      "source": "batch-2",
+      "start": 70.345,
+      "end": 71.21,
+      "status": "imported",
+      "evidence": "Unprompted local transcript 'فسبح' matched in ordered context; attention alignment log-probability -0.038; quiet edges True/True. Isolated extracted-clip transcription independently matches the word identity.",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "isolatedTranscript": "فسبح"
+    },
+    {
+      "text": "بِحَمْدِ",
+      "source": "batch-2",
+      "start": 71.21,
+      "end": 71.855,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'بحمد' matched in ordered context; attention alignment log-probability -0.004; quiet edges True/True.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "بحمد الحطب."
+    },
+    {
+      "text": "جِيدِهَا",
+      "source": "batch-2",
+      "start": 72.09,
+      "end": 72.67,
+      "status": "imported",
+      "evidence": "Unprompted local transcript 'جيدها' matched in ordered context; attention alignment log-probability -0.001; quiet edges False/True. Isolated extracted-clip transcription independently matches the word identity.",
+      "note": "Word identity checked in full recording and extracted clip. Vowels/endings still need fluent pronunciation review.",
+      "isolatedTranscript": "جيدها"
+    },
+    {
+      "text": "يُولَدْ",
+      "source": "batch-2",
+      "start": 73.67,
+      "end": 74.165,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'يولد' matched in ordered context; attention alignment log-probability -0.017; quiet edges False/True.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "ترجمة نانسي قنقر"
+    },
+    {
+      "text": "كُفُوًا",
+      "source": "batch-2",
+      "start": 74.165,
+      "end": 74.55,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'كفوا' matched in ordered context; attention alignment log-probability -0.012; quiet edges True/False.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "اشتركوا في القناة"
+    },
+    {
+      "text": "أَعُوذُ",
+      "source": "batch-2",
+      "start": 75.35,
+      "end": 77.27,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'أعوذ' matched in ordered context; attention alignment log-probability -0.117; quiet edges True/False.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "أعود"
+    },
+    {
+      "text": "ٱلْفَلَقِ",
+      "source": "batch-2",
+      "start": 77.27,
+      "end": 77.77,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'الفلق' matched in ordered context; attention alignment log-probability -0.014; quiet edges False/False.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "والفلاك"
+    },
+    {
+      "text": "غَاسِقٍ",
+      "source": "batch-2",
+      "start": 77.77,
+      "end": 78.5,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'غاسق' matched in ordered context; attention alignment log-probability -0.105; quiet edges False/True.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "ترجمة نانسي قنقر"
+    },
+    {
+      "text": "ٱلْعُقَدِ",
+      "source": "batch-2",
+      "start": 78.225,
+      "end": 79.29,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'العقد' matched in ordered context; attention alignment log-probability -0.078; quiet edges True/False.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "العقدية"
+    },
+    {
+      "text": "حَاسِدٍ",
+      "source": "batch-2",
+      "start": 79.29,
+      "end": 79.965,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'حاسد' matched in ordered context; attention alignment log-probability -0.006; quiet edges False/True.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "حاسدين"
+    },
+    {
+      "text": "يُوَسْوِسُ",
+      "source": "batch-2",
+      "start": 79.965,
+      "end": 80.81,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'يوسوس' matched in ordered context; attention alignment log-probability -0.272; quiet edges True/False.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "اشتركوا في القناة"
+    },
+    {
+      "text": "صُدُورِ",
+      "source": "batch-2",
+      "start": 80.81,
+      "end": 81.37,
+      "status": "needs-review",
+      "evidence": "Unprompted local transcript 'صدور' matched in ordered context; attention alignment log-probability -0.018; quiet edges False/True.",
+      "note": "Candidate only. Isolated recognition is inconclusive or includes another sound; not mapped to lessons. ASR failure does not establish that an item is missing.",
+      "isolatedTranscript": "ترجمة نانسي قنقر"
+    }
+  ],
+  "reviewHistory": [
+    {
+      "text": "ضَمَّتَانْ",
+      "supersededStart": 6.08,
+      "supersededEnd": 7.28,
+      "reason": "Owner identified opening-check.wav (3.70–4.85 s) as damatan only, not fathatan. Use that reviewed excerpt; do not infer neighboring name positions."
+    }
+  ]
+}

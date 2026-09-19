@@ -4,11 +4,45 @@
 // - Shell (HTML/CSS/JS/fonts): stale-while-revalidate, ignoring ?v= cache-busters.
 // - data/*.json: network-first so rebuilt data lands promptly; cache fallback offline.
 // - Remote recitation audio: deliberately NOT intercepted — see AUDIO_HOSTS below.
-const VERSION = "miftah-v45-letter-garden-art-foundation-candidate-20260918";
+const VERSION = "miftah-v47-letter-garden-curriculum-audio-correction-20260918";
 const SHELL_CACHE = `shell-${VERSION}`;
 const DATA_CACHE = `data-${VERSION}`;
 
 const SHELL = [
+  // BEGIN MARIN CURRICULUM AUDIO
+  "assets/audio/letters/marin-curriculum-v1/lg-0f4c7785aba9.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-9398dd2463eb.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-cf74c943ec31.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-94eee3c61cac.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-cb624b7d0ef4.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-9e233c3067bd.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-6f7ddec18d79.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-7af96a47a4b6.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-73d38b2d5bed.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-f9b77a966b34.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-98c207c85669.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-3062586698e2.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-41a5ef4bf942.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-2f846091a5f9.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-7242f6a466e3.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-ccd65ecf3ee7.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-5e79a2002dd0.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-f26ead2a68a3.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-07f25640a2b9.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-a92c18c9f482.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-f663e61203ed.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-c7d727cb3393.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-628d855112ee.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-c8846e99d100.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-50fede0b75aa.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-07324b4a3020.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-94d3b4fa6e7f.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-de88736412f6.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-81d4f87ac87d.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-cfc53afaefe5.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-1b42fe0a2f60.wav",
+  "assets/audio/letters/marin-curriculum-v1/lg-ce78ac63493c.wav",
+  // END MARIN CURRICULUM AUDIO
   "src/letters/LetterVoiceClips.js",
   "src/letters/LettersVoice.js",
   "assets/audio/letters/marin-v1/alif.wav",

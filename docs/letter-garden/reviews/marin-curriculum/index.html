@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Marin curriculum audio review</title>
+  <style>
+    :root{color-scheme:light;--ink:#33271c;--paper:#fffaf0;--cream:#fffdf8;--line:#cbbda6;--green:#4e9677;--gold:#f4ca55;--coral:#a9473b;--muted:#725c40}
+    *{box-sizing:border-box}
+    body{margin:0;background:#e7dece;color:var(--ink);font:15px/1.45 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    main{width:min(1120px,calc(100% - 24px));margin:22px auto 52px}
+    header,.panel{background:var(--cream);border:1px solid var(--line);border-radius:18px;box-shadow:0 4px 0 var(--line)}
+    header{padding:20px 22px;margin-bottom:14px}
+    h1{margin:0 0 5px;font-size:clamp(23px,4vw,35px);letter-spacing:-.025em}
+    h2{margin:0;font-size:18px}.intro{max-width:820px}.meta,.hint{color:var(--muted);font-size:13px}.notice{color:#783a16;font-weight:650}
+    .toolbar{position:sticky;top:8px;z-index:3;display:flex;flex-wrap:wrap;align-items:center;gap:9px;padding:11px 12px;margin-bottom:16px}
+    .toolbar label{font-weight:700}.toolbar input{flex:1 1 210px;min-width:150px;padding:10px 11px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);font:inherit}
+    .filters{display:flex;gap:6px;flex-wrap:wrap}.filters button,button{min-height:40px;border:2px solid var(--ink);border-radius:11px;background:var(--paper);color:var(--ink);font:600 14px system-ui;cursor:pointer;padding:7px 12px}.filters button[aria-pressed=true]{background:var(--gold)}
+    button:disabled{cursor:not-allowed;opacity:.42}.toolbar .status{flex:1 0 100%;color:var(--muted);font-size:13px}
+    .sources{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:10px;margin-bottom:16px}.source{padding:13px;background:var(--paper);border:1px solid var(--line);border-radius:14px}.source h3{margin:0 0 7px;font-size:15px}.source audio{width:100%;height:38px;margin:0 0 7px}.source-actions{display:flex;flex-wrap:wrap;gap:6px}.source-actions button{min-height:34px;padding:4px 9px;font-size:12px}
+    details{margin-top:13px;border-top:1px solid var(--line);padding-top:10px}.disclosure{color:var(--muted)}.disclosure summary{cursor:pointer;font-weight:700;color:var(--ink)}
+    .items{display:grid;gap:8px}.item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;padding:10px 12px;background:var(--cream);border:1px solid var(--line);border-radius:14px}.item-main{min-width:0}.item-id{color:var(--muted);font-size:12px;font-weight:700;letter-spacing:.03em}.item-text{margin-top:2px;white-space:pre-wrap;overflow-wrap:anywhere;font-size:17px;direction:rtl;text-align:right;font-family:"Geeza Pro","Noto Naskh Arabic",serif}.item-note{margin-top:3px;color:var(--muted);font-size:12px}.item-actions{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end}.item-actions button{min-height:36px;padding:5px 9px}.item-actions .play{background:#b7e779}.item-actions .source-link{background:#f5e4ae}.badge{display:inline-block;margin-left:5px;border-radius:999px;padding:2px 7px;font-size:11px;line-height:1.4;font-weight:700;vertical-align:middle}.badge-imported{background:#d5edce;color:#285b35}.badge-review{background:#f5e4ae;color:#765316}.badge-missing{background:#f3d4cd;color:#783a2d}.empty{padding:24px;text-align:center;color:var(--muted);background:var(--paper);border:1px dashed var(--line);border-radius:14px}
+    @media(max-width:650px){main{margin-top:12px}.toolbar{position:static}.item{grid-template-columns:1fr}.item-actions{justify-content:flex-start}.item-actions button{flex:1 1 auto}.source audio{height:36px}}
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Marin curriculum audio review</h1>
+      <p class="intro">Adult review page for the curriculum recordings. Check the generated AI voice against the original recording, identify any item that needs pronunciation, timing, or source alignment review.</p>
+      <p class="notice">This page is for review only. It does not change the child-facing game or its fallback voice.</p>
+      <p class="meta" id="manifest-meta">Loading manifest…</p>
+      <details class="disclosure">
+        <summary>How this review works</summary>
+        <p>Imported items link to the generated file listed in the manifest. A source button jumps to the supplied start time and stops at the end time. Missing items remain visible so the curriculum can be audited as the audio batches are completed.</p>
+        <p>AI voice and source mapping should be reviewed by a fluent Arabic speaker. Source timestamps are guidance for review. Corrections belong in the source cut sheet so the importer can reproduce them.</p>
+      </details>
+    </header>
+
+    <section class="source" style="margin-bottom:16px" aria-label="Opening cut check">
+      <h2>Confirmed opening cut — ضَمَّتَانْ</h2>
+      <p>The owner identified this 3.70–4.85 second excerpt as Dammataan only. It now supplies ضَمَّتَانْ in the local game. ضَمَّة and فَتْحَتَانْ still need separate verified cuts.</p>
+      <audio controls preload="none" src="opening-check.wav" aria-label="Play the short opening cut check"></audio>
+    </section>
+    <section class="panel toolbar" aria-label="Filter curriculum audio">
+      <label for="search">Search text or ID</label>
+      <input id="search" type="search" autocomplete="off" placeholder="e.g. item-023 or Arabic text">
+      <div class="filters" role="group" aria-label="Status filter">
+        <button type="button" data-filter="all" aria-pressed="false">All</button>
+        <button type="button" data-filter="imported" aria-pressed="true">Imported</button>
+        <button type="button" data-filter="needs-review" aria-pressed="false">Needs review</button>
+        <button type="button" data-filter="missing" aria-pressed="false">Missing</button>
+      </div>
+      <div class="status" id="filter-status" role="status" aria-live="polite"></div>
+    </section>
+
+    <section aria-labelledby="sources-heading">
+      <h2 id="sources-heading">Original source recordings</h2>
+      <p class="hint">Use these controls to listen to the recordings supplied for splitting and mapping.</p>
+      <div class="sources" id="sources"></div>
+    </section>
+
+    <section aria-labelledby="items-heading">
+      <h2 id="items-heading">Curriculum items</h2>
+      <p class="hint">Generated clips play from the shared review player. Only one recording plays at a time.</p>
+      <div class="items" id="items" aria-live="polite"></div>
+    </section>
+    <audio id="clip-player" preload="none" hidden></audio>
+  </main>
+  <script>
+    (()=>{
+      'use strict';
+      const root='../../../../';
+      const manifestMeta=document.querySelector('#manifest-meta');
+      const filterStatus=document.querySelector('#filter-status');
+      const sourcesEl=document.querySelector('#sources');
+      const itemsEl=document.querySelector('#items');
+      const searchEl=document.querySelector('#search');
+      const clipPlayer=document.querySelector('#clip-player');
+      let manifest={sources:[],items:[]};
+      let activeFilter='imported';
+      let activeClip=null;
+      let sourceStops=new WeakMap();
+      const availableFiles=new Map();
+
+      const text=value=>value===undefined||value===null?'':String(value);
+      const pathForFile=file=>root+text(file).replace(/^\//,'');
+      const sourcePath=file=>text(file).replace(/^\.\//,'');
+      const formatTime=value=>{const seconds=Number(value);if(!Number.isFinite(seconds))return '';const mins=Math.floor(seconds/60);const secs=(seconds%60).toFixed(2).padStart(5,'0');return `${mins}:${secs}`;};
+      const statusLabel=status=>status==='needs-review'?'Needs review':status==='missing'?'Missing':'Imported';
+      const statusClass=status=>status==='needs-review'?'badge-review':status==='missing'?'badge-missing':'badge-imported';
+      const setText=(element,value)=>{element.textContent=text(value);return element;};
+      const button=(label,className,disabled=false)=>{const element=document.createElement('button');element.type='button';element.textContent=label;element.className=className||'';element.disabled=disabled;element.setAttribute('aria-label',label);return element;};
+      const stopAll=except=>{document.querySelectorAll('audio').forEach(audio=>{if(audio!==except&&!audio.paused){audio.pause();}});};
+      document.addEventListener('play',event=>{if(event.target.tagName==='AUDIO')stopAll(event.target);},true);
+      const stopClip=()=>{clipPlayer.pause();clipPlayer.removeAttribute('src');clipPlayer.load();activeClip=null;};
+      const playClip=item=>{if(!item.file)return;stopAll(clipPlayer);activeClip=item;clipPlayer.src=pathForFile(item.file);clipPlayer.play().catch(()=>{filterStatus.textContent=`Could not play ${text(item.id)}. Check that the generated file exists.`;});};
+      const clearSourceStop=audio=>{const old=sourceStops.get(audio);if(old){audio.removeEventListener('timeupdate',old);sourceStops.delete(audio);}};
+      const playSourceExcerpt=(audio,start,end)=>{const from=Number(start);const to=Number(end);if(!Number.isFinite(from))return;stopAll(audio);clearSourceStop(audio);audio.currentTime=Math.max(0,from);if(Number.isFinite(to)&&to>from){const stopAt=()=>{if(audio.currentTime>=to){audio.pause();clearSourceStop(audio);}};sourceStops.set(audio,stopAt);audio.addEventListener('timeupdate',stopAt);}audio.play().catch(()=>{filterStatus.textContent='Source playback could not start. Select the source audio controls to retry.';});};
+      const sourceById=id=>manifest.sources.find(source=>text(source.id)===text(id)||text(source.file)===text(id));
+
+      const renderSources=()=>{sourcesEl.replaceChildren();if(!manifest.sources.length){const empty=document.createElement('p');empty.className='empty';setText(empty,'No source recordings are listed in manifest.json.');sourcesEl.append(empty);return;}manifest.sources.forEach(source=>{const card=document.createElement('article');card.className='source';const title=document.createElement('h3');setText(title,source.id||source.file||'Source recording');card.append(title);const audio=document.createElement('audio');audio.controls=true;audio.preload='none';audio.src=sourcePath(source.file);audio.setAttribute('aria-label',`Original source ${text(source.id||source.file)}`);audio.addEventListener('play',()=>stopAll(audio));audio.addEventListener('ended',()=>clearSourceStop(audio));card.append(audio);const details=document.createElement('div');details.className='source-actions';const info=document.createElement('span');info.className='hint';setText(info,source.duration?`Duration ${formatTime(source.duration)}`:'Original source');details.append(info);card.append(details);sourcesEl.append(card);});};
+
+      const matches=item=>{const query=searchEl.value.trim().toLocaleLowerCase();const haystack=[item.id,item.text,item.note,item.file,item.source].map(text).join(' ').toLocaleLowerCase();return (!query||haystack.includes(query))&&(activeFilter==='all'||item.status===activeFilter);};
+      const renderItems=()=>{itemsEl.replaceChildren();const visible=manifest.items.filter(matches);filterStatus.textContent=`Showing ${visible.length} of ${manifest.items.length} items`;if(!visible.length){const empty=document.createElement('p');empty.className='empty';setText(empty,manifest.items.length?'No items match this filter.':'No curriculum items are listed in manifest.json.');itemsEl.append(empty);return;}visible.forEach(item=>{const row=document.createElement('article');row.className='item';const main=document.createElement('div');main.className='item-main';const id=document.createElement('div');id.className='item-id';setText(id,item.id);const badge=document.createElement('span');badge.className=`badge ${statusClass(item.status)}`;setText(badge,statusLabel(item.status));id.append(badge);main.append(id);const phrase=document.createElement('div');phrase.className='item-text';phrase.lang='ar';setText(phrase,item.text||'(no text)');main.append(phrase);if(item.note){const note=document.createElement('div');note.className='item-note';setText(note,item.note);main.append(note);}row.append(main);const actions=document.createElement('div');actions.className='item-actions';const ready=Boolean(item.file&&availableFiles.get(text(item.file)));const play=button(ready?(item.status==='imported'?'Play imported clip':'Play candidate excerpt'):'Clip unavailable','play',!ready);if(ready){play.addEventListener('click',()=>playClip(item));}actions.append(play);const source=sourceById(item.source);if(source&&Number.isFinite(Number(item.start))){const label=`Play source excerpt${Number.isFinite(Number(item.end))?` ${formatTime(item.start)}–${formatTime(item.end)}`:''}`;const sourceButton=button(label,'source-link');const sourceAudio=[...sourcesEl.querySelectorAll('audio')].find(audio=>audio.src.endsWith(sourcePath(source.file)));if(sourceAudio)sourceButton.addEventListener('click',()=>playSourceExcerpt(sourceAudio,item.start,item.end));else sourceButton.disabled=true;actions.append(sourceButton);}row.append(actions);itemsEl.append(row);});};
+
+      document.querySelectorAll('[data-filter]').forEach(filterButton=>filterButton.addEventListener('click',()=>{activeFilter=filterButton.dataset.filter;document.querySelectorAll('[data-filter]').forEach(other=>other.setAttribute('aria-pressed',String(other===filterButton)));renderItems();}));
+      searchEl.addEventListener('input',renderItems);
+      const stopPlayback=()=>{stopClip();document.querySelectorAll('audio').forEach(audio=>{audio.pause();clearSourceStop(audio);});};
+      document.addEventListener('visibilitychange',()=>{if(document.hidden)stopPlayback();});
+      window.addEventListener('pagehide',stopPlayback);window.addEventListener('beforeunload',stopPlayback);
+      const checkFile=async file=>{if(!file)return false;const url=pathForFile(file);try{const response=await fetch(url,{method:'HEAD',cache:'no-store'});if(response.ok)return true;}catch(error){/* A local preview may not implement HEAD. */}try{const response=await fetch(url,{headers:{Range:'bytes=0-0'},cache:'no-store'});return response.ok;}catch(error){return false;}};
+      fetch('./manifest.json',{cache:'no-store'}).then(response=>{if(!response.ok)throw Error(`HTTP ${response.status}`);return response.json();}).then(async data=>{manifest={sources:Array.isArray(data.sources)?data.sources:[],items:Array.isArray(data.items)?data.items:[]};const counts=manifest.items.reduce((all,item)=>{const status=item.status||'missing';all[status]=(all[status]||0)+1;return all;},{imported:0,'needs-review':0,missing:0});manifestMeta.textContent=`${manifest.items.length} items · ${counts.imported} imported · ${counts['needs-review']} needs review · ${counts.missing} missing`;renderSources();const files=[...new Set(manifest.items.map(item=>text(item.file)).filter(Boolean))];await Promise.all(files.map(async file=>availableFiles.set(file,await checkFile(file))));renderItems();}).catch(error=>{manifestMeta.textContent='Could not read manifest.json';filterStatus.textContent=`Manifest error: ${error.message}`;renderSources();renderItems();});
+    })();
+  </script>
+</body>
+</html>

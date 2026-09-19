@@ -2,11 +2,13 @@
 // this adapter only owns loading, decoding, playback, and cancellation.
 (function (ns) {
   class LettersVoice {
-    constructor({ clips = {}, getContext, fetch: fetcher, timeoutMs = 3000 } = {}) {
+    constructor({ clips = {}, getContext, fetch: fetcher, timeoutMs = 3000, gapMs = 90, names = ns.LETTERS_DATA?.packs?.flatMap(pack => pack.letters.map(letter => letter.arName)) } = {}) {
       this.clips = clips || {};
       this.getContext = getContext || (() => null);
       this.fetch = fetcher || ((...args) => fetch(...args));
       this.timeoutMs = timeoutMs;
+      this.gapMs = gapMs;
+      this.names = new Set(Array.from(names || [], name => this.key(name)).filter(Boolean));
       this.available = Object.keys(this.clips).length > 0;
       this.buffers = new Map();
       this.pending = new Map();
@@ -18,19 +20,49 @@
       return typeof text === "string" ? text.normalize("NFC").trim() : "";
     }
 
-    has(text) {
+    hasClip(text) {
       const key = this.key(text);
       return !!key && Object.prototype.hasOwnProperty.call(this.clips, key);
     }
 
+    has(text) {
+      const key = this.key(text);
+      return this.hasClip(key) || !!this.sequence(key);
+    }
+
+    sequence(text) {
+      const key = this.key(text);
+      if (!key || !key.includes("،")) return null;
+      const keys = key.split("،").map(part => this.key(part));
+      return keys.length > 1 && keys.every(part => this.names.has(part) && this.hasClip(part)) ? keys : null;
+    }
+
     play(text, job = {}, fallback) {
       const key = this.key(text);
-      if (!this.has(key)) return false;
+      // A phrase recording always wins. Only compose an explicitly comma-separated
+      // sequence when every exact curriculum name has a local recording.
+      const keys = this.hasClip(key) ? [key] : this.sequence(key);
+      if (!keys) return false;
       const generation = this.generation;
-      const url = this.clips[key];
+      let started = false;
+      let finished = false;
+      const fail = (error) => {
+        if (finished || generation !== this.generation) return;
+        finished = true;
+        this.active = null;
+        // Falling back after even one local clip would repeat part of the phrase.
+        if (!started) {
+          let didFallback = false;
+          try { didFallback = fallback?.() === true; } catch {}
+          if (didFallback) return;
+        }
+        job.onerror?.(error);
+      };
       const run = async () => {
         try {
-          const buffer = await this.load(url);
+          // Decode the whole phrase before starting it, so a bad later clip cannot
+          // leave the child hearing a partial local phrase followed by fallback TTS.
+          const buffers = await Promise.all(keys.map(clip => this.load(this.clips[clip])));
           if (generation !== this.generation) return;
           const ctx = this.getContext();
           if (!ctx || typeof ctx.createBufferSource !== "function" || !ctx.destination) throw new Error("audio context unavailable");
@@ -41,40 +73,50 @@
             if (ctx.state != null && ctx.state !== "running") throw new Error("audio context did not resume");
           }
           if (generation !== this.generation || ctx.state === "closed") return;
-
-          const source = ctx.createBufferSource();
-          const gain = typeof ctx.createGain === "function" ? ctx.createGain() : null;
-          source.buffer = buffer;
-          if (gain) {
-            gain.gain.value = 0.9;
-            source.connect(gain);
-            gain.connect(ctx.destination);
-          } else {
-            source.connect(ctx.destination);
-          }
-          let ended = false;
-          source.onended = () => {
-            if (ended || generation !== this.generation) return;
-            ended = true;
-            if (this.active?.source === source) this.active = null;
-            try { source.disconnect?.(); gain?.disconnect?.(); } catch {}
-            job.onend?.();
+          const startClip = (index) => {
+            if (finished || generation !== this.generation) return;
+            let source, gain;
+            try {
+              source = ctx.createBufferSource();
+              gain = typeof ctx.createGain === "function" ? ctx.createGain() : null;
+              source.buffer = buffers[index];
+              if (gain) {
+                gain.gain.value = 0.9;
+                source.connect(gain);
+                gain.connect(ctx.destination);
+              } else {
+                source.connect(ctx.destination);
+              }
+              let ended = false;
+              source.onended = () => {
+                if (ended || generation !== this.generation || finished) return;
+                ended = true;
+                if (this.active?.source === source) this.active = null;
+                try { source.disconnect?.(); gain?.disconnect?.(); } catch {}
+                if (index + 1 === buffers.length) {
+                  finished = true;
+                  job.onend?.();
+                  return;
+                }
+                const timer = setTimeout(() => startClip(index + 1), this.gapMs);
+                this.active = { timer, generation };
+              };
+              this.active = { source, gain, generation };
+              source.start();
+              if (!started) {
+                started = true;
+                job.onstart?.();
+              }
+            } catch (error) {
+              source && (source.onended = null);
+              if (this.active?.source === source) this.active = null;
+              try { source?.disconnect?.(); gain?.disconnect?.(); } catch {}
+              fail(error);
+            }
           };
-          this.active = { source, gain, generation };
-          try {
-            source.start();
-          } catch (error) {
-            source.onended = null;
-            this.active = null;
-            try { source.disconnect?.(); gain?.disconnect?.(); } catch {}
-            throw error;
-          }
-          job.onstart?.();
+          startClip(0);
         } catch (error) {
-          if (generation !== this.generation) return;
-          let started = false;
-          try { started = fallback?.() === true; } catch {}
-          if (!started) job.onerror?.(error);
+          fail(error);
         }
       };
       run();
@@ -126,6 +168,7 @@
       const active = this.active;
       this.active = null;
       if (!active) return;
+      try { clearTimeout(active.timer); } catch {}
       try { active.source.onended = null; active.source.stop(); } catch {}
       try { active.source.disconnect?.(); active.gain?.disconnect?.(); } catch {}
     }

@@ -24,7 +24,7 @@ function setup({ native = true, fetcher } = {}) {
       requests.push(url);
       return fetcher ? fetcher(url) : { ok: true, arrayBuffer: async () => new ArrayBuffer(8) };
     } };
-  for (const file of ['LetterVoiceClips.js', 'LettersVoice.js', 'LettersGame.js']) {
+  for (const file of ['../data/letters.js', 'LetterVoiceClips.js', 'LettersVoice.js', 'LettersGame.js']) {
     vm.runInNewContext(fs.readFileSync(path.join(__dirname, '..', file), 'utf8'), sandbox);
   }
   const ns = window.MiftahGame;
@@ -48,10 +48,41 @@ test('bundled names count as heard only when the actual audio source ends', asyn
   assert.equal(duck.at(-1), false);
 });
 
-test('three absent names and vowel syllables use their unchanged curriculum TTS', () => {
+test('new alphabet names and curriculum words use exact imported recordings until their source ends', async () => {
+  const { game, spoken, sources, requests } = setup();
+  for (const text of ['سِينْ', 'وَاوْ', 'يَاءْ', 'هُوَ']) {
+    let complete = false;
+    const heard = game.sayForLearning({ speak: text }).then(value => { complete = true; return value; });
+    await tick();
+    assert.equal(complete, false);
+    assert.equal(sources.at(-1).started, true);
+    assert.match(requests.at(-1), /marin-curriculum-v1\/lg-[a-f0-9]+\.wav$/);
+    sources.at(-1).onended();
+    assert.equal(await heard, true);
+  }
+  assert.equal(spoken.length, 0);
+});
+
+test('unmapped short vowels, long vowels, and tanween preserve their distinct curriculum TTS', () => {
   const { game, spoken } = setup();
-  for (const text of ['سِينْ', 'وَاوْ', 'يَاءْ', 'بَ']) game.say({ display: 'ب', speak: text });
-  assert.deepEqual(spoken.map(u => u.text), ['سِينْ', 'وَاوْ', 'يَاءْ', 'بَ']);
+  for (const text of ['بَ', 'بَا', 'بً']) game.say({ display: 'ب', speak: text });
+  assert.deepEqual(spoken.map(u => u.text), ['بَ', 'بَا', 'بً']);
+});
+
+test('joined-name lessons finish only after every locally recorded name has ended', async () => {
+  const { game, sources, spoken } = setup({ native: false });
+  game.voice.gapMs = 0;
+  let complete = false;
+  const heard = game.sayForLearning({ speak: 'سِينْ، وَاوْ، يَاءْ' }).then(value => { complete = true; return value; });
+  await tick();
+  for (let index = 0; index < 3; index++) {
+    assert.equal(complete, false);
+    assert.equal(sources[index].started, true);
+    sources[index].onended();
+    if (index < 2) await new Promise(resolve => setTimeout(resolve, 5));
+  }
+  assert.equal(await heard, true);
+  assert.equal(spoken.length, 0);
 });
 
 test('a clip fetch failure falls back to native speech without prematurely ending the learning prompt', async () => {
@@ -99,7 +130,9 @@ test('muting a loading clip cancels learning and prevents late playback or fallb
 test('bundled names remain playable without a browser speech engine; missing or broken names remain unassisted by audio', async () => {
   const { game, sources } = setup({ native: false });
   assert.equal(game.canSpeak(ba), true);
-  assert.equal(game.canSpeak({ speak: 'سِينْ' }), false);
+  assert.equal(game.canSpeak({ speak: 'سِينْ' }), true);
+  assert.equal(game.canSpeak({ speak: 'سِينْ، وَاوْ، يَاءْ' }), true);
+  assert.equal(game.canSpeak({ speak: 'بَ' }), false);
   const heard = game.sayForLearning(ba);
   await tick(); sources[0].onended();
   assert.equal(await heard, true);

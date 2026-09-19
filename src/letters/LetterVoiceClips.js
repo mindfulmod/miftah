@@ -1,5 +1,5 @@
-// AI-generated letter-name clips imported from the owner-supplied OpenAI.fm recording.
-// Exact spoken-name lookup deliberately excludes vowel syllables and Quran words.
+// Locally bundled AI speech from owner-supplied OpenAI.fm Marin recordings.
+// Exact NFC keys preserve vowel/length distinctions. Uncertain cuts are excluded.
 (function (ns) {
   ns.LETTER_VOICE_CLIPS = Object.freeze({
   "أَلِفْ": "assets/audio/letters/marin-v1/alif.wav",
@@ -26,6 +26,38 @@
   "لَامْ": "assets/audio/letters/marin-v1/lam.wav",
   "مِيمْ": "assets/audio/letters/marin-v1/meem.wav",
   "نُونْ": "assets/audio/letters/marin-v1/noon.wav",
-  "هَاءْ": "assets/audio/letters/marin-v1/ha.wav"
+  "هَاءْ": "assets/audio/letters/marin-v1/ha.wav",
+  "سِينْ": "assets/audio/letters/marin-curriculum-v1/lg-0f4c7785aba9.wav",
+  "وَاوْ": "assets/audio/letters/marin-curriculum-v1/lg-9398dd2463eb.wav",
+  "يَاءْ": "assets/audio/letters/marin-curriculum-v1/lg-cf74c943ec31.wav",
+  "فَتْحَة": "assets/audio/letters/marin-curriculum-v1/lg-94eee3c61cac.wav",
+  "كَسْرَة": "assets/audio/letters/marin-curriculum-v1/lg-cb624b7d0ef4.wav",
+  "كَسْرَتَانْ": "assets/audio/letters/marin-curriculum-v1/lg-9e233c3067bd.wav",
+  "ضَمَّتَانْ": "assets/audio/letters/marin-curriculum-v1/lg-6f7ddec18d79.wav",
+  "هُوَ": "assets/audio/letters/marin-curriculum-v1/lg-7af96a47a4b6.wav",
+  "وَلَا": "assets/audio/letters/marin-curriculum-v1/lg-73d38b2d5bed.wav",
+  "أَلَمْ": "assets/audio/letters/marin-curriculum-v1/lg-f9b77a966b34.wav",
+  "رَبُّكَ": "assets/audio/letters/marin-curriculum-v1/lg-98c207c85669.wav",
+  "هَـٰذَا": "assets/audio/letters/marin-curriculum-v1/lg-3062586698e2.wav",
+  "إِذَا": "assets/audio/letters/marin-curriculum-v1/lg-41a5ef4bf942.wav",
+  "وَتَبَّ": "assets/audio/letters/marin-curriculum-v1/lg-2f846091a5f9.wav",
+  "عَنْهُ": "assets/audio/letters/marin-curriculum-v1/lg-7242f6a466e3.wav",
+  "ذَاتَ": "assets/audio/letters/marin-curriculum-v1/lg-ccd65ecf3ee7.wav",
+  "أَحَدٌ": "assets/audio/letters/marin-curriculum-v1/lg-5e79a2002dd0.wav",
+  "بِرَبِّ": "assets/audio/letters/marin-curriculum-v1/lg-f26ead2a68a3.wav",
+  "ٱللَّهِ": "assets/audio/letters/marin-curriculum-v1/lg-07f25640a2b9.wav",
+  "ٱلْحَمْدُ": "assets/audio/letters/marin-curriculum-v1/lg-a92c18c9f482.wav",
+  "إِيَّاكَ": "assets/audio/letters/marin-curriculum-v1/lg-f663e61203ed.wav",
+  "وَإِيَّاكَ": "assets/audio/letters/marin-curriculum-v1/lg-c7d727cb3393.wav",
+  "ٱلَّذِينَ": "assets/audio/letters/marin-curriculum-v1/lg-628d855112ee.wav",
+  "عَلَيْهِمْ": "assets/audio/letters/marin-curriculum-v1/lg-c8846e99d100.wav",
+  "بِأَصْحَـٰبِ": "assets/audio/letters/marin-curriculum-v1/lg-50fede0b75aa.wav",
+  "كَيْدَهُمْ": "assets/audio/letters/marin-curriculum-v1/lg-07324b4a3020.wav",
+  "طَعَامِ": "assets/audio/letters/marin-curriculum-v1/lg-94d3b4fa6e7f.wav",
+  "سَاهُونَ": "assets/audio/letters/marin-curriculum-v1/lg-de88736412f6.wav",
+  "لِرَبِّكَ": "assets/audio/letters/marin-curriculum-v1/lg-81d4f87ac87d.wav",
+  "وَرَأَيْتَ": "assets/audio/letters/marin-curriculum-v1/lg-cfc53afaefe5.wav",
+  "فَسَبِّحْ": "assets/audio/letters/marin-curriculum-v1/lg-1b42fe0a2f60.wav",
+  "جِيدِهَا": "assets/audio/letters/marin-curriculum-v1/lg-ce78ac63493c.wav"
 });
 })(window.MiftahGame || (window.MiftahGame = {}));

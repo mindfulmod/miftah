@@ -80,7 +80,8 @@
       this.island = null;
       this.game = null; // active mini-game instance
       this.stamps = this.loadStamps();
-      // Bundled AI letter names play locally; the remaining curriculum keeps TTS.
+      // Source-mapped AI names and curriculum clips play locally; uncovered
+      // requests keep device speech. No voice-generation service runs in game.
       this.speechTurn = 0;
       this.voice = ns.LettersVoice ? new ns.LettersVoice({
         clips: ns.LETTER_VOICE_CLIPS || {}, getContext: () => this.sound.base?.ctx,
@@ -738,8 +739,8 @@
     say(item, onEnd) {
       if (!item) return;
       // Keep names/diacritics from the curriculum, including word displays.
-      // The local voice bank matches spoken names only. Remote word audioPath
-      // remains unrelated to this child's letter-name playback.
+      // The local bank matches the exact teaching request, including diacritics.
+      // Remote word audioPath is separate from these owner-supplied voice clips.
       return this.speak(item.speak || item.display, onEnd);
     }
 

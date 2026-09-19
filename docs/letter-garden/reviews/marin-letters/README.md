@@ -1,5 +1,9 @@
 # Marin import — local Letter Garden
 
+**2026-09-18 update:** The newer [curriculum import](../marin-curriculum/README.md)
+supplies Seen, Waw, and Ya from a separate recording. The original 25 files below
+remain unchanged; the missing-name notes describe this earlier source only.
+
 The owner supplied `openai-fm-marin-audio-2.mp3` on 2026-09-16. Its unmodified copy
 is `original.mp3`. The export is 21.12 seconds, mono, 24 kHz, and contains 25
 distinct spoken names. Source and clip SHA-256 hashes and source timestamps are
