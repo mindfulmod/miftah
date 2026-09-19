@@ -8,6 +8,7 @@ const base = 'docs/letter-garden/reviews/audio-confirmation/';
 const read = file => fs.readFileSync(path.join(root, file));
 const catalogue = JSON.parse(read(base + 'manifest.json'));
 const owner = JSON.parse(read(base + 'owner-reviews/20260919-next100-complete.json'));
+const completed = JSON.parse(read(base + 'owner-reviews/20260919-individuals.json'));
 const queue = catalogue.reviewQueues.find(queue => queue.id === 'individuals');
 const byId = new Map(catalogue.items.map(item => [item.id, item]));
 
@@ -20,7 +21,7 @@ test('new individual queue is playable, unique and contains no previously decide
   for (const id of queue.itemIds) {
     const item = byId.get(id);
     assert.ok(!owner.decisions[id]?.verdict, `${id} repeats an owner-reviewed item`);
-    assert.equal(item.status, 'candidate');
+    assert.equal(item.status, completed.decisions[id].verdict === 'correct' ? 'installed' : 'candidate');
     assert.equal(item.parts.length, 1);
     assert.ok(item.source);
     assert.equal(crypto.createHash('sha256').update(read(item.file)).digest('hex'), item.sha256);
@@ -39,8 +40,9 @@ test('fresh review candidates are excluded from runtime and offline shell', () =
   const runtime = read('src/letters/LetterVoiceClips.js').toString();
   const shell = read('sw.js').toString();
   for (const id of queue.itemIds) {
-    assert.ok(!runtime.includes(id));
-    assert.ok(!shell.includes(id));
+    const approved = completed.decisions[id].verdict === 'correct';
+    assert.equal(runtime.includes(id), approved);
+    assert.equal(shell.includes(id), approved);
   }
   const selected = queue.itemIds.map(id => byId.get(id));
   for (let i = 0; i < selected.length; i++) for (let j = i + 1; j < selected.length; j++) {

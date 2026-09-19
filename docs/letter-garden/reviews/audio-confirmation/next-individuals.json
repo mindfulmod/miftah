@@ -1,11 +1,11 @@
 {
   "id": "individuals",
-  "title": "100 new individual listening items",
+  "title": "Previous 100 individual items — results saved",
   "preparedOn": "2026-09-19",
   "expectedCount": 100,
   "individualOnly": true,
   "selectionEvidence": "owner-reviews/20260919-next100-complete.json",
-  "description": "100 new, unreviewed syllables and sounds from your supplied recordings. Check the displayed sound, vowel length, and complete beginning and ending. Choose Correct, Needs fixing or Unsure; then continue with Next batch. All excerpts stay out of the game until approved.",
+  "description": "Original review: 46 approved clips installed unchanged; 54 rejected. The revised-cut queue contains only changed candidates for another listen. Your original export and notes are preserved.",
   "itemIds": [
     "lg-e006f0b8074f",
     "lg-2701f008f06f",

@@ -1,0 +1,731 @@
+{
+  "ownerReview": "owner-reviews/20260919-individuals.json",
+  "approved": 46,
+  "rejected": 54,
+  "recheckCount": 22,
+  "unresolvedCount": 32,
+  "shortVowels": {
+    "source": "docs/letter-garden/reviews/marin-curriculum/sources/batch-1.mp3",
+    "scope": "Conservative review-only recuts for rejected short-vowel candidates. Approved clips and runtime mappings are unchanged.",
+    "method": "Owner listening notes were matched against 2.5–10 ms waveform energy, stop closures, frication changes, and repeated log-spectrum transitions. Proposed ends stop before the following consonant becomes audible; the one proposed start moves back to the consonant closure/onset rather than the following vowel onset.",
+    "repairs": [
+      {
+        "text": "بَ",
+        "oldBounds": {
+          "start": 7.64,
+          "end": 7.9
+        },
+        "proposedBounds": {
+          "start": 7.64,
+          "end": 7.835
+        },
+        "ownerNote": "sounds like beb",
+        "evidence": "The target vowel remains energetic through about 7.83. A sharp energy collapse starts at 7.84 and continues into the next ب closure; the old end at 7.90 reaches the following burst/vowel transition.",
+        "confidence": "high",
+        "caveat": "Verify that 7.835 retains the natural tail of بَ without the next bilabial closure."
+      },
+      {
+        "text": "بُ",
+        "oldBounds": {
+          "start": 8.17,
+          "end": 8.38
+        },
+        "proposedBounds": {
+          "start": 8.105,
+          "end": 8.38
+        },
+        "ownerNote": "sounds like pu",
+        "evidence": "The old start is the strong vowel/burst transition at 8.17, after the final ب closure has begun. Spectral change and falling energy around 8.105–8.11 mark the preceding consonant onset, so moving the start earlier restores the whole stop.",
+        "confidence": "medium",
+        "caveat": "The added closure overlaps the end of the separately approved بِ clip; review this recut independently for a clean voiced ب rather than پ-like onset."
+      },
+      {
+        "text": "تَ",
+        "oldBounds": {
+          "start": 8.89,
+          "end": 9.2
+        },
+        "proposedBounds": {
+          "start": 8.89,
+          "end": 9.145
+        },
+        "ownerNote": "sounds like tati",
+        "evidence": "The first vowel decays into a near-silent stop closure from roughly 9.09 to 9.145. The following ت release begins after 9.145 and reaches its vowel transition near the old 9.20 end, explaining why the owner heard the next syllable.",
+        "confidence": "high",
+        "caveat": "The source consonant was sometimes recognized as د; verify the initial dental stop as well as the new end."
+      },
+      {
+        "text": "جَ",
+        "oldBounds": {
+          "start": 11.24,
+          "end": 11.695
+        },
+        "proposedBounds": {
+          "start": 11.24,
+          "end": 11.615
+        },
+        "ownerNote": "sounds like jaj",
+        "evidence": "The first جَ vowel stays strong through 11.61. At 11.615 energy drops abruptly into sustained affrication for the next ج; the old 11.695 end includes that following consonant onset.",
+        "confidence": "high",
+        "caveat": "Review for a natural vowel tail; the following affricate begins immediately after the proposed edge."
+      },
+      {
+        "text": "حِ",
+        "oldBounds": {
+          "start": 13.095,
+          "end": 13.375
+        },
+        "proposedBounds": {
+          "start": 13.095,
+          "end": 13.245
+        },
+        "ownerNote": "sounds like higha",
+        "evidence": "A distinct breathy/pharyngeal transition for the following ح begins around 13.25, with further strong changes at 13.32 and the next vowel onset at 13.375. Trimming before 13.25 removes the following /ha/ material identified by the owner.",
+        "confidence": "medium",
+        "caveat": "This becomes a short clip; verify that the target حِ consonant is still complete at the existing start."
+      },
+      {
+        "text": "دَ",
+        "oldBounds": {
+          "start": 13.93,
+          "end": 14.275
+        },
+        "proposedBounds": {
+          "start": 13.93,
+          "end": 14.25
+        },
+        "ownerNote": "sounds like dad",
+        "evidence": "The waveform begins its transition into the next repeated د around 14.25: energy falls from the preceding vowel and reaches a local low before the old 14.275 boundary. The owner hearing a final /d/ matches this included next onset.",
+        "confidence": "medium",
+        "caveat": "The consonant boundary is less silent than the ب and ت cases; verify that 14.25 removes the final /d/ without clipping the vowel."
+      },
+      {
+        "text": "زَ",
+        "oldBounds": {
+          "start": 18.36,
+          "end": 18.795
+        },
+        "proposedBounds": {
+          "start": 18.36,
+          "end": 18.75
+        },
+        "ownerNote": "sounds like zaz",
+        "evidence": "The first vowel remains stable through about 18.74. Energy and spectral shape then fall/change from 18.75 toward the next ز onset; the old edge at 18.795 includes enough following frication for the owner to hear a final /z/.",
+        "confidence": "high",
+        "caveat": "Verify the new end during owner review because voiced frication has no full silent closure."
+      },
+      {
+        "text": "زِ",
+        "oldBounds": {
+          "start": 18.795,
+          "end": 19.19
+        },
+        "proposedBounds": {
+          "start": 18.795,
+          "end": 19.1
+        },
+        "ownerNote": "sounds like ziz",
+        "evidence": "The target vowel/fricative body continues through roughly 19.09. A repeated spectral transition begins around 19.10–19.13 for the following ز, while 19.19 is its strong vowel onset; ending at 19.10 removes the audible final /z/ reported by the owner.",
+        "confidence": "high",
+        "caveat": "The start is preserved because the owner already heard the intended initial زِ; only the next consonant is removed."
+      },
+      {
+        "text": "سَ",
+        "oldBounds": {
+          "start": 19.74,
+          "end": 20.145
+        },
+        "proposedBounds": {
+          "start": 19.74,
+          "end": 20.11
+        },
+        "ownerNote": "sounds like sas",
+        "evidence": "The first vowel/fricative body is stable through about 20.10. Energy then drops sharply from 20.11 into the following س transition, reaching a local minimum near 20.14; the old end includes this next fricative onset.",
+        "confidence": "high",
+        "caveat": "Verify that the shortened edge keeps a natural سَ release without the next /s/."
+      },
+      {
+        "text": "شَ",
+        "oldBounds": {
+          "start": 21.11,
+          "end": 21.5
+        },
+        "proposedBounds": {
+          "start": 21.11,
+          "end": 21.475
+        },
+        "ownerNote": "sounds like shaj",
+        "evidence": "The target stays stable through about 21.46. Energy falls rapidly from 21.47 into the next ش onset and bottoms near 21.49; the old 21.50 end crosses that transition, producing the extra consonantal sound noted by the owner.",
+        "confidence": "medium",
+        "caveat": "The owner described the extra consonant as /j/ rather than /sh/; confirm that trimming at 21.475 resolves it."
+      }
+    ],
+    "notProposed": [
+      {
+        "texts": [
+          "تِ",
+          "جُ",
+          "ذَ",
+          "ذِ",
+          "ذُ",
+          "رُ",
+          "كِ",
+          "كُ",
+          "لَ",
+          "لِ",
+          "لُ",
+          "نِ",
+          "يَ",
+          "يِ"
+        ],
+        "reason": "Owner notes indicate a source pronunciation/vowel mismatch, a merged multi-syllable utterance, or a consonant identity problem that cannot be repaired confidently by a conservative boundary move alone."
+      },
+      {
+        "texts": [
+          "زُ"
+        ],
+        "reason": "The old clip starts at the vowel transition after the consonant onset, but the required earlier onset overlaps the rejected زِ region and the source realization was heard as دُ; a clean boundary-only repair is not defensible."
+      }
+    ]
+  },
+  "tanween": {
+    "scope": "Conservative repair analysis for owner-rejected TANWEEN candidates in batch-1, 39.00–65.30 seconds. Correct/approved items are intentionally omitted.",
+    "repairs": [
+      {
+        "text": "تً",
+        "oldBounds": {
+          "source": "batch-1",
+          "start": 40.685,
+          "end": 41.075
+        },
+        "newBounds": {
+          "source": "batch-1",
+          "start": 40.685,
+          "end": 41.015
+        },
+        "specificEvidence": "Full-source ASR recognizes تان for the target. Spectral novelty and rising energy place the next ت onset at 41.035–41.067 seconds; ending 20 ms before that onset retains the target nasal tail while removing the added consonant.",
+        "ownerNote": "sounds like tant",
+        "confidence": "medium-high",
+        "replacementReason": null
+      },
+      {
+        "text": "ثً",
+        "oldBounds": {
+          "source": "batch-1",
+          "start": 42.12,
+          "end": 42.505
+        },
+        "newBounds": {
+          "source": "batch-1",
+          "start": 42.12,
+          "end": 42.38
+        },
+        "specificEvidence": "Full-source ASR recognizes ثان, then begins the following ح utterance at about 42.40 seconds. The owner hears an added h-like consonant. The proposed end is 20 ms before the low-energy fricative onset, preserving the preceding nasal ending.",
+        "ownerNote": "sounds like thanh",
+        "confidence": "medium",
+        "replacementReason": null
+      },
+      {
+        "text": "زً",
+        "oldBounds": {
+          "source": "batch-1",
+          "start": 49.45,
+          "end": 49.985
+        },
+        "newBounds": {
+          "source": "batch-1",
+          "start": 49.45,
+          "end": 49.86
+        },
+        "specificEvidence": "Full-source ASR recognizes consecutive زان utterances. The next same-consonant onset produces a spectral-flux rise centered at 49.885 seconds; the old cut crosses it, matching the owner's added-z report. The new end precedes that onset by 25 ms.",
+        "ownerNote": "sounds like zanz",
+        "confidence": "medium",
+        "replacementReason": null
+      },
+      {
+        "text": "شً",
+        "oldBounds": {
+          "source": "batch-1",
+          "start": 51.24,
+          "end": 51.7
+        },
+        "newBounds": {
+          "source": "batch-1",
+          "start": 51.24,
+          "end": 51.615
+        },
+        "specificEvidence": "Full-source ASR recognizes consecutive شان utterances. A strong spectral onset at 51.637–51.640 seconds marks the next ش; the old cut includes it. Ending just before that onset removes the added consonant without stripping the target nasal tail.",
+        "ownerNote": "sounds like shange",
+        "confidence": "medium-high",
+        "replacementReason": null
+      },
+      {
+        "text": "بٌ",
+        "oldBounds": {
+          "source": "batch-1",
+          "start": 39.78,
+          "end": 40.27
+        },
+        "newBounds": {
+          "source": "batch-1",
+          "start": 40.045,
+          "end": 40.27
+        },
+        "specificEvidence": "The old cut spans the end of an ASR-recognized بام plus a separate بن activity, matching the owner's 'bambun' report. Spectral onset at 40.045 seconds and silence beginning at 40.27 isolate the latter activity as a possible replacement excerpt.",
+        "ownerNote": "sounds like bambun",
+        "confidence": "low-review-only",
+        "replacementReason": "Replacement excerpt, not a trim: the old start is inside the wrong preceding utterance. Owner must verify that the short isolated activity is بٌ with a complete ب onset and nasal ending."
+      },
+      {
+        "text": "خٌ",
+        "oldBounds": {
+          "source": "batch-1",
+          "start": 44.505,
+          "end": 45.01
+        },
+        "newBounds": {
+          "source": "batch-1",
+          "start": 44.77,
+          "end": 45.01
+        },
+        "specificEvidence": "Full-source ASR merges the region as خيخون, and the owner hears 'hikhun'. A low-energy interval at 44.69–44.77 separates the second activity from the unwanted prefix; silence begins at 45.01.",
+        "ownerNote": "sounds like hikhun",
+        "confidence": "low-review-only",
+        "replacementReason": "Replacement excerpt, not a trim: use only the acoustically separated second half if owner review confirms خٌ and a complete consonant onset."
+      },
+      {
+        "text": "بً",
+        "oldBounds": {
+          "source": "batch-1",
+          "start": 39.01,
+          "end": 39.47
+        },
+        "newBounds": null,
+        "specificEvidence": "Owner hears final m, and full-source ASR independently recognizes بام rather than a ب + fathatan nasal ending.",
+        "ownerNote": "sounds like bam",
+        "confidence": "high",
+        "replacementReason": "Wrong recorded ending; trimming cannot turn m into the required n sound."
+      },
+      {
+        "text": "بٍ",
+        "oldBounds": {
+          "source": "batch-1",
+          "start": 39.47,
+          "end": 39.78
+        },
+        "newBounds": null,
+        "specificEvidence": "Owner hears 'bum', while full-source ASR recognizes the surrounding source utterances as بام. Neither supports kasratan /in/.",
+        "ownerNote": "sounds like bum",
+        "confidence": "high",
+        "replacementReason": "Wrong vowel and ending in the source; boundary adjustment cannot recover بٍ."
+      },
+      {
+        "text": "تٍ",
+        "oldBounds": {
+          "source": "batch-1",
+          "start": 41.075,
+          "end": 41.4
+        },
+        "newBounds": null,
+        "specificEvidence": "Owner hears 'tan', and full-source ASR also recognizes تان in this region rather than /tin/.",
+        "ownerNote": "sounds like tan",
+        "confidence": "high",
+        "replacementReason": "Wrong vowel in the recorded utterance; do not present an endpoint trim as a repair."
+      },
+      {
+        "text": "خً",
+        "oldBounds": {
+          "source": "batch-1",
+          "start": 43.82,
+          "end": 44.205
+        },
+        "newBounds": null,
+        "specificEvidence": "Owner hears 'kha', and full-source ASR recognizes خا without the required nasal ending.",
+        "ownerNote": "sounds like kha",
+        "confidence": "high",
+        "replacementReason": "Required final n sound is absent; trimming cannot add it."
+      },
+      {
+        "text": "خٍ",
+        "oldBounds": {
+          "source": "batch-1",
+          "start": 44.205,
+          "end": 44.505
+        },
+        "newBounds": null,
+        "specificEvidence": "Owner hears 'kaf', while full-source ASR recognizes خا in the neighboring source. The required /in/ vowel and nasal ending are unsupported.",
+        "ownerNote": "sounds like kaf",
+        "confidence": "high",
+        "replacementReason": "Wrong source content rather than excess edge audio."
+      },
+      {
+        "text": "دً",
+        "oldBounds": {
+          "source": "batch-1",
+          "start": 45.41,
+          "end": 45.92
+        },
+        "newBounds": null,
+        "specificEvidence": "Owner explicitly marked the item fix with note 'sounds like dan', even though full-source ASR recognizes دان and the note resembles the requested transliteration.",
+        "ownerNote": "sounds like dan",
+        "confidence": "owner-decision-controls",
+        "replacementReason": "Preserve the owner's fix verdict. Do not infer approval or override it with an automatic trim; obtain an owner-guided replacement or clarified recording."
+      },
+      {
+        "text": "ذً",
+        "oldBounds": {
+          "source": "batch-1",
+          "start": 46.83,
+          "end": 47.335
+        },
+        "newBounds": null,
+        "specificEvidence": "Owner hears 'zand'. Full-source ASR recognizes ذان in sequence, but the owner rejects the heard consonant/ending and no isolated alternate is established.",
+        "ownerNote": "sounds like zand",
+        "confidence": "high",
+        "replacementReason": "Owner-rejected consonant realization; trimming cannot repair articulation."
+      },
+      {
+        "text": "ذٍ",
+        "oldBounds": {
+          "source": "batch-1",
+          "start": 47.335,
+          "end": 47.68
+        },
+        "newBounds": null,
+        "specificEvidence": "Owner hears 'zand', and full-source ASR recognizes ذان rather than the requested /in/ vowel.",
+        "ownerNote": "sounds like zand",
+        "confidence": "high",
+        "replacementReason": "Wrong vowel plus owner-rejected consonant realization; requires replacement."
+      },
+      {
+        "text": "زٍ",
+        "oldBounds": {
+          "source": "batch-1",
+          "start": 49.985,
+          "end": 50.325
+        },
+        "newBounds": null,
+        "specificEvidence": "Owner hears 'zanz', while full-source ASR recognizes زان in this source region. The required /in/ vowel is absent and the cut may also contain the next onset.",
+        "ownerNote": "sounds like zanz",
+        "confidence": "high",
+        "replacementReason": "Wrong vowel is a source error; trimming only the extra consonant would still leave the wrong item."
+      },
+      {
+        "text": "زٌ",
+        "oldBounds": {
+          "source": "batch-1",
+          "start": 50.325,
+          "end": 50.81
+        },
+        "newBounds": null,
+        "specificEvidence": "Owner hears 'zandun'. Full-source ASR spans زان followed by a separate دون-like activity, so the old cut is assembled from incorrect neighboring content.",
+        "ownerNote": "sounds like zandun",
+        "confidence": "high",
+        "replacementReason": "Wrong vowel/source segment; no conservative single-utterance trim yields زٌ."
+      },
+      {
+        "text": "شٍ",
+        "oldBounds": {
+          "source": "batch-1",
+          "start": 51.7,
+          "end": 52.12
+        },
+        "newBounds": null,
+        "specificEvidence": "Owner hears 'shange', and full-source ASR recognizes شان rather than /shin/ in the source region.",
+        "ownerNote": "sounds like shange",
+        "confidence": "high",
+        "replacementReason": "Wrong vowel in the recorded source; endpoint changes cannot repair it."
+      },
+      {
+        "text": "شٌ",
+        "oldBounds": {
+          "source": "batch-1",
+          "start": 52.12,
+          "end": 52.65
+        },
+        "newBounds": null,
+        "specificEvidence": "Owner hears 'shantun'. Full-source ASR recognizes a شان activity followed by a separate دون-like activity, not one شٌ utterance.",
+        "ownerNote": "sounds like shantun",
+        "confidence": "high",
+        "replacementReason": "Wrong/combined source content; no defensible trim preserves the required single syllable."
+      },
+      {
+        "text": "لً",
+        "oldBounds": {
+          "source": "batch-1",
+          "start": 64.11,
+          "end": 64.46
+        },
+        "newBounds": null,
+        "specificEvidence": "Owner hears 'laa', and full-source ASR recognizes لا without a nasal ending.",
+        "ownerNote": "sounds like laa",
+        "confidence": "high",
+        "replacementReason": "Required final n sound is absent; replacement is required."
+      },
+      {
+        "text": "لٍ",
+        "oldBounds": {
+          "source": "batch-1",
+          "start": 64.46,
+          "end": 64.83
+        },
+        "newBounds": null,
+        "specificEvidence": "Owner hears 'laile', while full-source ASR merges this region as ليليل with no independently supported nasal ending.",
+        "ownerNote": "sounds like laile",
+        "confidence": "high",
+        "replacementReason": "Merged/wrong source content; a positional split would not establish لٍ."
+      },
+      {
+        "text": "لٌ",
+        "oldBounds": {
+          "source": "batch-1",
+          "start": 64.83,
+          "end": 65.24
+        },
+        "newBounds": null,
+        "specificEvidence": "Owner hears 'lailu', and full-source ASR continues the merged ليليل region without a supported final nasal ending.",
+        "ownerNote": "sounds like lailu",
+        "confidence": "high",
+        "replacementReason": "Wrong vowel/merged source content and missing n ending; replacement is required."
+      }
+    ],
+    "summary": {
+      "ownerRejectedItemsAnalyzed": 21,
+      "conservativeTrimCandidates": 4,
+      "sameSourceReplacementCandidates": 2,
+      "replacementRequiredWithoutBounds": 15
+    }
+  },
+  "leenAndWords": {
+    "candidates": [
+      {
+        "text": "بَوْ",
+        "start": 70.14,
+        "end": 70.545,
+        "source": "batch-1",
+        "evidence": "Owner heard both bao and bae in the previous 70.14–70.85 cut. Spectrogram shows the first vowel/formant group ending around 70.53, followed by a new bilabial closure and second vowel release around 70.62. End at 70.545 before that next consonant; no time stretching.",
+        "note": "Shortened the ending to remove the following بَيْ. Check that بَوْ ends cleanly and keeps its full glide."
+      },
+      {
+        "text": "بَيْ",
+        "start": 70.55,
+        "end": 70.86,
+        "source": "batch-1",
+        "evidence": "Owner identified bao plus bae inside the preceding cut, while the old بَيْ cut was heard as tau. The source's second bilabial activity spans closure around 70.55 to vowel tail 70.83, before the next stop at 70.90. Recover that source span, not the mislabeled tau span.",
+        "note": "Moved to the بَيْ sound inside the earlier combined clip. Check the consonant and glide; the old clip contained تَوْ."
+      },
+      {
+        "text": "تَوْ",
+        "start": 70.9,
+        "end": 71.16,
+        "source": "batch-1",
+        "evidence": "Owner heard tau in the original wrongly labeled بَيْ candidate at these exact bounds. Reassign the intact existing excerpt for a new human review under تَوْ; automatic reassignment is not pronunciation approval.",
+        "note": "Corrected the source assignment to the clip you heard as “tau”. Please confirm it matches تَوْ."
+      },
+      {
+        "text": "تَيْ",
+        "start": 71.21,
+        "end": 71.5,
+        "source": "batch-1",
+        "evidence": "Owner heard tae in the original wrongly labeled تَوْ candidate at these exact bounds. Reassign that intact existing excerpt for a new human review under تَيْ.",
+        "note": "Corrected the source assignment to the clip you heard as “tae”. Please confirm it matches تَيْ."
+      },
+      {
+        "text": "بَتْ",
+        "start": 15.32,
+        "end": 15.555,
+        "source": "batch-2",
+        "evidence": "Owner heard datmin in the previous 15.32–15.81 cut. Spectrogram shows initial vowel around 15.36–15.46 and a stop-release burst around 15.50–15.55; subsequent nasal/vowel activity begins around 15.58. Keep the final stop release, exclude the next min. The initial consonant still requires listening approval.",
+        "note": "Removed the following “min” while retaining the final stop. Check both the initial ب and the complete ت ending."
+      },
+      {
+        "text": "يَدُعُّ",
+        "start": 31.21,
+        "end": 31.635,
+        "source": "batch-2",
+        "evidence": "Owner heard yaduya in the previous cut. Source spectrogram shows a new onset/formant rise around 31.64–31.66, before its high-frequency consonant region. End before that onset. Exact doubled ع and vowel completeness remain uncertain; review-only.",
+        "note": "Removed the following “ya”. Please check that the full عّ ending is still present; use Needs fixing if it is clipped."
+      },
+      {
+        "text": "يَحُضُّ",
+        "start": 31.64,
+        "end": 32.31,
+        "source": "batch-2",
+        "evidence": "Owner heard fudhu in the old 31.89–32.295 tail, while the preceding cut included the next ya. Recover onset around 31.64 before the noisy consonant region; extend to source silence after 32.30. The vowel and doubled ض remain listening hypotheses, not confirmed pronunciation.",
+        "note": "Restored the missing beginning from the preceding clip. Check the whole word, especially ح and ضّ."
+      }
+    ],
+    "replacements": [
+      {
+        "text": "فَيْ",
+        "reason": "Owner rejected as fae. Source is already isolated by silence; no boundary-only repair establishes the intended glide. Keep excluded pending a new isolated recording or further owner clarification."
+      }
+    ]
+  },
+  "excludedRepair": {
+    "text": "بُ",
+    "reason": "Proposed earlier onset overlaps unchanged owner-approved بِ; held for a separately isolated replacement."
+  },
+  "unresolved": [
+    {
+      "id": "lg-f2768d97d70e",
+      "text": "بُ",
+      "note": "sounds like pu"
+    },
+    {
+      "id": "lg-0ee7bf085410",
+      "text": "تِ",
+      "note": "sounds like si"
+    },
+    {
+      "id": "lg-45fc1490399d",
+      "text": "جُ",
+      "note": "sounds like gee"
+    },
+    {
+      "id": "lg-a2b1661793d8",
+      "text": "ذَ",
+      "note": "sounds like zad"
+    },
+    {
+      "id": "lg-fd9537adfffb",
+      "text": "ذِ",
+      "note": "sounds like thad"
+    },
+    {
+      "id": "lg-ab7f40914177",
+      "text": "ذُ",
+      "note": "sounds like zizu"
+    },
+    {
+      "id": "lg-ba536aa2ea00",
+      "text": "رُ",
+      "note": "sounds like du"
+    },
+    {
+      "id": "lg-224b9bc0b043",
+      "text": "زُ",
+      "note": "sounds like du"
+    },
+    {
+      "id": "lg-fc64a7da85e6",
+      "text": "كِ",
+      "note": "sounds like kat"
+    },
+    {
+      "id": "lg-6bf3f9e02464",
+      "text": "كُ",
+      "note": "sounds like ki ku"
+    },
+    {
+      "id": "lg-ba418754028b",
+      "text": "لَ",
+      "note": "sounds like lal"
+    },
+    {
+      "id": "lg-c09f1ab2e58c",
+      "text": "لِ",
+      "note": "sounds like laili"
+    },
+    {
+      "id": "lg-f9e63fd121fb",
+      "text": "لُ",
+      "note": "sounds like lilu"
+    },
+    {
+      "id": "lg-2c61c719a264",
+      "text": "نِ",
+      "note": "sounds like nin"
+    },
+    {
+      "id": "lg-08208c74a20d",
+      "text": "يَ",
+      "note": "sounds like yai"
+    },
+    {
+      "id": "lg-209639ac36ba",
+      "text": "يِ",
+      "note": "sounds like yaai"
+    },
+    {
+      "id": "lg-aff5a3784268",
+      "text": "بً",
+      "note": "sounds like bam"
+    },
+    {
+      "id": "lg-1469680daf37",
+      "text": "بٍ",
+      "note": "sounds like bum"
+    },
+    {
+      "id": "lg-aaa90ea0f2e4",
+      "text": "تٍ",
+      "note": "sounds like tan"
+    },
+    {
+      "id": "lg-218fec838167",
+      "text": "خً",
+      "note": "sounds like kha"
+    },
+    {
+      "id": "lg-94475bdb6e1c",
+      "text": "خٍ",
+      "note": "sounds like kaf"
+    },
+    {
+      "id": "lg-e41669b75828",
+      "text": "دً",
+      "note": "sounds like dan"
+    },
+    {
+      "id": "lg-11491c9dc768",
+      "text": "ذً",
+      "note": "sounds like zand"
+    },
+    {
+      "id": "lg-264f2d6a2749",
+      "text": "ذٍ",
+      "note": "sounds like zand"
+    },
+    {
+      "id": "lg-95512a1dac68",
+      "text": "زٍ",
+      "note": "sounds like zanz"
+    },
+    {
+      "id": "lg-9622112d0c46",
+      "text": "زٌ",
+      "note": "sounds like zandun"
+    },
+    {
+      "id": "lg-d5dc38bd4c15",
+      "text": "شٍ",
+      "note": "sounds like shange"
+    },
+    {
+      "id": "lg-e6efccc0cf43",
+      "text": "شٌ",
+      "note": "sounds like shantun"
+    },
+    {
+      "id": "lg-4cc52666fb5e",
+      "text": "لً",
+      "note": "sounds like laa"
+    },
+    {
+      "id": "lg-f820bb01fafc",
+      "text": "لٍ",
+      "note": "sounds like laile"
+    },
+    {
+      "id": "lg-ed4048714f66",
+      "text": "لٌ",
+      "note": "sounds like lailu"
+    },
+    {
+      "id": "lg-0512f62a1a38",
+      "text": "فَيْ",
+      "note": "sounds like fae"
+    }
+  ]
+}

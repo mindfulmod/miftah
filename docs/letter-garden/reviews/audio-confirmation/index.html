@@ -4,25 +4,25 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Letter Garden · Audio confirmation</title>
-  <link rel="stylesheet" href="review.css?v=6">
-  <script defer src="review-core.js?v=6"></script>
-  <script defer src="review.js?v=6"></script>
+  <link rel="stylesheet" href="review.css?v=7">
+  <script defer src="review-core.js?v=7"></script>
+  <script defer src="review.js?v=7"></script>
 </head>
 <body>
 <main>
   <header>
     <p class="eyebrow">LETTER GARDEN · ADULT REVIEW</p>
-    <h1>Your next listening review.</h1>
-    <p class="intro"><strong>Next:</strong> open the new listening items below. Play each clip, then choose <strong>Correct</strong>, <strong>Needs fixing</strong> or <strong>Unsure</strong>. If something is wrong, write what you heard. Continue with <strong>Next batch →</strong>.</p>
-    <p class="intro">This pass checks individual syllables and sounds from your recordings. These are proposed cuts: please check both the pronunciation and the beginning and ending. Your earlier decisions and notes are preserved; the game still uses its 92 approved recordings.</p>
-    <p class="intro"><strong>When finished:</strong> download your review results and attach the JSON file in our conversation. I’ll apply approved clips and work through your correction notes. If downloading does not work, tell me you have finished and leave this page open.</p>
+    <h1>Your comments are saved. Recheck 22 revised clips.</h1>
+    <p class="intro"><strong>46 clips approved and installed unchanged.</strong> You flagged 54. I prepared 22 revised candidates to remove neighbouring sounds or correct the source assignment; 32 remain excluded for replacement or clarification.</p>
+    <p class="intro"><strong>Next:</strong> open <strong>Recheck 22 revised clips</strong>. Play each revised clip, and use <strong>Play previous cut</strong> if you want to compare. Check that the extra sound is gone and the intended syllable is still complete. Choose Correct, Needs fixing or Unsure; your earlier notes are retained.</p>
+    <p class="intro"><strong>When finished:</strong> download and attach the review results, or leave this page open and tell me “done.” Only changed clips need another listen. The game now has 138 approved recordings; these 22 revisions are not installed yet.</p>
     <div id="totals" class="totals" aria-label="Audio coverage">Loading the complete audio catalogue…</div>
     <p id="progress" class="progress" role="status"></p>
     <p id="save-status" class="hint" role="status">Reviews do not change the game. Export your results when you finish or take a break.</p>
     <div class="actions">
       <button id="start-review" type="button" class="primary" disabled>Start reviewing ↓</button>
       <button id="review-next100" type="button" class="primary" disabled>Open this 100-item review ↓</button>
-      <button id="review-revisions" type="button" disabled>Review revised cuts ↓</button>
+      <button id="review-revisions" type="button" disabled>Revision history ↓</button>
       <button id="export" type="button" disabled>Download review results</button>
       <button id="copy" type="button" disabled>Copy review results</button>
       <button id="show-results" type="button" disabled>Show results text</button>
@@ -53,7 +53,7 @@
       <option value="next100">Previous 100 · review completed</option>
       <option value="installed">1 · Installed clips</option>
       <option value="candidate">2 · Candidate clips</option>
-      <option value="revised">Revised cuts from your notes</option>
+      <option value="revised">Revision history</option>
       <option value="sequence">3 · Joined name prompts</option>
       <option value="unmapped">4 · Still needs cutting</option>
       <option value="policy">5 · Teaching decisions</option>

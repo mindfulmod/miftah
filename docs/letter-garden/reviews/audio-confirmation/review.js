@@ -5,8 +5,8 @@
   const qa=new URLSearchParams(location.search).has('qa');
   const storageKey='letter-garden.audio-confirmation.v1'+(qa?'.qa':'');
   const labels={correct:'Correct',fix:'Needs fixing',unsure:'Unsure',stale:'Audio changed'};
-  const headings={next100:'Your 100-item audio review',revised:'Revised cuts from your notes',installed:'1 · Confirm the installed clips',candidate:'2 · Check the proposed cuts',sequence:'3 · Check joined letter-name prompts',unmapped:'4 · Items still needing an isolated clip',policy:'5 · Teaching decisions before recording',all:'The complete audio catalogue'};
-  const help={next100:'Listen to each complete item, then choose Correct, Needs fixing or Unsure. This queue contains 100 distinct items in ten batches; your progress saves automatically.',revised:'These four revised boundaries were approved and installed. Your previous correction notes are retained for history; no repeat review is needed.',installed:'The 28 alphabet names come first, followed by mark names and words. Installed means connected to the local game; it does not mean pronunciation-approved.',candidate:'These excerpts are not connected to the game. Check that each contains exactly the displayed item, with complete vowels and endings.',sequence:'These 149 prompts queue existing names in the game’s order, with its 90 ms gap. Review the name order and transitions after the individual alphabet clips.',unmapped:'These items have no reliable individual cut yet. They are not confirmed missing. No listening decision is required here; I still need to map them. Optional notes can identify something you noticed in the originals.',policy:'These 29 requests are standalone assembly pieces. Their pronunciation needs a teaching decision in context; no clip is offered. You can leave guidance in the notes.',all:'All 612 distinct curriculum requests, including playable clips, name sequences and items still needing work.'};
+  const headings={next100:'Your 100-item audio review',revised:'Revision history',installed:'1 · Confirm the installed clips',candidate:'2 · Check the proposed cuts',sequence:'3 · Check joined letter-name prompts',unmapped:'4 · Items still needing an isolated clip',policy:'5 · Teaching decisions before recording',all:'The complete audio catalogue'};
+  const help={next100:'Listen to each complete item, then choose Correct, Needs fixing or Unsure. This queue contains 100 distinct items in ten batches; your progress saves automatically.',revised:'Earlier approved revisions and current candidates are preserved here. Use the latest recheck button for only the clips that need another listen.',installed:'The 28 alphabet names come first, followed by mark names and words. Installed means connected to the local game; it does not mean pronunciation-approved.',candidate:'These excerpts are not connected to the game. Check that each contains exactly the displayed item, with complete vowels and endings.',sequence:'These 149 prompts queue existing names in the game’s order, with its 90 ms gap. Review the name order and transitions after the individual alphabet clips.',unmapped:'These items have no reliable individual cut yet. They are not confirmed missing. No listening decision is required here; I still need to map them. Optional notes can identify something you noticed in the originals.',policy:'These 29 requests are standalone assembly pieces. Their pronunciation needs a teaching decision in context; no clip is offered. You can leave guidance in the notes.',all:'All 612 distinct curriculum requests, including playable clips, name sequences and items still needing work.'};
   let manifest,items=[],state=Core.empty(),page=0,run=0,active=null,partTimer=null,controller=null;
   const player=$('#player'),blobCache=new Map(),sourcePlayers=new Map();
   function node(tag,text,className){const el=document.createElement(tag);if(text!==undefined)el.textContent=text;if(className)el.className=className;return el;}
@@ -52,6 +52,7 @@
       const actions=node('div',undefined,'clip-actions');
       if(item.parts.length){const play=button(item.parts.length>1?'▶ Play full sequence':'▶ Play clip',()=>playItem(item),'play');play.setAttribute('aria-label',`Play ${item.text}`);actions.append(play);}
       else actions.append(node('span',item.status==='policy'?'Teaching guidance needed':'Awaiting a reliable cut','hint'));
+      if(item.previousParts?.length){const b=button('Play previous cut',()=>playItem(item,true));b.setAttribute('aria-label',`Play previous cut for ${item.text}`);actions.append(b);}
       if(item.source){const b=button('Compare original',()=>compareSource(item));b.setAttribute('aria-label',`Compare original for ${item.text}`);actions.append(b);}
       card.append(actions);
       if(item.revision||(selectedQueue()?.individualOnly&&item.status==='candidate'))card.append(node('p',item.note,'item-note'));
@@ -86,11 +87,12 @@
     if(ticket!==run)return null;
     const url=URL.createObjectURL(new Blob([bytes],{type:part.file.endsWith('.mp3')?'audio/mpeg':'audio/wav'}));blobCache.set(key,url);return url;
   }
-  async function playItem(item){
+  async function playItem(item,comparison=false){
+    const parts=comparison?item.previousParts:item.parts;
     stop();clearSources();const ticket=run;active=item;$('#stop').disabled=false;refreshCard(item);
-    $('#now-playing').textContent=item.text;$('#play-state').textContent='Loading verified audio…';
+    $('#now-playing').textContent=comparison?`Previous cut · ${item.text}`:item.text;$('#play-state').textContent='Loading verified audio…';
     let urls;
-    try{controller=new AbortController();urls=await Promise.all(item.parts.map(part=>checkedAudio(part,ticket,controller.signal)));if(ticket!==run)return;}
+    try{controller=new AbortController();urls=await Promise.all(parts.map(part=>checkedAudio(part,ticket,controller.signal)));if(ticket!==run)return;}
     catch(error){if(ticket!==run)return;stop();$('#play-state').textContent=error.message;message('Could not load this item. No approval or listening confirmation was saved.',true);return;}
     const playPart=async index=>{
       if(ticket!==run)return;
@@ -99,10 +101,10 @@
         player.onerror=()=>{if(ticket===run){stop();$('#play-state').textContent='Playback failed. No listening confirmation was saved.';}};
         player.onended=()=>{
           if(ticket!==run)return;
-          if(index+1<item.parts.length){$('#play-state').textContent='Next name…';partTimer=setTimeout(()=>playPart(index+1),90);}
-          else {player.onended=null;active=null;$('#stop').disabled=true;save(item,{heard:true});$('#play-state').textContent='Finished. Choose Correct, Needs fixing or Unsure.';refreshCard(item);}
+          if(index+1<parts.length){$('#play-state').textContent='Next name…';partTimer=setTimeout(()=>playPart(index+1),90);}
+          else {player.onended=null;active=null;$('#stop').disabled=true;if(!comparison)save(item,{heard:true});$('#play-state').textContent=comparison?'Previous cut finished. Play the revised clip before deciding.':'Finished. Choose Correct, Needs fixing or Unsure.';refreshCard(item);}
         };
-        await player.play();if(ticket===run)$('#play-state').textContent=item.parts.length>1?`Name ${index+1} of ${item.parts.length} · ${item.parts[index].text}`:'Playing the complete clip at normal speed';
+        await player.play();if(ticket===run)$('#play-state').textContent=parts.length>1?`Name ${index+1} of ${parts.length} · ${parts[index].text}`:(comparison?'Playing the previous cut for comparison':'Playing the complete clip at normal speed');
       }catch(error){if(ticket!==run)return;stop();$('#play-state').textContent=error.message;message('Could not play this item. No approval or listening confirmation was saved.',true);}
     };
     await playPart(0);
@@ -154,7 +156,7 @@
     manifest=data;items=data.items;state=read();$('#totals').replaceChildren();
     for(const [count,label] of [[data.summary.installed,'installed clips'],[data.summary.candidate,'candidate cuts'],[data.summary.sequence,'name sequences'],[data.summary.unmapped,'awaiting cuts'],[data.summary.policy,'teaching decisions']]){const el=node('span',undefined,'total');el.append(node('strong',count),document.createTextNode(label));$('#totals').append(el);}
     for(const queue of data.reviewQueues||[]){if(queue.id==='next100')continue;const option=node('option',queue.title);option.value=queue.id;$('#section').prepend(option);}
-    const latest=data.reviewQueues?.at(-1);if(latest)$('#review-next100').textContent=`Open ${latest.itemIds.length} ${latest.individualOnly?'new listening items':'previous review items'} ↓`;
+    const latest=data.reviewQueues?.at(-1);if(latest)$('#review-next100').textContent=latest.revisionOnly?`Recheck ${latest.itemIds.length} revised clips ↓`:`Open ${latest.itemIds.length} ${latest.individualOnly?'listening items':'previous review items'} ↓`;
     for(const family of [...new Set(items.map(item=>item.family))]){const option=node('option',family);option.value=family;$('#family').append(option);}
     for(const id of ['section','family','search','decision','export','export-bottom','copy','import','start-review','show-results','review-revisions','review-next100'])$('#'+id).disabled=false;
     const requested=new URLSearchParams(location.search).get('section');$('#section').value=data.reviewQueues?.some(q=>q.id===requested)?requested:requested==='revised'?'revised':latest?.id||'installed';if(selectedQueue()){const first=queueItems().findIndex(item=>!Core.current(item,state).verdict);page=first<0?0:Math.floor(first/10);}

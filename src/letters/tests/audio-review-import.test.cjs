@@ -7,13 +7,17 @@ const { applyReview } = require('../../../scripts/apply-letter-garden-audio-revi
 const root = path.resolve(__dirname, '../../..');
 const read = file => fs.readFileSync(path.join(root, file));
 const json = file => JSON.parse(read(file));
-const evidence = 'docs/letter-garden/reviews/audio-confirmation/owner-reviews/20260919-next100-complete.json';
+const evidence = 'docs/letter-garden/reviews/audio-confirmation/owner-reviews/20260919-individuals.json';
 const hash = value => crypto.createHash('sha256').update(value).digest('hex');
 const review = json(evidence);
 const catalogue = json('docs/letter-garden/reviews/audio-confirmation/manifest.json');
 const sheet = json('docs/letter-garden/reviews/marin-curriculum/cuts.json');
 const originalReview = json('docs/letter-garden/reviews/audio-confirmation/owner-reviews/20260919.json');
-const run = (data = review, readFile = read) => applyReview(data, catalogue, sheet, evidence, hash(read(evidence)), readFile);
+const compatibleReview = structuredClone(review);
+for (const [id, decision] of Object.entries(compatibleReview.decisions)) {
+  if (catalogue.items.find(item => item.id === id)?.signature !== decision.signature) delete compatibleReview.decisions[id];
+}
+const run = (data = compatibleReview, readFile = read) => applyReview(data, catalogue, sheet, evidence, hash(read(evidence)), readFile);
 
 test('all owner approvals retain their reviewed audio; every rejected recording is excluded from runtime and precache', () => {
   const current = new Map(catalogue.items.map(item => [item.id, item]));
@@ -36,11 +40,11 @@ test('all owner approvals retain their reviewed audio; every rejected recording 
       assert.ok(!shell.includes(old.id));
     }
   }
-  assert.equal(approvedClips, 92);
-  assert.equal(rejected, 20);
+  assert.equal(approvedClips, 138);
+  assert.equal(rejected, 74);
 });
 
-test('reapplying exact owner evidence is idempotent and preserves rejection notes', () => {
+test('reapplying unchanged owner evidence is idempotent and preserves rejection notes', () => {
   const result = run();
   assert.deepEqual(result.sheet, sheet);
   assert.equal(result.changes.filter(change => change.from !== change.to).length, 0);
@@ -53,7 +57,7 @@ test('reapplying exact owner evidence is idempotent and preserves rejection note
 
 test('revised cuts retain the rejected originals and cannot inherit their previous review', () => {
   const { current } = require('../../../docs/letter-garden/reviews/audio-confirmation/review-core.js');
-  const revisions = catalogue.items.filter(item => item.revision);
+  const revisions = catalogue.items.filter(item => item.revision && originalReview.decisions[item.id]);
   assert.equal(revisions.length, 4);
   for (const item of revisions) {
     const original = originalReview.items.find(old => old.id === item.id);

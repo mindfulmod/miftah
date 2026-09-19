@@ -18,6 +18,7 @@ const batchFile = 'docs/letter-garden/reviews/marin-letters/batch.json';
 const fm = readJson(fmFile);
 const marin = readJson(marinFile);
 const cuts = readJson(cutsFile);
+const requestedGroups = new Map(readJson('docs/letter-garden/reviews/marin-curriculum/request-items.json').map(item => [item.id, item.group]));
 const original = readJson(batchFile);
 
 const sourceDefinitions = [
@@ -59,6 +60,8 @@ function familyFor(entry) {
   if (entry.status === 'reuse-name-sequence') return 'Letter-name sequences';
   if (entry.status === 'assembly-policy-review') return 'Assembly policy review';
   if (entry.status === 'already-bundled') {
+    const group = requestedGroups.get(entry.id);
+    if (['short-vowels', 'long-vowels', 'tanween', 'leen', 'sukun-shaddah'].includes(group)) return letterFamilies.get(group);
     if (original.letters.some((letter) => nfc(letter.input) === nfc(entry.text))) return 'Letter names';
     if (new Set(['فَتْحَة', 'كَسْرَة', 'كَسْرَتَانْ', 'ضَمَّتَانْ']).has(nfc(entry.text))) return 'Vowel and tanween names';
     return 'Curriculum words';
@@ -139,6 +142,12 @@ function makeItem(entry, status) {
   };
   if (source) item.source = source;
   if (marinItem?.revision) item.revision = marinItem.revision;
+  const previous = cut?.reviewHistory?.at(-1);
+  if (previous?.file && status === 'candidate' && marinItem?.revision) {
+    const old = playable(previous.file);
+    if (!old || old.sha256 !== previous.sha256) throw Error(`Previous reviewed clip changed: ${entry.id}`);
+    item.previousParts = [{ text, ...old }];
+  }
   item.signature = signature(text, fileHashes, source);
   return item;
 }
@@ -160,7 +169,7 @@ for (const entry of policyEntries) statusMap.set(entry.id, 'policy');
 if (new Set(ordered.map((entry) => entry.id)).size !== fm.counts.uniqueRequests) throw new Error('Catalogue source entries are not unique or complete');
 
 const items = ordered.map((entry) => makeItem(entry, statusMap.get(entry.id)));
-const queueFiles = ['next-100.json', 'next-individuals.json'];
+const queueFiles = ['next-100.json', 'next-individuals.json', 'boundary-recheck.json'];
 const reviewQueues = [];
 const byId = new Map(items.map(item => [item.id, item]));
 for (const name of queueFiles) {
@@ -176,6 +185,7 @@ for (const name of queueFiles) {
   for (const id of queue.itemIds) {
     const item = byId.get(id);
     if (!item?.parts.length) throw Error(`Review queue has no playable audio: ${id}`);
+    if (queue.revisionOnly && (!item.revision || !item.previousParts?.length || item.status !== 'candidate')) throw Error(`Revision queue has no before/after candidate: ${id}`);
     if (queue.individualOnly && (item.parts.length !== 1 || item.status === 'sequence')) throw Error(`Individual queue contains a sequence: ${id}`);
   }
   reviewQueues.push(queue);

@@ -81,3 +81,14 @@ review batches were checked in the browser. See
 Next owner action: open the individual review queue, listen and mark decisions,
 then attach the downloaded results (or leave the review page open and say done).
 Every future task handoff should clearly state the next user action.
+
+September 19: owner completed the individual audio review (46 approved, 54
+flagged). Approved excerpts were installed unchanged, giving 138 approved exact
+recordings. 22 revised boundary/source candidates are ready for a focused
+recheck; 32 additional flagged items remain held for replacement or clarification.
+All rejected originals and owner notes are preserved. 275 tests and browser
+runtime replay/cancellation/mute/save checks pass. Local entry point:
+`letters.html?v=20260919-audio-boundaries1`. See
+[applied review](reviews/audio-confirmation/INDIVIDUAL_REVIEW_APPLIED_20260919.md).
+Next: review only the 22 changed clips, then attach results or say done with the
+page left open. No publishing.

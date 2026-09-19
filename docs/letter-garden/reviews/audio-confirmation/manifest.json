@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "summary": {
     "total": 612,
-    "installed": 92,
-    "candidate": 120,
+    "installed": 138,
+    "candidate": 74,
     "sequence": 149,
     "unmapped": 222,
     "policy": 29,
@@ -146,12 +146,12 @@
     },
     {
       "id": "individuals",
-      "title": "100 new individual listening items",
+      "title": "Previous 100 individual items — results saved",
       "preparedOn": "2026-09-19",
       "expectedCount": 100,
       "individualOnly": true,
       "selectionEvidence": "owner-reviews/20260919-next100-complete.json",
-      "description": "100 new, unreviewed syllables and sounds from your supplied recordings. Check the displayed sound, vowel length, and complete beginning and ending. Choose Correct, Needs fixing or Unsure; then continue with Next batch. All excerpts stay out of the game until approved.",
+      "description": "Original review: 46 approved clips installed unchanged; 54 rejected. The revised-cut queue contains only changed candidates for another listen. Your original export and notes are preserved.",
       "itemIds": [
         "lg-e006f0b8074f",
         "lg-2701f008f06f",
@@ -253,6 +253,40 @@
         "lg-66a8d70cd9ef",
         "lg-74d733b4d22c",
         "lg-c7841a362473"
+      ]
+    },
+    {
+      "id": "boundary-recheck",
+      "title": "Recheck 22 revised cuts",
+      "preparedOn": "2026-09-19",
+      "expectedCount": 22,
+      "individualOnly": true,
+      "revisionOnly": true,
+      "selectionEvidence": "owner-reviews/20260919-individuals.json",
+      "description": "Only these changed clips need another listen. Play the revised clip; use Play previous cut to compare with the version you flagged. Check that the extra syllable is gone and the intended sound is still complete. Your original notes are kept. These revisions remain excluded from the game until approved.",
+      "itemIds": [
+        "lg-e006f0b8074f",
+        "lg-2d6a557df5ca",
+        "lg-d4221add8206",
+        "lg-c781688bdfdc",
+        "lg-65ebd28d0327",
+        "lg-64cbd95c7cd8",
+        "lg-413cd9ef9615",
+        "lg-0c204c583369",
+        "lg-c70774f9ecbf",
+        "lg-ec9450ee268e",
+        "lg-825223ba5e41",
+        "lg-6180327bb4fe",
+        "lg-8258de63d74e",
+        "lg-8679f2dad70d",
+        "lg-9ed6a9c073f8",
+        "lg-3b8e1495833d",
+        "lg-ca3af558ba11",
+        "lg-340740d00ba1",
+        "lg-427032b8a68b",
+        "lg-a8549d663ab9",
+        "lg-66a8d70cd9ef",
+        "lg-74d733b4d22c"
       ]
     }
   ],
@@ -4885,6 +4919,507 @@
       "signature": "18e8e905d6344194d122e2cbb84fbb83e84d1baf116af933158b4a60cf7d488b"
     },
     {
+      "id": "lg-780f94e60087",
+      "text": "حَ",
+      "displays": [
+        "حَ"
+      ],
+      "family": "Short vowels",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "fatha",
+          "role": "target",
+          "display": "حَ",
+          "parent": null
+        },
+        {
+          "world": "tanween",
+          "role": "target",
+          "display": "حَ",
+          "parent": null
+        },
+        {
+          "world": "long-sounds",
+          "role": "assembly-piece",
+          "display": "حَ",
+          "parent": "حَا"
+        },
+        {
+          "world": "leen",
+          "role": "assembly-piece",
+          "display": "حَ",
+          "parent": "حَوْ"
+        },
+        {
+          "world": "leen",
+          "role": "assembly-piece",
+          "display": "حَ",
+          "parent": "حَيْ"
+        },
+        {
+          "world": "shaddah-mix",
+          "role": "assembly-piece",
+          "display": "حَ",
+          "parent": "حَبٌّ"
+        },
+        {
+          "world": "decode",
+          "role": "assembly-piece",
+          "display": "حَ",
+          "parent": "أَحَدٌ"
+        },
+        {
+          "world": "decode",
+          "role": "assembly-piece",
+          "display": "حَ",
+          "parent": "حَسَدَ"
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-780f94e60087.wav",
+      "sha256": "078815695a485e321f6e6bc93b927515483bb9e52ab376eff6b901d8d534bb63",
+      "parts": [
+        {
+          "text": "حَ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-780f94e60087.wav",
+          "sha256": "078815695a485e321f6e6bc93b927515483bb9e52ab376eff6b901d8d534bb63"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 12.64,
+        "end": 13.095
+      },
+      "signature": "841cb56c035871c22228103de23a03a7def3e3f3af60d0400640b98a22d8b31d"
+    },
+    {
+      "id": "lg-291b92e492fb",
+      "text": "رَ",
+      "displays": [
+        "رَ"
+      ],
+      "family": "Short vowels",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "fatha",
+          "role": "target",
+          "display": "رَ",
+          "parent": null
+        },
+        {
+          "world": "tanween",
+          "role": "target",
+          "display": "رَ",
+          "parent": null
+        },
+        {
+          "world": "long-sounds",
+          "role": "assembly-piece",
+          "display": "رَ",
+          "parent": "رَا"
+        },
+        {
+          "world": "leen",
+          "role": "assembly-piece",
+          "display": "رَ",
+          "parent": "رَوْ"
+        },
+        {
+          "world": "leen",
+          "role": "assembly-piece",
+          "display": "رَ",
+          "parent": "رَيْ"
+        },
+        {
+          "world": "shaddah",
+          "role": "assembly-piece",
+          "display": "رَ",
+          "parent": "رَبَّ"
+        },
+        {
+          "world": "words-2",
+          "role": "assembly-piece",
+          "display": "رَ",
+          "parent": "رَبِّ"
+        },
+        {
+          "world": "words-2",
+          "role": "assembly-piece",
+          "display": "رَ",
+          "parent": "تَرَ"
+        },
+        {
+          "world": "decode",
+          "role": "assembly-piece",
+          "display": "رَ",
+          "parent": "رَبُّكَ"
+        },
+        {
+          "world": "decode",
+          "role": "assembly-piece",
+          "display": "رَ",
+          "parent": "بِرَبِّ"
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-291b92e492fb.wav",
+      "sha256": "54db55599e26e71ed6a6f0d65093f1bf4d24c37ed5dfc90ebbfc9cece717425b",
+      "parts": [
+        {
+          "text": "رَ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-291b92e492fb.wav",
+          "sha256": "54db55599e26e71ed6a6f0d65093f1bf4d24c37ed5dfc90ebbfc9cece717425b"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 16.75,
+        "end": 17.14
+      },
+      "signature": "f7649dd4e89caece53b8a32d2561ec1485677a9c8c32408a87d2d546f53bca74"
+    },
+    {
+      "id": "lg-c73467ff1741",
+      "text": "كَ",
+      "displays": [
+        "كَ"
+      ],
+      "family": "Short vowels",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "fatha",
+          "role": "target",
+          "display": "كَ",
+          "parent": null
+        },
+        {
+          "world": "tanween",
+          "role": "target",
+          "display": "كَ",
+          "parent": null
+        },
+        {
+          "world": "long-sounds",
+          "role": "assembly-piece",
+          "display": "كَ",
+          "parent": "كَا"
+        },
+        {
+          "world": "leen",
+          "role": "assembly-piece",
+          "display": "كَ",
+          "parent": "كَوْ"
+        },
+        {
+          "world": "leen",
+          "role": "assembly-piece",
+          "display": "كَ",
+          "parent": "كَيْ"
+        },
+        {
+          "world": "decode",
+          "role": "assembly-piece",
+          "display": "كَ",
+          "parent": "كَيْفَ"
+        },
+        {
+          "world": "decode",
+          "role": "assembly-piece",
+          "display": "كَ",
+          "parent": "رَبُّكَ"
+        },
+        {
+          "world": "decode",
+          "role": "assembly-piece",
+          "display": "كَ",
+          "parent": "كَانَ"
+        },
+        {
+          "world": "decode",
+          "role": "assembly-piece",
+          "display": "كَ",
+          "parent": "كَسَبَ"
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-c73467ff1741.wav",
+      "sha256": "0bff779fbe7ab3d8693afeccba791c678373c2e96d7ebb71f97ad1c0b0d05757",
+      "parts": [
+        {
+          "text": "كَ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-c73467ff1741.wav",
+          "sha256": "0bff779fbe7ab3d8693afeccba791c678373c2e96d7ebb71f97ad1c0b0d05757"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 29.64,
+        "end": 29.995
+      },
+      "signature": "1e049452109f2af47a491f166120054cd9c223708625586980f584ccef075372"
+    },
+    {
+      "id": "lg-31fc2e8f811d",
+      "text": "مَ",
+      "displays": [
+        "مَ"
+      ],
+      "family": "Short vowels",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "fatha",
+          "role": "target",
+          "display": "مَ",
+          "parent": null
+        },
+        {
+          "world": "tanween",
+          "role": "target",
+          "display": "مَ",
+          "parent": null
+        },
+        {
+          "world": "long-sounds",
+          "role": "assembly-piece",
+          "display": "مَ",
+          "parent": "مَا"
+        },
+        {
+          "world": "leen",
+          "role": "assembly-piece",
+          "display": "مَ",
+          "parent": "مَوْ"
+        },
+        {
+          "world": "leen",
+          "role": "assembly-piece",
+          "display": "مَ",
+          "parent": "مَيْ"
+        },
+        {
+          "world": "words-2",
+          "role": "assembly-piece",
+          "display": "مَ",
+          "parent": "مَا"
+        },
+        {
+          "world": "decode",
+          "role": "assembly-piece",
+          "display": "مَ",
+          "parent": "وَمَا"
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-31fc2e8f811d.wav",
+      "sha256": "da447aa6e5d98423f32062be833a0c74fc44998be32dc29bea1967200496cebf",
+      "parts": [
+        {
+          "text": "مَ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-31fc2e8f811d.wav",
+          "sha256": "da447aa6e5d98423f32062be833a0c74fc44998be32dc29bea1967200496cebf"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 32.63,
+        "end": 32.995
+      },
+      "signature": "40e9fc909876a59f79837a60e2e4f63a2a18bd14cdd3e42fd43fbf58c993f583"
+    },
+    {
+      "id": "lg-875ff90371bc",
+      "text": "نَ",
+      "displays": [
+        "نَ"
+      ],
+      "family": "Short vowels",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "fatha",
+          "role": "target",
+          "display": "نَ",
+          "parent": null
+        },
+        {
+          "world": "tanween",
+          "role": "target",
+          "display": "نَ",
+          "parent": null
+        },
+        {
+          "world": "long-sounds",
+          "role": "assembly-piece",
+          "display": "نَ",
+          "parent": "نَا"
+        },
+        {
+          "world": "leen",
+          "role": "assembly-piece",
+          "display": "نَ",
+          "parent": "نَوْ"
+        },
+        {
+          "world": "leen",
+          "role": "assembly-piece",
+          "display": "نَ",
+          "parent": "نَيْ"
+        },
+        {
+          "world": "decode",
+          "role": "assembly-piece",
+          "display": "نَ",
+          "parent": "نَصْرُ"
+        },
+        {
+          "world": "decode",
+          "role": "assembly-piece",
+          "display": "نَ",
+          "parent": "كَانَ"
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-875ff90371bc.wav",
+      "sha256": "eecb3a4551f41878e4836acb32f56de1fa707a3d66e4d2b830861cecc0179c95",
+      "parts": [
+        {
+          "text": "نَ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-875ff90371bc.wav",
+          "sha256": "eecb3a4551f41878e4836acb32f56de1fa707a3d66e4d2b830861cecc0179c95"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 33.85,
+        "end": 34.208
+      },
+      "signature": "6620b11ec3436a15b51ae32ae782c37efd67c30db9d9b14d2f1661ef0ac18db4"
+    },
+    {
+      "id": "lg-e2fece36d71a",
+      "text": "هَ",
+      "displays": [
+        "هَ"
+      ],
+      "family": "Short vowels",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "fatha",
+          "role": "target",
+          "display": "هَ",
+          "parent": null
+        },
+        {
+          "world": "tanween",
+          "role": "target",
+          "display": "هَ",
+          "parent": null
+        },
+        {
+          "world": "long-sounds",
+          "role": "assembly-piece",
+          "display": "هَ",
+          "parent": "هَا"
+        },
+        {
+          "world": "leen",
+          "role": "assembly-piece",
+          "display": "هَ",
+          "parent": "هَوْ"
+        },
+        {
+          "world": "leen",
+          "role": "assembly-piece",
+          "display": "هَ",
+          "parent": "هَيْ"
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-e2fece36d71a.wav",
+      "sha256": "4ac1665e3c374fd7bd6004968f75727c32442e027ff4d69a5feb09f48b1e4ed5",
+      "parts": [
+        {
+          "text": "هَ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-e2fece36d71a.wav",
+          "sha256": "4ac1665e3c374fd7bd6004968f75727c32442e027ff4d69a5feb09f48b1e4ed5"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 35.12,
+        "end": 35.47
+      },
+      "signature": "95906cc13a2a96156438fbc7139e8ab1f32e60551f72cdc3b3b7692d44de1be0"
+    },
+    {
+      "id": "lg-2701f008f06f",
+      "text": "بِ",
+      "displays": [
+        "بِ"
+      ],
+      "family": "Short vowels",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "kasra-damma",
+          "role": "target",
+          "display": "بِ",
+          "parent": null
+        },
+        {
+          "world": "kasra-damma",
+          "role": "introduction",
+          "display": "بِ",
+          "parent": null
+        },
+        {
+          "world": "tanween",
+          "role": "target",
+          "display": "بِ",
+          "parent": null
+        },
+        {
+          "world": "long-sounds",
+          "role": "assembly-piece",
+          "display": "بِ",
+          "parent": "بِي"
+        },
+        {
+          "world": "decode",
+          "role": "assembly-piece",
+          "display": "بِ",
+          "parent": "بِسْمِ"
+        },
+        {
+          "world": "decode",
+          "role": "assembly-piece",
+          "display": "بِ",
+          "parent": "بِرَبِّ"
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-2701f008f06f.wav",
+      "sha256": "e47e27e97ca6414e206516d64c2cb998a43f25aa33bb777f2806d44393064d0f",
+      "parts": [
+        {
+          "text": "بِ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-2701f008f06f.wav",
+          "sha256": "e47e27e97ca6414e206516d64c2cb998a43f25aa33bb777f2806d44393064d0f"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 7.9,
+        "end": 8.17
+      },
+      "signature": "3fd5e01999f26e39048eb8a10721061f3021bee870b6e030482ee3cb8d0f94a4"
+    },
+    {
       "id": "lg-cb624b7d0ef4",
       "text": "كَسْرَة",
       "displays": [
@@ -5234,6 +5769,636 @@
         "end": 3.72
       },
       "signature": "48a55f5cf1fc47385a1f52a50a7558ab22eb26afa0f5b30558d0cc708963e835"
+    },
+    {
+      "id": "lg-ba861d96a2da",
+      "text": "تُ",
+      "displays": [
+        "تُ"
+      ],
+      "family": "Short vowels",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "kasra-damma",
+          "role": "target",
+          "display": "تُ",
+          "parent": null
+        },
+        {
+          "world": "long-sounds",
+          "role": "assembly-piece",
+          "display": "تُ",
+          "parent": "تُو"
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-ba861d96a2da.wav",
+      "sha256": "6f59ebb5da3b7c0289ac1fd34c4e7b9ff301f850a3171d12a53fa8a6451671e8",
+      "parts": [
+        {
+          "text": "تُ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-ba861d96a2da.wav",
+          "sha256": "6f59ebb5da3b7c0289ac1fd34c4e7b9ff301f850a3171d12a53fa8a6451671e8"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 9.415,
+        "end": 9.57
+      },
+      "signature": "5ebfbf48e56e3b65a9447f8b7d60b03233a420899df30043d2c1bf2b40ed2c05"
+    },
+    {
+      "id": "lg-07b43bc69877",
+      "text": "جِ",
+      "displays": [
+        "جِ"
+      ],
+      "family": "Short vowels",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "kasra-damma",
+          "role": "target",
+          "display": "جِ",
+          "parent": null
+        },
+        {
+          "world": "tanween",
+          "role": "target",
+          "display": "جِ",
+          "parent": null
+        },
+        {
+          "world": "long-sounds",
+          "role": "assembly-piece",
+          "display": "جِ",
+          "parent": "جِي"
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-07b43bc69877.wav",
+      "sha256": "27e21e5e1feb3d7277c9c58b321c5df071820c31a4890dea485ed538588b158d",
+      "parts": [
+        {
+          "text": "جِ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-07b43bc69877.wav",
+          "sha256": "27e21e5e1feb3d7277c9c58b321c5df071820c31a4890dea485ed538588b158d"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 11.695,
+        "end": 11.98
+      },
+      "signature": "fb4e72cec7809f20ccb0f0457f0eb426fab154664ba17ffaf19e42715670fbd4"
+    },
+    {
+      "id": "lg-50e6cddd272b",
+      "text": "حُ",
+      "displays": [
+        "حُ"
+      ],
+      "family": "Short vowels",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "kasra-damma",
+          "role": "target",
+          "display": "حُ",
+          "parent": null
+        },
+        {
+          "world": "long-sounds",
+          "role": "assembly-piece",
+          "display": "حُ",
+          "parent": "حُو"
+        },
+        {
+          "world": "decode",
+          "role": "assembly-piece",
+          "display": "حُ",
+          "parent": "يَحُضُّ"
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-50e6cddd272b.wav",
+      "sha256": "46601c9a176858a1a57f45474a680f96616fe96874591f327bf7360254fda816",
+      "parts": [
+        {
+          "text": "حُ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-50e6cddd272b.wav",
+          "sha256": "46601c9a176858a1a57f45474a680f96616fe96874591f327bf7360254fda816"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 13.375,
+        "end": 13.56
+      },
+      "signature": "eded7474999f10a2cea8f747ddbec10fd9215417f96a7dbb8e7a0643ae1da664"
+    },
+    {
+      "id": "lg-2b8af86d7225",
+      "text": "دِ",
+      "displays": [
+        "دِ"
+      ],
+      "family": "Short vowels",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "kasra-damma",
+          "role": "target",
+          "display": "دِ",
+          "parent": null
+        },
+        {
+          "world": "tanween",
+          "role": "target",
+          "display": "دِ",
+          "parent": null
+        },
+        {
+          "world": "long-sounds",
+          "role": "assembly-piece",
+          "display": "دِ",
+          "parent": "دِي"
+        },
+        {
+          "world": "decode",
+          "role": "assembly-piece",
+          "display": "دِ",
+          "parent": "دِينِ"
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-2b8af86d7225.wav",
+      "sha256": "96898cc082cfcab4e3744fc3e932a7887e689fb8823557aa567d4ad5c52b9e73",
+      "parts": [
+        {
+          "text": "دِ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-2b8af86d7225.wav",
+          "sha256": "96898cc082cfcab4e3744fc3e932a7887e689fb8823557aa567d4ad5c52b9e73"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 14.275,
+        "end": 14.6
+      },
+      "signature": "a7440145a0e957eb3870c73f1e06683d22fc855977a4c9880b2123f1dc9defa9"
+    },
+    {
+      "id": "lg-3b719e0537b9",
+      "text": "دُ",
+      "displays": [
+        "دُ"
+      ],
+      "family": "Short vowels",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "kasra-damma",
+          "role": "target",
+          "display": "دُ",
+          "parent": null
+        },
+        {
+          "world": "long-sounds",
+          "role": "assembly-piece",
+          "display": "دُ",
+          "parent": "دُو"
+        },
+        {
+          "world": "decode",
+          "role": "assembly-piece",
+          "display": "دُ",
+          "parent": "يَدُعُّ"
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-3b719e0537b9.wav",
+      "sha256": "4a40d304969f0713a157ac6c30adf19d16f9384f52488175934e010f17099e5f",
+      "parts": [
+        {
+          "text": "دُ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-3b719e0537b9.wav",
+          "sha256": "4a40d304969f0713a157ac6c30adf19d16f9384f52488175934e010f17099e5f"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 14.6,
+        "end": 14.74
+      },
+      "signature": "41305b2f40b2a7df51f568134e318c17572c1b64a056fb14bc0f8147e7b813be"
+    },
+    {
+      "id": "lg-924bb86de5f8",
+      "text": "رِ",
+      "displays": [
+        "رِ"
+      ],
+      "family": "Short vowels",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "kasra-damma",
+          "role": "target",
+          "display": "رِ",
+          "parent": null
+        },
+        {
+          "world": "tanween",
+          "role": "target",
+          "display": "رِ",
+          "parent": null
+        },
+        {
+          "world": "long-sounds",
+          "role": "assembly-piece",
+          "display": "رِ",
+          "parent": "رِي"
+        },
+        {
+          "world": "decode",
+          "role": "assembly-piece",
+          "display": "رِ",
+          "parent": "غَيْرِ"
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-924bb86de5f8.wav",
+      "sha256": "02f1e85fae941683aaf7794e884d8c874cf28ad5cd9e7c111f9de6a8feb3e989",
+      "parts": [
+        {
+          "text": "رِ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-924bb86de5f8.wav",
+          "sha256": "02f1e85fae941683aaf7794e884d8c874cf28ad5cd9e7c111f9de6a8feb3e989"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 17.14,
+        "end": 17.425
+      },
+      "signature": "63ad79fbad340e1dbb76fd942688b3621e4d74df3b71f2df73c56d09d78d0049"
+    },
+    {
+      "id": "lg-34fa019fc0cf",
+      "text": "سِ",
+      "displays": [
+        "سِ"
+      ],
+      "family": "Short vowels",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "kasra-damma",
+          "role": "target",
+          "display": "سِ",
+          "parent": null
+        },
+        {
+          "world": "tanween",
+          "role": "target",
+          "display": "سِ",
+          "parent": null
+        },
+        {
+          "world": "long-sounds",
+          "role": "assembly-piece",
+          "display": "سِ",
+          "parent": "سِي"
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-34fa019fc0cf.wav",
+      "sha256": "a41580e4302a872ac8cd90d2b86317666c40c7f7a89333b1c0a6e13dbb3cea5b",
+      "parts": [
+        {
+          "text": "سِ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-34fa019fc0cf.wav",
+          "sha256": "a41580e4302a872ac8cd90d2b86317666c40c7f7a89333b1c0a6e13dbb3cea5b"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 20.145,
+        "end": 20.49
+      },
+      "signature": "234c66738688b26a6d9d32546f76de4faa1c6b5988b9a642be641850a2c25b84"
+    },
+    {
+      "id": "lg-f106b520337d",
+      "text": "سُ",
+      "displays": [
+        "سُ"
+      ],
+      "family": "Short vowels",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "kasra-damma",
+          "role": "target",
+          "display": "سُ",
+          "parent": null
+        },
+        {
+          "world": "long-sounds",
+          "role": "assembly-piece",
+          "display": "سُ",
+          "parent": "سُو"
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-f106b520337d.wav",
+      "sha256": "0fb0046e7e6bc9505c13438cbd20fd74ffd88e063c9d15e61287372907de8940",
+      "parts": [
+        {
+          "text": "سُ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-f106b520337d.wav",
+          "sha256": "0fb0046e7e6bc9505c13438cbd20fd74ffd88e063c9d15e61287372907de8940"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 20.49,
+        "end": 20.74
+      },
+      "signature": "5dc4ab4df90d8363af6189bc46c62cccfc89e9b12e90881e92b2211c3451af1f"
+    },
+    {
+      "id": "lg-b395574965f1",
+      "text": "شِ",
+      "displays": [
+        "شِ"
+      ],
+      "family": "Short vowels",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "kasra-damma",
+          "role": "target",
+          "display": "شِ",
+          "parent": null
+        },
+        {
+          "world": "tanween",
+          "role": "target",
+          "display": "شِ",
+          "parent": null
+        },
+        {
+          "world": "long-sounds",
+          "role": "assembly-piece",
+          "display": "شِ",
+          "parent": "شِي"
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-b395574965f1.wav",
+      "sha256": "c91e5f4fde8e9f375b0c0d7ca7398eaebb811454e70b1232c8bb6828c4ae2a6e",
+      "parts": [
+        {
+          "text": "شِ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-b395574965f1.wav",
+          "sha256": "c91e5f4fde8e9f375b0c0d7ca7398eaebb811454e70b1232c8bb6828c4ae2a6e"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 21.5,
+        "end": 21.815
+      },
+      "signature": "192188e960fbe7798ca283002f0046d4941a3606abe57c82a9251b2eccf6a2c0"
+    },
+    {
+      "id": "lg-4866a45a046c",
+      "text": "شُ",
+      "displays": [
+        "شُ"
+      ],
+      "family": "Short vowels",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "kasra-damma",
+          "role": "target",
+          "display": "شُ",
+          "parent": null
+        },
+        {
+          "world": "long-sounds",
+          "role": "assembly-piece",
+          "display": "شُ",
+          "parent": "شُو"
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-4866a45a046c.wav",
+      "sha256": "2133df2b94cc38d28bfc656e1158a4ee1ee27d599b1bcdd47edfa5bf60db9f40",
+      "parts": [
+        {
+          "text": "شُ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-4866a45a046c.wav",
+          "sha256": "2133df2b94cc38d28bfc656e1158a4ee1ee27d599b1bcdd47edfa5bf60db9f40"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 21.815,
+        "end": 22.08
+      },
+      "signature": "d2bf61779aaa4bce2d7120ffc3ec4af3bf3cac96b2c92c3d629d2d4aa4bc59ad"
+    },
+    {
+      "id": "lg-9e1d5e7f2d91",
+      "text": "مِ",
+      "displays": [
+        "مِ"
+      ],
+      "family": "Short vowels",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "kasra-damma",
+          "role": "target",
+          "display": "مِ",
+          "parent": null
+        },
+        {
+          "world": "tanween",
+          "role": "target",
+          "display": "مِ",
+          "parent": null
+        },
+        {
+          "world": "long-sounds",
+          "role": "assembly-piece",
+          "display": "مِ",
+          "parent": "مِي"
+        },
+        {
+          "world": "sukoon",
+          "role": "assembly-piece",
+          "display": "مِ",
+          "parent": "مِنْ"
+        },
+        {
+          "world": "decode",
+          "role": "assembly-piece",
+          "display": "مِ",
+          "parent": "بِسْمِ"
+        },
+        {
+          "world": "decode",
+          "role": "assembly-piece",
+          "display": "مِ",
+          "parent": "يَوْمِ"
+        },
+        {
+          "world": "decode",
+          "role": "assembly-piece",
+          "display": "مِ",
+          "parent": "وَمِن"
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-9e1d5e7f2d91.wav",
+      "sha256": "e1c4117552a768d3dd08b40f756663935b40027a9cd19b09e1db531ff6216332",
+      "parts": [
+        {
+          "text": "مِ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-9e1d5e7f2d91.wav",
+          "sha256": "e1c4117552a768d3dd08b40f756663935b40027a9cd19b09e1db531ff6216332"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 32.995,
+        "end": 33.278
+      },
+      "signature": "a4f6242fd491db829607f7f27fcd75d4c6af6d02ce8c43d8cdf3653a837ea7d2"
+    },
+    {
+      "id": "lg-7e363b4b23fc",
+      "text": "مُ",
+      "displays": [
+        "مُ"
+      ],
+      "family": "Short vowels",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "kasra-damma",
+          "role": "target",
+          "display": "مُ",
+          "parent": null
+        },
+        {
+          "world": "long-sounds",
+          "role": "assembly-piece",
+          "display": "مُ",
+          "parent": "مُو"
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-7e363b4b23fc.wav",
+      "sha256": "45492ad2657868a027bf65397fac8e1d007d90c6e9bb04798e70485dccc22cfb",
+      "parts": [
+        {
+          "text": "مُ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-7e363b4b23fc.wav",
+          "sha256": "45492ad2657868a027bf65397fac8e1d007d90c6e9bb04798e70485dccc22cfb"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 33.278,
+        "end": 33.51
+      },
+      "signature": "1733b8dab7fc1d257f38241f5288bfab38f8114c139f61b11f8a3fa822457134"
+    },
+    {
+      "id": "lg-b49450735a14",
+      "text": "نُ",
+      "displays": [
+        "نُ"
+      ],
+      "family": "Short vowels",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "kasra-damma",
+          "role": "target",
+          "display": "نُ",
+          "parent": null
+        },
+        {
+          "world": "long-sounds",
+          "role": "assembly-piece",
+          "display": "نُ",
+          "parent": "نُو"
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-b49450735a14.wav",
+      "sha256": "a67e071f53e56052b2ec26a0754787f7b4e608390366a9ebd04f55f5b00aa9d5",
+      "parts": [
+        {
+          "text": "نُ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-b49450735a14.wav",
+          "sha256": "a67e071f53e56052b2ec26a0754787f7b4e608390366a9ebd04f55f5b00aa9d5"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 34.55,
+        "end": 34.71
+      },
+      "signature": "a39e99121d481904e533a325f5b3c6eab96b8c795843ff7fc54cad694f8a92e1"
+    },
+    {
+      "id": "lg-ed132d80ef2e",
+      "text": "يُ",
+      "displays": [
+        "يُ"
+      ],
+      "family": "Short vowels",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "kasra-damma",
+          "role": "target",
+          "display": "يُ",
+          "parent": null
+        },
+        {
+          "world": "long-sounds",
+          "role": "assembly-piece",
+          "display": "يُ",
+          "parent": "يُو"
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-ed132d80ef2e.wav",
+      "sha256": "272cd7d02ef99508b3a0eb9fc19efc667e4ac865bec8ec157f089ec9eb4d656e",
+      "parts": [
+        {
+          "text": "يُ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-ed132d80ef2e.wav",
+          "sha256": "272cd7d02ef99508b3a0eb9fc19efc667e4ac865bec8ec157f089ec9eb4d656e"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 38.39,
+        "end": 38.64
+      },
+      "signature": "64145eb1522039c9bbdcf1f64dbc12b7343554b53eecc5ce9cf9a52b06f88ade"
     },
     {
       "id": "lg-9e233c3067bd",
@@ -5612,6 +6777,804 @@
         "end": 4.85
       },
       "signature": "73a699405ad71626296908f7cddf0577b02f4684a51972b3b6d471defd8a7b3b"
+    },
+    {
+      "id": "lg-b428ea1f6041",
+      "text": "تٌ",
+      "displays": [
+        "تٌ"
+      ],
+      "family": "Tanween syllables",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "tanween",
+          "role": "target",
+          "display": "تٌ",
+          "parent": null
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-b428ea1f6041.wav",
+      "sha256": "5777ea107d446f21aacf1204004fc041bdfe0febfd994fcba7f7e465b4ae8b35",
+      "parts": [
+        {
+          "text": "تٌ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-b428ea1f6041.wav",
+          "sha256": "5777ea107d446f21aacf1204004fc041bdfe0febfd994fcba7f7e465b4ae8b35"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 41.4,
+        "end": 41.67
+      },
+      "signature": "c8b5647c0cdfc4285f536dca3d128cf91eb8b4a4c8b5be478606d4fd816d530b"
+    },
+    {
+      "id": "lg-aa8811b378b0",
+      "text": "دٍ",
+      "displays": [
+        "دٍ"
+      ],
+      "family": "Tanween syllables",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "tanween",
+          "role": "target",
+          "display": "دٍ",
+          "parent": null
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-aa8811b378b0.wav",
+      "sha256": "f647df8c08d9ea9dce1bf6082b60968486b6a94c913a56f0aa8d2866055f7455",
+      "parts": [
+        {
+          "text": "دٍ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-aa8811b378b0.wav",
+          "sha256": "f647df8c08d9ea9dce1bf6082b60968486b6a94c913a56f0aa8d2866055f7455"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 45.92,
+        "end": 46.27
+      },
+      "signature": "729b5f82ce7d909c2377b455789b5d77913f123dfdf3a287e23e1b2ec3235765"
+    },
+    {
+      "id": "lg-3d0a28c28b20",
+      "text": "دٌ",
+      "displays": [
+        "دٌ"
+      ],
+      "family": "Tanween syllables",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "tanween",
+          "role": "target",
+          "display": "دٌ",
+          "parent": null
+        },
+        {
+          "world": "decode",
+          "role": "assembly-piece",
+          "display": "دٌ",
+          "parent": "أَحَدٌ"
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-3d0a28c28b20.wav",
+      "sha256": "94edec17b9a62b7ed82dc807dba113373b40c1da9d39fe64b7df5e356231de2d",
+      "parts": [
+        {
+          "text": "دٌ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-3d0a28c28b20.wav",
+          "sha256": "94edec17b9a62b7ed82dc807dba113373b40c1da9d39fe64b7df5e356231de2d"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 46.27,
+        "end": 46.5
+      },
+      "signature": "45bc73667f5e3f0ad667857f4e17506ebb91975e8d5b123c6194f6f6f69ce3e9"
+    },
+    {
+      "id": "lg-3bbe8da7a5b1",
+      "text": "ذٌ",
+      "displays": [
+        "ذٌ"
+      ],
+      "family": "Tanween syllables",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "tanween",
+          "role": "target",
+          "display": "ذٌ",
+          "parent": null
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-3bbe8da7a5b1.wav",
+      "sha256": "7dba9c72c222b4318006fb8c4227dbfdf7f9a1b0e988a8cb7d834e8792bcad20",
+      "parts": [
+        {
+          "text": "ذٌ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-3bbe8da7a5b1.wav",
+          "sha256": "7dba9c72c222b4318006fb8c4227dbfdf7f9a1b0e988a8cb7d834e8792bcad20"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 47.68,
+        "end": 47.9
+      },
+      "signature": "07910cf3c57c4c929267a2878e2ea21933381f1b42ce563500baa42561842f29"
+    },
+    {
+      "id": "lg-91fd914ee86c",
+      "text": "شَوْ",
+      "displays": [
+        "شَوْ"
+      ],
+      "family": "Leen glides",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "leen",
+          "role": "target",
+          "display": "شَوْ",
+          "parent": null
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-91fd914ee86c.wav",
+      "sha256": "93a3ce8724d1fac519f4bbbde3919f5af2fdfa92583f76c88e7ed848798ca9ca",
+      "parts": [
+        {
+          "text": "شَوْ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-91fd914ee86c.wav",
+          "sha256": "93a3ce8724d1fac519f4bbbde3919f5af2fdfa92583f76c88e7ed848798ca9ca"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-2",
+        "start": 0.06,
+        "end": 0.51
+      },
+      "signature": "8c97866a6c767cd23b7804016c9a5ac14f1a9681ad6db5d6fdde8e8ca05966e3"
+    },
+    {
+      "id": "lg-c3b5afe7cc08",
+      "text": "شَيْ",
+      "displays": [
+        "شَيْ"
+      ],
+      "family": "Leen glides",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "leen",
+          "role": "target",
+          "display": "شَيْ",
+          "parent": null
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-c3b5afe7cc08.wav",
+      "sha256": "403c146e96eba2590c0d5260b74cafbe4d11291ee38a259f809baa9412ddb67a",
+      "parts": [
+        {
+          "text": "شَيْ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-c3b5afe7cc08.wav",
+          "sha256": "403c146e96eba2590c0d5260b74cafbe4d11291ee38a259f809baa9412ddb67a"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-2",
+        "start": 0.81,
+        "end": 1.29
+      },
+      "signature": "342416c86eb8ebcf446157c0c596da8d5c025ae40288455f25ea2bbedfc3d919"
+    },
+    {
+      "id": "lg-a5756baa80ee",
+      "text": "صَوْ",
+      "displays": [
+        "صَوْ"
+      ],
+      "family": "Leen glides",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "leen",
+          "role": "target",
+          "display": "صَوْ",
+          "parent": null
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-a5756baa80ee.wav",
+      "sha256": "e4bb05619d0c0b182ff11c53a9dc2256aa8ce962b0165651e9949f49c134934c",
+      "parts": [
+        {
+          "text": "صَوْ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-a5756baa80ee.wav",
+          "sha256": "e4bb05619d0c0b182ff11c53a9dc2256aa8ce962b0165651e9949f49c134934c"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-2",
+        "start": 1.51,
+        "end": 1.94
+      },
+      "signature": "bc8edf5460abf93962d0e4646dbfe87965120d830e01e1822210b088d9296d4f"
+    },
+    {
+      "id": "lg-8bc549d74bec",
+      "text": "صَيْ",
+      "displays": [
+        "صَيْ"
+      ],
+      "family": "Leen glides",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "leen",
+          "role": "target",
+          "display": "صَيْ",
+          "parent": null
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-8bc549d74bec.wav",
+      "sha256": "186907cf7fb7788edb86e9f9c7c79275ac1129b8cd7559aab0c9cdc2ba49ed5a",
+      "parts": [
+        {
+          "text": "صَيْ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-8bc549d74bec.wav",
+          "sha256": "186907cf7fb7788edb86e9f9c7c79275ac1129b8cd7559aab0c9cdc2ba49ed5a"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-2",
+        "start": 2.05,
+        "end": 2.45
+      },
+      "signature": "bfdb550cdd3828b59dd82f374476c07a288878f2094558103a620bdf10f4acf4"
+    },
+    {
+      "id": "lg-5c54409fd37a",
+      "text": "ضَوْ",
+      "displays": [
+        "ضَوْ"
+      ],
+      "family": "Leen glides",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "leen",
+          "role": "target",
+          "display": "ضَوْ",
+          "parent": null
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-5c54409fd37a.wav",
+      "sha256": "c7caec3a74b0eb80b00791dd9bf5b5aedca11bd6b01ab5269b988d6bbc1ca043",
+      "parts": [
+        {
+          "text": "ضَوْ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-5c54409fd37a.wav",
+          "sha256": "c7caec3a74b0eb80b00791dd9bf5b5aedca11bd6b01ab5269b988d6bbc1ca043"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-2",
+        "start": 2.67,
+        "end": 3.06
+      },
+      "signature": "7e24fe8545d8541d8dbd0b9ef7cdf460e7bf296d2fdaa49aa265397157c52f6a"
+    },
+    {
+      "id": "lg-1bbac20141b3",
+      "text": "ضَيْ",
+      "displays": [
+        "ضَيْ"
+      ],
+      "family": "Leen glides",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "leen",
+          "role": "target",
+          "display": "ضَيْ",
+          "parent": null
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-1bbac20141b3.wav",
+      "sha256": "bd78ea8599e335d20e4dd8f7c6432fe1990f7a8890dea11abd0dc86e91f08d66",
+      "parts": [
+        {
+          "text": "ضَيْ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-1bbac20141b3.wav",
+          "sha256": "bd78ea8599e335d20e4dd8f7c6432fe1990f7a8890dea11abd0dc86e91f08d66"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-2",
+        "start": 3.21,
+        "end": 3.58
+      },
+      "signature": "9de19a823d9e83fb536563b36411ba9eb482074cf0ce6a06bbfab41e53353303"
+    },
+    {
+      "id": "lg-2d7c57749b54",
+      "text": "طَوْ",
+      "displays": [
+        "طَوْ"
+      ],
+      "family": "Leen glides",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "leen",
+          "role": "target",
+          "display": "طَوْ",
+          "parent": null
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-2d7c57749b54.wav",
+      "sha256": "ac0bd5e6eaaff7384ea78c0d5eff035b7b079ed3e2ef340857f6a0f8ef5cfe32",
+      "parts": [
+        {
+          "text": "طَوْ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-2d7c57749b54.wav",
+          "sha256": "ac0bd5e6eaaff7384ea78c0d5eff035b7b079ed3e2ef340857f6a0f8ef5cfe32"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-2",
+        "start": 3.91,
+        "end": 4.24
+      },
+      "signature": "07d9981721afa1be3945af142f4932d5ccdfa3c6707129ac78803fca2d790bb0"
+    },
+    {
+      "id": "lg-43cc227f4e90",
+      "text": "عَوْ",
+      "displays": [
+        "عَوْ"
+      ],
+      "family": "Leen glides",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "leen",
+          "role": "target",
+          "display": "عَوْ",
+          "parent": null
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-43cc227f4e90.wav",
+      "sha256": "54a256dd2b39864ab7ee3fa21f57c12836d724314f012e435563da3ac3b883c3",
+      "parts": [
+        {
+          "text": "عَوْ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-43cc227f4e90.wav",
+          "sha256": "54a256dd2b39864ab7ee3fa21f57c12836d724314f012e435563da3ac3b883c3"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-2",
+        "start": 4.97,
+        "end": 5.3
+      },
+      "signature": "bc5f4792878b02ee35f50f0bb3c0e16c705dbf71754db3f00ed9e60a24b1cac5"
+    },
+    {
+      "id": "lg-47f506e11b63",
+      "text": "عَيْ",
+      "displays": [
+        "عَيْ"
+      ],
+      "family": "Leen glides",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "leen",
+          "role": "target",
+          "display": "عَيْ",
+          "parent": null
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-47f506e11b63.wav",
+      "sha256": "14e99e01b653ccb6088258f72056c7acd215ba538ab26852d6c30327c6ef55a3",
+      "parts": [
+        {
+          "text": "عَيْ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-47f506e11b63.wav",
+          "sha256": "14e99e01b653ccb6088258f72056c7acd215ba538ab26852d6c30327c6ef55a3"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-2",
+        "start": 5.46,
+        "end": 5.8
+      },
+      "signature": "cd84ce6eed3349c0c1e27907986ebfdfae6d93f80bdc6a7e645514edb1a5ef86"
+    },
+    {
+      "id": "lg-c4b11b1faa10",
+      "text": "غَوْ",
+      "displays": [
+        "غَوْ"
+      ],
+      "family": "Leen glides",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "leen",
+          "role": "target",
+          "display": "غَوْ",
+          "parent": null
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-c4b11b1faa10.wav",
+      "sha256": "2d589def3545e00ffd20c679b4e7033f386980d431d0702d6036a399d71f4763",
+      "parts": [
+        {
+          "text": "غَوْ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-c4b11b1faa10.wav",
+          "sha256": "2d589def3545e00ffd20c679b4e7033f386980d431d0702d6036a399d71f4763"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-2",
+        "start": 6.08,
+        "end": 6.48
+      },
+      "signature": "e644afcd785728660207edcafe25249af46d3457f86f3dcb7a21bd5c38164b5c"
+    },
+    {
+      "id": "lg-353bf3f68337",
+      "text": "فَوْ",
+      "displays": [
+        "فَوْ"
+      ],
+      "family": "Leen glides",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "leen",
+          "role": "target",
+          "display": "فَوْ",
+          "parent": null
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-353bf3f68337.wav",
+      "sha256": "eba02598379c8e6642a803e634b1cbc7b24158b1b2cb65b3c1523ba8e6fbc963",
+      "parts": [
+        {
+          "text": "فَوْ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-353bf3f68337.wav",
+          "sha256": "eba02598379c8e6642a803e634b1cbc7b24158b1b2cb65b3c1523ba8e6fbc963"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-2",
+        "start": 7.24,
+        "end": 7.58
+      },
+      "signature": "8650e4c6a4413de6bb665874747cbf80cda1f4e900d70a6dc898de3d80a835a2"
+    },
+    {
+      "id": "lg-1ef3ddb0017b",
+      "text": "قَوْ",
+      "displays": [
+        "قَوْ"
+      ],
+      "family": "Leen glides",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "leen",
+          "role": "target",
+          "display": "قَوْ",
+          "parent": null
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-1ef3ddb0017b.wav",
+      "sha256": "69a97f13a10575cd8c380fc5943e1e1784d9faa330bb93a800d108bfc517f305",
+      "parts": [
+        {
+          "text": "قَوْ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-1ef3ddb0017b.wav",
+          "sha256": "69a97f13a10575cd8c380fc5943e1e1784d9faa330bb93a800d108bfc517f305"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-2",
+        "start": 8.28,
+        "end": 8.54
+      },
+      "signature": "27f4b87a0fcc70b037fc6a0021692a2b3557c81eac7be72798eba4a80bbbcb1b"
+    },
+    {
+      "id": "lg-7d2fe98d3fcf",
+      "text": "قَيْ",
+      "displays": [
+        "قَيْ"
+      ],
+      "family": "Leen glides",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "leen",
+          "role": "target",
+          "display": "قَيْ",
+          "parent": null
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-7d2fe98d3fcf.wav",
+      "sha256": "535cfeec5a7b8d77d1594767c9518f7c74a054275f5c59925247c97bce560a45",
+      "parts": [
+        {
+          "text": "قَيْ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-7d2fe98d3fcf.wav",
+          "sha256": "535cfeec5a7b8d77d1594767c9518f7c74a054275f5c59925247c97bce560a45"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-2",
+        "start": 8.63,
+        "end": 8.93
+      },
+      "signature": "e41fad41d117d4f727e52f4c031b845041be850d9643b68d5e91f0292aa9b91c"
+    },
+    {
+      "id": "lg-f86274109079",
+      "text": "لَوْ",
+      "displays": [
+        "لَوْ"
+      ],
+      "family": "Leen glides",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "leen",
+          "role": "target",
+          "display": "لَوْ",
+          "parent": null
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-f86274109079.wav",
+      "sha256": "1d0ba130ce8ee27a65dfaa7f5b0d28dc5f85da6d23ceac0433b571b6f334458d",
+      "parts": [
+        {
+          "text": "لَوْ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-f86274109079.wav",
+          "sha256": "1d0ba130ce8ee27a65dfaa7f5b0d28dc5f85da6d23ceac0433b571b6f334458d"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-2",
+        "start": 9.22,
+        "end": 9.61
+      },
+      "signature": "98cb8cf727834f45b13f6c09b5df14560d8b537ae8c7372de25becec9e03f195"
+    },
+    {
+      "id": "lg-b39cbc7e3269",
+      "text": "لَيْ",
+      "displays": [
+        "لَيْ"
+      ],
+      "family": "Leen glides",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "leen",
+          "role": "target",
+          "display": "لَيْ",
+          "parent": null
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-b39cbc7e3269.wav",
+      "sha256": "a12f3258bd1dd019167f4b2468c70ce554eb8ed7b519ebb397afebadb63e2d71",
+      "parts": [
+        {
+          "text": "لَيْ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-b39cbc7e3269.wav",
+          "sha256": "a12f3258bd1dd019167f4b2468c70ce554eb8ed7b519ebb397afebadb63e2d71"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-2",
+        "start": 9.74,
+        "end": 10.12
+      },
+      "signature": "efc3f3b3c34dccbec1284386e5068f1c5a8c144c70572324e78b710a0cad8366"
+    },
+    {
+      "id": "lg-e9437b0a3e81",
+      "text": "مَوْ",
+      "displays": [
+        "مَوْ"
+      ],
+      "family": "Leen glides",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "leen",
+          "role": "target",
+          "display": "مَوْ",
+          "parent": null
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-e9437b0a3e81.wav",
+      "sha256": "b90b16d08782ccbe6569156d9c8b69853ad7a700e247a0da258a47926a2284b8",
+      "parts": [
+        {
+          "text": "مَوْ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-e9437b0a3e81.wav",
+          "sha256": "b90b16d08782ccbe6569156d9c8b69853ad7a700e247a0da258a47926a2284b8"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-2",
+        "start": 10.27,
+        "end": 10.63
+      },
+      "signature": "01d6747b715b8f9fd2912fd11efec579463a73826fd9e888c8907c4898e1c2a9"
+    },
+    {
+      "id": "lg-c445e7a21765",
+      "text": "مَيْ",
+      "displays": [
+        "مَيْ"
+      ],
+      "family": "Leen glides",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "leen",
+          "role": "target",
+          "display": "مَيْ",
+          "parent": null
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-c445e7a21765.wav",
+      "sha256": "3b2600d4b70821528845b199bc271f6a2a520105199b2310a1e432ddbe3dbbd4",
+      "parts": [
+        {
+          "text": "مَيْ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-c445e7a21765.wav",
+          "sha256": "3b2600d4b70821528845b199bc271f6a2a520105199b2310a1e432ddbe3dbbd4"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-2",
+        "start": 10.71,
+        "end": 11.07
+      },
+      "signature": "8a46deaf2a50018c66659a329946af273a65bc2e19452d842e22068f0150f11d"
+    },
+    {
+      "id": "lg-4e89a5b4afe4",
+      "text": "نَوْ",
+      "displays": [
+        "نَوْ"
+      ],
+      "family": "Leen glides",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "leen",
+          "role": "target",
+          "display": "نَوْ",
+          "parent": null
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-4e89a5b4afe4.wav",
+      "sha256": "258809b937f7364d7a78bf75f189f978560034616860f077ac25003489a19be1",
+      "parts": [
+        {
+          "text": "نَوْ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-4e89a5b4afe4.wav",
+          "sha256": "258809b937f7364d7a78bf75f189f978560034616860f077ac25003489a19be1"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-2",
+        "start": 11.38,
+        "end": 11.76
+      },
+      "signature": "255dc941ac730f417a761cc7d578baa6aed9470046972358d90a2725efc99084"
+    },
+    {
+      "id": "lg-e66d423a3dd9",
+      "text": "نَيْ",
+      "displays": [
+        "نَيْ"
+      ],
+      "family": "Leen glides",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "leen",
+          "role": "target",
+          "display": "نَيْ",
+          "parent": null
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-e66d423a3dd9.wav",
+      "sha256": "248d76a5fa45659bc6e3e8ecf18aab42253eff33a0073186f7e7969da527fac2",
+      "parts": [
+        {
+          "text": "نَيْ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-e66d423a3dd9.wav",
+          "sha256": "248d76a5fa45659bc6e3e8ecf18aab42253eff33a0073186f7e7969da527fac2"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-2",
+        "start": 11.87,
+        "end": 12.23
+      },
+      "signature": "5a35457ef7377307f382ed0539857e5c87a105e9bff7b0f894437b27c7a0e529"
+    },
+    {
+      "id": "lg-8f627810c512",
+      "text": "وَيْ",
+      "displays": [
+        "وَيْ"
+      ],
+      "family": "Leen glides",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "leen",
+          "role": "target",
+          "display": "وَيْ",
+          "parent": null
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-8f627810c512.wav",
+      "sha256": "6dd34ed8051053ca01370554d6ed0b512d0f2a1e2fb00d89a7e15a62cb0e98e6",
+      "parts": [
+        {
+          "text": "وَيْ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-8f627810c512.wav",
+          "sha256": "6dd34ed8051053ca01370554d6ed0b512d0f2a1e2fb00d89a7e15a62cb0e98e6"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-2",
+        "start": 13.8,
+        "end": 14.12
+      },
+      "signature": "5dcdb1e2de41ce6a8cd068b4c69aab7e03c40956e00cd5ccce293fe1c0fe8b86"
     },
     {
       "id": "lg-82b658e5075c",
@@ -6107,6 +8070,39 @@
         "end": 30.44
       },
       "signature": "83afff148f504b7e3dc1941c9cb12fdb721d933fa521fed4e07b7c8caef79310"
+    },
+    {
+      "id": "lg-c7841a362473",
+      "text": "إِنَّآ",
+      "displays": [
+        "إِنَّآ"
+      ],
+      "family": "Curriculum words",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the audio confirmation desk.",
+      "uses": [
+        {
+          "world": "decode",
+          "role": "target",
+          "display": "إِنَّآ",
+          "parent": null
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-c7841a362473.wav",
+      "sha256": "4f55edd1dd626380e1fa19aa12f5238335722e03b8beef99bfcfe5eeb9dd77e3",
+      "parts": [
+        {
+          "text": "إِنَّآ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-c7841a362473.wav",
+          "sha256": "4f55edd1dd626380e1fa19aa12f5238335722e03b8beef99bfcfe5eeb9dd77e3"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-2",
+        "start": 32.6,
+        "end": 33.22
+      },
+      "signature": "659ece2ca078468b6bcd7fd55f62c01faac697e486bcc2751954f4a5b4840f43"
     },
     {
       "id": "lg-5daa6e6fadf0",
@@ -7605,7 +9601,7 @@
       ],
       "family": "Short vowels",
       "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
+      "note": "Shortened the ending to remove the following consonant. Check that بَ still sounds complete, with a natural ending.",
       "uses": [
         {
           "world": "fatha",
@@ -7668,21 +9664,29 @@
           "parent": "وَقَبَ"
         }
       ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-e006f0b8074f.wav",
-      "sha256": "9a1498353ef3b6c888d487bd2d7bcdf9369eefbc4e417b6d01892d4d243e78ea",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-e006f0b8074f-r1.wav",
+      "sha256": "00d0f5286fdb1130299d2a3d3b7f99098ed8937957adb81caf05b1cf1600f7ad",
       "parts": [
+        {
+          "text": "بَ",
+          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-e006f0b8074f-r1.wav",
+          "sha256": "00d0f5286fdb1130299d2a3d3b7f99098ed8937957adb81caf05b1cf1600f7ad"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 7.64,
+        "end": 7.835
+      },
+      "revision": "r1",
+      "previousParts": [
         {
           "text": "بَ",
           "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-e006f0b8074f.wav",
           "sha256": "9a1498353ef3b6c888d487bd2d7bcdf9369eefbc4e417b6d01892d4d243e78ea"
         }
       ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 7.64,
-        "end": 7.9
-      },
-      "signature": "d59a6b77ee47bebdd643fd68e94b94bdcf2f6f09a3031133cc2431aefa06bb18"
+      "signature": "2387f8c21b1fc64f7cc493d3a463087341f9fc9d35a9ff508036aa26d9146d83"
     },
     {
       "id": "lg-2d6a557df5ca",
@@ -7692,7 +9696,7 @@
       ],
       "family": "Short vowels",
       "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
+      "note": "Shortened the ending to remove the following consonant. Check that تَ still sounds complete, with a natural ending.",
       "uses": [
         {
           "world": "fatha",
@@ -7749,21 +9753,29 @@
           "parent": "ذَاتَ"
         }
       ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-2d6a557df5ca.wav",
-      "sha256": "b651659bb85ef13d8ea5cec37d1bf81b2fc05eb13a155a9f91b5922e35bb9a89",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-2d6a557df5ca-r1.wav",
+      "sha256": "d14db60743d3d92482fef436484e02df9a8772942a2e4aec5c03b07f81634c80",
       "parts": [
+        {
+          "text": "تَ",
+          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-2d6a557df5ca-r1.wav",
+          "sha256": "d14db60743d3d92482fef436484e02df9a8772942a2e4aec5c03b07f81634c80"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 8.89,
+        "end": 9.145
+      },
+      "revision": "r1",
+      "previousParts": [
         {
           "text": "تَ",
           "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-2d6a557df5ca.wav",
           "sha256": "b651659bb85ef13d8ea5cec37d1bf81b2fc05eb13a155a9f91b5922e35bb9a89"
         }
       ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 8.89,
-        "end": 9.2
-      },
-      "signature": "e54abc4ff4a8ceabb3e338b650e2d70585befe555f226799d4b97def2447c90c"
+      "signature": "f2532b1f454c23355fc9a61098619df3b84584b87fd0ab1704b956a60d705f7d"
     },
     {
       "id": "lg-d4221add8206",
@@ -7773,7 +9785,7 @@
       ],
       "family": "Short vowels",
       "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
+      "note": "Shortened the ending to remove the following consonant. Check that جَ still sounds complete, with a natural ending.",
       "uses": [
         {
           "world": "fatha",
@@ -7806,96 +9818,29 @@
           "parent": "جَيْ"
         }
       ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-d4221add8206.wav",
-      "sha256": "dbfdd989fa6e82812a15919698bf6f23b7ed068a12bbc7dabfe7377d63799e39",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-d4221add8206-r1.wav",
+      "sha256": "354fcf9e6d6d9a187b6e2e76db392757ff31a6806e96757d71a13e28ca0ded29",
       "parts": [
+        {
+          "text": "جَ",
+          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-d4221add8206-r1.wav",
+          "sha256": "354fcf9e6d6d9a187b6e2e76db392757ff31a6806e96757d71a13e28ca0ded29"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 11.24,
+        "end": 11.615
+      },
+      "revision": "r1",
+      "previousParts": [
         {
           "text": "جَ",
           "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-d4221add8206.wav",
           "sha256": "dbfdd989fa6e82812a15919698bf6f23b7ed068a12bbc7dabfe7377d63799e39"
         }
       ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 11.24,
-        "end": 11.695
-      },
-      "signature": "7204c2775c9b6e8366a0362c7f8012d8f4d1f2864513a8768b95e9eb302f6f63"
-    },
-    {
-      "id": "lg-780f94e60087",
-      "text": "حَ",
-      "displays": [
-        "حَ"
-      ],
-      "family": "Short vowels",
-      "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
-      "uses": [
-        {
-          "world": "fatha",
-          "role": "target",
-          "display": "حَ",
-          "parent": null
-        },
-        {
-          "world": "tanween",
-          "role": "target",
-          "display": "حَ",
-          "parent": null
-        },
-        {
-          "world": "long-sounds",
-          "role": "assembly-piece",
-          "display": "حَ",
-          "parent": "حَا"
-        },
-        {
-          "world": "leen",
-          "role": "assembly-piece",
-          "display": "حَ",
-          "parent": "حَوْ"
-        },
-        {
-          "world": "leen",
-          "role": "assembly-piece",
-          "display": "حَ",
-          "parent": "حَيْ"
-        },
-        {
-          "world": "shaddah-mix",
-          "role": "assembly-piece",
-          "display": "حَ",
-          "parent": "حَبٌّ"
-        },
-        {
-          "world": "decode",
-          "role": "assembly-piece",
-          "display": "حَ",
-          "parent": "أَحَدٌ"
-        },
-        {
-          "world": "decode",
-          "role": "assembly-piece",
-          "display": "حَ",
-          "parent": "حَسَدَ"
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-780f94e60087.wav",
-      "sha256": "078815695a485e321f6e6bc93b927515483bb9e52ab376eff6b901d8d534bb63",
-      "parts": [
-        {
-          "text": "حَ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-780f94e60087.wav",
-          "sha256": "078815695a485e321f6e6bc93b927515483bb9e52ab376eff6b901d8d534bb63"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 12.64,
-        "end": 13.095
-      },
-      "signature": "841cb56c035871c22228103de23a03a7def3e3f3af60d0400640b98a22d8b31d"
+      "signature": "753a1e558de4d2c8ae2d028f36d03833ea06c0715df0e0feb0395689a2762fc8"
     },
     {
       "id": "lg-65ebd28d0327",
@@ -7905,7 +9850,7 @@
       ],
       "family": "Short vowels",
       "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
+      "note": "Shortened the ending to remove the following consonant. Check that دَ still sounds complete, with a natural ending.",
       "uses": [
         {
           "world": "fatha",
@@ -7950,21 +9895,29 @@
           "parent": "حَسَدَ"
         }
       ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-65ebd28d0327.wav",
-      "sha256": "7c7b99b680234f045e6605f57cb823b7be8455c73258114d5ea688e3c99c461d",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-65ebd28d0327-r1.wav",
+      "sha256": "37db59b88de5c61108193fe7c12493d8dc91f6ee0491493d69491888a71ce58b",
       "parts": [
+        {
+          "text": "دَ",
+          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-65ebd28d0327-r1.wav",
+          "sha256": "37db59b88de5c61108193fe7c12493d8dc91f6ee0491493d69491888a71ce58b"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 13.93,
+        "end": 14.25
+      },
+      "revision": "r1",
+      "previousParts": [
         {
           "text": "دَ",
           "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-65ebd28d0327.wav",
           "sha256": "7c7b99b680234f045e6605f57cb823b7be8455c73258114d5ea688e3c99c461d"
         }
       ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 13.93,
-        "end": 14.275
-      },
-      "signature": "2bf1e76be748cea9f47d3a73299b64c007f76eb08888e29be8bcb7f20ac14ad5"
+      "signature": "b67497042ab354f41c080a9e7cef0bdb6751bdc73e031a87e7e227882e64fafc"
     },
     {
       "id": "lg-a2b1661793d8",
@@ -7974,7 +9927,7 @@
       ],
       "family": "Short vowels",
       "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
+      "note": "Owner rejected this exact clip: sounds like zad. Excluded from the game pending a new reviewed cut or recording.",
       "uses": [
         {
           "world": "fatha",
@@ -8036,93 +9989,6 @@
       "signature": "dd49e9aad31d1e1f74dcd4604a6695e37f780f70498de8b5f320f7cb02b1df61"
     },
     {
-      "id": "lg-291b92e492fb",
-      "text": "رَ",
-      "displays": [
-        "رَ"
-      ],
-      "family": "Short vowels",
-      "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
-      "uses": [
-        {
-          "world": "fatha",
-          "role": "target",
-          "display": "رَ",
-          "parent": null
-        },
-        {
-          "world": "tanween",
-          "role": "target",
-          "display": "رَ",
-          "parent": null
-        },
-        {
-          "world": "long-sounds",
-          "role": "assembly-piece",
-          "display": "رَ",
-          "parent": "رَا"
-        },
-        {
-          "world": "leen",
-          "role": "assembly-piece",
-          "display": "رَ",
-          "parent": "رَوْ"
-        },
-        {
-          "world": "leen",
-          "role": "assembly-piece",
-          "display": "رَ",
-          "parent": "رَيْ"
-        },
-        {
-          "world": "shaddah",
-          "role": "assembly-piece",
-          "display": "رَ",
-          "parent": "رَبَّ"
-        },
-        {
-          "world": "words-2",
-          "role": "assembly-piece",
-          "display": "رَ",
-          "parent": "رَبِّ"
-        },
-        {
-          "world": "words-2",
-          "role": "assembly-piece",
-          "display": "رَ",
-          "parent": "تَرَ"
-        },
-        {
-          "world": "decode",
-          "role": "assembly-piece",
-          "display": "رَ",
-          "parent": "رَبُّكَ"
-        },
-        {
-          "world": "decode",
-          "role": "assembly-piece",
-          "display": "رَ",
-          "parent": "بِرَبِّ"
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-291b92e492fb.wav",
-      "sha256": "54db55599e26e71ed6a6f0d65093f1bf4d24c37ed5dfc90ebbfc9cece717425b",
-      "parts": [
-        {
-          "text": "رَ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-291b92e492fb.wav",
-          "sha256": "54db55599e26e71ed6a6f0d65093f1bf4d24c37ed5dfc90ebbfc9cece717425b"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 16.75,
-        "end": 17.14
-      },
-      "signature": "f7649dd4e89caece53b8a32d2561ec1485677a9c8c32408a87d2d546f53bca74"
-    },
-    {
       "id": "lg-64cbd95c7cd8",
       "text": "زَ",
       "displays": [
@@ -8130,7 +9996,7 @@
       ],
       "family": "Short vowels",
       "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
+      "note": "Shortened the ending to remove the following consonant. Check that زَ still sounds complete, with a natural ending.",
       "uses": [
         {
           "world": "fatha",
@@ -8163,21 +10029,29 @@
           "parent": "زَيْ"
         }
       ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-64cbd95c7cd8.wav",
-      "sha256": "85fca9b539c8eeacec41e85f8519e51badc00cb0779c726c3de69435b6e10592",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-64cbd95c7cd8-r1.wav",
+      "sha256": "6a77cb6db855b79929c57322f166c1eed8044f95ad54176ac88bfc4e373f4016",
       "parts": [
+        {
+          "text": "زَ",
+          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-64cbd95c7cd8-r1.wav",
+          "sha256": "6a77cb6db855b79929c57322f166c1eed8044f95ad54176ac88bfc4e373f4016"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 18.36,
+        "end": 18.75
+      },
+      "revision": "r1",
+      "previousParts": [
         {
           "text": "زَ",
           "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-64cbd95c7cd8.wav",
           "sha256": "85fca9b539c8eeacec41e85f8519e51badc00cb0779c726c3de69435b6e10592"
         }
       ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 18.36,
-        "end": 18.795
-      },
-      "signature": "4ba51177a8309257c98030f56c3125aba2d01d12d95cac3f368fe84cafcdb7c0"
+      "signature": "63fc8ff2642aa6e5a0a875748c77c13d6d9d568f32932e2b8c3e29e8bca4f0f6"
     },
     {
       "id": "lg-0c204c583369",
@@ -8187,7 +10061,7 @@
       ],
       "family": "Short vowels",
       "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
+      "note": "Shortened the ending to remove the following consonant. Check that سَ still sounds complete, with a natural ending.",
       "uses": [
         {
           "world": "fatha",
@@ -8232,21 +10106,29 @@
           "parent": "حَسَدَ"
         }
       ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-0c204c583369.wav",
-      "sha256": "0e1ee66ce7c0995a0fc243ba516e2aa369822199c7dde6c51c40ab9fe9887ebc",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-0c204c583369-r1.wav",
+      "sha256": "b5f32e2f30017b74f84336c1002b208ee5d99924f886b1d6fc4d9a61ba034bf4",
       "parts": [
+        {
+          "text": "سَ",
+          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-0c204c583369-r1.wav",
+          "sha256": "b5f32e2f30017b74f84336c1002b208ee5d99924f886b1d6fc4d9a61ba034bf4"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 19.74,
+        "end": 20.11
+      },
+      "revision": "r1",
+      "previousParts": [
         {
           "text": "سَ",
           "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-0c204c583369.wav",
           "sha256": "0e1ee66ce7c0995a0fc243ba516e2aa369822199c7dde6c51c40ab9fe9887ebc"
         }
       ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 19.74,
-        "end": 20.145
-      },
-      "signature": "cb03105f064a8f80c72d2015722a3a569d0b2bcc3be8237cb2b01fc5915e36b9"
+      "signature": "5e685930946434d777a47a159cb5f0c2246beb7a4f17c5454bddbda686a80cba"
     },
     {
       "id": "lg-c70774f9ecbf",
@@ -8256,7 +10138,7 @@
       ],
       "family": "Short vowels",
       "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
+      "note": "Shortened the ending to remove the following consonant. Check that شَ still sounds complete, with a natural ending.",
       "uses": [
         {
           "world": "fatha",
@@ -8301,102 +10183,29 @@
           "parent": "شَرِّ"
         }
       ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-c70774f9ecbf.wav",
-      "sha256": "85a42507f190fdde26436f9971c11f7333d1859535d63009c49735951b7a9b3e",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-c70774f9ecbf-r1.wav",
+      "sha256": "b6a87ea8e27483ea416643240357ac1a6ac7ae72abcbcf494e870b61fe06e84d",
       "parts": [
+        {
+          "text": "شَ",
+          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-c70774f9ecbf-r1.wav",
+          "sha256": "b6a87ea8e27483ea416643240357ac1a6ac7ae72abcbcf494e870b61fe06e84d"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 21.11,
+        "end": 21.475
+      },
+      "revision": "r1",
+      "previousParts": [
         {
           "text": "شَ",
           "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-c70774f9ecbf.wav",
           "sha256": "85a42507f190fdde26436f9971c11f7333d1859535d63009c49735951b7a9b3e"
         }
       ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 21.11,
-        "end": 21.5
-      },
-      "signature": "e0ef3a53b959fb9df3e74de738c9a9e9c99bc1a111f0ded4b0d00d0281222cec"
-    },
-    {
-      "id": "lg-c73467ff1741",
-      "text": "كَ",
-      "displays": [
-        "كَ"
-      ],
-      "family": "Short vowels",
-      "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
-      "uses": [
-        {
-          "world": "fatha",
-          "role": "target",
-          "display": "كَ",
-          "parent": null
-        },
-        {
-          "world": "tanween",
-          "role": "target",
-          "display": "كَ",
-          "parent": null
-        },
-        {
-          "world": "long-sounds",
-          "role": "assembly-piece",
-          "display": "كَ",
-          "parent": "كَا"
-        },
-        {
-          "world": "leen",
-          "role": "assembly-piece",
-          "display": "كَ",
-          "parent": "كَوْ"
-        },
-        {
-          "world": "leen",
-          "role": "assembly-piece",
-          "display": "كَ",
-          "parent": "كَيْ"
-        },
-        {
-          "world": "decode",
-          "role": "assembly-piece",
-          "display": "كَ",
-          "parent": "كَيْفَ"
-        },
-        {
-          "world": "decode",
-          "role": "assembly-piece",
-          "display": "كَ",
-          "parent": "رَبُّكَ"
-        },
-        {
-          "world": "decode",
-          "role": "assembly-piece",
-          "display": "كَ",
-          "parent": "كَانَ"
-        },
-        {
-          "world": "decode",
-          "role": "assembly-piece",
-          "display": "كَ",
-          "parent": "كَسَبَ"
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-c73467ff1741.wav",
-      "sha256": "0bff779fbe7ab3d8693afeccba791c678373c2e96d7ebb71f97ad1c0b0d05757",
-      "parts": [
-        {
-          "text": "كَ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-c73467ff1741.wav",
-          "sha256": "0bff779fbe7ab3d8693afeccba791c678373c2e96d7ebb71f97ad1c0b0d05757"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 29.64,
-        "end": 29.995
-      },
-      "signature": "1e049452109f2af47a491f166120054cd9c223708625586980f584ccef075372"
+      "signature": "0fdae49d87aee67613a5fe510b06dc1fc06d9c35876f9a37ae45659da98901d6"
     },
     {
       "id": "lg-ba418754028b",
@@ -8406,7 +10215,7 @@
       ],
       "family": "Short vowels",
       "status": "candidate",
-      "note": "Needs a careful listen: the vowel, consonant or ending is uncertain. Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
+      "note": "Owner rejected this exact clip: sounds like lal. Excluded from the game pending a new reviewed cut or recording.",
       "uses": [
         {
           "world": "fatha",
@@ -8504,201 +10313,6 @@
       "signature": "caca207acd7fd1a442db02ddfa2f63c326bfee1486da2fca0e106e8a3cd9327c"
     },
     {
-      "id": "lg-31fc2e8f811d",
-      "text": "مَ",
-      "displays": [
-        "مَ"
-      ],
-      "family": "Short vowels",
-      "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
-      "uses": [
-        {
-          "world": "fatha",
-          "role": "target",
-          "display": "مَ",
-          "parent": null
-        },
-        {
-          "world": "tanween",
-          "role": "target",
-          "display": "مَ",
-          "parent": null
-        },
-        {
-          "world": "long-sounds",
-          "role": "assembly-piece",
-          "display": "مَ",
-          "parent": "مَا"
-        },
-        {
-          "world": "leen",
-          "role": "assembly-piece",
-          "display": "مَ",
-          "parent": "مَوْ"
-        },
-        {
-          "world": "leen",
-          "role": "assembly-piece",
-          "display": "مَ",
-          "parent": "مَيْ"
-        },
-        {
-          "world": "words-2",
-          "role": "assembly-piece",
-          "display": "مَ",
-          "parent": "مَا"
-        },
-        {
-          "world": "decode",
-          "role": "assembly-piece",
-          "display": "مَ",
-          "parent": "وَمَا"
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-31fc2e8f811d.wav",
-      "sha256": "da447aa6e5d98423f32062be833a0c74fc44998be32dc29bea1967200496cebf",
-      "parts": [
-        {
-          "text": "مَ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-31fc2e8f811d.wav",
-          "sha256": "da447aa6e5d98423f32062be833a0c74fc44998be32dc29bea1967200496cebf"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 32.63,
-        "end": 32.995
-      },
-      "signature": "40e9fc909876a59f79837a60e2e4f63a2a18bd14cdd3e42fd43fbf58c993f583"
-    },
-    {
-      "id": "lg-875ff90371bc",
-      "text": "نَ",
-      "displays": [
-        "نَ"
-      ],
-      "family": "Short vowels",
-      "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
-      "uses": [
-        {
-          "world": "fatha",
-          "role": "target",
-          "display": "نَ",
-          "parent": null
-        },
-        {
-          "world": "tanween",
-          "role": "target",
-          "display": "نَ",
-          "parent": null
-        },
-        {
-          "world": "long-sounds",
-          "role": "assembly-piece",
-          "display": "نَ",
-          "parent": "نَا"
-        },
-        {
-          "world": "leen",
-          "role": "assembly-piece",
-          "display": "نَ",
-          "parent": "نَوْ"
-        },
-        {
-          "world": "leen",
-          "role": "assembly-piece",
-          "display": "نَ",
-          "parent": "نَيْ"
-        },
-        {
-          "world": "decode",
-          "role": "assembly-piece",
-          "display": "نَ",
-          "parent": "نَصْرُ"
-        },
-        {
-          "world": "decode",
-          "role": "assembly-piece",
-          "display": "نَ",
-          "parent": "كَانَ"
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-875ff90371bc.wav",
-      "sha256": "eecb3a4551f41878e4836acb32f56de1fa707a3d66e4d2b830861cecc0179c95",
-      "parts": [
-        {
-          "text": "نَ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-875ff90371bc.wav",
-          "sha256": "eecb3a4551f41878e4836acb32f56de1fa707a3d66e4d2b830861cecc0179c95"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 33.85,
-        "end": 34.208
-      },
-      "signature": "6620b11ec3436a15b51ae32ae782c37efd67c30db9d9b14d2f1661ef0ac18db4"
-    },
-    {
-      "id": "lg-e2fece36d71a",
-      "text": "هَ",
-      "displays": [
-        "هَ"
-      ],
-      "family": "Short vowels",
-      "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
-      "uses": [
-        {
-          "world": "fatha",
-          "role": "target",
-          "display": "هَ",
-          "parent": null
-        },
-        {
-          "world": "tanween",
-          "role": "target",
-          "display": "هَ",
-          "parent": null
-        },
-        {
-          "world": "long-sounds",
-          "role": "assembly-piece",
-          "display": "هَ",
-          "parent": "هَا"
-        },
-        {
-          "world": "leen",
-          "role": "assembly-piece",
-          "display": "هَ",
-          "parent": "هَوْ"
-        },
-        {
-          "world": "leen",
-          "role": "assembly-piece",
-          "display": "هَ",
-          "parent": "هَيْ"
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-e2fece36d71a.wav",
-      "sha256": "4ac1665e3c374fd7bd6004968f75727c32442e027ff4d69a5feb09f48b1e4ed5",
-      "parts": [
-        {
-          "text": "هَ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-e2fece36d71a.wav",
-          "sha256": "4ac1665e3c374fd7bd6004968f75727c32442e027ff4d69a5feb09f48b1e4ed5"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 35.12,
-        "end": 35.47
-      },
-      "signature": "95906cc13a2a96156438fbc7139e8ab1f32e60551f72cdc3b3b7692d44de1be0"
-    },
-    {
       "id": "lg-08208c74a20d",
       "text": "يَ",
       "displays": [
@@ -8706,7 +10320,7 @@
       ],
       "family": "Short vowels",
       "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
+      "note": "Owner rejected this exact clip: sounds like yai. Excluded from the game pending a new reviewed cut or recording.",
       "uses": [
         {
           "world": "fatha",
@@ -8792,69 +10406,6 @@
       "signature": "f9325e710b9362935ad8d83156c1673e16aa9027577298735b9a8ee330a68fc2"
     },
     {
-      "id": "lg-2701f008f06f",
-      "text": "بِ",
-      "displays": [
-        "بِ"
-      ],
-      "family": "Short vowels",
-      "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
-      "uses": [
-        {
-          "world": "kasra-damma",
-          "role": "target",
-          "display": "بِ",
-          "parent": null
-        },
-        {
-          "world": "kasra-damma",
-          "role": "introduction",
-          "display": "بِ",
-          "parent": null
-        },
-        {
-          "world": "tanween",
-          "role": "target",
-          "display": "بِ",
-          "parent": null
-        },
-        {
-          "world": "long-sounds",
-          "role": "assembly-piece",
-          "display": "بِ",
-          "parent": "بِي"
-        },
-        {
-          "world": "decode",
-          "role": "assembly-piece",
-          "display": "بِ",
-          "parent": "بِسْمِ"
-        },
-        {
-          "world": "decode",
-          "role": "assembly-piece",
-          "display": "بِ",
-          "parent": "بِرَبِّ"
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-2701f008f06f.wav",
-      "sha256": "e47e27e97ca6414e206516d64c2cb998a43f25aa33bb777f2806d44393064d0f",
-      "parts": [
-        {
-          "text": "بِ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-2701f008f06f.wav",
-          "sha256": "e47e27e97ca6414e206516d64c2cb998a43f25aa33bb777f2806d44393064d0f"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 7.9,
-        "end": 8.17
-      },
-      "signature": "3fd5e01999f26e39048eb8a10721061f3021bee870b6e030482ee3cb8d0f94a4"
-    },
-    {
       "id": "lg-f2768d97d70e",
       "text": "بُ",
       "displays": [
@@ -8862,7 +10413,7 @@
       ],
       "family": "Short vowels",
       "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
+      "note": "Owner rejected this exact clip: sounds like pu. Excluded from the game pending a new reviewed cut or recording.",
       "uses": [
         {
           "world": "kasra-damma",
@@ -8907,7 +10458,7 @@
       ],
       "family": "Short vowels",
       "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
+      "note": "Owner rejected this exact clip: sounds like si. Excluded from the game pending a new reviewed cut or recording.",
       "uses": [
         {
           "world": "kasra-damma",
@@ -8945,90 +10496,6 @@
       "signature": "96bec134359da04a8044bfb5479ca493d1dd2bb5da07302fe457aeb7d97a5ecc"
     },
     {
-      "id": "lg-ba861d96a2da",
-      "text": "تُ",
-      "displays": [
-        "تُ"
-      ],
-      "family": "Short vowels",
-      "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
-      "uses": [
-        {
-          "world": "kasra-damma",
-          "role": "target",
-          "display": "تُ",
-          "parent": null
-        },
-        {
-          "world": "long-sounds",
-          "role": "assembly-piece",
-          "display": "تُ",
-          "parent": "تُو"
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-ba861d96a2da.wav",
-      "sha256": "6f59ebb5da3b7c0289ac1fd34c4e7b9ff301f850a3171d12a53fa8a6451671e8",
-      "parts": [
-        {
-          "text": "تُ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-ba861d96a2da.wav",
-          "sha256": "6f59ebb5da3b7c0289ac1fd34c4e7b9ff301f850a3171d12a53fa8a6451671e8"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 9.415,
-        "end": 9.57
-      },
-      "signature": "5ebfbf48e56e3b65a9447f8b7d60b03233a420899df30043d2c1bf2b40ed2c05"
-    },
-    {
-      "id": "lg-07b43bc69877",
-      "text": "جِ",
-      "displays": [
-        "جِ"
-      ],
-      "family": "Short vowels",
-      "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
-      "uses": [
-        {
-          "world": "kasra-damma",
-          "role": "target",
-          "display": "جِ",
-          "parent": null
-        },
-        {
-          "world": "tanween",
-          "role": "target",
-          "display": "جِ",
-          "parent": null
-        },
-        {
-          "world": "long-sounds",
-          "role": "assembly-piece",
-          "display": "جِ",
-          "parent": "جِي"
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-07b43bc69877.wav",
-      "sha256": "27e21e5e1feb3d7277c9c58b321c5df071820c31a4890dea485ed538588b158d",
-      "parts": [
-        {
-          "text": "جِ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-07b43bc69877.wav",
-          "sha256": "27e21e5e1feb3d7277c9c58b321c5df071820c31a4890dea485ed538588b158d"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 11.695,
-        "end": 11.98
-      },
-      "signature": "fb4e72cec7809f20ccb0f0457f0eb426fab154664ba17ffaf19e42715670fbd4"
-    },
-    {
       "id": "lg-45fc1490399d",
       "text": "جُ",
       "displays": [
@@ -9036,7 +10503,7 @@
       ],
       "family": "Short vowels",
       "status": "candidate",
-      "note": "Needs a careful listen: the vowel, consonant or ending is uncertain. Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
+      "note": "Owner rejected this exact clip: sounds like gee. Excluded from the game pending a new reviewed cut or recording.",
       "uses": [
         {
           "world": "kasra-damma",
@@ -9075,7 +10542,7 @@
       ],
       "family": "Short vowels",
       "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
+      "note": "Shortened the ending to remove the following consonant. Check that حِ still sounds complete, with a natural ending.",
       "uses": [
         {
           "world": "kasra-damma",
@@ -9096,162 +10563,29 @@
           "parent": "حِي"
         }
       ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-c781688bdfdc.wav",
-      "sha256": "2a0832a0be4ea403d0b69a29c6a285455caeb17cda94bec3e67c7514279928d3",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-c781688bdfdc-r1.wav",
+      "sha256": "ef1637c0eedf1f59622c25c30d9d508ae0a010e7b4bd208f886d1a087ca3b2bf",
       "parts": [
+        {
+          "text": "حِ",
+          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-c781688bdfdc-r1.wav",
+          "sha256": "ef1637c0eedf1f59622c25c30d9d508ae0a010e7b4bd208f886d1a087ca3b2bf"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 13.095,
+        "end": 13.245
+      },
+      "revision": "r1",
+      "previousParts": [
         {
           "text": "حِ",
           "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-c781688bdfdc.wav",
           "sha256": "2a0832a0be4ea403d0b69a29c6a285455caeb17cda94bec3e67c7514279928d3"
         }
       ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 13.095,
-        "end": 13.375
-      },
-      "signature": "4bc7572869eb5f2e212dcab5fd985eb61b58e51475b60e878c424f17e62e7bbd"
-    },
-    {
-      "id": "lg-50e6cddd272b",
-      "text": "حُ",
-      "displays": [
-        "حُ"
-      ],
-      "family": "Short vowels",
-      "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
-      "uses": [
-        {
-          "world": "kasra-damma",
-          "role": "target",
-          "display": "حُ",
-          "parent": null
-        },
-        {
-          "world": "long-sounds",
-          "role": "assembly-piece",
-          "display": "حُ",
-          "parent": "حُو"
-        },
-        {
-          "world": "decode",
-          "role": "assembly-piece",
-          "display": "حُ",
-          "parent": "يَحُضُّ"
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-50e6cddd272b.wav",
-      "sha256": "46601c9a176858a1a57f45474a680f96616fe96874591f327bf7360254fda816",
-      "parts": [
-        {
-          "text": "حُ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-50e6cddd272b.wav",
-          "sha256": "46601c9a176858a1a57f45474a680f96616fe96874591f327bf7360254fda816"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 13.375,
-        "end": 13.56
-      },
-      "signature": "eded7474999f10a2cea8f747ddbec10fd9215417f96a7dbb8e7a0643ae1da664"
-    },
-    {
-      "id": "lg-2b8af86d7225",
-      "text": "دِ",
-      "displays": [
-        "دِ"
-      ],
-      "family": "Short vowels",
-      "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
-      "uses": [
-        {
-          "world": "kasra-damma",
-          "role": "target",
-          "display": "دِ",
-          "parent": null
-        },
-        {
-          "world": "tanween",
-          "role": "target",
-          "display": "دِ",
-          "parent": null
-        },
-        {
-          "world": "long-sounds",
-          "role": "assembly-piece",
-          "display": "دِ",
-          "parent": "دِي"
-        },
-        {
-          "world": "decode",
-          "role": "assembly-piece",
-          "display": "دِ",
-          "parent": "دِينِ"
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-2b8af86d7225.wav",
-      "sha256": "96898cc082cfcab4e3744fc3e932a7887e689fb8823557aa567d4ad5c52b9e73",
-      "parts": [
-        {
-          "text": "دِ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-2b8af86d7225.wav",
-          "sha256": "96898cc082cfcab4e3744fc3e932a7887e689fb8823557aa567d4ad5c52b9e73"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 14.275,
-        "end": 14.6
-      },
-      "signature": "a7440145a0e957eb3870c73f1e06683d22fc855977a4c9880b2123f1dc9defa9"
-    },
-    {
-      "id": "lg-3b719e0537b9",
-      "text": "دُ",
-      "displays": [
-        "دُ"
-      ],
-      "family": "Short vowels",
-      "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
-      "uses": [
-        {
-          "world": "kasra-damma",
-          "role": "target",
-          "display": "دُ",
-          "parent": null
-        },
-        {
-          "world": "long-sounds",
-          "role": "assembly-piece",
-          "display": "دُ",
-          "parent": "دُو"
-        },
-        {
-          "world": "decode",
-          "role": "assembly-piece",
-          "display": "دُ",
-          "parent": "يَدُعُّ"
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-3b719e0537b9.wav",
-      "sha256": "4a40d304969f0713a157ac6c30adf19d16f9384f52488175934e010f17099e5f",
-      "parts": [
-        {
-          "text": "دُ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-3b719e0537b9.wav",
-          "sha256": "4a40d304969f0713a157ac6c30adf19d16f9384f52488175934e010f17099e5f"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 14.6,
-        "end": 14.74
-      },
-      "signature": "41305b2f40b2a7df51f568134e318c17572c1b64a056fb14bc0f8147e7b813be"
+      "signature": "005d595b26fe3de2c38c3d96c4815f6045944c3779e3c740b743920671a9e0b5"
     },
     {
       "id": "lg-fd9537adfffb",
@@ -9261,7 +10595,7 @@
       ],
       "family": "Short vowels",
       "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
+      "note": "Owner rejected this exact clip: sounds like thad. Excluded from the game pending a new reviewed cut or recording.",
       "uses": [
         {
           "world": "kasra-damma",
@@ -9306,7 +10640,7 @@
       ],
       "family": "Short vowels",
       "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
+      "note": "Owner rejected this exact clip: sounds like zizu. Excluded from the game pending a new reviewed cut or recording.",
       "uses": [
         {
           "world": "kasra-damma",
@@ -9338,57 +10672,6 @@
       "signature": "addda34b8e15d5d0bb61d979b72bd761a6c613eb8b06cb48b69a03ef76531ce9"
     },
     {
-      "id": "lg-924bb86de5f8",
-      "text": "رِ",
-      "displays": [
-        "رِ"
-      ],
-      "family": "Short vowels",
-      "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
-      "uses": [
-        {
-          "world": "kasra-damma",
-          "role": "target",
-          "display": "رِ",
-          "parent": null
-        },
-        {
-          "world": "tanween",
-          "role": "target",
-          "display": "رِ",
-          "parent": null
-        },
-        {
-          "world": "long-sounds",
-          "role": "assembly-piece",
-          "display": "رِ",
-          "parent": "رِي"
-        },
-        {
-          "world": "decode",
-          "role": "assembly-piece",
-          "display": "رِ",
-          "parent": "غَيْرِ"
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-924bb86de5f8.wav",
-      "sha256": "02f1e85fae941683aaf7794e884d8c874cf28ad5cd9e7c111f9de6a8feb3e989",
-      "parts": [
-        {
-          "text": "رِ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-924bb86de5f8.wav",
-          "sha256": "02f1e85fae941683aaf7794e884d8c874cf28ad5cd9e7c111f9de6a8feb3e989"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 17.14,
-        "end": 17.425
-      },
-      "signature": "63ad79fbad340e1dbb76fd942688b3621e4d74df3b71f2df73c56d09d78d0049"
-    },
-    {
       "id": "lg-ba536aa2ea00",
       "text": "رُ",
       "displays": [
@@ -9396,7 +10679,7 @@
       ],
       "family": "Short vowels",
       "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
+      "note": "Owner rejected this exact clip: sounds like du. Excluded from the game pending a new reviewed cut or recording.",
       "uses": [
         {
           "world": "kasra-damma",
@@ -9441,7 +10724,7 @@
       ],
       "family": "Short vowels",
       "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
+      "note": "Shortened the ending to remove the following consonant. Check that زِ still sounds complete, with a natural ending.",
       "uses": [
         {
           "world": "kasra-damma",
@@ -9462,21 +10745,29 @@
           "parent": "زِي"
         }
       ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-413cd9ef9615.wav",
-      "sha256": "d65006f9abe87243f44e7a8cb664dd3f92088c744e37c4510c443818d43c25b3",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-413cd9ef9615-r1.wav",
+      "sha256": "83a2e2d183f56afc7fecb9a97311efe580c7dc820e16b73d01c3eb4aa67a3865",
       "parts": [
+        {
+          "text": "زِ",
+          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-413cd9ef9615-r1.wav",
+          "sha256": "83a2e2d183f56afc7fecb9a97311efe580c7dc820e16b73d01c3eb4aa67a3865"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 18.795,
+        "end": 19.1
+      },
+      "revision": "r1",
+      "previousParts": [
         {
           "text": "زِ",
           "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-413cd9ef9615.wav",
           "sha256": "d65006f9abe87243f44e7a8cb664dd3f92088c744e37c4510c443818d43c25b3"
         }
       ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 18.795,
-        "end": 19.19
-      },
-      "signature": "856776f8942f0ad8ea711766ec0ed52118e2cf8c5fed98923e7f5fe485f60f8b"
+      "signature": "57e7a539ef964cc3c1cf606c997fa866810d884d026c22dc9f72badfd398cbb5"
     },
     {
       "id": "lg-224b9bc0b043",
@@ -9486,7 +10777,7 @@
       ],
       "family": "Short vowels",
       "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
+      "note": "Owner rejected this exact clip: sounds like du. Excluded from the game pending a new reviewed cut or recording.",
       "uses": [
         {
           "world": "kasra-damma",
@@ -9518,174 +10809,6 @@
       "signature": "3c7583dba239b7ef9150f83a8c8df67611a63a64e062e586c3a939c090d58b0b"
     },
     {
-      "id": "lg-34fa019fc0cf",
-      "text": "سِ",
-      "displays": [
-        "سِ"
-      ],
-      "family": "Short vowels",
-      "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
-      "uses": [
-        {
-          "world": "kasra-damma",
-          "role": "target",
-          "display": "سِ",
-          "parent": null
-        },
-        {
-          "world": "tanween",
-          "role": "target",
-          "display": "سِ",
-          "parent": null
-        },
-        {
-          "world": "long-sounds",
-          "role": "assembly-piece",
-          "display": "سِ",
-          "parent": "سِي"
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-34fa019fc0cf.wav",
-      "sha256": "a41580e4302a872ac8cd90d2b86317666c40c7f7a89333b1c0a6e13dbb3cea5b",
-      "parts": [
-        {
-          "text": "سِ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-34fa019fc0cf.wav",
-          "sha256": "a41580e4302a872ac8cd90d2b86317666c40c7f7a89333b1c0a6e13dbb3cea5b"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 20.145,
-        "end": 20.49
-      },
-      "signature": "234c66738688b26a6d9d32546f76de4faa1c6b5988b9a642be641850a2c25b84"
-    },
-    {
-      "id": "lg-f106b520337d",
-      "text": "سُ",
-      "displays": [
-        "سُ"
-      ],
-      "family": "Short vowels",
-      "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
-      "uses": [
-        {
-          "world": "kasra-damma",
-          "role": "target",
-          "display": "سُ",
-          "parent": null
-        },
-        {
-          "world": "long-sounds",
-          "role": "assembly-piece",
-          "display": "سُ",
-          "parent": "سُو"
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-f106b520337d.wav",
-      "sha256": "0fb0046e7e6bc9505c13438cbd20fd74ffd88e063c9d15e61287372907de8940",
-      "parts": [
-        {
-          "text": "سُ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-f106b520337d.wav",
-          "sha256": "0fb0046e7e6bc9505c13438cbd20fd74ffd88e063c9d15e61287372907de8940"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 20.49,
-        "end": 20.74
-      },
-      "signature": "5dc4ab4df90d8363af6189bc46c62cccfc89e9b12e90881e92b2211c3451af1f"
-    },
-    {
-      "id": "lg-b395574965f1",
-      "text": "شِ",
-      "displays": [
-        "شِ"
-      ],
-      "family": "Short vowels",
-      "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
-      "uses": [
-        {
-          "world": "kasra-damma",
-          "role": "target",
-          "display": "شِ",
-          "parent": null
-        },
-        {
-          "world": "tanween",
-          "role": "target",
-          "display": "شِ",
-          "parent": null
-        },
-        {
-          "world": "long-sounds",
-          "role": "assembly-piece",
-          "display": "شِ",
-          "parent": "شِي"
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-b395574965f1.wav",
-      "sha256": "c91e5f4fde8e9f375b0c0d7ca7398eaebb811454e70b1232c8bb6828c4ae2a6e",
-      "parts": [
-        {
-          "text": "شِ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-b395574965f1.wav",
-          "sha256": "c91e5f4fde8e9f375b0c0d7ca7398eaebb811454e70b1232c8bb6828c4ae2a6e"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 21.5,
-        "end": 21.815
-      },
-      "signature": "192188e960fbe7798ca283002f0046d4941a3606abe57c82a9251b2eccf6a2c0"
-    },
-    {
-      "id": "lg-4866a45a046c",
-      "text": "شُ",
-      "displays": [
-        "شُ"
-      ],
-      "family": "Short vowels",
-      "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
-      "uses": [
-        {
-          "world": "kasra-damma",
-          "role": "target",
-          "display": "شُ",
-          "parent": null
-        },
-        {
-          "world": "long-sounds",
-          "role": "assembly-piece",
-          "display": "شُ",
-          "parent": "شُو"
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-4866a45a046c.wav",
-      "sha256": "2133df2b94cc38d28bfc656e1158a4ee1ee27d599b1bcdd47edfa5bf60db9f40",
-      "parts": [
-        {
-          "text": "شُ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-4866a45a046c.wav",
-          "sha256": "2133df2b94cc38d28bfc656e1158a4ee1ee27d599b1bcdd47edfa5bf60db9f40"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 21.815,
-        "end": 22.08
-      },
-      "signature": "d2bf61779aaa4bce2d7120ffc3ec4af3bf3cac96b2c92c3d629d2d4aa4bc59ad"
-    },
-    {
       "id": "lg-fc64a7da85e6",
       "text": "كِ",
       "displays": [
@@ -9693,7 +10816,7 @@
       ],
       "family": "Short vowels",
       "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
+      "note": "Owner rejected this exact clip: sounds like kat. Excluded from the game pending a new reviewed cut or recording.",
       "uses": [
         {
           "world": "kasra-damma",
@@ -9738,7 +10861,7 @@
       ],
       "family": "Short vowels",
       "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
+      "note": "Owner rejected this exact clip: sounds like ki ku. Excluded from the game pending a new reviewed cut or recording.",
       "uses": [
         {
           "world": "kasra-damma",
@@ -9795,7 +10918,7 @@
       ],
       "family": "Short vowels",
       "status": "candidate",
-      "note": "Needs a careful listen: the vowel, consonant or ending is uncertain. Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
+      "note": "Owner rejected this exact clip: sounds like laili. Excluded from the game pending a new reviewed cut or recording.",
       "uses": [
         {
           "world": "kasra-damma",
@@ -9852,7 +10975,7 @@
       ],
       "family": "Short vowels",
       "status": "candidate",
-      "note": "Needs a careful listen: the vowel, consonant or ending is uncertain. Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
+      "note": "Owner rejected this exact clip: sounds like lilu. Excluded from the game pending a new reviewed cut or recording.",
       "uses": [
         {
           "world": "kasra-damma",
@@ -9884,114 +11007,6 @@
       "signature": "d96102ab22a3209acd7e7b847697e4bfc098914027304493141a1a4bd5859f1c"
     },
     {
-      "id": "lg-9e1d5e7f2d91",
-      "text": "مِ",
-      "displays": [
-        "مِ"
-      ],
-      "family": "Short vowels",
-      "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
-      "uses": [
-        {
-          "world": "kasra-damma",
-          "role": "target",
-          "display": "مِ",
-          "parent": null
-        },
-        {
-          "world": "tanween",
-          "role": "target",
-          "display": "مِ",
-          "parent": null
-        },
-        {
-          "world": "long-sounds",
-          "role": "assembly-piece",
-          "display": "مِ",
-          "parent": "مِي"
-        },
-        {
-          "world": "sukoon",
-          "role": "assembly-piece",
-          "display": "مِ",
-          "parent": "مِنْ"
-        },
-        {
-          "world": "decode",
-          "role": "assembly-piece",
-          "display": "مِ",
-          "parent": "بِسْمِ"
-        },
-        {
-          "world": "decode",
-          "role": "assembly-piece",
-          "display": "مِ",
-          "parent": "يَوْمِ"
-        },
-        {
-          "world": "decode",
-          "role": "assembly-piece",
-          "display": "مِ",
-          "parent": "وَمِن"
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-9e1d5e7f2d91.wav",
-      "sha256": "e1c4117552a768d3dd08b40f756663935b40027a9cd19b09e1db531ff6216332",
-      "parts": [
-        {
-          "text": "مِ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-9e1d5e7f2d91.wav",
-          "sha256": "e1c4117552a768d3dd08b40f756663935b40027a9cd19b09e1db531ff6216332"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 32.995,
-        "end": 33.278
-      },
-      "signature": "a4f6242fd491db829607f7f27fcd75d4c6af6d02ce8c43d8cdf3653a837ea7d2"
-    },
-    {
-      "id": "lg-7e363b4b23fc",
-      "text": "مُ",
-      "displays": [
-        "مُ"
-      ],
-      "family": "Short vowels",
-      "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
-      "uses": [
-        {
-          "world": "kasra-damma",
-          "role": "target",
-          "display": "مُ",
-          "parent": null
-        },
-        {
-          "world": "long-sounds",
-          "role": "assembly-piece",
-          "display": "مُ",
-          "parent": "مُو"
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-7e363b4b23fc.wav",
-      "sha256": "45492ad2657868a027bf65397fac8e1d007d90c6e9bb04798e70485dccc22cfb",
-      "parts": [
-        {
-          "text": "مُ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-7e363b4b23fc.wav",
-          "sha256": "45492ad2657868a027bf65397fac8e1d007d90c6e9bb04798e70485dccc22cfb"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 33.278,
-        "end": 33.51
-      },
-      "signature": "1733b8dab7fc1d257f38241f5288bfab38f8114c139f61b11f8a3fa822457134"
-    },
-    {
       "id": "lg-2c61c719a264",
       "text": "نِ",
       "displays": [
@@ -9999,7 +11014,7 @@
       ],
       "family": "Short vowels",
       "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
+      "note": "Owner rejected this exact clip: sounds like nin. Excluded from the game pending a new reviewed cut or recording.",
       "uses": [
         {
           "world": "kasra-damma",
@@ -10043,45 +11058,6 @@
       "signature": "fb364b70c8ae26da63b86416337fe28928b7676b978c7392e2e19659c40115ad"
     },
     {
-      "id": "lg-b49450735a14",
-      "text": "نُ",
-      "displays": [
-        "نُ"
-      ],
-      "family": "Short vowels",
-      "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
-      "uses": [
-        {
-          "world": "kasra-damma",
-          "role": "target",
-          "display": "نُ",
-          "parent": null
-        },
-        {
-          "world": "long-sounds",
-          "role": "assembly-piece",
-          "display": "نُ",
-          "parent": "نُو"
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-b49450735a14.wav",
-      "sha256": "a67e071f53e56052b2ec26a0754787f7b4e608390366a9ebd04f55f5b00aa9d5",
-      "parts": [
-        {
-          "text": "نُ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-b49450735a14.wav",
-          "sha256": "a67e071f53e56052b2ec26a0754787f7b4e608390366a9ebd04f55f5b00aa9d5"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 34.55,
-        "end": 34.71
-      },
-      "signature": "a39e99121d481904e533a325f5b3c6eab96b8c795843ff7fc54cad694f8a92e1"
-    },
-    {
       "id": "lg-209639ac36ba",
       "text": "يِ",
       "displays": [
@@ -10089,7 +11065,7 @@
       ],
       "family": "Short vowels",
       "status": "candidate",
-      "note": "Needs a careful listen: the vowel, consonant or ending is uncertain. Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
+      "note": "Owner rejected this exact clip: sounds like yaai. Excluded from the game pending a new reviewed cut or recording.",
       "uses": [
         {
           "world": "kasra-damma",
@@ -10127,45 +11103,6 @@
       "signature": "dacd2f23a49ff7ea2e825407ecc548e664074f20f40a4ac92184fae44c80d226"
     },
     {
-      "id": "lg-ed132d80ef2e",
-      "text": "يُ",
-      "displays": [
-        "يُ"
-      ],
-      "family": "Short vowels",
-      "status": "candidate",
-      "note": "Check the consonant and short vowel shown. The clip should contain only this one syllable, without stretching it into a long vowel.",
-      "uses": [
-        {
-          "world": "kasra-damma",
-          "role": "target",
-          "display": "يُ",
-          "parent": null
-        },
-        {
-          "world": "long-sounds",
-          "role": "assembly-piece",
-          "display": "يُ",
-          "parent": "يُو"
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-ed132d80ef2e.wav",
-      "sha256": "272cd7d02ef99508b3a0eb9fc19efc667e4ac865bec8ec157f089ec9eb4d656e",
-      "parts": [
-        {
-          "text": "يُ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-ed132d80ef2e.wav",
-          "sha256": "272cd7d02ef99508b3a0eb9fc19efc667e4ac865bec8ec157f089ec9eb4d656e"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 38.39,
-        "end": 38.64
-      },
-      "signature": "64145eb1522039c9bbdcf1f64dbc12b7343554b53eecc5ce9cf9a52b06f88ade"
-    },
-    {
       "id": "lg-aff5a3784268",
       "text": "بً",
       "displays": [
@@ -10173,7 +11110,7 @@
       ],
       "family": "Tanween syllables",
       "status": "candidate",
-      "note": "Needs a careful listen: the vowel, consonant or ending is uncertain. Check the written vowel and final “n” sound, with a complete beginning and ending.",
+      "note": "Owner rejected this exact clip: sounds like bam. Excluded from the game pending a new reviewed cut or recording.",
       "uses": [
         {
           "world": "tanween",
@@ -10212,7 +11149,7 @@
       ],
       "family": "Tanween syllables",
       "status": "candidate",
-      "note": "Needs a careful listen: the vowel, consonant or ending is uncertain. Check the written vowel and final “n” sound, with a complete beginning and ending.",
+      "note": "Owner rejected this exact clip: sounds like bum. Excluded from the game pending a new reviewed cut or recording.",
       "uses": [
         {
           "world": "tanween",
@@ -10251,7 +11188,7 @@
       ],
       "family": "Tanween syllables",
       "status": "candidate",
-      "note": "Check the written vowel and final “n” sound, with a complete beginning and ending.",
+      "note": "Removed the unwanted beginning. Check the whole consonant, vowel and final n.",
       "uses": [
         {
           "world": "tanween",
@@ -10266,21 +11203,29 @@
           "parent": null
         }
       ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-ec9450ee268e.wav",
-      "sha256": "651c45cfba98dfe845a4623070631a875fac6e908e8d083c11cdfd10208323a5",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-ec9450ee268e-r1.wav",
+      "sha256": "45c234f57494676509ba40859dc9fa046159ec70a4d7a4fb3b14a3d4f99856a0",
       "parts": [
+        {
+          "text": "بٌ",
+          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-ec9450ee268e-r1.wav",
+          "sha256": "45c234f57494676509ba40859dc9fa046159ec70a4d7a4fb3b14a3d4f99856a0"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 40.045,
+        "end": 40.27
+      },
+      "revision": "r1",
+      "previousParts": [
         {
           "text": "بٌ",
           "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-ec9450ee268e.wav",
           "sha256": "651c45cfba98dfe845a4623070631a875fac6e908e8d083c11cdfd10208323a5"
         }
       ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 39.78,
-        "end": 40.27
-      },
-      "signature": "50b583a05345876b9409b65bcf7c09fe6c2d8190b4fa140e5dd3c4eeb820594d"
+      "signature": "c6a1eebedfcf10df0503ecb8d216c3f6e0e20c18f62d94ddbd619d8764bfa3b7"
     },
     {
       "id": "lg-825223ba5e41",
@@ -10290,7 +11235,7 @@
       ],
       "family": "Tanween syllables",
       "status": "candidate",
-      "note": "Check the written vowel and final “n” sound, with a complete beginning and ending.",
+      "note": "Trimmed the following consonant. Check that the target vowel and final n are complete.",
       "uses": [
         {
           "world": "tanween",
@@ -10299,21 +11244,29 @@
           "parent": null
         }
       ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-825223ba5e41.wav",
-      "sha256": "e385101c0de6e66abf207c3c7d0c0c706134f4e1dbd19f896a36d50481684f59",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-825223ba5e41-r1.wav",
+      "sha256": "e2ccc52d0acf26d971e75d4a769376157d2bd79a28381399387ea1432653ceba",
       "parts": [
+        {
+          "text": "تً",
+          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-825223ba5e41-r1.wav",
+          "sha256": "e2ccc52d0acf26d971e75d4a769376157d2bd79a28381399387ea1432653ceba"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 40.685,
+        "end": 41.015
+      },
+      "revision": "r1",
+      "previousParts": [
         {
           "text": "تً",
           "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-825223ba5e41.wav",
           "sha256": "e385101c0de6e66abf207c3c7d0c0c706134f4e1dbd19f896a36d50481684f59"
         }
       ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 40.685,
-        "end": 41.075
-      },
-      "signature": "c5ff6c26397c3a0d1dc047538fdf395dcb02829d5e7b513f4158ef5469d4a294"
+      "signature": "59101a11066fe03addae56edc66546135f8ce3cfd85823f1872a9054f11e003f"
     },
     {
       "id": "lg-aaa90ea0f2e4",
@@ -10323,7 +11276,7 @@
       ],
       "family": "Tanween syllables",
       "status": "candidate",
-      "note": "Needs a careful listen: the vowel, consonant or ending is uncertain. Check the written vowel and final “n” sound, with a complete beginning and ending.",
+      "note": "Owner rejected this exact clip: sounds like tan. Excluded from the game pending a new reviewed cut or recording.",
       "uses": [
         {
           "world": "tanween",
@@ -10349,39 +11302,6 @@
       "signature": "2eab0ebb99470912db7ad99491ed168af421d639a3afbfd536e26f703074bc88"
     },
     {
-      "id": "lg-b428ea1f6041",
-      "text": "تٌ",
-      "displays": [
-        "تٌ"
-      ],
-      "family": "Tanween syllables",
-      "status": "candidate",
-      "note": "Check the written vowel and final “n” sound, with a complete beginning and ending.",
-      "uses": [
-        {
-          "world": "tanween",
-          "role": "target",
-          "display": "تٌ",
-          "parent": null
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-b428ea1f6041.wav",
-      "sha256": "5777ea107d446f21aacf1204004fc041bdfe0febfd994fcba7f7e465b4ae8b35",
-      "parts": [
-        {
-          "text": "تٌ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-b428ea1f6041.wav",
-          "sha256": "5777ea107d446f21aacf1204004fc041bdfe0febfd994fcba7f7e465b4ae8b35"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 41.4,
-        "end": 41.67
-      },
-      "signature": "c8b5647c0cdfc4285f536dca3d128cf91eb8b4a4c8b5be478606d4fd816d530b"
-    },
-    {
       "id": "lg-6180327bb4fe",
       "text": "ثً",
       "displays": [
@@ -10389,7 +11309,7 @@
       ],
       "family": "Tanween syllables",
       "status": "candidate",
-      "note": "Check the written vowel and final “n” sound, with a complete beginning and ending.",
+      "note": "Trimmed the following consonant. Check that the target vowel and final n are complete.",
       "uses": [
         {
           "world": "tanween",
@@ -10398,21 +11318,29 @@
           "parent": null
         }
       ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-6180327bb4fe.wav",
-      "sha256": "405fd6f60cecab03e3d2210678773c0eaabae36e7b1130f69490b89eaf299222",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-6180327bb4fe-r1.wav",
+      "sha256": "38db9ff857e908aced954e9ab0346d443d807f9423140fbacb2f72ad082dbab1",
       "parts": [
+        {
+          "text": "ثً",
+          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-6180327bb4fe-r1.wav",
+          "sha256": "38db9ff857e908aced954e9ab0346d443d807f9423140fbacb2f72ad082dbab1"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 42.12,
+        "end": 42.38
+      },
+      "revision": "r1",
+      "previousParts": [
         {
           "text": "ثً",
           "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-6180327bb4fe.wav",
           "sha256": "405fd6f60cecab03e3d2210678773c0eaabae36e7b1130f69490b89eaf299222"
         }
       ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 42.12,
-        "end": 42.505
-      },
-      "signature": "18d4e9b0b81fb06b1a0566936568af6179350f7804ef51e570331db55cfb5168"
+      "signature": "a9c386fa6029713d349f757f34c07f529b7aef40a4588e237d6033c05956b63a"
     },
     {
       "id": "lg-218fec838167",
@@ -10422,7 +11350,7 @@
       ],
       "family": "Tanween syllables",
       "status": "candidate",
-      "note": "Check the written vowel and final “n” sound, with a complete beginning and ending.",
+      "note": "Owner rejected this exact clip: sounds like kha. Excluded from the game pending a new reviewed cut or recording.",
       "uses": [
         {
           "world": "tanween",
@@ -10455,7 +11383,7 @@
       ],
       "family": "Tanween syllables",
       "status": "candidate",
-      "note": "Check the written vowel and final “n” sound, with a complete beginning and ending.",
+      "note": "Owner rejected this exact clip: sounds like kaf. Excluded from the game pending a new reviewed cut or recording.",
       "uses": [
         {
           "world": "tanween",
@@ -10488,7 +11416,7 @@
       ],
       "family": "Tanween syllables",
       "status": "candidate",
-      "note": "Check the written vowel and final “n” sound, with a complete beginning and ending.",
+      "note": "Removed the unwanted beginning. Check the whole consonant, vowel and final n.",
       "uses": [
         {
           "world": "tanween",
@@ -10497,21 +11425,29 @@
           "parent": null
         }
       ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-8258de63d74e.wav",
-      "sha256": "48989d8b6e29b35381a5f6f476933b1a1d44546e53ef47574292c2cd9bb3b903",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-8258de63d74e-r1.wav",
+      "sha256": "fc04c482f8c3bb2521ce4fca03beaf88f19dc271b71a55d0e999f1519725abbf",
       "parts": [
+        {
+          "text": "خٌ",
+          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-8258de63d74e-r1.wav",
+          "sha256": "fc04c482f8c3bb2521ce4fca03beaf88f19dc271b71a55d0e999f1519725abbf"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 44.77,
+        "end": 45.01
+      },
+      "revision": "r1",
+      "previousParts": [
         {
           "text": "خٌ",
           "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-8258de63d74e.wav",
           "sha256": "48989d8b6e29b35381a5f6f476933b1a1d44546e53ef47574292c2cd9bb3b903"
         }
       ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 44.505,
-        "end": 45.01
-      },
-      "signature": "cad18f9b8287b5c7f21b928a9d542c250bb8f291a4e949a5cdaef5bf11bf9d91"
+      "signature": "82acff123f3aaec332a361ab556d62a8c3772639e0e075ed21432b1e20eb5743"
     },
     {
       "id": "lg-e41669b75828",
@@ -10521,7 +11457,7 @@
       ],
       "family": "Tanween syllables",
       "status": "candidate",
-      "note": "Check the written vowel and final “n” sound, with a complete beginning and ending.",
+      "note": "Owner rejected this exact clip: sounds like dan. Excluded from the game pending a new reviewed cut or recording.",
       "uses": [
         {
           "world": "tanween",
@@ -10547,78 +11483,6 @@
       "signature": "e4a742f8010502840b9b860171e2e390ecfefd88bb42bad628a028e96c3d53e6"
     },
     {
-      "id": "lg-aa8811b378b0",
-      "text": "دٍ",
-      "displays": [
-        "دٍ"
-      ],
-      "family": "Tanween syllables",
-      "status": "candidate",
-      "note": "Needs a careful listen: the vowel, consonant or ending is uncertain. Check the written vowel and final “n” sound, with a complete beginning and ending.",
-      "uses": [
-        {
-          "world": "tanween",
-          "role": "target",
-          "display": "دٍ",
-          "parent": null
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-aa8811b378b0.wav",
-      "sha256": "f647df8c08d9ea9dce1bf6082b60968486b6a94c913a56f0aa8d2866055f7455",
-      "parts": [
-        {
-          "text": "دٍ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-aa8811b378b0.wav",
-          "sha256": "f647df8c08d9ea9dce1bf6082b60968486b6a94c913a56f0aa8d2866055f7455"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 45.92,
-        "end": 46.27
-      },
-      "signature": "729b5f82ce7d909c2377b455789b5d77913f123dfdf3a287e23e1b2ec3235765"
-    },
-    {
-      "id": "lg-3d0a28c28b20",
-      "text": "دٌ",
-      "displays": [
-        "دٌ"
-      ],
-      "family": "Tanween syllables",
-      "status": "candidate",
-      "note": "Check the written vowel and final “n” sound, with a complete beginning and ending.",
-      "uses": [
-        {
-          "world": "tanween",
-          "role": "target",
-          "display": "دٌ",
-          "parent": null
-        },
-        {
-          "world": "decode",
-          "role": "assembly-piece",
-          "display": "دٌ",
-          "parent": "أَحَدٌ"
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-3d0a28c28b20.wav",
-      "sha256": "94edec17b9a62b7ed82dc807dba113373b40c1da9d39fe64b7df5e356231de2d",
-      "parts": [
-        {
-          "text": "دٌ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-3d0a28c28b20.wav",
-          "sha256": "94edec17b9a62b7ed82dc807dba113373b40c1da9d39fe64b7df5e356231de2d"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 46.27,
-        "end": 46.5
-      },
-      "signature": "45bc73667f5e3f0ad667857f4e17506ebb91975e8d5b123c6194f6f6f69ce3e9"
-    },
-    {
       "id": "lg-11491c9dc768",
       "text": "ذً",
       "displays": [
@@ -10626,7 +11490,7 @@
       ],
       "family": "Tanween syllables",
       "status": "candidate",
-      "note": "Check the written vowel and final “n” sound, with a complete beginning and ending.",
+      "note": "Owner rejected this exact clip: sounds like zand. Excluded from the game pending a new reviewed cut or recording.",
       "uses": [
         {
           "world": "tanween",
@@ -10659,7 +11523,7 @@
       ],
       "family": "Tanween syllables",
       "status": "candidate",
-      "note": "Needs a careful listen: the vowel, consonant or ending is uncertain. Check the written vowel and final “n” sound, with a complete beginning and ending.",
+      "note": "Owner rejected this exact clip: sounds like zand. Excluded from the game pending a new reviewed cut or recording.",
       "uses": [
         {
           "world": "tanween",
@@ -10685,39 +11549,6 @@
       "signature": "17553b4d898c9a46f72b25a9af6203595b2014c556dcd7343ae6fdaab6487019"
     },
     {
-      "id": "lg-3bbe8da7a5b1",
-      "text": "ذٌ",
-      "displays": [
-        "ذٌ"
-      ],
-      "family": "Tanween syllables",
-      "status": "candidate",
-      "note": "Check the written vowel and final “n” sound, with a complete beginning and ending.",
-      "uses": [
-        {
-          "world": "tanween",
-          "role": "target",
-          "display": "ذٌ",
-          "parent": null
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-3bbe8da7a5b1.wav",
-      "sha256": "7dba9c72c222b4318006fb8c4227dbfdf7f9a1b0e988a8cb7d834e8792bcad20",
-      "parts": [
-        {
-          "text": "ذٌ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-3bbe8da7a5b1.wav",
-          "sha256": "7dba9c72c222b4318006fb8c4227dbfdf7f9a1b0e988a8cb7d834e8792bcad20"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 47.68,
-        "end": 47.9
-      },
-      "signature": "07910cf3c57c4c929267a2878e2ea21933381f1b42ce563500baa42561842f29"
-    },
-    {
       "id": "lg-8679f2dad70d",
       "text": "زً",
       "displays": [
@@ -10725,7 +11556,7 @@
       ],
       "family": "Tanween syllables",
       "status": "candidate",
-      "note": "Check the written vowel and final “n” sound, with a complete beginning and ending.",
+      "note": "Trimmed the following consonant. Check that the target vowel and final n are complete.",
       "uses": [
         {
           "world": "tanween",
@@ -10734,21 +11565,29 @@
           "parent": null
         }
       ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-8679f2dad70d.wav",
-      "sha256": "155d0063246fef43c6053db54a8ad4d482e6c137dd8f2670e1d390c9487d8d5d",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-8679f2dad70d-r1.wav",
+      "sha256": "432a75f1f1e26defc97c5326e94c6a687e7bd29036f30b3d3aab29bf37335207",
       "parts": [
+        {
+          "text": "زً",
+          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-8679f2dad70d-r1.wav",
+          "sha256": "432a75f1f1e26defc97c5326e94c6a687e7bd29036f30b3d3aab29bf37335207"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 49.45,
+        "end": 49.86
+      },
+      "revision": "r1",
+      "previousParts": [
         {
           "text": "زً",
           "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-8679f2dad70d.wav",
           "sha256": "155d0063246fef43c6053db54a8ad4d482e6c137dd8f2670e1d390c9487d8d5d"
         }
       ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 49.45,
-        "end": 49.985
-      },
-      "signature": "ee9f8900eb3d79ef76164e2ab08eecbc9f32c0da8bd4d1e6ee18965e78e27ca7"
+      "signature": "cc68e2996d1e25f25ac7d9a98d58614a2118a22fd0e4322b191763ac1e46e4ab"
     },
     {
       "id": "lg-95512a1dac68",
@@ -10758,7 +11597,7 @@
       ],
       "family": "Tanween syllables",
       "status": "candidate",
-      "note": "Needs a careful listen: the vowel, consonant or ending is uncertain. Check the written vowel and final “n” sound, with a complete beginning and ending.",
+      "note": "Owner rejected this exact clip: sounds like zanz. Excluded from the game pending a new reviewed cut or recording.",
       "uses": [
         {
           "world": "tanween",
@@ -10791,7 +11630,7 @@
       ],
       "family": "Tanween syllables",
       "status": "candidate",
-      "note": "Check the written vowel and final “n” sound, with a complete beginning and ending.",
+      "note": "Owner rejected this exact clip: sounds like zandun. Excluded from the game pending a new reviewed cut or recording.",
       "uses": [
         {
           "world": "tanween",
@@ -10824,7 +11663,7 @@
       ],
       "family": "Tanween syllables",
       "status": "candidate",
-      "note": "Check the written vowel and final “n” sound, with a complete beginning and ending.",
+      "note": "Trimmed the following consonant. Check that the target vowel and final n are complete.",
       "uses": [
         {
           "world": "tanween",
@@ -10833,21 +11672,29 @@
           "parent": null
         }
       ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-9ed6a9c073f8.wav",
-      "sha256": "863c98f05245abf2185f9e416163a9ea1380ef0b980c6e77b87e22ccae4bb9f5",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-9ed6a9c073f8-r1.wav",
+      "sha256": "9ead8d9cd2ec3fb0826bd7afd038f2a81f648a45ea3160fb2c9cea09be6da3ea",
       "parts": [
+        {
+          "text": "شً",
+          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-9ed6a9c073f8-r1.wav",
+          "sha256": "9ead8d9cd2ec3fb0826bd7afd038f2a81f648a45ea3160fb2c9cea09be6da3ea"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 51.24,
+        "end": 51.615
+      },
+      "revision": "r1",
+      "previousParts": [
         {
           "text": "شً",
           "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-9ed6a9c073f8.wav",
           "sha256": "863c98f05245abf2185f9e416163a9ea1380ef0b980c6e77b87e22ccae4bb9f5"
         }
       ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 51.24,
-        "end": 51.7
-      },
-      "signature": "db5729fc09f185e3d437a687b52a12e1d7bfc775301fc2594c056e800e975e7a"
+      "signature": "ab4abd5859faafaebfe6a911e2b6f988233ce795f255bf2bf8d7c53dd3a4feab"
     },
     {
       "id": "lg-d5dc38bd4c15",
@@ -10857,7 +11704,7 @@
       ],
       "family": "Tanween syllables",
       "status": "candidate",
-      "note": "Needs a careful listen: the vowel, consonant or ending is uncertain. Check the written vowel and final “n” sound, with a complete beginning and ending.",
+      "note": "Owner rejected this exact clip: sounds like shange. Excluded from the game pending a new reviewed cut or recording.",
       "uses": [
         {
           "world": "tanween",
@@ -10890,7 +11737,7 @@
       ],
       "family": "Tanween syllables",
       "status": "candidate",
-      "note": "Needs a careful listen: the vowel, consonant or ending is uncertain. Check the written vowel and final “n” sound, with a complete beginning and ending.",
+      "note": "Owner rejected this exact clip: sounds like shantun. Excluded from the game pending a new reviewed cut or recording.",
       "uses": [
         {
           "world": "tanween",
@@ -10923,7 +11770,7 @@
       ],
       "family": "Tanween syllables",
       "status": "candidate",
-      "note": "Needs a careful listen: the vowel, consonant or ending is uncertain. Check the written vowel and final “n” sound, with a complete beginning and ending.",
+      "note": "Owner rejected this exact clip: sounds like laa. Excluded from the game pending a new reviewed cut or recording.",
       "uses": [
         {
           "world": "tanween",
@@ -10956,7 +11803,7 @@
       ],
       "family": "Tanween syllables",
       "status": "candidate",
-      "note": "Needs a careful listen: the vowel, consonant or ending is uncertain. Check the written vowel and final “n” sound, with a complete beginning and ending.",
+      "note": "Owner rejected this exact clip: sounds like laile. Excluded from the game pending a new reviewed cut or recording.",
       "uses": [
         {
           "world": "tanween",
@@ -10989,7 +11836,7 @@
       ],
       "family": "Tanween syllables",
       "status": "candidate",
-      "note": "Needs a careful listen: the vowel, consonant or ending is uncertain. Check the written vowel and final “n” sound, with a complete beginning and ending.",
+      "note": "Owner rejected this exact clip: sounds like lailu. Excluded from the game pending a new reviewed cut or recording.",
       "uses": [
         {
           "world": "tanween",
@@ -11022,7 +11869,7 @@
       ],
       "family": "Leen glides",
       "status": "candidate",
-      "note": "Check the glide (/aw/ or /ay/), rather than a long vowel, and the complete consonant and ending.",
+      "note": "Shortened the ending to remove the following بَيْ. Check that بَوْ ends cleanly and keeps its full glide.",
       "uses": [
         {
           "world": "leen",
@@ -11037,21 +11884,29 @@
           "parent": null
         }
       ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-3b8e1495833d.wav",
-      "sha256": "2aed0e5c3f82044c8e2ea053b371cabec6e29021bcdf928d2cfbea99c1892bf5",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-3b8e1495833d-r1.wav",
+      "sha256": "a0a4d665b0d9aace4681c389eb15afa0c1904004b76b5cb342f9d75f8d60bc72",
       "parts": [
+        {
+          "text": "بَوْ",
+          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-3b8e1495833d-r1.wav",
+          "sha256": "a0a4d665b0d9aace4681c389eb15afa0c1904004b76b5cb342f9d75f8d60bc72"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 70.14,
+        "end": 70.545
+      },
+      "revision": "r1",
+      "previousParts": [
         {
           "text": "بَوْ",
           "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-3b8e1495833d.wav",
           "sha256": "2aed0e5c3f82044c8e2ea053b371cabec6e29021bcdf928d2cfbea99c1892bf5"
         }
       ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 70.14,
-        "end": 70.85
-      },
-      "signature": "74b5ec9c94cfb58f6d22ad5dfe19df3f28b9da8b8a89d5553376a9d3c2d638ae"
+      "signature": "ab9a27f691140bea5e0912366f21fbab3325298c74b6fa544392a1e28cb23041"
     },
     {
       "id": "lg-ca3af558ba11",
@@ -11061,7 +11916,7 @@
       ],
       "family": "Leen glides",
       "status": "candidate",
-      "note": "Check the glide (/aw/ or /ay/), rather than a long vowel, and the complete consonant and ending.",
+      "note": "Moved to the بَيْ sound inside the earlier combined clip. Check the consonant and glide; the old clip contained تَوْ.",
       "uses": [
         {
           "world": "leen",
@@ -11076,21 +11931,29 @@
           "parent": null
         }
       ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-ca3af558ba11.wav",
-      "sha256": "3e5b929eb5dd3386f0444c84ff71f9f1139d6c337990556bd9179928eb360fe8",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-ca3af558ba11-r1.wav",
+      "sha256": "2d09b9bb5e7ae3ce985bc1a68b0ed1aa9105562eecdb13e6d3b03bde544795dd",
       "parts": [
+        {
+          "text": "بَيْ",
+          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-ca3af558ba11-r1.wav",
+          "sha256": "2d09b9bb5e7ae3ce985bc1a68b0ed1aa9105562eecdb13e6d3b03bde544795dd"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 70.55,
+        "end": 70.86
+      },
+      "revision": "r1",
+      "previousParts": [
         {
           "text": "بَيْ",
           "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-ca3af558ba11.wav",
           "sha256": "3e5b929eb5dd3386f0444c84ff71f9f1139d6c337990556bd9179928eb360fe8"
         }
       ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 70.9,
-        "end": 71.16
-      },
-      "signature": "13f74d4c65f1648152337c55873a69242de8097991103bf878ab54252eb5c6aa"
+      "signature": "c002dce307f983b780550821d252547318d1528beda1e4b6f30094e4c12883c8"
     },
     {
       "id": "lg-340740d00ba1",
@@ -11100,7 +11963,7 @@
       ],
       "family": "Leen glides",
       "status": "candidate",
-      "note": "Check the glide (/aw/ or /ay/), rather than a long vowel, and the complete consonant and ending.",
+      "note": "Corrected the source assignment to the clip you heard as “tau”. Please confirm it matches تَوْ.",
       "uses": [
         {
           "world": "leen",
@@ -11109,21 +11972,29 @@
           "parent": null
         }
       ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-340740d00ba1.wav",
-      "sha256": "f57561b9e73c5e4cff37f44f989007b0b5f726f706ff73fd7988f8114e34f234",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-340740d00ba1-r1.wav",
+      "sha256": "3e5b929eb5dd3386f0444c84ff71f9f1139d6c337990556bd9179928eb360fe8",
       "parts": [
+        {
+          "text": "تَوْ",
+          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-340740d00ba1-r1.wav",
+          "sha256": "3e5b929eb5dd3386f0444c84ff71f9f1139d6c337990556bd9179928eb360fe8"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 70.9,
+        "end": 71.16
+      },
+      "revision": "r1",
+      "previousParts": [
         {
           "text": "تَوْ",
           "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-340740d00ba1.wav",
           "sha256": "f57561b9e73c5e4cff37f44f989007b0b5f726f706ff73fd7988f8114e34f234"
         }
       ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 71.21,
-        "end": 71.5
-      },
-      "signature": "b4e80e430c6bbfcea435ff75a45ec19926a3466e3f5a16d4e2931d0ad0b16a0d"
+      "signature": "fdb43b062c16107c65bf010a1cda4ce43ae08fe75ebb096b941e3451bcbff9e5"
     },
     {
       "id": "lg-427032b8a68b",
@@ -11133,7 +12004,7 @@
       ],
       "family": "Leen glides",
       "status": "candidate",
-      "note": "Check the glide (/aw/ or /ay/), rather than a long vowel, and the complete consonant and ending.",
+      "note": "Corrected the source assignment to the clip you heard as “tae”. Please confirm it matches تَيْ.",
       "uses": [
         {
           "world": "leen",
@@ -11142,384 +12013,29 @@
           "parent": null
         }
       ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-427032b8a68b.wav",
-      "sha256": "60a8a0fd60db3d47912a6463aa8661070678537710ecfcc723628dc79399aa67",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-427032b8a68b-r1.wav",
+      "sha256": "f57561b9e73c5e4cff37f44f989007b0b5f726f706ff73fd7988f8114e34f234",
       "parts": [
+        {
+          "text": "تَيْ",
+          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-427032b8a68b-r1.wav",
+          "sha256": "f57561b9e73c5e4cff37f44f989007b0b5f726f706ff73fd7988f8114e34f234"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-1",
+        "start": 71.21,
+        "end": 71.5
+      },
+      "revision": "r1",
+      "previousParts": [
         {
           "text": "تَيْ",
           "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-427032b8a68b.wav",
           "sha256": "60a8a0fd60db3d47912a6463aa8661070678537710ecfcc723628dc79399aa67"
         }
       ],
-      "source": {
-        "id": "marin-curriculum-batch-1",
-        "start": 71.9,
-        "end": 72.17
-      },
-      "signature": "9da84876b2e99526cfb4fa6d7c35ad83fc38d41c29ba9a4648cc2fff393f448a"
-    },
-    {
-      "id": "lg-91fd914ee86c",
-      "text": "شَوْ",
-      "displays": [
-        "شَوْ"
-      ],
-      "family": "Leen glides",
-      "status": "candidate",
-      "note": "Check the glide (/aw/ or /ay/), rather than a long vowel, and the complete consonant and ending.",
-      "uses": [
-        {
-          "world": "leen",
-          "role": "target",
-          "display": "شَوْ",
-          "parent": null
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-91fd914ee86c.wav",
-      "sha256": "93a3ce8724d1fac519f4bbbde3919f5af2fdfa92583f76c88e7ed848798ca9ca",
-      "parts": [
-        {
-          "text": "شَوْ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-91fd914ee86c.wav",
-          "sha256": "93a3ce8724d1fac519f4bbbde3919f5af2fdfa92583f76c88e7ed848798ca9ca"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-2",
-        "start": 0.06,
-        "end": 0.51
-      },
-      "signature": "8c97866a6c767cd23b7804016c9a5ac14f1a9681ad6db5d6fdde8e8ca05966e3"
-    },
-    {
-      "id": "lg-c3b5afe7cc08",
-      "text": "شَيْ",
-      "displays": [
-        "شَيْ"
-      ],
-      "family": "Leen glides",
-      "status": "candidate",
-      "note": "Check the glide (/aw/ or /ay/), rather than a long vowel, and the complete consonant and ending.",
-      "uses": [
-        {
-          "world": "leen",
-          "role": "target",
-          "display": "شَيْ",
-          "parent": null
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-c3b5afe7cc08.wav",
-      "sha256": "403c146e96eba2590c0d5260b74cafbe4d11291ee38a259f809baa9412ddb67a",
-      "parts": [
-        {
-          "text": "شَيْ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-c3b5afe7cc08.wav",
-          "sha256": "403c146e96eba2590c0d5260b74cafbe4d11291ee38a259f809baa9412ddb67a"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-2",
-        "start": 0.81,
-        "end": 1.29
-      },
-      "signature": "342416c86eb8ebcf446157c0c596da8d5c025ae40288455f25ea2bbedfc3d919"
-    },
-    {
-      "id": "lg-a5756baa80ee",
-      "text": "صَوْ",
-      "displays": [
-        "صَوْ"
-      ],
-      "family": "Leen glides",
-      "status": "candidate",
-      "note": "Check the glide (/aw/ or /ay/), rather than a long vowel, and the complete consonant and ending.",
-      "uses": [
-        {
-          "world": "leen",
-          "role": "target",
-          "display": "صَوْ",
-          "parent": null
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-a5756baa80ee.wav",
-      "sha256": "e4bb05619d0c0b182ff11c53a9dc2256aa8ce962b0165651e9949f49c134934c",
-      "parts": [
-        {
-          "text": "صَوْ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-a5756baa80ee.wav",
-          "sha256": "e4bb05619d0c0b182ff11c53a9dc2256aa8ce962b0165651e9949f49c134934c"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-2",
-        "start": 1.51,
-        "end": 1.94
-      },
-      "signature": "bc8edf5460abf93962d0e4646dbfe87965120d830e01e1822210b088d9296d4f"
-    },
-    {
-      "id": "lg-8bc549d74bec",
-      "text": "صَيْ",
-      "displays": [
-        "صَيْ"
-      ],
-      "family": "Leen glides",
-      "status": "candidate",
-      "note": "Check the glide (/aw/ or /ay/), rather than a long vowel, and the complete consonant and ending.",
-      "uses": [
-        {
-          "world": "leen",
-          "role": "target",
-          "display": "صَيْ",
-          "parent": null
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-8bc549d74bec.wav",
-      "sha256": "186907cf7fb7788edb86e9f9c7c79275ac1129b8cd7559aab0c9cdc2ba49ed5a",
-      "parts": [
-        {
-          "text": "صَيْ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-8bc549d74bec.wav",
-          "sha256": "186907cf7fb7788edb86e9f9c7c79275ac1129b8cd7559aab0c9cdc2ba49ed5a"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-2",
-        "start": 2.05,
-        "end": 2.45
-      },
-      "signature": "bfdb550cdd3828b59dd82f374476c07a288878f2094558103a620bdf10f4acf4"
-    },
-    {
-      "id": "lg-5c54409fd37a",
-      "text": "ضَوْ",
-      "displays": [
-        "ضَوْ"
-      ],
-      "family": "Leen glides",
-      "status": "candidate",
-      "note": "Check the glide (/aw/ or /ay/), rather than a long vowel, and the complete consonant and ending.",
-      "uses": [
-        {
-          "world": "leen",
-          "role": "target",
-          "display": "ضَوْ",
-          "parent": null
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-5c54409fd37a.wav",
-      "sha256": "c7caec3a74b0eb80b00791dd9bf5b5aedca11bd6b01ab5269b988d6bbc1ca043",
-      "parts": [
-        {
-          "text": "ضَوْ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-5c54409fd37a.wav",
-          "sha256": "c7caec3a74b0eb80b00791dd9bf5b5aedca11bd6b01ab5269b988d6bbc1ca043"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-2",
-        "start": 2.67,
-        "end": 3.06
-      },
-      "signature": "7e24fe8545d8541d8dbd0b9ef7cdf460e7bf296d2fdaa49aa265397157c52f6a"
-    },
-    {
-      "id": "lg-1bbac20141b3",
-      "text": "ضَيْ",
-      "displays": [
-        "ضَيْ"
-      ],
-      "family": "Leen glides",
-      "status": "candidate",
-      "note": "Check the glide (/aw/ or /ay/), rather than a long vowel, and the complete consonant and ending.",
-      "uses": [
-        {
-          "world": "leen",
-          "role": "target",
-          "display": "ضَيْ",
-          "parent": null
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-1bbac20141b3.wav",
-      "sha256": "bd78ea8599e335d20e4dd8f7c6432fe1990f7a8890dea11abd0dc86e91f08d66",
-      "parts": [
-        {
-          "text": "ضَيْ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-1bbac20141b3.wav",
-          "sha256": "bd78ea8599e335d20e4dd8f7c6432fe1990f7a8890dea11abd0dc86e91f08d66"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-2",
-        "start": 3.21,
-        "end": 3.58
-      },
-      "signature": "9de19a823d9e83fb536563b36411ba9eb482074cf0ce6a06bbfab41e53353303"
-    },
-    {
-      "id": "lg-2d7c57749b54",
-      "text": "طَوْ",
-      "displays": [
-        "طَوْ"
-      ],
-      "family": "Leen glides",
-      "status": "candidate",
-      "note": "Check the glide (/aw/ or /ay/), rather than a long vowel, and the complete consonant and ending.",
-      "uses": [
-        {
-          "world": "leen",
-          "role": "target",
-          "display": "طَوْ",
-          "parent": null
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-2d7c57749b54.wav",
-      "sha256": "ac0bd5e6eaaff7384ea78c0d5eff035b7b079ed3e2ef340857f6a0f8ef5cfe32",
-      "parts": [
-        {
-          "text": "طَوْ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-2d7c57749b54.wav",
-          "sha256": "ac0bd5e6eaaff7384ea78c0d5eff035b7b079ed3e2ef340857f6a0f8ef5cfe32"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-2",
-        "start": 3.91,
-        "end": 4.24
-      },
-      "signature": "07d9981721afa1be3945af142f4932d5ccdfa3c6707129ac78803fca2d790bb0"
-    },
-    {
-      "id": "lg-43cc227f4e90",
-      "text": "عَوْ",
-      "displays": [
-        "عَوْ"
-      ],
-      "family": "Leen glides",
-      "status": "candidate",
-      "note": "Check the glide (/aw/ or /ay/), rather than a long vowel, and the complete consonant and ending.",
-      "uses": [
-        {
-          "world": "leen",
-          "role": "target",
-          "display": "عَوْ",
-          "parent": null
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-43cc227f4e90.wav",
-      "sha256": "54a256dd2b39864ab7ee3fa21f57c12836d724314f012e435563da3ac3b883c3",
-      "parts": [
-        {
-          "text": "عَوْ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-43cc227f4e90.wav",
-          "sha256": "54a256dd2b39864ab7ee3fa21f57c12836d724314f012e435563da3ac3b883c3"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-2",
-        "start": 4.97,
-        "end": 5.3
-      },
-      "signature": "bc5f4792878b02ee35f50f0bb3c0e16c705dbf71754db3f00ed9e60a24b1cac5"
-    },
-    {
-      "id": "lg-47f506e11b63",
-      "text": "عَيْ",
-      "displays": [
-        "عَيْ"
-      ],
-      "family": "Leen glides",
-      "status": "candidate",
-      "note": "Check the glide (/aw/ or /ay/), rather than a long vowel, and the complete consonant and ending.",
-      "uses": [
-        {
-          "world": "leen",
-          "role": "target",
-          "display": "عَيْ",
-          "parent": null
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-47f506e11b63.wav",
-      "sha256": "14e99e01b653ccb6088258f72056c7acd215ba538ab26852d6c30327c6ef55a3",
-      "parts": [
-        {
-          "text": "عَيْ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-47f506e11b63.wav",
-          "sha256": "14e99e01b653ccb6088258f72056c7acd215ba538ab26852d6c30327c6ef55a3"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-2",
-        "start": 5.46,
-        "end": 5.8
-      },
-      "signature": "cd84ce6eed3349c0c1e27907986ebfdfae6d93f80bdc6a7e645514edb1a5ef86"
-    },
-    {
-      "id": "lg-c4b11b1faa10",
-      "text": "غَوْ",
-      "displays": [
-        "غَوْ"
-      ],
-      "family": "Leen glides",
-      "status": "candidate",
-      "note": "Check the glide (/aw/ or /ay/), rather than a long vowel, and the complete consonant and ending.",
-      "uses": [
-        {
-          "world": "leen",
-          "role": "target",
-          "display": "غَوْ",
-          "parent": null
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-c4b11b1faa10.wav",
-      "sha256": "2d589def3545e00ffd20c679b4e7033f386980d431d0702d6036a399d71f4763",
-      "parts": [
-        {
-          "text": "غَوْ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-c4b11b1faa10.wav",
-          "sha256": "2d589def3545e00ffd20c679b4e7033f386980d431d0702d6036a399d71f4763"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-2",
-        "start": 6.08,
-        "end": 6.48
-      },
-      "signature": "e644afcd785728660207edcafe25249af46d3457f86f3dcb7a21bd5c38164b5c"
-    },
-    {
-      "id": "lg-353bf3f68337",
-      "text": "فَوْ",
-      "displays": [
-        "فَوْ"
-      ],
-      "family": "Leen glides",
-      "status": "candidate",
-      "note": "Check the glide (/aw/ or /ay/), rather than a long vowel, and the complete consonant and ending.",
-      "uses": [
-        {
-          "world": "leen",
-          "role": "target",
-          "display": "فَوْ",
-          "parent": null
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-353bf3f68337.wav",
-      "sha256": "eba02598379c8e6642a803e634b1cbc7b24158b1b2cb65b3c1523ba8e6fbc963",
-      "parts": [
-        {
-          "text": "فَوْ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-353bf3f68337.wav",
-          "sha256": "eba02598379c8e6642a803e634b1cbc7b24158b1b2cb65b3c1523ba8e6fbc963"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-2",
-        "start": 7.24,
-        "end": 7.58
-      },
-      "signature": "8650e4c6a4413de6bb665874747cbf80cda1f4e900d70a6dc898de3d80a835a2"
+      "signature": "0dd173d5c6d29af7b1a794481d2ea5110789514cbae2b63e21af7ad9baf62a95"
     },
     {
       "id": "lg-0512f62a1a38",
@@ -11529,7 +12045,7 @@
       ],
       "family": "Leen glides",
       "status": "candidate",
-      "note": "Check the glide (/aw/ or /ay/), rather than a long vowel, and the complete consonant and ending.",
+      "note": "Owner rejected this exact clip: sounds like fae. Excluded from the game pending a new reviewed cut or recording.",
       "uses": [
         {
           "world": "leen",
@@ -11555,303 +12071,6 @@
       "signature": "af08b7b5b39c920a7579b83dd2224097668169ce5bcf44fc676bbdd327cf83e9"
     },
     {
-      "id": "lg-1ef3ddb0017b",
-      "text": "قَوْ",
-      "displays": [
-        "قَوْ"
-      ],
-      "family": "Leen glides",
-      "status": "candidate",
-      "note": "Check the glide (/aw/ or /ay/), rather than a long vowel, and the complete consonant and ending.",
-      "uses": [
-        {
-          "world": "leen",
-          "role": "target",
-          "display": "قَوْ",
-          "parent": null
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-1ef3ddb0017b.wav",
-      "sha256": "69a97f13a10575cd8c380fc5943e1e1784d9faa330bb93a800d108bfc517f305",
-      "parts": [
-        {
-          "text": "قَوْ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-1ef3ddb0017b.wav",
-          "sha256": "69a97f13a10575cd8c380fc5943e1e1784d9faa330bb93a800d108bfc517f305"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-2",
-        "start": 8.28,
-        "end": 8.54
-      },
-      "signature": "27f4b87a0fcc70b037fc6a0021692a2b3557c81eac7be72798eba4a80bbbcb1b"
-    },
-    {
-      "id": "lg-7d2fe98d3fcf",
-      "text": "قَيْ",
-      "displays": [
-        "قَيْ"
-      ],
-      "family": "Leen glides",
-      "status": "candidate",
-      "note": "Check the glide (/aw/ or /ay/), rather than a long vowel, and the complete consonant and ending.",
-      "uses": [
-        {
-          "world": "leen",
-          "role": "target",
-          "display": "قَيْ",
-          "parent": null
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-7d2fe98d3fcf.wav",
-      "sha256": "535cfeec5a7b8d77d1594767c9518f7c74a054275f5c59925247c97bce560a45",
-      "parts": [
-        {
-          "text": "قَيْ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-7d2fe98d3fcf.wav",
-          "sha256": "535cfeec5a7b8d77d1594767c9518f7c74a054275f5c59925247c97bce560a45"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-2",
-        "start": 8.63,
-        "end": 8.93
-      },
-      "signature": "e41fad41d117d4f727e52f4c031b845041be850d9643b68d5e91f0292aa9b91c"
-    },
-    {
-      "id": "lg-f86274109079",
-      "text": "لَوْ",
-      "displays": [
-        "لَوْ"
-      ],
-      "family": "Leen glides",
-      "status": "candidate",
-      "note": "Check the glide (/aw/ or /ay/), rather than a long vowel, and the complete consonant and ending.",
-      "uses": [
-        {
-          "world": "leen",
-          "role": "target",
-          "display": "لَوْ",
-          "parent": null
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-f86274109079.wav",
-      "sha256": "1d0ba130ce8ee27a65dfaa7f5b0d28dc5f85da6d23ceac0433b571b6f334458d",
-      "parts": [
-        {
-          "text": "لَوْ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-f86274109079.wav",
-          "sha256": "1d0ba130ce8ee27a65dfaa7f5b0d28dc5f85da6d23ceac0433b571b6f334458d"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-2",
-        "start": 9.22,
-        "end": 9.61
-      },
-      "signature": "98cb8cf727834f45b13f6c09b5df14560d8b537ae8c7372de25becec9e03f195"
-    },
-    {
-      "id": "lg-b39cbc7e3269",
-      "text": "لَيْ",
-      "displays": [
-        "لَيْ"
-      ],
-      "family": "Leen glides",
-      "status": "candidate",
-      "note": "Check the glide (/aw/ or /ay/), rather than a long vowel, and the complete consonant and ending.",
-      "uses": [
-        {
-          "world": "leen",
-          "role": "target",
-          "display": "لَيْ",
-          "parent": null
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-b39cbc7e3269.wav",
-      "sha256": "a12f3258bd1dd019167f4b2468c70ce554eb8ed7b519ebb397afebadb63e2d71",
-      "parts": [
-        {
-          "text": "لَيْ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-b39cbc7e3269.wav",
-          "sha256": "a12f3258bd1dd019167f4b2468c70ce554eb8ed7b519ebb397afebadb63e2d71"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-2",
-        "start": 9.74,
-        "end": 10.12
-      },
-      "signature": "efc3f3b3c34dccbec1284386e5068f1c5a8c144c70572324e78b710a0cad8366"
-    },
-    {
-      "id": "lg-e9437b0a3e81",
-      "text": "مَوْ",
-      "displays": [
-        "مَوْ"
-      ],
-      "family": "Leen glides",
-      "status": "candidate",
-      "note": "Check the glide (/aw/ or /ay/), rather than a long vowel, and the complete consonant and ending.",
-      "uses": [
-        {
-          "world": "leen",
-          "role": "target",
-          "display": "مَوْ",
-          "parent": null
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-e9437b0a3e81.wav",
-      "sha256": "b90b16d08782ccbe6569156d9c8b69853ad7a700e247a0da258a47926a2284b8",
-      "parts": [
-        {
-          "text": "مَوْ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-e9437b0a3e81.wav",
-          "sha256": "b90b16d08782ccbe6569156d9c8b69853ad7a700e247a0da258a47926a2284b8"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-2",
-        "start": 10.27,
-        "end": 10.63
-      },
-      "signature": "01d6747b715b8f9fd2912fd11efec579463a73826fd9e888c8907c4898e1c2a9"
-    },
-    {
-      "id": "lg-c445e7a21765",
-      "text": "مَيْ",
-      "displays": [
-        "مَيْ"
-      ],
-      "family": "Leen glides",
-      "status": "candidate",
-      "note": "Check the glide (/aw/ or /ay/), rather than a long vowel, and the complete consonant and ending.",
-      "uses": [
-        {
-          "world": "leen",
-          "role": "target",
-          "display": "مَيْ",
-          "parent": null
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-c445e7a21765.wav",
-      "sha256": "3b2600d4b70821528845b199bc271f6a2a520105199b2310a1e432ddbe3dbbd4",
-      "parts": [
-        {
-          "text": "مَيْ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-c445e7a21765.wav",
-          "sha256": "3b2600d4b70821528845b199bc271f6a2a520105199b2310a1e432ddbe3dbbd4"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-2",
-        "start": 10.71,
-        "end": 11.07
-      },
-      "signature": "8a46deaf2a50018c66659a329946af273a65bc2e19452d842e22068f0150f11d"
-    },
-    {
-      "id": "lg-4e89a5b4afe4",
-      "text": "نَوْ",
-      "displays": [
-        "نَوْ"
-      ],
-      "family": "Leen glides",
-      "status": "candidate",
-      "note": "Check the glide (/aw/ or /ay/), rather than a long vowel, and the complete consonant and ending.",
-      "uses": [
-        {
-          "world": "leen",
-          "role": "target",
-          "display": "نَوْ",
-          "parent": null
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-4e89a5b4afe4.wav",
-      "sha256": "258809b937f7364d7a78bf75f189f978560034616860f077ac25003489a19be1",
-      "parts": [
-        {
-          "text": "نَوْ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-4e89a5b4afe4.wav",
-          "sha256": "258809b937f7364d7a78bf75f189f978560034616860f077ac25003489a19be1"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-2",
-        "start": 11.38,
-        "end": 11.76
-      },
-      "signature": "255dc941ac730f417a761cc7d578baa6aed9470046972358d90a2725efc99084"
-    },
-    {
-      "id": "lg-e66d423a3dd9",
-      "text": "نَيْ",
-      "displays": [
-        "نَيْ"
-      ],
-      "family": "Leen glides",
-      "status": "candidate",
-      "note": "Check the glide (/aw/ or /ay/), rather than a long vowel, and the complete consonant and ending.",
-      "uses": [
-        {
-          "world": "leen",
-          "role": "target",
-          "display": "نَيْ",
-          "parent": null
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-e66d423a3dd9.wav",
-      "sha256": "248d76a5fa45659bc6e3e8ecf18aab42253eff33a0073186f7e7969da527fac2",
-      "parts": [
-        {
-          "text": "نَيْ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-e66d423a3dd9.wav",
-          "sha256": "248d76a5fa45659bc6e3e8ecf18aab42253eff33a0073186f7e7969da527fac2"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-2",
-        "start": 11.87,
-        "end": 12.23
-      },
-      "signature": "5a35457ef7377307f382ed0539857e5c87a105e9bff7b0f894437b27c7a0e529"
-    },
-    {
-      "id": "lg-8f627810c512",
-      "text": "وَيْ",
-      "displays": [
-        "وَيْ"
-      ],
-      "family": "Leen glides",
-      "status": "candidate",
-      "note": "Check the glide (/aw/ or /ay/), rather than a long vowel, and the complete consonant and ending.",
-      "uses": [
-        {
-          "world": "leen",
-          "role": "target",
-          "display": "وَيْ",
-          "parent": null
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-8f627810c512.wav",
-      "sha256": "6dd34ed8051053ca01370554d6ed0b512d0f2a1e2fb00d89a7e15a62cb0e98e6",
-      "parts": [
-        {
-          "text": "وَيْ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-8f627810c512.wav",
-          "sha256": "6dd34ed8051053ca01370554d6ed0b512d0f2a1e2fb00d89a7e15a62cb0e98e6"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-2",
-        "start": 13.8,
-        "end": 14.12
-      },
-      "signature": "5dcdb1e2de41ce6a8cd068b4c69aab7e03c40956e00cd5ccce293fe1c0fe8b86"
-    },
-    {
       "id": "lg-a8549d663ab9",
       "text": "بَتْ",
       "displays": [
@@ -11859,7 +12078,7 @@
       ],
       "family": "Sukun and shaddah examples",
       "status": "candidate",
-      "note": "Check every consonant, vowel and doubled sound. The cut must contain the whole displayed item and no neighbouring syllable.",
+      "note": "Removed the following “min” while retaining the final stop. Check both the initial ب and the complete ت ending.",
       "uses": [
         {
           "world": "sukoon",
@@ -11874,21 +12093,29 @@
           "parent": null
         }
       ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-a8549d663ab9.wav",
-      "sha256": "97df45d8123dcdaaa3b6f7cb6ab530dff07720f426509ff785db623c5ed2feba",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-a8549d663ab9-r1.wav",
+      "sha256": "ddf803179fafa36666ffd44249a4b246c79b3e680f622684c54d1c3166a4c53c",
       "parts": [
+        {
+          "text": "بَتْ",
+          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-a8549d663ab9-r1.wav",
+          "sha256": "ddf803179fafa36666ffd44249a4b246c79b3e680f622684c54d1c3166a4c53c"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-2",
+        "start": 15.32,
+        "end": 15.555
+      },
+      "revision": "r1",
+      "previousParts": [
         {
           "text": "بَتْ",
           "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-a8549d663ab9.wav",
           "sha256": "97df45d8123dcdaaa3b6f7cb6ab530dff07720f426509ff785db623c5ed2feba"
         }
       ],
-      "source": {
-        "id": "marin-curriculum-batch-2",
-        "start": 15.32,
-        "end": 15.81
-      },
-      "signature": "c43e8eb6660e46a9d384f3e217fca4f83cccc65cb1ffbe96ad5aaabd3d36d02d"
+      "signature": "34240f167b5056f7473e1de87328c7a2d7fa8db1c1565f01774dc63e947afa48"
     },
     {
       "id": "lg-24d41584f68c",
@@ -11997,7 +12224,7 @@
       ],
       "family": "Three-letter words",
       "status": "candidate",
-      "note": "Check every consonant, vowel and doubled sound. The cut must contain the whole displayed item and no neighbouring syllable.",
+      "note": "Removed the following “ya”. Please check that the full عّ ending is still present; use Needs fixing if it is clipped.",
       "uses": [
         {
           "world": "decode",
@@ -12006,21 +12233,29 @@
           "parent": null
         }
       ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-66a8d70cd9ef.wav",
-      "sha256": "0c2d8bcf73199de10a58f85a7a3b9d33f45167f3c2da37028a874be93fab643d",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-66a8d70cd9ef-r1.wav",
+      "sha256": "70aca3f2b737097ef41a911e62580d85074fddb84293f8ba162c817b94483dfd",
       "parts": [
+        {
+          "text": "يَدُعُّ",
+          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-66a8d70cd9ef-r1.wav",
+          "sha256": "70aca3f2b737097ef41a911e62580d85074fddb84293f8ba162c817b94483dfd"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-2",
+        "start": 31.21,
+        "end": 31.635
+      },
+      "revision": "r1",
+      "previousParts": [
         {
           "text": "يَدُعُّ",
           "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-66a8d70cd9ef.wav",
           "sha256": "0c2d8bcf73199de10a58f85a7a3b9d33f45167f3c2da37028a874be93fab643d"
         }
       ],
-      "source": {
-        "id": "marin-curriculum-batch-2",
-        "start": 31.21,
-        "end": 31.825
-      },
-      "signature": "f96f3183a5d826c5be9c3c92ed9e77a0904df574a070585e9deb2e8c7d3d8898"
+      "signature": "eef0bcb22403020dae75c89d72eced5ad59f95b3d58e3185d562424ce62c6392"
     },
     {
       "id": "lg-74d733b4d22c",
@@ -12030,7 +12265,7 @@
       ],
       "family": "Three-letter words",
       "status": "candidate",
-      "note": "Check every consonant, vowel and doubled sound. The cut must contain the whole displayed item and no neighbouring syllable.",
+      "note": "Restored the missing beginning from the preceding clip. Check the whole word, especially ح and ضّ.",
       "uses": [
         {
           "world": "decode",
@@ -12039,54 +12274,29 @@
           "parent": null
         }
       ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-74d733b4d22c.wav",
-      "sha256": "e1cb58430742b8718df70839e0acdea8a32e9d30a3aeb059ff3212b0665893a6",
+      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-74d733b4d22c-r1.wav",
+      "sha256": "01ec4600248499189a8a6f154d09c90ac98de92ad682be67329ef49cef4ed729",
       "parts": [
+        {
+          "text": "يَحُضُّ",
+          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-74d733b4d22c-r1.wav",
+          "sha256": "01ec4600248499189a8a6f154d09c90ac98de92ad682be67329ef49cef4ed729"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-2",
+        "start": 31.64,
+        "end": 32.31
+      },
+      "revision": "r1",
+      "previousParts": [
         {
           "text": "يَحُضُّ",
           "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-74d733b4d22c.wav",
           "sha256": "e1cb58430742b8718df70839e0acdea8a32e9d30a3aeb059ff3212b0665893a6"
         }
       ],
-      "source": {
-        "id": "marin-curriculum-batch-2",
-        "start": 31.89,
-        "end": 32.295
-      },
-      "signature": "0f559bbe23d95e731cf84386d258e538d19bae30c2c5474399ea230a0b054b10"
-    },
-    {
-      "id": "lg-c7841a362473",
-      "text": "إِنَّآ",
-      "displays": [
-        "إِنَّآ"
-      ],
-      "family": "Three-letter words",
-      "status": "candidate",
-      "note": "Check every consonant, vowel and doubled sound. The cut must contain the whole displayed item and no neighbouring syllable.",
-      "uses": [
-        {
-          "world": "decode",
-          "role": "target",
-          "display": "إِنَّآ",
-          "parent": null
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-c7841a362473.wav",
-      "sha256": "4f55edd1dd626380e1fa19aa12f5238335722e03b8beef99bfcfe5eeb9dd77e3",
-      "parts": [
-        {
-          "text": "إِنَّآ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-c7841a362473.wav",
-          "sha256": "4f55edd1dd626380e1fa19aa12f5238335722e03b8beef99bfcfe5eeb9dd77e3"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-2",
-        "start": 32.6,
-        "end": 33.22
-      },
-      "signature": "659ece2ca078468b6bcd7fd55f62c01faac697e486bcc2751954f4a5b4840f43"
+      "signature": "bcc9234ed2c012a862546b499f7b776c7b34de165f1d5d20d686fd156daff349"
     },
     {
       "id": "lg-4c2f786c3e8d",

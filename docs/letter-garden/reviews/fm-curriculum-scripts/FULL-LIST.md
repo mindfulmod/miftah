@@ -4,12 +4,12 @@ Prepared from the current local curriculum on 2026-09-19. This is an adult produ
 
 The audit covers **22 chapters** and **612 distinct spoken requests**, including introductions, full item catalogues, assembly pieces, distractors, and every possible three-letter chain. Daily practice, checkups, pets and the workshop reuse these requests.
 
-- **92** exact local clips are already bundled (letter names, marks, syllables, or words as available): do not regenerate them.
-- **342** new items are arranged below in **40 small recording batches**, including **36 word entries**.
+- **138** exact local clips are already bundled (letter names, marks, syllables, or words as available): do not regenerate them.
+- **296** new items are arranged below in **36 small recording batches**, including **35 word entries**.
 - **149** letter-name sequences are fully supported by the local playback queue; **0** still need one or more exact name clips.
 - **29** standalone assembly pieces need a teaching/pronunciation decision first; their complete list is included below.
 
-The current word-stage catalogue has **97** entries and **36** outstanding exact word recording requests after existing local clips are reused. Standing-vowel display forms reuse their matching long-vowel recordings.
+The current word-stage catalogue has **97** entries and **35** outstanding exact word recording requests after existing local clips are reused. Standing-vowel display forms reuse their matching long-vowel recordings.
 
 ## How to record
 
@@ -55,13 +55,13 @@ These are isolated Arabic reading exercises from the game's Quran-word catalogue
 |---|---:|
 | Missing letter names | 0 |
 | Vowel and tanween names | 2 |
-| Short vowels: fatha, kasra, damma | 81 |
+| Short vowels: fatha, kasra, damma | 60 |
 | Long vowels (also used for standing vowels) | 81 |
-| Tanween syllables | 81 |
-| Leen: aw and ay glides | 54 |
+| Tanween syllables | 77 |
+| Leen: aw and ay glides | 34 |
 | Sukun, shaddah and mixed examples | 7 |
 | Two-letter word stage | 7 |
-| Three-letter word stage | 11 |
+| Three-letter word stage | 10 |
 | Four- and five-letter word stage | 18 |
 
 ### Missing letter names
@@ -93,21 +93,21 @@ Save audio as `02-short-vowels-01.mp3`. [Arabic-only text file](batches/02-short
 ```text
 بَ
 
-بِ
-
 بُ
 
 تَ
 
 تِ
 
-تُ
-
 ثَ
 
 ثِ
 
 ثُ
+
+جَ
+
+جُ
 ```
 
 #### 03-short-vowels-02 — 9 items
@@ -115,35 +115,15 @@ Save audio as `02-short-vowels-01.mp3`. [Arabic-only text file](batches/02-short
 Save audio as `03-short-vowels-02.mp3`. [Arabic-only text file](batches/03-short-vowels-02.txt).
 
 ```text
-جَ
-
-جِ
-
-جُ
-
-حَ
-
 حِ
-
-حُ
 
 خَ
 
 خِ
 
 خُ
-```
 
-#### 04-short-vowels-03 — 9 items
-
-Save audio as `04-short-vowels-03.mp3`. [Arabic-only text file](batches/04-short-vowels-03.txt).
-
-```text
 دَ
-
-دِ
-
-دُ
 
 ذَ
 
@@ -151,16 +131,12 @@ Save audio as `04-short-vowels-03.mp3`. [Arabic-only text file](batches/04-short
 
 ذُ
 
-رَ
-
-رِ
-
 رُ
 ```
 
-#### 05-short-vowels-04 — 9 items
+#### 04-short-vowels-03 — 9 items
 
-Save audio as `05-short-vowels-04.mp3`. [Arabic-only text file](batches/05-short-vowels-04.txt).
+Save audio as `04-short-vowels-03.mp3`. [Arabic-only text file](batches/04-short-vowels-03.txt).
 
 ```text
 زَ
@@ -171,22 +147,8 @@ Save audio as `05-short-vowels-04.mp3`. [Arabic-only text file](batches/05-short
 
 سَ
 
-سِ
-
-سُ
-
 شَ
 
-شِ
-
-شُ
-```
-
-#### 06-short-vowels-05 — 9 items
-
-Save audio as `06-short-vowels-05.mp3`. [Arabic-only text file](batches/06-short-vowels-05.txt).
-
-```text
 صَ
 
 صِ
@@ -194,7 +156,13 @@ Save audio as `06-short-vowels-05.mp3`. [Arabic-only text file](batches/06-short
 صُ
 
 ضَ
+```
 
+#### 05-short-vowels-04 — 9 items
+
+Save audio as `05-short-vowels-04.mp3`. [Arabic-only text file](batches/05-short-vowels-04.txt).
+
+```text
 ضِ
 
 ضُ
@@ -204,13 +172,7 @@ Save audio as `06-short-vowels-05.mp3`. [Arabic-only text file](batches/06-short
 طِ
 
 طُ
-```
 
-#### 07-short-vowels-06 — 9 items
-
-Save audio as `07-short-vowels-06.mp3`. [Arabic-only text file](batches/07-short-vowels-06.txt).
-
-```text
 ظَ
 
 ظِ
@@ -218,7 +180,13 @@ Save audio as `07-short-vowels-06.mp3`. [Arabic-only text file](batches/07-short
 ظُ
 
 عَ
+```
 
+#### 06-short-vowels-05 — 9 items
+
+Save audio as `06-short-vowels-05.mp3`. [Arabic-only text file](batches/06-short-vowels-05.txt).
+
+```text
 عِ
 
 عُ
@@ -228,13 +196,7 @@ Save audio as `07-short-vowels-06.mp3`. [Arabic-only text file](batches/07-short
 غِ
 
 غُ
-```
 
-#### 08-short-vowels-07 — 9 items
-
-Save audio as `08-short-vowels-07.mp3`. [Arabic-only text file](batches/08-short-vowels-07.txt).
-
-```text
 فَ
 
 فِ
@@ -242,51 +204,37 @@ Save audio as `08-short-vowels-07.mp3`. [Arabic-only text file](batches/08-short
 فُ
 
 قَ
+```
 
+#### 07-short-vowels-06 — 9 items
+
+Save audio as `07-short-vowels-06.mp3`. [Arabic-only text file](batches/07-short-vowels-06.txt).
+
+```text
 قِ
 
 قُ
 
-كَ
-
 كِ
 
 كُ
-```
 
-#### 09-short-vowels-08 — 9 items
-
-Save audio as `09-short-vowels-08.mp3`. [Arabic-only text file](batches/09-short-vowels-08.txt).
-
-```text
 لَ
 
 لِ
 
 لُ
 
-مَ
-
-مِ
-
-مُ
-
-نَ
-
 نِ
 
-نُ
+هِ
 ```
 
-#### 10-short-vowels-09 — 9 items
+#### 08-short-vowels-07 — 6 items
 
-Save audio as `10-short-vowels-09.mp3`. [Arabic-only text file](batches/10-short-vowels-09.txt).
+Save audio as `08-short-vowels-07.mp3`. [Arabic-only text file](batches/08-short-vowels-07.txt).
 
 ```text
-هَ
-
-هِ
-
 هُ
 
 وَ
@@ -298,17 +246,15 @@ Save audio as `10-short-vowels-09.mp3`. [Arabic-only text file](batches/10-short
 يَ
 
 يِ
-
-يُ
 ```
 
 ### Long vowels (also used for standing vowels)
 
 Voice direction: **syllables**.
 
-#### 11-long-vowels-01 — 9 items
+#### 09-long-vowels-01 — 9 items
 
-Save audio as `11-long-vowels-01.mp3`. [Arabic-only text file](batches/11-long-vowels-01.txt).
+Save audio as `09-long-vowels-01.mp3`. [Arabic-only text file](batches/09-long-vowels-01.txt).
 
 ```text
 بَا
@@ -330,9 +276,9 @@ Save audio as `11-long-vowels-01.mp3`. [Arabic-only text file](batches/11-long-v
 ثُو
 ```
 
-#### 12-long-vowels-02 — 9 items
+#### 10-long-vowels-02 — 9 items
 
-Save audio as `12-long-vowels-02.mp3`. [Arabic-only text file](batches/12-long-vowels-02.txt).
+Save audio as `10-long-vowels-02.mp3`. [Arabic-only text file](batches/10-long-vowels-02.txt).
 
 ```text
 جَا
@@ -354,9 +300,9 @@ Save audio as `12-long-vowels-02.mp3`. [Arabic-only text file](batches/12-long-v
 خُو
 ```
 
-#### 13-long-vowels-03 — 9 items
+#### 11-long-vowels-03 — 9 items
 
-Save audio as `13-long-vowels-03.mp3`. [Arabic-only text file](batches/13-long-vowels-03.txt).
+Save audio as `11-long-vowels-03.mp3`. [Arabic-only text file](batches/11-long-vowels-03.txt).
 
 ```text
 دَا
@@ -378,9 +324,9 @@ Save audio as `13-long-vowels-03.mp3`. [Arabic-only text file](batches/13-long-v
 رُو
 ```
 
-#### 14-long-vowels-04 — 9 items
+#### 12-long-vowels-04 — 9 items
 
-Save audio as `14-long-vowels-04.mp3`. [Arabic-only text file](batches/14-long-vowels-04.txt).
+Save audio as `12-long-vowels-04.mp3`. [Arabic-only text file](batches/12-long-vowels-04.txt).
 
 ```text
 زَا
@@ -402,9 +348,9 @@ Save audio as `14-long-vowels-04.mp3`. [Arabic-only text file](batches/14-long-v
 شُو
 ```
 
-#### 15-long-vowels-05 — 9 items
+#### 13-long-vowels-05 — 9 items
 
-Save audio as `15-long-vowels-05.mp3`. [Arabic-only text file](batches/15-long-vowels-05.txt).
+Save audio as `13-long-vowels-05.mp3`. [Arabic-only text file](batches/13-long-vowels-05.txt).
 
 ```text
 صَا
@@ -426,9 +372,9 @@ Save audio as `15-long-vowels-05.mp3`. [Arabic-only text file](batches/15-long-v
 طُو
 ```
 
-#### 16-long-vowels-06 — 9 items
+#### 14-long-vowels-06 — 9 items
 
-Save audio as `16-long-vowels-06.mp3`. [Arabic-only text file](batches/16-long-vowels-06.txt).
+Save audio as `14-long-vowels-06.mp3`. [Arabic-only text file](batches/14-long-vowels-06.txt).
 
 ```text
 ظَا
@@ -450,9 +396,9 @@ Save audio as `16-long-vowels-06.mp3`. [Arabic-only text file](batches/16-long-v
 غُو
 ```
 
-#### 17-long-vowels-07 — 9 items
+#### 15-long-vowels-07 — 9 items
 
-Save audio as `17-long-vowels-07.mp3`. [Arabic-only text file](batches/17-long-vowels-07.txt).
+Save audio as `15-long-vowels-07.mp3`. [Arabic-only text file](batches/15-long-vowels-07.txt).
 
 ```text
 فَا
@@ -474,9 +420,9 @@ Save audio as `17-long-vowels-07.mp3`. [Arabic-only text file](batches/17-long-v
 كُو
 ```
 
-#### 18-long-vowels-08 — 9 items
+#### 16-long-vowels-08 — 9 items
 
-Save audio as `18-long-vowels-08.mp3`. [Arabic-only text file](batches/18-long-vowels-08.txt).
+Save audio as `16-long-vowels-08.mp3`. [Arabic-only text file](batches/16-long-vowels-08.txt).
 
 ```text
 لَا
@@ -498,9 +444,9 @@ Save audio as `18-long-vowels-08.mp3`. [Arabic-only text file](batches/18-long-v
 نُو
 ```
 
-#### 19-long-vowels-09 — 9 items
+#### 17-long-vowels-09 — 9 items
 
-Save audio as `19-long-vowels-09.mp3`. [Arabic-only text file](batches/19-long-vowels-09.txt).
+Save audio as `17-long-vowels-09.mp3`. [Arabic-only text file](batches/17-long-vowels-09.txt).
 
 ```text
 هَا
@@ -526,9 +472,9 @@ Save audio as `19-long-vowels-09.mp3`. [Arabic-only text file](batches/19-long-v
 
 Voice direction: **syllables**.
 
-#### 20-tanween-01 — 9 items
+#### 18-tanween-01 — 9 items
 
-Save audio as `20-tanween-01.mp3`. [Arabic-only text file](batches/20-tanween-01.txt).
+Save audio as `18-tanween-01.mp3`. [Arabic-only text file](batches/18-tanween-01.txt).
 
 ```text
 بً
@@ -541,22 +487,20 @@ Save audio as `20-tanween-01.mp3`. [Arabic-only text file](batches/20-tanween-01
 
 تٍ
 
-تٌ
-
 ثً
 
 ثٍ
 
 ثٌ
+
+جً
 ```
 
-#### 21-tanween-02 — 9 items
+#### 19-tanween-02 — 9 items
 
-Save audio as `21-tanween-02.mp3`. [Arabic-only text file](batches/21-tanween-02.txt).
+Save audio as `19-tanween-02.mp3`. [Arabic-only text file](batches/19-tanween-02.txt).
 
 ```text
-جً
-
 جٍ
 
 جٌ
@@ -572,37 +516,25 @@ Save audio as `21-tanween-02.mp3`. [Arabic-only text file](batches/21-tanween-02
 خٍ
 
 خٌ
+
+دً
 ```
 
-#### 22-tanween-03 — 9 items
+#### 20-tanween-03 — 9 items
 
-Save audio as `22-tanween-03.mp3`. [Arabic-only text file](batches/22-tanween-03.txt).
+Save audio as `20-tanween-03.mp3`. [Arabic-only text file](batches/20-tanween-03.txt).
 
 ```text
-دً
-
-دٍ
-
-دٌ
-
 ذً
 
 ذٍ
-
-ذٌ
 
 رً
 
 رٍ
 
 رٌ
-```
 
-#### 23-tanween-04 — 9 items
-
-Save audio as `23-tanween-04.mp3`. [Arabic-only text file](batches/23-tanween-04.txt).
-
-```text
 زً
 
 زٍ
@@ -610,7 +542,13 @@ Save audio as `23-tanween-04.mp3`. [Arabic-only text file](batches/23-tanween-04
 زٌ
 
 سً
+```
 
+#### 21-tanween-04 — 9 items
+
+Save audio as `21-tanween-04.mp3`. [Arabic-only text file](batches/21-tanween-04.txt).
+
+```text
 سٍ
 
 سٌ
@@ -620,13 +558,7 @@ Save audio as `23-tanween-04.mp3`. [Arabic-only text file](batches/23-tanween-04
 شٍ
 
 شٌ
-```
 
-#### 24-tanween-05 — 9 items
-
-Save audio as `24-tanween-05.mp3`. [Arabic-only text file](batches/24-tanween-05.txt).
-
-```text
 صً
 
 صٍ
@@ -634,7 +566,13 @@ Save audio as `24-tanween-05.mp3`. [Arabic-only text file](batches/24-tanween-05
 صٌ
 
 ضً
+```
 
+#### 22-tanween-05 — 9 items
+
+Save audio as `22-tanween-05.mp3`. [Arabic-only text file](batches/22-tanween-05.txt).
+
+```text
 ضٍ
 
 ضٌ
@@ -644,13 +582,7 @@ Save audio as `24-tanween-05.mp3`. [Arabic-only text file](batches/24-tanween-05
 طٍ
 
 طٌ
-```
 
-#### 25-tanween-06 — 9 items
-
-Save audio as `25-tanween-06.mp3`. [Arabic-only text file](batches/25-tanween-06.txt).
-
-```text
 ظً
 
 ظٍ
@@ -658,7 +590,13 @@ Save audio as `25-tanween-06.mp3`. [Arabic-only text file](batches/25-tanween-06
 ظٌ
 
 عً
+```
 
+#### 23-tanween-06 — 9 items
+
+Save audio as `23-tanween-06.mp3`. [Arabic-only text file](batches/23-tanween-06.txt).
+
+```text
 عٍ
 
 عٌ
@@ -668,13 +606,7 @@ Save audio as `25-tanween-06.mp3`. [Arabic-only text file](batches/25-tanween-06
 غٍ
 
 غٌ
-```
 
-#### 26-tanween-07 — 9 items
-
-Save audio as `26-tanween-07.mp3`. [Arabic-only text file](batches/26-tanween-07.txt).
-
-```text
 فً
 
 فٍ
@@ -682,7 +614,13 @@ Save audio as `26-tanween-07.mp3`. [Arabic-only text file](batches/26-tanween-07
 فٌ
 
 قً
+```
 
+#### 24-tanween-07 — 9 items
+
+Save audio as `24-tanween-07.mp3`. [Arabic-only text file](batches/24-tanween-07.txt).
+
+```text
 قٍ
 
 قٌ
@@ -692,13 +630,7 @@ Save audio as `26-tanween-07.mp3`. [Arabic-only text file](batches/26-tanween-07
 كٍ
 
 كٌ
-```
 
-#### 27-tanween-08 — 9 items
-
-Save audio as `27-tanween-08.mp3`. [Arabic-only text file](batches/27-tanween-08.txt).
-
-```text
 لً
 
 لٍ
@@ -706,7 +638,13 @@ Save audio as `27-tanween-08.mp3`. [Arabic-only text file](batches/27-tanween-08
 لٌ
 
 مً
+```
 
+#### 25-tanween-08 — 9 items
+
+Save audio as `25-tanween-08.mp3`. [Arabic-only text file](batches/25-tanween-08.txt).
+
+```text
 مٍ
 
 مٌ
@@ -716,13 +654,7 @@ Save audio as `27-tanween-08.mp3`. [Arabic-only text file](batches/27-tanween-08
 نٍ
 
 نٌ
-```
 
-#### 28-tanween-09 — 9 items
-
-Save audio as `28-tanween-09.mp3`. [Arabic-only text file](batches/28-tanween-09.txt).
-
-```text
 هً
 
 هٍ
@@ -730,7 +662,13 @@ Save audio as `28-tanween-09.mp3`. [Arabic-only text file](batches/28-tanween-09
 هٌ
 
 وً
+```
 
+#### 26-tanween-09 — 5 items
+
+Save audio as `26-tanween-09.mp3`. [Arabic-only text file](batches/26-tanween-09.txt).
+
+```text
 وٍ
 
 وٌ
@@ -746,9 +684,9 @@ Save audio as `28-tanween-09.mp3`. [Arabic-only text file](batches/28-tanween-09
 
 Voice direction: **syllables**.
 
-#### 29-leen-01 — 9 items
+#### 27-leen-01 — 9 items
 
-Save audio as `29-leen-01.mp3`. [Arabic-only text file](batches/29-leen-01.txt).
+Save audio as `27-leen-01.mp3`. [Arabic-only text file](batches/27-leen-01.txt).
 
 ```text
 بَوْ
@@ -770,9 +708,9 @@ Save audio as `29-leen-01.mp3`. [Arabic-only text file](batches/29-leen-01.txt).
 حَوْ
 ```
 
-#### 30-leen-02 — 9 items
+#### 28-leen-02 — 9 items
 
-Save audio as `30-leen-02.mp3`. [Arabic-only text file](batches/30-leen-02.txt).
+Save audio as `28-leen-02.mp3`. [Arabic-only text file](batches/28-leen-02.txt).
 
 ```text
 حَيْ
@@ -794,9 +732,9 @@ Save audio as `30-leen-02.mp3`. [Arabic-only text file](batches/30-leen-02.txt).
 رَيْ
 ```
 
-#### 31-leen-03 — 9 items
+#### 29-leen-03 — 9 items
 
-Save audio as `31-leen-03.mp3`. [Arabic-only text file](batches/31-leen-03.txt).
+Save audio as `29-leen-03.mp3`. [Arabic-only text file](batches/29-leen-03.txt).
 
 ```text
 زَوْ
@@ -807,83 +745,31 @@ Save audio as `31-leen-03.mp3`. [Arabic-only text file](batches/31-leen-03.txt).
 
 سَيْ
 
-شَوْ
-
-شَيْ
-
-صَوْ
-
-صَيْ
-
-ضَوْ
-```
-
-#### 32-leen-04 — 9 items
-
-Save audio as `32-leen-04.mp3`. [Arabic-only text file](batches/32-leen-04.txt).
-
-```text
-ضَيْ
-
-طَوْ
-
 طَيْ
 
 ظَوْ
 
 ظَيْ
 
-عَوْ
-
-عَيْ
-
-غَوْ
-
 غَيْ
-```
-
-#### 33-leen-05 — 9 items
-
-Save audio as `33-leen-05.mp3`. [Arabic-only text file](batches/33-leen-05.txt).
-
-```text
-فَوْ
 
 فَيْ
+```
 
-قَوْ
+#### 30-leen-04 — 7 items
 
-قَيْ
+Save audio as `30-leen-04.mp3`. [Arabic-only text file](batches/30-leen-04.txt).
 
+```text
 كَوْ
 
 كَيْ
-
-لَوْ
-
-لَيْ
-
-مَوْ
-```
-
-#### 34-leen-06 — 9 items
-
-Save audio as `34-leen-06.mp3`. [Arabic-only text file](batches/34-leen-06.txt).
-
-```text
-مَيْ
-
-نَوْ
-
-نَيْ
 
 هَوْ
 
 هَيْ
 
 وَوْ
-
-وَيْ
 
 يَوْ
 
@@ -894,9 +780,9 @@ Save audio as `34-leen-06.mp3`. [Arabic-only text file](batches/34-leen-06.txt).
 
 Voice direction: **syllables**.
 
-#### 35-sukun-shaddah-01 — 7 items
+#### 31-sukun-shaddah-01 — 7 items
 
-Save audio as `35-sukun-shaddah-01.mp3`. [Arabic-only text file](batches/35-sukun-shaddah-01.txt).
+Save audio as `31-sukun-shaddah-01.mp3`. [Arabic-only text file](batches/31-sukun-shaddah-01.txt).
 
 ```text
 بَتْ
@@ -918,9 +804,9 @@ Save audio as `35-sukun-shaddah-01.mp3`. [Arabic-only text file](batches/35-suku
 
 Voice direction: **words**.
 
-#### 36-words-2-01 — 7 items
+#### 32-words-2-01 — 7 items
 
-Save audio as `36-words-2-01.mp3`. [Arabic-only text file](batches/36-words-2-01.txt).
+Save audio as `32-words-2-01.mp3`. [Arabic-only text file](batches/32-words-2-01.txt).
 
 ```text
 رَبِّ
@@ -942,9 +828,9 @@ Save audio as `36-words-2-01.mp3`. [Arabic-only text file](batches/36-words-2-01
 
 Voice direction: **words**.
 
-#### 37-words-3-01 — 9 items
+#### 33-words-3-01 — 9 items
 
-Save audio as `37-words-3-01.mp3`. [Arabic-only text file](batches/37-words-3-01.txt).
+Save audio as `33-words-3-01.mp3`. [Arabic-only text file](batches/33-words-3-01.txt).
 
 ```text
 بِسْمِ
@@ -952,8 +838,6 @@ Save audio as `37-words-3-01.mp3`. [Arabic-only text file](batches/37-words-3-01
 يَدُعُّ
 
 يَحُضُّ
-
-إِنَّآ
 
 لَكُمْ
 
@@ -964,15 +848,15 @@ Save audio as `37-words-3-01.mp3`. [Arabic-only text file](batches/37-words-3-01
 خَلَقَ
 
 وَمِن
+
+وَقَبَ
 ```
 
-#### 38-words-3-02 — 2 items
+#### 34-words-3-02 — 1 items
 
-Save audio as `38-words-3-02.mp3`. [Arabic-only text file](batches/38-words-3-02.txt).
+Save audio as `34-words-3-02.mp3`. [Arabic-only text file](batches/34-words-3-02.txt).
 
 ```text
-وَقَبَ
-
 إِلَـٰهِ
 ```
 
@@ -980,9 +864,9 @@ Save audio as `38-words-3-02.mp3`. [Arabic-only text file](batches/38-words-3-02
 
 Voice direction: **words**.
 
-#### 39-words-4-5-01 — 9 items
+#### 35-words-4-5-01 — 9 items
 
-Save audio as `39-words-4-5-01.mp3`. [Arabic-only text file](batches/39-words-4-5-01.txt).
+Save audio as `35-words-4-5-01.mp3`. [Arabic-only text file](batches/35-words-4-5-01.txt).
 
 ```text
 ٱللَّهِ
@@ -1004,9 +888,9 @@ Save audio as `39-words-4-5-01.mp3`. [Arabic-only text file](batches/39-words-4-
 أَعْبُدُ
 ```
 
-#### 40-words-4-5-02 — 9 items
+#### 36-words-4-5-02 — 9 items
 
-Save audio as `40-words-4-5-02.mp3`. [Arabic-only text file](batches/40-words-4-5-02.txt).
+Save audio as `36-words-4-5-02.mp3`. [Arabic-only text file](batches/36-words-4-5-02.txt).
 
 ```text
 أَنتُمْ
@@ -1030,7 +914,7 @@ Save audio as `40-words-4-5-02.mp3`. [Arabic-only text file](batches/40-words-4-
 
 ## Already bundled exact clips — curriculum reference only
 
-These 92 requested items currently have exact local clips. Pronunciation review remains separate from file coverage.
+These 138 requested items currently have exact local clips. Pronunciation review remains separate from file coverage.
 
 ```text
 أَلِفْ
@@ -1062,9 +946,54 @@ These 92 requested items currently have exact local clips. Pronunciation review 
 وَاوْ
 يَاءْ
 فَتْحَة
+حَ
+رَ
+كَ
+مَ
+نَ
+هَ
+بِ
 كَسْرَة
+تُ
+جِ
+حُ
+دِ
+دُ
+رِ
+سِ
+سُ
+شِ
+شُ
+مِ
+مُ
+نُ
+يُ
 كَسْرَتَانْ
 ضَمَّتَانْ
+تٌ
+دٍ
+دٌ
+ذٌ
+شَوْ
+شَيْ
+صَوْ
+صَيْ
+ضَوْ
+ضَيْ
+طَوْ
+عَوْ
+عَيْ
+غَوْ
+فَوْ
+قَوْ
+قَيْ
+لَوْ
+لَيْ
+مَوْ
+مَيْ
+نَوْ
+نَيْ
+وَيْ
 تَرَ
 هُوَ
 لَمْ
@@ -1080,6 +1009,7 @@ These 92 requested items currently have exact local clips. Pronunciation review 
 فَعَلَ
 رَبُّكَ
 هَـٰذَا
+إِنَّآ
 فَصَلِّ
 دِينِ
 إِذَا
