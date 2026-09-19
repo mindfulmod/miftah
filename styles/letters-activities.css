@@ -9,7 +9,15 @@
   pointer-events: none;
 }
 
-.lg-activity-art > svg { display: block; width: 100%; height: 100%; }
+.lg-activity-art > svg { position:absolute; inset:0; display:block; width:100%; height:100%; }
+.lg-activity-art > .activity-prop { inset:auto; width:clamp(60px,18%,96px); height:auto; aspect-ratio:120 / 140; }
+.lg-activity-art > .is-pencils { left:2%; bottom:6%; }
+.lg-activity-art > .is-paper { right:2%; bottom:6%; width:clamp(54px,16%,86px); }
+.lg-activity-art > .is-picnic-flowers { left:2%; bottom:24%; width:clamp(46px,13%,90px); }
+.lg-activity-art > .is-pairs-leaves { top:3%; left:0; width:100%; aspect-ratio:720 / 90; }
+.lg-activity-art > .is-orchard-fruit { top:5%; left:0; width:100%; aspect-ratio:680 / 110; }
+.lg-activity-art > .is-parade-hangers { top:17%; left:7%; width:86%; aspect-ratio:625 / 78; }
+.lg-play[data-activity="feed"] .feed-scene { z-index:1; }
 
 .lg-play[data-activity="pairs"] .pairs-grid,
 .lg-play[data-activity="catch"] .catch-field,
@@ -50,16 +58,19 @@
   box-shadow: 0 6px 0 #c9bda4;
 }
 
-.lg-play[data-activity="build"] .build-scene { inset: 3% 9% 10%; }
-.lg-play[data-activity="build"] .build-slots {
-  background: linear-gradient(#c9bda4, #e5dcc8);
-  border: 3px solid #a89478;
-  box-shadow: inset 0 3px 0 #fffdf7;
+.lg-app .lg-play[data-activity="build"] .build-scene { inset:10% 7% 19%; justify-content:center; gap:clamp(24px,6vh,54px); padding:8px; }
+.lg-app .lg-play[data-activity="build"] .build-slots {
+  width:100%; box-sizing:border-box; justify-content:center; gap:8px; padding:12px 8px; min-height:100px;
+  background:linear-gradient(#e5dcc8,#fffaf0); border:2px solid #c9bda4; border-radius:22px;
+  box-shadow:inset 0 3px 0 #c9bda4,0 2px 0 #fffdf7;
 }
-.lg-play[data-activity="build"] .build-tray {
-  background: linear-gradient(#fffdf7, #fffaf0);
-  border: 3px solid #c9bda4;
-  box-shadow: 0 4px 0 #a89478;
+.lg-app .lg-play[data-activity="build"] .build-slot { width:clamp(58px,21vw,105px); min-width:0; flex-shrink:1; border:2px dashed #a89478; border-radius:16px; background:#fffaf0; box-shadow:inset 0 2px 0 #e5dcc8; }
+.lg-app .lg-play[data-activity="build"] .build-slot.is-filled { border-style:solid; border-color:#4e9677; }
+.lg-app .lg-play[data-activity="build"] .build-tile { width:clamp(64px,23vw,100px); }
+.lg-app .lg-play[data-activity="build"] .build-tray {
+  width:100%; box-sizing:border-box; gap:8px; padding:12px 4px;
+  background:linear-gradient(#fffdf7,#fffaf0); border:2px solid #a89478; border-radius:22px;
+  box-shadow:0 5px 0 #c9bda4,inset 0 3px 0 #fffdf7;
 }
 
 .lg-play:is([data-activity="blend"], [data-activity="fuse"]) .blend-glow {
@@ -94,15 +105,19 @@
 
 @media (max-width: 600px) {
   .lg-play[data-activity="pairs"] .pairs-grid { inset: 2% 12%; }
-  .lg-app .lg-play[data-activity="build"] .build-scene { inset: 2% 5% 8%; padding: 4px; gap: 12px; }
+  .lg-app .lg-play[data-activity="build"] .build-scene { inset:10% 5% 20%; padding:4px; gap:36px; }
   .lg-app .lg-play[data-activity="build"] .build-tray { box-sizing: border-box; }
-  .lg-app .lg-play[data-activity="build"] .build-tile { width: calc((100% - 16px) / 3); max-width: 100px; }
+  .lg-app .lg-play[data-activity="build"] .build-tile { width:calc((100% - 16px) / 3); max-width:100px; }
   .lg-play[data-activity="parade"] .parade-scene { padding-bottom: 16%; }
 }
 
 @media (max-height: 650px) {
   .lg-play[data-activity="pairs"] .pairs-grid { inset-block: 1%; }
-  .lg-play[data-activity="build"] .build-scene { inset-block: 1% 7%; }
+  .lg-app .lg-play[data-activity="build"] .build-scene { inset:8% 6% 23%; padding:0; gap:16px; }
+  .lg-app .lg-play[data-activity="build"] .build-slots { min-height:80px; padding:6px; }
+  .lg-app .lg-play[data-activity="build"] .build-slot { width:58px; }
+  .lg-app .lg-play[data-activity="build"] .build-tray { padding:6px; }
+  .lg-app .lg-play[data-activity="build"] .build-tile { width:64px; }
   .lg-play[data-activity="parade"] .parade-scene { gap: 12px; padding-bottom: 11%; }
 }
 
@@ -115,13 +130,33 @@
   .lg-screen.lg-play[data-activity="build"] { padding: 6px 12px; }
   .lg-play[data-activity="build"] > .lg-topbar { position: absolute; inset: 6px 12px auto; height: 44px; min-height: 44px; margin: 0; }
   .lg-play[data-activity="build"] .lg-topbar .lg-round-btn { width: 44px; height: 44px; }
-  .lg-play[data-activity="build"] .play-prompt { height: 76px; min-height: 76px; margin: 0 auto 6px; gap: 6px; }
-  .lg-play[data-activity="build"] .play-pet { width: 44px; height: 48px; }
-  .lg-play[data-activity="build"] .play-bubble { width: 102px; height: 66px; min-height: 66px; }
+
+
+
   .lg-app .lg-play[data-activity="build"] .play-stage { width: 100%; margin: 0 auto; max-height: none; min-height: 210px; flex: 1; }
-  .lg-app .lg-play[data-activity="build"] .build-scene { inset: 3px 5%; padding: 3px; gap: 6px; }
+  .lg-app .lg-play[data-activity="build"] .build-scene { inset:3px 12% 18%; padding: 3px; gap: 6px; }
   .lg-app .lg-play[data-activity="build"] .build-slots { min-height: 72px; padding: 4px; gap: 6px; }
   .lg-app .lg-play[data-activity="build"] .build-slot { width: 60px; }
   .lg-app .lg-play[data-activity="build"] .build-tray { padding: 5px; flex-wrap: nowrap; gap: 6px; }
   .lg-app .lg-play[data-activity="build"] .build-tile { width: 64px; flex: 0 1 64px; min-width: 44px; }
+}
+
+/* Picnic fabric and drawing clips are physical frames outside the learning ink. */
+.lg-app .lg-play[data-activity="feed"] .feed-tray {
+ border-color:#a89478;border-bottom-color:#c9bda4;border-radius:20px;
+ background:repeating-linear-gradient(90deg,transparent 0 24px,#e5dcc860 24px 30px),repeating-linear-gradient(0deg,#fffaf0 0 24px,#e5dcc8 24px 30px);
+ box-shadow:0 4px 0 #c9bda4,inset 0 3px 0 #fffdf7;
+}
+.trace-wrap::before,.trace-wrap::after {content:"";position:absolute;top:4px;width:30px;height:18px;z-index:2;pointer-events:none;border:2px solid #a89478;border-radius:5px;background:linear-gradient(#fffdf7,#e5dcc8);box-shadow:0 2px 0 #c9bda4}
+.trace-wrap::before{left:20%}.trace-wrap::after{right:20%}
+
+.pond-water{position:absolute;inset:0;width:100%;height:100%}
+.pond-lily{position:absolute;pointer-events:none;width:clamp(36px,12%,70px);height:auto}
+.pond-lily.is-near{left:1%;bottom:3%}.pond-lily.is-far{right:1%;top:7%;width:clamp(28px,9%,54px);opacity:.7}
+
+@media(orientation:landscape) and (max-height:450px){.lg-activity-art.is-workbench>.activity-prop{width:42px;bottom:1%}}
+
+@media(min-width:601px) and (min-height:451px){
+ .lg-activity-art.is-workbench>.activity-prop{width:72px;bottom:5%}
+ .lg-app .lg-play[data-activity="build"] :is(.build-slots,.build-tray){width:auto;min-width:340px;max-width:100%}
 }

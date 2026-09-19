@@ -1,0 +1,69 @@
+/* Shared composition: this file owns the activity presenter and art frames.
+   Scene modules own scenery; neither may resize the presenter's children. */
+.lg-app .lg-play .play-prompt {
+  display:grid; grid-template-columns:auto minmax(0,max-content) auto;
+  grid-template-rows:minmax(60px,auto) 18px; justify-content:center;
+  align-items:center; column-gap:14px; row-gap:4px;
+  width:min(660px,100%); min-height:116px; height:auto;
+  margin:0 auto 12px; padding:4px 6px; flex:0 0 auto;
+  border:0; background:none; box-shadow:none;
+}
+.lg-app .lg-play .play-pet {
+  grid-column:1; grid-row:1 / 3; width:92px; height:104px;
+  display:grid; place-items:end center; padding:0; align-self:end;
+}
+.lg-app .lg-play .play-pet > svg,
+.lg-app .lg-play .play-pet > .lg-animal { width:100%!important; height:100%!important; max-width:100%; }
+.lg-app .lg-play .play-mascot { display:none; }
+.lg-app .lg-play .play-bubble {
+  grid-column:2; grid-row:1; min-width:104px; max-width:100%;
+  min-height:72px; height:auto; justify-content:center; padding:10px 15px;
+  background:linear-gradient(#fffdf7,#fffaf0 75%,#e5dcc8);
+  border:3px solid #4a3620; border-radius:25px;
+  box-shadow:0 5px 0 #a89478,inset 0 2px 0 #fffdf7;
+}
+.lg-app .lg-play .play-bubble::before { background:#fffaf0; border-color:#4a3620; }
+.lg-app .lg-play .play-bubble-glyph { font-size:44px; line-height:1.35; }
+.lg-app .lg-play .play-bubble-glyph.is-latin { font-size:22px; }
+.lg-app .lg-play .learning-help { grid-column:3; grid-row:1; }
+.lg-app .lg-play .play-dots {
+  grid-column:2 / -1; grid-row:2; position:static; justify-self:center;
+  display:flex; align-items:center; gap:6px; padding:0;
+  border:0; background:none; min-height:14px;
+}
+.lg-app .lg-play .play-dots i { width:9px; height:9px; border-width:2px; }
+.lg-app .lg-play .play-prompt:not(:has(.learning-help:not([hidden]))) { grid-template-columns:auto minmax(0,max-content); }
+.lg-app .lg-play .play-prompt:not(:has(.play-bubble:not([hidden]))) { grid-template-columns:1fr; }
+.lg-app .lg-play .play-prompt:not(:has(.play-bubble:not([hidden]))) .play-pet { grid-column:1; grid-row:1; justify-self:center; }
+.lg-app .lg-play .play-prompt:not(:has(.play-bubble:not([hidden]))) .play-dots { grid-column:1; }
+/* SVGs keep their own aspect ratio. Flex/grid alignment never stretches ink. */
+.lg-art-frame { display:grid; place-items:center; min-width:0; min-height:0; }
+.lg-art-frame > svg { display:block; width:100%; height:100%; object-fit:contain; }
+.lg-app :is(.lg-round-btn,.lg-big-btn,.wardrobe-tabs button,.wardrobe-prev,.wardrobe-more) > svg { display:block; flex-shrink:0; }
+@media(max-width:600px) {
+  .lg-app .lg-play .play-prompt { min-height:108px; column-gap:10px; padding-inline:2px; }
+  .lg-app .lg-play .play-pet { width:76px; height:90px; }
+  .lg-app .lg-play .play-bubble { min-width:100px; padding:7px 12px; }
+  .lg-app .lg-play .play-bubble-glyph { font-size:40px; }
+}
+@media(max-width:350px) {
+  .lg-app .lg-play .play-prompt { column-gap:8px; }
+  .lg-app .lg-play .play-pet { width:64px; height:78px; }
+  .lg-app .lg-play .play-bubble { min-width:86px; padding-inline:9px; }
+  .lg-app .lg-play .play-bubble-glyph { font-size:36px; }
+}
+@media(max-height:650px) and (orientation:portrait) {
+  .lg-app .lg-play .play-prompt { min-height:88px; grid-template-rows:58px 14px; margin-bottom:8px; }
+  .lg-app .lg-play .play-pet { width:66px; height:76px; }
+  .lg-app .lg-play .play-bubble { min-height:58px; padding-block:4px; }
+}
+@media(max-height:450px) and (orientation:landscape) {
+  .lg-app .lg-screen.lg-play { padding:6px 12px; }
+  .lg-app .lg-play > .lg-topbar { position:absolute; inset:6px 12px auto; height:44px; min-height:44px; margin:0; }
+  .lg-app .lg-play .lg-topbar .lg-round-btn { width:44px; height:44px; }
+  .lg-app .lg-play .play-prompt { width:calc(100% - 116px); min-height:72px; height:auto; grid-template-rows:48px 12px; gap:2px 8px; margin:0 auto 6px; padding:0; }
+  .lg-app .lg-play .play-pet { width:52px; height:60px; }
+  .lg-app .lg-play .play-bubble { min-height:48px; min-width:88px; padding:2px 10px; border-radius:18px; }
+  .lg-app .lg-play .play-bubble-glyph { font-size:30px; }
+  .lg-app .lg-play .play-dots i { width:8px; height:8px; }
+}

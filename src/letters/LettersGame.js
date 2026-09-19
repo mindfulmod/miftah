@@ -496,7 +496,7 @@
       const bodyShelf = tab==='friends' ? ns.LETTERS_BODIES.map((b) => {
         const owned = b.cost === 0 || ownedBodies.includes(b.id);
         return `<button type="button" class="pet-acc${owned ? " is-owned" : ""}${species === b.id ? " is-worn" : ""}" aria-label="${b.name || b.id}${owned?'':`, ${b.cost} stars`}" aria-pressed="${species === b.id}" data-body="${b.id}">
-          <span class="pet-acc-art">${Art.pet({ hue: this.pet.hue, species: b.id, stage: 1, size: 54 })}</span>
+          <span class="pet-acc-art lg-art-frame">${Art.pet({ hue: this.pet.hue, species: b.id, stage: 1, size: 54 })}</span>
           ${species===b.id?`<span class="pet-selected-mark" aria-hidden="true">${Art.icon('check',16)}</span>`:''}
           ${owned ? "" : `<span class="pet-acc-cost">${Art.icon("star", 12)} ${b.cost}</span>`}
         </button>`;
@@ -505,7 +505,7 @@
         const owned = (this.pet.accessories || []).includes(acc.id);
         const wearing = worn.includes(acc.id);
         return `<button type="button" class="pet-acc${owned ? " is-owned" : ""}${wearing ? " is-worn" : ""}" data-acc="${acc.id}" aria-label="${acc.id}${owned?'':`, ${acc.cost} stars`}" aria-pressed="${wearing}">
-          <span class="pet-acc-art">${Art.pet({ hue: this.pet.hue, species, stage: 1, worn: [acc.id], size: 62 })}</span>
+          <span class="pet-acc-art lg-art-frame">${Art.pet({ hue: this.pet.hue, species, stage: 1, worn: [acc.id], size: 62 })}</span>
           ${wearing?`<span class="pet-selected-mark" aria-hidden="true">${Art.icon('check',16)}</span>`:''}
           ${owned ? "" : `<span class="pet-acc-cost">${Art.icon("star", 12)} ${acc.cost}</span>`}
         </button>`;
@@ -517,13 +517,13 @@
         `${this.topBar()}
         <div class="pet-stage pet-room" style="--pet-radiance:${this.petRadiance().toFixed(2)}">
           <div class="pet-hero">
-            <div class="pet-alcove" aria-hidden="true">${ns.LettersRoomArt.alcove()}</div>
+            <div class="pet-diorama"><div class="pet-alcove" aria-hidden="true">${ns.LettersRoomArt.alcove()}</div>
             <span class="lg-star-chip">${Art.icon("star", 20)} <b>${this.starBalance()}</b></span>
             <button type="button" aria-label="Play with your pet" class="pet-big${this.petRadiance() > 0.15 ? " is-radiant" : ""}">
               <span class="pet-aura" aria-hidden="true"></span>
               <span class="pet-bubble" hidden></span>
               ${this.petSVG(210)}
-            </button>
+            </button></div>
             ${Object.keys(this.skills).length ? `<div class="pet-flower">${Art.skillFlower({ scores: this.skills, size: 92 })}</div>` : ""}
           </div>
           <div class="pet-racks">
@@ -643,11 +643,12 @@
         "lg-album",
         `${this.topBar()}
         <div class="album-stage">
+          <div class="album-supply">
           <span class="lg-star-chip">${Art.icon("star", 20)} <b>${this.starBalance()}</b></span>
           ${allOwned
             ? `<div class="album-complete" role="img" aria-label="All stickers collected">${Art.icon("star", 40)}</div>`
             : `<button type="button" class="album-pack" aria-label="Open a sticker pack for 5 stars" ${this.starBalance()<5?'disabled':''}>${ns.LettersRoomArt.pack(112)}<span class="pet-acc-cost">${Art.icon("star", 14)} 5</span></button>`}
-          <div class="album-grid lg-panel">${grid}</div>
+          </div><div class="album-grid lg-panel">${grid}</div>
         </div>`,
       );
       this.wireTopBar(el);
@@ -656,7 +657,7 @@
         const id=button.dataset.sticker;
         const dialog=document.createElement('dialog');
         dialog.className='sticker-inspect';dialog.setAttribute('aria-label',`${id} sticker`);
-        dialog.innerHTML=`<div class="sticker-inspect-art">${Art.sticker({id,size:280})}</div><button type="button" class="lg-round-btn sticker-inspect-close" aria-label="Back to stickers">${Art.icon('check',32)}</button>`;
+        dialog.innerHTML=`<div class="sticker-inspect-art lg-art-frame">${Art.sticker({id,size:280})}</div><button type="button" class="lg-round-btn sticker-inspect-close" aria-label="Back to stickers">${Art.icon('check',32)}</button>`;
         el.appendChild(dialog);
         dialog.querySelector('button').onclick=()=>dialog.close();
         dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close();}});
@@ -1399,9 +1400,9 @@
       const el = this.screen(
         "lg-meet",
         `${this.topBar()}
-        <div class="meet-stage lg-panel"><div class="lesson-furniture" aria-hidden="true">${ns.LettersRoomArt.lesson()}</div>
+        <div class="meet-stage lg-panel"><div class="meet-display"><div class="lesson-furniture" aria-hidden="true">${ns.LettersRoomArt.lesson()}</div>
           ${opener}
-          <button type="button" class="meet-card" aria-label="Listen to ${card.display}" ${hidden}>${bigCard}</button>
+          <button type="button" class="meet-card" aria-label="Listen to ${card.display}" ${hidden}>${bigCard}</button></div>
           ${this.journeyRoute()}
           <div class="meet-dots">${s.world.meet.map((_, i) => `<i class="${i === s.meetIndex ? "is-on" : ""}"></i>`).join("")}</div>
           <div class="meet-nav">
@@ -1591,7 +1592,7 @@
           <button type="button" class="play-pet" aria-label="Listen to your pet">${this.petSVG(64)}</button>
           <span class="play-mascot">${Art.keyMascot({ size: 66 })}</span>
           <button type="button" class="play-bubble" aria-label="Hear the letter again" hidden>
-            <span class="play-bubble-glyph" dir="rtl" lang="ar"></span>
+            <span class="play-bubble-glyph" data-fit-ink dir="rtl" lang="ar"></span>
             <span class="play-bubble-icon">${Art.icon("speaker", 22)}</span>
           </button>
           <button type="button" class="learning-help lg-round-btn" aria-label="Show the letter" hidden><svg width="26" height="26" viewBox="0 0 40 40" aria-hidden="true"><path d="M3 20Q20 1 37 20Q20 39 3 20Z" fill="#fffaf0" stroke="#4a3620" stroke-width="3"/><circle cx="20" cy="20" r="7" fill="#4e9677"/><circle cx="18" cy="17" r="2" fill="#fffdf7"/></svg></button>
@@ -1789,8 +1790,7 @@
             glyph.classList.toggle("is-latin", latinPrompt);
             // Optically centre the ink inside the bubble (same measured-ink
             // correction the SVG tiles use — Amiri's em box is way off).
-            const shift = Art.inkShift(shown, latinPrompt ? 22 : 38, latinPrompt);
-            glyph.style.transform = `translate(${shift.dx.toFixed(1)}px, ${shift.htmlDy.toFixed(1)}px)`;
+            Art.fitInlineGlyphs?.(el);
             setPetPose("presenting");
           } else {
             setPetPose("idle");
@@ -1941,7 +1941,7 @@
     gardenReward(finished=false) {
       const world=this.session?.world;
       const stage=ns.LettersGardenArt.chapterGrowth(this.progress,this.bests,world);
-      const scene=world?.id==='pack-boat'?ns.LettersGardenArt.boat({stage}):
+      const scene=world?.id==='pack-boat'?ns.LettersGardenArt.boat({stage,terrain:false}):
         ns.LettersGardenArt.habitatReward({biome:world?.biome || 'meadow',stage,habitat:this.biomeDeco(world?.biome)});
       return `<div class="garden-reward${finished?' garden-reward-finished':''}" role="img" aria-label="Garden flowers: ${stage}">${scene}</div>`;
     }

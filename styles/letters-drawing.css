@@ -160,11 +160,6 @@
     min-height: 34px;
     line-height: 1.1;
   }
-  .lg-app .lg-screen.lg-play[data-activity="trace"] .play-pet > svg,
-  .lg-app .lg-screen.lg-play[data-activity="trace"] .play-pet > .lg-animal {
-    width: 40px !important;
-    height: 44px !important;
-  }
   .lg-app .lg-screen.lg-play[data-activity="trace"] .trace-paper {
     bottom: 67px;
   }

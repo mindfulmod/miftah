@@ -90,3 +90,17 @@ Shared warm-paper control surfaces and restrained tile bevels now connect all ch
 
 ### Calibration awaiting review
 The completed map stop now reserves a separate flower bed below its reward plaque. A new five-petal meadow family and matching boat flowers are implemented as the first drawing sample. Pop selects its pond by activity, including the next chapter and Pop results; the boat and reeds have reserved footer space. This is not approval to expand the style to the remaining inventory. See LETTER_GARDEN_CALIBRATION_REVIEW.md and the same-size saved comparisons.
+
+## Shared art foundation — 2026-09-18
+
+The existing live direction continues. Calibration anchors are a paper pencil
+pot, tied paper roll, pond lily, garden teaching alcove and shared pet-room floor.
+Broad surfaces can resize independently; props retain their proportions. Letter
+carriers, owned stickers and the cast remain the strongest nearby shapes.
+
+Activity prompt, presenter and progress layout now belongs to
+`styles/letters-composition.css`; activity scenery belongs to
+`LettersActivityArt.js`/`letters-activities.css`; pet and teaching furniture
+belongs to `LettersRoomArt.js`/`letters-rooms.css`. Keep mechanics outside these
+owners. See `../letter-garden/ART_FOUNDATION_REVIEW.md` for screenshots, tests,
+recovery and outstanding full-bible debt.

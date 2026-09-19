@@ -1,0 +1,32 @@
+{
+  "build-before.png": {
+    "light_above_80": 49.83,
+    "mid_45_to_70": 24.37,
+    "dark_below_30": 1.28
+  },
+  "build-after.png": {
+    "light_above_80": 56.04,
+    "mid_45_to_70": 21.0,
+    "dark_below_30": 1.38
+  },
+  "meet-before.png": {
+    "light_above_80": 64.41,
+    "mid_45_to_70": 23.51,
+    "dark_below_30": 3.66
+  },
+  "meet-after.png": {
+    "light_above_80": 66.34,
+    "mid_45_to_70": 21.55,
+    "dark_below_30": 3.11
+  },
+  "pop-after.png": {
+    "light_above_80": 73.53,
+    "mid_45_to_70": 10.34,
+    "dark_below_30": 1.71
+  },
+  "pond-night.png": {
+    "light_above_80": 49.69,
+    "mid_45_to_70": 10.61,
+    "dark_below_30": 2.24
+  }
+}

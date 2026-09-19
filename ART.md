@@ -218,3 +218,20 @@ Child navigation is wordless: use action pictures and accessible names, not visi
   Decorative progress plants must stay within the visible map, not at -2/102%.
 - Judge several adjacent chapters in the composed scrolling view, including a
   habitat boundary and day/night, rather than reviewing each island in isolation.
+
+## Shared art alignment — 2026-09-18
+
+- Activity presenters have one layout owner, `letters-composition.css`. Scene
+  styles may not independently resize the pet, prompt or progress row. Arabic
+  prompt alignment uses the computed font size and is remeasured on font load
+  and viewport resize; a hard-coded 38 px measurement is not a fit contract.
+- Stretchable scenery planes and fixed-proportion props are separate SVGs.
+  `preserveAspectRatio="none"` is for broad terrain/material planes, never fruit,
+  hangers, pencils, paper rolls, characters or lettering.
+- Room furniture and its pet share one aspect-ratio frame and a common ground
+  reference. An SVG's box being centered does not prove the feet are grounded.
+  Check actual feet/shadows on the composed floor, including a second species.
+- Reserve the bottom prop strip outside Build's letter trays. Validate the
+  smallest portrait and short landscape, not just a single phone screenshot.
+- Reward scenery uses one ground plane. The Boat landmark may suppress its own
+  terrain when it is placed on the shared celebration clearing.

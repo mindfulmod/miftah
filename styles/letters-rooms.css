@@ -1,13 +1,14 @@
 /* Shared garden furniture. Artwork stays behind the child’s letter, pet and rewards. */
 .room-art{display:block;width:100%;height:100%;overflow:visible;pointer-events:none}
-.lg-app .pet-stage.pet-room{width:min(100%,1000px);margin:auto;min-height:0;overflow:hidden;gap:8px;padding:0 0 12px}
-.lg-app .pet-room .pet-hero{flex:1 1 280px;min-height:220px;max-height:470px;padding:30px 0 0;isolation:isolate}
+.lg-app .pet-stage.pet-room{width:min(100%,900px);margin:auto;min-height:0;overflow-y:auto;gap:16px;padding:4px 0 12px}
+.lg-app .pet-room .pet-hero{flex:1 1 auto;min-height:245px;max-height:450px;padding:32px 0 0;display:flex;align-items:center;justify-content:center;isolation:isolate}
+.pet-diorama{position:relative;aspect-ratio:600 / 430;width:min(100%,560px);max-height:100%;isolation:isolate}
 .pet-alcove{position:absolute;inset:0;z-index:-1;pointer-events:none}
-.lg-app .pet-room .pet-big{height:clamp(200px,34vh,290px);width:clamp(210px,36vh,300px);margin:0;align-self:center;isolation:isolate}
-.lg-app .pet-room .pet-big>.lg-animal,.lg-app .pet-room .pet-big>svg{height:100%!important;width:auto!important;max-width:100%;max-height:100%}
+.lg-app .pet-room .pet-big{position:absolute;left:50%;bottom:9%;transform:translateX(-50%);width:57%;height:76%;margin:0;padding:0;display:grid;place-items:end center;isolation:isolate}
+.lg-app .pet-room .pet-big>.lg-animal,.lg-app .pet-room .pet-big>svg{position:absolute;inset:0;height:100%!important;width:100%!important;max-width:100%;max-height:100%;min-height:0}
 .lg-app .pet-room .pet-big::before{display:none}
 .lg-app .pet-room .lg-star-chip{top:0;left:auto;right:12px;transform:none;z-index:3}
-.lg-app .pet-room .pet-bubble{top:6px;right:0;border:2px solid #8b7350}
+.lg-app .pet-room .pet-bubble{top:6px;right:0;border:2px solid #a89478}
 .lg-app .pet-room .pet-flower{right:6px;bottom:4px;width:58px;pointer-events:none}.pet-room .pet-flower svg{width:100%;height:auto}
 .lg-app .pet-room .pet-racks{flex:0 0 auto;max-width:560px;min-width:0;width:100%;gap:5px;padding:0 2px}
 .wardrobe-tabs{display:flex;justify-content:center;gap:16px;position:relative;z-index:1}
@@ -18,24 +19,24 @@
 .wardrobe-prev,.wardrobe-more{display:grid;place-items:center;flex:0 0 44px;width:44px;height:48px;padding:8px 4px;border:2px solid #967b52;border-radius:18px;background:#fff8e7;color:#4a3620;box-shadow:0 3px 0 #c2b28c;cursor:pointer}
 .wardrobe-prev svg{transform:rotate(180deg)}.wardrobe-prev:disabled,.wardrobe-more:disabled{opacity:.35;box-shadow:none;cursor:default}
 .lg-app .pet-room .pet-shelf{flex:1;min-width:0;max-width:none;min-height:116px;padding:8px;gap:8px;margin:0}
-.lg-app .pet-room .pet-acc{width:84px;min-height:94px;padding:5px 4px;justify-content:center;gap:4px}
-.lg-app .pet-room .pet-acc-art{height:62px;display:grid;place-items:center}.pet-room .pet-acc-art>svg,.pet-room .pet-acc-art>.lg-animal{height:62px!important;max-width:70px!important}
+.lg-app .pet-room .pet-acc{width:90px;min-height:108px;padding:7px 4px;justify-content:flex-start;gap:4px}
+.lg-app .pet-room .pet-acc-art{width:100%;height:72px;display:grid;place-items:end center}.pet-room .pet-acc-art>svg,.pet-room .pet-acc-art>.lg-animal{height:72px!important;width:72px!important;max-width:100%!important}
 .lg-app .pet-room .pet-color-rack{width:100%;min-height:116px;padding:12px 8px;justify-content:center}
 .lg-app .pet-room .pet-color-options{gap:9px}.lg-app .pet-room .pet-color-swatch{width:44px;height:44px;flex:0 0 44px}
 .wardrobe-tabs button:focus-visible,.wardrobe-panel button:focus-visible{outline:3px solid #e8743c;outline-offset:3px}
 /* The nest is part of the environment, with a clear opening for the egg. */
 .lg-app .hatch-stage{position:relative;width:min(600px,100%);margin:auto;isolation:isolate;gap:18px}
-.hatch-nest{position:absolute;width:100%;height:300px;top:50%;transform:translateY(-58%);z-index:-1;pointer-events:none}
+.hatch-nest{position:absolute;inset:auto 0 0;height:260px;z-index:-1;pointer-events:none}
 .lg-app .hatch-egg::before,.lg-app .hatch-egg::after{display:none}
 .lg-app .hatch-pet{position:relative;z-index:1}
 .lg-app .hatch-hues{padding:10px;background:#fff8e7;border:2px solid #c2b28c;border-radius:28px;gap:10px}
 /* A paper teaching board is furniture, never the source of an Arabic glyph. */
-.lg-app .lg-meet .meet-stage{position:relative;isolation:isolate;width:min(580px,100%);padding:42px 24px 58px;border:0;background:none;box-shadow:none;gap:16px;max-height:none;overflow:visible}
+.lg-app .lg-meet .meet-stage{position:relative;isolation:isolate;width:min(580px,100%);padding:12px 8px 20px;border:0;background:none;box-shadow:none;gap:16px;max-height:none;overflow:visible}
 .lesson-furniture{position:absolute;inset:0;z-index:-1;pointer-events:none}
-.lesson-furniture svg{object-fit:fill}
+.lesson-furniture svg{object-fit:contain}
 .lg-app .lg-meet .meet-bud{width:130px;height:140px;min-height:0;margin:0;background:none;border:0;box-shadow:none;display:grid;place-items:center}
 .lg-app .lg-meet .meet-bud>svg{width:120px;height:130px}
-.lg-app .lg-meet .meet-card .art-blob{width:clamp(220px,60vw,310px);max-height:36vh}
+.lg-app .lg-meet .meet-card .art-blob{width:100%;height:100%;max-height:none}
 .lg-app .lg-meet .meet-make{max-width:100%;gap:8px}
 .lg-app .lg-meet .meet-piece .art-blob{width:clamp(96px,25vw,145px)}
 .lg-app .lg-meet .meet-dots{flex-shrink:0}
@@ -58,27 +59,23 @@
 .lg-app .lg-party .garden-practice-links button,.lg-app .lg-stars .garden-practice-links button{width:64px;height:52px;border-width:2px;border-radius:18px}
 .lg-app .lg-party .garden-practice-links svg,.lg-app .lg-stars .garden-practice-links svg{width:48px;height:42px}
 /* Sticker paper, binding and packet belong to the same warm material family. */
-.lg-app .lg-album .album-stage{justify-content:flex-start;gap:14px;padding:6px 4px 24px;max-width:620px;width:100%;margin:auto}
+.lg-app .lg-album .album-stage{scrollbar-width:thin;scrollbar-color:#a89478 #fffaf0;justify-content:flex-start;gap:14px;padding:6px 4px 24px;max-width:620px;width:100%;margin:auto}
 .lg-app .lg-album .album-grid{position:relative;width:100%;max-width:560px;border:2px solid #967b52;border-left:10px solid #c2b28c;border-radius:12px 24px 24px 12px;background:#fff8e7;box-shadow:4px 5px 0 #dfd2b6;padding:16px 12px;gap:12px;overflow:visible}
-.lg-app .lg-album .album-pack{display:flex;align-items:center;justify-content:center;gap:14px;width:auto;padding:0 12px;margin:0;min-height:130px}
-.lg-app .lg-album .album-pack>.room-pack{height:126px;width:108px}
+.lg-app .lg-album .album-pack{display:flex;flex-direction:row;align-items:center;justify-content:center;gap:10px;width:auto;padding:0 10px;margin:0;min-height:96px}
+.lg-app .lg-album .album-pack>.room-pack{height:96px;width:82px}
 @media(max-height:650px){
- .lg-app .pet-room .pet-hero{flex-basis:240px;min-height:220px;padding-top:26px}
- .lg-app .pet-room .pet-big{height:215px;width:225px}
- .lg-app .lg-meet .meet-stage{padding:30px 12px 44px;gap:10px}
- .lg-app .lg-meet .meet-card .art-blob{max-height:32vh}
+ .lg-app .lg-meet .meet-stage{padding:8px 4px 16px;gap:10px}
+
  .reward-scene{height:230px;width:min(375px,100%)}
  .lg-app .lg-party .party-stage,.lg-app .lg-stars .stars-stage{gap:10px;padding:8px 2px}
  .lg-app .hatch-nest{height:240px}
 }
 @media(max-height:420px) and (min-width:500px){
  .lg-app .pet-stage.pet-room{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px;padding:0 0 8px;align-items:center}
- .lg-app .pet-room .pet-hero{height:100%;min-height:215px;max-height:260px;padding-top:16px}
- .lg-app .pet-room .pet-big{height:190px;width:190px}
  .lg-app .pet-room .pet-racks{padding:0 4px}.wardrobe-tabs{gap:10px}.wardrobe-tabs button{width:58px}
  .lg-app .pet-room .pet-color-options{flex-wrap:wrap;justify-content:center;max-width:180px}
- .lg-app .lg-meet .meet-stage{margin:12px auto;padding:20px 30px 34px;gap:8px;max-width:480px}
- .lg-app .lg-meet .meet-card .art-blob{max-height:135px}
+ .lg-app .lg-meet .meet-stage{margin:12px auto;padding:8px 16px 12px;gap:8px;max-width:480px}
+
  .lg-app .lg-meet{overflow-y:auto}
  .lg-app .lg-party,.lg-app .lg-stars{overflow-y:auto}.reward-scene{height:210px;max-width:330px}
 }
@@ -103,3 +100,31 @@
  .lg-app .practice-garden-choices button>svg,.lg-app .practice-garden-choices .practice-friend-picture{height:84px;max-height:84px;flex-basis:84px}
 }
 @media(max-height:650px){.lg-app .lg-stars .reward-scene{height:190px}.lg-app .lg-stars .stars-stage{gap:8px}.lg-app .lg-stars .journey-route{height:36px}}
+
+/* All pet parts share one 600×430 room, so their floor cannot drift on resize. */
+@media(max-height:650px) and (orientation:portrait){
+ .lg-app .pet-room .pet-hero{min-height:220px;padding-top:26px}
+ .pet-diorama{width:min(100%,340px)}
+ .lg-app .pet-stage.pet-room{gap:6px}
+}
+@media(max-height:420px) and (min-width:500px){
+ .lg-app .pet-room .pet-hero{padding:26px 0 0;min-height:205px}
+ .pet-diorama{width:min(100%,300px)}
+}
+.album-supply{display:flex;align-items:center;justify-content:center;gap:26px;flex:0 0 auto;width:100%;padding:0 8px 4px}
+.lg-app .lg-album .album-stage{gap:16px}
+.lg-app .lg-album .album-grid{background:linear-gradient(90deg,#e5dcc8 0,#fffaf0 5%,#fffdf7 50%,#fffaf0);border-color:#a89478;border-left-color:#c9bda4;padding:14px;gap:10px;box-sizing:border-box}
+.lg-app .lg-album .album-slot{display:grid;place-items:center;aspect-ratio:1;min-width:0;padding:2px;background:#e5dcc8;border:1px dashed #c9bda4;border-radius:18px;box-shadow:none}
+.lg-app .lg-album button.album-slot{background:#fffaf0;border:1px solid #c9bda4;box-shadow:0 3px 0 #e5dcc8,inset 0 2px 0 #fffdf7}
+.lg-app .lg-album .album-slot .art-sticker{width:100%;height:100%;max-width:104px;max-height:104px}
+.lg-app .lg-album span.album-slot .art-sticker{opacity:.55;width:82%;height:82%}
+.lg-app .lg-album .album-pack .pet-acc-cost{padding:6px 8px;background:#fffaf0;border-radius:14px;color:#70501b}
+
+.meet-display{position:relative;isolation:isolate;display:grid;place-items:center;width:min(100%,540px);aspect-ratio:600 / 430;flex-shrink:0}
+.lg-app .lg-meet .meet-display .meet-card{position:absolute;left:19%;bottom:8%;height:92%;width:62%;padding:0;display:grid;place-items:end center}
+.lg-app .lg-meet .meet-display .meet-card .art-blob{width:100%;height:100%;max-height:none}
+.lg-app .lg-meet .meet-display .meet-bud{position:absolute;left:calc(50% - 65px);bottom:8%}
+@media(max-height:650px){.meet-display{max-width:350px}}
+@media(max-height:420px) and (min-width:500px){.meet-display{max-width:320px}.lg-app .lg-meet .meet-stage{max-width:440px}.lg-app .lg-meet{overflow-y:auto}}
+
+.lg-app .lg-meet .meet-display .meet-make{position:absolute;inset:auto 4% 12%;justify-content:center;align-items:flex-end}

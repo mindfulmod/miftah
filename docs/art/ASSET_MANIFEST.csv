@@ -27,3 +27,9 @@ map-star-plaque,progress,readable earned and empty stars,1,78,29,none,"0 43",fro
 shared-live-surfaces,interface,consistent controls and play framing,1,0,0,responsive,center,front,1,true,warm-paper,live-letter-garden,letters-art-pass.css,local-verified
 garden-flower-bed,environment,meadow and completion planting bed,1,100,80,none,"50 71",front,1,true,meadow-pastels,live-boat-landmark,LettersGardenArt.js,calibration-awaiting-review
 garden-pond-detail,environment,edge water ripples behind Pop targets,1,600,420,responsive,center,front,1,true,aqua-pond,live-boat-riverbank,LettersGardenArt.js,calibration-awaiting-review
+activity-pencil-pot,workbench,grounded pencils outside letter tray,1,120,140,none,60 130,front,1,true,warm-paper,live-boat-landmark,LettersActivityArt.js,local-reviewed
+activity-paper-roll,workbench,tied paper outside letter tray,1,120,140,none,60 124,front,1,true,warm-paper,activity-pencil-pot,LettersActivityArt.js,local-reviewed
+pond-lily,environment,quiet near and far water-edge planting,1,92,72,none,46 50,three-quarter,1,true,foliage,live-boat-riverbank,LettersGardenArt.js,local-reviewed
+teaching-alcove,lesson,shared ground for bud and letter presenter,1,600,430,none,300 357,front,1,true,warm-paper,pet-room,LettersRoomArt.js,local-reviewed
+pet-room-frame,layout,single coordinate frame for pet and furniture,1,600,430,none,300 365,front,1,true,warm-paper,live-mina,letters-rooms.css,local-reviewed
+activity-presenter,layout,optical prompt and proportional pet with progress row,1,0,0,responsive,center,front,1,true,warm-paper,live-letter-garden,letters-composition.css,local-reviewed

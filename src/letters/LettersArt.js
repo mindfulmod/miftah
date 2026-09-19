@@ -184,12 +184,22 @@
       el.setAttribute('font-size',size);el.setAttribute('x',cx+(b.left-b.right)/2);el.setAttribute('y',cy+(b.up-b.down)/2);
     }
   }
+  function fitInlineGlyphs(root) {
+    for (const el of root.querySelectorAll('[data-fit-ink]')) {
+      if (!el.isConnected || el.hidden || !el.textContent) continue;
+      const size = parseFloat(getComputedStyle(el).fontSize);
+      const shift = inkShift(el.textContent, size, el.classList.contains('is-latin'));
+      el.style.transform = `translate(${shift.dx.toFixed(1)}px, ${shift.htmlDy.toFixed(1)}px)`;
+    }
+  }
   function watchGlyphs(root) {
     let pending=false;
-    const schedule=()=>{if(pending)return;pending=true;requestAnimationFrame(()=>{pending=false;fitGlyphs(root);fitStickerArt(root);});};
+    const schedule=()=>{if(pending)return;pending=true;requestAnimationFrame(()=>{pending=false;if(!root.isConnected)return;fitGlyphs(root);fitStickerArt(root);fitInlineGlyphs(root);});};
     const observer=new MutationObserver(schedule);observer.observe(root,{childList:true,subtree:true});
     document.fonts?.ready.then(schedule);document.fonts?.addEventListener('loadingdone',schedule);schedule();
-    return ()=>{observer.disconnect();document.fonts?.removeEventListener('loadingdone',schedule);};
+    const resize = typeof ResizeObserver === 'function' ? new ResizeObserver(schedule) : null;
+    resize?.observe(root);
+    return ()=>{observer.disconnect();resize?.disconnect();document.fonts?.removeEventListener('loadingdone',schedule);};
   }
 
   // A friendly face used by every character. Mascot-grade eyes (the Duolingo/
@@ -1081,6 +1091,6 @@
   ns.LettersArt = {
     keyMascot, blobCard, creature, icon, backdrop, dayPhase, PHASES, mapStop,
     bloomCluster, confetti, ICONS, pet, egg, sticker, stickerPack, skillFlower,
-    inkShift, warmInk, fitGlyphs, watchGlyphs,
+    inkShift, warmInk, fitGlyphs, fitInlineGlyphs, watchGlyphs,
   };
 })(window.MiftahGame || (window.MiftahGame = {}));

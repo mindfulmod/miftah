@@ -22,14 +22,14 @@
         `<svg x="28" y="5" width="190" height="143" viewBox="0 0 64 48">${habitat.replace('<svg ','<svg width="64" height="48" ')}</svg><svg x="139" y="103" width="90" height="72" viewBox="0 0 100 80">${flowers}</svg>`}
     </svg>`;
   }
-  function boat({ stage = 0 } = {}) {
+  function boat({ stage = 0, terrain = true } = {}) {
     const id = `garden-boat-${serial++}`;
     const flowers = [[55, 130, .86], [166, 139, 1.1], [205, 124, .72]];
     return `<svg class="garden-boat" viewBox="0 0 260 200" aria-hidden="true">
       <defs><linearGradient id="${id}" x2="0" y2="1"><stop stop-color="#fffdf7"/><stop offset=".55" stop-color="#fffaf0"/><stop offset="1" stop-color="#e5dcc8"/></linearGradient></defs>
-      <ellipse cx="130" cy="174" rx="110" ry="15" fill="#4e9677" opacity=".22"/>
+      ${terrain ? `<ellipse cx="130" cy="174" rx="110" ry="15" fill="#4e9677" opacity=".22"/>
       <path d="M24 147Q130 119 236 147L220 165Q128 185 40 165Z" fill="#b7e779"/>
-      <path d="M30 152Q126 173 231 151L220 166Q128 185 40 165Z" fill="#4e9677" opacity=".45"/>
+      <path d="M30 152Q126 173 231 151L220 166Q128 185 40 165Z" fill="#4e9677" opacity=".45"/>` : '<ellipse cx="130" cy="160" rx="86" ry="11" fill="#2f5c46" opacity=".13"/>'}
       <g stroke="#4a3620" stroke-width="3" stroke-linejoin="round">
         <path d="M62 110L178 107L153 147L90 146Z" fill="url(#${id})"/>
         <path d="M62 110L111 122L153 147L90 146Z" fill="#e5dcc8"/>
@@ -103,12 +103,11 @@
     </svg>`;
   }
   function pond() {
-    return `<svg class="garden-pond-detail" viewBox="0 0 600 420" preserveAspectRatio="none" aria-hidden="true">
-      <g fill="none" stroke="#f5fff7" stroke-width="3" stroke-linecap="round" opacity=".75">
-        <path d="M30 83Q51 78 72 82M517 102Q540 96 564 102M28 328Q49 323 70 328M516 365Q539 358 568 363"/>
-      </g>
-      <g fill="#fffdf1" opacity=".46"><ellipse cx="34" cy="345" rx="8" ry="2"/><ellipse cx="555" cy="122" rx="7" ry="2"/></g>
-    </svg>`;
+    const lily = `<ellipse cx="46" cy="50" rx="40" ry="12" fill="#ccfbef" opacity=".7"/><path d="M43 43L64 58Q93 50 76 31Q60 15 30 28Q5 44 24 56Q38 65 52 58Z" fill="#4e9677"/><path d="M43 43L62 54Q81 48 70 33Q50 22 31 32Q17 41 29 49Z" fill="#7fce54"/><path d="M37 34Q51 28 65 34" fill="none" stroke="#b7e779" stroke-width="2.4" stroke-linecap="round"/>`;
+    return `<div class="garden-pond-detail" aria-hidden="true"><svg class="pond-water" viewBox="0 0 600 420" preserveAspectRatio="none">
+      <path d="M0 18Q300-3 600 19V32Q300 12 0 33Z" fill="#ccfbef" opacity=".65"/>
+      <g fill="none" stroke="#fffdf7" stroke-width="2.4" stroke-linecap="round" opacity=".65"><path d="M30 83Q51 78 72 82M517 102Q540 96 564 102M28 328Q49 323 70 328M516 365Q539 358 568 363"/></g>
+    </svg><svg class="pond-lily is-near" viewBox="0 0 92 72">${lily}</svg><svg class="pond-lily is-far" viewBox="0 0 92 72">${lily}</svg></div>`;
   }
   // Shared seed-picnic prop; the dark opening remains visible above the weave.
   function seedBasket() {

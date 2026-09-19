@@ -1,6 +1,6 @@
 # Letter Garden major release — local status
 
-Preview: `http://letter-garden-next.localhost:8790/letters.html?v=20260916-coast1`.
+Preview: `http://letter-garden-next.localhost:8790/letters.html?v=20260918-art-foundation1`.
 Durable checkout: `/Users/main/Documents/GitHub/miftah/.local-work/letter-garden-next-major`.
 Branch: `codex/letter-garden-next-major`.
 Production baseline: `55f34576f0ebfc02bcf115452101b37adfbb4536` / `20260908-batch50`.
@@ -42,3 +42,10 @@ The earlier touch checkpoint `3e35484` is on GitHub; this art pass remains local
 Remaining: physical-device/touch and installed update testing; audible verification; Arabic educator and child-session review; the complete character/accessory fitting matrix. Parent-page work is explicitly deferred. Continue from [NEXT_MAJOR_RELEASE.md](NEXT_MAJOR_RELEASE.md), not a count-driven rewrite.
 
 Delegation: bounded Sol and Luna tasks for gameplay guards, recovery/offline and release contracts/docs; root owned art direction, integration, browser play and corrections. No measured token-savings claim.
+
+September 18: art + shared alignment foundation implemented locally. Shared
+presenter/ink sizing, proportion-safe activity props, grounded room frames,
+refined Boat entry/play/rewards, workshop and sticker composition. **230 tests
+pass.** See [ART_FOUNDATION_REVIEW.md](ART_FOUNDATION_REVIEW.md) for screenshots,
+actual input checks and remaining art-bible debt. Learning/game major passes are
+still pending; audio generation and parent-page work remain deferred.

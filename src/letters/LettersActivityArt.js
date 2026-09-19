@@ -4,6 +4,7 @@
 (function (ns) {
   const FAMILY = {
     pairs: "pairs",
+    feed: "picnic",
     catch: "catch",
     build: "workbench",
     blend: "workbench",
@@ -52,25 +53,53 @@
       </svg>`;
   }
 
+  // Only large planes stretch. Props have their own viewBox and ground anchor.
+  const prop = (name, body, view = '0 0 120 140') =>
+    `<svg class="activity-prop is-${name}" viewBox="${view}" preserveAspectRatio="xMidYMax meet" aria-hidden="true">${body}</svg>`;
+  function pencilPot() {
+    return prop('pencils', `
+      <ellipse cx="60" cy="130" rx="45" ry="7" fill="#4a3620" opacity=".12"/>
+      <g stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round">
+        <path d="M34 90L20 21L24 8L33 18L46 87Z" fill="#ee806f"/><path d="M25 22L37 84" stroke="#ffa798"/>
+        <path d="M54 87L53 12L59 2L65 12L66 88Z" fill="#f3c955"/><path d="M58 16V82" stroke="#ffe49a"/>
+        <path d="M73 89L88 24L97 14L100 29L86 93Z" fill="#4e9677"/><path d="M93 29L80 84" stroke="#b7e779"/>
+        <path d="M25 73Q59 64 95 73L87 121Q59 134 33 121Z" fill="#e5dcc8"/>
+        <path d="M32 78L38 118Q58 125 80 119L85 77" fill="#fffaf0" stroke="none"/>
+        <path d="M25 74Q60 83 95 74" fill="none" stroke="#a89478"/>
+        <path d="M59 110V93M58 102Q43 105 45 92Q57 92 58 102M60 99Q74 102 76 88Q65 88 60 99" fill="#7fce54" stroke="#4e9677"/>
+      </g>`);
+  }
+  function paperRoll() {
+    return prop('paper', `<ellipse cx="63" cy="124" rx="48" ry="7" fill="#4a3620" opacity=".12"/>
+      <path d="M25 34Q17 15 38 15H87Q100 16 101 30L91 111Q67 125 20 115L31 37Z" fill="#e5dcc8" stroke="#a89478" stroke-width="2.4"/>
+      <path d="M38 17Q50 21 45 37L33 109Q61 119 86 108L97 32Q99 20 87 18Z" fill="#fffdf7"/>
+      <path d="M25 34Q45 45 45 30Q45 20 37 22Q29 23 33 29" fill="none" stroke="#a89478" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M45 62L87 67L84 83L42 78Z" fill="#4e9677"/><path d="M48 67L82 71" stroke="#b7e779" stroke-width="2.4"/>`);
+  }
   function workbench() {
-    return `
-      <svg viewBox="0 0 720 540" preserveAspectRatio="none" aria-hidden="true">
-        <path d="M0 0H720V142Q561 126 409 145Q208 170 0 140Z" fill="#fffdf7" opacity=".66"/>
-        <path d="M0 94Q182 122 371 99Q551 77 720 102V151Q552 126 391 148Q194 175 0 145Z" fill="#e5dcc8" opacity=".5"/>
-        <path d="M0 444Q172 423 344 448Q531 475 720 437V540H0Z" fill="#c9bda4"/>
-        <path d="M0 466Q181 442 352 469Q539 495 720 459V540H0Z" fill="#e5dcc8"/>
-        <path d="M0 506Q177 482 366 505Q544 527 720 494V540H0Z" fill="#c9bda4" opacity=".72"/>
-        <path d="M0 445Q178 422 349 448Q535 475 720 438" fill="none" stroke="#4a3620" stroke-width="3" opacity=".38"/>
-        <g class="activity-workbench-tools" stroke="#4a3620" stroke-linejoin="round">
-          ${shadow(66, 426, 49, 8, ".13")}
-          <path d="M27 413L71 365L91 385L52 425Z" fill="#f3c955" stroke-width="3"/><path d="M72 365L83 350L106 373L91 385Z" fill="#e5dcc8" stroke-width="3"/><path d="M34 408L58 421" fill="none" stroke="#ffe49a" stroke-width="3" stroke-linecap="round"/>
-          ${shadow(657, 427, 45, 8, ".13")}
-          <path d="M620 421L645 354L665 361L650 426Z" fill="#ee806f" stroke-width="3"/><path d="M645 354L659 337L674 342L665 361Z" fill="#e5dcc8" stroke-width="3"/><path d="M676 422L687 371" fill="none" stroke-width="6" stroke-linecap="round"/><path d="M673 378L691 382" fill="none" stroke="#ffa06e" stroke-width="6" stroke-linecap="round"/>
-        </g>
-        <g fill="#a89478" opacity=".42">
-          <circle cx="58" cy="52" r="4"/><circle cx="104" cy="52" r="4"/><circle cx="616" cy="52" r="4"/><circle cx="662" cy="52" r="4"/>
-        </g>
-      </svg>`;
+    return `<svg class="activity-plane" viewBox="0 0 720 540" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 0H720V540H0Z" fill="#fffaf0"/>
+      <path d="M0 0H720V91Q526 66 360 91Q183 113 0 88Z" fill="#ccfbef" opacity=".55"/>
+      <path d="M0 0H720V30Q572 59 418 31Q231 3 0 43Z" fill="#b7e779" opacity=".35"/>
+      <path d="M0 75Q178 105 359 81Q546 56 720 79V98Q531 76 356 101Q160 123 0 96Z" fill="#e5dcc8"/>
+      <path d="M0 435Q349 414 720 435V540H0Z" fill="#c9bda4"/>
+      <path d="M0 435Q353 419 720 435V495Q369 512 0 495Z" fill="#e5dcc8"/>
+      <path d="M0 437Q348 424 720 437V447Q365 435 0 449Z" fill="#fffdf7"/>
+      <path d="M0 499Q365 516 720 499V519Q347 537 0 519Z" fill="#a89478"/>
+      <path d="M0 472Q143 463 217 471M525 477Q629 465 720 473" fill="none" stroke="#c9bda4" stroke-width="2.4"/>
+    </svg>${pencilPot()}${paperRoll()}`;
+  }
+  function picnic() {
+    return `<svg class="activity-plane" viewBox="0 0 720 540" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 399Q172 353 359 386Q532 413 720 364V540H0Z" fill="#b7e779" opacity=".45"/>
+      <path d="M0 455Q146 413 327 446Q539 473 720 412V540H0Z" fill="#4e9677" opacity=".2"/>
+      <ellipse cx="360" cy="306" rx="213" ry="42" fill="#fffaf0" opacity=".65"/>
+    </svg>${prop('picnic-flowers', `<ellipse cx="60" cy="131" rx="45" ry="7" fill="#2f5c46" opacity=".16"/>
+      <path d="M43 125V62M78 128V88" fill="none" stroke="#4e9677" stroke-width="4"/>
+      <path d="M44 106Q12 106 16 85Q38 85 44 106M78 115Q104 113 108 93Q85 95 78 115" fill="#4e9677"/>
+      <path d="M44 68Q20 67 24 49Q10 26 31 25Q44 7 55 25Q80 24 69 46Q75 68 44 68Z" fill="#ffa798" stroke="#a89478" stroke-width="2.4"/>
+      <circle cx="44" cy="43" r="10" fill="#f3c955"/><circle cx="42" cy="40" r="4" fill="#ffe49a"/>
+      <path d="M78 96Q56 93 59 77Q73 65 84 74Q101 73 96 87Q91 98 78 96Z" fill="#ffe49a"/><circle cx="79" cy="83" r="6" fill="#c69434"/>`)}`;
   }
 
   function parade() {
@@ -93,12 +122,22 @@
       </svg>`;
   }
 
-  const DRAW = { pairs, catch: catchOrchard, workbench, parade };
+  const DRAW = { pairs, catch: catchOrchard, workbench, parade, picnic };
+
+  function fixedProps(markup) {
+    const bounds = { 'pairs-leaves':'0 30 720 90', 'orchard-fruit':'20 35 680 110', 'parade-hangers':'48 88 625 78' };
+    const props=[];
+    for (const [name,view] of Object.entries(bounds)) {
+      const pattern=new RegExp('<g class="activity-'+name+'"[^>]*>[\\s\\S]*?</g>');
+      markup=markup.replace(pattern,group=>{props.push(prop(name,group,view));return '';});
+    }
+    return markup+props.join('');
+  }
 
   function scene(activity) {
     const family = FAMILY[activity];
     if (!family) return "";
-    return `<div class="lg-activity-art is-${family}" data-activity-art="${activity}" aria-hidden="true">${DRAW[family]()}</div>`;
+    return `<div class="lg-activity-art is-${family}" data-activity-art="${activity}" aria-hidden="true">${fixedProps(DRAW[family]())}</div>`;
   }
 
   // Mini-games replace stage.innerHTML between rounds. Keep one quiet scenery
