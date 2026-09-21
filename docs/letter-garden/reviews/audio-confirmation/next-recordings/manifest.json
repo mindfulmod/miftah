@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "id": "next-recordings-100",
   "preparedOn": "2026-09-19",
-  "status": "awaiting-recording",
-  "description": "100 distinct unmapped items, selected in curriculum order. No playable audio is assigned. These are recording requests, not an audio-review queue.",
+  "status": "recording-received",
+  "description": "The original fixed 100-item request inventory. A new recording was received on September 21; only separately identified candidate cuts belong in the listening queue. This inventory does not claim all 100 items are present or correct.",
   "sourceReview": "owner-reviews/20260919-boundary-recheck.json",
   "items": [
     {
@@ -707,6 +707,12 @@
       "direction": "syllables"
     }
   ],
+  "recording": {
+    "sourceId": "marin-curriculum-batch-3",
+    "originalFilename": "openai-fm-marin-audio-3.mp3",
+    "sha256": "224a49929768b1378c21fba0fc112331d555e45ec51fa5da21883edd79a0766e",
+    "receivedOn": "2026-09-21"
+  },
   "batches": [
     {
       "id": "01-mark-names",

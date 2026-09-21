@@ -47,7 +47,7 @@
     $('#items').replaceChildren();
     for(const item of list.slice(page*PAGE_SIZE,(page+1)*PAGE_SIZE)){
       const d=Core.current(item,state),card=node('article',undefined,'item');card.id=item.id;card.setAttribute('aria-label',`Review ${item.text}`);
-      const top=node('div',undefined,'item-top');top.append(node('span',item.family),node('span','','badge'));card.append(top);if(selectedQueue()){const kind=item.status==='sequence'?'NAME SEQUENCE · check order and gaps':/vowel|Tanween|Leen|Sukun/.test(item.family)?'SYLLABLE · check the vowel, length and ending':'WORD · check consonants, vowels and ending';card.append(node('p',`${queueItems().findIndex(x=>x.id===item.id)+1} / ${queueItems().length} · ${kind}`,'hint'));}
+      const top=node('div',undefined,'item-top');top.append(node('span',item.family),node('span','','badge'));card.append(top);if(selectedQueue()){const kind=item.status==='sequence'?'NAME SEQUENCE · check order and gaps':['Letter names','Vowel and tanween names'].includes(item.family)?'NAME · check the complete spoken name':/vowel|Tanween|Leen|Sukun/.test(item.family)?'SYLLABLE · check the vowel, length and ending':'WORD · check consonants, vowels and ending';card.append(node('p',`${queueItems().findIndex(x=>x.id===item.id)+1} / ${queueItems().length} · ${kind}`,'hint'));}
       const arabic=node('div',item.text,'arabic');arabic.lang='ar';arabic.dir='rtl';card.append(arabic);
       const actions=node('div',undefined,'clip-actions');
       if(item.parts.length){const play=button(item.parts.length>1?'▶ Play full sequence':'▶ Play clip',()=>playItem(item),'play');play.setAttribute('aria-label',`Play ${item.text}`);actions.append(play);}

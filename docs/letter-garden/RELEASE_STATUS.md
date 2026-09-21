@@ -92,3 +92,15 @@ runtime replay/cancellation/mute/save checks pass. Local entry point:
 [applied review](reviews/audio-confirmation/INDIVIDUAL_REVIEW_APPLIED_20260919.md).
 Next: review only the 22 changed clips, then attach results or say done with the
 page left open. No publishing.
+
+
+September 21: preserved the new 43.152-second owner recording and prepared 76
+review-only clips (2 names, 24 short syllables, 50 long syllables); 24 requested
+items remain held for uncertain identity/boundaries. Installed all nine newly
+approved glides unchanged, bringing the runtime bank to 164. All 370 previous
+playable signatures and owner notes are retained. 282 tests and browser decode,
+playback, replay/cancel/mute/save and review-persistence checks pass. No publishing.
+See [recording intake and validation](reviews/audio-confirmation/NEW_RECORDING_20260921.md).
+Next owner action: review only the new 76 at the audio desk, leave notes and say
+“done” with the page open (or attach exported results). Do not regenerate the
+whole 100-item list; unresolved/rejected clips will form a focused follow-up.

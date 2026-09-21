@@ -1,0 +1,1400 @@
+{
+  "preparedOn": "2026-09-21",
+  "source": {
+    "file": "docs/letter-garden/reviews/marin-curriculum/sources/batch-3.mp3",
+    "sha256": "224a49929768b1378c21fba0fc112331d555e45ec51fa5da21883edd79a0766e",
+    "duration": 43.152,
+    "originalFilename": "openai-fm-marin-audio-3.mp3"
+  },
+  "methodology": {
+    "short": "Outer groups use sustained 5 ms RMS silence. Individual cuts use actual low-energy separations where present; continuous triads use repeated consonant-onset spectral changes, with each preceding cut ending before the next consonant begins. No equal subdivision or expected-order-only allocation.",
+    "long": "Use full-source Whisper only for group/consonant evidence, then place starts at consonant activity or closure and ends before the following consonant onset. Bounds are not equal subdivisions.",
+    "limits": "Automatic transcripts and acoustic boundaries propose cuts; they do not approve pronunciation. Fused sounds and uncertain consonant groups remain held. No timing, pitch, or vowel-length synthesis was applied."
+  },
+  "baseline": {
+    "playableSignatures": {
+      "lg-7b409f99ba65": "639903214a40bae168e6ac8c423d6f2cad1941ac9c48347206b10eb4f9f128a6",
+      "lg-fdac6226be42": "b516ec958927ababaf2aa60e9f709c39df374f30c3bdcf22b38198877bea697d",
+      "lg-0a13989a204d": "0e31421401305e4dc601b33cfe44fb0a92d00f330d596eeb84a3426c59f2871b",
+      "lg-7d83bf266454": "658b43dbd1c77e08d674eb3406521aab2e42c7108dc88840f0a6f46278f469f8",
+      "lg-2ea4f3670804": "d43a85cbdac45cd83229ad215461cbb2e32a7bc165dbb19d4e7ae5bfa68e9f84",
+      "lg-3f1e3509b34c": "b83f0a76738ab0f55a9fbb5c451bd082a4c76021847a6999b60a6ccd3ad76d51",
+      "lg-7e24e5253763": "b560db5724c5d85ff06b7a2383b5d8b42f03a07562b45f4e9207d4cec3c41770",
+      "lg-69890b471593": "ff3075cd02f7c5ee6b3fca5e6047f59690ddefa1a73e221ab527c9ca6741035f",
+      "lg-ddf88f2719fa": "277270da0d070ced733207104c9b28604fb2da4384940b9d772a1829d0ccc7ca",
+      "lg-0227b4bad571": "d22f1946be71a57c925b83ea6fdad0c2e311a42279ae82b02d143b09b8a32072",
+      "lg-a02f4614aa13": "cc6cdc4e17430588d9276097e355fe443291ce9363bad0b87ac10ae62bfbb877",
+      "lg-0f4c7785aba9": "2d2ca03237cddcc4afd647fff542f253e06b1882a39e796e8ac31263d1586c1f",
+      "lg-e90108716819": "544acbdae1d705f39a8ff4af447c88482a962978c68d25b569140fd521eeaede",
+      "lg-ece1f0e12504": "99a28afe5e6104f6796421d3d843d029501cf67974e0b1be15d90bfbc3b9f4fd",
+      "lg-7689552fecb7": "bf10bfef5e120cc01a152648697dbf28e4390d199b67dd68df6d9bc0585a7a60",
+      "lg-0c022a9f442d": "2c67a5f62223b469a31f285eb62d230e5f817e78e6fc7a8017772bc6b0cba2bd",
+      "lg-ad87a1fed097": "ca77bfbe4554dc3eb6e2ee93a9ae4e34ec1bd64bfb33b38688fe3c599969ae2a",
+      "lg-0337f90d726e": "872d3176f60d95f86c046666a9938b1a88afa56debe947bd76ca84428dc952cf",
+      "lg-19363bf8db35": "6f726056c281a8cfac96d33f36435216faae52d77a1b329ae822f16ec82b33fc",
+      "lg-3cd321875ba2": "f638d06aec02e57299afc17f425fa0de41aad529c4ab5ee75ef87321e2f142ed",
+      "lg-05e0ee291873": "fb35275e6e908f12f610d3e6b1dd53ae5d83c4757ef3f2d3685ade87901caae6",
+      "lg-65fb33ae4b99": "1b01ad49f0da40d2a7b1513c2f39204e0e09f87e1768debab8c5866f901d572e",
+      "lg-4cb3db3dcb07": "8e8a71422771997216d6be3688fae8c25c85b3d4d0adbd6cd17246572e282ac6",
+      "lg-77f45bf4cfdd": "c198b33769ee472f2ac2ca032d70dac8e44bbcab44ad1847ea229a15dc682e1f",
+      "lg-26386f9541b6": "d117aa6fd1db81fd033d41b6095843a3402950585c41da5a5ed3cf82b668a2a7",
+      "lg-053bb5757fb4": "f8c78b03da70659663256b9385fd3c110ada31ced538a250db7c21aa8ec4f707",
+      "lg-9398dd2463eb": "d6ac34750000d292b8778c5b6a6c3423e3e8eec45e1431b2474d32457909fbdc",
+      "lg-cf74c943ec31": "d10270a903837f274fc645d06a6b76aefaf07fc5c2aa9bc8fbf9bd483a024358",
+      "lg-94eee3c61cac": "18e8e905d6344194d122e2cbb84fbb83e84d1baf116af933158b4a60cf7d488b",
+      "lg-780f94e60087": "841cb56c035871c22228103de23a03a7def3e3f3af60d0400640b98a22d8b31d",
+      "lg-65ebd28d0327": "b67497042ab354f41c080a9e7cef0bdb6751bdc73e031a87e7e227882e64fafc",
+      "lg-291b92e492fb": "f7649dd4e89caece53b8a32d2561ec1485677a9c8c32408a87d2d546f53bca74",
+      "lg-64cbd95c7cd8": "63fc8ff2642aa6e5a0a875748c77c13d6d9d568f32932e2b8c3e29e8bca4f0f6",
+      "lg-0c204c583369": "5e685930946434d777a47a159cb5f0c2246beb7a4f17c5454bddbda686a80cba",
+      "lg-c70774f9ecbf": "0fdae49d87aee67613a5fe510b06dc1fc06d9c35876f9a37ae45659da98901d6",
+      "lg-c73467ff1741": "1e049452109f2af47a491f166120054cd9c223708625586980f584ccef075372",
+      "lg-31fc2e8f811d": "40e9fc909876a59f79837a60e2e4f63a2a18bd14cdd3e42fd43fbf58c993f583",
+      "lg-875ff90371bc": "6620b11ec3436a15b51ae32ae782c37efd67c30db9d9b14d2f1661ef0ac18db4",
+      "lg-e2fece36d71a": "95906cc13a2a96156438fbc7139e8ab1f32e60551f72cdc3b3b7692d44de1be0",
+      "lg-2701f008f06f": "3fd5e01999f26e39048eb8a10721061f3021bee870b6e030482ee3cb8d0f94a4",
+      "lg-cb624b7d0ef4": "48a55f5cf1fc47385a1f52a50a7558ab22eb26afa0f5b30558d0cc708963e835",
+      "lg-ba861d96a2da": "5ebfbf48e56e3b65a9447f8b7d60b03233a420899df30043d2c1bf2b40ed2c05",
+      "lg-07b43bc69877": "fb4e72cec7809f20ccb0f0457f0eb426fab154664ba17ffaf19e42715670fbd4",
+      "lg-c781688bdfdc": "005d595b26fe3de2c38c3d96c4815f6045944c3779e3c740b743920671a9e0b5",
+      "lg-50e6cddd272b": "eded7474999f10a2cea8f747ddbec10fd9215417f96a7dbb8e7a0643ae1da664",
+      "lg-2b8af86d7225": "a7440145a0e957eb3870c73f1e06683d22fc855977a4c9880b2123f1dc9defa9",
+      "lg-3b719e0537b9": "41305b2f40b2a7df51f568134e318c17572c1b64a056fb14bc0f8147e7b813be",
+      "lg-924bb86de5f8": "63ad79fbad340e1dbb76fd942688b3621e4d74df3b71f2df73c56d09d78d0049",
+      "lg-413cd9ef9615": "57e7a539ef964cc3c1cf606c997fa866810d884d026c22dc9f72badfd398cbb5",
+      "lg-34fa019fc0cf": "234c66738688b26a6d9d32546f76de4faa1c6b5988b9a642be641850a2c25b84",
+      "lg-f106b520337d": "5dc4ab4df90d8363af6189bc46c62cccfc89e9b12e90881e92b2211c3451af1f",
+      "lg-b395574965f1": "192188e960fbe7798ca283002f0046d4941a3606abe57c82a9251b2eccf6a2c0",
+      "lg-4866a45a046c": "d2bf61779aaa4bce2d7120ffc3ec4af3bf3cac96b2c92c3d629d2d4aa4bc59ad",
+      "lg-9e1d5e7f2d91": "a4f6242fd491db829607f7f27fcd75d4c6af6d02ce8c43d8cdf3653a837ea7d2",
+      "lg-7e363b4b23fc": "1733b8dab7fc1d257f38241f5288bfab38f8114c139f61b11f8a3fa822457134",
+      "lg-b49450735a14": "a39e99121d481904e533a325f5b3c6eab96b8c795843ff7fc54cad694f8a92e1",
+      "lg-ed132d80ef2e": "64145eb1522039c9bbdcf1f64dbc12b7343554b53eecc5ce9cf9a52b06f88ade",
+      "lg-9e233c3067bd": "d30c1a8cdec6b9a976928e164046e8915fcb58a52c5d6d4b06bcd6aa6750c7a2",
+      "lg-ec9450ee268e": "c6a1eebedfcf10df0503ecb8d216c3f6e0e20c18f62d94ddbd619d8764bfa3b7",
+      "lg-6f7ddec18d79": "73a699405ad71626296908f7cddf0577b02f4684a51972b3b6d471defd8a7b3b",
+      "lg-b428ea1f6041": "c8b5647c0cdfc4285f536dca3d128cf91eb8b4a4c8b5be478606d4fd816d530b",
+      "lg-8258de63d74e": "82acff123f3aaec332a361ab556d62a8c3772639e0e075ed21432b1e20eb5743",
+      "lg-aa8811b378b0": "729b5f82ce7d909c2377b455789b5d77913f123dfdf3a287e23e1b2ec3235765",
+      "lg-3d0a28c28b20": "45bc73667f5e3f0ad667857f4e17506ebb91975e8d5b123c6194f6f6f69ce3e9",
+      "lg-3bbe8da7a5b1": "07910cf3c57c4c929267a2878e2ea21933381f1b42ce563500baa42561842f29",
+      "lg-8679f2dad70d": "cc68e2996d1e25f25ac7d9a98d58614a2118a22fd0e4322b191763ac1e46e4ab",
+      "lg-9ed6a9c073f8": "ab4abd5859faafaebfe6a911e2b6f988233ce795f255bf2bf8d7c53dd3a4feab",
+      "lg-3b8e1495833d": "ab9a27f691140bea5e0912366f21fbab3325298c74b6fa544392a1e28cb23041",
+      "lg-ca3af558ba11": "c002dce307f983b780550821d252547318d1528beda1e4b6f30094e4c12883c8",
+      "lg-340740d00ba1": "fdb43b062c16107c65bf010a1cda4ce43ae08fe75ebb096b941e3451bcbff9e5",
+      "lg-427032b8a68b": "0dd173d5c6d29af7b1a794481d2ea5110789514cbae2b63e21af7ad9baf62a95",
+      "lg-8aa63c060c0b": "728ad44a7951b5489771095172d87fb6adfc7a01674f5b1f69ab1d7e0a082a8b",
+      "lg-7339da8be97f": "e2e1f18f61cb5034a02e59d343fc4ab1e27ceba3af11e5fa86f45647038b4a5e",
+      "lg-2700319fe52a": "3284f25bb8ed8369fc7ec98c676ee713008cd55cd9ba26450d35ccd3dbda482d",
+      "lg-049b7c17697e": "9de7724301ff4805ae2123fbeba11b5122a7f6d3a133e50cd1bfd37d4140268b",
+      "lg-1267bbed040f": "a848271adc74bf8f378996ac8ed4b429a47c78bb53faef6e90b80be74c72b46e",
+      "lg-7b0b8febe4a8": "c73fb0b1a85b1da3d2f938684964395ba848995b2d42cbfa249aadb270b4995b",
+      "lg-bfcf70752bf3": "771df69b3f27e781072cd4265cdad7563e8db897fbde574ae9a6bce800ca8ed9",
+      "lg-6552de8f1eb2": "dda8a3d3b76663d2df735bad512c09c2ae45e88dbc5c53fa5ad78be9ff4e6bb6",
+      "lg-38f6528617ad": "39625bd6cdd64fc3518c189490c334dcdeab20d68c38e1ae5a1b7264355a32f4",
+      "lg-91fd914ee86c": "8c97866a6c767cd23b7804016c9a5ac14f1a9681ad6db5d6fdde8e8ca05966e3",
+      "lg-c3b5afe7cc08": "342416c86eb8ebcf446157c0c596da8d5c025ae40288455f25ea2bbedfc3d919",
+      "lg-a5756baa80ee": "bc8edf5460abf93962d0e4646dbfe87965120d830e01e1822210b088d9296d4f",
+      "lg-8bc549d74bec": "bfdb550cdd3828b59dd82f374476c07a288878f2094558103a620bdf10f4acf4",
+      "lg-5c54409fd37a": "7e24fe8545d8541d8dbd0b9ef7cdf460e7bf296d2fdaa49aa265397157c52f6a",
+      "lg-1bbac20141b3": "9de19a823d9e83fb536563b36411ba9eb482074cf0ce6a06bbfab41e53353303",
+      "lg-2d7c57749b54": "07d9981721afa1be3945af142f4932d5ccdfa3c6707129ac78803fca2d790bb0",
+      "lg-43cc227f4e90": "bc5f4792878b02ee35f50f0bb3c0e16c705dbf71754db3f00ed9e60a24b1cac5",
+      "lg-47f506e11b63": "cd84ce6eed3349c0c1e27907986ebfdfae6d93f80bdc6a7e645514edb1a5ef86",
+      "lg-c4b11b1faa10": "e644afcd785728660207edcafe25249af46d3457f86f3dcb7a21bd5c38164b5c",
+      "lg-353bf3f68337": "8650e4c6a4413de6bb665874747cbf80cda1f4e900d70a6dc898de3d80a835a2",
+      "lg-1ef3ddb0017b": "27f4b87a0fcc70b037fc6a0021692a2b3557c81eac7be72798eba4a80bbbcb1b",
+      "lg-7d2fe98d3fcf": "e41fad41d117d4f727e52f4c031b845041be850d9643b68d5e91f0292aa9b91c",
+      "lg-f86274109079": "98cb8cf727834f45b13f6c09b5df14560d8b537ae8c7372de25becec9e03f195",
+      "lg-b39cbc7e3269": "efc3f3b3c34dccbec1284386e5068f1c5a8c144c70572324e78b710a0cad8366",
+      "lg-e9437b0a3e81": "01d6747b715b8f9fd2912fd11efec579463a73826fd9e888c8907c4898e1c2a9",
+      "lg-c445e7a21765": "8a46deaf2a50018c66659a329946af273a65bc2e19452d842e22068f0150f11d",
+      "lg-4e89a5b4afe4": "255dc941ac730f417a761cc7d578baa6aed9470046972358d90a2725efc99084",
+      "lg-e66d423a3dd9": "5a35457ef7377307f382ed0539857e5c87a105e9bff7b0f894437b27c7a0e529",
+      "lg-8f627810c512": "5dcdb1e2de41ce6a8cd068b4c69aab7e03c40956e00cd5ccce293fe1c0fe8b86",
+      "lg-a8549d663ab9": "34240f167b5056f7473e1de87328c7a2d7fa8db1c1565f01774dc63e947afa48",
+      "lg-82b658e5075c": "4dca2b04a80c1c860aeb5362b833c2cf8c7d49315f60c0e0a957c4010bf3e4d0",
+      "lg-7af96a47a4b6": "4a60297b7d59efefbb8a2d008b03c38f79a4f52b0c3d16b176ed3933f4a10032",
+      "lg-d4ed5209d00e": "5ca1dfd727787584e0ddd8c1dffb8bbf9328c9bdb18dab2190d8c6b9de503456",
+      "lg-474f763a4173": "f55a6839e331e2a688ff57e28be7f94835716d2b4ea21bda34ebfd38f9502f1e",
+      "lg-43ac82f76e3c": "0432cd139d0012dfd913e6991984ab48fb9ac369ae543a0c03ab5ef9b4c7552a",
+      "lg-f01edb5de2d9": "69806f4db4e67da66f1a16482d2edb749de7f551eceb6cb234845b84017c9a91",
+      "lg-c8b4a821d5b9": "0bc7ce04e92a7523c7725f91e16f7ca52827aa6321b11c2f5e90b1df152b9d77",
+      "lg-642b2eea6723": "71d658f5ab25860bcf677344057946b19ad49fb00ebc816d3ae6a32efe79bb86",
+      "lg-09c6b807ef8d": "12e58be47881fe08a3f1f8d19e49ce6bfd9de90a74f3796d5713eca5298146c7",
+      "lg-73d38b2d5bed": "77896b04a684eadd6ded88b2823aacfb9f46ed7e9974089fe2aabc0fcb882d6e",
+      "lg-f9b77a966b34": "f7195140b8d23d3fd658734ef8851fd0e5d349332d24ef8823b643dbb8cc6a1e",
+      "lg-6e9485c46650": "f565e1f3f30e02f9d7e3056c31193ea53781243723ee046754709760ef4a2c62",
+      "lg-f65ba0692d34": "5e4bc5f79fb54e36c22002a05e3069399e0b7d8d7d1a678fab3bba13daa4ef1a",
+      "lg-98c207c85669": "013e69cbec8494801ca4e3a8da259c644c0b70a84836a918346d2c103e9aa791",
+      "lg-3062586698e2": "83afff148f504b7e3dc1941c9cb12fdb721d933fa521fed4e07b7c8caef79310",
+      "lg-66a8d70cd9ef": "eef0bcb22403020dae75c89d72eced5ad59f95b3d58e3185d562424ce62c6392",
+      "lg-74d733b4d22c": "bcc9234ed2c012a862546b499f7b776c7b34de165f1d5d20d686fd156daff349",
+      "lg-c7841a362473": "659ece2ca078468b6bcd7fd55f62c01faac697e486bcc2751954f4a5b4840f43",
+      "lg-5daa6e6fadf0": "253f84155fc6ddf5e1e96ce8046c55d8f436a58a518c1db542f699cfe631627c",
+      "lg-9e3de7854832": "059ba34e3c85e9d1efe703f5836168575c2802e16fc677b7f796bbabe3187f12",
+      "lg-41a5ef4bf942": "fead6c6278725d6a5e29530233c50c1078a7e2802536c64c5cd647d5968a351a",
+      "lg-3468a09a4e0b": "bbdc0aa10b905bdb31bf65562aa1d7ed9ebd632de70a15461efa67dbbd445575",
+      "lg-f14ab1770a44": "6a49d911f19df7186b676e0d2446a11e9c3c6fe6903c3d546abe4996e449c809",
+      "lg-6a7ad426ba6c": "101bfa9d0b1cb25cef5bb54fc7c98ae9bbca1544a5c76bc4301ef8d2b66e35c4",
+      "lg-2f846091a5f9": "f06469b4626208f0a25533515538decc64fbb1e94a97658ff4a56da421fce93b",
+      "lg-7242f6a466e3": "3631c33dd8e4f97e92eba2112dd7daa036944b57f9e7e830bb441bd30f8dcd90",
+      "lg-a61229b543f7": "eb4745580fc13dfa8b0f21207506868b40164c67e74d58e2fa002a445ebcf2b5",
+      "lg-6d8b0837aad0": "1a087ea6fb7fa6055807f0fa0daf3a861266c93d99baa2a770a71a212f60e76d",
+      "lg-5e79a2002dd0": "68b3bbf164b5853617a4fa4b72005d0a6ab0f452ffbe30fcefa999b711b3ba4d",
+      "lg-4c9adc018513": "7d04b4bbb2dba19c4786fe411465a9d5822362adec8588aa73dfbb72ba7b4944",
+      "lg-db9d001d07f5": "a12271e44e839cd84931ee916f5782c92e938ba615c04a00441d7c3071a33e88",
+      "lg-c8f6af9ae470": "243979efc9f37205cd851f20a5686a3efc53575a1de4bef00176ad999e4886ad",
+      "lg-f26ead2a68a3": "7287adb89f9611ee67d95550f9151f073f5269ce4d11655ad268de863886df9d",
+      "lg-509b1b7cc314": "d1d880a364161128b292f395b9f7af968e94c31b06ea7cea0a2a2d008fa23856",
+      "lg-f663e61203ed": "06f5786661b01012d65fde10b6ab7a184d0c30f4147159e6e78cc18bacfdad7f",
+      "lg-2578ff399d5d": "8732adbdc09e792d1196e1354e2be8ceef20ca9f816975ac880ef7e8ffcf1229",
+      "lg-c7d727cb3393": "0167d7273f336eea59263b0ef105ac7d47923b4f895eb5d9cf744a11bc8207b1",
+      "lg-5d2d48da3857": "f345bbfc3a7962ba8d55c970a80a0f4dc75af9f239c53ff7d3c7515442685148",
+      "lg-dda0619e94e4": "488d2228715c44e161f1ce387c64edfa515c94342fd441a07d6bfd8c29a59da6",
+      "lg-628d855112ee": "c117ecb427f63139d598f9bae7aef0dc4c7c0ca734cfa17ecf6d59ee9960171b",
+      "lg-810b404e2d29": "6f3745e77510e3365cd380d04ce8dc0f7d973252f706a5c0110034aa2b22bc44",
+      "lg-c8846e99d100": "b879090eda85c31360e8296323b3e2332f3a3666d808d14659e2c552eeab088a",
+      "lg-50fede0b75aa": "01e6523728f645f62a82f3c527a69d4f92ad823ad3d581465463379fe23e432e",
+      "lg-7c3fe273aa51": "0ce0626c624b9ad9c9d4777fa62272c90f7bde043315fcfea4b82a05987fa704",
+      "lg-07324b4a3020": "e6e41c9889fa2e4c015eda81be2de2bb632ec1328078d25ec82e7ea74d2b7351",
+      "lg-b1b97c29972a": "dde8e4f9f807a85ec100451811f23f6038ae2d9423342f2e6314260e27a42246",
+      "lg-bfcddfe94739": "921eb6f046d83c033029460594ae3c53276a6458033d5a266aa40322342ada02",
+      "lg-c3ebf3ec2afa": "0a4367fb3ca19166cb5565d30f99df26021680fb8edfde9780a67a0665ad9d8d",
+      "lg-e732a36fd0d0": "34b7a03e25a6c31b9f1cc1f4bf327093dbdb7a11e0f66eead708badf8a4fe1ed",
+      "lg-94d3b4fa6e7f": "333e94deb43487d0f22dd09de32f567857e3be71472162b3df16855da8a560c9",
+      "lg-de88736412f6": "218ac0fb4dbb54dc03b37e542a827ade4e23fe7ab908b0d0d3e76483c1092819",
+      "lg-81d4f87ac87d": "5d5626135f8c35a4bb6342c062afc5f00e0e179f6c0c7000264a7c7b0157ca74",
+      "lg-ae6c4c49d483": "f654e3baec9577212b708a665f55883830a3f20847ea260f054c083fbcaa9266",
+      "lg-cfc53afaefe5": "2e6b542100072363578d768fbc14dd11a4ae6422ae4723bf67bfe6ff1fd986d1",
+      "lg-d8738fe07ca3": "a6641f7f158e5d0f405dc9a957b4a6c0b853864476112239439de0881c642c5e",
+      "lg-1b42fe0a2f60": "3c1def6f6fe914d42c5dca5f930909543d38c928719c7c4b28de9342a2b83ee6",
+      "lg-4148486ef90f": "7355ac3c8268b7d76ceee1c548bcaf89ebec33bf7741e2d146a0e73715745814",
+      "lg-85ea5b820c79": "2b33ff53124ed5e2758f489b4a6b25c08de262710f87836939fbd4b223aa29c7",
+      "lg-ce78ac63493c": "db933fdd50342642e020273653e4e3e81109cd9c783423696eaecf58b2facf6c",
+      "lg-8a6ad95fff8d": "cb474ef2e4753756ec8ef61d639fc9e2e84c279c1d38687d2b9abe191c33a49c",
+      "lg-47b825034366": "6d7b2fe7f68978cc311e0d3aad2f5f65a8f17a6b94a503ac688fc97df4441818",
+      "lg-fa3853f6a7be": "2b04d798e11187926d1de3c83b77cd2799e8a7ecf9d7ee45b2691d3c8a2ca3cb",
+      "lg-0e63f0f59473": "7d0ff9627abc452372b02f4ac50d7a9b281d28f3b7c5acececdfb06576b88175",
+      "lg-e006f0b8074f": "2387f8c21b1fc64f7cc493d3a463087341f9fc9d35a9ff508036aa26d9146d83",
+      "lg-2d6a557df5ca": "f2532b1f454c23355fc9a61098619df3b84584b87fd0ab1704b956a60d705f7d",
+      "lg-d4221add8206": "753a1e558de4d2c8ae2d028f36d03833ea06c0715df0e0feb0395689a2762fc8",
+      "lg-a2b1661793d8": "dd49e9aad31d1e1f74dcd4604a6695e37f780f70498de8b5f320f7cb02b1df61",
+      "lg-ba418754028b": "caca207acd7fd1a442db02ddfa2f63c326bfee1486da2fca0e106e8a3cd9327c",
+      "lg-08208c74a20d": "f9325e710b9362935ad8d83156c1673e16aa9027577298735b9a8ee330a68fc2",
+      "lg-f2768d97d70e": "e8a0abb065a77dc3f31c7eae81006397fc90c32336a7f250ec3ec66b490ffd91",
+      "lg-0ee7bf085410": "96bec134359da04a8044bfb5479ca493d1dd2bb5da07302fe457aeb7d97a5ecc",
+      "lg-45fc1490399d": "80b8e25a49b7fb709d170bac7ebafacd379618241d65fd64254de2842df70404",
+      "lg-fd9537adfffb": "ea21cc9d97c099f8064cf6a25fcb0d99b268f0d7bdbf889ed13feaa5f84b8220",
+      "lg-ab7f40914177": "addda34b8e15d5d0bb61d979b72bd761a6c613eb8b06cb48b69a03ef76531ce9",
+      "lg-ba536aa2ea00": "fd5e1953d7376859b94610a419cf9a24451abd95f8a935b474bc262836d65808",
+      "lg-224b9bc0b043": "3c7583dba239b7ef9150f83a8c8df67611a63a64e062e586c3a939c090d58b0b",
+      "lg-fc64a7da85e6": "678cb962ffe9406a3858ef4327c555c53f2d3629ac38b478edcf6f647d95ceb7",
+      "lg-6bf3f9e02464": "67f7257c9a9fc16572d74974e28a2b532300e2e61fe69cdbd2718d736d77dc29",
+      "lg-c09f1ab2e58c": "f68a2314ec3bd89f209234e9b3aeba4c3e43c7ee76ff13c7be1e7041dbc793cb",
+      "lg-f9e63fd121fb": "d96102ab22a3209acd7e7b847697e4bfc098914027304493141a1a4bd5859f1c",
+      "lg-2c61c719a264": "fb364b70c8ae26da63b86416337fe28928b7676b978c7392e2e19659c40115ad",
+      "lg-209639ac36ba": "dacd2f23a49ff7ea2e825407ecc548e664074f20f40a4ac92184fae44c80d226",
+      "lg-aff5a3784268": "fd8643098c91ad0ac36229f3740e2c4b9b7f425c495871aba455bf13b744cbea",
+      "lg-1469680daf37": "8694225fb5def24afa8df65bbc2d86e72e11a2922a07ae385fc0072aebbe6cdb",
+      "lg-825223ba5e41": "59101a11066fe03addae56edc66546135f8ce3cfd85823f1872a9054f11e003f",
+      "lg-aaa90ea0f2e4": "2eab0ebb99470912db7ad99491ed168af421d639a3afbfd536e26f703074bc88",
+      "lg-6180327bb4fe": "a9c386fa6029713d349f757f34c07f529b7aef40a4588e237d6033c05956b63a",
+      "lg-218fec838167": "2a697e2124f5e3beba0773c121534ce6b77855592cc110c094a289636c8d68ae",
+      "lg-94475bdb6e1c": "c17a46fbeb2985ee8985e907b827f97217e625d3ec770f52bdd1fe7edd80a5da",
+      "lg-e41669b75828": "e4a742f8010502840b9b860171e2e390ecfefd88bb42bad628a028e96c3d53e6",
+      "lg-11491c9dc768": "05c9596fb40ce25c588eb271dd5d9251856bc01d183d648f140cbb5424cd75ec",
+      "lg-264f2d6a2749": "17553b4d898c9a46f72b25a9af6203595b2014c556dcd7343ae6fdaab6487019",
+      "lg-95512a1dac68": "abe26bdfa389c76455ca58f583d4fcc16b1980c3c54d31bfc2345e84f467e6a7",
+      "lg-9622112d0c46": "337d0fa7d32f2dd6ce22450e596478ad504f0d5096b6369411284ee048e10da2",
+      "lg-d5dc38bd4c15": "91c1238cf7b654f6d1dbec95245c6f200f617f21c34592ccc2ee9d2db0ed6344",
+      "lg-e6efccc0cf43": "d9cc28b0f0cb4fd6c16fca2c4fb4f8e015e4b866c11762459269c48eecf0e93b",
+      "lg-4cc52666fb5e": "9ff79e73d88e5ecc5dde7e36ac254e6c81d9df786a27511927af2e108e64b345",
+      "lg-f820bb01fafc": "7d31d587efee1be4432ec7c7572a7b0ba6a8e6f339f7b87cd14b3f101df6e41c",
+      "lg-ed4048714f66": "936c5dd48f08b8aae63acceff13c0c2d13361aff4f9d2b4bee747913d4315fa8",
+      "lg-0512f62a1a38": "af08b7b5b39c920a7579b83dd2224097668169ce5bcf44fc676bbdd327cf83e9",
+      "lg-24d41584f68c": "bc96975130d7265159bf2e3e1b2751a91815efffeca756b1c6ec16d204cda4d3",
+      "lg-05eb551f8219": "3885bed6223e0251123453ab80cdbdf710d0f476e4ebb815feab5071c79a8840",
+      "lg-1c562fd4a795": "7116ced9df48ffdcb645acb4d7c77424cc0ef91a251be6ce0cae773ddeec2a85",
+      "lg-4c2f786c3e8d": "d231dfab31d1096f175d0e57b8482017f736fe5fbd9c6e29562cba8dddf262a9",
+      "lg-513e420f5593": "27e6c94b232ed4f3dec294e62848278833384b7ab320c0d876e806eb117af4cf",
+      "lg-ccd65ecf3ee7": "7d5f0be4cebc3a64eb03f3e273a086327645c32ba1a94f9fa334daa1ef3afb8d",
+      "lg-826565e1e4fd": "f89ac1d2390b5cdfd2ebf91bccec0f6a28b0c7c4045f1edd4ad387f0fab8e69a",
+      "lg-cd1effff8877": "9c6514a265384f32d1aa05015d86e4116edc3dc76319c482cc12697f9bf0e68f",
+      "lg-e8865a8cf848": "243f910ec99fada372a7df5ae4b2fc9804d5c368bee5c46f2a563ba4908b5939",
+      "lg-e5dfc52647f5": "c448ae5dda57075c484b2a702438f0da4e023177c57475c33ece1230c98896a7",
+      "lg-07f25640a2b9": "47ce88d8339482e4a2d728894f31ae817bfa2bd4f4306740f1377abea1fc65ed",
+      "lg-a92c18c9f482": "1fe0702ab5247c333c8164e8e3eb8b2ffffb845f9aa56e9bd84a1cbd85829ef9",
+      "lg-c73dc068845c": "3e897bd38e5e9de3069500b0513d8142f75edaffa1c88199174c8d6a59246ff6",
+      "lg-4042899104ea": "41c9cb2bd78f83790137d7d6193c11ad7f806795d84e2c13dc4b763479f5c0c8",
+      "lg-60de38416841": "adb9ab93abc5771a9e4383902a8e8830718a12443618f412448b44940083d37d",
+      "lg-477e069132a4": "1e9b672c4dd0d16012a7b2ca1466a276f9bad4c2e7cdb2122fb3d77baa4386ac",
+      "lg-098c3e64cce6": "844e8aa8f6b93f5f3bfd8626ec8a44c575c4a5070504a2b4519324333c81132c",
+      "lg-6cd4010780cd": "123d305687bf05fdaf89ec33bf88b82c1cdd975527e5e3d4aa2394cb787140b6",
+      "lg-5ef57aec13de": "af6de57b72d4eb7dc388aef7f845678b1684cb2af7cac1d01a8a387e11ea9e9a",
+      "lg-cae8bcdf693c": "9e0ec22424a43567b9603c8707875490913695b003ccd099f4e00b010b1f938e",
+      "lg-cd9b22ca9a2d": "3b5ca1736c973cee4e4a91a5c0c399c512ab10222313f5462c80e51dfc475b90",
+      "lg-c3c191d30756": "e24a0b063ffa00fab1d9a2fdd90dff0e8bb805697fdf3431d5f5c6b788856359",
+      "lg-8e537e9330ac": "baf53623fe1948efb314b4b0963c389a02b4f957934883d829b651a4b6ec4377",
+      "lg-094aadd9deee": "67d2ff1b6524b9b0ce294a700672c80af5fbabb8005825165a96e5a88ebcc17e",
+      "lg-850c13f8f160": "6833bd866423d1f31d88bca4b0d340c44cdc588e2c498d0686772626cd5d3277",
+      "lg-36d2c17bec35": "de4d7a7ed811c2f171af868d787e08504aecad0c5cb4706c423681b5ba9059e8",
+      "lg-7eae096490e0": "206fbc7fb76fdfdab6c201b6c330813762410e2af45b5eba42e35de8bf43cff8",
+      "lg-de3e37392098": "398cd91dc430b983756cb26b7395d547441a1474208d97d0ae7bbc0641690019",
+      "lg-90558bbc1862": "613d81a88d4ca308cc8816ef0d6170c888bf2ee55cdb04b6b7db339ed2bbdc9e",
+      "lg-bcce401862e2": "df830ecb825dcc722de1d89b85f3b17b7a67da413b653ec9cbec80fcda130fd9",
+      "lg-bdff7d26f6d2": "384caaa7c8a4e08b6a3549b91cc61d78cc72ec0fad0934aa7a5e1a2a7b0b6fe3",
+      "lg-343e0002c291": "b0ad3c1da78f1b032a20fc3003f7e9eacbe28352e36fe23f716c7fb39b4ac0f9",
+      "lg-3fbf6e5cfff5": "6a9886e036493b4b4951be6c0e7280e3ca5aa29afffa1e89feda99feea6adfa1",
+      "lg-8be4421c2d2b": "860b31831d7bd6b9600bc016868ffe1e83f6456432d3a6fa22059f2f490b87bd",
+      "lg-0d0b973d4e6d": "a157e903337aa9d7ccb3254983f87c41f29b1be540cc5dd7a8be7ca34114d5cf",
+      "lg-aa96c86d6f01": "2e719c1da27f0ea25d90aac47625e1d15d68cc6d1436e4c1b8df9686298e3c23",
+      "lg-de071ef6fd17": "c3c7cb4a0cf2f6838d0487022834baac9e9edb47498e6bf3c30a00928c999dfb",
+      "lg-d61d7922a81a": "4c1c21bedb7ca94483b0f973df8f0a5adf60e36b1c40d2f696d8ac61af284ec7",
+      "lg-a059d66bfd97": "22bb1a180edb9a63b9abd556526af06c35cd1ee7e54a74e9100a6491df9378ca",
+      "lg-8a77a2d29bf1": "91ff35d7934834a07d31f4b2c57ab85f14be4e69d9bbc3482d360e0153710452",
+      "lg-031f43efadc3": "723559991c489ecbda7ac7c5945bbc870040821fb21cda0492c505340832ce3e",
+      "lg-db1c24726a84": "0dd7537a1eb1d78d55d3826c288435bc3e3c5a019cddb2f4df4a411b234441c6",
+      "lg-efa530f6d75e": "25541844eeb64762eef5f97156e2c928050ef44fa23fed080ae96feef4426c58",
+      "lg-ed5c21ca3f5b": "f2731d567aae9a6664a36d0f4c5a748e1dfb98ef1838bd0fb8beed681f336408",
+      "lg-61268367649d": "d4aa55b1923c6d37ebc90a657b57f6fb6c216fe5256442b527410b89671b6525",
+      "lg-439729486206": "1ea9c8aa91960ee97088f64f57e05f075d59d5558adb591bdb993d34a36b5523",
+      "lg-a653d4ee3eb7": "b2edfcb320d1e4fe34d72259b9eeee1dc77dc6513a7be2be2153a131c526abd9",
+      "lg-5d5cfae2b22a": "e2a793e39482b3d523b130628fb6e4743b3f0bd83d12eb1f01e3841bbd9bdce6",
+      "lg-ff359a43e9c1": "801254335921895fed3ca983e72519645c9231d56061f2e554aea6be410c9682",
+      "lg-b690308d0feb": "8f4bb31eac87b7486776a3a3b9f50b0cd1e4e33ed6477a8f89b7e9f12a9fafb9",
+      "lg-7d47abb0bf71": "48b771e3ea1b1653962081fff14d303afa2b7e9f8c8e011de2e4995ed8793e46",
+      "lg-59a00aa3577b": "1f758c3c49210d23b053ac5577accbfb227b117f5b83aa6574ead4014b5f198c",
+      "lg-a5619f94dc28": "b59f17d360ab78835301c8db56d88e23d4593a61f490e8a5ce189c236c1dd8c9",
+      "lg-5e0f908df879": "48f3aa0a16a0e1c346ad05828f5f542feb4ad99b26c607bf46760ab3971db545",
+      "lg-5afaf689cfa8": "bab2573a0dfc68aeff83f74fe04bd75dcdf845178d85554b76884a2d6984d33f",
+      "lg-10826e044358": "94d924909064733c192263358a6c981b51fe1851f64c8b3e7fb8a7bab539f87c",
+      "lg-df419bcb64aa": "82536716b2188e8525f68ac2d3683369b46e943f24eb628b6e1d339442e62fc1",
+      "lg-b89195099e7b": "4de8f552c5ce4d819fb07b673c87793d62c52ddec4a95c6206bde2d039563fa1",
+      "lg-3f270590c5f9": "9f79f49f1d2a10735742e14c8975e7da3319d9cbc6e5c31ebd470f156b1e58ec",
+      "lg-7ccce474ec73": "38e6040a8aee3dc4d6940dde6c576814fed0d43719cba3a8e094b5a45cdcfe1c",
+      "lg-d26c2ddfd620": "27fc2b60dcfb5468780089b8965d7feb96b97bf641a1a75e4e83c63ae2e6a00c",
+      "lg-d8ed861b5496": "2262cd9194490652b511f07177c7e91eb813bfdca48a0c64c6d6c197e7f26196",
+      "lg-6ebee7645ea7": "8c7eaa363ba3e7c5f0188d3abaabe4f61e3d8ae4a8a451e6c7c3ad5f7b0b305d",
+      "lg-2f7975b674d2": "d5e230d99d4640311178d4fb0cb427c4c0775b2fab58654da7931ff8311df24d",
+      "lg-e6c61ec87f26": "6e53647bf6b30e7a8b26ba924aa1f6fa59ed154722358aecea3abb4cd31451ff",
+      "lg-c2d93b6ef61a": "f26b76d6796569a89f7c279670a0bed8daed4250c024f1a7285e555aefcb1fe5",
+      "lg-8b0e8ce89f7b": "e303615e5c1154d124745f5323b8e3110f5a1a743fb0a4d583856a6f80550484",
+      "lg-360112af1601": "b445045b84d483546dd6d630ba20cef5a936419139847f643e0287f0d5524504",
+      "lg-3c7699382b8c": "2ade52093dc0737226881c01803b83cc22230888585a586ce57bf99a0c9c49ff",
+      "lg-825f93a4f1da": "c27ebab311474fa03697d7a486659e318e8d5c751a9e3917ea7bb1f521adddfd",
+      "lg-f2838147f74d": "0bc9df056eb53b920be2533ee514002be065e8ac11bffd6e79c5be4ebf58b892",
+      "lg-892f8a3404ee": "7da0e47aef2c8d236703a4343c04f982a85da1257f2fa28ca71c3231d104ee59",
+      "lg-cc7d5b044d4b": "7d7f7ca4944c8e1e3b023d70593a93630680bfa4b9f71b2d1dd59d28dd2faef9",
+      "lg-eaf4c107832c": "fdc890aa4cfb36dfe8d081cdef4426828224aac4b2656da7ab62080d5c5713fe",
+      "lg-c03e10015d1c": "1618c27fcbfddc07c0b6ecb4ec3675876d49f6235b3fe08877ff2906bb8c382d",
+      "lg-863cff83238c": "7cc2076fa9fc5b0dccc217f6bca3ef6f914337b81aa4bd00d7007ba25edd80ce",
+      "lg-b0df5a14ee59": "33dd44ee38199d0effa734f72435512b06078506502c3e6a11c70ea1b862d39a",
+      "lg-9171c37da60f": "45da38c7a4ed737f1375c8f8b7bade8b40488fba08e06290fe03b4bb81d8ea90",
+      "lg-d0ce17a37c93": "3e85f38f56b34a65494c944b94a044840c9a35c7d5091dcdcf6dd30ad73f14e0",
+      "lg-c9731dcf68bb": "d46ad0e5d204b5a9ffcb98102ccb627c19cd0ce248dfa7df116b8dd1023168ea",
+      "lg-9ed1d2fdd45b": "3b29cc3c8ecd94c56e5493d5605864e79138d2a36cbf3522b46c54a1bddd243d",
+      "lg-6e6955521010": "623f28216c3afddbd50f85bd14aa9dc798d3913f16b21ce5e85ff3a328e8b9dc",
+      "lg-37b9d0c5eb61": "b28022a42e7969e0b6e8c6fa7a511f7af0c95b66e7bff83ed7de2794f999ad83",
+      "lg-941212689e64": "0e7e866f481c4990c03095f49a802e550f6efb20b6e81c875bba2afb5b8f6d44",
+      "lg-cb51e06eca76": "1b09789215a6f847581291e6d7b31824e756778ce9630ca773773a8041820071",
+      "lg-d9742e59e814": "a0ecc622ff29e809c60bf4efeb7934f80496e3c9ecb2d9b2fb9d785fa8232aca",
+      "lg-cb7d97ccc2ea": "98814d1651a65558f6441689fd21841f4369a37dab4b3da1962292054c27a320",
+      "lg-cfbc1d3aba6d": "01fc49d396d920a74d2070d96a82e4975906525dcc5f70d0988cb5df6b4ae00e",
+      "lg-ffd2f14dde95": "460888907856dbacab38a8ce39976f0cb3125178bb62fb8ffd5d705a8b105a8a",
+      "lg-31e7d983c481": "3bd5461222bc841b35bd9a0c7a0b14620338b19b7de8f7cd6c1062e806f4910a",
+      "lg-07bb605cd205": "eebe0ec2706fe499847a6d31f4badad2f0aba01c9ee806aa48fc91b554f569b5",
+      "lg-70c394d701df": "50bf08eb90d7707ac9cd05b827e6db5eda692441aa3f13128f73209ebc51d66e",
+      "lg-75c7092a899e": "27922c6a350f423ef21c685c23c0914565f55b284c56769a790fc7778ea8c1b3",
+      "lg-f3bff647bc86": "c131f3c37f0770687d0a45278705988d1323519c9fd3cec422398247d0b6b94c",
+      "lg-963e421aa0ad": "e2b38049648433906c86fc193c0274d1889952d24bc3adba9f6cee484b6ceaa9",
+      "lg-adf0af4e7c92": "7ecd7d97284e1c2c117d4c415e7790cb001c30dbd7c34b4101c57c34727be5ae",
+      "lg-a28471e808fd": "3f73bf88f46fa54623b87c015d3c5e452a303b3879a05a338aaae5f51627df18",
+      "lg-eea2de95ea67": "73ac1abfef316d9f8e7821dc3b88598f3240772763092dfd069e9b1cec0d5a39",
+      "lg-aca9823e7842": "f89f62e46eb8cfb27758ad23d3729f3b35e91fe3494681b0d0a6557e0db9ec80",
+      "lg-1706e3326372": "4ea0ec873e595238ab96099c5261f6b80f2f32ee8e3cef3bcdda081a797f9428",
+      "lg-51698a5abf0e": "16d915d8212936190b26d8ec4fb115920cbcee9f4e94fd499efba488a7ba42f4",
+      "lg-37eb31c00972": "fb8096f7f493fca33c42eda9b9deb268756a0557c5bf1c15de452d7db2a1a6cc",
+      "lg-efb3ba0c354c": "8a67bc22147b555f33c3d8c900f8674697835d67e33e43eab919b3b5c8f805e9",
+      "lg-a050c32d13bb": "3c6de6cb67dd561ca9aa22de3e7f87d2d8dc4b98bb738da7d5175d739ae3376d",
+      "lg-896742253b55": "eef764474b07adaf45169469480532a73d7c342fd9a67d009ee56389554f194f",
+      "lg-2c4f3688c465": "a169c6a0d31af1ef832652a658c12051ab8832a06a18ea88cc5cb66563d4877a",
+      "lg-d0ff85010d6d": "e3d4d7747b48e6ffde52cd0cca31440cb7f642db628e912a73e833a977dff8b7",
+      "lg-2f4c9f5e9d0e": "b095f11234fcd7a95455f9ab91d0f4d6e6a9cd2eb5ee802bae109818b06b6f2b",
+      "lg-5e84be9ac9d2": "b8ae2c5704615da3f641f50cfae753c6b43ee350f7e444676531615bb974a121",
+      "lg-da6730b3ddc6": "af4208a05c0f09a96787d85f3902516d48e06d708da146f2c39e082c1ec74db6",
+      "lg-d856f0d70fd6": "f399cd5d189fedcc5fa1b8b8ef65156b5d90c2c9772f3e9a17e3176d53af92da",
+      "lg-d6f8f2275f5e": "258b165d1b9f5b2d9241a7378d9939e643ee5895581acdb565e97bfccf5a7d5f",
+      "lg-cd7a3691610c": "43e632f8ea22f34d41c1130735599cabd7b37f779ba07f01a5c9a4a345b5cd62",
+      "lg-874ededa66ea": "60c316da868d4de773ac3f8cb01501e6346cf87c19c3a8308a35b34555ef58e8",
+      "lg-ef9e977420fb": "382eadc26d87a96a7b40494162cb6ace6f83e36da267b012e6806d6739dc8982",
+      "lg-436051d75411": "c917d4a6ddc06cd2c346cdce65e6dcffe36cc3d9383d48a46483de9cd4954fd0",
+      "lg-72f0c6ffb97e": "f5b2f8c7b2309b4032748e02027661672282512b830382884db48257311fb241",
+      "lg-4fecf562ad73": "b99bd8c73e2b79c56c6bd8d1fd69166bcc4f2f520db286a94951220242afbd1e",
+      "lg-69db4b0e3e59": "46dd73d553c8ddfae3d53fe2b98203c15d52d372600d584b37d6ce3d6e0c8103",
+      "lg-5e98d364b8dc": "1ab02b639b6cf0a8677b14cd7821aff08d65ddec748a80c3e287bfa327b06340",
+      "lg-b496675b69cc": "f8b1b4993ff6282303e360819534930812b9fd3676200df69414ababa95db9dc",
+      "lg-31c4b92918f1": "8ad443183b36ea6464a563257840aff7a79e9ce55efd54b2063a316931eab848",
+      "lg-a84ec886f9c9": "d147f45c852d27f1f48a8f486f67c04eb0d775caf4862e6f680fa6f1ba86a941",
+      "lg-11c03db8a649": "1dd76a1c33b9af5b3b1f44f115675d09138a7240ba0319ba9a6653e21f4582d7",
+      "lg-6dd704bf1f78": "52ad21e3cb47ae537be624d348083bde5af964eef08690b82d307eedb941086c",
+      "lg-01d030082c1b": "33f5d41c75c7824f9000c3b53bd9b10ba5828eb2c3e9c4dfaebdcfd4beb1b24c",
+      "lg-648f0a0c25df": "7661fbba244c181272d5fa57764a1531aa2c5e0d7e347284d605cfddcec030c6",
+      "lg-c7de22ff1b61": "7e23842ec0e9a1a5de95f2a4ad1744aa730fad66da021144e59698076cec4bbd",
+      "lg-c6b280f2f17a": "657247a84b367e5c8c8f1a963177ac0f908becc448864cfc9697bf3e15d7ae9c",
+      "lg-18a040b6a51e": "a75315d62c42e4855594734753a267d34a43d126b912b1ea1ee1afc8f63d762b",
+      "lg-b06565f8aaa0": "32983ea291e756323c2c177274a1cebe549f51f5161f07041dc4a5d9921dc674",
+      "lg-bd46ab5bdaa1": "d02dc13592e75faa10831d47e54b7473d95a07fbd1608d6ff7731dd3f19a60b2",
+      "lg-90d88997e5ad": "3044c9312bbf5dc23e486ca6983dbeb498cd38462b53433d113a8d2a525a025e",
+      "lg-3488ac52dc86": "d5aac95d4f4155f52fd55d881f9bc7a8d1e9b5fdb20c254cc95c489ce42b7f36",
+      "lg-9c74111ab2e1": "9da335c6fa7b013b9a1c7d2496b87aa09ef0d8d15f82a89b8cb33626c0152ad1",
+      "lg-9f17f39c7ccc": "42267fc498033f4f599e1b708072ad5562a664f06b196be6cfa129ad1d47a66b",
+      "lg-0063a8b7516b": "2a12aab186777a04ed0ae80f243134aac0d115dbb276d1242de67f079e6771ec",
+      "lg-36de322acd08": "b4e87ef4c7b45f3706d6a203bae5aa1a88f758d1cd78e70da6f775b1ceb66495",
+      "lg-20d6a23f9da2": "5bd14f2bbd0a90460871b5c5221ddfc92baa505dcd13de17a3d7b8d936c81dad",
+      "lg-6c20f7dba794": "d9b85416e3dea40e15553a63f0e9d55138c28b10c1fd228b3a842fe799b4102d",
+      "lg-9d47e9b19474": "a5ed8533d261b123e584825bfc8702e197932ed766d69731b62ec63bbb9aad1b",
+      "lg-534041199a78": "9c952d6771c68e796d083e1f73a2ce1ee00f178c3689d0ec7f20b0ccadda337e",
+      "lg-8fc7fa8fbd35": "ad57e812c883dfdbdc31fadc8b88d0a8d060544ac5ceaf319eabccaae88c6cc9",
+      "lg-29b198d8f21c": "4887335212b59b63d2843bc3281216d6d4ab25add88be2e9d1965f0b4d9a2960",
+      "lg-e73695a19d7c": "a7be908c6004398a8c5f8f4b50023464f702caea359d1d3f8e79db17e24a4925",
+      "lg-c558f589b023": "18e8240d0936ec53d9d886131f00848f55d391514633e00cc44bb87b564485cd",
+      "lg-3ba6534b5ee5": "6b710de52583c0ccf96dde874a26f56e04d4db1f5030cc0096376610ba7e7e8f",
+      "lg-26ed5158313f": "ad6f3f0001de5fe1f50d4860091af54db6ec9064e513928651f52f0ab8219b8d",
+      "lg-d524dcd920d4": "cc679edd4f684c10c8cfb305d3e296c190f1c8ea658e06c1bc5a947cbe522aa2",
+      "lg-d3146fe0d277": "a01a56144b0eb6e096378748da30fbf05c153e6e6728dc09fda7c6e23d45073f",
+      "lg-c80e987a8701": "afbbcbe6283485acb585d3a051ccaee042d4a1bd71423d819fd3206bfa2b4b02",
+      "lg-ea875094f181": "2d60c365b0665eed05758529ec15e150d4bfc2b4310d33b1e2f4660c50d8104d",
+      "lg-eb39909cec98": "084a54b8b7464b905efa5fe16aa146a08e72abcefbe189be5b4f0766dc52d241",
+      "lg-de185ac7f525": "8cb5df25700c894c81250604298fffa32568257a9c2fdae81fc3eb4847874ad2",
+      "lg-249eb0f81690": "cb785855efa06f108b66b45712941317f5404230b053413a6d9b34f05f1803cb",
+      "lg-e25d50a43325": "0662ee36f89e1281e68af9b790b789e868467b1724248eb397c4de2db8eba079",
+      "lg-14741ab7f1ee": "cf0c8e8992b41f0bb2c4a305bc37bb57197ff9c4a8dd9b1138fb9b32009da5da",
+      "lg-1ce8d703952f": "4394ada171fc63d19cf21bb1386b084e4d51acd0f4bd78b073f1af1fad272016",
+      "lg-5e5062032b35": "1f97fff887ef8918e0bd3ade3140388afd52e43cb4541abd08fc9e3f70e5a3fc",
+      "lg-181485f41712": "1e400b0c92b663674c4980fc6ed1dfd23f582cfa48527c6d9e46a28e0d7c7f53",
+      "lg-0a2980003a04": "7297e8d57bf2a1ab8d0d320421aee5581e49fa5cbc40ec882c19112c96624b2d",
+      "lg-4a881677999b": "0f85c630b5ae3ab6aaefd9dd88b6c4276caaabd1cdcf0036c6c1fcb7b547b0a6",
+      "lg-a89456a59c9e": "08555795dbfd34d057e93f9ad2e4e1f909c958256450624af150cb5eb99a13d7",
+      "lg-3e9bf2d99343": "2db3a50acdc8096c050239e23ecbb0e18ed999702b3266c5e407b98ef1b07cea",
+      "lg-68293b175d90": "47132e396b9bc04662d42b7f2c09e49ba326e789dd5e7f0cdcb0b5bb5a41a020",
+      "lg-9937bc33fbac": "843c791ad12cc52192848fea26eee771fcbd5c107d8cd726d4ffa5f65ff162a4",
+      "lg-1fd96ab9d4f3": "38515095427c9b73206cbebff79c8b4ab0b90d446b17aa2c574f6b745e9d1153",
+      "lg-dc01ba5ca209": "2d5bab08b5038d5b614a9877a481df2e3167b0102b4cae9b357f23f975a35f28",
+      "lg-ce62928e95a6": "9926dee5f40b41f91553195f849f11746908aaca190ed146d004f7d96a377363"
+    },
+    "runtimeSha256": "ac49d5d522c9518d19e5ac25d6803e4238481543350d5951262a3a6e94bc3f6a",
+    "serviceWorkerSha256": "4f59b7805366033465239acc1312942832793c8dcf812b31cd28db7a2dd2a8b2"
+  },
+  "candidates": [
+    {
+      "text": "ضَمَّة",
+      "source": "batch-3",
+      "start": 0.04,
+      "end": 0.56,
+      "evidence": "Opening activity runs approximately 0.07–0.55 and is isolated by the sustained quiet gap through 0.87; the unprompted transcript reads ضم. Bounds retain low-energy onset/tail padding.",
+      "confidence": "high",
+      "caveat": "Transcript omits the final orthographic ending; verify the complete spoken name.",
+      "id": "lg-60e3b82e5a3e"
+    },
+    {
+      "text": "فَتْحَتَانْ",
+      "source": "batch-3",
+      "start": 0.89,
+      "end": 1.71,
+      "evidence": "Second opening name begins after the 0.55–0.87 quiet gap, with visible activity around 0.90–1.70; transcript reads فتحتان. Bounds follow waveform activity rather than the shorter ASR timestamp.",
+      "confidence": "high",
+      "caveat": "Verify the complete name and final nasal ending.",
+      "id": "lg-4f057689d289"
+    },
+    {
+      "text": "خَ",
+      "source": "batch-3",
+      "start": 3.84,
+      "end": 4.305,
+      "evidence": "Transcript identifies the group as خاخيخ. Three independently active utterances are separated by deep near-silent gaps around 4.305 and 4.515–4.625.",
+      "confidence": "high",
+      "caveat": "Human review required before import.",
+      "id": "lg-147954761063"
+    },
+    {
+      "text": "خِ",
+      "source": "batch-3",
+      "start": 4.305,
+      "end": 4.515,
+      "evidence": "Transcript identifies the group as خاخيخ. Three independently active utterances are separated by deep near-silent gaps around 4.305 and 4.515–4.625.",
+      "confidence": "high",
+      "caveat": "Human review required before import.",
+      "id": "lg-f3d5f289598a"
+    },
+    {
+      "text": "خُ",
+      "source": "batch-3",
+      "start": 4.61,
+      "end": 4.795,
+      "evidence": "Transcript identifies the group as خاخيخ. Three independently active utterances are separated by deep near-silent gaps around 4.305 and 4.515–4.625.",
+      "confidence": "high",
+      "caveat": "The recognizer did not preserve the final /u/ vowel; verify خُ by listening.",
+      "id": "lg-e7757adcd376"
+    },
+    {
+      "text": "صَ",
+      "source": "batch-3",
+      "start": 5.2725,
+      "end": 5.62,
+      "evidence": "Transcript identifies صاصيس. Repeated emphatic-fricative onset transitions occur near 5.620 and 5.945; each end is placed before the next consonant onset rather than its vowel peak.",
+      "confidence": "medium",
+      "caveat": "Human review required before import.",
+      "id": "lg-f33099a288ef"
+    },
+    {
+      "text": "صِ",
+      "source": "batch-3",
+      "start": 5.62,
+      "end": 5.945,
+      "evidence": "Transcript identifies صاصيس. Repeated emphatic-fricative onset transitions occur near 5.620 and 5.945; each end is placed before the next consonant onset rather than its vowel peak.",
+      "confidence": "medium",
+      "caveat": "Human review required before import.",
+      "id": "lg-ea38bdb8dbab"
+    },
+    {
+      "text": "صُ",
+      "source": "batch-3",
+      "start": 5.945,
+      "end": 6.235,
+      "evidence": "Transcript identifies صاصيس. Repeated emphatic-fricative onset transitions occur near 5.620 and 5.945; each end is placed before the next consonant onset rather than its vowel peak.",
+      "confidence": "medium",
+      "caveat": "The recognizer did not preserve /u/ on the final member; verify vowel quality.",
+      "id": "lg-a8429e61a006"
+    },
+    {
+      "text": "ضَ",
+      "source": "batch-3",
+      "start": 6.73,
+      "end": 7.055,
+      "evidence": "Transcript identifies ضاضيض. Repeated consonant transitions/energy minima near 7.055 and 7.395 isolate three utterances without equal subdivision.",
+      "confidence": "medium",
+      "caveat": "Human review required before import.",
+      "id": "lg-1ebb7dbf1c58"
+    },
+    {
+      "text": "ضِ",
+      "source": "batch-3",
+      "start": 7.055,
+      "end": 7.395,
+      "evidence": "Transcript identifies ضاضيض. Repeated consonant transitions/energy minima near 7.055 and 7.395 isolate three utterances without equal subdivision.",
+      "confidence": "medium",
+      "caveat": "Human review required before import.",
+      "id": "lg-3942d76b714f"
+    },
+    {
+      "text": "ضُ",
+      "source": "batch-3",
+      "start": 7.395,
+      "end": 7.655,
+      "evidence": "Transcript identifies ضاضيض. Repeated consonant transitions/energy minima near 7.055 and 7.395 isolate three utterances without equal subdivision.",
+      "confidence": "medium",
+      "caveat": "The final vowel was not rendered as /u/ in text; verify ضُ.",
+      "id": "lg-040d0fff887a"
+    },
+    {
+      "text": "طَ",
+      "source": "batch-3",
+      "start": 8.11,
+      "end": 8.43,
+      "evidence": "Transcript identifies طاطيت. Each member is independently bounded by near-silent gaps: 8.383–8.505 and 8.693–8.805.",
+      "confidence": "high",
+      "caveat": "Human review required before import.",
+      "id": "lg-8845ef789954"
+    },
+    {
+      "text": "طِ",
+      "source": "batch-3",
+      "start": 8.495,
+      "end": 8.745,
+      "evidence": "Transcript identifies طاطيت. Each member is independently bounded by near-silent gaps: 8.383–8.505 and 8.693–8.805.",
+      "confidence": "high",
+      "caveat": "Human review required before import.",
+      "id": "lg-05d7abc3e058"
+    },
+    {
+      "text": "طُ",
+      "source": "batch-3",
+      "start": 8.795,
+      "end": 8.975,
+      "evidence": "Transcript identifies طاطيت. Each member is independently bounded by near-silent gaps: 8.383–8.505 and 8.693–8.805.",
+      "confidence": "high",
+      "caveat": "The recognizer rendered the final consonant but not /u/; verify vowel quality.",
+      "id": "lg-e49934a2356f"
+    },
+    {
+      "text": "ظَ",
+      "source": "batch-3",
+      "start": 9.38,
+      "end": 9.75,
+      "evidence": "The group is a continuous emphatic/interdental triad; transcript renders ضاضيذ, preserving a related emphatic/interdental base but confusing ظ. Repeated onset changes occur near 9.75 and 10.05.",
+      "confidence": "low",
+      "caveat": "ASR substituted ض for ظ; verify consonant.",
+      "id": "lg-84e9e184b660"
+    },
+    {
+      "text": "ظِ",
+      "source": "batch-3",
+      "start": 9.75,
+      "end": 10.05,
+      "evidence": "The group is a continuous emphatic/interdental triad; transcript renders ضاضيذ, preserving a related emphatic/interdental base but confusing ظ. Repeated onset changes occur near 9.75 and 10.05.",
+      "confidence": "low",
+      "caveat": "ASR substituted ض for ظ; verify consonant.",
+      "id": "lg-f8b192cd3a04"
+    },
+    {
+      "text": "ظُ",
+      "source": "batch-3",
+      "start": 10.05,
+      "end": 10.28,
+      "evidence": "The group is a continuous emphatic/interdental triad; transcript renders ضاضيذ, preserving a related emphatic/interdental base but confusing ظ. Repeated onset changes occur near 9.75 and 10.05.",
+      "confidence": "low",
+      "caveat": "ASR ends with ذ and does not confirm /u/; verify consonant and vowel.",
+      "id": "lg-8f13db9909e5"
+    },
+    {
+      "text": "عَ",
+      "source": "batch-3",
+      "start": 10.7325,
+      "end": 11.06,
+      "evidence": "Transcript repeatedly identifies ع in عاعع. Acoustic onset/closure changes near 11.060 and 11.390 isolate three members.",
+      "confidence": "medium",
+      "caveat": "Human review required before import.",
+      "id": "lg-470dbb77d4df"
+    },
+    {
+      "text": "عِ",
+      "source": "batch-3",
+      "start": 11.06,
+      "end": 11.39,
+      "evidence": "Transcript repeatedly identifies ع in عاعع. Acoustic onset/closure changes near 11.060 and 11.390 isolate three members.",
+      "confidence": "medium",
+      "caveat": "The transcript does not distinguish /i/; verify vowel.",
+      "id": "lg-36a1e7188648"
+    },
+    {
+      "text": "عُ",
+      "source": "batch-3",
+      "start": 11.39,
+      "end": 11.615,
+      "evidence": "Transcript repeatedly identifies ع in عاعع. Acoustic onset/closure changes near 11.060 and 11.390 isolate three members.",
+      "confidence": "medium",
+      "caveat": "The transcript does not distinguish /u/; verify vowel.",
+      "id": "lg-76bad5b506e7"
+    },
+    {
+      "text": "فَ",
+      "source": "batch-3",
+      "start": 13.285,
+      "end": 13.71,
+      "evidence": "Transcript renders فاثيف, preserving ف at the group edges. Three utterances have independently silent separations at 13.623–13.720 and 13.943–14.008.",
+      "confidence": "medium",
+      "caveat": "Human review required before import.",
+      "id": "lg-139a6ba5cae1"
+    },
+    {
+      "text": "فِ",
+      "source": "batch-3",
+      "start": 13.71,
+      "end": 14,
+      "evidence": "Transcript renders فاثيف, preserving ف at the group edges. Three utterances have independently silent separations at 13.623–13.720 and 13.943–14.008.",
+      "confidence": "medium",
+      "caveat": "ASR confused the middle consonant with ث; verify فِ.",
+      "id": "lg-390d2843328d"
+    },
+    {
+      "text": "فُ",
+      "source": "batch-3",
+      "start": 14,
+      "end": 14.2,
+      "evidence": "Transcript renders فاثيف, preserving ف at the group edges. Three utterances have independently silent separations at 13.623–13.720 and 13.943–14.008.",
+      "confidence": "medium",
+      "caveat": "ASR did not preserve /u/; verify فُ.",
+      "id": "lg-ea02a7a1f92e"
+    },
+    {
+      "text": "قَ",
+      "source": "batch-3",
+      "start": 14.59,
+      "end": 14.895,
+      "evidence": "Transcript renders قاثيق, preserving ق at the group edges. Three utterances are separated by low-energy closures/gaps at 14.828–14.938 and 15.110–15.228.",
+      "confidence": "medium",
+      "caveat": "Human review required before import.",
+      "id": "lg-d73b8f256e66"
+    },
+    {
+      "text": "قِ",
+      "source": "batch-3",
+      "start": 14.895,
+      "end": 15.17,
+      "evidence": "Transcript renders قاثيق, preserving ق at the group edges. Three utterances are separated by low-energy closures/gaps at 14.828–14.938 and 15.110–15.228.",
+      "confidence": "medium",
+      "caveat": "ASR confused the middle consonant with ث; verify قِ.",
+      "id": "lg-2155dba94601"
+    },
+    {
+      "text": "قُ",
+      "source": "batch-3",
+      "start": 15.17,
+      "end": 15.445,
+      "evidence": "Transcript renders قاثيق, preserving ق at the group edges. Three utterances are separated by low-energy closures/gaps at 14.828–14.938 and 15.110–15.228.",
+      "confidence": "medium",
+      "caveat": "ASR did not preserve /u/; verify قُ.",
+      "id": "lg-96d6e5707674"
+    },
+    {
+      "text": "بَا",
+      "start": 17.375,
+      "end": 17.74,
+      "evidence": "ASR group بابيب; first bilabial activity after source silence, ending before the second bilabial onset.",
+      "confidence": "medium-high",
+      "caveat": "Owner must confirm ب and long /a/.",
+      "id": "lg-7c7afb90ab10",
+      "source": "batch-3"
+    },
+    {
+      "text": "بِي",
+      "start": 17.765,
+      "end": 18.01,
+      "evidence": "Second distinct bilabial onset and high-front vowel region inside ASR group بابيب; end precedes the third onset.",
+      "confidence": "medium-high",
+      "caveat": "Owner must confirm vowel length and complete onset.",
+      "id": "lg-45d4256ab31e",
+      "source": "batch-3"
+    },
+    {
+      "text": "بُو",
+      "start": 18.035,
+      "end": 18.255,
+      "evidence": "Third bilabial activity in ASR group بابيب, ending at group silence; rounded/back vowel formants distinguish it from the preceding region.",
+      "confidence": "medium",
+      "caveat": "ASR omitted the final vowel carrier; owner must confirm /uː/.",
+      "id": "lg-5a23f168330e",
+      "source": "batch-3"
+    },
+    {
+      "text": "تَا",
+      "start": 18.7,
+      "end": 18.955,
+      "evidence": "First stop release/vowel activity in ASR group تاتيت; end is before the next stop closure.",
+      "confidence": "medium-high",
+      "caveat": "Owner must confirm long /a/.",
+      "id": "lg-3bc5f0ae9739",
+      "source": "batch-3"
+    },
+    {
+      "text": "تِي",
+      "start": 18.98,
+      "end": 19.235,
+      "evidence": "Second stop closure/release and distinct vowel region in ASR group تاتيت; end precedes the third closure.",
+      "confidence": "medium-high",
+      "caveat": "Owner must confirm long /i/.",
+      "id": "lg-00ad57f4c686",
+      "source": "batch-3"
+    },
+    {
+      "text": "تُو",
+      "start": 19.255,
+      "end": 19.54,
+      "evidence": "Third stop activity in ASR group تاتيت, bounded by the following long silence and rounded vowel formants.",
+      "confidence": "medium",
+      "caveat": "ASR omitted the final vowel carrier; owner must confirm /uː/.",
+      "id": "lg-e455bbaee2ef",
+      "source": "batch-3"
+    },
+    {
+      "text": "ثِي",
+      "start": 20.3,
+      "end": 20.58,
+      "evidence": "ASR group فاثيثو explicitly contains ثي; a separate fricative/vowel activity follows the first syllable and ends before the third onset.",
+      "confidence": "medium",
+      "caveat": "Owner must confirm ث rather than a neighboring fricative and confirm vowel length.",
+      "id": "lg-a1abac806544",
+      "source": "batch-3"
+    },
+    {
+      "text": "ثُو",
+      "start": 20.605,
+      "end": 20.905,
+      "evidence": "ASR group فاثيثو explicitly ends ثو; the third activity is bounded by a following long silence.",
+      "confidence": "medium-high",
+      "caveat": "Owner must confirm emphatic quality is absent and /uː/ is complete.",
+      "id": "lg-e163d245aa74",
+      "source": "batch-3"
+    },
+    {
+      "text": "جَا",
+      "start": 21.335,
+      "end": 21.72,
+      "evidence": "First affricate/vowel activity in ASR group جاجيجو; end precedes the second affricate onset.",
+      "confidence": "high-for-review",
+      "caveat": "Owner must confirm vowel length.",
+      "id": "lg-794864096e4f",
+      "source": "batch-3"
+    },
+    {
+      "text": "جِي",
+      "start": 21.74,
+      "end": 22.03,
+      "evidence": "Second independently visible affricate onset in ASR group جاجيجو; end precedes the third onset.",
+      "confidence": "high-for-review",
+      "caveat": "Owner must confirm long /i/.",
+      "id": "lg-932469a7bdb8",
+      "source": "batch-3"
+    },
+    {
+      "text": "جُو",
+      "start": 22.05,
+      "end": 22.305,
+      "evidence": "Third affricate/vowel activity in ASR group جاجيجو, ending before group silence.",
+      "confidence": "high-for-review",
+      "caveat": "Owner must confirm long /u/.",
+      "id": "lg-8a12dca934bb",
+      "source": "batch-3"
+    },
+    {
+      "text": "حَا",
+      "start": 22.73,
+      "end": 23.03,
+      "evidence": "First pharyngeal-fricative activity in ASR group حاحيحو; end is before the second onset region.",
+      "confidence": "medium-high",
+      "caveat": "Owner must confirm ح articulation and long /a/.",
+      "id": "lg-150434feb214",
+      "source": "batch-3"
+    },
+    {
+      "text": "حِي",
+      "start": 23.055,
+      "end": 23.34,
+      "evidence": "Second fricative/vowel activity in ASR group حاحيحو, separated from its neighbors by spectral transitions.",
+      "confidence": "medium-high",
+      "caveat": "Owner must confirm long /i/ and full ح onset.",
+      "id": "lg-02f7085adb89",
+      "source": "batch-3"
+    },
+    {
+      "text": "حُو",
+      "start": 23.37,
+      "end": 23.66,
+      "evidence": "Third activity in ASR group حاحيحو, ending before the long inter-group silence.",
+      "confidence": "medium-high",
+      "caveat": "Owner must confirm long /u/.",
+      "id": "lg-cc7d73f1885c",
+      "source": "batch-3"
+    },
+    {
+      "text": "خَا",
+      "start": 24.055,
+      "end": 24.38,
+      "evidence": "First velar-fricative/vowel activity in ASR group خاخيخو; end precedes the next consonant region.",
+      "confidence": "medium-high",
+      "caveat": "Owner must confirm خ and vowel length.",
+      "id": "lg-408f1c4dddea",
+      "source": "batch-3"
+    },
+    {
+      "text": "خِي",
+      "start": 24.405,
+      "end": 24.67,
+      "evidence": "Second distinct fricative onset and vowel region in ASR group خاخيخو; end precedes the third onset.",
+      "confidence": "medium-high",
+      "caveat": "Owner must confirm long /i/.",
+      "id": "lg-913b0f56f2c5",
+      "source": "batch-3"
+    },
+    {
+      "text": "خُو",
+      "start": 24.695,
+      "end": 24.995,
+      "evidence": "Third activity in ASR group خاخيخو, ending at group silence.",
+      "confidence": "medium-high",
+      "caveat": "Owner must confirm long /u/.",
+      "id": "lg-d5fb917d9db6",
+      "source": "batch-3"
+    },
+    {
+      "text": "دَا",
+      "start": 25.405,
+      "end": 25.74,
+      "evidence": "First stop closure/release activity in ASR group داديدو; end is before the next closure.",
+      "confidence": "high-for-review",
+      "caveat": "Owner must confirm vowel length.",
+      "id": "lg-57bf496ca1ac",
+      "source": "batch-3"
+    },
+    {
+      "text": "دِي",
+      "start": 25.765,
+      "end": 26.0,
+      "evidence": "Second stop onset and vowel region in ASR group داديدو; end precedes the third consonant.",
+      "confidence": "high-for-review",
+      "caveat": "Owner must confirm long /i/.",
+      "id": "lg-55cfa486d155",
+      "source": "batch-3"
+    },
+    {
+      "text": "دُو",
+      "start": 26.02,
+      "end": 26.26,
+      "evidence": "Third stop/vowel activity in ASR group داديدو, ending before group silence.",
+      "confidence": "high-for-review",
+      "caveat": "Owner must confirm long /u/.",
+      "id": "lg-d10d0df617af",
+      "source": "batch-3"
+    },
+    {
+      "text": "ذَا",
+      "start": 26.66,
+      "end": 26.98,
+      "evidence": "First interdental-fricative/vowel activity in ASR group ذاذيدو; end precedes the second onset.",
+      "confidence": "medium-high",
+      "caveat": "Owner must confirm ذ rather than ز and confirm length.",
+      "id": "lg-54d4a8b5461c",
+      "source": "batch-3"
+    },
+    {
+      "text": "ذِي",
+      "start": 27.0,
+      "end": 27.32,
+      "evidence": "Second distinct activity in ASR group ذاذيدو; end precedes the third consonant onset.",
+      "confidence": "medium-high",
+      "caveat": "Owner must confirm ذ and long /i/.",
+      "id": "lg-b68c9d45eea8",
+      "source": "batch-3"
+    },
+    {
+      "text": "ذُو",
+      "start": 27.34,
+      "end": 27.53,
+      "evidence": "Third activity in ASR group ذاذيدو, ending at group silence.",
+      "confidence": "medium-high",
+      "caveat": "Owner must confirm ذ and long /u/.",
+      "id": "lg-1cee009449b6",
+      "source": "batch-3"
+    },
+    {
+      "text": "رَا",
+      "start": 27.9,
+      "end": 28.26,
+      "evidence": "First rhotic/vowel activity in ASR group راريرو; end precedes the second rhotic onset.",
+      "confidence": "high-for-review",
+      "caveat": "Owner must confirm long /a/.",
+      "id": "lg-1f16e40d6192",
+      "source": "batch-3"
+    },
+    {
+      "text": "رِي",
+      "start": 28.285,
+      "end": 28.53,
+      "evidence": "Second distinct rhotic/vowel region in ASR group راريرو; end precedes the third onset.",
+      "confidence": "high-for-review",
+      "caveat": "Owner must confirm long /i/.",
+      "id": "lg-899917db1c13",
+      "source": "batch-3"
+    },
+    {
+      "text": "رُو",
+      "start": 28.55,
+      "end": 28.775,
+      "evidence": "Third activity in ASR group راريرو, ending before group silence.",
+      "confidence": "high-for-review",
+      "caveat": "Owner must confirm long /u/.",
+      "id": "lg-b7865f1b44f7",
+      "source": "batch-3"
+    },
+    {
+      "text": "زَا",
+      "start": 29.165,
+      "end": 29.5,
+      "evidence": "First sibilant/vowel activity in ASR group زازيزو; end precedes the next sibilant onset.",
+      "confidence": "high-for-review",
+      "caveat": "Owner must confirm ز and vowel length.",
+      "id": "lg-63a493773b8a",
+      "source": "batch-3"
+    },
+    {
+      "text": "زِي",
+      "start": 29.52,
+      "end": 29.79,
+      "evidence": "Second distinct sibilant/vowel activity in ASR group زازيزو; end precedes the third onset.",
+      "confidence": "high-for-review",
+      "caveat": "Owner must confirm long /i/.",
+      "id": "lg-3d827a5a43cd",
+      "source": "batch-3"
+    },
+    {
+      "text": "زُو",
+      "start": 29.81,
+      "end": 30.1,
+      "evidence": "Third activity in ASR group زازيزو, ending before group silence.",
+      "confidence": "high-for-review",
+      "caveat": "Owner must confirm long /u/.",
+      "id": "lg-0bc47ef6eebc",
+      "source": "batch-3"
+    },
+    {
+      "text": "سَا",
+      "start": 30.465,
+      "end": 30.82,
+      "evidence": "First sibilant/vowel activity in ASR group ساسيسو; end precedes the second onset.",
+      "confidence": "high-for-review",
+      "caveat": "Owner must confirm vowel length.",
+      "id": "lg-06df41524ddd",
+      "source": "batch-3"
+    },
+    {
+      "text": "سِي",
+      "start": 30.84,
+      "end": 31.12,
+      "evidence": "Second sibilant/vowel activity in ASR group ساسيسو; end precedes the third onset.",
+      "confidence": "high-for-review",
+      "caveat": "Owner must confirm long /i/.",
+      "id": "lg-7dc1cb03c870",
+      "source": "batch-3"
+    },
+    {
+      "text": "سُو",
+      "start": 31.14,
+      "end": 31.47,
+      "evidence": "Third activity in ASR group ساسيسو, ending before group silence.",
+      "confidence": "high-for-review",
+      "caveat": "Owner must confirm long /u/.",
+      "id": "lg-07848031d3b5",
+      "source": "batch-3"
+    },
+    {
+      "text": "شَا",
+      "start": 31.845,
+      "end": 32.18,
+      "evidence": "First postalveolar-fricative/vowel activity in ASR group شاشيشو; end precedes the second onset.",
+      "confidence": "high-for-review",
+      "caveat": "Owner must confirm vowel length.",
+      "id": "lg-563436b5f189",
+      "source": "batch-3"
+    },
+    {
+      "text": "شِي",
+      "start": 32.2,
+      "end": 32.49,
+      "evidence": "Second distinct activity in ASR group شاشيشو; end precedes the third onset.",
+      "confidence": "high-for-review",
+      "caveat": "Owner must confirm long /i/.",
+      "id": "lg-7e330ac82db4",
+      "source": "batch-3"
+    },
+    {
+      "text": "شُو",
+      "start": 32.51,
+      "end": 32.79,
+      "evidence": "Third activity in ASR group شاشيشو, ending before group silence.",
+      "confidence": "high-for-review",
+      "caveat": "Owner must confirm long /u/.",
+      "id": "lg-697fef431da6",
+      "source": "batch-3"
+    },
+    {
+      "text": "ظَا",
+      "start": 36.97,
+      "end": 37.37,
+      "evidence": "ASR group ظاذيذ begins with explicit ظا; first emphatic-fricative activity ends before the second onset.",
+      "confidence": "medium",
+      "caveat": "Owner must distinguish ظ from ذ/ض and confirm long /a/.",
+      "id": "lg-8bd19f151c78",
+      "source": "batch-3"
+    },
+    {
+      "text": "ظِي",
+      "start": 37.39,
+      "end": 37.64,
+      "evidence": "ASR group ظاذيذ explicitly contains ظي; second activity ends before the third consonant onset.",
+      "confidence": "medium",
+      "caveat": "Owner must verify emphatic consonant quality and long /i/.",
+      "id": "lg-14a79786ec2d",
+      "source": "batch-3"
+    },
+    {
+      "text": "ظُو",
+      "start": 37.66,
+      "end": 37.85,
+      "evidence": "Third acoustic activity in the ظاذيذ group, bounded by long following silence; group identity supports ظ but ASR renders the last consonant as ذ.",
+      "confidence": "low-review-only",
+      "caveat": "Owner must verify both ظ and /uː/; reject if the consonant is ذ or the vowel is incomplete.",
+      "id": "lg-56bd2764fabd",
+      "source": "batch-3"
+    },
+    {
+      "text": "عَا",
+      "start": 38.245,
+      "end": 38.56,
+      "evidence": "First pharyngeal/vowel activity in ASR group عاعع; its formant region ends before the second onset.",
+      "confidence": "medium",
+      "caveat": "Owner must confirm ع articulation and long /a/.",
+      "id": "lg-89c5c6f454a0",
+      "source": "batch-3"
+    },
+    {
+      "text": "عِي",
+      "start": 38.58,
+      "end": 38.88,
+      "evidence": "Second separate pharyngeal/vowel activity in ASR group عاعع; vowel formants differ from the first and third regions.",
+      "confidence": "low-review-only",
+      "caveat": "ASR omits the vowel carrier; owner must confirm /iː/ and the exact onset.",
+      "id": "lg-af930182cb0f",
+      "source": "batch-3"
+    },
+    {
+      "text": "عُو",
+      "start": 38.9,
+      "end": 39.14,
+      "evidence": "Third activity in ASR group عاعع, ending at the long inter-group silence; rounded/back formants support the proposed vowel class.",
+      "confidence": "low-review-only",
+      "caveat": "Owner must confirm /uː/ and complete ع onset.",
+      "id": "lg-00fc50872e5a",
+      "source": "batch-3"
+    },
+    {
+      "text": "غَا",
+      "start": 39.575,
+      "end": 39.85,
+      "evidence": "ASR group غاغغ begins with explicit غا; first velar-fricative/vowel region ends before the second onset.",
+      "confidence": "medium-high",
+      "caveat": "Owner must confirm غ and long /a/.",
+      "id": "lg-8cb8de042947",
+      "source": "batch-3"
+    },
+    {
+      "text": "غِي",
+      "start": 39.875,
+      "end": 40.12,
+      "evidence": "Second distinct velar-fricative/vowel activity in ASR group غاغغ; vowel formants differ from its neighbors.",
+      "confidence": "low-review-only",
+      "caveat": "ASR omits the vowel carrier; owner must confirm /iː/.",
+      "id": "lg-ce78b75fbf7c",
+      "source": "batch-3"
+    },
+    {
+      "text": "غُو",
+      "start": 40.2,
+      "end": 40.4,
+      "evidence": "Third activity in ASR group غاغغ, following an internal low-energy boundary and ending before group silence.",
+      "confidence": "low-review-only",
+      "caveat": "Owner must confirm the consonant onset is complete and the vowel is /uː/.",
+      "id": "lg-24dad8c7f05a",
+      "source": "batch-3"
+    },
+    {
+      "text": "فَا",
+      "start": 40.885,
+      "end": 41.1,
+      "evidence": "ASR group فافف begins with explicit فا; first labiodental-fricative/vowel activity ends before the second onset.",
+      "confidence": "medium-high",
+      "caveat": "Owner must confirm long /a/.",
+      "id": "lg-6512126eea52",
+      "source": "batch-3"
+    },
+    {
+      "text": "فِي",
+      "start": 41.12,
+      "end": 41.38,
+      "evidence": "Second distinct fricative/vowel activity in ASR group فافف; vowel formants differ from the first and third regions.",
+      "confidence": "low-review-only",
+      "caveat": "ASR omits the vowel carrier; owner must confirm /iː/.",
+      "id": "lg-db7696accf25",
+      "source": "batch-3"
+    },
+    {
+      "text": "فُو",
+      "start": 41.4,
+      "end": 41.69,
+      "evidence": "Third activity in ASR group فافف, ending before the long group silence; rounded/back vowel region supports the proposed vowel class.",
+      "confidence": "low-review-only",
+      "caveat": "Owner must confirm /uː/ and complete ف onset.",
+      "id": "lg-4d86b5e40014",
+      "source": "batch-3"
+    },
+    {
+      "text": "قَا",
+      "start": 42.1,
+      "end": 42.345,
+      "evidence": "ASR group قاقيق begins with explicit قا; first uvular-stop/vowel activity ends before the second stop closure.",
+      "confidence": "medium-high",
+      "caveat": "Owner must confirm ق and long /a/.",
+      "id": "lg-9cd952ad821d",
+      "source": "batch-3"
+    },
+    {
+      "text": "قِي",
+      "start": 42.37,
+      "end": 42.645,
+      "evidence": "Second stop closure/release and vowel region in ASR group قاقيق; end precedes the third closure.",
+      "confidence": "medium-high",
+      "caveat": "Owner must confirm long /i/.",
+      "id": "lg-cfabc85d40c4",
+      "source": "batch-3"
+    },
+    {
+      "text": "قُو",
+      "start": 42.67,
+      "end": 43.05,
+      "evidence": "Third stop/vowel activity in ASR group قاقيق; it follows a distinct closure and ends before terminal low energy.",
+      "confidence": "low-review-only",
+      "caveat": "ASR omits the final vowel carrier; owner must confirm /uː/ and reject if this is another قِي-like reading.",
+      "id": "lg-05d82cf0f520",
+      "source": "batch-3"
+    }
+  ],
+  "unresolved": [
+    {
+      "id": "lg-79a5e4461bac",
+      "text": "ثَ",
+      "reason": "The three utterances are exceptionally well separated, but the unprompted transcript merges them as ساسيس and does not independently identify ث. Bounds are usable only after human consonant identification.",
+      "region": [
+        [
+          1.93,
+          2.315
+        ],
+        [
+          2.525,
+          2.87
+        ],
+        [
+          3.04,
+          3.315
+        ]
+      ]
+    },
+    {
+      "id": "lg-81a333ca8e19",
+      "text": "ثِ",
+      "reason": "The three utterances are exceptionally well separated, but the unprompted transcript merges them as ساسيس and does not independently identify ث. Bounds are usable only after human consonant identification.",
+      "region": [
+        [
+          1.93,
+          2.315
+        ],
+        [
+          2.525,
+          2.87
+        ],
+        [
+          3.04,
+          3.315
+        ]
+      ]
+    },
+    {
+      "id": "lg-cc4c2e4dbfda",
+      "text": "ثُ",
+      "reason": "The three utterances are exceptionally well separated, but the unprompted transcript merges them as ساسيس and does not independently identify ث. Bounds are usable only after human consonant identification.",
+      "region": [
+        [
+          1.93,
+          2.315
+        ],
+        [
+          2.525,
+          2.87
+        ],
+        [
+          3.04,
+          3.315
+        ]
+      ]
+    },
+    {
+      "id": "lg-f6bfae64253c",
+      "text": "غَ",
+      "reason": "The group transcript غاضيق preserves غ only at the beginning and substitutes unrelated consonants later. Internal changes exist near 12.47 and 12.70, but individual roots are not defensible without listening.",
+      "region": [
+        12.065,
+        12.96
+      ]
+    },
+    {
+      "id": "lg-3b8732d73847",
+      "text": "غِ",
+      "reason": "The group transcript غاضيق preserves غ only at the beginning and substitutes unrelated consonants later. Internal changes exist near 12.47 and 12.70, but individual roots are not defensible without listening.",
+      "region": [
+        12.065,
+        12.96
+      ]
+    },
+    {
+      "id": "lg-b03e507decd7",
+      "text": "غُ",
+      "reason": "The group transcript غاضيق preserves غ only at the beginning and substitutes unrelated consonants later. Internal changes exist near 12.47 and 12.70, but individual roots are not defensible without listening.",
+      "region": [
+        12.065,
+        12.96
+      ]
+    },
+    {
+      "id": "lg-9d34621d847e",
+      "text": "هِ",
+      "reason": "All five requested sounds are fused into one continuous group transcribed هواويو. Several weak transitions exist, but individual ه/و identities cannot be assigned without relying on expected order.",
+      "region": [
+        15.81,
+        16.965
+      ]
+    },
+    {
+      "id": "lg-33fae2c3fa92",
+      "text": "هُ",
+      "reason": "All five requested sounds are fused into one continuous group transcribed هواويو. Several weak transitions exist, but individual ه/و identities cannot be assigned without relying on expected order.",
+      "region": [
+        15.81,
+        16.965
+      ]
+    },
+    {
+      "id": "lg-8ce960a3420a",
+      "text": "وَ",
+      "reason": "All five requested sounds are fused into one continuous group transcribed هواويو. Several weak transitions exist, but individual ه/و identities cannot be assigned without relying on expected order.",
+      "region": [
+        15.81,
+        16.965
+      ]
+    },
+    {
+      "id": "lg-e7bebb428fb2",
+      "text": "وِ",
+      "reason": "All five requested sounds are fused into one continuous group transcribed هواويو. Several weak transitions exist, but individual ه/و identities cannot be assigned without relying on expected order.",
+      "region": [
+        15.81,
+        16.965
+      ]
+    },
+    {
+      "id": "lg-31d16c7f5df3",
+      "text": "وُ",
+      "reason": "All five requested sounds are fused into one continuous group transcribed هواويو. Several weak transitions exist, but individual ه/و identities cannot be assigned without relying on expected order.",
+      "region": [
+        15.81,
+        16.965
+      ]
+    },
+    {
+      "id": "lg-80cdd720e239",
+      "text": "ثَا",
+      "reason": "The first activity is isolated, but ASR renders it as فا while later members are ثي ثو. Consonant identity is not independently defensible.",
+      "region": {
+        "start": 19.985,
+        "end": 20.275
+      }
+    },
+    {
+      "id": "lg-2401c0433020",
+      "text": "صَا",
+      "reason": "Three acoustic activities are present, but ASR recognizes the group as ساسيسو. Emphatic ص versus س requires owner-guided identification before text assignment.",
+      "region": {
+        "start": 33.15,
+        "end": 34.085
+      }
+    },
+    {
+      "id": "lg-0fca749ce8c2",
+      "text": "صِي",
+      "reason": "Three acoustic activities are present, but ASR recognizes the group as ساسيسو. Emphatic ص versus س requires owner-guided identification before text assignment.",
+      "region": {
+        "start": 33.15,
+        "end": 34.085
+      }
+    },
+    {
+      "id": "lg-11ba12301e3f",
+      "text": "صُو",
+      "reason": "Three acoustic activities are present, but ASR recognizes the group as ساسيسو. Emphatic ص versus س requires owner-guided identification before text assignment.",
+      "region": {
+        "start": 33.15,
+        "end": 34.085
+      }
+    },
+    {
+      "id": "lg-c03effb5dffc",
+      "text": "ضَا",
+      "reason": "Three stop/vowel activities are present, but ASR recognizes داديدو. ض versus د is unresolved; list position alone is insufficient.",
+      "region": {
+        "start": 34.43,
+        "end": 35.355
+      }
+    },
+    {
+      "id": "lg-38534123f710",
+      "text": "ضِي",
+      "reason": "Three stop/vowel activities are present, but ASR recognizes داديدو. ض versus د is unresolved; list position alone is insufficient.",
+      "region": {
+        "start": 34.43,
+        "end": 35.355
+      }
+    },
+    {
+      "id": "lg-3cc6e720f8c3",
+      "text": "ضُو",
+      "reason": "Three stop/vowel activities are present, but ASR recognizes داديدو. ض versus د is unresolved; list position alone is insufficient.",
+      "region": {
+        "start": 34.43,
+        "end": 35.355
+      }
+    },
+    {
+      "id": "lg-89fbe36986ba",
+      "text": "طَا",
+      "reason": "Three stop activities are visible, but ASR gives آتيت and does not establish a consistent ط triad. Exact consonant and vowel assignments are unsupported.",
+      "region": {
+        "start": 35.775,
+        "end": 36.585
+      }
+    },
+    {
+      "id": "lg-e264bcf86158",
+      "text": "طِي",
+      "reason": "Three stop activities are visible, but ASR gives آتيت and does not establish a consistent ط triad. Exact consonant and vowel assignments are unsupported.",
+      "region": {
+        "start": 35.775,
+        "end": 36.585
+      }
+    },
+    {
+      "id": "lg-b702f2d63993",
+      "text": "طُو",
+      "reason": "Three stop activities are visible, but ASR gives آتيت and does not establish a consistent ط triad. Exact consonant and vowel assignments are unsupported.",
+      "region": {
+        "start": 35.775,
+        "end": 36.585
+      }
+    },
+    {
+      "id": "lg-ffafb835b249",
+      "text": "كَا",
+      "reason": "No separate post-ق triad is established by waveform activity or transcript before file end. This is not an absence claim from ASR alone; the available tail also lacks three new acoustic onsets.",
+      "region": {
+        "start": 43.05,
+        "end": 43.152
+      }
+    },
+    {
+      "id": "lg-0f8a24138157",
+      "text": "كِي",
+      "reason": "No separate post-ق triad is established by waveform activity or transcript before file end. This is not an absence claim from ASR alone; the available tail also lacks three new acoustic onsets.",
+      "region": {
+        "start": 43.05,
+        "end": 43.152
+      }
+    },
+    {
+      "id": "lg-e70d18ecbedd",
+      "text": "كُو",
+      "reason": "No separate post-ق triad is established by waveform activity or transcript before file end. This is not an absence claim from ASR alone; the available tail also lacks three new acoustic onsets.",
+      "region": {
+        "start": 43.05,
+        "end": 43.152
+      }
+    }
+  ]
+}

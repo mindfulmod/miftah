@@ -3,13 +3,13 @@
   "counts": {
     "worlds": 22,
     "uniqueRequests": 612,
-    "exactLocalClips": 155,
-    "alreadyBundled": 155,
-    "recordAndReview": 279,
+    "exactLocalClips": 164,
+    "alreadyBundled": 164,
+    "recordAndReview": 270,
     "reuseNameSequences": 149,
     "assemblyPolicyReview": 29,
     "sequenceNeedsNameClips": 0,
-    "batches": 34,
+    "batches": 33,
     "wordEntries": 33,
     "wordCatalogueEntries": 97
   },
@@ -42,7 +42,7 @@
     {
       "key": "leen",
       "title": "Leen: aw and ay glides",
-      "count": 30
+      "count": 21
     },
     {
       "key": "sukun-shaddah",
@@ -80,7 +80,7 @@
     },
     {
       "file": "src/letters/LetterVoiceClips.js",
-      "sha256": "7fa963a918af7dfc56e9aedce2768df3cff03ca2fa6fe6030003cb446a6b7faf"
+      "sha256": "ac49d5d522c9518d19e5ac25d6803e4238481543350d5951262a3a6e94bc3f6a"
     },
     {
       "file": "src/letters/MiniGames.js",
@@ -1240,32 +1240,8 @@
       "file": "batches/26-leen-01.txt",
       "count": 9,
       "directions": "directions/syllables.txt",
-      "sha256": "72ec9180e115ddc49f5b2a384ca1736bcf2214873f141b62249659685e11549e",
+      "sha256": "71b1f9bc568f73fbefbaab0261049c3b43ed888be2613349abf9fe83eeac78ac",
       "entries": [
-        {
-          "id": "lg-8aa63c060c0b",
-          "text": "ثَوْ"
-        },
-        {
-          "id": "lg-7339da8be97f",
-          "text": "ثَيْ"
-        },
-        {
-          "id": "lg-2700319fe52a",
-          "text": "جَوْ"
-        },
-        {
-          "id": "lg-049b7c17697e",
-          "text": "جَيْ"
-        },
-        {
-          "id": "lg-1267bbed040f",
-          "text": "حَوْ"
-        },
-        {
-          "id": "lg-7b0b8febe4a8",
-          "text": "حَيْ"
-        },
         {
           "id": "lg-4ec6e5c6752e",
           "text": "خَوْ"
@@ -1273,28 +1249,6 @@
         {
           "id": "lg-43e96dae370c",
           "text": "خَيْ"
-        },
-        {
-          "id": "lg-bfcf70752bf3",
-          "text": "دَوْ"
-        }
-      ]
-    },
-    {
-      "id": "27-leen-02",
-      "group": "leen",
-      "file": "batches/27-leen-02.txt",
-      "count": 9,
-      "directions": "directions/syllables.txt",
-      "sha256": "5369156fe574c0931ad5c1d51c4a83056b4ba725231463ef219307ebcd31aee2",
-      "entries": [
-        {
-          "id": "lg-6552de8f1eb2",
-          "text": "دَيْ"
-        },
-        {
-          "id": "lg-38f6528617ad",
-          "text": "ذَوْ"
         },
         {
           "id": "lg-138ac79f97ce",
@@ -1327,9 +1281,9 @@
       ]
     },
     {
-      "id": "28-leen-03",
+      "id": "27-leen-02",
       "group": "leen",
-      "file": "batches/28-leen-03.txt",
+      "file": "batches/27-leen-02.txt",
       "count": 9,
       "directions": "directions/syllables.txt",
       "sha256": "b7d4c4356c69d42d7e0bc051558c6c889da5d38078d28a2f45ae4002fb96be6e",
@@ -1373,9 +1327,9 @@
       ]
     },
     {
-      "id": "29-leen-04",
+      "id": "28-leen-03",
       "group": "leen",
-      "file": "batches/29-leen-04.txt",
+      "file": "batches/28-leen-03.txt",
       "count": 3,
       "directions": "directions/syllables.txt",
       "sha256": "d597ebd03f3e4c3761b6553b5768b4a9b47411d8dd4529fd10c2ced493d94932",
@@ -1395,9 +1349,9 @@
       ]
     },
     {
-      "id": "30-sukun-shaddah-01",
+      "id": "29-sukun-shaddah-01",
       "group": "sukun-shaddah",
-      "file": "batches/30-sukun-shaddah-01.txt",
+      "file": "batches/29-sukun-shaddah-01.txt",
       "count": 6,
       "directions": "directions/syllables.txt",
       "sha256": "724c9b3b5aae95d6b8a0c0c0e6485f37a95f911b4d87b3cae0b432d62247b489",
@@ -1429,9 +1383,9 @@
       ]
     },
     {
-      "id": "31-words-2-01",
+      "id": "30-words-2-01",
       "group": "words-2",
-      "file": "batches/31-words-2-01.txt",
+      "file": "batches/30-words-2-01.txt",
       "count": 7,
       "directions": "directions/words.txt",
       "sha256": "283458b1bda4c46950e56d26e6fcc235ca144ef013d7128e089eccd775e324e7",
@@ -1467,9 +1421,9 @@
       ]
     },
     {
-      "id": "32-words-3-01",
+      "id": "31-words-3-01",
       "group": "words-3",
-      "file": "batches/32-words-3-01.txt",
+      "file": "batches/31-words-3-01.txt",
       "count": 8,
       "directions": "directions/words.txt",
       "sha256": "d34def9d151b056fe53564345e60b12791c8dc602f989bf0794bae9843f1f2f8",
@@ -1509,9 +1463,9 @@
       ]
     },
     {
-      "id": "33-words-4-5-01",
+      "id": "32-words-4-5-01",
       "group": "words-4-5",
-      "file": "batches/33-words-4-5-01.txt",
+      "file": "batches/32-words-4-5-01.txt",
       "count": 9,
       "directions": "directions/words.txt",
       "sha256": "a34322c7088728fa25f7280bddeb228bba0a8ebc7f096c6a663f6809037cdaec",
@@ -1555,9 +1509,9 @@
       ]
     },
     {
-      "id": "34-words-4-5-02",
+      "id": "33-words-4-5-02",
       "group": "words-4-5",
-      "file": "batches/34-words-4-5-02.txt",
+      "file": "batches/33-words-4-5-02.txt",
       "count": 9,
       "directions": "directions/words.txt",
       "sha256": "4ec2bce7484579fd544b93d37ec1499d0c37867b7af98e25d8ce5ad8a743fde7",
@@ -16799,10 +16753,8 @@
           "parent": null
         }
       ],
-      "status": "record-and-review",
-      "group": "leen",
-      "batch": "26-leen-01",
-      "position": 1
+      "status": "already-bundled",
+      "clip": "assets/audio/letters/marin-curriculum-v1/lg-8aa63c060c0b.wav"
     },
     {
       "id": "lg-7339da8be97f",
@@ -16815,10 +16767,8 @@
           "parent": null
         }
       ],
-      "status": "record-and-review",
-      "group": "leen",
-      "batch": "26-leen-01",
-      "position": 2
+      "status": "already-bundled",
+      "clip": "assets/audio/letters/marin-curriculum-v1/lg-7339da8be97f.wav"
     },
     {
       "id": "lg-2700319fe52a",
@@ -16831,10 +16781,8 @@
           "parent": null
         }
       ],
-      "status": "record-and-review",
-      "group": "leen",
-      "batch": "26-leen-01",
-      "position": 3
+      "status": "already-bundled",
+      "clip": "assets/audio/letters/marin-curriculum-v1/lg-2700319fe52a.wav"
     },
     {
       "id": "lg-049b7c17697e",
@@ -16847,10 +16795,8 @@
           "parent": null
         }
       ],
-      "status": "record-and-review",
-      "group": "leen",
-      "batch": "26-leen-01",
-      "position": 4
+      "status": "already-bundled",
+      "clip": "assets/audio/letters/marin-curriculum-v1/lg-049b7c17697e.wav"
     },
     {
       "id": "lg-1267bbed040f",
@@ -16863,10 +16809,8 @@
           "parent": null
         }
       ],
-      "status": "record-and-review",
-      "group": "leen",
-      "batch": "26-leen-01",
-      "position": 5
+      "status": "already-bundled",
+      "clip": "assets/audio/letters/marin-curriculum-v1/lg-1267bbed040f.wav"
     },
     {
       "id": "lg-7b0b8febe4a8",
@@ -16879,10 +16823,8 @@
           "parent": null
         }
       ],
-      "status": "record-and-review",
-      "group": "leen",
-      "batch": "26-leen-01",
-      "position": 6
+      "status": "already-bundled",
+      "clip": "assets/audio/letters/marin-curriculum-v1/lg-7b0b8febe4a8.wav"
     },
     {
       "id": "lg-4ec6e5c6752e",
@@ -16898,7 +16840,7 @@
       "status": "record-and-review",
       "group": "leen",
       "batch": "26-leen-01",
-      "position": 7
+      "position": 1
     },
     {
       "id": "lg-43e96dae370c",
@@ -16914,7 +16856,7 @@
       "status": "record-and-review",
       "group": "leen",
       "batch": "26-leen-01",
-      "position": 8
+      "position": 2
     },
     {
       "id": "lg-bfcf70752bf3",
@@ -16927,10 +16869,8 @@
           "parent": null
         }
       ],
-      "status": "record-and-review",
-      "group": "leen",
-      "batch": "26-leen-01",
-      "position": 9
+      "status": "already-bundled",
+      "clip": "assets/audio/letters/marin-curriculum-v1/lg-bfcf70752bf3.wav"
     },
     {
       "id": "lg-6552de8f1eb2",
@@ -16943,10 +16883,8 @@
           "parent": null
         }
       ],
-      "status": "record-and-review",
-      "group": "leen",
-      "batch": "27-leen-02",
-      "position": 1
+      "status": "already-bundled",
+      "clip": "assets/audio/letters/marin-curriculum-v1/lg-6552de8f1eb2.wav"
     },
     {
       "id": "lg-38f6528617ad",
@@ -16959,10 +16897,8 @@
           "parent": null
         }
       ],
-      "status": "record-and-review",
-      "group": "leen",
-      "batch": "27-leen-02",
-      "position": 2
+      "status": "already-bundled",
+      "clip": "assets/audio/letters/marin-curriculum-v1/lg-38f6528617ad.wav"
     },
     {
       "id": "lg-138ac79f97ce",
@@ -16977,7 +16913,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "27-leen-02",
+      "batch": "26-leen-01",
       "position": 3
     },
     {
@@ -16993,7 +16929,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "27-leen-02",
+      "batch": "26-leen-01",
       "position": 4
     },
     {
@@ -17009,7 +16945,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "27-leen-02",
+      "batch": "26-leen-01",
       "position": 5
     },
     {
@@ -17025,7 +16961,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "27-leen-02",
+      "batch": "26-leen-01",
       "position": 6
     },
     {
@@ -17041,7 +16977,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "27-leen-02",
+      "batch": "26-leen-01",
       "position": 7
     },
     {
@@ -17057,7 +16993,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "27-leen-02",
+      "batch": "26-leen-01",
       "position": 8
     },
     {
@@ -17073,7 +17009,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "27-leen-02",
+      "batch": "26-leen-01",
       "position": 9
     },
     {
@@ -17187,7 +17123,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "28-leen-03",
+      "batch": "27-leen-02",
       "position": 1
     },
     {
@@ -17203,7 +17139,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "28-leen-03",
+      "batch": "27-leen-02",
       "position": 2
     },
     {
@@ -17219,7 +17155,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "28-leen-03",
+      "batch": "27-leen-02",
       "position": 3
     },
     {
@@ -17277,7 +17213,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "28-leen-03",
+      "batch": "27-leen-02",
       "position": 4
     },
     {
@@ -17307,7 +17243,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "28-leen-03",
+      "batch": "27-leen-02",
       "position": 5
     },
     {
@@ -17351,7 +17287,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "28-leen-03",
+      "batch": "27-leen-02",
       "position": 6
     },
     {
@@ -17367,7 +17303,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "28-leen-03",
+      "batch": "27-leen-02",
       "position": 7
     },
     {
@@ -17467,7 +17403,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "28-leen-03",
+      "batch": "27-leen-02",
       "position": 8
     },
     {
@@ -17483,7 +17419,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "28-leen-03",
+      "batch": "27-leen-02",
       "position": 9
     },
     {
@@ -17499,7 +17435,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "29-leen-04",
+      "batch": "28-leen-03",
       "position": 1
     },
     {
@@ -17529,7 +17465,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "29-leen-04",
+      "batch": "28-leen-03",
       "position": 2
     },
     {
@@ -17545,7 +17481,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "29-leen-04",
+      "batch": "28-leen-03",
       "position": 3
     },
     {
@@ -17587,7 +17523,7 @@
       ],
       "status": "record-and-review",
       "group": "sukun-shaddah",
-      "batch": "30-sukun-shaddah-01",
+      "batch": "29-sukun-shaddah-01",
       "position": 1
     },
     {
@@ -17609,7 +17545,7 @@
       ],
       "status": "record-and-review",
       "group": "sukun-shaddah",
-      "batch": "30-sukun-shaddah-01",
+      "batch": "29-sukun-shaddah-01",
       "position": 2
     },
     {
@@ -17631,7 +17567,7 @@
       ],
       "status": "record-and-review",
       "group": "sukun-shaddah",
-      "batch": "30-sukun-shaddah-01",
+      "batch": "29-sukun-shaddah-01",
       "position": 3
     },
     {
@@ -17667,7 +17603,7 @@
       ],
       "status": "record-and-review",
       "group": "sukun-shaddah",
-      "batch": "30-sukun-shaddah-01",
+      "batch": "29-sukun-shaddah-01",
       "position": 4
     },
     {
@@ -17715,7 +17651,7 @@
       ],
       "status": "record-and-review",
       "group": "sukun-shaddah",
-      "batch": "30-sukun-shaddah-01",
+      "batch": "29-sukun-shaddah-01",
       "position": 5
     },
     {
@@ -17751,7 +17687,7 @@
       ],
       "status": "record-and-review",
       "group": "sukun-shaddah",
-      "batch": "30-sukun-shaddah-01",
+      "batch": "29-sukun-shaddah-01",
       "position": 6
     },
     {
@@ -17782,7 +17718,7 @@
       ],
       "status": "record-and-review",
       "group": "words-2",
-      "batch": "31-words-2-01",
+      "batch": "30-words-2-01",
       "position": 1
     },
     {
@@ -17834,7 +17770,7 @@
       ],
       "status": "record-and-review",
       "group": "words-2",
-      "batch": "31-words-2-01",
+      "batch": "30-words-2-01",
       "position": 2
     },
     {
@@ -17897,7 +17833,7 @@
       ],
       "status": "record-and-review",
       "group": "words-2",
-      "batch": "31-words-2-01",
+      "batch": "30-words-2-01",
       "position": 3
     },
     {
@@ -17952,7 +17888,7 @@
       ],
       "status": "record-and-review",
       "group": "words-2",
-      "batch": "31-words-2-01",
+      "batch": "30-words-2-01",
       "position": 4
     },
     {
@@ -17969,7 +17905,7 @@
       ],
       "status": "record-and-review",
       "group": "words-2",
-      "batch": "31-words-2-01",
+      "batch": "30-words-2-01",
       "position": 5
     },
     {
@@ -18047,7 +17983,7 @@
       ],
       "status": "record-and-review",
       "group": "words-2",
-      "batch": "31-words-2-01",
+      "batch": "30-words-2-01",
       "position": 6
     },
     {
@@ -18078,7 +18014,7 @@
       ],
       "status": "record-and-review",
       "group": "words-2",
-      "batch": "31-words-2-01",
+      "batch": "30-words-2-01",
       "position": 7
     },
     {
@@ -18209,7 +18145,7 @@
       ],
       "status": "record-and-review",
       "group": "words-3",
-      "batch": "32-words-3-01",
+      "batch": "31-words-3-01",
       "position": 1
     },
     {
@@ -18569,7 +18505,7 @@
       ],
       "status": "record-and-review",
       "group": "words-3",
-      "batch": "32-words-3-01",
+      "batch": "31-words-3-01",
       "position": 2
     },
     {
@@ -18703,7 +18639,7 @@
       ],
       "status": "record-and-review",
       "group": "words-3",
-      "batch": "32-words-3-01",
+      "batch": "31-words-3-01",
       "position": 3
     },
     {
@@ -18794,7 +18730,7 @@
       ],
       "status": "record-and-review",
       "group": "words-3",
-      "batch": "32-words-3-01",
+      "batch": "31-words-3-01",
       "position": 4
     },
     {
@@ -18900,7 +18836,7 @@
       ],
       "status": "record-and-review",
       "group": "words-3",
-      "batch": "32-words-3-01",
+      "batch": "31-words-3-01",
       "position": 5
     },
     {
@@ -18917,7 +18853,7 @@
       ],
       "status": "record-and-review",
       "group": "words-3",
-      "batch": "32-words-3-01",
+      "batch": "31-words-3-01",
       "position": 6
     },
     {
@@ -18934,7 +18870,7 @@
       ],
       "status": "record-and-review",
       "group": "words-3",
-      "batch": "32-words-3-01",
+      "batch": "31-words-3-01",
       "position": 7
     },
     {
@@ -18966,7 +18902,7 @@
       ],
       "status": "record-and-review",
       "group": "words-3",
-      "batch": "32-words-3-01",
+      "batch": "31-words-3-01",
       "position": 8
     },
     {
@@ -18983,7 +18919,7 @@
       ],
       "status": "record-and-review",
       "group": "words-4-5",
-      "batch": "33-words-4-5-01",
+      "batch": "32-words-4-5-01",
       "position": 1
     },
     {
@@ -19000,7 +18936,7 @@
       ],
       "status": "record-and-review",
       "group": "words-4-5",
-      "batch": "33-words-4-5-01",
+      "batch": "32-words-4-5-01",
       "position": 2
     },
     {
@@ -19017,7 +18953,7 @@
       ],
       "status": "record-and-review",
       "group": "words-4-5",
-      "batch": "33-words-4-5-01",
+      "batch": "32-words-4-5-01",
       "position": 3
     },
     {
@@ -19184,7 +19120,7 @@
       ],
       "status": "record-and-review",
       "group": "words-4-5",
-      "batch": "33-words-4-5-01",
+      "batch": "32-words-4-5-01",
       "position": 4
     },
     {
@@ -19246,7 +19182,7 @@
       ],
       "status": "record-and-review",
       "group": "words-4-5",
-      "batch": "33-words-4-5-01",
+      "batch": "32-words-4-5-01",
       "position": 5
     },
     {
@@ -19278,7 +19214,7 @@
       ],
       "status": "record-and-review",
       "group": "words-4-5",
-      "batch": "33-words-4-5-01",
+      "batch": "32-words-4-5-01",
       "position": 6
     },
     {
@@ -19295,7 +19231,7 @@
       ],
       "status": "record-and-review",
       "group": "words-4-5",
-      "batch": "33-words-4-5-01",
+      "batch": "32-words-4-5-01",
       "position": 7
     },
     {
@@ -19372,7 +19308,7 @@
       ],
       "status": "record-and-review",
       "group": "words-4-5",
-      "batch": "33-words-4-5-01",
+      "batch": "32-words-4-5-01",
       "position": 8
     },
     {
@@ -19389,7 +19325,7 @@
       ],
       "status": "record-and-review",
       "group": "words-4-5",
-      "batch": "33-words-4-5-01",
+      "batch": "32-words-4-5-01",
       "position": 9
     },
     {
@@ -19406,7 +19342,7 @@
       ],
       "status": "record-and-review",
       "group": "words-4-5",
-      "batch": "34-words-4-5-02",
+      "batch": "33-words-4-5-02",
       "position": 1
     },
     {
@@ -19423,7 +19359,7 @@
       ],
       "status": "record-and-review",
       "group": "words-4-5",
-      "batch": "34-words-4-5-02",
+      "batch": "33-words-4-5-02",
       "position": 2
     },
     {
@@ -19440,7 +19376,7 @@
       ],
       "status": "record-and-review",
       "group": "words-4-5",
-      "batch": "34-words-4-5-02",
+      "batch": "33-words-4-5-02",
       "position": 3
     },
     {
@@ -19562,7 +19498,7 @@
       ],
       "status": "record-and-review",
       "group": "words-4-5",
-      "batch": "34-words-4-5-02",
+      "batch": "33-words-4-5-02",
       "position": 4
     },
     {
@@ -19624,7 +19560,7 @@
       ],
       "status": "record-and-review",
       "group": "words-4-5",
-      "batch": "34-words-4-5-02",
+      "batch": "33-words-4-5-02",
       "position": 5
     },
     {
@@ -19641,7 +19577,7 @@
       ],
       "status": "record-and-review",
       "group": "words-4-5",
-      "batch": "34-words-4-5-02",
+      "batch": "33-words-4-5-02",
       "position": 6
     },
     {
@@ -19658,7 +19594,7 @@
       ],
       "status": "record-and-review",
       "group": "words-4-5",
-      "batch": "34-words-4-5-02",
+      "batch": "33-words-4-5-02",
       "position": 7
     },
     {
@@ -19675,7 +19611,7 @@
       ],
       "status": "record-and-review",
       "group": "words-4-5",
-      "batch": "34-words-4-5-02",
+      "batch": "33-words-4-5-02",
       "position": 8
     },
     {
@@ -19707,7 +19643,7 @@
       ],
       "status": "record-and-review",
       "group": "words-4-5",
-      "batch": "34-words-4-5-02",
+      "batch": "33-words-4-5-02",
       "position": 9
     }
   ]

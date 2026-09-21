@@ -22,8 +22,10 @@ test('owner-reviewed Dammataan excerpt cannot be reassigned to Damma or Fathataa
   for (const text of ['ضَمَّة', 'فَتْحَتَانْ']) {
     const pending = items.find(item => item.text === text.normalize('NFC'));
     assert.equal(pending.status, 'needs-review');
-    assert.equal(pending.file, undefined);
-    assert.equal(pending.start, undefined);
+    // A later recording may supply these names; the rejected shared batch-1 excerpt must never return.
+    assert.equal(pending.source, 'batch-3');
+    assert.ok(pending.file && Number.isFinite(pending.start));
+    assert.notEqual(pending.sha256, confirmed.sha256);
   }
 });
 

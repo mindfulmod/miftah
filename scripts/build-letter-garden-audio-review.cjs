@@ -27,16 +27,16 @@ const sourceDefinitions = [
     file: 'docs/letter-garden/reviews/marin-letters/original.mp3',
     duration: original.sourceSeconds,
   },
-  {
-    id: 'marin-curriculum-batch-1', title: 'Marin curriculum — supplied batch 1',
-    file: 'docs/letter-garden/reviews/marin-curriculum/sources/batch-1.mp3', duration: marin.sources[0].duration,
-    transcriptText: fs.readFileSync(path.join(ROOT, 'docs/letter-garden/reviews/marin-curriculum/request-1.txt'), 'utf8').trim(),
-  },
-  {
-    id: 'marin-curriculum-batch-2', title: 'Marin curriculum — supplied batch 2',
-    file: 'docs/letter-garden/reviews/marin-curriculum/sources/batch-2.mp3', duration: marin.sources[1].duration,
-    transcriptText: fs.readFileSync(path.join(ROOT, 'docs/letter-garden/reviews/marin-curriculum/request-2.txt'), 'utf8').trim(),
-  },
+  ...marin.sources.map(source => {
+    const requestFile = source.requestFile || source.id.replace('batch-', 'request-') + '.txt';
+    return {
+      id: `marin-curriculum-${source.id}`,
+      title: source.title || `Marin curriculum — supplied ${source.id.replace('-', ' ')}`,
+      file: `docs/letter-garden/reviews/marin-curriculum/${source.file}`,
+      duration: source.duration,
+      transcriptText: fs.readFileSync(path.join(ROOT, 'docs/letter-garden/reviews/marin-curriculum', requestFile), 'utf8').trim(),
+    };
+  }),
 ];
 const sources = sourceDefinitions.map((source) => ({ ...source, file: rel(source.file), sha256: sha256(source.file) }));
 
@@ -169,7 +169,7 @@ for (const entry of policyEntries) statusMap.set(entry.id, 'policy');
 if (new Set(ordered.map((entry) => entry.id)).size !== fm.counts.uniqueRequests) throw new Error('Catalogue source entries are not unique or complete');
 
 const items = ordered.map((entry) => makeItem(entry, statusMap.get(entry.id)));
-const queueFiles = ['next-100.json', 'next-individuals.json', 'boundary-recheck.json', 'additional-glides.json'];
+const queueFiles = ['next-100.json', 'next-individuals.json', 'boundary-recheck.json', 'additional-glides.json', 'new-recording.json'];
 const reviewQueues = [];
 const byId = new Map(items.map(item => [item.id, item]));
 for (const name of queueFiles) {

@@ -1,11 +1,11 @@
 # Letter Garden — complete audio recording list
 
-Prepared from the current local curriculum on 2026-09-19. This is an adult production document; the child-facing game is unchanged.
+Prepared from the current local curriculum on 2026-09-21. This is an adult production document; the child-facing game is unchanged.
 
 The audit covers **22 chapters** and **612 distinct spoken requests**, including introductions, full item catalogues, assembly pieces, distractors, and every possible three-letter chain. Daily practice, checkups, pets and the workshop reuse these requests.
 
-- **155** exact local clips are already bundled (letter names, marks, syllables, or words as available): do not regenerate them.
-- **279** new items are arranged below in **34 small recording batches**, including **33 word entries**.
+- **164** exact local clips are already bundled (letter names, marks, syllables, or words as available): do not regenerate them.
+- **270** new items are arranged below in **33 small recording batches**, including **33 word entries**.
 - **149** letter-name sequences are fully supported by the local playback queue; **0** still need one or more exact name clips.
 - **29** standalone assembly pieces need a teaching/pronunciation decision first; their complete list is included below.
 
@@ -58,7 +58,7 @@ These are isolated Arabic reading exercises from the game's Quran-word catalogue
 | Short vowels: fatha, kasra, damma | 54 |
 | Long vowels (also used for standing vowels) | 81 |
 | Tanween syllables | 73 |
-| Leen: aw and ay glides | 30 |
+| Leen: aw and ay glides | 21 |
 | Sukun, shaddah and mixed examples | 6 |
 | Two-letter word stage | 7 |
 | Three-letter word stage | 8 |
@@ -663,33 +663,9 @@ Voice direction: **syllables**.
 Save audio as `26-leen-01.mp3`. [Arabic-only text file](batches/26-leen-01.txt).
 
 ```text
-ثَوْ
-
-ثَيْ
-
-جَوْ
-
-جَيْ
-
-حَوْ
-
-حَيْ
-
 خَوْ
 
 خَيْ
-
-دَوْ
-```
-
-#### 27-leen-02 — 9 items
-
-Save audio as `27-leen-02.mp3`. [Arabic-only text file](batches/27-leen-02.txt).
-
-```text
-دَيْ
-
-ذَوْ
 
 ذَيْ
 
@@ -706,9 +682,9 @@ Save audio as `27-leen-02.mp3`. [Arabic-only text file](batches/27-leen-02.txt).
 سَيْ
 ```
 
-#### 28-leen-03 — 9 items
+#### 27-leen-02 — 9 items
 
-Save audio as `28-leen-03.mp3`. [Arabic-only text file](batches/28-leen-03.txt).
+Save audio as `27-leen-02.mp3`. [Arabic-only text file](batches/27-leen-02.txt).
 
 ```text
 طَيْ
@@ -730,9 +706,9 @@ Save audio as `28-leen-03.mp3`. [Arabic-only text file](batches/28-leen-03.txt).
 هَيْ
 ```
 
-#### 29-leen-04 — 3 items
+#### 28-leen-03 — 3 items
 
-Save audio as `29-leen-04.mp3`. [Arabic-only text file](batches/29-leen-04.txt).
+Save audio as `28-leen-03.mp3`. [Arabic-only text file](batches/28-leen-03.txt).
 
 ```text
 وَوْ
@@ -746,9 +722,9 @@ Save audio as `29-leen-04.mp3`. [Arabic-only text file](batches/29-leen-04.txt).
 
 Voice direction: **syllables**.
 
-#### 30-sukun-shaddah-01 — 6 items
+#### 29-sukun-shaddah-01 — 6 items
 
-Save audio as `30-sukun-shaddah-01.mp3`. [Arabic-only text file](batches/30-sukun-shaddah-01.txt).
+Save audio as `29-sukun-shaddah-01.mp3`. [Arabic-only text file](batches/29-sukun-shaddah-01.txt).
 
 ```text
 مِنْ
@@ -768,9 +744,9 @@ Save audio as `30-sukun-shaddah-01.mp3`. [Arabic-only text file](batches/30-suku
 
 Voice direction: **words**.
 
-#### 31-words-2-01 — 7 items
+#### 30-words-2-01 — 7 items
 
-Save audio as `31-words-2-01.mp3`. [Arabic-only text file](batches/31-words-2-01.txt).
+Save audio as `30-words-2-01.mp3`. [Arabic-only text file](batches/30-words-2-01.txt).
 
 ```text
 رَبِّ
@@ -792,9 +768,9 @@ Save audio as `31-words-2-01.mp3`. [Arabic-only text file](batches/31-words-2-01
 
 Voice direction: **words**.
 
-#### 32-words-3-01 — 8 items
+#### 31-words-3-01 — 8 items
 
-Save audio as `32-words-3-01.mp3`. [Arabic-only text file](batches/32-words-3-01.txt).
+Save audio as `31-words-3-01.mp3`. [Arabic-only text file](batches/31-words-3-01.txt).
 
 ```text
 بِسْمِ
@@ -818,9 +794,9 @@ Save audio as `32-words-3-01.mp3`. [Arabic-only text file](batches/32-words-3-01
 
 Voice direction: **words**.
 
-#### 33-words-4-5-01 — 9 items
+#### 32-words-4-5-01 — 9 items
 
-Save audio as `33-words-4-5-01.mp3`. [Arabic-only text file](batches/33-words-4-5-01.txt).
+Save audio as `32-words-4-5-01.mp3`. [Arabic-only text file](batches/32-words-4-5-01.txt).
 
 ```text
 ٱللَّهِ
@@ -842,9 +818,9 @@ Save audio as `33-words-4-5-01.mp3`. [Arabic-only text file](batches/33-words-4-
 أَعْبُدُ
 ```
 
-#### 34-words-4-5-02 — 9 items
+#### 33-words-4-5-02 — 9 items
 
-Save audio as `34-words-4-5-02.mp3`. [Arabic-only text file](batches/34-words-4-5-02.txt).
+Save audio as `33-words-4-5-02.mp3`. [Arabic-only text file](batches/33-words-4-5-02.txt).
 
 ```text
 أَنتُمْ
@@ -868,7 +844,7 @@ Save audio as `34-words-4-5-02.mp3`. [Arabic-only text file](batches/34-words-4-
 
 ## Already bundled exact clips — curriculum reference only
 
-These 155 requested items currently have exact local clips. Pronunciation review remains separate from file coverage.
+These 164 requested items currently have exact local clips. Pronunciation review remains separate from file coverage.
 
 ```text
 أَلِفْ
@@ -942,6 +918,15 @@ These 155 requested items currently have exact local clips. Pronunciation review
 بَيْ
 تَوْ
 تَيْ
+ثَوْ
+ثَيْ
+جَوْ
+جَيْ
+حَوْ
+حَيْ
+دَوْ
+دَيْ
+ذَوْ
 شَوْ
 شَيْ
 صَوْ

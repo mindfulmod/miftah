@@ -1,16 +1,16 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Letter Garden · Next 100 recording requests</title><link rel="stylesheet" href="../review.css?v=8">
+<title>Letter Garden · Next 100 recording requests</title><link rel="stylesheet" href="../review.css?v=9">
 <style>textarea[lang="ar"]{font-size:1.65rem;line-height:1.9} .batch-meta{margin-top:.4rem} .jump{display:flex;gap:1rem;flex-wrap:wrap} .items{margin-top:1.5rem} label{display:block;margin-top:1rem} textarea{width:100%;box-sizing:border-box} h2{scroll-margin-top:1rem}</style></head>
 <body><main><header><p class="eyebrow">LETTER GARDEN · ADULT AUDIO PREPARATION</p>
-<h1>Next 100 items: new recordings needed</h1>
-<p class="intro">Your review is saved. <strong>17 revised clips are now installed</strong>, bringing the local game to 155 approved recordings. Three revisions remain rejected; two have pronunciation questions.</p>
-<p class="intro"><strong>This is a recording pack, not a listening queue.</strong> The supplied recordings do not give us 100 more reliably identified, clean cuts. These 100 distinct items have no mapped audio: 2 vowel names, 35 short vowels and 63 long vowels. None repeats an item you already reviewed.</p>
-<p class="intro"><strong>Next: generate batch 02 first and attach its audio here in Codex.</strong> Use Marin, put the syllable direction in the voice-instructions field, and put only the Arabic text in the speech field. I will check the eight sounds and their boundaries before you spend time generating the other batches.</p>
+<h1>Recording received. 76 clips are ready to review.</h1>
+<p class="intro">Your file <strong>openai-fm-marin-audio-3.mp3</strong> is preserved unchanged. 76 of the 100 requested items have new candidate cuts; 24 still need a reliable cut or replacement. Candidates are excluded from the game until you approve them.</p>
+<p class="intro"><strong>Next: <a href="../index.html?section=new-recording">review the new clips</a>.</strong> Check the consonant, short versus long vowel, and both cut edges. Leave this page open and tell me “done” when your decisions are saved. Do not regenerate the entire list yet.</p>
+<p class="hint">The original 100-item script below is retained for reference. This page is the recording inventory; listening and decisions happen in the review desk. All earlier approvals and notes are preserved.</p>
 <p class="hint">There are 14 files of at most eight items, all below your 999-character limit. Short batches and requested one-second pauses reduce the risk of merged or skipped items; the generated audio still needs checking. Do not read the labels or filenames aloud.</p>
-<p class="jump"><a href="#batch-02-short-vowels">Start with batch 02 ↓</a><a href="../next-recordings-100.zip" download>Download all 100 scripts</a><a href="../index.html?section=boundary-recheck">Return to saved reviews</a></p>
+<p class="jump"><a href="../index.html?section=new-recording">Review the new recording →</a><a href="../next-recordings-100.zip" download>Download all 100 scripts</a><a href="../index.html?section=boundary-recheck">Return to saved reviews</a></p>
 <p class="hint">About your two questions: <span lang="ar" dir="rtl">تً</span> is “tan” and <span lang="ar" dir="rtl">ثً</span> is “than” (th as in “thin”). “Tun/thun” would be <span lang="ar" dir="rtl">تٌ / ثٌ</span>. Both clips remain pending because you did not save a decision. You can finish those two in the review desk when ready.</p>
-</header><section aria-label="Voice instructions"><h2>Voice instructions</h2>
+</header><section aria-label="Voice instructions"><h2>Original voice instructions (reference)</h2>
 <label for="syllables-direction">Syllable direction</label><textarea id="syllables-direction" readonly lang="en" dir="ltr" rows="5">Speak in Arabic with a warm, gentle, natural teaching voice for children aged 4–6. Use clear articulation and a relaxed speaking pace, without whispering, singing or theatrical emphasis. Read every non-empty line exactly once, in order. Leave about one second of silence between lines. Do not say item numbers, labels, translations, instructions or commentary. Do not omit, combine or repeat items.
 
 These are fully vowelled reading exercises, not letter names. Pronounce each whole line as its written syllable or example. Preserve the short-vowel versus long-vowel contrast, written tanween endings, glides, sukun and doubled consonants. The pause between lines is only a separator: do not drop the written short vowel or tanween at the end of an exercise. Do not add an unwritten vowel.</textarea><button type="button" data-copy="syllables-direction">Copy syllable direction</button>
@@ -205,5 +205,5 @@ These lines are names. Say each name as written.</textarea><button type="button"
 كِي
 
 كُو</textarea><button type="button" data-copy="text-14-long-vowels">Copy arabic text for batch 14-long-vowels</button><p>Save as <strong>14-long-vowels.mp3</strong> · <a href="batches/14-long-vowels.txt" download>Download Arabic text</a></p></article>
-</section><p class="hint">Attach original downloaded audio files in Codex. I will split and map them, then provide a listening queue. No upload, voice generation or game change happens on this page.</p></main>
+</section><p class="hint">Your file is already received. Review the new clips before generating replacements. No upload, voice generation or game change happens on this page.</p></main>
 <script>document.addEventListener('click',async event=>{const button=event.target.closest('[data-copy]');if(!button)return;const input=document.getElementById(button.dataset.copy),status=document.getElementById('copy-status');try{await navigator.clipboard.writeText(input.value);status.textContent='Copied. Paste into the matching field on the voice site.';button.textContent='Copied ✓';}catch{input.focus();input.select();status.textContent='Text selected. Press Command+C or Ctrl+C to copy.';}});</script></body></html>

@@ -5,24 +5,23 @@ Open through the preview server:
 This adult-only review does not load or modify the game, audio mappings, rewards
 or learning progress. No external service is called.
 
-## Current handoff · September 19
+## Current handoff · September 21
 
-The boundary follow-up has **17 approved, 3 rejected and 2 undecided**. All 17
-approved files are installed without changing their audio. See
-[the applied review](BOUNDARY_APPLIED_20260919.md).
+[76 new candidates](index.html?section=new-recording) are prepared from the
+owner's new `openai-fm-marin-audio-3.mp3`: 2 mark names, 24 short syllables and
+50 long syllables. They remain outside the game until reviewed. Another 24 of
+the original 100 requests have uncertain identities/boundaries and remain held.
+See [source audit and handoff](NEW_RECORDING_20260921.md).
 
-- [Nine additional listening candidates](index.html?section=additional-glides)
-  are available from the existing source. They remain outside the game.
-- [Next 100 recording requests](next-recordings/index.html) contain 2 mark names,
-  35 short vowels and 63 long vowels, none previously reviewed. This is **not** a
-  playable queue. Generate the eight-item batch 02 pilot and attach it in Codex
-  before generating the rest. All 14 scripts fit within 999 characters each.
-- تً and ثً remain undecided. Their expected endings are tan/than, not tun/thun.
-  The notes are retained in the previous 22-item queue.
+All nine prior glides were approved in the browser and installed unchanged.
+The bank now has **164 approved exact recordings**. The catalogue also has
+133 candidates (55 rejected, 2 undecided, 76 new), 149 reviewed name sequences,
+137 unmapped items and 29 teaching-policy entries: 612 requests in total.
 
-The bank has **155 approved exact recordings**. The catalogue also has 66
-candidates (55 rejected, 2 undecided, 9 new), 149 reviewed name sequences,
-213 unmapped items and 29 teaching-policy entries: 612 requests in total.
+Next: listen to the new 76, choose Correct / Needs fixing / Unsure, and leave
+notes. Tell Codex “done” with the page open, or attach the downloaded results.
+Do not regenerate the full list. Prior notes, clips and signatures are preserved.
+تً and ثً remain undecided: expected endings tan/than, not tun/thun.
 
 ## Queue preparation (historical)
 
@@ -38,12 +37,12 @@ At that checkpoint, 85 approved individual recordings were installed. At that po
 
 ## Owner workflow
 
-1. Choose **Start reviewing**. The first 28 items are alphabet names.
+1. Open **New recording · 76 clips**. No approved clip needs another listen.
 2. Play each complete clip and compare its consonants, vowels, length and ending
    with the displayed Arabic. Check for cut-off speech or a neighbouring item.
 3. Choose **Correct**, **Needs fixing**, or **Unsure**. Add a note when useful.
 4. Use **Next batch** for another ten items. Decisions and notes save locally.
-5. Review **Candidate clips** after the installed clips. **Joined name prompts**
+5. Historical **Joined name prompts**
    are the existing name clips played in the game's order with a nominal 90 ms
    gap; check the order/transitions, not blended syllable reading.
 6. **Download review results**, then attach that JSON file in the conversation. If downloads or the clipboard fail, use **Show results text**.
