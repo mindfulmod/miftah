@@ -1,6 +1,6 @@
 # Letter Garden major release — local status
 
-Preview: `http://letter-garden-next.localhost:8790/letters.html?v=20260919-audio-review-applied2`.
+Preview: `http://letter-garden-next.localhost:8790/letters.html?v=20260925-potting1`.
 Durable checkout: `/Users/main/Documents/GitHub/miftah/.local-work/letter-garden-next-major`.
 Branch: `codex/letter-garden-next-major`.
 Production baseline: `55f34576f0ebfc02bcf115452101b37adfbb4536` / `20260908-batch50`.
@@ -104,3 +104,15 @@ See [recording intake and validation](reviews/audio-confirmation/NEW_RECORDING_2
 Next owner action: review only the new 76 at the audio desk, leave notes and say
 “done” with the page open (or attach exported results). Do not regenerate the
 whole 100-item list; unresolved/rejected clips will form a focused follow-up.
+
+
+September 25: resumed the full art/gameplay goal with a Dot Garden potting-table
+pass. Native materials and props, larger companion, taught-family dot exploration,
+undo and a responding seedling precede the existing repair/recall loop. No
+exploration mastery/rewards, no curriculum/progression or audio approval changes.
+286 tests pass; real browser tap/drag, retry, keyboard, recall, return and reduced
+motion checked across phone/landscape/tablet/desktop. See
+[POTTING_PLAY_REVIEW.md](POTTING_PLAY_REVIEW.md). Local only. Full art/gameplay goal
+remains active: Paths and joining exploration, activity-family refinements and
+broader pet/garden responses remain. Next owner action: try Dot Garden in the
+practice garden; the updated local preview is open there.

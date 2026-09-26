@@ -104,3 +104,25 @@ Activity prompt, presenter and progress layout now belongs to
 belongs to `LettersRoomArt.js`/`letters-rooms.css`. Keep mechanics outside these
 owners. See `../letter-garden/ART_FOUNDATION_REVIEW.md` for screenshots, tests,
 recovery and outstanding full-bible debt.
+
+
+## Potting-table family, 2026-09-25
+
+Owner-requested Animal Crossing inspiration adds purposeful, responsive props to
+Letter Garden's existing paper world. Nintendo's [island overview](https://animalcrossing.nintendo.com/new-horizons/explore/)
+connects small activities, crafting and decorating; our adaptation is a seed-pattern
+workbench with a responsive seedling, not Nintendo characters/assets or a new
+curriculum. Existing scenery, pets and the warm contour/material system remain.
+
+The new native family comprises a rounded timber plane (stretchable scenery),
+a fixed-proportion seedling and scoop, a paper label and movable dot-pattern tiles.
+Light arrives from upper left. Main letters retain fitted live Arabic type.
+Scenery stays behind input; palette ramps come from ART.md. The 120×140 prop
+frame puts the floor/contact shadow at y=132. Touch targets remain at least 44px
+in short landscape and 48px on the checked smallest phone. Broad tabletop planes
+are bounded to 640×610px so they cannot expand into a screen-filling vertical slab.
+
+Exploration has one large letter, while the smaller reference returns for repair.
+The sprout grows slightly as familiar patterns are explored, never shrinks on undo,
+and has no saved mastery/currency meaning. Motion settles once; reduced motion
+changes the same states instantly. Review: `docs/letter-garden/POTTING_PLAY_REVIEW.md`.

@@ -1,0 +1,94 @@
+/* Dot Garden: one outdoor potting station; only the lesson objects receive input. */
+.lg-play[data-activity="dots"] .practice-stage { position:relative; max-width:640px; max-height:610px; margin-top:12px; }
+.lg-play[data-activity="dots"] .practice-heading { gap:16px; height:106px; }
+.lg-play[data-activity="dots"] .practice-heading > :first-child { width:94px!important; height:104px!important; }
+.lg-play[data-activity="dots"] .practice-heading > :first-child { filter:drop-shadow(0 4px 0 #4a362020); }
+.lg-app .dot-garden { position:relative; isolation:isolate; box-sizing:border-box; padding:22px 26px 66px; gap:12px; }
+.dot-garden > :not(.lg-activity-art) { position:relative; z-index:1; }
+.dot-garden .lg-activity-art { overflow:visible; }
+.dot-garden .is-seedling { left:0; bottom:6%; width:clamp(64px,17%,96px); }
+.dot-garden .is-scoop { right:0; bottom:6%; width:clamp(56px,15%,86px); }
+.lg-app .dot-garden .dot-bed,
+.lg-app .dot-garden .dot-discovery-card {
+  background:linear-gradient(135deg,#fffdf7,#fffaf0 76%,#e5dcc8);
+  border:3px solid #4a3620; box-shadow:0 6px 0 #a89478,0 11px 0 #4a362012;
+  border-radius:28px 28px 23px 23px; width:min(380px,94%); min-width:0;
+}
+.lg-app .dot-garden .dot-bed { max-height:310px; min-height:180px; padding:12px 0; }
+.dot-garden .dot-bed::before,
+.dot-garden .dot-discovery-card::before { content:""; position:absolute; top:9px; left:50%; transform:translateX(-50%); width:8px; height:8px; border-radius:50%; background:#a89478; box-shadow:inset 0 2px 0 #4a3620; }
+.lg-app .dot-garden .dot-base { font-size:clamp(72px,15vh,116px); line-height:1; }
+.lg-app .dot-garden .dot-zone { width:min(150px,70%); height:48px; min-height:44px; flex:0 0 48px; border:2px dashed #a89478; background:#e5dcc8; box-shadow:inset 0 3px 0 #c9bda4; border-radius:18px; color:#4a3620; }
+.lg-app .dot-garden .dot-zone.is-help { border-style:solid; background:#ffe49a; }
+.lg-app .dot-garden .practice-tools { flex:0 0 auto; border:0; border-radius:24px; background:#c9bda4; box-shadow:inset 0 3px 0 #a89478,0 2px 0 #fffaf0; padding:8px 14px; gap:14px; }
+.lg-app .dot-garden .practice-tools .practice-button { background:linear-gradient(#fffdf7,#fffaf0 78%,#e5dcc8); border-color:#4a3620; box-shadow:0 4px 0 #a89478; }
+.lg-app .dot-garden .dot-check,
+.lg-app .dot-garden .dot-explore-next { background:linear-gradient(#ffa06e,#e8743c)!important; box-shadow:0 4px 0 #b0501f!important; }
+.lg-app .dot-garden .practice-status { position:absolute; bottom:30px; left:50%; transform:translateX(-50%); }
+.dot-garden .dot-progress { flex:0 0 auto; margin:0; }
+.dot-garden .dot-progress i { width:10px; height:10px; border:2px solid #70501b; background:#fffaf0; }
+.dot-garden .dot-progress i.is-on { background:#f3c955; }
+.lg-app .dot-garden .dot-answers { flex:1; min-height:0; gap:14px; }
+.lg-app .dot-garden .dot-answers button { width:min(150px,42%); height:clamp(90px,22vh,160px); min-height:76px; border-color:#4a3620; background:linear-gradient(#fffdf7,#fffaf0 75%,#e5dcc8); box-shadow:0 6px 0 #a89478; }
+.lg-app .dot-garden .dot-answers button.is-help { border-color:#70501b; background:#ffe49a; }
+/* Seed-pattern tiles change a real, taught letter. The common body is secondary. */
+.dot-discoveries { display:flex; justify-content:center; gap:12px; height:16px; flex:0 0 16px; }
+.dot-discoveries i { display:block; width:12px; height:12px; background:#fffaf0; border:2px solid #4e9677; border-radius:50% 50% 40% 40%; }
+.dot-discoveries i.is-found { background:#7fce54; box-shadow:inset 0 3px 0 #b7e779; }
+.lg-app .dot-garden .dot-discovery-card { display:grid; place-items:center; padding:22px; flex:1 1 220px; max-height:280px; min-height:112px; cursor:pointer; touch-action:none; }
+.dot-discovery-card > svg { display:block; width:100%; height:100%; max-height:230px; pointer-events:none; animation:dot-label-settle 220ms ease-out; }
+.dot-discovery-card.is-receiving { outline:4px solid #4e9677; outline-offset:4px; }
+.dot-explore-tray { display:flex; justify-content:center; gap:14px; flex:0 0 auto; }
+.lg-app .dot-garden .dot-pattern-choice { position:relative; width:76px; height:82px; min-width:56px; padding:5px; border:3px solid #4a3620; background:linear-gradient(#fffdf7,#fffaf0 75%,#e5dcc8); border-radius:18px; box-shadow:0 5px 0 #a89478; touch-action:none; }
+.lg-app .dot-garden .dot-pattern-choice[aria-pressed="true"] { border-color:#2f5c46; background:linear-gradient(#ccfbef,#b7e779); box-shadow:0 3px 0 #4e9677; transform:translateY(2px); }
+.lg-app .dot-garden .dot-pattern-choice.is-dragging { z-index:5; box-shadow:0 12px 12px #4a362030; transition:none; }
+.dot-pattern { display:grid; grid-template-rows:17px 30px 17px; width:100%; height:100%; place-items:center; pointer-events:none; }
+.pattern-body { color:#a89478; font:40px/30px 'Geeza Pro',Arial,sans-serif; }
+.dot-pattern .dot-cluster { display:flex; gap:4px; font:12px/1 system-ui; }
+.dot-pattern .dots-0 { visibility:hidden; }
+.dot-pattern .dots-3 { display:grid; grid-template-columns:12px 12px; grid-template-rows:8px 8px; gap:0; }
+.lg-app .dot-garden .practice-button:active { translate:0 2px; }
+.lg-app .dot-garden .practice-button:focus-visible { outline:4px solid #3a8fc4; outline-offset:5px; }
+@keyframes dot-label-settle { from { transform:translateY(-4px); } to { transform:translateY(0); } }
+@media(max-height:650px) {
+  .lg-play[data-activity="dots"] .practice-heading { height:72px; }
+  .lg-play[data-activity="dots"] .practice-heading > :first-child { width:64px!important; height:70px!important; }
+  .lg-app .dot-garden { padding:14px 18px 42px; gap:8px; }
+  .lg-app .dot-garden .dot-bed { min-height:164px; max-height:220px; padding:10px 0; }
+  .lg-app .dot-garden .dot-base { font-size:76px; }
+  .lg-app .dot-garden .dot-discovery-card { min-height:88px; padding:16px; }
+  .lg-app .dot-garden .dot-pattern-choice { height:67px; width:64px; }
+  .dot-pattern { grid-template-rows:14px 23px 14px; }
+  .pattern-body { font-size:32px; line-height:23px; }
+  .lg-app .dot-garden .practice-tools { padding:5px 12px; }
+}
+@media(max-height:450px) and (min-width:480px) {
+  .lg-play[data-activity="dots"] .practice-heading { position:absolute; left:12px; top:72px; width:94px; height:auto; flex-direction:column; gap:2px; margin:0; }
+  .lg-play[data-activity="dots"] .practice-heading > :first-child { width:68px!important; height:76px!important; }
+  .lg-play[data-activity="dots"] .practice-replay { width:76px; min-width:76px; height:66px; min-height:60px; font-size:36px; }
+  .lg-play[data-activity="dots"] .practice-stage { width:calc(100% - 120px); margin:48px 8px 4px 112px; }
+  .lg-app .dot-garden { display:grid; grid-template-columns:minmax(0,1fr) 112px; grid-template-rows:18px minmax(0,1fr) 58px; padding:10px 22px 20px; gap:7px 12px; }
+  .dot-garden .dot-progress,.dot-garden .dot-discoveries { grid-column:1 / -1; }
+  .lg-app .dot-garden .dot-bed { grid-column:1; grid-row:2 / 4; width:100%; max-height:none; min-height:0; padding:8px 0; }
+  .lg-app .dot-garden .dot-base { font-size:58px; }
+  .lg-app .dot-garden .dot-zone { height:40px; flex-basis:40px; }
+  .lg-app .dot-garden .practice-tools { grid-column:2; grid-row:2 / 4; flex-direction:column; align-self:center; gap:8px; padding:8px; }
+  .lg-app .dot-garden .dot-discovery-card { width:100%; min-height:0; height:100%; max-height:none; grid-column:1; grid-row:2 / 4; padding:20px 12px; }
+  .dot-garden .dot-explore-tray { grid-column:2; grid-row:2; display:grid; grid-template-columns:repeat(2,48px); gap:5px; align-self:center; }
+  .lg-app .dot-garden .dot-pattern-choice { min-width:44px; width:48px; height:55px; padding:0; border-radius:12px; }
+  .lg-app .dot-garden .dot-explore-tools { grid-column:2; grid-row:3; flex-direction:row; gap:6px; padding:3px; }
+  .lg-app .dot-garden .dot-explore-tools .practice-button { width:44px; min-width:44px; height:44px; min-height:44px; padding:7px; }
+  .dot-garden .is-seedling,.dot-garden .is-scoop { display:none; }
+  .lg-app .dot-garden .dot-answers { grid-column:1; grid-row:2 / 4; }
+}
+.lg-reduce-motion .dot-discovery-card > svg { animation:none; }
+@media(prefers-reduced-motion:reduce) { .dot-discovery-card > svg { animation:none; } }
+
+/* Exploration has one large letter; the smaller model returns for repair. */
+.lg-play[data-activity="dots"]:has(.is-exploring) .practice-replay { display:none; }
+.dot-discovery-speaker { position:absolute; right:12px; bottom:10px; width:25px; height:25px; opacity:.55; pointer-events:none; }
+.dot-discovery-speaker > svg { display:block; width:100%; height:100%; }
+
+.potting-leaves { transform:scale(var(--potting-growth,1)); transform-origin:61px 61px; transition:transform 240ms ease-out; }
+.lg-reduce-motion .potting-leaves { transition:none; }
+@media(prefers-reduced-motion:reduce) { .potting-leaves { transition:none; } }

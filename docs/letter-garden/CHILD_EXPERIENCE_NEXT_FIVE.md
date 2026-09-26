@@ -6,8 +6,9 @@ parked. Keep the existing bundled clips/fallback. Parent-page work and publishin
 remain deferred. Pass 1 is implemented locally; see
 [TACTILE_PASS_REVIEW.md](TACTILE_PASS_REVIEW.md). Pass 2 and the Boat portions of
 passes 4–5 are now implemented locally in `20260918-boat-adventure1`; see
-[BOAT_ADVENTURE_REVIEW.md](BOAT_ADVENTURE_REVIEW.md). Pass 3 and the remaining
-pet/garden interactions remain proposed.
+[BOAT_ADVENTURE_REVIEW.md](BOAT_ADVENTURE_REVIEW.md). Pass 3 now has a first local Dot Garden implementation (September 25): taught-family
+exploration, undo, responsive seedling and potting-table art. Its Paths and joining
+workbench portions and the remaining pet/garden interactions are still proposed.
 None of these changes has been tested with children yet.
 
 ## Direction
@@ -99,6 +100,8 @@ child can connect an activity's result to something on the map. Existing stars,
 replays, chapter unlocks and interrupted navigation behave as before.
 
 ## 3. Make learning something to experiment with — “What happens if I change this?”
+
+**Status:** Dot Garden slice implemented locally; see [potting play review](POTTING_PLAY_REVIEW.md). Broader Paths/Build/Blend work remains open.
 
 **Priority:** after the interaction foundation; extend Dot Garden, Paths and
 Blend/Build rather than adding another disconnected game.

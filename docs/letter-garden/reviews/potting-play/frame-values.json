@@ -1,0 +1,27 @@
+{
+  "before-phone.png": {
+    "above80": 42.94,
+    "mid45to70": 16.42,
+    "below30": 1.2
+  },
+  "repair-phone.png": {
+    "above80": 47.84,
+    "mid45to70": 14.76,
+    "below30": 2.3
+  },
+  "explore-small-phone.png": {
+    "above80": 43.64,
+    "mid45to70": 14.74,
+    "below30": 3.46
+  },
+  "explore-tablet.png": {
+    "above80": 40.61,
+    "mid45to70": 15.42,
+    "below30": 1.24
+  },
+  "explore-desktop-rafi.png": {
+    "above80": 77.83,
+    "mid45to70": 10.84,
+    "below30": 0.94
+  }
+}

@@ -33,3 +33,6 @@ pond-lily,environment,quiet near and far water-edge planting,1,92,72,none,46 50,
 teaching-alcove,lesson,shared ground for bud and letter presenter,1,600,430,none,300 357,front,1,true,warm-paper,pet-room,LettersRoomArt.js,local-reviewed
 pet-room-frame,layout,single coordinate frame for pet and furniture,1,600,430,none,300 365,front,1,true,warm-paper,live-mina,letters-rooms.css,local-reviewed
 activity-presenter,layout,optical prompt and proportional pet with progress row,1,0,0,responsive,center,front,1,true,warm-paper,live-letter-garden,letters-composition.css,local-reviewed
+potting-plane,practice-scenery,quiet timber work surface,1,720,540,none,"360 505",front,1,true,paper-ink,existing-workbench,DotGarden,reviewed-local
+potting-seedling,practice-prop,respond to taught-dot exploration,1,120,140,none,"61 132",front,1,true,foliage-warm,existing-workbench,DotGarden,reviewed-local
+potting-scoop,practice-prop,frame the letter-repair table,1,120,140,none,"61 132",front,1,true,paper-foliage,existing-workbench,DotGarden,reviewed-local

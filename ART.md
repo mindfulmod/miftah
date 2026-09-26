@@ -6,11 +6,10 @@ then build). Owner instructions take precedence over this document. Companion do
 token names; this file holds the *reasons* and the review bar.
 
 ## 1. North star
-- Reference: **Toca Life World** (sole reference — it wins every conflict).
+- Visual foundation: **Toca Life World**. Owner direction also requests **Animal Crossing** cues: welcoming places, tactile materials, purposeful props and gentle environmental responses. Preserve Letter Garden’s existing cast and native paper-diorama style.
 - One-sentence look: *warm storybook paper diorama where the cast carries all the
   colour and the world quietly frames them.*
-- Gut test: if a new asset wouldn't look at home in a Toca Life World screenshot,
-  it fails. Existing blob pets remain available. Owner-approved prototype animals Lumi, Mina and Rafi now join the live selectable cast, preserving their anatomy and wardrobe.
+- Gut test: new assets must belong to Letter Garden’s warm paper world; references inform its craft, not a replica of another game's assets. Existing blob pets remain available. Owner-approved prototype animals Lumi, Mina and Rafi now join the live selectable cast, preserving their anatomy and wardrobe.
 - No words anywhere. The art IS the interface.
 
 ## 2. Palette (LOCKED — no other hexes may appear in code)
@@ -235,3 +234,17 @@ Child navigation is wordless: use action pictures and accessible names, not visi
   smallest portrait and short landscape, not just a single phone screenshot.
 - Reward scenery uses one ground plane. The Boat landmark may suppress its own
   terrain when it is placed on the shared celebration clearing.
+
+## Potting-table play — owner direction, 2026-09-25
+
+- Dot Garden is a place to experiment, then repair and recall. Use a warm wooden
+  potting table, a paper letter label, and grounded seedling/tool clusters at the
+  edges. Preserve the outdoor garden and pond behind it.
+- Dot patterns are movable seeds. Full Arabic letters use fitted live type, never
+  distorted artwork. Only already-taught members of the same explicit body family
+  may appear in exploration. Playful exploration does not award recognition credit.
+- The paper label and movable seeds carry strong contours; broad timber/ground
+  planes use value changes. Use existing palette ramps and fixed-proportion props.
+- A touch changes the object immediately. A short settle may acknowledge it; no
+  repeated bounce, compulsory wait or new success currency. Reduced motion uses
+  the same states without movement. Reserve controls/glyph margins at phone size.

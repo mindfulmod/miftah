@@ -54,5 +54,9 @@ test('new recording preparation preserves every prior playable signature and the
     for (const part of byId.get(id).parts) assert.equal(hash(part.file), part.sha256);
   }
   assert.equal(hash('src/letters/LetterVoiceClips.js'), assessment.baseline.runtimeSha256);
-  assert.equal(hash('sw.js'), assessment.baseline.serviceWorkerSha256);
+  // Later art/shell versions may change; only audio membership is this contract.
+  const shell = read('sw.js').toString();
+  for (const item of catalogue.items.filter(item => item.status === 'installed')) {
+    for (const part of item.parts) assert.ok(shell.includes(part.file));
+  }
 });

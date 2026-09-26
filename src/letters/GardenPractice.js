@@ -85,9 +85,22 @@
     return plan.slice(0,6);
   }
 
+  // Exploration contains only taught isolated members of one verified body family.
+  function explorationItems(items,family){
+    if(!family)return [];
+    const known=new Map((items||[]).filter(item=>item?.display).map(item=>[item.display,item]));
+    return family.members.map(([display])=>known.get(display)).filter(Boolean);
+  }
+  const pottingScene=()=>ns.LettersActivityArt?.scene('DotGarden')||'';
+  const patternPicture=item=>{
+    const spec=dotSpec(item.display);
+    return `<span class="dot-pattern" aria-hidden="true"><span class="pattern-above">${dots(spec.above)}</span><span class="pattern-body">${spec.family.body}</span><span class="pattern-below">${dots(spec.below)}</span></span>`;
+  };
+
   class DotGarden{
     constructor(ctx){
       this.ctx=ctx;this.alive=true;this.index=0;this.busy=false;this.plan=repairPlan(ctx.items);this.targets=this.plan.map(x=>x.target);
+      this.exploreItems=explorationItems(ctx.items,this.plan[0]?.family);this.exploring=this.exploreItems.length>1;this.exploreHistory=[];
       this.keyboardFocus=false;ctx.stage.addEventListener?.('keydown',()=>{this.keyboardFocus=true;});ctx.stage.addEventListener?.('pointerdown',()=>{this.keyboardFocus=false;});this.show();
     }
     progress(){return `<div class="dot-progress" role="progressbar" aria-valuemin="0" aria-valuemax="${this.plan.length}" aria-valuenow="${this.index}" aria-label="Letter repair progress">${Array.from({length:this.plan.length},(_,i)=>`<i class="${i<this.index?'is-on':''}" aria-hidden="true"></i>`).join('')}</div>`;}
@@ -95,7 +108,32 @@
       if(!this.alive)return;const view=this.view=(this.view||0)+1,active=()=>this.alive&&this.view===view;
       this.resetDrag?.();this.busy=false;this.round=this.plan[this.index];this.target=this.round?.target;
       if(!this.round||!this.target){this.finish();return;}
-      if(this.round.kind==='recognition')this.showRecognition(active);else this.showRepair(active);
+      if(this.exploring)this.showExplore(active);else if(this.round.kind==='recognition')this.showRecognition(active);else this.showRepair(active);
+    }
+    showExplore(active){
+      this.exploreIndex=0;this.exploreHistory=[];this.exploreSeen=new Set([0]);
+      this.ctx.stage.innerHTML=`<div class="dot-garden is-exploring">${pottingScene()}<div class="dot-discoveries" aria-label="Letters explored">${this.exploreItems.map((item,i)=>`<i data-discovery="${i}" aria-label="${item.display}"></i>`).join('')}</div>
+        ${button('Hear the discovered letter',glyph(this.exploreItems[0].display),'dot-discovery-card')}
+        <div class="dot-explore-tray" role="group" aria-label="Try another dot pattern">${this.exploreItems.map(item=>button(`Try ${item.display}`,patternPicture(item),'dot-pattern-choice')).join('')}</div>
+        <div class="practice-tools dot-explore-tools">${button('Undo dot change',tool('replay'),'dot-explore-undo')}${button('Start repairing letters',tool('next'),'dot-explore-next')}</div></div>`;
+      const card=this.ctx.stage.querySelector('.dot-discovery-card'),choices=[...this.ctx.stage.querySelectorAll('.dot-pattern-choice')],undo=this.ctx.stage.querySelector('.dot-explore-undo');
+      const paint=(speak=true)=>{
+        const item=this.exploreItems[this.exploreIndex];this.target=item;card.innerHTML=glyph(item.display)+(this.ctx.canListen?.()!==false?`<span class="dot-discovery-speaker" aria-hidden="true">${tool('speaker')}</span>`:'');card.setAttribute('aria-label',`Hear ${item.display}`);
+        choices.forEach((choice,i)=>choice.setAttribute('aria-pressed',String(i===this.exploreIndex)));
+        this.ctx.stage.querySelectorAll('[data-discovery]').forEach((bud,i)=>bud.classList.toggle('is-found',this.exploreSeen.has(i)));
+        undo.disabled=this.exploreHistory.length===0;this.ctx.stage.querySelector('.dot-garden')?.style.setProperty('--potting-growth',String(.78+Math.min(2,this.exploreSeen.size-1)*.11));this.ctx.prompt?.(item);ns.LettersArt.fitGlyphs?.(card);
+        if(speak&&this.ctx.canListen?.()!==false)this.ctx.say?.(item);
+      };
+      const choose=i=>{if(!active()||!this.exploring||i===this.exploreIndex)return;this.exploreHistory.push(this.exploreIndex);this.exploreIndex=i;this.exploreSeen.add(i);paint();};
+      const releases=choices.map((choice,i)=>{
+        choice.onclick=()=>choose(i);
+        return draggable(choice,{enabled:()=>active()&&this.exploring,drop:(x,y)=>{if(inside(card,x,y))choose(i);},onDragStart:()=>card.classList.add('is-receiving'),onDragEnd:()=>card.classList.remove('is-receiving')});
+      });
+      this.resetDrag=()=>releases.forEach(release=>release());
+      card.onclick=()=>{if(active()&&this.ctx.canListen?.()!==false)this.ctx.say?.(this.target);};
+      undo.onclick=()=>{if(!active()||!this.exploring||!this.exploreHistory.length)return;this.resetDrag();this.exploreIndex=this.exploreHistory.pop();paint();};
+      this.ctx.stage.querySelector('.dot-explore-next').onclick=()=>{if(!active()||!this.exploring)return;this.resetDrag();this.exploring=false;this.show();};
+      paint();
     }
     showRecognition(active){
       const pool=[...new Map(this.round.choices.map(item=>[key(item),item])).values()];
@@ -104,7 +142,7 @@
       const options=this.index%2?offered:offered.slice().reverse();
       this.assisted=options.length===1;this.speechConfirmed=false;this.listening=this.ctx.canListen?.()!==false;this.waitingForSpeech=this.listening;this.ctx.prompt?.(this.listening?null:this.target);
       const support=(label,content,cls)=>`<button type="button" aria-label="${label}" class="${cls} practice-button">${content}</button>`;
-      this.ctx.stage.innerHTML=`<div class="dot-garden">${this.progress()}<div class="practice-tools">${support('Hear the letter again',tool('speaker'),'dot-listen')}${support('Show the matching letter',eye,'dot-help')}</div><div class="dot-answers">${options.map(item=>button(item.display,glyph(item.display))).join('')}</div></div>`;
+      this.ctx.stage.innerHTML=`<div class="dot-garden">${pottingScene()}${this.progress()}<div class="practice-tools">${support('Hear the letter again',tool('speaker'),'dot-listen')}${support('Show the matching letter',eye,'dot-help')}</div><div class="dot-answers">${options.map(item=>button(item.display,glyph(item.display))).join('')}</div></div>`;
       const choices=[...this.ctx.stage.querySelectorAll('.dot-answers button')];
       if(this.waitingForSpeech)choices.forEach(choice=>choice.disabled=true);
       const reveal=()=>{if(!active())return;if(this.waitingForSpeech){this.waitingForSpeech=false;choices.forEach(choice=>choice.disabled=false);}this.assisted=true;this.ctx.prompt?.(this.target);choices.find((c,i)=>key(options[i])===key(this.target))?.classList.add('is-help');};
@@ -135,7 +173,7 @@
     showRepair(active){
       const targetSpec=dotSpec(this.target.display),sourceSpec=this.round.source&&dotSpec(this.round.source.display);
       this.above=sourceSpec?.above||0;this.below=sourceSpec?.below||0;this.ctx.prompt?.(this.target);this.ctx.say?.(this.target);
-      this.ctx.stage.innerHTML=`<div class="dot-garden">${this.progress()}<div class="dot-bed">
+      this.ctx.stage.innerHTML=`<div class="dot-garden">${pottingScene()}${this.progress()}<div class="dot-bed">
         ${button('Place a dot above','<span class="dot-hint" aria-hidden="true"></span><span class="dot-placed"></span>','dot-zone dot-above')}
         <span class="dot-base" lang="ar">${this.round.family.body}</span>
         ${button('Place a dot below','<span class="dot-hint" aria-hidden="true"></span><span class="dot-placed"></span>','dot-zone dot-below')}
@@ -155,7 +193,7 @@
           outcome(this.ctx,this.target,{correct:undefined,evidence:'motor_assembly_participation',skill:'construction',selectedId:key(this.target),choiceIds:[key(this.target)],assisted:true,affectsStrength:false});this.advance();
         }else{this.ctx.say?.(this.target);this.ctx.stage.querySelector('.practice-status').innerHTML=tool('replay');this.zones[targetSpec.below?1:0]?.classList.add('is-help');}
       };
-      this.paint();
+      this.paint();if(this.keyboardFocus)source.focus?.();
     }
     paint(){
       const total=this.above+this.below,undo=this.ctx.stage.querySelector('.dot-undo'),check=this.ctx.stage.querySelector('.dot-check'),source=this.ctx.stage.querySelector('.dot-seed'),status=this.ctx.stage.querySelector('.practice-status');
@@ -198,5 +236,5 @@
     finish(){if(!this.alive)return;this.release?.();this.alive=false;this.ctx.done?.();}
     destroy(){this.alive=false;this.release?.();}
   }
-  ns.GardenPractice={DotGarden,GardenPaths,draggable,inside,validDots,dotSpec,repairFamilies,repairPlan,eraserIcon:()=>eraser};
+  ns.GardenPractice={DotGarden,GardenPaths,explorationItems,draggable,inside,validDots,dotSpec,repairFamilies,repairPlan,eraserIcon:()=>eraser};
 })(window.MiftahGame||(window.MiftahGame={}));

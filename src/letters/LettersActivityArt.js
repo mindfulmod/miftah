@@ -4,6 +4,7 @@
 (function (ns) {
   const FAMILY = {
     pairs: "pairs",
+    DotGarden: "potting",
     feed: "picnic",
     catch: "catch",
     build: "workbench",
@@ -122,7 +123,31 @@
       </svg>`;
   }
 
-  const DRAW = { pairs, catch: catchOrchard, workbench, parade, picnic };
+  function potting(){
+    return `<svg class="activity-plane" viewBox="0 0 720 540" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M43 24Q360 2 677 24Q698 25 699 46L704 443Q704 463 683 466Q360 498 37 466Q16 463 17 443L23 46Q23 25 43 24Z" fill="#a89478"/>
+      <path d="M39 14Q360 0 681 14Q701 14 702 34L713 422Q714 442 692 445Q362 478 28 445Q6 442 7 422L18 34Q18 14 39 14Z" fill="#c9bda4"/>
+      <path d="M39 14Q360 0 681 14Q701 14 702 34L708 406Q709 426 688 429Q364 457 32 429Q11 426 12 406L18 34Q18 14 39 14Z" fill="#e5dcc8"/>
+      <path d="M24 20Q361 4 696 20L697 37Q362 18 23 36Z" fill="#fffaf0"/>
+      <path d="M38 443L42 505Q56 516 73 503L82 447M638 446L648 503Q662 516 677 504L682 441" fill="#a89478"/>
+      <path d="M43 49L38 393M678 49L681 391M48 403Q157 418 250 413M492 412Q604 418 671 401" fill="none" stroke="#c9bda4" stroke-width="2.4"/>
+    </svg>${prop('seedling', `<ellipse cx="61" cy="132" rx="48" ry="7" fill="#4a3620" opacity=".15"/>
+      <path d="M30 89H93L87 126Q64 138 36 126Z" fill="#b0501f"/><path d="M31 90H90L86 117Q59 128 35 119Z" fill="#e8743c"/>
+      <path d="M37 97L43 119" stroke="#ffa06e" stroke-width="6" stroke-linecap="round"/>
+      <path d="M25 81Q59 73 97 81L96 98Q58 106 26 98Z" fill="#ffa06e" stroke="#a89478" stroke-width="2.4"/>
+      <ellipse cx="61" cy="82" rx="31" ry="6" fill="#70501b"/>
+      <path d="M61 84Q62 55 57 40" fill="none" stroke="#2f5c46" stroke-width="4"/>
+      <g class="potting-leaves"><path d="M58 61Q24 66 19 30Q47 28 58 61M60 55Q57 21 96 18Q101 49 60 55Z" fill="#4e9677"/>
+      <path d="M60 52Q64 25 91 22Q85 44 60 52M51 55Q26 49 23 35Q43 36 51 55Z" fill="#b7e779"/></g>`)}
+      ${prop('scoop', `<ellipse cx="61" cy="132" rx="44" ry="7" fill="#4a3620" opacity=".14"/>
+      <path d="M60 77L77 26Q82 9 96 17Q109 24 101 37L76 84Z" fill="#4e9677" stroke="#4a3620" stroke-width="3"/>
+      <path d="M83 36L87 23Q92 18 97 24Q102 28 95 37Z" fill="#ccfbef"/>
+      <path d="M61 72L79 80L69 118Q52 140 30 116L44 82Z" fill="#c9bda4" stroke="#a89478" stroke-width="2.4"/>
+      <path d="M60 79L70 84L60 118Q43 121 39 113L49 86Z" fill="#fffdf7"/>
+      <path d="M51 105L59 83" fill="none" stroke="#e5dcc8" stroke-width="3"/>`)}`;
+  }
+
+  const DRAW = { pairs, catch: catchOrchard, workbench, parade, picnic, potting };
 
   function fixedProps(markup) {
     const bounds = { 'pairs-leaves':'0 30 720 90', 'orchard-fruit':'20 35 680 110', 'parade-hangers':'48 88 625 78' };
