@@ -167,3 +167,16 @@ and voice clips are unchanged from the preceding owner-review import.
 Next owner action: try the splitting desk and form cabinet, exploring before
 choosing the arrows. The wider art/game goal remains active; remaining activity
 families, pet participation and garden ownership still need follow-through.
+
+September 25: received `openai-fm-marin-audio-4.mp3` (10.848s) and preserved the
+original. Prepared 16 independently separated, numbered utterances plus an
+identification desk; the requested retry had 27 items, and the exact text used
+is awaiting owner clarification. No curriculum labels were inferred from list
+positions. Runtime remains 237 approved clips; all 446 prior playable catalogue
+signatures and owner decisions remain unchanged. 309 tests pass, including two
+Luna integrity checks; browser decoding/hash verification passed 16/16, with
+normal-speed playback and isolated note/export persistence checked. See
+[retry intake](reviews/audio-confirmation/retry-recording/README.md).
+Next owner action: paste the exact FM text (or confirm all 27 were submitted),
+or identify the numbered clips if that text is unavailable. No regeneration yet.
+The new cuts remain unassigned and excluded from the live game. Local only.

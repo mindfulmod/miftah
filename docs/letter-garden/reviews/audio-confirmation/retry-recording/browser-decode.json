@@ -1,0 +1,85 @@
+{
+  "passed": 16,
+  "rows": [
+    {
+      "id": "batch4-01",
+      "duration": 0.395,
+      "hashMatch": true
+    },
+    {
+      "id": "batch4-02",
+      "duration": 0.48,
+      "hashMatch": true
+    },
+    {
+      "id": "batch4-03",
+      "duration": 0.52,
+      "hashMatch": true
+    },
+    {
+      "id": "batch4-04",
+      "duration": 0.495,
+      "hashMatch": true
+    },
+    {
+      "id": "batch4-05",
+      "duration": 0.495,
+      "hashMatch": true
+    },
+    {
+      "id": "batch4-06",
+      "duration": 0.52,
+      "hashMatch": true
+    },
+    {
+      "id": "batch4-07",
+      "duration": 0.535,
+      "hashMatch": true
+    },
+    {
+      "id": "batch4-08",
+      "duration": 0.485,
+      "hashMatch": true
+    },
+    {
+      "id": "batch4-09",
+      "duration": 0.505,
+      "hashMatch": true
+    },
+    {
+      "id": "batch4-10",
+      "duration": 0.47,
+      "hashMatch": true
+    },
+    {
+      "id": "batch4-11",
+      "duration": 0.5,
+      "hashMatch": true
+    },
+    {
+      "id": "batch4-12",
+      "duration": 0.5,
+      "hashMatch": true
+    },
+    {
+      "id": "batch4-13",
+      "duration": 0.475,
+      "hashMatch": true
+    },
+    {
+      "id": "batch4-14",
+      "duration": 0.485,
+      "hashMatch": true
+    },
+    {
+      "id": "batch4-15",
+      "duration": 0.475,
+      "hashMatch": true
+    },
+    {
+      "id": "batch4-16",
+      "duration": 0.425,
+      "hashMatch": true
+    }
+  ]
+}
