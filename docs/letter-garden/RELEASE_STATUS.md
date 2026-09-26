@@ -1,6 +1,6 @@
 # Letter Garden major release — local status
 
-Preview: `http://letter-garden-next.localhost:8790/letters.html?v=20260925-joinery1`.
+Preview: `http://letter-garden-next.localhost:8790/letters.html?v=20260925-audio73`.
 Durable checkout: `/Users/main/Documents/GitHub/miftah/.local-work/letter-garden-next-major`.
 Branch: `codex/letter-garden-next-major`.
 Production baseline: `55f34576f0ebfc02bcf115452101b37adfbb4536` / `20260908-batch50`.
@@ -141,3 +141,16 @@ Local only. Audio candidates and earlier owner decisions are unchanged.
 Next owner action: try the isolated joining preview, finish a pair, swap a vowel,
 separate/rejoin, then choose the arrow. The broader art/game goal remains active;
 Unfuse, other activity families, pet participation and garden ownership remain.
+
+
+September 25: imported the owner's completed new-recording review: 73 exact
+approvals installed, three rejected syllables excluded (فَ، فِ، قِ). The local
+bank now has 237 recordings; all prior 370 playable signatures are preserved.
+Prepared only the 27 outstanding items from this source for a focused retry.
+32 audio tests and 307 working-tree tests pass, plus real browser decoding,
+playback, cancel/replay/mute and unchanged-save checks. See
+[latest audio review applied](reviews/audio-confirmation/NEW_RECORDING_APPLIED_20260925.md).
+Next owner action: generate the ten small batches on the linked retry page and
+attach the downloads. No repeat review of the 73 unchanged approvals needed.
+Local only; the broader art/gameplay goal remains active and its Unfuse/Parade
+work is still in progress, separate from this audio checkpoint.

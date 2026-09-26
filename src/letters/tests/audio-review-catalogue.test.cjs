@@ -15,12 +15,12 @@ test('audio catalogue has the complete, disjoint 612-entry partition', () => {
     .map((status) => [status, catalogue.items.filter((item) => item.status === status).length]));
   const fresh = catalogue.reviewQueues.find(queue => queue.id === 'individuals').itemIds.length;
   const supplied = catalogue.reviewQueues.find(queue => queue.id === 'new-recording')?.itemIds.length || 0;
-  assert.deepEqual(counts, { installed: 164, candidate: 20 + fresh - 63 + supplied, sequence: 149, unmapped: 322 - fresh - 9 - supplied, policy: 29 });
+  assert.deepEqual(counts, { installed: 237, candidate: 20 + fresh - 63 + supplied - 73, sequence: 149, unmapped: 322 - fresh - 9 - supplied, policy: 29 });
 });
 
 test('all installed entries point to the current hashed clips and alphabet names are first-class', () => {
   const installed = catalogue.items.filter((item) => item.status === 'installed');
-  assert.equal(installed.length, 164);
+  assert.equal(installed.length, 237);
   for (const item of installed) {
     assert.ok(item.file);
     assert.equal(hash(item.file), item.sha256);
@@ -30,7 +30,7 @@ test('all installed entries point to the current hashed clips and alphabet names
   }
   const names = installed.filter((item) => item.family === 'Letter names');
   assert.equal(names.length, 28);
-  assert.ok(installed.filter((item) => item.family === 'Vowel and tanween names').length === 4);
+  assert.ok(installed.filter((item) => item.family === 'Vowel and tanween names').length === 6);
   assert.equal(installed.filter((item) => item.family === 'Curriculum words').length, 63);
   assert.deepEqual(catalogue.items.slice(0, 28).map((item) => item.family), Array(28).fill('Letter names'));
 });

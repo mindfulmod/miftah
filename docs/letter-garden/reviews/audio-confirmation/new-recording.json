@@ -1,10 +1,10 @@
 {
   "id": "new-recording",
-  "title": "New recording · 76 clips",
+  "title": "Latest recording · review applied",
   "preparedOn": "2026-09-21",
   "expectedCount": 76,
   "individualOnly": true,
-  "description": "76 new candidates from your latest file: 2 names, 24 short syllables and 50 long syllables. Check the exact consonant, short versus long vowel and both cut edges. None is installed yet. Another 24 requests remain held for uncertain identity or boundaries; do not regenerate the full list now.",
+  "description": "Review complete: 73 exact approved clips are installed locally, and your three rejected clips remain excluded. All previous decisions and clip signatures are preserved. The 24 unresolved source items are also excluded. No unchanged approved clip needs another listen.",
   "itemIds": [
     "lg-60e3b82e5a3e",
     "lg-4f057689d289",
@@ -82,5 +82,11 @@
     "lg-9cd952ad821d",
     "lg-cfabc85d40c4",
     "lg-05d82cf0f520"
-  ]
+  ],
+  "status": "review-applied",
+  "appliedOn": "2026-09-25",
+  "ownerReview": "owner-reviews/20260925-new-recording.json",
+  "installedCount": 73,
+  "rejectedCount": 3,
+  "completionMessage": "Review applied: 73 approved clips installed; 3 rejected clips excluded. Next: use the focused 27-item recording retry linked above. Your saved results are preserved."
 }

@@ -20,8 +20,8 @@ test('original 100 requests remain a distinct inventory after the recording arri
   for (const request of pack.items) {
     const item = byId.get(request.id);
     assert.equal(item.text, request.text);
-    assert.ok(['unmapped','candidate'].includes(item.status));
-    assert.equal(item.parts.length, item.status === 'candidate' ? 1 : 0);
+    assert.ok(['unmapped','candidate','installed'].includes(item.status));
+    assert.equal(item.parts.length, item.status === 'unmapped' ? 0 : 1);
     if (item.parts.length) assert.equal(item.source.id, pack.recording.sourceId);
     assert.ok(!owner.decisions[item.id]?.verdict);
   }

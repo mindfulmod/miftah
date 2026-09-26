@@ -5,23 +5,22 @@ Open through the preview server:
 This adult-only review does not load or modify the game, audio mappings, rewards
 or learning progress. No external service is called.
 
-## Current handoff · September 21
+## Current handoff · September 25
 
-[76 new candidates](index.html?section=new-recording) are prepared from the
-owner's new `openai-fm-marin-audio-3.mp3`: 2 mark names, 24 short syllables and
-50 long syllables. They remain outside the game until reviewed. Another 24 of
-the original 100 requests have uncertain identities/boundaries and remain held.
-See [source audit and handoff](NEW_RECORDING_20260921.md).
+The latest 76-item review is complete: **73 approvals installed unchanged and
+three rejected clips excluded**. All earlier notes and recordings are preserved.
+The local bank now has **237 approved exact recordings**.
+See [applied review and playback checks](NEW_RECORDING_APPLIED_20260925.md).
 
-All nine prior glides were approved in the browser and installed unchanged.
-The bank now has **164 approved exact recordings**. The catalogue also has
-133 candidates (55 rejected, 2 undecided, 76 new), 149 reviewed name sequences,
-137 unmapped items and 29 teaching-policy entries: 612 requests in total.
+**Next: [generate the focused 27-item retry](recording-retry/index.html)** and
+attach the downloaded files. This includes only the three rejections and the
+24 unresolved items from the same recording, in ten batches of at most three.
+Do not regenerate the full 100 or review the unchanged approvals again.
 
-Next: listen to the new 76, choose Correct / Needs fixing / Unsure, and leave
-notes. Tell Codex “done” with the page open, or attach the downloaded results.
-Do not regenerate the full list. Prior notes, clips and signatures are preserved.
-تً and ثً remain undecided: expected endings tan/than, not tun/thun.
+The complete catalogue also has 60 candidates (58 rejected, two undecided),
+149 reviewed name sequences, 137 unmapped entries and 29 teaching-policy items.
+The two undecided clips تً and ثً remain held. The latest batch review does not
+mean all curriculum audio is finished.
 
 ## Queue preparation (historical)
 
@@ -37,7 +36,7 @@ At that checkpoint, 85 approved individual recordings were installed. At that po
 
 ## Owner workflow
 
-1. Open **New recording · 76 clips**. No approved clip needs another listen.
+1. Open the assigned new listening queue after replacement recordings have been prepared. No unchanged approved clip needs another listen.
 2. Play each complete clip and compare its consonants, vowels, length and ending
    with the displayed Arabic. Check for cut-off speech or a neighbouring item.
 3. Choose **Correct**, **Needs fixing**, or **Unsure**. Add a note when useful.

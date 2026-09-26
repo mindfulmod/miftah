@@ -1,0 +1,386 @@
+{
+  "result": "PASS",
+  "decoded": 76,
+  "verified": [
+    {
+      "id": "lg-60e3b82e5a3e",
+      "text": "ضَمَّة",
+      "duration": 0.52
+    },
+    {
+      "id": "lg-4f057689d289",
+      "text": "فَتْحَتَانْ",
+      "duration": 0.82
+    },
+    {
+      "id": "lg-147954761063",
+      "text": "خَ",
+      "duration": 0.465
+    },
+    {
+      "id": "lg-f3d5f289598a",
+      "text": "خِ",
+      "duration": 0.21
+    },
+    {
+      "id": "lg-e7757adcd376",
+      "text": "خُ",
+      "duration": 0.185
+    },
+    {
+      "id": "lg-f33099a288ef",
+      "text": "صَ",
+      "duration": 0.348
+    },
+    {
+      "id": "lg-ea38bdb8dbab",
+      "text": "صِ",
+      "duration": 0.325
+    },
+    {
+      "id": "lg-a8429e61a006",
+      "text": "صُ",
+      "duration": 0.29
+    },
+    {
+      "id": "lg-1ebb7dbf1c58",
+      "text": "ضَ",
+      "duration": 0.325
+    },
+    {
+      "id": "lg-3942d76b714f",
+      "text": "ضِ",
+      "duration": 0.34
+    },
+    {
+      "id": "lg-040d0fff887a",
+      "text": "ضُ",
+      "duration": 0.26
+    },
+    {
+      "id": "lg-8845ef789954",
+      "text": "طَ",
+      "duration": 0.32
+    },
+    {
+      "id": "lg-05d7abc3e058",
+      "text": "طِ",
+      "duration": 0.25
+    },
+    {
+      "id": "lg-e49934a2356f",
+      "text": "طُ",
+      "duration": 0.18
+    },
+    {
+      "id": "lg-84e9e184b660",
+      "text": "ظَ",
+      "duration": 0.37
+    },
+    {
+      "id": "lg-f8b192cd3a04",
+      "text": "ظِ",
+      "duration": 0.3
+    },
+    {
+      "id": "lg-8f13db9909e5",
+      "text": "ظُ",
+      "duration": 0.23
+    },
+    {
+      "id": "lg-470dbb77d4df",
+      "text": "عَ",
+      "duration": 0.328
+    },
+    {
+      "id": "lg-36a1e7188648",
+      "text": "عِ",
+      "duration": 0.33
+    },
+    {
+      "id": "lg-76bad5b506e7",
+      "text": "عُ",
+      "duration": 0.225
+    },
+    {
+      "id": "lg-139a6ba5cae1",
+      "text": "فَ",
+      "duration": 0.425
+    },
+    {
+      "id": "lg-390d2843328d",
+      "text": "فِ",
+      "duration": 0.29
+    },
+    {
+      "id": "lg-ea02a7a1f92e",
+      "text": "فُ",
+      "duration": 0.2
+    },
+    {
+      "id": "lg-d73b8f256e66",
+      "text": "قَ",
+      "duration": 0.305
+    },
+    {
+      "id": "lg-2155dba94601",
+      "text": "قِ",
+      "duration": 0.275
+    },
+    {
+      "id": "lg-96d6e5707674",
+      "text": "قُ",
+      "duration": 0.275
+    },
+    {
+      "id": "lg-7c7afb90ab10",
+      "text": "بَا",
+      "duration": 0.365
+    },
+    {
+      "id": "lg-45d4256ab31e",
+      "text": "بِي",
+      "duration": 0.245
+    },
+    {
+      "id": "lg-5a23f168330e",
+      "text": "بُو",
+      "duration": 0.22
+    },
+    {
+      "id": "lg-3bc5f0ae9739",
+      "text": "تَا",
+      "duration": 0.255
+    },
+    {
+      "id": "lg-00ad57f4c686",
+      "text": "تِي",
+      "duration": 0.255
+    },
+    {
+      "id": "lg-e455bbaee2ef",
+      "text": "تُو",
+      "duration": 0.285
+    },
+    {
+      "id": "lg-a1abac806544",
+      "text": "ثِي",
+      "duration": 0.28
+    },
+    {
+      "id": "lg-e163d245aa74",
+      "text": "ثُو",
+      "duration": 0.3
+    },
+    {
+      "id": "lg-794864096e4f",
+      "text": "جَا",
+      "duration": 0.385
+    },
+    {
+      "id": "lg-932469a7bdb8",
+      "text": "جِي",
+      "duration": 0.29
+    },
+    {
+      "id": "lg-8a12dca934bb",
+      "text": "جُو",
+      "duration": 0.255
+    },
+    {
+      "id": "lg-150434feb214",
+      "text": "حَا",
+      "duration": 0.3
+    },
+    {
+      "id": "lg-02f7085adb89",
+      "text": "حِي",
+      "duration": 0.285
+    },
+    {
+      "id": "lg-cc7d73f1885c",
+      "text": "حُو",
+      "duration": 0.29
+    },
+    {
+      "id": "lg-408f1c4dddea",
+      "text": "خَا",
+      "duration": 0.325
+    },
+    {
+      "id": "lg-913b0f56f2c5",
+      "text": "خِي",
+      "duration": 0.265
+    },
+    {
+      "id": "lg-d5fb917d9db6",
+      "text": "خُو",
+      "duration": 0.3
+    },
+    {
+      "id": "lg-57bf496ca1ac",
+      "text": "دَا",
+      "duration": 0.335
+    },
+    {
+      "id": "lg-55cfa486d155",
+      "text": "دِي",
+      "duration": 0.235
+    },
+    {
+      "id": "lg-d10d0df617af",
+      "text": "دُو",
+      "duration": 0.24
+    },
+    {
+      "id": "lg-54d4a8b5461c",
+      "text": "ذَا",
+      "duration": 0.32
+    },
+    {
+      "id": "lg-b68c9d45eea8",
+      "text": "ذِي",
+      "duration": 0.32
+    },
+    {
+      "id": "lg-1cee009449b6",
+      "text": "ذُو",
+      "duration": 0.19
+    },
+    {
+      "id": "lg-1f16e40d6192",
+      "text": "رَا",
+      "duration": 0.36
+    },
+    {
+      "id": "lg-899917db1c13",
+      "text": "رِي",
+      "duration": 0.245
+    },
+    {
+      "id": "lg-b7865f1b44f7",
+      "text": "رُو",
+      "duration": 0.225
+    },
+    {
+      "id": "lg-63a493773b8a",
+      "text": "زَا",
+      "duration": 0.335
+    },
+    {
+      "id": "lg-3d827a5a43cd",
+      "text": "زِي",
+      "duration": 0.27
+    },
+    {
+      "id": "lg-0bc47ef6eebc",
+      "text": "زُو",
+      "duration": 0.29
+    },
+    {
+      "id": "lg-06df41524ddd",
+      "text": "سَا",
+      "duration": 0.355
+    },
+    {
+      "id": "lg-7dc1cb03c870",
+      "text": "سِي",
+      "duration": 0.28
+    },
+    {
+      "id": "lg-07848031d3b5",
+      "text": "سُو",
+      "duration": 0.33
+    },
+    {
+      "id": "lg-563436b5f189",
+      "text": "شَا",
+      "duration": 0.335
+    },
+    {
+      "id": "lg-7e330ac82db4",
+      "text": "شِي",
+      "duration": 0.29
+    },
+    {
+      "id": "lg-697fef431da6",
+      "text": "شُو",
+      "duration": 0.28
+    },
+    {
+      "id": "lg-8bd19f151c78",
+      "text": "ظَا",
+      "duration": 0.4
+    },
+    {
+      "id": "lg-14a79786ec2d",
+      "text": "ظِي",
+      "duration": 0.25
+    },
+    {
+      "id": "lg-56bd2764fabd",
+      "text": "ظُو",
+      "duration": 0.19
+    },
+    {
+      "id": "lg-89c5c6f454a0",
+      "text": "عَا",
+      "duration": 0.315
+    },
+    {
+      "id": "lg-af930182cb0f",
+      "text": "عِي",
+      "duration": 0.3
+    },
+    {
+      "id": "lg-00fc50872e5a",
+      "text": "عُو",
+      "duration": 0.24
+    },
+    {
+      "id": "lg-8cb8de042947",
+      "text": "غَا",
+      "duration": 0.275
+    },
+    {
+      "id": "lg-ce78b75fbf7c",
+      "text": "غِي",
+      "duration": 0.245
+    },
+    {
+      "id": "lg-24dad8c7f05a",
+      "text": "غُو",
+      "duration": 0.2
+    },
+    {
+      "id": "lg-6512126eea52",
+      "text": "فَا",
+      "duration": 0.215
+    },
+    {
+      "id": "lg-db7696accf25",
+      "text": "فِي",
+      "duration": 0.26
+    },
+    {
+      "id": "lg-4d86b5e40014",
+      "text": "فُو",
+      "duration": 0.29
+    },
+    {
+      "id": "lg-9cd952ad821d",
+      "text": "قَا",
+      "duration": 0.245
+    },
+    {
+      "id": "lg-cfabc85d40c4",
+      "text": "قِي",
+      "duration": 0.275
+    },
+    {
+      "id": "lg-05d82cf0f520",
+      "text": "قُو",
+      "duration": 0.38
+    }
+  ]
+}

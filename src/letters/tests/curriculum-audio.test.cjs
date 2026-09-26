@@ -21,7 +21,9 @@ test('owner-reviewed Dammataan excerpt cannot be reassigned to Damma or Fathataa
   assert.match(confirmed.evidence, /Owner listened/);
   for (const text of ['ضَمَّة', 'فَتْحَتَانْ']) {
     const pending = items.find(item => item.text === text.normalize('NFC'));
-    assert.equal(pending.status, 'needs-review');
+    assert.equal(pending.status, 'imported');
+    assert.equal(pending.ownerReview.verdict, 'correct');
+    assert.match(pending.ownerReview.file, /20260925-new-recording/);
     // A later recording may supply these names; the rejected shared batch-1 excerpt must never return.
     assert.equal(pending.source, 'batch-3');
     assert.ok(pending.file && Number.isFinite(pending.start));

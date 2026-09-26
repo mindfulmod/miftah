@@ -1,0 +1,533 @@
+{
+  "schemaVersion": 1,
+  "id": "new-recording-retry-27",
+  "preparedOn": "2026-09-25",
+  "sourceReview": "../owner-reviews/20260925-new-recording.json",
+  "sourceAssessment": "../new-recording-assessment.json",
+  "items": [
+    {
+      "id": "lg-79a5e4461bac",
+      "text": "ثَ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables",
+      "reason": "No reliable isolated mapping in the supplied recording."
+    },
+    {
+      "id": "lg-81a333ca8e19",
+      "text": "ثِ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables",
+      "reason": "No reliable isolated mapping in the supplied recording."
+    },
+    {
+      "id": "lg-cc4c2e4dbfda",
+      "text": "ثُ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables",
+      "reason": "No reliable isolated mapping in the supplied recording."
+    },
+    {
+      "id": "lg-f6bfae64253c",
+      "text": "غَ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables",
+      "reason": "No reliable isolated mapping in the supplied recording."
+    },
+    {
+      "id": "lg-3b8732d73847",
+      "text": "غِ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables",
+      "reason": "No reliable isolated mapping in the supplied recording."
+    },
+    {
+      "id": "lg-b03e507decd7",
+      "text": "غُ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables",
+      "reason": "No reliable isolated mapping in the supplied recording."
+    },
+    {
+      "id": "lg-139a6ba5cae1",
+      "text": "فَ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables",
+      "reason": "sounds like faf"
+    },
+    {
+      "id": "lg-390d2843328d",
+      "text": "فِ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables",
+      "reason": "sounds like fif"
+    },
+    {
+      "id": "lg-2155dba94601",
+      "text": "قِ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables",
+      "reason": "sounds like fee"
+    },
+    {
+      "id": "lg-9d34621d847e",
+      "text": "هِ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables",
+      "reason": "No reliable isolated mapping in the supplied recording."
+    },
+    {
+      "id": "lg-33fae2c3fa92",
+      "text": "هُ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables",
+      "reason": "No reliable isolated mapping in the supplied recording."
+    },
+    {
+      "id": "lg-8ce960a3420a",
+      "text": "وَ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables",
+      "reason": "No reliable isolated mapping in the supplied recording."
+    },
+    {
+      "id": "lg-e7bebb428fb2",
+      "text": "وِ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables",
+      "reason": "No reliable isolated mapping in the supplied recording."
+    },
+    {
+      "id": "lg-31d16c7f5df3",
+      "text": "وُ",
+      "family": "Short vowels",
+      "group": "short-vowels",
+      "direction": "syllables",
+      "reason": "No reliable isolated mapping in the supplied recording."
+    },
+    {
+      "id": "lg-80cdd720e239",
+      "text": "ثَا",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables",
+      "reason": "No reliable isolated mapping in the supplied recording."
+    },
+    {
+      "id": "lg-2401c0433020",
+      "text": "صَا",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables",
+      "reason": "No reliable isolated mapping in the supplied recording."
+    },
+    {
+      "id": "lg-0fca749ce8c2",
+      "text": "صِي",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables",
+      "reason": "No reliable isolated mapping in the supplied recording."
+    },
+    {
+      "id": "lg-11ba12301e3f",
+      "text": "صُو",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables",
+      "reason": "No reliable isolated mapping in the supplied recording."
+    },
+    {
+      "id": "lg-c03effb5dffc",
+      "text": "ضَا",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables",
+      "reason": "No reliable isolated mapping in the supplied recording."
+    },
+    {
+      "id": "lg-38534123f710",
+      "text": "ضِي",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables",
+      "reason": "No reliable isolated mapping in the supplied recording."
+    },
+    {
+      "id": "lg-3cc6e720f8c3",
+      "text": "ضُو",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables",
+      "reason": "No reliable isolated mapping in the supplied recording."
+    },
+    {
+      "id": "lg-89fbe36986ba",
+      "text": "طَا",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables",
+      "reason": "No reliable isolated mapping in the supplied recording."
+    },
+    {
+      "id": "lg-e264bcf86158",
+      "text": "طِي",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables",
+      "reason": "No reliable isolated mapping in the supplied recording."
+    },
+    {
+      "id": "lg-b702f2d63993",
+      "text": "طُو",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables",
+      "reason": "No reliable isolated mapping in the supplied recording."
+    },
+    {
+      "id": "lg-ffafb835b249",
+      "text": "كَا",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables",
+      "reason": "No reliable isolated mapping in the supplied recording."
+    },
+    {
+      "id": "lg-0f8a24138157",
+      "text": "كِي",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables",
+      "reason": "No reliable isolated mapping in the supplied recording."
+    },
+    {
+      "id": "lg-e70d18ecbedd",
+      "text": "كُو",
+      "family": "Long vowels",
+      "group": "long-vowels",
+      "direction": "syllables",
+      "reason": "No reliable isolated mapping in the supplied recording."
+    }
+  ],
+  "batches": [
+    {
+      "id": "01-short-vowels",
+      "file": "batches/01-short-vowels.txt",
+      "count": 3,
+      "characters": 10,
+      "sha256": "b62ff6bf5874668c40b592ab9f7be92164454083acc7191cc4b9d8ae1e7fd990",
+      "items": [
+        {
+          "id": "lg-79a5e4461bac",
+          "text": "ثَ",
+          "family": "Short vowels",
+          "group": "short-vowels",
+          "direction": "syllables",
+          "reason": "No reliable isolated mapping in the supplied recording."
+        },
+        {
+          "id": "lg-81a333ca8e19",
+          "text": "ثِ",
+          "family": "Short vowels",
+          "group": "short-vowels",
+          "direction": "syllables",
+          "reason": "No reliable isolated mapping in the supplied recording."
+        },
+        {
+          "id": "lg-cc4c2e4dbfda",
+          "text": "ثُ",
+          "family": "Short vowels",
+          "group": "short-vowels",
+          "direction": "syllables",
+          "reason": "No reliable isolated mapping in the supplied recording."
+        }
+      ]
+    },
+    {
+      "id": "02-short-vowels",
+      "file": "batches/02-short-vowels.txt",
+      "count": 3,
+      "characters": 10,
+      "sha256": "fcfffbcad8a8f05ad5fac1e325b0b67f395e70bea15113a458b6a42434bbc895",
+      "items": [
+        {
+          "id": "lg-f6bfae64253c",
+          "text": "غَ",
+          "family": "Short vowels",
+          "group": "short-vowels",
+          "direction": "syllables",
+          "reason": "No reliable isolated mapping in the supplied recording."
+        },
+        {
+          "id": "lg-3b8732d73847",
+          "text": "غِ",
+          "family": "Short vowels",
+          "group": "short-vowels",
+          "direction": "syllables",
+          "reason": "No reliable isolated mapping in the supplied recording."
+        },
+        {
+          "id": "lg-b03e507decd7",
+          "text": "غُ",
+          "family": "Short vowels",
+          "group": "short-vowels",
+          "direction": "syllables",
+          "reason": "No reliable isolated mapping in the supplied recording."
+        }
+      ]
+    },
+    {
+      "id": "03-short-vowels",
+      "file": "batches/03-short-vowels.txt",
+      "count": 3,
+      "characters": 10,
+      "sha256": "0f2eaac5003408919db52659377a4407fdf66724a311172c351503eff74a4417",
+      "items": [
+        {
+          "id": "lg-139a6ba5cae1",
+          "text": "فَ",
+          "family": "Short vowels",
+          "group": "short-vowels",
+          "direction": "syllables",
+          "reason": "sounds like faf"
+        },
+        {
+          "id": "lg-390d2843328d",
+          "text": "فِ",
+          "family": "Short vowels",
+          "group": "short-vowels",
+          "direction": "syllables",
+          "reason": "sounds like fif"
+        },
+        {
+          "id": "lg-2155dba94601",
+          "text": "قِ",
+          "family": "Short vowels",
+          "group": "short-vowels",
+          "direction": "syllables",
+          "reason": "sounds like fee"
+        }
+      ]
+    },
+    {
+      "id": "04-short-vowels",
+      "file": "batches/04-short-vowels.txt",
+      "count": 3,
+      "characters": 10,
+      "sha256": "2a9106aa77356cc2bd5d7d363902b0faa186d243b94d0b3966ccf0fa79f199e5",
+      "items": [
+        {
+          "id": "lg-9d34621d847e",
+          "text": "هِ",
+          "family": "Short vowels",
+          "group": "short-vowels",
+          "direction": "syllables",
+          "reason": "No reliable isolated mapping in the supplied recording."
+        },
+        {
+          "id": "lg-33fae2c3fa92",
+          "text": "هُ",
+          "family": "Short vowels",
+          "group": "short-vowels",
+          "direction": "syllables",
+          "reason": "No reliable isolated mapping in the supplied recording."
+        },
+        {
+          "id": "lg-8ce960a3420a",
+          "text": "وَ",
+          "family": "Short vowels",
+          "group": "short-vowels",
+          "direction": "syllables",
+          "reason": "No reliable isolated mapping in the supplied recording."
+        }
+      ]
+    },
+    {
+      "id": "05-short-vowels",
+      "file": "batches/05-short-vowels.txt",
+      "count": 2,
+      "characters": 6,
+      "sha256": "21b9e230dfffa0334fe2863e48490e925291bfe91946c0c74d9765880234463b",
+      "items": [
+        {
+          "id": "lg-e7bebb428fb2",
+          "text": "وِ",
+          "family": "Short vowels",
+          "group": "short-vowels",
+          "direction": "syllables",
+          "reason": "No reliable isolated mapping in the supplied recording."
+        },
+        {
+          "id": "lg-31d16c7f5df3",
+          "text": "وُ",
+          "family": "Short vowels",
+          "group": "short-vowels",
+          "direction": "syllables",
+          "reason": "No reliable isolated mapping in the supplied recording."
+        }
+      ]
+    },
+    {
+      "id": "06-long-vowels",
+      "file": "batches/06-long-vowels.txt",
+      "count": 3,
+      "characters": 13,
+      "sha256": "7931a3b212a790b86be55c98468b28186e2e15a95f82ab3fb54417727cc8860b",
+      "items": [
+        {
+          "id": "lg-80cdd720e239",
+          "text": "ثَا",
+          "family": "Long vowels",
+          "group": "long-vowels",
+          "direction": "syllables",
+          "reason": "No reliable isolated mapping in the supplied recording."
+        },
+        {
+          "id": "lg-2401c0433020",
+          "text": "صَا",
+          "family": "Long vowels",
+          "group": "long-vowels",
+          "direction": "syllables",
+          "reason": "No reliable isolated mapping in the supplied recording."
+        },
+        {
+          "id": "lg-0fca749ce8c2",
+          "text": "صِي",
+          "family": "Long vowels",
+          "group": "long-vowels",
+          "direction": "syllables",
+          "reason": "No reliable isolated mapping in the supplied recording."
+        }
+      ]
+    },
+    {
+      "id": "07-long-vowels",
+      "file": "batches/07-long-vowels.txt",
+      "count": 3,
+      "characters": 13,
+      "sha256": "355d7f33dfb85d2ef13e09a2474ba332ceb3b2bc1efef445e0a9a3845dfb0604",
+      "items": [
+        {
+          "id": "lg-11ba12301e3f",
+          "text": "صُو",
+          "family": "Long vowels",
+          "group": "long-vowels",
+          "direction": "syllables",
+          "reason": "No reliable isolated mapping in the supplied recording."
+        },
+        {
+          "id": "lg-c03effb5dffc",
+          "text": "ضَا",
+          "family": "Long vowels",
+          "group": "long-vowels",
+          "direction": "syllables",
+          "reason": "No reliable isolated mapping in the supplied recording."
+        },
+        {
+          "id": "lg-38534123f710",
+          "text": "ضِي",
+          "family": "Long vowels",
+          "group": "long-vowels",
+          "direction": "syllables",
+          "reason": "No reliable isolated mapping in the supplied recording."
+        }
+      ]
+    },
+    {
+      "id": "08-long-vowels",
+      "file": "batches/08-long-vowels.txt",
+      "count": 3,
+      "characters": 13,
+      "sha256": "39b52ba4bd2f2c15683e263723a93dbec1c8a163c78670a371ca1af54eba5b91",
+      "items": [
+        {
+          "id": "lg-3cc6e720f8c3",
+          "text": "ضُو",
+          "family": "Long vowels",
+          "group": "long-vowels",
+          "direction": "syllables",
+          "reason": "No reliable isolated mapping in the supplied recording."
+        },
+        {
+          "id": "lg-89fbe36986ba",
+          "text": "طَا",
+          "family": "Long vowels",
+          "group": "long-vowels",
+          "direction": "syllables",
+          "reason": "No reliable isolated mapping in the supplied recording."
+        },
+        {
+          "id": "lg-e264bcf86158",
+          "text": "طِي",
+          "family": "Long vowels",
+          "group": "long-vowels",
+          "direction": "syllables",
+          "reason": "No reliable isolated mapping in the supplied recording."
+        }
+      ]
+    },
+    {
+      "id": "09-long-vowels",
+      "file": "batches/09-long-vowels.txt",
+      "count": 3,
+      "characters": 13,
+      "sha256": "76d53addbe16cdfa2d343581418ed49a310824830d6275fcd5d8eee6b1d485a4",
+      "items": [
+        {
+          "id": "lg-b702f2d63993",
+          "text": "طُو",
+          "family": "Long vowels",
+          "group": "long-vowels",
+          "direction": "syllables",
+          "reason": "No reliable isolated mapping in the supplied recording."
+        },
+        {
+          "id": "lg-ffafb835b249",
+          "text": "كَا",
+          "family": "Long vowels",
+          "group": "long-vowels",
+          "direction": "syllables",
+          "reason": "No reliable isolated mapping in the supplied recording."
+        },
+        {
+          "id": "lg-0f8a24138157",
+          "text": "كِي",
+          "family": "Long vowels",
+          "group": "long-vowels",
+          "direction": "syllables",
+          "reason": "No reliable isolated mapping in the supplied recording."
+        }
+      ]
+    },
+    {
+      "id": "10-long-vowels",
+      "file": "batches/10-long-vowels.txt",
+      "count": 1,
+      "characters": 3,
+      "sha256": "e70d18ecbedd7f4e81e2b9f5e5161237194718080fc4d87e2e256e981f772cb0",
+      "items": [
+        {
+          "id": "lg-e70d18ecbedd",
+          "text": "كُو",
+          "family": "Long vowels",
+          "group": "long-vowels",
+          "direction": "syllables",
+          "reason": "No reliable isolated mapping in the supplied recording."
+        }
+      ]
+    }
+  ]
+}

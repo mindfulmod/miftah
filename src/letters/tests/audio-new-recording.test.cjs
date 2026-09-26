@@ -28,16 +28,38 @@ test('the uploaded source is preserved and every requested item is accounted for
   for (const item of assessment.unresolved) assert.equal(byId.get(item.id).status, 'unmapped');
 });
 
-test('new source cuts remain review-only and never overlap a neighbouring candidate', () => {
-  const runtime = read('src/letters/LetterVoiceClips.js').toString();
+const reviewFile = base + 'owner-reviews/20260925-new-recording.json';
+const owner = json(reviewFile);
+const bank = JSON.parse(read('src/letters/LetterVoiceClips.js').toString().match(/Object\.freeze\((\{[\s\S]*?\})\)/)[1]);
+const sheet = json('docs/letter-garden/reviews/marin-curriculum/cuts.json');
+
+test('new approvals install the exact heard bytes, rejected clips stay excluded and cuts do not overlap', () => {
   const shell = read('sw.js').toString();
   const selected = queue.itemIds.map(id => byId.get(id));
+  assert.equal(selected.filter(item => owner.decisions[item.id].verdict === 'correct').length, 73);
+  assert.equal(selected.filter(item => owner.decisions[item.id].verdict === 'fix').length, 3);
   for (const item of selected) {
-    assert.equal(item.status, 'candidate');assert.equal(item.parts.length, 1);
+    const decision = owner.decisions[item.id], snapshot = owner.items.find(old => old.id === item.id);
+    const cut = sheet.cuts.find(cut => cut.text === item.text);
+    assert.equal(item.signature, snapshot.signature);
+    assert.equal(decision.signature, item.signature);
+    assert.equal(item.parts.length, 1);
     assert.equal(item.source.id, pack.recording.sourceId);
     assert.equal(hash(item.file), item.sha256);
-    assert.ok(item.file.includes('/candidates/'));
-    assert.ok(!runtime.includes(item.id));assert.ok(!shell.includes(item.id));
+    assert.equal(hash(snapshot.parts[0].file), item.sha256, 'Preserve the original reviewed candidate');
+    assert.equal(cut.ownerReview.file, reviewFile);
+    assert.equal(cut.ownerReview.sha256, hash(reviewFile));
+    assert.equal(cut.ownerReview.note, decision.note);
+    if (decision.verdict === 'correct') {
+      assert.equal(decision.heardSignature, item.signature);
+      assert.equal(item.status, 'installed');
+      assert.equal(bank[item.text], item.file);
+      assert.ok(shell.includes(item.file));
+    } else {
+      assert.equal(item.status, 'candidate');
+      assert.equal(bank[item.text], undefined);
+      assert.ok(!shell.includes(item.id));
+    }
     assert.ok(!assessment.baseline.playableSignatures[item.id]);
     for (const other of selected) {
       if (item.id === other.id) continue;
@@ -47,16 +69,44 @@ test('new source cuts remain review-only and never overlap a neighbouring candid
   }
 });
 
-test('new recording preparation preserves every prior playable signature and the game voice bank', () => {
+test('new approvals preserve every prior playable signature and add only the 73 reviewed keys', () => {
   assert.equal(Object.keys(assessment.baseline.playableSignatures).length, 370);
   for (const [id, signature] of Object.entries(assessment.baseline.playableSignatures)) {
     assert.equal(byId.get(id).signature, signature, `Prior audio changed: ${id}`);
     for (const part of byId.get(id).parts) assert.equal(hash(part.file), part.sha256);
   }
-  assert.equal(hash('src/letters/LetterVoiceClips.js'), assessment.baseline.runtimeSha256);
-  // Later art/shell versions may change; only audio membership is this contract.
+  const previousInstalled = owner.items.filter(item => item.status === 'installed');
+  assert.equal(previousInstalled.length, 164);
+  const additions = queue.itemIds.filter(id => owner.decisions[id].verdict === 'correct').map(id => byId.get(id).text);
+  assert.deepEqual(Object.keys(bank).sort(), [...previousInstalled.map(item => item.text), ...additions].sort());
   const shell = read('sw.js').toString();
   for (const item of catalogue.items.filter(item => item.status === 'installed')) {
     for (const part of item.parts) assert.ok(shell.includes(part.file));
   }
+});
+
+test('the focused recording retry contains only the three rejections and 24 unresolved requests', () => {
+  const retry = json(base + 'recording-retry/manifest.json');
+  const expected = [...assessment.unresolved.map(item => item.id), ...queue.itemIds.filter(id => owner.decisions[id].verdict === 'fix')].sort();
+  assert.equal(retry.items.length, 27);
+  assert.equal(new Set(retry.items.map(item => item.id)).size, 27);
+  assert.deepEqual(retry.items.map(item => item.id).sort(), expected);
+  assert.deepEqual(retry.batches.flatMap(batch => batch.items.map(item => item.id)).sort(), expected);
+  for (const batch of retry.batches) {
+    const text = read(base + 'recording-retry/' + batch.file).toString();
+    assert.ok(batch.count <= 3);
+    assert.equal(text.length, batch.characters);
+    assert.ok(text.length <= 999);
+    assert.equal(hash(base + 'recording-retry/' + batch.file), batch.sha256);
+    assert.deepEqual(text.split('\n\n'), batch.items.map(item => item.text));
+    assert.equal(new Set(batch.items.map(item => item.group)).size, 1, 'Keep short and long exercises separate');
+  }
+  for (const item of retry.items) assert.equal(bank[item.text], undefined);
+});
+
+test('reapplying this queue is idempotent and retains the three owner correction notes', () => {
+  const { applyReview } = require('../../../scripts/apply-letter-garden-audio-review.cjs');
+  const scoped = { ...owner, decisions: Object.fromEntries(queue.itemIds.map(id => [id, owner.decisions[id]])) };
+  const result = applyReview(scoped, catalogue, sheet, reviewFile, hash(reviewFile), read);
+  assert.deepEqual(result.sheet, sheet);
 });

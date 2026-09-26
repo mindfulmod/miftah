@@ -61,7 +61,7 @@ function familyFor(entry) {
   if (entry.status === 'assembly-policy-review') return 'Assembly policy review';
   if (entry.status === 'already-bundled') {
     const group = requestedGroups.get(entry.id);
-    if (['short-vowels', 'long-vowels', 'tanween', 'leen', 'sukun-shaddah'].includes(group)) return letterFamilies.get(group);
+    if (['mark-names', 'short-vowels', 'long-vowels', 'tanween', 'leen', 'sukun-shaddah'].includes(group)) return letterFamilies.get(group);
     if (original.letters.some((letter) => nfc(letter.input) === nfc(entry.text))) return 'Letter names';
     if (new Set(['فَتْحَة', 'كَسْرَة', 'كَسْرَتَانْ', 'ضَمَّتَانْ']).has(nfc(entry.text))) return 'Vowel and tanween names';
     return 'Curriculum words';
