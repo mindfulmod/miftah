@@ -2,10 +2,10 @@
   "schemaVersion": 1,
   "summary": {
     "total": 612,
-    "installed": 237,
-    "candidate": 60,
+    "installed": 252,
+    "candidate": 59,
     "sequence": 149,
-    "unmapped": 137,
+    "unmapped": 123,
     "policy": 29,
     "policyNote": "Assembly-policy items expose context only; no synthetic playable audio is assigned."
   },
@@ -40,6 +40,14 @@
       "duration": 43.152,
       "transcriptText": "ضَمَّة فَتْحَتَانْ ثَ ثِ ثُ خَ خِ خُ صَ صِ صُ ضَ ضِ ضُ طَ طِ طُ ظَ ظِ ظُ عَ عِ عُ غَ غِ غُ فَ فِ فُ قَ قِ قُ هِ هُ وَ وِ وُ بَا بِي بُو تَا تِي تُو ثَا ثِي ثُو جَا جِي جُو حَا حِي حُو خَا خِي خُو دَا دِي دُو ذَا ذِي ذُو رَا رِي رُو زَا زِي زُو سَا سِي سُو شَا شِي شُو صَا صِي صُو ضَا ضِي ضُو طَا طِي طُو ظَا ظِي ظُو عَا عِي عُو غَا غِي غُو فَا فِي فُو قَا قِي قُو كَا كِي كُو",
       "sha256": "224a49929768b1378c21fba0fc112331d555e45ec51fa5da21883edd79a0766e"
+    },
+    {
+      "id": "marin-curriculum-batch-4",
+      "title": "Marin curriculum — owner-reviewed retry recording",
+      "file": "docs/letter-garden/reviews/marin-curriculum/sources/batch-4.mp3",
+      "duration": 10.848,
+      "transcriptText": "ثَ\n\nثِ\n\nثُ\n\nغَ\n\nغِ\n\nغُ\n\nفَ\n\nفِ\n\nقِ\n\nهِ\n\nهُ\n\nوَ\n\nوِ\n\nوُ\n\nثَا\n\nصَا\n\nصِي\n\nصُو\n\nضَا\n\nضِي\n\nضُو\n\nطَا\n\nطِي\n\nطُو\n\nكَا\n\nكِي\n\nكُو",
+      "sha256": "155b67f425b9b3ea9a135af911b6e48e91014d5e34bfa420b03357d05ce0b386"
     }
   ],
   "reviewQueues": [
@@ -5038,6 +5046,64 @@
       "signature": "18e8e905d6344194d122e2cbb84fbb83e84d1baf116af933158b4a60cf7d488b"
     },
     {
+      "id": "lg-79a5e4461bac",
+      "text": "ثَ",
+      "displays": [
+        "ثَ"
+      ],
+      "family": "Short vowels",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the independent-cut audio desk.",
+      "uses": [
+        {
+          "world": "fatha",
+          "role": "target",
+          "display": "ثَ",
+          "parent": null
+        },
+        {
+          "world": "tanween",
+          "role": "target",
+          "display": "ثَ",
+          "parent": null
+        },
+        {
+          "world": "long-sounds",
+          "role": "assembly-piece",
+          "display": "ثَ",
+          "parent": "ثَا"
+        },
+        {
+          "world": "leen",
+          "role": "assembly-piece",
+          "display": "ثَ",
+          "parent": "ثَوْ"
+        },
+        {
+          "world": "leen",
+          "role": "assembly-piece",
+          "display": "ثَ",
+          "parent": "ثَيْ"
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-79a5e4461bac-r1.wav",
+      "sha256": "e3efe084c82b537c624acb51cdd8d34a3f7b9209733f508350d12ecb499f5883",
+      "parts": [
+        {
+          "text": "ثَ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-79a5e4461bac-r1.wav",
+          "sha256": "e3efe084c82b537c624acb51cdd8d34a3f7b9209733f508350d12ecb499f5883"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-4",
+        "start": 0.03,
+        "end": 0.425
+      },
+      "revision": "r1",
+      "signature": "e1550736f76292dce73a64db0b1904abcff596b7d51b5013f4391ae38cdde6df"
+    },
+    {
       "id": "lg-780f94e60087",
       "text": "حَ",
       "displays": [
@@ -5874,6 +5940,70 @@
       "signature": "dfdbf252247efe2555882475752530ba0922745f2f8fe97786a03b0b6b5fb088"
     },
     {
+      "id": "lg-f6bfae64253c",
+      "text": "غَ",
+      "displays": [
+        "غَ"
+      ],
+      "family": "Short vowels",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the independent-cut audio desk.",
+      "uses": [
+        {
+          "world": "fatha",
+          "role": "target",
+          "display": "غَ",
+          "parent": null
+        },
+        {
+          "world": "tanween",
+          "role": "target",
+          "display": "غَ",
+          "parent": null
+        },
+        {
+          "world": "long-sounds",
+          "role": "assembly-piece",
+          "display": "غَ",
+          "parent": "غَا"
+        },
+        {
+          "world": "leen",
+          "role": "assembly-piece",
+          "display": "غَ",
+          "parent": "غَوْ"
+        },
+        {
+          "world": "leen",
+          "role": "assembly-piece",
+          "display": "غَ",
+          "parent": "غَيْ"
+        },
+        {
+          "world": "decode",
+          "role": "assembly-piece",
+          "display": "غَ",
+          "parent": "غَيْرِ"
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-f6bfae64253c-r1.wav",
+      "sha256": "69be3befa167b9dc658dfb9af120918e6bb16ad8bfcf115b50c3e7c978722183",
+      "parts": [
+        {
+          "text": "غَ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-f6bfae64253c-r1.wav",
+          "sha256": "69be3befa167b9dc658dfb9af120918e6bb16ad8bfcf115b50c3e7c978722183"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-4",
+        "start": 2.395,
+        "end": 2.89
+      },
+      "revision": "r1",
+      "signature": "24d6127147f1bdf2b9a226eba0aab0e45142290082dbb11cf719f8e59040507b"
+    },
+    {
       "id": "lg-d73b8f256e66",
       "text": "قَ",
       "displays": [
@@ -6217,6 +6347,106 @@
         "end": 35.47
       },
       "signature": "95906cc13a2a96156438fbc7139e8ab1f32e60551f72cdc3b3b7692d44de1be0"
+    },
+    {
+      "id": "lg-8ce960a3420a",
+      "text": "وَ",
+      "displays": [
+        "وَ"
+      ],
+      "family": "Short vowels",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the independent-cut audio desk.",
+      "uses": [
+        {
+          "world": "fatha",
+          "role": "target",
+          "display": "وَ",
+          "parent": null
+        },
+        {
+          "world": "tanween",
+          "role": "target",
+          "display": "وَ",
+          "parent": null
+        },
+        {
+          "world": "long-sounds",
+          "role": "assembly-piece",
+          "display": "وَ",
+          "parent": "وَا"
+        },
+        {
+          "world": "leen",
+          "role": "assembly-piece",
+          "display": "وَ",
+          "parent": "وَوْ"
+        },
+        {
+          "world": "leen",
+          "role": "assembly-piece",
+          "display": "وَ",
+          "parent": "وَيْ"
+        },
+        {
+          "world": "words-2",
+          "role": "assembly-piece",
+          "display": "وَ",
+          "parent": "هُوَ"
+        },
+        {
+          "world": "decode",
+          "role": "assembly-piece",
+          "display": "وَ",
+          "parent": "وَلَا"
+        },
+        {
+          "world": "decode",
+          "role": "assembly-piece",
+          "display": "وَ",
+          "parent": "وَتَبَّ"
+        },
+        {
+          "world": "decode",
+          "role": "assembly-piece",
+          "display": "وَ",
+          "parent": "وَمَا"
+        },
+        {
+          "world": "decode",
+          "role": "assembly-piece",
+          "display": "وَ",
+          "parent": "وَلَمْ"
+        },
+        {
+          "world": "decode",
+          "role": "assembly-piece",
+          "display": "وَ",
+          "parent": "وَمِن"
+        },
+        {
+          "world": "decode",
+          "role": "assembly-piece",
+          "display": "وَ",
+          "parent": "وَقَبَ"
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-8ce960a3420a-r1.wav",
+      "sha256": "75412b644d955ea878101793f74567bb9102d57421ad5db50c91230045e4f20f",
+      "parts": [
+        {
+          "text": "وَ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-8ce960a3420a-r1.wav",
+          "sha256": "75412b644d955ea878101793f74567bb9102d57421ad5db50c91230045e4f20f"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-4",
+        "start": 4.565,
+        "end": 5.1
+      },
+      "revision": "r1",
+      "signature": "006ad6458aeab95f9b9bc30c913a229cc4e8df7da4121558c5001730b97ce7ed"
     },
     {
       "id": "lg-2701f008f06f",
@@ -6859,6 +7089,92 @@
         "end": 9.57
       },
       "signature": "5ebfbf48e56e3b65a9447f8b7d60b03233a420899df30043d2c1bf2b40ed2c05"
+    },
+    {
+      "id": "lg-81a333ca8e19",
+      "text": "ثِ",
+      "displays": [
+        "ثِ"
+      ],
+      "family": "Short vowels",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the independent-cut audio desk.",
+      "uses": [
+        {
+          "world": "kasra-damma",
+          "role": "target",
+          "display": "ثِ",
+          "parent": null
+        },
+        {
+          "world": "tanween",
+          "role": "target",
+          "display": "ثِ",
+          "parent": null
+        },
+        {
+          "world": "long-sounds",
+          "role": "assembly-piece",
+          "display": "ثِ",
+          "parent": "ثِي"
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-81a333ca8e19-r1.wav",
+      "sha256": "45b5089c6c6f5c8b4c9191672985abcde87309d80e2f07316f491d4bed5e5a67",
+      "parts": [
+        {
+          "text": "ثِ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-81a333ca8e19-r1.wav",
+          "sha256": "45b5089c6c6f5c8b4c9191672985abcde87309d80e2f07316f491d4bed5e5a67"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-4",
+        "start": 0.865,
+        "end": 1.345
+      },
+      "revision": "r1",
+      "signature": "2476a2dda7d8fd3af7e10d4e1274e40f4e9bdbcf254d29d5d57b3de075d245cb"
+    },
+    {
+      "id": "lg-cc4c2e4dbfda",
+      "text": "ثُ",
+      "displays": [
+        "ثُ"
+      ],
+      "family": "Short vowels",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the independent-cut audio desk.",
+      "uses": [
+        {
+          "world": "kasra-damma",
+          "role": "target",
+          "display": "ثُ",
+          "parent": null
+        },
+        {
+          "world": "long-sounds",
+          "role": "assembly-piece",
+          "display": "ثُ",
+          "parent": "ثُو"
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-cc4c2e4dbfda-r1.wav",
+      "sha256": "0f23d9845c9c488b70ac84350d64caaf101df33e727fc31601e49eed4af7cf9f",
+      "parts": [
+        {
+          "text": "ثُ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-cc4c2e4dbfda-r1.wav",
+          "sha256": "0f23d9845c9c488b70ac84350d64caaf101df33e727fc31601e49eed4af7cf9f"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-4",
+        "start": 1.61,
+        "end": 2.13
+      },
+      "revision": "r1",
+      "signature": "ddfa1f7532873dd5e853fe1fcdc275c3cd1116ebd0091dddbd2541d63b44a660"
     },
     {
       "id": "lg-07b43bc69877",
@@ -7882,6 +8198,105 @@
       "signature": "56f8a56331c254718ecba581bb1bf0c427f2784f85bb51111b0237af295dd50e"
     },
     {
+      "id": "lg-3b8732d73847",
+      "text": "غِ",
+      "displays": [
+        "غِ"
+      ],
+      "family": "Short vowels",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the independent-cut audio desk.",
+      "uses": [
+        {
+          "world": "kasra-damma",
+          "role": "target",
+          "display": "غِ",
+          "parent": null
+        },
+        {
+          "world": "tanween",
+          "role": "target",
+          "display": "غِ",
+          "parent": null
+        },
+        {
+          "world": "long-sounds",
+          "role": "assembly-piece",
+          "display": "غِ",
+          "parent": "غِي"
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-3b8732d73847-r1.wav",
+      "sha256": "30b6985c9937b17e5f70b784853ae2cb9794860de61ca6653017feb77622d5ae",
+      "parts": [
+        {
+          "text": "غِ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-3b8732d73847-r1.wav",
+          "sha256": "30b6985c9937b17e5f70b784853ae2cb9794860de61ca6653017feb77622d5ae"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-4",
+        "start": 3.085,
+        "end": 3.58
+      },
+      "revision": "r1",
+      "signature": "d91fec3555a2b938d55e5c7fede94b0a0ec9185c6498511386168eca6bece11d"
+    },
+    {
+      "id": "lg-390d2843328d",
+      "text": "فِ",
+      "displays": [
+        "فِ"
+      ],
+      "family": "Short vowels",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the independent-cut audio desk.",
+      "uses": [
+        {
+          "world": "kasra-damma",
+          "role": "target",
+          "display": "فِ",
+          "parent": null
+        },
+        {
+          "world": "tanween",
+          "role": "target",
+          "display": "فِ",
+          "parent": null
+        },
+        {
+          "world": "long-sounds",
+          "role": "assembly-piece",
+          "display": "فِ",
+          "parent": "فِي"
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-390d2843328d-r1.wav",
+      "sha256": "6e0ff1524a3268dcc9f54e6a1eaab2b11647eea7f9b2f275a63a290a14d6f397",
+      "parts": [
+        {
+          "text": "فِ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-390d2843328d-r1.wav",
+          "sha256": "6e0ff1524a3268dcc9f54e6a1eaab2b11647eea7f9b2f275a63a290a14d6f397"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-4",
+        "start": 3.76,
+        "end": 4.28
+      },
+      "revision": "r1",
+      "previousParts": [
+        {
+          "text": "فِ",
+          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-390d2843328d.wav",
+          "sha256": "0c9e8a67cd03cbf17e86d95d3db70d22d80cbc5feb9d781ed3635e8aed7fa060"
+        }
+      ],
+      "signature": "236368e56aa72c0d528ff480b453f22312d93e8b24d0281282f8f3227bb0d5ae"
+    },
+    {
       "id": "lg-ea02a7a1f92e",
       "text": "فُ",
       "displays": [
@@ -8111,6 +8526,52 @@
         "end": 34.71
       },
       "signature": "a39e99121d481904e533a325f5b3c6eab96b8c795843ff7fc54cad694f8a92e1"
+    },
+    {
+      "id": "lg-e7bebb428fb2",
+      "text": "وِ",
+      "displays": [
+        "وِ"
+      ],
+      "family": "Short vowels",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the independent-cut audio desk.",
+      "uses": [
+        {
+          "world": "kasra-damma",
+          "role": "target",
+          "display": "وِ",
+          "parent": null
+        },
+        {
+          "world": "tanween",
+          "role": "target",
+          "display": "وِ",
+          "parent": null
+        },
+        {
+          "world": "long-sounds",
+          "role": "assembly-piece",
+          "display": "وِ",
+          "parent": "وِي"
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-e7bebb428fb2-r1.wav",
+      "sha256": "46601801e2874a3e40524b889818de99c5577495536eeedc66f5740b56cee933",
+      "parts": [
+        {
+          "text": "وِ",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-e7bebb428fb2-r1.wav",
+          "sha256": "46601801e2874a3e40524b889818de99c5577495536eeedc66f5740b56cee933"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-4",
+        "start": 5.205,
+        "end": 5.69
+      },
+      "revision": "r1",
+      "signature": "9f4fb866807508b4b4d6bcc59c925483d78d7a13cd96df8e61740c687f05f1e1"
     },
     {
       "id": "lg-ed132d80ef2e",
@@ -9792,6 +10253,47 @@
       "signature": "290b47752cb5387a36ae11c82eeb6411e8781302614f49450791ab2bb082eec9"
     },
     {
+      "id": "lg-80cdd720e239",
+      "text": "ثَا",
+      "displays": [
+        "ثٰ",
+        "ثَا"
+      ],
+      "family": "Long vowels",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the independent-cut audio desk.",
+      "uses": [
+        {
+          "world": "standing",
+          "role": "target",
+          "display": "ثٰ",
+          "parent": null
+        },
+        {
+          "world": "long-sounds",
+          "role": "target",
+          "display": "ثَا",
+          "parent": null
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-80cdd720e239-r1.wav",
+      "sha256": "e54e3847e61ac4015c028055c1d874333f6548c37c7020db94d5ec3aa6c3c2f7",
+      "parts": [
+        {
+          "text": "ثَا",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-80cdd720e239-r1.wav",
+          "sha256": "e54e3847e61ac4015c028055c1d874333f6548c37c7020db94d5ec3aa6c3c2f7"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-4",
+        "start": 6.57,
+        "end": 7.04
+      },
+      "revision": "r1",
+      "signature": "d53276869cdb09774e4f6e258e97ec5aaf6e8fe321ac4bc685752e6706996b98"
+    },
+    {
       "id": "lg-a1abac806544",
       "text": "ثِي",
       "displays": [
@@ -10950,6 +11452,252 @@
         "end": 32.79
       },
       "signature": "20e5e673c5a97b65f32420993858d2506fa6560f7119f9a72b9a7d20e7aada19"
+    },
+    {
+      "id": "lg-2401c0433020",
+      "text": "صَا",
+      "displays": [
+        "صٰ",
+        "صَا"
+      ],
+      "family": "Long vowels",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the independent-cut audio desk.",
+      "uses": [
+        {
+          "world": "standing",
+          "role": "target",
+          "display": "صٰ",
+          "parent": null
+        },
+        {
+          "world": "long-sounds",
+          "role": "target",
+          "display": "صَا",
+          "parent": null
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-2401c0433020-r1.wav",
+      "sha256": "7c489772c9019618851beae527dc51ab80c2c2318bf55155b5a9d7d477bc50c0",
+      "parts": [
+        {
+          "text": "صَا",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-2401c0433020-r1.wav",
+          "sha256": "7c489772c9019618851beae527dc51ab80c2c2318bf55155b5a9d7d477bc50c0"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-4",
+        "start": 7.185,
+        "end": 7.685
+      },
+      "revision": "r1",
+      "signature": "4e17c0a9bd03fc79fa7c47a1574e65bf12eeb43e2d9f1c954f05ab42218bcc28"
+    },
+    {
+      "id": "lg-0fca749ce8c2",
+      "text": "صِي",
+      "displays": [
+        "صٖ",
+        "صِي"
+      ],
+      "family": "Long vowels",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the independent-cut audio desk.",
+      "uses": [
+        {
+          "world": "standing",
+          "role": "target",
+          "display": "صٖ",
+          "parent": null
+        },
+        {
+          "world": "long-sounds",
+          "role": "target",
+          "display": "صِي",
+          "parent": null
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-0fca749ce8c2-r1.wav",
+      "sha256": "801964864c44751af9f378896d9d1e1f39f1c12fa23ec3695cbc55887b22c88c",
+      "parts": [
+        {
+          "text": "صِي",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-0fca749ce8c2-r1.wav",
+          "sha256": "801964864c44751af9f378896d9d1e1f39f1c12fa23ec3695cbc55887b22c88c"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-4",
+        "start": 7.785,
+        "end": 8.285
+      },
+      "revision": "r1",
+      "signature": "12cd5d1c86a2a0d35d4468293fe9d36481c8f34aaea7d81133f3844e485808ea"
+    },
+    {
+      "id": "lg-11ba12301e3f",
+      "text": "صُو",
+      "displays": [
+        "صٗ",
+        "صُو"
+      ],
+      "family": "Long vowels",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the independent-cut audio desk.",
+      "uses": [
+        {
+          "world": "standing",
+          "role": "target",
+          "display": "صٗ",
+          "parent": null
+        },
+        {
+          "world": "long-sounds",
+          "role": "target",
+          "display": "صُو",
+          "parent": null
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-11ba12301e3f-r1.wav",
+      "sha256": "38522d907aea1b182781f043929ecbe60e627fd554e8445c66fa5a62fd4ddcf5",
+      "parts": [
+        {
+          "text": "صُو",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-11ba12301e3f-r1.wav",
+          "sha256": "38522d907aea1b182781f043929ecbe60e627fd554e8445c66fa5a62fd4ddcf5"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-4",
+        "start": 8.44,
+        "end": 8.915
+      },
+      "revision": "r1",
+      "signature": "3ef2148ade048d7283811714341bc10b8d9646006bf4d15c84fe21ab5469a8bd"
+    },
+    {
+      "id": "lg-c03effb5dffc",
+      "text": "ضَا",
+      "displays": [
+        "ضٰ",
+        "ضَا"
+      ],
+      "family": "Long vowels",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the independent-cut audio desk.",
+      "uses": [
+        {
+          "world": "standing",
+          "role": "target",
+          "display": "ضٰ",
+          "parent": null
+        },
+        {
+          "world": "long-sounds",
+          "role": "target",
+          "display": "ضَا",
+          "parent": null
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-c03effb5dffc-r1.wav",
+      "sha256": "ade49aaccaf4db6f7c768ca42cdf042dd68d1c07fc955f1fc5b979ebc55092ea",
+      "parts": [
+        {
+          "text": "ضَا",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-c03effb5dffc-r1.wav",
+          "sha256": "ade49aaccaf4db6f7c768ca42cdf042dd68d1c07fc955f1fc5b979ebc55092ea"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-4",
+        "start": 9.085,
+        "end": 9.57
+      },
+      "revision": "r1",
+      "signature": "355d8793efb0e78046acb3d7b5584115681f857e4db00d8c7f9faa023db3fe59"
+    },
+    {
+      "id": "lg-38534123f710",
+      "text": "ضِي",
+      "displays": [
+        "ضٖ",
+        "ضِي"
+      ],
+      "family": "Long vowels",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the independent-cut audio desk.",
+      "uses": [
+        {
+          "world": "standing",
+          "role": "target",
+          "display": "ضٖ",
+          "parent": null
+        },
+        {
+          "world": "long-sounds",
+          "role": "target",
+          "display": "ضِي",
+          "parent": null
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-38534123f710-r1.wav",
+      "sha256": "4ff9131835205dfa314e81a974fbe114ef625ac68a94599d11012c9885717341",
+      "parts": [
+        {
+          "text": "ضِي",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-38534123f710-r1.wav",
+          "sha256": "4ff9131835205dfa314e81a974fbe114ef625ac68a94599d11012c9885717341"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-4",
+        "start": 9.665,
+        "end": 10.14
+      },
+      "revision": "r1",
+      "signature": "8e093343a01978a862b20a1de5e04b586038c6b6493c2f84251d620a2fe984a6"
+    },
+    {
+      "id": "lg-3cc6e720f8c3",
+      "text": "ضُو",
+      "displays": [
+        "ضٗ",
+        "ضُو"
+      ],
+      "family": "Long vowels",
+      "status": "installed",
+      "note": "Owner approved this exact clip in the independent-cut audio desk.",
+      "uses": [
+        {
+          "world": "standing",
+          "role": "target",
+          "display": "ضٗ",
+          "parent": null
+        },
+        {
+          "world": "long-sounds",
+          "role": "target",
+          "display": "ضُو",
+          "parent": null
+        }
+      ],
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-3cc6e720f8c3-r1.wav",
+      "sha256": "b59e1868c1aef20b9f290c03a2ba65f0eeb2629131bda611b04945c006808a83",
+      "parts": [
+        {
+          "text": "ضُو",
+          "file": "assets/audio/letters/marin-curriculum-v1/lg-3cc6e720f8c3-r1.wav",
+          "sha256": "b59e1868c1aef20b9f290c03a2ba65f0eeb2629131bda611b04945c006808a83"
+        }
+      ],
+      "source": {
+        "id": "marin-curriculum-batch-4",
+        "start": 10.305,
+        "end": 10.73
+      },
+      "revision": "r1",
+      "signature": "021fafa0c9fe95c78eb767a468718607183cf8ff18e8003c78fcee2b7f19446c"
     },
     {
       "id": "lg-8bd19f151c78",
@@ -15745,51 +16493,6 @@
         "end": 19.32
       },
       "signature": "3c7583dba239b7ef9150f83a8c8df67611a63a64e062e586c3a939c090d58b0b"
-    },
-    {
-      "id": "lg-390d2843328d",
-      "text": "فِ",
-      "displays": [
-        "فِ"
-      ],
-      "family": "Short vowels",
-      "status": "candidate",
-      "note": "Owner rejected this exact clip: sounds like fif. Excluded from the game pending a new reviewed cut or recording.",
-      "uses": [
-        {
-          "world": "kasra-damma",
-          "role": "target",
-          "display": "فِ",
-          "parent": null
-        },
-        {
-          "world": "tanween",
-          "role": "target",
-          "display": "فِ",
-          "parent": null
-        },
-        {
-          "world": "long-sounds",
-          "role": "assembly-piece",
-          "display": "فِ",
-          "parent": "فِي"
-        }
-      ],
-      "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-390d2843328d.wav",
-      "sha256": "0c9e8a67cd03cbf17e86d95d3db70d22d80cbc5feb9d781ed3635e8aed7fa060",
-      "parts": [
-        {
-          "text": "فِ",
-          "file": "docs/letter-garden/reviews/marin-curriculum/candidates/lg-390d2843328d.wav",
-          "sha256": "0c9e8a67cd03cbf17e86d95d3db70d22d80cbc5feb9d781ed3635e8aed7fa060"
-        }
-      ],
-      "source": {
-        "id": "marin-curriculum-batch-3",
-        "start": 13.71,
-        "end": 14
-      },
-      "signature": "9b7c163936e3cae510dfc826e41bc460e34d311ffadaf502b406fdd39e10e92d"
     },
     {
       "id": "lg-2155dba94601",
@@ -23004,288 +23707,6 @@
       "signature": "9926dee5f40b41f91553195f849f11746908aaca190ed146d004f7d96a377363"
     },
     {
-      "id": "lg-79a5e4461bac",
-      "text": "ثَ",
-      "displays": [
-        "ثَ"
-      ],
-      "family": "Short vowels",
-      "status": "unmapped",
-      "note": "No local playable clip is mapped; do not invent a voice mapping.",
-      "uses": [
-        {
-          "world": "fatha",
-          "role": "target",
-          "display": "ثَ",
-          "parent": null
-        },
-        {
-          "world": "tanween",
-          "role": "target",
-          "display": "ثَ",
-          "parent": null
-        },
-        {
-          "world": "long-sounds",
-          "role": "assembly-piece",
-          "display": "ثَ",
-          "parent": "ثَا"
-        },
-        {
-          "world": "leen",
-          "role": "assembly-piece",
-          "display": "ثَ",
-          "parent": "ثَوْ"
-        },
-        {
-          "world": "leen",
-          "role": "assembly-piece",
-          "display": "ثَ",
-          "parent": "ثَيْ"
-        }
-      ],
-      "file": null,
-      "sha256": null,
-      "parts": [],
-      "signature": "5abc94c4218080f3ef59063f8c38e0c4a1c78df1ceb3c485c043eabe79280241"
-    },
-    {
-      "id": "lg-f6bfae64253c",
-      "text": "غَ",
-      "displays": [
-        "غَ"
-      ],
-      "family": "Short vowels",
-      "status": "unmapped",
-      "note": "No local playable clip is mapped; do not invent a voice mapping.",
-      "uses": [
-        {
-          "world": "fatha",
-          "role": "target",
-          "display": "غَ",
-          "parent": null
-        },
-        {
-          "world": "tanween",
-          "role": "target",
-          "display": "غَ",
-          "parent": null
-        },
-        {
-          "world": "long-sounds",
-          "role": "assembly-piece",
-          "display": "غَ",
-          "parent": "غَا"
-        },
-        {
-          "world": "leen",
-          "role": "assembly-piece",
-          "display": "غَ",
-          "parent": "غَوْ"
-        },
-        {
-          "world": "leen",
-          "role": "assembly-piece",
-          "display": "غَ",
-          "parent": "غَيْ"
-        },
-        {
-          "world": "decode",
-          "role": "assembly-piece",
-          "display": "غَ",
-          "parent": "غَيْرِ"
-        }
-      ],
-      "file": null,
-      "sha256": null,
-      "parts": [],
-      "signature": "4889d684dd006cf7d3bc2c6a72601c43fd99bfa67172c0b544d4c972e3a24731"
-    },
-    {
-      "id": "lg-8ce960a3420a",
-      "text": "وَ",
-      "displays": [
-        "وَ"
-      ],
-      "family": "Short vowels",
-      "status": "unmapped",
-      "note": "No local playable clip is mapped; do not invent a voice mapping.",
-      "uses": [
-        {
-          "world": "fatha",
-          "role": "target",
-          "display": "وَ",
-          "parent": null
-        },
-        {
-          "world": "tanween",
-          "role": "target",
-          "display": "وَ",
-          "parent": null
-        },
-        {
-          "world": "long-sounds",
-          "role": "assembly-piece",
-          "display": "وَ",
-          "parent": "وَا"
-        },
-        {
-          "world": "leen",
-          "role": "assembly-piece",
-          "display": "وَ",
-          "parent": "وَوْ"
-        },
-        {
-          "world": "leen",
-          "role": "assembly-piece",
-          "display": "وَ",
-          "parent": "وَيْ"
-        },
-        {
-          "world": "words-2",
-          "role": "assembly-piece",
-          "display": "وَ",
-          "parent": "هُوَ"
-        },
-        {
-          "world": "decode",
-          "role": "assembly-piece",
-          "display": "وَ",
-          "parent": "وَلَا"
-        },
-        {
-          "world": "decode",
-          "role": "assembly-piece",
-          "display": "وَ",
-          "parent": "وَتَبَّ"
-        },
-        {
-          "world": "decode",
-          "role": "assembly-piece",
-          "display": "وَ",
-          "parent": "وَمَا"
-        },
-        {
-          "world": "decode",
-          "role": "assembly-piece",
-          "display": "وَ",
-          "parent": "وَلَمْ"
-        },
-        {
-          "world": "decode",
-          "role": "assembly-piece",
-          "display": "وَ",
-          "parent": "وَمِن"
-        },
-        {
-          "world": "decode",
-          "role": "assembly-piece",
-          "display": "وَ",
-          "parent": "وَقَبَ"
-        }
-      ],
-      "file": null,
-      "sha256": null,
-      "parts": [],
-      "signature": "6101dcf2bcc3632405f053e98ba4fb1f3b3bec028093470830de511364cddb80"
-    },
-    {
-      "id": "lg-81a333ca8e19",
-      "text": "ثِ",
-      "displays": [
-        "ثِ"
-      ],
-      "family": "Short vowels",
-      "status": "unmapped",
-      "note": "No local playable clip is mapped; do not invent a voice mapping.",
-      "uses": [
-        {
-          "world": "kasra-damma",
-          "role": "target",
-          "display": "ثِ",
-          "parent": null
-        },
-        {
-          "world": "tanween",
-          "role": "target",
-          "display": "ثِ",
-          "parent": null
-        },
-        {
-          "world": "long-sounds",
-          "role": "assembly-piece",
-          "display": "ثِ",
-          "parent": "ثِي"
-        }
-      ],
-      "file": null,
-      "sha256": null,
-      "parts": [],
-      "signature": "cf20b89a4370d442ae1ecb5722fdc43930837518d7ddae02ca57321dd457c5db"
-    },
-    {
-      "id": "lg-cc4c2e4dbfda",
-      "text": "ثُ",
-      "displays": [
-        "ثُ"
-      ],
-      "family": "Short vowels",
-      "status": "unmapped",
-      "note": "No local playable clip is mapped; do not invent a voice mapping.",
-      "uses": [
-        {
-          "world": "kasra-damma",
-          "role": "target",
-          "display": "ثُ",
-          "parent": null
-        },
-        {
-          "world": "long-sounds",
-          "role": "assembly-piece",
-          "display": "ثُ",
-          "parent": "ثُو"
-        }
-      ],
-      "file": null,
-      "sha256": null,
-      "parts": [],
-      "signature": "9845e72f49b5f868d4a5d5b19a092012ad2164a3186d5956d9658ab30ec12e73"
-    },
-    {
-      "id": "lg-3b8732d73847",
-      "text": "غِ",
-      "displays": [
-        "غِ"
-      ],
-      "family": "Short vowels",
-      "status": "unmapped",
-      "note": "No local playable clip is mapped; do not invent a voice mapping.",
-      "uses": [
-        {
-          "world": "kasra-damma",
-          "role": "target",
-          "display": "غِ",
-          "parent": null
-        },
-        {
-          "world": "tanween",
-          "role": "target",
-          "display": "غِ",
-          "parent": null
-        },
-        {
-          "world": "long-sounds",
-          "role": "assembly-piece",
-          "display": "غِ",
-          "parent": "غِي"
-        }
-      ],
-      "file": null,
-      "sha256": null,
-      "parts": [],
-      "signature": "eb64da316e56814eb2c95dced30260349ce44f4d519890d5d74fa506fb235f37"
-    },
-    {
       "id": "lg-b03e507decd7",
       "text": "غُ",
       "displays": [
@@ -23398,40 +23819,6 @@
       "sha256": null,
       "parts": [],
       "signature": "976cda0c1d5560bdc8585269bc2a901506511acaa7b94ca3cac66bc9b62c412d"
-    },
-    {
-      "id": "lg-e7bebb428fb2",
-      "text": "وِ",
-      "displays": [
-        "وِ"
-      ],
-      "family": "Short vowels",
-      "status": "unmapped",
-      "note": "No local playable clip is mapped; do not invent a voice mapping.",
-      "uses": [
-        {
-          "world": "kasra-damma",
-          "role": "target",
-          "display": "وِ",
-          "parent": null
-        },
-        {
-          "world": "tanween",
-          "role": "target",
-          "display": "وِ",
-          "parent": null
-        },
-        {
-          "world": "long-sounds",
-          "role": "assembly-piece",
-          "display": "وِ",
-          "parent": "وِي"
-        }
-      ],
-      "file": null,
-      "sha256": null,
-      "parts": [],
-      "signature": "a6d42d07f17f8c1ab38296f3902244e583ebea8b6c552de82527a954cbe9343d"
     },
     {
       "id": "lg-31d16c7f5df3",
@@ -24692,209 +25079,6 @@
       "sha256": null,
       "parts": [],
       "signature": "a766bd2ac3e5c9c7e0bf679fa124b794abba48e5d2a528f2296f8d3961ea0560"
-    },
-    {
-      "id": "lg-80cdd720e239",
-      "text": "ثَا",
-      "displays": [
-        "ثٰ",
-        "ثَا"
-      ],
-      "family": "Long vowels",
-      "status": "unmapped",
-      "note": "No local playable clip is mapped; do not invent a voice mapping.",
-      "uses": [
-        {
-          "world": "standing",
-          "role": "target",
-          "display": "ثٰ",
-          "parent": null
-        },
-        {
-          "world": "long-sounds",
-          "role": "target",
-          "display": "ثَا",
-          "parent": null
-        }
-      ],
-      "file": null,
-      "sha256": null,
-      "parts": [],
-      "signature": "51f8a80066f5c263f0de2abe69bf5e441507370354b9035d1584d905e88520aa"
-    },
-    {
-      "id": "lg-2401c0433020",
-      "text": "صَا",
-      "displays": [
-        "صٰ",
-        "صَا"
-      ],
-      "family": "Long vowels",
-      "status": "unmapped",
-      "note": "No local playable clip is mapped; do not invent a voice mapping.",
-      "uses": [
-        {
-          "world": "standing",
-          "role": "target",
-          "display": "صٰ",
-          "parent": null
-        },
-        {
-          "world": "long-sounds",
-          "role": "target",
-          "display": "صَا",
-          "parent": null
-        }
-      ],
-      "file": null,
-      "sha256": null,
-      "parts": [],
-      "signature": "6d98842a250bef103b08162952822faf82a8bcdf4fffb377c0300abeb3810ea5"
-    },
-    {
-      "id": "lg-0fca749ce8c2",
-      "text": "صِي",
-      "displays": [
-        "صٖ",
-        "صِي"
-      ],
-      "family": "Long vowels",
-      "status": "unmapped",
-      "note": "No local playable clip is mapped; do not invent a voice mapping.",
-      "uses": [
-        {
-          "world": "standing",
-          "role": "target",
-          "display": "صٖ",
-          "parent": null
-        },
-        {
-          "world": "long-sounds",
-          "role": "target",
-          "display": "صِي",
-          "parent": null
-        }
-      ],
-      "file": null,
-      "sha256": null,
-      "parts": [],
-      "signature": "7ed3acceca72bc67caff923e443446093d2ae32d096b0d84d7b12670f9ee01b1"
-    },
-    {
-      "id": "lg-11ba12301e3f",
-      "text": "صُو",
-      "displays": [
-        "صٗ",
-        "صُو"
-      ],
-      "family": "Long vowels",
-      "status": "unmapped",
-      "note": "No local playable clip is mapped; do not invent a voice mapping.",
-      "uses": [
-        {
-          "world": "standing",
-          "role": "target",
-          "display": "صٗ",
-          "parent": null
-        },
-        {
-          "world": "long-sounds",
-          "role": "target",
-          "display": "صُو",
-          "parent": null
-        }
-      ],
-      "file": null,
-      "sha256": null,
-      "parts": [],
-      "signature": "d9fdc4a99d4cc00803fcf36f9304ab00a3d733aa78d253ebdf5db273f714f908"
-    },
-    {
-      "id": "lg-c03effb5dffc",
-      "text": "ضَا",
-      "displays": [
-        "ضٰ",
-        "ضَا"
-      ],
-      "family": "Long vowels",
-      "status": "unmapped",
-      "note": "No local playable clip is mapped; do not invent a voice mapping.",
-      "uses": [
-        {
-          "world": "standing",
-          "role": "target",
-          "display": "ضٰ",
-          "parent": null
-        },
-        {
-          "world": "long-sounds",
-          "role": "target",
-          "display": "ضَا",
-          "parent": null
-        }
-      ],
-      "file": null,
-      "sha256": null,
-      "parts": [],
-      "signature": "f92027f50538abb2b1fdc39b9aefa324b64aa7eea1083801676ced000a6bf4a9"
-    },
-    {
-      "id": "lg-38534123f710",
-      "text": "ضِي",
-      "displays": [
-        "ضٖ",
-        "ضِي"
-      ],
-      "family": "Long vowels",
-      "status": "unmapped",
-      "note": "No local playable clip is mapped; do not invent a voice mapping.",
-      "uses": [
-        {
-          "world": "standing",
-          "role": "target",
-          "display": "ضٖ",
-          "parent": null
-        },
-        {
-          "world": "long-sounds",
-          "role": "target",
-          "display": "ضِي",
-          "parent": null
-        }
-      ],
-      "file": null,
-      "sha256": null,
-      "parts": [],
-      "signature": "bcb9f9579b792c16b424d814c31c7059330fc9ff1845ee68892748417d854031"
-    },
-    {
-      "id": "lg-3cc6e720f8c3",
-      "text": "ضُو",
-      "displays": [
-        "ضٗ",
-        "ضُو"
-      ],
-      "family": "Long vowels",
-      "status": "unmapped",
-      "note": "No local playable clip is mapped; do not invent a voice mapping.",
-      "uses": [
-        {
-          "world": "standing",
-          "role": "target",
-          "display": "ضٗ",
-          "parent": null
-        },
-        {
-          "world": "long-sounds",
-          "role": "target",
-          "display": "ضُو",
-          "parent": null
-        }
-      ],
-      "file": null,
-      "sha256": null,
-      "parts": [],
-      "signature": "0958e613e1c9a9ec61462e5f6f5c85f4ca01df868e34f2b91e8ec8fbdf50deaa"
     },
     {
       "id": "lg-89fbe36986ba",

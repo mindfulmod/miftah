@@ -10,9 +10,11 @@
 <main>
   <header>
     <a href="../index.html?section=new-recording">← Previous audio review</a>
-    <h1>Your new recording: 16 separate sounds</h1>
-    <p>I separated the sounds at the pauses. You confirmed all 27 items were submitted. This file has only 16 separated utterances, so we need to verify which sounds are usable. Nothing from this recording is installed in the game.</p>
-    <p><strong>Next:</strong> play each clip. Check its suggested label, consonant, vowel and vowel length, then choose <strong>Correct</strong>, <strong>Needs fixing</strong> or <strong>Unclear</strong>. Change the label if necessary. Clip 6 has no reliable suggestion. These labels are tentative; nothing is approved automatically.</p><p>Finish these 16 before recording more. We will then make a short list of the sounds still missing or incorrect.</p>
+    <h1>Your 16-clip review is complete</h1>
+    <p><strong>15 distinct recordings are installed, bringing the bundled bank to 252.</strong> Their bytes, pitch and speed are exactly what you approved.</p>
+    <p>You identified clip 6 as <span lang="ar" dir="rtl">فِ</span> and clip 9 as another <span lang="ar" dir="rtl">وَ</span>. Clip 7 is the installed <span lang="ar" dir="rtl">وَ</span>; clip 9 is preserved as an approved alternate. Your conversation confirmation closes that last form decision without changing your saved labels.</p>
+    <p><strong>Next: test the game after deployment.</strong> No more listening review is needed for this batch. <a href="remaining-after-retry.txt">These 12 requested sounds</a> were not supplied as distinct approved clips and keep the existing speech fallback. They can be recorded later.</p>
+    <p>The form below is the original review record; its saved count may show 15 decisions because clip 9's approval was supplied in conversation.</p>
   </header>
   <section aria-label="Submitted text">
     <label for="submitted">Your confirmed input — 27 items (already saved)</label>
@@ -30,7 +32,7 @@
     <audio id="player" controls preload="none" aria-label="Current recording audio" hidden></audio>
   </section>
   <section aria-label="Numbered audio clips"><div id="notes" class="items"></div></section>
-  <p class="hint">Your decisions and notes save in this browser. When finished, tell me in our conversation. Download them before switching devices. Earlier review decisions and game progress stay separate.</p>
+  <p class="hint">Your original decisions and notes remain saved in this browser and in the imported review archive. Download them for your records if needed. Earlier review decisions and game progress stay separate.</p>
 </main>
-<script src="review.js?v=20260925-labels2"></script>
+<script src="review.js?v=20260926-applied1"></script>
 </html>

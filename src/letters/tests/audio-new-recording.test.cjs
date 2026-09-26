@@ -10,6 +10,7 @@ const json = file => JSON.parse(read(file));
 const hash = file => crypto.createHash('sha256').update(read(file)).digest('hex');
 const catalogue = json(base + 'manifest.json');
 const assessment = json(base + 'new-recording-assessment.json');
+const retryApplication = json(base + 'retry-recording/applied-review.json');
 const byId = new Map(catalogue.items.map(item => [item.id, item]));
 const queue = catalogue.reviewQueues.find(queue => queue.id === 'new-recording');
 const pack = json(base + 'next-recordings.json');
@@ -25,7 +26,10 @@ test('the uploaded source is preserved and every requested item is accounted for
   assert.deepEqual(ids.slice().sort(), pack.items.map(item => item.id).sort());
   assert.equal(queue.itemIds.length, queue.expectedCount);
   assert.equal(queue.itemIds.length, assessment.candidates.length);
-  for (const item of assessment.unresolved) assert.equal(byId.get(item.id).status, 'unmapped');
+  const laterApprovals = new Set(retryApplication.approved.map(item => item.id));
+  for (const item of assessment.unresolved) {
+    assert.equal(byId.get(item.id).status, laterApprovals.has(item.id) ? 'installed' : 'unmapped');
+  }
 });
 
 const reviewFile = base + 'owner-reviews/20260925-new-recording.json';
@@ -41,35 +45,49 @@ test('new approvals install the exact heard bytes, rejected clips stay excluded 
   for (const item of selected) {
     const decision = owner.decisions[item.id], snapshot = owner.items.find(old => old.id === item.id);
     const cut = sheet.cuts.find(cut => cut.text === item.text);
-    assert.equal(item.signature, snapshot.signature);
-    assert.equal(decision.signature, item.signature);
-    assert.equal(item.parts.length, 1);
-    assert.equal(item.source.id, pack.recording.sourceId);
-    assert.equal(hash(item.file), item.sha256);
-    assert.equal(hash(snapshot.parts[0].file), item.sha256, 'Preserve the original reviewed candidate');
-    assert.equal(cut.ownerReview.file, reviewFile);
-    assert.equal(cut.ownerReview.sha256, hash(reviewFile));
-    assert.equal(cut.ownerReview.note, decision.note);
-    if (decision.verdict === 'correct') {
-      assert.equal(decision.heardSignature, item.signature);
+    if (cut.ownerReview.file === retryApplication.evidenceFile) {
+      const approval = retryApplication.approved.find(entry => entry.id === item.id);
+      assert.ok(approval, `Unexpected later approval: ${item.text}`);
       assert.equal(item.status, 'installed');
-      assert.equal(bank[item.text], item.file);
-      assert.ok(shell.includes(item.file));
+      assert.equal(item.parts[0].file, approval.file);
+      assert.equal(hash(item.file), approval.sha256);
+      assert.equal(bank[item.text], approval.file);
+      assert.ok(shell.includes(approval.file));
+      assert.equal(cut.reviewHistory[0].ownerReview.file, reviewFile);
+      assert.equal(cut.reviewHistory[0].ownerReview.verdict, 'fix');
+      assert.equal(cut.reviewHistory[0].file, snapshot.parts[0].file);
+      assert.equal(cut.reviewHistory[0].sha256, hash(snapshot.parts[0].file));
     } else {
-      assert.equal(item.status, 'candidate');
-      assert.equal(bank[item.text], undefined);
-      assert.ok(!shell.includes(item.id));
+      assert.equal(item.signature, snapshot.signature);
+      assert.equal(decision.signature, item.signature);
+      assert.equal(item.parts.length, 1);
+      assert.equal(item.source.id, pack.recording.sourceId);
+      assert.equal(hash(item.file), item.sha256);
+      assert.equal(hash(snapshot.parts[0].file), item.sha256, 'Preserve the original reviewed candidate');
+      assert.equal(cut.ownerReview.file, reviewFile);
+      assert.equal(cut.ownerReview.sha256, hash(reviewFile));
+      assert.equal(cut.ownerReview.note, decision.note);
+      if (decision.verdict === 'correct') {
+        assert.equal(decision.heardSignature, item.signature);
+        assert.equal(item.status, 'installed');
+        assert.equal(bank[item.text], item.file);
+        assert.ok(shell.includes(item.file));
+      } else {
+        assert.equal(item.status, 'candidate');
+        assert.equal(bank[item.text], undefined);
+        assert.ok(!shell.includes(item.id));
+      }
     }
     assert.ok(!assessment.baseline.playableSignatures[item.id]);
     for (const other of selected) {
-      if (item.id === other.id) continue;
+      if (item.id === other.id || other.source?.id !== item.source.id) continue;
       assert.ok(Math.min(item.source.end, other.source.end) - Math.max(item.source.start, other.source.start) <= .004,
         `${item.text} overlaps ${other.text}`);
     }
   }
 });
 
-test('new approvals preserve every prior playable signature and add only the 73 reviewed keys', () => {
+test('new approvals preserve every prior playable signature and add only reviewed keys', () => {
   assert.equal(Object.keys(assessment.baseline.playableSignatures).length, 370);
   for (const [id, signature] of Object.entries(assessment.baseline.playableSignatures)) {
     assert.equal(byId.get(id).signature, signature, `Prior audio changed: ${id}`);
@@ -78,7 +96,8 @@ test('new approvals preserve every prior playable signature and add only the 73 
   const previousInstalled = owner.items.filter(item => item.status === 'installed');
   assert.equal(previousInstalled.length, 164);
   const additions = queue.itemIds.filter(id => owner.decisions[id].verdict === 'correct').map(id => byId.get(id).text);
-  assert.deepEqual(Object.keys(bank).sort(), [...previousInstalled.map(item => item.text), ...additions].sort());
+  const laterApprovals = retryApplication.approved.map(item => item.text);
+  assert.deepEqual(Object.keys(bank).sort(), [...new Set([...previousInstalled.map(item => item.text), ...additions, ...laterApprovals])].sort());
   const shell = read('sw.js').toString();
   for (const item of catalogue.items.filter(item => item.status === 'installed')) {
     for (const part of item.parts) assert.ok(shell.includes(part.file));
@@ -101,12 +120,20 @@ test('the focused recording retry contains only the three rejections and 24 unre
     assert.deepEqual(text.split('\n\n'), batch.items.map(item => item.text));
     assert.equal(new Set(batch.items.map(item => item.group)).size, 1, 'Keep short and long exercises separate');
   }
-  for (const item of retry.items) assert.equal(bank[item.text], undefined);
+  const laterApprovals = new Map(retryApplication.approved.map(item => [item.text, item]));
+  for (const item of retry.items) {
+    const approval = laterApprovals.get(item.text);
+    assert.equal(bank[item.text], approval?.file);
+  }
 });
 
-test('reapplying this queue is idempotent and retains the three owner correction notes', () => {
+test('stale batch-three evidence cannot replace the retry and its rejection is archived', () => {
   const { applyReview } = require('../../../scripts/apply-letter-garden-audio-review.cjs');
   const scoped = { ...owner, decisions: Object.fromEntries(queue.itemIds.map(id => [id, owner.decisions[id]])) };
-  const result = applyReview(scoped, catalogue, sheet, reviewFile, hash(reviewFile), read);
-  assert.deepEqual(result.sheet, sheet);
+  assert.throws(() => applyReview(scoped, catalogue, sheet, reviewFile, hash(reviewFile), read), /Export is stale: lg-390d2843328d/);
+  const cut = sheet.cuts.find(item => item.text === 'فِ');
+  assert.equal(cut.reviewHistory[0].ownerReview.file, reviewFile);
+  assert.equal(cut.reviewHistory[0].ownerReview.verdict, 'fix');
+  assert.equal(cut.reviewHistory[0].ownerReview.note, 'sounds like fif');
+  assert.equal(hash(cut.reviewHistory[0].file), cut.reviewHistory[0].sha256);
 });

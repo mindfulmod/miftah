@@ -1,0 +1,291 @@
+{
+  "kind": "letter-garden-audio-identification",
+  "schemaVersion": 2,
+  "testOnly": false,
+  "exportedAt": "2026-09-26T21:57:14.616Z",
+  "source": {
+    "file": "../../marin-curriculum/sources/batch-4.mp3",
+    "repositoryFile": "docs/letter-garden/reviews/marin-curriculum/sources/batch-4.mp3",
+    "originalFilename": "openai-fm-marin-audio-4.mp3",
+    "sha256": "155b67f425b9b3ea9a135af911b6e48e91014d5e34bfa420b03357d05ce0b386",
+    "duration": 10.848,
+    "sampleRate": 24000
+  },
+  "submittedTextConfirmed": true,
+  "submittedText": "ثَ\n\nثِ\n\nثُ\n\nغَ\n\nغِ\n\nغُ\n\nفَ\n\nفِ\n\nقِ\n\nهِ\n\nهُ\n\nوَ\n\nوِ\n\nوُ\n\nثَا\n\nصَا\n\nصِي\n\nصُو\n\nضَا\n\nضِي\n\nضُو\n\nطَا\n\nطِي\n\nطُو\n\nكَا\n\nكِي\n\nكُو",
+  "previousSubmittedTextNote": "",
+  "items": [
+    {
+      "id": "batch4-01",
+      "position": 1,
+      "start": 0.03,
+      "end": 0.425,
+      "file": "utterance-01.wav",
+      "sha256": "e3efe084c82b537c624acb51cdd8d34a3f7b9209733f508350d12ecb499f5883",
+      "suggestedText": "ثَ",
+      "selectedText": "ثَ",
+      "decision": "correct",
+      "reviewedAt": "2026-09-26T21:54:14.999Z",
+      "played": {
+        "sha256": "e3efe084c82b537c624acb51cdd8d34a3f7b9209733f508350d12ecb499f5883",
+        "playedAt": "2026-09-26T21:54:14.185Z"
+      },
+      "heard": ""
+    },
+    {
+      "id": "batch4-02",
+      "position": 2,
+      "start": 0.865,
+      "end": 1.345,
+      "file": "utterance-02.wav",
+      "sha256": "45b5089c6c6f5c8b4c9191672985abcde87309d80e2f07316f491d4bed5e5a67",
+      "suggestedText": "ثِ",
+      "selectedText": "ثِ",
+      "decision": "correct",
+      "reviewedAt": "2026-09-26T16:08:05.954Z",
+      "played": {
+        "sha256": "45b5089c6c6f5c8b4c9191672985abcde87309d80e2f07316f491d4bed5e5a67",
+        "playedAt": "2026-09-26T21:54:17.509Z"
+      },
+      "heard": ""
+    },
+    {
+      "id": "batch4-03",
+      "position": 3,
+      "start": 1.61,
+      "end": 2.13,
+      "file": "utterance-03.wav",
+      "sha256": "0f23d9845c9c488b70ac84350d64caaf101df33e727fc31601e49eed4af7cf9f",
+      "suggestedText": "ثُ",
+      "selectedText": "ثُ",
+      "decision": "correct",
+      "reviewedAt": "2026-09-26T16:08:08.921Z",
+      "played": {
+        "sha256": "0f23d9845c9c488b70ac84350d64caaf101df33e727fc31601e49eed4af7cf9f",
+        "playedAt": "2026-09-26T21:54:20.536Z"
+      },
+      "heard": ""
+    },
+    {
+      "id": "batch4-04",
+      "position": 4,
+      "start": 2.395,
+      "end": 2.89,
+      "file": "utterance-04.wav",
+      "sha256": "69be3befa167b9dc658dfb9af120918e6bb16ad8bfcf115b50c3e7c978722183",
+      "suggestedText": "غَ",
+      "selectedText": "غَ",
+      "decision": "correct",
+      "reviewedAt": "2026-09-26T16:08:11.804Z",
+      "played": {
+        "sha256": "69be3befa167b9dc658dfb9af120918e6bb16ad8bfcf115b50c3e7c978722183",
+        "playedAt": "2026-09-26T21:54:22.324Z"
+      },
+      "heard": ""
+    },
+    {
+      "id": "batch4-05",
+      "position": 5,
+      "start": 3.085,
+      "end": 3.58,
+      "file": "utterance-05.wav",
+      "sha256": "30b6985c9937b17e5f70b784853ae2cb9794860de61ca6653017feb77622d5ae",
+      "suggestedText": "غِ",
+      "selectedText": "غِ",
+      "decision": "correct",
+      "reviewedAt": "2026-09-26T16:08:15.454Z",
+      "played": {
+        "sha256": "30b6985c9937b17e5f70b784853ae2cb9794860de61ca6653017feb77622d5ae",
+        "playedAt": "2026-09-26T21:54:24.903Z"
+      },
+      "heard": ""
+    },
+    {
+      "id": "batch4-06",
+      "position": 6,
+      "start": 3.76,
+      "end": 4.28,
+      "file": "utterance-06.wav",
+      "sha256": "6e0ff1524a3268dcc9f54e6a1eaab2b11647eea7f9b2f275a63a290a14d6f397",
+      "suggestedText": null,
+      "selectedText": "فِ",
+      "decision": "correct",
+      "reviewedAt": "2026-09-26T16:08:37.521Z",
+      "played": {
+        "sha256": "6e0ff1524a3268dcc9f54e6a1eaab2b11647eea7f9b2f275a63a290a14d6f397",
+        "playedAt": "2026-09-26T21:54:27.268Z"
+      },
+      "heard": ""
+    },
+    {
+      "id": "batch4-07",
+      "position": 7,
+      "start": 4.565,
+      "end": 5.1,
+      "file": "utterance-07.wav",
+      "sha256": "75412b644d955ea878101793f74567bb9102d57421ad5db50c91230045e4f20f",
+      "suggestedText": "وَ",
+      "selectedText": "وَ",
+      "decision": "correct",
+      "reviewedAt": "2026-09-26T16:08:41.054Z",
+      "played": {
+        "sha256": "75412b644d955ea878101793f74567bb9102d57421ad5db50c91230045e4f20f",
+        "playedAt": "2026-09-26T21:54:29.656Z"
+      },
+      "heard": ""
+    },
+    {
+      "id": "batch4-08",
+      "position": 8,
+      "start": 5.205,
+      "end": 5.69,
+      "file": "utterance-08.wav",
+      "sha256": "46601801e2874a3e40524b889818de99c5577495536eeedc66f5740b56cee933",
+      "suggestedText": "وِ",
+      "selectedText": "وِ",
+      "decision": "correct",
+      "reviewedAt": "2026-09-26T16:08:52.637Z",
+      "played": {
+        "sha256": "46601801e2874a3e40524b889818de99c5577495536eeedc66f5740b56cee933",
+        "playedAt": "2026-09-26T21:54:34.860Z"
+      },
+      "heard": ""
+    },
+    {
+      "id": "batch4-09",
+      "position": 9,
+      "start": 5.87,
+      "end": 6.375,
+      "file": "utterance-09.wav",
+      "sha256": "5f5b4a997e7f449b9ec865052cb88e628d13a661e6a08fc30f46e2848cbecba0",
+      "suggestedText": "وُ",
+      "selectedText": "وَ",
+      "decision": "pending",
+      "reviewedAt": null,
+      "played": {
+        "sha256": "5f5b4a997e7f449b9ec865052cb88e628d13a661e6a08fc30f46e2848cbecba0",
+        "playedAt": "2026-09-26T21:54:39.148Z"
+      },
+      "heard": ""
+    },
+    {
+      "id": "batch4-10",
+      "position": 10,
+      "start": 6.57,
+      "end": 7.04,
+      "file": "utterance-10.wav",
+      "sha256": "e54e3847e61ac4015c028055c1d874333f6548c37c7020db94d5ec3aa6c3c2f7",
+      "suggestedText": "ثَا",
+      "selectedText": "ثَا",
+      "decision": "correct",
+      "reviewedAt": "2026-09-26T16:09:16.287Z",
+      "played": {
+        "sha256": "e54e3847e61ac4015c028055c1d874333f6548c37c7020db94d5ec3aa6c3c2f7",
+        "playedAt": "2026-09-26T21:54:41.876Z"
+      },
+      "heard": ""
+    },
+    {
+      "id": "batch4-11",
+      "position": 11,
+      "start": 7.185,
+      "end": 7.685,
+      "file": "utterance-11.wav",
+      "sha256": "7c489772c9019618851beae527dc51ab80c2c2318bf55155b5a9d7d477bc50c0",
+      "suggestedText": "صَا",
+      "selectedText": "صَا",
+      "decision": "correct",
+      "reviewedAt": "2026-09-26T21:54:46.782Z",
+      "played": {
+        "sha256": "7c489772c9019618851beae527dc51ab80c2c2318bf55155b5a9d7d477bc50c0",
+        "playedAt": "2026-09-26T21:54:48.401Z"
+      },
+      "heard": ""
+    },
+    {
+      "id": "batch4-12",
+      "position": 12,
+      "start": 7.785,
+      "end": 8.285,
+      "file": "utterance-12.wav",
+      "sha256": "801964864c44751af9f378896d9d1e1f39f1c12fa23ec3695cbc55887b22c88c",
+      "suggestedText": "صِي",
+      "selectedText": "صِي",
+      "decision": "correct",
+      "reviewedAt": "2026-09-26T16:09:21.504Z",
+      "played": {
+        "sha256": "801964864c44751af9f378896d9d1e1f39f1c12fa23ec3695cbc55887b22c88c",
+        "playedAt": "2026-09-26T21:54:51.453Z"
+      },
+      "heard": ""
+    },
+    {
+      "id": "batch4-13",
+      "position": 13,
+      "start": 8.44,
+      "end": 8.915,
+      "file": "utterance-13.wav",
+      "sha256": "38522d907aea1b182781f043929ecbe60e627fd554e8445c66fa5a62fd4ddcf5",
+      "suggestedText": "صُو",
+      "selectedText": "صُو",
+      "decision": "correct",
+      "reviewedAt": "2026-09-26T21:55:00.701Z",
+      "played": {
+        "sha256": "38522d907aea1b182781f043929ecbe60e627fd554e8445c66fa5a62fd4ddcf5",
+        "playedAt": "2026-09-26T21:55:03.160Z"
+      },
+      "heard": ""
+    },
+    {
+      "id": "batch4-14",
+      "position": 14,
+      "start": 9.085,
+      "end": 9.57,
+      "file": "utterance-14.wav",
+      "sha256": "ade49aaccaf4db6f7c768ca42cdf042dd68d1c07fc955f1fc5b979ebc55092ea",
+      "suggestedText": "ضَا",
+      "selectedText": "ضَا",
+      "decision": "correct",
+      "reviewedAt": "2026-09-26T16:09:27.853Z",
+      "played": {
+        "sha256": "ade49aaccaf4db6f7c768ca42cdf042dd68d1c07fc955f1fc5b979ebc55092ea",
+        "playedAt": "2026-09-26T21:55:05.313Z"
+      },
+      "heard": ""
+    },
+    {
+      "id": "batch4-15",
+      "position": 15,
+      "start": 9.665,
+      "end": 10.14,
+      "file": "utterance-15.wav",
+      "sha256": "4ff9131835205dfa314e81a974fbe114ef625ac68a94599d11012c9885717341",
+      "suggestedText": "ضِي",
+      "selectedText": "ضِي",
+      "decision": "correct",
+      "reviewedAt": "2026-09-26T16:09:30.870Z",
+      "played": {
+        "sha256": "4ff9131835205dfa314e81a974fbe114ef625ac68a94599d11012c9885717341",
+        "playedAt": "2026-09-26T21:55:07.383Z"
+      },
+      "heard": ""
+    },
+    {
+      "id": "batch4-16",
+      "position": 16,
+      "start": 10.305,
+      "end": 10.73,
+      "file": "utterance-16.wav",
+      "sha256": "b59e1868c1aef20b9f290c03a2ba65f0eeb2629131bda611b04945c006808a83",
+      "suggestedText": "ضُو",
+      "selectedText": "ضُو",
+      "decision": "correct",
+      "reviewedAt": "2026-09-26T16:09:33.970Z",
+      "played": {
+        "sha256": "b59e1868c1aef20b9f290c03a2ba65f0eeb2629131bda611b04945c006808a83",
+        "playedAt": "2026-09-26T21:55:09.603Z"
+      },
+      "heard": ""
+    }
+  ]
+}

@@ -9,6 +9,7 @@ const read = file => fs.readFileSync(path.join(root, file));
 const json = file => JSON.parse(read(file));
 const catalogue = json(base + 'manifest.json');
 const owner = json(base + 'owner-reviews/20260919-boundary-recheck.json');
+const retryApplication = json(base + 'retry-recording/applied-review.json');
 const byId = new Map(catalogue.items.map(item => [item.id, item]));
 const pack = json(base + 'next-recordings/manifest.json');
 
@@ -22,7 +23,15 @@ test('original 100 requests remain a distinct inventory after the recording arri
     assert.equal(item.text, request.text);
     assert.ok(['unmapped','candidate','installed'].includes(item.status));
     assert.equal(item.parts.length, item.status === 'unmapped' ? 0 : 1);
-    if (item.parts.length) assert.equal(item.source.id, pack.recording.sourceId);
+    if (item.parts.length) {
+      const retryApproved = retryApplication.approved.find(approval => approval.id === item.id);
+      assert.equal(item.source.id, retryApproved ? 'marin-curriculum-batch-4' : pack.recording.sourceId);
+      if (retryApproved) {
+        assert.equal(item.status, 'installed');
+        assert.equal(item.file, retryApproved.file);
+        assert.equal(item.sha256, retryApproved.sha256);
+      }
+    }
     assert.ok(!owner.decisions[item.id]?.verdict);
   }
 });

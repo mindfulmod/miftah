@@ -1,6 +1,19 @@
-# Letter Garden major release — local status
+# Letter Garden release status
 
-Preview: `http://letter-garden-next.localhost:8790/letters.html?v=20260925-discovery1`.
+Current release package: **20260926-audio-release1 / service worker v61**.
+The owner authorized production on September 26. This package includes the
+completed local major Letter Garden improvements and **252 approved recordings**,
+including 15 distinct sounds from the final 16-clip retry review. One duplicate
+وَ stays archived. Unrecorded prompts retain existing device speech.
+
+The dated notes below are historical checkpoints; their older counts, parked
+work and no-publish statements do not describe the current release authorization.
+See [the completed audio batch](reviews/audio-confirmation/RETRY_REVIEW_APPLIED_20260926.md)
+and [the Pairs/Catch review](ORCHARD_PLAY_REVIEW.md).
+
+## Checkpoint history
+
+Preview: `http://letter-garden-next.localhost:8790/letters.html?v=20260926-audio-release1`.
 Durable checkout: `/Users/main/Documents/GitHub/miftah/.local-work/letter-garden-next-major`.
 Branch: `codex/letter-garden-next-major`.
 Production baseline: `55f34576f0ebfc02bcf115452101b37adfbb4536` / `20260908-batch50`.
@@ -206,3 +219,16 @@ Repository palette check reports 654 off-palette hexes / 906 uses and 18 off-sca
 stroke widths / 206 uses. `/art-review` was not callable.
 Broader game/art work remains active. Local release candidate; publication is
 pending.
+
+September 26 release candidate: imported the owner's 15 distinct exact recordings
+from the completed 16-clip retry. Clip 6 is فِ; clip 9 is a duplicate وَ preserved
+as an approved alternate, with the explicit conversation confirmation saved.
+The bank is 252; all 237 earlier mappings and bytes remain unchanged. 12 sounds
+from the retry and broader unrecorded curriculum prompts retain existing speech
+fallback. The supplied batch is closed; no further owner review is requested.
+Browser decoding, normal playback, cancellation, replay, mute and unchanged-save
+checks passed. All 318 regression tests pass; the full log is saved in
+`reviews/audio-confirmation/evidence/retry15-tests-20260926.txt`. All 334
+precache files exist. Version v61/audio-release1 is ready
+for the owner-authorized normal push to main, alongside committed local major
+Letter Garden/gameplay changes. See the [applied review](reviews/audio-confirmation/RETRY_REVIEW_APPLIED_20260926.md).

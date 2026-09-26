@@ -1,0 +1,169 @@
+{
+  "evidenceFile": "docs/letter-garden/reviews/audio-confirmation/owner-reviews/20260926-retry-identification.json",
+  "evidenceSha256": "8da8d359ec1607251038b1f74606db47c57a0ea2b703421018bacbf00d076729",
+  "approved": [
+    {
+      "clipId": "batch4-01",
+      "id": "lg-79a5e4461bac",
+      "text": "ثَ",
+      "sha256": "e3efe084c82b537c624acb51cdd8d34a3f7b9209733f508350d12ecb499f5883",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-79a5e4461bac-r1.wav"
+    },
+    {
+      "clipId": "batch4-02",
+      "id": "lg-81a333ca8e19",
+      "text": "ثِ",
+      "sha256": "45b5089c6c6f5c8b4c9191672985abcde87309d80e2f07316f491d4bed5e5a67",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-81a333ca8e19-r1.wav"
+    },
+    {
+      "clipId": "batch4-03",
+      "id": "lg-cc4c2e4dbfda",
+      "text": "ثُ",
+      "sha256": "0f23d9845c9c488b70ac84350d64caaf101df33e727fc31601e49eed4af7cf9f",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-cc4c2e4dbfda-r1.wav"
+    },
+    {
+      "clipId": "batch4-04",
+      "id": "lg-f6bfae64253c",
+      "text": "غَ",
+      "sha256": "69be3befa167b9dc658dfb9af120918e6bb16ad8bfcf115b50c3e7c978722183",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-f6bfae64253c-r1.wav"
+    },
+    {
+      "clipId": "batch4-05",
+      "id": "lg-3b8732d73847",
+      "text": "غِ",
+      "sha256": "30b6985c9937b17e5f70b784853ae2cb9794860de61ca6653017feb77622d5ae",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-3b8732d73847-r1.wav"
+    },
+    {
+      "clipId": "batch4-06",
+      "id": "lg-390d2843328d",
+      "text": "فِ",
+      "sha256": "6e0ff1524a3268dcc9f54e6a1eaab2b11647eea7f9b2f275a63a290a14d6f397",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-390d2843328d-r1.wav"
+    },
+    {
+      "clipId": "batch4-07",
+      "id": "lg-8ce960a3420a",
+      "text": "وَ",
+      "sha256": "75412b644d955ea878101793f74567bb9102d57421ad5db50c91230045e4f20f",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-8ce960a3420a-r1.wav"
+    },
+    {
+      "clipId": "batch4-08",
+      "id": "lg-e7bebb428fb2",
+      "text": "وِ",
+      "sha256": "46601801e2874a3e40524b889818de99c5577495536eeedc66f5740b56cee933",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-e7bebb428fb2-r1.wav"
+    },
+    {
+      "clipId": "batch4-10",
+      "id": "lg-80cdd720e239",
+      "text": "ثَا",
+      "sha256": "e54e3847e61ac4015c028055c1d874333f6548c37c7020db94d5ec3aa6c3c2f7",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-80cdd720e239-r1.wav"
+    },
+    {
+      "clipId": "batch4-11",
+      "id": "lg-2401c0433020",
+      "text": "صَا",
+      "sha256": "7c489772c9019618851beae527dc51ab80c2c2318bf55155b5a9d7d477bc50c0",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-2401c0433020-r1.wav"
+    },
+    {
+      "clipId": "batch4-12",
+      "id": "lg-0fca749ce8c2",
+      "text": "صِي",
+      "sha256": "801964864c44751af9f378896d9d1e1f39f1c12fa23ec3695cbc55887b22c88c",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-0fca749ce8c2-r1.wav"
+    },
+    {
+      "clipId": "batch4-13",
+      "id": "lg-11ba12301e3f",
+      "text": "صُو",
+      "sha256": "38522d907aea1b182781f043929ecbe60e627fd554e8445c66fa5a62fd4ddcf5",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-11ba12301e3f-r1.wav"
+    },
+    {
+      "clipId": "batch4-14",
+      "id": "lg-c03effb5dffc",
+      "text": "ضَا",
+      "sha256": "ade49aaccaf4db6f7c768ca42cdf042dd68d1c07fc955f1fc5b979ebc55092ea",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-c03effb5dffc-r1.wav"
+    },
+    {
+      "clipId": "batch4-15",
+      "id": "lg-38534123f710",
+      "text": "ضِي",
+      "sha256": "4ff9131835205dfa314e81a974fbe114ef625ac68a94599d11012c9885717341",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-38534123f710-r1.wav"
+    },
+    {
+      "clipId": "batch4-16",
+      "id": "lg-3cc6e720f8c3",
+      "text": "ضُو",
+      "sha256": "b59e1868c1aef20b9f290c03a2ba65f0eeb2629131bda611b04945c006808a83",
+      "file": "assets/audio/letters/marin-curriculum-v1/lg-3cc6e720f8c3-r1.wav"
+    }
+  ],
+  "excluded": [
+    {
+      "clipId": "batch4-09",
+      "selectedText": "وَ",
+      "decision": "pending",
+      "note": ""
+    }
+  ],
+  "remaining": [
+    {
+      "id": "lg-b03e507decd7",
+      "text": "غُ"
+    },
+    {
+      "id": "lg-139a6ba5cae1",
+      "text": "فَ"
+    },
+    {
+      "id": "lg-2155dba94601",
+      "text": "قِ"
+    },
+    {
+      "id": "lg-9d34621d847e",
+      "text": "هِ"
+    },
+    {
+      "id": "lg-33fae2c3fa92",
+      "text": "هُ"
+    },
+    {
+      "id": "lg-31d16c7f5df3",
+      "text": "وُ"
+    },
+    {
+      "id": "lg-89fbe36986ba",
+      "text": "طَا"
+    },
+    {
+      "id": "lg-e264bcf86158",
+      "text": "طِي"
+    },
+    {
+      "id": "lg-b702f2d63993",
+      "text": "طُو"
+    },
+    {
+      "id": "lg-ffafb835b249",
+      "text": "كَا"
+    },
+    {
+      "id": "lg-0f8a24138157",
+      "text": "كِي"
+    },
+    {
+      "id": "lg-e70d18ecbedd",
+      "text": "كُو"
+    }
+  ]
+}

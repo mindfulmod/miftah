@@ -81,7 +81,7 @@
       const clear=document.createElement('button');clear.type='button';clear.textContent='Clear decision';clear.onclick=()=>{state.reviews[item.id]={text:chosen(item),decision:'',sha256:item.sha256,reviewedAt:null};updateCard(item);save();};
       card.append(title,suggestion,time,button,choiceLabel,select,actions,result,label,note,clear);$('notes').append(card);cards.set(item.id,{...buttons,result});updateCard(item);
     }
-    $('download').disabled=$('show').disabled=$('play-source').disabled=false;updateProgress();message('Your 27-item input is confirmed. Review only the 16 clips below.');
+    $('download').disabled=$('show').disabled=$('play-source').disabled=false;updateProgress();message('This batch is applied. The saved form below is retained as a review record; no repeat review is needed.');
     $('play-source').dataset.label='Play complete recording';$('play-source').onclick=()=>play(data.source.file,'Complete recording',$('play-source'));
     $('download').onclick=()=>{const url=URL.createObjectURL(new Blob([output()],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='letter-garden-batch4-identification.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
     $('show').onclick=()=>{$('export-text').hidden=false;$('export-text').value=output();};

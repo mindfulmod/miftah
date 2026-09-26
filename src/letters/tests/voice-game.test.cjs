@@ -50,13 +50,13 @@ test('bundled names count as heard only when the actual audio source ends', asyn
 
 test('new alphabet names and curriculum words use exact imported recordings until their source ends', async () => {
   const { game, spoken, sources, requests } = setup();
-  for (const text of ['سِينْ', 'وَاوْ', 'يَاءْ', 'هُوَ', 'تَرَ', 'أَعُوذُ', 'يُوَسْوِسُ', 'صِرَٰطَ', 'دِينِ', 'ٱلْحَطَبِ', 'ضَمَّة', 'فَتْحَتَانْ', 'خَ', 'ظِ', 'عُ', 'بَا', 'جِي', 'قُو']) {
+  for (const text of ['سِينْ', 'وَاوْ', 'يَاءْ', 'هُوَ', 'تَرَ', 'أَعُوذُ', 'يُوَسْوِسُ', 'صِرَٰطَ', 'دِينِ', 'ٱلْحَطَبِ', 'ضَمَّة', 'فَتْحَتَانْ', 'خَ', 'ظِ', 'عُ', 'بَا', 'جِي', 'قُو', 'ثَ', 'ثِ', 'ثُ', 'غَ', 'غِ', 'فِ', 'وَ', 'وِ', 'ثَا', 'صَا', 'صِي', 'صُو', 'ضَا', 'ضِي', 'ضُو']) {
     let complete = false;
     const heard = game.sayForLearning({ speak: text }).then(value => { complete = true; return value; });
     await tick();
     assert.equal(complete, false);
     assert.equal(sources.at(-1).started, true);
-    assert.match(requests.at(-1), /marin-curriculum-v1\/lg-[a-f0-9]+\.wav$/);
+    assert.match(requests.at(-1), /marin-curriculum-v1\/lg-[a-f0-9]+(?:-r[1-9][0-9]*)?\.wav$/);
     sources.at(-1).onended();
     assert.equal(await heard, true);
   }
@@ -65,15 +65,15 @@ test('new alphabet names and curriculum words use exact imported recordings unti
 
 test('owner-rejected words use the existing exact-text fallback without loading rejected recordings', () => {
   const { game, spoken, requests } = setup();
-  for (const text of ['ذَاتَ', 'ٱللَّهِ', 'ٱلْحَمْدُ', 'فَ', 'فِ', 'قِ']) game.say({ speak: text });
-  assert.deepEqual(spoken.map(u => u.text), ['ذَاتَ', 'ٱللَّهِ', 'ٱلْحَمْدُ', 'فَ', 'فِ', 'قِ']);
+  for (const text of ['ذَاتَ', 'ٱللَّهِ', 'ٱلْحَمْدُ', 'فَ', 'قِ']) game.say({ speak: text });
+  assert.deepEqual(spoken.map(u => u.text), ['ذَاتَ', 'ٱللَّهِ', 'ٱلْحَمْدُ', 'فَ', 'قِ']);
   assert.deepEqual(requests, []);
 });
 
 test('unmapped short vowels, long vowels, and tanween preserve their distinct curriculum TTS', () => {
   const { game, spoken } = setup();
-  for (const text of ['ثَ', 'ثَا', 'ثً']) game.say({ display: 'ث', speak: text });
-  assert.deepEqual(spoken.map(u => u.text), ['ثَ', 'ثَا', 'ثً']);
+  for (const text of ['كِ', 'كِي', 'كٍ']) game.say({ display: 'ك', speak: text });
+  assert.deepEqual(spoken.map(u => u.text), ['كِ', 'كِي', 'كٍ']);
 });
 
 test('joined-name lessons finish only after every locally recorded name has ended', async () => {

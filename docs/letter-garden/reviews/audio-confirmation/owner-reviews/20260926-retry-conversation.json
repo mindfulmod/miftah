@@ -1,0 +1,15 @@
+{
+  "date": "2026-09-26",
+  "kind": "owner-conversation-approval",
+  "statement": "all 16 are fine",
+  "scope": "The 16 clips in the loaded retry-recording review.",
+  "browserExport": "owner-reviews/20260926-retry-identification.json",
+  "clarification": {
+    "clipId": "batch4-09",
+    "selectedText": "وَ",
+    "sha256": "5f5b4a997e7f449b9ec865052cb88e628d13a661e6a08fc30f46e2848cbecba0",
+    "browserDecision": "pending",
+    "ownerConfirmedInConversation": true,
+    "runtimeDisposition": "Approved alternate for وَ, preserved in the review archive. Clip 7 is the canonical installed وَ. Never map this alternate to وُ."
+  }
+}

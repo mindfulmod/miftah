@@ -11,10 +11,20 @@ const hash = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
 const intakeDir = 'docs/letter-garden/reviews/audio-confirmation/retry-recording/';
 const intake = JSON.parse(read(intakeDir + 'manifest.json'));
 const catalogue = JSON.parse(read('docs/letter-garden/reviews/audio-confirmation/manifest.json'));
-const initialSheet = JSON.parse(read('docs/letter-garden/reviews/marin-curriculum/cuts.json'));
+const latestSheet = JSON.parse(read('docs/letter-garden/reviews/marin-curriculum/cuts.json'));
 const evidenceFile = 'docs/letter-garden/reviews/audio-confirmation/owner-reviews/synthetic-identification.json';
 const evidenceHash = hash(Buffer.from('synthetic owner export for unit testing'));
 const label = intake.submittedItems.find(item => item.text === 'ثَ');
+
+// Build the pre-import fixture by reversing only this import's recorded sheet
+// entries. The checked-in sheet already includes the real owner approval.
+const initialSheet = structuredClone(latestSheet);
+for (let index = initialSheet.cuts.length - 1; index >= 0; index--) {
+  const cut = initialSheet.cuts[index];
+  if (cut.ownerReview?.file !== 'docs/letter-garden/reviews/audio-confirmation/owner-reviews/20260926-retry-identification.json') continue;
+  initialSheet.cuts.splice(index, 1, ...(cut.reviewHistory || []).map(({ reviewHistory, ...previous }) => previous));
+}
+initialSheet.sources = initialSheet.sources.filter(source => source.id !== 'batch-4');
 
 function makeReview() {
   return {

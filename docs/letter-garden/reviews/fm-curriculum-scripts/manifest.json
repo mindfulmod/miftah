@@ -3,13 +3,13 @@
   "counts": {
     "worlds": 22,
     "uniqueRequests": 612,
-    "exactLocalClips": 237,
-    "alreadyBundled": 237,
-    "recordAndReview": 197,
+    "exactLocalClips": 252,
+    "alreadyBundled": 252,
+    "recordAndReview": 182,
     "reuseNameSequences": 149,
     "assemblyPolicyReview": 29,
     "sequenceNeedsNameClips": 0,
-    "batches": 25,
+    "batches": 23,
     "wordEntries": 33,
     "wordCatalogueEntries": 97
   },
@@ -27,12 +27,12 @@
     {
       "key": "short-vowels",
       "title": "Short vowels: fatha, kasra, damma",
-      "count": 33
+      "count": 25
     },
     {
       "key": "long-vowels",
       "title": "Long vowels (also used for standing vowels)",
-      "count": 31
+      "count": 24
     },
     {
       "key": "tanween",
@@ -80,11 +80,11 @@
     },
     {
       "file": "src/letters/LetterVoiceClips.js",
-      "sha256": "82d8821cb393358134ce10df3d8342ff305b3d32ede412b551e30d461a0982ed"
+      "sha256": "5796fe2868cd5510e5ddf9ef8dc238a5a1a7550f2b5dfc4c434a356a21e107c2"
     },
     {
       "file": "src/letters/MiniGames.js",
-      "sha256": "37d0b666dd95d5e8dd79080027fce1f565fabc1c2e9c2819326f5679cacf9e8d"
+      "sha256": "8fafed986ca848d46be9488e96ced9f9ffdbd8991660c96ff551d2d1c60c95b5"
     },
     {
       "file": "src/letters/LettersGame.js",
@@ -150,7 +150,7 @@
       "file": "batches/01-short-vowels-01.txt",
       "count": 9,
       "directions": "directions/syllables.txt",
-      "sha256": "18486a6f735a3c5a33868736f9d0680f24217732eb2143c12cd39499c1a33711",
+      "sha256": "0593615cf41a488d439cad872d01ab2af819f98d986e7b4c208e999d7b998d61",
       "entries": [
         {
           "id": "lg-e006f0b8074f",
@@ -169,35 +169,13 @@
           "text": "تِ"
         },
         {
-          "id": "lg-79a5e4461bac",
-          "text": "ثَ"
-        },
-        {
-          "id": "lg-81a333ca8e19",
-          "text": "ثِ"
-        },
-        {
-          "id": "lg-cc4c2e4dbfda",
-          "text": "ثُ"
-        },
-        {
           "id": "lg-d4221add8206",
           "text": "جَ"
         },
         {
           "id": "lg-45fc1490399d",
           "text": "جُ"
-        }
-      ]
-    },
-    {
-      "id": "02-short-vowels-02",
-      "group": "short-vowels",
-      "file": "batches/02-short-vowels-02.txt",
-      "count": 9,
-      "directions": "directions/syllables.txt",
-      "sha256": "53c442aa732e332c49cfdbcbfbcbf53e444803efc4b943d2b1e10367888139f8",
-      "entries": [
+        },
         {
           "id": "lg-a2b1661793d8",
           "text": "ذَ"
@@ -209,7 +187,17 @@
         {
           "id": "lg-ab7f40914177",
           "text": "ذُ"
-        },
+        }
+      ]
+    },
+    {
+      "id": "02-short-vowels-02",
+      "group": "short-vowels",
+      "file": "batches/02-short-vowels-02.txt",
+      "count": 9,
+      "directions": "directions/syllables.txt",
+      "sha256": "ed9a3fd2a2c91f173230baeabffbfebe59f9df7027682d18a34e57a36050b840",
+      "entries": [
         {
           "id": "lg-ba536aa2ea00",
           "text": "رُ"
@@ -219,34 +207,12 @@
           "text": "زُ"
         },
         {
-          "id": "lg-f6bfae64253c",
-          "text": "غَ"
-        },
-        {
-          "id": "lg-3b8732d73847",
-          "text": "غِ"
-        },
-        {
           "id": "lg-b03e507decd7",
           "text": "غُ"
         },
         {
           "id": "lg-139a6ba5cae1",
           "text": "فَ"
-        }
-      ]
-    },
-    {
-      "id": "03-short-vowels-03",
-      "group": "short-vowels",
-      "file": "batches/03-short-vowels-03.txt",
-      "count": 9,
-      "directions": "directions/syllables.txt",
-      "sha256": "939e65d36a5b391dd724f70d35920cbf91d1f6050e4e3f38850494fc5e48e826",
-      "entries": [
-        {
-          "id": "lg-390d2843328d",
-          "text": "فِ"
         },
         {
           "id": "lg-2155dba94601",
@@ -267,7 +233,17 @@
         {
           "id": "lg-c09f1ab2e58c",
           "text": "لِ"
-        },
+        }
+      ]
+    },
+    {
+      "id": "03-short-vowels-03",
+      "group": "short-vowels",
+      "file": "batches/03-short-vowels-03.txt",
+      "count": 7,
+      "directions": "directions/syllables.txt",
+      "sha256": "e8d6f85c97c8ecd1fc44493d91a534ada7a8e0602263fb439970b4478b3ba0b6",
+      "entries": [
         {
           "id": "lg-f9e63fd121fb",
           "text": "لُ"
@@ -279,28 +255,10 @@
         {
           "id": "lg-9d34621d847e",
           "text": "هِ"
-        }
-      ]
-    },
-    {
-      "id": "04-short-vowels-04",
-      "group": "short-vowels",
-      "file": "batches/04-short-vowels-04.txt",
-      "count": 6,
-      "directions": "directions/syllables.txt",
-      "sha256": "e17a8bf5f33e0899e7c4ef9b418fa9d175e2031581ac34766328562998b1f243",
-      "entries": [
+        },
         {
           "id": "lg-33fae2c3fa92",
           "text": "هُ"
-        },
-        {
-          "id": "lg-8ce960a3420a",
-          "text": "وَ"
-        },
-        {
-          "id": "lg-e7bebb428fb2",
-          "text": "وِ"
         },
         {
           "id": "lg-31d16c7f5df3",
@@ -317,41 +275,13 @@
       ]
     },
     {
-      "id": "05-long-vowels-01",
+      "id": "04-long-vowels-01",
       "group": "long-vowels",
-      "file": "batches/05-long-vowels-01.txt",
+      "file": "batches/04-long-vowels-01.txt",
       "count": 9,
       "directions": "directions/syllables.txt",
-      "sha256": "3473dd88036c9ae3bc6032ad1126e15b5f431252fdae6e1990868bc85fb9cda4",
+      "sha256": "5b4c11b579fbba32e44f304ed8e92e5d76d8261aeff2ebf53f8f752b1de4f5da",
       "entries": [
-        {
-          "id": "lg-80cdd720e239",
-          "text": "ثَا"
-        },
-        {
-          "id": "lg-2401c0433020",
-          "text": "صَا"
-        },
-        {
-          "id": "lg-0fca749ce8c2",
-          "text": "صِي"
-        },
-        {
-          "id": "lg-11ba12301e3f",
-          "text": "صُو"
-        },
-        {
-          "id": "lg-c03effb5dffc",
-          "text": "ضَا"
-        },
-        {
-          "id": "lg-38534123f710",
-          "text": "ضِي"
-        },
-        {
-          "id": "lg-3cc6e720f8c3",
-          "text": "ضُو"
-        },
         {
           "id": "lg-89fbe36986ba",
           "text": "طَا"
@@ -359,17 +289,7 @@
         {
           "id": "lg-e264bcf86158",
           "text": "طِي"
-        }
-      ]
-    },
-    {
-      "id": "06-long-vowels-02",
-      "group": "long-vowels",
-      "file": "batches/06-long-vowels-02.txt",
-      "count": 9,
-      "directions": "directions/syllables.txt",
-      "sha256": "69e6c6183419c3127bacacec2988f45acdb88db650ceadfc608a1a878938258d",
-      "entries": [
+        },
         {
           "id": "lg-b702f2d63993",
           "text": "طُو"
@@ -397,7 +317,17 @@
         {
           "id": "lg-ee4afc8b7d3e",
           "text": "لُو"
-        },
+        }
+      ]
+    },
+    {
+      "id": "05-long-vowels-02",
+      "group": "long-vowels",
+      "file": "batches/05-long-vowels-02.txt",
+      "count": 9,
+      "directions": "directions/syllables.txt",
+      "sha256": "3f5ef3469fcbe01cd819373dcbc0bf4e7beddd2932c9fc8bc954ea0b875058f8",
+      "entries": [
         {
           "id": "lg-36b3714f9b0b",
           "text": "مَا"
@@ -405,17 +335,7 @@
         {
           "id": "lg-2b226200cffc",
           "text": "مِي"
-        }
-      ]
-    },
-    {
-      "id": "07-long-vowels-03",
-      "group": "long-vowels",
-      "file": "batches/07-long-vowels-03.txt",
-      "count": 9,
-      "directions": "directions/syllables.txt",
-      "sha256": "0071dee63e586b2d27c358070fcde23b539633009779cb026c9e068bde508af6",
-      "entries": [
+        },
         {
           "id": "lg-97eed4f499be",
           "text": "مُو"
@@ -443,7 +363,17 @@
         {
           "id": "lg-0825396f62b3",
           "text": "هُو"
-        },
+        }
+      ]
+    },
+    {
+      "id": "06-long-vowels-03",
+      "group": "long-vowels",
+      "file": "batches/06-long-vowels-03.txt",
+      "count": 6,
+      "directions": "directions/syllables.txt",
+      "sha256": "1897d0581b971402ea790a818ce9a41064ca4a956f7e096d38863bbc722d4d9b",
+      "entries": [
         {
           "id": "lg-92b449692318",
           "text": "وَا"
@@ -451,17 +381,7 @@
         {
           "id": "lg-9d47cc35d146",
           "text": "وِي"
-        }
-      ]
-    },
-    {
-      "id": "08-long-vowels-04",
-      "group": "long-vowels",
-      "file": "batches/08-long-vowels-04.txt",
-      "count": 4,
-      "directions": "directions/syllables.txt",
-      "sha256": "e700011c9dff75fa551acffa086f3a8fc7470f11559155a694586693e7d4a85e",
-      "entries": [
+        },
         {
           "id": "lg-d3e526870d87",
           "text": "وُو"
@@ -481,9 +401,9 @@
       ]
     },
     {
-      "id": "09-tanween-01",
+      "id": "07-tanween-01",
       "group": "tanween",
-      "file": "batches/09-tanween-01.txt",
+      "file": "batches/07-tanween-01.txt",
       "count": 9,
       "directions": "directions/syllables.txt",
       "sha256": "77659c1d43971a35ac25f82735ffbfa8b05b1919039e0beb4bf93f86fafef343",
@@ -527,9 +447,9 @@
       ]
     },
     {
-      "id": "10-tanween-02",
+      "id": "08-tanween-02",
       "group": "tanween",
-      "file": "batches/10-tanween-02.txt",
+      "file": "batches/08-tanween-02.txt",
       "count": 9,
       "directions": "directions/syllables.txt",
       "sha256": "58a3306c5620065cf7978cbb6fbd3cc966f60c7ae87478b0368b6547ed511774",
@@ -573,9 +493,9 @@
       ]
     },
     {
-      "id": "11-tanween-03",
+      "id": "09-tanween-03",
       "group": "tanween",
-      "file": "batches/11-tanween-03.txt",
+      "file": "batches/09-tanween-03.txt",
       "count": 9,
       "directions": "directions/syllables.txt",
       "sha256": "03028613379eecc185e66ac43304d79930f215b52932ed462adb0ffb6c1dbc9e",
@@ -619,9 +539,9 @@
       ]
     },
     {
-      "id": "12-tanween-04",
+      "id": "10-tanween-04",
       "group": "tanween",
-      "file": "batches/12-tanween-04.txt",
+      "file": "batches/10-tanween-04.txt",
       "count": 9,
       "directions": "directions/syllables.txt",
       "sha256": "5659c0e725d568c09f1c1c57cca2158ec206329d959f0a207f5e0ce33a270ded",
@@ -665,9 +585,9 @@
       ]
     },
     {
-      "id": "13-tanween-05",
+      "id": "11-tanween-05",
       "group": "tanween",
-      "file": "batches/13-tanween-05.txt",
+      "file": "batches/11-tanween-05.txt",
       "count": 9,
       "directions": "directions/syllables.txt",
       "sha256": "d39f50da0750e84d36095cf6862e8881c923b92270b189bec88187c7c90d1cdf",
@@ -711,9 +631,9 @@
       ]
     },
     {
-      "id": "14-tanween-06",
+      "id": "12-tanween-06",
       "group": "tanween",
-      "file": "batches/14-tanween-06.txt",
+      "file": "batches/12-tanween-06.txt",
       "count": 9,
       "directions": "directions/syllables.txt",
       "sha256": "2d47153482b06942999d4ec6cc0cef6d437b4731de14f718761078b3818efb2d",
@@ -757,9 +677,9 @@
       ]
     },
     {
-      "id": "15-tanween-07",
+      "id": "13-tanween-07",
       "group": "tanween",
-      "file": "batches/15-tanween-07.txt",
+      "file": "batches/13-tanween-07.txt",
       "count": 9,
       "directions": "directions/syllables.txt",
       "sha256": "8517a929711cd0d8f6008cbbc3890142b0a3f1dc85ef186f778e8495819b0ac6",
@@ -803,9 +723,9 @@
       ]
     },
     {
-      "id": "16-tanween-08",
+      "id": "14-tanween-08",
       "group": "tanween",
-      "file": "batches/16-tanween-08.txt",
+      "file": "batches/14-tanween-08.txt",
       "count": 9,
       "directions": "directions/syllables.txt",
       "sha256": "50d31246d2069d3f1226fee00865955f58aff0652c383b732127989f938519aa",
@@ -849,9 +769,9 @@
       ]
     },
     {
-      "id": "17-tanween-09",
+      "id": "15-tanween-09",
       "group": "tanween",
-      "file": "batches/17-tanween-09.txt",
+      "file": "batches/15-tanween-09.txt",
       "count": 1,
       "directions": "directions/syllables.txt",
       "sha256": "11bb6ea4d24c3eabf7c1cbb7b7f06eaa433381a313bb772932e909637694a50a",
@@ -863,9 +783,9 @@
       ]
     },
     {
-      "id": "18-leen-01",
+      "id": "16-leen-01",
       "group": "leen",
-      "file": "batches/18-leen-01.txt",
+      "file": "batches/16-leen-01.txt",
       "count": 9,
       "directions": "directions/syllables.txt",
       "sha256": "71b1f9bc568f73fbefbaab0261049c3b43ed888be2613349abf9fe83eeac78ac",
@@ -909,9 +829,9 @@
       ]
     },
     {
-      "id": "19-leen-02",
+      "id": "17-leen-02",
       "group": "leen",
-      "file": "batches/19-leen-02.txt",
+      "file": "batches/17-leen-02.txt",
       "count": 9,
       "directions": "directions/syllables.txt",
       "sha256": "b7d4c4356c69d42d7e0bc051558c6c889da5d38078d28a2f45ae4002fb96be6e",
@@ -955,9 +875,9 @@
       ]
     },
     {
-      "id": "20-leen-03",
+      "id": "18-leen-03",
       "group": "leen",
-      "file": "batches/20-leen-03.txt",
+      "file": "batches/18-leen-03.txt",
       "count": 3,
       "directions": "directions/syllables.txt",
       "sha256": "d597ebd03f3e4c3761b6553b5768b4a9b47411d8dd4529fd10c2ced493d94932",
@@ -977,9 +897,9 @@
       ]
     },
     {
-      "id": "21-sukun-shaddah-01",
+      "id": "19-sukun-shaddah-01",
       "group": "sukun-shaddah",
-      "file": "batches/21-sukun-shaddah-01.txt",
+      "file": "batches/19-sukun-shaddah-01.txt",
       "count": 6,
       "directions": "directions/syllables.txt",
       "sha256": "724c9b3b5aae95d6b8a0c0c0e6485f37a95f911b4d87b3cae0b432d62247b489",
@@ -1011,9 +931,9 @@
       ]
     },
     {
-      "id": "22-words-2-01",
+      "id": "20-words-2-01",
       "group": "words-2",
-      "file": "batches/22-words-2-01.txt",
+      "file": "batches/20-words-2-01.txt",
       "count": 7,
       "directions": "directions/words.txt",
       "sha256": "283458b1bda4c46950e56d26e6fcc235ca144ef013d7128e089eccd775e324e7",
@@ -1049,9 +969,9 @@
       ]
     },
     {
-      "id": "23-words-3-01",
+      "id": "21-words-3-01",
       "group": "words-3",
-      "file": "batches/23-words-3-01.txt",
+      "file": "batches/21-words-3-01.txt",
       "count": 8,
       "directions": "directions/words.txt",
       "sha256": "d34def9d151b056fe53564345e60b12791c8dc602f989bf0794bae9843f1f2f8",
@@ -1091,9 +1011,9 @@
       ]
     },
     {
-      "id": "24-words-4-5-01",
+      "id": "22-words-4-5-01",
       "group": "words-4-5",
-      "file": "batches/24-words-4-5-01.txt",
+      "file": "batches/22-words-4-5-01.txt",
       "count": 9,
       "directions": "directions/words.txt",
       "sha256": "a34322c7088728fa25f7280bddeb228bba0a8ebc7f096c6a663f6809037cdaec",
@@ -1137,9 +1057,9 @@
       ]
     },
     {
-      "id": "25-words-4-5-02",
+      "id": "23-words-4-5-02",
       "group": "words-4-5",
-      "file": "batches/25-words-4-5-02.txt",
+      "file": "batches/23-words-4-5-02.txt",
       "count": 9,
       "directions": "directions/words.txt",
       "sha256": "4ec2bce7484579fd544b93d37ec1499d0c37867b7af98e25d8ce5ad8a743fde7",
@@ -8560,10 +8480,8 @@
           "parent": "ثَيْ"
         }
       ],
-      "status": "record-and-review",
-      "group": "short-vowels",
-      "batch": "01-short-vowels-01",
-      "position": 5
+      "status": "already-bundled",
+      "clip": "assets/audio/letters/marin-curriculum-v1/lg-79a5e4461bac-r1.wav"
     },
     {
       "id": "lg-d4221add8206",
@@ -8603,7 +8521,7 @@
       "status": "record-and-review",
       "group": "short-vowels",
       "batch": "01-short-vowels-01",
-      "position": 8
+      "position": 5
     },
     {
       "id": "lg-780f94e60087",
@@ -8804,8 +8722,8 @@
       ],
       "status": "record-and-review",
       "group": "short-vowels",
-      "batch": "02-short-vowels-02",
-      "position": 1
+      "batch": "01-short-vowels-01",
+      "position": 7
     },
     {
       "id": "lg-291b92e492fb",
@@ -9274,10 +9192,8 @@
           "parent": "غَيْرِ"
         }
       ],
-      "status": "record-and-review",
-      "group": "short-vowels",
-      "batch": "02-short-vowels-02",
-      "position": 6
+      "status": "already-bundled",
+      "clip": "assets/audio/letters/marin-curriculum-v1/lg-f6bfae64253c-r1.wav"
     },
     {
       "id": "lg-139a6ba5cae1",
@@ -9335,7 +9251,7 @@
       "status": "record-and-review",
       "group": "short-vowels",
       "batch": "02-short-vowels-02",
-      "position": 9
+      "position": 4
     },
     {
       "id": "lg-d73b8f256e66",
@@ -9534,8 +9450,8 @@
       ],
       "status": "record-and-review",
       "group": "short-vowels",
-      "batch": "03-short-vowels-03",
-      "position": 5
+      "batch": "02-short-vowels-02",
+      "position": 8
     },
     {
       "id": "lg-31fc2e8f811d",
@@ -9752,10 +9668,8 @@
           "parent": "وَقَبَ"
         }
       ],
-      "status": "record-and-review",
-      "group": "short-vowels",
-      "batch": "04-short-vowels-04",
-      "position": 2
+      "status": "already-bundled",
+      "clip": "assets/audio/letters/marin-curriculum-v1/lg-8ce960a3420a-r1.wav"
     },
     {
       "id": "lg-08208c74a20d",
@@ -9830,8 +9744,8 @@
       ],
       "status": "record-and-review",
       "group": "short-vowels",
-      "batch": "04-short-vowels-04",
-      "position": 5
+      "batch": "03-short-vowels-03",
+      "position": 6
     },
     {
       "id": "lg-2701f008f06f",
@@ -10478,10 +10392,8 @@
           "parent": "ثِي"
         }
       ],
-      "status": "record-and-review",
-      "group": "short-vowels",
-      "batch": "01-short-vowels-01",
-      "position": 6
+      "status": "already-bundled",
+      "clip": "assets/audio/letters/marin-curriculum-v1/lg-81a333ca8e19-r1.wav"
     },
     {
       "id": "lg-cc4c2e4dbfda",
@@ -10500,10 +10412,8 @@
           "parent": "ثُو"
         }
       ],
-      "status": "record-and-review",
-      "group": "short-vowels",
-      "batch": "01-short-vowels-01",
-      "position": 7
+      "status": "already-bundled",
+      "clip": "assets/audio/letters/marin-curriculum-v1/lg-cc4c2e4dbfda-r1.wav"
     },
     {
       "id": "lg-07b43bc69877",
@@ -10551,7 +10461,7 @@
       "status": "record-and-review",
       "group": "short-vowels",
       "batch": "01-short-vowels-01",
-      "position": 9
+      "position": 6
     },
     {
       "id": "lg-c781688bdfdc",
@@ -10734,8 +10644,8 @@
       ],
       "status": "record-and-review",
       "group": "short-vowels",
-      "batch": "02-short-vowels-02",
-      "position": 2
+      "batch": "01-short-vowels-01",
+      "position": 8
     },
     {
       "id": "lg-ab7f40914177",
@@ -10756,8 +10666,8 @@
       ],
       "status": "record-and-review",
       "group": "short-vowels",
-      "batch": "02-short-vowels-02",
-      "position": 3
+      "batch": "01-short-vowels-01",
+      "position": 9
     },
     {
       "id": "lg-924bb86de5f8",
@@ -10817,7 +10727,7 @@
       "status": "record-and-review",
       "group": "short-vowels",
       "batch": "02-short-vowels-02",
-      "position": 4
+      "position": 1
     },
     {
       "id": "lg-413cd9ef9615",
@@ -10865,7 +10775,7 @@
       "status": "record-and-review",
       "group": "short-vowels",
       "batch": "02-short-vowels-02",
-      "position": 5
+      "position": 2
     },
     {
       "id": "lg-34fa019fc0cf",
@@ -11218,10 +11128,8 @@
           "parent": "غِي"
         }
       ],
-      "status": "record-and-review",
-      "group": "short-vowels",
-      "batch": "02-short-vowels-02",
-      "position": 7
+      "status": "already-bundled",
+      "clip": "assets/audio/letters/marin-curriculum-v1/lg-3b8732d73847-r1.wav"
     },
     {
       "id": "lg-b03e507decd7",
@@ -11243,7 +11151,7 @@
       "status": "record-and-review",
       "group": "short-vowels",
       "batch": "02-short-vowels-02",
-      "position": 8
+      "position": 3
     },
     {
       "id": "lg-390d2843328d",
@@ -11268,10 +11176,8 @@
           "parent": "فِي"
         }
       ],
-      "status": "record-and-review",
-      "group": "short-vowels",
-      "batch": "03-short-vowels-03",
-      "position": 1
+      "status": "already-bundled",
+      "clip": "assets/audio/letters/marin-curriculum-v1/lg-390d2843328d-r1.wav"
     },
     {
       "id": "lg-ea02a7a1f92e",
@@ -11318,8 +11224,8 @@
       ],
       "status": "record-and-review",
       "group": "short-vowels",
-      "batch": "03-short-vowels-03",
-      "position": 2
+      "batch": "02-short-vowels-02",
+      "position": 5
     },
     {
       "id": "lg-96d6e5707674",
@@ -11372,8 +11278,8 @@
       ],
       "status": "record-and-review",
       "group": "short-vowels",
-      "batch": "03-short-vowels-03",
-      "position": 3
+      "batch": "02-short-vowels-02",
+      "position": 6
     },
     {
       "id": "lg-6bf3f9e02464",
@@ -11412,8 +11318,8 @@
       ],
       "status": "record-and-review",
       "group": "short-vowels",
-      "batch": "03-short-vowels-03",
-      "position": 4
+      "batch": "02-short-vowels-02",
+      "position": 7
     },
     {
       "id": "lg-c09f1ab2e58c",
@@ -11452,8 +11358,8 @@
       ],
       "status": "record-and-review",
       "group": "short-vowels",
-      "batch": "03-short-vowels-03",
-      "position": 6
+      "batch": "02-short-vowels-02",
+      "position": 9
     },
     {
       "id": "lg-f9e63fd121fb",
@@ -11475,7 +11381,7 @@
       "status": "record-and-review",
       "group": "short-vowels",
       "batch": "03-short-vowels-03",
-      "position": 7
+      "position": 1
     },
     {
       "id": "lg-9e1d5e7f2d91",
@@ -11579,7 +11485,7 @@
       "status": "record-and-review",
       "group": "short-vowels",
       "batch": "03-short-vowels-03",
-      "position": 8
+      "position": 2
     },
     {
       "id": "lg-b49450735a14",
@@ -11633,7 +11539,7 @@
       "status": "record-and-review",
       "group": "short-vowels",
       "batch": "03-short-vowels-03",
-      "position": 9
+      "position": 3
     },
     {
       "id": "lg-33fae2c3fa92",
@@ -11672,8 +11578,8 @@
       ],
       "status": "record-and-review",
       "group": "short-vowels",
-      "batch": "04-short-vowels-04",
-      "position": 1
+      "batch": "03-short-vowels-03",
+      "position": 4
     },
     {
       "id": "lg-e7bebb428fb2",
@@ -11698,10 +11604,8 @@
           "parent": "وِي"
         }
       ],
-      "status": "record-and-review",
-      "group": "short-vowels",
-      "batch": "04-short-vowels-04",
-      "position": 3
+      "status": "already-bundled",
+      "clip": "assets/audio/letters/marin-curriculum-v1/lg-e7bebb428fb2-r1.wav"
     },
     {
       "id": "lg-31d16c7f5df3",
@@ -11722,8 +11626,8 @@
       ],
       "status": "record-and-review",
       "group": "short-vowels",
-      "batch": "04-short-vowels-04",
-      "position": 4
+      "batch": "03-short-vowels-03",
+      "position": 5
     },
     {
       "id": "lg-209639ac36ba",
@@ -11750,8 +11654,8 @@
       ],
       "status": "record-and-review",
       "group": "short-vowels",
-      "batch": "04-short-vowels-04",
-      "position": 6
+      "batch": "03-short-vowels-03",
+      "position": 7
     },
     {
       "id": "lg-ed132d80ef2e",
@@ -11792,7 +11696,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "09-tanween-01",
+      "batch": "07-tanween-01",
       "position": 1
     },
     {
@@ -11984,7 +11888,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "09-tanween-01",
+      "batch": "07-tanween-01",
       "position": 2
     },
     {
@@ -12360,7 +12264,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "09-tanween-01",
+      "batch": "07-tanween-01",
       "position": 3
     },
     {
@@ -12376,7 +12280,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "09-tanween-01",
+      "batch": "07-tanween-01",
       "position": 4
     },
     {
@@ -12406,7 +12310,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "09-tanween-01",
+      "batch": "07-tanween-01",
       "position": 5
     },
     {
@@ -12422,7 +12326,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "09-tanween-01",
+      "batch": "07-tanween-01",
       "position": 6
     },
     {
@@ -12438,7 +12342,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "09-tanween-01",
+      "batch": "07-tanween-01",
       "position": 7
     },
     {
@@ -12454,7 +12358,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "09-tanween-01",
+      "batch": "07-tanween-01",
       "position": 8
     },
     {
@@ -12470,7 +12374,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "09-tanween-01",
+      "batch": "07-tanween-01",
       "position": 9
     },
     {
@@ -12486,7 +12390,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "10-tanween-02",
+      "batch": "08-tanween-02",
       "position": 1
     },
     {
@@ -12502,7 +12406,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "10-tanween-02",
+      "batch": "08-tanween-02",
       "position": 2
     },
     {
@@ -12518,7 +12422,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "10-tanween-02",
+      "batch": "08-tanween-02",
       "position": 3
     },
     {
@@ -12534,7 +12438,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "10-tanween-02",
+      "batch": "08-tanween-02",
       "position": 4
     },
     {
@@ -12550,7 +12454,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "10-tanween-02",
+      "batch": "08-tanween-02",
       "position": 5
     },
     {
@@ -12566,7 +12470,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "10-tanween-02",
+      "batch": "08-tanween-02",
       "position": 6
     },
     {
@@ -12596,7 +12500,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "10-tanween-02",
+      "batch": "08-tanween-02",
       "position": 7
     },
     {
@@ -12646,7 +12550,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "10-tanween-02",
+      "batch": "08-tanween-02",
       "position": 8
     },
     {
@@ -12662,7 +12566,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "10-tanween-02",
+      "batch": "08-tanween-02",
       "position": 9
     },
     {
@@ -12692,7 +12596,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "11-tanween-03",
+      "batch": "09-tanween-03",
       "position": 1
     },
     {
@@ -12708,7 +12612,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "11-tanween-03",
+      "batch": "09-tanween-03",
       "position": 2
     },
     {
@@ -12724,7 +12628,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "11-tanween-03",
+      "batch": "09-tanween-03",
       "position": 3
     },
     {
@@ -12754,7 +12658,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "11-tanween-03",
+      "batch": "09-tanween-03",
       "position": 4
     },
     {
@@ -12770,7 +12674,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "11-tanween-03",
+      "batch": "09-tanween-03",
       "position": 5
     },
     {
@@ -12786,7 +12690,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "11-tanween-03",
+      "batch": "09-tanween-03",
       "position": 6
     },
     {
@@ -12802,7 +12706,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "11-tanween-03",
+      "batch": "09-tanween-03",
       "position": 7
     },
     {
@@ -12818,7 +12722,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "11-tanween-03",
+      "batch": "09-tanween-03",
       "position": 8
     },
     {
@@ -12848,7 +12752,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "11-tanween-03",
+      "batch": "09-tanween-03",
       "position": 9
     },
     {
@@ -12864,7 +12768,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "12-tanween-04",
+      "batch": "10-tanween-04",
       "position": 1
     },
     {
@@ -12880,7 +12784,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "12-tanween-04",
+      "batch": "10-tanween-04",
       "position": 2
     },
     {
@@ -12896,7 +12800,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "12-tanween-04",
+      "batch": "10-tanween-04",
       "position": 3
     },
     {
@@ -12912,7 +12816,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "12-tanween-04",
+      "batch": "10-tanween-04",
       "position": 4
     },
     {
@@ -12928,7 +12832,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "12-tanween-04",
+      "batch": "10-tanween-04",
       "position": 5
     },
     {
@@ -12944,7 +12848,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "12-tanween-04",
+      "batch": "10-tanween-04",
       "position": 6
     },
     {
@@ -12960,7 +12864,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "12-tanween-04",
+      "batch": "10-tanween-04",
       "position": 7
     },
     {
@@ -12976,7 +12880,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "12-tanween-04",
+      "batch": "10-tanween-04",
       "position": 8
     },
     {
@@ -12992,7 +12896,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "12-tanween-04",
+      "batch": "10-tanween-04",
       "position": 9
     },
     {
@@ -13008,7 +12912,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "13-tanween-05",
+      "batch": "11-tanween-05",
       "position": 1
     },
     {
@@ -13024,7 +12928,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "13-tanween-05",
+      "batch": "11-tanween-05",
       "position": 2
     },
     {
@@ -13040,7 +12944,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "13-tanween-05",
+      "batch": "11-tanween-05",
       "position": 3
     },
     {
@@ -13056,7 +12960,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "13-tanween-05",
+      "batch": "11-tanween-05",
       "position": 4
     },
     {
@@ -13072,7 +12976,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "13-tanween-05",
+      "batch": "11-tanween-05",
       "position": 5
     },
     {
@@ -13088,7 +12992,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "13-tanween-05",
+      "batch": "11-tanween-05",
       "position": 6
     },
     {
@@ -13104,7 +13008,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "13-tanween-05",
+      "batch": "11-tanween-05",
       "position": 7
     },
     {
@@ -13120,7 +13024,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "13-tanween-05",
+      "batch": "11-tanween-05",
       "position": 8
     },
     {
@@ -13136,7 +13040,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "13-tanween-05",
+      "batch": "11-tanween-05",
       "position": 9
     },
     {
@@ -13152,7 +13056,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "14-tanween-06",
+      "batch": "12-tanween-06",
       "position": 1
     },
     {
@@ -13168,7 +13072,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "14-tanween-06",
+      "batch": "12-tanween-06",
       "position": 2
     },
     {
@@ -13184,7 +13088,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "14-tanween-06",
+      "batch": "12-tanween-06",
       "position": 3
     },
     {
@@ -13200,7 +13104,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "14-tanween-06",
+      "batch": "12-tanween-06",
       "position": 4
     },
     {
@@ -13216,7 +13120,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "14-tanween-06",
+      "batch": "12-tanween-06",
       "position": 5
     },
     {
@@ -13232,7 +13136,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "14-tanween-06",
+      "batch": "12-tanween-06",
       "position": 6
     },
     {
@@ -13248,7 +13152,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "14-tanween-06",
+      "batch": "12-tanween-06",
       "position": 7
     },
     {
@@ -13264,7 +13168,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "14-tanween-06",
+      "batch": "12-tanween-06",
       "position": 8
     },
     {
@@ -13280,7 +13184,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "14-tanween-06",
+      "batch": "12-tanween-06",
       "position": 9
     },
     {
@@ -13296,7 +13200,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "15-tanween-07",
+      "batch": "13-tanween-07",
       "position": 1
     },
     {
@@ -13312,7 +13216,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "15-tanween-07",
+      "batch": "13-tanween-07",
       "position": 2
     },
     {
@@ -13328,7 +13232,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "15-tanween-07",
+      "batch": "13-tanween-07",
       "position": 3
     },
     {
@@ -13344,7 +13248,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "15-tanween-07",
+      "batch": "13-tanween-07",
       "position": 4
     },
     {
@@ -13360,7 +13264,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "15-tanween-07",
+      "batch": "13-tanween-07",
       "position": 5
     },
     {
@@ -13376,7 +13280,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "15-tanween-07",
+      "batch": "13-tanween-07",
       "position": 6
     },
     {
@@ -13392,7 +13296,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "15-tanween-07",
+      "batch": "13-tanween-07",
       "position": 7
     },
     {
@@ -13408,7 +13312,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "15-tanween-07",
+      "batch": "13-tanween-07",
       "position": 8
     },
     {
@@ -13424,7 +13328,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "15-tanween-07",
+      "batch": "13-tanween-07",
       "position": 9
     },
     {
@@ -13440,7 +13344,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "16-tanween-08",
+      "batch": "14-tanween-08",
       "position": 1
     },
     {
@@ -13456,7 +13360,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "16-tanween-08",
+      "batch": "14-tanween-08",
       "position": 2
     },
     {
@@ -13472,7 +13376,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "16-tanween-08",
+      "batch": "14-tanween-08",
       "position": 3
     },
     {
@@ -13488,7 +13392,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "16-tanween-08",
+      "batch": "14-tanween-08",
       "position": 4
     },
     {
@@ -13504,7 +13408,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "16-tanween-08",
+      "batch": "14-tanween-08",
       "position": 5
     },
     {
@@ -13520,7 +13424,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "16-tanween-08",
+      "batch": "14-tanween-08",
       "position": 6
     },
     {
@@ -13536,7 +13440,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "16-tanween-08",
+      "batch": "14-tanween-08",
       "position": 7
     },
     {
@@ -13552,7 +13456,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "16-tanween-08",
+      "batch": "14-tanween-08",
       "position": 8
     },
     {
@@ -13568,7 +13472,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "16-tanween-08",
+      "batch": "14-tanween-08",
       "position": 9
     },
     {
@@ -13584,7 +13488,7 @@
       ],
       "status": "record-and-review",
       "group": "tanween",
-      "batch": "17-tanween-09",
+      "batch": "15-tanween-09",
       "position": 1
     },
     {
@@ -14246,10 +14150,8 @@
           "parent": null
         }
       ],
-      "status": "record-and-review",
-      "group": "long-vowels",
-      "batch": "05-long-vowels-01",
-      "position": 1
+      "status": "already-bundled",
+      "clip": "assets/audio/letters/marin-curriculum-v1/lg-80cdd720e239-r1.wav"
     },
     {
       "id": "lg-a1abac806544",
@@ -14848,10 +14750,8 @@
           "parent": null
         }
       ],
-      "status": "record-and-review",
-      "group": "long-vowels",
-      "batch": "05-long-vowels-01",
-      "position": 2
+      "status": "already-bundled",
+      "clip": "assets/audio/letters/marin-curriculum-v1/lg-2401c0433020-r1.wav"
     },
     {
       "id": "lg-0fca749ce8c2",
@@ -14870,10 +14770,8 @@
           "parent": null
         }
       ],
-      "status": "record-and-review",
-      "group": "long-vowels",
-      "batch": "05-long-vowels-01",
-      "position": 3
+      "status": "already-bundled",
+      "clip": "assets/audio/letters/marin-curriculum-v1/lg-0fca749ce8c2-r1.wav"
     },
     {
       "id": "lg-11ba12301e3f",
@@ -14892,10 +14790,8 @@
           "parent": null
         }
       ],
-      "status": "record-and-review",
-      "group": "long-vowels",
-      "batch": "05-long-vowels-01",
-      "position": 4
+      "status": "already-bundled",
+      "clip": "assets/audio/letters/marin-curriculum-v1/lg-11ba12301e3f-r1.wav"
     },
     {
       "id": "lg-c03effb5dffc",
@@ -14914,10 +14810,8 @@
           "parent": null
         }
       ],
-      "status": "record-and-review",
-      "group": "long-vowels",
-      "batch": "05-long-vowels-01",
-      "position": 5
+      "status": "already-bundled",
+      "clip": "assets/audio/letters/marin-curriculum-v1/lg-c03effb5dffc-r1.wav"
     },
     {
       "id": "lg-38534123f710",
@@ -14936,10 +14830,8 @@
           "parent": null
         }
       ],
-      "status": "record-and-review",
-      "group": "long-vowels",
-      "batch": "05-long-vowels-01",
-      "position": 6
+      "status": "already-bundled",
+      "clip": "assets/audio/letters/marin-curriculum-v1/lg-38534123f710-r1.wav"
     },
     {
       "id": "lg-3cc6e720f8c3",
@@ -14958,10 +14850,8 @@
           "parent": null
         }
       ],
-      "status": "record-and-review",
-      "group": "long-vowels",
-      "batch": "05-long-vowels-01",
-      "position": 7
+      "status": "already-bundled",
+      "clip": "assets/audio/letters/marin-curriculum-v1/lg-3cc6e720f8c3-r1.wav"
     },
     {
       "id": "lg-89fbe36986ba",
@@ -14982,8 +14872,8 @@
       ],
       "status": "record-and-review",
       "group": "long-vowels",
-      "batch": "05-long-vowels-01",
-      "position": 8
+      "batch": "04-long-vowels-01",
+      "position": 1
     },
     {
       "id": "lg-e264bcf86158",
@@ -15004,8 +14894,8 @@
       ],
       "status": "record-and-review",
       "group": "long-vowels",
-      "batch": "05-long-vowels-01",
-      "position": 9
+      "batch": "04-long-vowels-01",
+      "position": 2
     },
     {
       "id": "lg-b702f2d63993",
@@ -15026,8 +14916,8 @@
       ],
       "status": "record-and-review",
       "group": "long-vowels",
-      "batch": "06-long-vowels-02",
-      "position": 1
+      "batch": "04-long-vowels-01",
+      "position": 3
     },
     {
       "id": "lg-8bd19f151c78",
@@ -15348,8 +15238,8 @@
       ],
       "status": "record-and-review",
       "group": "long-vowels",
-      "batch": "06-long-vowels-02",
-      "position": 2
+      "batch": "04-long-vowels-01",
+      "position": 4
     },
     {
       "id": "lg-0f8a24138157",
@@ -15370,8 +15260,8 @@
       ],
       "status": "record-and-review",
       "group": "long-vowels",
-      "batch": "06-long-vowels-02",
-      "position": 3
+      "batch": "04-long-vowels-01",
+      "position": 5
     },
     {
       "id": "lg-e70d18ecbedd",
@@ -15392,8 +15282,8 @@
       ],
       "status": "record-and-review",
       "group": "long-vowels",
-      "batch": "06-long-vowels-02",
-      "position": 4
+      "batch": "04-long-vowels-01",
+      "position": 6
     },
     {
       "id": "lg-a4e8ac8696fd",
@@ -15414,8 +15304,8 @@
       ],
       "status": "record-and-review",
       "group": "long-vowels",
-      "batch": "06-long-vowels-02",
-      "position": 5
+      "batch": "04-long-vowels-01",
+      "position": 7
     },
     {
       "id": "lg-2a7d9d0b5f72",
@@ -15436,8 +15326,8 @@
       ],
       "status": "record-and-review",
       "group": "long-vowels",
-      "batch": "06-long-vowels-02",
-      "position": 6
+      "batch": "04-long-vowels-01",
+      "position": 8
     },
     {
       "id": "lg-ee4afc8b7d3e",
@@ -15458,8 +15348,8 @@
       ],
       "status": "record-and-review",
       "group": "long-vowels",
-      "batch": "06-long-vowels-02",
-      "position": 7
+      "batch": "04-long-vowels-01",
+      "position": 9
     },
     {
       "id": "lg-36b3714f9b0b",
@@ -15487,8 +15377,8 @@
       ],
       "status": "record-and-review",
       "group": "long-vowels",
-      "batch": "06-long-vowels-02",
-      "position": 8
+      "batch": "05-long-vowels-02",
+      "position": 1
     },
     {
       "id": "lg-2b226200cffc",
@@ -15509,8 +15399,8 @@
       ],
       "status": "record-and-review",
       "group": "long-vowels",
-      "batch": "06-long-vowels-02",
-      "position": 9
+      "batch": "05-long-vowels-02",
+      "position": 2
     },
     {
       "id": "lg-97eed4f499be",
@@ -15531,8 +15421,8 @@
       ],
       "status": "record-and-review",
       "group": "long-vowels",
-      "batch": "07-long-vowels-03",
-      "position": 1
+      "batch": "05-long-vowels-02",
+      "position": 3
     },
     {
       "id": "lg-9165baec42cb",
@@ -15553,8 +15443,8 @@
       ],
       "status": "record-and-review",
       "group": "long-vowels",
-      "batch": "07-long-vowels-03",
-      "position": 2
+      "batch": "05-long-vowels-02",
+      "position": 4
     },
     {
       "id": "lg-24a289e02af7",
@@ -15575,8 +15465,8 @@
       ],
       "status": "record-and-review",
       "group": "long-vowels",
-      "batch": "07-long-vowels-03",
-      "position": 3
+      "batch": "05-long-vowels-02",
+      "position": 5
     },
     {
       "id": "lg-2f1492ac8f9d",
@@ -15597,8 +15487,8 @@
       ],
       "status": "record-and-review",
       "group": "long-vowels",
-      "batch": "07-long-vowels-03",
-      "position": 4
+      "batch": "05-long-vowels-02",
+      "position": 6
     },
     {
       "id": "lg-5b6517e3c3f4",
@@ -15619,8 +15509,8 @@
       ],
       "status": "record-and-review",
       "group": "long-vowels",
-      "batch": "07-long-vowels-03",
-      "position": 5
+      "batch": "05-long-vowels-02",
+      "position": 7
     },
     {
       "id": "lg-8bd6f3ee1768",
@@ -15641,8 +15531,8 @@
       ],
       "status": "record-and-review",
       "group": "long-vowels",
-      "batch": "07-long-vowels-03",
-      "position": 6
+      "batch": "05-long-vowels-02",
+      "position": 8
     },
     {
       "id": "lg-0825396f62b3",
@@ -15663,8 +15553,8 @@
       ],
       "status": "record-and-review",
       "group": "long-vowels",
-      "batch": "07-long-vowels-03",
-      "position": 7
+      "batch": "05-long-vowels-02",
+      "position": 9
     },
     {
       "id": "lg-92b449692318",
@@ -15685,8 +15575,8 @@
       ],
       "status": "record-and-review",
       "group": "long-vowels",
-      "batch": "07-long-vowels-03",
-      "position": 8
+      "batch": "06-long-vowels-03",
+      "position": 1
     },
     {
       "id": "lg-9d47cc35d146",
@@ -15707,8 +15597,8 @@
       ],
       "status": "record-and-review",
       "group": "long-vowels",
-      "batch": "07-long-vowels-03",
-      "position": 9
+      "batch": "06-long-vowels-03",
+      "position": 2
     },
     {
       "id": "lg-d3e526870d87",
@@ -15729,8 +15619,8 @@
       ],
       "status": "record-and-review",
       "group": "long-vowels",
-      "batch": "08-long-vowels-04",
-      "position": 1
+      "batch": "06-long-vowels-03",
+      "position": 3
     },
     {
       "id": "lg-56263c67be0e",
@@ -15751,8 +15641,8 @@
       ],
       "status": "record-and-review",
       "group": "long-vowels",
-      "batch": "08-long-vowels-04",
-      "position": 2
+      "batch": "06-long-vowels-03",
+      "position": 4
     },
     {
       "id": "lg-ae9cda2207e9",
@@ -15773,8 +15663,8 @@
       ],
       "status": "record-and-review",
       "group": "long-vowels",
-      "batch": "08-long-vowels-04",
-      "position": 3
+      "batch": "06-long-vowels-03",
+      "position": 5
     },
     {
       "id": "lg-448c21ba5b29",
@@ -15795,8 +15685,8 @@
       ],
       "status": "record-and-review",
       "group": "long-vowels",
-      "batch": "08-long-vowels-04",
-      "position": 4
+      "batch": "06-long-vowels-03",
+      "position": 6
     },
     {
       "id": "lg-3b8e1495833d",
@@ -16321,7 +16211,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "18-leen-01",
+      "batch": "16-leen-01",
       "position": 1
     },
     {
@@ -16337,7 +16227,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "18-leen-01",
+      "batch": "16-leen-01",
       "position": 2
     },
     {
@@ -16395,7 +16285,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "18-leen-01",
+      "batch": "16-leen-01",
       "position": 3
     },
     {
@@ -16411,7 +16301,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "18-leen-01",
+      "batch": "16-leen-01",
       "position": 4
     },
     {
@@ -16427,7 +16317,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "18-leen-01",
+      "batch": "16-leen-01",
       "position": 5
     },
     {
@@ -16443,7 +16333,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "18-leen-01",
+      "batch": "16-leen-01",
       "position": 6
     },
     {
@@ -16459,7 +16349,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "18-leen-01",
+      "batch": "16-leen-01",
       "position": 7
     },
     {
@@ -16475,7 +16365,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "18-leen-01",
+      "batch": "16-leen-01",
       "position": 8
     },
     {
@@ -16491,7 +16381,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "18-leen-01",
+      "batch": "16-leen-01",
       "position": 9
     },
     {
@@ -16605,7 +16495,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "19-leen-02",
+      "batch": "17-leen-02",
       "position": 1
     },
     {
@@ -16621,7 +16511,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "19-leen-02",
+      "batch": "17-leen-02",
       "position": 2
     },
     {
@@ -16637,7 +16527,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "19-leen-02",
+      "batch": "17-leen-02",
       "position": 3
     },
     {
@@ -16695,7 +16585,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "19-leen-02",
+      "batch": "17-leen-02",
       "position": 4
     },
     {
@@ -16725,7 +16615,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "19-leen-02",
+      "batch": "17-leen-02",
       "position": 5
     },
     {
@@ -16769,7 +16659,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "19-leen-02",
+      "batch": "17-leen-02",
       "position": 6
     },
     {
@@ -16785,7 +16675,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "19-leen-02",
+      "batch": "17-leen-02",
       "position": 7
     },
     {
@@ -16885,7 +16775,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "19-leen-02",
+      "batch": "17-leen-02",
       "position": 8
     },
     {
@@ -16901,7 +16791,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "19-leen-02",
+      "batch": "17-leen-02",
       "position": 9
     },
     {
@@ -16917,7 +16807,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "20-leen-03",
+      "batch": "18-leen-03",
       "position": 1
     },
     {
@@ -16947,7 +16837,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "20-leen-03",
+      "batch": "18-leen-03",
       "position": 2
     },
     {
@@ -16963,7 +16853,7 @@
       ],
       "status": "record-and-review",
       "group": "leen",
-      "batch": "20-leen-03",
+      "batch": "18-leen-03",
       "position": 3
     },
     {
@@ -17005,7 +16895,7 @@
       ],
       "status": "record-and-review",
       "group": "sukun-shaddah",
-      "batch": "21-sukun-shaddah-01",
+      "batch": "19-sukun-shaddah-01",
       "position": 1
     },
     {
@@ -17027,7 +16917,7 @@
       ],
       "status": "record-and-review",
       "group": "sukun-shaddah",
-      "batch": "21-sukun-shaddah-01",
+      "batch": "19-sukun-shaddah-01",
       "position": 2
     },
     {
@@ -17049,7 +16939,7 @@
       ],
       "status": "record-and-review",
       "group": "sukun-shaddah",
-      "batch": "21-sukun-shaddah-01",
+      "batch": "19-sukun-shaddah-01",
       "position": 3
     },
     {
@@ -17085,7 +16975,7 @@
       ],
       "status": "record-and-review",
       "group": "sukun-shaddah",
-      "batch": "21-sukun-shaddah-01",
+      "batch": "19-sukun-shaddah-01",
       "position": 4
     },
     {
@@ -17133,7 +17023,7 @@
       ],
       "status": "record-and-review",
       "group": "sukun-shaddah",
-      "batch": "21-sukun-shaddah-01",
+      "batch": "19-sukun-shaddah-01",
       "position": 5
     },
     {
@@ -17169,7 +17059,7 @@
       ],
       "status": "record-and-review",
       "group": "sukun-shaddah",
-      "batch": "21-sukun-shaddah-01",
+      "batch": "19-sukun-shaddah-01",
       "position": 6
     },
     {
@@ -17200,7 +17090,7 @@
       ],
       "status": "record-and-review",
       "group": "words-2",
-      "batch": "22-words-2-01",
+      "batch": "20-words-2-01",
       "position": 1
     },
     {
@@ -17252,7 +17142,7 @@
       ],
       "status": "record-and-review",
       "group": "words-2",
-      "batch": "22-words-2-01",
+      "batch": "20-words-2-01",
       "position": 2
     },
     {
@@ -17315,7 +17205,7 @@
       ],
       "status": "record-and-review",
       "group": "words-2",
-      "batch": "22-words-2-01",
+      "batch": "20-words-2-01",
       "position": 3
     },
     {
@@ -17370,7 +17260,7 @@
       ],
       "status": "record-and-review",
       "group": "words-2",
-      "batch": "22-words-2-01",
+      "batch": "20-words-2-01",
       "position": 4
     },
     {
@@ -17387,7 +17277,7 @@
       ],
       "status": "record-and-review",
       "group": "words-2",
-      "batch": "22-words-2-01",
+      "batch": "20-words-2-01",
       "position": 5
     },
     {
@@ -17465,7 +17355,7 @@
       ],
       "status": "record-and-review",
       "group": "words-2",
-      "batch": "22-words-2-01",
+      "batch": "20-words-2-01",
       "position": 6
     },
     {
@@ -17496,7 +17386,7 @@
       ],
       "status": "record-and-review",
       "group": "words-2",
-      "batch": "22-words-2-01",
+      "batch": "20-words-2-01",
       "position": 7
     },
     {
@@ -17627,7 +17517,7 @@
       ],
       "status": "record-and-review",
       "group": "words-3",
-      "batch": "23-words-3-01",
+      "batch": "21-words-3-01",
       "position": 1
     },
     {
@@ -17987,7 +17877,7 @@
       ],
       "status": "record-and-review",
       "group": "words-3",
-      "batch": "23-words-3-01",
+      "batch": "21-words-3-01",
       "position": 2
     },
     {
@@ -18121,7 +18011,7 @@
       ],
       "status": "record-and-review",
       "group": "words-3",
-      "batch": "23-words-3-01",
+      "batch": "21-words-3-01",
       "position": 3
     },
     {
@@ -18212,7 +18102,7 @@
       ],
       "status": "record-and-review",
       "group": "words-3",
-      "batch": "23-words-3-01",
+      "batch": "21-words-3-01",
       "position": 4
     },
     {
@@ -18318,7 +18208,7 @@
       ],
       "status": "record-and-review",
       "group": "words-3",
-      "batch": "23-words-3-01",
+      "batch": "21-words-3-01",
       "position": 5
     },
     {
@@ -18335,7 +18225,7 @@
       ],
       "status": "record-and-review",
       "group": "words-3",
-      "batch": "23-words-3-01",
+      "batch": "21-words-3-01",
       "position": 6
     },
     {
@@ -18352,7 +18242,7 @@
       ],
       "status": "record-and-review",
       "group": "words-3",
-      "batch": "23-words-3-01",
+      "batch": "21-words-3-01",
       "position": 7
     },
     {
@@ -18384,7 +18274,7 @@
       ],
       "status": "record-and-review",
       "group": "words-3",
-      "batch": "23-words-3-01",
+      "batch": "21-words-3-01",
       "position": 8
     },
     {
@@ -18401,7 +18291,7 @@
       ],
       "status": "record-and-review",
       "group": "words-4-5",
-      "batch": "24-words-4-5-01",
+      "batch": "22-words-4-5-01",
       "position": 1
     },
     {
@@ -18418,7 +18308,7 @@
       ],
       "status": "record-and-review",
       "group": "words-4-5",
-      "batch": "24-words-4-5-01",
+      "batch": "22-words-4-5-01",
       "position": 2
     },
     {
@@ -18435,7 +18325,7 @@
       ],
       "status": "record-and-review",
       "group": "words-4-5",
-      "batch": "24-words-4-5-01",
+      "batch": "22-words-4-5-01",
       "position": 3
     },
     {
@@ -18602,7 +18492,7 @@
       ],
       "status": "record-and-review",
       "group": "words-4-5",
-      "batch": "24-words-4-5-01",
+      "batch": "22-words-4-5-01",
       "position": 4
     },
     {
@@ -18664,7 +18554,7 @@
       ],
       "status": "record-and-review",
       "group": "words-4-5",
-      "batch": "24-words-4-5-01",
+      "batch": "22-words-4-5-01",
       "position": 5
     },
     {
@@ -18696,7 +18586,7 @@
       ],
       "status": "record-and-review",
       "group": "words-4-5",
-      "batch": "24-words-4-5-01",
+      "batch": "22-words-4-5-01",
       "position": 6
     },
     {
@@ -18713,7 +18603,7 @@
       ],
       "status": "record-and-review",
       "group": "words-4-5",
-      "batch": "24-words-4-5-01",
+      "batch": "22-words-4-5-01",
       "position": 7
     },
     {
@@ -18790,7 +18680,7 @@
       ],
       "status": "record-and-review",
       "group": "words-4-5",
-      "batch": "24-words-4-5-01",
+      "batch": "22-words-4-5-01",
       "position": 8
     },
     {
@@ -18807,7 +18697,7 @@
       ],
       "status": "record-and-review",
       "group": "words-4-5",
-      "batch": "24-words-4-5-01",
+      "batch": "22-words-4-5-01",
       "position": 9
     },
     {
@@ -18824,7 +18714,7 @@
       ],
       "status": "record-and-review",
       "group": "words-4-5",
-      "batch": "25-words-4-5-02",
+      "batch": "23-words-4-5-02",
       "position": 1
     },
     {
@@ -18841,7 +18731,7 @@
       ],
       "status": "record-and-review",
       "group": "words-4-5",
-      "batch": "25-words-4-5-02",
+      "batch": "23-words-4-5-02",
       "position": 2
     },
     {
@@ -18858,7 +18748,7 @@
       ],
       "status": "record-and-review",
       "group": "words-4-5",
-      "batch": "25-words-4-5-02",
+      "batch": "23-words-4-5-02",
       "position": 3
     },
     {
@@ -18980,7 +18870,7 @@
       ],
       "status": "record-and-review",
       "group": "words-4-5",
-      "batch": "25-words-4-5-02",
+      "batch": "23-words-4-5-02",
       "position": 4
     },
     {
@@ -19042,7 +18932,7 @@
       ],
       "status": "record-and-review",
       "group": "words-4-5",
-      "batch": "25-words-4-5-02",
+      "batch": "23-words-4-5-02",
       "position": 5
     },
     {
@@ -19059,7 +18949,7 @@
       ],
       "status": "record-and-review",
       "group": "words-4-5",
-      "batch": "25-words-4-5-02",
+      "batch": "23-words-4-5-02",
       "position": 6
     },
     {
@@ -19076,7 +18966,7 @@
       ],
       "status": "record-and-review",
       "group": "words-4-5",
-      "batch": "25-words-4-5-02",
+      "batch": "23-words-4-5-02",
       "position": 7
     },
     {
@@ -19093,7 +18983,7 @@
       ],
       "status": "record-and-review",
       "group": "words-4-5",
-      "batch": "25-words-4-5-02",
+      "batch": "23-words-4-5-02",
       "position": 8
     },
     {
@@ -19125,7 +19015,7 @@
       ],
       "status": "record-and-review",
       "group": "words-4-5",
-      "batch": "25-words-4-5-02",
+      "batch": "23-words-4-5-02",
       "position": 9
     }
   ]
