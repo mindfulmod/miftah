@@ -2,22 +2,23 @@
 <html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Letter Garden · identify the new recording</title>
+<title>Letter Garden · review 16 retry clips</title>
 <link rel="stylesheet" href="../review.css">
 <style>
-  audio{display:block;width:100%;margin:12px 0}textarea{width:100%;min-height:90px;box-sizing:border-box}#submitted{min-height:130px}#notes .item{min-width:0}.clip-time{font-size:.9rem;color:#70501b}.actions{display:flex;gap:12px;flex-wrap:wrap}.source-box{margin:20px 0;padding:16px;border:2px solid #c9bda4;border-radius:16px}label{display:block;margin-top:10px}#status{min-height:1.5em}#notes{margin-top:20px}#export-text{min-height:180px}button{min-height:44px}
+  audio{display:block;width:100%;margin:12px 0}textarea{width:100%;min-height:90px;box-sizing:border-box}#submitted{min-height:95px;font-size:1.3rem;line-height:1.8}#notes .item{min-width:0}.clip-time{font-size:.9rem;color:#70501b}.actions{display:flex;gap:12px;flex-wrap:wrap}.source-box{margin:20px 0;padding:16px;border:2px solid #c9bda4;border-radius:16px}label{display:block;margin-top:10px}#status{min-height:1.5em}#notes{margin-top:20px}#export-text{min-height:180px}button,select{min-height:44px}select{width:100%;font-size:1.4rem;padding:8px;box-sizing:border-box}.suggestion{font-size:1.3rem;line-height:1.7}.decisions{margin-top:12px}.decisions button[aria-pressed="true"]{background:#4a3620;color:#fffdf7}.clip-result{font-weight:700}#progress{font-weight:700}
 </style>
 <main>
   <header>
     <a href="../index.html?section=new-recording">← Previous audio review</a>
     <h1>Your new recording: 16 separate sounds</h1>
-    <p>I separated the sounds at the pauses. The retry list had 27 items, so these clips still need their correct labels. Nothing from this recording is installed in the game.</p>
-    <p><strong>Next:</strong> paste the exact text you submitted to FM below, or send it in our conversation. If you no longer have it, use the numbered clips to note what you hear. This is identification, not final pronunciation approval.</p>
+    <p>I separated the sounds at the pauses. You confirmed all 27 items were submitted. This file has only 16 separated utterances, so we need to verify which sounds are usable. Nothing from this recording is installed in the game.</p>
+    <p><strong>Next:</strong> play each clip. Check its suggested label, consonant, vowel and vowel length, then choose <strong>Correct</strong>, <strong>Needs fixing</strong> or <strong>Unclear</strong>. Change the label if necessary. Clip 6 has no reliable suggestion. These labels are tentative; nothing is approved automatically.</p><p>Finish these 16 before recording more. We will then make a short list of the sounds still missing or incorrect.</p>
   </header>
   <section aria-label="Submitted text">
-    <label for="submitted">Exact text used for this recording</label>
-    <textarea id="submitted" lang="ar" dir="auto" maxlength="6000" placeholder="Paste the text you actually submitted, if available…"></textarea>
-    <div class="actions"><button id="download" type="button" disabled>Download identification notes</button><button id="show" type="button" disabled>Show notes as text</button></div>
+    <label for="submitted">Your confirmed input — 27 items (already saved)</label>
+    <textarea id="submitted" lang="ar" dir="rtl" readonly></textarea>
+    <div class="actions"><button id="download" type="button" disabled>Download review</button><button id="show" type="button" disabled>Show review as text</button></div>
+    <p id="progress" role="status"></p>
     <p id="status" role="status">Loading clips…</p>
     <textarea id="export-text" readonly hidden aria-label="Identification results JSON"></textarea>
   </section>
@@ -29,7 +30,7 @@
     <audio id="player" controls preload="none" aria-label="Current recording audio" hidden></audio>
   </section>
   <section aria-label="Numbered audio clips"><div id="notes" class="items"></div></section>
-  <p class="hint">Your text and notes save in this browser. Download them before switching devices. Earlier review decisions and game progress stay separate.</p>
+  <p class="hint">Your decisions and notes save in this browser. When finished, tell me in our conversation. Download them before switching devices. Earlier review decisions and game progress stay separate.</p>
 </main>
-<script src="review.js"></script>
+<script src="review.js?v=20260925-labels2"></script>
 </html>

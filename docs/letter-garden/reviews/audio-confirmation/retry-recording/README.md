@@ -1,14 +1,14 @@
-# September 25 retry recording — identification pending
+# September 25 retry recording — input confirmed, listening review pending
 
 The supplied `openai-fm-marin-audio-4.mp3` is preserved unchanged in
 `../../marin-curriculum/sources/batch-4.mp3`. It is 10.848 seconds, 24 kHz mono;
 SHA-256 `155b67f425b9b3ea9a135af911b6e48e91014d5e34bfa420b03357d05ce0b386`.
 
 Waveform/spectral inspection and an unprompted, locally cached Whisper
-large-v3-turbo transcript identify **16 separated utterances**. The earlier
-requested retry had 27 items. The owner has been asked which exact text was
-submitted; no reply has arrived at this checkpoint. `expected-request-4.txt`
-records the requested 27, not a claim about what the owner actually pasted.
+large-v3-turbo transcript identify **16 separated utterances**. The owner has now supplied the exact 27-item text, preserving its order and
+blank lines in `submitted-text.txt`. It matches the requested retry. This does
+not establish a one-to-one audio mapping: the recording has fewer utterances
+than submitted items.
 The raw automatic transcript is saved in `../../marin-curriculum/transcript-4.json`.
 Its consonant/vowel spellings are hypotheses, not approved pronunciation.
 
@@ -19,9 +19,15 @@ Its consonant/vowel spellings are hypotheses, not approved pronunciation.
   leading and 80 ms trailing padding; existing 4 ms edge fades are applied.
   Original speed, pitch and level remain. Every interval and SHA is in
   `manifest.json`. No new sound is synthesized.
-- A [numbered listening desk](index.html) accepts the actual submitted text and
-  optional heard-sound notes, saves locally and exports identification JSON.
-  It has no Correct/approval action. The normal curriculum review is unchanged.
+- The [numbered listening desk](index.html) now displays the confirmed input.
+  Fifteen tentative labels use the unprompted transcript and submitted sequence;
+  clip 6 stays unlabeled because its identity is ambiguous. These suggestions
+  are not assignments or pronunciation approvals.
+- The owner can play each clip, change its label, then mark Correct, Needs fixing
+  or Unclear. Correct requires a selected label and completed clip playback.
+  Changing a label clears its prior decision. Decisions, notes, selected text,
+  source SHA and cut SHA are saved and exported together. Existing notes remain.
+  QA uses a separate key and marks exported results `testOnly: true`.
 - All clips are **unassigned**, excluded from the runtime bank and precache.
   All 237 installed clips and 446 existing playable catalogue signatures remain
   unchanged. Previous owner notes and rejected excerpts are preserved.
@@ -47,11 +53,19 @@ The 390px layout has no horizontal overflow; see `review-phone.png`.
 
 ## Next action
 
-Owner: paste the exact text used in FM, or confirm that all 27 requested items
-were submitted. If that text is unavailable, label the numbered sounds at the
-listening desk and download the identification notes. No regeneration is needed
-yet. Once the mappings are established, prepare only the defensible individual
-candidates for normal pronunciation review; do not map by list position alone.
+Owner: play the 16 clips at the listening desk. Check consonants, vowels and
+short/long vowel length against the selected label; change a label if necessary.
+Mark Correct, Needs fixing or Unclear, then tell Codex the review is finished.
+No more recording yet. Once reviewed, install only explicitly approved matching
+clips and prepare only the still-missing/rejected sounds in short batches.
+
+Input-confirmation follow-up checks: 3/3 focused source/cut/order/runtime tests
+pass. Actual browser checks cover playback-gated decisions, the unlabeled clip,
+label-change invalidation, all three decision states, note retention, hash-bound
+export and reload persistence using the isolated QA key. Desktop and 390px phone
+layouts were inspected; the owner state has no QA decisions. The full game test
+suite was not repeated for this review-only UI change. No child-facing files or
+audio bytes changed.
 
 Local only. Pre-intake checkpoint: `22c2dc87fe209cb9897d44e51254f2d659148faa`.
 The original upload, transcript, cuts, manifest, reproduction script and review

@@ -44,7 +44,7 @@ function pcmInfo(wav) {
 }
 
 test('retry intake source and all 16 utterance clips match manifest hashes and PCM durations', () => {
-  assert.equal(intake.submittedTextConfirmed, false);
+  assert.equal(intake.submittedTextConfirmed, true);
   const source = intake.source;
   assert.equal(hash(read(source.repositoryFile)), source.sha256, 'owner source hash changed');
   assert.equal(source.duration, 10.848);
@@ -73,6 +73,25 @@ test('retry intake source and all 16 utterance clips match manifest hashes and P
     const pcm = pcmInfo(wav);
     assert.equal(pcm.sampleRate, source.sampleRate, `${item.file} sample rate mismatch`);
     assert.ok(Math.abs(pcm.duration - item.duration) <= 1 / pcm.sampleRate, `${item.file} PCM duration mismatch`);
+  }
+});
+
+test('confirmed submitted text preserves the requested 27-item order without assigning audio mappings', () => {
+  const requested = JSON.parse(read('docs/letter-garden/reviews/audio-confirmation/recording-retry/manifest.json'));
+  const submitted = intake.submittedItems;
+  assert.equal(intake.submittedTextConfirmedOn, '2026-09-25');
+  assert.equal(intake.submittedTextFile, 'submitted-text.txt');
+  assert.equal(submitted.length, 27);
+  assert.deepEqual(submitted.map(item => item.id), requested.items.map(item => item.id));
+  assert.deepEqual(submitted.map(item => item.text), requested.items.map(item => item.text));
+
+  const tokens = read(intakeDir + intake.submittedTextFile).toString('utf8').trim().split(/\s+/u);
+  assert.deepEqual(tokens, requested.items.map(item => item.text));
+  assert.deepEqual(tokens, submitted.map(item => item.text));
+
+  for (const item of intake.items) {
+    assert.equal(item.mappingStatus, 'unassigned', `${item.id} must remain unmapped pending review`);
+    assert.ok(!['installed', 'approved'].includes(item.mappingStatus));
   }
 });
 

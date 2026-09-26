@@ -180,3 +180,13 @@ normal-speed playback and isolated note/export persistence checked. See
 Next owner action: paste the exact FM text (or confirm all 27 were submitted),
 or identify the numbered clips if that text is unavailable. No regeneration yet.
 The new cuts remain unassigned and excluded from the live game. Local only.
+
+
+September 25: owner confirmed the exact 27-item retry input. Saved it verbatim
+and upgraded the 16-clip listening desk with tentative labels, one unassigned
+sound, played-before-review guards, editable labels, Correct/Needs fixing/Unclear
+decisions and source/cut-bound exports. No runtime audio or catalogue mappings
+changed. Three focused integrity tests pass; QA decision, notes, export and reload
+checks use an isolated origin/key. Next owner action: review these 16 clips, then
+tell Codex when finished. Do not regenerate the full list yet. The wider game/art
+goal remains active; Pairs/Catch audit is ready for the next gameplay slice.
