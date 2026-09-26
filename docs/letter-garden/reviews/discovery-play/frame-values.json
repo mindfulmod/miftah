@@ -1,0 +1,140 @@
+{
+  "method": "HSL lightness from every pixel of the rendered PNG; quotas light >80%: 8%, mid 45\u201370%: 12%, dark <30%: 5%. No crop or backdrop-only sample.",
+  "frames": {
+    "parade-before-phone.png": {
+      "size": [
+        390,
+        780
+      ],
+      "above80": 54.52,
+      "mid45to70": 14.38,
+      "below30": 1.62
+    },
+    "parade-closed-phone.png": {
+      "size": [
+        390,
+        780
+      ],
+      "above80": 24.19,
+      "mid45to70": 40.78,
+      "below30": 3.92
+    },
+    "parade-desktop-night.png": {
+      "size": [
+        1280,
+        800
+      ],
+      "above80": 8.72,
+      "mid45to70": 19.1,
+      "below30": 31.74
+    },
+    "parade-landscape-retry.png": {
+      "size": [
+        568,
+        320
+      ],
+      "above80": 33.45,
+      "mid45to70": 33.27,
+      "below30": 4.17
+    },
+    "parade-landscape.png": {
+      "size": [
+        568,
+        320
+      ],
+      "above80": 22.97,
+      "mid45to70": 39.68,
+      "below30": 4.38
+    },
+    "parade-open-phone.png": {
+      "size": [
+        390,
+        780
+      ],
+      "above80": 22.97,
+      "mid45to70": 40.97,
+      "below30": 3.59
+    },
+    "parade-small-phone.png": {
+      "size": [
+        320,
+        640
+      ],
+      "above80": 24.91,
+      "mid45to70": 40.16,
+      "below30": 3.43
+    },
+    "unfuse-before-phone.png": {
+      "size": [
+        390,
+        780
+      ],
+      "above80": 59.6,
+      "mid45to70": 14.98,
+      "below30": 1.57
+    },
+    "unfuse-freed-phone.png": {
+      "size": [
+        390,
+        780
+      ],
+      "above80": 25.06,
+      "mid45to70": 28.47,
+      "below30": 2.43
+    },
+    "unfuse-landscape-retry.png": {
+      "size": [
+        568,
+        320
+      ],
+      "above80": 19.06,
+      "mid45to70": 11.73,
+      "below30": 11.91
+    },
+    "unfuse-landscape.png": {
+      "size": [
+        568,
+        320
+      ],
+      "above80": 15.97,
+      "mid45to70": 11.05,
+      "below30": 18.86
+    },
+    "unfuse-pull-phone.png": {
+      "size": [
+        390,
+        780
+      ],
+      "above80": 24.39,
+      "mid45to70": 27.38,
+      "below30": 2.23
+    },
+    "unfuse-retry-phone.png": {
+      "size": [
+        390,
+        780
+      ],
+      "above80": 19.86,
+      "mid45to70": 27.66,
+      "below30": 2.15
+    },
+    "unfuse-small-phone-night-reduced.png": {
+      "size": [
+        320,
+        640
+      ],
+      "above80": 16.59,
+      "mid45to70": 14.67,
+      "below30": 35.76
+    },
+    "unfuse-tablet.png": {
+      "size": [
+        768,
+        961
+      ],
+      "above80": 26.16,
+      "mid45to70": 23.84,
+      "below30": 1.48
+    }
+  }
+}

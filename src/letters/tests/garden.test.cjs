@@ -169,11 +169,11 @@ test('Blend ignores repeated choices during an incorrect-pair retry',()=>{
  timers[0]();assert.equal(game.retrying,false);
 });
 
-test('Unfuse splits only once and exiting cancels delayed quiz and speech',()=>{
+test('Unfuse holds its freed pieces and exiting prevents quiz entry',()=>{
  const {ns,timers}=runtime();let effects=0;const game=Object.create(ns.LettersMiniGames.unfuse.prototype);
- Object.assign(game,{alive:true,roundIndex:0,targets:[{parts:[{display:'a'},{display:'b'}]}],ctx:{stage:{querySelector(){return {}}},sfx(){effects++},say(){effects++},confettiAt(){}}});
- game.split();game.split();assert.equal(effects,2);assert.equal(timers.length,2);
- game.destroy();timers.forEach(f=>f());assert.equal(effects,2);
+ Object.assign(game,{alive:true,phase:'pull',roundIndex:0,targets:[{parts:[{display:'a'},{display:'b'}]}],ctx:{stage:{querySelector(){return {}}},sfx(){effects++},say(){effects++},confettiAt(){}}});
+ game.split();game.split();assert.equal(effects,2);assert.equal(timers.length,0);
+ game.destroy();game.quiz();assert.equal(effects,2);
 });
 test('Chain accepts one addition during success and cannot advance after exit',()=>{
  const {ns,timers}=runtime();const game=Object.create(ns.LettersMiniGames.chain.prototype);
@@ -182,13 +182,16 @@ test('Chain accepts one addition during success and cannot advance after exit',(
  game.tryChain(el);game.tryChain(el);assert.equal(timers.length,1);
  game.destroy();timers.forEach(f=>f());assert.equal(game.roundIndex,0);
 });
-test('Parade reveals each form once and cancels pending completion on exit',()=>{
- const {ns,timers}=runtime();ns.LettersArt.inkShift=()=>({dx:0,dy:0});let seeds=0,paid=0;
- const spots=Array.from({length:3},()=>{const form={hidden:true},mystery={hidden:false};return {classList:{add(){}},querySelector:s=>s==='.parade-form'?form:mystery,addEventListener(name,fn){this.click=fn}}});
+test('Parade holds all revealed forms and ignores the continuation after exit',()=>{
+ const {ns,timers}=runtime();ns.LettersArt.icon = () => '<svg/>';
+  ns.LettersArt.inkShift=()=>({dx:0,dy:0});let seeds=0,paid=0;
+ const node=()=>({setAttribute(){},classList:{add(){}},focus(){}});
+ const spots=Array.from({length:3},()=>{const form={hidden:true},mystery={hidden:false};return {...node(),querySelector:s=>s==='.parade-form'?form:mystery,addEventListener(name,fn){this.click=fn}}});
+ const next=node(),star=node(),reference=node();
  const game=Object.create(ns.LettersMiniGames.parade.prototype);
- Object.assign(game,{alive:true,roundIndex:0,letters:[{display:'a'}],formsOf:()=>['a','b','c'],ctx:{say(){},sfx(){seeds++},confettiAt(){},onDone(){paid++},stage:{querySelectorAll:()=>spots,querySelector:()=>({})}}});
- game.startRound();spots.forEach(s=>{s.click();s.click()});assert.equal(seeds,3);assert.equal(timers.length,1);
- game.destroy();timers[0]();assert.equal(paid,0);
+ Object.assign(game,{alive:true,roundIndex:0,letters:[{display:'a'}],formsOf:()=>['a','b','c'],ctx:{say(){},sfx(){seeds++},confettiAt(){},onDone(){paid++},stage:{querySelectorAll:()=>spots,querySelector:s=>s==='.parade-continue'?next:s==='.parade-star'?star:reference}}});
+ game.startRound();spots.forEach(s=>{s.click();s.click()});assert.equal(seeds,3);assert.equal(timers.length,0);assert.equal(game.roundIndex,0);
+ game.destroy();next.onclick();assert.equal(paid,0);
 });
 
 test('Burst fallback timer does not multiply animation loops and completes once',()=>{

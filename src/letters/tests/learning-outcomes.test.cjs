@@ -62,7 +62,7 @@ test('Unfuse motor participation cannot refresh answer strength or recency', () 
   };
   const game = Object.create(ns.LettersMiniGames.unfuse.prototype);
   Object.assign(game, {
-    alive: true, busy: false, whole: null, roundIndex: 0, targets: [target],
+    alive: true, phase: 'pull', busy: false, whole: null, roundIndex: 0, targets: [target],
     ctx: {
       stage: { querySelector: selector => selector === '.unfuse-pull' ? pull : halves },
       reportOutcome: outcome => outcomes.push(outcome), sfx() {}, confettiAt() {}, say() {},

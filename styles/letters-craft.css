@@ -188,8 +188,130 @@
 @media(prefers-reduced-motion:reduce) { .lg-app :is(.join-whole,.join-piece) { animation:none; } }
 /* Props sit on the near edge, over the mat's empty corners. The plane remains
    behind input; neither layer intercepts a pointer or changes tile geometry. */
-.lg-activity-art.is-joinery:is([data-activity-art="blend"],[data-activity-art="fuse"],[data-activity-art="chain"]) { z-index:auto; }
-.lg-activity-art.is-joinery:is([data-activity-art="blend"],[data-activity-art="fuse"],[data-activity-art="chain"]) > .activity-plane { z-index:0; }
-.lg-activity-art.is-joinery:is([data-activity-art="blend"],[data-activity-art="fuse"],[data-activity-art="chain"]) > .activity-prop { z-index:2; }
+.lg-activity-art.is-joinery:is([data-activity-art="blend"],[data-activity-art="fuse"],[data-activity-art="chain"],[data-activity-art="unfuse"]) { z-index:auto; }
+.lg-activity-art.is-joinery:is([data-activity-art="blend"],[data-activity-art="fuse"],[data-activity-art="chain"],[data-activity-art="unfuse"]) > .activity-plane { z-index:0; }
+.lg-activity-art.is-joinery:is([data-activity-art="blend"],[data-activity-art="fuse"],[data-activity-art="chain"],[data-activity-art="unfuse"]) > .activity-prop { z-index:2; }
 /* Releasing a drag must not restart arrival or move its hit geometry. */
 .lg-app .lg-play .blend-part.is-touched:not(.is-fusing) { animation:none; }
+
+/* Discovery furniture. Child-sized paper pieces stay proportional while the
+   timber planes resize around them. The garden remains visible beyond the feet. */
+.lg-app .lg-play[data-activity="unfuse"] .play-stage {
+ background:transparent; border:0; box-shadow:none; overflow:visible;
+ width:min(700px,96%); max-height:min(480px,100vw);
+}
+.lg-app .lg-play[data-activity="unfuse"] .unfuse-scene {
+ position:absolute; inset:7% 7% 22%; width:auto; height:auto; min-height:0;
+ display:grid; grid-template-rows:minmax(0,1fr) 48px; gap:12px; padding:12px;
+ border:0; border-radius:22px 22px 28px 28px; overflow:visible;
+ background:linear-gradient(125deg,#4e9677,#2f5c46); box-shadow:inset 0 4px 0 #2f5c46,0 3px 0 #fffaf0;
+}
+.lg-app :is(.unfuse-scene,.parade-scene) [hidden] { display:none!important; }
+.lg-app :is(.unfuse-scene,.parade-scene) button { color:#4a3620; }
+.lg-app .discovery-next,.lg-app .discovery-tool {
+ display:grid; place-items:center; box-sizing:border-box; width:80px; height:48px;
+ min-width:48px; min-height:48px; padding:5px 12px; border:3px solid #4a3620;
+ border-radius:16px; background:linear-gradient(#ffa06e,#e8743c); box-shadow:0 4px 0 #b0501f; cursor:pointer;
+}
+.lg-app .discovery-next > svg { display:block; width:32px; height:32px; pointer-events:none; }
+.lg-app .discovery-tool { background:linear-gradient(#fffdf7,#fffaf0 75%,#e5dcc8); box-shadow:0 4px 0 #a89478; }
+.lg-app .discovery-tool > svg { display:block; width:48px; height:30px; pointer-events:none; }
+.lg-app .unfuse-pull { width:100%; height:100%; gap:12px; }
+.lg-app .unfuse-whole { width:clamp(112px,34vw,164px); flex:0 1 auto; }
+.lg-app [data-activity="unfuse"] .unfuse-arrow { color:#ffe49a; width:24px; flex:0 0 24px; }
+.lg-app [data-activity="unfuse"] .unfuse-seam:before,.lg-app [data-activity="unfuse"] .unfuse-seam:after { background:#a89478; }
+.lg-app .unfuse-discovery { grid-area:1 / 1 / 3 / 2; display:grid; width:100%; height:100%; grid-template-rows:minmax(0,1fr) 48px; justify-items:center; align-items:center; gap:12px; }
+.lg-app .unfuse-halves { width:100%; justify-content:center; align-items:center; gap:18px; }
+.lg-app .unfuse-half,.lg-app .unfuse-found {
+ position:relative; display:block; padding:0; border:0; background:none; cursor:pointer;
+ width:clamp(96px,28vw,140px); filter:drop-shadow(0 4px 0 #2b1e1228);
+}
+.lg-app :is(.unfuse-half,.unfuse-found) > svg { display:block; width:100%; height:auto; pointer-events:none; }
+.lg-app .unfuse-half .build-listen { width:27px; height:27px; right:0; bottom:5px; }
+.lg-app .unfuse-half .build-listen > svg { width:16px; height:16px; }
+.lg-app [data-activity="unfuse"] .unfuse-quiz { grid-area:1 / 1 / 3 / 2; width:100%; height:100%; align-items:center; gap:8px; }
+.lg-app [data-activity="unfuse"] .unfuse-pick { width:calc((100% - 16px) / 3); max-width:104px; min-width:44px; }
+.lg-app [data-activity="unfuse"] .unfuse-quiz.is-solved { display:grid; grid-template-rows:minmax(0,1fr) 48px; justify-items:center; justify-content:stretch; gap:12px; }
+.lg-app .unfuse-found { width:clamp(112px,32vw,152px); animation:craft-word-settle 240ms ease-out; }
+
+.lg-app .lg-play[data-activity="parade"] .play-stage {
+ background:transparent; border:0; box-shadow:none; overflow:visible;
+ width:min(600px,96%); max-height:min(540px,120vw);
+}
+.lg-activity-art.is-parade { border-radius:0; overflow:visible; }
+.lg-app .lg-play[data-activity="parade"] .parade-scene {
+ position:absolute; inset:9% 11% 18%; width:auto; height:auto; min-height:0; padding:8px;
+ display:grid; grid-template-rows:minmax(72px,1fr) auto 48px; justify-items:center; align-items:center;
+ gap:12px; box-sizing:border-box; background:none;
+}
+.lg-app .parade-display { display:flex; align-items:center; justify-content:center; gap:14px; width:100%; height:100%; min-height:0; }
+.lg-app .parade-star,.lg-app .parade-reference {
+ position:relative; padding:0; border:0; background:none; cursor:pointer; flex:0 1 auto;
+ filter:drop-shadow(0 4px 0 #2b1e1228);
+}
+.lg-app .parade-star { width:clamp(96px,30vw,140px); }
+.lg-app .parade-reference { width:clamp(52px,15vw,70px); align-self:center; }
+.lg-app :is(.parade-star,.parade-reference) > svg { display:block; width:100%; height:auto; pointer-events:none; }
+.lg-app .lg-play[data-activity="parade"] .parade-spots {
+ position:relative; width:100%; display:flex; align-items:center; justify-content:center; gap:10px; padding:0;
+ border:0; border-radius:0; background:none; box-shadow:none; box-sizing:border-box;
+}
+.lg-app [data-activity="parade"] .parade-spot {
+ width:calc((100% - 20px) / 3); max-width:102px; min-width:48px; min-height:48px; height:auto;
+ border:3px solid #4a3620; border-radius:16px; padding:3px;
+ background:linear-gradient(#fffaf0,#e5dcc8 80%,#c9bda4); box-shadow:0 4px 0 #2f5c46;
+}
+.lg-app [data-activity="parade"] .parade-mystery { width:100%; }
+.lg-app [data-activity="parade"] .parade-spot.is-dressed { border:0; padding:0; background:none; box-shadow:none; }
+.lg-app [data-activity="parade"] .parade-spot[aria-pressed="true"] { outline:3px solid #ffe49a; outline-offset:3px; }
+.lg-app [data-activity="parade"] .parade-spot .parade-form { width:100%; }
+.lg-app [data-activity="parade"] .parade-form > svg { animation:craft-word-settle 240ms ease-out; }
+.lg-app .parade-actions { display:grid; place-items:center; height:48px; width:100%; }
+.lg-app [data-activity="parade"] .parade-choice { width:clamp(72px,22vw,112px); border:0; padding:0; background:none; box-shadow:none; }
+.lg-app [data-activity="parade"] .parade-choice.is-found { filter:drop-shadow(0 4px 0 #2b1e1228); }
+.lg-app :is(.unfuse-scene,.parade-scene) button:focus-visible { outline:4px solid #ffe49a; outline-offset:4px; border-radius:16px; }
+.lg-app :is(.unfuse-scene,.parade-scene) button:active { translate:0 2px; }
+@media(max-width:350px) {
+ .lg-app .lg-play[data-activity="parade"] .parade-scene { inset:9% 10% 18%; padding:4px; gap:8px; }
+ .lg-app [data-activity="parade"] .parade-spots { gap:8px; }
+ .lg-app .parade-star { width:90px; }
+ .lg-app .parade-display { gap:8px; }
+ .lg-app .parade-star .build-listen { width:26px; height:26px; bottom:5px; right:0; }
+ .lg-app .parade-star .build-listen > svg { width:16px; height:16px; }
+ .lg-app .lg-play[data-activity="unfuse"] .unfuse-scene { padding:10px; gap:8px; }
+}
+@media(orientation:landscape) and (max-height:450px) {
+ .lg-app .lg-play:is([data-activity="unfuse"],[data-activity="parade"]) .play-stage { max-height:none; margin:0 auto; flex:1 1 0; }
+ .lg-app .lg-play[data-activity="unfuse"] .unfuse-scene { grid-template-columns:minmax(0,1fr) 80px; grid-template-rows:1fr; gap:12px; padding:8px 20px; }
+ .lg-app .unfuse-whole { width:100px; }
+ .lg-app .unfuse-discovery { grid-area:1 / 1 / 2 / 3; grid-template-columns:minmax(0,1fr) 80px; grid-template-rows:1fr; gap:12px; }
+ .lg-app .unfuse-half { width:76px; }
+ .lg-app [data-activity="unfuse"] .unfuse-quiz { grid-area:1 / 1 / 2 / 3; }
+ .lg-app [data-activity="unfuse"] .unfuse-pick { max-width:88px; }
+ .lg-app [data-activity="unfuse"] .unfuse-quiz.is-solved { grid-template-columns:minmax(0,1fr) 80px; grid-template-rows:1fr; }
+ .lg-app .unfuse-found { width:98px; }
+ .lg-app .lg-play[data-activity="parade"] .parade-scene { inset:9% 10% 18%; grid-template-columns:120px minmax(0,1fr) 64px; grid-template-rows:1fr; gap:12px; padding:5px; }
+ .lg-app .parade-display { gap:6px; }
+ .lg-app .parade-star { width:72px; }
+ .lg-app .parade-reference { width:44px; min-width:44px; }
+ .lg-app .parade-star .build-listen { width:24px; height:24px; right:0; bottom:4px; }
+ .lg-app .parade-star .build-listen > svg { width:16px; height:16px; }
+ .lg-app [data-activity="parade"] .parade-spots { gap:8px; }
+ .lg-app [data-activity="parade"] .parade-spot { min-width:44px; min-height:44px; max-width:78px; border-radius:12px; }
+ .lg-app .discovery-next,.lg-app .discovery-tool { width:64px; height:44px; min-height:44px; }
+ .lg-app .parade-actions { height:44px; }
+}
+.lg-app.lg-reduce-motion :is(.unfuse-half,.unfuse-found,.parade-form > svg) { animation:none!important; }
+@media(prefers-reduced-motion:reduce) { .lg-app :is(.unfuse-half,.unfuse-found,.parade-form > svg) { animation:none!important; } }
+
+/* A shallow shelf supports the form folders; it never covers teaching ink. */
+.lg-app [data-activity="parade"] .parade-spots::before { content:""; position:absolute; left:-5px; right:-5px; bottom:-7px; height:12px; border-radius:4px 4px 8px 8px; background:linear-gradient(#fffaf0 0 22%,#c9bda4 22% 64%,#a89478 64%); box-shadow:0 4px 0 #2b1e1220; }
+.lg-app .parade-star::before,.lg-app .parade-reference::before { content:""; position:absolute; top:0; left:50%; translate:-50% -25%; width:22px; height:10px; border:1.6px solid #4a3620; border-radius:4px; background:linear-gradient(#fffaf0,#c9bda4); z-index:1; pointer-events:none; }
+.lg-app .parade-reference::before { width:14px; height:6px; }
+/* Short landscape reserves a real row for a comparison hint. An overlay at
+   y=88 would collide with the top of a letter card after a retry. */
+@media(orientation:landscape) and (max-height:450px) {
+ .lg-app .lg-play:is([data-activity="unfuse"],[data-activity="parade"]) > .learning-hint { position:relative; left:auto; top:auto; transform:none; flex:0 0 auto; margin:0 auto 6px; padding:2px 10px; }
+ .lg-app .lg-play:is([data-activity="unfuse"],[data-activity="parade"]) .learning-compare { min-width:36px; height:34px; padding:0 4px; }
+ .lg-app .lg-play:is([data-activity="unfuse"],[data-activity="parade"]) .learning-compare > svg { width:48px; height:34px; }
+}

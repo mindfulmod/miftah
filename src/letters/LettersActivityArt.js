@@ -10,7 +10,7 @@
     build: "joinery",
     blend: "joinery",
     fuse: "joinery",
-    unfuse: "workbench",
+    unfuse: "joinery",
     chain: "joinery",
     parade: "parade",
   };
@@ -104,23 +104,22 @@
   }
 
   function parade() {
-    return `
-      <svg viewBox="0 0 720 540" preserveAspectRatio="none" aria-hidden="true">
-        <path d="M0 0H720V540H0Z" fill="#fffaf0" opacity=".48"/>
-        <path d="M0 0H720V64Q546 46 357 66Q169 87 0 62Z" fill="#ffe49a" opacity=".38"/>
-        <path d="M0 36Q170 62 355 42Q541 22 720 40V75Q543 57 363 76Q174 96 0 72Z" fill="#f3c955" opacity=".25"/>
-        <path d="M34 92H686" fill="none" stroke="#4a3620" stroke-width="6" stroke-linecap="round"/>
-        <path d="M49 92V438M671 92V438" fill="none" stroke="#a89478" stroke-width="6" stroke-linecap="round"/>
-        <g class="activity-parade-hangers" fill="none" stroke="#a89478" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M82 92V121Q82 130 91 130Q100 130 100 121Q100 112 91 112M91 130L62 155H120Z"/>
-          <path d="M638 92V121Q638 130 629 130Q620 130 620 121Q620 112 629 112M629 130L600 155H658Z"/>
-        </g>
-        ${shadow(360, 500, 258, 14)}
-        <path d="M112 451Q360 430 608 451V502Q360 522 112 502Z" fill="#c9bda4" stroke="#4a3620" stroke-width="3"/>
-        <path d="M117 450Q360 432 603 451V472Q360 488 117 471Z" fill="#e5dcc8"/>
-        <path d="M145 499V528M575 499V528" fill="none" stroke="#4a3620" stroke-width="6" stroke-linecap="round"/>
-        <path d="M157 492Q360 506 563 492" fill="none" stroke="#fffdf7" stroke-width="3" stroke-linecap="round" opacity=".72"/>
-      </svg>`;
+    // The upright cabinet shares the joinery desk's warm timber. Only these
+    // broad planes resize; paper doors and live teaching tiles keep their ratio.
+    return `<svg class="activity-plane" viewBox="0 0 720 540" preserveAspectRatio="none" aria-hidden="true">
+      <ellipse cx="360" cy="526" rx="310" ry="12" fill="#2f5c46" opacity=".16"/>
+      <path d="M75 428H145L135 519Q111 532 86 519ZM575 428H645L634 519Q609 532 585 519Z" fill="#4a3620"/>
+      <path d="M88 439H131L124 516L98 516ZM589 439H632L622 516L598 516Z" fill="#a89478"/>
+      <path d="M30 56Q30 29 56 27Q360 4 664 27Q690 29 690 56V468Q688 497 664 500H56Q32 497 30 468Z" fill="#a89478"/>
+      <path d="M30 42Q30 19 56 17Q360 0 664 17Q690 19 690 42V455Q688 480 664 482H56Q32 480 30 455Z" fill="#c9bda4"/>
+      <path d="M38 40Q38 25 58 24Q360 8 662 24Q682 25 682 40V443Q682 463 662 464H58Q38 463 38 443Z" fill="#e5dcc8"/>
+      <path d="M42 29Q360 12 678 29V42Q360 26 42 42Z" fill="#fffaf0"/>
+      <path d="M63 55Q360 43 657 55V425Q360 445 63 425Z" fill="#2f5c46"/>
+      <path d="M73 63Q360 52 647 63V409Q360 428 73 409Z" fill="#4e9677"/>
+      <path d="M75 63Q360 53 645 63V75Q360 63 75 75Z" fill="#b7e779" opacity=".48"/>
+      <path d="M52 440Q360 457 668 440V456Q360 475 52 456Z" fill="#fffaf0"/>
+      <path d="M52 457Q360 476 668 457V472Q360 491 52 472Z" fill="#a89478"/>
+    </svg>`;
   }
 
   function potting(){

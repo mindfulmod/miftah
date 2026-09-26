@@ -159,3 +159,20 @@ optically fitted text. Reduced motion reveals the same result instantly. Stoppin
 a drag hint must also stop the tile's entry animation, so carrier geometry cannot
 jump at release. See `../letter-garden/JOINING_PLAY_REVIEW.md` for composed-frame
 screenshots, value measurements and remaining art-bible debt.
+
+## Splitting desk and form cabinet, 2026-09-25
+
+Unfuse extends the same joinery plane with a recessed green mat and larger freed
+pieces. Its pictorial split tool, replay badges and orange continuation share
+the joining family's materials. The furniture is capped in portrait so the
+learning pieces occupy it rather than being lost in empty height.
+
+Parade uses a 720×540 upright timber/paper cabinet, grounded at y=526, with a
+recessed green back, three folded doors and a shallow shelf. Each door hints at
+its connection edge. Opening reveals the original live Arabic form; a clipped
+larger card and a smaller isolated-letter reference support comparison. The
+shelf ends below the cards, never across teaching ink. Broad planes resize;
+letter carriers and replay controls retain their proportions. Day/night garden
+surroundings and the selected pet remain visible. Reduced motion removes the
+arrival movement without removing the exploration state. See
+`../letter-garden/DISCOVERY_PLAY_REVIEW.md` for actual play and art-review limits.

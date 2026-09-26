@@ -1904,8 +1904,9 @@
       this.ctx = ctx;
       this.alive = true;
       const pool = ctx.items.filter((i) => i.parts && i.parts.length === 2);
-      this.targets = shuffle(pool).slice(0, ctx.rounds || 4);
-      while (this.targets.length < 4 && pool.length)
+      const count=ctx.rounds || 4;
+      this.targets = shuffle(pool).slice(0, count);
+      while (this.targets.length < count && pool.length)
         this.targets.push(pool[this.targets.length % pool.length]);
       this.roundIndex = 0;
       this.slips = 0;
@@ -1914,16 +1915,18 @@
 
     startRound() {
       if(!this.alive)return;
+      this.stopHint?.();
+      this.releasePull();
       this.busy=false;
+      this.phase="pull";
+      const round=this.roundIndex;
       const ctx = this.ctx;
       const target = this.targets[this.roundIndex];
       ctx.setPrompt(target);
       ctx.say(target);
-      // Discoverability (2026-07-24): this is the ONLY game that needs a drag —
-      // every other one is tapped — and the tile looked exactly like a tappable
-      // one, so a child taps it forever and nothing happens. Three wordless
-      // affordances now say "pull me apart": a seam down the middle, arrows
-      // pointing out, and an idle tug that DEMONSTRATES the gesture.
+      // The seam, outward arrows and gentle tug demonstrate pulling. The
+      // separate-pieces control provides a direct tap alternative, while the
+      // whole tile retains its three-tap fallback and keyboard shortcut.
       const arrow = (dir) =>
         `<span class="unfuse-arrow is-${dir}" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 5 L3 12 L9 19" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`;
       ctx.stage.innerHTML = `
@@ -1936,9 +1939,10 @@
             </button>
             ${arrow("r")}
           </div>
-          <div class="unfuse-halves" hidden>
-            <span class="unfuse-half is-r">${workshopTile(target.parts[0].display)}</span>
-            <span class="unfuse-half is-l">${workshopTile(target.parts[1].display)}</span>
+          <button type="button" class="discovery-tool unfuse-open" aria-label="Separate the pieces">${joinActionIcon(true)}</button>
+          <div class="unfuse-discovery" hidden>
+            <div class="unfuse-halves" hidden>${target.parts.map((part,i)=>`<button type="button" class="unfuse-half is-${i ? 'l' : 'r'}" aria-label="Hear ${part.display}">${workshopTile(part.display)}<span class="build-listen" aria-hidden="true">${Art.icon('speaker',24)}</span></button>`).join('')}</div>
+            <button type="button" class="discovery-next unfuse-find" aria-label="Find a freed letter">${Art.icon('next',32)}</button>
           </div>
           <div class="unfuse-quiz" hidden></div>
         </div>`;
@@ -1951,27 +1955,28 @@
       // Demonstrate the pull on a loop until the child manages one themselves.
       clearInterval(this.hintTimer);
       const tug = () => {
-        if (!this.alive || pulled || !whole.isConnected) return clearInterval(this.hintTimer);
+        if (!this.alive || this.phase!=="pull" || this.roundIndex!==round || pulled || !whole.isConnected) return clearInterval(this.hintTimer);
         whole.classList.remove("is-tugging");
         void whole.offsetWidth;
         whole.classList.add("is-tugging");
       };
-      setTimeout(tug, 1200);
-      this.hintTimer = setInterval(tug, 3200);
-      const stopHint = () => {
+      if(!ctx.reducedMotion?.()){setTimeout(tug,1200);this.hintTimer=setInterval(tug,3200);}
+      const stopHint = this.stopHint = () => {
         clearInterval(this.hintTimer);
         whole.classList.remove("is-tugging");
       };
+      // A double-click on the preceding Next can land here after the rerender.
+      ctx.stage.querySelector(".unfuse-open").onclick=(e)=>{if(e?.detail>1)return;if(this.alive&&this.phase==="pull"&&this.roundIndex===round)this.split();};
       whole.addEventListener("keydown", (e) => {
         if(e.key!=="Enter" && e.key!==" ")return;
         e.preventDefault();
-        if(e.repeat || !this.alive || this.busy || !whole.isConnected)return;
+        if(e.repeat || !this.alive || this.phase!=="pull" || this.roundIndex!==round || !whole.isConnected)return;
         pulled=true;
         stopHint();
         this.split();
       });
       whole.addEventListener("pointerdown", (e) => {
-        if(e.button>0 || e.isPrimary === false || whole.__lgPointer != null || !this.alive||this.busy)return;
+        if(e.button>0 || e.isPrimary === false || whole.__lgPointer != null || !this.alive || this.phase!=="pull" || this.roundIndex!==round || !whole.isConnected)return;
         if (!this.canStartDrag(whole)) return;
         whole.__lgPointer = e.pointerId;
         whole.setPointerCapture(e.pointerId);
@@ -2004,7 +2009,7 @@
       whole.addEventListener("pointerup", (e) => {
         if (e.pointerId !== whole.__lgPointer) return;
         release(e);
-        if (!pulled) {
+        if (!pulled && this.alive && this.phase==="pull" && this.roundIndex===round) {
           // A plain tap wobbles and replays the sound — the hint IS the toy.
           whole.classList.remove("is-shake");
           void whole.offsetWidth;
@@ -2024,29 +2029,35 @@
       });
     }
 
+    releasePull() {
+      const whole=this.whole, id=whole?.__lgPointer;
+      if(!whole)return;
+      whole.__lgPointer=null;
+      whole.classList.remove('is-held');whole.style.setProperty('--strain','0');
+      if(id!=null && whole.hasPointerCapture?.(id))whole.releasePointerCapture(id);
+    }
+
     split() {
-      if(!this.alive||this.busy)return;
-      const active = this.whole?.__lgPointer;
-      if (active != null && this.whole?.hasPointerCapture?.(active)) this.whole.releasePointerCapture(active);
-      if (this.whole) { this.whole.__lgPointer = null; this.whole.classList.remove("is-held"); this.whole.style.setProperty("--strain", "0"); }
-      this.busy=true;
-      const ctx = this.ctx;
+      if(!this.alive || this.phase!=='pull')return;
+      this.phase='explore';this.busy=true;this.releasePull();this.stopHint?.();
+      const ctx=this.ctx, round=this.roundIndex, target=this.targets[round];
       clearInterval(this.hintTimer);
-      const target = this.targets[this.roundIndex];
-      const pull = ctx.stage.querySelector(".unfuse-pull");
-      const halves = ctx.stage.querySelector(".unfuse-halves");
-      if (pull) pull.hidden = true;
-      halves.hidden = false;
-      reportAssembly(ctx, target, undefined);
-      ctx.sfx("hatch");
-      ctx.confettiAt(halves);
-      // Each freed letter introduces itself, right one (read first) first.
-      ctx.say({ display: target.parts[0].display, speak: target.parts[0].speak });
-      setTimeout(
-        () => {if(this.alive)ctx.say({ display: target.parts[1].display, speak: target.parts[1].speak });},
-        900,
-      );
-      setTimeout(() => this.quiz(), 1900);
+      const pull=ctx.stage.querySelector('.unfuse-pull'),halves=ctx.stage.querySelector('.unfuse-halves');
+      pull.hidden=true;halves.hidden=false;
+      ctx.stage.querySelector('.unfuse-open').hidden=true;
+      ctx.stage.querySelector('.unfuse-discovery').hidden=false;
+      reportAssembly(ctx,target,undefined);
+      ctx.setPrompt?.(target,{promptMode:'explore',skill:'segmenting'});
+      ctx.sfx('hatch');ctx.confettiAt(halves);
+      // The existing names queue owns sequencing; a fixed second-letter timer
+      // must not cut off a slower voice. Each freed letter also has its own replay.
+      ctx.say(target);
+      (halves.querySelectorAll?.('.unfuse-half') || []).forEach((button,i)=>{
+        button.onclick=()=>{if(this.alive&&this.phase==='explore'&&this.roundIndex===round)ctx.say(target.parts[i]);};
+      });
+      const next=ctx.stage.querySelector('.unfuse-find');
+      next.onclick=()=>{if(this.alive&&this.phase==='explore'&&this.roundIndex===round)this.quiz();};
+      next.focus?.({preventScroll:true});
     }
 
     canStartDrag(el) {
@@ -2055,10 +2066,11 @@
     }
 
     quiz() {
-      if(!this.alive)return;
-      this.busy=false;
+      if(!this.alive || this.phase!=="explore")return;
+      this.phase="quiz";this.busy=false;
+      const round=this.roundIndex;
       const ctx = this.ctx;
-      const target = this.targets[this.roundIndex];
+      const target = this.targets[round];
       // Ask for one of the two freed letters; a third letter crashes the
       // line-up as the decoy.
       const wanted = target.parts[Math.floor(Math.random() * 2)];
@@ -2078,27 +2090,31 @@
       };
       presentRound(ctx, quizRound, "unfuse");
       const quizEl = ctx.stage.querySelector(".unfuse-quiz");
-      ctx.stage.querySelector(".unfuse-halves").hidden = true;
+      ctx.stage.querySelector(".unfuse-discovery").hidden = true;
       quizEl.hidden = false;
       quizEl.innerHTML = options
         .map((o, i) => `<button type="button" class="unfuse-pick" data-i="${i}" aria-label="${o.display}">${workshopTile(o.display)}</button>`)
         .join("");
       for (const btn of quizEl.querySelectorAll(".unfuse-pick")) {
         btn.addEventListener("click", () => {
-          if(!this.alive||this.busy||btn.disabled)return;
+          if(!this.alive||this.phase!=="quiz"||this.roundIndex!==round||btn.disabled)return;
           const o = options[Number(btn.dataset.i)];
           if (o.display === wanted.display) {
-            this.busy=true;
-            reportPromptMatch(ctx, quizRound, true, { ...o, id: o.id || o.display }, "unfuse");
-            ctx.sfx("correct");
-            ctx.confettiAt(btn);
-            ctx.say({ display: o.display, speak: o.speak });
-            setTimeout(() => {
-              if(!this.alive)return;
-              this.roundIndex += 1;
-              if (this.roundIndex >= this.targets.length) {this.alive=false;return ctx.onDone(this.slips);}
-              this.startRound();
-            }, 900);
+            this.busy=true;this.phase='result';
+            reportPromptMatch(ctx,quizRound,true,{...o,id:o.id || o.display},'unfuse');
+            ctx.clearLearningHint?.();ctx.sfx('correct');ctx.confettiAt(btn);
+            ctx.setPrompt(promptTarget,{promptMode:'explore',skill:'segmenting'});
+            quizEl.classList.add('is-solved');
+            quizEl.innerHTML=`<button type="button" class="unfuse-found" aria-label="Hear ${o.display}">${workshopTile(o.display)}<span class="build-listen" aria-hidden="true">${Art.icon('speaker',24)}</span></button><button type="button" class="discovery-next unfuse-next" aria-label="Next pair">${Art.icon('next',32)}</button>`;
+            quizEl.querySelector('.unfuse-found').onclick=()=>{if(this.alive&&this.phase==='result'&&this.roundIndex===round)ctx.say(o);};
+            const next=quizEl.querySelector('.unfuse-next');
+            next.onclick=()=>{
+              if(!this.alive||this.phase!=='result'||this.roundIndex!==round)return;
+              this.phase='advancing';this.roundIndex++;
+              if(this.roundIndex>=this.targets.length){this.alive=false;ctx.onDone(this.slips);return;}
+              this.startRound();this.whole.focus?.({preventScroll:true});
+            };
+            ctx.say(o);next.focus?.({preventScroll:true});
           } else {
             btn.disabled=true;
             this.slips += 1;
@@ -2109,15 +2125,16 @@
             svg.classList.remove("is-shake");
             void svg.offsetWidth;
             svg.classList.add("is-shake");
-            setTimeout(() => btn.classList.add("is-scaffolded"), 600);
+            btn.classList.add("is-scaffolded");
             if (ctx.pulsePrompt) ctx.pulsePrompt();
             ctx.say({ display: wanted.display, speak: wanted.speak });
           }
         });
       }
+      quizEl.querySelector(".unfuse-pick")?.focus?.({preventScroll:true});
     }
 
-    destroy() { this.alive=false; this.stopHint?.(); clearInterval(this.hintTimer); const el=this.whole; const id=el?.__lgPointer; if(el&&id!=null&&el.hasPointerCapture?.(id))el.releasePointerCapture(id); if(el)el.__lgPointer=null; }
+    destroy() { this.alive=false; this.stopHint?.(); clearInterval(this.hintTimer); this.releasePull(); }
   }
 
   // ---------- Chain: grow a two-letter join into three ----------
@@ -2321,123 +2338,122 @@
   }
 
   // ---------- Costume parade: one letter, three outfits ----------
-  // The gentle one. A letter stands center stage; three dressing spots wait
-  // in reading order. Each tap dresses the letter in that position's
-  // costume and speaks its name. No verdicts (like Pairs, deliberately
-  // untracked) — this is recognition by wandering, not testing.
+  // Explore the three positional forms at the child's pace, naming the same
+  // letter throughout. Discovery reports participation only; the existing
+  // two-choice recognition check remains a separate, explicit next step.
   class ParadeGame {
     constructor(ctx) {
-      this.ctx = ctx;
-      this.alive = true;
-      const TATWEEL = "ـ";
-      const joiners = (ctx.extraItems || []).filter((l) => l.joins);
-      const pool = joiners.length
-        ? joiners
-        : ctx.items.filter((i) => i.parts).map((i) => ({ display: i.parts[0].display, speak: i.parts[0].speak, joins: true }));
-      this.letters = shuffle(pool).slice(0, 3);
-      this.formsOf = (ch) => [ch + TATWEEL, TATWEEL + ch + TATWEEL, TATWEEL + ch];
-      this.roundIndex = 0;
-      ctx.setPrompt(null);
-      this.startRound();
+      this.ctx=ctx;this.alive=true;this.slips=0;
+      const joiners=(ctx.extraItems || []).filter(l=>l.joins);
+      const pool=joiners.length ? joiners : ctx.items.filter(i=>i.parts?.length)
+        .map(i=>({display:i.parts[0].display,speak:i.parts[0].speak,joins:true}));
+      this.letters=shuffle([...new Map(pool.map(l=>[l.display,l])).values()]).slice(0,3);
+      this.formsOf=ch=>[ch+'ـ','ـ'+ch+'ـ','ـ'+ch];
+      this.roundIndex=0;this.startRound();
+    }
+
+    cover(index) {
+      // A folded outfit with left/right connections hints at position, without
+      // showing the letter before its reveal or adding written instructions.
+      return `<svg viewBox="0 0 80 88" aria-hidden="true"><path d="M12 12Q40 5 68 12V74Q40 84 12 74Z" fill="#c9bda4"/><path d="M12 9Q40 2 68 9V69Q40 79 12 69Z" fill="#e5dcc8"/><path d="M16 12L37 8V71L16 66ZM43 8L64 12V66L43 71Z" fill="#fffaf0"/><path d="M40 8V73" stroke="#a89478" stroke-width="2.4"/><circle cx="34" cy="42" r="3" fill="#c69434"/><circle cx="46" cy="42" r="3" fill="#c69434"/><path d="${index<2?'M12 60H29':''}${index>0?'M51 60H68':''}" fill="none" stroke="#4e9677" stroke-width="4" stroke-linecap="round"/></svg>`;
     }
 
     startRound() {
       if(!this.alive)return;
-      this.busy=false;
-      const ctx = this.ctx;
-      const letter = this.letters[this.roundIndex];
-      const forms = this.formsOf(letter.display);
-      ctx.setPrompt?.(null, { promptMode: "match", skill: "contextual_forms", choiceIds: [], activity: "parade" });
-      ctx.say({ display: letter.display, speak: letter.speak });
-      ctx.stage.innerHTML = `
-        <div class="parade-scene">
-          <span class="parade-star">${workshopTile(letter.display)}</span>
-          <div class="parade-spots" dir="rtl">
-            ${forms
-              .map(
-                (f, i) => `<button type="button" class="parade-spot" data-i="${i}" aria-label="Reveal letter form ${i+1}">
-                  <span class="parade-mystery" aria-hidden="true"><svg viewBox="0 0 64 64"><path d="M15 49V20Q32 7 49 20V49" fill="#dce7bd" stroke="#7c9163" stroke-width="3"/><path d="M31 16V49M15 49H49" stroke="#7c9163" stroke-width="3"/><path d="M23 32L18 36L23 40M41 32L46 36L41 40" fill="none" stroke="#fffaf0" stroke-width="3" stroke-linecap="round"/></svg></span>
-                  <span class="parade-form" hidden>${workshopTile(f)}</span>
-                </button>`,
-              )
-              .join("")}
-          </div>
-        </div>`;
-      this.dressed = 0;
-      for (const spot of ctx.stage.querySelectorAll(".parade-spot")) {
-        spot.addEventListener("click", () => {
-          if (!this.alive || !spot.querySelector(".parade-form").hidden) return;
-          spot.querySelector(".parade-mystery").hidden = true;
-          spot.querySelector(".parade-form").hidden = false;
-          spot.classList.add("is-dressed");
-          ctx.sfx("seed");
-          ctx.say({ display: letter.display, speak: letter.speak });
-          this.dressed += 1;
-          if (this.dressed >= 3) {
-            reportOutcome(ctx, { id: letter.id || letter.display }, undefined, "motor_assembly_participation", false);
-            ctx.confettiAt(ctx.stage.querySelector(".parade-spots"));
-            setTimeout(() => {
-              if(!this.alive)return;
-              const alternate = this.letters.find((item) => item.display !== letter.display);
-              if (alternate) return this.startTransfer(letter, forms[this.roundIndex % forms.length], alternate);
-              this.roundIndex += 1;
-              if (this.roundIndex >= this.letters.length) {this.alive=false;return ctx.onDone(0);}
-              this.startRound();
-            }, 1200);
-          }
-        });
-      }
-    }
-
-    startTransfer(letter, form, alternate) {
-      const ctx = this.ctx;
-      const target = { id: letter.id || letter.display, display: form, speak: letter.speak };
-      const options = shuffle([letter, alternate]);
-      ctx.setPrompt(target, {
-        promptMode: "match", skill: "contextual_forms",
-        choiceIds: options.map((item) => item.id || item.display), activity: "parade",
-      });
+      const ctx=this.ctx,round=this.roundIndex,letter=this.letters[round],forms=this.formsOf(letter.display);
+      this.phase='explore';this.busy=false;this.dressed=0;
+      ctx.setPrompt?.(null,{promptMode:'explore',skill:'contextual_forms',activity:'parade'});
       ctx.say(letter);
-      ctx.stage.innerHTML = `<div class="parade-scene parade-transfer">
-        <span class="parade-star">${workshopTile(form)}</span>
-        <div class="parade-spots">${options.map((item, i) =>
-          `<button type="button" class="parade-spot parade-choice" data-i="${i}" aria-label="${item.display}">${workshopTile(item.display)}</button>`).join("")}</div>
+      ctx.stage.innerHTML=`<div class="parade-scene">
+        <div class="parade-display">
+          <button type="button" class="parade-star" aria-label="Hear ${letter.display}">${workshopTile(letter.display)}<span class="build-listen" aria-hidden="true">${Art.icon('speaker',24)}</span></button>
+          <button type="button" class="parade-reference" aria-label="Hear original ${letter.display}" hidden>${workshopTile(letter.display)}</button>
+        </div>
+        <div class="parade-spots" dir="rtl">${forms.map((f,i)=>`<button type="button" class="parade-spot" data-i="${i}" aria-label="Reveal letter form ${i+1}" aria-pressed="false"><span class="parade-mystery" aria-hidden="true">${this.cover(i)}</span><span class="parade-form" hidden>${workshopTile(f)}</span></button>`).join('')}</div>
+        <div class="parade-actions"><button type="button" class="discovery-next parade-continue" aria-label="Find this letter" hidden>${Art.icon('next',32)}</button></div>
       </div>`;
-      for (const button of ctx.stage.querySelectorAll(".parade-choice")) {
-        button.addEventListener("click", () => {
-          if (!this.alive || this.busy || button.disabled) return;
-          const selected = options[Number(button.dataset.i)];
-          const details = {
-            selectedId: selected.id || selected.display,
-            choiceIds: options.map((item) => item.id || item.display),
-            skill: "contextual_forms", activity: "parade",
-          };
-          if (selected.display !== letter.display) {
-            button.disabled = true;
-            this.slips = (this.slips || 0) + 1;
-            reportOutcome(ctx, target, false, "supported_visible_matching", true, details);
-            ctx.showLearningHint?.(target, selected);
-            ctx.sfx("wrong");
-            button.classList.add("is-shake");
-            ctx.say(letter);
-            return;
+      const active=()=>this.alive&&this.phase==='explore'&&this.roundIndex===round;
+      const star=ctx.stage.querySelector('.parade-star'),reference=ctx.stage.querySelector('.parade-reference');
+      star.onclick=reference.onclick=()=>{if(active())ctx.say(letter);};
+      const next=ctx.stage.querySelector('.parade-continue');
+      next.onclick=()=>{
+        if(!active()||this.dressed<3)return;
+        this.phase='advancing';
+        const alternate=this.letters.find(item=>item.display!==letter.display);
+        if(alternate)this.startTransfer(letter,forms[round % forms.length],alternate);
+        else this.advanceRound(round);
+      };
+      const spots=[...ctx.stage.querySelectorAll('.parade-spot')];
+      spots.forEach((spot,i)=>{
+        spot.addEventListener('click',()=>{
+          if(!active())return;
+          const form=spot.querySelector('.parade-form');
+          if(form.hidden){
+            spot.querySelector('.parade-mystery').hidden=true;form.hidden=false;
+            spot.classList.add('is-dressed');this.dressed++;ctx.sfx('seed');
+            spot.setAttribute('aria-label',`Hear form ${forms[i]}`);
+            if(this.dressed===3){
+              reportOutcome(ctx,{id:letter.id || letter.display},undefined,'motor_assembly_participation',false,{skill:'contextual_forms',activity:'parade'});
+              ctx.confettiAt(ctx.stage.querySelector('.parade-spots'));next.hidden=false;
+            }
           }
-          this.busy = true;
-          reportOutcome(ctx, target, true, "supported_visible_matching", true, details);
-          ctx.sfx("correct");
-          ctx.confettiAt(button);
+          star.innerHTML=`${workshopTile(forms[i])}<span class="build-listen" aria-hidden="true">${Art.icon('speaker',24)}</span>`;
+          star.setAttribute('aria-label',`Hear form ${forms[i]}`);reference.hidden=false;
+          spots.forEach(other=>other.setAttribute('aria-pressed',String(other===spot)));
           ctx.say(letter);
-          setTimeout(() => {
-            if (!this.alive) return;
-            this.roundIndex += 1;
-            if (this.roundIndex >= this.letters.length) { this.alive = false; return ctx.onDone(this.slips || 0); }
-            this.startRound();
-          }, 900);
         });
-      }
+      });
     }
 
-    destroy() { this.alive=false; this.stopHint?.(); clearInterval(this.hintTimer); }
+    advanceRound(round) {
+      if(!this.alive || this.roundIndex!==round || !['result','advancing'].includes(this.phase))return;
+      this.phase='advancing';this.roundIndex++;
+      if(this.roundIndex>=this.letters.length){this.alive=false;this.ctx.onDone(this.slips || 0);return;}
+      this.startRound();this.ctx.stage.querySelector('.parade-spot')?.focus?.({preventScroll:true});
+    }
+
+    startTransfer(letter,form,alternate) {
+      if(!this.alive)return;
+      this.phase='quiz';this.busy=false;
+      const ctx=this.ctx,round=this.roundIndex;
+      const target={id:letter.id || letter.display,display:form,speak:letter.speak};
+      const options=shuffle([letter,alternate]);
+      ctx.setPrompt(target,{promptMode:'match',skill:'contextual_forms',choiceIds:options.map(item=>item.id || item.display),activity:'parade'});
+      ctx.say(letter);
+      ctx.stage.innerHTML=`<div class="parade-scene parade-transfer">
+        <div class="parade-display"><button type="button" class="parade-star" aria-label="Hear form ${form}">${workshopTile(form)}<span class="build-listen" aria-hidden="true">${Art.icon('speaker',24)}</span></button></div>
+        <div class="parade-spots">${options.map((item,i)=>`<button type="button" class="parade-spot parade-choice" data-i="${i}" aria-label="${item.display}">${workshopTile(item.display)}</button>`).join('')}</div>
+        <div class="parade-actions"><button type="button" class="discovery-next parade-next" aria-label="Next letter" hidden>${Art.icon('next',32)}</button></div>
+      </div>`;
+      ctx.stage.querySelector('.parade-star').onclick=()=>{if(this.alive&&this.roundIndex===round)ctx.say(letter);};
+      const next=ctx.stage.querySelector('.parade-next');
+      next.onclick=()=>{if(this.phase==='result')this.advanceRound(round);};
+      const buttons=[...ctx.stage.querySelectorAll('.parade-choice')];
+      for(const button of buttons){
+        button.addEventListener('click',()=>{
+          if(!this.alive || this.roundIndex!==round || button.disabled)return;
+          const selected=options[Number(button.dataset.i)];
+          if(this.phase==='result'){if(selected.display===letter.display)ctx.say(letter);return;}
+          if(this.phase!=='quiz')return;
+          const details={selectedId:selected.id || selected.display,choiceIds:options.map(item=>item.id || item.display),skill:'contextual_forms',activity:'parade'};
+          if(selected.display!==letter.display){
+            button.disabled=true;this.slips++;
+            reportOutcome(ctx,target,false,'supported_visible_matching',true,details);
+            ctx.showLearningHint?.(target,selected);ctx.sfx('wrong');
+            button.classList.add('is-scaffolded');ctx.say(letter);return;
+          }
+          this.busy=true;this.phase='result';
+          reportOutcome(ctx,target,true,'supported_visible_matching',true,details);
+          ctx.clearLearningHint?.();ctx.sfx('correct');ctx.confettiAt(button);ctx.say(letter);
+          buttons.forEach(other=>{if(other!==button){other.disabled=true;other.hidden=true;}});
+          button.classList.add('is-found');
+          next.hidden=false;next.focus?.({preventScroll:true});
+        });
+      }
+      buttons[0]?.focus?.({preventScroll:true});
+    }
+
+    destroy(){this.alive=false;}
   }
 
   ns.LettersRoundBuilder = buildRounds;

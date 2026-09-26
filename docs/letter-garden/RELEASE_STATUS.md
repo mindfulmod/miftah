@@ -1,6 +1,6 @@
 # Letter Garden major release — local status
 
-Preview: `http://letter-garden-next.localhost:8790/letters.html?v=20260925-audio73`.
+Preview: `http://letter-garden-next.localhost:8790/letters.html?v=20260925-discovery1`.
 Durable checkout: `/Users/main/Documents/GitHub/miftah/.local-work/letter-garden-next-major`.
 Branch: `codex/letter-garden-next-major`.
 Production baseline: `55f34576f0ebfc02bcf115452101b37adfbb4536` / `20260908-batch50`.
@@ -154,3 +154,16 @@ Next owner action: generate the ten small batches on the linked retry page and
 attach the downloads. No repeat review of the 73 unchanged approvals needed.
 Local only; the broader art/gameplay goal remains active and its Unfuse/Parade
 work is still in progress, separate from this audio checkpoint.
+
+September 25: Unfuse and Parade now share the craft materials and child-led
+pacing. Unfuse has a splitting desk with large replayable pieces; Parade has
+three folded form doors, a shelf and an original/form comparison. Existing
+recognition and reward rules remain. Corrected contextual-form participation
+classification, landscape hint overlap and rapid-click carryover onto a new
+pair. 307 tests pass; full sequences, replay without repeat payout, keyboard,
+real pull, phone/landscape/tablet/desktop and reduced motion were checked. See
+[DISCOVERY_PLAY_REVIEW.md](DISCOVERY_PLAY_REVIEW.md). Local only; audio approvals
+and voice clips are unchanged from the preceding owner-review import.
+Next owner action: try the splitting desk and form cabinet, exploring before
+choosing the arrows. The wider art/game goal remains active; remaining activity
+families, pet participation and garden ownership still need follow-through.

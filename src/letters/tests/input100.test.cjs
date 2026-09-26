@@ -128,6 +128,6 @@ test('Blend ignores stale lost-capture events and Unfuse ignores collapsed drags
 test('Unfuse split releases a held pointer before hiding its tile',()=>{
  const {ns}=runtime(),whole=dragNode();whole.style.setProperty=()=>{};whole.__lgPointer=5;whole.setPointerCapture(5);
  const pull={hidden:false},halves={hidden:true};const game=Object.create(ns.LettersMiniGames.unfuse.prototype);
- Object.assign(game,{alive:true,busy:false,whole,roundIndex:0,targets:[{parts:[{display:'a'},{display:'b'}]}],ctx:{stage:{querySelector:s=>s==='.unfuse-pull'?pull:halves},sfx(){},confettiAt(){},say(){}}});
+ Object.assign(game,{alive:true,phase:'pull',busy:false,whole,roundIndex:0,targets:[{parts:[{display:'a'},{display:'b'}]}],ctx:{stage:{querySelector:s=>s==='.unfuse-pull'?pull:halves},sfx(){},confettiAt(){},say(){}}});
  game.split();assert.equal(whole.hasPointerCapture(5),false);assert.equal(whole.__lgPointer,null);assert.equal(pull.hidden,true);assert.equal(halves.hidden,false);
 });
