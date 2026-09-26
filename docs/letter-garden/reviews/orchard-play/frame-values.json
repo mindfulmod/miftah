@@ -1,0 +1,104 @@
+{
+  "method": "Whole rendered PNG HSL lightness L=(maxRGB+minRGB)/2; light >80%, mid 45–70%, dark <30%; ART.md quotas 8/12/5%. No crop or backdrop-only sampling.",
+  "frames": {
+    "catch-before-phone.png": {
+      "size": [
+        390,
+        844
+      ],
+      "above80": 47.5,
+      "mid45to70": 23.24,
+      "below30": 1.21
+    },
+    "catch-desktop-result.png": {
+      "size": [
+        1100,
+        800
+      ],
+      "above80": 32.64,
+      "mid45to70": 23.67,
+      "below30": 4.77
+    },
+    "catch-landscape-reduced.png": {
+      "size": [
+        568,
+        320
+      ],
+      "above80": 43.17,
+      "mid45to70": 13.4,
+      "below30": 7.49
+    },
+    "catch-result-phone.png": {
+      "size": [
+        390,
+        844
+      ],
+      "above80": 28.73,
+      "mid45to70": 34.89,
+      "below30": 6.94
+    },
+    "catch-small-phone.png": {
+      "size": [
+        320,
+        568
+      ],
+      "above80": 30.33,
+      "mid45to70": 26.49,
+      "below30": 7.3
+    },
+    "catch-three-choice-phone.png": {
+      "size": [
+        390,
+        844
+      ],
+      "above80": 28.0,
+      "mid45to70": 34.47,
+      "below30": 6.52
+    },
+    "pairs-before-phone.png": {
+      "size": [
+        390,
+        844
+      ],
+      "above80": 63.46,
+      "mid45to70": 18.52,
+      "below30": 2.3
+    },
+    "pairs-landscape.png": {
+      "size": [
+        568,
+        320
+      ],
+      "above80": 49.5,
+      "mid45to70": 32.02,
+      "below30": 8.01
+    },
+    "pairs-result-phone.png": {
+      "size": [
+        390,
+        844
+      ],
+      "above80": 48.67,
+      "mid45to70": 31.19,
+      "below30": 5.41
+    },
+    "pairs-small-phone.png": {
+      "size": [
+        320,
+        568
+      ],
+      "above80": 54.15,
+      "mid45to70": 25.33,
+      "below30": 6.97
+    },
+    "pairs-tablet-night.png": {
+      "size": [
+        768,
+        961
+      ],
+      "above80": 15.66,
+      "mid45to70": 31.96,
+      "below30": 5.22
+    }
+  }
+}

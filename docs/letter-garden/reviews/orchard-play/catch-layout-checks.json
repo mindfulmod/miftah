@@ -1,0 +1,134 @@
+[
+  {
+    "controls": [
+      {
+        "label": "Hear غِ",
+        "rect": {
+          "bottom": 500.203125,
+          "height": 155.3828125,
+          "left": 128.703125,
+          "right": 261.296875,
+          "top": 344.8203125,
+          "width": 132.59375,
+          "x": 128.703125,
+          "y": 344.8203125
+        }
+      },
+      {
+        "label": "Next fruit",
+        "rect": {
+          "bottom": 626.5625,
+          "height": 48,
+          "left": 155,
+          "right": 235,
+          "top": 578.5625,
+          "width": 80,
+          "x": 155,
+          "y": 578.5625
+        }
+      }
+    ],
+    "height": 844,
+    "overflow": false,
+    "width": 390
+  },
+  {
+    "controls": [
+      {
+        "label": "Hear غِ",
+        "rect": {
+          "bottom": 396.90625,
+          "height": 131.25,
+          "left": 104,
+          "right": 216,
+          "top": 265.65625,
+          "width": 112,
+          "x": 104,
+          "y": 265.65625
+        }
+      },
+      {
+        "label": "Next fruit",
+        "rect": {
+          "bottom": 490.3203125,
+          "height": 48,
+          "left": 120,
+          "right": 200,
+          "top": 442.3203125,
+          "width": 80,
+          "x": 120,
+          "y": 442.3203125
+        }
+      }
+    ],
+    "height": 568,
+    "overflow": false,
+    "width": 320
+  },
+  {
+    "controls": [
+      {
+        "label": "Hear غِ",
+        "rect": {
+          "bottom": 268,
+          "height": 112.5,
+          "left": 236,
+          "right": 332,
+          "top": 155.5,
+          "width": 96,
+          "x": 236,
+          "y": 155.5
+        }
+      },
+      {
+        "label": "Next fruit",
+        "rect": {
+          "bottom": 223,
+          "height": 48,
+          "left": 418.453125,
+          "right": 482.453125,
+          "top": 175,
+          "width": 64,
+          "x": 418.453125,
+          "y": 175
+        }
+      }
+    ],
+    "height": 320,
+    "overflow": false,
+    "width": 568
+  },
+  {
+    "controls": [
+      {
+        "label": "Hear غِ",
+        "rect": {
+          "bottom": 535.5,
+          "height": 173.4375,
+          "left": 476,
+          "right": 624,
+          "top": 362.0625,
+          "width": 148,
+          "x": 476,
+          "y": 362.0625
+        }
+      },
+      {
+        "label": "Next fruit",
+        "rect": {
+          "bottom": 673.203125,
+          "height": 48,
+          "left": 510,
+          "right": 590,
+          "top": 625.203125,
+          "width": 80,
+          "x": 510,
+          "y": 625.203125
+        }
+      }
+    ],
+    "height": 800,
+    "overflow": false,
+    "width": 1100
+  }
+]

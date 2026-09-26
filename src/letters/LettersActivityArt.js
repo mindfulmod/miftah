@@ -19,39 +19,43 @@
     `<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" fill="#2f5c46" opacity="${opacity}"/>`;
 
   function pairs() {
-    return `
-      <svg viewBox="0 0 720 540" preserveAspectRatio="none" aria-hidden="true">
-        <path d="M0 54Q76 25 150 50V492Q76 520 0 486ZM720 54Q644 25 570 50V492Q644 520 720 486Z" fill="#b7e779" opacity=".44"/>
-        <path d="M0 94Q73 66 126 82V462Q62 482 0 450ZM720 94Q647 66 594 82V462Q658 482 720 450Z" fill="#7fce54" opacity=".38"/>
-        <path d="M0 142Q50 119 92 128V426Q44 443 0 415ZM720 142Q670 119 628 128V426Q676 443 720 415Z" fill="#4e9677" opacity=".3"/>
-        ${shadow(38, 474, 46, 10)}${shadow(682, 474, 46, 10)}
-        <g class="activity-pairs-leaves" fill="#7fce54">
-          <path d="M19 97Q10 65 40 57Q58 82 19 97Z"/><path d="M67 73Q65 38 98 42Q108 72 67 73Z"/>
-          <path d="M701 97Q710 65 680 57Q662 82 701 97Z"/><path d="M653 73Q655 38 622 42Q612 72 653 73Z"/>
-        </g>
-        <g fill="none" stroke="#b7e779" stroke-width="3" stroke-linecap="round" opacity=".8">
-          <path d="M18 414Q58 390 89 409M631 409Q662 390 702 414"/>
-        </g>
-      </svg>`;
+    // A low seed tray: only the timber/mat planes stretch. Live cards and pots
+    // retain fixed proportions in the game layer above the recessed surface.
+    return `<svg class="activity-plane" viewBox="0 0 720 540" preserveAspectRatio="none" aria-hidden="true">
+      <ellipse cx="360" cy="509" rx="320" ry="23" fill="#2f5c46" opacity=".22"/>
+      <path d="M21 58Q21 25 57 25H663Q699 25 699 58V471Q699 516 663 519H57Q21 516 21 471Z" fill="#4a3620"/>
+      <rect x="24" y="22" width="672" height="466" rx="35" fill="#a89478"/>
+      <rect x="25" y="20" width="670" height="449" rx="35" fill="#e5dcc8"/>
+      <path d="M57 23H663Q691 23 692 55V70Q684 41 658 41H62Q36 41 28 70V56Q28 23 57 23Z" fill="#fffaf0"/>
+      <rect x="51" y="53" width="618" height="377" rx="29" fill="#2f5c46"/>
+      <rect x="59" y="65" width="602" height="355" rx="24" fill="#4e9677"/>
+      <path d="M84 77H636M79 88V389M641 88V389" fill="none" stroke="#b7e779" stroke-width="2.4" opacity=".45" stroke-dasharray="5 10"/>
+      <path d="M60 447Q227 455 305 447M416 447Q505 456 659 447" fill="none" stroke="#c9bda4" stroke-width="2.4"/>
+    </svg>`;
+  }
+
+  function orchardTree(side) {
+    return prop('orchard-tree '+side, `<ellipse cx="70" cy="364" rx="43" ry="10" fill="#2f5c46" opacity=".2"/>
+      <path d="M49 78Q43 218 39 348L28 362Q66 371 94 358L82 346Q71 204 83 80Z" fill="#a89478"/>
+      <path d="M53 79Q50 218 48 347L43 357L61 358Q58 200 68 80Z" fill="#e5dcc8"/>
+      <path d="M79 78Q71 211 82 346L94 358L71 361Q68 207 72 78Z" fill="#4a3620" opacity=".5"/>
+      <path d="M0 40Q-10 1 31 9Q63-16 89 9Q144-5 147 40Q182 62 146 84Q154 122 115 123Q95 150 63 129Q15 153 12 116Q-25 111-11 79Q-25 52 0 40Z" fill="#2f5c46"/>
+      <path d="M0 33Q5 4 33 17Q66-4 90 18Q133 6 139 40Q168 67 137 82Q139 108 112 108Q82 131 60 111Q25 131 19 102Q-15 98-4 74Q-17 50 0 33Z" fill="#4e9677"/>
+      <path d="M5 34Q19 15 35 25Q64 9 86 29Q114 16 131 37Q100 28 87 43Q63 22 37 43Q22 33 5 48Z" fill="#b7e779"/>
+      <path d="M34 354Q14 349 9 330Q36 328 43 347M83 352Q97 330 118 338Q113 356 83 360" fill="#4e9677"/>`, '0 0 150 380');
   }
 
   function catchOrchard() {
-    return `
-      <svg viewBox="0 0 720 540" preserveAspectRatio="none" aria-hidden="true">
-        <path d="M0 0H720V112Q596 84 482 111Q353 140 236 108Q116 77 0 111Z" fill="#b7e779" opacity=".34"/>
-        <path d="M0 0H720V76Q596 54 478 78Q352 104 239 75Q116 47 0 77Z" fill="#7fce54" opacity=".46"/>
-        <path d="M0 0H720V38Q568 21 444 43Q306 66 188 39Q97 19 0 39Z" fill="#4e9677" opacity=".58"/>
-        <path d="M0 486Q157 445 316 480Q477 514 720 468V540H0Z" fill="#b7e779" opacity=".54"/>
-        <path d="M0 510Q168 478 333 507Q509 536 720 495V540H0Z" fill="#7fce54" opacity=".58"/>
-        <path d="M0 530Q204 506 356 527Q529 550 720 517V540H0Z" fill="#4e9677" opacity=".42"/>
-        <g class="activity-orchard-fruit">
-          ${shadow(62, 116, 18, 4, ".12")}<path d="M45 84Q42 61 62 57Q81 62 78 84Q74 105 61 108Q48 105 45 84Z" fill="#ee806f"/><path d="M47 77Q58 65 76 76" fill="none" stroke="#ffa798" stroke-width="3" stroke-linecap="round"/><path d="M62 58Q64 47 73 42" fill="none" stroke="#4e9677" stroke-width="3" stroke-linecap="round"/>
-          ${shadow(656, 128, 18, 4, ".12")}<path d="M639 96Q636 73 656 69Q675 74 672 96Q668 117 655 120Q642 117 639 96Z" fill="#f3c955"/><path d="M641 89Q652 77 670 88" fill="none" stroke="#ffe49a" stroke-width="3" stroke-linecap="round"/><path d="M656 70Q658 59 667 54" fill="none" stroke="#4e9677" stroke-width="3" stroke-linecap="round"/>
-        </g>
-        <g class="activity-orchard-grass" fill="#4e9677" opacity=".7">
-          <path d="M12 509Q17 477 23 509Q31 471 35 510Q47 483 48 515Z"/><path d="M672 514Q679 477 684 512Q693 469 697 512Q708 485 710 517Z"/>
-        </g>
-      </svg>`;
+    return `<svg class="activity-plane" viewBox="0 0 720 540" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 0H720V540H0Z" fill="#ccfbef"/>
+      <path d="M0 65Q166 16 349 60Q547 92 720 38V0H0Z" fill="#4e9677" opacity=".28"/>
+      <path d="M0 300Q168 270 349 313Q547 338 720 294V540H0Z" fill="#b7e779" opacity=".55"/>
+      <path d="M0 400Q194 353 365 402Q545 443 720 378V540H0Z" fill="#4e9677" opacity=".35"/>
+      <path d="M0 462Q214 419 387 461Q589 502 720 436V540H0Z" fill="#4e9677"/>
+      <path d="M0 480Q200 435 370 481Q562 522 720 459V540H0Z" fill="#2f5c46"/>
+      <ellipse cx="360" cy="482" rx="185" ry="28" fill="#e5dcc8"/>
+      <ellipse cx="360" cy="476" rx="182" ry="23" fill="#fffaf0"/>
+    </svg>${orchardTree('is-left')}${orchardTree('is-right')}`;
   }
 
   // Only large planes stretch. Props have their own viewBox and ground anchor.

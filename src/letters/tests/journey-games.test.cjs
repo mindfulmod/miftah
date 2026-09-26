@@ -38,12 +38,13 @@ test('journey games report one-based progress with their actual totals', () => {
 
 function pairStage() {
   const grid = { appendChild() {} };
-  return { innerHTML: '', querySelector: () => grid };
+  return { innerHTML: '', classList: { add() {}, remove() {} }, querySelector: () => grid, querySelectorAll: () => [] };
 }
 
 test('Pairs beginner boards cover four familiar items as two disjoint pairs', () => {
   const makeElement = () => ({ className: '', classList: { add() {}, remove() {} }, setAttribute() {}, addEventListener() {}, appendChild() {}, style: {} });
   const { ns } = runtime({ document: { createElement: makeElement } });
+  ns.LettersArt.icon = () => '<svg/>';
   const progress = [];
   const ctx = { beginner: true, items, stage: pairStage(), setRoundProgress: (...args) => progress.push(args), setPrompt() {}, say() {} };
   const game = Object.create(ns.LettersMiniGames.pairs.prototype);
@@ -64,6 +65,7 @@ test('Pairs beginner boards cover four familiar items as two disjoint pairs', ()
 test('Pairs replay keeps three-pair boards', () => {
   const makeElement = () => ({ className: '', classList: { add() {}, remove() {} }, setAttribute() {}, addEventListener() {}, appendChild() {}, style: {} });
   const { ns } = runtime({ document: { createElement: makeElement } });
+  ns.LettersArt.icon = () => '<svg/>';
   const ctx = { beginner: false, items, stage: pairStage(), setPrompt() {}, say() {} };
   const game = Object.create(ns.LettersMiniGames.pairs.prototype);
   Object.assign(game, { ctx, alive: true, boardIndex: 0, boards: 2, slips: 0 });

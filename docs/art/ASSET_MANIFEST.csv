@@ -47,3 +47,7 @@ discovery-splitting-mat,activity-carrier,hold the connected pair then replayable
 form-cabinet,activity-scenery,ground contextual form discovery with timber frame and shelf,1,720,540,none,"360 526",front,1,true,paper-foliage,joinery-table,Parade,reviewed-local
 form-cabinet-doors,activity-controls,reveal three contextual forms then replay them,3,80,88,none,center,front,1,true,paper-ink,form-cabinet,Parade,reviewed-local
 discovery-controls,activity-controls,child-led split and find and continuation,1,80,48,none,center,front,2,true,paper-warm,joinery-table,Unfuse+Parade,reviewed-local
+orchard-seed-tray,activity-scenery,recessed surface for matching cards and seedlings,1,720,540,none,center,back,1,true,paper-foliage,joinery-table,LettersActivityArt.js,reviewed-local
+orchard-edge-trees,activity-scenery,frame catch play with fixed-proportion orchard trees,2,150,380,none,ground,far,1,true,foliage-paper,catch-orchard,LettersActivityArt.js,reviewed-local
+orchard-fruit,activity-prop,falling and caught fruit preserve live glyph clarity,1,128,150,none,ground,front,1,true,warm-paper,catch-orchard,MiniGames.js,reviewed-local
+orchard-catch-basket,activity-prop,two layers let caught fruit sit behind the basket rim,1,180,112,none,ground,front,2,true,warm-paper,catch-orchard,MiniGames.js,reviewed-local

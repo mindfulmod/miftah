@@ -176,3 +176,15 @@ letter carriers and replay controls retain their proportions. Day/night garden
 surroundings and the selected pet remain visible. Reduced motion removes the
 arrival movement without removing the exploration state. See
 `../letter-garden/DISCOVERY_PLAY_REVIEW.md` for actual play and art-review limits.
+
+## Orchard play surfaces, 2026-09-26
+
+Pairs adds a recessed 720×540 seed tray with fixed-proportion pots and small
+seedlings. Catch adds a quiet 720×540 orchard plane, edge trees in 150×380
+frames, fixed-proportion fruit in 128×150 frames, and a two-layer basket in
+180×112 frames so caught fruit can sit behind its rim while the glyph remains
+clear. Matching grows seedlings across boards; Catch retains moving fruit and a
+child-led continuation. See `../letter-garden/ORCHARD_PLAY_REVIEW.md` for actual
+play evidence, composed PNG measurements and remaining review limits. The
+measurements show repository-wide value and palette debt; this pass is a local
+release candidate pending final publication.

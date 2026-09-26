@@ -139,7 +139,7 @@ test('Trace maps pointer positions into its actual canvas when the board is scal
 
 test('leaving Pairs invalidates its pending final-board completion',()=>{
  const {ns}=runtime();let paid=0;const game=Object.create(ns.LettersMiniGames.pairs.prototype);
- Object.assign(game,{alive:true,boardIndex:1,boards:2,ctx:{onDone(){paid++}}});
+ Object.assign(game,{alive:true,complete:true,boardIndex:1,boards:2,ctx:{onDone(){paid++}}});
  game.destroy();game.nextBoard();assert.equal(paid,0);assert.equal(game.boardIndex,1);
 });
 test('leaving Build during success prevents speech, reveal and payout',()=>{
@@ -309,15 +309,19 @@ test('Reward rendering preserves Boat and uses the current habitat without chang
 });
 
 test('Pairs mismatch retains the reference, replays it and accepts a new partner',()=>{
- const {ns}=runtime();const spoken=[];let correct=0;
- const make=(id)=>{const flags=new Set();return {id,el:{setAttribute(k,v){this[k]=v},classList:{contains:c=>flags.has(c),add:c=>flags.add(c),remove:c=>flags.delete(c)}}}};
+ const {ns,timers}=runtime();const spoken=[];let correct=0;
+ ns.LettersArt.icon=()=>'<svg/>';
+ const make=(id)=>{const flags=new Set();return {id,el:{disabled:false,setAttribute(k,v){this[k]=v},insertAdjacentHTML(){},classList:{contains:c=>flags.has(c),add:c=>flags.add(c),remove:c=>flags.delete(c)}}}};
  const first=make('a'),wrong=make('b'),mate=make('a');
  const game=Object.create(ns.LettersMiniGames.pairs.prototype);
- Object.assign(game,{alive:true,cards:[first,wrong,mate],selected:null,matched:0,slips:0,ctx:{say:c=>spoken.push(c.id),sfx:k=>{if(k==='correct')correct++},confettiAt(){}}});
+ let paid=0;const stageClasses=new Set();Object.assign(game,{alive:true,cards:[first,wrong,mate],selected:null,matched:0,pairCount:1,pots:[{classList:{add(){}}}],next:{hidden:true},complete:false,boardIndex:0,boards:1,slips:0,ctx:{stage:{classList:{add:c=>stageClasses.add(c)}},say:c=>spoken.push(c.id),sfx:k=>{if(k==='correct')correct++},confettiAt(){},onDone(){paid++}}});
  first.el.classList.add("is-demo");game.pick(first,first.el);assert.equal(first.el.classList.contains("is-demo"),false);game.pick(wrong,wrong.el);
  assert.equal(first.el['aria-pressed'],'true');assert.equal(game.selected.card,first);assert.equal(first.el.classList.contains('is-selected'),true);
  assert.equal(first.el.classList.contains('is-shake'),false);assert.equal(game.slips,1);assert.deepEqual(spoken,['a','a']);
- game.pick(mate,mate.el);assert.equal(game.selected,null);assert.equal(game.matched,1);assert.equal(first.el.disabled,true);assert.equal(mate.el.disabled,true);assert.equal(correct,1);assert.equal(game.slips,1);
+ game.pick(mate,mate.el);assert.equal(game.selected,null);assert.equal(game.matched,1);assert.equal(first.el.disabled,false);assert.equal(mate.el.disabled,false);assert.equal(game.complete,true);assert.equal(game.next.hidden,false);assert.equal(correct,1);assert.equal(game.slips,1);assert.equal(timers.length,0);
+ game.pick(first,first.el);game.pick(mate,mate.el);assert.equal(game.matched,1);assert.equal(correct,1);assert.equal(game.slips,1);assert.equal(paid,0);
+ game.nextBoard();assert.equal(game.alive,false);assert.equal(game.complete,false);assert.equal(paid,1);
+ game.nextBoard();assert.equal(game.alive,false);assert.equal(game.matched,1);assert.equal(paid,1);
 });
 
 test('Pairs retained reference can be cancelled and cannot change after exit',()=>{
@@ -325,6 +329,13 @@ test('Pairs retained reference can be cancelled and cannot change after exit',()
  const game=Object.create(ns.LettersMiniGames.pairs.prototype);Object.assign(game,{alive:true,cards:[card],selected:{card,el},ctx:{say(){throw Error('cancel should not speak')}}});
  flags.add('is-selected');game.pick(card,el);assert.equal(game.selected,null);assert.equal(flags.has('is-selected'),false);
  game.destroy();game.pick(card,el);assert.equal(game.selected,null);
+});
+
+test('Pairs ignores cards from a previous board even when they are not matched',()=>{
+ const {ns}=runtime();let spoken=0;const card={id:'old',el:{classList:{contains(){return false},add(){},remove(){}},setAttribute(){}}};
+ const current={id:'new',el:{classList:{contains(){return false},add(){},remove(){}},setAttribute(){}}};
+ const game=Object.create(ns.LettersMiniGames.pairs.prototype);Object.assign(game,{alive:true,cards:[current],selected:null,matched:0,slips:0,ctx:{say(){spoken++}}});
+ game.pick(card,card.el);assert.equal(game.selected,null);assert.equal(spoken,0);assert.equal(game.slips,0);
 });
 
 
@@ -354,15 +365,25 @@ test('Catch basket clamps to rendered bounds and exposes normalized keyboard pos
  game.alive=false;game.positionBasket(0);assert.equal(game.basketX,.5);
 });
 
-test('Calm Catch keeps mistakes, rejects duplicate success and stops on exit',()=>{
- const {ns,timers}=runtime();const game=Object.create(ns.LettersMiniGames.catch.prototype);let done=0;
- const wrong={item:{id:'b'},el:{remove(){}}},right={item:{id:'a'},x:.5,el:{style:{},disabled:false}};
- Object.assign(game,{alive:true,still:true,settling:false,slips:0,roundIndex:0,rounds:[{target:{id:'a'},options:[{id:'a'},{id:'b'}]}],fallers:[wrong,right],positionBasket(){},heat:{up(){},down(){}},ctx:{say(){},sfx(){}},finish(){done++}});
- game.catchStationary(wrong);assert.equal(game.slips,1);assert.equal(game.fallers.length,1);
+test('Calm Catch keeps mistakes and holds each successful result for child-led Next',()=>{
+ const {ns,timers}=runtime();const game=Object.create(ns.LettersMiniGames.catch.prototype);let done=0,scored=0,cleared=0;
+ const controls={};ns.LettersArt.icon=()=>'<svg/>';ns.LettersArt.inkShift=()=>({dx:0,dy:0});
+ const result={hidden:true,innerHTML:'',querySelector(selector){return controls[selector]}};
+ const classes=new Set();const stage={classList:{add:c=>classes.add(c),remove:c=>classes.delete(c),toggle:(c,on)=>on?classes.add(c):classes.delete(c)},removeEventListener(){}};
+ const basket={style:{},classList:{add(){},remove(){}},removeAttribute(){},setAttribute(){},removeEventListener(){}};
+ const wrong={item:{id:'b'},el:{remove(){}}},right={item:{id:'a'},x:.5,el:{style:{},disabled:false,getBoundingClientRect(){return {left:0,top:0,width:20,height:20}},remove(){}}};
+ Object.assign(game,{alive:true,still:true,settling:false,slips:0,frame:null,roundIndex:0,rounds:[{target:{id:'a',display:'a'},options:[{id:'a'},{id:'b'}]}],fallers:[wrong,right],result,basket,positionBasket(){},heat:{up(){},down(){}},clearFallers(){this.fallers=[]},ctx:{stage,say(){},sfx(){},reducedMotion:()=>true,reportOutcome(outcome){if(outcome.correct)scored++},clearLearningHint(){cleared++},confettiAt(){},onDone(){done++}}});
+ controls['.catch-replay']={onclick:null,querySelector(){return {}},getBoundingClientRect(){return {left:0,top:0,width:20,height:20}}};
+ controls['.catch-next']={onclick:null};
+ game.catchStationary(wrong);assert.equal(game.slips,1);assert.equal(game.fallers.length,1);assert.equal(cleared,0);
  game.catchStationary(wrong);assert.equal(game.slips,1);
- game.catchStationary(right);game.catchStationary(right);assert.equal(timers.length,1);assert.equal(right.el.disabled,true);
- timers.shift()();assert.equal(done,1);assert.equal(game.roundIndex,1);
- game.roundIndex=0;game.settling=false;game.catchStationary(right);game.alive=false;timers.shift()();assert.equal(done,1);
+ game.catchStationary(right);game.catchStationary(right);assert.equal(timers.length,0);assert.equal(right.el.disabled,false);
+ assert.equal(game.settling,true);assert.equal(game.roundIndex,0);assert.equal(scored,1);assert.equal(cleared,1);assert.equal(done,0);assert.equal(game.fallers.length,0);
+ controls['.catch-replay'].onclick();assert.equal(scored,1);
+ game.success(right);assert.equal(scored,1);assert.equal(cleared,1);
+ game.tick(100);assert.equal(game.roundIndex,0);assert.equal(game.fallers.length,0);
+ controls['.catch-next'].onclick();assert.equal(game.roundIndex,1);assert.equal(game.settling,false);assert.equal(done,1);
+ game.nextRound();assert.equal(done,1);
 });
 
 test('Calm Catch does not spawn an animation loop',()=>{
@@ -378,6 +399,23 @@ test('Moving Catch replays a missed target without recording a wrong answer',()=
  game.tick(16);
  assert.equal(game.slips,0);assert.equal(game.spawnFlip,false);assert.equal(game.spawnTimer,.18);assert.equal(game.fallers.length,0);
  assert.deepEqual(events,['remove','slow','prompt:a','say:a','pulse']);
+});
+
+test('Moving Catch holds a successful catch, cancels its frame and advances only on Next',()=>{
+ const cancelled=[];const {ns,frames}=runtime(()=>0,{cancelAnimationFrame:id=>cancelled.push(id)});let scored=0,paid=0,cleared=0;
+ ns.LettersArt.icon=()=>'<svg/>';ns.LettersArt.inkShift=()=>({dx:0,dy:0});
+ const controls={};const result={hidden:true,innerHTML:'',querySelector:s=>controls[s]};
+ controls['.catch-replay']={querySelector:()=>({}),getBoundingClientRect:()=>({left:10,top:10,width:20,height:20})};controls['.catch-next']={};
+ const classes=new Set();const stage={classList:{add:c=>classes.add(c),remove:c=>classes.delete(c),toggle:(c,on)=>on?classes.add(c):classes.delete(c)},removeEventListener(){}};
+ const basket={style:{},classList:{add(){},remove(){}},removeAttribute(){},setAttribute(){},removeEventListener(){}};
+ const target={id:'a',display:'a'},f={item:target,x:.5,y:.79,speed:0,el:{style:{},getBoundingClientRect:()=>({left:0,top:0,width:20,height:20}),remove(){}}};
+ const game=Object.create(ns.LettersMiniGames.catch.prototype);
+ Object.assign(game,{alive:true,still:false,settling:false,frame:17,lastTime:0,spawnTimer:1,fieldH:100,basketX:.5,fallers:[f],roundIndex:0,rounds:[{target,options:[target]}],slips:0,result,basket,ctx:{stage,say(){},sfx(){},reducedMotion:()=>false,reportOutcome(){scored++},clearLearningHint(){cleared++},confettiAt(){},onDone(){paid++}},heat:{factor:()=>1,up(){},down(){}},clearFallers(){this.fallers.forEach(x=>x.el.remove());this.fallers=[]},positionBasket(){}});
+ game.tick(16);
+ assert.equal(game.settling,true);assert.equal(game.roundIndex,0);assert.equal(scored,1);assert.equal(cleared,1);assert.equal(paid,0);assert.equal(game.fallers.length,0);assert.equal(game.frame,null);assert.deepEqual(cancelled,[17]);assert.equal(frames.length,0);
+ game.tick(32);assert.equal(scored,1);assert.equal(game.roundIndex,0);assert.equal(frames.length,0);
+ controls['.catch-next'].onclick();assert.equal(game.roundIndex,1);assert.equal(paid,1);
+ controls['.catch-next'].onclick();assert.equal(paid,1);
 });
 
 function interactivePiece(i=0){const flags=new Set(),events={},attrs={};let capture=null;return {dataset:{i:String(i)},style:{},offsetLeft:50,offsetTop:50,offsetWidth:30,offsetHeight:30,events,attrs,flags,classList:{contains:k=>flags.has(k),add:k=>flags.add(k),remove:k=>flags.delete(k),toggle(k,on){on?flags.add(k):flags.delete(k)}},setAttribute:(k,v)=>attrs[k]=v,addEventListener:(k,f)=>events[k]=f,setPointerCapture:id=>capture=id,hasPointerCapture:id=>capture===id,releasePointerCapture:()=>capture=null,getBoundingClientRect:()=>({left:0,top:0,width:30,height:30})};}

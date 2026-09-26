@@ -136,7 +136,7 @@
  background:radial-gradient(ellipse,#ffe49a55,transparent 72%); animation:none;
 }
 .lg-app .lg-play:is([data-activity="blend"],[data-activity="fuse"],[data-activity="chain"]) .blend-part {
- width:clamp(76px,23vw,112px); filter:drop-shadow(0 5px 0 #2b1e1228); touch-action:none;
+ width:clamp(76px,23vw,112px); filter:drop-shadow(0 5px 0 rgb(43 30 18 / .16)); touch-action:none;
 }
 .lg-app .lg-play:is([data-activity="blend"],[data-activity="fuse"],[data-activity="chain"]) .blend-part.is-lifted {
  outline:3px solid #ffe49a; outline-offset:3px; border-radius:18px; scale:1.04;
@@ -147,9 +147,9 @@
 .lg-app .join-output { width:100%; min-height:0; display:grid; place-items:center; }
 .lg-app .join-result [hidden] { display:none!important; }
 .lg-app .join-whole,.lg-app .join-piece,.lg-app .join-variant { position:relative; display:block; padding:0; border:0; background:none; cursor:pointer; }
-.lg-app .join-whole { width:clamp(112px,32vw,164px); max-width:100%; filter:drop-shadow(0 5px 0 #2b1e1228); animation:craft-word-settle 240ms ease-out; }
+.lg-app .join-whole { width:clamp(112px,32vw,164px); max-width:100%; filter:drop-shadow(0 5px 0 rgb(43 30 18 / .16)); animation:craft-word-settle 240ms ease-out; }
 .lg-app .join-parts { display:flex; flex-direction:row-reverse; align-items:center; justify-content:center; gap:16px; width:100%; }
-.lg-app .join-piece { width:clamp(76px,22vw,112px); filter:drop-shadow(0 4px 0 #2b1e1228); animation:craft-word-settle 240ms ease-out; }
+.lg-app .join-piece { width:clamp(76px,22vw,112px); filter:drop-shadow(0 4px 0 rgb(43 30 18 / .16)); animation:craft-word-settle 240ms ease-out; }
 .lg-app :is(.join-whole,.join-piece,.join-variant) > svg { display:block; width:100%; height:auto; pointer-events:none; }
 .lg-app .join-variants { display:flex; align-items:center; gap:10px; padding:3px 10px; border-radius:12px; background:#c9bda4; box-shadow:inset 0 3px 0 #a89478,0 2px 0 #fffaf0; }
 .lg-app .join-variant { width:44px; height:44px; border-radius:12px; }
@@ -224,7 +224,7 @@
 .lg-app .unfuse-halves { width:100%; justify-content:center; align-items:center; gap:18px; }
 .lg-app .unfuse-half,.lg-app .unfuse-found {
  position:relative; display:block; padding:0; border:0; background:none; cursor:pointer;
- width:clamp(96px,28vw,140px); filter:drop-shadow(0 4px 0 #2b1e1228);
+ width:clamp(96px,28vw,140px); filter:drop-shadow(0 4px 0 rgb(43 30 18 / .16));
 }
 .lg-app :is(.unfuse-half,.unfuse-found) > svg { display:block; width:100%; height:auto; pointer-events:none; }
 .lg-app .unfuse-half .build-listen { width:27px; height:27px; right:0; bottom:5px; }
@@ -247,7 +247,7 @@
 .lg-app .parade-display { display:flex; align-items:center; justify-content:center; gap:14px; width:100%; height:100%; min-height:0; }
 .lg-app .parade-star,.lg-app .parade-reference {
  position:relative; padding:0; border:0; background:none; cursor:pointer; flex:0 1 auto;
- filter:drop-shadow(0 4px 0 #2b1e1228);
+ filter:drop-shadow(0 4px 0 rgb(43 30 18 / .16));
 }
 .lg-app .parade-star { width:clamp(96px,30vw,140px); }
 .lg-app .parade-reference { width:clamp(52px,15vw,70px); align-self:center; }
@@ -268,7 +268,7 @@
 .lg-app [data-activity="parade"] .parade-form > svg { animation:craft-word-settle 240ms ease-out; }
 .lg-app .parade-actions { display:grid; place-items:center; height:48px; width:100%; }
 .lg-app [data-activity="parade"] .parade-choice { width:clamp(72px,22vw,112px); border:0; padding:0; background:none; box-shadow:none; }
-.lg-app [data-activity="parade"] .parade-choice.is-found { filter:drop-shadow(0 4px 0 #2b1e1228); }
+.lg-app [data-activity="parade"] .parade-choice.is-found { filter:drop-shadow(0 4px 0 rgb(43 30 18 / .16)); }
 .lg-app :is(.unfuse-scene,.parade-scene) button:focus-visible { outline:4px solid #ffe49a; outline-offset:4px; border-radius:16px; }
 .lg-app :is(.unfuse-scene,.parade-scene) button:active { translate:0 2px; }
 @media(max-width:350px) {
@@ -315,3 +315,79 @@
  .lg-app .lg-play:is([data-activity="unfuse"],[data-activity="parade"]) .learning-compare { min-width:36px; height:34px; padding:0 4px; }
  .lg-app .lg-play:is([data-activity="unfuse"],[data-activity="parade"]) .learning-compare > svg { width:48px; height:34px; }
 }
+
+/* Matching seed tray and orchard: fixed-proportion play objects above scenery. */
+.lg-app .lg-play[data-activity="pairs"] .play-stage {
+ width:min(680px,96%); max-height:min(480px,112vw); background:none; border:0; box-shadow:none;
+}
+.lg-app .lg-play[data-activity="pairs"] .pairs-grid {
+ inset:8% 10% 40%; padding:6px; gap:14px; grid-template-columns:repeat(2,minmax(0,1fr));
+ grid-auto-rows:min-content;
+}
+.lg-app .lg-play[data-activity="pairs"] .pairs-card {
+ position:relative; width:clamp(72px,24vw,112px); max-width:100%; aspect-ratio:104 / 110; align-self:center; transform:none;
+ filter:drop-shadow(0 4px 0 rgb(43 30 18 / .16)); transition:translate 180ms ease-out;
+}
+.lg-app .lg-play[data-activity="pairs"] .pairs-card.is-selected {
+ translate:0 -5px; outline:3px solid #ffe49a; outline-offset:3px; filter:drop-shadow(0 7px 0 rgb(43 30 18 / .25));
+}
+.lg-app .lg-play[data-activity="pairs"] .pairs-card.is-matched {
+ opacity:1; transform:none; pointer-events:auto; animation:orchard-settle 240ms ease-out;
+ outline:3px solid #f3c955; outline-offset:0; translate:0 0;
+}
+.lg-app .lg-play[data-activity="pairs"] .pairs-grid[data-pair-count="3"] { grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
+.lg-app .pairs-garden { position:absolute; z-index:1; left:50%; bottom:19%; display:flex; gap:12px; translate:-50% 0; }
+.lg-app .pairs-pot { display:block; width:52px; }
+.lg-app .pairs-pot > svg { display:block; width:100%; }
+.pairs-sprout { opacity:0; transform:translateY(6px) scale(.8); transform-origin:36px 54px; transition:opacity 180ms,transform 240ms ease-out; }
+.is-grown .pairs-sprout { opacity:1; transform:none; }
+.lg-app .orchard-listen { position:absolute; right:-2px; bottom:-3px; display:grid; place-items:center; width:28px; height:28px; border-radius:50%; background:#fffaf0; border:2px solid #4a3620; pointer-events:none; }
+.lg-app .orchard-listen svg { display:block; width:18px; height:18px; }
+.lg-app .orchard-next { position:absolute; z-index:4; width:80px; height:48px; min-height:44px; padding:4px 16px; border:3px solid #4a3620; border-radius:22px; background:linear-gradient(#ffa06e,#e8743c); box-shadow:0 4px 0 #7a3512; cursor:pointer; }
+.lg-app .orchard-next[hidden],.lg-app .catch-result[hidden] { display:none; }
+.lg-app .pairs-next { bottom:3%; left:50%; translate:-50% 0; }
+.lg-app .lg-play[data-activity="catch"] .play-stage { width:min(700px,96%); max-height:min(510px,120vw); border:0; border-radius:40px; box-shadow:0 6px 0 #a89478; }
+.lg-activity-art > .is-orchard-tree { top:-4%; width:auto; height:100%; aspect-ratio:150 / 380; }
+.lg-activity-art > .is-orchard-tree.is-left { left:0; transform:translateX(-35%); }
+.lg-activity-art > .is-orchard-tree.is-right { right:0; transform:translateX(35%) scaleX(-1); }
+.lg-app .lg-play[data-activity="catch"] .catch-basket { width:clamp(122px,36vw,166px); bottom:3%; filter:none; }
+.lg-app .lg-play[data-activity="catch"] .catch-faller { width:clamp(66px,23vw,104px); }
+.lg-app .lg-play[data-activity="catch"] .catch-choice { width:clamp(72px,24vw,112px); max-width:27%; cursor:pointer; }
+.lg-app .catch-result { position:absolute; inset:0; z-index:3; pointer-events:none; }
+.lg-app .catch-replay { position:absolute; bottom:35%; left:50%; transform:translateX(-50%); width:clamp(112px,34vw,148px); border:0; padding:0; background:none; cursor:pointer; pointer-events:auto; }
+.lg-app .catch-replay > svg { display:block; width:100%; }
+.lg-app .catch-replay .orchard-listen { top:3%; bottom:auto; right:0; }
+.lg-app .catch-next { bottom:8%; left:50%; transform:translateX(-50%); pointer-events:auto; }
+.lg-app .lg-play[data-activity="catch"] .is-harvested .catch-basket { z-index:1; bottom:27%; width:clamp(150px,43vw,180px); }
+.lg-app .lg-play:is([data-activity="catch"],[data-activity="pairs"]) button:focus-visible { outline:4px solid #ffe49a; outline-offset:4px; }
+.lg-app .lg-play:is([data-activity="catch"],[data-activity="pairs"]) button:active { translate:0 2px; }
+.lg-app .lg-play[data-activity="pairs"] .pairs-next:active { translate:-50% 2px; }
+@keyframes orchard-settle { from { scale:1.04; } to { scale:1; } }
+@media(min-width:601px) {
+ .lg-app .lg-play[data-activity="pairs"] .pairs-grid[data-pair-count="3"] { grid-template-columns:repeat(3,minmax(0,1fr)); }
+ .lg-app .lg-play[data-activity="pairs"] .pairs-card { width:120px; }
+ .lg-app .pairs-pot { width:64px; }
+}
+@media(orientation:landscape) and (max-height:450px) {
+ .lg-app .lg-play:is([data-activity="pairs"],[data-activity="catch"]) .play-stage { max-height:none; flex:1 1 0; margin:0 auto; }
+ .lg-app .lg-play[data-activity="pairs"] .pairs-grid { inset:10% 20% 22%; gap:8px; padding:0; }
+ .lg-app .lg-play[data-activity="pairs"] .pairs-card { width:clamp(44px,18vh,68px); }
+ .lg-app .lg-play[data-activity="pairs"] .pairs-grid[data-pair-count="3"] { grid-template-columns:repeat(3,minmax(0,1fr)); }
+ .lg-app .pairs-garden { left:10%; top:14%; bottom:auto; flex-direction:column; gap:3px; }
+ .lg-app .pairs-pot { width:34px; }
+ .lg-app .pairs-next { left:auto; right:5%; top:50%; bottom:auto; translate:0 -50%; width:64px; }
+ .lg-app .lg-play[data-activity="pairs"] .pairs-next:active { translate:0 calc(-50% + 2px); }
+ .lg-app .orchard-listen { width:20px; height:20px; bottom:-2px; }
+ .lg-app .orchard-listen svg { width:14px; height:14px; }
+ .lg-app .lg-play[data-activity="catch"] .catch-basket { width:108px; bottom:0; }
+ .lg-app .lg-play[data-activity="catch"] .catch-faller { width:62px; }
+ .lg-app .lg-play[data-activity="catch"] .catch-choice { width:72px; }
+ .lg-app .lg-play[data-activity="catch"] .is-harvested .catch-basket { bottom:8%; width:120px; }
+ .lg-app .catch-replay { width:96px; bottom:20%; }
+ .lg-app .catch-next { left:auto; right:12%; top:50%; bottom:auto; transform:translateY(-50%); width:64px; }
+}
+.lg-reduce-motion .pairs-sprout,.lg-reduce-motion .lg-play[data-activity="pairs"] .pairs-card { animation:none!important; transition:none; }
+@media(prefers-reduced-motion:reduce) { .pairs-sprout,.lg-app .lg-play[data-activity="pairs"] .pairs-card { animation:none!important; transition:none; } }
+
+.lg-app .catch-basket-front { display:none; }
+.lg-app .lg-play[data-activity="catch"] .is-harvested .catch-basket-front { display:block; z-index:4; }

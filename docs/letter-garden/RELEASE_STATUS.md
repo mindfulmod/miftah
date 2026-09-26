@@ -190,3 +190,19 @@ changed. Three focused integrity tests pass; QA decision, notes, export and relo
 checks use an isolated origin/key. Next owner action: review these 16 clips, then
 tell Codex when finished. Do not regenerate the full list yet. The wider game/art
 goal remains active; Pairs/Catch audit is ready for the next gameplay slice.
+
+September 26: Pairs and Catch orchard pass is documented as a local release
+candidate pending final publication. Pairs beginner/experienced sequences,
+replay and reward persistence were recorded; Catch remains beginner with moving
+tier-three fruit, wrong-choice retry, held-catch replay, keyboard basket movement
+and drag delivery. Composed screenshots and whole-frame HSL measurements are in
+[ORCHARD_PLAY_REVIEW.md](ORCHARD_PLAY_REVIEW.md). The saved artifacts include
+phone, small-phone, landscape, tablet-night and desktop views at their checked
+viewport sizes. Normal-motion fruit selection/Next/replay/home and reduced-motion
+landscape replay/keyboard/focus/home interactions were rechecked; the browser
+console remained empty. The full 312-test suite passed after the latest SVG-child
+landing-animation change, with output saved in the review folder.
+Repository palette check reports 654 off-palette hexes / 906 uses and 18 off-scale
+stroke widths / 206 uses. `/art-review` was not callable.
+Broader game/art work remains active. Local release candidate; publication is
+pending.

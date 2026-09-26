@@ -179,6 +179,39 @@
     </svg>`;
   }
 
+  function orchardFruit(display) {
+    return `<svg viewBox="-64 -76 128 150" aria-hidden="true">
+      <ellipse cx="0" cy="62" rx="42" ry="7" fill="#4a3620" opacity=".14"/>
+      <path d="M0-40Q-8-62 3-68" fill="none" stroke="#4a3620" stroke-width="4" stroke-linecap="round"/>
+      <path d="M2-53Q6-75 31-63Q26-44 2-53Z" fill="#4e9677"/><path d="M5-55Q14-64 25-62" fill="none" stroke="#b7e779" stroke-width="3"/>
+      <path d="M0-43C-47-67-65-17-49 23Q-34 67 0 54Q34 67 49 23C65-17 47-67 0-43Z" fill="#c69434" stroke="#4a3620" stroke-width="3"/>
+      <path d="M0-40C-43-60-55-17-43 20Q-27 54 0 44Q29 56 44 20C57-18 42-59 0-40Z" fill="#f3c955"/>
+      <path d="M-37-19Q-31-40-16-36" fill="none" stroke="#ffe49a" stroke-width="6" stroke-linecap="round"/>
+      <rect x="-37" y="-31" width="74" height="64" rx="24" fill="#fffaf0"/>
+      ${glyphText(display,{maxSize:40,fill:'#4a3620'})}
+    </svg>`;
+  }
+
+  function orchardBasket(frontOnly = false) {
+    return `<svg viewBox="0 0 180 112" aria-hidden="true">${frontOnly ? '' : `
+      <ellipse cx="90" cy="103" rx="72" ry="7" fill="#4a3620" opacity=".16"/>
+      <path d="M42 53C39 3 139 3 138 53" fill="none" stroke="#4a3620" stroke-width="8"/>
+      <path d="M42 51C42 11 136 11 138 51" fill="none" stroke="#c9bda4" stroke-width="4"/>
+      <ellipse cx="90" cy="52" rx="74" ry="17" fill="#4a3620"/>`}
+      <path d="M18 53L30 91Q90 110 150 91L162 53Q90 76 18 53Z" fill="#c9bda4" stroke="#4a3620" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M27 62L37 86Q90 102 143 86L153 62Q90 82 27 62Z" fill="#e5dcc8"/>
+      <path d="M25 70Q90 90 155 70M28 83Q90 101 152 83M46 63L51 98M75 70L76 102M105 70L103 102M134 63L129 98" fill="none" stroke="#a89478" stroke-width="2.4"/>
+      <path d="M20 52Q90 76 160 52" fill="none" stroke="#fffaf0" stroke-width="4" stroke-linecap="round"/>
+      <path d="M85 83Q65 67 64 81Q65 94 87 92Q104 69 115 79Q113 93 91 94" fill="#4e9677" stroke="#4a3620" stroke-width="1.6"/>
+    </svg>`;
+  }
+
+  function matchingSprout() {
+    return `<svg viewBox="0 0 72 86" aria-hidden="true"><ellipse cx="36" cy="79" rx="29" ry="5" fill="#4a3620" opacity=".18"/>
+      <g class="pairs-sprout"><path d="M36 59V25" stroke="#2f5c46" stroke-width="4" stroke-linecap="round"/><path d="M35 43Q7 41 13 20Q36 19 35 43M37 34Q40 8 63 13Q64 35 37 34" fill="#7fce54"/><path d="M17 23Q26 26 31 36M43 27Q48 19 57 18" fill="none" stroke="#b7e779" stroke-width="3" stroke-linecap="round"/></g>
+      <path d="M14 54H58L53 74Q36 81 19 74Z" fill="#c25a49" stroke="#4a3620" stroke-width="2.4"/><path d="M20 58H52L48 70Q36 75 24 70Z" fill="#ee806f"/><path d="M18 55H54" stroke="#ffa798" stroke-width="4" stroke-linecap="round"/></svg>`;
+  }
+
   // ---------- Bubble Pop: hear it, find it, pop it ----------
   class PopGame {
     constructor(ctx) {
@@ -361,12 +394,13 @@
       this.fallers = [];
       this.still = !!ctx.reducedMotion?.() || this.rounds[0]?.movement !== "gentle";
       ctx.stage.innerHTML = `
-        <svg class="catch-canopy" viewBox="0 0 600 90" preserveAspectRatio="none" aria-hidden="true"><path d="M-10 4Q60 80 151 24M610 3Q544 71 455 21" fill="none" stroke="#907049" stroke-width="10" stroke-linecap="round"/><g fill="#83a56c" stroke="#647e50" stroke-width="2"><path d="M31 24Q18 62 62 53Q66 27 31 24M90 36Q96 4 129 13Q132 37 90 36M552 21Q574 47 539 57Q520 37 552 21M502 35Q504 8 473 11Q459 36 502 35"/></g></svg><div class="catch-field"></div>
+        <div class="catch-field"></div><div class="catch-result" hidden></div>
         <div class="catch-basket" tabindex="0" role="slider" aria-label="Move the basket" aria-orientation="horizontal" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
-          ${ns.LettersGardenArt.seedBasket()}
-        </div>`;
+          ${orchardBasket()}
+        </div><div class="catch-basket catch-basket-front" aria-hidden="true">${orchardBasket(true)}</div>`;
       this.field = ctx.stage.querySelector(".catch-field");
       this.basket = ctx.stage.querySelector(".catch-basket");
+      this.result = ctx.stage.querySelector(".catch-result");
       ctx.stage.classList.toggle("catch-still",this.still);
       if(this.still){this.basket.removeAttribute("role");this.basket.removeAttribute("tabindex");this.basket.setAttribute("aria-hidden","true");}
       // Perf: fallers move via transform, height measured outside the loop.
@@ -379,11 +413,12 @@
       this.heat = makeHeat();
       this.basketX = 0.5;
       const move = (event) => {
-        if(this.still)return;
+        if(!this.alive || this.still || this.settling)return;
         const rect = ctx.stage.getBoundingClientRect();
         if (rect.width > 0) this.positionBasket((event.clientX - rect.left) / rect.width);
       };
       this.keyBasket = event => {
+        if(!this.alive || this.still || this.settling)return;
         const steps = {ArrowLeft:-.08, ArrowRight:.08};
         if (!(event.key in steps) && event.key !== 'Home' && event.key !== 'End') return;
         event.preventDefault();
@@ -393,11 +428,9 @@
       this.moveBasket = move;
       ctx.stage.addEventListener("pointermove", move);
       ctx.stage.addEventListener("pointerdown", move);
-      this.startRound();
-      this.lastTime = performance.now();
-      this.spawnTimer = 0;
+      this.frame = null;
       this.tick = this.tick.bind(this);
-      requestAnimationFrame(this.tick);
+      this.startRound();
     }
 
     positionBasket(x) {
@@ -411,9 +444,17 @@
       this.basket.setAttribute('aria-valuenow', String(available > 0 ? Math.round((this.basketX-edge)/available*100) : 50));
     }
 
-    startRound() {
+    startRound(focus = false) {
+      if (!this.alive) return;
+      this.settling = false;
+      this.landing?.cancel();
+      this.result.hidden = true;
+      this.result.innerHTML = "";
+      this.ctx.stage.classList.remove("is-harvested");
+      this.lastTime = performance.now();
+      this.spawnTimer = 0;
+      this.spawnFlip = false;
       const round = this.rounds[this.roundIndex];
-      const wasStill = this.still;
       this.still = !!this.ctx.reducedMotion?.() || round.movement !== "gentle";
       this.ctx.stage.classList.toggle("catch-still", this.still);
       this.clearFallers();
@@ -426,12 +467,11 @@
         this.basket.setAttribute("tabindex", "0");
         this.basket.removeAttribute("aria-hidden");
       }
+      this.ctx.setRoundProgress?.(this.roundIndex + 1, this.rounds.length);
       presentRound(this.ctx, round, "catch");
       if(this.still)this.stationaryChoices(round);
-      else if (wasStill && this.tick) {
-        this.lastTime = performance.now();
-        requestAnimationFrame(this.tick);
-      }
+      else this.requestTick();
+      if (focus) (this.fallers[0]?.el || this.basket).focus?.({preventScroll:true});
     }
 
     stationaryChoices(round) {
@@ -441,7 +481,7 @@
         const el=document.createElement('button');
         el.type='button';el.className='catch-faller catch-choice';
         el.setAttribute('aria-label',item.display);
-        el.innerHTML=workshopTile(item.display,'leaf');
+        el.innerHTML=orchardFruit(item.display);
         const x=.18+(round.options.length>1?i*.64/(round.options.length-1):.32);
         el.style.left=`${x*100}%`;el.style.top='25%';
         const f={el,item,x};this.fallers.push(f);this.field.appendChild(el);
@@ -458,14 +498,58 @@
         round.options=round.options.filter(o=>o.id!==f.item.id);
         this.remove(f);this.ctx.say(round.target);return;
       }
-      this.settling=true;f.el.disabled=true;f.el.style.top='72%';
-      this.heat.up();reportPromptMatch(this.ctx,round,true,f.item,"catch");this.ctx.sfx('correct');this.ctx.say(round.target);
-      setTimeout(()=>{
-        if(!this.alive)return;
-        this.roundIndex++;
-        if(this.roundIndex>=this.rounds.length)return this.finish();
-        this.startRound();
-      },550);
+      this.success(f);
+    }
+
+    success(f) {
+      if (!this.alive || this.settling) return;
+      const round = this.rounds[this.roundIndex];
+      if (f.item.id !== round.target.id) return;
+      const from = f.el.getBoundingClientRect();
+      this.settling = true;
+      this.ctx.clearLearningHint?.();
+      if (this.frame != null) cancelAnimationFrame(this.frame);
+      this.frame = null;
+      this.heat.up();
+      reportPromptMatch(this.ctx, round, true, f.item, "catch");
+      this.ctx.sfx("correct");
+      this.ctx.say(round.target);
+      this.clearFallers();
+      this.ctx.stage.classList.add("is-harvested");
+      this.basket.removeAttribute("role");this.basket.removeAttribute("tabindex");this.basket.setAttribute("aria-hidden","true");
+      this.positionBasket(.5);
+      this.result.hidden = false;
+      this.result.innerHTML = `<button type="button" class="catch-replay" aria-label="Hear ${round.target.display}">${orchardFruit(round.target.display)}<span class="orchard-listen" aria-hidden="true">${Art.icon('speaker',22)}</span></button><button type="button" class="orchard-next catch-next" aria-label="${this.roundIndex === this.rounds.length - 1 ? 'Finish catching' : 'Next fruit'}">${Art.icon('next',32)}</button>`;
+      const replay = this.result.querySelector('.catch-replay');
+      const current = this.roundIndex;
+      replay.onclick = () => { if(this.alive && this.settling && this.roundIndex === current)this.ctx.say(round.target); };
+      const next = this.result.querySelector('.catch-next');
+      next.onclick = event => { if(this.roundIndex === current)this.nextRound(event?.detail === 0); };
+      next.focus?.({preventScroll:true});
+      // Carry the same fruit from its touched/falling location to the basket.
+      // Input stays available throughout; leaving cancels this visual-only flight.
+      const fruit = replay.querySelector('svg');
+      if (!this.ctx.reducedMotion?.() && fruit?.animate) {
+        const to = fruit.getBoundingClientRect();
+        if (from.width && to.width)this.landing = fruit.animate([
+          {transform:`translate(${from.left-to.left}px, ${from.top-to.top}px) scale(${from.width/to.width})`,transformOrigin:'0 0'},
+          {transform:'none',transformOrigin:'0 0'}
+        ], {duration:320,easing:'cubic-bezier(.2,.7,.25,1)'});
+      }
+      this.ctx.confettiAt(replay);
+    }
+
+    nextRound(focus = false) {
+      if (!this.alive || !this.settling) return;
+      this.settling = false;
+      this.roundIndex++;
+      if (this.roundIndex >= this.rounds.length) return this.finish();
+      this.startRound(focus);
+    }
+
+    requestTick() {
+      if (!this.alive || this.still || this.settling || this.frame != null) return;
+      this.frame = requestAnimationFrame(now => {this.frame = null;this.tick(now);});
     }
 
     spawn() {
@@ -480,7 +564,7 @@
         : distractors[Math.floor(Math.random() * distractors.length)] || round.target;
       const el = document.createElement("div");
       el.className = "catch-faller";
-      el.innerHTML = workshopTile(item.display,"leaf");
+      el.innerHTML = orchardFruit(item.display);
       const x = 0.12 + Math.random() * 0.76;
       el.style.left = `${x * 100}%`;
       this.field.appendChild(el);
@@ -491,7 +575,7 @@
     }
 
     tick(now) {
-      if (!this.alive || this.still) return;
+      if (!this.alive || this.still || this.settling) return;
       const dt = Math.min(0.05, (now - this.lastTime) / 1000);
       this.lastTime = now;
       this.spawnTimer -= dt;
@@ -505,19 +589,8 @@
         f.el.style.transform = `translate3d(-50%, ${f.y * this.fieldH}px, 0)`;
         // Catch zone: bottom strip, basket overlap.
         if (f.y > 0.78 && f.y < 0.9 && Math.abs(f.x - this.basketX) < 0.13) {
+          if (f.item.id === round.target.id) return this.success(f);
           this.remove(f);
-          if (f.item.id === round.target.id) {
-            this.heat.up();
-            reportPromptMatch(this.ctx, round, true, f.item, "catch");
-            this.ctx.sfx("correct");
-            this.ctx.confettiAt(this.basket);
-            this.ctx.say(round.target);
-            this.roundIndex += 1;
-            if (this.roundIndex >= this.rounds.length) return this.finish();
-            this.clearFallers();
-            this.startRound();
-            return requestAnimationFrame(this.tick);
-          }
           this.slips += 1;
           this.heat.down();
           reportPromptMatch(this.ctx, round, false, f.item, "catch");
@@ -546,7 +619,7 @@
           }
         }
       }
-      requestAnimationFrame(this.tick);
+      this.requestTick();
     }
 
     remove(f) {
@@ -560,6 +633,7 @@
     }
 
     finish() {
+      if (!this.alive) return;
       this.alive = false;
       this.destroy();
       this.ctx.onDone(this.slips);
@@ -567,6 +641,9 @@
 
     destroy() {
       this.alive = false;
+      if (this.frame != null) cancelAnimationFrame(this.frame);
+      this.frame = null;
+      this.landing?.cancel();
       window.removeEventListener("resize", this.onResize);
       this.ctx.stage?.removeEventListener?.("pointermove",this.moveBasket);
       this.ctx.stage?.removeEventListener?.("pointerdown",this.moveBasket);
@@ -596,7 +673,7 @@
       this.buildBoard();
     }
 
-    buildBoard() {
+    buildBoard(focus = false) {
       if (!this.alive) return;
       const ctx = this.ctx;
       this.pairCount = ctx.beginner ? 2 : 3;
@@ -628,6 +705,7 @@
         }
       }
       this.pairCount = picks.length;
+      this.complete = false;
       const cards = [];
       for (const item of picks) {
         cards.push({ id: item.id, display: item.display, speak: item.speak, audioPath: item.audioPath });
@@ -641,7 +719,12 @@
       this.cards = shuffle(cards);
       this.selected = null;
       this.matched = 0;
-      ctx.stage.innerHTML = `<div class="pairs-grid"></div>`;
+      ctx.stage.classList.remove('is-paired');
+      ctx.stage.innerHTML = `<div class="pairs-grid" data-pair-count="${this.pairCount}"></div><div class="pairs-garden" aria-hidden="true">${picks.map(()=>`<span class="pairs-pot">${matchingSprout()}</span>`).join('')}</div><button type="button" class="orchard-next pairs-next" aria-label="${this.boardIndex === this.boards - 1 ? 'Finish matching' : 'Next matching bed'}" hidden>${Art.icon('next',32)}</button>`;
+      const board = this.boardIndex;
+      this.next = ctx.stage.querySelector('.pairs-next');
+      this.next.onclick = event => { if(this.boardIndex === board)this.nextBoard(event?.detail === 0); };
+      this.pots = [...ctx.stage.querySelectorAll('.pairs-pot')];
       const grid = ctx.stage.querySelector(".pairs-grid");
       ctx.setPrompt(null);
       for (const card of this.cards) {
@@ -657,6 +740,8 @@
       }
       // Wordless instruction: one matching pair glows in sync for a moment —
       // "see? these two belong together" — then the child takes over.
+      if (!this.cards.length) {this.alive = false;ctx.onDone(this.slips);return;}
+      if (focus) this.cards[0].el.focus?.({preventScroll:true});
       const demoId = this.cards[0].id;
       const demoEls = this.cards.filter((c) => c.id === demoId).map((c) => c.el);
       for (const el of demoEls) el.classList.add("is-demo");
@@ -667,7 +752,9 @@
     }
 
     pick(card, el) {
-      if (!this.alive || el.classList.contains("is-matched")) return;
+      if (!this.alive || !this.cards.includes(card)) return;
+      if (el.classList.contains("is-matched")) { this.ctx.say(card);return; }
+      if (this.complete) return;
       this.cards.forEach(c=>c.el.classList.remove("is-demo"));
       if (!this.selected) {
         this.ctx.say(card);
@@ -690,12 +777,21 @@
         this.ctx.say(card);
         first.el.classList.add("is-matched");
         el.classList.add("is-matched");
-        first.el.disabled=true;el.disabled=true;
+        for (const [node, item] of [[first.el,first.card],[el,card]]) {
+          node.setAttribute('aria-label', `Hear ${item.display}`);
+          node.insertAdjacentHTML('beforeend', `<span class="orchard-listen" aria-hidden="true">${Art.icon('speaker',18)}</span>`);
+        }
+        this.pots[this.matched]?.classList.add('is-grown');
         reportVisibleMatch(this.ctx, first.card, true);
         this.ctx.sfx("correct");
         this.ctx.confettiAt(el);
         this.matched += 1;
-        if (this.matched >= this.pairCount) setTimeout(() => this.nextBoard(), 650);
+        if (this.matched >= this.pairCount) {
+          this.complete = true;
+          this.next.hidden = false;
+          this.next.focus?.({preventScroll:true});
+          this.ctx.stage.classList.add('is-paired');
+        }
       } else {
         // Keep the reference visible: retry means finding its partner, not
         // remembering and selecting the first card all over again.
@@ -714,11 +810,12 @@
       }
     }
 
-    nextBoard() {
-      if (!this.alive) return;
+    nextBoard(focus = false) {
+      if (!this.alive || !this.complete) return;
+      this.complete = false;
       this.boardIndex += 1;
       if (this.boardIndex >= this.boards) { this.alive=false; return this.ctx.onDone(this.slips); }
-      this.buildBoard();
+      this.buildBoard(focus);
     }
 
     destroy() { this.alive = false; this.stopHint?.(); }
