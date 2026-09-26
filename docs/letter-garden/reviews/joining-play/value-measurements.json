@@ -1,0 +1,101 @@
+{
+  "blend-after-phone.png": {
+    "size": [
+      390,
+      780
+    ],
+    "light": 17.93,
+    "mid": 26.3,
+    "dark": 1.76
+  },
+  "blend-before-phone.png": {
+    "size": [
+      390,
+      780
+    ],
+    "light": 62.1,
+    "mid": 15.24,
+    "dark": 1.13
+  },
+  "blend-explore-landscape.png": {
+    "size": [
+      568,
+      320
+    ],
+    "light": 20.96,
+    "mid": 23.27,
+    "dark": 2.72
+  },
+  "blend-explore-phone.png": {
+    "size": [
+      390,
+      780
+    ],
+    "light": 21.07,
+    "mid": 27.61,
+    "dark": 2.37
+  },
+  "blend-split-small-phone.png": {
+    "size": [
+      320,
+      568
+    ],
+    "light": 23.65,
+    "mid": 25.38,
+    "dark": 3.14
+  },
+  "chain-after-phone.png": {
+    "size": [
+      390,
+      780
+    ],
+    "light": 18.67,
+    "mid": 26.55,
+    "dark": 2.03
+  },
+  "chain-before-phone.png": {
+    "size": [
+      390,
+      780
+    ],
+    "light": 59.38,
+    "mid": 14.81,
+    "dark": 1.44
+  },
+  "chain-result-phone.png": {
+    "size": [
+      390,
+      780
+    ],
+    "light": 17.98,
+    "mid": 27.12,
+    "dark": 2.33
+  },
+  "chain-split-phone.png": {
+    "size": [
+      390,
+      780
+    ],
+    "light": 18.06,
+    "mid": 27.34,
+    "dark": 2.34
+  },
+  "fatha-tablet-reduced.png": {
+    "size": [
+      768,
+      961
+    ],
+    "light": 23.75,
+    "mid": 23.7,
+    "dark": 1.36
+  },
+  "fuse-desktop-night.png": {
+    "size": [
+      1280,
+      800
+    ],
+    "light": 7.94,
+    "mid": 8.48,
+    "dark": 31.03
+  }
+}

@@ -1,6 +1,6 @@
 # Letter Garden major release — local status
 
-Preview: `http://letter-garden-next.localhost:8790/letters.html?v=20260925-craft1`.
+Preview: `http://letter-garden-next.localhost:8790/letters.html?v=20260925-joinery1`.
 Durable checkout: `/Users/main/Documents/GitHub/miftah/.local-work/letter-garden-next-major`.
 Branch: `codex/letter-garden-next-major`.
 Production baseline: `55f34576f0ebfc02bcf115452101b37adfbb4536` / `20260908-batch50`.
@@ -127,3 +127,17 @@ See [CRAFT_PLAY_REVIEW.md](CRAFT_PLAY_REVIEW.md). Local only; the full goal rema
 active. Next owner action: try Paths from the practice garden, then an unlocked
 Build/Workshop round. Next development: Blend/Fuse/Chain experimentation and
 remaining activity/pet/garden refinements. Audio approvals were not changed.
+
+
+September 25: Blend, Fuse and Chain now use the timber joinery setting, hold
+finished creations, and support replay plus reversible separation/rejoining.
+Blend offers only authored, same-letter alternatives in its supplied lesson pool;
+exploration does not begin a scored prompt or emit learning/reward outcomes.
+Actual play exposed and fixed rejected valid drags (arrival-animation geometry)
+and visually identical Fuse decoys. Retry comparisons focus on the relevant part.
+301 tests pass, plus full four-round browser sequences, reward checks, tap/drag,
+keyboard and phone/landscape/tablet/desktop review. See [JOINING_PLAY_REVIEW.md](JOINING_PLAY_REVIEW.md).
+Local only. Audio candidates and earlier owner decisions are unchanged.
+Next owner action: try the isolated joining preview, finish a pair, swap a vowel,
+separate/rejoin, then choose the arrow. The broader art/game goal remains active;
+Unfuse, other activity families, pet participation and garden ownership remain.

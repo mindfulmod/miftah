@@ -142,3 +142,20 @@ by viewport width, so portrait layouts cannot stretch it into a vertical slab.
 Whole-word replay and Next share the existing warm contour/contrast grammar.
 Carriers settle for 240ms; reduced motion removes the movement. Original cast,
 garden surroundings and curriculum remain. See `../letter-garden/CRAFT_PLAY_REVIEW.md`.
+
+
+## Joining desk, 2026-09-25
+
+Blend, Fuse and Chain extend Build's original timber anchor. A recessed foliage
+mat gives ivory pieces a clear receiving surface; the pencil pot and tied roll
+sit on its near edge with fixed frames. Broad table/mat planes may resize, but
+props and glyph carriers retain their proportions. Nearby sky and garden remain
+visible. The finished shape has a speaker badge, a pictorial separate/join tool,
+and one warm Next arrow; optional vowel pieces occupy a distinct shallow tray.
+
+Results stay until the child continues. Changing a supplied vowel changes both
+the main creation and the pet's replay bubble. Whole/part Arabic remains live,
+optically fitted text. Reduced motion reveals the same result instantly. Stopping
+a drag hint must also stop the tile's entry animation, so carrier geometry cannot
+jump at release. See `../letter-garden/JOINING_PLAY_REVIEW.md` for composed-frame
+screenshots, value measurements and remaining art-bible debt.

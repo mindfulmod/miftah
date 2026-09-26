@@ -1534,6 +1534,60 @@
     destroy() { this.alive = false; this.stopHint?.(); }
   }
 
+  // Completed creations are toys as well as answers. This desk never emits
+  // learning evidence: only the preceding guided merge owns the outcome.
+  function joinActionIcon(split) {
+    return `<svg viewBox="0 0 64 40" aria-hidden="true"><rect x="4" y="11" width="20" height="24" rx="6" fill="#fffaf0" stroke="#4a3620" stroke-width="3"/><rect x="40" y="11" width="20" height="24" rx="6" fill="#e5dcc8" stroke="#4a3620" stroke-width="3"/><path d="${split ? 'M27 7H9L14 2M9 7L14 12M37 7H55L50 2M55 7L50 12' : 'M6 7H26L21 2M26 7L21 12M58 7H38L43 2M38 7L43 12'}" fill="none" stroke="#4a3620" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  }
+
+  function showJoiningResult(game, item, variants = [item]) {
+    const ctx=game.ctx, round=game.roundIndex;
+    game.releaseActiveDrag?.();
+    game.ready=true;
+    let current=item, split=false;
+    const render=(focus='.join-next', speak=true)=>{
+      if(!game.alive || !game.ready || game.roundIndex!==round)return;
+      const version=game.resultVersion=(game.resultVersion || 0)+1;
+      const active=()=>game.alive && game.ready && game.roundIndex===round && game.resultVersion===version;
+      game.scene.classList.add('is-created');
+      game.scene.innerHTML=`<div class="join-result${variants.length>1 ? ' has-variants' : ''}${split ? ' is-split' : ''}">
+        <div class="join-output">
+          <button type="button" class="join-whole" aria-label="Hear ${current.display}"${split ? ' hidden' : ''}>${workshopTile(current.display)}<span class="build-listen" aria-hidden="true">${Art.icon('speaker',28)}</span></button>
+          <div class="join-parts"${split ? '' : ' hidden'}>${current.parts.map(part=>`<button type="button" class="join-piece" aria-label="Hear ${part.display}">${workshopTile(part.display)}</button>`).join('')}</div>
+        </div>
+        ${variants.length>1 ? `<div class="join-variants" role="group" aria-label="Try a different vowel">${variants.map((v,i)=>`<button type="button" class="join-variant" data-variant="${i}" aria-label="Try ${v.display}" aria-pressed="${v===current}">${workshopTile(v.parts[1].display)}</button>`).join('')}</div>` : ''}
+        <div class="join-tools"><button type="button" class="join-toggle" aria-label="${split ? 'Join the pieces' : 'Separate the pieces'}">${joinActionIcon(!split)}</button><button type="button" class="join-next" aria-label="Next creation">${Art.icon('next',32)}</button></div>
+      </div>`;
+      const whole=game.scene.querySelector('.join-whole');
+      whole.onclick=()=>{if(active())ctx.say(current);};
+      game.scene.querySelectorAll('.join-piece').forEach((el,i)=>{
+        el.onclick=()=>{if(active())ctx.say(current.parts[i]);};
+      });
+      game.scene.querySelector('.join-toggle').onclick=()=>{
+        if(!active())return;
+        split=!split;render('.join-toggle',!split);
+      };
+      game.scene.querySelectorAll('.join-variant').forEach((el,i)=>{
+        el.onclick=()=>{
+          if(!active())return;
+          current=variants[i];split=false;render(`[data-variant="${i}"]`);
+        };
+      });
+      game.scene.querySelector('.join-next').onclick=()=>{
+        if(!active())return;
+        game.ready=false;game.resultVersion++;game.roundIndex++;
+        if(game.roundIndex>=game.rounds.length){game.alive=false;ctx.onDone(game.slips);return;}
+        game.startRound();ctx.stage.querySelector('.blend-part:not(:disabled)')?.focus?.({preventScroll:true});
+      };
+      // Keep the pet's replay bubble in sync, without beginning another scored
+      // prompt or treating a vowel experiment as independent recognition.
+      ctx.setPrompt(current,{promptMode:'explore',skill:'joining'});
+      if(speak)ctx.say(current);
+      game.scene.querySelector(focus)?.focus?.({preventScroll:true});
+    };
+    render();
+  }
+
   // ---------- Blend Machine: drag letter and vowel together, hear them fuse ----------
   // The moment of learning to read, made tactile (spec: specs/02-letter-garden-v2.md):
   // the letter and its haraka are two physical friends; push them into each
@@ -1551,7 +1605,8 @@
         let decoy = null;
         if (r >= 2) {
           const other = shuffle(pool).find(
-            (i) => i.parts[1].display !== target.parts[1].display,
+            (i) => i.parts[1].display !== target.parts[1].display &&
+              i.parts[1].display !== target.parts[0].display,
           );
           if (other) decoy = other.parts[1];
         }
@@ -1564,6 +1619,8 @@
 
     startRound() {
       if (!this.alive) return;
+      this.releaseActiveDrag();
+      this.ready=false;
       const ctx = this.ctx;
       const { target, decoy } = this.rounds[this.roundIndex];
       ctx.setPrompt(target, {
@@ -1629,7 +1686,8 @@
         baseT = el.offsetTop;
         moved = false;
         if (this.stopHint) this.stopHint();
-        el.classList.add("is-held");
+        this.els.forEach(piece=>piece.classList.add("is-touched"));
+        el.classList.add("is-held", "is-touched");
         const idx = Number(el.dataset.i);
         const p = this.parts[idx].part;
         this.ctx.say({ display: p.display, speak: p.speak || p.display });
@@ -1664,6 +1722,8 @@
       el.addEventListener("lostpointercapture",(e)=>{if(el.classList.contains("is-held"))cancel(e);});
       el.addEventListener("pointerup", (e) => {
         if (!el.classList.contains("is-held") || (e.pointerId != null && e.pointerId !== el.__lgPointer)) return;
+        // Read the drop while the held geometry still follows the pointer.
+        const droppedOn = moved ? this.hitOther(el) : null;
         el.__lgPointer = null;
         if (this.activeDrag?.el === el) this.activeDrag = null;
         el.classList.remove("is-held");
@@ -1671,8 +1731,7 @@
         if (el.hasPointerCapture?.(e.pointerId)) el.releasePointerCapture(e.pointerId);
         if (this.merging) return;
         if (moved) {
-          const other = this.hitOther(el);
-          if (other) this.tryBlend(el, other);
+          if (droppedOn) this.tryBlend(el, droppedOn);
           else this.springBack(el);
           return;
         }
@@ -1684,6 +1743,7 @@
     selectPart(el) {
       if(!this.alive||this.merging||this.retrying||el.disabled||!this.els.includes(el))return;
       this.stopHint?.();
+      this.els.forEach(piece=>piece.classList.add("is-touched"));
       const previous=this.selected;
       this.els.forEach(e=>{e.classList.remove('is-lifted');e.setAttribute('aria-pressed','false');});
       this.selected=null;
@@ -1715,7 +1775,8 @@
 
     tryBlend(a, b) {
       if (!this.alive || this.merging || this.retrying || (this.els && (!this.els.includes(a)||!this.els.includes(b)))) return;
-      const { target } = this.rounds[this.roundIndex];
+      const round=this.roundIndex;
+      const { target } = this.rounds[round];
       const pa = this.parts[Number(a.dataset.i)];
       const pb = this.parts[Number(b.dataset.i)];
       if (pa.kind === pb.kind) {
@@ -1736,17 +1797,16 @@
           choiceIds: this.parts.map((part) => part.part.id || part.part.display),
           skill: "joining", activity: this.ctx.activity || "blend",
         });
-        this.ctx.showLearningHint?.(target, selected);
+        this.ctx.showLearningHint?.(target.parts[1], selected);
         this.ctx.sfx("wrong");
-        a.classList.add("is-shake");
-        b.classList.add("is-shake");
+        // Keep the known letter still; the comparison explains the mismatch.
         // Scaffolded retry: the decoy vowel that fooled the fuse drifts off.
         const decoyEl = [a, b].find((el) => {
           const p = this.parts[Number(el.dataset.i)];
           return p.kind === "vowel" && p.part.display !== target.parts[1].display;
         });
         setTimeout(() => {
-        if (!this.alive) return;
+        if (!this.alive || this.roundIndex!==round) return;
           this.retrying = false;
           a.classList.remove("is-shake");
           b.classList.remove("is-shake");
@@ -1759,35 +1819,29 @@
       }
 
       this.stopHint?.();
-      // The fuse: both tiles rush to the middle, squash, and the syllable is born.
-      this.merging = true;
-      const scene = this.scene.getBoundingClientRect();
-      for (const el of [a, b]) {
-        el.classList.add("is-fusing");
-        el.style.left = "50%";
-        el.style.top = "46%";
+      this.merging=true;
+      this.releaseActiveDrag();
+      for(const el of [a,b]){
+        el.disabled=true;el.classList.add('is-fusing');
+        el.style.left='50%';el.style.top='46%';
       }
-      setTimeout(() => {
-        if (!this.alive) return;
-        a.classList.add("is-gone");
-        b.classList.add("is-gone");
-        const born = document.createElement("div");
-        born.className = "blend-born";
-        born.innerHTML = workshopTile(target.display);
-        this.scene.appendChild(born);
-        reportAssembly(this.ctx, target, true);
-        this.ctx.sfx("correct");
-        this.ctx.say(target);
-        this.ctx.confettiAt(born);
-      }, 420);
-      setTimeout(() => {
-        if (!this.alive) return;
-        this.roundIndex += 1;
-        if (this.roundIndex >= this.rounds.length) { this.alive=false; return this.ctx.onDone(this.slips); }
-        this.merging = false;
-      this.retrying = false;
-        this.startRound();
-      }, 1800);
+      const reveal=()=>{
+        if(!this.alive || this.roundIndex!==round || this.ready)return;
+        reportAssembly(this.ctx,target,true);
+        this.ctx.clearLearningHint?.();
+        // Only authored alternatives already supplied by this lesson qualify.
+        // Never build an arbitrary syllable from a decoy or another chapter.
+        const variants=[target];
+        if(this.ctx.activity!=='fuse')for(const other of this.ctx.items || []){
+          if(variants.length===3)break;
+          if(other.parts?.length===2 && other.parts[0].display===target.parts[0].display &&
+            !variants.some(v=>v.display===other.display))variants.push(other);
+        }
+        showJoiningResult(this,target,variants);
+        this.ctx.sfx('correct');
+        this.ctx.confettiAt(this.scene.querySelector('.join-whole'));
+      };
+      if(this.ctx.reducedMotion?.())reveal();else setTimeout(reveal,420);
     }
 
     releaseActiveDrag() { const active=this.activeDrag; if (!active) return; const el=active.el; if (el?.hasPointerCapture?.(active.id)) el.releasePointerCapture(active.id); el.__lgPointer=null; el.classList.remove("is-held"); this.activeDrag=null; }
@@ -2099,12 +2153,14 @@
       if(!this.alive)return;
       this.releaseActiveDrag?.();
       this.busy=false;
+      this.ready=false;
       const ctx = this.ctx;
       const { pair, third, decoy } = this.rounds[this.roundIndex];
       const chain = {
         id: pair.display + third.display,
         display: pair.display + third.display,
         speak: `${pair.speak}، ${third.speak}`,
+        parts: [pair,third],
       };
       this.chain = chain;
       const thirds = [{ l: third, x: 22, y: decoy ? 30 : 50 }];
@@ -2126,6 +2182,7 @@
             .join("")}
         </div>`;
       this.thirds = thirds;
+      this.scene = ctx.stage.querySelector(".blend-scene");
       this.base = ctx.stage.querySelector(".chain-base");
       const thirdEls = [...ctx.stage.querySelectorAll(".chain-third")];
       for (const el of thirdEls) this.wireDrag(el);
@@ -2162,7 +2219,7 @@
         baseT = el.offsetTop;
         moved = false;
         if (this.stopHint) this.stopHint();
-        el.classList.add("is-held");
+        el.classList.add("is-held", "is-touched");
         const t = this.thirds[Number(el.dataset.i)].l;
         this.ctx.say({ display: t.display, speak: t.speak });
       });
@@ -2185,10 +2242,10 @@
       el.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();this.tryChain(el);}});
       el.addEventListener("pointerup", (e) => {
         if (!el.classList.contains("is-held") || e.pointerId !== el.__lgPointer) return;
+        const drop = moved ? this.hitsBase(el) : true; // tap = try it too
         el.__lgPointer=null; if(this.activeDrag?.el===el)this.activeDrag=null; el.classList.remove("is-held");
         if(el.hasPointerCapture(e.pointerId))el.releasePointerCapture(e.pointerId);
         this.base.classList.remove("is-near");
-        const drop = moved ? this.hitsBase(el) : true; // tap = try it too
         if (drop) this.tryChain(el);
         else this.springHome(el);
       });
@@ -2216,7 +2273,8 @@
       this.busy=true;
       this.stopHint?.();
       const ctx = this.ctx;
-      const { third } = this.rounds[this.roundIndex];
+      const round=this.roundIndex;
+      const { third } = this.rounds[round];
       const picked = this.thirds[Number(el.dataset.i)].l;
       if (picked.display !== third.display) {
         this.slips += 1;
@@ -2225,14 +2283,14 @@
           choiceIds: this.thirds.map(({ l }) => l.id || l.display),
           skill: "joining", activity: "chain",
         });
-        ctx.showLearningHint?.(this.chain, picked);
+        ctx.showLearningHint?.(third, picked);
         ctx.sfx("wrong");
         const svg = el.querySelector("svg");
         svg.classList.remove("is-shake");
         void svg.offsetWidth;
         svg.classList.add("is-shake");
         setTimeout(() => {
-              if(!this.alive)return;
+              if(!this.alive || this.roundIndex!==round)return;
           this.busy=false;
           this.springHome(el);
           el.classList.add("is-scaffolded");el.disabled=true;
@@ -2240,29 +2298,22 @@
         }, 550);
         return;
       }
-      el.classList.add("is-fusing");el.disabled=true;
-      el.style.left = "50%";
-      el.style.top = "46%";
-      setTimeout(() => {
-              if(!this.alive)return;
-        el.classList.add("is-gone");
-        this.base.innerHTML = workshopTile(this.chain.display);
-        this.base.classList.add("is-grown");
-        reportOutcome(ctx, this.chain, true, "supported_visible_matching", true, {
-          selectedId: picked.id || picked.display,
-          choiceIds: this.thirds.map(({ l }) => l.id || l.display),
-          skill: "joining", activity: "chain",
+      this.releaseActiveDrag();
+      el.classList.add('is-fusing');el.disabled=true;
+      el.style.left='50%';el.style.top='46%';
+      const reveal=()=>{
+        if(!this.alive || this.roundIndex!==round || this.ready)return;
+        reportOutcome(ctx,this.chain,true,'supported_visible_matching',true,{
+          selectedId:picked.id || picked.display,
+          choiceIds:this.thirds.map(({l})=>l.id || l.display),
+          skill:'joining',activity:'chain',
         });
-        ctx.sfx("correct");
-        ctx.say(this.chain);
-        ctx.confettiAt(this.base);
-      }, 380);
-      setTimeout(() => {
-              if(!this.alive)return;
-        this.roundIndex += 1;
-        if (this.roundIndex >= this.rounds.length) {this.alive=false;return ctx.onDone(this.slips);}
-        this.startRound();
-      }, 1900);
+        ctx.clearLearningHint?.();
+        showJoiningResult(this,this.chain);
+        ctx.sfx('correct');
+        ctx.confettiAt(this.scene.querySelector('.join-whole'));
+      };
+      if(ctx.reducedMotion?.())reveal();else setTimeout(reveal,380);
     }
 
     releaseActiveDrag() { const active=this.activeDrag; if (!active) return; const el=active.el; if (el?.hasPointerCapture?.(active.id)) el.releasePointerCapture(active.id); el.__lgPointer=null; el.classList.remove("is-held"); this.activeDrag=null; }

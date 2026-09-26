@@ -8,10 +8,10 @@
     feed: "picnic",
     catch: "catch",
     build: "joinery",
-    blend: "workbench",
-    fuse: "workbench",
+    blend: "joinery",
+    fuse: "joinery",
     unfuse: "workbench",
-    chain: "workbench",
+    chain: "joinery",
     parade: "parade",
   };
 

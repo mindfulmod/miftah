@@ -104,7 +104,9 @@ replays, chapter unlocks and interrupted navigation behave as before.
 
 **Status:** Dot Garden slice implemented locally; see [potting play review](POTTING_PLAY_REVIEW.md). Paths drawing ownership and Build result pacing are also implemented locally;
 see [craft pass](CRAFT_PLAY_REVIEW.md). Taught-vowel and joining experimentation
-in Blend/Fuse/Chain remains open.
+in Blend/Fuse/Chain is now implemented locally; see [joining play review](JOINING_PLAY_REVIEW.md).
+Optional exploration retains the original guided rounds and carries no extra learning score.
+Child observation and wider activity-family follow-through remain open.
 
 **Priority:** after the interaction foundation; extend Dot Garden, Paths and
 Blend/Build rather than adding another disconnected game.

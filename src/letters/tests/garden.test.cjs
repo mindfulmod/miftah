@@ -156,7 +156,7 @@ test('leaving Blend prevents a pending merge from revealing or paying',()=>{
  const el=i=>({dataset:{i:String(i)},classList:{add(){}},style:{}});
  const game=Object.create(ns.LettersMiniGames.blend.prototype);
  Object.assign(game,{alive:true,roundIndex:0,rounds:[{target:{parts:[{display:'a'},{display:'b'}]}}],parts:[{kind:'letter',part:{display:'a'}},{kind:'vowel',part:{display:'b'}}],scene:{getBoundingClientRect(){return {}}},ctx:{onDone(){paid++}}});
- game.tryBlend(el(0),el(1));assert.equal(timers.length,2);game.destroy();timers.forEach(f=>f());assert.equal(paid,0);assert.equal(game.roundIndex,0);
+ game.tryBlend(el(0),el(1));assert.equal(timers.length,1);game.destroy();timers.forEach(f=>f());assert.equal(paid,0);assert.equal(game.roundIndex,0);
 });
 
 test('Blend ignores repeated choices during an incorrect-pair retry',()=>{
@@ -179,7 +179,7 @@ test('Chain accepts one addition during success and cannot advance after exit',(
  const {ns,timers}=runtime();const game=Object.create(ns.LettersMiniGames.chain.prototype);
  const el={dataset:{i:'0'},style:{},classList:{contains(){return false},add(){}}};
  Object.assign(game,{alive:true,roundIndex:0,rounds:[{third:{display:'a'}}],thirds:[{l:{display:'a'}}],ctx:{}});
- game.tryChain(el);game.tryChain(el);assert.equal(timers.length,2);
+ game.tryChain(el);game.tryChain(el);assert.equal(timers.length,1);
  game.destroy();timers.forEach(f=>f());assert.equal(game.roundIndex,0);
 });
 test('Parade reveals each form once and cancels pending completion on exit',()=>{

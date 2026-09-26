@@ -1814,7 +1814,7 @@
         setPrompt: (item, meta = {}) => {
           currentTarget = item;
           const skill = meta.skill || ns.LettersLearning?.skillFor(item,gameName) || 'recognition';
-          learning?.beginPrompt(item,{skill,activity:gameName,choiceIds:meta.choiceIds || []});
+          if(meta.promptMode!=='explore')learning?.beginPrompt(item,{skill,activity:gameName,choiceIds:meta.choiceIds || []});
           presentation = {version:presentation.version+1,skill,choiceIds:meta.choiceIds || [],heard:false,
             hidden:!!item && meta.promptMode==='listen' && this.canSpeak(item) && (meta.choiceIds || []).length>1};
           stage.inert=presentation.hidden;
