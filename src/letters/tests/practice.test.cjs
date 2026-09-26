@@ -19,14 +19,14 @@ test('Garden Paths clear releases the stroke and retired controls cannot advance
  const {api}=runtime();let captured=null,marks=0,rewards=0;
  const ctx2d={clearRect(){},beginPath(){},moveTo(){},lineTo(){},stroke(){marks++}};
  const canvas={getContext:()=>ctx2d,getBoundingClientRect:()=>({left:0,top:0,width:800,height:500}),setPointerCapture:id=>captured=id,hasPointerCapture:id=>captured===id,releasePointerCapture:()=>captured=null};
- const guide={},next={},clear={},toggle={setAttribute(){}};
- const stage={querySelector:s=>({'canvas':canvas,'.path-guide':guide,'.path-next':next,'.path-clear':clear,'.path-guide-toggle':toggle}[s])};
+ const guide={},next={},turn={},close={},preview={setAttribute(){}},clear={},toggle={setAttribute(){}};
+ const stage={querySelector:s=>({'canvas':canvas,'.path-guide':guide,'.path-next':next,'.path-continue':turn,'.path-close':close,'.path-gallery-preview':preview,'.path-clear':clear,'.path-guide-toggle':toggle}[s]),querySelectorAll:()=>[]};
  const game=new api.GardenPaths({stage,items:[{display:'ا'}],prompt(){},say(){},correct(){rewards++},done(){}});
  canvas.onpointerdown({pointerId:1,button:0,clientX:10,clientY:10});assert.equal(captured,1);
  clear.onclick();assert.equal(captured,null);assert.equal(game.hasInk,false);assert.equal(next.disabled,true);
  canvas.onpointermove({pointerId:1,clientX:30,clientY:30});assert.equal(marks,1);
  canvas.onpointerdown({pointerId:2,button:0,clientX:10,clientY:10});canvas.onpointerup();
- const oldNext=next.onclick;oldNext();assert.equal(rewards,1);game.hasInk=true;oldNext();assert.equal(rewards,1);
+ const oldNext=next.onclick;oldNext();assert.equal(rewards,0);assert.equal(game.reviewing,true);turn.onclick();assert.equal(rewards,1);game.hasInk=true;oldNext();assert.equal(rewards,1);
  const currentNext=next.onclick;game.destroy();currentNext();assert.equal(rewards,1);
 });
 
@@ -41,15 +41,15 @@ test('Garden Paths clamps strokes, rejects invalid geometry and secondary pointe
  const {api}=runtime();let rect={left:0,top:0,width:800,height:500},done=0;const points=[];
  const g={clearRect(){},beginPath(){},moveTo:(...p)=>points.push(p),lineTo:(...p)=>points.push(p),stroke(){}};
  const canvas={getContext:()=>g,getBoundingClientRect:()=>rect,setPointerCapture(){},hasPointerCapture:()=>false};
- const guide={},next={},clear={},toggle={setAttribute(){}};
- const stage={querySelector:s=>({'canvas':canvas,'.path-guide':guide,'.path-next':next,'.path-clear':clear,'.path-guide-toggle':toggle}[s])};
+ const guide={},next={},turn={},close={},preview={setAttribute(){}},clear={},toggle={setAttribute(){}};
+ const stage={querySelector:s=>({'canvas':canvas,'.path-guide':guide,'.path-next':next,'.path-continue':turn,'.path-close':close,'.path-gallery-preview':preview,'.path-clear':clear,'.path-guide-toggle':toggle}[s]),querySelectorAll:()=>[]};
  const game=new api.GardenPaths({stage,items:[{display:'ا'}],prompt(){},say(){},correct(){},done(){done++}});
  assert.equal(clear.disabled,true);
  canvas.onpointerdown({pointerId:1,button:0,isPrimary:false,clientX:0,clientY:0});assert.equal(points.length,0);
  rect.width=0;canvas.onpointerdown({pointerId:1,button:0,clientX:0,clientY:0});assert.equal(points.length,0);rect.width=800;
  canvas.onpointerdown({pointerId:1,button:0,clientX:-50,clientY:-20});assert.deepEqual(points[0],[0,0]);assert.equal(clear.disabled,false);
- canvas.onpointermove({pointerId:1,clientX:900,clientY:600});assert.deepEqual(points.at(-1),[800,500]);canvas.onpointerup();next.onclick();
- canvas.onpointerdown({pointerId:2,button:0,clientX:20,clientY:20});canvas.onpointerup();const finish=next.onclick;finish();finish();assert.equal(done,1);assert.equal(game.alive,false);
+ canvas.onpointermove({pointerId:1,clientX:900,clientY:600});assert.deepEqual(points.at(-1),[800,500]);canvas.onpointerup();next.onclick();turn.onclick();
+ canvas.onpointerdown({pointerId:2,button:0,clientX:20,clientY:20});canvas.onpointerup();const finish=next.onclick;finish();finish();assert.equal(done,0);turn.onclick();assert.equal(done,0);close.onclick();close.onclick();assert.equal(done,1);assert.equal(game.alive,false);
 });
 
 test('Dot final transition completes once even if callback is delivered again',()=>{

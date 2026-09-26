@@ -206,35 +206,70 @@
   }
 
   const isolated=item=>item?.display&&Array.from(item.display).length===1&&/[\u0621-\u064A]/.test(item.display);
+  // A session sketchbook, not a handwriting recognizer: ink is participation,
+  // never correctness or mastery. Keep the child's own marks until they turn the page.
+  // Recorded brush width matches the canvas ink; it is not a prop contour.
+  const inkPicture=(strokes,width,height)=>`<svg viewBox="0 0 ${width} ${height}" aria-hidden="true"><svg width="${width}" height="${height}" viewBox="0 0 800 500" preserveAspectRatio="none">${strokes.map(stroke=>`<path d="M${stroke.points.map(point=>point.join(',')).join('L')}" fill="none" stroke="${stroke.color}" style="stroke-width:14px" stroke-linecap="round" stroke-linejoin="round"/>`).join('')}</svg></svg>`;
+  const pathUndo='<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M10 14H24A10 10 0 1 1 24 34M10 14L17 7M10 14L17 21" fill="none" stroke="#4a3620" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   class GardenPaths{
     constructor(ctx){
-      this.ctx=ctx;this.alive=true;this.index=0;this.busy=false;this.inkColor=DrawingPalette.current();
+      this.ctx=ctx;this.alive=true;this.index=0;this.busy=false;this.drawings=[];this.inkColor=DrawingPalette.current();
       const eligible=[...new Map((ctx.items||[]).filter(isolated).map(item=>[key(item),item])).values()],count=Math.min(3,eligible.length),offset=eligible.length?pathCursor%eligible.length:0;
       this.targets=Array.from({length:count},(_,i)=>eligible[(offset+i)%eligible.length]);this.rounds=this.targets.flatMap(target=>[{target,mode:'guided'},{target,mode:'partial'}]);if(eligible.length)pathCursor=(pathCursor+count)%eligible.length;this.show();
     }
     show(){
       if(!this.alive)return;this.release?.();const view=this.view=(this.view||0)+1,active=()=>this.alive&&this.view===view;
-      const round=this.rounds[this.index],target=round?.target;if(!target){this.finish();return;}const mode=round.mode;
-      this.ctx.prompt?.(target);this.ctx.say?.(target);this.hasInk=false;this.pointer=null;this.busy=false;
-      const shift=ns.LettersArt.inkShift(target.display,44,false);
+      const round=this.rounds[this.index],target=round?.target;if(!target){if(this.drawings.length)this.showGallery();else this.finish();return;}const mode=round.mode;
+      this.ctx.prompt?.(target);this.ctx.say?.(target);this.hasInk=false;this.pointer=null;this.busy=false;this.reviewing=false;this.strokes=[];
       const guideShift=ns.LettersArt.inkShift(target.display,84,false);
-      this.ctx.stage.innerHTML=`<div class="garden-paths"><div class="path-progress" role="progressbar" aria-valuemin="0" aria-valuemax="${this.rounds.length}" aria-valuenow="${this.index}" aria-label="Drawing ${this.index+1} of ${this.rounds.length}, ${mode}">${Array.from({length:this.rounds.length},(_,i)=>`<i class="${i<=this.index?'is-on':''}" aria-hidden="true"></i>`).join('')}</div><svg class="path-reference" viewBox="0 0 100 100" role="img" aria-label="Reference letter"><text x="${50+shift.dx}" y="${50+shift.dy}" text-anchor="middle" font-size="44" font-family="'Amiri Quran',serif" fill="#4a3620" direction="rtl">${target.display}</text></svg><div class="path-paper"><div class="path-guide${mode==='partial'?' path-guide-partial':''}"${mode==='partial'?' style="clip-path:inset(0 48% 0 0)"':''}><svg class="path-guide-glyph" viewBox="0 0 100 100" aria-hidden="true"><text data-fit-box="50,50,78,74,84" x="${50+guideShift.dx}" y="${50+guideShift.dy}" text-anchor="middle" font-size="84" font-family="'Amiri Quran',serif" fill="#c9bda4" direction="rtl">${target.display}</text></svg></div><canvas aria-label="Draw ${target.display} here"></canvas></div>${DrawingPalette.markup()}<div class="practice-tools">${button('Clear drawing',eraser,'path-clear')}${button('Show or hide guide',eye,'path-guide-toggle')}${button('Finish this drawing',tool('check'),'path-next')}</div></div>`;
+      this.ctx.stage.innerHTML=`<div class="garden-paths"><div class="path-progress" role="progressbar" aria-valuemin="0" aria-valuemax="${this.rounds.length}" aria-valuenow="${this.index}" aria-label="Drawing ${this.index+1} of ${this.rounds.length}, ${mode}">${Array.from({length:this.rounds.length},(_,i)=>`<i class="${i<=this.index?'is-on':''}" aria-hidden="true"></i>`).join('')}</div><div class="path-workbook"><div class="path-paper"><div class="path-guide${mode==='partial'?' path-guide-partial':''}"${mode==='partial'?' style="clip-path:inset(0 48% 0 0)"':''}><svg class="path-guide-glyph" viewBox="0 0 100 100" aria-hidden="true"><text data-fit-box="50,50,78,74,84" x="${50+guideShift.dx}" y="${50+guideShift.dy}" text-anchor="middle" font-size="84" font-family="'Amiri Quran',serif" fill="#c9bda4" direction="rtl">${target.display}</text></svg></div><canvas aria-label="Draw ${target.display} here"></canvas></div><span class="path-made" role="status" aria-label="Your drawing is ready" hidden><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M10 29Q5 8 30 7Q36 29 10 29Z" fill="#4e9677"/><path d="M13 25Q14 12 27 10Q22 22 13 25Z" fill="#b7e779"/><path d="M9 33L25 14" stroke="#2f5c46" stroke-width="3" stroke-linecap="round"/></svg></span></div>${DrawingPalette.markup()}<div class="practice-tools path-editing-tools">${button('Undo last stroke',pathUndo,'path-undo')}${button('Clear drawing',eraser,'path-clear')}${button('Show or hide guide',eye,'path-guide-toggle')}${button('Finish this drawing',tool('check'),'path-next')}</div><div class="practice-tools path-review-tools" hidden>${button('Keep drawing','<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M9 29L27 5L35 11L17 35L6 37Z" fill="#f3c955" stroke="#4a3620" stroke-width="3" stroke-linejoin="round"/><path d="M9 29L17 35L6 37Z" fill="#fffaf0"/><path d="M14 28L28 10" stroke="#ffe49a" stroke-width="3"/></svg>','path-edit')}${button('Turn the page',tool('next'),'path-continue')}</div></div>`;
       ns.LettersArt.fitGlyphs?.(this.ctx.stage);
-      const canvas=this.ctx.stage.querySelector('canvas'),guide=this.ctx.stage.querySelector('.path-guide'),next=this.ctx.stage.querySelector('.path-next'),clear=this.ctx.stage.querySelector('.path-clear'),toggle=this.ctx.stage.querySelector('.path-guide-toggle'),g=canvas.getContext('2d');
-      canvas.width=800;canvas.height=500;guide.hidden=false;next.disabled=true;clear.disabled=true;
-      const guideId=`path-guide-${this.index}`;guide.id=guideId;toggle.setAttribute('aria-pressed',String(!guide.hidden));toggle.setAttribute('aria-label',guide.hidden?'Show guide':'Hide guide');toggle.setAttribute('aria-controls',guideId);
-      toggle.onclick=()=>{if(!active())return;guide.hidden=!guide.hidden;toggle.setAttribute('aria-pressed',String(!guide.hidden));toggle.setAttribute('aria-label',guide.hidden?'Show guide':'Hide guide');toggle.focus?.();};
-      clear.onclick=()=>{if(!active())return;this.release?.();g.clearRect?.(0,0,800,500);this.hasInk=false;next.disabled=true;clear.disabled=true;};
+      const find=s=>this.ctx.stage.querySelector(s),canvas=find('canvas'),guide=find('.path-guide'),next=find('.path-next'),clear=find('.path-clear'),toggle=find('.path-guide-toggle'),undo=find('.path-undo'),g=canvas.getContext('2d');
+      canvas.width=800;canvas.height=500;guide.hidden=false;next.disabled=true;clear.disabled=true;if(undo)undo.disabled=true;
+      const sync=()=>{this.hasInk=this.strokes.length>0;next.disabled=clear.disabled=!this.hasInk;if(undo)undo.disabled=!this.hasInk;};
+      const paint=stroke=>{g.beginPath();g.moveTo(...stroke.points[0]);stroke.points.slice(1).forEach(point=>g.lineTo(...point));g.strokeStyle=stroke.color;g.lineWidth=14;g.lineCap=g.lineJoin='round';g.stroke();};
+      const redraw=()=>{g.clearRect?.(0,0,800,500);this.strokes.forEach(paint);sync();};
+      const guideId=`path-guide-${view}`;guide.id=guideId;
+      const guideState=()=>{toggle.setAttribute('aria-pressed',String(!guide.hidden));toggle.setAttribute('aria-label',guide.hidden?'Show guide':'Hide guide');};
+      guideState();toggle.setAttribute('aria-controls',guideId);
+      toggle.onclick=()=>{if(!active()||this.reviewing)return;guide.hidden=!guide.hidden;guideState();toggle.focus?.();};
+      clear.onclick=()=>{if(!active()||this.reviewing)return;this.release?.();this.strokes=[];redraw();};
+      if(undo)undo.onclick=()=>{if(!active()||this.reviewing)return;this.release?.();this.strokes.pop();redraw();};
       const point=e=>{const r=canvas.getBoundingClientRect();if(r.width<=0||r.height<=0)return null;return [Math.max(0,Math.min(800,(e.clientX-r.left)*800/r.width)),Math.max(0,Math.min(500,(e.clientY-r.top)*500/r.height))];};
-      canvas.onpointerdown=e=>{if(!active()||this.pointer!==null||e.button>0||e.isPrimary===false)return;const pos=point(e);if(!pos)return;this.pointer=e.pointerId;canvas.setPointerCapture?.(e.pointerId);const [x,y]=pos;g.beginPath();g.moveTo(x,y);g.lineTo(Math.min(800,x+.1),Math.min(500,y+.1));g.strokeStyle=this.inkColor;g.lineWidth=14;g.lineCap=g.lineJoin='round';g.stroke();this.hasInk=true;next.disabled=false;clear.disabled=false;};
-      canvas.onpointermove=e=>{if(!active()||e.pointerId!==this.pointer||e.isPrimary===false)return;const pos=point(e);if(!pos)return;g.lineTo(...pos);g.stroke();};
-      const release=e=>{if(e&&e.pointerId!==undefined&&e.pointerId!==this.pointer)return;const id=this.pointer;this.pointer=null;if(id!==null&&canvas.hasPointerCapture?.(id))canvas.releasePointerCapture?.(id);};
+      canvas.onpointerdown=e=>{if(!active()||this.reviewing||this.pointer!==null||e.button>0||e.isPrimary===false)return;const pos=point(e);if(!pos)return;this.pointer=e.pointerId;canvas.setPointerCapture?.(e.pointerId);const [x,y]=pos;this.strokes.push({color:this.inkColor,points:[pos,[Math.min(800,x+.1),Math.min(500,y+.1)]]});paint(this.strokes.at(-1));sync();};
+      canvas.onpointermove=e=>{if(!active()||this.reviewing||e.pointerId!==this.pointer||e.isPrimary===false)return;const pos=point(e);if(!pos)return;const stroke=this.strokes.at(-1),previous=stroke.points.at(-1);stroke.points.push(pos);g.beginPath();g.moveTo(...previous);g.lineTo(...pos);g.stroke();};
+      const release=e=>{if(e&&!active())return;if(e&&e.pointerId!==undefined&&e.pointerId!==this.pointer)return;const id=this.pointer;this.pointer=null;if(id!==null&&canvas.hasPointerCapture?.(id))canvas.releasePointerCapture?.(id);};
       canvas.onpointerup=release;canvas.onpointercancel=release;canvas.onlostpointercapture=release;this.release=release;
-      this.paletteButtons=DrawingPalette.wire(this.ctx.stage,{active,release,onChange:color=>{this.inkColor=color;if(this.g)this.g.strokeStyle=color;}});
-      next.onclick=()=>{if(!active()||!this.hasInk||this.pointer!==null||this.busy)return;this.busy=true;this.ctx.reportOutcome?.({item:target,itemId:key(target),correct:undefined,evidence:'motor_assembly_participation',skill:'drawing',activity:'GardenPaths',selectedId:key(target),choiceIds:[key(target)],assisted:true,affectsStrength:false});this.ctx.correct?.();this.release();this.index++;this.busy=false;this.show();};
+      this.paletteButtons=DrawingPalette.wire(this.ctx.stage,{active:()=>active()&&!this.reviewing,release,onChange:color=>{this.inkColor=color;}});
+      let previousGuide=false;
+      const review=on=>{
+        this.reviewing=on;find('.garden-paths')?.classList.toggle('is-reviewing',on);
+        for(const selector of ['.path-editing-tools','.drawing-palette']){const el=find(selector);if(el)el.hidden=on;}
+        for(const selector of ['.path-review-tools','.path-made']){const el=find(selector);if(el)el.hidden=!on;}
+        if(on){previousGuide=guide.hidden;guide.hidden=true;}else {guide.hidden=previousGuide;guideState();}
+        canvas.setAttribute?.('aria-label',on?`Your drawing of ${target.display}`:`Draw ${target.display} here`);
+      };
+      next.onclick=()=>{if(!active()||this.reviewing||!this.hasInk||this.pointer!==null)return;review(true);find('.path-continue')?.focus?.({preventScroll:true});};
+      const edit=find('.path-edit');if(edit)edit.onclick=()=>{if(!active()||!this.reviewing)return;review(false);next.focus?.({preventScroll:true});};
+      const turn=find('.path-continue');if(turn)turn.onclick=()=>{
+        if(!active()||!this.reviewing||this.busy)return;this.busy=true;this.release();
+        const size=canvas.getBoundingClientRect();
+        this.drawings.push({target,mode,picture:inkPicture(this.strokes,size.width||800,size.height||500)});
+        this.ctx.reportOutcome?.({item:target,itemId:key(target),correct:undefined,evidence:'motor_assembly_participation',skill:'drawing',activity:'GardenPaths',selectedId:key(target),choiceIds:[key(target)],assisted:true,affectsStrength:false});
+        this.ctx.correct?.();this.index++;this.show();
+      };
+    }
+    showGallery(){
+      this.release?.();const view=++this.view,active=()=>this.alive&&view===this.view;this.reviewing=true;
+      this.ctx.stage.innerHTML=`<div class="path-gallery"><div class="path-workbook"><div class="path-paper path-gallery-preview" role="img" aria-label="Your drawing"></div></div><div class="path-gallery-pages" role="group" aria-label="Your sketchbook pages">${this.drawings.map((drawing,i)=>`<button type="button" class="path-page" aria-pressed="false" aria-label="See drawing ${i+1}: ${drawing.target.display}">${drawing.picture}</button>`).join('')}</div>${button('Return to practice garden',tool('home'),'path-close')}</div>`;
+      const pages=[...this.ctx.stage.querySelectorAll('.path-page')],preview=this.ctx.stage.querySelector('.path-gallery-preview');
+      const select=(i,speak)=>{if(!active())return;preview.innerHTML=this.drawings[i].picture;preview.setAttribute('aria-label',`Your drawing of ${this.drawings[i].target.display}`);pages.forEach((page,n)=>page.setAttribute('aria-pressed',String(i===n)));this.ctx.prompt?.(this.drawings[i].target);if(speak)this.ctx.say?.(this.drawings[i].target);};
+      pages.forEach((page,i)=>page.onclick=()=>select(i,true));select(this.drawings.length-1,false);
+      this.ctx.stage.querySelector('.path-close').onclick=()=>{if(active())this.finish();};
+      pages.at(-1)?.focus?.({preventScroll:true});
     }
     finish(){if(!this.alive)return;this.release?.();this.alive=false;this.ctx.done?.();}
-    destroy(){this.alive=false;this.release?.();}
+    destroy(){this.alive=false;this.release?.();this.drawings=[];this.strokes=[];}
   }
   ns.GardenPractice={DotGarden,GardenPaths,explorationItems,draggable,inside,validDots,dotSpec,repairFamilies,repairPlan,eraserIcon:()=>eraser};
 })(window.MiftahGame||(window.MiftahGame={}));

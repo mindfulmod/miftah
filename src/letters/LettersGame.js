@@ -1761,6 +1761,7 @@
               assisted:outcome.assisted || presentation.choiceIds.length===1} : {}),
           });
         },
+        clearLearningHint: () => {hint.hidden=true;},
         showLearningHint: (target, selected) => {
           revealPrompt(true);
           if (!selected || (target.id || target.display)===(selected.id || selected.display)) return;
@@ -1978,6 +1979,7 @@
       else if(kind==='Workshop')this.game=new ns.LettersMiniGames.build({...ctx,setPrompt:ctx.prompt,sfx:name=>this.sound.play(name),confettiAt:target=>this.confettiAt(target),onDone:ctx.done});
       else if(kind==='LetterDelivery')this.game=new ns.LetterDelivery(ctx);
       else this.game=new ns.GardenPractice[kind](ctx);
+      if(kind==='Workshop')this.unmountActivityArt=ns.LettersActivityArt?.mount(ctx.stage,'build');
     }
 
     gardenReward(finished=false) {

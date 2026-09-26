@@ -36,3 +36,7 @@ activity-presenter,layout,optical prompt and proportional pet with progress row,
 potting-plane,practice-scenery,quiet timber work surface,1,720,540,none,"360 505",front,1,true,paper-ink,existing-workbench,DotGarden,reviewed-local
 potting-seedling,practice-prop,respond to taught-dot exploration,1,120,140,none,"61 132",front,1,true,foliage-warm,existing-workbench,DotGarden,reviewed-local
 potting-scoop,practice-prop,frame the letter-repair table,1,120,140,none,"61 132",front,1,true,paper-foliage,existing-workbench,DotGarden,reviewed-local
+path-sketchpad,practice-carrier,hold and revisit the child's actual ink,1,0,0,responsive,center,front,1,true,paper-foliage,activity-paper-roll,GardenPaths,reviewed-local
+path-pencil-controls,practice-tools,choose a future stroke colour,5,48,54,none,center,front,1,true,paper-ink,drawing-palette,GardenPaths,reviewed-local
+joinery-table,activity-scenery,ground Build with a timber apron and legs,1,720,540,none,"360 526",front,1,true,paper-ink,potting-plane,Build,reviewed-local
+joinery-assembly-mat,activity-carrier,hold ordered pieces before joining,1,0,0,responsive,center,front,1,true,foliage-paper,potting-plane,Build,reviewed-local

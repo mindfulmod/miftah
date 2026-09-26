@@ -170,12 +170,12 @@
   function workshopTile(display, material = "wood") {
     const leaf = material === "leaf";
     return `<svg viewBox="-52 -54 104 110" aria-hidden="true">
-      <path d="M-45-31Q-45-47-29-47H31Q45-47 45-31V31Q45 47 29 47H-29Q-45 47-45 31Z" fill="${leaf?'#739367':'#b58a56'}" stroke="#655239" stroke-width="3"/>
-      <rect x="-40" y="-43" width="80" height="84" rx="16" fill="${leaf?'#e5edcc':'#eed4a5'}"/>
+      <path d="M-45-31Q-45-47-29-47H31Q45-47 45-31V31Q45 47 29 47H-29Q-45 47-45 31Z" fill="${leaf?'#4e9677':'#a89478'}" stroke="#4a3620" stroke-width="3"/>
+      <rect x="-40" y="-43" width="80" height="84" rx="16" fill="${leaf?'#b7e779':'#e5dcc8'}"/>
       <rect x="-35" y="-35" width="70" height="70" rx="13" fill="#fffaf0"/>
-      <path d="M-28-39H26" stroke="#fffdf4" stroke-width="3" stroke-linecap="round"/>
+      <path d="M-28-39H26" stroke="#fffdf7" stroke-width="3" stroke-linecap="round"/>
       ${glyphText(display,{maxSize:42})}
-      ${leaf?'<path d="M30 43Q18 36 24 34Q32 32 34 41Q40 31 43 35Q44 40 34 44" fill="#6c8c58"/>':'<path d="M-28 44H24" stroke="#b59462" stroke-width="2" stroke-linecap="round"/>'}
+      ${leaf?'<path d="M30 43Q18 36 24 34Q32 32 34 41Q40 31 43 35Q44 40 34 44" fill="#2f5c46"/>':'<path d="M-28 44H24" stroke="#c9bda4" stroke-width="2.4" stroke-linecap="round"/>'}
     </svg>`;
   }
 
@@ -1391,6 +1391,7 @@
     startRound() {
       if (!this.alive) return;
       const ctx = this.ctx;
+      this.ready=false;
       const target = this.targets[this.roundIndex];
       ctx.setPrompt(target, {
         promptMode: "match", skill: "construction",
@@ -1417,6 +1418,7 @@
       this.tray = shuffle([...target.parts.slice(this.fixedCount), ...decoys]);
       ctx.stage.innerHTML = `
         <div class="build-scene">
+          <div class="build-finish" hidden></div>
           <div class="build-slots" dir="rtl">
             ${target.parts.map((_,i) => `<button type="button" class="build-slot" data-slot="${i}" aria-label="Empty building space" disabled></button>`).join("")}
           </div>
@@ -1439,10 +1441,10 @@
 
     place(btn) {
       const target = this.targets[this.roundIndex];
-      if (!this.alive || btn.disabled || (this.ctx.stage&&!this.ctx.stage.contains(btn)) || btn.classList.contains("is-scaffolded") || btn.classList.contains("is-used") || this.placed.length >= target.parts.length) return;
+      if (!this.alive || this.ready || btn.disabled || (this.ctx.stage&&!this.ctx.stage.contains(btn)) || btn.classList.contains("is-scaffolded") || btn.classList.contains("is-used") || this.placed.length >= target.parts.length) return;
       const part = this.tray[Number(btn.dataset.i)];
       const slot = this.slots[this.placed.length];
-      slot.innerHTML = workshopTile(part.display)+`<span class="build-undo-cue" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M5 7H11A5 5 0 1 1 10 17M5 7L8 3M5 7L9 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`;
+      slot.innerHTML = workshopTile(part.display)+`<span class="build-undo-cue" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M5 7H11A5 5 0 1 1 10 17M5 7L8 3M5 7L9 10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`;
       slot.disabled=false;
       slot.setAttribute('aria-label',`Return ${part.display} and following pieces`);
       slot.classList.add("is-filled");
@@ -1457,19 +1459,29 @@
       const built = this.placed.every((p, i) => p.part.display === target.parts[i].display);
       if (built) {
         reportAssembly(this.ctx, target, true);
+        this.ctx.clearLearningHint?.();
         this.ctx.sfx("correct");
         this.ctx.confettiAt(this.ctx.stage.querySelector(".build-slots"));
-        // The payoff: the parts become the whole, and the whole speaks.
-        setTimeout(() => { if(!this.alive)return;
-          this.ctx.stage.querySelector('.build-slots').innerHTML=`<div class="build-whole">${workshopTile(target.display)}</div>`;
-          this.ctx.say(target);
-        }, 500);
-        setTimeout(() => {
-        if (!this.alive) return;
-          this.roundIndex += 1;
-          if (this.roundIndex >= this.targets.length) { this.alive=false; return this.ctx.onDone(this.slips); }
-          this.startRound();
-        }, 1400);
+        // Give the child ownership of the payoff. Animation reveals the word;
+        // only the child's Next action can advance the lesson or pay completion.
+        const round=this.roundIndex;
+        const reveal=()=>{
+          if(!this.alive||this.roundIndex!==round||this.ready)return;
+          this.ready=true;
+          const scene=this.ctx.stage.querySelector('.build-scene'),finish=this.ctx.stage.querySelector('.build-finish');
+          scene.classList.add('is-ready');finish.hidden=false;
+          finish.innerHTML=`<button type="button" class="build-whole" aria-label="Hear ${target.display}">${workshopTile(target.display)}<span class="build-listen" aria-hidden="true">${Art.icon('speaker',28)}</span></button><button type="button" class="lg-big-btn build-next" aria-label="Next word">${Art.icon('next',32)}</button>`;
+          const whole=finish.querySelector('.build-whole'),next=finish.querySelector('.build-next');
+          whole.onclick=()=>{if(this.alive&&this.ready&&this.roundIndex===round)this.ctx.say(target);};
+          next.onclick=()=>{
+            if(!this.alive||!this.ready||this.roundIndex!==round)return;
+            this.ready=false;this.roundIndex++;
+            if(this.roundIndex>=this.targets.length){this.alive=false;this.ctx.onDone(this.slips);return;}
+            this.startRound();this.ctx.stage.querySelector('.build-tile:not(:disabled)')?.focus?.({preventScroll:true});
+          };
+          this.ctx.say(target);next.focus({preventScroll:true});
+        };
+        if(this.ctx.reducedMotion?.())reveal();else setTimeout(reveal,400);
       } else {
         this.slips += 1;
         const firstWrong = this.placed.findIndex((p, i) => p.part.display !== target.parts[i].display);
@@ -1482,15 +1494,12 @@
         });
         this.ctx.showLearningHint?.(target.parts[firstWrong], selected);
         this.ctx.sfx("wrong");
-        const slotsEl = this.ctx.stage.querySelector(".build-slots");
-        slotsEl.classList.remove("is-shake");
-        void slotsEl.offsetWidth;
-        slotsEl.classList.add("is-shake");
         // Scaffolded retry: one decoy that led the build astray leaves.
         const strayed = this.placed.slice(firstWrong).find(
           (p) => !target.parts.some((tp) => tp.display === p.part.display));
+        const retryRound=this.roundIndex;
         setTimeout(() => {
-        if (!this.alive) return;
+        if (!this.alive || this.roundIndex!==retryRound) return;
           const removed = this.placed.splice(firstWrong);
           for (const p of removed) {
             p.slot.innerHTML = "";

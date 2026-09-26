@@ -83,7 +83,7 @@ function pathStage(){
   let captured=null;
   const g={clearRect(){},beginPath(){},moveTo(){},lineTo(){},stroke(){}};
   const canvas={getContext:()=>g,getBoundingClientRect:()=>({left:0,top:0,width:800,height:500}),setPointerCapture:id=>captured=id,hasPointerCapture:id=>captured===id,releasePointerCapture:()=>captured=null};
-  const nodes={'canvas':canvas,'.path-guide':el(),'.path-next':el(),'.path-clear':el(),'.path-guide-toggle':el()};
+  const nodes={'canvas':canvas,'.path-guide':el(),'.path-next':el(),'.path-continue':el(),'.path-clear':el(),'.path-guide-toggle':el()};
   return {innerHTML:'',querySelector:s=>nodes[s],nodes,canvas};
 }
 
@@ -92,7 +92,7 @@ test('Garden Paths caps and rotates taught isolated letters, then reports drawin
   const firstStage=pathStage(),ctx={stage:firstStage,items,prompt(){},say(){},correct(){},reportOutcome:o=>outcomes.push(o),done(){}};
   const first=new api.GardenPaths(ctx);assert.deepEqual(Array.from(first.targets,x=>x.id),['ا','ب','ت']);
   assert.deepEqual(Array.from(first.rounds.slice(0,2),round=>round.mode),['guided','partial']);assert.equal(first.rounds[0].target,first.rounds[1].target);
-  firstStage.canvas.onpointerdown({pointerId:1,button:0,clientX:10,clientY:10});firstStage.canvas.onpointerup({pointerId:1});firstStage.nodes['.path-next'].onclick();
+  firstStage.canvas.onpointerdown({pointerId:1,button:0,clientX:10,clientY:10});firstStage.canvas.onpointerup({pointerId:1});firstStage.nodes['.path-next'].onclick();assert.equal(outcomes.length,0);firstStage.nodes['.path-continue'].onclick();
   assert.equal(outcomes[0].evidence,'motor_assembly_participation');assert.equal(outcomes[0].skill,'drawing');assert.equal(outcomes[0].affectsStrength,false);first.destroy();
   const second=new api.GardenPaths({...ctx,stage:pathStage()});assert.deepEqual(Array.from(second.targets,x=>x.id),['ث','ج','ا']);second.destroy();
 });

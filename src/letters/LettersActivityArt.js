@@ -7,7 +7,7 @@
     DotGarden: "potting",
     feed: "picnic",
     catch: "catch",
-    build: "workbench",
+    build: "joinery",
     blend: "workbench",
     fuse: "workbench",
     unfuse: "workbench",
@@ -147,7 +147,22 @@
       <path d="M51 105L59 83" fill="none" stroke="#e5dcc8" stroke-width="3"/>`)}`;
   }
 
-  const DRAW = { pairs, catch: catchOrchard, workbench, parade, picnic, potting };
+  function joinery(){
+    // A sibling of the potting table: the apron overlaps the legs, while the
+    // floor shadow and fixed-size writing tools share one ground line.
+    return `<svg class="activity-plane" viewBox="0 0 720 540" preserveAspectRatio="none" aria-hidden="true">
+      <ellipse cx="360" cy="526" rx="332" ry="12" fill="#2f5c46" opacity=".16"/>
+      <path d="M85 396H139L129 520Q107 534 87 522ZM579 396H633L631 522Q611 534 589 520Z" fill="#4a3620"/>
+      <path d="M91 404H131L124 517Q108 526 94 517ZM587 404H625L624 517Q609 526 595 517Z" fill="#a89478"/>
+      <path d="M94 408H104L107 516L97 513ZM591 408H601L604 516L597 513Z" fill="#c9bda4"/>
+      <path d="M23 48Q360 18 697 48L704 429Q706 455 683 461Q360 504 37 461Q14 455 16 429Z" fill="#a89478"/>
+      <path d="M18 35Q360 3 702 35L708 409Q710 435 687 441Q360 480 33 441Q10 435 12 409Z" fill="#c9bda4"/>
+      <path d="M36 15Q360 0 684 15Q703 16 704 37L707 393Q709 415 687 420Q360 456 33 420Q11 415 13 393L16 37Q17 16 36 15Z" fill="#e5dcc8"/>
+      <path d="M24 21Q360 6 697 21L698 35Q360 22 23 36Z" fill="#fffaf0"/>
+      <path d="M35 55L33 377M683 55L686 377M48 397Q146 411 223 406M497 406Q584 411 673 397" fill="none" stroke="#c9bda4" stroke-width="2.4"/>
+    </svg>${pencilPot()}${paperRoll()}`;
+  }
+  const DRAW = { pairs, catch: catchOrchard, workbench, joinery, parade, picnic, potting };
 
   function fixedProps(markup) {
     const bounds = { 'pairs-leaves':'0 30 720 90', 'orchard-fruit':'20 35 680 110', 'parade-hangers':'48 88 625 78' };

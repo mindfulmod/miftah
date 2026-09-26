@@ -1,6 +1,6 @@
 # Letter Garden major release — local status
 
-Preview: `http://letter-garden-next.localhost:8790/letters.html?v=20260925-potting1`.
+Preview: `http://letter-garden-next.localhost:8790/letters.html?v=20260925-craft1`.
 Durable checkout: `/Users/main/Documents/GitHub/miftah/.local-work/letter-garden-next-major`.
 Branch: `codex/letter-garden-next-major`.
 Production baseline: `55f34576f0ebfc02bcf115452101b37adfbb4536` / `20260908-batch50`.
@@ -116,3 +116,14 @@ motion checked across phone/landscape/tablet/desktop. See
 remains active: Paths and joining exploration, activity-family refinements and
 broader pet/garden responses remain. Next owner action: try Dot Garden in the
 practice garden; the updated local preview is open there.
+
+
+September 25: the drawing/joining craft pass adds a reversible, child-paced
+Garden Paths sketchbook and a grounded Build table with held/replayable results.
+Prepared pieces, curriculum and rewards remain; drawing reports participation
+without mastery. 291 tests pass, with real browser phone/landscape/tablet/desktop
+play, wrong-order retry, keyboard, gallery, reduced motion and reward verification.
+See [CRAFT_PLAY_REVIEW.md](CRAFT_PLAY_REVIEW.md). Local only; the full goal remains
+active. Next owner action: try Paths from the practice garden, then an unlocked
+Build/Workshop round. Next development: Blend/Fuse/Chain experimentation and
+remaining activity/pet/garden refinements. Audio approvals were not changed.

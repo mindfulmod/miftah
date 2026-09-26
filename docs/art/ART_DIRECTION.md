@@ -126,3 +126,19 @@ Exploration has one large letter, while the smaller reference returns for repair
 The sprout grows slightly as familiar patterns are explored, never shrinks on undo,
 and has no saved mastery/currency meaning. Motion settles once; reduced motion
 changes the same states instantly. Review: `docs/letter-garden/POTTING_PLAY_REVIEW.md`.
+
+## Drawing pad and joinery, 2026-09-25
+
+Extend the potting-table material family into the existing games. Garden Paths
+uses a bound green pad, three paper levels, a small metal-coloured warm clip and
+pencil-shaped colour controls. Its drawings remain real child-made ink; a leaf
+stamp acknowledges a finished page without grading handwriting. Only the child
+turns the page. Session thumbnails preserve the captured drawing proportions.
+
+Build uses a 720×540 timber plane with a visible apron and legs, floor/contact
+shadow at y=526, and a recessed green assembly mat. Pencil pot and tied roll keep
+their 120×140 frames and sit near the tabletop's front edge. The playfield is capped
+by viewport width, so portrait layouts cannot stretch it into a vertical slab.
+Whole-word replay and Next share the existing warm contour/contrast grammar.
+Carriers settle for 240ms; reduced motion removes the movement. Original cast,
+garden surroundings and curriculum remain. See `../letter-garden/CRAFT_PLAY_REVIEW.md`.

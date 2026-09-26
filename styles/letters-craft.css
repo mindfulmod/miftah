@@ -1,0 +1,121 @@
+/* A drawing pad and a joining bench share paper, timber and child-led payoffs.
+   Their material layers stay behind the actual ink and input targets. */
+.lg-play:has(.garden-paths,.path-gallery) .practice-heading { height:104px; margin:0 auto 8px; }
+.lg-play:has(.garden-paths,.path-gallery) .practice-heading > :first-child { width:88px!important; height:98px!important; }
+.lg-play:has(.garden-paths,.path-gallery) .practice-stage { width:min(680px,96%); max-height:610px; margin:0 auto 20px; }
+.lg-app .garden-paths,.lg-app .path-gallery {
+  position:relative; box-sizing:border-box; display:grid; grid-template-columns:minmax(0,1fr);
+  grid-template-rows:16px minmax(140px,1fr) 64px 60px; justify-items:center; align-items:center;
+  width:100%; height:100%; gap:12px; padding:8px 16px 12px;
+}
+.lg-app .path-progress { grid-row:1; margin:0; }
+.lg-app .path-workbook { position:relative; grid-row:2; width:100%; height:100%; max-height:360px; min-height:0; box-sizing:border-box; padding:20px 18px 22px 26px; border-radius:20px 30px 28px 18px; background:linear-gradient(110deg,#4e9677,#2f5c46 22px,#4e9677 26px); box-shadow:0 7px 0 #2f5c46,0 14px 0 #4a362020; }
+.lg-app .path-workbook::before { content:""; position:absolute; top:7px; bottom:8px; left:12px; width:3px; border-radius:3px; background:#b7e779; opacity:.6; }
+.lg-app .path-workbook::after { content:""; position:absolute; top:8px; left:50%; width:58px; height:16px; transform:translateX(-50%); border-radius:6px 6px 9px 9px; background:linear-gradient(#e5dcc8,#c9bda4 65%,#a89478); border:2.4px solid #4a3620; box-shadow:0 3px 0 #4a362022; pointer-events:none; }
+.lg-app .path-workbook .path-paper { box-sizing:border-box; width:100%; height:100%; min-height:0; max-height:none; margin:0; border:0; border-radius:7px 14px 20px 8px; background:linear-gradient(120deg,#fffdf7,#fffaf0 85%,#e5dcc8); box-shadow:0 3px 0 #e5dcc8,0 6px 0 #c9bda4,0 8px 0 #fffaf0; }
+.lg-app .path-workbook .path-paper::after { content:""; position:absolute; bottom:0; right:0; width:23px; height:23px; background:linear-gradient(135deg,#fffaf0 46%,#e5dcc8 49%,#c9bda4); border-radius:5px 0 0 0; pointer-events:none; }
+.lg-app .garden-paths > .drawing-palette { grid-row:3; gap:10px; padding:5px 14px; border-radius:12px 12px 22px 22px; background:#c9bda4; box-shadow:inset 0 3px 0 #a89478,0 3px 0 #fffaf0; }
+.lg-app .garden-paths .drawing-color { position:relative; width:48px; min-width:48px; height:54px; border-radius:12px; padding:4px 12px; box-shadow:0 3px 0 #a89478; }
+.lg-app .garden-paths .drawing-color span { width:18px; height:34px; border-radius:8px 8px 3px 3px; border:2.4px solid #4a3620; box-shadow:inset 4px 0 0 #fffaf044; clip-path:polygon(50% 0,100% 24%,100% 100%,0 100%,0 24%); }
+.lg-app .garden-paths .drawing-color[aria-pressed="true"] { background:#ffe49a; transform:translateY(-4px); box-shadow:0 6px 0 #a89478; }
+.lg-app .garden-paths > .practice-tools { grid-row:4; padding:5px 12px; gap:14px; background:#e5dcc8; border:0; box-shadow:0 3px 0 #c9bda4; }
+.lg-app .garden-paths .practice-button,.lg-app .path-gallery .practice-button { display:grid; place-items:center; box-sizing:border-box; line-height:1; width:50px; height:50px; min-width:48px; min-height:48px; padding:8px; border:3px solid #4a3620; background:linear-gradient(#fffdf7,#fffaf0 80%,#e5dcc8); box-shadow:0 3px 0 #a89478; }
+.lg-app :is(.garden-paths,.path-gallery) .practice-button > svg { display:block; width:30px; height:30px; max-width:100%; max-height:100%; pointer-events:none; }
+.lg-app .path-made > svg { display:block; width:28px; height:28px; }
+.lg-app .garden-paths .path-next,.lg-app .garden-paths .path-continue,.lg-app .path-gallery .path-close { background:linear-gradient(#ffa06e,#e8743c); box-shadow:0 3px 0 #b0501f; }
+.lg-app .garden-paths .path-continue { width:90px; }
+.lg-app .garden-paths [hidden] { display:none!important; }
+.lg-app .path-made { position:absolute; width:38px; height:38px; display:grid; place-items:center; bottom:8px; right:10px; border-radius:50%; background:#b7e779; border:3px solid #2f5c46; color:#2f5c46; box-shadow:0 3px 0 #2f5c46; }
+.lg-app .garden-paths.is-reviewing > .path-review-tools { grid-row:3 / 5; }
+.lg-app .garden-paths.is-reviewing canvas { pointer-events:none; }
+.lg-app .path-gallery { grid-template-rows:minmax(140px,1fr) 68px 60px; }
+.lg-app .path-gallery .path-workbook { grid-row:1; }
+.path-gallery-preview > svg { display:block; width:100%; height:100%; }
+.path-gallery-pages { display:flex; justify-content:center; gap:8px; width:100%; }
+.path-page { box-sizing:border-box; width:76px; height:58px; min-width:44px; padding:3px; border:3px solid #a89478; border-radius:8px; background:#fffaf0; box-shadow:0 3px 0 #c9bda4; }
+.path-page > svg { width:100%; height:100%; display:block; pointer-events:none; }
+.path-page[aria-pressed="true"] { border-color:#4a3620; background:#ffe49a; transform:translateY(-3px); }
+.lg-app :is(.garden-paths,.path-gallery) button:focus-visible { outline:4px solid #3a8fc4; outline-offset:4px; }
+
+/* The timber joinery plane replaces Build's opaque rectangular backdrop. */
+.lg-app .lg-play[data-activity="build"] .play-stage { background:transparent; border:0; box-shadow:none; overflow:visible; width:min(700px,96%); max-height:min(520px,92vw); }
+.lg-activity-art.is-joinery { border-radius:0; overflow:visible; }
+.lg-activity-art.is-joinery > .is-pencils { width:clamp(56px,12%,84px); left:2%; bottom:21%; }
+.lg-activity-art.is-joinery > .is-paper { width:clamp(48px,10%,70px); right:2%; bottom:21%; }
+.lg-app .lg-play[data-activity="build"] .build-scene { inset:8% 9% 20%; padding:0; gap:24px; }
+.lg-app .lg-play[data-activity="build"] .build-slots { order:1; flex:0 0 auto; width:auto; min-width:0; max-width:100%; min-height:100px; padding:14px 18px; border:0; border-radius:18px; background:linear-gradient(#4e9677,#2f5c46); box-shadow:inset 0 4px 0 #2f5c46,0 3px 0 #fffaf0; }
+.lg-app .lg-play[data-activity="build"] .build-slot { width:clamp(56px,16vw,100px); min-width:44px; padding:0; border:2.4px dashed #c9bda4; border-radius:15px; background:#fffaf0; box-shadow:inset 0 3px 0 #e5dcc8; }
+.lg-app .lg-play[data-activity="build"] .build-slot.is-filled { border:0; background:transparent; box-shadow:none; }
+.lg-app .lg-play[data-activity="build"] .build-tray { order:2; min-width:0; width:auto; max-width:100%; padding:10px 16px; border:0; border-radius:16px; background:#c9bda4; box-shadow:inset 0 4px 0 #a89478,0 3px 0 #fffaf0; }
+.lg-app .lg-play[data-activity="build"] .build-tile { width:clamp(60px,17vw,94px); filter:drop-shadow(0 4px 0 #4a362020); }
+.lg-app .build-finish[hidden] { display:none; }
+.lg-app .build-finish { order:2; display:flex; flex-direction:column; align-items:center; gap:8px; }
+.lg-app .build-finish .build-whole { position:relative; width:clamp(110px,30vw,170px); height:auto; max-height:none; padding:0; border:0; background:none; cursor:pointer; filter:drop-shadow(0 5px 0 #4a362025); animation:craft-word-settle 240ms ease-out; }
+.lg-app .build-finish .build-whole > svg { display:block; width:100%; height:auto; }
+.build-listen { position:absolute; bottom:9px; right:4px; width:34px; height:34px; display:grid; place-items:center; background:#fffaf0; border:2.4px solid #4a3620; border-radius:50%; color:#4a3620; }
+.build-listen > svg { width:19px; height:19px; }
+.lg-app .build-finish .build-next { min-width:86px; min-height:48px; height:48px; padding:5px 20px; color:#4a3620; }
+.lg-app .lg-play[data-activity="build"] .build-scene.is-ready { gap:12px; }
+.lg-app .lg-play[data-activity="build"] .is-ready .build-tray { display:none; }
+.lg-app .lg-play[data-activity="build"] .is-ready .build-slots { min-height:0; padding:6px 14px; }
+.lg-app .lg-play[data-activity="build"] .is-ready .build-slot { width:48px; }
+.lg-app .lg-play[data-activity="build"] .is-ready .build-undo-cue { display:none; }
+.lg-app .build-finish button:focus-visible { outline:4px solid #3a8fc4; outline-offset:5px; border-radius:16px; }
+@keyframes craft-word-settle { from { transform:translateY(-6px) scale(.96); } to { transform:none; } }
+.lg-reduce-motion .build-finish .build-whole { animation:none; }
+@media(prefers-reduced-motion:reduce) { .lg-app .build-finish .build-whole { animation:none; } }
+@media(max-height:650px) {
+ .lg-play:has(.garden-paths,.path-gallery) .practice-heading { height:76px; margin-bottom:4px; }
+ .lg-play:has(.garden-paths,.path-gallery) .practice-heading > :first-child { width:64px!important; height:72px!important; }
+ .lg-app .garden-paths { grid-template-rows:12px minmax(110px,1fr) 58px 54px; padding:4px 8px 8px; gap:8px; }
+ .lg-app .path-workbook { padding:18px 12px 18px 22px; }
+ .lg-app .garden-paths > .drawing-palette { padding:3px 8px; gap:6px; }
+ .lg-app .garden-paths .drawing-color { height:48px; }
+ .lg-app .garden-paths > .practice-tools { gap:10px; padding:2px 10px; }
+ .lg-app .garden-paths .practice-button { width:48px; height:48px; }
+ .lg-app .path-gallery { gap:10px; padding:10px 8px; }
+ .path-gallery-pages { gap:5px; }
+ .path-page { width:46px; height:50px; }
+ .lg-app .lg-play[data-activity="build"] .build-scene { gap:18px; }
+ .lg-app .lg-play[data-activity="build"] .build-slots { min-height:78px; padding:8px; }
+ .lg-app .build-finish .build-whole { width:112px; }
+}
+@media(orientation:landscape) and (max-height:450px) {
+ .lg-play:has(.garden-paths,.path-gallery) .practice-heading { position:absolute; top:4px; left:64px; right:64px; width:auto; height:48px; margin:0; }
+ .lg-app .lg-screen.lg-play:has(.garden-paths,.path-gallery) .practice-replay { height:44px; min-height:44px; max-height:44px; padding:4px 10px; font-size:32px; }
+ .lg-play:has(.garden-paths,.path-gallery) .practice-heading > :first-child { width:40px!important; height:44px!important; }
+ .lg-app .lg-screen.lg-play:has(.garden-paths,.path-gallery) { padding:4px 8px; overflow:hidden; }
+ .lg-app .lg-screen.lg-play:has(.garden-paths,.path-gallery) > .practice-stage { margin:54px auto 0; max-height:none; flex:1 1 0; }
+ .lg-app .garden-paths { grid-template-columns:minmax(0,1fr) 52px; grid-template-rows:12px minmax(100px,1fr) 50px; gap:5px 10px; padding:0 6px 8px; }
+ .lg-app .garden-paths .path-progress { grid-column:1; grid-row:1; }
+ .lg-app .garden-paths .path-workbook { grid-column:1; grid-row:2; }
+ .lg-app .garden-paths > .drawing-palette { grid-column:2; grid-row:1 / 4; flex-direction:column; padding:3px; gap:1px; }
+ .lg-app .garden-paths .drawing-color { width:44px; min-width:44px; height:44px; min-height:44px; padding:4px 10px; }
+ .lg-app .garden-paths .drawing-color span { height:28px; }
+ .lg-app .garden-paths > .practice-tools { grid-column:1; grid-row:3; gap:12px; padding:0 10px; }
+ .lg-app .garden-paths.is-reviewing > .path-review-tools { grid-column:2; grid-row:1 / 4; flex-direction:column; padding:4px; gap:16px; }
+ .lg-app .garden-paths .path-continue { width:48px; }
+ .lg-app .path-gallery { grid-template-columns:minmax(0,1fr) 110px; grid-template-rows:minmax(100px,1fr) 48px; padding:4px 10px 8px; gap:8px 14px; }
+ .lg-app .path-gallery .path-workbook { grid-column:1; grid-row:1 / 3; }
+ .lg-app .path-gallery-pages { grid-column:2; grid-row:1; display:grid; grid-template-columns:repeat(2,44px); gap:5px; }
+ .lg-app .path-page { width:44px; height:44px; }
+ .lg-app .path-close { grid-column:2; grid-row:2; }
+ .lg-app .lg-play[data-activity="build"] .build-scene { inset:7% 12% 20%; gap:8px; }
+ .lg-app .lg-play[data-activity="build"] .build-slots { min-height:52px; padding:4px 10px; }
+ .lg-app .lg-play[data-activity="build"] .build-slot { width:48px; }
+ .lg-app .lg-play[data-activity="build"] .build-tile { width:50px; }
+ .lg-app .lg-play[data-activity="build"] .build-tray { padding:3px 12px; }
+ .lg-app .lg-play[data-activity="build"] .build-scene.is-ready { display:grid; grid-template-columns:minmax(0,1fr) 86px; grid-template-rows:50px minmax(0,1fr); justify-items:center; gap:6px 12px; }
+ .lg-app .lg-play[data-activity="build"] .is-ready .build-slots { grid-column:1; grid-row:1; gap:4px; padding:3px 8px; }
+ .lg-app .lg-play[data-activity="build"] .is-ready .build-slot { width:44px; }
+ .lg-app .build-finish { display:contents; }
+ .lg-app .build-finish .build-whole { grid-column:1; grid-row:2; width:80px; }
+ .lg-app .build-finish .build-next { grid-column:2; grid-row:1 / 3; }
+ .lg-activity-art.is-joinery > .activity-prop { width:40px; bottom:21%; }
+}
+/* Paper settles once on arrival; action feedback never blocks input. */
+.lg-app .path-workbook { animation:craft-paper-settle 240ms ease-out; }
+@keyframes craft-paper-settle { from { translate:0 -4px; } to { translate:0 0; } }
+.lg-app :is(.garden-paths,.path-gallery) button:active,.lg-app .build-finish .build-whole:active { translate:0 2px; }
+.lg-reduce-motion .path-workbook { animation:none; }
+@media(prefers-reduced-motion:reduce) { .lg-app .path-workbook { animation:none; } }

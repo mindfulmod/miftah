@@ -15,7 +15,7 @@ function stageFixture(){
   Object.defineProperty(stage,'innerHTML',{set(html){this.html=html;palette=[['green','#4e9677'],['ink','#4a3620'],['coral','#c25a49'],['blue','#3a8fc4'],['purple','#6064a0']].map(([,color])=>node({color}));},get(){return this.html;}});
   const g=context2d(),outer={classList:classes()},paper={classList:classes(),clientWidth:400,clientHeight:240,parentElement:outer,querySelectorAll:()=>[],appendChild(){}};
   const canvas=node();Object.assign(canvas,{width:800,height:500,parentElement:paper,getContext:()=>g,getBoundingClientRect:()=>({left:0,top:0,width:400,height:240}),setPointerCapture:id=>{captured=id;},hasPointerCapture:id=>captured===id,releasePointerCapture:()=>{captured=null;}});
-  const fixed={'canvas':canvas,'.path-guide':node(),'.path-next':node(),'.path-clear':node(),'.path-guide-toggle':node(),'.trace-canvas':canvas,'.trace-clear':node(),'.trace-finish':node(),'.trace-next':node()};
+  const fixed={'canvas':canvas,'.path-guide':node(),'.path-next':node(),'.path-continue':node(),'.path-clear':node(),'.path-guide-toggle':node(),'.trace-canvas':canvas,'.trace-clear':node(),'.trace-finish':node(),'.trace-next':node()};
   stage.querySelector=selector=>fixed[selector];stage.querySelectorAll=selector=>selector==='.drawing-color'?palette:selector==='button'?[]:[];
   return {stage,g,canvas,fixed,get palette(){return palette;},capture:()=>captured};
 }
@@ -49,7 +49,7 @@ test('Garden Paths switches future strokes, releases mid-stroke, and keeps color
   const oldPalette=f.palette;oldPalette[2].onclick();assert.equal(game.pointer,null);assert.equal(f.capture(),null);assert.equal(game.inkColor,'#c25a49');
   f.canvas.onpointerdown({pointerId:2,button:0,clientX:30,clientY:30});assert.equal(f.g.marks.at(-1)[1],'#c25a49');f.canvas.onpointerup({pointerId:2});
   f.fixed['.path-clear'].onclick();assert.equal(game.inkColor,'#c25a49');
-  f.canvas.onpointerdown({pointerId:3,button:0,clientX:40,clientY:40});f.canvas.onpointerup({pointerId:3});f.fixed['.path-next'].onclick();
+  f.canvas.onpointerdown({pointerId:3,button:0,clientX:40,clientY:40});f.canvas.onpointerup({pointerId:3});f.fixed['.path-next'].onclick();f.fixed['.path-continue'].onclick();
   assert.equal(game.inkColor,'#c25a49');assert.equal(f.palette[2].attrs['aria-pressed'],'true');
   game.destroy();oldPalette[4].onclick();assert.equal(game.inkColor,'#c25a49');
 });

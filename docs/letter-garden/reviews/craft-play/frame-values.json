@@ -1,0 +1,68 @@
+{
+  "method": "HSL lightness from the full rendered PNG, percentages; quotas are 8/12/5",
+  "frames": {
+    "paths-before-desktop.png": {
+      "size": [
+        1280,
+        720
+      ],
+      "above80": 75.44,
+      "mid45to70": 11.02,
+      "below30": 0.57
+    },
+    "paths-desktop.png": {
+      "size": [
+        1280,
+        720
+      ],
+      "above80": 73.52,
+      "mid45to70": 14.13,
+      "below30": 1.2
+    },
+    "build-before-desktop.png": {
+      "size": [
+        1280,
+        720
+      ],
+      "above80": 46.39,
+      "mid45to70": 20.14,
+      "below30": 0.35
+    },
+    "build-desktop.png": {
+      "size": [
+        1280,
+        720
+      ],
+      "above80": 40.1,
+      "mid45to70": 23.67,
+      "below30": 0.77
+    },
+    "paths-small-night.png": {
+      "size": [
+        320,
+        568
+      ],
+      "above80": 37.43,
+      "mid45to70": 19.29,
+      "below30": 4.26
+    },
+    "build-word-tablet.png": {
+      "size": [
+        768,
+        961
+      ],
+      "above80": 48.23,
+      "mid45to70": 22.33,
+      "below30": 1.23
+    },
+    "sketchbook-small-phone.png": {
+      "size": [
+        320,
+        568
+      ],
+      "above80": 67.37,
+      "mid45to70": 19.6,
+      "below30": 2.59
+    }
+  }
+}

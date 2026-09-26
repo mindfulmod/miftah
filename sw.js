@@ -4,7 +4,7 @@
 // - Shell (HTML/CSS/JS/fonts): stale-while-revalidate, ignoring ?v= cache-busters.
 // - data/*.json: network-first so rebuilt data lands promptly; cache fallback offline.
 // - Remote recitation audio: deliberately NOT intercepted — see AUDIO_HOSTS below.
-const VERSION = "miftah-v55-letter-garden-potting-20260925";
+const VERSION = "miftah-v56-letter-garden-craft-20260925";
 const SHELL_CACHE = `shell-${VERSION}`;
 const DATA_CACHE = `data-${VERSION}`;
 
@@ -182,6 +182,7 @@ const SHELL = [
   "styles/letters-rooms.css",
   "styles/letters-composition.css",
   "styles/letters-potting.css",
+  "styles/letters-craft.css",
   "styles/letters-journey.css",
   "styles/letters-delivery.css",
   "styles/letters-motion.css",
