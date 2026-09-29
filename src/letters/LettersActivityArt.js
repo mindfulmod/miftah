@@ -97,10 +97,11 @@
   function picnic() {
     return `<svg class="activity-plane" viewBox="0 0 720 540" preserveAspectRatio="none" aria-hidden="true">
       <ellipse cx="360" cy="487" rx="320" ry="33" fill="#2f5c46" opacity=".22"/>
-      <path d="M94 186Q360 160 626 186L688 466Q360 514 32 466Z" fill="#4e9677"/>
-      <path d="M101 183Q360 164 619 183L678 450Q360 493 42 450Z" fill="#e5dcc8"/>
-      <path d="M114 194Q360 180 606 194L656 433Q360 470 64 433Z" fill="#fffaf0"/>
-      <path d="M145 204L105 422M219 196L194 434M291 190L282 442M366 190V444M441 192L449 441M512 198L535 434M579 206L619 422M106 246Q360 231 614 246M94 296Q360 282 626 296M84 348Q360 334 637 348M71 400Q360 389 649 400" fill="none" stroke="#4e9677" stroke-width="8" opacity=".18"/>
+      <path d="M94 186Q360 160 626 186L688 472Q360 524 32 472Z" fill="#2f5c46"/>
+      <path d="M101 183Q360 164 619 183L678 450Q360 493 42 450Z" fill="#a89478"/>
+      <path d="M114 194Q360 180 606 194L656 433Q360 470 64 433Z" fill="#a89478"/>
+      <path d="M114 210Q360 196 606 210L649 400Q360 437 71 400Z" fill="#fffaf0"/>
+      <path d="M145 204L105 422M219 196L194 434M291 190L282 442M366 190V444M441 192L449 441M512 198L535 434M579 206L619 422M106 246Q360 231 614 246M94 296Q360 282 626 296M84 348Q360 334 637 348M71 400Q360 389 649 400" fill="none" stroke="#4e9677" stroke-width="8" opacity=".64"/>
       <path d="M104 184Q360 166 616 184M56 451Q360 489 672 451" fill="none" stroke="#fffdf7" stroke-width="3"/>
       <path d="M90 192L43 444M630 194L676 444M52 457Q360 502 667 457" fill="none" stroke="#a89478" stroke-width="2.4" stroke-dasharray="4 8"/>
     </svg>${prop('picnic-flowers', `<ellipse cx="60" cy="131" rx="45" ry="7" fill="#2f5c46" opacity=".16"/>
@@ -162,11 +163,11 @@
       <path d="M85 396H139L129 520Q107 534 87 522ZM579 396H633L631 522Q611 534 589 520Z" fill="#4a3620"/>
       <path d="M91 404H131L124 517Q108 526 94 517ZM587 404H625L624 517Q609 526 595 517Z" fill="#a89478"/>
       <path d="M94 408H104L107 516L97 513ZM591 408H601L604 516L597 513Z" fill="#c9bda4"/>
-      <path d="M23 48Q360 18 697 48L704 429Q706 455 683 461Q360 504 37 461Q14 455 16 429Z" fill="#a89478"/>
-      <path d="M18 35Q360 3 702 35L708 409Q710 435 687 441Q360 480 33 441Q10 435 12 409Z" fill="#c9bda4"/>
+      <path d="M23 48Q360 18 697 48L704 448Q706 474 683 480Q360 524 37 480Q14 474 16 448Z" fill="#4a3620"/>
+      <path d="M18 35Q360 3 702 35L708 409Q710 435 687 441Q360 480 33 441Q10 435 12 409Z" fill="#a89478"/>
       <path d="M36 15Q360 0 684 15Q703 16 704 37L707 393Q709 415 687 420Q360 456 33 420Q11 415 13 393L16 37Q17 16 36 15Z" fill="#e5dcc8"/>
       <path d="M24 21Q360 6 697 21L698 35Q360 22 23 36Z" fill="#fffaf0"/>
-      <path d="M35 55L33 377M683 55L686 377M48 397Q146 411 223 406M497 406Q584 411 673 397" fill="none" stroke="#c9bda4" stroke-width="2.4"/>
+      <path d="M35 55L33 377M683 55L686 377M48 397Q146 411 223 406M497 406Q584 411 673 397" fill="none" stroke="#a89478" stroke-width="2.4"/>
     </svg>${pencilPot()}${paperRoll()}`;
   }
   const DRAW = { pairs, catch: catchOrchard, workbench, joinery, parade, picnic, potting };

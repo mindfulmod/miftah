@@ -49,9 +49,6 @@
 .lg-boat-adventure .feed-creature[data-pose="thinking"] > :is(svg,.lg-animal) { rotate:-3deg; translate:0 3px; }
 .lg-boat-adventure .feed-creature[data-pose="proud"] > :is(svg,.lg-animal) { rotate:2deg; translate:0 -3px; }
 .lg-boat-adventure .feed-creature > :is(svg,.lg-animal) { transition:rotate 180ms ease-out,translate 180ms ease-out; }
-.lg-boat-adventure .trace-wrap { background:linear-gradient(120deg,#fffaf0,#e5dcc8 65%,#c9bda4); }
-.lg-boat-adventure .trace-paper { border:3px solid #a89478; border-radius:20px; background:linear-gradient(#fffdf7,#fffaf0); }
-.lg-boat-adventure .trace-wrap::after { content:''; position:absolute; inset:9px 24px auto; height:4px; border-block:2px dashed #a89478; pointer-events:none; }
 .map-picnic-memento { position:absolute; width:34%; right:10%; bottom:10%; pointer-events:none; }
 .map-picnic-memento > svg { display:block; width:100%; height:auto; }
 @media (prefers-reduced-motion:no-preference) {

@@ -295,3 +295,17 @@ Child navigation is wordless: use action pictures and accessible names, not visi
 - Landscape Trace reserves an in-flow presenter above its drawing board. The
   shared composition stylesheet owns that presenter; a palette layout must not
   move the board underneath the pet or prompt.
+
+## Work surfaces and feedback — 2026-09-28
+
+- `letters-drawing.css` owns Trace's folio, paper, clips and tool positions.
+  Boat wrappers must not add a competing seam or board treatment. Colours are
+  recognisable pencils, with the same 44px minimum hit targets and saved-pet ink.
+- Picnic fabric keeps its folded hem and a recessed packet tray. Keep the tray
+  under replay/Next after delivery so feedback remains attached to the same toy.
+- The joinery mat has one fixed frame. Reserve a front strip for props during
+  assembly and keep the completed word/Next in its centre. Props may cover an
+  empty mat corner, never letter ink, slots or tray controls.
+- A correction is part of the learning layout. In short landscape, Build's
+  comparison row takes real space above the desk instead of covering its slots.
+  Verify the wrong-answer state as well as the clean first and success screens.

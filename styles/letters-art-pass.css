@@ -115,33 +115,14 @@
 }
 .lg-app.lg-pond-activity[data-garden-phase="night"]{background:radial-gradient(ellipse at 50% 32%,#6064a0 0%,#4a4d84 32%,#34375f 72%,#23253f)}
 
+/* Boat uses this CSS sky; keep its twilight readable around lit paper. */
+.lg-app.lg-boat-chapter[data-garden-phase="night"]:has(.lg-play:is([data-activity="feed"],[data-activity="trace"])) {
+ background:linear-gradient(#6064a0,#4a4d84 50%,#34375f);
+}
+
 /* Feed layout and materials now live in letters-picnic.css. */
 
-/* Trace: a garden drawing board with tools outside the ink area. */
-.lg-app .lg-play[data-activity="trace"] .play-stage {
- width:min(720px,100%);min-height:0;max-height:560px;margin:8px auto 66px;
- border:0;background:none;box-shadow:none;overflow:visible;mask-image:none;-webkit-mask-image:none;
-}
-.lg-app .lg-play[data-activity="trace"] .trace-wrap {
- background:linear-gradient(100deg,#c9bda4,#e5dcc8 45%,#c9bda4);
- border:3px solid #a89478;border-radius:28px;box-shadow:0 6px 0 #a89478,inset 0 3px 0 #fffdf7;
-}
-.trace-paper {position:absolute;inset:12px 12px 72px;border-radius:16px;box-shadow:0 2px 2px #80694833}
-.lg-app .lg-play[data-activity="trace"] .trace-canvas {
- background:linear-gradient(150deg,#fffdf7,#fffaf0);border-radius:16px;
- box-shadow:inset 0 0 0 1px #dccfac;cursor:crosshair;
-}
-.trace-tools {position:absolute;bottom:8px;left:18px;right:12px;height:52px;display:flex;justify-content:space-between;align-items:center}
-.trace-crayon {width:132px;height:40px;filter:drop-shadow(0 2px 0 #8c754c44);pointer-events:none}
-.lg-app .trace-tools .trace-clear {position:relative;inset:auto;width:52px;height:52px;min-width:52px;padding:7px;background:#fff6df;border:2px solid #806948;box-shadow:0 3px 0 #997c55}
-.trace-tools .trace-clear svg {width:100%;height:100%}
-@media(max-height:650px){
- .lg-app .lg-play[data-activity="trace"] .play-stage {max-height:56vh;margin-bottom:58px}
- .trace-paper {inset:9px 9px 67px}
- .trace-tools {bottom:6px;height:48px}
- .lg-app .trace-tools .trace-clear {width:48px;height:48px;min-width:48px}
- .trace-crayon {width:112px}
-}
+/* Trace board and tools now live in letters-drawing.css. */
 
 /* Matching bed, assembly bench, and combining table: activity-scoped surfaces. */
 .lg-app .lg-play:is([data-activity="pairs"],[data-activity="build"],[data-activity="blend"]) .play-stage {

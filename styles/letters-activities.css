@@ -141,11 +141,6 @@
   .lg-app .lg-play[data-activity="build"] .build-tile { width: 64px; flex: 0 1 64px; min-width: 44px; }
 }
 
-/* Picnic fabric and drawing clips are physical frames outside the learning ink. */
-
-.trace-wrap::before,.trace-wrap::after {content:"";position:absolute;top:4px;width:30px;height:18px;z-index:2;pointer-events:none;border:2px solid #a89478;border-radius:5px;background:linear-gradient(#fffdf7,#e5dcc8);box-shadow:0 2px 0 #c9bda4}
-.trace-wrap::before{left:20%}.trace-wrap::after{right:20%}
-
 .pond-water{position:absolute;inset:0;width:100%;height:100%}
 .pond-lily{position:absolute;pointer-events:none;width:clamp(36px,12%,70px);height:auto}
 .pond-lily.is-near{left:1%;bottom:3%}.pond-lily.is-far{right:1%;top:7%;width:clamp(28px,9%,54px);opacity:.7}

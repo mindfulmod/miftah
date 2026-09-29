@@ -1076,7 +1076,7 @@
           <div class="trace-tools">
             <svg class="trace-crayon" viewBox="0 0 150 40" aria-hidden="true"><path d="M8 20L29 7H128Q140 20 128 33H29Z" fill="var(--drawing-ink)" stroke="#4a3620" stroke-width="3" stroke-linejoin="round"/><path d="M8 20L29 7V33Z" fill="#e5dcc8"/><path d="M8 20L16 15V25Z" fill="var(--drawing-ink)"/><path d="M48 8H110V32H48Z" fill="#fffaf0"/><path d="M57 13H100" stroke="#fffdf7" stroke-width="3" stroke-linecap="round"/><path d="M73 28Q62 17 70 18Q78 18 81 28Q83 13 91 17Q95 24 81 28" fill="var(--drawing-ink)"/></svg>
             ${DrawingPalette.markup()}
-            <button type="button" class="lg-round-btn trace-clear" aria-label="Clear your drawing"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M10 28L27 10Q30 7 33 10L41 18Q43 21 40 24L24 40H20Z" fill="#eb9d9a" stroke="#59452e" stroke-width="3" stroke-linejoin="round"/><path d="M10 28L18 20L32 32L24 40H20Z" fill="#fff4db" stroke="#59452e" stroke-width="3"/><path d="M30 40H42" stroke="#927f62" stroke-width="3" stroke-linecap="round"/></svg></button>
+            <button type="button" class="lg-round-btn trace-clear" aria-label="Clear your drawing"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M10 28L27 10Q30 7 33 10L41 18Q43 21 40 24L24 40H20Z" fill="#ee806f" stroke="#4a3620" stroke-width="3" stroke-linejoin="round"/><path d="M10 28L18 20L32 32L24 40H20Z" fill="#fffaf0" stroke="#4a3620" stroke-width="3"/><path d="M30 40H42" stroke="#a89478" stroke-width="3" stroke-linecap="round"/></svg></button>
             <div class="trace-finish" hidden><span class="trace-made" role="status" aria-label="Drawing complete">${Art.icon('check',32)}</span><button type="button" class="lg-big-btn trace-next" aria-label="Next letter" disabled>${Art.icon('next',34)}</button></div>
           </div>
         </div>`;
@@ -1109,9 +1109,9 @@
       this.g.textAlign = "center";
       this.g.textBaseline = "middle";
       this.g.direction = "rtl";
-      this.g.fillStyle = "#e2e9cf";
+      this.g.fillStyle = "#e5dcc8";
       this.g.fillText(target.display, x, y);
-      this.g.strokeStyle = "#9bae80";
+      this.g.strokeStyle = "#a89478";
       this.g.lineWidth = 2;
       this.g.strokeText(target.display, x, y);
     }

@@ -38,12 +38,12 @@
 .lg-app :is(.garden-paths,.path-gallery) button:focus-visible { outline:4px solid #3a8fc4; outline-offset:4px; }
 
 /* The timber joinery plane replaces Build's opaque rectangular backdrop. */
-.lg-app .lg-play[data-activity="build"] .play-stage { background:transparent; border:0; box-shadow:none; overflow:visible; width:min(700px,96%); max-height:min(520px,92vw); }
+.lg-app .lg-play[data-activity="build"] .play-stage { background:transparent; border:0; box-shadow:none; overflow:visible; width:min(700px,96%); max-height:min(520px,110vw); }
 .lg-activity-art.is-joinery { border-radius:0; overflow:visible; }
 .lg-activity-art.is-joinery > .is-pencils { width:clamp(56px,12%,84px); left:2%; bottom:21%; }
 .lg-activity-art.is-joinery > .is-paper { width:clamp(48px,10%,70px); right:2%; bottom:21%; }
-.lg-app .lg-play[data-activity="build"] .build-scene { inset:8% 9% 20%; padding:0; gap:24px; }
-.lg-app .lg-play[data-activity="build"] .build-slots { order:1; flex:0 0 auto; width:auto; min-width:0; max-width:100%; min-height:100px; padding:14px 18px; border:0; border-radius:18px; background:linear-gradient(#4e9677,#2f5c46); box-shadow:inset 0 4px 0 #2f5c46,0 3px 0 #fffaf0; }
+.lg-app .lg-play[data-activity="build"] .build-scene { inset:8% 9% 20%; padding:8px 6px 44px; gap:24px; border-radius:22px 22px 28px 28px; background:linear-gradient(110deg,#7fce54 -20%,#4e9677 36%,#2f5c46 70%); box-shadow:inset 0 4px 0 #2f5c46,0 3px 0 #fffaf0; }
+.lg-app .lg-play[data-activity="build"] .build-slots { order:1; flex:0 0 auto; width:auto; min-width:0; max-width:100%; min-height:100px; padding:14px 18px; border:0; border-radius:18px; background:none; box-shadow:none; }
 .lg-app .lg-play[data-activity="build"] .build-slot { width:clamp(56px,16vw,100px); min-width:44px; padding:0; border:2.4px dashed #c9bda4; border-radius:15px; background:#fffaf0; box-shadow:inset 0 3px 0 #e5dcc8; }
 .lg-app .lg-play[data-activity="build"] .build-slot.is-filled { border:0; background:transparent; box-shadow:none; }
 .lg-app .lg-play[data-activity="build"] .build-tray { order:2; min-width:0; width:auto; max-width:100%; padding:10px 16px; border:0; border-radius:16px; background:#c9bda4; box-shadow:inset 0 4px 0 #a89478,0 3px 0 #fffaf0; }
@@ -55,9 +55,9 @@
 .build-listen { position:absolute; bottom:9px; right:4px; width:34px; height:34px; display:grid; place-items:center; background:#fffaf0; border:2.4px solid #4a3620; border-radius:50%; color:#4a3620; }
 .build-listen > svg { width:19px; height:19px; }
 .lg-app .build-finish .build-next { min-width:86px; min-height:48px; height:48px; padding:5px 20px; color:#4a3620; }
-.lg-app .lg-play[data-activity="build"] .build-scene.is-ready { gap:12px; }
+.lg-app .lg-play[data-activity="build"] .build-scene.is-ready { gap:8px; padding-bottom:8px; }
 .lg-app .lg-play[data-activity="build"] .is-ready .build-tray { display:none; }
-.lg-app .lg-play[data-activity="build"] .is-ready .build-slots { min-height:0; padding:6px 14px; }
+.lg-app .lg-play[data-activity="build"] .is-ready .build-slots { min-height:0; padding:3px 14px; }
 .lg-app .lg-play[data-activity="build"] .is-ready .build-slot { width:48px; }
 .lg-app .lg-play[data-activity="build"] .is-ready .build-undo-cue { display:none; }
 .lg-app .build-finish button:focus-visible { outline:4px solid #3a8fc4; outline-offset:5px; border-radius:16px; }
@@ -78,7 +78,7 @@
  .path-page { width:46px; height:50px; }
  .lg-app .lg-play[data-activity="build"] .build-scene { gap:18px; }
  .lg-app .lg-play[data-activity="build"] .build-slots { min-height:78px; padding:8px; }
- .lg-app .build-finish .build-whole { width:112px; }
+ .lg-app .build-finish .build-whole { width:100px; }
 }
 @media(max-width:560px) {
  .lg-app .garden-paths { grid-template-rows:16px minmax(80px,1fr) 104px 60px; gap:8px; }
@@ -106,7 +106,14 @@
  .lg-app .path-gallery-pages { grid-column:2; grid-row:1; display:grid; grid-template-columns:repeat(2,44px); gap:5px; }
  .lg-app .path-page { width:44px; height:44px; }
  .lg-app .path-close { grid-column:2; grid-row:2; }
- .lg-app .lg-play[data-activity="build"] .build-scene { inset:7% 12% 20%; gap:8px; }
+ /* A correction occupies real space above the desk, never over its slots. */
+ .lg-app .lg-play[data-activity="build"] .play-stage { min-height:0; max-height:none; flex:1 1 0; margin:0 auto 8px; }
+ .lg-app .lg-play[data-activity="build"] > .learning-hint { position:relative; left:auto; top:auto; transform:none; flex:0 0 auto; margin:0 auto 6px; padding:2px 10px; }
+ .lg-app .lg-play[data-activity="build"] .learning-compare > svg { height:36px; }
+ .lg-app .lg-play[data-activity="build"]:has(.learning-hint:not([hidden])) .build-scene { gap:4px; padding:2px 6px; }
+ .lg-app .lg-play[data-activity="build"]:has(.learning-hint:not([hidden])) .build-slots { min-height:48px; padding:2px 8px; }
+ .lg-app .lg-play[data-activity="build"]:has(.learning-hint:not([hidden])) :is(.build-slot,.build-tile) { width:44px; }
+ .lg-app .lg-play[data-activity="build"] .build-scene { inset:7% 12% 20%; gap:8px; padding:8px 6px; }
  .lg-app .lg-play[data-activity="build"] .build-slots { min-height:52px; padding:4px 10px; }
  .lg-app .lg-play[data-activity="build"] .build-slot { width:48px; }
  .lg-app .lg-play[data-activity="build"] .build-tile { width:50px; }
@@ -135,7 +142,7 @@
 .lg-app .lg-play:is([data-activity="blend"],[data-activity="fuse"],[data-activity="chain"]) .blend-scene {
  position:absolute; inset:7% 7% 22%; width:auto; height:auto; min-height:0; overflow:visible;
  border:0; border-radius:22px 22px 28px 28px;
- background:linear-gradient(125deg,#4e9677,#2f5c46); box-shadow:inset 0 4px 0 #2f5c46,0 3px 0 #fffaf0;
+ background:linear-gradient(110deg,#7fce54 -20%,#4e9677 36%,#2f5c46 70%); box-shadow:inset 0 4px 0 #2f5c46,0 3px 0 #fffaf0;
 }
 .lg-app .lg-play:is([data-activity="blend"],[data-activity="fuse"],[data-activity="chain"]) .blend-glow {
  width:34%; height:35%; top:46%; border:2.4px dashed #ffe49a; border-radius:50%; opacity:.42;
@@ -194,9 +201,9 @@
 @media(prefers-reduced-motion:reduce) { .lg-app :is(.join-whole,.join-piece) { animation:none; } }
 /* Props sit on the near edge, over the mat's empty corners. The plane remains
    behind input; neither layer intercepts a pointer or changes tile geometry. */
-.lg-activity-art.is-joinery:is([data-activity-art="blend"],[data-activity-art="fuse"],[data-activity-art="chain"],[data-activity-art="unfuse"]) { z-index:auto; }
-.lg-activity-art.is-joinery:is([data-activity-art="blend"],[data-activity-art="fuse"],[data-activity-art="chain"],[data-activity-art="unfuse"]) > .activity-plane { z-index:0; }
-.lg-activity-art.is-joinery:is([data-activity-art="blend"],[data-activity-art="fuse"],[data-activity-art="chain"],[data-activity-art="unfuse"]) > .activity-prop { z-index:2; }
+.lg-activity-art.is-joinery:is([data-activity-art="build"],[data-activity-art="blend"],[data-activity-art="fuse"],[data-activity-art="chain"],[data-activity-art="unfuse"]) { z-index:auto; }
+.lg-activity-art.is-joinery:is([data-activity-art="build"],[data-activity-art="blend"],[data-activity-art="fuse"],[data-activity-art="chain"],[data-activity-art="unfuse"]) > .activity-plane { z-index:0; }
+.lg-activity-art.is-joinery:is([data-activity-art="build"],[data-activity-art="blend"],[data-activity-art="fuse"],[data-activity-art="chain"],[data-activity-art="unfuse"]) > .activity-prop { z-index:2; }
 /* Releasing a drag must not restart arrival or move its hit geometry. */
 .lg-app .lg-play .blend-part.is-touched:not(.is-fusing) { animation:none; }
 
@@ -210,7 +217,7 @@
  position:absolute; inset:7% 7% 22%; width:auto; height:auto; min-height:0;
  display:grid; grid-template-rows:minmax(0,1fr) 48px; gap:12px; padding:12px;
  border:0; border-radius:22px 22px 28px 28px; overflow:visible;
- background:linear-gradient(125deg,#4e9677,#2f5c46); box-shadow:inset 0 4px 0 #2f5c46,0 3px 0 #fffaf0;
+ background:linear-gradient(110deg,#7fce54 -20%,#4e9677 36%,#2f5c46 70%); box-shadow:inset 0 4px 0 #2f5c46,0 3px 0 #fffaf0;
 }
 .lg-app :is(.unfuse-scene,.parade-scene) [hidden] { display:none!important; }
 .lg-app :is(.unfuse-scene,.parade-scene) button { color:#4a3620; }

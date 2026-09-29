@@ -1,0 +1,211 @@
+[
+  {
+    "file": "blend-joined-phone.png",
+    "size": [
+      390,
+      844
+    ],
+    "light": 18.99,
+    "mid": 36.51,
+    "dark": 10.96,
+    "passes": true
+  },
+  {
+    "file": "blend-phone.png",
+    "size": [
+      390,
+      844
+    ],
+    "light": 17.52,
+    "mid": 35.37,
+    "dark": 10.86,
+    "passes": true
+  },
+  {
+    "file": "build-held-landscape.png",
+    "size": [
+      568,
+      320
+    ],
+    "light": 23.54,
+    "mid": 27.89,
+    "dark": 12.86,
+    "passes": true
+  },
+  {
+    "file": "build-landscape.png",
+    "size": [
+      568,
+      320
+    ],
+    "light": 24.38,
+    "mid": 28.36,
+    "dark": 15.23,
+    "passes": true
+  },
+  {
+    "file": "build-repair-landscape.png",
+    "size": [
+      568,
+      320
+    ],
+    "light": 33.03,
+    "mid": 24.02,
+    "dark": 12.61,
+    "passes": true
+  },
+  {
+    "file": "build-three-held-phone.png",
+    "size": [
+      320,
+      568
+    ],
+    "light": 23.62,
+    "mid": 30.41,
+    "dark": 12.72,
+    "passes": true
+  },
+  {
+    "file": "build-three-parts-phone.png",
+    "size": [
+      320,
+      568
+    ],
+    "light": 25.17,
+    "mid": 27.07,
+    "dark": 10.71,
+    "passes": true
+  },
+  {
+    "file": "chain-held-phone.png",
+    "size": [
+      320,
+      568
+    ],
+    "light": 22.34,
+    "mid": 30.55,
+    "dark": 12.09,
+    "passes": true
+  },
+  {
+    "file": "chain-small-phone.png",
+    "size": [
+      320,
+      568
+    ],
+    "light": 22.43,
+    "mid": 30.19,
+    "dark": 10.89,
+    "passes": true
+  },
+  {
+    "file": "feed-desktop-night.png",
+    "size": [
+      1100,
+      800
+    ],
+    "light": 11.68,
+    "mid": 12.02,
+    "dark": 41.35,
+    "passes": true
+  },
+  {
+    "file": "feed-held-landscape.png",
+    "size": [
+      568,
+      320
+    ],
+    "light": 56.55,
+    "mid": 19.73,
+    "dark": 11.0,
+    "passes": true
+  },
+  {
+    "file": "feed-held-phone.png",
+    "size": [
+      320,
+      568
+    ],
+    "light": 67.21,
+    "mid": 14.04,
+    "dark": 8.49,
+    "passes": true
+  },
+  {
+    "file": "feed-small-phone.png",
+    "size": [
+      320,
+      568
+    ],
+    "light": 68.18,
+    "mid": 12.51,
+    "dark": 9.18,
+    "passes": true
+  },
+  {
+    "file": "fuse-desktop-night.png",
+    "size": [
+      1100,
+      800
+    ],
+    "light": 9.74,
+    "mid": 16.1,
+    "dark": 44.84,
+    "passes": true
+  },
+  {
+    "file": "trace-desktop-night.png",
+    "size": [
+      1100,
+      800
+    ],
+    "light": 34.97,
+    "mid": 28.28,
+    "dark": 5.74,
+    "passes": true
+  },
+  {
+    "file": "trace-held-landscape.png",
+    "size": [
+      568,
+      320
+    ],
+    "light": 45.17,
+    "mid": 14.21,
+    "dark": 9.22,
+    "passes": true
+  },
+  {
+    "file": "trace-held-phone.png",
+    "size": [
+      320,
+      568
+    ],
+    "light": 34.01,
+    "mid": 25.03,
+    "dark": 8.49,
+    "passes": true
+  },
+  {
+    "file": "trace-small-phone.png",
+    "size": [
+      320,
+      568
+    ],
+    "light": 39.6,
+    "mid": 20.77,
+    "dark": 10.89,
+    "passes": true
+  },
+  {
+    "file": "unfuse-tablet.png",
+    "size": [
+      768,
+      961
+    ],
+    "light": 23.77,
+    "mid": 31.74,
+    "dark": 11.48,
+    "passes": true
+  }
+]

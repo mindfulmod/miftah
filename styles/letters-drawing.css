@@ -1,3 +1,43 @@
+/* Trace is one folio: shared composition owns the presenter above it. */
+.lg-app .lg-play[data-activity="trace"] .play-stage {
+  width:min(720px,100%); min-height:0; max-height:560px; margin:8px auto 66px;
+  border:0; background:none; box-shadow:none; overflow:visible; mask-image:none; -webkit-mask-image:none;
+}
+.lg-app .lg-play[data-activity="trace"] .trace-wrap {
+  background:linear-gradient(110deg,#7fce54 -20%,#4e9677 36%,#2f5c46 70%);
+  border:3px solid #4a3620; border-radius:28px;
+  box-shadow:0 6px 0 #4a3620,inset 0 3px 0 #b7e779,0 12px 0 rgb(74 54 32 / .14);
+}
+.trace-paper {
+  position:absolute; inset:12px 12px 72px; border-radius:16px;
+  box-shadow:0 3px 0 #e5dcc8,0 6px 0 #c9bda4,0 9px 0 rgb(43 30 18 / .18);
+}
+.lg-app .lg-play[data-activity="trace"] .trace-canvas {
+  background:linear-gradient(150deg,#fffdf7,#fffaf0); border-radius:16px;
+  box-shadow:inset 0 0 0 1px #e5dcc8; cursor:crosshair;
+}
+.trace-wrap::before,.trace-wrap::after {
+  content:""; position:absolute; top:4px; width:30px; height:18px; z-index:2; pointer-events:none;
+  border:2.4px solid #4a3620; border-radius:5px;
+  background:linear-gradient(#fffdf7,#e5dcc8 55%,#c9bda4); box-shadow:0 2px 0 #a89478;
+}
+.trace-wrap::before { left:20%; }
+.trace-wrap::after { right:20%; }
+.trace-tools { position:absolute; bottom:8px; left:18px; right:12px; height:52px; display:flex; justify-content:space-between; align-items:center; }
+.trace-crayon { width:132px; height:40px; filter:drop-shadow(0 2px 0 rgb(43 30 18 / .2)); pointer-events:none; }
+.lg-app .trace-tools .trace-clear {
+  position:relative; inset:auto; width:52px; height:52px; min-width:52px; padding:7px;
+  background:linear-gradient(#fffdf7,#fffaf0 75%,#e5dcc8); border:3px solid #4a3620; box-shadow:0 3px 0 #a89478;
+}
+.trace-tools .trace-clear svg { width:100%; height:100%; }
+@media(max-height:650px) {
+  .lg-app .lg-play[data-activity="trace"] .play-stage { max-height:56vh; margin-bottom:58px; }
+  .trace-paper { inset:9px 9px 67px; }
+  .trace-tools { bottom:6px; height:48px; }
+  .lg-app .trace-tools .trace-clear { width:48px; height:48px; min-width:48px; }
+  .trace-crayon { width:112px; }
+}
+
 .lg-app .drawing-palette {
   display: flex;
   align-items: center;
@@ -60,6 +100,15 @@
 .lg-app .trace-tools .drawing-palette {
   margin-inline: auto;
 }
+/* Colour is a pencil, not an unexplained coloured dot. Keep the full hit area. */
+.lg-app .trace-tools .drawing-color { border-radius:12px; padding:4px 10px; }
+.lg-app .trace-tools .drawing-color span {
+  width:18px; height:28px; border:2.4px solid #4a3620; border-radius:7px 7px 3px 3px;
+  clip-path:polygon(50% 0,100% 24%,100% 100%,0 100%,0 24%);
+  box-shadow:inset 4px 0 0 rgb(255 250 240 / .27);
+}
+.lg-app .trace-tools .drawing-color[aria-pressed="true"] { background:#ffe49a; box-shadow:0 4px 0 #a89478; }
+
 @media(max-width:700px) {
   .lg-app .trace-tools .trace-crayon { display:none; }
 }

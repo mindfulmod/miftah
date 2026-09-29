@@ -44,8 +44,8 @@
   align-self:stretch; min-height:0; margin:0; gap:8px; padding:8px 10px 14px;
   width:100%; max-width:470px; border:3px solid #4a3620; border-bottom-width:6px;
   border-radius:22px 22px 28px 28px;
-  background:linear-gradient(#fffaf0 0 8%,#e5dcc8 8% 82%,#c9bda4 82%);
-  box-shadow:0 5px 0 rgb(74 54 32 / .14),inset 0 3px 0 #fffdf7;
+  background:linear-gradient(#e5dcc8 0 7%,#a89478 7% 20%,#2f5c46 20% 78%,#a89478 78% 95%,#4a3620 95%);
+  box-shadow:0 5px 0 #4a3620,inset 0 3px 0 #fffaf0;
 }
 .lg-app .lg-play[data-activity="feed"] .feed-food {
   width:clamp(48px,18vw,76px); max-width:none; flex:0 1 76px;
@@ -61,7 +61,7 @@
 }
 .lg-app .lg-play[data-activity="feed"] .feed-finish[hidden] { display:none; }
 .lg-app .lg-play[data-activity="feed"] .is-delivered .feed-tray {
-  background:none; box-shadow:none; border-color:transparent; pointer-events:none;
+  pointer-events:none;
 }
 .lg-app .lg-play[data-activity="feed"] .is-delivered .feed-food:not(.is-flying) { visibility:hidden; }
 .lg-app .lg-play[data-activity="feed"] .feed-next { min-width:88px; height:62px; padding:8px 20px; }
