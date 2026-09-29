@@ -25,7 +25,7 @@ test('journey games report one-based progress with their actual totals', () => {
     dragResets: [], selected: null, ctx: { setRoundProgress: (...args) => calls.push(args), setPrompt() {}, say() {} },
     tray: { innerHTML: '', appendChild() {}, querySelectorAll: () => [] },
     scene: { classList: { remove() {} } }, finishEl: { hidden: false }, nextBtn: { disabled: false }, replayBtn: { disabled: false },
-    basket: { classList: { remove() {} }, setAttribute() {}, disabled: false }, delivered: { innerHTML: 'old delivery' },
+    basket: { classList: { remove() {}, toggle() {} }, setAttribute() {}, disabled: false }, delivered: { innerHTML: 'old delivery' },
   });
   game.startRound();
   assert.deepEqual(calls, [[2, 2]]);

@@ -80,16 +80,22 @@
  .lg-app .lg-play[data-activity="build"] .build-slots { min-height:78px; padding:8px; }
  .lg-app .build-finish .build-whole { width:112px; }
 }
+@media(max-width:560px) {
+ .lg-app .garden-paths { grid-template-rows:16px minmax(80px,1fr) 104px 60px; gap:8px; }
+ .lg-app .garden-paths > .drawing-palette { display:grid; grid-template-columns:repeat(4,44px); padding:3px 8px; gap:6px; }
+ .lg-app .garden-paths .drawing-color { width:44px; min-width:44px; height:44px; min-height:44px; padding:4px 10px; }
+ .lg-app .garden-paths .drawing-color span { height:28px; }
+}
 @media(orientation:landscape) and (max-height:450px) {
  .lg-play:has(.garden-paths,.path-gallery) .practice-heading { position:absolute; top:4px; left:64px; right:64px; width:auto; height:48px; margin:0; }
  .lg-app .lg-screen.lg-play:has(.garden-paths,.path-gallery) .practice-replay { height:44px; min-height:44px; max-height:44px; padding:4px 10px; font-size:32px; }
  .lg-play:has(.garden-paths,.path-gallery) .practice-heading > :first-child { width:40px!important; height:44px!important; }
  .lg-app .lg-screen.lg-play:has(.garden-paths,.path-gallery) { padding:4px 8px; overflow:hidden; }
  .lg-app .lg-screen.lg-play:has(.garden-paths,.path-gallery) > .practice-stage { margin:54px auto 0; max-height:none; flex:1 1 0; }
- .lg-app .garden-paths { grid-template-columns:minmax(0,1fr) 52px; grid-template-rows:12px minmax(100px,1fr) 50px; gap:5px 10px; padding:0 6px 8px; }
+ .lg-app .garden-paths { grid-template-columns:minmax(0,1fr) 100px; grid-template-rows:12px minmax(100px,1fr) 50px; gap:5px 10px; padding:0 6px 8px; }
  .lg-app .garden-paths .path-progress { grid-column:1; grid-row:1; }
  .lg-app .garden-paths .path-workbook { grid-column:1; grid-row:2; }
- .lg-app .garden-paths > .drawing-palette { grid-column:2; grid-row:1 / 4; flex-direction:column; padding:3px; gap:1px; }
+ .lg-app .garden-paths > .drawing-palette { grid-column:2; grid-row:1 / 4; display:grid; grid-template-columns:repeat(2,44px); padding:3px; gap:4px; }
  .lg-app .garden-paths .drawing-color { width:44px; min-width:44px; height:44px; min-height:44px; padding:4px 10px; }
  .lg-app .garden-paths .drawing-color span { height:28px; }
  .lg-app .garden-paths > .practice-tools { grid-column:1; grid-row:3; gap:12px; padding:0 10px; }

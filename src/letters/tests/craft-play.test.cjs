@@ -10,12 +10,12 @@ function drawing(){const {ns}=runtime();let nodes={},pages=[],captured=null;cons
  return {game,stage,reports,painted,stroke,get nodes(){return nodes},get done(){return done},get pages(){return pages},get captured(){return captured}};
 }
 test('undo restores earlier ink and colors; finish holds marks until an explicit page turn',()=>{
- const t=drawing();t.stroke();t.game.inkColor='#c25a49';t.stroke(2);assert.equal(t.game.strokes.length,2);t.nodes['.path-undo'].onclick();assert.equal(t.game.strokes.length,1);assert.deepEqual(t.painted,['#4e9677']);
+ const t=drawing();t.stroke();t.game.inkColor='#c25a49';t.stroke(2);assert.equal(t.game.strokes.length,2);t.nodes['.path-undo'].onclick();assert.equal(t.game.strokes.length,1);assert.deepEqual(t.painted,['hsl(200 62% 54%)']);
  t.nodes['.path-next'].onclick();assert.equal(t.game.index,0);assert.equal(t.game.reviewing,true);assert.equal(t.reports.length,0);const count=t.game.strokes.length;
  t.stroke(3);t.nodes['.path-clear'].onclick();t.nodes['.path-undo'].onclick();assert.equal(t.game.strokes.length,count);
  t.nodes['.path-edit'].onclick();assert.equal(t.game.reviewing,false);assert.equal(t.nodes['.path-guide'].hidden,false);t.stroke(4);
  t.nodes['.path-next'].onclick();const turn=t.nodes['.path-continue'].onclick;turn();turn();assert.equal(t.game.index,1);assert.equal(t.reports.length,1);assert.equal(t.reports[0].affectsStrength,false);assert.equal(t.reports[0].correct,undefined);
- assert.match(t.game.drawings[0].picture,/#4e9677/);assert.match(t.game.drawings[0].picture,/#c25a49/);assert.match(t.game.drawings[0].picture,/viewBox="0 0 400 250"/);
+ assert.ok(t.game.drawings[0].picture.includes('hsl(200 62% 54%)'));assert.match(t.game.drawings[0].picture,/#c25a49/);assert.match(t.game.drawings[0].picture,/viewBox="0 0 400 250"/);
 });
 test('sketchbook preserves each actual drawing and closes exactly once without adding learning outcomes',()=>{
  const t=drawing();for(let i=0;i<2;i++){t.stroke(i+1);t.nodes['.path-next'].onclick();t.nodes['.path-continue'].onclick();}

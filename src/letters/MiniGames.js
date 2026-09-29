@@ -7,7 +7,7 @@
 // the answer is always something they tap.
 (function (ns) {
   const Art = ns.LettersArt;
-  const DrawingPalette = ns.DrawingPalette || {current:()=>"#4e9677",markup:()=>"",wire:()=>[]};
+  const DrawingPalette = ns.DrawingPalette || {current:()=>"#4e9677",startForPet:()=>"#4e9677",markup:()=>"",wire:()=>[]};
 
   function reportOutcome(ctx, item, correct, evidence, affectsStrength = true, details = {}) {
     if (!item?.id) return;
@@ -833,13 +833,17 @@
       if (!this.rounds.length) { this.alive = false; ctx.onDone(0); return; }
       ctx.stage.innerHTML = `
         <div class="feed-scene">
-          <button type="button" aria-label="Listen to your pet" class="feed-creature">${ctx.petArt ? ctx.petArt() : Art.creature({ hue: (ctx.hue + 140) % 360 })}</button>
+          <button type="button" aria-label="Feed your pet or hear the letter again" class="feed-creature">${ctx.petArt ? ctx.petArt() : Art.creature({ hue: (ctx.hue + 140) % 360 })}</button>
           <button type="button" class="feed-basket" aria-label="Deliver the selected seed packet" aria-disabled="true" disabled>${orchardBasket()}<span class="feed-delivered" aria-hidden="true"></span><span class="feed-basket-front" aria-hidden="true">${orchardBasket(true)}</span></button>
           <div class="feed-tray"></div>
           <div class="feed-finish" hidden><button type="button" class="feed-replay lg-round-btn" aria-label="Hear the delivered letter again">${Art.icon("speaker", 30)}</button><button type="button" class="feed-next lg-big-btn" aria-label="Continue">${Art.icon("next", 36)}</button></div>
         </div>`;
       this.creatureEl = ctx.stage.querySelector(".feed-creature");
-      this.creatureEl.onclick=()=>{if(this.alive){if(ctx.onPetTap)ctx.onPetTap();else ctx.say(this.rounds[this.roundIndex].target);}};
+      this.creatureEl.onclick=()=>{
+        if(!this.alive)return;
+        if(this.selected&&!this.feeding)this.offer(this.selected.item,this.selected.el);
+        else if(ctx.onPetTap)ctx.onPetTap();else ctx.say(this.rounds[this.roundIndex].target);
+      };
       this.scene = ctx.stage.querySelector('.feed-scene');
       this.finishEl = ctx.stage.querySelector('.feed-finish');
       this.nextBtn = ctx.stage.querySelector('.feed-next');
@@ -858,6 +862,7 @@
       if (!this.alive) return;
       this.dragResets.forEach(reset=>reset());this.dragResets=[];this.selected=null;
       this.feeding = false; this.completionReady = false;
+      this.setDeliveryNear(false);
       this.scene.classList.remove('is-delivered');
       this.finishEl.hidden = true;
       this.nextBtn.disabled = true; this.replayBtn.disabled = true;
@@ -878,8 +883,8 @@
           this.dragResets.push(ns.GardenPractice.draggable(el,{
             enabled:()=>this.alive&&!this.feeding&&!el.disabled,
             onDragStart:()=>this.ctx.petReact?.('thinking'),
-            onDragMove:(x,y)=>this.basket.classList.toggle('is-near',this.deliveryContains(x,y)),
-            onDragEnd:()=>{this.basket.classList.remove('is-near');this.ctx.petReact?.('presenting');},
+            onDragMove:(x,y)=>this.setDeliveryNear(this.deliveryContains(x,y)),
+            onDragEnd:()=>{this.setDeliveryNear(false);this.ctx.petReact?.('presenting');},
             drop:(x,y,released)=>{if(this.deliveryContains(x,y))this.offer(item,el,released);}
           }));
           el.addEventListener('click',()=>{
@@ -896,9 +901,21 @@
     }
 
     deliveryContains(x,y) {
-      const r=this.basket.getBoundingClientRect();
-      // A little motor forgiveness around the visible basket, never a letter hint.
-      return r.width>0&&r.height>0&&x>=r.left-16&&x<=r.right+16&&y>=r.top-16&&y<=r.bottom+16;
+      const contains=(el,padding=0)=>{
+        const r=el?.getBoundingClientRect?.();
+        return r&&r.width>0&&r.height>0&&x>=r.left-padding&&x<=r.left+r.width+padding&&y>=r.top-padding&&y<=r.top+r.height+padding;
+      };
+      // A small drag within the tray is still exploration, never an answer.
+      if(contains(this.tray))return false;
+      // Children aim for the whole friend. Use the art bounds, not its full-width
+      // layout wrapper, and allow a finger-width of room around both destinations.
+      const friend=this.creatureEl?.querySelector?.(':scope > svg, :scope > .lg-animal');
+      return !!(contains(friend,32)||contains(this.basket,32));
+    }
+
+    setDeliveryNear(near) {
+      this.basket?.classList.toggle('is-near',near);
+      this.creatureEl?.classList.toggle('is-near',near);
     }
 
     later(fn, delay) {
@@ -992,7 +1009,7 @@
   class TraceGame {
     constructor(ctx) {
       this.ctx = ctx;
-      this.inkColor = DrawingPalette.current();
+      this.inkColor = DrawingPalette.startForPet(ctx.petHue);
       const pool = shuffle(ctx.items).filter((i) => (i.display || "").length <= 3);
       this.targets = (pool.length ? pool : shuffle(ctx.items)).slice(0, Math.min(3, ctx.rounds || 3));
       this.roundIndex = 0;
@@ -1002,7 +1019,7 @@
         <div class="trace-wrap">
           <div class="trace-paper"><canvas class="trace-canvas" aria-label="Draw over the letter with your finger"></canvas></div>
           <div class="trace-tools">
-            <svg class="trace-crayon" viewBox="0 0 150 40" aria-hidden="true"><path d="M8 20L29 7H128Q140 20 128 33H29Z" fill="#579475" stroke="#4a5940" stroke-width="3" stroke-linejoin="round"/><path d="M8 20L29 7V33Z" fill="#e5c68e"/><path d="M8 20L16 15V25Z" fill="#387258"/><path d="M48 8H110V32H48Z" fill="#cce4b8"/><path d="M57 13H100" stroke="#f9ffe9" stroke-width="3" stroke-linecap="round"/><path d="M73 28Q62 17 70 18Q78 18 81 28Q83 13 91 17Q95 24 81 28" fill="#65965c"/></svg>
+            <svg class="trace-crayon" viewBox="0 0 150 40" aria-hidden="true"><path d="M8 20L29 7H128Q140 20 128 33H29Z" fill="var(--drawing-ink)" stroke="#4a3620" stroke-width="3" stroke-linejoin="round"/><path d="M8 20L29 7V33Z" fill="#e5dcc8"/><path d="M8 20L16 15V25Z" fill="var(--drawing-ink)"/><path d="M48 8H110V32H48Z" fill="#fffaf0"/><path d="M57 13H100" stroke="#fffdf7" stroke-width="3" stroke-linecap="round"/><path d="M73 28Q62 17 70 18Q78 18 81 28Q83 13 91 17Q95 24 81 28" fill="var(--drawing-ink)"/></svg>
             ${DrawingPalette.markup()}
             <button type="button" class="lg-round-btn trace-clear" aria-label="Clear your drawing"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M10 28L27 10Q30 7 33 10L41 18Q43 21 40 24L24 40H20Z" fill="#eb9d9a" stroke="#59452e" stroke-width="3" stroke-linejoin="round"/><path d="M10 28L18 20L32 32L24 40H20Z" fill="#fff4db" stroke="#59452e" stroke-width="3"/><path d="M30 40H42" stroke="#927f62" stroke-width="3" stroke-linecap="round"/></svg></button>
             <div class="trace-finish" hidden><span class="trace-made" role="status" aria-label="Drawing complete">${Art.icon('check',32)}</span><button type="button" class="lg-big-btn trace-next" aria-label="Next letter" disabled>${Art.icon('next',34)}</button></div>

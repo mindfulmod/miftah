@@ -1734,6 +1734,7 @@
           dots.innerHTML=Array.from({length:total},(_,i)=>`<i class="${i<current-1?'is-done':i===current-1?'is-on':''}"></i>`).join('');
         },
         petArt: (mood = 'listening') => this.petSVG(180,mood),
+        petHue: this.pet?.hue ?? 200,
         reducedMotion: () => this.prefersReducedMotion(),
         items: planStep ? planStep.items : s.items,
         extraItems: s.extraItems,
@@ -1965,6 +1966,7 @@
       const ctx={stage:el.querySelector('.practice-stage'),items:s.items||s.world.items(),
         activity:kind,worldId:s.world.id,completedWorldIds:this.progress?.done || [],
         reducedMotion:()=>this.prefersReducedMotion(),petArt:()=>this.petSVG(140,'open'),
+        petHue:this.pet?.hue ?? 200,
         canListen:()=>this.canSpeak(),
         prompt:item=>{current=item;
           learning?.beginPrompt(item,{activity:kind,skill:ns.LettersLearning?.skillFor(item,kind==='Workshop'?'build':kind)});

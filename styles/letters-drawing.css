@@ -60,6 +60,9 @@
 .lg-app .trace-tools .drawing-palette {
   margin-inline: auto;
 }
+@media(max-width:700px) {
+  .lg-app .trace-tools .trace-crayon { display:none; }
+}
 
 /* Finished ink remains on the same paper until the child chooses to move on. */
 .lg-app .trace-canvas { object-fit: contain; }
@@ -119,8 +122,8 @@
   }
   .lg-app .trace-tools .drawing-palette {
     display: grid;
-    grid-template-columns: repeat(3, 44px);
-    width: 142px;
+    grid-template-columns: repeat(4, 44px);
+    width: 191px;
     margin-inline: 0;
   }
 }

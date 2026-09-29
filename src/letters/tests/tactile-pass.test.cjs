@@ -158,6 +158,29 @@ test('Feed wrong and missed drops do not advance; one wrong choice is reported o
   assert.equal(f.game.roundIndex, 0); assert.equal(f.outcomes.length, 1);
 });
 
+test('Feed accepts the whole friend and forgiving edges while excluding the tray and empty stage', () => {
+  const { ns } = runtime(); const f = feedFixture(ns);
+  const box=(left,top,width,height)=>({getBoundingClientRect:()=>({left,top,width,height})});
+  let friend=box(100,80,120,160);
+  f.game.creatureEl.querySelector=()=>friend;
+  f.game.creatureEl.getBoundingClientRect=()=>({left:0,top:80,width:400,height:160});
+  f.game.basket=box(120,248,80,70);
+  f.game.tray.getBoundingClientRect=()=>({left:40,top:330,width:300,height:70});
+  for(const [x,y] of [[160,90],[105,210],[75,150],[245,150],[95,290],[225,290],[160,245]]){
+    assert.equal(f.game.deliveryContains(x,y),true,`${x},${y} should be reachable`);
+  }
+  for(const [x,y] of [[25,150],[375,150],[160,360],[130,335],[160,20]]){
+    assert.equal(f.game.deliveryContains(x,y),false,`${x},${y} should not answer`);
+  }
+  // Pose changes replace the SVG; rotation changes its bounds. Never cache it.
+  friend=box(20,90,70,150);
+  assert.equal(f.game.deliveryContains(40,150),true);
+  assert.equal(f.game.deliveryContains(200,120),false);
+  friend=null;
+  assert.equal(f.game.deliveryContains(160,290),true);
+  assert.equal(f.game.deliveryContains(10,150),false);
+});
+
 test('Feed destroy suppresses delayed landing feedback and completion', () => {
   const { ns } = runtime(); const f = feedFixture(ns); f.game.later = (fn) => f.later(fn);
   f.game.offer({ id: 'ba' }, f.a); f.game.destroy(); f.runTimers();

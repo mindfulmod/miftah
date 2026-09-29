@@ -14,23 +14,36 @@
   const inside=(el,x,y)=>{const r=el.getBoundingClientRect();return r.width>0&&r.height>0&&x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom;};
   const button=(label,content,cls='')=>`<button type="button" aria-label="${label}" class="practice-button ${cls}">${content}</button>`;
   const drawingColors=[
-    {id:'green',name:'Green',value:'#4e9677'},
+    {id:'green',name:'Green',hue:95,value:'hsl(95 62% 54%)'},
     {id:'ink',name:'Brown',value:'#4a3620'},
     {id:'coral',name:'Coral',value:'#c25a49'},
-    {id:'blue',name:'Blue',value:'#3a8fc4'},
-    {id:'purple',name:'Purple',value:'#6064a0'}
+    {id:'blue',name:'Blue',hue:200,value:'hsl(200 62% 54%)'},
+    {id:'purple',name:'Purple',hue:268,value:'hsl(268 62% 54%)'},
+    {id:'pink',name:'Pink',hue:320,value:'hsl(320 62% 54%)'},
+    {id:'gold',name:'Honey gold',hue:28,value:'hsl(28 62% 54%)'}
   ];
   let selectedDrawingColor=drawingColors[0].value;
   const DrawingPalette={
     colors:drawingColors,
     current:()=>selectedDrawingColor,
+    startForPet:hue=>{
+      // Same five hues as the wardrobe, with readable ink on the cream paper.
+      // Older saves can contain other hues; use their nearest pencil colour.
+      const h=Number.isFinite(Number(hue))&&hue!=null?((Number(hue)%360)+360)%360:200;
+      const distance=color=>{const gap=Math.abs(color.hue-h);return Math.min(gap,360-gap);};
+      const petColors=drawingColors.filter(color=>color.hue!==undefined);
+      selectedDrawingColor=petColors.reduce((best,color)=>distance(color)<distance(best)?color:best).value;
+      return selectedDrawingColor;
+    },
     markup:()=>`<div class="drawing-palette" role="group" aria-label="Choose a pencil color">${drawingColors.map(color=>`<button type="button" class="drawing-color" data-color="${color.value}" aria-label="Color ${color.name}" aria-pressed="${color.value===selectedDrawingColor}" style="--drawing-color:${color.value}"><span aria-hidden="true"></span></button>`).join('')}</div>`,
     wire:(root,{active=()=>true,release=()=>{},onChange=()=>{}}={})=>{
       const choices=[...(root?.querySelectorAll?.('.drawing-color')||[])];
+      root?.style?.setProperty('--drawing-ink',selectedDrawingColor);
       choices.forEach(choice=>choice.setAttribute?.('aria-pressed',String(choice.dataset?.color===selectedDrawingColor)));
       choices.forEach(choice=>choice.onclick=()=>{
         if(!active()||choice.disabled||!drawingColors.some(color=>color.value===choice.dataset?.color))return;
         release();selectedDrawingColor=choice.dataset.color;
+        root?.style?.setProperty('--drawing-ink',selectedDrawingColor);
         choices.forEach(other=>other.setAttribute?.('aria-pressed',String(other===choice)));
         onChange(selectedDrawingColor);
       });
@@ -213,7 +226,7 @@
   const pathUndo='<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M10 14H24A10 10 0 1 1 24 34M10 14L17 7M10 14L17 21" fill="none" stroke="#4a3620" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   class GardenPaths{
     constructor(ctx){
-      this.ctx=ctx;this.alive=true;this.index=0;this.busy=false;this.drawings=[];this.inkColor=DrawingPalette.current();
+      this.ctx=ctx;this.alive=true;this.index=0;this.busy=false;this.drawings=[];this.inkColor=DrawingPalette.startForPet(ctx.petHue);
       const eligible=[...new Map((ctx.items||[]).filter(isolated).map(item=>[key(item),item])).values()],count=Math.min(3,eligible.length),offset=eligible.length?pathCursor%eligible.length:0;
       this.targets=Array.from({length:count},(_,i)=>eligible[(offset+i)%eligible.length]);this.rounds=this.targets.flatMap(target=>[{target,mode:'guided'},{target,mode:'partial'}]);if(eligible.length)pathCursor=(pathCursor+count)%eligible.length;this.show();
     }

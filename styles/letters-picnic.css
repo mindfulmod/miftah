@@ -32,6 +32,9 @@
   filter:drop-shadow(0 3px 2px rgb(74 54 32 / .16));
 }
 .lg-app .lg-play[data-activity="feed"] .feed-basket.is-filled { filter:none; }
+.lg-app .lg-play[data-activity="feed"] .feed-creature.is-near > :is(svg,.lg-animal) {
+  outline:3px solid #4e9677; outline-offset:4px; border-radius:45%;
+}
 .lg-app .lg-play[data-activity="feed"] .feed-delivered {
   width:46%; left:27%; bottom:40%; transform:none;
 }
