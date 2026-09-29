@@ -42,6 +42,7 @@ test('a visibly prompted Pop choice reports supported matching and still informs
   const game = Object.create(ns.LettersMiniGames.pop.prototype);
   Object.assign(game, {
     alive: true, advancing: false, bubbles: [bubble], rounds: [{ target }], roundIndex: 0,
+    completionReady: false, timers: new Set(), sky: { classList: { add() {}, remove() {} } }, finishEl: { hidden: true }, nextBtn: { disabled: true }, replayBtn: { disabled: true },
     heat: { up() {}, down() {} },
     ctx: { reportOutcome: o => outcomes.push(o), sfx() {}, confettiAt() {}, say() {} },
   });

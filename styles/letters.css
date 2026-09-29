@@ -1977,8 +1977,6 @@ body.lg-in-game .lg-ambient { display: none; }
 
 .lg-boat-chapter .play-dots { position: static; align-self: center; padding: 9px 12px; background: #fffaf0; border-radius: 30px; gap: 7px; }
 .lg-boat-chapter .play-stage { width: min(760px, 100%); flex: 1; max-height: min(540px, 60vh); min-height: 0; margin: 0 auto 10px; mask-image: none; -webkit-mask-image: none; overflow: hidden; }
-.lg-boat-chapter [data-activity="pop"] .play-stage { background: linear-gradient(#fffaf0, #ccfbef 60%, #96ecff); border: 3px solid #4e9677; border-radius: 48% 48% 28px 28px / 11% 11% 28px 28px; box-shadow: 0 9px 0 #e5dcc8; }
-.lg-boat-chapter .pop-bubble { width: clamp(86px, 22vw, 126px); max-width: 126px; }
 .lg-boat-chapter .trace-wrap { background: linear-gradient(140deg, #fffdf7, #fffaf0 65%, #e5dcc8); border: 3px solid #c9bda4; border-radius: 36px; box-shadow: inset 0 6px 0 #e5dcc8; }
 .lg-boat-chapter .feed-scene { padding: 0 5px 16px; }
 .lg-boat-chapter .feed-creature { width: clamp(190px, 27vw, 264px); max-height: 58%; }

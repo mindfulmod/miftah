@@ -260,3 +260,16 @@ Child navigation is wordless: use action pictures and accessible names, not visi
 - A completed delivery stays visible for replay and child-led continuation.
   Landing callbacks are decorative and round-bound; they must not advance,
   score, or interrupt replay after the child presses Next.
+
+## Pond play — 2026-09-28
+
+- `letters-pond.css` owns Pond's bank, water field, floating-card geometry and
+  result dock; shared composition still owns the presenter. Retire superseded
+  Pond layout rules when changing this family.
+- Water planes may stretch, but lily leaves and their contact ripples retain
+  their proportions. Keep the existing shoreline boat, reeds and learning ink.
+- All answer choices appear immediately and stay within reach while a child
+  thinks. Later lessons may bob gently; success never makes choices race away.
+- A found packet stays visible until the child's Next action. Reserve space for
+  its replay dock, including after rotation. On short landscape screens the
+  dock sits beside the water and choices use one row.

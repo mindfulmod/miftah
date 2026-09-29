@@ -5,10 +5,10 @@ const fs = require('node:fs');
 const path = require('node:path');
 function runtime(now = () => 0, extra = {}){
   const timers=[];const frames=[];
-  const window={MiftahGame:{LettersArt:{}},removeEventListener(){}};
-  const context={window,performance:{now},setTimeout:f=>timers.push(f),clearTimeout(){},clearInterval(){},requestAnimationFrame:f=>frames.push(f),...extra};
+  const window={MiftahGame:{LettersArt:{}},addEventListener(){},removeEventListener(){}};
+  const context={window,performance:{now},setTimeout:f=>timers.push(f),clearTimeout(){},clearInterval(){},requestAnimationFrame:f=>frames.push(f),cancelAnimationFrame(){},...extra};
   for(const file of ['MiniGames.js','LettersGardenArt.js']) vm.runInNewContext(fs.readFileSync(path.join(__dirname,'..',file),'utf8'),context);
-  return {ns:window.MiftahGame,timers,frames};
+  return {ns:window.MiftahGame,timers,frames,context};
 }
 test('garden rewards derive from existing activity bests and old completed saves',()=>{
   const {ns}=runtime(); const g=ns.LettersGardenArt.growth;
@@ -313,7 +313,7 @@ test('Reward rendering preserves Boat and uses the current habitat without chang
 
 test('Pairs mismatch retains the reference, replays it and accepts a new partner',()=>{
  const {ns,timers}=runtime();const spoken=[];let correct=0;
- ns.LettersArt.icon=()=>'<svg/>';
+ ns.LettersArt.icon=()=>'<svg/>';ns.LettersArt.inkShift=()=>({dx:0,dy:0});
  const make=(id)=>{const flags=new Set();return {id,el:{disabled:false,setAttribute(k,v){this[k]=v},insertAdjacentHTML(){},classList:{contains:c=>flags.has(c),add:c=>flags.add(c),remove:c=>flags.delete(c)}}}};
  const first=make('a'),wrong=make('b'),mate=make('a');
  const game=Object.create(ns.LettersMiniGames.pairs.prototype);
@@ -346,16 +346,119 @@ test('Pop retires wrong choices from keyboard input and ignores stale retry feed
  const {ns,timers}=runtime(()=>0,{document:{createElement:()=>({remove(){}})}});
  const flags=new Set();const el={disabled:false,classList:{contains:c=>flags.has(c),add:c=>flags.add(c),remove:c=>flags.delete(c)},querySelector:()=>({classList:{add(){},remove(){}}})};
  const bubble={item:{id:'wrong'},el};const game=Object.create(ns.LettersMiniGames.pop.prototype);
- Object.assign(game,{alive:true,advancing:false,roundIndex:0,rounds:[{target:{id:'right'}}],bubbles:[bubble],slips:0,heat:{down(){}},ctx:{beginner:true,sfx(){},say(){}}});
+ Object.assign(game,{alive:true,advancing:false,completionReady:false,roundIndex:0,rounds:[{target:{id:'right'}}],bubbles:[bubble],slips:0,timers:new Set(),heat:{down(){}},ctx:{beginner:true,sfx(){},say(){}}});
  game.popAttempt(bubble);assert.equal(el.disabled,true);assert.equal(game.slips,1);
+ assert.equal(game.timers.size,1);
  game.popAttempt(bubble);assert.equal(game.slips,1);
- game.destroy();timers.shift()();assert.equal(flags.has('is-scaffolded'),false);
+ game.destroy();assert.equal(game.timers.size,0);timers.shift()();assert.equal(flags.has('is-scaffolded'),false);
 });
 
 test('Pop rejects detached cards from an earlier round',()=>{
  const {ns}=runtime();const game=Object.create(ns.LettersMiniGames.pop.prototype);
  Object.assign(game,{alive:true,advancing:false,bubbles:[],ctx:{say(){throw Error('stale input spoke')}}});
  game.popAttempt({item:{id:'old'}});
+});
+
+function popSuccessFixture(ns){
+ const spoken=[],outcomes=[];let paid=0,started=0,readyAtStart=null;
+ const makeBubble=id=>{const flags=new Set();const el={disabled:false,offsetHeight:0,style:{},classList:{contains:c=>flags.has(c),add:c=>flags.add(c),remove:c=>flags.delete(c)},querySelector:()=>({classList:{add(){},remove(){}}})};return {item:{id,display:id},el,flags};};
+ const right=makeBubble('right'),other=makeBubble('other');
+ const game=Object.create(ns.LettersMiniGames.pop.prototype);
+ Object.assign(game,{alive:true,advancing:false,completionReady:false,roundIndex:0,slips:0,rounds:[{target:{id:'right'},options:[right.item,other.item]},{target:{id:'next'},options:[]}],bubbles:[right,other],timers:new Set(),sky:{classList:{add(){},remove(){}}},finishEl:{hidden:true},nextBtn:{disabled:true,focus(){}},replayBtn:{disabled:true},heat:{up(){},down(){}},ctx:{beginner:true,sfx(){},say:item=>spoken.push(item.id),confettiAt(){},reportOutcome:o=>outcomes.push(o),onDone(){paid++;}}});
+ game.startRound=()=>{started++;readyAtStart=game.completionReady;game.advancing=false;};
+ return {game,right,other,spoken,outcomes,paid:()=>paid,started:()=>started,readyAtStart:()=>readyAtStart};
+}
+
+function popConstructFixture(){
+ const makeEl=()=>{const flags=new Set();const svg={classList:{add(){},remove(){}}};return {disabled:false,offsetHeight:40,style:{setProperty(k,v){this[k]=v}},dataset:{},classList:{contains:c=>flags.has(c),add:c=>flags.add(c),remove:c=>flags.delete(c)},setAttribute(){},addEventListener(){},appendChild(){},remove(){},focus(){},querySelector:()=>svg,getBoundingClientRect:()=>({left:0,top:0,width:100,height:40})};};
+ const sky=makeEl();sky.clientHeight=400;sky.getBoundingClientRect=()=>({left:0,top:0,width:400,height:sky.clientHeight});
+ const finish=makeEl(),next=makeEl(),replay=makeEl();finish.hidden=true;
+ const stage={innerHTML:'',querySelector(selector){return selector==='.pop-sky'?sky:selector==='.pond-finish'?finish:selector==='.pond-next'?next:selector==='.pond-replay'?replay:null;}};
+ const {ns,frames}=runtime(()=>0,{document:{createElement:makeEl}});
+ ns.LettersArt.icon=()=>'<svg/>';ns.LettersArt.inkShift=()=>({dx:0,dy:0});
+ const items=[{id:'a',display:'a'},{id:'b',display:'b'}];
+ const game=new ns.LettersMiniGames.pop({stage,items,rounds:1,beginner:true,setPrompt(){},say(){},sfx(){},confettiAt(){},onDone(){},setRoundProgress(){}});
+ return {game,sky,frames};
+}
+
+test('Pop holds a correct find for child-led Next and replay adds no outcome',()=>{
+ const {ns,timers}=runtime();const f=popSuccessFixture(ns);
+ f.game.popAttempt(f.right);
+ assert.equal(f.game.advancing,true);assert.equal(f.game.completionReady,true);
+ assert.equal(f.game.roundIndex,0);assert.equal(f.right.el.disabled,true);assert.equal(f.other.el.disabled,true);
+ assert.equal(f.game.finishEl.hidden,false);assert.equal(f.game.nextBtn.disabled,false);assert.equal(f.game.replayBtn.disabled,false);
+ assert.equal(timers.length,0,'a correct find does not schedule automatic advance');
+ assert.equal(f.outcomes.length,1);assert.deepEqual(f.spoken,['right']);
+ f.game.replayFound();
+ assert.deepEqual(f.spoken,['right','right']);assert.equal(f.outcomes.length,1);
+ f.game.advance();assert.equal(f.game.roundIndex,1);assert.equal(f.started(),1);
+ assert.equal(f.readyAtStart(),false,'Continue consumes readiness before starting the next round');
+ f.game.advance();assert.equal(f.game.roundIndex,1);assert.equal(f.started(),1,'duplicate Continue is inert');
+});
+
+test('Pop does not advance before ready and finishes once after the final child-led Continue',()=>{
+ const {ns}=runtime();const f=popSuccessFixture(ns);let paid=0;
+ f.game.rounds=[{target:{id:'right'},options:[f.right.item,f.other.item]}];
+ f.game.advance();assert.equal(f.game.roundIndex,0);assert.equal(paid,0);
+ f.game.popAttempt(f.right);assert.equal(f.game.completionReady,true);
+ f.game.timers.add('pending');
+ f.game.ctx.onDone=()=>paid++;
+ f.game.advance();f.game.advance();
+ assert.equal(f.game.alive,false);assert.equal(f.game.completionReady,false);assert.equal(f.game.timers.size,0);assert.equal(paid,1);
+});
+
+test('Pop retires delayed wrong-choice feedback when the round changes or the game exits',()=>{
+ const {ns,timers}=runtime(()=>0,{document:{createElement:()=>({remove(){}})}});
+ const f=popSuccessFixture(ns);const wrong=f.other;
+ f.game.popAttempt(wrong);assert.equal(wrong.el.disabled,true);assert.equal(f.game.slips,1);
+ f.game.roundIndex=1;f.game.bubbles=[f.right];
+ timers.forEach(callback=>callback());
+ assert.equal(wrong.flags.has('is-no'),true);assert.equal(wrong.flags.has('is-scaffolded'),false);
+});
+
+test('Pop pauses RAF work while a find is held and restarts one frame loop on Continue',()=>{
+ const {ns,frames,context}=runtime();let nextHandle=0;const canceled=[];
+ context.requestAnimationFrame=callback=>{frames.push(callback);return ++nextHandle;};
+ context.cancelAnimationFrame=handle=>canceled.push(handle);
+ const f=popSuccessFixture(ns);f.game.frame=7;f.game.lastTime=0;f.game.tick=ns.LettersMiniGames.pop.prototype.tick.bind(f.game);
+ f.game.popAttempt(f.right);
+ assert.deepEqual(canceled,[7]);assert.equal(f.game.frame,null);
+ const heldTransform=f.right.el.style.transform;
+ f.game.tick(1000);
+ assert.equal(frames.length,0,'held tick returns without scheduling another RAF');
+ assert.equal(f.right.el.style.transform,heldTransform);
+ f.game.advance();
+ assert.equal(frames.length,1,'Continue starts the next round with one RAF');
+ assert.equal(f.game.frame,1);
+ f.game.advance();
+ assert.equal(frames.length,1,'duplicate Continue does not start another loop');
+});
+
+test('Pop clamps the held packet into the shortened pond after rotation',()=>{
+ const {game,sky}=popConstructFixture();
+ const found=game.bubbles.find(b=>b.item.id===game.rounds[0].target.id);
+ found.el.offsetHeight=100;found.y=.9;found.stationary=true;
+ game.popAttempt(found);
+ assert.ok(found.y<=1-(100*1.18/400)+1e-9);
+ sky.clientHeight=240;game.onResize();
+ assert.ok(found.y<=1-(100*1.18/240)+1e-9);
+ assert.match(found.el.style.transform,/translate3d\(-50%,/);
+ assert.equal(sky.style['--pond-height'],'240px');
+ assert.equal(found.el.classList.contains('is-found'),true);
+});
+
+test('Pop reserves the dock above an overlapping packet but not a side dock',()=>{
+ const {ns}=runtime();const f=popSuccessFixture(ns);const found=f.right;
+ found.el.offsetHeight=80;found.el.getBoundingClientRect=()=>({left:50,right:150,top:0,bottom:80,width:100,height:80});
+ found.stationary=true;found.y=.9;f.game.found=found;f.game.skyH=400;
+ f.game.sky={getBoundingClientRect:()=>({left:0,top:100,right:400,bottom:500,width:400,height:400})};
+ f.game.finishEl={getBoundingClientRect:()=>({left:0,top:400,right:400,bottom:480,width:400,height:80})};
+ f.game.keepFoundVisible();const overlappedDockY=found.y;
+ assert.ok(overlappedDockY<.6,'overlapping dock limits the available pond height');
+ f.game.finishEl={getBoundingClientRect:()=>({left:410,top:100,right:490,bottom:180,width:80,height:80})};
+ found.y=.9;f.game.keepFoundVisible();
+ assert.ok(found.y>overlappedDockY,'side dock leaves the packet more vertical space');
+ assert.ok(found.y<=1-(80*1.18/400)+1e-9);
 });
 
 test('Catch basket clamps to rendered bounds and exposes normalized keyboard position',()=>{

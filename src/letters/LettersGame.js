@@ -1707,7 +1707,7 @@
       const ctx = {
         stage,
         adventure,
-        petReact: pose => {if(adventure || gameName === 'feed')setPetPose(pose, 850, pose === 'proud');},
+        petReact: pose => {if(adventure || gameName === 'feed' || gameName === 'pop')setPetPose(pose, 850, pose === 'proud');},
         onDrawingMade: (item, canvas) => {
           if (!adventure || !el.isConnected || this.session !== s) return;
           // Carry the child's ink into the handoff, not into answer tiles or

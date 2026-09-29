@@ -212,7 +212,7 @@
       <path d="M14 54H58L53 74Q36 81 19 74Z" fill="#c25a49" stroke="#4a3620" stroke-width="2.4"/><path d="M20 58H52L48 70Q36 75 24 70Z" fill="#ee806f"/><path d="M18 55H54" stroke="#ffa798" stroke-width="4" stroke-linecap="round"/></svg>`;
   }
 
-  // ---------- Bubble Pop: hear it, find it, pop it ----------
+  // ---------- Pond: hear it, find it, keep it until ready ----------
   class PopGame {
     constructor(ctx) {
       this.ctx = ctx;
@@ -220,26 +220,43 @@
       this.roundIndex = 0;
       this.slips = 0;
       this.alive = true;
+      this.timers = new Set();
       if (!this.rounds.length) { this.alive = false; ctx.onDone(0); return; }
-      this.heat = makeHeat();
       this.bubbles = [];
-      ctx.stage.innerHTML = `${ns.LettersGardenArt.pond()}<div class="pop-sky"></div>`;
+      ctx.stage.innerHTML = `${ns.LettersGardenArt.pond()}<div class="pop-sky"></div><div class="pond-finish" hidden><button type="button" class="pond-replay lg-round-btn" aria-label="Hear the found letter again">${Art.icon('speaker',30)}</button><button type="button" class="pond-next lg-big-btn" aria-label="Continue">${Art.icon('next',36)}</button></div>`;
       this.sky = ctx.stage.querySelector(".pop-sky");
+      this.finishEl = ctx.stage.querySelector('.pond-finish');
+      this.nextBtn = ctx.stage.querySelector('.pond-next');
+      this.replayBtn = ctx.stage.querySelector('.pond-replay');
+      this.nextBtn.onclick = event => {if(event.detail<2)this.advance();};
+      this.replayBtn.onclick = () => this.replayFound();
       // Perf: bubbles move via transform (composited), not top (layout).
       // The sky height is measured once and on resize, never per frame.
       this.skyH = this.sky.clientHeight || 1;
-      this.onResize = () => (this.skyH = this.sky.clientHeight || 1);
+      this.onResize = () => {
+        this.skyH = this.sky.clientHeight || 1;
+        this.sky.style.setProperty('--pond-height',`${this.skyH}px`);
+        this.widePond = this.sky.clientWidth > this.skyH * 1.8 && this.skyH < 260;
+        this.sky.dataset.rows = this.laneCount > 2 && !this.widePond ? '2' : '1';
+        this.bubbles.forEach(b=>this.layoutBubble(b));
+        if(this.completionReady)this.keepFoundVisible();
+      };
+      this.onResize();
       window.addEventListener("resize", this.onResize);
       this.startRound();
       this.lastTime = performance.now();
       this.tick = this.tick.bind(this);
-      requestAnimationFrame(this.tick);
+      this.frame=requestAnimationFrame(this.tick);
     }
 
     startRound() {
       if (!this.alive) return;
       this.releaseActiveDrag?.();
-      this.advancing = false;
+      this.advancing = false; this.completionReady = false;
+      this.found = null;
+      this.sky.classList.remove('has-found');
+      this.finishEl.hidden = true;
+      this.nextBtn.disabled = true; this.replayBtn.disabled = true;
       const round = this.rounds[this.roundIndex];
       this.ctx.setRoundProgress?.(this.roundIndex + 1, this.rounds.length);
       presentRound(this.ctx, round, "pop");
@@ -248,31 +265,36 @@
       // One lane per option — seasoned replayers get 4 options, so the lane
       // count must follow (a fixed [0,1,2] left the 4th bubble unplaced).
       this.laneCount = round.options.length;
+      this.sky.dataset.rows = this.laneCount > 2 && !this.widePond ? '2' : '1';
       const lanes = shuffle([...Array(this.laneCount).keys()]);
-      round.options.forEach((item, i) => this.spawn(item, lanes[i], i * 0.33));
+      round.options.forEach((item, i) => this.spawn(item, lanes[i]));
     }
 
-    spawn(item, lane, delay) {
+    spawn(item, lane) {
       const el = document.createElement("button");
       el.type = "button";
       el.className = "pop-bubble";
       el.innerHTML = this.ctx.garden ? ns.LettersGardenArt.seedPacket(glyphText(item.display,{maxSize:44})) : tileHTML(item, this.ctx.hue);
+      el.innerHTML += `<span class="pond-contact" aria-hidden="true">${ns.LettersGardenArt.pondFloat()}</span>`;
       el.setAttribute("aria-label", item.display);
-      const laneW = 84 / Math.max(2, this.laneCount || 3);
       const movement = this.rounds?.[this.roundIndex]?.movement ||
         ((this.ctx.garden || this.ctx.referenceJourney || this.ctx.beginner) ? "still" : "gentle");
       const stationary = movement !== "gentle" || !!this.ctx.reducedMotion?.();
-      const gardenGrid = stationary && this.laneCount > 2;
-      const laneX = stationary ? (gardenGrid ? 28 + (lane % 2) * 44 : 8 + (lane + 0.5) * laneW) : 6 + lane * laneW;
-      el.style.width = `${stationary && this.ctx.garden ? 32 : laneW - 2}%`;
-      el.style.left = `${laneX}%`;
-      const pace = 1 + 0.22 * (this.ctx.level || 0);
-      const bubble = { el, item, y: stationary ? (gardenGrid ? .18 + Math.floor(lane / 2) * .40 : .35) : 1.15 + delay, speed: (0.06 + Math.random() * 0.025) * pace };
-      bubble.restY = bubble.y;
-      el.style.transform = `translate3d(${stationary ? "-50%" : "0"}, ${bubble.y * this.skyH}px, 0)`;
+      const bubble = { el, item, lane, stationary, y: .18+lane*.16 };
+      this.layoutBubble(bubble);
       el.addEventListener("click", (event) => this.popAttempt(bubble, event));
       this.sky.appendChild(el);
       this.bubbles.push(bubble);
+    }
+
+    layoutBubble(bubble) {
+      const {el,lane,stationary}=bubble;
+      const laneW=84/Math.max(2,this.laneCount||3),grid=stationary&&this.laneCount>2&&!this.widePond;
+      el.style.width=`${stationary&&this.ctx.garden&&!this.widePond?32:laneW-2}%`;
+      el.style.left=`${stationary?(grid?28+(lane%2)*44:8+(lane+.5)*laneW):6+lane*laneW}%`;
+      if(stationary || this.widePond)bubble.y=grid ? .04+Math.floor(lane/2)*.50 : .35;
+      bubble.restY=bubble.y;
+      el.style.transform=`translate3d(${stationary?'-50%':'0'}, ${bubble.y*this.skyH}px, 0)`;
     }
 
     pondRipple(bubble, event) {
@@ -291,7 +313,7 @@
       ring.style.left = `${Math.max(4, Math.min(96, (x-water.left)/water.width*100))}%`;
       ring.style.top = `${Math.max(4, Math.min(96, (y-water.top)/water.height*100))}%`;
       this.sky.appendChild(ring);
-      setTimeout(() => ring.remove(), 620);
+      this.later(() => ring.remove(), 620);
     }
 
     popAttempt(bubble, event) {
@@ -300,23 +322,30 @@
       const round = this.rounds[this.roundIndex];
       if (bubble.item.id === round.target.id) {
         this.advancing = true;
-        bubble.el.classList.add("is-popped");
+        if(this.frame!=null)cancelAnimationFrame(this.frame);
+        this.frame=null;
+        this.found=bubble;
+        bubble.el.classList.remove('is-helpful');
+        bubble.el.classList.add("is-found");
+        this.sky.classList.add('has-found');
         this.bubbles.forEach(b=>b.el.disabled=true);
-        this.heat.up();
+        this.ctx.clearLearningHint?.();
         reportPromptMatch(this.ctx, round, true, bubble.item, "pop");
         this.ctx.sfx("correct");
         this.ctx.confettiAt(bubble.el);
         this.ctx.say(round.target);
-        setTimeout(() => this.advance(), 550);
+        this.ctx.petReact?.('proud');
+        this.completionReady = true;
+        this.finishEl.hidden = false;
+        this.keepFoundVisible();
+        this.nextBtn.disabled = false; this.replayBtn.disabled = false;
+        this.nextBtn.focus?.({preventScroll:true});
       } else {
         this.slips += 1;
-        this.heat.down();
         reportPromptMatch(this.ctx, round, false, bubble.item, "pop");
         helpAfterWrong(this.ctx, round, bubble.item);
         this.ctx.sfx("wrong");
-        // Rich wrong-pick feedback: the bubble shakes, tints red and wears a
-        // ✗ for a beat, while the prompt bubble pulses — "look HERE, listen
-        // again" — before the target sound repeats.
+        // A small nudge and the existing comparison invite another try.
         // Shake the inner svg, not the button: the button's transform is the
         // bubble's position now, and the shake animation would override it.
         const svg = bubble.el.querySelector("svg");
@@ -326,15 +355,10 @@
         bubble.el.classList.add("is-no");
         bubble.el.disabled = true;
         const retryRound = this.roundIndex;
-        const cross = document.createElement("i");
-        cross.className = "pop-cross";
-        cross.innerHTML = `<svg viewBox="0 0 64 64"><path d="M18 18 L46 46 M46 18 L18 46" stroke="#c23a2b" stroke-width="10" stroke-linecap="round"/></svg>`;
-        if (!this.ctx.beginner) bubble.el.appendChild(cross);
         if (this.ctx.beginner) this.bubbles.find(b => b.item.id === round.target.id)?.el.classList.add("is-helpful");
-        setTimeout(() => {
-          if (!this.alive || this.roundIndex !== retryRound || !this.bubbles.includes(bubble)) return;
+        this.later(() => {
+          if (this.advancing || this.roundIndex !== retryRound || !this.bubbles.includes(bubble)) return;
           bubble.el.classList.remove("is-no");
-          cross.remove();
           // Scaffolded retry: the wrong pick quietly leaves the sky.
           bubble.el.classList.add("is-scaffolded");
         }, 750);
@@ -344,40 +368,71 @@
     }
 
     advance() {
-      if (!this.alive) return;
+      if (!this.alive || !this.completionReady) return;
+      this.completionReady = false;
+      this.nextBtn.disabled = true; this.replayBtn.disabled = true;
       this.roundIndex += 1;
       if (this.roundIndex >= this.rounds.length) return this.finish();
       this.startRound();
+      this.bubbles[0]?.el.focus?.({preventScroll:true});
+      this.lastTime=performance.now();
+      this.frame=requestAnimationFrame(this.tick);
+    }
+
+    keepFoundVisible() {
+      if(!this.found || !this.skyH)return;
+      const b=this.found,height=b.el.offsetHeight||0;
+      const water=this.sky.getBoundingClientRect?.(),dock=this.finishEl.getBoundingClientRect?.();
+      const packet=b.el.getBoundingClientRect?.();
+      // Only reserve the dock's space when it sits under this packet. In
+      // landscape the dock is beside the water, so the full height is available.
+      const aboveDock=water&&dock?.width&&packet&&packet.right>dock.left&&packet.left<dock.right;
+      const available=aboveDock?Math.min(this.skyH,dock.top-water.top-12):this.skyH;
+      b.y=Math.max(.04,Math.min(b.y,Math.max(.04,(available-height*1.18)/this.skyH)));
+      b.el.style.transform=`translate3d(${b.stationary?'-50%':'0'}, ${b.y*this.skyH}px, 0)`;
+    }
+
+    replayFound() {
+      if (!this.alive || !this.completionReady) return;
+      this.ctx.say(this.rounds[this.roundIndex].target);
+      this.ctx.petReact?.('listening');
+    }
+
+    later(fn, delay) {
+      const timer=setTimeout(()=>{this.timers.delete(timer);if(this.alive)fn();},delay);
+      this.timers.add(timer);
     }
 
     tick(now) {
-      if (!this.alive) return;
-      const dt = Math.min(0.05, (now - this.lastTime) / 1000);
+      this.frame=null;
+      if (!this.alive || this.advancing) return;
       this.lastTime = now;
       for (const b of this.bubbles) {
-        if (b.el.classList.contains("is-popped") || b.el.classList.contains("is-scaffolded")) continue;
+        if (b.el.classList.contains("is-scaffolded")) continue;
         const movement = this.rounds?.[this.roundIndex]?.movement ||
           ((this.ctx.garden || this.ctx.referenceJourney || this.ctx.beginner) ? "still" : "gentle");
         const stationary = movement !== "gentle" || !!this.ctx.reducedMotion?.();
-        if (!stationary && movement === "gentle" && !this.ctx.reducedMotion?.()) b.y -= b.speed * this.heat.factor() * dt;
-        else if (movement === "gentle" && !this.ctx.reducedMotion?.()) b.y = b.restY + Math.sin(now * 0.002 + b.restY * 9) * 0.018;
+        b.stationary=stationary;
+        // Water moves a little; taught choices never leave while a child thinks.
+        if (!stationary) b.y = b.restY + Math.sin(now * .0015 + (b.lane||0)*1.7) * .018;
         else if (this.ctx.reducedMotion?.() && !this.ctx.garden && !this.ctx.referenceJourney && !this.rounds?.[this.roundIndex]) b.y = 0.35;
         else b.y = stationary ? b.restY : 0.35;
-        if (!stationary && b.y < -0.18) b.y = 1.12; // drift forever until popped
         b.el.style.transform = `translate3d(${stationary ? "-50%" : "0"}, ${b.y * this.skyH}px, 0)`;
       }
-      requestAnimationFrame(this.tick);
+      this.frame=requestAnimationFrame(this.tick);
     }
 
     finish() {
       if (!this.alive) return;
-      this.alive = false;
-      window.removeEventListener("resize", this.onResize);
+      this.destroy();
       this.ctx.onDone(this.slips);
     }
 
     destroy() {
-      this.alive = false;
+      this.alive = false; this.completionReady = false;
+      if(this.frame!=null)cancelAnimationFrame(this.frame);
+      this.frame=null;
+      this.timers?.forEach(clearTimeout); this.timers?.clear();
       window.removeEventListener("resize", this.onResize);
     }
   }

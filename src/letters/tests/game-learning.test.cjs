@@ -59,8 +59,9 @@ test('Pop presents round metadata and reports the selected contrast before showi
   const targetEl = { classList: classes() };
   const game = Object.create(ns.LettersMiniGames.pop.prototype);
   Object.assign(game, {
-    alive: true, advancing: false, roundIndex: 0, rounds: [round],
+    alive: true, advancing: false, completionReady: false, roundIndex: 0, rounds: [round], timers: new Set(),
     bubbles: [{ item: selected, el: wrongEl }, { item: target, el: targetEl }],
+    sky: { classList: { add() {}, remove() {} }, dataset: {} }, finishEl: { hidden: true }, nextBtn: { disabled: true }, replayBtn: { disabled: true },
     heat: { down() {} },
     ctx: {
       beginner: true,
@@ -79,7 +80,7 @@ test('Pop presents round metadata and reports the selected contrast before showi
 
   const promptCalls = [];
   Object.assign(game, {
-    bubbles: [], sky: {}, releaseActiveDrag() {},
+    bubbles: [], sky: { classList: { add() {}, remove() {} }, dataset: {} }, finishEl: { hidden: true }, nextBtn: { disabled: true }, replayBtn: { disabled: true }, releaseActiveDrag() {},
     ctx: { setRoundProgress() {}, setPrompt: (...args) => promptCalls.push(args), say() {} },
     spawn() {},
   });
@@ -91,21 +92,29 @@ test('Pop presents round metadata and reports the selected contrast before showi
 
 test('Pop movement follows the planned round rather than garden stars', () => {
   const { ns } = runtime();
-  const make = movement => {
+  const make = (movement, reducedMotion = false) => {
     const style = {};
     const game = Object.create(ns.LettersMiniGames.pop.prototype);
     Object.assign(game, {
       alive: true, lastTime: 0, skyH: 100, roundIndex: 0,
       rounds: [{ movement }],
       bubbles: [{ y: .6, restY: .6, speed: .1, el: { classList: { contains: () => false }, style } }],
-      ctx: { garden: true, level: 99, reducedMotion: () => false },
+      ctx: { garden: true, level: 99, reducedMotion: () => reducedMotion },
       heat: { factor: () => 1 },
     });
     game.tick(1000);
-    return game.bubbles[0].y;
+    return game;
   };
-  assert.equal(make('still'), .6);
-  assert.ok(make('gentle') < .6);
+  assert.equal(make('still').bubbles[0].y, .6);
+  assert.equal(make('gentle', true).bubbles[0].y, .6);
+  const gentle = make('gentle');
+  assert.notEqual(gentle.bubbles[0].y, .6);
+  // Motion stays beside the original choice, even if the child takes a minute.
+  // A tiny bob must not accumulate into an offscreen drift or a wraparound.
+  for (const now of [2000, 8000, 30000, 60000, 120000]) {
+    gentle.tick(now);
+    assert.ok(Math.abs(gentle.bubbles[0].y - .6) <= .0181);
+  }
 });
 
 test('Build repair keeps the correct prefix and returns only the first wrong and later pieces', () => {

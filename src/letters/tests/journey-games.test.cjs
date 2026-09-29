@@ -83,10 +83,10 @@ test('pack-smile reference Pop starts choices in the scene and keeps them near t
   const game = Object.create(ns.LettersMiniGames.pop.prototype);
   Object.assign(game, { ctx: { referenceJourney: true, garden: false, hue: 20, level: 0 }, sky: { appendChild: el => appended.push(el) }, skyH: 100, laneCount: 3, bubbles: [] });
   game.spawn(items[0], 0, 0);
-  assert.equal(game.bubbles[0].y, 0.18);
+  assert.equal(game.bubbles[0].y, 0.04);
   assert.equal(appended[0].style.width, '26%');
   assert.match(appended[0].style.transform, /translate3d\(-50%/);
-  assert.match(appended[0].style.transform, /18px/);
+  assert.match(appended[0].style.transform, /4px/);
 });
 
 test('non-reference reduced-motion Pop keeps legacy choices in the visible band', () => {
@@ -100,4 +100,32 @@ test('non-reference reduced-motion Pop keeps legacy choices in the visible band'
   game.tick(16);
   assert.equal(game.bubbles[0].y, 0.35);
   assert.match(style.transform, /35px/);
+});
+
+test('stationary Pond reflows the same four choices into a readable landscape row', () => {
+  const makeElement=()=>({style:{},classList:{contains:()=>false},setAttribute(){},addEventListener(){},innerHTML:''});
+  const {ns}=runtime({document:{createElement:makeElement}});
+  const game=Object.create(ns.LettersMiniGames.pop.prototype);
+  Object.assign(game,{ctx:{garden:true},sky:{appendChild(){}},skyH:180,widePond:true,laneCount:4,bubbles:[]});
+  items.forEach((item,lane)=>game.spawn(item,lane,0));
+  assert.equal(new Set(game.bubbles.map(b=>b.y)).size,1);
+  assert.equal(new Set(game.bubbles.map(b=>b.el.style.left)).size,4);
+  assert.ok(game.bubbles.every(b=>b.el.style.width==='19%'&&b.stationary));
+  game.widePond=false;game.skyH=240;game.bubbles.forEach(b=>game.layoutBubble(b));
+  assert.equal(new Set(game.bubbles.map(b=>b.y)).size,2);
+  assert.equal(new Set(game.bubbles.map(b=>b.el.style.left)).size,2);
+  assert.deepEqual(game.bubbles.map(b=>b.item.id),items.map(item=>item.id));
+  assert.ok(game.bubbles.every(b=>!b.el.style.transform.includes('NaN')));
+});
+
+test('gentle Pond choices start visible and share a safe row on short landscape', () => {
+  const makeElement=()=>({style:{},classList:{contains:()=>false},setAttribute(){},addEventListener(){},innerHTML:''});
+  const {ns}=runtime({document:{createElement:makeElement}});
+  const game=Object.create(ns.LettersMiniGames.pop.prototype);
+  Object.assign(game,{ctx:{garden:false},sky:{appendChild(){}},skyH:180,widePond:false,laneCount:4,bubbles:[],roundIndex:0,rounds:[{movement:'gentle'}]});
+  items.forEach((item,lane)=>game.spawn(item,lane));
+  assert.ok(game.bubbles.every(b=>b.y>.1&&b.y<.7&&!b.stationary));
+  game.widePond=true;game.bubbles.forEach(b=>game.layoutBubble(b));
+  assert.ok(game.bubbles.every(b=>b.restY===.35&&b.el.style.width==='19%'));
+  assert.equal(new Set(game.bubbles.map(b=>b.el.style.left)).size,4);
 });

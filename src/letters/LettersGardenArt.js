@@ -105,9 +105,16 @@
   function pond() {
     const lily = `<ellipse cx="46" cy="50" rx="40" ry="12" fill="#ccfbef" opacity=".7"/><path d="M43 43L64 58Q93 50 76 31Q60 15 30 28Q5 44 24 56Q38 65 52 58Z" fill="#4e9677"/><path d="M43 43L62 54Q81 48 70 33Q50 22 31 32Q17 41 29 49Z" fill="#7fce54"/><path d="M37 34Q51 28 65 34" fill="none" stroke="#b7e779" stroke-width="2.4" stroke-linecap="round"/>`;
     return `<div class="garden-pond-detail" aria-hidden="true"><svg class="pond-water" viewBox="0 0 600 420" preserveAspectRatio="none">
-      <path d="M0 18Q300-3 600 19V32Q300 12 0 33Z" fill="#ccfbef" opacity=".65"/>
+      <path d="M0 0H600V50Q491 27 365 40Q188 60 0 34Z" fill="#ccfbef" opacity=".65"/>
+      <path d="M0 264Q93 222 172 264Q322 309 424 261Q510 228 600 276V420H0Z" fill="#3a8fc4" opacity=".12"/>
+      <path d="M0 361Q97 326 193 370Q387 434 600 345V420H0Z" fill="#2f5c46" opacity=".13"/>
       <g fill="none" stroke="#fffdf7" stroke-width="2.4" stroke-linecap="round" opacity=".65"><path d="M30 83Q51 78 72 82M517 102Q540 96 564 102M28 328Q49 323 70 328M516 365Q539 358 568 363"/></g>
+      <path d="M8 178Q20 161 35 165M550 210Q575 207 590 214M20 385Q50 376 66 381" fill="none" stroke="#4e9677" stroke-width="3" opacity=".3" stroke-linecap="round"/>
     </svg><svg class="pond-lily is-near" viewBox="0 0 92 72">${lily}</svg><svg class="pond-lily is-far" viewBox="0 0 92 72">${lily}</svg></div>`;
+  }
+  // Fixed-proportion floating leaf: a contact plane beneath the learning card.
+  function pondFloat() {
+    return `<svg viewBox="0 0 160 56" aria-hidden="true"><ellipse cx="80" cy="37" rx="74" ry="15" fill="#2f5c46" opacity=".18"/><path d="M9 36Q28 49 69 49M105 48Q136 44 150 36" fill="none" stroke="#fffaf0" stroke-width="3" stroke-linecap="round"/><path d="M16 25Q70 1 146 22Q140 35 117 40L88 33L103 43Q43 47 16 25Z" fill="#2f5c46"/><path d="M17 22Q70 0 145 19Q141 31 117 36L89 28L103 38Q43 42 17 22Z" fill="#4e9677"/><path d="M26 21Q78 4 134 19Q81 9 42 26Z" fill="#b7e779"/><path d="M40 29Q67 34 87 28" fill="none" stroke="#7fce54" stroke-width="2.4" stroke-linecap="round"/></svg>`;
   }
   // Shared seed-picnic prop; the dark opening remains visible above the weave.
   function seedBasket() {
@@ -136,5 +143,5 @@
       ${ink}<path d="M0-48Q-15-60-17-51Q-15-44 0-46Q14-60 18-53Q18-45 0-46" fill="#4e9677"/>
     </svg>`;
   }
-  ns.LettersGardenArt = { growth, chapterGrowth, habitatReward, boat, backdrop, practicePicture, flowerBed, pond, seedBasket, seedPacket };
+  ns.LettersGardenArt = { growth, chapterGrowth, habitatReward, boat, backdrop, practicePicture, flowerBed, pond, pondFloat, seedBasket, seedPacket };
 })(window.MiftahGame || (window.MiftahGame = {}));

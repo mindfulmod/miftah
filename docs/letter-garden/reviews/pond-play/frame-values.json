@@ -1,0 +1,72 @@
+[
+  {
+    "screen": "before-phone.png",
+    "light_above_80": 82.1,
+    "mid_45_to_70": 9.16,
+    "dark_below_30": 1.62,
+    "meets_art_value_quota": false
+  },
+  {
+    "screen": "desktop-night-ready.png",
+    "light_above_80": 7.34,
+    "mid_45_to_70": 29.89,
+    "dark_below_30": 1.91,
+    "meets_art_value_quota": false
+  },
+  {
+    "screen": "landscape-found.png",
+    "light_above_80": 46.37,
+    "mid_45_to_70": 26.19,
+    "dark_below_30": 1.91,
+    "meets_art_value_quota": false
+  },
+  {
+    "screen": "landscape-ready.png",
+    "light_above_80": 50.03,
+    "mid_45_to_70": 28.42,
+    "dark_below_30": 1.8,
+    "meets_art_value_quota": false
+  },
+  {
+    "screen": "landscape-words.png",
+    "light_above_80": 9.43,
+    "mid_45_to_70": 36.73,
+    "dark_below_30": 4.23,
+    "meets_art_value_quota": false
+  },
+  {
+    "screen": "phone-found.png",
+    "light_above_80": 47.5,
+    "mid_45_to_70": 28.06,
+    "dark_below_30": 1.79,
+    "meets_art_value_quota": false
+  },
+  {
+    "screen": "phone-ready.png",
+    "light_above_80": 49.27,
+    "mid_45_to_70": 29.65,
+    "dark_below_30": 1.59,
+    "meets_art_value_quota": false
+  },
+  {
+    "screen": "small-phone-found.png",
+    "light_above_80": 54.48,
+    "mid_45_to_70": 22.39,
+    "dark_below_30": 2.66,
+    "meets_art_value_quota": false
+  },
+  {
+    "screen": "small-phone-ready.png",
+    "light_above_80": 57.3,
+    "mid_45_to_70": 25.67,
+    "dark_below_30": 2.25,
+    "meets_art_value_quota": false
+  },
+  {
+    "screen": "tablet-ready.png",
+    "light_above_80": 45.34,
+    "mid_45_to_70": 32.47,
+    "dark_below_30": 1.09,
+    "meets_art_value_quota": false
+  }
+]
