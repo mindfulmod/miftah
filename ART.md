@@ -273,3 +273,15 @@ Child navigation is wordless: use action pictures and accessible names, not visi
 - A found packet stays visible until the child's Next action. Reserve space for
   its replay dock, including after rotation. On short landscape screens the
   dock sits beside the water and choices use one row.
+
+## Prompt ink and scene depth — 2026-09-28
+
+- Prompt Arabic uses a bounded live SVG text frame, including vowel marks and
+  descenders. Do not translate an HTML line box using Canvas font-box metrics;
+  the two baselines disagree. Fit the actual ink at the current CSS size and
+  font weight, retaining a safety inset. Refit on font load, resize and reveal.
+- Compact presenter rows grow to the fitted ink height. A fixed row must not
+  push a word above the bubble or viewport, or shrink the word unnecessarily.
+- The pond's near shaded bank and the boat's foreground grass provide the dark
+  value plane. Preserve their material ramps and open learning zone. Night
+  keeps a lit paper rim against the darker sky; do not dim all surfaces equally.

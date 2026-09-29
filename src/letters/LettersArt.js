@@ -174,7 +174,8 @@
       const [cx,cy,w,h,maxSize]=el.dataset.fitBox.split(',').map(Number);
       const family=el.getAttribute('font-family');
       const measure=size=>{
-        inkCtx.font=`${size}px ${family}`;inkCtx.textAlign='center';inkCtx.textBaseline='alphabetic';inkCtx.direction=el.getAttribute('direction')||'ltr';
+        const weight=el.getAttribute('font-weight');
+        inkCtx.font=`${weight?weight+' ':''}${size}px ${family}`;inkCtx.textAlign='center';inkCtx.textBaseline='alphabetic';inkCtx.direction=el.getAttribute('direction')||'ltr';
         const m=inkCtx.measureText(el.textContent);
         return {left:m.actualBoundingBoxLeft,right:m.actualBoundingBoxRight,up:m.actualBoundingBoxAscent,down:m.actualBoundingBoxDescent};
       };
@@ -188,8 +189,36 @@
     for (const el of root.querySelectorAll('[data-fit-ink]')) {
       if (!el.isConnected || el.hidden || !el.textContent) continue;
       const size = parseFloat(getComputedStyle(el).fontSize);
-      const shift = inkShift(el.textContent, size, el.classList.contains('is-latin'));
-      el.style.transform = `translate(${shift.dx.toFixed(1)}px, ${shift.htmlDy.toFixed(1)}px)`;
+      if (!(size > 0)) continue;
+      const label = el.textContent, latin = el.classList.contains('is-latin');
+      const family = latin ? LATIN_FONT : AMIRI, direction = latin ? 'ltr' : 'rtl';
+      inkCtx.font = `${latin ? 800 : 400} ${size}px ${family}`;
+      inkCtx.textAlign = 'center'; inkCtx.textBaseline = 'alphabetic'; inkCtx.direction = direction;
+      const metrics = inkCtx.measureText(label);
+      // Give the ink a real frame. An HTML line box's baseline does not agree
+      // with Canvas fontBoundingBox metrics for Amiri's stacked vowel marks.
+      const width = Math.max(size * 1.15, Math.min(size * 4.4, metrics.width + size * .2));
+      const inset = size * .1;
+      const height = Math.max(size * 1.15, Math.min(size * 1.75,
+        metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent + inset * 2));
+      let svg = el.querySelector('svg');
+      if (!svg) {
+        svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('aria-hidden', 'true');
+        svg.appendChild(document.createElementNS('http://www.w3.org/2000/svg', 'text'));
+        el.replaceChildren(svg);
+      }
+      svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+      el.style.width = `${width}px`; el.style.height = `${height}px`;
+      el.style.transform = 'none';
+      const text = svg.querySelector('text');
+      if (text.textContent !== label) text.textContent = label;
+      for (const [key, value] of Object.entries({
+        'text-anchor': 'middle', direction, 'font-family': family,
+        'font-weight': latin ? 800 : 400, fill: 'currentColor',
+        'data-fit-box': `${width/2},${height/2},${width-inset*2},${height-inset*2},${size}`,
+      })) text.setAttribute(key, String(value));
+      fitGlyphs(el);
     }
   }
   function watchGlyphs(root) {

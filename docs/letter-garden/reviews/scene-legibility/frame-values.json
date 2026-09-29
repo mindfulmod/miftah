@@ -1,0 +1,86 @@
+[
+  {
+    "screen": "build-landscape.png",
+    "light_above_80": 49.01,
+    "mid_45_to_70": 20.12,
+    "dark_below_30": 1.55,
+    "meets_art_value_quota": false
+  },
+  {
+    "screen": "feed-landscape-found.png",
+    "light_above_80": 41.04,
+    "mid_45_to_70": 28.71,
+    "dark_below_30": 2.48,
+    "meets_art_value_quota": false
+  },
+  {
+    "screen": "feed-small-phone.png",
+    "light_above_80": 40.12,
+    "mid_45_to_70": 16.9,
+    "dark_below_30": 4.26,
+    "meets_art_value_quota": false
+  },
+  {
+    "screen": "pond-desktop-night.png",
+    "light_above_80": 9.32,
+    "mid_45_to_70": 24.69,
+    "dark_below_30": 11.5,
+    "meets_art_value_quota": true
+  },
+  {
+    "screen": "pond-landscape-found.png",
+    "light_above_80": 12.91,
+    "mid_45_to_70": 32.62,
+    "dark_below_30": 12.41,
+    "meets_art_value_quota": true
+  },
+  {
+    "screen": "pond-phone-day.png",
+    "light_above_80": 49.06,
+    "mid_45_to_70": 23.16,
+    "dark_below_30": 7.43,
+    "meets_art_value_quota": true
+  },
+  {
+    "screen": "pond-small-found.png",
+    "light_above_80": 14.92,
+    "mid_45_to_70": 31.62,
+    "dark_below_30": 10.85,
+    "meets_art_value_quota": true
+  },
+  {
+    "screen": "pond-small-night.png",
+    "light_above_80": 16.87,
+    "mid_45_to_70": 27.33,
+    "dark_below_30": 12.72,
+    "meets_art_value_quota": true
+  },
+  {
+    "screen": "pond-tablet-day.png",
+    "light_above_80": 45.34,
+    "mid_45_to_70": 26.98,
+    "dark_below_30": 5.59,
+    "meets_art_value_quota": true
+  },
+  {
+    "screen": "prompt-after.png",
+    "light_above_80": 10.09,
+    "mid_45_to_70": 35.08,
+    "dark_below_30": 4.26,
+    "meets_art_value_quota": false
+  },
+  {
+    "screen": "prompt-before.png",
+    "light_above_80": 9.43,
+    "mid_45_to_70": 36.73,
+    "dark_below_30": 4.23,
+    "meets_art_value_quota": false
+  },
+  {
+    "screen": "trace-small-phone.png",
+    "light_above_80": 41.85,
+    "mid_45_to_70": 20.23,
+    "dark_below_30": 2.52,
+    "meets_art_value_quota": false
+  }
+]

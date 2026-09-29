@@ -1700,6 +1700,7 @@
         glyph.hidden = false;
         help.hidden = true;
         bubble.classList.remove('is-listening-only');
+        Art.fitInlineGlyphs?.(el);
       };
       help.onclick = () => {revealPrompt(true);sayWithPose(currentTarget);};
       this.onLearningSoundChange = () => {if (!this.sound.enabled) revealPrompt(presentation.hidden);};
@@ -1832,8 +1833,8 @@
             const latinPrompt = !/[؀-ۿ]/.test(shown);
             glyph.textContent = shown;
             glyph.classList.toggle("is-latin", latinPrompt);
-            // Optically centre the ink inside the bubble (same measured-ink
-            // correction the SVG tiles use — Amiri's em box is way off).
+            // Use the same bounded live ink as the answer cards, including
+            // vowel marks and descenders; no HTML baseline translation.
             Art.fitInlineGlyphs?.(el);
             setPetPose("presenting");
           } else {

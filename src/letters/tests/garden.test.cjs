@@ -76,10 +76,10 @@ test('celebration and proud legacy faces expose pupils without eyelid masks',()=
 });
 test('loaded-font ink fitting handles tall descenders and wide strings',()=>{
   for(const [left,right,up,down] of [[24,24,25,85],[100,80,50,10],[18,12,15,25]]){
-    const ctx={font:'',measureText(){const ratio=parseFloat(this.font)/64;return {actualBoundingBoxLeft:left*ratio,actualBoundingBoxRight:right*ratio,actualBoundingBoxAscent:up*ratio,actualBoundingBoxDescent:down*ratio};}};
+    const ctx={font:'',measureText(){const ratio=Number(this.font.match(/([\d.]+)px/)[1])/64;return {actualBoundingBoxLeft:left*ratio,actualBoundingBoxRight:right*ratio,actualBoundingBoxAscent:up*ratio,actualBoundingBoxDescent:down*ratio};}};
     const window={MiftahGame:{}};
     vm.runInNewContext(fs.readFileSync(path.join(__dirname,'..','LettersArt.js'),'utf8'),{window,document:{createElement(){return {getContext(){return ctx;}}}}});
-    const attr={};const el={isConnected:true,textContent:'خ',dataset:{fitBox:'125,202,108,62,64'},getAttribute:()=> 'serif',setAttribute:(k,v)=>attr[k]=Number(v)};
+    const attr={};const el={isConnected:true,textContent:'خ',dataset:{fitBox:'125,202,108,62,64'},getAttribute:key=>key==='font-family'?'serif':null,setAttribute:(k,v)=>attr[k]=Number(v)};
     window.MiftahGame.LettersArt.fitGlyphs({querySelectorAll:()=>[el]});const r=attr['font-size']/64;
     assert.ok((left+right)*r<=108.01&&(up+down)*r<=62.01);
     assert.ok(Math.abs(attr.x+(right-left)*r/2-125)<.01);assert.ok(Math.abs(attr.y+(down-up)*r/2-202)<.01);

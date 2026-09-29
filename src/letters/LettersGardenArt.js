@@ -61,7 +61,9 @@
         <path d="M1200 719Q700 705 763 811Q798 853 505 900H1200Z" fill="#96ecff"/>
         <path d="M1200 749Q785 715 810 815Q840 851 674 900H1200Z" fill="#62cdf4" opacity=".45"/>
         <path d="M936 779Q1030 763 1135 780M880 842Q1010 822 1170 846" fill="none" stroke="#ccfbef" stroke-width="4" stroke-linecap="round"/>
-        <path d="M0 850Q180 783 440 851L630 900H0Z" fill="#4e9677" opacity=".34"/>
+        <path d="M0 820Q160 752 446 834Q561 866 700 900H0Z" fill="#2f5c46"/>
+        <path d="M0 818Q178 757 444 831Q529 853 613 880Q365 825 190 841Q73 850 0 864Z" fill="#4e9677"/>
+        <path d="M0 816Q151 765 319 800Q155 785 41 833Z" fill="#b7e779"/>
       </svg>
       <div class="garden-shore-boat">${boat({stage})}</div>
       <svg class="garden-reeds" viewBox="0 0 140 180">
@@ -107,7 +109,8 @@
     return `<div class="garden-pond-detail" aria-hidden="true"><svg class="pond-water" viewBox="0 0 600 420" preserveAspectRatio="none">
       <path d="M0 0H600V50Q491 27 365 40Q188 60 0 34Z" fill="#ccfbef" opacity=".65"/>
       <path d="M0 264Q93 222 172 264Q322 309 424 261Q510 228 600 276V420H0Z" fill="#3a8fc4" opacity=".12"/>
-      <path d="M0 361Q97 326 193 370Q387 434 600 345V420H0Z" fill="#2f5c46" opacity=".13"/>
+      <path d="M0 355Q97 320 193 364Q387 428 600 339V420H0Z" fill="#2f5c46"/>
+      <path d="M0 352Q97 317 193 361Q387 425 600 336V347Q394 436 190 372Q83 335 0 366Z" fill="#4e9677"/>
       <g fill="none" stroke="#fffdf7" stroke-width="2.4" stroke-linecap="round" opacity=".65"><path d="M30 83Q51 78 72 82M517 102Q540 96 564 102M28 328Q49 323 70 328M516 365Q539 358 568 363"/></g>
       <path d="M8 178Q20 161 35 165M550 210Q575 207 590 214M20 385Q50 376 66 381" fill="none" stroke="#4e9677" stroke-width="3" opacity=".3" stroke-linecap="round"/>
     </svg><svg class="pond-lily is-near" viewBox="0 0 92 72">${lily}</svg><svg class="pond-lily is-far" viewBox="0 0 92 72">${lily}</svg></div>`;

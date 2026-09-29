@@ -9,7 +9,7 @@
 }
 .lg-app.lg-pond-activity[data-garden-phase="night"] .lg-play[data-activity="pop"] .play-stage {
   background:linear-gradient(160deg,#6064a0,#4e9677 60%,#2f5c46);
-  border-color:#a89478; box-shadow:0 6px 0 #4a3620,0 11px 0 rgb(43 30 18 / .2),inset 0 5px 0 rgb(43 30 18 / .3);
+  border-color:#e5dcc8; box-shadow:0 6px 0 #4a3620,0 11px 0 rgb(43 30 18 / .2),inset 0 5px 0 rgb(43 30 18 / .3);
 }
 .lg-app .lg-play[data-activity="pop"] .pop-sky { inset:5% 4% 9%; }
 .lg-app .lg-play[data-activity="pop"] .pop-bubble {

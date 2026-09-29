@@ -113,7 +113,7 @@
 @media(min-width:601px){
  .lg-pond-activity .garden-shore-boat{width:clamp(125px,18vw,210px);left:2%;bottom:0}
 }
-.lg-app.lg-pond-activity[data-garden-phase="night"]{background:radial-gradient(ellipse at 50% 32%,#6064a0,#34375f)}
+.lg-app.lg-pond-activity[data-garden-phase="night"]{background:radial-gradient(ellipse at 50% 32%,#6064a0 0%,#4a4d84 32%,#34375f 72%,#23253f)}
 
 /* Feed layout and materials now live in letters-picnic.css. */
 
