@@ -1232,23 +1232,6 @@ body {
   50% { transform: scale(1.14); filter: drop-shadow(0 0 14px rgba(255, 214, 110, 1)); }
 }
 
-.trace-hint {
-  position: absolute;
-  width: 54px;
-  height: 54px;
-  margin: -27px 0 0 -27px;
-  border: 5px solid #f59a1d;
-  border-radius: 50%;
-  box-shadow: 0 0 14px rgba(255, 214, 110, 0.9);
-  animation: lg-hint-pulse 620ms ease 2;
-  pointer-events: none;
-}
-
-@keyframes lg-hint-pulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.35); opacity: 0.7; }
-}
-
 /* ---------- check-up & skill flower ---------- */
 .map-checkup {
   background: radial-gradient(circle at 34% 28%, #e0b6f5, #a75fd1 78%);

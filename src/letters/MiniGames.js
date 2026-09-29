@@ -1331,10 +1331,19 @@
           sx += x;
           sy += y;
         }
-        const hint = document.createElement("i");
-        hint.className = "trace-hint";
-        hint.style.left = `${sx / smallest.length}px`;
-        hint.style.top = `${sy / smallest.length}px`;
+        this.canvas.parentElement.querySelectorAll?.('.trace-hint').forEach(el=>el.remove());
+        const hint = document.createElementNS('http://www.w3.org/2000/svg','svg');
+        hint.setAttribute('class','trace-hint');
+        hint.setAttribute('aria-hidden','true');
+        hint.setAttribute('viewBox',`0 0 ${this.canvas.width} ${this.canvas.height}`);
+        hint.setAttribute('preserveAspectRatio','xMidYMid meet');
+        const ring=document.createElementNS('http://www.w3.org/2000/svg','circle');
+        ring.setAttribute('cx',String(sx/smallest.length));
+        ring.setAttribute('cy',String(sy/smallest.length));
+        ring.setAttribute('r',String(Math.max(24,(this.brush||0)*.9)));
+        ring.setAttribute('fill','none');
+        ring.setAttribute('vector-effect','non-scaling-stroke');
+        hint.appendChild(ring);
         this.canvas.parentElement.appendChild(hint);
         this.ctx.sfx("page");
         setTimeout(() => hint.remove(), 1200);

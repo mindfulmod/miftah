@@ -108,5 +108,5 @@ test('drawing palette stylesheet keeps every target at least 44px and uses only 
   assert.match(css,/lg-play:has\(\.garden-paths\)[\s\S]*grid-template-columns:\s*48px minmax\(0, 1fr\) 54px/);
   assert.match(css,/\.path-guide\[hidden\]\s*\{\s*display:\s*none/);assert.match(css,/\.path-guide > \.path-guide-glyph\s*\{[\s\S]*position:\s*absolute/);
   const hex=[...css.matchAll(/#[0-9a-f]{6}/gi)].map(match=>match[0].toLowerCase());
-  const approved=new Set(['#4a3620','#fffaf0','#fffdf7','#c9bda4','#ffe49a','#e5dcc8','#2f5c46','#4e9677']);assert.ok(hex.every(color=>approved.has(color)));
+  const approved=new Set(['#4a3620','#fffaf0','#fffdf7','#c9bda4','#ffe49a','#e5dcc8','#2f5c46','#4e9677','#e8743c']);assert.ok(hex.every(color=>approved.has(color)));
 });

@@ -285,3 +285,13 @@ Child navigation is wordless: use action pictures and accessible names, not visi
 - The pond's near shaded bank and the boat's foreground grass provide the dark
   value plane. Preserve their material ramps and open learning zone. Night
   keeps a lit paper rim against the darker sky; do not dim all surfaces equally.
+
+## Drawing coordinates — 2026-09-28
+
+- Drawing helpers share the canvas backing frame and its `contain` alignment.
+  Do not place a missed-dot hint using original pixel coordinates in a resized
+  CSS box. Hint pulses change opacity only, preserving their anchor. Reduced
+  motion keeps the same guidance without a pulse.
+- Landscape Trace reserves an in-flow presenter above its drawing board. The
+  shared composition stylesheet owns that presenter; a palette layout must not
+  move the board underneath the pet or prompt.
