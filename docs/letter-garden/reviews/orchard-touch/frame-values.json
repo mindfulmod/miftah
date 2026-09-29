@@ -1,0 +1,83 @@
+[
+  {
+    "file": "catch-held-landscape.png",
+    "width": 568,
+    "height": 320,
+    "light": 38.98,
+    "mid": 16.01,
+    "dark": 5.14,
+    "passes": true
+  },
+  {
+    "file": "catch-held-night-desktop.png",
+    "width": 1100,
+    "height": 800,
+    "light": 8.12,
+    "mid": 19.1,
+    "dark": 36.28,
+    "passes": true
+  },
+  {
+    "file": "catch-held-phone.png",
+    "width": 320,
+    "height": 568,
+    "light": 30.8,
+    "mid": 26.4,
+    "dark": 5.91,
+    "passes": true
+  },
+  {
+    "file": "catch-playing-phone.png",
+    "width": 320,
+    "height": 568,
+    "light": 27.71,
+    "mid": 26.98,
+    "dark": 5.44,
+    "passes": true
+  },
+  {
+    "file": "catch-repair-landscape.png",
+    "width": 568,
+    "height": 320,
+    "light": 40.07,
+    "mid": 15.43,
+    "dark": 5.65,
+    "passes": true
+  },
+  {
+    "file": "pairs-held-landscape.png",
+    "width": 568,
+    "height": 320,
+    "light": 49.68,
+    "mid": 20.04,
+    "dark": 10.15,
+    "passes": true
+  },
+  {
+    "file": "pairs-held-phone.png",
+    "width": 320,
+    "height": 568,
+    "light": 54.74,
+    "mid": 17.34,
+    "dark": 8.28,
+    "passes": true
+  },
+  {
+    "file": "pairs-six-phone.png",
+    "width": 320,
+    "height": 568,
+    "light": 23.3,
+    "mid": 23.63,
+    "dark": 7.71,
+    "passes": true
+  },
+  {
+    "file": "pairs-six-tablet-night.png",
+    "width": 768,
+    "height": 961,
+    "light": 15.58,
+    "mid": 23.02,
+    "dark": 6.74,
+    "passes": true
+  }
+]

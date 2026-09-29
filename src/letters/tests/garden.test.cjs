@@ -468,20 +468,22 @@ test('Catch basket clamps to rendered bounds and exposes normalized keyboard pos
  game.positionBasket(2);assert.equal(game.basketX,1-62/300);assert.equal(attrs['aria-valuenow'],'100');
  game.positionBasket(.5);assert.equal(attrs['aria-valuenow'],'50');
  width=80;game.positionBasket(1);assert.equal(game.basketX,.5);
+ game.settling=true;game.basket.style.left='';width=600;game.positionBasket(1);assert.equal(game.basket.style.left,'','held basket keeps CSS alignment with its front rim after resize');
+ game.settling=false;
  game.alive=false;game.positionBasket(0);assert.equal(game.basketX,.5);
 });
 
 test('Calm Catch keeps mistakes and holds each successful result for child-led Next',()=>{
- const {ns,timers}=runtime();const game=Object.create(ns.LettersMiniGames.catch.prototype);let done=0,scored=0,cleared=0;
+ const {ns,timers}=runtime();const game=Object.create(ns.LettersMiniGames.catch.prototype);let done=0,scored=0,cleared=0,moves=0;
  const controls={};ns.LettersArt.icon=()=>'<svg/>';ns.LettersArt.inkShift=()=>({dx:0,dy:0});
  const result={hidden:true,innerHTML:'',querySelector(selector){return controls[selector]}};
  const classes=new Set();const stage={classList:{add:c=>classes.add(c),remove:c=>classes.delete(c),toggle:(c,on)=>on?classes.add(c):classes.delete(c)},removeEventListener(){}};
  const basket={style:{},classList:{add(){},remove(){}},removeAttribute(){},setAttribute(){},removeEventListener(){}};
  const wrong={item:{id:'b'},el:{remove(){}}},right={item:{id:'a'},x:.5,el:{style:{},disabled:false,getBoundingClientRect(){return {left:0,top:0,width:20,height:20}},remove(){}}};
- Object.assign(game,{alive:true,still:true,settling:false,slips:0,frame:null,roundIndex:0,rounds:[{target:{id:'a',display:'a'},options:[{id:'a'},{id:'b'}]}],fallers:[wrong,right],result,basket,positionBasket(){},heat:{up(){},down(){}},clearFallers(){this.fallers=[]},ctx:{stage,say(){},sfx(){},reducedMotion:()=>true,reportOutcome(outcome){if(outcome.correct)scored++},clearLearningHint(){cleared++},confettiAt(){},onDone(){done++}}});
+ Object.assign(game,{alive:true,still:true,settling:false,slips:0,frame:null,roundIndex:0,rounds:[{target:{id:'a',display:'a'},options:[{id:'a'},{id:'b'}]}],fallers:[wrong,right],result,basket,positionBasket(){moves++},heat:{up(){},down(){}},clearFallers(){this.fallers=[]},ctx:{stage,say(){},sfx(){},reducedMotion:()=>true,reportOutcome(outcome){if(outcome.correct)scored++},clearLearningHint(){cleared++},confettiAt(){},onDone(){done++}}});
  controls['.catch-replay']={onclick:null,querySelector(){return {}},getBoundingClientRect(){return {left:0,top:0,width:20,height:20}}};
  controls['.catch-next']={onclick:null};
- game.catchStationary(wrong);assert.equal(game.slips,1);assert.equal(game.fallers.length,1);assert.equal(cleared,0);
+ game.catchStationary(wrong);assert.equal(game.slips,1);assert.equal(game.fallers.length,1);assert.equal(cleared,0);assert.equal(moves,0,"a wrong stationary choice keeps the delivery target still");
  game.catchStationary(wrong);assert.equal(game.slips,1);
  game.catchStationary(right);game.catchStationary(right);assert.equal(timers.length,0);assert.equal(right.el.disabled,false);
  assert.equal(game.settling,true);assert.equal(game.roundIndex,0);assert.equal(scored,1);assert.equal(cleared,1);assert.equal(done,0);assert.equal(game.fallers.length,0);
@@ -499,8 +501,8 @@ test('Calm Catch does not spawn an animation loop',()=>{
 
 test('Moving Catch replays a missed target without recording a wrong answer',()=>{
  const {ns}=runtime();const game=Object.create(ns.LettersMiniGames.catch.prototype);
- const target={id:'a'},events=[],faller={item:target,y:1.06,speed:0,el:{style:{},remove(){events.push('remove')}}};
- Object.assign(game,{alive:true,still:false,lastTime:0,spawnTimer:1,spawnFlip:true,basketX:.5,fallers:[faller],roundIndex:0,rounds:[{target,options:[target]}],slips:0,
+ const target={id:'a'},events=[],faller={item:target,y:1.06,speed:0,el:{style:{},getBoundingClientRect:()=>({left:100,top:800,width:80,height:90}),remove(){events.push('remove')}}};
+ Object.assign(game,{alive:true,still:false,lastTime:0,spawnTimer:1,spawnFlip:true,basketX:.5,fieldH:800,basket:{getBoundingClientRect:()=>({left:410,top:700,width:180,height:112})},fallers:[faller],roundIndex:0,rounds:[{target,options:[target]}],slips:0,
   heat:{factor:()=>1,down:()=>events.push('slow')},ctx:{setPrompt:item=>events.push(`prompt:${item.id}`),say:item=>events.push(`say:${item.id}`),pulsePrompt:()=>events.push('pulse'),sfx:name=>events.push(`sfx:${name}`)}});
  game.tick(16);
  assert.equal(game.slips,0);assert.equal(game.spawnFlip,false);assert.equal(game.spawnTimer,.18);assert.equal(game.fallers.length,0);
@@ -514,14 +516,59 @@ test('Moving Catch holds a successful catch, cancels its frame and advances only
  controls['.catch-replay']={querySelector:()=>({}),getBoundingClientRect:()=>({left:10,top:10,width:20,height:20})};controls['.catch-next']={};
  const classes=new Set();const stage={classList:{add:c=>classes.add(c),remove:c=>classes.delete(c),toggle:(c,on)=>on?classes.add(c):classes.delete(c)},removeEventListener(){}};
  const basket={style:{},classList:{add(){},remove(){}},removeAttribute(){},setAttribute(){},removeEventListener(){}};
- const target={id:'a',display:'a'},f={item:target,x:.5,y:.79,speed:0,el:{style:{},getBoundingClientRect:()=>({left:0,top:0,width:20,height:20}),remove(){}}};
+ const target={id:'a',display:'a'},f={item:target,x:.5,y:.79,speed:0,el:{style:{},getBoundingClientRect:()=>({left:500,top:340,width:80,height:40}),remove(){}}};
  const game=Object.create(ns.LettersMiniGames.catch.prototype);
- Object.assign(game,{alive:true,still:false,settling:false,frame:17,lastTime:0,spawnTimer:1,fieldH:100,basketX:.5,fallers:[f],roundIndex:0,rounds:[{target,options:[target]}],slips:0,result,basket,ctx:{stage,say(){},sfx(){},reducedMotion:()=>false,reportOutcome(){scored++},clearLearningHint(){cleared++},confettiAt(){},onDone(){paid++}},heat:{factor:()=>1,up(){},down(){}},clearFallers(){this.fallers.forEach(x=>x.el.remove());this.fallers=[]},positionBasket(){}});
+ Object.assign(game,{alive:true,still:false,settling:false,frame:17,lastTime:0,spawnTimer:1,fieldH:100,basketX:.5,fallers:[f],roundIndex:0,rounds:[{target,options:[target]}],slips:0,result,basket:{...basket,getBoundingClientRect:()=>({left:410,top:300,width:180,height:112})},ctx:{stage,say(){},sfx(){},reducedMotion:()=>false,reportOutcome(){scored++},clearLearningHint(){cleared++},confettiAt(){},onDone(){paid++}},heat:{factor:()=>1,up(){},down(){}},clearFallers(){this.fallers.forEach(x=>x.el.remove());this.fallers=[]},positionBasket(){}});
  game.tick(16);
  assert.equal(game.settling,true);assert.equal(game.roundIndex,0);assert.equal(scored,1);assert.equal(cleared,1);assert.equal(paid,0);assert.equal(game.fallers.length,0);assert.equal(game.frame,null);assert.deepEqual(cancelled,[17]);assert.equal(frames.length,0);
  game.tick(32);assert.equal(scored,1);assert.equal(game.roundIndex,0);assert.equal(frames.length,0);
  controls['.catch-next'].onclick();assert.equal(game.roundIndex,1);assert.equal(paid,1);
  controls['.catch-next'].onclick();assert.equal(paid,1);
+});
+
+test('Moving Catch collision follows the rendered basket mouth and fruit core across viewport sizes',()=>{
+ const {ns}=runtime();
+ const game=Object.create(ns.LettersMiniGames.catch.prototype);
+ const cases=[
+  {name:'phone portrait',stageW:360,stageH:620,basketW:130,fruitW:72},
+  {name:'desktop',stageW:700,stageH:500,basketW:166,fruitW:104},
+  {name:'short landscape',stageW:420,stageH:280,basketW:108,fruitW:62},
+ ];
+ for(const size of cases){
+  const b={left:0,top:100,width:size.basketW,height:size.basketW*112/180};
+  const fruitW=size.fruitW,limit=b.width*74/180+fruitW*.22;
+  const make=(distance)=>{
+   const fruit={left:b.left+b.width/2+distance-fruitW/2,top:b.top+b.height*52/112-24,width:fruitW,height:40};
+   return {x:.5+distance/size.stageW,y:.8,el:{getBoundingClientRect:()=>fruit}};
+  };
+  game.basket={getBoundingClientRect:()=>b};game.fieldH=size.stageH;
+  assert.equal(game.catchesFruit(make(limit-1),.79),true,`${size.name}: visible edge overlap catches`);
+  assert.equal(game.catchesFruit(make(limit+1),.79),false,`${size.name}: separated fruit does not catch`);
+ }
+});
+
+test('Moving Catch recomputes collision bounds after resize and only catches a rim crossing',()=>{
+ const {ns}=runtime();const game=Object.create(ns.LettersMiniGames.catch.prototype);
+ let basket={left:100,top:200,width:120,height:112*120/180};
+ let fruit={left:100+basket.width/2-25,top:0,width:50,height:40};
+ game.basket={getBoundingClientRect:()=>basket};game.fieldH=400;
+ const f={y:.8,el:{getBoundingClientRect:()=>fruit}};
+ const rim=()=>basket.top+basket.height*52/112;
+ fruit.top=rim()-24; // core center sits at the mouth after crossing from above
+ assert.equal(game.catchesFruit(f,.79),true);
+ fruit.top=rim()-37; // core remains above the permitted contact band
+ assert.equal(game.catchesFruit(f,.79),false);
+ fruit.top=rim()+6; // both current and previous core positions are below the rim band
+ assert.equal(game.catchesFruit(f,.79),false);
+
+ // A narrower rotated viewport changes the rendered basket width; the opening
+ // and overlap allowance must follow it instead of retaining desktop geometry.
+ basket={...basket,left:20,width:108,height:112*108/180};game.fieldH=280;
+ const resizedLimit=basket.width*74/180+fruit.width*.22;
+ fruit={...fruit,left:basket.left+basket.width/2+resizedLimit-1-fruit.width/2,top:basket.top+basket.height*52/112-24};
+ assert.equal(game.catchesFruit(f,.79),true,'resized mouth still catches visible overlap');
+ fruit={...fruit,left:basket.left+basket.width/2+resizedLimit+1-fruit.width/2};
+ assert.equal(game.catchesFruit(f,.79),false,'resized mouth rejects a gap');
 });
 
 function interactivePiece(i=0){const flags=new Set(),events={},attrs={};let capture=null;return {dataset:{i:String(i)},style:{},offsetLeft:50,offsetTop:50,offsetWidth:30,offsetHeight:30,events,attrs,flags,classList:{contains:k=>flags.has(k),add:k=>flags.add(k),remove:k=>flags.delete(k),toggle(k,on){on?flags.add(k):flags.delete(k)}},setAttribute:(k,v)=>attrs[k]=v,addEventListener:(k,f)=>events[k]=f,setPointerCapture:id=>capture=id,hasPointerCapture:id=>capture===id,releasePointerCapture:()=>capture=null,getBoundingClientRect:()=>({left:0,top:0,width:30,height:30})};}

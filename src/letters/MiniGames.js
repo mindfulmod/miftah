@@ -489,7 +489,7 @@
     }
 
     positionBasket(x) {
-      if (!this.alive || !Number.isFinite(x)) return;
+      if (!this.alive || this.settling || !Number.isFinite(x)) return;
       const width = this.ctx.stage.getBoundingClientRect().width;
       if (width <= 0) return;
       const edge = Math.min(.5, (this.basket.getBoundingClientRect().width / 2 + 2) / width);
@@ -506,6 +506,7 @@
       this.result.hidden = true;
       this.result.innerHTML = "";
       this.ctx.stage.classList.remove("is-harvested");
+      this.positionBasket(.5);
       this.lastTime = performance.now();
       this.spawnTimer = 0;
       this.spawnFlip = false;
@@ -541,26 +542,51 @@
         el.style.left=`${x*100}%`;el.style.top='25%';
         const f={el,item,x};this.fallers.push(f);this.field.appendChild(el);
         el.addEventListener('click',()=>this.catchStationary(f));
+        f.resetDrag=ns.GardenPractice?.draggable(el,{
+          enabled:()=>this.alive&&!this.settling&&this.fallers.includes(f),
+          onDragMove:(x,y)=>this.basket.classList.toggle('is-near',this.basketContains(x,y)),
+          onDragEnd:()=>this.basket.classList.remove('is-near'),
+          drop:(x,y,released)=>{if(this.basketContains(x,y))this.catchStationary(f,released);}
+        });
       });
     }
 
-    catchStationary(f) {
+    basketContains(x,y) {
+      const r=this.basket.getBoundingClientRect();
+      return r.width>0&&r.height>0&&x>=r.left-20&&x<=r.right+20&&y>=r.top-12&&y<=r.bottom+20;
+    }
+
+    catchesFruit(f,previousY) {
+      // The opening is y=52 in the basket's 180×112 artwork. Follow the
+      // rendered mouth after resize, not an unrelated fraction of the field.
+      const b=this.basket.getBoundingClientRect(),r=f.el.getBoundingClientRect();
+      if(!b.width||!b.height||!r.width||!r.height)return false;
+      const rim=b.top+b.height*52/112;
+      const center=r.top+r.height*.6;
+      const before=center-(f.y-previousY)*this.fieldH;
+      const halfOpening=b.width*74/180;
+      const fruitCore=r.width*.22;
+      return center>=rim-12&&before<=rim+12&&Math.abs(r.left+r.width/2-(b.left+b.width/2))<=halfOpening+fruitCore;
+    }
+
+    catchStationary(f,releaseRect=null) {
       if(!this.alive || this.settling || !this.fallers.includes(f))return;
       const round=this.rounds[this.roundIndex];
-      this.positionBasket(f.x);
+      // Keep the stationary basket in place during a retry; the destination
+      // should not move away from a child who is learning to drag.
       if(f.item.id!==round.target.id){
         this.slips++;this.heat.down();reportPromptMatch(this.ctx,round,false,f.item,"catch");helpAfterWrong(this.ctx,round,f.item);this.ctx.sfx('wrong');
         round.options=round.options.filter(o=>o.id!==f.item.id);
         this.remove(f);this.ctx.say(round.target);return;
       }
-      this.success(f);
+      this.success(f,releaseRect);
     }
 
-    success(f) {
+    success(f,releaseRect=null) {
       if (!this.alive || this.settling) return;
       const round = this.rounds[this.roundIndex];
       if (f.item.id !== round.target.id) return;
-      const from = f.el.getBoundingClientRect();
+      const from = releaseRect || f.el.getBoundingClientRect();
       this.settling = true;
       this.ctx.clearLearningHint?.();
       if (this.frame != null) cancelAnimationFrame(this.frame);
@@ -572,7 +598,8 @@
       this.clearFallers();
       this.ctx.stage.classList.add("is-harvested");
       this.basket.removeAttribute("role");this.basket.removeAttribute("tabindex");this.basket.setAttribute("aria-hidden","true");
-      this.positionBasket(.5);
+      this.basketX=.5;
+      this.basket.style.left="";
       this.result.hidden = false;
       this.result.innerHTML = `<button type="button" class="catch-replay" aria-label="Hear ${round.target.display}">${orchardFruit(round.target.display)}<span class="orchard-listen" aria-hidden="true">${Art.icon('speaker',22)}</span></button><button type="button" class="orchard-next catch-next" aria-label="${this.roundIndex === this.rounds.length - 1 ? 'Finish catching' : 'Next fruit'}">${Art.icon('next',32)}</button>`;
       const replay = this.result.querySelector('.catch-replay');
@@ -617,8 +644,10 @@
       const item = this.spawnFlip
         ? round.target
         : distractors[Math.floor(Math.random() * distractors.length)] || round.target;
-      const el = document.createElement("div");
+      const el = document.createElement("button");
+      el.type = "button";
       el.className = "catch-faller";
+      el.setAttribute("aria-label", item.display);
       el.innerHTML = orchardFruit(item.display);
       const x = 0.12 + Math.random() * 0.76;
       el.style.left = `${x * 100}%`;
@@ -627,6 +656,7 @@
       const f = { el, item, x, y: -0.15, speed: (0.16 + Math.random() * 0.05) * pace };
       el.style.transform = `translate3d(-50%, ${f.y * this.fieldH}px, 0)`;
       this.fallers.push(f);
+      el.addEventListener("click",()=>this.catchStationary(f));
     }
 
     tick(now) {
@@ -640,10 +670,10 @@
       }
       const round = this.rounds[this.roundIndex];
       for (const f of this.fallers.slice()) {
+        const previousY=f.y;
         f.y += f.speed * this.heat.factor() * dt;
         f.el.style.transform = `translate3d(-50%, ${f.y * this.fieldH}px, 0)`;
-        // Catch zone: bottom strip, basket overlap.
-        if (f.y > 0.78 && f.y < 0.9 && Math.abs(f.x - this.basketX) < 0.13) {
+        if (this.catchesFruit(f,previousY)) {
           if (f.item.id === round.target.id) return this.success(f);
           this.remove(f);
           this.slips += 1;
@@ -678,12 +708,13 @@
     }
 
     remove(f) {
+      f.resetDrag?.();
       f.el.remove();
       this.fallers = this.fallers.filter((x) => x !== f);
     }
 
     clearFallers() {
-      for (const f of (this.fallers || [])) f.el.remove();
+      for (const f of (this.fallers || [])) {f.resetDrag?.();f.el.remove();}
       this.fallers = [];
     }
 
@@ -731,6 +762,9 @@
     buildBoard(focus = false) {
       if (!this.alive) return;
       const ctx = this.ctx;
+      this.dragResets?.forEach(reset=>reset());
+      this.dragResets=[];
+      clearTimeout(this.demoTimer);
       this.pairCount = ctx.beginner ? 2 : 3;
       ctx.setRoundProgress?.(this.boardIndex + 1, this.boards);
       // Three pairs. When items carry a `match` (forms worlds), the pair is
@@ -792,6 +826,8 @@
         el.addEventListener("click", () => this.pick(card, el));
         card.el = el;
         grid.appendChild(el);
+        const reset=this.wireDrag(card);
+        if(reset)this.dragResets.push(reset);
       }
       // Wordless instruction: one matching pair glows in sync for a moment —
       // "see? these two belong together" — then the child takes over.
@@ -800,10 +836,53 @@
       const demoId = this.cards[0].id;
       const demoEls = this.cards.filter((c) => c.id === demoId).map((c) => c.el);
       for (const el of demoEls) el.classList.add("is-demo");
-      setTimeout(() => {
-        if (!this.alive) return;
+      this.demoTimer=setTimeout(() => {
+        if (!this.alive || this.boardIndex!==board) return;
         for (const el of demoEls) el.classList.remove("is-demo");
       }, 1500);
+    }
+
+    wireDrag(card) {
+      const el=card.el;
+      return ns.GardenPractice?.draggable(el,{
+        enabled:()=>this.alive&&!this.complete&&this.cards.includes(card)&&!el.classList.contains('is-matched'),
+        onDragStart:()=>this.beginDrag(card),
+        onDragMove:(x,y)=>this.showDropPartner(this.dropPartner(card,x,y)),
+        onDragEnd:()=>this.showDropPartner(null),
+        drop:(x,y)=>this.dropPair(card,x,y)
+      });
+    }
+
+    beginDrag(card) {
+      if(!this.alive||this.complete||!this.cards.includes(card)||card.el.classList.contains('is-matched'))return;
+      // Moving a card chooses a reference; it never guesses a match by itself.
+      if(this.selected?.card===card)return;
+      if(this.selected){this.selected.el.classList.remove('is-selected');this.selected.el.setAttribute('aria-pressed','false');this.selected=null;}
+      this.pick(card,card.el);
+    }
+
+    dropPartner(card,x,y) {
+      if(!this.alive||this.complete||!this.cards.includes(card))return null;
+      let closest=null,distance=Infinity;
+      for(const other of this.cards){
+        if(other===card||other.el.classList.contains('is-matched'))continue;
+        const r=other.el.getBoundingClientRect();
+        if(!r.width||!r.height||x<r.left-16||x>r.right+16||y<r.top-16||y>r.bottom+16)continue;
+        const d=Math.hypot(x-r.left-r.width/2,y-r.top-r.height/2);
+        if(d<distance){closest=other;distance=d;}
+      }
+      return closest;
+    }
+
+    showDropPartner(card) {
+      this.cards?.forEach(other=>other.el.classList.toggle('is-near',other===card));
+    }
+
+    dropPair(card,x,y) {
+      const partner=this.dropPartner(card,x,y);
+      if(!partner||card.el.classList.contains('is-matched'))return;
+      this.beginDrag(card);
+      this.pick(partner,partner.el);
     }
 
     pick(card, el) {
@@ -873,7 +952,7 @@
       this.buildBoard(focus);
     }
 
-    destroy() { this.alive = false; this.stopHint?.(); }
+    destroy() { this.alive = false; this.dragResets?.forEach(reset=>reset()); clearTimeout(this.demoTimer); this.stopHint?.(); }
   }
 
   // ---------- Feed: deliver a packet and enjoy the picnic together ----------

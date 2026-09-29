@@ -339,7 +339,7 @@
 }
 .lg-app .lg-play[data-activity="pairs"] .pairs-card {
  position:relative; width:clamp(72px,24vw,112px); max-width:100%; aspect-ratio:104 / 110; align-self:center; transform:none;
- filter:drop-shadow(0 4px 0 rgb(43 30 18 / .16)); transition:translate 180ms ease-out;
+ filter:drop-shadow(0 4px 0 rgb(43 30 18 / .16)); transition:translate 180ms ease-out; touch-action:none;
 }
 .lg-app .lg-play[data-activity="pairs"] .pairs-card.is-selected {
  translate:0 -5px; outline:3px solid #ffe49a; outline-offset:3px; filter:drop-shadow(0 7px 0 rgb(43 30 18 / .25));
@@ -348,6 +348,10 @@
  opacity:1; transform:none; pointer-events:auto; animation:orchard-settle 240ms ease-out;
  outline:3px solid #f3c955; outline-offset:0; translate:0 0;
 }
+/* Drag and tap use the same two-card match. A receiving rim marks any
+   nearby card; it does not give the answer away. */
+.lg-app .lg-play[data-activity="pairs"] .pairs-card.is-dragging { z-index:3; translate:0 -5px; transition:none; animation:none; filter:drop-shadow(0 9px 0 rgb(43 30 18 / .25)); }
+.lg-app .lg-play[data-activity="pairs"] .pairs-card.is-near { outline:4px solid #ffe49a; outline-offset:4px; }
 .lg-app .lg-play[data-activity="pairs"] .pairs-grid[data-pair-count="3"] { grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
 .lg-app .pairs-garden { position:absolute; z-index:1; left:50%; bottom:19%; display:flex; gap:12px; translate:-50% 0; }
 .lg-app .pairs-pot { display:block; width:52px; }
@@ -364,17 +368,21 @@
 .lg-activity-art > .is-orchard-tree.is-left { left:0; transform:translateX(-35%); }
 .lg-activity-art > .is-orchard-tree.is-right { right:0; transform:translateX(35%) scaleX(-1); }
 .lg-app .lg-play[data-activity="catch"] .catch-basket { width:clamp(122px,36vw,166px); bottom:3%; filter:none; }
-.lg-app .lg-play[data-activity="catch"] .catch-faller { width:clamp(66px,23vw,104px); }
-.lg-app .lg-play[data-activity="catch"] .catch-choice { width:clamp(72px,24vw,112px); max-width:27%; cursor:pointer; }
+.lg-app .lg-play[data-activity="catch"] .catch-faller { width:clamp(66px,23vw,104px); padding:0; border:0; background:none; pointer-events:auto; cursor:pointer; touch-action:none; }
+.lg-app .lg-play[data-activity="catch"] .catch-choice { width:clamp(72px,24vw,112px); max-width:27%; transform:none; translate:-50% 0; }
+.lg-app .lg-play[data-activity="catch"] .catch-choice.is-dragging { z-index:3; filter:drop-shadow(0 5px 0 rgb(43 30 18 / .18)); }
+.lg-app .lg-play[data-activity="catch"] .catch-basket.is-near { filter:drop-shadow(0 -3px 0 #ffe49a) drop-shadow(0 3px 0 #c69434); }
 .lg-app .catch-result { position:absolute; inset:0; z-index:3; pointer-events:none; }
-.lg-app .catch-replay { position:absolute; bottom:35%; left:50%; transform:translateX(-50%); width:clamp(112px,34vw,148px); border:0; padding:0; background:none; cursor:pointer; pointer-events:auto; }
+.lg-app .catch-replay { position:absolute; bottom:15%; left:40%; transform:translateX(-50%); width:clamp(112px,34vw,148px); border:0; padding:0; background:none; cursor:pointer; pointer-events:auto; }
 .lg-app .catch-replay > svg { display:block; width:100%; }
 .lg-app .catch-replay .orchard-listen { top:3%; bottom:auto; right:0; }
-.lg-app .catch-next { bottom:8%; left:50%; transform:translateX(-50%); pointer-events:auto; }
-.lg-app .lg-play[data-activity="catch"] .is-harvested .catch-basket { z-index:1; bottom:27%; width:clamp(150px,43vw,180px); }
+.lg-app .catch-next { bottom:8%; left:auto; right:2%; width:64px; pointer-events:auto; }
+.lg-app .lg-play[data-activity="catch"] .is-harvested .catch-basket { z-index:1; left:40%; bottom:7%; width:clamp(150px,43vw,180px); }
 .lg-app .lg-play:is([data-activity="catch"],[data-activity="pairs"]) button:focus-visible { outline:4px solid #ffe49a; outline-offset:4px; }
 .lg-app .lg-play:is([data-activity="catch"],[data-activity="pairs"]) button:active { translate:0 2px; }
 .lg-app .lg-play[data-activity="pairs"] .pairs-next:active { translate:-50% 2px; }
+.lg-app .lg-play[data-activity="catch"] .catch-faller:active { translate:0 0; }
+.lg-app .lg-play[data-activity="catch"] .catch-choice:active { translate:-50% 0; }
 @keyframes orchard-settle { from { scale:1.04; } to { scale:1; } }
 @media(min-width:601px) {
  .lg-app .lg-play[data-activity="pairs"] .pairs-grid[data-pair-count="3"] { grid-template-columns:repeat(3,minmax(0,1fr)); }
@@ -397,10 +405,13 @@
  .lg-app .lg-play[data-activity="catch"] .catch-choice { width:72px; }
  .lg-app .lg-play[data-activity="catch"] .is-harvested .catch-basket { bottom:8%; width:120px; }
  .lg-app .catch-replay { width:96px; bottom:20%; }
- .lg-app .catch-next { left:auto; right:12%; top:50%; bottom:auto; transform:translateY(-50%); width:64px; }
+ .lg-app .catch-next { left:auto; right:5%; top:50%; bottom:auto; transform:translateY(-50%); width:64px; }
 }
 .lg-reduce-motion .pairs-sprout,.lg-reduce-motion .lg-play[data-activity="pairs"] .pairs-card { animation:none!important; transition:none; }
 @media(prefers-reduced-motion:reduce) { .pairs-sprout,.lg-app .lg-play[data-activity="pairs"] .pairs-card { animation:none!important; transition:none; } }
 
 .lg-app .catch-basket-front { display:none; }
 .lg-app .lg-play[data-activity="catch"] .is-harvested .catch-basket-front { display:block; z-index:4; }
+
+/* Night changes the orchard air, not the readability of paper fruit or baskets. */
+.lg-app[data-garden-phase="night"] .is-catch { --orchard-air-top:#6064a0; --orchard-air-mid:#4a4d84; --orchard-air-ground:#a89478; }

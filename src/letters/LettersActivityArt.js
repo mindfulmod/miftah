@@ -22,13 +22,14 @@
     // A low seed tray: only the timber/mat planes stretch. Live cards and pots
     // retain fixed proportions in the game layer above the recessed surface.
     return `<svg class="activity-plane" viewBox="0 0 720 540" preserveAspectRatio="none" aria-hidden="true">
+      <defs><linearGradient id="pairs-felt" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7fce54"/><stop offset=".42" stop-color="#4e9677"/><stop offset=".85" stop-color="#2f5c46"/></linearGradient></defs>
       <ellipse cx="360" cy="509" rx="320" ry="23" fill="#2f5c46" opacity=".22"/>
       <path d="M21 58Q21 25 57 25H663Q699 25 699 58V471Q699 516 663 519H57Q21 516 21 471Z" fill="#4a3620"/>
       <rect x="24" y="22" width="672" height="466" rx="35" fill="#a89478"/>
       <rect x="25" y="20" width="670" height="449" rx="35" fill="#e5dcc8"/>
       <path d="M57 23H663Q691 23 692 55V70Q684 41 658 41H62Q36 41 28 70V56Q28 23 57 23Z" fill="#fffaf0"/>
       <rect x="51" y="53" width="618" height="377" rx="29" fill="#2f5c46"/>
-      <rect x="59" y="65" width="602" height="355" rx="24" fill="#4e9677"/>
+      <rect x="59" y="65" width="602" height="355" rx="24" fill="url(#pairs-felt)"/>
       <path d="M84 77H636M79 88V389M641 88V389" fill="none" stroke="#b7e779" stroke-width="2.4" opacity=".45" stroke-dasharray="5 10"/>
       <path d="M60 447Q227 455 305 447M416 447Q505 456 659 447" fill="none" stroke="#c9bda4" stroke-width="2.4"/>
     </svg>`;
@@ -47,14 +48,16 @@
 
   function catchOrchard() {
     return `<svg class="activity-plane" viewBox="0 0 720 540" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M0 0H720V540H0Z" fill="#ccfbef"/>
+      <defs><linearGradient id="orchard-air" x1="0" y1="0" x2="0" y2="1"><stop stop-color="var(--orchard-air-top,#96ecff)"/><stop offset=".64" stop-color="var(--orchard-air-mid,#ccfbef)"/><stop offset="1" stop-color="var(--orchard-air-ground,#fffaf0)"/></linearGradient></defs>
+      <path d="M0 0H720V540H0Z" fill="url(#orchard-air)"/>
       <path d="M0 65Q166 16 349 60Q547 92 720 38V0H0Z" fill="#4e9677" opacity=".28"/>
-      <path d="M0 300Q168 270 349 313Q547 338 720 294V540H0Z" fill="#b7e779" opacity=".55"/>
+      <path d="M0 300Q168 270 349 313Q547 338 720 294V540H0Z" fill="#4e9677" opacity=".45"/>
       <path d="M0 400Q194 353 365 402Q545 443 720 378V540H0Z" fill="#4e9677" opacity=".35"/>
       <path d="M0 462Q214 419 387 461Q589 502 720 436V540H0Z" fill="#4e9677"/>
-      <path d="M0 480Q200 435 370 481Q562 522 720 459V540H0Z" fill="#2f5c46"/>
-      <ellipse cx="360" cy="482" rx="185" ry="28" fill="#e5dcc8"/>
-      <ellipse cx="360" cy="476" rx="182" ry="23" fill="#fffaf0"/>
+      <path d="M0 463Q200 422 370 463Q562 504 720 442V540H0Z" fill="#2f5c46"/>
+      <path d="M18 482Q90 435 172 459Q341 439 520 459Q630 432 702 483L681 518Q356 542 40 518Z" fill="#4a3620"/>
+      <path d="M18 465Q90 418 172 442Q341 422 520 442Q630 415 702 466L681 506Q356 529 40 506Z" fill="#e5dcc8"/>
+      <path d="M36 467Q104 427 174 449Q337 431 519 449Q628 427 684 466Q565 446 515 460Q348 447 175 460Q100 441 36 467Z" fill="#fffaf0"/>
     </svg>${orchardTree('is-left')}${orchardTree('is-right')}`;
   }
 

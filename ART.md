@@ -309,3 +309,17 @@ Child navigation is wordless: use action pictures and accessible names, not visi
 - A correction is part of the learning layout. In short landscape, Build's
   comparison row takes real space above the desk instead of covering its slots.
   Verify the wrong-answer state as well as the clean first and success screens.
+
+## Orchard touch and contact — 2026-09-29
+
+- Matching trays share the folio/workbench's lit green cloth, recessed shade and
+  warm wooden rim. Keep live cards legible in the small six-card arrangement.
+- A receiving highlight marks any reachable partner, not only the correct one.
+  Empty-space releases and cancelled gestures never report a wrong answer.
+- Catch collision follows the rendered basket opening and the fruit's body,
+  including after rotation. Paper fruit can also be tapped; motor misses do not
+  become learning mistakes. The stationary delivery destination stays still on
+  a wrong answer.
+- Hold the harvest on its grounded clearing, with replay on the fruit and Next
+  beside it. Basket and front rim share the same responsive anchor. Night changes
+  orchard air without dimming the learning ink or basket.

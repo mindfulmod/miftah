@@ -1,0 +1,17 @@
+{
+  "input": {
+    "end": [
+      132.9140625,
+      484.853125
+    ],
+    "label": "يِ",
+    "source": [
+      160,
+      484.853125
+    ],
+    "width": 284.15625
+  },
+  "result": true,
+  "oldHorizontalTolerance": 36.940312500000005,
+  "usedOffset": 50
+}
