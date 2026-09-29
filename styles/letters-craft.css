@@ -249,7 +249,7 @@
 
 .lg-app .lg-play[data-activity="parade"] .play-stage {
  background:transparent; border:0; box-shadow:none; overflow:visible;
- width:min(600px,96%); max-height:min(540px,120vw);
+ width:min(600px,96%); min-height:0; max-height:min(540px,120vw); margin:0 auto 24px; mask-image:none; -webkit-mask-image:none;
 }
 .lg-activity-art.is-parade { border-radius:0; overflow:visible; }
 .lg-app .lg-play[data-activity="parade"] .parade-scene {
@@ -270,11 +270,13 @@
  border:0; border-radius:0; background:none; box-shadow:none; box-sizing:border-box;
 }
 .lg-app [data-activity="parade"] .parade-spot {
+ display:grid; place-items:center; aspect-ratio:104 / 110;
  width:calc((100% - 20px) / 3); max-width:102px; min-width:48px; min-height:48px; height:auto;
  border:3px solid #4a3620; border-radius:16px; padding:3px;
  background:linear-gradient(#fffaf0,#e5dcc8 80%,#c9bda4); box-shadow:0 4px 0 #2f5c46;
 }
-.lg-app [data-activity="parade"] .parade-mystery { width:100%; }
+.lg-app [data-activity="parade"] .parade-mystery { display:block; width:100%; }
+.lg-app [data-activity="parade"] :is(.parade-mystery,.parade-form) > svg { display:block; width:100%; }
 .lg-app [data-activity="parade"] .parade-spot.is-dressed { border:0; padding:0; background:none; box-shadow:none; }
 .lg-app [data-activity="parade"] .parade-spot[aria-pressed="true"] { outline:3px solid #ffe49a; outline-offset:3px; }
 .lg-app [data-activity="parade"] .parade-spot .parade-form { width:100%; }
@@ -415,3 +417,77 @@
 
 /* Night changes the orchard air, not the readability of paper fruit or baskets. */
 .lg-app[data-garden-phase="night"] .is-catch { --orchard-air-top:#6064a0; --orchard-air-mid:#4a4d84; --orchard-air-ground:#a89478; }
+
+
+/* Optional Burst uses the same seed-tray material as matching. Keep the active
+   grid balanced and a small, inert receipt separate from the next question. */
+.lg-app .lg-play[data-activity="burst"] .play-stage {
+ width:min(640px,96%); min-height:0; max-height:min(500px,112vw); margin:0 auto 24px;
+ background:none; border:0; box-shadow:none; overflow:visible; mask-image:none; -webkit-mask-image:none;
+}
+.lg-app .burst-head {
+ position:absolute; top:8%; left:50%; transform:translateX(-50%); display:flex;
+ align-items:center; gap:14px; z-index:3;
+}
+.lg-app .burst-ring { width:48px; height:48px; filter:drop-shadow(0 3px 0 rgb(43 30 18 / .16)); }
+.lg-app .burst-ring-fill { transition:stroke-dashoffset 220ms linear; }
+.lg-app .burst-pause {
+ display:grid; place-items:center; width:48px; height:48px; padding:10px; border:3px solid #4a3620;
+ border-radius:16px; background:linear-gradient(#fffaf0,#e5dcc8); color:#4a3620;
+ box-shadow:0 4px 0 #c9bda4; cursor:pointer;
+}
+.lg-app .burst-pause > svg { width:24px; height:24px; }
+.lg-app .burst-grid {
+ position:absolute; inset:26% 12% 25%; display:grid; grid-template-columns:repeat(6,minmax(0,1fr));
+ grid-template-rows:repeat(2,minmax(0,1fr)); gap:10px; place-items:center; padding:0; z-index:2;
+}
+.lg-app .burst-tile {
+ grid-column:span 2; width:100%; height:100%; max-width:104px; max-height:110px;
+ min-width:44px; min-height:44px; padding:0; border:0; background:none; cursor:pointer;
+ filter:drop-shadow(0 4px 0 rgb(43 30 18 / .2)); transition:translate 140ms ease-out;
+}
+.lg-app .burst-tile > svg { display:block; width:100%; height:100%; }
+.lg-app .burst-grid[data-count="4"] { grid-template-columns:repeat(4,minmax(0,1fr)); }
+.lg-app .burst-grid[data-count="5"] .burst-tile:nth-child(4) { grid-column:2 / span 2; }
+.lg-app .burst-grid[data-count="5"] .burst-tile:nth-child(5) { grid-column:4 / span 2; }
+.lg-app .burst-grid:is([data-count="1"],[data-count="2"],[data-count="3"]) { grid-template-rows:1fr; }
+.lg-app .burst-grid[data-count="1"] .burst-tile { grid-column:3 / span 2; }
+.lg-app .burst-grid[data-count="2"] { grid-template-columns:repeat(4,minmax(0,1fr)); }
+.lg-app .burst-receipt {
+ position:absolute; left:50%; bottom:10%; transform:translateX(-50%); display:flex; align-items:center;
+ gap:10px; height:58px; padding:3px 12px 3px 5px; border-radius:14px;
+ background:linear-gradient(#fffaf0,#e5dcc8 76%,#c9bda4); box-shadow:0 4px 0 #a89478; z-index:4; pointer-events:none;
+}
+.lg-app .burst-caught { display:block; width:54px; height:58px; transform-origin:0 0; }
+.lg-app .burst-caught > svg { display:block; width:100%; height:100%; }
+.lg-app .burst-count { min-width:26px; color:#4a3620; font-size:24px; font-weight:900; text-align:center; font-variant-numeric:tabular-nums; }
+.lg-app :is(.burst-tile,.burst-pause):active { translate:0 3px; }
+.lg-app :is(.burst-tile,.burst-pause):focus-visible { outline:4px solid #ffe49a; outline-offset:3px; border-radius:16px; }
+.lg-app .play-stage.is-paused .burst-grid { opacity:.3; pointer-events:none; }
+.lg-app .play-stage.is-paused .burst-ring-fill { transition:none; }
+
+/* The cabinet accepts a folder with a forgiving rim. It only lights during a
+   deliberate drag; the Arabic display and the existing Next stay primary. */
+.lg-app [data-activity="parade"] .parade-spot { position:relative; touch-action:none; cursor:pointer; }
+.lg-app [data-activity="parade"] .parade-spot.is-dragging { z-index:5; filter:drop-shadow(0 8px 0 rgb(43 30 18 / .2)); }
+.lg-app .parade-display.is-near .parade-star { outline:4px solid #ffe49a; outline-offset:6px; border-radius:18px; }
+.lg-app .parade-star > svg { transform-origin:0 0; }
+@media(max-width:350px) {
+ .lg-app .burst-head { gap:10px; }
+ .lg-app .burst-ring,.lg-app .burst-pause { width:44px; height:44px; }
+ .lg-app .burst-grid { gap:8px; }
+ .lg-app .burst-receipt { height:48px; bottom:9%; }
+ .lg-app .burst-caught { width:46px; height:48px; }
+ .lg-app .burst-count { font-size:22px; }
+}
+@media(orientation:landscape) and (max-height:450px) {
+ .lg-app .lg-play[data-activity="burst"] .play-stage { max-height:none; margin:0 auto; flex:1 1 0; }
+ .lg-app .burst-head { left:10%; top:16%; bottom:24%; transform:none; flex-direction:column; justify-content:center; gap:8px; }
+ .lg-app .burst-ring,.lg-app .burst-pause { width:44px; height:44px; }
+ .lg-app .burst-grid { inset:13% 26% 22%; gap:8px; }
+ .lg-app .burst-receipt { left:auto; right:11%; bottom:27%; transform:none; height:auto; flex-direction:column; gap:0; padding:4px; }
+ .lg-app .burst-caught { width:46px; height:48px; }
+ .lg-app .burst-count { font-size:22px; }
+}
+.lg-app.lg-reduce-motion .burst-ring-fill { transition:none; }
+@media(prefers-reduced-motion:reduce) { .lg-app .burst-ring-fill { transition:none; } }

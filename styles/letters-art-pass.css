@@ -23,9 +23,7 @@
 
 
 .lg-app:not(.lg-boat-chapter) .lg-play .play-stage{width:min(760px,100%);margin:0 auto 30px;max-height:min(550px,64vh);min-height:0;mask-image:none;-webkit-mask-image:none;border:2px solid #b6a17c;border-radius:32px;background:linear-gradient(#fffaf0eb,#fff8e7cf);box-shadow:0 6px 0 #82684033}
-.lg-play .build-slot,.lg-play .parade-spot{background:#efe7d1;border-color:#9d8b69;box-shadow:inset 0 3px 0 #d8caad}
-.parade-spots{width:100%;justify-content:center;gap:9px;padding:0 8px}
-.parade-spot{width:min(27%,100px);min-width:0}
+.lg-play .build-slot{background:#efe7d1;border-color:#9d8b69;box-shadow:inset 0 3px 0 #d8caad}
 .build-slots{max-width:100%;gap:8px}.build-slot{max-width:25vw}
 .practice-tools{padding:8px 12px;background:#fff8e7;border:1px solid #c2b28c;border-radius:26px;box-shadow:0 4px 0 #b6a17c}
 /* Rewards are a scene again, including chapters after Boat Letters. */
@@ -159,7 +157,7 @@
 @media(prefers-reduced-motion:reduce){.build-whole{animation:none}.pairs-card.is-matched{transition:none}}
 
 /* Orchard and joining family — no changes to other activity surfaces. */
-.lg-app .lg-play:is([data-activity="catch"],[data-activity="fuse"],[data-activity="unfuse"],[data-activity="chain"],[data-activity="parade"]) .play-stage{
+.lg-app .lg-play:is([data-activity="catch"],[data-activity="fuse"],[data-activity="unfuse"],[data-activity="chain"]) .play-stage{
  width:min(720px,100%);min-height:0;max-height:550px;margin:8px auto 48px;mask-image:none;-webkit-mask-image:none;
  border:3px solid #929b73;border-radius:34px;background:radial-gradient(ellipse at 50% 40%,#fffaf0,#e6edcf);box-shadow:0 6px 0 #acb58f;overflow:hidden;
 }
@@ -180,13 +178,7 @@
 .lg-app [data-activity="unfuse"] .unfuse-seam:before,.lg-app [data-activity="unfuse"] .unfuse-seam:after{content:"";position:absolute;left:0;width:2px;height:12%;background:#8b7651}
 .lg-app [data-activity="unfuse"] .unfuse-seam:after{bottom:0}
 .lg-app [data-activity="unfuse"] .unfuse-arrow{color:#6d865a;opacity:1}
-.lg-app [data-activity="parade"] .parade-scene{min-height:0;gap:28px;padding:14px 8px;box-sizing:border-box}
-.lg-app [data-activity="parade"] .parade-spots{padding:12px 4px;border-radius:24px;background:#c9d8ad;box-shadow:inset 0 3px 0 #a5b98a44;box-sizing:border-box}
-.lg-app [data-activity="parade"] .parade-spot{width:min(29%,122px);border:2px solid #8c9a70;background:#f5f0d7;box-shadow:0 4px 0 #a5af88}
-.lg-app [data-activity="parade"] .parade-mystery{width:80%;animation:none;display:block}
-.parade-mystery svg{width:100%;display:block}
-.lg-app [data-activity="parade"] .parade-spot.is-dressed{border-color:#66834e;background:#e1ebcb}
-@media(max-height:650px){.lg-app .lg-play:is([data-activity="catch"],[data-activity="fuse"],[data-activity="unfuse"],[data-activity="chain"],[data-activity="parade"]) .play-stage{max-height:58vh;margin-bottom:40px}.lg-app [data-activity="parade"] .parade-scene{gap:18px}}
+@media(max-height:650px){.lg-app .lg-play:is([data-activity="catch"],[data-activity="fuse"],[data-activity="unfuse"],[data-activity="chain"]) .play-stage{max-height:58vh;margin-bottom:40px}}
 /* Hint motion must preserve the centered anchors used by draggable pieces. */
 .blend-part.is-dragdemo{animation:lg-anchored-drag-hint 1250ms var(--lg-out)}
 .chain-base.is-drop-target{animation:lg-anchored-drop-hint 1250ms var(--lg-out)}
@@ -196,10 +188,6 @@
 @media(prefers-reduced-motion:reduce){.blend-part.is-dragdemo,.chain-base.is-drop-target{animation:none}}
 
 /* Final activity family: a harvest bed and coordinated practice tools. */
-.lg-app .lg-play[data-activity="burst"] .play-stage{width:min(700px,100%);min-height:0;max-height:550px;margin:8px auto 46px;background:linear-gradient(#f6f8e9,#dce8c0);border:3px solid #91a276;border-radius:32px;box-shadow:0 6px 0 #b2bf94;mask-image:none;-webkit-mask-image:none}
-.lg-app [data-activity="burst"] .burst-grid{gap:10px;padding:12px;bottom:12px}
-.lg-app [data-activity="burst"] .burst-tile{width:clamp(66px,23vw,108px);filter:none}
-.lg-app [data-activity="burst"] .burst-count{background:#fff7df;color:#59452e;box-shadow:0 3px 0 #bcab80;border-color:#b6a57e}
 .lg-app .dot-bed{background:radial-gradient(ellipse,#fffaf0 45%,#e7edcf);border:3px solid #93a277;box-shadow:0 5px 0 #b1bd92;border-radius:30px}
 .lg-app .dot-zone{background:#f2e9ce;border-color:#b6a37c;border-radius:16px}
 .lg-app .practice-tools{padding:9px 16px;background:#e5cfaa;border:2px solid #ac9166;border-radius:24px;box-shadow:0 3px 0 #b6a07c;gap:16px}
@@ -211,7 +199,7 @@
 .lg-app .dot-answers button{border:3px solid #8f9e72;background:#fffaf0;box-shadow:0 5px 0 #b2bf92;border-radius:22px}
 .practice-listen svg{width:58px;height:58px}
 .practice-status svg{width:24px;height:24px}
-@media(max-height:650px){.lg-app .lg-play[data-activity="burst"] .play-stage{max-height:59vh;margin-bottom:38px}.lg-app .practice-tools{padding:6px 12px;gap:14px}.lg-app .practice-tools .practice-button{width:48px;height:48px;min-width:48px;min-height:48px}.lg-app .path-paper{min-height:160px}}
+@media(max-height:650px){.lg-app .practice-tools{padding:6px 12px;gap:14px}.lg-app .practice-tools .practice-button{width:48px;height:48px;min-width:48px;min-height:48px}.lg-app .path-paper{min-height:160px}}
 
 /* Collected art can be explored at a child's scale without spending again. */
 button.album-slot{cursor:pointer;appearance:none;font:inherit;display:grid;place-items:center}
@@ -325,10 +313,6 @@ body.lg-wardrobe-screen .lg-ambient{display:none}
 .decorate-slot:active{background:#ffe49a55}
 .party-actions{display:flex;justify-content:center;align-items:center;gap:18px;flex-shrink:0}
 .party-decorate{display:grid;place-items:center;width:78px;height:72px;padding:6px;border:3px solid #4a3620;border-radius:24px;background:#fffaf0;box-shadow:0 5px 0 #c9bda4;cursor:pointer}
-.burst-pause{display:grid;place-items:center;width:54px;height:54px;padding:12px;border:2px solid #4a3620;border-radius:18px;background:#fffaf0;color:#4a3620;box-shadow:0 4px 0 #c9bda4;cursor:pointer}
-.burst-pause>svg{width:28px;height:28px}
-.play-stage.is-paused .burst-grid{opacity:.3;pointer-events:none}
-.play-stage.is-paused .burst-ring-fill{transition:none}
 @media(max-height:650px){
  .my-garden-stage{gap:8px}.decorate-board{min-height:230px}.decorate-pet{width:92px;height:100px}
  .decorate-tray{min-height:84px;max-height:94px;padding:5px 8px 9px}.decorate-choice{width:68px;height:68px;flex-basis:68px}.decorate-choice>svg{width:62px;height:62px}

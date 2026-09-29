@@ -1,0 +1,83 @@
+[
+  {
+    "file": "burst-desktop.png",
+    "width": 1100,
+    "height": 800,
+    "light": 23.55,
+    "mid": 29.85,
+    "dark": 5.24,
+    "passes": true
+  },
+  {
+    "file": "burst-landscape.png",
+    "width": 568,
+    "height": 320,
+    "light": 28.24,
+    "mid": 22.56,
+    "dark": 9.48,
+    "passes": true
+  },
+  {
+    "file": "burst-phone.png",
+    "width": 390,
+    "height": 844,
+    "light": 23.65,
+    "mid": 32.47,
+    "dark": 6.91,
+    "passes": true
+  },
+  {
+    "file": "burst-small-phone.png",
+    "width": 320,
+    "height": 568,
+    "light": 26.05,
+    "mid": 26.37,
+    "dark": 8.32,
+    "passes": true
+  },
+  {
+    "file": "parade-desktop.png",
+    "width": 1100,
+    "height": 800,
+    "light": 23.81,
+    "mid": 26.87,
+    "dark": 5.35,
+    "passes": true
+  },
+  {
+    "file": "parade-landscape-retry.png",
+    "width": 568,
+    "height": 320,
+    "light": 30.8,
+    "mid": 22.87,
+    "dark": 8.4,
+    "passes": true
+  },
+  {
+    "file": "parade-phone.png",
+    "width": 320,
+    "height": 568,
+    "light": 24.72,
+    "mid": 24.93,
+    "dark": 7.62,
+    "passes": true
+  },
+  {
+    "file": "parade-tablet-night.png",
+    "width": 768,
+    "height": 960,
+    "light": 12.88,
+    "mid": 16.87,
+    "dark": 39.35,
+    "passes": true
+  },
+  {
+    "file": "results-landscape.png",
+    "width": 568,
+    "height": 320,
+    "light": 35.34,
+    "mid": 29.13,
+    "dark": 1.55,
+    "passes": false
+  }
+]

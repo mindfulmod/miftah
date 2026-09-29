@@ -323,3 +323,21 @@ Child navigation is wordless: use action pictures and accessible names, not visi
 - Hold the harvest on its grounded clearing, with replay on the fruit and Next
   beside it. Basket and front rim share the same responsive anchor. Night changes
   orchard air without dimming the learning ink or basket.
+
+
+## Cabinet and challenge controls — 2026-09-29
+
+- Burst reuses the matching seed tray. Balance four choices as 2×2 and center
+  the last row of five. Keep the last-found card in a small inert pocket, apart
+  from the active answer grid. Its flight is decorative: it cannot delay the
+  next prompt, affect the clock, or award anything. Pause and teardown cancel it.
+- Parade's cabinet lining has a shaded recess and a warm timber apron. Form
+  folders can be tapped or placed onto the large display. A missed drop is
+  exploration, not a wrong answer. Clear every drag and flight on a phase change.
+- Enlarged contextual forms retain live Arabic ink with a paper-safe inset.
+  Never shrink connected forms merely because connection strokes add characters.
+  Exploration remains separate from the explicit recognition step.
+- `letters-craft.css` owns both activity layouts. Landscape retry hints must
+  leave room for the cabinet; old playfield minimum heights may not crop it.
+  Standard activity results place controls beside the clearing in short
+  landscape. The Boat journey retains its own established result composition.

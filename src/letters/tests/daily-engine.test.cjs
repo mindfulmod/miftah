@@ -10,6 +10,7 @@ function burstRuntime() {
   const frames = [];
   const intervals = new Map();
   const listeners = new Map();
+  const animations = [];
   const makeClassList = () => {
     const values = new Set();
     return {
@@ -21,10 +22,17 @@ function burstRuntime() {
   };
   const makeElement = () => ({
     classList: makeClassList(), style: {}, children: [], attributes: {},
+    innerHTML: '', textContent: '',
     setAttribute(name, value) { this.attributes[name] = value; },
     addEventListener(name, fn) { this[name] = fn; },
     removeEventListener(name, fn) { if (this[name] === fn) delete this[name]; },
     appendChild(child) { this.children.push(child); },
+    getBoundingClientRect() { return this.rect || { left: 0, top: 0, width: 48, height: 48 }; },
+    animate(keyframes, options) {
+      const animation = { keyframes, options, cancelled: false, cancel() { this.cancelled = true; } };
+      animations.push(animation);
+      return animation;
+    },
     remove() { this.removed = true; },
   });
   const stage = {
@@ -35,12 +43,14 @@ function burstRuntime() {
       this.count = makeElement();
       this.pauseButton = makeElement();
       this.grid = makeElement();
+      this.caught = makeElement();
       this.grid.contains = el => this.grid.children.includes(el);
-      Object.defineProperty(this.grid, 'innerHTML', { set() { this.children = []; } });
+      Object.defineProperty(this.grid, 'innerHTML', { get() { return this.markup || ''; }, set(value) { this.markup = value; this.children = []; } });
     },
     querySelector(selector) {
       return ({ '.burst-ring-fill': this.ring, '.burst-count': this.count,
-        '.burst-pause': this.pauseButton, '.burst-grid': this.grid })[selector];
+        '.burst-pause': this.pauseButton, '.burst-grid': this.grid,
+        '.burst-caught': this.caught })[selector];
     },
   };
   const document = {
@@ -61,7 +71,7 @@ function burstRuntime() {
   };
   vm.runInNewContext(fs.readFileSync(path.join(__dirname, '..', 'MiniGames.js'), 'utf8'), context);
   return {
-    Burst: window.MiftahGame.LettersMiniGames.burst, stage, document, frames, intervals, listeners,
+    Burst: window.MiftahGame.LettersMiniGames.burst, stage, document, frames, intervals, listeners, animations,
     setNow(value) { now = value; },
   };
 }
@@ -165,6 +175,55 @@ test('Burst invalidates stale frames and removes listeners and timers on teardow
   runtime.frames[2](50000);
   assert.equal(runtime.frames.length, 3);
 });
+
+test('Burst immediately records a correct tap while the receipt animates and old tile cannot score twice',()=>{
+ const runtime=burstRuntime(),outcomes=[];
+ const {game}=createBurst(runtime,{reportOutcome:outcome=>outcomes.push(outcome)});
+ const found=game.target,button=lowTargetButton(runtime,game);
+ assert.ok(button);
+ game.tap(found,button);
+ assert.equal(game.count,1);
+ assert.equal(outcomes.filter(outcome=>outcome.correct===true).length,1);
+ assert.equal(runtime.stage.grid.children.length,4,'next choices appear without waiting for the flight');
+ assert.equal(runtime.stage.grid.attributes['data-count'],'4');
+ assert.equal(runtime.stage.caught.classList.contains('is-filled'),true);
+ assert.ok(runtime.stage.caught.innerHTML.length>0,'receipt keeps the found glyph');
+ assert.equal(runtime.animations.length,1);
+ button.click();
+ assert.equal(game.count,1,'a detached old choice cannot repeat the answer');
+ assert.equal(outcomes.filter(outcome=>outcome.correct===true).length,1);
+});
+
+test('Burst receipt stays visible without motion and its flight cancels on pause, destroy, and deadline',()=>{
+ const reduced=burstRuntime();
+ const lowMotion=createBurst(reduced,{reducedMotion:()=>true}).game;
+ lowMotion.tap(lowMotion.target,lowTargetButton(reduced,lowMotion));
+ assert.ok(reduced.stage.caught.innerHTML.length>0);
+ assert.equal(reduced.animations.length,0);
+
+ const pauseRuntime=burstRuntime(),paused=createBurst(pauseRuntime).game;
+ paused.tap(paused.target,lowTargetButton(pauseRuntime,paused));
+ const pausedFlight=paused.harvestFlight;assert.ok(pausedFlight);
+ pauseRuntime.setNow(5000);paused.pause();
+ assert.equal(pausedFlight.cancelled,true);
+ assert.equal(paused.remaining,25000);
+
+ const destroyRuntime=burstRuntime(),destroyed=createBurst(destroyRuntime).game;
+ destroyed.tap(destroyed.target,lowTargetButton(destroyRuntime,destroyed));
+ const destroyedFlight=destroyed.harvestFlight;destroyed.destroy();
+ assert.equal(destroyedFlight.cancelled,true);
+
+ const deadlineRuntime=burstRuntime(),finished=createBurst(deadlineRuntime);
+ finished.game.tap(finished.game.target,lowTargetButton(deadlineRuntime,finished.game));
+ const deadlineFlight=finished.game.harvestFlight;
+ deadlineRuntime.setNow(30000);finished.game.tick(30000,false);
+ assert.equal(deadlineFlight.cancelled,true);
+ assert.equal(finished.done.length,1);
+});
+
+function lowTargetButton(runtime,game){
+ return runtime.stage.grid.children.find(el=>el.attributes['aria-label']===game.target.display);
+}
 
 test('daily sessions use only taught pools and separate gentle from timed play', () => {
   let weakestPool;

@@ -130,14 +130,14 @@
   // em box (ط rides high, م hangs low), so the tile measures each string's
   // real ink (Art.inkShift, canvas TextMetrics) and places the baseline so
   // the visible glyph — not the em box — sits dead centre.
-  function glyphText(display, { fill = "#2b2233", maxSize = 44 } = {}) {
+  function glyphText(display, { fill = "#2b2233", maxSize = 44, fitWidth = 72, fitHeight = 62, scaleByLength = true } = {}) {
     const latin = !isArabic(display);
     const len = [...display.replace(DIACRITICS, "")].length;
     const size = latin
       ? Math.min(maxSize * 0.6, 26)
-      : len <= 1 ? maxSize : len <= 2 ? maxSize * 0.9 : len <= 3 ? maxSize * 0.72 : maxSize * 0.58;
+      : !scaleByLength || len <= 1 ? maxSize : len <= 2 ? maxSize * 0.9 : len <= 3 ? maxSize * 0.72 : maxSize * 0.58;
     const s = Art.inkShift(display, size, latin);
-    return `<text data-fit-box="0,0,72,62,${size}" x="${s.dx.toFixed(1)}" y="${s.dy.toFixed(1)}" text-anchor="middle"
+    return `<text data-fit-box="0,0,${fitWidth},${fitHeight},${size}" x="${s.dx.toFixed(1)}" y="${s.dy.toFixed(1)}" text-anchor="middle"
       font-family="${latin ? "ui-rounded, system-ui, sans-serif" : "'Amiri Quran', serif"}"
       font-size="${size}" fill="${fill}" ${latin ? "" : `direction="rtl"`}>${display}</text>`;
   }
@@ -167,14 +167,14 @@
   }
 
   // Activity-specific materials share real, optically fitted curriculum ink.
-  function workshopTile(display, material = "wood") {
+  function workshopTile(display, material = "wood", maxSize = 42) {
     const leaf = material === "leaf";
     return `<svg viewBox="-52 -54 104 110" aria-hidden="true">
       <path d="M-45-31Q-45-47-29-47H31Q45-47 45-31V31Q45 47 29 47H-29Q-45 47-45 31Z" fill="${leaf?'#4e9677':'#a89478'}" stroke="#4a3620" stroke-width="3"/>
       <rect x="-40" y="-43" width="80" height="84" rx="16" fill="${leaf?'#b7e779':'#e5dcc8'}"/>
       <rect x="-35" y="-35" width="70" height="70" rx="13" fill="#fffaf0"/>
       <path d="M-28-39H26" stroke="#fffdf7" stroke-width="3" stroke-linecap="round"/>
-      ${glyphText(display,{maxSize:42})}
+      ${glyphText(display,{maxSize,scaleByLength:maxSize<=42,fitWidth:maxSize>42?62:72,fitHeight:maxSize>42?56:62})}
       ${leaf?'<path d="M30 43Q18 36 24 34Q32 32 34 41Q40 31 43 35Q44 40 34 44" fill="#2f5c46"/>':'<path d="M-28 44H24" stroke="#c9bda4" stroke-width="2.4" stroke-linecap="round"/>'}
     </svg>`;
   }
@@ -1494,18 +1494,22 @@
       ctx.stage.innerHTML = `
         <div class="burst-head">
           <svg class="burst-ring" viewBox="0 0 60 60" aria-hidden="true">
-            <circle cx="30" cy="30" r="25" fill="#fffdf4" stroke="#e6dcc2" stroke-width="6"/>
-            <circle class="burst-ring-fill" cx="30" cy="30" r="25" fill="none" stroke="#f3a53c" stroke-width="6"
+            <circle cx="30" cy="30" r="25" fill="#fffaf0" stroke="#c9bda4" stroke-width="6"/>
+            <circle class="burst-ring-fill" cx="30" cy="30" r="25" fill="none" stroke="#e8743c" stroke-width="6"
               stroke-linecap="round" stroke-dasharray="157" transform="rotate(-90 30 30)"/>
           </svg>
-          <span class="burst-count">0</span>
           <button type="button" class="burst-pause" aria-label="Pause challenge">
             <svg viewBox="0 0 64 64" aria-hidden="true"><rect x="17" y="12" width="10" height="40" rx="4" fill="currentColor"/><rect x="37" y="12" width="10" height="40" rx="4" fill="currentColor"/></svg>
           </button>
         </div>
-        <div class="burst-grid"></div>`;
+        <div class="burst-grid"></div>
+        <div class="burst-receipt" aria-label="Letters found">
+          <span class="burst-caught" aria-hidden="true"><svg viewBox="0 0 70 74"><path d="M12 18Q35 9 58 18V57Q35 67 12 57Z" fill="#e5dcc8"/><path d="M35 49Q16 47 20 28Q40 28 35 49M35 41Q34 21 52 22Q56 42 35 41Z" fill="#4e9677"/></svg></span>
+          <span class="burst-count">0</span>
+        </div>`;
       this.ringEl = ctx.stage.querySelector(".burst-ring-fill");
       this.countEl = ctx.stage.querySelector(".burst-count");
+      this.caughtEl = ctx.stage.querySelector(".burst-caught");
       this.pauseButton = ctx.stage.querySelector(".burst-pause");
       this.grid = ctx.stage.querySelector(".burst-grid");
       this.onPauseClick = () => (this.paused ? this.resume() : this.pause());
@@ -1562,6 +1566,7 @@
       this.frameSequence += 1;
       this.pendingFrame = null;
       clearInterval(this.endTimer);
+      this.cancelHarvest();
       this.setPausedUI(true);
       this.ctx.onPauseChange?.(true);
     }
@@ -1592,6 +1597,7 @@
       this.ctx.setPrompt(this.target);
       this.ctx.say(this.target);
       this.grid.innerHTML = "";
+      this.grid.setAttribute("data-count",String(tiles.length));
       for (const item of shuffle(tiles)) {
         const el = document.createElement("button");
         el.type = "button";
@@ -1615,7 +1621,7 @@
         this.countEl.textContent = String(this.count);
         reportPromptMatch(this.ctx, this.target, true);
         this.ctx.sfx("correct");
-        el.classList.add("is-popped");
+        this.showHarvest(item,el);
         this.nextTarget();
       } else {
         this.heat.down();
@@ -1625,6 +1631,27 @@
         void el.offsetWidth;
         el.classList.add("is-shake");
       }
+    }
+
+    cancelHarvest() {
+      this.harvestFlight?.cancel();
+      this.harvestFlight=null;
+    }
+
+    showHarvest(item,el) {
+      this.cancelHarvest();
+      if(!this.caughtEl)return;
+      const from=el.getBoundingClientRect?.();
+      this.caughtEl.innerHTML=workshopTile(item.display,"leaf");
+      this.caughtEl.classList.add('is-filled');
+      const to=this.caughtEl.getBoundingClientRect?.();
+      // This receipt is outside the answer grid. Only the picture moves; the
+      // next prompt, clock and answer guards never wait for its animation.
+      if(this.ctx.reducedMotion?.()||!from?.width||!to?.width||!this.caughtEl.animate)return;
+      this.harvestFlight=this.caughtEl.animate([
+        {transform:`translate(${from.left-to.left}px,${from.top-to.top}px) scale(${from.width/to.width})`,opacity:.8},
+        {transform:'translate(0,0) scale(1)',opacity:1}
+      ],{duration:280,easing:'cubic-bezier(.2,.75,.25,1)'});
     }
 
     tick(now, schedule = true) {
@@ -1643,6 +1670,7 @@
     }
 
     teardown() {
+      this.cancelHarvest();
       clearInterval(this.endTimer);
       this.frameSequence += 1;
       this.pendingFrame = null;
@@ -2650,18 +2678,24 @@
       return `<svg viewBox="0 0 80 88" aria-hidden="true"><path d="M12 12Q40 5 68 12V74Q40 84 12 74Z" fill="#c9bda4"/><path d="M12 9Q40 2 68 9V69Q40 79 12 69Z" fill="#e5dcc8"/><path d="M16 12L37 8V71L16 66ZM43 8L64 12V66L43 71Z" fill="#fffaf0"/><path d="M40 8V73" stroke="#a89478" stroke-width="2.4"/><circle cx="34" cy="42" r="3" fill="#c69434"/><circle cx="46" cy="42" r="3" fill="#c69434"/><path d="${index<2?'M12 60H29':''}${index>0?'M51 60H68':''}" fill="none" stroke="#4e9677" stroke-width="4" stroke-linecap="round"/></svg>`;
     }
 
+    cleanupGestures() {
+      (this.dragResets||[]).forEach(reset=>reset());this.dragResets=[];
+      this.formFlight?.cancel();this.formFlight=null;
+    }
+
     startRound() {
       if(!this.alive)return;
+      this.cleanupGestures();
       const ctx=this.ctx,round=this.roundIndex,letter=this.letters[round],forms=this.formsOf(letter.display);
       this.phase='explore';this.busy=false;this.dressed=0;
       ctx.setPrompt?.(null,{promptMode:'explore',skill:'contextual_forms',activity:'parade'});
       ctx.say(letter);
       ctx.stage.innerHTML=`<div class="parade-scene">
         <div class="parade-display">
-          <button type="button" class="parade-star" aria-label="Hear ${letter.display}">${workshopTile(letter.display)}<span class="build-listen" aria-hidden="true">${Art.icon('speaker',24)}</span></button>
+          <button type="button" class="parade-star" aria-label="Hear ${letter.display}">${workshopTile(letter.display,"wood",72)}<span class="build-listen" aria-hidden="true">${Art.icon('speaker',24)}</span></button>
           <button type="button" class="parade-reference" aria-label="Hear original ${letter.display}" hidden>${workshopTile(letter.display)}</button>
         </div>
-        <div class="parade-spots" dir="rtl">${forms.map((f,i)=>`<button type="button" class="parade-spot" data-i="${i}" aria-label="Reveal letter form ${i+1}" aria-pressed="false"><span class="parade-mystery" aria-hidden="true">${this.cover(i)}</span><span class="parade-form" hidden>${workshopTile(f)}</span></button>`).join('')}</div>
+        <div class="parade-spots" dir="rtl">${forms.map((f,i)=>`<button type="button" class="parade-spot" data-i="${i}" aria-label="Reveal letter form ${i+1}" aria-pressed="false"><span class="parade-mystery" aria-hidden="true">${this.cover(i)}</span><span class="parade-form" hidden>${workshopTile(f,"wood",88)}</span></button>`).join('')}</div>
         <div class="parade-actions"><button type="button" class="discovery-next parade-continue" aria-label="Find this letter" hidden>${Art.icon('next',32)}</button></div>
       </div>`;
       const active=()=>this.alive&&this.phase==='explore'&&this.roundIndex===round;
@@ -2676,9 +2710,13 @@
         else this.advanceRound(round);
       };
       const spots=[...ctx.stage.querySelectorAll('.parade-spot')];
+      const display=ctx.stage.querySelector('.parade-display');
+      const accepts=(x,y)=>{const r=display?.getBoundingClientRect();return r?.width>0&&r.height>0&&x>=r.left-18&&x<=r.left+r.width+18&&y>=r.top-18&&y<=r.top+r.height+18;};
       spots.forEach((spot,i)=>{
-        spot.addEventListener('click',()=>{
+        const choose=(released)=>{
           if(!active())return;
+          this.formFlight?.cancel();this.formFlight=null;
+          const from=released||spot.getBoundingClientRect?.();
           const form=spot.querySelector('.parade-form');
           if(form.hidden){
             spot.querySelector('.parade-mystery').hidden=true;form.hidden=false;
@@ -2689,23 +2727,38 @@
               ctx.confettiAt(ctx.stage.querySelector('.parade-spots'));next.hidden=false;
             }
           }
-          star.innerHTML=`${workshopTile(forms[i])}<span class="build-listen" aria-hidden="true">${Art.icon('speaker',24)}</span>`;
+          star.innerHTML=`${workshopTile(forms[i],"wood",88)}<span class="build-listen" aria-hidden="true">${Art.icon('speaker',24)}</span>`;
           star.setAttribute('aria-label',`Hear form ${forms[i]}`);reference.hidden=false;
           spots.forEach(other=>other.setAttribute('aria-pressed',String(other===spot)));
           ctx.say(letter);
-        });
+          const art=star.querySelector?.(':scope > svg'),to=art?.getBoundingClientRect?.();
+          if(!ctx.reducedMotion?.()&&from?.width&&to?.width&&art.animate){
+            this.formFlight=art.animate([
+              {transform:`translate(${from.left-to.left}px,${from.top-to.top}px) scale(${from.width/to.width})`,opacity:.75},
+              {transform:'translate(0,0) scale(1)',opacity:1}
+            ],{duration:240,easing:'cubic-bezier(.2,.75,.25,1)'});
+          }
+        };
+        if(ns.GardenPractice?.draggable)this.dragResets.push(ns.GardenPractice.draggable(spot,{
+          enabled:active,
+          onDragMove:(x,y)=>display.classList.toggle('is-near',accepts(x,y)),
+          onDragEnd:()=>display.classList.remove('is-near'),
+          drop:(x,y,released)=>{if(accepts(x,y))choose(released);}
+        }));
+        spot.addEventListener('click',()=>choose());
       });
     }
 
     advanceRound(round) {
       if(!this.alive || this.roundIndex!==round || !['result','advancing'].includes(this.phase))return;
       this.phase='advancing';this.roundIndex++;
-      if(this.roundIndex>=this.letters.length){this.alive=false;this.ctx.onDone(this.slips || 0);return;}
+      if(this.roundIndex>=this.letters.length){this.alive=false;this.cleanupGestures();this.ctx.onDone(this.slips || 0);return;}
       this.startRound();this.ctx.stage.querySelector('.parade-spot')?.focus?.({preventScroll:true});
     }
 
     startTransfer(letter,form,alternate) {
       if(!this.alive)return;
+      this.cleanupGestures();
       this.phase='quiz';this.busy=false;
       const ctx=this.ctx,round=this.roundIndex;
       const target={id:letter.id || letter.display,display:form,speak:letter.speak};
@@ -2713,8 +2766,8 @@
       ctx.setPrompt(target,{promptMode:'match',skill:'contextual_forms',choiceIds:options.map(item=>item.id || item.display),activity:'parade'});
       ctx.say(letter);
       ctx.stage.innerHTML=`<div class="parade-scene parade-transfer">
-        <div class="parade-display"><button type="button" class="parade-star" aria-label="Hear form ${form}">${workshopTile(form)}<span class="build-listen" aria-hidden="true">${Art.icon('speaker',24)}</span></button></div>
-        <div class="parade-spots">${options.map((item,i)=>`<button type="button" class="parade-spot parade-choice" data-i="${i}" aria-label="${item.display}">${workshopTile(item.display)}</button>`).join('')}</div>
+        <div class="parade-display"><button type="button" class="parade-star" aria-label="Hear form ${form}">${workshopTile(form,"wood",88)}<span class="build-listen" aria-hidden="true">${Art.icon('speaker',24)}</span></button></div>
+        <div class="parade-spots">${options.map((item,i)=>`<button type="button" class="parade-spot parade-choice" data-i="${i}" aria-label="${item.display}">${workshopTile(item.display,"wood",72)}</button>`).join('')}</div>
         <div class="parade-actions"><button type="button" class="discovery-next parade-next" aria-label="Next letter" hidden>${Art.icon('next',32)}</button></div>
       </div>`;
       ctx.stage.querySelector('.parade-star').onclick=()=>{if(this.alive&&this.roundIndex===round)ctx.say(letter);};
@@ -2745,7 +2798,7 @@
       buttons[0]?.focus?.({preventScroll:true});
     }
 
-    destroy(){this.alive=false;}
+    destroy(){this.alive=false;this.cleanupGestures();}
   }
 
   ns.LettersRoundBuilder = buildRounds;

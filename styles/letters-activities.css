@@ -89,26 +89,11 @@
   background: linear-gradient(90deg, transparent 49.7%, #a89478 49.7% 50.3%, transparent 50.3%);
 }
 
-/* Parade becomes a small wardrobe bench. The rail and empty hangers explain
-   dressing without adding a second animated prompt. */
-.lg-play[data-activity="parade"] .play-stage {
-  background: linear-gradient(155deg, #fffdf7, #fffaf0 52%, #e5dcc8);
-  border-color: #c69434;
-  box-shadow: 0 6px 0 #c9bda4;
-}
-.lg-play[data-activity="parade"] .parade-scene { padding-bottom: 13%; }
-.lg-play[data-activity="parade"] .parade-spots {
-  background: linear-gradient(#fffdf7, #e5dcc8);
-  border: 3px solid #a89478;
-  box-shadow: 0 4px 0 #c9bda4;
-}
-
 @media (max-width: 600px) {
   .lg-play[data-activity="pairs"] .pairs-grid { inset: 2% 12%; }
   .lg-app .lg-play[data-activity="build"] .build-scene { inset:10% 5% 20%; padding:4px; gap:36px; }
   .lg-app .lg-play[data-activity="build"] .build-tray { box-sizing: border-box; }
   .lg-app .lg-play[data-activity="build"] .build-tile { width:calc((100% - 16px) / 3); max-width:100px; }
-  .lg-play[data-activity="parade"] .parade-scene { padding-bottom: 16%; }
 }
 
 @media (max-height: 650px) {
@@ -118,7 +103,6 @@
   .lg-app .lg-play[data-activity="build"] .build-slot { width:58px; }
   .lg-app .lg-play[data-activity="build"] .build-tray { padding:6px; }
   .lg-app .lg-play[data-activity="build"] .build-tile { width:64px; }
-  .lg-play[data-activity="parade"] .parade-scene { gap: 12px; padding-bottom: 11%; }
 }
 
 @media (prefers-reduced-motion: reduce) {

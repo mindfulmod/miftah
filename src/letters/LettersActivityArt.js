@@ -4,6 +4,7 @@
 (function (ns) {
   const FAMILY = {
     pairs: "pairs",
+    burst: "pairs",
     DotGarden: "potting",
     feed: "picnic",
     catch: "catch",
@@ -119,18 +120,20 @@
     // The upright cabinet shares the joinery desk's warm timber. Only these
     // broad planes resize; paper doors and live teaching tiles keep their ratio.
     return `<svg class="activity-plane" viewBox="0 0 720 540" preserveAspectRatio="none" aria-hidden="true">
+      <defs><linearGradient id="parade-lining" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7fce54"/><stop offset=".4" stop-color="#4e9677"/><stop offset=".76" stop-color="#2f5c46"/></linearGradient></defs>
       <ellipse cx="360" cy="526" rx="310" ry="12" fill="#2f5c46" opacity=".16"/>
       <path d="M75 428H145L135 519Q111 532 86 519ZM575 428H645L634 519Q609 532 585 519Z" fill="#4a3620"/>
       <path d="M88 439H131L124 516L98 516ZM589 439H632L622 516L598 516Z" fill="#a89478"/>
-      <path d="M30 56Q30 29 56 27Q360 4 664 27Q690 29 690 56V468Q688 497 664 500H56Q32 497 30 468Z" fill="#a89478"/>
+      <path d="M30 56Q30 29 56 27Q360 4 664 27Q690 29 690 56V468Q688 497 664 500H56Q32 497 30 468Z" fill="#4a3620"/>
       <path d="M30 42Q30 19 56 17Q360 0 664 17Q690 19 690 42V455Q688 480 664 482H56Q32 480 30 455Z" fill="#c9bda4"/>
       <path d="M38 40Q38 25 58 24Q360 8 662 24Q682 25 682 40V443Q682 463 662 464H58Q38 463 38 443Z" fill="#e5dcc8"/>
       <path d="M42 29Q360 12 678 29V42Q360 26 42 42Z" fill="#fffaf0"/>
       <path d="M63 55Q360 43 657 55V425Q360 445 63 425Z" fill="#2f5c46"/>
-      <path d="M73 63Q360 52 647 63V409Q360 428 73 409Z" fill="#4e9677"/>
+      <path d="M73 63Q360 52 647 63V409Q360 428 73 409Z" fill="url(#parade-lining)"/>
       <path d="M75 63Q360 53 645 63V75Q360 63 75 75Z" fill="#b7e779" opacity=".48"/>
       <path d="M52 440Q360 457 668 440V456Q360 475 52 456Z" fill="#fffaf0"/>
       <path d="M52 457Q360 476 668 457V472Q360 491 52 472Z" fill="#a89478"/>
+      <path d="M48 75L49 414M670 75L671 414M66 447Q160 456 237 453M479 453Q570 456 654 447" fill="none" stroke="#a89478" stroke-width="2.4"/>
     </svg>`;
   }
 

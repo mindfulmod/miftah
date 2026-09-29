@@ -68,6 +68,34 @@ test('Parade reveals three contextual forms without paying; repeat reveals repla
  assert.ok(t.s.querySelector('.parade-continue'));
 });
 
+test('Parade drag reveals only when released over the display and cancelled gestures stay unscored',()=>{
+ const t=harness('parade'),display=t.s.querySelector('.parade-display');
+ display.getBoundingClientRect=()=>({left:100,top:100,width:120,height:80});
+ const [cancelled,outside,accepted]=t.s.querySelectorAll('.parade-spot');
+ const drag=(spot,id,end)=>{
+  spot.dispatch('pointerdown',{pointerId:id,isPrimary:true,pointerType:'touch',clientX:20,clientY:20});
+  spot.dispatch('pointermove',{pointerId:id,isPrimary:true,clientX:end.x,clientY:end.y});
+  if(end.cancel)spot.dispatch('pointercancel',{pointerId:id});
+  else spot.dispatch('pointerup',{pointerId:id,isPrimary:true,clientX:end.x,clientY:end.y});
+ };
+
+ drag(cancelled,1,{x:150,y:140,cancel:true});
+ assert.equal(cancelled.querySelector('.parade-form').hidden,true);
+ assert.equal(t.game.dressed,0);assert.equal(t.outcomes.length,0);
+ assert.equal(display.classList.contains('is-near'),false);
+
+ drag(outside,2,{x:250,y:140});
+ assert.equal(outside.querySelector('.parade-form').hidden,true);
+ assert.equal(t.game.dressed,0);assert.equal(t.outcomes.length,0);
+
+ drag(accepted,3,{x:150,y:140});
+ assert.equal(accepted.querySelector('.parade-form').hidden,false);
+ assert.equal(t.game.dressed,1);assert.equal(t.outcomes.length,0);
+ accepted.dispatch('click');
+ assert.equal(t.game.dressed,1,'the synthesized post-drag click can replay but cannot dress twice');
+ assert.equal(t.outcomes.length,0);
+});
+
 test('Parade transfer is explicit, correct choice reports once, and stale controls cannot replay or advance later rounds',()=>{
  const t=harness('parade'),letter=t.game.letters[0];t.s.querySelectorAll('.parade-spot').forEach(b=>b.click());const oldSpots=t.s.querySelectorAll('.parade-spot');
  assert.equal(t.game.roundIndex,0);assert.equal(t.done,0);t.s.querySelector('.parade-continue').click();assert.equal(t.game.phase,'quiz');
@@ -75,4 +103,36 @@ test('Parade transfer is explicit, correct choice reports once, and stale contro
  const oldNext=t.s.querySelector('.parade-next'),heard=t.spoken.length;correct.click();assert.equal(t.spoken.length,heard+1);assert.equal(t.spoken.at(-1).speak,letter.speak);assert.equal(t.outcomes.length,2);oldNext.click();assert.equal(t.game.roundIndex,1);assert.equal(t.done,0);
  oldSpots[0].click();correct.click();oldNext.click();assert.equal(t.game.roundIndex,1);assert.equal(t.outcomes.length,2);
  t.game.destroy();oldNext.click();correct.click();assert.equal(t.done,0);assert.equal(t.outcomes.length,2);
+});
+
+test('Parade requires all three reveals and completes the three-round recall exactly once',()=>{
+ const t=harness('parade');
+ assert.equal(t.game.letters.length,3);
+ for(let round=0;round<3;round++){
+  const staleSpots=t.s.querySelectorAll('.parade-spot');
+  const nextExplore=t.s.querySelector('.parade-continue');
+  assert.equal(nextExplore.hidden,true);
+  staleSpots[0].click();staleSpots[0].click();
+  assert.equal(t.game.dressed,1,'repeating one form does not satisfy the other reveal slots');
+  assert.equal(nextExplore.hidden,true);
+  staleSpots[1].click();staleSpots[2].click();
+  assert.equal(t.game.dressed,3);
+  assert.equal(nextExplore.hidden,false);
+  const participation=t.outcomes.filter(outcome=>outcome.correct===undefined).length;
+  assert.equal(participation,round+1);
+  nextExplore.click();nextExplore.click();
+  assert.equal(t.game.roundIndex,round,'exploration continue is consumed once');
+  const choices=t.s.querySelectorAll('.parade-choice');
+  const correct=choices.find(button=>button.attrs['aria-label']===t.game.letters[round].display);
+  assert.ok(correct);
+  correct.click();
+  assert.equal(t.outcomes.filter(outcome=>outcome.correct===true).length,round+1);
+  const nextRecall=t.s.querySelector('.parade-next');
+  nextRecall.click();nextRecall.click();
+  assert.equal(t.game.roundIndex,round+1);
+  staleSpots[0].click();
+ }
+ assert.equal(t.game.alive,false);
+ assert.equal(t.done,1);
+ assert.equal(t.outcomes.filter(outcome=>outcome.correct===true).length,3);
 });
