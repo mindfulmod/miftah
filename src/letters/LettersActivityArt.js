@@ -96,9 +96,13 @@
   }
   function picnic() {
     return `<svg class="activity-plane" viewBox="0 0 720 540" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M0 399Q172 353 359 386Q532 413 720 364V540H0Z" fill="#b7e779" opacity=".45"/>
-      <path d="M0 455Q146 413 327 446Q539 473 720 412V540H0Z" fill="#4e9677" opacity=".2"/>
-      <ellipse cx="360" cy="306" rx="213" ry="42" fill="#fffaf0" opacity=".65"/>
+      <ellipse cx="360" cy="487" rx="320" ry="33" fill="#2f5c46" opacity=".22"/>
+      <path d="M94 186Q360 160 626 186L688 466Q360 514 32 466Z" fill="#4e9677"/>
+      <path d="M101 183Q360 164 619 183L678 450Q360 493 42 450Z" fill="#e5dcc8"/>
+      <path d="M114 194Q360 180 606 194L656 433Q360 470 64 433Z" fill="#fffaf0"/>
+      <path d="M145 204L105 422M219 196L194 434M291 190L282 442M366 190V444M441 192L449 441M512 198L535 434M579 206L619 422M106 246Q360 231 614 246M94 296Q360 282 626 296M84 348Q360 334 637 348M71 400Q360 389 649 400" fill="none" stroke="#4e9677" stroke-width="8" opacity=".18"/>
+      <path d="M104 184Q360 166 616 184M56 451Q360 489 672 451" fill="none" stroke="#fffdf7" stroke-width="3"/>
+      <path d="M90 192L43 444M630 194L676 444M52 457Q360 502 667 457" fill="none" stroke="#a89478" stroke-width="2.4" stroke-dasharray="4 8"/>
     </svg>${prop('picnic-flowers', `<ellipse cx="60" cy="131" rx="45" ry="7" fill="#2f5c46" opacity=".16"/>
       <path d="M43 125V62M78 128V88" fill="none" stroke="#4e9677" stroke-width="4"/>
       <path d="M44 106Q12 106 16 85Q38 85 44 106M78 115Q104 113 108 93Q85 95 78 115" fill="#4e9677"/>

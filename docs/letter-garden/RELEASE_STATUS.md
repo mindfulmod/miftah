@@ -1,6 +1,7 @@
 # Letter Garden release status
 
-Current release package: **20260926-audio-release1 / service worker v61**.
+Production: **20260926-audio-release1 / service worker v61**, deployed at `b5e2990`.
+Current local continuation: **20260928-picnic1 / service worker v62**; not published.
 The owner authorized production on September 26. This package includes the
 completed local major Letter Garden improvements and **252 approved recordings**,
 including 15 distinct sounds from the final 16-clip retry review. One duplicate
@@ -232,3 +233,16 @@ checks passed. All 318 regression tests pass; the full log is saved in
 precache files exist. Version v61/audio-release1 is ready
 for the owner-authorized normal push to main, alongside committed local major
 Letter Garden/gameplay changes. See the [applied review](reviews/audio-confirmation/RETRY_REVIEW_APPLIED_20260926.md).
+
+
+September 28: Feed picnic art and child-led delivery implemented locally from
+production b5e2990. Shared cloth, layered basket and readable held packets; one
+selected pet across Feed chapters and optional practice. Replay never scores;
+explicit Next replaces the one-second auto-advance. Late landing work is
+decorative and round-bound. Existing difficulty, rewards and approved audio
+remain. 324 tests pass. Actual phone drag/miss/retry, keyboard continuation,
+reward/reload, small-phone/landscape, desktop/tablet night words and practice
+were checked. See [PICNIC_PLAY_REVIEW.md](PICNIC_PLAY_REVIEW.md) for screenshots,
+measurements and remaining art-bible/physical-device limits. Mac stayed muted.
+The preceding production release is complete; broader art/game work is active.
+No new push. Next: owner tries the picnic preview; continue Pond and scene contrast.

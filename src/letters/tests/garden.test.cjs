@@ -6,7 +6,7 @@ const path = require('node:path');
 function runtime(now = () => 0, extra = {}){
   const timers=[];const frames=[];
   const window={MiftahGame:{LettersArt:{}},removeEventListener(){}};
-  const context={window,performance:{now},setTimeout:f=>timers.push(f),clearInterval(){},requestAnimationFrame:f=>frames.push(f),...extra};
+  const context={window,performance:{now},setTimeout:f=>timers.push(f),clearTimeout(){},clearInterval(){},requestAnimationFrame:f=>frames.push(f),...extra};
   for(const file of ['MiniGames.js','LettersGardenArt.js']) vm.runInNewContext(fs.readFileSync(path.join(__dirname,'..',file),'utf8'),context);
   return {ns:window.MiftahGame,timers,frames};
 }
@@ -116,19 +116,22 @@ test('Pop pond follows the activity across chapters and clears when leaving it',
   }
 });
 
-test('seed delivery targets the basket and locks repeated input until completion',()=>{
+test('seed delivery targets the basket and waits for the child to continue',()=>{
   const {ns,timers}=runtime();let paid=0,correct=0;
-  const classes={contains(){return false},add(){},remove(){}};
+  const classes={contains(){return false},add(){},remove(){},toggle(){}};
   const node=rect=>({classList:classes,setAttribute(){},getBoundingClientRect:()=>rect});
   const basket=node({left:100,top:100,width:180,height:112});
   const creature=node({left:0,top:0,width:100,height:100});
   const offsets={};const packet={...node({left:100,top:300,width:100,height:100}),style:{setProperty:(k,v)=>offsets[k]=v}};
   const game=Object.create(ns.LettersMiniGames.feed.prototype);
-  Object.assign(game,{alive:true,roundIndex:0,rounds:[{target:{id:'a'}}],timers:new Set(),basket,creatureEl:creature,ctx:{sfx(){correct++},say(){},confettiAt(){},onDone(){paid++}}});
+  Object.assign(game,{alive:true,feeding:false,completionReady:false,roundIndex:0,rounds:[{target:{id:'a'}}],timers:new Set(),basket,creatureEl:creature,scene:{classList:classes},finishEl:{hidden:true},nextBtn:{disabled:true,focus(){}},replayBtn:{disabled:true},tray:{querySelectorAll:()=>[packet],querySelector:()=>null},ctx:{sfx(){correct++},say(){},confettiAt(){},onDone(){paid++}}});
   game.offer({id:'a'},packet);game.offer({id:'a'},packet);
   assert.equal(offsets['--fly-x'],'40px');assert.equal(offsets['--fly-y'],'-196.24px');
-  assert.equal(correct,1);assert.equal(timers.length,2);
-  timers.forEach(f=>f());game.offer({id:'a'},packet);assert.equal(paid,1);
+  assert.equal(correct,1);assert.equal(timers.length,1);
+  assert.equal(game.completionReady,true);assert.equal(game.roundIndex,0);
+  assert.equal(game.finishEl.hidden,false);assert.equal(game.nextBtn.disabled,false);
+  game.continueDelivery();assert.equal(game.completionReady,false);assert.equal(paid,1);
+  timers.forEach(f=>f());assert.equal(paid,1);
 });
 
 test('Trace maps pointer positions into its actual canvas when the board is scaled',()=>{

@@ -43,12 +43,6 @@
 .lg-boat-adventure .lg-play .adventure-stop::after { width:18px; }
 .lg-boat-adventure .lg-play .adventure-stop i { width:15px; height:15px; right:-5px; bottom:-2px; }
 .lg-boat-adventure .lg-play .adventure-stop i svg { width:10px; height:10px; }
-.lg-app.lg-boat-adventure .lg-play[data-activity="feed"] .play-prompt { grid-template-columns:minmax(0,max-content) auto; }
-.lg-app.lg-boat-adventure .lg-play[data-activity="feed"] .play-prompt:not(:has(.learning-help:not([hidden]))) { grid-template-columns:minmax(0,max-content); }
-.lg-boat-adventure .lg-play[data-activity="feed"] .play-bubble::before { display:none; }
-.lg-app.lg-boat-adventure .lg-play[data-activity="feed"] .play-bubble { grid-column:1; }
-.lg-app.lg-boat-adventure .lg-play[data-activity="feed"] .play-dots { grid-column:1 / -1; }
-.lg-app.lg-boat-adventure .lg-play[data-activity="feed"] .learning-help { grid-column:2; }
 .lg-app .play-pet[hidden] { display:none!important; }
 .lg-boat-adventure button.feed-creature { position:relative; padding:0; border:0; background:none; margin:0 auto; cursor:pointer; }
 .lg-boat-adventure button.feed-creature:focus-visible { outline:3px solid #e8743c; outline-offset:4px; border-radius:32px; }

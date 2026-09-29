@@ -248,3 +248,15 @@ Child navigation is wordless: use action pictures and accessible names, not visi
 - A touch changes the object immediately. A short settle may acknowledge it; no
   repeated bounce, compulsory wait or new success currency. Reduced motion uses
   the same states without movement. Reserve controls/glyph margins at phone size.
+
+## Picnic delivery — 2026-09-28
+
+- Feed uses one selected friend, a grounded cloth, paper packets and the orchard
+  basket material across chapters. Prompt alignment belongs to composition;
+  the picnic playfield layout belongs to `letters-picnic.css`. Remove superseded
+  family layout rules instead of accumulating a second conflicting owner.
+- Layer received packets between the basket opening and rim. Keep their live
+  Arabic ink above the rim and below the friend's face at the smallest viewport.
+- A completed delivery stays visible for replay and child-led continuation.
+  Landing callbacks are decorative and round-bound; they must not advance,
+  score, or interrupt replay after the child presses Next.

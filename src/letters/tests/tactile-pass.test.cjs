@@ -71,44 +71,98 @@ test('Trace destroy retires the pending Continue action and stale callbacks cann
   assert.equal(calls.done, 0);
 });
 
-test('Feed uses the captured release rectangle and locks duplicate delivery callbacks', () => {
-  const { ns, timers } = runtime();
-  let done = 0, effects = 0;
-  const food = { disabled: false, classList: classes(), style: { setProperty(key, value) { this[key] = value; } }, getBoundingClientRect: () => ({ left: 0, top: 0, width: 20, height: 20 }) };
-  const creature = { classList: classes(), getBoundingClientRect: () => ({ left: 100, top: 100, width: 40, height: 40 }) };
+function feedFixture(ns) {
+  const timers = [], outcomes = [], speech = [];
+  const calls = { paid: 0, correct: 0, wrong: 0, starts: 0, clearedHint: 0 };
+  const food = id => ({ id, disabled: false, innerHTML: id, attributes: {}, classList: classes(),
+    style: { setProperty(key, value) { this[key] = value; } },
+    setAttribute(key, value) { this.attributes[key] = value; },
+    getBoundingClientRect: () => ({ left: 0, top: 0, width: 20, height: 20 }) });
+  const a = food('ba'), b = food('ta');
   const game = Object.create(ns.LettersMiniGames.feed.prototype);
+  const finishEl = { hidden: true }, nextBtn = { disabled: true }, replayBtn = { disabled: true };
   Object.assign(game, {
-    alive: true, feeding: false, roundIndex: 0, slips: 0, rounds: [{ target: { id: 'ba' } }], timers: new Set(),
-    creatureEl: creature, tray: { querySelectorAll: () => [food] },
-    ctx: { sfx: () => effects++, confettiAt: () => effects++, say: () => effects++, onDone: () => done++ },
+    alive: true, feeding: false, completionReady: false, roundIndex: 0, slips: 0,
+    rounds: [{ target: { id: 'ba' } }, { target: { id: 'ta' } }], timers: new Set(),
+    creatureEl: { classList: classes(), offsetWidth: 0, getBoundingClientRect: () => ({ left: 100, top: 100, width: 40, height: 40 }) },
+    scene: { classList: classes() }, finishEl, nextBtn, replayBtn, delivered: { innerHTML: '' }, basket: null,
+    tray: { querySelectorAll: () => [a, b], querySelector: () => null },
+    ctx: { sfx(name) { if (name === 'correct') calls.correct++; if (name === 'wrong') calls.wrong++; }, clearLearningHint() { calls.clearedHint++; }, confettiAt() {},
+      say(target) { speech.push(target.id); }, reportOutcome(outcome) { outcomes.push(outcome); }, onDone() { calls.paid++; }, reducedMotion: () => false },
+    startRound() { calls.starts++; this.completionReady = false; this.feeding = false; },
   });
-  game.offer({ id: 'ba' }, food, { left: 20, top: 30, width: 20, height: 20 });
-  game.offer({ id: 'ba' }, food, { left: 20, top: 30, width: 20, height: 20 });
-  assert.equal(game.feeding, true);
-  assert.equal(food.style['--fly-start-x'], '20px');
-  assert.equal(food.style['--fly-start-y'], '30px');
-  assert.equal(food.style['--fly-x'], '110px');
-  assert.equal(food.style['--fly-y'], '117.2px');
-  timers[0]();
-  timers[1]();
-  timers[1]();
-  assert.equal(done, 1);
-  assert.equal(game.alive, false);
+  return { game, a, b, finishEl, nextBtn, replayBtn, delivered: game.delivered, timers, outcomes, speech, calls,
+    later(fn) { timers.push(fn); }, runTimers() { while (timers.length) timers.shift()(); } };
+}
+
+test('Feed records a successful offer once, locks choices, and exposes completion immediately', () => {
+  const { ns } = runtime(); const f = feedFixture(ns); f.game.later = (fn) => f.later(fn);
+  f.game.offer({ id: 'ba' }, f.a, { left: 20, top: 30, width: 20, height: 20 });
+  f.game.offer({ id: 'ba' }, f.a, { left: 20, top: 30, width: 20, height: 20 });
+  assert.equal(f.outcomes.length, 1); assert.equal(f.calls.correct, 1);
+  assert.equal(f.calls.clearedHint, 1);
+  assert.equal(f.game.completionReady, true); assert.equal(f.game.roundIndex, 0);
+  assert.equal(f.a.disabled, true); assert.equal(f.b.disabled, true);
+  assert.equal(f.finishEl.hidden, false); assert.equal(f.nextBtn.disabled, false); assert.equal(f.replayBtn.disabled, false);
+  assert.equal(f.a.style['--fly-start-x'], '20px'); assert.equal(f.a.style['--fly-start-y'], '30px');
+});
+
+test('Feed replay speaks the current target without recording another outcome', () => {
+  const { ns } = runtime(); const f = feedFixture(ns);
+  f.game.completionReady = true; f.game.replayDelivered();
+  assert.deepEqual(f.speech, ['ba']); assert.equal(f.outcomes.length, 0); assert.equal(f.calls.correct, 0);
+});
+
+test('Feed Continue advances only when ready and clears readiness synchronously', () => {
+  const { ns } = runtime(); const f = feedFixture(ns);
+  f.game.continueDelivery(); assert.equal(f.game.roundIndex, 0);
+  f.game.completionReady = true; f.game.continueDelivery();
+  assert.equal(f.game.completionReady, false); assert.equal(f.game.roundIndex, 1); assert.equal(f.calls.starts, 1);
+  f.game.completionReady = true; f.game.continueDelivery(); f.game.continueDelivery();
+  assert.equal(f.calls.paid, 1);
+});
+
+test('Feed landing art settles only while its delivery round is still current', () => {
+  const { ns } = runtime(); const f = feedFixture(ns); f.game.later = (fn) => f.later(fn);
+  f.game.offer({ id: 'ba' }, f.a); f.game.continueDelivery(); f.runTimers();
+  assert.equal(f.delivered.innerHTML, ''); assert.equal(f.game.roundIndex, 1);
+});
+
+test('Feed replay during landing is not interrupted by delayed speech', () => {
+  const { ns } = runtime(); const f = feedFixture(ns); f.game.later = (fn) => f.later(fn);
+  f.game.offer({ id: 'ba' }, f.a);
+  assert.deepEqual(f.speech, ['ba'], 'success speaks as soon as the choice is accepted');
+  f.game.replayDelivered();
+  assert.deepEqual(f.speech, ['ba', 'ba'], 'Replay speaks immediately');
+  f.runTimers();
+  assert.deepEqual(f.speech, ['ba', 'ba'], 'the landing timer only settles art');
+  assert.equal(f.outcomes.length, 1);
+});
+
+test('Feed ignores stale landing callbacks after Next or destroy', () => {
+  const { ns } = runtime();
+  for (const destroy of [false, true]) {
+    const f = feedFixture(ns); f.game.later = (fn) => f.later(fn); f.game.offer({ id: 'ba' }, f.a);
+    if (destroy) f.game.destroy(); else f.game.continueDelivery();
+    f.runTimers(); assert.equal(f.delivered.innerHTML, ''); assert.deepEqual(f.speech, ['ba']); assert.equal(f.calls.paid, 0);
+  }
+});
+
+test('Feed wrong and missed drops do not advance; one wrong choice is reported once', () => {
+  const { ns } = runtime(); const f = feedFixture(ns); f.game.later = (fn) => f.later(fn);
+  f.game.offer({ id: 'ta' }, f.b); f.game.offer({ id: 'ta' }, f.b);
+  assert.equal(f.calls.wrong, 1); assert.equal(f.outcomes.length, 1); assert.equal(f.outcomes[0].correct, false);
+  assert.equal(f.game.roundIndex, 0); assert.equal(f.game.completionReady, false);
+  f.game.basket = { getBoundingClientRect: () => ({ left: 100, top: 100, right: 160, bottom: 160, width: 60, height: 60 }) };
+  if (f.game.deliveryContains(600, 600)) f.game.offer({ id: 'ba' }, f.a);
+  assert.equal(f.game.roundIndex, 0); assert.equal(f.outcomes.length, 1);
 });
 
 test('Feed destroy suppresses delayed landing feedback and completion', () => {
-  const { ns, timers } = runtime();
-  let done = 0, effects = 0;
-  const food = { disabled: false, classList: classes(), style: { setProperty() {} }, getBoundingClientRect: () => ({ left: 0, top: 0, width: 20, height: 20 }) };
-  const creature = { classList: classes(), getBoundingClientRect: () => ({ left: 100, top: 100, width: 40, height: 40 }) };
-  const game = Object.create(ns.LettersMiniGames.feed.prototype);
-  Object.assign(game, { alive: true, feeding: false, roundIndex: 0, slips: 0, rounds: [{ target: { id: 'ba' } }], timers: new Set(), creatureEl: creature, tray: { querySelectorAll: () => [food] }, ctx: { sfx() {}, confettiAt: () => effects++, say: () => effects++, onDone: () => done++ } });
-  game.offer({ id: 'ba' }, food);
-  game.destroy();
-  timers.forEach(callback => callback());
-  assert.equal(effects, 0);
-  assert.equal(done, 0);
-  assert.equal(game.alive, false);
+  const { ns } = runtime(); const f = feedFixture(ns); f.game.later = (fn) => f.later(fn);
+  f.game.offer({ id: 'ba' }, f.a); f.game.destroy(); f.runTimers();
+  assert.equal(f.delivered.innerHTML, ''); assert.deepEqual(f.speech, ['ba']);
+  assert.equal(f.calls.paid, 0); assert.equal(f.game.alive, false);
 });
 
 test('draggable captures release geometry before reset and pointercancel never drops', () => {

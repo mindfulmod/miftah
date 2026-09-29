@@ -1609,7 +1609,7 @@
         "lg-play",
         `${this.topBar()}
         <div class="play-prompt lg-panel">
-          <button type="button" class="play-pet" aria-label="Listen to your pet" ${adventure && gameName === 'feed' ? 'hidden' : ''}>${this.petSVG(64)}</button>
+          <button type="button" class="play-pet" aria-label="Listen to your pet" ${gameName === 'feed' ? 'hidden' : ''}>${this.petSVG(64)}</button>
           <span class="play-mascot">${Art.keyMascot({ size: 66 })}</span>
           <button type="button" class="play-bubble" aria-label="Hear the letter again" hidden>
             <span class="play-bubble-glyph" data-fit-ink dir="rtl" lang="ar"></span>
@@ -1656,10 +1656,10 @@
           idle: "neutral",
         })[pose] || "neutral";
       const setPetPose = (pose, hold = 0, lock = false) => {
-        const friend = adventure && gameName === 'feed' ? el.querySelector('.feed-creature') : petEl;
+        const friend = gameName === 'feed' ? el.querySelector('.feed-creature') : petEl;
         if (!friend?.isConnected) return;
         friend.dataset.pose = pose;
-        friend.innerHTML = this.petSVG(adventure && gameName === 'feed' ? 180 : 64, petMood(pose));
+        friend.innerHTML = this.petSVG(gameName === 'feed' ? 180 : 64, petMood(pose));
         if (poseTimer) clearTimeout(poseTimer);
         poseLockedUntil = lock ? Date.now() + hold : 0;
         if (hold > 0) {
@@ -1667,7 +1667,7 @@
             if (!friend.isConnected) return;
             poseLockedUntil = 0;
             friend.dataset.pose = 'presenting';
-            friend.innerHTML = this.petSVG(adventure && gameName === 'feed' ? 180 : 64, petMood(currentTarget ? "presenting" : "idle"));
+            friend.innerHTML = this.petSVG(gameName === 'feed' ? 180 : 64, petMood(currentTarget ? "presenting" : "idle"));
           }, hold);
         }
       };
@@ -1707,7 +1707,7 @@
       const ctx = {
         stage,
         adventure,
-        petReact: pose => {if(adventure)setPetPose(pose, 850, pose === 'proud');},
+        petReact: pose => {if(adventure || gameName === 'feed')setPetPose(pose, 850, pose === 'proud');},
         onDrawingMade: (item, canvas) => {
           if (!adventure || !el.isConnected || this.session !== s) return;
           // Carry the child's ink into the handoff, not into answer tiles or
@@ -1952,7 +1952,7 @@
       if(kind==='LetterDelivery'){const items=this.petKnowledge().map(letter=>({id:letter.char,display:letter.char,speak:letter.arName}));if(!items.length)return back?.();this.session={world:this.worlds.worlds.find(w=>w.id==='pack-boat'),items};}
       const s=this.session;
       if(!s?.world || !(s.items||s.world.items()).length)return back?.();
-      const el=this.screen('lg-play',`${this.topBar()}<div class="practice-heading">${this.petSVG(76)}<button class="practice-replay" type="button" aria-label="Hear the letter again"></button></div><div class="practice-stage"></div>`);
+      const el=this.screen('lg-play',`${this.topBar()}<div class="practice-heading">${kind==='Feed'?'':this.petSVG(76)}<button class="practice-replay" type="button" aria-label="Hear the letter again"></button></div><div class="practice-stage"></div>`);
       el.dataset.activity=kind==='Feed'?'feed':kind==='Workshop'?'build':kind==='LetterDelivery'?'delivery':kind==='DotGarden'?'dots':'practice';
       if(kind==='LetterDelivery')el.querySelector('.practice-heading').hidden=true;
       if(kind==='Feed'||kind==='Workshop')el.querySelector('.practice-stage').classList.add('play-stage');
@@ -1979,7 +1979,7 @@
       else if(kind==='Workshop')this.game=new ns.LettersMiniGames.build({...ctx,setPrompt:ctx.prompt,sfx:name=>this.sound.play(name),confettiAt:target=>this.confettiAt(target),onDone:ctx.done});
       else if(kind==='LetterDelivery')this.game=new ns.LetterDelivery(ctx);
       else this.game=new ns.GardenPractice[kind](ctx);
-      if(kind==='Workshop')this.unmountActivityArt=ns.LettersActivityArt?.mount(ctx.stage,'build');
+      if(kind==='Workshop'||kind==='Feed')this.unmountActivityArt=ns.LettersActivityArt?.mount(ctx.stage,kind==='Feed'?'feed':'build');
     }
 
     gardenReward(finished=false) {

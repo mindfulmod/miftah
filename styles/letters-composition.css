@@ -67,3 +67,12 @@
   .lg-app .lg-play .play-bubble-glyph { font-size:30px; }
   .lg-app .lg-play .play-dots i { width:8px; height:8px; }
 }
+
+/* Feed has one friend at the picnic. Keep its prompt alignment in this owner. */
+.lg-app .lg-play[data-activity="feed"] .play-pet { display:none; }
+.lg-app .lg-play[data-activity="feed"] .play-prompt { grid-template-columns:minmax(0,max-content) auto; }
+.lg-app .lg-play[data-activity="feed"] .play-prompt:not(:has(.learning-help:not([hidden]))) { grid-template-columns:minmax(0,max-content); }
+.lg-app .lg-play[data-activity="feed"] .play-bubble { grid-column:1; }
+.lg-app .lg-play[data-activity="feed"] .play-bubble::before { display:none; }
+.lg-app .lg-play[data-activity="feed"] .play-dots { grid-column:1 / -1; }
+.lg-app .lg-play[data-activity="feed"] .learning-help { grid-column:2; }

@@ -1,0 +1,58 @@
+{
+  "landscape-ready.png": {
+    "width": 568,
+    "height": 320,
+    "light": 68.64,
+    "mid": 15.74,
+    "dark": 3.83
+  },
+  "phone-ready.png": {
+    "width": 390,
+    "height": 844,
+    "light": 74.94,
+    "mid": 11.75,
+    "dark": 3.72
+  },
+  "tablet-night.png": {
+    "width": 768,
+    "height": 961,
+    "light": 22.23,
+    "mid": 12.1,
+    "dark": 39.44
+  },
+  "practice-phone.png": {
+    "width": 390,
+    "height": 844,
+    "light": 30.03,
+    "mid": 18.87,
+    "dark": 3.59
+  },
+  "small-phone-ready.png": {
+    "width": 320,
+    "height": 568,
+    "light": 77.93,
+    "mid": 9.14,
+    "dark": 4.0
+  },
+  "phone-before.png": {
+    "width": 390,
+    "height": 844,
+    "light": 78.5,
+    "mid": 10.12,
+    "dark": 1.7
+  },
+  "desktop-night.png": {
+    "width": 1100,
+    "height": 800,
+    "light": 18.69,
+    "mid": 8.53,
+    "dark": 39.21
+  },
+  "phone-delivered.png": {
+    "width": 390,
+    "height": 844,
+    "light": 72.32,
+    "mid": 16.14,
+    "dark": 2.27
+  }
+}

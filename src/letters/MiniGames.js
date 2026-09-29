@@ -821,7 +821,7 @@
     destroy() { this.alive = false; this.stopHint?.(); }
   }
 
-  // ---------- Feed: give the hungry creature what it asks for ----------
+  // ---------- Feed: deliver a packet and enjoy the picnic together ----------
   class FeedGame {
     constructor(ctx) {
       this.ctx = ctx;
@@ -833,12 +833,19 @@
       if (!this.rounds.length) { this.alive = false; ctx.onDone(0); return; }
       ctx.stage.innerHTML = `
         <div class="feed-scene">
-          <${ctx.adventure ? 'button type="button" aria-label="Listen to your pet"' : 'div'} class="feed-creature">${ctx.garden && ctx.petArt ? ctx.petArt() : Art.creature({ hue: ctx.garden ? 150 : (ctx.hue + 140) % 360 })}</${ctx.adventure ? 'button' : 'div'}>
-          ${ctx.garden ? `<button type="button" class="feed-basket" aria-label="Deliver the selected seed packet" aria-disabled="true" disabled><span class="feed-delivered" aria-hidden="true"></span>${ns.LettersGardenArt.seedBasket()}</button>` : ""}
+          <button type="button" aria-label="Listen to your pet" class="feed-creature">${ctx.petArt ? ctx.petArt() : Art.creature({ hue: (ctx.hue + 140) % 360 })}</button>
+          <button type="button" class="feed-basket" aria-label="Deliver the selected seed packet" aria-disabled="true" disabled>${orchardBasket()}<span class="feed-delivered" aria-hidden="true"></span><span class="feed-basket-front" aria-hidden="true">${orchardBasket(true)}</span></button>
           <div class="feed-tray"></div>
+          <div class="feed-finish" hidden><button type="button" class="feed-replay lg-round-btn" aria-label="Hear the delivered letter again">${Art.icon("speaker", 30)}</button><button type="button" class="feed-next lg-big-btn" aria-label="Continue">${Art.icon("next", 36)}</button></div>
         </div>`;
       this.creatureEl = ctx.stage.querySelector(".feed-creature");
-      if(ctx.adventure)this.creatureEl.onclick=()=>{if(this.alive)ctx.onPetTap?.();};
+      this.creatureEl.onclick=()=>{if(this.alive){if(ctx.onPetTap)ctx.onPetTap();else ctx.say(this.rounds[this.roundIndex].target);}};
+      this.scene = ctx.stage.querySelector('.feed-scene');
+      this.finishEl = ctx.stage.querySelector('.feed-finish');
+      this.nextBtn = ctx.stage.querySelector('.feed-next');
+      this.replayBtn = ctx.stage.querySelector('.feed-replay');
+      this.nextBtn.onclick = () => this.continueDelivery();
+      this.replayBtn.onclick = () => this.replayDelivered();
       this.tray = ctx.stage.querySelector(".feed-tray");
       this.dragResets=[];
       this.basket=ctx.stage.querySelector('.feed-basket');
@@ -850,6 +857,10 @@
     startRound() {
       if (!this.alive) return;
       this.dragResets.forEach(reset=>reset());this.dragResets=[];this.selected=null;
+      this.feeding = false; this.completionReady = false;
+      this.scene.classList.remove('is-delivered');
+      this.finishEl.hidden = true;
+      this.nextBtn.disabled = true; this.replayBtn.disabled = true;
       if(this.basket){this.basket.classList.remove("is-ready","is-near","is-filled");this.basket.setAttribute("aria-disabled","true");this.basket.disabled=true;}
       if(this.delivered)this.delivered.innerHTML='';
       const round = this.rounds[this.roundIndex];
@@ -860,7 +871,7 @@
         const el = document.createElement("button");
         el.type = "button";
         el.className = "feed-food";
-        el.innerHTML = this.ctx.garden ? ns.LettersGardenArt.seedPacket(glyphText(item.display,{maxSize:44})) : tileHTML(item, this.ctx.hue);
+        el.innerHTML = ns.LettersGardenArt.seedPacket(glyphText(item.display,{maxSize:44,fill:"#4a3620"}));
         el.setAttribute("aria-label", item.display);
         if(this.ctx.garden){
           el.setAttribute("aria-pressed","false");
@@ -897,7 +908,7 @@
 
     offer(item, el, releaseRect = null) {
       const round = this.rounds[this.roundIndex];
-      if (!this.alive || this.feeding || el.disabled || el.classList.contains("is-scaffolded")) return;
+      if (!this.alive || this.feeding || el.disabled || this.tray?.contains?.(el) === false || el.classList.contains("is-scaffolded")) return;
       if (item.id !== round.target.id) {
         el.disabled=true; this.selected=null;
         el.setAttribute("aria-pressed","false");
@@ -916,8 +927,9 @@
         return;
       }
       this.feeding = true;
+      this.ctx.clearLearningHint?.();
       this.tray?.querySelectorAll("button").forEach(b=>b.disabled=true);
-      // Match the delivery destination to the interaction: basket for seeds, mouth for food.
+      // Delivery geometry starts at the actual pointer release, not the old tray slot.
       if(this.basket){this.basket.classList.remove("is-ready");this.basket.setAttribute("aria-disabled","true");this.basket.disabled=true;}
       const base = el.getBoundingClientRect();
       const from = releaseRect || base;
@@ -929,7 +941,15 @@
       el.classList.add("is-flying");
       reportPromptMatch(this.ctx, round, true, item, "feed");
       this.ctx.sfx("correct");
+      this.ctx.say(round.target);
+      const deliveryRound = this.roundIndex;
+      this.completionReady = true;
+      this.scene.classList.add('is-delivered');
+      this.finishEl.hidden = false;
+      this.nextBtn.disabled = false; this.replayBtn.disabled = false;
+      this.nextBtn.focus?.({preventScroll:true});
       this.later(() => {
+        if (!this.completionReady || this.roundIndex !== deliveryRound) return;
         if(this.delivered)this.delivered.innerHTML=el.innerHTML;
         if(this.basket)this.basket.classList.add("is-filled");
         this.ctx.petReact?.("proud");
@@ -937,17 +957,32 @@
         void this.creatureEl.offsetWidth;
         this.creatureEl.classList.add("is-chomp");
         this.ctx.confettiAt(this.creatureEl);
-        this.ctx.say(round.target);
       }, this.ctx.reducedMotion?.() ? 0 : 320);
-      this.later(() => {
-        this.feeding = false;
-        this.roundIndex += 1;
-        if (this.roundIndex >= this.rounds.length) { this.alive = false; return this.ctx.onDone(this.slips); }
-        this.startRound();
-      }, 1000);
     }
 
-    destroy() { this.alive = false; this.dragResets?.forEach(reset=>reset());this.timers?.forEach(clearTimeout);this.timers?.clear(); }
+    replayDelivered() {
+      if (!this.alive || !this.completionReady) return;
+      this.ctx.say(this.rounds[this.roundIndex].target);
+      this.ctx.petReact?.('listening');
+    }
+
+    continueDelivery() {
+      if (!this.alive || !this.completionReady) return;
+      this.completionReady = false;
+      this.nextBtn.disabled = true; this.replayBtn.disabled = true;
+      this.roundIndex += 1;
+      if (this.roundIndex >= this.rounds.length) {
+        this.destroy();
+        return this.ctx.onDone(this.slips);
+      }
+      this.startRound();
+      this.tray.querySelector('button:not(:disabled)')?.focus?.({preventScroll:true});
+    }
+
+    destroy() {
+      this.alive = false; this.completionReady = false;
+      this.dragResets?.forEach(reset=>reset());this.timers?.forEach(clearTimeout);this.timers?.clear();
+    }
   }
 
   // ---------- Trace: write the letter with your finger ----------

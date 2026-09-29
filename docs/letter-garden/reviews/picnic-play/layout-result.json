@@ -1,0 +1,35 @@
+{
+  "controls": [
+    {
+      "name": "Hear the delivered letter again",
+      "rect": {
+        "bottom": 699,
+        "height": 56,
+        "left": 111,
+        "right": 167,
+        "top": 643,
+        "width": 56,
+        "x": 111,
+        "y": 643
+      }
+    },
+    {
+      "name": "Continue",
+      "rect": {
+        "bottom": 702,
+        "height": 62,
+        "left": 191,
+        "right": 279,
+        "top": 640,
+        "width": 88,
+        "x": 191,
+        "y": 640
+      }
+    }
+  ],
+  "overflow": false,
+  "viewport": [
+    390,
+    844
+  ]
+}

@@ -118,30 +118,7 @@
 }
 .lg-app.lg-pond-activity[data-garden-phase="night"]{background:radial-gradient(ellipse at 50% 32%,#6064a0,#34375f)}
 
-/* Feed picnic: scoped to this activity, with the riverbank still surrounding it. */
-.lg-app .lg-play[data-activity="feed"] .play-stage {
-  width:min(660px,100%); min-height:0; max-height:520px;
-  margin:8px auto 32px; overflow:visible; border:0; border-radius:46% 46% 30px 30px;
-  background:radial-gradient(ellipse at 50% 43%,#f9f7db 0%,#e5f0ce 65%,#badb9d 100%);
-  box-shadow:inset 0 -5px 0 #8eae7566; mask-image:none; -webkit-mask-image:none;
-}
-.lg-app .lg-play[data-activity="feed"] .feed-scene {padding:10px 10px 14px;gap:0;justify-content:flex-start}
-.lg-app .lg-play[data-activity="feed"] .feed-creature {height:46%;width:auto;max-height:none;flex-shrink:1;display:flex;justify-content:center;z-index:1}
-.lg-app .lg-play[data-activity="feed"] .feed-creature>svg,
-.lg-app .lg-play[data-activity="feed"] .feed-creature>.lg-animal {height:100%!important;width:auto!important;max-height:none}
-.lg-app .lg-play[data-activity="feed"] .feed-basket {width:150px;height:94px;min-height:60px;max-height:25%;flex-shrink:1;z-index:2;border-radius:32px;transition:filter 180ms,transform 180ms}
-.lg-app .lg-play[data-activity="feed"] .feed-basket.is-ready {filter:drop-shadow(0 0 5px #fff4ac);outline:3px solid #658b52;outline-offset:2px}
-.lg-app .lg-play[data-activity="feed"] .feed-basket.is-filled {filter:drop-shadow(0 0 7px #fff4ac)}
-.lg-app .lg-play[data-activity="feed"] .feed-tray {margin-top:auto;display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:8px 10px;border:2px solid #c2a875;border-bottom-width:5px;border-radius:50% 50% 18px 18px / 12% 12% 18px 18px;background:repeating-linear-gradient(90deg,#ffffff22 0 16px,transparent 16px 32px),#f3dfad;box-sizing:border-box}
-.lg-app .lg-play[data-activity="feed"] .feed-food {width:clamp(48px,18vw,88px);filter:drop-shadow(0 3px 1px #80684144);border-radius:12px;flex-shrink:1}
-.lg-app .lg-play[data-activity="feed"] .feed-food[aria-pressed=true] {outline:3px solid #658b52;outline-offset:3px}
-.lg-app .lg-play[data-activity="feed"] .feed-food.is-flying {z-index:5}
-@media(max-height:650px){
- .lg-app .lg-play[data-activity="feed"] .play-stage {margin-bottom:24px;max-height:58vh}
- .lg-app .lg-play[data-activity="feed"] .feed-scene {padding:5px 8px 9px}
- .lg-app .lg-play[data-activity="feed"] .feed-tray {padding:6px 8px}
- .lg-app .lg-play[data-activity="feed"] .feed-food {max-width:60px}
-}
+/* Feed layout and materials now live in letters-picnic.css. */
 
 /* Trace: a garden drawing board with tools outside the ink area. */
 .lg-app .lg-play[data-activity="trace"] .play-stage {

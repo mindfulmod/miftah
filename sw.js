@@ -4,11 +4,12 @@
 // - Shell (HTML/CSS/JS/fonts): stale-while-revalidate, ignoring ?v= cache-busters.
 // - data/*.json: network-first so rebuilt data lands promptly; cache fallback offline.
 // - Remote recitation audio: deliberately NOT intercepted — see AUDIO_HOSTS below.
-const VERSION = "miftah-v61-letter-garden-audio-release-20260926";
+const VERSION = "miftah-v62-letter-garden-picnic-20260928";
 const SHELL_CACHE = `shell-${VERSION}`;
 const DATA_CACHE = `data-${VERSION}`;
 
 const SHELL = [
+  "styles/letters-picnic.css",
   // BEGIN MARIN CURRICULUM AUDIO
   "assets/audio/letters/marin-curriculum-v1/lg-0f4c7785aba9.wav",
   "assets/audio/letters/marin-curriculum-v1/lg-9398dd2463eb.wav",

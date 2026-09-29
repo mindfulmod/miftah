@@ -142,11 +142,7 @@
 }
 
 /* Picnic fabric and drawing clips are physical frames outside the learning ink. */
-.lg-app .lg-play[data-activity="feed"] .feed-tray {
- border-color:#a89478;border-bottom-color:#c9bda4;border-radius:20px;
- background:repeating-linear-gradient(90deg,transparent 0 24px,#e5dcc860 24px 30px),repeating-linear-gradient(0deg,#fffaf0 0 24px,#e5dcc8 24px 30px);
- box-shadow:0 4px 0 #c9bda4,inset 0 3px 0 #fffdf7;
-}
+
 .trace-wrap::before,.trace-wrap::after {content:"";position:absolute;top:4px;width:30px;height:18px;z-index:2;pointer-events:none;border:2px solid #a89478;border-radius:5px;background:linear-gradient(#fffdf7,#e5dcc8);box-shadow:0 2px 0 #c9bda4}
 .trace-wrap::before{left:20%}.trace-wrap::after{right:20%}
 

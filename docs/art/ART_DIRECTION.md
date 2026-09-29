@@ -188,3 +188,17 @@ child-led continuation. See `../letter-garden/ORCHARD_PLAY_REVIEW.md` for actual
 play evidence, composed PNG measurements and remaining review limits. The
 measurements show repository-wide value and palette debt; this pass is a local
 release candidate pending final publication.
+
+## Picnic delivery family, 2026-09-28
+
+Feed now shares the orchard basket material, with separate rear and rim layers
+around the delivered paper packet. Its 720×540 cloth plane has folded edges,
+subdued checks, stitching and a ground shadow; the pet, packets and 180×112
+basket retain their proportions. This extends the existing native art anchors.
+The older green dome and duplicated Feed frame overrides are retired. A single
+friend participates across chapters; the prompt remains separate and readable.
+
+Nintendo's [crafting and garden overview](https://animalcrossing.nintendo.com/new-horizons/create/)
+informs the use of purposeful everyday objects. The adaptation is a picnic the
+child can inspect and replay, with no added currency or care requirement.
+See `../letter-garden/PICNIC_PLAY_REVIEW.md` for actual play and remaining limits.
