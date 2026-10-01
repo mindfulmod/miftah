@@ -1,16 +1,25 @@
 # Letter Garden release status
 
-Production: **20260926-audio-release1 / service worker v61**, deployed at `b5e2990`.
-Current local continuation: **20260928-picnic1 / service worker v62**; not published.
-The owner authorized production on September 26. This package includes the
-completed local major Letter Garden improvements and **252 approved recordings**,
-including 15 distinct sounds from the final 16-clip retry review. One duplicate
-وَ stays archived. Unrecorded prompts retain existing device speech.
+Current production release package: **20260930-play-release1 / service worker v71**.
+The owner authorized pushing all completed Letter Garden work and deploying to
+production on September 30. The preceding verified production release was
+`b5e2990` / **20260926-audio-release1 / service worker v61**.
 
-The dated notes below are historical checkpoints; their older counts, parked
-work and no-publish statements do not describe the current release authorization.
-See [the completed audio batch](reviews/audio-confirmation/RETRY_REVIEW_APPLIED_20260926.md)
-and [the Pairs/Catch review](ORCHARD_PLAY_REVIEW.md).
+This package includes all nine local commits through `39ff624`: grounded Feed,
+forgiving feeding targets, pink and pet-colour drawing defaults, Pond feedback,
+bounded Arabic prompts, rotation-safe drawing, activity materials, tactile
+Pairs/Catch, Burst/Parade feedback, reward/wardrobe refinements and brighter night
+gardens. The existing 252 approved recordings and fallback speech are unchanged.
+
+The five recommended future upgrades are saved in
+[NEXT_FIVE_WORLD_PLAY_UPDATES.md](NEXT_FIVE_WORLD_PLAY_UPDATES.md). They are a plan,
+not features implemented in this release. Start with participating pets across
+one complete Boat journey after the owner requests implementation.
+
+Release verification and known limits: see
+[PLAY_RELEASE_20260930.md](PLAY_RELEASE_20260930.md). GitHub Pages deployment must
+be checked against the release commit and public assets before reporting it live.
+The dated notes below are historical checkpoints, not current release status.
 
 ## Checkpoint history
 
