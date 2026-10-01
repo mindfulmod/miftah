@@ -341,3 +341,18 @@ Child navigation is wordless: use action pictures and accessible names, not visi
   leave room for the cabinet; old playfield minimum heights may not crop it.
   Standard activity results place controls beside the clearing in short
   landscape. The Boat journey retains its own established result composition.
+
+## Welcoming light and shared rooms — 2026-09-30
+
+- Night keeps grass recognisably green. Change the sky, water and selected
+  material ramps instead of desaturating an entire landscape or darkening all
+  artwork. Keep large grass planes in the middle foliage values; the darkest
+  green belongs to limited banks, recesses and contact shadows. Owner direction
+  prioritises colourful, readable surroundings at every time of day.
+- Reward habitats suppress their separate terrain when placed on a shared
+  clearing. Planters, pet feet and mascot feet use one fixed-proportion frame;
+  only the surrounding ground may stretch. Keep that terrain behind every
+  return, replay and reward control, including in short landscape.
+- The wardrobe uses a shaded alcove and a grounded timber shelf. Its picture
+  tabs, colours and earned accessories retain their existing behaviour. Check
+  both the original blob and animal cast against the floor.

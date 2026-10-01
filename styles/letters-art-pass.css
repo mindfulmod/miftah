@@ -38,19 +38,12 @@
 /* A real resting place beneath the egg, and a fitted pet dressing area. */
 .hatch-egg{isolation:isolate}.hatch-egg::before{content:"";position:absolute;z-index:-1;left:-15%;right:-15%;bottom:-6px;height:48px;border-radius:50%;background:#c4d994;border:3px solid #718549;box-shadow:0 7px 0 #63834e44}
 .hatch-egg::after{content:"";position:absolute;z-index:-1;left:0;right:0;bottom:7px;height:20px;border-radius:50%;background:#e2e7b4}
-.pet-stage.pet-room{gap:10px;overflow-y:auto}
 
 
 
 
 
-.pet-racks{max-width:560px;width:100%}
-.pet-color-rack{width:100%;max-width:none;justify-content:center;gap:12px;padding:12px;border-color:#8b7350;box-shadow:0 4px 0 #b6a17c}
 .pet-color-icon{color:#5c864b;display:grid;place-items:center}
-.pet-color-options{gap:12px}.pet-color-swatch{width:32px;height:32px}
-.pet-room .pet-shelf{border:2px solid #8b7350;box-shadow:0 4px 0 #b6a17c;background:#fff8e7;padding:8px 10px}
-.pet-room .pet-acc{border:2px solid #9d8965;background:#f4eddc;border-radius:20px;box-shadow:0 3px 0 #d0bd95}
-.pet-room .pet-acc.is-worn{border-color:#53754a;background:#e1efc8;box-shadow:0 3px 0 #759365}
 .pet-acc-cost{color:#805014}
 .album-pack{position:relative}.album-pack:focus-visible{outline:3px solid #e8743c;outline-offset:5px}
 .stamps-grid{width:min(400px,100%);grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;padding:14px;border:2px solid #8b7350;box-shadow:0 5px 0 #b6a17c}
@@ -69,8 +62,6 @@
  .lg-stars .stars-row svg,.lg-party .party-stars svg{width:54px;height:54px}
 
 
- .pet-room .pet-acc{width:76px;min-height:84px}
- .pet-color-options{gap:11px}.pet-color-swatch{width:30px;height:30px}
  .stamps-grid{gap:6px;padding:11px}
 }
 @media(max-height:650px){
@@ -232,7 +223,6 @@ button.album-slot:active{transform:scale(.96)}
 .lg-play[data-activity="build"] .practice-replay>svg{width:100%;height:100%;display:block}
 
 /* Selection remains recognizable without relying on color alone. */
-.pet-room .pet-acc{position:relative}
 .pet-selected-mark{position:absolute;right:3px;bottom:3px;display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:#e9f4cf;border:1.5px solid #60815a;color:#446d46;box-shadow:0 1px 0 #a7ba8b;pointer-events:none}
 .pet-selected-mark svg{display:block;width:16px;height:16px}
 .pet-room .pet-acc:focus-visible,.pet-room .pet-color-swatch:focus-visible{outline:3px solid #4e795d;outline-offset:3px}

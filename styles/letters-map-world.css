@@ -1,17 +1,17 @@
-/* The home trail is a landscape at the same scale as the activity garden. */
+/* The home trail is a landscape at the same scale as the activity garden.
+   Day phase changes material colours; global desaturation would dull the whole world. */
 .lg-home .map-path{max-width:780px}
-.lg-app:has(.lg-home)>.art-backdrop{filter:saturate(.78)}
 .lg-home .map-scroll{position:absolute;inset:0;margin:0;isolation:isolate;scroll-padding:210px 0 100px;mask-image:none;-webkit-mask-image:none;z-index:1;scrollbar-width:thin;scrollbar-color:#a89478 transparent}
 .lg-home .map-scroll{background:color-mix(in srgb,#62cdf4 70%,#a89478)}
 .lg-app[data-garden-phase="night"] .lg-home .map-scroll{background:color-mix(in srgb,#3a8fc4 60%,#6064a0)}
 .lg-screen.lg-home>.lg-topbar{position:relative;z-index:6;pointer-events:none}
 .lg-screen.lg-home>.lg-topbar>*{pointer-events:auto}
-.map-landscape{position:absolute;inset:0 auto 0 50%;width:100vw;transform:translateX(-50%);pointer-events:none;z-index:0;filter:saturate(.68)}
+.map-landscape{position:absolute;inset:0 auto 0 50%;width:100vw;transform:translateX(-50%);pointer-events:none;z-index:0}
 .map-landscape>svg{display:block;width:100%;height:100%}
 .lg-home .map-trail{z-index:1}
 .lg-home .map-node{z-index:3}
 .lg-home .map-here{z-index:4}
-.lg-home .map-landmark{position:absolute;width:clamp(122px,29vw,200px);height:auto;transform:translate(-50%,-50%);pointer-events:none;z-index:2;filter:saturate(.8)}
+.lg-home .map-landmark{position:absolute;width:clamp(122px,29vw,200px);height:auto;transform:translate(-50%,-50%);pointer-events:none;z-index:2}
 .map-landmark>svg{width:100%;height:auto;display:block}
 .lg-home .map-boat-landmark{width:clamp(140px,32vw,218px);z-index:2}
 .lg-home .map-flower-bed{top:calc(100% + 12px);width:88px;height:71px}

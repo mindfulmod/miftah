@@ -421,6 +421,7 @@
       }
       for (const swatch of el.querySelectorAll(".hatch-hue")) {
         swatch.addEventListener("click", () => {
+          if(!el.isConnected)return;
           this.pet.hue = Number(swatch.dataset.hue);
           this.saveJSON("quran-trainer:letters:pet", this.pet);
           this.sound.play("click");
@@ -518,7 +519,7 @@
         `${this.topBar()}
         <div class="pet-stage pet-room" style="--pet-radiance:${this.petRadiance().toFixed(2)}">
           <div class="pet-hero">
-            <div class="pet-diorama"><div class="pet-alcove" aria-hidden="true">${ns.LettersRoomArt.alcove()}</div>
+            <div class="pet-diorama">${ns.LettersRoomArt.floor()}<div class="pet-alcove" aria-hidden="true">${ns.LettersRoomArt.alcove()}</div>
             <span class="lg-star-chip">${Art.icon("star", 20)} <b>${this.starBalance()}</b></span>
             <button type="button" aria-label="Play with your pet" class="pet-big${this.petRadiance() > 0.15 ? " is-radiant" : ""}">
               <span class="pet-aura" aria-hidden="true"></span>
@@ -542,7 +543,7 @@
       const tabs=[...el.querySelectorAll('[data-wardrobe-tab]')];
       tabs.forEach((button,index)=>{
         button.onclick=()=>{if(!el.isConnected)return;this.wardrobeTab=button.dataset.wardrobeTab;this.renderPet();};
-        button.onkeydown=e=>{const next=e.key==='ArrowRight'?(index+1)%3:e.key==='ArrowLeft'?(index+2)%3:e.key==='Home'?0:e.key==='End'?2:null;if(next===null)return;e.preventDefault();this.wardrobeTab=tabs[next].dataset.wardrobeTab;this.renderPet();this.root.querySelector('[role="tab"][aria-selected="true"]')?.focus();};
+        button.onkeydown=e=>{if(!el.isConnected)return;const next=e.key==='ArrowRight'?(index+1)%3:e.key==='ArrowLeft'?(index+2)%3:e.key==='Home'?0:e.key==='End'?2:null;if(next===null)return;e.preventDefault();this.wardrobeTab=tabs[next].dataset.wardrobeTab;this.renderPet();this.root.querySelector('[role="tab"][aria-selected="true"]')?.focus();};
       });
       const activeShelf=el.querySelector('.pet-shelf');
       if(activeShelf){
@@ -561,6 +562,7 @@
       if(focusKey)el.querySelector(focusKey)?.focus({preventScroll:true});
       for (const swatch of el.querySelectorAll("[data-pet-hue]")) {
         swatch.addEventListener("click", () => {
+          if(!el.isConnected)return;
           this.pet.hue = Number(swatch.dataset.petHue);
           this.saveJSON("quran-trainer:letters:pet", this.pet);
           this.sound.play("click");
@@ -569,6 +571,7 @@
       }
       const bubble = el.querySelector(".pet-bubble");
       el.querySelector(".pet-big").addEventListener("click", () => {
+        if(!el.isConnected)return;
         bubble.hidden = false;
         this.petRecite(bubble);
         el.querySelector(".pet-big").classList.remove("is-hop");
@@ -577,6 +580,7 @@
       });
       for (const btn of el.querySelectorAll(".pet-acc[data-body]")) {
         btn.addEventListener("click", () => {
+          if(!el.isConnected)return;
           const id = btn.dataset.body;
           const body = ns.LETTERS_BODIES.find((b) => b.id === id);
           const bodies = this.pet.bodies || (this.pet.bodies = ["blob"]);
@@ -600,6 +604,7 @@
       }
       for (const btn of el.querySelectorAll(".pet-acc[data-acc]")) {
         btn.addEventListener("click", () => {
+          if(!el.isConnected)return;
           const id = btn.dataset.acc;
           const acc = ns.LETTERS_ACCESSORIES.find((a) => a.id === id);
           const ownedList = this.pet.accessories || (this.pet.accessories = []);
@@ -1989,12 +1994,12 @@
       const world=this.session?.world;
       const stage=ns.LettersGardenArt.chapterGrowth(this.progress,this.bests,world);
       const scene=world?.id==='pack-boat'?ns.LettersGardenArt.boat({stage,terrain:false}):
-        ns.LettersGardenArt.habitatReward({biome:world?.biome || 'meadow',stage,habitat:this.biomeDeco(world?.biome)});
+        ns.LettersGardenArt.habitatReward({biome:world?.biome || 'meadow',stage,habitat:this.biomeDeco(world?.biome),terrain:false});
       return `<div class="garden-reward${finished?' garden-reward-finished':''}" role="img" aria-label="Garden flowers: ${stage}">${scene}</div>`;
     }
 
     rewardScene(finished=false,flower=false) {
-      return `<div class="reward-scene"><div class="reward-ground" aria-hidden="true">${ns.LettersRoomArt.podium()}</div>${this.gardenReward(finished)}
+      return `<div class="reward-scene">${ns.LettersRoomArt.floor()}<div class="reward-ground" aria-hidden="true">${ns.LettersRoomArt.podium()}</div>${this.gardenReward(finished)}
         ${flower?`<div class="party-flower">${Art.skillFlower({scores:this.skills,size:120})}</div>`:''}
         ${finished?`<div class="party-pair"><div class="party-mascot">${Art.keyMascot({size:120,mood:'open'})}</div><button type="button" class="party-pet" aria-label="Celebrate with your pet"><span class="pet-bubble" hidden></span>${this.petSVG(150,'open')}</button></div>`: `<div class="reward-friend" aria-hidden="true">${this.petSVG(150,'proud')}</div>`}</div>`;
     }
@@ -2119,7 +2124,7 @@
           <div class="party-stars" role="img" aria-label="${stars} of 3 stars">
             ${[0, 1, 2].map((i) => `<span class="stars-star ${i < stars ? "is-on" : ""}" style="animation-delay:${i * 240}ms">${Art.icon("star", 64)}</span>`).join("")}
           </div>
-          <div class="party-actions">${adventure ? `<button type="button" class="lg-round-btn party-replay" aria-label="Play the delivery again">${Art.icon('replay',32)}</button>` : ''}<button type="button" class="party-decorate" aria-label="Decorate with your earned rewards">${ns.DecoratingGarden.icon(50)}</button><button type="button" class="lg-big-btn party-next" aria-label="Return to the garden">${Art.icon(adventure ? "home" : "next", 44)}</button></div>
+          <div class="party-actions">${adventure ? `<button type="button" class="lg-round-btn party-replay" aria-label="Play the delivery again">${Art.icon('replay',32)}</button>` : ''}<button type="button" class="party-decorate" aria-label="Decorate with your earned rewards">${ns.DecoratingGarden.icon(50)}</button><button type="button" class="lg-big-btn party-next" aria-label="Return to the garden">${Art.icon("home", 44)}</button></div>
         </div>`,
       );
       this.sound.play(newlyDone ? "worldClear" : "perfect");
@@ -2131,6 +2136,7 @@
       if(replay)replay.onclick=()=>this.replayActivity(el,true);
       const partyPet = el.querySelector(".party-pet");
       partyPet.addEventListener("click", () => {
+        if(!el.isConnected)return;
         this.petRecite(partyPet.querySelector(".pet-bubble"));
         partyPet.querySelector(".pet-bubble").hidden = false;
       });

@@ -1,0 +1,42 @@
+{
+  "stars-landscape.png": {
+    "light": 32.14,
+    "mid": 26.74,
+    "dark": 4.37
+  },
+  "pet-blob-phone.png": {
+    "light": 30.5,
+    "mid": 25.09,
+    "dark": 11.16
+  },
+  "stars-desktop-orchard.png": {
+    "light": 12.47,
+    "mid": 34.61,
+    "dark": 7.06
+  },
+  "pet-small-phone.png": {
+    "light": 29.52,
+    "mid": 26.02,
+    "dark": 11.16
+  },
+  "pet-landscape.png": {
+    "light": 24.5,
+    "mid": 28.7,
+    "dark": 6.95
+  },
+  "pet-phone.png": {
+    "light": 17.18,
+    "mid": 29.47,
+    "dark": 11.29
+  },
+  "party-phone.png": {
+    "light": 14.17,
+    "mid": 29.82,
+    "dark": 11.03
+  },
+  "party-landscape-night.png": {
+    "light": 10.1,
+    "mid": 33.43,
+    "dark": 13.02
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "before.png": {
+    "grass_sample_rgb": [
+      79,
+      105,
+      90
+    ],
+    "grass_lightness": 36.1,
+    "grass_saturation": 14.1,
+    "sample": "x=50..150, y=300..400; unchanged desktop grass patch"
+  },
+  "night-desktop.png": {
+    "grass_sample_rgb": [
+      93,
+      140,
+      107
+    ],
+    "grass_lightness": 45.7,
+    "grass_saturation": 20.2,
+    "sample": "x=50..150, y=300..400; unchanged desktop grass patch"
+  }
+}

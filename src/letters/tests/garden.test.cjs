@@ -303,7 +303,7 @@ test('Habitat growth derives only from distinct successes in the current chapter
 
 test('Reward rendering preserves Boat and uses the current habitat without changing progress',()=>{
  let boat=0,habitat=0;const world={id:'orchard',biome:'orchard',games:['build']};
- const window={MiftahGame:{LettersArt:{},LettersGardenArt:{chapterGrowth:()=>1,boat(){boat++;return 'boat-art'},habitatReward(args){habitat++;assert.equal(args.biome,'orchard');assert.equal(args.stage,1);return 'orchard-art'}}}};
+ const window={MiftahGame:{LettersArt:{},LettersGardenArt:{chapterGrowth:()=>1,boat(){boat++;return 'boat-art'},habitatReward(args){habitat++;assert.equal(args.biome,'orchard');assert.equal(args.stage,1);assert.equal(args.terrain,false);return 'orchard-art'}}}};
  vm.runInNewContext(fs.readFileSync(path.join(__dirname,'..','LettersGame.js'),'utf8'),{window});
  const game=Object.create(window.MiftahGame.LettersGame.prototype);
  Object.assign(game,{session:{world},progress:{done:[]},bests:{'orchard:build':3},biomeDeco:()=>'<svg/>',saveJSON(){throw Error('art must not save')}});

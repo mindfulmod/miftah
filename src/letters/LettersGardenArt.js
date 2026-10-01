@@ -11,14 +11,14 @@
     if((progress.done || []).includes(world.id))return 3;
     return Math.min(3,[...new Set(world.games || [])].filter(game=>(bests[`${world.id}:${game}`] || 0)>0).length);
   }
-  function habitatReward({biome='meadow',stage=0,habitat=''}={}) {
-    const flowers=flowerBed({size:100,count:stage});
+  function habitatReward({biome='meadow',stage=0,habitat='',terrain=true}={}) {
+    const flowers=flowerBed({size:100,count:stage,terrain});
     return `<svg class="garden-habitat-reward" viewBox="0 0 260 200" aria-hidden="true">
-      <ellipse cx="130" cy="177" rx="107" ry="12" fill="#4e7156" opacity=".18"/>
+      ${terrain ? `<ellipse cx="130" cy="177" rx="107" ry="12" fill="#4e7156" opacity=".18"/>
       <path d="M23 146Q118 122 237 148L218 171Q130 192 43 169Z" fill="#b4cf8c"/>
       <path d="M24 149Q124 174 234 151L218 172Q127 192 43 170Z" fill="#86a76d"/>
-      <path d="M38 147Q125 129 222 148" fill="none" stroke="#d1e3ab" stroke-width="4" stroke-linecap="round"/>
-      ${biome==='meadow'||!habitat?`<svg x="40" y="25" width="180" height="144" viewBox="0 0 100 80">${flowerBed({size:100,count:stage})}</svg>`:
+      <path d="M38 147Q125 129 222 148" fill="none" stroke="#d1e3ab" stroke-width="4" stroke-linecap="round"/>` : ''}
+      ${biome==='meadow'||!habitat?`<svg x="40" y="25" width="180" height="144" viewBox="0 0 100 80">${flowers}</svg>`:
         `<svg x="28" y="5" width="190" height="143" viewBox="0 0 64 48">${habitat.replace('<svg ','<svg width="64" height="48" ')}</svg><svg x="139" y="103" width="90" height="72" viewBox="0 0 100 80">${flowers}</svg>`}
     </svg>`;
   }
@@ -89,12 +89,12 @@
     return kind === "Feed" && petArt ? `<span class="practice-friend-picture" aria-hidden="true">${picture}<span class="practice-friend">${petArt}</span></span>` : picture;
   }
   // Placement belongs to the wrapper; the petals have their own motion layer.
-  function flowerBed({size=90,count=3,centered=false}={}) {
+  function flowerBed({size=90,count=3,centered=false,terrain=true}={}) {
     const flowers=centered&&count===1?[[50,23,1,'#ed8ca6']]:centered&&count===2?[[33,29,.86,'#ed8ca6'],[67,29,.86,'#f3ce63']]:[[24,33,.72,'#ed8ca6'],[48,23,1,'#f3ce63'],[74,38,.68,'#b19bd5']];
     return `<svg class="garden-flower-bed" viewBox="0 0 100 80" width="${size}" height="${size*.8}" aria-hidden="true">
-      <ellipse cx="50" cy="71" rx="43" ry="6" fill="#315942" opacity=".16"/>
+      ${terrain ? `<ellipse cx="50" cy="71" rx="43" ry="6" fill="#315942" opacity=".16"/>
       <path d="M8 65Q24 54 47 60Q77 51 93 65Q83 75 48 73Q18 76 8 65Z" fill="#9bc977"/>
-      <path d="M12 64Q31 57 48 63Q70 55 89 65" fill="none" stroke="#c6e6a5" stroke-width="3" stroke-linecap="round"/>
+      <path d="M12 64Q31 57 48 63Q70 55 89 65" fill="none" stroke="#c6e6a5" stroke-width="3" stroke-linecap="round"/>` : ''}
       ${flowers.slice(0,Math.max(0,Math.min(3,count))).map(([x,y,k,c])=>`<g transform="translate(${x} ${y}) scale(${k})">
         <path d="M0 39Q3 19 0 0" fill="none" stroke="#537a46" stroke-width="4" stroke-linecap="round"/>
         <path d="M1 28Q-15 29 -14 15Q-3 16 1 28M2 20Q15 21 17 8Q6 10 2 20" fill="#719c56"/>

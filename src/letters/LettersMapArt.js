@@ -26,8 +26,10 @@
     const water=(dx=0)=>`${contour(shore,dx)}L${w+120} ${h+100}V-100Z`;
     const edge=shore.map((p,i)=>[Math.max(0,(w-lane)/2)+lane*(.065+.055*Math.sin(i*1.7)),p[1]]);
     const verge=(dx=0)=>`${contour(edge,dx)}L-100 ${h+100}V-100Z`;
-    const soil=night?'#4e9677':'#b7e779';
-    const grass=night?'#2f5c46':'#7fce54';
+    // Moonlit grass keeps its green identity. Reserve the darkest foliage for
+    // small banks and contact shadows, never the whole walkable landscape.
+    const soil=night?'#7fce54':'#b7e779';
+    const grass=night?'#4e9677':'#7fce54';
     const glints=[];
     // Current marks follow the river, independent of chapter count/row edges.
     for(let i=1;i<shore.length-1;i++) {
@@ -46,7 +48,7 @@
       // never enter the central route, a star plaque, or the pet's space.
       const x=Math.max(8,(w-lane)/2)+lane*(.025+(i%3)*.012);
       const y=stop.y+(i%2?-52:62),scale=[.65,.85,1][i%3];
-      return `<g transform="translate(${x} ${y}) scale(${scale})" opacity="${night ? .65 : .8}">
+      return `<g transform="translate(${x} ${y}) scale(${scale})" opacity="${night ? .85 : .8}">
         <ellipse cx="10" cy="14" rx="25" ry="6" fill="#2f5c46" opacity=".16"/>
         <path d="M9 13Q-13 9-9-9Q4-10 9 13Q10-17 24-20Q32-3 9 13Q30-4 39 5Q31 16 9 13Z" fill="#4e9677"/>
         <path d="M8 12Q-5-1-7-6M12 11Q18-6 24-13" fill="none" stroke="#b7e779" stroke-width="1.6" stroke-linecap="round"/>
@@ -58,7 +60,7 @@
         <linearGradient id="${id}-ground" x1="0" x2="1" y1="0" y2="0"><stop stop-color="${grass}"/><stop offset=".4" stop-color="${soil}"/><stop offset="1" stop-color="${grass}"/></linearGradient>
         <linearGradient id="${id}-water" x1="0" x2="1" y1="0" y2="0"><stop stop-color="${night?'#3a8fc4':'#96ecff'}"/><stop offset=".65" stop-color="${night?'#34375f':'#62cdf4'}"/><stop offset="1" stop-color="${night?'#4a4d84':'#3a8fc4'}"/></linearGradient>
         ${habitatDefs}
-        <linearGradient id="${id}-light" x1="0" x2="1" y1="0" y2="0"><stop stop-color="${paper}" stop-opacity="0"/><stop offset=".4" stop-color="${paper}" stop-opacity="${night ? .04 : .23}"/><stop offset="1" stop-color="${paper}" stop-opacity="0"/></linearGradient>
+        <linearGradient id="${id}-light" x1="0" x2="1" y1="0" y2="0"><stop stop-color="${paper}" stop-opacity="0"/><stop offset=".4" stop-color="${paper}" stop-opacity="${night ? .08 : .12}"/><stop offset="1" stop-color="${paper}" stop-opacity="0"/></linearGradient>
       </defs>
       <path class="map-ground-plane" d="M0 0H${w}V${h}H0Z" fill="url(#${id}-ground)"/>
       <path d="M0 0H${w}V${h}H0Z" fill="url(#${id}-light)"/>
