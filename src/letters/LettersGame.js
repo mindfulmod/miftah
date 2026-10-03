@@ -75,7 +75,16 @@
     return { id: `q:${id}`, display: arabic.replace(/\s*[ۖۗۘۙۚۛ]\s*$/, ""), speak: arabic, audioPath: audio || `wbw/${pad3(s)}_${pad3(a)}_${pad3(w)}.mp3`, surah: name, ayah: a };
   };
   // v23: the world-overview button — a folded map.
+  // Practice-garden group chips (UI pass 2026-10-03): wordless pictures.
+  const PG_CHIPS = {
+    play: `<svg viewBox="0 0 40 40" width="34" height="34"><path d="M20 34Q4 24 6 14Q8 6 15 7Q19 8 20 12Q21 8 25 7Q32 6 34 14Q36 24 20 34Z" fill="#ee806f" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/></svg>`,
+    read: `<svg viewBox="0 0 40 40" width="34" height="34"><path d="M4 10Q12 6 20 10Q28 6 36 10V32Q28 28 20 32Q12 28 4 32Z" fill="#fffdf7" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/><path d="M20 10V32" stroke="#4a3620" stroke-width="2.4"/></svg>`,
+    think: `<svg viewBox="0 0 40 40" width="34" height="34"><path d="M20 5Q31 5 31 16Q31 22 25 26V30H15V26Q9 22 9 16Q9 5 20 5Z" fill="#ffe49a" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/><path d="M15 34H25" stroke="#4a3620" stroke-width="3" stroke-linecap="round"/></svg>`,
+    write: `<svg viewBox="0 0 40 40" width="34" height="34"><path d="M8 32L10 24L28 6L34 12L16 30Z" fill="#ffa798" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/><path d="M8 32L16 30L10 24Z" fill="#4a3620"/></svg>`,
+    explore: `<svg viewBox="0 0 40 40" width="34" height="34"><circle cx="17" cy="17" r="10" fill="#ccfbef" stroke="#4a3620" stroke-width="3"/><path d="M25 25L34 34" stroke="#70501b" stroke-width="4" stroke-linecap="round"/></svg>`,
+  };
   const WALK_KEY = "quran-trainer:letters:walk";
+  const BOOKS_KEY = "quran-trainer:letters:books";
   // Today's Walk (v25): a little trail of footprints on the map header.
   const WALK_BTN = `<svg viewBox="0 0 48 48" width="34" height="34" aria-hidden="true"><path d="M8 40Q16 30 24 32Q32 34 40 22" fill="none" stroke="#c9bda4" stroke-width="6" stroke-linecap="round" data-ribbon/><g fill="#e8743c" stroke="#4a3620" stroke-width="1.6"><ellipse cx="13" cy="33" rx="3.6" ry="5" transform="rotate(-30 13 33)"/><ellipse cx="24" cy="27" rx="3.6" ry="5" transform="rotate(10 24 27)"/><ellipse cx="35" cy="22" rx="3.6" ry="5" transform="rotate(-20 35 22)"/></g><circle cx="40" cy="10" r="5" fill="#f3c955" stroke="#4a3620" stroke-width="1.6"/></svg>`;
   const WORLD_BTN = `<svg viewBox="0 0 48 48" width="34" height="34" aria-hidden="true"><path d="M6 12L17 8L31 12L42 8V36L31 40L17 36L6 40Z" fill="#fffaf0" stroke="#4a3620" stroke-width="3" stroke-linejoin="round"/><path d="M17 8V36M31 12V40" stroke="#a89478" stroke-width="2.4"/><path d="M9 30Q16 24 22 28Q28 32 38 22" fill="none" stroke="#4e9677" stroke-width="2.4" stroke-linecap="round"/><circle cx="24" cy="20" r="3.6" fill="#e8743c" stroke="#4a3620" stroke-width="1.6"/></svg>`;
@@ -126,6 +135,10 @@
       this.island = null;
       this.game = null; // active mini-game instance
       this.stamps = this.loadStamps();
+      try {
+        const strong = this.worlds.letters.filter((l) => (ns.LettersStrength?.mastery(l.char) || 0) >= 0.7).length;
+        ns.LettersAnalytics?.visit({ days: (this.stamps.dates || []).length, strong });
+      } catch {}
       // Source-mapped AI names and curriculum clips play locally; uncovered
       // requests keep device speech. No voice-generation service runs in game.
       this.speechTurn = 0;
@@ -1414,6 +1427,7 @@
       const pond = ["lg-play", "lg-stars"].includes(className) && activity === "pop";
       this.root.classList.toggle("lg-pond-activity", pond);
       this.currentActivity = className === "lg-play" ? activity : null;
+      if (this.currentActivity) ns.LettersAnalytics?.activity(this.currentActivity);
       this.root.classList.toggle("lg-boat-chapter", garden);
       this.root.classList.toggle("lg-reference-journey", garden);
       this.root.classList.toggle("lg-boat-adventure", this.isBoatAdventure() && ["lg-meet", "lg-play", "lg-stars", "lg-party"].includes(className));
@@ -1644,6 +1658,11 @@
             <p class="gu-sub">Little sprout (this child only) turns on gentle mode, reaches further for near-miss taps, lights up the right answer after a wrong one, and needs a short hold on Home to leave an activity.</p>
             <p class="gu-sub">Gentle mode (this child only): no weather, creatures or background sounds, no timed challenge, bigger buttons, and the question repeats itself if they pause.</p>
           </div>
+          <div class="gu-section lg-panel gu-privacy">
+            <h3>Privacy</h3>
+            <p class="gu-sub">Progress stays on this device. To learn which activities help, the garden sends anonymous counts: which games are opened, when a letter becomes strong, and roughly how many days it has been played. No names, no answers, no cookies, nothing that identifies your child.</p>
+            <button type="button" class="lg-big-btn gu-analytics-toggle" aria-pressed="${!!ns.LettersAnalytics?.enabled()}">Anonymous counts ${ns.LettersAnalytics?.enabled() ? "are on" : "are off"}</button>
+          </div>
         </div>`,
       );
       this.wireTopBar(el, null);
@@ -1667,6 +1686,10 @@
         if (this.sprout) return; // sprout always keeps gentle on
         this.gentle = !this.gentle;
         this.saveJSON("quran-trainer:letters:gentle", this.gentle);
+        this.renderGrownup();
+      });
+      el.querySelector(".gu-analytics-toggle")?.addEventListener("click", () => {
+        ns.LettersAnalytics?.setEnabled(!ns.LettersAnalytics.enabled());
         this.renderGrownup();
       });
       const st = el.querySelector(".gu-sound-toggle");
@@ -2281,6 +2304,10 @@
       if (worldBtn) worldBtn.onclick = () => { if (el.isConnected) { this.sound.play("page"); this.openWorldOverview(el, scroll, yOf); } };
       if (welcome) this.playMapWelcome(el, scroll, { welcome, worlds, yOf, walkTo, rig: mapRig, then: () => this.arriveInLand(el, scroll, mapRig) });
       else this.arriveInLand(el, scroll, mapRig);
+      // The Story of the Garden (v30): the friends' garden, colour returning to
+      // finished lands, and one story moment per visit (graduation, a land's
+      // homecoming, or the wind story the first time).
+      try { this.storyOnMap?.(el, { worlds, yOf, gap: GAP, welcome: !!welcome }); } catch {}
       // Landmark toys: shake a tree, lift a leaf, light a lantern, sail the boat.
       const sailBoat = (button) => {
         const boat = button.querySelector("svg");
@@ -3225,7 +3252,7 @@
       if(items.length<3)for(const item of byChar.values()){if(items.length>=3)break;if(!items.includes(item))items.push(item);}
       if(!items.length)return this.renderWalk();
       const world=this.worlds.worlds.find(w=>w.id==='pack-boat');
-      this.session={world,items,startAt:0,walkStop:i};
+      this.session={world,items,startAt:0,walkStop:i,bookId:stop.kind==='LivingBook'?'night':undefined};
       const started=Date.now();
       // A stop counts as walked when it is played — finished, or simply given
       // a fair go. Leaving early is always fine; it just stays open.
@@ -3237,26 +3264,107 @@
       this.startPractice(stop.kind,()=>leave(false),()=>leave(true));
     }
 
+    // Living Books (v29): a word can be read by this child when every letter
+    // is in a finished chapter and every mark has been taught — the same
+    // honesty filter the word chapters use.
+    canDecode(word) {
+      const w=String(word||'').replace(/[؟?.!،,]/g,'').normalize('NFC');
+      if(!w||!this.worlds?.wordTags)return false;
+      const tags=this.worlds.wordTags(w);
+      const done=this.progress?.done||[];
+      const known=new Set(this.petKnowledge().map(l=>l.char));
+      const letters=[...w.replace(/[ً-ْٰٓ-ٟؐ-ؚۖ-ۭـ]/g,'').replace(/[أإآٱ]/g,'ا')];
+      return tags.valid&&letters.length>0&&letters.every(c=>known.has(c))&&tags.prerequisiteWorldIds.every(id=>done.includes(id));
+    }
+
+    renderBookShelf() {
+      const reads=this.loadJSON(BOOKS_KEY,{});
+      const books=[...(ns.LivingBooks?.BOOKS||[])].sort((a,b)=>(reads[b.id]||0)-(reads[a.id]||0));
+      const F=ns.LetterFriends;
+      const el=this.screen('lg-meet lg-book-shelf',`${this.topBar()}<div class="lb-shelf">${books.map(b=>`<button type="button" class="lb-spine" data-book="${b.id}" aria-label="Read ${b.title}"><span class="lb-spine-art">${F?.art(b.cover,{size:110})||''}</span><span class="lb-spine-title" dir="rtl">${b.title}</span>${(reads[b.id]||0)>=3?`<span class="lb-fav" aria-hidden="true">${Art.icon('star',20)}</span>`:''}</button>`).join('')}</div>`);
+      this.wireTopBar(el,()=>this.renderBookCorner());
+      Art.fitGlyphs?.(el);
+      el.querySelectorAll('[data-book]').forEach(b=>b.onclick=()=>{
+        this.session={world:this.worlds.worlds.find(w=>w.id==='pack-boat'),items:this.knownItems(),bookId:b.dataset.book};
+        this.sound.play('page');
+        this.startPractice('LivingBook',()=>this.renderBookShelf());
+      });
+      return el;
+    }
+
+    // The Puzzle Tree (v31): four thinking games from Big Brain Academy.
+    renderPuzzleTree() {
+      const n=this.petKnowledge().length;
+      const P=ns.PuzzleGames, known=this.petKnowledge().map(l=>l.char);
+      const kinds=[['EchoParade',2,'Echo parade: hear the friends, tap them in order'],
+        ['DotsLast',2,'Dots last: which letter is it?'],['LetterTrain',2,'Letter train: pop the balloons in alphabet order'],
+        ['SameLetter',2,'Same letter: find the one that tumbled'],
+        // v32: two more from Big Brain Academy.
+        ['LanternHunt',2,'Lantern hunt: find the letters in the dark'],['LetterShadows',2,'Letter shadows: whose shadow is it?'],
+        // v34: the Letter Workshop.
+        ['BuildLetter',2,'Build the letter: a body and its dots'],['FillGap',2,'Fill the gap: which letter starts the word?']]
+        .filter(([kind,min])=>n>=min&&(kind!=='DotsLast'||known.some(c=>P?.siblings(c,known).length&&P.dotsOf(c).length)));
+      if(!kinds.length)return this.renderPracticeGarden();
+      const el=this.screen('lg-meet lg-puzzle-tree',`${this.topBar()}<div class="practice-garden-hub"><div class="practice-garden-choices">${kinds.map(([kind,,label])=>`<button type="button" data-kind="${kind}" aria-label="${label}">${ns.LettersGardenArt.practicePicture(kind)}<span class="practice-play" aria-hidden="true">${Art.icon('next',24)}</span></button>`).join('')}</div></div>`);
+      this.wireTopBar(el,()=>this.renderPracticeGarden());
+      el.querySelectorAll('[data-kind]').forEach(b=>b.onclick=()=>{
+        this.session={world:this.worlds.worlds.find(w=>w.id==='pack-boat'),items:this.knownItems()};
+        this.startPractice(b.dataset.kind,()=>this.renderPuzzleTree());
+      });
+      return el;
+    }
+
+    // The Book Corner (v27): every picture-book game on one shelf.
+    renderBookCorner() {
+      const n=this.petKnowledge().length;
+      const kinds=[['FriendBook',1,'The Letter Friends book'],['FriendFind',2,'Find my friend'],['PeekFlaps',2,'Peekaboo flaps'],['SoundSort',2,'Sort the pictures'],
+        ['FriendShapes',2,'Friend shapes'],['HoopoeTrip',2,"The hoopoe's trip"],['BusyMarket',1,'Busy market'],['LivingBooks',0,'Living books: picture books that read with you']].filter(([,min])=>n>=min);
+      if(!kinds.length)return this.renderPracticeGarden();
+      const el=this.screen('lg-meet lg-book-corner',`${this.topBar()}<div class="practice-garden-hub"><div class="practice-garden-choices">${kinds.map(([kind,,label])=>`<button type="button" data-kind="${kind}" aria-label="${label}">${ns.LettersGardenArt.practicePicture(kind)}<span class="practice-play" aria-hidden="true">${Art.icon('next',24)}</span></button>`).join('')}</div></div>`);
+      this.wireTopBar(el,()=>this.renderPracticeGarden());
+      el.querySelectorAll('[data-kind]').forEach(b=>b.onclick=()=>{
+        if(b.dataset.kind==='LivingBooks')return this.renderBookShelf();
+        this.session={world:this.worlds.worlds.find(w=>w.id==='pack-boat'),items:this.knownItems()};
+        this.startPractice(b.dataset.kind,()=>this.renderBookCorner());
+      });
+      return el;
+    }
+
     renderPracticeGarden() {
       const world=this.worlds.worlds.find(w=>w.id==='pack-boat');
       const familiar=this.petKnowledge().map(letter=>({id:letter.char,display:letter.char,speak:letter.arName,objective:'letter-name'}));
       this.session={world,items:familiar.length?familiar:world.items()};
-      const choices=['Feed','DotGarden','GardenPaths','WaterGarden'];
+      // The Sand Table (v28) sits beside the other writing toys.
+      const choices=['Feed','DotGarden','GardenPaths','SandTable','WaterGarden'];
       // Letter Balloons (v24): free play for the youngest — first for a little sprout.
       if(this.sprout)choices.unshift('LetterBalloons');else choices.push('LetterBalloons');
       // Letter Friends (v26): find a friend, and read the friends' book.
-      if(this.petKnowledge().length>=2)choices.splice(1,0,'FriendFind');
-      if(this.petKnowledge().length)choices.push('FriendBook');
+      // Letter Friends (v26) and the picture-book games (v27) live together in
+      // the Book Corner; it sits second, right after feeding a friend.
+      if(this.petKnowledge().length)choices.splice(1,0,'BookCorner');
+      // The Puzzle Tree (v31): Big Brain Academy-style thinking games.
+      if(this.petKnowledge().length>=2)choices.splice(2,0,'PuzzleTree');
       if(this.petKnowledge().length>=3)choices.push('LetterHunt');
       if(this.petKnowledge().length&&this.taughtMarks().length)choices.push('SoundLab');
+      // Vowel Hats (v33): the marks as things friends wear.
+      if(this.petKnowledge().length&&this.taughtMarks().length)choices.push('HatShop');
       if(this.petKnowledge().length)choices.push('LetterStudio');
       if(this.petKnowledge().length>=4&&this.siblingPets().length)choices.push('GardenTogether');
       if(this.petKnowledge().length)choices.push('LetterDelivery');
       if(this.workshopWorlds().length)choices.push('Workshop');
       if(this.worlds.dailySession(this.progress.done)&&!this.gentle)choices.push('Burst');
-      const el=this.screen('lg-meet',`${this.topBar()}<div class="practice-garden-hub"><div class="practice-garden-choices">${choices.map(kind=>`<button type="button" data-kind="${kind}" aria-label="${({Feed:'Feed a friend',DotGarden:'Dot Garden: place the dots',GardenPaths:'Garden Paths: draw letters',WaterGarden:'Water Garden: open the letter gates',LetterDelivery:'Letter Delivery: familiar letters',Workshop:'Word Workshop: build familiar sounds',Burst:'Optional timed letter challenge',LetterHunt:'Letter Hunt: find the letter in the picture',SoundLab:'Sound Lab: join a letter and a mark',LetterStudio:'Letter Studio: make a picture',GardenTogether:'Garden Together: play with a brother or sister',LetterBalloons:'Letter Balloons: pop and hear the letters',FriendFind:'Find my friend',FriendBook:'The Letter Friends book'})[kind]}">${kind==='LetterDelivery'?ns.LetterDelivery.icon(120):ns.LettersGardenArt.practicePicture(kind,{petArt:kind==='Feed'?this.petSVG(100):''})}<span class="practice-play" aria-hidden="true">${Art.icon('next',24)}</span></button>`).join('')}</div></div>`);
+      // UI pass (2026-10-03): the garden had grown into one long list of
+      // look-alike tiles. Now they sit in five wordless, colour-coded groups —
+      // play with friends, books, puzzles, writing, explore — each with a
+      // picture chip, so a child can find "the writing ones" by colour.
+      const groups=[['play',['LetterBalloons','Feed','LetterDelivery','GardenTogether']],['read',['BookCorner']],['think',['PuzzleTree','Burst']],
+        ['write',['SandTable','GardenPaths','DotGarden']],['explore',['HatShop','WaterGarden','LetterHunt','SoundLab','LetterStudio','Workshop']]]
+        .map(([g,kinds])=>[g,kinds.filter(k=>choices.includes(k))]).filter(([,kinds])=>kinds.length);
+      if(this.sprout)groups.sort((a,b)=>(b[1].includes('LetterBalloons'))-(a[1].includes('LetterBalloons')));
+      const tileOf=kind=>`<button type="button" data-kind="${kind}" aria-label="${({Feed:'Feed a friend',DotGarden:'Dot Garden: place the dots',GardenPaths:'Garden Paths: draw letters',WaterGarden:'Water Garden: open the letter gates',LetterDelivery:'Letter Delivery: familiar letters',Workshop:'Word Workshop: build familiar sounds',Burst:'Optional timed letter challenge',LetterHunt:'Letter Hunt: find the letter in the picture',SoundLab:'Sound Lab: join a letter and a mark',LetterStudio:'Letter Studio: make a picture',GardenTogether:'Garden Together: play with a brother or sister',LetterBalloons:'Letter Balloons: pop and hear the letters',FriendFind:'Find my friend',FriendBook:'The Letter Friends book',BookCorner:'The Book Corner: picture-book games',SandTable:'The Sand Table: write in the sand',PuzzleTree:'The Puzzle Tree: thinking games',HatShop:'The hat shop: dress a friend in its vowel'})[kind]}">${kind==='LetterDelivery'?ns.LetterDelivery.icon(120):ns.LettersGardenArt.practicePicture(kind,{petArt:kind==='Feed'?this.petSVG(100):''})}<span class="practice-play" aria-hidden="true">${Art.icon('next',24)}</span></button>`;
+      const el=this.screen('lg-meet lg-practice-garden',`${this.topBar()}<div class="practice-garden-hub">${groups.map(([g,kinds])=>`<section class="pg-group" data-group="${g}"><span class="pg-chip" aria-hidden="true">${PG_CHIPS[g]}</span><div class="practice-garden-choices">${kinds.map(tileOf).join('')}</div></section>`).join('')}</div>`);
       this.wireTopBar(el);
-      el.querySelectorAll('[data-kind]').forEach(b=>b.onclick=()=>b.dataset.kind==='Burst'?this.startDaily(true):b.dataset.kind==='Workshop'?this.renderWorkshop():b.dataset.kind==='GardenTogether'?this.startTogether():this.startPractice(b.dataset.kind,()=>this.renderPracticeGarden()));
+      el.querySelectorAll('[data-kind]').forEach(b=>b.onclick=()=>b.dataset.kind==='Burst'?this.startDaily(true):b.dataset.kind==='Workshop'?this.renderWorkshop():b.dataset.kind==='GardenTogether'?this.startTogether():b.dataset.kind==='BookCorner'?this.renderBookCorner():b.dataset.kind==='PuzzleTree'?this.renderPuzzleTree():this.startPractice(b.dataset.kind,()=>this.renderPracticeGarden()));
     }
 
     renderDecoratingGarden() {
@@ -3311,13 +3419,13 @@
       el.querySelectorAll('[data-practice]').forEach(b=>b.onclick=()=>this.startPractice(b.dataset.practice,back));
     }
     startPractice(kind,back,onDone) {
-      if(!['Feed','Workshop','DotGarden','GardenPaths','WaterGarden','LetterDelivery','LetterHunt','SoundLab','LetterStudio','GardenTogether','LetterBalloons','FriendFind','FriendBook'].includes(kind))return back?.();
+      if(!['Feed','Workshop','DotGarden','GardenPaths','WaterGarden','LetterDelivery','LetterHunt','SoundLab','LetterStudio','GardenTogether','LetterBalloons','FriendFind','FriendBook','PeekFlaps','SoundSort','HoopoeTrip','FriendShapes','BusyMarket','SandTable','LivingBook','EchoParade','DotsLast','LetterTrain','SameLetter','LanternHunt','LetterShadows','HatShop','BuildLetter','FillGap'].includes(kind))return back?.();
       if(kind==='LetterDelivery'){const items=this.petKnowledge().map(letter=>({id:letter.char,display:letter.char,speak:letter.arName}));if(!items.length)return back?.();this.session={world:this.worlds.worlds.find(w=>w.id==='pack-boat'),items};}
       const s=this.session;
       if(!s?.world || !(s.items||s.world.items()).length)return back?.();
       const el=this.screen('lg-play',`${this.topBar()}<div class="practice-heading">${kind==='Feed'?'':this.petSVG(76)}<button class="practice-replay" type="button" aria-label="Hear the letter again"></button></div><div class="practice-stage"></div>`);
-      el.dataset.activity=kind==='Feed'?'feed':kind==='Workshop'?'build':kind==='LetterDelivery'?'delivery':kind==='DotGarden'?'dots':kind==='WaterGarden'?'water':kind==='LetterHunt'?'hunt':kind==='SoundLab'?'lab':kind==='LetterStudio'?'studio':kind==='GardenTogether'?'together':kind==='LetterBalloons'?'balloons':kind==='FriendFind'?'friend':kind==='FriendBook'?'friend-book':'practice';
-      if(kind==='LetterDelivery'||kind==='GardenTogether'||kind==='FriendBook')el.querySelector('.practice-heading').hidden=true;
+      el.dataset.activity=kind==='Feed'?'feed':kind==='Workshop'?'build':kind==='LetterDelivery'?'delivery':kind==='DotGarden'?'dots':kind==='WaterGarden'?'water':kind==='LetterHunt'?'hunt':kind==='SoundLab'?'lab':kind==='LetterStudio'?'studio':kind==='GardenTogether'?'together':kind==='LetterBalloons'?'balloons':kind==='FriendFind'?'friend':kind==='FriendBook'?'friend-book':ns.BookGames?.KINDS?.includes(kind)?`book-${kind.toLowerCase()}`:kind==='SandTable'?'sand':kind==='LivingBook'?'living-book':ns.PuzzleGames?.KINDS?.includes(kind)||ns.ShadowGames?.KINDS?.includes(kind)||ns.WorkshopGames?.KINDS?.includes(kind)?`puzzle-${kind.toLowerCase()}`:kind==='HatShop'?'hats':'practice';
+      if(kind==='LetterDelivery'||kind==='GardenTogether'||kind==='FriendBook'||kind==='LivingBook')el.querySelector('.practice-heading').hidden=true;
       if(kind==='Feed'||kind==='Workshop')el.querySelector('.practice-stage').classList.add('play-stage');
       this.wireTopBar(el,back);
       const replay=el.querySelector('.practice-replay');let current=null;
@@ -3345,7 +3453,7 @@
         // Letter Hunt draws the child's newest land; its finds burst in petals.
         land:kind==='LetterHunt'||kind==='LetterStudio'?([...this.worlds.worlds].reverse().find(w=>this.statusOf(w)!=='locked')?.biome || 'meadow'):undefined,
         confettiAt:target=>this.confettiAt(target),
-        marks:kind==='SoundLab'?this.taughtMarks():undefined,
+        marks:kind==='SoundLab'||kind==='HatShop'||kind==='SandTable'?this.taughtMarks():undefined,
         petA:kind==='GardenTogether'?this.petSVG(96):undefined,
         starter:kind==='LetterBalloons'?(ns.LETTERS_DATA?.packs?.[0]?.letters||[]).map(l=>({id:l.char,display:l.char,speak:l.arName})):undefined,
         petB:kind==='GardenTogether'&&this.partnerPet?Art.pet({hue:this.partnerPet.hue??200,species:this.partnerPet.species||'blob',stage:1,worn:this.partnerPet.worn||[],size:96}):undefined,
@@ -3354,9 +3462,17 @@
         // Letter Studio pictures hang in the garden as signs (the drawings store).
         saveDrawing:url=>{const kept={...(this.savedDrawings||{})};const n=1+Object.keys(kept).filter(k=>/^art\d$/.test(k)).length%3;delete kept[`art${n}`];kept[`art${n}`]=url;this.savedDrawings=Object.fromEntries(Object.entries(kept).slice(-8));this.saveJSON('quran-trainer:letters:drawings',this.savedDrawings);},
         // Letter Friends (v26): distractors and book pages come from every letter met.
-        known:kind==='FriendFind'||kind==='FriendBook'?this.knownItems():undefined,
+        known:kind==='FriendFind'||kind==='FriendBook'||kind==='LivingBook'||ns.BookGames?.KINDS?.includes(kind)||ns.PuzzleGames?.KINDS?.includes(kind)||ns.ShadowGames?.KINDS?.includes(kind)||ns.WorkshopGames?.KINDS?.includes(kind)||kind==='HatShop'?this.knownItems():undefined,
+        // Living Books (v29): which book, which words this child can decode,
+        // and a read count so favourites come first on the shelf.
+        bookId:kind==='LivingBook'?s.bookId:undefined,
+        decodable:kind==='LivingBook'?word=>this.canDecode(word):undefined,
+        onRead:kind==='LivingBook'?id=>{const reads={...this.loadJSON(BOOKS_KEY,{})};reads[id]=(reads[id]||0)+1;this.saveJSON(BOOKS_KEY,reads);}:undefined,
+        // Picture-book games (v27) start a learning round per question without
+        // showing the answer on the replay button.
+        beginRound:(item,skill='friend')=>learning?.beginPrompt(item,{activity:kind,skill}),
         startAt:kind==='FriendBook'?(s.startAt||0):undefined,
-        beginner:kind==='FriendFind'?!!this.sprout:undefined,
+        beginner:kind==='FriendFind'||kind==='SandTable'||ns.BookGames?.KINDS?.includes(kind)||ns.PuzzleGames?.KINDS?.includes(kind)||ns.ShadowGames?.KINDS?.includes(kind)||ns.WorkshopGames?.KINDS?.includes(kind)||kind==='HatShop'?!!this.sprout:undefined,
         done:()=>{if(el.isConnected)(onDone||back)();}};
       if(kind==='Feed')this.game=new ns.LettersMiniGames.feed({...ctx,garden:true,beginner:true,level:0,rounds:4,hue:150,extraItems:[],petArt:()=>this.petSVG(180),setPrompt:ctx.prompt,sfx:name=>this.sound.play(name),confettiAt:target=>this.confettiAt(target),onDone:ctx.done});
       else if(kind==='Workshop')this.game=new ns.LettersMiniGames.build({...ctx,setPrompt:ctx.prompt,sfx:name=>this.sound.play(name),confettiAt:target=>this.confettiAt(target),onDone:ctx.done});
@@ -3461,8 +3577,46 @@
       else this.startGame();
     }
 
+    // The friend stop (v32, 2026-10-03): every chapter can end with one of the
+    // newer games, chosen to fit its letters, so children meet them on the
+    // main journey instead of only in the practice garden's corners.
+    chapterBonus(world) {
+      if (!world || !ns.GardenPractice) return null;
+      const F = ns.LetterFriends;
+      const letters = (world.meet || []).map(m => m.display).filter(c => F?.FRIENDS?.[c]);
+      const items = letters.map(c => ({ id: c, display: c, speak: (ns.LETTERS_DATA?.packs || []).flatMap(p => p.letters).find(l => l.char === c)?.arName || c }));
+      const sib = c => ns.PuzzleGames?.siblings?.(c, letters).length > 0;
+      const pick = {
+        "pack-boat": "FriendFind", "pack-smile": "DotsLast", "pack-little": "FriendFind", "pack-wave": "DotsLast",
+        "pack-tall": "FriendFind", "pack-strong": "LetterShadows", "pack-round": "FriendFind",
+        "join-1": "LetterShadows", "join-2": "SameLetter", muqattaat: "EchoParade", sukoon: "LanternHunt",
+        fatha: "HatShop", "kasra-damma": "HatShop", tanween: "HatShop",
+        // v35: the long-vowel chapters sing their syllables in Echo Parade.
+        standing: "EchoParade", "long-sounds": "EchoParade", leen: "EchoParade",
+      }[world.id];
+      if (!pick || !ns.GardenPractice[pick]) return null;
+      if (pick === "DotsLast" && !letters.some(sib)) return null;
+      // Joining and later chapters review everything learned; letter chapters
+      // use their own new letters.
+      if (pick === "EchoParade" && world.kind === "syllables") return { kind: pick, items: (world.items?.() || []).filter(i => ns.LetterFriends?.FRIENDS?.[[...String(i.display)][0]] && [...String(i.display)][0] !== "ا") };
+      // Vowel chapters dress the friends in their own syllables (v33).
+      if (pick === "HatShop") return { kind: pick, items: (world.items?.() || []).filter(i => ns.VowelGames?.baseOf(i.display) && ns.VowelGames?.markOf(i.display)) };
+      const review = world.kind !== "letters" && pick !== "EchoParade";
+      return { kind: pick, items: review || !items.length ? this.knownItems() : items };
+    }
+
     finishWorld() {
       const s = this.session;
+      if (!s.checkup && !s.daily && !s.bonusDone) {
+        const bonus = this.chapterBonus(s.world);
+        if (bonus && bonus.items.length) {
+          s.bonusDone = true;
+          const chapter = s;
+          this.session = { world: s.world, items: bonus.items, startAt: 0, chapterBonus: true };
+          const resume = () => { this.session = chapter; this.finishWorld(); };
+          return this.startPractice(bonus.kind, resume, resume);
+        }
+      }
       const worldStars = Math.max(1, Math.round(s.starTotal / s.world.games.length));
       if (s.checkup) {
         // Check-up done: the flower has its new petals. Show it off.

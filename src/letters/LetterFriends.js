@@ -58,8 +58,10 @@
       front: `<ellipse cx="65" cy="22" rx="10" ry="7" fill="#f3c955" ${ink(3)}/>${line("M60 15l-1-6M68 15l1-6", INK, 2.4)}<circle cx="59" cy="9" r="2" fill="#c69434"/><circle cx="69" cy="9" r="2" fill="#c69434"/>${eye(67, 20, 1.6)}<circle cx="74" cy="24" r="1.2" fill="${INK}"/>${[[61, 50], [57, 62], [47, 73]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="2.4" fill="#c69434"/>`).join("")}<ellipse cx="17" cy="86" rx="10" ry="6" fill="#f3c955" ${ink(3)}/>${legs([[12, 91, 12, 99], [23, 91, 23, 99]])}` },
     "س": { id: "fish", word: "سَمَكَة", en: "fish", call: "friend-fish", fill: "#62cdf4",
       front: `<path d="M18 56L3 46L5 65Z" fill="#62cdf4" ${ink(3)}/><circle cx="54" cy="66" r="3.2" fill="#fffdf7" ${ink(1.6)}/>${eye(54, 66, 1.4)}${line("M46 60q-3 6 0 12", INK, 1.6)}<circle cx="96" cy="30" r="2.4" fill="#ccfbef" ${ink(1.6)}/><circle cx="92" cy="20" r="1.6" fill="#ccfbef" ${ink(1.6)}/>` },
-    "ش": { id: "sun", word: "شَمْس", en: "sun", call: "glow", fill: "#7fce54", dot: "#ffe49a",
-      back: `${line("M76 5V1M95 27h4M57 27h-4M90 13l3-3M62 13l-3-3", "#c69434", 3)}<circle cx="76" cy="27" r="15" fill="#f3c955" ${ink(3)}/>` },
+    "ش": { id: "sun", word: "شَمْس", en: "sun", call: "glow", fill: "#7fce54", dot: "#fffdf7",
+      // The sun's eyes are two of ش's dots; the third twinkles on its brow.
+      back: `${line("M76 4V-1M98 28h5M54 28h-5M92 12l4-4M60 12l-4-4M94 44l4 3M58 44l-4 3", "#c69434", 3)}<circle cx="76" cy="28" r="18" fill="#f3c955" ${ink(3)}/><circle cx="64" cy="37" r="3" fill="#ffa798"/><circle cx="88" cy="37" r="3" fill="#ffa798"/>`,
+      front: `${eye(68, 33, 2)}${eye(84, 33, 2)}<path d="M76 16l1.4 2.6 2.6 1.4-2.6 1.4-1.4 2.6-1.4-2.6-2.6-1.4 2.6-1.4Z" fill="#f3c955"/>${line("M71 40Q76 44 81 40", INK, 2.4)}` },
     "ص": { id: "shell", word: "صَدَفَة", en: "seashell", call: "ripple", fill: "#ee806f",
       back: `<path d="M0 84Q50 76 100 84V98H0Z" fill="#e5dcc8"/><path d="M56 60Q54 20 80 22Q106 26 102 60Z" fill="#ffa798" ${ink(3)}/>${line("M62 30L64 24M74 26V20M86 26L88 20M97 34L101 30", "#c25a49", 2.4)}` },
     "ض": { id: "frog", word: "ضِفْدَع", en: "frog", call: "friend-frog", fill: "#b7e779", dot: "#fffdf7",
@@ -131,5 +133,12 @@
   // The friend as a speakable item: says the friend's name (taught as a name).
   const item = (char) => FRIENDS[char] ? { id: `friend:${char}`, display: FRIENDS[char].word, speak: FRIENDS[char].word, friendOf: char } : null;
 
-  ns.LetterFriends = { FRIENDS, CHARS, art, look, item, get: (char) => FRIENDS[char] || null };
+  // Just the friend's dress in the handwriting box (0–100), for laying over a
+  // letter the child has drawn — the Sand Table's friend rising from the sand.
+  function dress(char) {
+    const f = FRIENDS[char];
+    return f ? `<g class="lf-dress lf-back">${f.back || ""}</g><g class="lf-dress lf-front">${f.front || ""}</g>` : "";
+  }
+
+  ns.LetterFriends = { FRIENDS, CHARS, art, look, item, dress, get: (char) => FRIENDS[char] || null };
 })(window.MiftahGame || (window.MiftahGame = {}));

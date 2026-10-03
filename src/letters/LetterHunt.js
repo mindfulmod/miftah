@@ -87,6 +87,10 @@
       ctx.stage.innerHTML = `<div class="hunt">${scene(this.land, this.letters, portrait)}<div class="hunt-basket" aria-label="Letters found"></div></div>`;
       this.svg = ctx.stage.querySelector(".hunt-scene");
       this.basket = ctx.stage.querySelector(".hunt-basket");
+      // A wide, short stage (a phone on its side) would crop the 4:3 scene top
+      // and bottom with "slice" — a kite's letter could vanish. Fit it whole.
+      const wide = (ctx.stage.clientWidth || 0) > (ctx.stage.clientHeight || 1) * 1.55;
+      if (wide && !portrait) { this.svg.setAttribute("preserveAspectRatio", "xMidYMid meet"); this.svg.classList.add("is-fitted"); }
       this.svg.querySelectorAll(".hunt-spot").forEach((spot) => {
         const go = () => this.tap(Number(spot.dataset.spot));
         spot.addEventListener("click", go);

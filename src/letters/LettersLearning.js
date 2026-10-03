@@ -84,7 +84,7 @@
     return result;
   };
   function skillFor(item, activity = "") {
-    if (["trace", "GardenPaths"].includes(activity)) return "drawing";
+    if (["trace", "GardenPaths", "SandTable"].includes(activity)) return "drawing";
     if (activity === "pairs") return "matching-memory";
     // Letter Friends (v26): letter ↔ friend ↔ sound is its own skill.
     if (activity === "FriendFind" || activity === "FriendBook") return "friend";

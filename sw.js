@@ -4,7 +4,7 @@
 // - Shell (HTML/CSS/JS/fonts): stale-while-revalidate, ignoring ?v= cache-busters.
 // - data/*.json: network-first so rebuilt data lands promptly; cache fallback offline.
 // - Remote recitation audio: deliberately NOT intercepted — see AUDIO_HOSTS below.
-const VERSION = "miftah-v99-letter-garden-v26-20261002";
+const VERSION = "miftah-v108-letter-garden-v35-20261003";
 const SHELL_CACHE = `shell-${VERSION}`;
 const DATA_CACHE = `data-${VERSION}`;
 
@@ -289,6 +289,7 @@ const SHELL = [
   "styles/letters-map-world.css",
   "styles/letters-water.css",
   "styles/letters-friends.css",
+  "styles/letters-landscape.css",
   "styles/letters-activities.css",
   "src/data/letters.js",
   "src/data/animals.js",
@@ -300,6 +301,7 @@ const SHELL = [
   "src/letters/LettersDecorations.js",
   "src/letters/LettersState.js",
   "src/letters/LettersBoot.js",
+  "src/letters/LettersAnalytics.js",
   "src/letters/LettersStrength.js",
   "src/letters/LettersWorlds.js",
   "src/letters/GardenPractice.js",
@@ -313,6 +315,15 @@ const SHELL = [
   "src/letters/LetterBalloons.js",
   "src/letters/FriendFind.js",
   "src/letters/FriendBook.js",
+  "src/letters/PictureWords.js",
+  "src/letters/BookGames.js",
+  "src/letters/PuzzleGames.js",
+  "src/letters/ShadowGames.js",
+  "src/letters/VowelGames.js",
+  "src/letters/WorkshopGames.js",
+  "src/letters/SandTable.js",
+  "src/letters/LivingBooks.js",
+  "src/letters/StoryGarden.js",
   "src/letters/MiniGames.js",
   "src/letters/LettersGardenArt.js",
   "src/letters/LettersJourney.js",

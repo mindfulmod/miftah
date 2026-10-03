@@ -65,6 +65,7 @@
       e.last = Date.now();
       this.map[id] = e;
       this.save();
+      ns.LettersAnalytics?.letterStrength(id, this.mastery(id));
     }
 
     recordOutcome(outcome) {
@@ -101,6 +102,7 @@
       e.evidenceLast = Date.now();
       this.map[id] = e;
       this.save();
+      ns.LettersAnalytics?.letterStrength(id, this.mastery(id));
       return true;
     }
 

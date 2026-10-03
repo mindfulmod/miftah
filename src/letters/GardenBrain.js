@@ -129,22 +129,24 @@
       const add = (kind, skill, items = letters) => stops.push({ kind, skill, letters: items.slice() });
       if (sprout) {
         add("LetterBalloons", "name", known.slice(0, 6));
-        if (known.length >= 2) add("FriendFind", "friend");
+        if (known.length >= 2) add(pickOne(["FriendFind", "FriendShapes"]), "friend");
         add("FriendBook", "friend", letters.slice(0, 1));
         return { date, stops };
       }
       add("Feed", "name");
-      if (known.length >= 2) add("FriendFind", "friend");
-      add(pickOne(known.length >= 3 && huntable ? ["WaterGarden", "LetterHunt", "LetterDelivery"] : ["WaterGarden", "LetterDelivery"]), "name");
+      // The association stop rotates through the picture-book games (v27).
+      if (known.length >= 2) add(pickOne(["FriendFind", "PeekFlaps", "SoundSort", "FriendShapes", "FillGap"]), "friend");
+      add(pickOne(known.length >= 3 && huntable ? ["WaterGarden", "LetterHunt", "LetterDelivery", "DotsLast", "SameLetter", "EchoParade", "LanternHunt", "LetterShadows"] : ["WaterGarden", "LetterDelivery"]), "name");
       // The weakest practisable skill gets the fourth stop.
       const can = ["write", "friend"];
       if (marks.length) can.push("sound");
       const weak = this.weakestSkill(known, can);
-      if (weak === "sound") add("SoundLab", "sound");
-      else if (weak === "friend" && known.length >= 2) add(pickOne(["FriendFind", "LetterStudio"]), "friend");
-      else add(pickOne(["GardenPaths", "DotGarden"]), "write");
-      // The walk ends with a quiet book page: one friend, told slowly.
-      add("FriendBook", "friend", letters.slice(-1));
+      if (weak === "sound") add(pickOne(["SoundLab", "HatShop", "HatShop"]), "sound");
+      else if (weak === "friend" && known.length >= 2) add(pickOne(["PeekFlaps", "SoundSort", "FriendShapes", "HoopoeTrip"]), "friend");
+      else add(pickOne(["SandTable", "SandTable", "GardenPaths", "DotGarden", "BuildLetter"]), "write");
+      // The walk ends with a quiet book: one friend's page, or (v29) the
+      // goodnight book read along word by word.
+      add(pickOne(["FriendBook", "LivingBook"]), "friend", letters.slice(-1));
       return { date, stops };
     }
   }

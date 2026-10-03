@@ -79,8 +79,8 @@ test("v25 Garden Brain: five skills per letter, spaced due-ness, a deterministic
   const a = brain.planWalk(opts), b = brain.planWalk(opts);
   assert.deepEqual(JSON.parse(JSON.stringify(a)), JSON.parse(JSON.stringify(b)));
   assert.ok(a.stops.length >= 4 && a.stops.length <= 6);
-  assert.equal(a.stops[a.stops.length - 1].kind, "FriendBook");
-  assert.ok(a.stops.some(st => st.kind === "FriendFind"));
+  assert.ok(["FriendBook", "LivingBook"].includes(a.stops[a.stops.length - 1].kind), "the walk ends on a book");
+  assert.ok(a.stops.some(st => ["FriendFind", "PeekFlaps", "SoundSort", "FriendShapes", "HoopoeTrip"].includes(st.kind)), "an association stop");
   for (const st of a.stops) for (const c of st.letters) assert.ok(opts.known.includes(c), "walks only carry met letters");
   // A little sprout gets three gentle stops, opening with balloons.
   const sprout = brain.planWalk({ ...opts, sprout: true });
@@ -133,12 +133,12 @@ test("v25/v26 ship: files registered, cache bumped, notes written", () => {
   const html = fs.readFileSync(path.join(root, "letters.html"), "utf8");
   const sw = fs.readFileSync(path.join(root, "sw.js"), "utf8");
   for (const f of ["GardenBrain.js", "LetterFriends.js", "FriendFind.js", "FriendBook.js"]) {
-    assert.match(html, new RegExp(`src/letters/${f}\\?v=20261002-v26`));
+    assert.match(html, new RegExp(`src/letters/${f}\\?v=\\d{8}-v\\d+`));
     assert.match(sw, new RegExp(`"src/letters/${f}"`));
   }
-  assert.match(html, /styles\/letters-friends\.css\?v=20261002-v26/);
+  assert.match(html, /styles\/letters-friends\.css\?v=\d{8}-v\d+/);
   assert.match(sw, /"styles\/letters-friends\.css"/);
-  assert.match(sw, /const VERSION = "miftah-v99-letter-garden-v26-20261002";/);
+  assert.match(sw, /const VERSION = "miftah-v\d+-letter-garden-v\d+-\d{8}";/);
   const notes = fs.readFileSync(path.join(root, "docs", "letter-garden", "RELEASES.md"), "utf8");
   for (const v of ["v25", "v26"]) assert.match(notes, new RegExp(`## ${v} `));
 });

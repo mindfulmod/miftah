@@ -56,9 +56,15 @@
       const ids = (list) => (Array.isArray(list) ? list.filter((v) => typeof v === "string" && v.length <= 24).slice(0, 12) : []);
       return value.filter((v) => v && typeof v === "object" && validDate(v.at)).slice(-20).map((v) => ({ at: v.at, read: ids(v.read), notYet: ids(v.notYet) }));
     }
+    // The Story of the Garden (v30).
+    if (name === "story-seen") return value === true;
+    if (name === "lands-home") return Array.isArray(value) ? [...new Set(value.filter((v) => typeof v === "string" && /^[a-z]{3,12}$/.test(v)))] : [];
+    if (name === "graduated") return isObject(value) && validDate(value.at) ? { at: value.at } : null;
+    // Living Books (v29): how many times each book has been read.
+    if (name === "books") return isObject(value) ? Object.fromEntries(Object.entries(value).filter(([id, n]) => /^[a-z]{2,16}$/.test(id) && Number.isInteger(n) && n >= 0).map(([id, n]) => [id, Math.min(n, 9999)])) : {};
     // Today's Walk (v25): one day's plan and which stops were walked.
     if (name === "walk") {
-      const KINDS = /^(Feed|WaterGarden|LetterHunt|LetterDelivery|GardenPaths|DotGarden|SoundLab|LetterStudio|LetterBalloons|FriendFind|FriendBook)$/;
+      const KINDS = /^(Feed|WaterGarden|LetterHunt|LetterDelivery|GardenPaths|DotGarden|SoundLab|LetterStudio|LetterBalloons|FriendFind|FriendBook|PeekFlaps|SoundSort|HoopoeTrip|FriendShapes|BusyMarket|SandTable|LivingBook|EchoParade|DotsLast|LetterTrain|SameLetter|LanternHunt|LetterShadows|HatShop|BuildLetter|FillGap)$/;
       if (!isObject(value) || !validDate(value.date) || !Array.isArray(value.stops)) return null;
       const stops = value.stops.filter((st) => isObject(st) && KINDS.test(st.kind)).slice(0, 8).map((st) => ({
         kind: st.kind, skill: typeof st.skill === "string" ? st.skill.slice(0, 12) : "name",

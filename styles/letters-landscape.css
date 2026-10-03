@@ -1,0 +1,113 @@
+/* Landscape phones (2026-10-02). A phone on its side is ~390px tall; the old
+   layout stacked the top bar and the prompt (pet, sound bubble, dots) above
+   the game, leaving the play area ~290px and the letters ~25px. Here the
+   controls move into a slim rail on the left — home at the top, the pet and
+   prompt in the middle, sound at the bottom — and every activity gets the
+   full height. Loaded last; only applies to short landscape screens. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .lg-app .lg-screen.lg-play { padding: 6px 10px 6px 0; }
+  /* The rail */
+  .lg-app .lg-play > .lg-topbar { position: absolute; inset: 6px auto auto 10px; width: 92px; height: 44px; margin: 0; z-index: 30; justify-content: center; }
+  .lg-app .lg-play > .lg-topbar .lg-topbar-right { position: fixed; left: 10px; bottom: 8px; top: auto; width: 92px; justify-content: center; z-index: 30; }
+  .lg-app .lg-play .play-prompt, .lg-app .lg-play .practice-heading {
+    position: absolute; left: 10px; top: 58px; bottom: 60px; width: 92px; margin: 0; padding: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; min-height: 0; z-index: 20;
+  }
+  .lg-app .lg-play .play-pet { width: 64px; height: 72px; }
+  .lg-app .lg-play .play-bubble { min-width: 84px; min-height: 60px; padding: 4px 8px; }
+  .lg-app .lg-play .play-bubble-glyph { font-size: 40px; }
+  .lg-app .lg-play .play-dots { flex-wrap: wrap; justify-content: center; max-width: 88px; }
+  .lg-app .lg-play .practice-heading > svg, .lg-app .lg-play .practice-heading > .lg-animal { width: 64px !important; height: 72px !important; }
+  .lg-app .lg-play .practice-replay { min-width: 80px; min-height: 64px; font-size: 40px; }
+  /* The play area: everything right of the rail, full height. */
+  .lg-app .lg-play .play-stage, .lg-app .lg-play .practice-stage {
+    margin: 0 0 0 112px !important; width: calc(100% - 112px) !important; max-width: none !important;
+    height: calc(100vh - 12px); height: calc(100dvh - 12px); max-height: none !important; min-height: 0; flex: 1 1 auto; box-sizing: border-box;
+  }
+  .lg-app .lg-play .practice-stage { overflow-y: auto; overflow-x: hidden; }
+  .lg-app .lg-play .practice-heading[hidden] + .practice-stage { margin-left: 112px !important; }
+  /* Pop: bubbles scale with the taller pond. */
+  .lg-app .lg-play[data-activity="pop"] .pop-sky { inset: 6% 20% 6% 4%; }
+  .lg-app .lg-play[data-activity="pop"] .pop-bubble { max-width: min(150px, calc(var(--pond-height, 360px) * .44)); }
+  .lg-app .lg-play[data-activity="pop"] .pop-sky[data-rows="2"] .pop-bubble { max-width: min(124px, calc(var(--pond-height, 360px) * .34)); }
+
+  /* Feed: bigger food in a taller tray. */
+  .lg-app .lg-play[data-activity="feed"] .feed-scene { grid-template-rows: minmax(76px, 1fr) 124px; }
+  .lg-app .lg-play[data-activity="feed"] .feed-food { width: 86px; flex-basis: 86px; }
+  .lg-app .lg-play[data-activity="feed"] .feed-basket { width: 150px; height: 92px; }
+  .lg-app .lg-play[data-activity="feed"] .feed-tray { padding: 6px 10px 10px; max-width: 520px; }
+
+  /* Pairs and catch: cards and fruit sized from the full height. */
+  .lg-app .lg-play[data-activity="pairs"] .pairs-grid { inset: 6% 16% 10%; gap: 12px; }
+  .lg-app .lg-play[data-activity="pairs"] .pairs-card { width: clamp(70px, 26vh, 104px); }
+  .lg-app .lg-play[data-activity="catch"] .catch-faller { width: clamp(84px, 24vh, 104px); }
+
+  /* Workshop games: tiles, parts and slots big enough to read and drag. */
+  .lg-app .lg-play[data-activity="build"] .build-slot { width: 84px; }
+  .lg-app .lg-play[data-activity="build"] .build-tile { width: 88px; flex-basis: 88px; }
+  .lg-app .lg-play[data-activity="build"] .build-slots { min-height: 96px; }
+  .lg-app .lg-play:is([data-activity="blend"], [data-activity="fuse"], [data-activity="chain"]) .blend-part { width: clamp(84px, 26vh, 110px); }
+  .lg-app .lg-play[data-activity="unfuse"] .unfuse-whole { width: min(200px, 48vh); }
+  .lg-app .parade-star { width: clamp(90px, 26vh, 112px); }
+
+  /* Meeting a letter: the letter on the left, the trail, dots and Next in a
+     column on the right — everything on screen, no scrolling to continue. */
+  .lg-app .lg-meet:has(.meet-stage) { padding: 8px 12px; }
+  .lg-app .lg-meet:has(.meet-stage) > .lg-topbar { position: absolute; inset: 8px 12px auto; margin: 0; z-index: 30; }
+  .lg-app .lg-meet .meet-stage {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: 1fr auto auto auto; column-gap: 18px; row-gap: 8px;
+    width: calc(100% - 150px); max-width: 720px; height: calc(100vh - 16px); height: calc(100dvh - 16px); max-height: none;
+    margin: 0 auto; padding: 8px 12px; box-sizing: border-box; align-items: center; overflow: visible;
+  }
+  .lg-app .lg-meet .meet-display { grid-column: 1; grid-row: 1 / 5; width: 100%; max-width: none; height: 100%; max-height: calc(100vh - 32px); aspect-ratio: auto; }
+  .lg-app .lg-meet .meet-stage > .adventure-route { grid-column: 2; grid-row: 2; justify-self: center; }
+  .lg-app .lg-meet .meet-stage > .meet-dots { grid-column: 2; grid-row: 3; justify-self: center; margin: 0; }
+  .lg-app .lg-meet .meet-stage > .meet-nav { grid-column: 2; grid-row: 4; justify-self: center; margin: 0; }
+  .lg-app .lg-meet .meet-stage > .meet-make { grid-column: 1; }
+
+  /* Water Garden, Letter Hunt: the scene fills the height. */
+  .water-garden { width: auto; height: calc(100vh - 20px); height: calc(100dvh - 20px); max-height: none; }
+
+  .lg-play[data-activity="hunt"] .practice-stage { display: block; }
+  .hunt { grid-template-columns: minmax(0, 1fr) 96px; grid-template-rows: minmax(0, 1fr); width: 100%; max-width: none; }
+  .hunt-basket { flex-direction: column; height: 100%; width: 96px; min-height: 0; }
+  .hunt-scene.is-fitted { background: transparent; border-color: transparent; box-shadow: none; }
+  .hunt-scene .hunt-letter { scale: 1.7; transform-box: fill-box; transform-origin: 50% 50%; paint-order: stroke; stroke: #fffdf7; stroke-width: 6px; stroke-linejoin: round; }
+
+  /* Letter Friends, Book Corner, Sand Table and Living Books lay out side by side. */
+  .ff { grid-template-columns: auto 1fr; grid-template-rows: 1fr auto; align-items: center; height: 100%; }
+  .ff-top { grid-row: 1 / 3; }
+  .ff-top svg { width: min(150px, 34vh); }
+  .ff-card svg { width: min(130px, 30vh, 18vw); }
+  .bk { height: 100%; align-content: center; }
+  .bk-flaps { grid-template-columns: 1fr; }
+  .bk-flap { width: min(120px, 15vw, 30vh); }
+  .bk-sort { grid-template-columns: auto 1fr; grid-template-rows: 1fr auto; }
+  .bk-sort .bk-card-slot { grid-row: 1 / 3; }
+  .bk-card { width: min(140px, 34vh); height: min(140px, 34vh); }
+  .bk-basket { width: min(150px, 18vw); }
+  .bk-shapes { grid-template-columns: auto 1fr; grid-template-rows: 1fr auto; }
+  .bk-shapes .bk-missing { grid-row: 1 / 3; width: min(240px, 70vh); }
+  .bk-piece svg, .bk-friend svg { width: min(104px, 24vh, 14vw); }
+  .bk-trip { grid-template-columns: 1fr auto; grid-template-rows: auto 1fr auto; column-gap: 20px; }
+  .bk-trip .bk-parade { grid-column: 1 / -1; min-height: 70px; }
+  .bk-scene { max-width: none; width: auto; height: calc(100% - 120px); aspect-ratio: 4 / 3; }
+  .bk-market { justify-items: center; }
+  .sand { grid-template-columns: 1fr auto; align-items: center; height: 100%; }
+  .sand-tray { width: min(100%, calc(100vh - 32px)); }
+  .sand-tools { flex-direction: column; }
+  .fb { grid-template-columns: 1fr auto; align-items: center; height: 100%; }
+  .fb-spread { grid-template-columns: auto auto; align-items: center; min-width: 0; padding: 12px 20px; }
+  .fb-friend svg { width: min(220px, 56vh); }
+  .fb-caption { flex-direction: column; gap: 0; }
+  .fb-letter, .fb-word-wrap { font-size: clamp(42px, 12vh, 58px); }
+  .fb-nav { flex-direction: column; }
+  .lb { grid-template-columns: 1fr auto; align-items: center; height: 100%; }
+  .lb-page { grid-template-columns: 1.1fr 1fr; align-items: center; max-width: 760px; }
+  .lb-art { aspect-ratio: auto; height: calc(100vh - 70px); max-height: 300px; }
+  .lb-nav { flex-direction: column; }
+  .lb-text { font-size: clamp(36px, 11vh, 52px); }
+  .bk-basket-label { width: min(100px, 26vh); height: min(100px, 26vh); }
+  /* Today's Walk and the meet screen keep everything on screen. */
+  .walk-trail { height: calc(100vh - 70px); }
+}

@@ -14,6 +14,9 @@
   const T = (at, freq, o = {}) => ["tone", at, freq, o];
   const N = (at, o) => ["noise", at, o];
   const CUES = {
+    // Sand Table (v28): a fingertip of grain, played while the finger moves.
+    sand: [N(0, {dur: 0.06, gain: 0.02, filterType: "bandpass", freq: 2600})],
+    rake: [N(0, {dur: 0.32, gain: 0.024, filterType: "bandpass", freq: 1800}), N(0.12, {dur: 0.2, gain: 0.018, filterType: "bandpass", freq: 2400})],
     // Letter Friends (v26): each animal friend's own short call, never a word.
     "friend-rabbit": [T(0, 1500, {dur: 0.05, gain: 0.03, glideTo: 1800}), T(0.08, 1650, {dur: 0.05, gain: 0.028, glideTo: 1950})],
     "friend-duck": [T(0, 330, {dur: 0.12, type: "sawtooth", gain: 0.022, glideTo: 270}), T(0.16, 330, {dur: 0.12, type: "sawtooth", gain: 0.02, glideTo: 260})],

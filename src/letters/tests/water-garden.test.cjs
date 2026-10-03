@@ -22,6 +22,6 @@ test("guided rounds use only the child's taught letters and introduce the bend l
   assert.match(code, /this\.bends\[i\]\.hidden = !this\.turnable\(i\);/);
   assert.match(code, /rotate\(-90deg\)/, "the bend visibly turns its spout toward the puddle");
   const game = source("LettersGame.js");
-  assert.match(game, /const choices=\['Feed','DotGarden','GardenPaths','WaterGarden'\];/);
+  assert.match(game, /const choices=\['Feed','DotGarden','GardenPaths','SandTable','WaterGarden'\];/);
   assert.match(game, /const familiar=this\.petKnowledge\(\)/, "practice items are letters the child has finished");
 });
