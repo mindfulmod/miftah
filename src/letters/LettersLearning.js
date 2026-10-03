@@ -86,6 +86,8 @@
   function skillFor(item, activity = "") {
     if (["trace", "GardenPaths"].includes(activity)) return "drawing";
     if (activity === "pairs") return "matching-memory";
+    // Letter Friends (v26): letter ↔ friend ↔ sound is its own skill.
+    if (activity === "FriendFind" || activity === "FriendBook") return "friend";
     if (["build", "blend", "fuse", "unfuse", "chain", "DotGarden"].includes(activity)) return "construction";
     if (item?.promptDisplay && item.promptDisplay !== item.display) return "letter-form";
     if (item?.skill || item?.objective) return item.skill || item.objective;
@@ -110,7 +112,7 @@
     if ((listening.r || 0) >= 8 && (listening.streak || 0) >= 4 && visits >= 3) tier = 3;
     if ((evidence.assisted?.last || 0) > Math.max(matching.last || 0,listening.last || 0)) tier = 0;
     if (ctx.beginner) tier = 0;
-    const recall = tier > 0 && ctx.allowRecall !== false && !item.promptDisplay && !item.skel && ['letter-name','recognition'].includes(skill);
+    const recall = tier > 0 && ctx.allowRecall !== false && !item.promptDisplay && !item.skel && ['letter-name','recognition','friend'].includes(skill);
     return {
       skill, tier,
       promptMode: recall ? "listen" : "match",

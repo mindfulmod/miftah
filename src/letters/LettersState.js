@@ -45,6 +45,41 @@
     const name = key.startsWith(PREFIX) ? key.slice(PREFIX.length) : key;
 
     if (name === "garden-layout") return ns.LettersDecorations.normalize(value);
+    // Family Garden: up to six children, each just an id (pets tell them apart).
+    if (name === "profiles") return Array.isArray(value) ? value.filter((p) => p && /^p\d{1,3}$/.test(p.id)).map((p) => ({ id: p.id })).slice(0, 6) : [];
+    if (name === "profile") return typeof value === "string" && /^p\d{1,3}$/.test(value) ? value : "p1";
+    // The chapter the pet last walked to on the map (a plain world id).
+    if (name === "map-pet") return typeof value === "string" && /^[a-z0-9-]{1,40}$/.test(value) ? value : null;
+    // Read Together sessions (v7): the last 20, each a date and two id lists.
+    if (name === "read-aloud") {
+      if (!Array.isArray(value)) return [];
+      const ids = (list) => (Array.isArray(list) ? list.filter((v) => typeof v === "string" && v.length <= 24).slice(0, 12) : []);
+      return value.filter((v) => v && typeof v === "object" && validDate(v.at)).slice(-20).map((v) => ({ at: v.at, read: ids(v.read), notYet: ids(v.notYet) }));
+    }
+    // Today's Walk (v25): one day's plan and which stops were walked.
+    if (name === "walk") {
+      const KINDS = /^(Feed|WaterGarden|LetterHunt|LetterDelivery|GardenPaths|DotGarden|SoundLab|LetterStudio|LetterBalloons|FriendFind|FriendBook)$/;
+      if (!isObject(value) || !validDate(value.date) || !Array.isArray(value.stops)) return null;
+      const stops = value.stops.filter((st) => isObject(st) && KINDS.test(st.kind)).slice(0, 8).map((st) => ({
+        kind: st.kind, skill: typeof st.skill === "string" ? st.skill.slice(0, 12) : "name",
+        letters: Array.isArray(st.letters) ? st.letters.filter((c) => typeof c === "string" && c.length <= 2).slice(0, 8) : [] }));
+      if (!stops.length) return null;
+      const done = Array.isArray(value.done) ? [...new Set(value.done.filter((i) => Number.isInteger(i) && i >= 0 && i < stops.length))] : [];
+      return { date: value.date, known: Number.isInteger(value.known) ? value.known : 0, stops, done, stamped: value.stamped === true };
+    }
+    // Eid gifts already given (v10): "1448-eid-fitr" style tags, last ten.
+    if (name === "season-gifts") return Array.isArray(value) ? value.filter((v) => typeof v === "string" && /^\d{4}-eid-(fitr|adha)$/.test(v)).slice(-10) : [];
+    // Pet tricks already shown off once (v4): ids from the seven letter families.
+    if (name === "tricks-seen") return Array.isArray(value) ? [...new Set(value.filter(v => typeof v === "string" && /^(spin|hop|sway|sing|stretch|juggle|roll)$/.test(v)))] : [];
+    // Lands whose gate has already unfurled on the map (the arrival plays once).
+    if (name === "lands-seen") return Array.isArray(value) ? [...new Set(value.filter(v => typeof v === "string" && /^(orchard|lagoon|night|peaks|river)$/.test(v)))] : [];
+    // Up to eight of the child's own drawing thumbnails (update 5 garden signs).
+    if (name === "drawings") {
+      if (!isObject(value)) return {};
+      const keep = Object.entries(value).filter(([letter, url]) => typeof letter === "string" && letter.length <= 8 &&
+        typeof url === "string" && url.length <= 60000 && /^data:image\/png;base64,[A-Za-z0-9+/=]+$/.test(url)).slice(-8);
+      return Object.fromEntries(keep);
+    }
     if (name === "progress") {
       if (!isObject(value)) return fallbackObject(fallback);
       const result = { ...value };
@@ -81,7 +116,11 @@
     }
     if (name === "stickers") {
       if (!isObject(value)) return fallbackObject(fallback);
-      return { ...value, owned: strings(value.owned, fallback && fallback.owned) };
+      // freeVisits: sticker-stand visits earned by finishing the daily bouquet (v5).
+      const out = { ...value, owned: strings(value.owned, fallback && fallback.owned) };
+      delete out.freeVisits;
+      if (Number.isInteger(value.freeVisits) && value.freeVisits > 0) out.freeVisits = Math.min(9, value.freeVisits);
+      return out;
     }
     if (name === "skills") {
       return objectMap(value, fallback, (entry) => {
@@ -96,6 +135,12 @@
       return { ...value, dates: [...new Set(dates)] };
     }
     if (name === "reduced-motion") return typeof value === "boolean" ? value : copy(fallback);
+    // Seasons (v21): the household's hemisphere.
+    if (name === "hemisphere") return value === "south" ? "south" : "north";
+    // Little Sprout (v22) is per child: the youngest players.
+    if (name === "sprout") return typeof value === "boolean" ? value : copy(fallback);
+    // Gentle mode (v17) is per child, unlike reduced motion.
+    if (name === "gentle") return typeof value === "boolean" ? value : copy(fallback);
     if (name === "strength") {
       return objectMap(value, fallback, (entry) => {
         if (!isObject(entry)) return undefined;
@@ -109,10 +154,35 @@
     return value;
   }
 
+  // Family Garden (v9): each child has their own garden. The first child keeps
+  // the original keys (so existing progress is theirs, untouched); every other
+  // child's keys carry "@id:". Device settings are shared by the household.
+  const SHARED = new Set(["reduced-motion", "profiles", "profile", "hemisphere"]);
+  const PROFILE_ID = /^p\d{1,3}$/;
+  function activeProfile() {
+    try { const id = JSON.parse(localStorage.getItem(PREFIX + "profile") || '"p1"'); return PROFILE_ID.test(id) ? id : "p1"; } catch { return "p1"; }
+  }
+  function scopedFor(id, key) {
+    if (!key.startsWith(PREFIX)) return key;
+    const name = key.slice(PREFIX.length);
+    if (SHARED.has(name) || id === "p1") return key;
+    return `${PREFIX}@${id}:${name}`;
+  }
+  const scoped = (key) => scopedFor(activeProfile(), key);
+
   function read(key, fallback) {
+    return readRaw(scoped(key), key, fallback);
+  }
+
+  // Read another child's saved value (the "who's playing?" screen shows pets).
+  function readAs(id, key, fallback) {
+    return readRaw(scopedFor(PROFILE_ID.test(id) ? id : "p1", key), key, fallback);
+  }
+
+  function readRaw(storageKey, key, fallback) {
     let raw;
     try {
-      raw = localStorage.getItem(key);
+      raw = localStorage.getItem(storageKey);
     } catch {
       return copy(fallback);
     }
@@ -132,7 +202,7 @@
 
     if (damaged) {
       try {
-        const recoveryKey = `${key}:recovery`;
+        const recoveryKey = `${storageKey}:recovery`;
         if (localStorage.getItem(recoveryKey) === null) localStorage.setItem(recoveryKey, raw);
       } catch {}
     }
@@ -144,7 +214,7 @@
     try {
       const raw = JSON.stringify(value);
       if (raw === undefined) { writeFailed = true; return false; }
-      localStorage.setItem(key, raw);
+      localStorage.setItem(scoped(key), raw);
       return true;
     } catch {
       writeFailed = true;
@@ -152,5 +222,19 @@
     }
   }
 
-  ns.LettersState = { read, write, normalize, hasWriteFailure: () => writeFailed };
+  function profiles() {
+    const list = read(PREFIX + "profiles", []);
+    return list.length ? list : [{ id: "p1" }];
+  }
+  function setActive(id) { if (PROFILE_ID.test(id)) write(PREFIX + "profile", id); }
+  function addProfile() {
+    const list = profiles();
+    let n = 2;
+    while (list.some((p) => p.id === `p${n}`)) n += 1;
+    const id = `p${n}`;
+    write(PREFIX + "profiles", [...list, { id }].slice(0, 6));
+    return id;
+  }
+
+  ns.LettersState = { read, write, readAs, normalize, hasWriteFailure: () => writeFailed, profiles, activeProfile, setActive, addProfile, scoped };
 })(window.MiftahGame || (window.MiftahGame = {}));

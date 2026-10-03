@@ -11,13 +11,19 @@
     if((progress.done || []).includes(world.id))return 3;
     return Math.min(3,[...new Set(world.games || [])].filter(game=>(bests[`${world.id}:${game}`] || 0)>0).length);
   }
+  // A chapter with no growth yet still has something planted: three seedlings
+  // in dark soil, so the first reward is never a bare planter.
+  function seedlings() {
+    return `<g class="garden-seedlings">${[[84,150],[130,146],[176,150]].map(([x,y])=>`<ellipse cx="${x}" cy="${y}" rx="17" ry="6" fill="#70501b"/><path d="M${x} ${y-2}Q${x+2} ${y-12} ${x} ${y-20}" fill="none" stroke="#4e9677" stroke-width="3" stroke-linecap="round"/><path d="M${x} ${y-12}Q${x-12} ${y-12} ${x-12} ${y-22}Q${x-2} ${y-21} ${x} ${y-12}M${x} ${y-16}Q${x+11} ${y-17} ${x+12} ${y-27}Q${x+2} ${y-26} ${x} ${y-16}" fill="#7fce54" stroke="#4e9677" stroke-width="1.6"/>`).join('')}</g>`;
+  }
   function habitatReward({biome='meadow',stage=0,habitat='',terrain=true}={}) {
     const flowers=flowerBed({size:100,count:stage,terrain});
     return `<svg class="garden-habitat-reward" viewBox="0 0 260 200" aria-hidden="true">
-      ${terrain ? `<ellipse cx="130" cy="177" rx="107" ry="12" fill="#4e7156" opacity=".18"/>
-      <path d="M23 146Q118 122 237 148L218 171Q130 192 43 169Z" fill="#b4cf8c"/>
-      <path d="M24 149Q124 174 234 151L218 172Q127 192 43 170Z" fill="#86a76d"/>
-      <path d="M38 147Q125 129 222 148" fill="none" stroke="#d1e3ab" stroke-width="4" stroke-linecap="round"/>` : ''}
+      ${terrain ? `<ellipse cx="130" cy="177" rx="107" ry="12" fill="#2f5c46" opacity=".18"/>
+      <path d="M23 146Q118 122 237 148L218 171Q130 192 43 169Z" fill="#b7e779"/>
+      <path d="M24 149Q124 174 234 151L218 172Q127 192 43 170Z" fill="#4e9677"/>
+      <path d="M38 147Q125 129 222 148" fill="none" stroke="#e5dcc8" stroke-width="4" stroke-linecap="round"/>` : ''}
+      ${!stage ? seedlings() : ''}
       ${biome==='meadow'||!habitat?`<svg x="40" y="25" width="180" height="144" viewBox="0 0 100 80">${flowers}</svg>`:
         `<svg x="28" y="5" width="190" height="143" viewBox="0 0 64 48">${habitat.replace('<svg ','<svg width="64" height="48" ')}</svg><svg x="139" y="103" width="90" height="72" viewBox="0 0 100 80">${flowers}</svg>`}
     </svg>`;
@@ -37,17 +43,17 @@
         <path d="M131 46L75 108L111 122Z" fill="#fffaf0"/>
         <path d="M131 46V109L111 122" fill="none"/>
         <path d="M127 60L83 107L108 117" fill="none" stroke="#fffdf7" stroke-width="3" stroke-linecap="round"/>
-        <path d="M69 115L93 141L140 142L108 124Z" fill="#d4c7ad" stroke="none"/>
-        <path d="M76 120L96 139L125 139" fill="none" stroke="#f8f0dc" stroke-width="2" stroke-linecap="round"/>
-        <path d="M135 112L166 112L153 133Z" fill="#eae0c9" stroke="none"/>
+        <path d="M69 115L93 141L140 142L108 124Z" fill="#c9bda4" stroke="none"/>
+        <path d="M76 120L96 139L125 139" fill="none" stroke="#fffaf0" stroke-width="2.4" stroke-linecap="round"/>
+        <path d="M135 112L166 112L153 133Z" fill="#e5dcc8" stroke="none"/>
       </g>
       ${flowers.map(([x,y,scale],i)=>`<g class="garden-flower ${i < stage ? 'is-grown' : ''}" transform="translate(${x} ${y}) scale(${scale})">
         <ellipse cy="28" rx="17" ry="5" fill="#2f5c46" opacity=".18"/>
         <path d="M0 27V${i < stage ? '-4' : '15'}" stroke="#4e9677" stroke-width="3" stroke-linecap="round"/>
         <path d="M0 23Q-18 25-15 12Q-3 10 0 23M0 21Q15 21 14 8Q2 8 0 21" fill="#7fce54"/>
         ${i < stage ? `<g class="garden-petals">
-          ${[0,72,144,216,288].map(a=>`<ellipse cy="-8" rx="5.4" ry="9" transform="rotate(${a})" fill="${['#ed8ca6','#f3ce63','#b19bd5'][i]}" stroke="#725a39" stroke-width="1.4"/>`).join('')}
-          <circle r="5" fill="#fff0b5" stroke="#947446" stroke-width="1.2"/><circle cx="-1.5" cy="-2" r="1.4" fill="#fffaf0"/></g>` : ''}
+          ${[0,72,144,216,288].map(a=>`<ellipse cy="-8" rx="5.4" ry="9" transform="rotate(${a})" fill="${['#ffa798','#f3c955','#b49fcf'][i]}" stroke="#70501b" stroke-width="1.6"/>`).join('')}
+          <circle r="5" fill="#ffe49a" stroke="#a89478" stroke-width="1.6"/><circle cx="-1.5" cy="-2" r="1.4" fill="#fffaf0"/></g>` : ''}
       </g>`).join('')}
     </svg>`;
   }
@@ -65,6 +71,7 @@
         <path d="M0 818Q178 757 444 831Q529 853 613 880Q365 825 190 841Q73 850 0 864Z" fill="#4e9677"/>
         <path d="M0 816Q151 765 319 800Q155 785 41 833Z" fill="#b7e779"/>
       </svg>
+      <svg class="garden-life" viewBox="0 0 800 600" preserveAspectRatio="xMidYMax slice" aria-hidden="true">${(()=>{const A=ns.LettersArt,night=A?.dayPhase?.()==='night';return A?.landLife?A.landLife('meadow',night,night?'#4a4d84':'#a89478'):'';})()}</svg>
       <div class="garden-shore-boat">${boat({stage})}</div>
       <svg class="garden-reeds" viewBox="0 0 140 180">
         <ellipse cx="72" cy="165" rx="62" ry="11" fill="#2f5c46" opacity=".16"/>
@@ -78,29 +85,42 @@
   // Each menu picture shows the actual action, for children who cannot read.
   function practicePicture(kind, {petArt = ""} = {}) {
     const common = `<ellipse cx="100" cy="118" rx="83" ry="12" fill="#b7e779"/><ellipse cx="100" cy="123" rx="69" ry="6" fill="#4e9677" opacity=".2"/>`;
-    const basket = `<path d="M102 80H177L167 116H112Z" fill="#d9a75c" stroke="#4a3620" stroke-width="3"/><path d="M107 91H173M110 103H169M126 81L129 114M151 81L148 114" stroke="#aa763c" stroke-width="2"/>`;
+    const basket = `<path d="M102 80H177L167 116H112Z" fill="#c69434" stroke="#4a3620" stroke-width="3"/><path d="M107 91H173M110 103H169M126 81L129 114M151 81L148 114" stroke="#c69434" stroke-width="2.4"/>`;
     let scene;
-    if(kind==='Feed')scene=`${petArt ? '' : `<circle cx="54" cy="65" r="35" fill="#73b9dc" stroke="#4a3620" stroke-width="3"/><path d="M52 30Q39 12 48 9Q61 12 54 29" fill="#4e9677"/><g fill="#fffdf7" stroke="#4a3620" stroke-width="2"><ellipse cx="43" cy="59" rx="10" ry="13"/><ellipse cx="67" cy="59" rx="10" ry="13"/></g><g fill="#4a3620"><circle cx="47" cy="61" r="5"/><circle cx="70" cy="61" r="5"/></g><path d="M45 80Q56 94 69 79Z" fill="#4a3620"/>`}${basket}<rect x="121" y="34" width="34" height="39" rx="9" fill="#fffdf7" stroke="#4a3620" stroke-width="2"/><path d="M138 43V61" stroke="#4a3620" stroke-width="5" stroke-linecap="round"/><path d="M162 46Q181 53 169 72L176 68M169 72L166 64" fill="none" stroke="#4e9677" stroke-width="3" stroke-linecap="round"/>`;
+    if(kind==='Feed')scene=`${petArt ? '' : `<circle cx="54" cy="65" r="35" fill="#62cdf4" stroke="#4a3620" stroke-width="3"/><path d="M52 30Q39 12 48 9Q61 12 54 29" fill="#4e9677"/><g fill="#fffdf7" stroke="#4a3620" stroke-width="2.4"><ellipse cx="43" cy="59" rx="10" ry="13"/><ellipse cx="67" cy="59" rx="10" ry="13"/></g><g fill="#4a3620"><circle cx="47" cy="61" r="5"/><circle cx="70" cy="61" r="5"/></g><path d="M45 80Q56 94 69 79Z" fill="#4a3620"/>`}${basket}<rect x="121" y="34" width="34" height="39" rx="9" fill="#fffdf7" stroke="#4a3620" stroke-width="2.4"/><path d="M138 43V61" stroke="#4a3620" stroke-width="4" stroke-linecap="round"/><path d="M162 46Q181 53 169 72L176 68M169 72L166 64" fill="none" stroke="#4e9677" stroke-width="3" stroke-linecap="round"/>`;
     else if(kind==='Burst')scene=`<circle cx="100" cy="60" r="43" fill="#fffaf0" stroke="#4a3620" stroke-width="3"/><path d="M100 18A42 42 0 0 1 142 60" fill="none" stroke="#f3c955" stroke-width="8"/><path d="M100 35V60L121 72" fill="none" stroke="#4a3620" stroke-width="4" stroke-linecap="round"/><path d="M92 9H108M100 9V17" fill="none" stroke="#4a3620" stroke-width="3"/><rect x="131" y="76" width="37" height="40" rx="10" fill="#fffaf0" stroke="#4a3620" stroke-width="3"/><path d="M150 85V105" stroke="#4a3620" stroke-width="4" stroke-linecap="round"/><path d="M41 82L62 98 41 114Z" fill="#4e9677"/>`;
-    else if(kind==='Workshop')scene=`<path d="M26 101H174V114H26Z" fill="#bb9763" stroke="#826b48" stroke-width="2"/><rect x="42" y="17" width="116" height="51" rx="13" fill="#fff8e7" stroke="#947a52" stroke-width="3"/><path d="M58 31H86V54H58ZM99 31H142V54H99Z" fill="#e6d8b8" stroke="#b99e70" stroke-width="2" stroke-dasharray="3 4"/><g fill="#fff8e7" stroke="#947a52" stroke-width="2.5"><rect x="35" y="77" width="46" height="39" rx="9" transform="rotate(-8 58 96)"/><rect x="110" y="76" width="52" height="39" rx="9" transform="rotate(7 136 95)"/></g><path d="M57 87V103M125 91Q121 101 136 101Q149 101 146 91" fill="none" stroke="#4a3620" stroke-width="4" stroke-linecap="round"/><circle cx="136" cy="107" r="2.5" fill="#4a3620"/><path d="M86 87Q101 80 103 64L98 69M103 64L108 70" fill="none" stroke="#719b77" stroke-width="3" stroke-linecap="round"/>`;
-    else if(kind==='DotGarden')scene=`<rect x="34" y="23" width="129" height="85" rx="22" fill="#fffdf7" stroke="#4a3620" stroke-width="3"/><path d="M60 56Q51 83 97 82Q146 82 139 56" fill="none" stroke="#4a3620" stroke-width="8" stroke-linecap="round"/><circle cx="99" cy="96" r="6" fill="#c9bda4"/><circle cx="167" cy="109" r="10" fill="#e8743c" stroke="#4a3620" stroke-width="2"/><path d="M151 114Q126 123 111 104L113 113M111 104L120 105" fill="none" stroke="#4e9677" stroke-width="3" stroke-linecap="round"/>`;
-    else scene=`<rect x="30" y="21" width="138" height="92" rx="22" fill="#fffdf7" stroke="#4a3620" stroke-width="3"/><path d="M61 47Q52 84 103 82Q145 82 141 50" fill="none" stroke="#c9bda4" stroke-width="8" stroke-linecap="round" stroke-dasharray="2 12"/><path d="M61 47Q52 84 100 82" fill="none" stroke="#4e9677" stroke-width="8" stroke-linecap="round"/><circle cx="102" cy="98" r="5" fill="#4e9677"/><g transform="translate(114 72) rotate(35)"><path d="M-7 -47H7V0L0 15L-7 0Z" fill="#f3c955" stroke="#4a3620" stroke-width="2.5"/><path d="M-7 0H7L0 15Z" fill="#e5dcc8"/><path d="M-3 9L0 15L3 9" fill="#4a3620"/><path d="M-3 -41V-5" stroke="#fff8db" stroke-width="3"/></g>`;
+    else if(kind==='FriendFind'||kind==='FriendBook'){
+      // Letter Friends (v26): the friends themselves are the picture.
+      const F=ns.LetterFriends, at=(c,x,y,sz,mode)=>(F?.art(c,{size:sz,mode})||'').replace('<svg ',`<svg x="${x}" y="${y}" `);
+      scene=kind==='FriendFind'
+        ? `${at('ب',22,18,82)}${at('ق',98,18,82)}<circle cx="100" cy="22" r="15" fill="#ffe49a" stroke="#4a3620" stroke-width="3"/><path d="M95 18Q96 12 101 12Q107 13 106 18Q105 22 100 23V26" fill="none" stroke="#4a3620" stroke-width="3" stroke-linecap="round"/>`
+        : `<path d="M26 26Q62 16 100 28Q138 16 174 26V110Q138 100 100 112Q62 100 26 110Z" fill="#fffdf7" stroke="#4a3620" stroke-width="3" stroke-linejoin="round"/><path d="M100 28V112" stroke="#c9bda4" stroke-width="3"/>${at('ب',108,30,66)}<text x="62" y="82" text-anchor="middle" font-family="'Amiri Quran', serif" font-size="44" fill="#4a3620">ب</text>`;
+    }
+    else if(kind==='LetterBalloons')scene=`${[[62,52,'#ffa798','ب'],[100,40,'#96ecff','ت'],[138,56,'#b7e779','ا']].map(([x,y,c,l])=>`<path d="M${x} ${y+28}Q${x-4} ${y+44} ${x+2} ${y+60}" fill="none" stroke="#a89478" stroke-width="2.4"/><ellipse cx="${x}" cy="${y}" rx="20" ry="25" fill="${c}" stroke="#4a3620" stroke-width="3"/><text x="${x}" y="${y+2}" text-anchor="middle" dominant-baseline="central" font-family="'Amiri Quran', serif" font-size="20" fill="#4a3620">${l}</text>`).join('')}`;
+    else if(kind==='GardenTogether')scene=`<circle cx="60" cy="66" r="26" fill="#62cdf4" stroke="#4a3620" stroke-width="3"/><circle cx="140" cy="66" r="26" fill="#ffa798" stroke="#4a3620" stroke-width="3"/><circle cx="52" cy="60" r="4" fill="#4a3620"/><circle cx="68" cy="60" r="4" fill="#4a3620"/><circle cx="132" cy="60" r="4" fill="#4a3620"/><circle cx="148" cy="60" r="4" fill="#4a3620"/><path d="M52 74Q60 80 68 74M132 74Q140 80 148 74" fill="none" stroke="#4a3620" stroke-width="2.4" stroke-linecap="round"/><rect x="84" y="78" width="32" height="30" rx="6" fill="#fffaf0" stroke="#4a3620" stroke-width="2.4"/><path d="M80 30Q100 14 120 30" fill="none" stroke="#ee806f" stroke-width="4" stroke-linecap="round"/>`;
+    else if(kind==='LetterStudio')scene=`<rect x="40" y="18" width="120" height="90" rx="10" fill="#96ecff" stroke="#4a3620" stroke-width="3"/><path d="M40 78Q80 66 120 74Q140 78 160 72V98Q160 108 150 108H50Q40 108 40 98Z" fill="#7fce54"/><text x="82" y="54" text-anchor="middle" dominant-baseline="central" font-family="'Amiri Quran', serif" font-size="30" fill="#c25a49">ب</text><circle cx="128" cy="44" r="10" fill="#f3c955" stroke="#4a3620" stroke-width="2.4"/><path d="M150 96L176 70L184 78L158 104Z" fill="#ee806f" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/>`;
+    else if(kind==='SoundLab')scene=`<path d="M46 52H154V108Q154 116 146 116H54Q46 116 46 108Z" fill="#62cdf4" stroke="#4a3620" stroke-width="3" stroke-linejoin="round"/><path d="M56 60H144V80H56Z" fill="#ccfbef" stroke="#4a3620" stroke-width="2.4"/><path d="M60 52L76 28H96L100 52M140 52L124 28H104L100 52" fill="#f3c955" stroke="#4a3620" stroke-width="3" stroke-linejoin="round"/><circle cx="100" cy="98" r="11" fill="#c69434" stroke="#4a3620" stroke-width="2.4"/><text x="100" y="72" text-anchor="middle" dominant-baseline="central" font-family="'Amiri Quran', serif" font-size="22" fill="#4a3620">بَ</text>`;
+    else if(kind==='LetterHunt')scene=`<path d="M20 112Q60 88 100 100Q140 112 180 96V120H20Z" fill="#7fce54"/><path d="M40 70Q38 50 58 50Q66 34 86 44Q104 40 104 60Q110 72 96 74H48Q38 74 40 70Z" fill="#fffdf7" stroke="#c9bda4" stroke-width="2.4"/><path d="M142 30L162 58L142 86L122 58Z" fill="#ffa798" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/><circle cx="104" cy="74" r="26" fill="#ccfbef" fill-opacity=".6" stroke="#4a3620" stroke-width="4"/><path d="M122 92L144 114" stroke="#4a3620" stroke-width="8" stroke-linecap="round"/><path d="M122 92L144 114" stroke="#c69434" stroke-width="4" stroke-linecap="round"/><text x="104" y="76" text-anchor="middle" dominant-baseline="central" font-family="'Amiri Quran', serif" font-size="24" fill="#4a3620">ب</text>`;
+    else if(kind==='Workshop')scene=`<path d="M26 101H174V114H26Z" fill="#a89478" stroke="#70501b" stroke-width="2.4"/><rect x="42" y="17" width="116" height="51" rx="13" fill="#fffaf0" stroke="#a89478" stroke-width="3"/><path d="M58 31H86V54H58ZM99 31H142V54H99Z" fill="#e5dcc8" stroke="#a89478" stroke-width="2.4" stroke-dasharray="3 4"/><g fill="#fffaf0" stroke="#a89478" stroke-width="2.4"><rect x="35" y="77" width="46" height="39" rx="9" transform="rotate(-8 58 96)"/><rect x="110" y="76" width="52" height="39" rx="9" transform="rotate(7 136 95)"/></g><path d="M57 87V103M125 91Q121 101 136 101Q149 101 146 91" fill="none" stroke="#4a3620" stroke-width="4" stroke-linecap="round"/><circle cx="136" cy="107" r="2.5" fill="#4a3620"/><path d="M86 87Q101 80 103 64L98 69M103 64L108 70" fill="none" stroke="#4e9677" stroke-width="3" stroke-linecap="round"/>`;
+    else if(kind==='WaterGarden')scene=`<ellipse cx="100" cy="26" rx="62" ry="12" fill="#a89478"/><ellipse cx="100" cy="24" rx="54" ry="8" fill="#62cdf4"/><rect x="34" y="38" width="132" height="12" rx="6" fill="#62cdf4" stroke="#a89478" stroke-width="3"/>${[56,100,144].map((x,i)=>`<rect x="${x-5}" y="50" width="10" height="42" rx="3" fill="${i===1?'#62cdf4':'#c9bda4'}"/><rect x="${x-12}" y="${i===1?30:40}" width="24" height="18" rx="4" fill="#fffdf7" stroke="#4a3620" stroke-width="2.4"/><path d="M${x} 108Q${x+2} 100 ${x} 92" stroke="#4e9677" stroke-width="3" fill="none"/>${[0,72,144,216,288].map(a=>`<ellipse cx="${x}" cy="${i===1?84:88}" rx="${i===1?5:3}" ry="${i===1?8:5}" transform="rotate(${a} ${x} 92)" fill="${['#ee806f','#f3c955','#ffa798'][i]}" stroke="#4a3620" stroke-width="1.6"/>`).join('')}`).join('')}`;
+    else if(kind==='DotGarden')scene=`<rect x="34" y="23" width="129" height="85" rx="22" fill="#fffdf7" stroke="#4a3620" stroke-width="3"/><path d="M60 56Q51 83 97 82Q146 82 139 56" fill="none" stroke="#4a3620" stroke-width="8" stroke-linecap="round"/><circle cx="99" cy="96" r="6" fill="#c9bda4"/><circle cx="167" cy="109" r="10" fill="#e8743c" stroke="#4a3620" stroke-width="2.4"/><path d="M151 114Q126 123 111 104L113 113M111 104L120 105" fill="none" stroke="#4e9677" stroke-width="3" stroke-linecap="round"/>`;
+    else scene=`<rect x="30" y="21" width="138" height="92" rx="22" fill="#fffdf7" stroke="#4a3620" stroke-width="3"/><path d="M61 47Q52 84 103 82Q145 82 141 50" fill="none" stroke="#c9bda4" stroke-width="8" stroke-linecap="round" stroke-dasharray="2 12"/><path d="M61 47Q52 84 100 82" fill="none" stroke="#4e9677" stroke-width="8" stroke-linecap="round"/><circle cx="102" cy="98" r="5" fill="#4e9677"/><g transform="translate(114 72) rotate(35)"><path d="M-7 -47H7V0L0 15L-7 0Z" fill="#f3c955" stroke="#4a3620" stroke-width="2.4"/><path d="M-7 0H7L0 15Z" fill="#e5dcc8"/><path d="M-3 9L0 15L3 9" fill="#4a3620"/><path d="M-3 -41V-5" stroke="#fffaf0" stroke-width="3"/></g>`;
     const picture = `<svg class="practice-picture" viewBox="0 0 200 140" aria-hidden="true">${common}${scene}</svg>`;
     return kind === "Feed" && petArt ? `<span class="practice-friend-picture" aria-hidden="true">${picture}<span class="practice-friend">${petArt}</span></span>` : picture;
   }
   // Placement belongs to the wrapper; the petals have their own motion layer.
   function flowerBed({size=90,count=3,centered=false,terrain=true}={}) {
-    const flowers=centered&&count===1?[[50,23,1,'#ed8ca6']]:centered&&count===2?[[33,29,.86,'#ed8ca6'],[67,29,.86,'#f3ce63']]:[[24,33,.72,'#ed8ca6'],[48,23,1,'#f3ce63'],[74,38,.68,'#b19bd5']];
+    const flowers=centered&&count===1?[[50,23,1,'#ffa798']]:centered&&count===2?[[33,29,.86,'#ffa798'],[67,29,.86,'#f3c955']]:[[24,33,.72,'#ffa798'],[48,23,1,'#f3c955'],[74,38,.68,'#b49fcf']];
     return `<svg class="garden-flower-bed" viewBox="0 0 100 80" width="${size}" height="${size*.8}" aria-hidden="true">
-      ${terrain ? `<ellipse cx="50" cy="71" rx="43" ry="6" fill="#315942" opacity=".16"/>
-      <path d="M8 65Q24 54 47 60Q77 51 93 65Q83 75 48 73Q18 76 8 65Z" fill="#9bc977"/>
-      <path d="M12 64Q31 57 48 63Q70 55 89 65" fill="none" stroke="#c6e6a5" stroke-width="3" stroke-linecap="round"/>` : ''}
+      ${terrain ? `<ellipse cx="50" cy="71" rx="43" ry="6" fill="#2f5c46" opacity=".16"/>
+      <path d="M8 65Q24 54 47 60Q77 51 93 65Q83 75 48 73Q18 76 8 65Z" fill="#7fce54"/>
+      <path d="M12 64Q31 57 48 63Q70 55 89 65" fill="none" stroke="#b7e779" stroke-width="3" stroke-linecap="round"/>` : ''}
       ${flowers.slice(0,Math.max(0,Math.min(3,count))).map(([x,y,k,c])=>`<g transform="translate(${x} ${y}) scale(${k})">
-        <path d="M0 39Q3 19 0 0" fill="none" stroke="#537a46" stroke-width="4" stroke-linecap="round"/>
-        <path d="M1 28Q-15 29 -14 15Q-3 16 1 28M2 20Q15 21 17 8Q6 10 2 20" fill="#719c56"/>
-        <path d="M-10 20L0 27M12 13L2 20" stroke="#a7c883" stroke-width="1.3" stroke-linecap="round"/>
-        <g class="garden-flower-head">${[0,72,144,216,288].map(a=>`<ellipse cy="-8" rx="5.4" ry="9" transform="rotate(${a})" fill="${c}" stroke="#725a39" stroke-width="1.4"/>`).join('')}
-        <circle r="5" fill="#fff0b5" stroke="#947446" stroke-width="1.2"/><circle cx="-1.5" cy="-2" r="1.4" fill="#fffaf0"/></g>
+        <path d="M0 39Q3 19 0 0" fill="none" stroke="#4e9677" stroke-width="4" stroke-linecap="round"/>
+        <path d="M1 28Q-15 29 -14 15Q-3 16 1 28M2 20Q15 21 17 8Q6 10 2 20" fill="#4e9677"/>
+        <path d="M-10 20L0 27M12 13L2 20" stroke="#b7e779" stroke-width="1.6" stroke-linecap="round"/>
+        <g class="garden-flower-head">${[0,72,144,216,288].map(a=>`<ellipse cy="-8" rx="5.4" ry="9" transform="rotate(${a})" fill="${c}" stroke="#70501b" stroke-width="1.6"/>`).join('')}
+        <circle r="5" fill="#ffe49a" stroke="#a89478" stroke-width="1.6"/><circle cx="-1.5" cy="-2" r="1.4" fill="#fffaf0"/></g>
       </g>`).join('')}
     </svg>`;
   }
@@ -123,13 +143,13 @@
   function seedBasket() {
     return `<svg viewBox="0 0 180 112" aria-hidden="true">
       <ellipse cx="90" cy="103" rx="72" ry="7" fill="#4a3620" opacity=".13"/>
-      <path d="M42 53C39 3 139 3 138 53" fill="none" stroke="#59452e" stroke-width="12"/>
-      <path d="M42 51C42 11 136 11 138 51" fill="none" stroke="#e4be77" stroke-width="5"/>
-      <ellipse cx="90" cy="52" rx="74" ry="17" fill="#78563b" stroke="#59452e" stroke-width="4"/>
-      <path d="M18 53L30 91Q90 110 150 91L162 53Q90 76 18 53Z" fill="#dab477" stroke="#59452e" stroke-width="4" stroke-linejoin="round"/>
-      <g fill="none" stroke="#ad804b" stroke-width="3"><path d="M25 68Q90 88 155 68M28 81Q90 101 152 81M46 63L51 98M74 68L76 102M105 68L103 102M134 63L129 98"/></g>
-      <path d="M20 52Q90 76 160 52" fill="none" stroke="#f4d79c" stroke-width="7" stroke-linecap="round"/>
-      <path d="M85 83Q65 67 64 81Q65 94 87 92Q104 69 115 79Q113 93 91 94" fill="#80a46a" stroke="#526c45" stroke-width="2"/>
+      <path d="M42 53C39 3 139 3 138 53" fill="none" stroke="#4a3620" stroke-width="12" data-ribbon/>
+      <path d="M42 51C42 11 136 11 138 51" fill="none" stroke="#f3c955" stroke-width="4"/>
+      <ellipse cx="90" cy="52" rx="74" ry="17" fill="#70501b" stroke="#4a3620" stroke-width="4"/>
+      <path d="M18 53L30 91Q90 110 150 91L162 53Q90 76 18 53Z" fill="#c9bda4" stroke="#4a3620" stroke-width="4" stroke-linejoin="round"/>
+      <g fill="none" stroke="#a89478" stroke-width="3"><path d="M25 68Q90 88 155 68M28 81Q90 101 152 81M46 63L51 98M74 68L76 102M105 68L103 102M134 63L129 98"/></g>
+      <path d="M20 52Q90 76 160 52" fill="none" stroke="#ffe49a" stroke-width="6" stroke-linecap="round"/>
+      <path d="M85 83Q65 67 64 81Q65 94 87 92Q104 69 115 79Q113 93 91 94" fill="#4e9677" stroke="#2f5c46" stroke-width="2.4"/>
     </svg>`;
   }
   // One packet material follows the child from the pond to the drawing table

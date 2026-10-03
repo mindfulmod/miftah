@@ -22,16 +22,16 @@
   const INKS = {
     hero: "#3b2a19", // mascot + hero silhouettes, the darkest thing on screen
     base: "#4a3620", // THE contour: creatures, cards, props, UI
-    soft: "#7c5c3a", // pale or delicate pieces that base would overpower
+    soft: "#70501b", // pale or delicate pieces that base would overpower
     faint: "#a89478", // recessive by design — locked stops, seeds, "not yet"
-    night: "#524f66", // scenery only, after dark
+    night: "#4a4d84", // scenery only, after dark
   };
   const INK = INKS.base; // warm espresso — shared with the tactile UI system
   // Contour weight scale. Snapped from the 19 ad-hoc widths that were in use;
   // nothing outside this set should appear in new art.
   const STROKE = { hair: 1.6, fine: 2.4, base: 3, bold: 4, hero: 6, mascot: 8 };
   // Gold is a motif, not a contour: coin rims, stars, treasure, the sun.
-  const GOLD = { deep: "#b8781a", mid: "#c47f12", light: "#d8ab4e", glow: "#fff3c2" };
+  const GOLD = { deep: "#c69434", mid: "#c69434", light: "#c69434", glow: "#ffe49a" };
   const SHADOW = "rgba(74, 54, 32, 0.2)";
 
   let uid = 0;
@@ -72,7 +72,7 @@
     const svgMarkup =
       `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${w}" width="${w}" height="${w}">` +
       `<text x="${pad}" y="${pad}" text-anchor="middle" direction="${direction}" ` +
-      `font-family="${fontFamily}" font-size="${fontSize}" fill="#000">${text}</text></svg>`;
+      `font-family="${fontFamily}" font-size="${fontSize}" fill="#0a1f1a">${text}</text></svg>`;
     const svg64 = "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svgMarkup)));
     return new Promise((resolve, reject) => {
       const img = new Image();
@@ -248,8 +248,8 @@
   // animated on its own — art-brow-l/r, art-lid-l/r, art-pupil, art-mouth,
   // art-cheeks.
   //
-  // This also brings the face onto the palette: the eye white was #fff (banned
-  // pure white) and the mouth and cheeks were off-palette #7c2d4a / #ff9db1.
+  // This also brings the face onto the palette: the eye white was #fffdf7 (banned
+  // pure white) and the mouth and cheeks were off-palette #7c2d4a / #ffa798.
   // They are now paper-light and the accent-coral ramp the bible already defines.
   const EYE = { cx: 12, rx: 11, ry: 13.5 };
   const FACE_STATES = {
@@ -312,9 +312,9 @@
       return `
         <g transform="rotate(${tilt} ${cx} 0)">
           <ellipse cx="${cx}" cy="0" rx="${E.rx}" ry="${E.ry}" fill="#fffdf7" stroke="${INK}" stroke-width="2.4"/>
-          <circle class="art-pupil" cx="${px}" cy="${py}" r="${pr.toFixed(2)}" fill="${INK}"/>
+          <g data-rig="gaze"><circle class="art-pupil" cx="${px}" cy="${py}" r="${pr.toFixed(2)}" fill="${INK}"/>
           <circle cx="${(px - 1.8).toFixed(2)}" cy="${(py - 2).toFixed(2)}" r="${(1.8 * st.ps).toFixed(2)}" fill="#fffdf7"/>
-          <circle cx="${(px + 1.6).toFixed(2)}" cy="${(py + 2.6).toFixed(2)}" r="${(0.9 * st.ps).toFixed(2)}" fill="#fffdf7" opacity="0.85"/>
+          <circle cx="${(px + 1.6).toFixed(2)}" cy="${(py + 2.6).toFixed(2)}" r="${(0.9 * st.ps).toFixed(2)}" fill="#fffdf7" opacity="0.85"/></g>
           ${st.lid && (st.lid !== "halfL" || sign < 0)
             ? (() => {
                 const L = lidParts(cx, st.lid === "halfL" ? "half" : st.lid);
@@ -332,7 +332,7 @@
         <ellipse cx="-22" cy="9" rx="${st.cheeks > 0.6 ? 6 : 5}" ry="${st.cheeks > 0.6 ? 4.2 : 3.6}" fill="#ffa798"/>
         <ellipse cx="22" cy="9" rx="${st.cheeks > 0.6 ? 6 : 5}" ry="${st.cheeks > 0.6 ? 4.2 : 3.6}" fill="#ffa798"/>
       </g>
-      <g class="art-eyes">${eye(-1)}${eye(1)}</g>
+      <g data-rig="blink"><g class="art-eyes">${eye(-1)}${eye(1)}</g></g>
       <path class="art-brow art-brow-l" d="${st.browL}" fill="none" stroke="${INK}" stroke-width="2.4" stroke-linecap="round"/>
       <path class="art-brow art-brow-r" d="${st.browR}" fill="none" stroke="${INK}" stroke-width="2.4" stroke-linecap="round"/>
       <g class="art-mouth">${MOUTHS[st.mouth] || MOUTHS.smile}</g>
@@ -354,11 +354,11 @@
     body: `hsl(${hue} 76% 60%)`,
     shade: `hsl(${hue} 58% 42%)`,
     inner: `hsl(${(hue + 42) % 360} 58% 76%)`,
-    muzzle: "#f6e6c4",
+    muzzle: "#e5dcc8",
     cloth: `hsl(${(hue + 195) % 360} 58% 54%)`,
     clothDark: `hsl(${(hue + 195) % 360} 48% 38%)`,
-    leaf: "#79a84b",
-    leafDark: "#4d7434",
+    leaf: "#7fce54",
+    leafDark: "#2f5c46",
   });
 
   // The squishy blob silhouette every hero character shares: a droplet-round
@@ -374,7 +374,7 @@
         Q 0 ${R * 1.1} ${R * 0.42} ${R * 1.02}
         C ${R * 0.82} ${R * 0.94} ${R * 1.06} ${R * 0.5} ${R * 1.04} ${-R * 0.04}
         C ${R * 1.02} ${-R * 0.56} ${R * 0.62} ${-R} 0 ${-R} Z" fill="${fill}" stroke="${rim}" stroke-width="${sw}"/>`,
-      gloss: `<path d="M${-R * 0.62} ${-R * 0.5} Q${-R * 0.34} ${-R * 0.82} ${R * 0.1} ${-R * 0.84}" fill="none" stroke="#fff" stroke-width="${R * 0.13}" stroke-linecap="round" opacity="0.5"/>`,
+      gloss: `<path d="M${-R * 0.62} ${-R * 0.5} Q${-R * 0.34} ${-R * 0.82} ${R * 0.1} ${-R * 0.84}" fill="none" stroke="#fffdf7" stroke-width="${R * 0.13}" stroke-linecap="round" opacity="0.5"/>`,
       feet: feet
         ? [-1, 1].map((d) => `
           <g class="art-blob-foot" transform="translate(${d * R * 0.42} ${R * 1.02})">
@@ -388,7 +388,7 @@
 
   // The sprout: stem plus two leaves, drawn at the blob's crown. Hats render
   // after accessories, so a worn cap simply covers it — same rule as ears.
-  const sproutArt = (scale = 1, leaf = "#5cc23e", leafDark = "#2f8a1f") => `
+  const sproutArt = (scale = 1, leaf = "#7fce54", leafDark = "#4e9677") => `
     <g class="art-blob-sprout" transform="scale(${scale})">
       <path d="M0 4 Q-1 -3 1 -8" fill="none" stroke="${leafDark}" stroke-width="3" stroke-linecap="round"/>
       <path d="M1 -8 Q-9 -11 -11 -20 Q-1 -18 1 -8 Z" fill="${leaf}" stroke="${leafDark}" stroke-width="2.4" stroke-linejoin="round"/>
@@ -403,21 +403,21 @@
     <svg class="art-mascot" viewBox="-60 -60 120 150" width="${size}" height="${size * 1.25}" aria-hidden="true">
       <defs>
         <radialGradient id="${id}" cx="0.38" cy="0.3" r="0.95">
-          <stop offset="0" stop-color="#ffe27a"/>
-          <stop offset="0.7" stop-color="#ffc22e"/>
-          <stop offset="1" stop-color="#e89a1e"/>
+          <stop offset="0" stop-color="#ffe49a"/>
+          <stop offset="0.7" stop-color="#f3c955"/>
+          <stop offset="1" stop-color="#c69434"/>
         </radialGradient>
       </defs>
       <g class="art-mascot-body">
         <ellipse cx="0" cy="86" rx="32" ry="7" fill="${SHADOW}"/>
-        <rect x="-9" y="28" width="18" height="52" rx="9" fill="#dc9c28"/>
-        <rect x="-9" y="62" width="30" height="11" rx="5.5" fill="#dc9c28"/>
-        <rect x="-9" y="78" width="24" height="11" rx="5.5" fill="#dc9c28"/>
+        <rect x="-9" y="28" width="18" height="52" rx="9" fill="#c69434"/>
+        <rect x="-9" y="62" width="30" height="11" rx="5.5" fill="#c69434"/>
+        <rect x="-9" y="78" width="24" height="11" rx="5.5" fill="#c69434"/>
         <circle r="40" fill="url(#${id})"/>
         <path d="M-38 -8 A40 40 0 0 1 4 -40" fill="none" stroke="${GOLD.glow}" stroke-width="6" stroke-linecap="round" opacity="0.55"/>
-        <circle cy="-6" r="13" fill="#fff8e2"/>
+        <circle cy="-6" r="13" fill="#fffaf0"/>
         <circle cy="-6" r="13" fill="none" stroke="${GOLD.mid}" stroke-width="4"/>
-        <circle cx="-13" cy="-24" r="6" fill="#fff" opacity="0.55"/>
+        <circle cx="-13" cy="-24" r="6" fill="#fffdf7" opacity="0.55"/>
         ${face(0, 16, 1.05, mood)}
       </g>
     </svg>`;
@@ -452,11 +452,63 @@
         <path d="M65 169 Q39 174 42 199 Q44 216 64 216" fill="${p.body}" stroke="${INK}" stroke-width="8" stroke-linecap="round"/>
         <path d="M185 169 Q211 174 208 199 Q206 216 186 216" fill="${p.body}" stroke="${INK}" stroke-width="8" stroke-linecap="round"/>
         <rect x="55" y="164" width="140" height="90" rx="18" fill="${p.clothDark}"/>
-        <rect x="55" y="157" width="140" height="90" rx="18" fill="#fff8e9" stroke="${INK}" stroke-width="6"/>
-        <path d="M70 171 H180" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity="0.7"/>
+        <rect x="55" y="157" width="140" height="90" rx="18" fill="#fffaf0" stroke="${INK}" stroke-width="6"/>
+        <path d="M70 171 H180" stroke="#fffdf7" stroke-width="6" stroke-linecap="round" opacity="0.7"/>
         ${cardGlyph(label, 125, 202, latin)}
         <circle cx="55" cy="190" r="11" fill="${p.inner}" stroke="${INK}" stroke-width="4"/>
         <circle cx="195" cy="190" r="11" fill="${p.inner}" stroke="${INK}" stroke-width="4"/>
+      </g>
+    </svg>`;
+  }
+
+  // The meet-screen letter sign (2026-10-01): the letter is the hero, on a
+  // paper garden sign the size of the old presenter creature (same 250×280
+  // box, so every layout that held the creature holds the sign). The ink sits
+  // under a clip that the reveal wipes open in writing direction — right to
+  // left for Arabic — with a little reed pen travelling the edge.
+  function letterSign({ hue = 150, label = "", latin = false, size = 230 } = {}) {
+    const id = gradId();
+    const p = sprigPalette(hue);
+    const len = [...(label || "").replace(/[ً-ْٰٓ-ٟؐ-ؚۖ-ۭ]/g, "")].length;
+    const fontSize = latin ? Math.min(70, 400 / Math.max(4, len)) : len <= 1 ? 118 : len <= 3 ? 88 : len <= 5 ? 64 : 42;
+    const s = inkShift(label || "", fontSize, latin);
+    const cx = 125, cy = 130;
+    return `
+    <svg class="art-blob art-sign" data-dir="${latin ? "ltr" : "rtl"}" viewBox="0 0 250 280" width="${size}" height="${size * 1.12}" aria-hidden="true">
+      <defs><clipPath id="${id}"><rect class="sign-wipe" x="24" y="40" width="202" height="196"/></clipPath></defs>
+      <ellipse cx="125" cy="270" rx="86" ry="8" fill="${SHADOW}"/>
+      <g fill="#a89478" stroke="${INK}" stroke-width="3" stroke-linejoin="round">
+        <path d="M70 226V266H84V226Z"/><path d="M166 226V266H180V226Z"/>
+      </g>
+      <rect x="12" y="38" width="226" height="196" rx="28" fill="${p.clothDark}"/>
+      <rect x="12" y="30" width="226" height="196" rx="28" fill="#fffdf7" stroke="${INK}" stroke-width="6"/>
+      <rect x="28" y="46" width="194" height="164" rx="18" fill="#fffaf0"/>
+      <path d="M44 196H206" stroke="${p.body}" stroke-width="4" stroke-linecap="round"/>
+      <path d="M40 54H150" stroke="#fffdf7" stroke-width="6" stroke-linecap="round" opacity="0.8"/>
+      <g transform="translate(125 26)">${sproutArt(1.35, p.leaf, p.leafDark)}</g>
+      <g clip-path="url(#${id})">
+        <text class="sign-ink" data-fit-box="${cx},${cy},176,128,${fontSize}" x="${(cx + s.dx).toFixed(1)}" y="${(cy + s.dy).toFixed(1)}" text-anchor="middle"
+          font-family="${latin ? LATIN_FONT : AMIRI}" font-size="${fontSize}" fill="${INK}" ${latin ? "" : `direction="rtl"`}>${label}</text>
+      </g>
+      ${(() => {
+        // Writing Garden (v3): when the handwriting model knows this letter,
+        // the reveal writes it stroke by stroke, in order, before the printed
+        // letter settles in. pathLength=100 lets CSS time each stroke.
+        const strokes = !latin && ns.LettersStrokes?.forItem?.({ display: label });
+        if (!strokes) return "";
+        let t = 0;
+        const parts = strokes.map((st) => {
+          const delay = t;
+          t += st.dot ? 0.18 : 0.42;
+          return st.dot
+            ? `<circle cx="${st.dot[0]}" cy="${st.dot[1]}" r="4.6" fill="${INK}" style="--d:${delay.toFixed(2)}s"/>`
+            : `<path d="${st.d}" pathLength="100" fill="none" stroke="${INK}" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" style="--d:${delay.toFixed(2)}s"/>`;
+        }).join("");
+        return `<g class="sign-strokes" style="--t:${t.toFixed(2)}s" transform="translate(57 62) scale(1.36)">${parts}</g>`;
+      })()}
+      <g class="sign-pen" transform="translate(${latin ? 30 : 220} 120)">
+        <path d="M0 0L10-34L16-32L6 2Z" fill="#c69434" stroke="${INK}" stroke-width="2.4" stroke-linejoin="round"/>
+        <path d="M0 0L6 2L2 8Z" fill="${INK}"/>
       </g>
     </svg>`;
   }
@@ -487,12 +539,12 @@
           fill="url(#${id})"/>
         <path d="M52 20 L64 46 L40 44 Z" fill="hsl(${hue} 62% 40%)"/>
         <path d="M168 20 L156 46 L180 44 Z" fill="hsl(${hue} 62% 40%)"/>
-        <ellipse cx="70" cy="42" rx="14" ry="10" fill="#fff" opacity="0.35"/>
+        <ellipse cx="70" cy="42" rx="14" ry="10" fill="#fffdf7" opacity="0.35"/>
         ${face(110, 74, 1.25, "happy")}
         <g class="art-creature-mouth">
-          <ellipse cx="110" cy="152" rx="44" ry="34" fill="#5d1f3d"/>
-          <ellipse cx="110" cy="168" rx="26" ry="14" fill="#ff8fa3"/>
-          <path d="M74 134 L86 148 L98 132 L110 148 L122 132 L134 148 L146 134" fill="#fff"/>
+          <ellipse cx="110" cy="152" rx="44" ry="34" fill="#8a3a2d"/>
+          <ellipse cx="110" cy="168" rx="26" ry="14" fill="#ffa798"/>
+          <path d="M74 134 L86 148 L98 132 L110 148 L122 132 L134 148 L146 134" fill="#fffdf7"/>
         </g>
       </g>
     </svg>`;
@@ -500,34 +552,45 @@
 
   // Icon-only controls. Every icon is drawn, never a glyph from a font, so
   // they look identical on every device a child might hold.
+  // Interface icons share one 64-unit grid: live area 8–56, optical centre at
+  // 32,32, every join and cap round. Two weights by role — action glyphs a
+  // child taps to move on (next, check, arrow) at 8, all other linework at 6 —
+  // and every solid carries a 4-unit stroke of its own colour so its corners
+  // are as soft as the line icons'.
+  const SOLID = `stroke="currentColor" stroke-width="4" stroke-linejoin="round"`;
   const ICONS = {
-    speaker: `<path d="M14 20 L24 20 L38 9 L38 55 L24 44 L14 44 Z" fill="currentColor"/>
-      <path d="M45 22 Q52 32 45 42 M50 15 Q61 32 50 49" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>`,
-    play: `<path d="M20 12 L52 32 L20 52 Z" fill="currentColor"/>`,
-    next: `<path d="M12 32H50M34 15L51 32L34 49" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>`,
-    replay: `<path d="M32 12 A20 20 0 1 1 13 26" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
-      <path d="M8 10 L15 28 L30 18 Z" fill="currentColor"/>`,
-    home: `<path d="M10 32 L32 12 L54 32 L48 32 L48 52 L38 52 L38 38 L26 38 L26 52 L16 52 L16 32 Z" fill="currentColor"/>`,
-    star: `<path d="M32 6 L39 24 L58 25 L43 37 L48 56 L32 45 L16 56 L21 37 L6 25 L25 24 Z" fill="currentColor"/>`,
-    lock: `<rect x="16" y="28" width="32" height="26" rx="6" fill="currentColor"/>
-      <path d="M22 28 V20 a10 10 0 0 1 20 0 V28" fill="none" stroke="currentColor" stroke-width="6"/>`,
-    check: `<path d="M12 34 L26 48 L52 16" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>`,
-    arrow: `<path d="M32 8 V44 M16 30 L32 48 L48 30" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>`,
+    speaker: `<path d="M10 24H20L34 12V52L20 40H10Z" fill="currentColor" ${SOLID}/>
+      <path class="icon-waves" d="M42 24Q48 32 42 40M48 16Q59 32 48 48" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+      <path class="icon-muted" display="none" d="M42 24L56 40M56 24L42 40" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>`,
+    play: `<path d="M22 14L52 32L22 50Z" fill="currentColor" stroke="currentColor" stroke-width="6" stroke-linejoin="round"/>`,
+    next: `<path d="M12 32H50M34 16L50 32L34 48" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>`,
+    replay: `<path d="M50 32A18 18 0 1 1 41 16.4" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+      <path d="M48 21L43 9L36 22Z" fill="currentColor" ${SOLID}/>`,
+    // Undo is a U-turn back to the left — never the replay circle, which
+    // means "hear it again" / "play again".
+    undo: `<path d="M22 20H38A13 13 0 0 1 38 46H24" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+      <path d="M10 20L23 10V30Z" fill="currentColor" ${SOLID}/>`,
+    home: `<path d="M10 32L32 12L54 32H48V52H38V39H26V52H16V32Z" fill="currentColor" ${SOLID}/>`,
+    star: `<path d="M32 8L39 24L56 25L43 37L47 54L32 45L17 54L21 37L8 25L25 24Z" fill="currentColor" ${SOLID}/>`,
+    lock: `<rect x="16" y="28" width="32" height="26" rx="6" fill="currentColor" ${SOLID}/>
+      <path d="M22 28V20a10 10 0 0 1 20 0V28" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>`,
+    check: `<path d="M12 34L26 48L52 16" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>`,
+    arrow: `<path d="M32 12V48M16 34L32 50L48 34" fill="none" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>`,
     sun: `<circle cx="32" cy="32" r="13" fill="currentColor"/>
       <g stroke="currentColor" stroke-width="6" stroke-linecap="round">
-        <path d="M32 6 V14 M32 50 V58 M6 32 H14 M50 32 H58 M13 13 L19 19 M45 45 L51 51 M51 13 L45 19 M19 45 L13 51"/>
+        <path d="M32 6V14M32 50V58M6 32H14M50 32H58M13 13L19 19M45 45L51 51M51 13L45 19M19 45L13 51"/>
       </g>`,
-    flower: `<g>${[0, 72, 144, 216, 288].map((a) => `<ellipse cx="0" cy="-17" rx="9" ry="14" transform="translate(32 32) rotate(${a})" fill="currentColor"/>`).join("")}<circle cx="32" cy="32" r="9" fill="#fff"/></g>`,
+    flower: `<g>${[0, 72, 144, 216, 288].map((a) => `<ellipse cx="0" cy="-15" rx="9" ry="13" transform="translate(32 33) rotate(${a})" fill="currentColor"/>`).join("")}<circle cx="32" cy="33" r="8" fill="#fffdf7"/></g>`,
     calendar: `<rect x="8" y="14" width="48" height="42" rx="7" fill="none" stroke="currentColor" stroke-width="6"/>
-      <path d="M8 26 H56" stroke="currentColor" stroke-width="6"/>
-      <path d="M20 8 V18 M44 8 V18" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+      <path d="M8 26H56" stroke="currentColor" stroke-width="6"/>
+      <path d="M20 8V18M44 8V18" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
       <circle cx="22" cy="38" r="4" fill="currentColor"/><circle cx="34" cy="38" r="4" fill="currentColor"/>
       <circle cx="46" cy="38" r="4" fill="currentColor"/><circle cx="22" cy="48" r="4" fill="currentColor"/>`,
-    paw: `<ellipse cx="32" cy="40" rx="13" ry="11" fill="currentColor"/>
-      <circle cx="16" cy="28" r="6" fill="currentColor"/><circle cx="27" cy="20" r="6" fill="currentColor"/>
-      <circle cx="38" cy="20" r="6" fill="currentColor"/><circle cx="48" cy="28" r="6" fill="currentColor"/>`,
-    book: `<path d="M32 14 C26 9 16 8 8 10 V50 C16 48 26 49 32 54 C38 49 48 48 56 50 V10 C48 8 38 9 32 14 Z" fill="currentColor" opacity="0.25"/>
-      <path d="M32 14 C26 9 16 8 8 10 V50 C16 48 26 49 32 54 M32 14 C38 9 48 8 56 10 V50 C48 48 38 49 32 54 M32 14 V54" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>`,
+    paw: `<ellipse cx="32" cy="41" rx="13" ry="11" fill="currentColor"/>
+      <circle cx="15" cy="28" r="6" fill="currentColor"/><circle cx="26" cy="18" r="6" fill="currentColor"/>
+      <circle cx="38" cy="18" r="6" fill="currentColor"/><circle cx="49" cy="28" r="6" fill="currentColor"/>`,
+    book: `<path d="M32 14C26 9 16 8 8 10V50C16 48 26 49 32 54C38 49 48 48 56 50V10C48 8 38 9 32 14Z" fill="currentColor" opacity="0.25"/>
+      <path d="M32 14C26 9 16 8 8 10V50C16 48 26 49 32 54M32 14C38 9 48 8 56 10V50C48 48 38 49 32 54M32 14V54" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>`,
   };
 
   function icon(name, size = 30) {
@@ -540,10 +603,10 @@
   // the app root by the game) plus its own celestial art in the backdrop.
 
   const PHASES = {
-    morning: { hi: "#ffd181", lo: "#e4f9d8", far: "#bee07f", mid: "#8dd35f", near: "#55b84c", accent: "#ffb33f" },
-    day: { hi: "#62cdf4", lo: "#ccfbef", far: "#b7e779", mid: "#7fce54", near: "#42b947", accent: "#f3c955" },
-    sunset: { hi: "#ff9d83", lo: "#ffe3c4", far: "#d8df82", mid: "#9fc861", near: "#5fa04e", accent: "#ff6f70" },
-    night: { hi: "#34375f", lo: "#6064a0", far: "#4d806a", mid: "#36725c", near: "#245c49", accent: "#f6d85b" },
+    morning: { hi: "#ffe49a", lo: "#ccfbef", far: "#b7e779", mid: "#7fce54", near: "#7fce54", accent: "#f3c955" },
+    day: { hi: "#62cdf4", lo: "#ccfbef", far: "#b7e779", mid: "#7fce54", near: "#7fce54", accent: "#f3c955" },
+    sunset: { hi: "#ffa798", lo: "#e5dcc8", far: "#b7e779", mid: "#7fce54", near: "#4e9677", accent: "#ee806f" },
+    night: { hi: "#34375f", lo: "#6064a0", far: "#4e9677", mid: "#2f5c46", near: "#2f5c46", accent: "#f3c955" },
   };
 
   function dayPhase(hour = new Date().getHours()) {
@@ -610,31 +673,232 @@
   // Phase-aware storybook backdrop. Every layer uses the same navy contour
   // and flat paper-like color construction as the UI, so scenery and controls
   // feel like pieces from one physical playset.
-  function backdrop(phase = dayPhase()) {
+  // Each chapter's land (LettersWorlds biomeOf) dresses the same three ground
+  // bands, so an activity sits in the land the map promised: snowy peaks behind
+  // the far hills, a lagoon or river between the bands, fruit trees, reeds or
+  // lanterns at the edges. Everything stays in the outer fifth or below the
+  // ridge line — the centre belongs to the cards.
+  const BIOMES = ["meadow", "orchard", "lagoon", "night", "peaks", "river"];
+  function biomeScenery(biome, night, ink) {
+    const water = night ? { base: "#4a4d84", light: "#6064a0", deep: "#34375f" } : { base: "#96ecff", light: "#ccfbef", deep: "#62cdf4" };
+    const reeds = (x, y, k = 1) => `<g class="art-reeds" transform="translate(${x} ${y}) scale(${k})" stroke-linecap="round">
+        <path d="M0 0Q-4-30-12-52M6 0Q8-34 4-62M12 0Q18-26 28-44" fill="none" stroke="${night ? "#2f5c46" : "#4e9677"}" stroke-width="4"/>
+        <path d="M4-62Q0-74 4-84Q9-74 4-62Z" fill="#70501b" stroke="${ink}" stroke-width="1.6"/>
+        <path d="M-12-52Q-18-62-15-72Q-9-62-12-52Z" fill="#70501b" stroke="${ink}" stroke-width="1.6"/>
+      </g>`;
+    const ripples = (pts) => `<g fill="none" stroke="${water.light}" stroke-width="3" stroke-linecap="round" opacity="0.9">${pts.map(([x, y, w]) => `<path d="M${x} ${y}q${w / 2}-5 ${w} 0"/>`).join("")}</g>`;
+    if (biome === "peaks") {
+      const rock = night ? { base: "#4a4d84", light: "#6064a0" } : { base: "#c9bda4", light: "#e5dcc8" };
+      return { far: `<g class="art-peaks">
+        <path d="M-30 470L92 292L170 392L252 318L350 450Z" fill="${rock.base}"/>
+        <path d="M92 292L120 470H-30ZM252 318L268 450H170Z" fill="${rock.light}"/>
+        <path d="M480 452L602 306L668 372L744 280L840 452Z" fill="${rock.base}"/>
+        <path d="M602 306L628 452H480ZM744 280L760 452H668Z" fill="${rock.light}"/>
+        <path d="M92 292L114 324L100 318L88 330L76 322ZM252 318L268 342L254 338L242 346ZM602 306L622 330L608 326L596 336L586 328ZM744 280L764 308L750 302L738 314L728 306Z" fill="#fffdf7"/>
+      </g>` };
+    }
+    if (biome === "lagoon") {
+      return {
+        water: `<g class="art-lagoon"><path d="M-10 498Q190 466 400 486Q610 506 812 474L812 572L-10 572Z" fill="${water.base}"/>
+          <path d="M-10 498Q190 466 400 486Q610 506 812 474L812 486Q610 518 400 498Q190 478-10 510Z" fill="${water.light}" opacity="0.7"/>
+          ${ripples([[150, 512, 34], [560, 520, 40], [330, 530, 26]])}
+          <g fill="${night ? "#2f5c46" : "#4e9677"}"><path d="M612 538a18 7 0 1 0 6-7l-6 7Z"/><path d="M196 532a14 6 0 1 0 5-6l-5 6Z"/></g>
+          <circle cx="618" cy="530" r="4" fill="#ffa798" stroke="${ink}" stroke-width="1.6"/></g>`,
+        props: `${reeds(36, 560, 1)}${reeds(92, 574, 0.75)}${reeds(742, 574, 0.9)}`,
+        noTrees: "both",
+      };
+    }
+    if (biome === "river") {
+      return {
+        props: `<g class="art-river">
+          <path d="M812 448Q640 468 540 496Q420 530 300 552Q170 576-10 578" fill="none" stroke="${night ? "#2f5c46" : "#e5dcc8"}" stroke-width="54" stroke-linecap="round" data-ribbon/>
+          <path d="M812 448Q640 468 540 496Q420 530 300 552Q170 576-10 578" fill="none" stroke="${water.base}" stroke-width="40" stroke-linecap="round" data-ribbon/>
+          <path d="M812 440Q640 460 540 488Q420 522 300 544Q170 568-10 570" fill="none" stroke="${water.light}" stroke-width="8" stroke-linecap="round" opacity="0.7" data-ribbon/>
+          ${ripples([[600, 476, 30], [380, 530, 28], [120, 572, 30]])}
+        </g>${reeds(232, 548, 0.7)}${reeds(700, 540, 0.8)}`,
+        noTrees: "right",
+      };
+    }
+    if (biome === "orchard") {
+      const fruit = (x, y, k) => `<g transform="translate(${x} ${y}) scale(${k})" class="art-fruit-tree">
+          <ellipse cx="0" cy="4" rx="30" ry="6" fill="${night ? "#23253f" : "#4e9677"}" opacity="0.3"/>
+          <path d="M0 2V-34" stroke="#70501b" stroke-width="8" stroke-linecap="round"/>
+          <circle cx="0" cy="-58" r="36" fill="${night ? "#2f5c46" : "#4e9677"}"/>
+          <path d="M-30-66Q-24-90 0-92Q22-90 30-70Q8-82-30-66Z" fill="${night ? "#4e9677" : "#7fce54"}"/>
+          ${[[-16, -60, "#ee806f"], [12, -44, "#f3c955"], [18, -70, "#ee806f"], [-6, -38, "#ee806f"]].map(([fx, fy, c]) => `<circle cx="${fx}" cy="${fy}" r="6" fill="${c}" stroke="${ink}" stroke-width="1.6"/>`).join("")}
+        </g>`;
+      return {
+        far: `<g class="art-orchard-row" fill="${night ? "#2f5c46" : "#4e9677"}" opacity="0.7">${[[150, 404], [196, 410], [240, 418], [652, 412], [700, 402]].map(([x, y], i) => `<circle cx="${x}" cy="${y}" r="${i % 2 ? 15 : 19}"/>`).join("")}</g>`,
+        props: `${fruit(104, 512, 1)}${fruit(712, 546, 1.08)}`,
+        noTrees: "both",
+      };
+    }
+    if (biome === "night") {
+      const lantern = (x, y) => `<g class="art-lantern" transform="translate(${x} ${y}) scale(1.35)">
+          <path d="M0 0V-58M0-58H16" fill="none" stroke="#70501b" stroke-width="4" stroke-linecap="round"/>
+          ${night ? `<circle cx="16" cy="-38" r="22" fill="#ffe49a" opacity="0.32"/>` : ""}
+          <path d="M16-58V-52" stroke="#70501b" stroke-width="2.4"/>
+          <rect x="7" y="-52" width="18" height="24" rx="5" fill="${night ? "#ffe49a" : "#f3c955"}" stroke="${ink}" stroke-width="1.6"/>
+          <path d="M5-52H27M5-28H27" stroke="#70501b" stroke-width="2.4" stroke-linecap="round"/>
+        </g>`;
+      return { props: `${lantern(160, 522)}${lantern(650, 548)}` };
+    }
+    return {};
+  }
+
+  // Living lands (2026-10-01): a few small creatures that belong to each land
+  // move through the scenery — never over the cards (outer fifth, sky corners,
+  // or water bands), never interactive, and gone entirely under reduced
+  // motion (a frozen fish in mid-air is worse than no fish). Each creature is
+  // an outer <g> that travels and an inner group that flaps or bobs.
+  function landLife(biome, night, ink) {
+    const butterfly = (cls, x, y, wing, delay) => `<g class="life-travel ${cls}" style="animation-delay:${delay}s"><g transform="translate(${x} ${y}) scale(1.5)">
+        <g class="life-flap"><path d="M0 0C-9-12-17-4-11 3C-7 7-2 4 0 0ZM0 0C9-12 17-4 11 3C7 7 2 4 0 0Z" fill="${wing}" stroke="${ink}" stroke-width="1.6" stroke-linejoin="round"/></g>
+        <path d="M0-5V5" stroke="${INK}" stroke-width="2.4" stroke-linecap="round"/></g></g>`;
+    const bird = (cls, x, y, delay) => `<g class="life-travel ${cls}" style="animation-delay:${delay}s"><g transform="translate(${x} ${y}) scale(1.4)"><path class="life-glide" d="M-14 0Q-7-8 0 0Q7-8 14 0" fill="none" stroke="${night ? "#6064a0" : "#4a3620"}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></g></g>`;
+    if (night) {
+      // Night: moths around the warm spots, and in the lagoon a moon-glint fish.
+      const moth = (cls, x, y, delay) => `<g class="life-travel ${cls}" style="animation-delay:${delay}s"><g transform="translate(${x} ${y}) scale(1.4)"><g class="life-flap"><path d="M0 0C-6-8-11-2-7 2ZM0 0C6-8 11-2 7 2Z" fill="#e5dcc8" stroke="#6064a0" stroke-width="1.6"/></g></g></g>`;
+      if (biome === "night") return `<g class="art-life" data-life="night">${moth("life-orbit-a", 182, 478, 0)}${moth("life-orbit-b", 672, 504, 1.4)}</g>`;
+      if (biome !== "lagoon") return `<g class="art-life" data-life="${biome}">${[[96, 470, 0], [730, 492, 1.7], [150, 520, 3.1]].map(([x, y, d]) => `<g class="life-travel life-hover-${d > 1 ? "b" : "a"}" style="animation-delay:${d}s"><circle cx="${x}" cy="${y}" r="9" fill="#ffe49a" opacity="0.3"/><circle cx="${x}" cy="${y}" r="3.6" fill="#ffe49a"/></g>`).join("")}</g>`;
+      if (biome === "lagoon") return `<g class="art-life" data-life="lagoon"><g class="life-jump"><g transform="translate(560 520)"><path d="M-10 0Q0-8 10 0Q0 8-10 0ZM10 0L16-5V5Z" fill="#6064a0" stroke="#34375f" stroke-width="1.6"/></g></g></g>`;
+      return "";
+    }
+    if (biome === "orchard") {
+      const petal = (x, delay) => `<g class="life-fall" style="animation-delay:${delay}s"><g transform="translate(${x} 380)"><path class="life-spin" d="M0-5C4-5 5 0 0 5C-5 0-4-5 0-5Z" fill="#ffa798" stroke="${ink}" stroke-width="1.6"/></g></g>`;
+      return `<g class="art-life" data-life="orchard">${petal(88, 0)}${petal(126, 3.1)}${petal(700, 1.6)}${petal(742, 4.4)}
+        <g class="life-travel life-hover-a"><g transform="translate(150 430) scale(1.3)"><g class="life-bob"><ellipse rx="6" ry="4.5" fill="#f3c955" stroke="${INK}" stroke-width="1.6"/><path d="M-1-4V4M2-4V4" stroke="${INK}" stroke-width="1.6"/><ellipse cx="-1" cy="-7" rx="4" ry="3" fill="#fffdf7" stroke="${ink}" stroke-width="1.6"/></g></g></g></g>`;
+    }
+    if (biome === "lagoon") {
+      return `<g class="art-life" data-life="lagoon">
+        <g class="life-jump"><g transform="translate(560 520)"><path d="M-10 0Q0-8 10 0Q0 8-10 0ZM10 0L16-5V5Z" fill="#ffa06e" stroke="${INK}" stroke-width="1.6" stroke-linejoin="round"/><circle cx="-5" cy="-1" r="1.2" fill="${INK}"/></g></g>
+        <g class="life-ring"><ellipse cx="610" cy="526" rx="14" ry="4" fill="none" stroke="#ccfbef" stroke-width="2.4"/></g>
+        <g class="life-travel life-hover-b"><g transform="translate(120 470) scale(1.3)"><g class="life-flap"><path d="M0 0L-14-4L-14 2ZM0 0L14-4L14 2Z" fill="#ccfbef" stroke="${ink}" stroke-width="1.6" stroke-linejoin="round"/></g><path d="M-1 0H12" stroke="#3a8fc4" stroke-width="2.4" stroke-linecap="round"/></g></g></g>`;
+    }
+    if (biome === "peaks") return `<g class="art-life" data-life="peaks">${bird("life-glide-a", -40, 210, 0)}${bird("life-glide-b", -40, 250, 6)}</g>`;
+    if (biome === "river") {
+      return `<g class="art-life" data-life="river"><g class="life-drift"><g transform="translate(812 452) scale(1.3)"><g class="life-bob">
+        <path d="M-12 0Q0 6 12 0L8-3H-8Z" fill="#7fce54" stroke="${ink}" stroke-width="1.6" stroke-linejoin="round"/><path d="M0-3V-12" stroke="${INK}" stroke-width="1.6"/></g></g></g>
+        ${butterfly("life-hover-a", 120, 470, "#b49fcf", 0)}</g>`;
+    }
+    return `<g class="art-life" data-life="meadow">${butterfly("life-hover-a", 140, 440, "#ffa798", 0)}${butterfly("life-hover-b", 680, 470, "#b49fcf", 2.2)}</g>`;
+  }
+
+  // Daily weather (2026-10-01): one weather per calendar day, from the date
+  // alone so it is the same all day and on every screen — clear, breezy,
+  // drizzle or (by day) a rainbow. Purely scenery: it never changes play.
+  const WEATHERS = ["clear", "clear", "clear", "clear", "breezy", "breezy", "drizzle", "drizzle", "rainbow", "rainbow"];
+  function weatherFor(date = new Date(), phase = dayPhase()) {
+    const key = typeof date === "string" ? date : `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    let h = 2166136261;
+    for (const c of key) { h ^= c.charCodeAt(0); h = Math.imul(h, 16777619); }
+    const pick = WEATHERS[(h >>> 0) % WEATHERS.length];
+    return pick === "rainbow" && phase === "night" ? "clear" : pick;
+  }
+  function weatherLayer(weather, phase = dayPhase()) {
+    if (weather === "breezy") {
+      const leaf = (y, d, k, c) => `<svg class="wx-leaf" style="top:${y}%;animation-delay:${d}s;--k:${k}" viewBox="-12 -8 24 16" aria-hidden="true"><path d="M-10 0Q0-9 10 0Q0 9-10 0Z" fill="${c}" stroke="#4a3620" stroke-width="1.6"/><path d="M-8 0H8" stroke="#4e9677" stroke-width="1.6"/></svg>`;
+      return `<div class="lg-weather" data-weather="breezy" aria-hidden="true">${leaf(18, 0, 1, "#7fce54")}${leaf(34, 3.4, .8, "#b7e779")}${leaf(52, 6.1, 1.1, "#f3c955")}${leaf(26, 8.8, .9, "#7fce54")}</div>`;
+    }
+    if (weather === "drizzle") return `<div class="lg-weather" data-weather="drizzle" aria-hidden="true"><i class="wx-rain"></i><i class="wx-rain is-far"></i></div>`;
+    if (weather === "rainbow" && phase !== "night") {
+      const bands = ["#ee806f", "#f3c955", "#7fce54", "#62cdf4"].map((c, i) => `<path d="M${20 + i * 14} 200A${180 - i * 14} ${180 - i * 14} 0 0 1 ${380 - i * 14} 200" fill="none" stroke="${c}" stroke-width="14" data-ribbon/>`).join("");
+      return `<div class="lg-weather" data-weather="rainbow" aria-hidden="true"><svg class="wx-rainbow" viewBox="0 0 400 210">${bands}<path d="M0 200Q20 176 48 186Q66 168 88 184Q100 196 96 206H0Z" fill="#fffdf7"/><path d="M304 206Q300 188 322 184Q338 168 360 184Q388 176 400 200V206Z" fill="#fffdf7"/></svg></div>`;
+    }
+    return "";
+  }
+
+  // Moon Calendar (v10, 2026-10-02): the garden keeps the Islamic calendar
+  // (Umm al-Qura, via the browser) — Ramadan lanterns and a crescent moon, Eid
+  // bunting. Decoration and gifts only; no counting, no pressure.
+  function hijri(date = new Date()) {
+    for (const cal of ["islamic-umalqura", "islamic"]) {
+      try {
+        const parts = new Intl.DateTimeFormat(`en-u-ca-${cal}`, { year: "numeric", month: "numeric", day: "numeric" }).formatToParts(date);
+        const get = (t) => Number(parts.find((p) => p.type === t)?.value);
+        const out = { year: get("year"), month: get("month"), day: get("day") };
+        if (out.month >= 1 && out.month <= 12) return out;
+      } catch {}
+    }
+    return null;
+  }
+  function season(date = new Date()) {
+    const h = hijri(date);
+    if (!h) return null;
+    if (h.month === 9) return "ramadan";
+    if (h.month === 10 && h.day <= 3) return "eid-fitr";
+    if (h.month === 12 && h.day >= 10 && h.day <= 13) return "eid-adha";
+    return null;
+  }
+  function seasonLayer(kind, phase = dayPhase()) {
+    if (!kind) return "";
+    const night = phase === "night";
+    if (kind === "ramadan") {
+      const lamps = [80, 190, 300, 410, 520, 630, 740].map((x, i) => {
+        const y = 40 + Math.sin((x / 800) * Math.PI) * 34;
+        const c = ["#f3c955", "#ee806f", "#62cdf4", "#b49fcf"][i % 4];
+        return `<g transform="translate(${x} ${y})"><g class="season-lamp"><path d="M0 0V10" stroke="#70501b" stroke-width="2.4"/>${night ? `<circle cy="26" r="20" fill="#ffe49a" opacity=".35"/>` : ""}<path d="M-8 10H8L11 16V34L6 40H-6L-11 34V16Z" fill="${c}" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/><path d="M-4 18V32M4 18V32" stroke="#fffaf0" stroke-width="1.6" opacity=".8"/><path d="M-5 40L0 46L5 40" fill="#c69434" stroke="#4a3620" stroke-width="1.6"/></g></g>`;
+      }).join("");
+      return `<div class="lg-season" data-season="ramadan" aria-hidden="true"><svg viewBox="0 0 800 120" preserveAspectRatio="xMidYMin slice"><path d="M-10 30Q400 110 810 30" fill="none" stroke="#70501b" stroke-width="3"/>${lamps}</svg></div>`;
+    }
+    const flags = Array.from({ length: 13 }, (_, i) => {
+      const x = 20 + i * 62, y = 28 + Math.sin((x / 800) * Math.PI) * 30;
+      const c = ["#ee806f", "#f3c955", "#7fce54", "#62cdf4", "#b49fcf"][i % 5];
+      return `<path d="M${x - 20} ${y}L${x + 20} ${y + 2}L${x} ${y + 34}Z" fill="${c}" stroke="#4a3620" stroke-width="1.6" stroke-linejoin="round"/>`;
+    }).join("");
+    const crescent = `<g transform="translate(700 74)"><path d="M10-20A22 22 0 1 0 14 18A16 16 0 1 1 10-20Z" fill="#ffe49a" stroke="#70501b" stroke-width="2.4"/><path d="M22-14L24-8L30-8L25-4L27 2L22-2L17 2L19-4L14-8L20-8Z" fill="#ffe49a" stroke="#70501b" stroke-width="1.6"/></g>`;
+    return `<div class="lg-season" data-season="${kind}" aria-hidden="true"><svg viewBox="0 0 800 120" preserveAspectRatio="xMidYMin slice"><path d="M-10 26Q400 90 810 26" fill="none" stroke="#70501b" stroke-width="2.4"/>${flags}${crescent}</svg></div>`;
+  }
+
+  // Seasons of the Year (v21, 2026-10-02): spring blossoms, autumn leaves,
+  // winter snow, falling gently over every scene; summer is the garden as it
+  // is. Months follow the household's hemisphere (a grown-up setting).
+  function yearSeason(date = new Date(), south = false) {
+    const m = (date.getMonth() + (south ? 6 : 0)) % 12;
+    return m >= 2 && m <= 4 ? "spring" : m >= 5 && m <= 7 ? "summer" : m >= 8 && m <= 10 ? "autumn" : "winter";
+  }
+  function yearLayer(kind) {
+    const fall = (n, art) => Array.from({ length: n }, (_, i) => `<span class="yr-fall" style="left:${(i * 53 + 7) % 100}%;animation-delay:${-(i * 1.7).toFixed(1)}s;animation-duration:${(9 + (i % 4) * 2.2).toFixed(1)}s">${art(i)}</span>`).join("");
+    if (kind === "spring") return `<div class="lg-year" data-year="spring" aria-hidden="true">${fall(8, (i) => `<svg viewBox="-8 -8 16 16"><path d="M0-6C4-6 5 0 0 6C-5 0-4-6 0-6Z" fill="${i % 2 ? "#ffa798" : "#fffaf0"}" stroke="#c25a49" stroke-width="1.6"/></svg>`)}</div>`;
+    if (kind === "autumn") return `<div class="lg-year" data-year="autumn" aria-hidden="true">${fall(7, (i) => `<svg viewBox="-10 -8 20 16"><path d="M-8 0Q0-8 8 0Q0 8-8 0Z" fill="${["#e8743c", "#f3c955", "#c25a49"][i % 3]}" stroke="#70501b" stroke-width="1.6"/><path d="M-6 0H6" stroke="#70501b" stroke-width="1.6"/></svg>`)}</div>`;
+    if (kind === "winter") return `<div class="lg-year" data-year="winter" aria-hidden="true">${fall(12, () => `<svg viewBox="-6 -6 12 12"><circle r="4" fill="#fffdf7" stroke="#ccfbef" stroke-width="1.6"/></svg>`)}</div>`;
+    return "";
+  }
+
+  function backdrop(phase = dayPhase(), biome = "meadow") {
     const p = PHASES[phase] || PHASES.day;
     const night = phase === "night";
-    const sceneryInk = night ? "#524f66" : "#a48d63";
+    const sceneryInk = night ? "#4a4d84" : "#a89478";
+    const land = biomeScenery(BIOMES.includes(biome) ? biome : "meadow", night, sceneryInk);
     const celestial = night
       ? `<g class="art-moon">
-           <circle cx="620" cy="92" r="54" fill="${INK}" opacity="0.18"/>
-           <circle cx="620" cy="82" r="47" fill="#f4ecc8" stroke="${sceneryInk}" stroke-width="3"/>
-           <circle cx="603" cy="72" r="9" fill="#ddd3a8" stroke="${sceneryInk}" stroke-width="1.6"/>
-           <circle cx="636" cy="98" r="6" fill="#ddd3a8" stroke="${sceneryInk}" stroke-width="1.6"/>
-           <circle cx="633" cy="65" r="4.4" fill="#ddd3a8"/>
+           <circle cx="620" cy="82" r="62" fill="#6064a0" opacity="0.4"/>
+           <circle cx="620" cy="82" r="54" fill="#6064a0" opacity="0.55"/>
+           ${season() === "ramadan"
+             ? `<path d="M632 36A47 47 0 1 0 640 128A36 36 0 1 1 632 36Z" fill="#e5dcc8" stroke="${sceneryInk}" stroke-width="3"/>`
+             : `<circle cx="620" cy="82" r="47" fill="#e5dcc8" stroke="${sceneryInk}" stroke-width="3"/>`}
+           <circle cx="603" cy="72" r="9" fill="#e5dcc8" stroke="${sceneryInk}" stroke-width="1.6"/>
+           <circle cx="636" cy="98" r="6" fill="#e5dcc8" stroke="${sceneryInk}" stroke-width="1.6"/>
+           <circle cx="633" cy="65" r="4.4" fill="#e5dcc8"/>
          </g>
-         <g fill="#fff8d8" class="art-stars">
+         <g fill="#fffaf0" class="art-stars">
            ${[[90, 60, 3], [220, 120, 2.4], [340, 50, 3.4], [470, 140, 2.2], [560, 40, 2.8], [150, 190, 2], [720, 200, 2.6], [400, 220, 2.2]]
-             .map(([x, y, r], i) => `<circle cx="${x}" cy="${y}" r="${r}" style="animation-delay:${i * 0.6}s"/>`)
+             // Night stars are quiet four-point glints and dots — never the
+             // five-point gold star, which means "you earned this".
+             .map(([x, y, r], i) => i % 3 === 0
+               ? `<path d="M${x} ${y - r * 2.4}Q${x} ${y} ${x + r * 2.4} ${y}Q${x} ${y} ${x} ${y + r * 2.4}Q${x} ${y} ${x - r * 2.4} ${y}Q${x} ${y} ${x} ${y - r * 2.4}Z" style="animation-delay:${i * 0.6}s"/>`
+               : `<circle cx="${x}" cy="${y}" r="${r}" opacity="0.85" style="animation-delay:${i * 0.6}s"/>`)
              .join("")}
          </g>`
       : `<g class="art-sun-glow">
-           <circle cx="620" cy="98" r="58" fill="${INK}" opacity="0.16"/>
+           <circle cx="620" cy="88" r="76" fill="#ffe49a" opacity="0.28"/>
+           <circle cx="620" cy="88" r="63" fill="#ffe49a" opacity="0.45"/>
            <circle cx="620" cy="88" r="51" fill="${p.accent}" stroke="${sceneryInk}" stroke-width="3"/>
            <circle cx="604" cy="72" r="13" fill="#fffaf0" opacity="0.55"/>
          </g>`;
     const skyId = gradId();
     return `
-    <svg class="art-backdrop" viewBox="0 0 800 600" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <svg class="art-backdrop" data-biome="${BIOMES.includes(biome) ? biome : "meadow"}" viewBox="0 0 800 600" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
       <defs>
         <linearGradient id="${skyId}" x1="0" y1="0" x2="0" y2="1">
           <!-- Held FLAT through the top quarter on purpose. A seam kept showing
@@ -662,22 +926,32 @@
       <rect x="-400" y="0" width="1600" height="600" fill="url(#${skyId})"/>
       <g class="art-scenery-tint">
       ${celestial}
-      <g fill="${night ? "#777ca7" : "#fffaf0"}" opacity="${night ? 0.72 : 0.9}" stroke="${sceneryInk}" stroke-width="2.4" class="art-clouds">
-        <g class="art-cloud-a"><path d="M78 122 Q83 92 112 98 Q124 64 160 84 Q181 70 201 92 Q229 91 236 119 Q205 133 156 130 Q111 134 78 122 Z"/></g>
-        <g class="art-cloud-b"><path d="M362 91 Q368 66 392 70 Q403 44 432 61 Q451 51 466 70 Q489 70 496 91 Q467 102 429 100 Q391 104 362 91 Z"/></g>
-      </g>
+      ${(() => {
+        // Clouds are far-layer masses: no contour (§3). A cooler underside
+        // shows below a lit top, the same two-tone trick as the hill ridges.
+        const top = night ? "#6064a0" : "#fffdf7";
+        const under = night ? "#4a4d84" : phase === "sunset" ? "#ffa798" : "#e5dcc8";
+        const cloud = d => `<path d="${d}" fill="${under}"/><path d="${d}" fill="${top}" transform="translate(0 -7)"/>`;
+        return `<g opacity="${night ? 0.8 : 0.95}" class="art-clouds">
+        <g class="art-cloud-a">${cloud("M78 122 Q83 92 112 98 Q124 64 160 84 Q181 70 201 92 Q229 91 236 119 Q205 133 156 130 Q111 134 78 122 Z")}</g>
+        <g class="art-cloud-b">${cloud("M362 91 Q368 66 392 70 Q403 44 432 61 Q451 51 466 70 Q489 70 496 91 Q467 102 429 100 Q391 104 362 91 Z")}</g>
+      </g>`;
+      })()}
+      ${land.far || ""}
       ${[
         { d: "M-10 445 Q145 370 305 429 Q462 480 625 417 Q727 380 812 425 L812 615 L-10 615 Z", c: p.far, crest: 13 },
         { d: "M-10 485 Q198 392 420 462 Q622 526 812 440 L812 615 L-10 615 Z", c: p.mid, crest: 15 },
         { d: "M-10 535 Q257 450 521 522 Q682 565 812 516 L812 615 L-10 615 Z", c: p.near, crest: 17 },
       ]
-        .map(({ d, c, crest }) => {
+        .map(({ d, c, crest }, band) => {
           // Ramped ground plane (ban 3): the silhouette in the light tone, with
           // the base mass dropped over it so only a sunlit strip along the ridge
           // shows. Two tones per band, no contour — the ridge reads by value,
           // which is how Toca separates ground planes.
           const r = ramp(c);
-          return `<path d="${d}" fill="${r.light}"/><path d="${d}" fill="${r.base}" transform="translate(0 ${crest})"/>`;
+          const hills = `<path d="${d}" fill="${r.light}"/><path d="${d}" fill="${r.base}" transform="translate(0 ${crest})"/>`;
+          // Lagoon water lies between the middle and near bands.
+          return band === 2 ? `${land.water || ""}${hills}` : hills;
         })
         .join("")}
       ${(() => {
@@ -686,30 +960,33 @@
         // The trunks are stroke-drawn, so the group must carry a stroke or they
         // vanish — they read as shade-on-shade here, not as a contour.
         const t = ramp(p.near);
+        const left = land.noTrees !== "both", right = !land.noTrees;
         return `<g fill="${t.shadow}" stroke="${t.shadow}" stroke-width="4" stroke-linecap="round">
-        <path d="M113 501V457M113 484L101 473M113 478L125 465" fill="none"/>
-        <path d="M88 465Q73 449 88 437Q85 416 107 421Q126 410 135 430Q156 436 140 458Q130 477 113 467Q98 477 88 465Z"/>
-        <path d="M704 535V482M704 514L689 500M704 505L719 491" fill="none"/>
-        <path d="M677 490Q659 474 676 457Q674 437 697 441Q717 427 729 451Q751 460 735 481Q727 503 704 493Q690 502 677 490Z"/>
+        ${left ? `<path d="M113 501V457M113 484L101 473M113 478L125 465" fill="none"/>
+        <path d="M88 465Q73 449 88 437Q85 416 107 421Q126 410 135 430Q156 436 140 458Q130 477 113 467Q98 477 88 465Z"/>` : ""}
+        ${right ? `<path d="M704 535V482M704 514L689 500M704 505L719 491" fill="none"/>
+        <path d="M677 490Q659 474 676 457Q674 437 697 441Q717 427 729 451Q751 460 735 481Q727 503 704 493Q690 502 677 490Z"/>` : ""}
       </g>
       <g fill="${t.light}" opacity="0.45">
-        <path d="M86 444Q88 425 106 427Q120 416 129 433Q105 427 94 450Z"/>
-        <path d="M675 464Q678 444 697 448Q713 435 723 454Q695 445 685 472Z"/>
+        ${left ? `<path d="M86 444Q88 425 106 427Q120 416 129 433Q105 427 94 450Z"/>` : ""}
+        ${right ? `<path d="M675 464Q678 444 697 448Q713 435 723 454Q695 445 685 472Z"/>` : ""}
       </g>`;
       })()}
+      ${land.props || ""}
       <g class="art-ground-flowers">
-      ${[[246,526,1,'#e69a8b'],[562,548,.9,'#b6a4d5'],[386,566,.85,'#91bec9']].map(([x,y,k,color])=>`<g transform="translate(${x} ${y}) scale(${k})">
-        <ellipse cx="0" cy="23" rx="14" ry="3" fill="${night?'#233d38':'#4e7850'}" opacity=".22"/>
-        <path d="M0 21Q3 10 0 0" fill="none" stroke="${night?'#729480':'#6c925a'}" stroke-width="2.2" stroke-linecap="round"/>
-        <path d="M1 17Q-10 16-10 8Q-2 8 1 17M2 13Q12 13 13 5Q5 5 2 13" fill="${night?'#789681':'#8caf6d'}"/>
-        <g fill="${color}" stroke="${sceneryInk}" stroke-width="1" opacity="${night?.7:1}">${[0,72,144,216,288].map(angle=>`<ellipse cy="-5" rx="3.8" ry="6" transform="rotate(${angle})"/>`).join('')}
-        <circle r="3.5" fill="#f1d287"/><circle cx="-1" cy="-1.5" r="1" fill="#fff3c5" stroke="none"/></g>
+      ${[[246,526,1,'#ffa798'],[562,548,.9,'#b49fcf'],[386,566,.85,'#62cdf4']].map(([x,y,k,color])=>`<g transform="translate(${x} ${y}) scale(${k})">
+        <ellipse cx="0" cy="23" rx="14" ry="3" fill="${night?'#3b2a19':'#4e9677'}" opacity=".22"/>
+        <path d="M0 21Q3 10 0 0" fill="none" stroke="${night?'#4e9677':'#4e9677'}" stroke-width="2.4" stroke-linecap="round"/>
+        <path d="M1 17Q-10 16-10 8Q-2 8 1 17M2 13Q12 13 13 5Q5 5 2 13" fill="${night?'#4e9677':'#93ab6c'}"/>
+        <g fill="${color}" stroke="${sceneryInk}" stroke-width="1.6" opacity="${night?.7:1}">${[0,72,144,216,288].map(angle=>`<ellipse cy="-5" rx="3.8" ry="6" transform="rotate(${angle})"/>`).join('')}
+        <circle r="3.5" fill="#ffe49a"/><circle cx="-1" cy="-1.5" r="1" fill="#ffe49a" stroke="none"/></g>
       </g>`).join('')}
       </g>
       <g fill="#fffaf0" stroke="${sceneryInk}" stroke-width="1.6" opacity="0.8">
         <path d="M42 556 q14 -14 28 0 q-14 14 -28 0Z"/><path d="M744 560 q13 -13 26 0 q-13 13 -26 0Z"/>
       </g>
-      ${night ? `<g class="art-fireflies" fill="#ffe98a">${[[210, 480], [470, 510], [650, 540]].map(([x, y], i) => `<circle cx="${x}" cy="${y}" r="4" style="animation-delay:${i * 1.1}s"/>`).join("")}</g>` : ""}
+      ${landLife(BIOMES.includes(biome) ? biome : "meadow", night, sceneryInk)}
+      ${night ? `<g class="art-fireflies" fill="#ffe49a">${[[210, 480], [470, 510], [650, 540]].map(([x, y], i) => `<circle cx="${x}" cy="${y}" r="4" style="animation-delay:${i * 1.1}s"/>`).join("")}</g>` : ""}
       </g>
     </svg>`;
   }
@@ -717,11 +994,11 @@
   // One map stop: a circular badge with the same navy rim, warm face and
   // shallow physical lift as every interactive card.
   function mapStop({ hue, label, status, stars = 0, latin = false }) {
-    const faceColor = status === "done" ? "#f3c955" : status === "current" ? `hsl(${hue} 54% 70%)` : "#e8dcc2";
-    const insetColor = status === "done" ? "#fff1c9" : status === "current" ? `hsl(${hue} 55% 88%)` : "#f2e9d6";
+    const faceColor = status === "done" ? "#f3c955" : status === "current" ? `hsl(${hue} 54% 70%)` : "#e5dcc8";
+    const insetColor = status === "done" ? "#fffaf0" : status === "current" ? `hsl(${hue} 55% 88%)` : "#fffaf0";
     // Warm bronze coin-rim gives the whole path a sunlit, treasure-map feel —
     // no more cold navy drop under the stops.
-    const rim = status === "done" ? "#c08a1e" : status === "current" ? "#a9782e" : "#bfae90";
+    const rim = status === "done" ? "#c69434" : status === "current" ? "#c69434" : "#c9bda4";
     const starRow = [0, 1, 2]
       .map(
         (i) =>
@@ -738,18 +1015,18 @@
     // translucent cream disc over the night sky desaturates straight to grey,
     // which is how these ended up looking like dead slate coins.
     const locked = status === "locked";
-    const contour = locked ? "#b9a68a" : INK;
+    const contour = locked ? "#a89478" : INK;
     return `
     <svg viewBox="-60 -60 120 120" class="map-stop-art" aria-hidden="true">
       <circle cy="6" r="47" fill="${rim}"/>
-      <circle r="47" fill="${faceColor}" stroke="${contour}" stroke-width="${locked ? 3.5 : 5}"/>
-      <circle r="36" fill="${insetColor}" stroke="${contour}" stroke-width="${locked ? 2 : 3}"/>
+      <circle r="47" fill="${faceColor}" stroke="${contour}" stroke-width="${locked ? 3 : 6}"/>
+      <circle r="36" fill="${insetColor}" stroke="${contour}" stroke-width="${locked ? 1.6 : 3}"/>
       ${
         locked
           ? `<g class="map-stop-seed" transform="translate(0 4)">
-               <ellipse cx="0" cy="0" rx="10" ry="12.5" fill="#c0ac85" stroke="${INKS.faint}" stroke-width="2.4" transform="rotate(-14)"/>
+               <ellipse cx="0" cy="0" rx="10" ry="12.5" fill="#c9bda4" stroke="${INKS.faint}" stroke-width="2.4" transform="rotate(-14)"/>
                <path d="M0 -12 Q1 -19 0 -24" fill="none" stroke="${INKS.faint}" stroke-width="2.4" stroke-linecap="round"/>
-               <path d="M0 -20 Q-7 -23 -9 -29 Q-1 -28 0 -20 Z" fill="#a8bd8b" stroke="${INKS.soft}" stroke-width="1.6" stroke-linejoin="round"/>
+               <path d="M0 -20 Q-7 -23 -9 -29 Q-1 -28 0 -20 Z" fill="#93ab6c" stroke="${INKS.soft}" stroke-width="1.6" stroke-linejoin="round"/>
              </g>`
           : (() => {
               const size = latin ? 24 : [...label.replace(/[ً-ْٰٓ-ٟؐ-ؚۖ-ۭ]/g, "")].length >= 3 ? 27 : 39;
@@ -759,7 +1036,7 @@
               return `<text data-fit-box="0,-3,51,44,${size}" x="${s.dx.toFixed(1)}" y="${(s.dy - 3).toFixed(1)}" text-anchor="middle" font-family="${latin ? LATIN_FONT : AMIRI}" font-size="${size}" fill="${INK}" ${latin ? "" : `direction="rtl"`}>${label}</text>`;
             })()
       }
-      ${status !== "locked" ? `<rect class="map-star-plaque" x="-39" y="29" width="78" height="29" rx="14" fill="#fff8df" stroke="#806341" stroke-width="2"/>${starRow}` : ""}
+      ${status !== "locked" ? `<rect class="map-star-plaque" x="-39" y="29" width="78" height="29" rx="14" fill="#fffaf0" stroke="#70501b" stroke-width="2.4"/>${starRow}` : ""}
     </svg>`;
   }
 
@@ -812,44 +1089,44 @@
     blob: (body, rim) => ({
       back: `
         <g transform="translate(0 -43)">${sproutArt(0.9)}</g>
-        <path d="M42 30 Q61 34 54 47 Q47 53 41 44 Z" fill="${body}" stroke="${rim}" stroke-width="3"/>`,
+        <path d="M42 30 Q61 34 54 47 Q47 53 41 44 Z" fill="${body}" stroke="${INK}" stroke-width="3"/>`,
       front: "",
     }),
     bunny: (body, rim, belly) => ({
       back: `
-        <path d="M-24 -38 Q-34 -86 -12 -66 Q-4 -56 -8 -40 Z" fill="${body}" stroke="${rim}" stroke-width="3"/>
-        <path d="M24 -38 Q34 -86 12 -66 Q4 -56 8 -40 Z" fill="${body}" stroke="${rim}" stroke-width="3"/>
+        <path d="M-24 -38 Q-34 -86 -12 -66 Q-4 -56 -8 -40 Z" fill="${body}" stroke="${INK}" stroke-width="3"/>
+        <path d="M24 -38 Q34 -86 12 -66 Q4 -56 8 -40 Z" fill="${body}" stroke="${INK}" stroke-width="3"/>
         <path d="M-21 -44 Q-26 -74 -13 -60 Q-9 -52 -12 -44 Z" fill="${belly}"/>
         <path d="M21 -44 Q26 -74 13 -60 Q9 -52 12 -44 Z" fill="${belly}"/>
-        <circle cx="44" cy="36" r="10" fill="${belly}" stroke="${rim}" stroke-width="3"/>`,
+        <circle cx="44" cy="36" r="10" fill="${belly}" stroke="${INK}" stroke-width="3"/>`,
       front: "",
     }),
     chick: (body, rim, belly) => ({
       back: `
-        <path d="M-4 -50 Q-10 -66 0 -60 Q6 -68 8 -56 Q16 -60 10 -48 Z" fill="#ffb03a" stroke="${GOLD.mid}" stroke-width="3"/>
-        <path d="M-44 6 Q-62 14 -50 30 Q-42 38 -34 26 Z" fill="${body}" stroke="${rim}" stroke-width="3"/>
-        <path d="M44 6 Q62 14 50 30 Q42 38 34 26 Z" fill="${body}" stroke="${rim}" stroke-width="3"/>
-        <path d="M-6 46 Q-16 62 0 58 Q16 62 6 46 Z" fill="#ffb03a" stroke="${GOLD.mid}" stroke-width="3"/>`,
-      front: `<path d="M-5 14 L0 21 L5 14 Q0 10 -5 14 Z" fill="#ffb03a" stroke="${GOLD.mid}" stroke-width="2.4"/>`,
+        <path d="M-4 -50 Q-10 -66 0 -60 Q6 -68 8 -56 Q16 -60 10 -48 Z" fill="#f3c955" stroke="${INK}" stroke-width="3"/>
+        <path d="M-44 6 Q-62 14 -50 30 Q-42 38 -34 26 Z" fill="${body}" stroke="${INK}" stroke-width="3"/>
+        <path d="M44 6 Q62 14 50 30 Q42 38 34 26 Z" fill="${body}" stroke="${INK}" stroke-width="3"/>
+        <path d="M-6 46 Q-16 62 0 58 Q16 62 6 46 Z" fill="#f3c955" stroke="${INK}" stroke-width="3"/>`,
+      front: `<path d="M-5 14 L0 21 L5 14 Q0 10 -5 14 Z" fill="#f3c955" stroke="${INK}" stroke-width="2.4"/>`,
     }),
     cat: (body, rim, belly) => ({
       back: `
-        <path d="M-34 -26 Q-44 -58 -12 -42 Q-20 -34 -22 -26 Z" fill="${body}" stroke="${rim}" stroke-width="3"/>
-        <path d="M34 -26 Q44 -58 12 -42 Q20 -34 22 -26 Z" fill="${body}" stroke="${rim}" stroke-width="3"/>
+        <path d="M-34 -26 Q-44 -58 -12 -42 Q-20 -34 -22 -26 Z" fill="${body}" stroke="${INK}" stroke-width="3"/>
+        <path d="M34 -26 Q44 -58 12 -42 Q20 -34 22 -26 Z" fill="${body}" stroke="${INK}" stroke-width="3"/>
         <path d="M-30 -34 Q-35 -49 -20 -41 Z" fill="#ffa798"/>
         <path d="M30 -34 Q35 -49 20 -41 Z" fill="#ffa798"/>
-        <path d="M40 28 Q66 24 60 2 Q57 -8 48 -2 Q54 6 46 12 Q34 18 38 30 Z" fill="${body}" stroke="${rim}" stroke-width="3"/>`,
+        <path d="M40 28 Q66 24 60 2 Q57 -8 48 -2 Q54 6 46 12 Q34 18 38 30 Z" fill="${body}" stroke="${INK}" stroke-width="3"/>`,
       front: `
-        <g stroke="${rim}" stroke-width="2.4" stroke-linecap="round" opacity="0.8">
+        <g stroke="${INK}" stroke-width="2.4" stroke-linecap="round" opacity="0.8">
           <path d="M-28 4 L-44 0 M-28 9 L-44 10 M28 4 L44 0 M28 9 L44 10"/>
         </g>`,
     }),
     dragon: (body, rim, belly) => ({
       back: `
-        <path d="M-16 -42 L-8 -64 L-1 -46 L7 -68 L14 -46 L20 -60 L23 -41 Z" fill="${belly}" stroke="${rim}" stroke-width="3"/>
-        <path d="M-44 -8 Q-74 -26 -66 2 Q-60 16 -40 12 Z" fill="${belly}" stroke="${rim}" stroke-width="3"/>
-        <path d="M44 -8 Q74 -26 66 2 Q60 16 40 12 Z" fill="${belly}" stroke="${rim}" stroke-width="3"/>
-        <path d="M38 34 Q62 44 58 56 L48 50 Q54 58 44 60 Q32 58 34 42 Z" fill="${body}" stroke="${rim}" stroke-width="3"/>
+        <path d="M-16 -42 L-8 -64 L-1 -46 L7 -68 L14 -46 L20 -60 L23 -41 Z" fill="${belly}" stroke="${INK}" stroke-width="3"/>
+        <path d="M-44 -8 Q-74 -26 -66 2 Q-60 16 -40 12 Z" fill="${belly}" stroke="${INK}" stroke-width="3"/>
+        <path d="M44 -8 Q74 -26 66 2 Q60 16 40 12 Z" fill="${belly}" stroke="${INK}" stroke-width="3"/>
+        <path d="M38 34 Q62 44 58 56 L48 50 Q54 58 44 60 Q32 58 34 42 Z" fill="${body}" stroke="${INK}" stroke-width="3"/>
         <path d="M-16 -48 Q-20 -58 -12 -54 Z" fill="${rim}"/>
         <path d="M16 -48 Q20 -58 12 -54 Z" fill="${rim}"/>`,
       front: "",
@@ -865,39 +1142,39 @@
     const belly = `hsl(${hue} 78% 82%)`;
     const parts = (SPECIES[species] || SPECIES.blob)(body, rim, belly);
     return `
-    <svg class="art-pet" viewBox="-70 -74 140 152" width="${size}" height="${size * 1.09}" aria-hidden="true">
+    <svg class="art-pet" viewBox="-70 -74 140 152" width="${size}" height="${size * 1.09}" aria-hidden="true" data-rig-species="blob">
       <defs>${bodyGrad(id, hue, 72, 62)}</defs>
-      <g class="art-pet-body" transform="scale(${scale})">
-        <ellipse cy="66" rx="36" ry="7.5" fill="${SHADOW}"/>
-        ${stage >= 3 ? `<g opacity="0.9">${[-46, 46].map((x) => `<circle cx="${x}" cy="-40" r="3.4" fill="#ffd23e"/>`).join("")}<circle cx="0" cy="-58" r="4" fill="#ffd23e"/></g>` : ""}
+      <ellipse cy="66" rx="36" ry="7.5" fill="${SHADOW}" transform="scale(${scale})"/>
+      <g data-rig="root"><g class="art-pet-body" transform="scale(${scale})">
+        ${stage >= 3 ? `<g opacity="0.9">${[-46, 46].map((x) => `<circle cx="${x}" cy="-40" r="3.4" fill="#f3c955"/>`).join("")}<circle cx="0" cy="-58" r="4" fill="#f3c955"/></g>` : ""}
         ${parts.back}
-        ${stage >= 2 ? `<path d="M-40 8 Q-58 2 -50 22 Q-44 30 -36 24 Z" fill="${belly}" stroke="${rim}" stroke-width="3"/><path d="M40 8 Q58 2 50 22 Q44 30 36 24 Z" fill="${belly}" stroke="${rim}" stroke-width="3"/>` : ""}
-        <circle cy="4" r="46" fill="url(#${id})"/>
+        ${stage >= 2 ? `<path d="M-40 8 Q-58 2 -50 22 Q-44 30 -36 24 Z" fill="${belly}" stroke="${INK}" stroke-width="3"/><path d="M40 8 Q58 2 50 22 Q44 30 36 24 Z" fill="${belly}" stroke="${INK}" stroke-width="3"/>` : ""}
+        <circle cy="4" r="46" fill="url(#${id})" stroke="${INK}" stroke-width="3"/>
         <ellipse cy="22" rx="26" ry="20" fill="${belly}"/>
-        <ellipse cx="-17" cy="-17" rx="10" ry="8" fill="#fff" opacity="0.45"/>
-        <ellipse cx="-18" cy="52" rx="11" ry="7" fill="${rim}"/>
-        <ellipse cx="18" cy="52" rx="11" ry="7" fill="${rim}"/>
-        ${face(0, -4, 1.1, mood, body)}
+        <ellipse cx="-17" cy="-17" rx="10" ry="8" fill="#fffdf7" opacity="0.45"/>
+        <ellipse cx="-18" cy="52" rx="11" ry="7" fill="${rim}" stroke="${INK}" stroke-width="2.4"/>
+        <ellipse cx="18" cy="52" rx="11" ry="7" fill="${rim}" stroke="${INK}" stroke-width="2.4"/>
+        <g data-rig="head">${face(0, -4, 1.1, mood, body)}</g>
         ${parts.front}
         ${worn.map((wid) => ACCESSORY_ART[wid] || "").join("")}
-      </g>
+      </g></g>
     </svg>`;
   }
 
   const ACCESSORY_ART = {
-    cap: `<g transform="translate(0 -46)"><path d="M-24 2A24 16 0 0 1 24 2L23 6H-24Z" fill="#e69b77" stroke="#8f6d50" stroke-width="2.5"/><path d="M-2-10Q-12-6-13 0" fill="none" stroke="#f6c7a2" stroke-width="3" stroke-linecap="round"/><path d="M5-9Q13-5 14 0" fill="none" stroke="#bf795c" stroke-width="1.5"/><circle cy="-12" r="3" fill="#efd391" stroke="#9c7650" stroke-width="1.3"/><path d="M-27 3Q0-5 27 3L30 9Q0 4-30 9Z" fill="#ce855f" stroke="#8f6d50" stroke-width="2.3" stroke-linejoin="round"/><path d="M-22 4Q0-1 22 4" fill="none" stroke="#f1b68a" stroke-width="1.5"/></g>`,
-    crown: `<g transform="translate(0 -48)"><path d="M-20 8V-8L-10 0L0-12L10 0L20-8V8Z" fill="#edca6a" stroke="#a58246" stroke-width="2.5" stroke-linejoin="round"/><path d="M-17 5H17" stroke="#cba052" stroke-width="3"/><path d="M-16 1H16" stroke="#fff0b1" stroke-width="1.5"/><path d="M0-5L4-1L0 3L-4-1Z" fill="#d99591" stroke="#b58469" stroke-width="1"/></g>`,
-    bow: `<g transform="translate(26 -34) rotate(20)"><path d="M-2 0Q-10-11-15-9Q-18 0-15 9Q-9 9-2 0M2 0Q10-11 15-9Q18 0 15 9Q9 9 2 0" fill="#df9dad" stroke="#a86e83" stroke-width="2"/><path d="M-11-4L-5-1M11-4L5-1M-11 5L-5 2M11 5L5 2" stroke="#b9738d" stroke-width="1.3"/><rect x="-3" y="-4" width="6" height="8" rx="2" fill="#bd7e94" stroke="#a86e83" stroke-width="1.3"/></g>`,
-    glasses: `<g transform="translate(0 -6)" fill="none" stroke="#80694d" stroke-width="2.4"><circle cx="-12" r="9"/><circle cx="12" r="9"/><path d="M-3 0Q0-3 3 0M-21-2L-25-4M21-2L25-4" stroke-linecap="round"/><path d="M-18-6Q-15-9-11-9M6-6Q9-9 13-9" stroke="#d6bd8d" stroke-width="1.2" stroke-linecap="round"/></g>`,
+    cap: `<g transform="translate(0 -46)"><path d="M-24 2A24 16 0 0 1 24 2L23 6H-24Z" fill="#ffa06e" stroke="#70501b" stroke-width="2.4"/><path d="M-2-10Q-12-6-13 0" fill="none" stroke="#c9bda4" stroke-width="3" stroke-linecap="round"/><path d="M5-9Q13-5 14 0" fill="none" stroke="#c25a49" stroke-width="1.6"/><circle cy="-12" r="3" fill="#ffe49a" stroke="#a89478" stroke-width="1.6"/><path d="M-27 3Q0-5 27 3L30 9Q0 4-30 9Z" fill="#ee806f" stroke="#70501b" stroke-width="2.4" stroke-linejoin="round"/><path d="M-22 4Q0-1 22 4" fill="none" stroke="#ffa798" stroke-width="1.6"/></g>`,
+    crown: `<g transform="translate(0 -48)"><path d="M-20 8V-8L-10 0L0-12L10 0L20-8V8Z" fill="#f3c955" stroke="#a89478" stroke-width="2.4" stroke-linejoin="round"/><path d="M-17 5H17" stroke="#c69434" stroke-width="3"/><path d="M-16 1H16" stroke="#ffe49a" stroke-width="1.6"/><path d="M0-5L4-1L0 3L-4-1Z" fill="#ffa798" stroke="#a89478" stroke-width="1.6"/></g>`,
+    bow: `<g transform="translate(26 -34) rotate(20)"><path d="M-2 0Q-10-11-15-9Q-18 0-15 9Q-9 9-2 0M2 0Q10-11 15-9Q18 0 15 9Q9 9 2 0" fill="#ffa798" stroke="#c25a49" stroke-width="2.4"/><path d="M-11-4L-5-1M11-4L5-1M-11 5L-5 2M11 5L5 2" stroke="#c25a49" stroke-width="1.6"/><rect x="-3" y="-4" width="6" height="8" rx="2" fill="#ee806f" stroke="#c25a49" stroke-width="1.6"/></g>`,
+    glasses: `<g transform="translate(0 -6)" fill="none" stroke="#70501b" stroke-width="2.4"><circle cx="-12" r="9"/><circle cx="12" r="9"/><path d="M-3 0Q0-3 3 0M-21-2L-25-4M21-2L25-4" stroke-linecap="round"/><path d="M-18-6Q-15-9-11-9M6-6Q9-9 13-9" stroke="#c9bda4" stroke-width="1.6" stroke-linecap="round"/></g>`,
     scarf: `<g transform="translate(0 22)"><path d="M-24 0 Q0 12 24 0 L22 10 Q0 20 -22 10 Z" fill="#4e9677" stroke="${INKS.base}" stroke-width="3"/><path d="M14 8 L20 30 L8 26 Z" fill="#4e9677" stroke="${INKS.base}" stroke-width="3"/><path d="M-17 5Q0 13 17 5M12 21l5 2" fill="none" stroke="#b7e779" stroke-width="1.6" stroke-linecap="round"/></g>`,
-    flower: `<g transform="translate(-27 -36)">${[0,72,144,216,288].map(a=>`<ellipse cy="-6" rx="4.5" ry="7" transform="rotate(${a})" fill="#e4a1b1" stroke="#ad7687" stroke-width="1"/>`).join('')}<circle r="4.7" fill="#efd080" stroke="#b39a5c" stroke-width="1.2"/><circle cx="-1.5" cy="-2" r="1.4" fill="#fff0bd"/></g>`,
+    flower: `<g transform="translate(-27 -36)">${[0,72,144,216,288].map(a=>`<ellipse cy="-6" rx="4.5" ry="7" transform="rotate(${a})" fill="#ffa798" stroke="#c25a49" stroke-width="1.6"/>`).join('')}<circle r="4.7" fill="#ffe49a" stroke="#a89478" stroke-width="1.6"/><circle cx="-1.5" cy="-2" r="1.4" fill="#ffe49a"/></g>`,
     balloon: `<g transform="translate(42 -30)"><path d="M0 16 Q-4 31 0 40" fill="none" stroke="${INKS.base}" stroke-width="1.6"/><path d="M0 14l-3 6q3-2 6 0Z" fill="#3a8fc4" stroke="${INKS.base}" stroke-width="1.6"/><ellipse rx="13" ry="16" fill="#62cdf4" stroke="${INKS.base}" stroke-width="3"/><path d="M8-8Q14 7 2 12" fill="none" stroke="#3a8fc4" stroke-width="2.4" stroke-linecap="round"/><path d="M-8-2Q-8-9-3-11" fill="none" stroke="#ccfbef" stroke-width="3" stroke-linecap="round"/></g>`,
     wand: `<g transform="translate(-42 6) rotate(-24)"><rect x="-2" y="0" width="4" height="34" rx="2" fill="#c69434" stroke="${INKS.base}" stroke-width="1.6"/><path d="M0 13v16" stroke="#ffe49a" stroke-width="1.6" stroke-linecap="round"/><g transform="translate(0 -6) scale(0.32)"><path d="M0 -26 L7 -6 L27 -5 L11 8 L16 27 L0 16 L-16 27 L-11 8 L-27 -5 L-7 -6 Z" fill="#f3c955" stroke="${INKS.base}" stroke-width="6"/><path d="M0-16L-3-3-15-2" fill="none" stroke="#ffe49a" stroke-width="4" stroke-linecap="round"/></g></g>`,
-    taqiyah: `<g transform="translate(0 -46)"><path d="M-22 6A22 14 0 0 1 22 6L22 10Q0 6-22 10Z" fill="#fff6de" stroke="#a59578" stroke-width="2.5"/><path d="M-19 5Q0 0 19 5" fill="none" stroke="#b1b995" stroke-width="4"/><path d="M-18 5Q0 0 18 5" fill="none" stroke="#fff4cd" stroke-width="1.2" stroke-dasharray="1 3"/><path d="M-3-5Q-12-3-14 0M3-5Q12-3 14 0" fill="none" stroke="#dacda7" stroke-width="1.3"/></g>`,
+    taqiyah: `<g transform="translate(0 -46)"><path d="M-22 6A22 14 0 0 1 22 6L22 10Q0 6-22 10Z" fill="#fffaf0" stroke="#a89478" stroke-width="2.4"/><path d="M-19 5Q0 0 19 5" fill="none" stroke="#c9bda4" stroke-width="4"/><path d="M-18 5Q0 0 18 5" fill="none" stroke="#fffaf0" stroke-width="1.6" stroke-dasharray="1 3"/><path d="M-3-5Q-12-3-14 0M3-5Q12-3 14 0" fill="none" stroke="#c9bda4" stroke-width="1.6"/></g>`,
     cape: `<g transform="translate(0 4)"><path d="M-32 16Q-44 27-38 44L-22 36-24 19ZM32 16Q44 27 38 44L22 36 24 19Z" fill="#ee806f" stroke="${INKS.base}" stroke-width="3"/><path d="M-33 24L-34 36M33 24L34 36" stroke="#ffa798" stroke-width="2.4" stroke-linecap="round"/><path d="M-26 19Q0 31 26 19" fill="none" stroke="#ee806f" stroke-width="4"/><circle cy="25" r="3" fill="#f3c955" stroke="${INKS.base}" stroke-width="1.6"/></g>`,
     medal: `<g transform="translate(0 30)"><path d="M-6 -14 L0 -4 L6 -14" stroke="#4e9677" stroke-width="4" fill="none"/><circle cy="4" r="9" fill="#f3c955" stroke="${GOLD.mid}" stroke-width="3"/><circle cy="4" r="6.5" fill="none" stroke="#c69434" stroke-width="1.6"/><path d="M0 -1 L2 3 L6 3 L3 6 L4 10 L0 8 L-4 10 L-3 6 L-6 3 L-2 3 Z" fill="#fffaf0"/></g>`,
     kite: `<g transform="translate(44 -22) rotate(14)"><path d="M0-16L12 0 0 16-12 0Z" fill="#62cdf4" stroke="${INKS.base}" stroke-width="3"/><path d="M0-16V0H-12Z" fill="#ffe49a"/><path d="M0 0H12L0 16Z" fill="#ee806f"/><path d="M0-16V16M-12 0H12" stroke="${INKS.base}" stroke-width="1.6"/><path d="M0 16Q-4 26 0 34Q4 40 0 46" fill="none" stroke="${INKS.base}" stroke-width="1.6"/><path d="M-1 27l-5-3v6l5-2 5 3v-7ZM1 38l-5-3v6l5-2 5 3v-7Z" fill="#ffa798" stroke="${INKS.base}" stroke-width="1.6" stroke-linejoin="round"/></g>`,
-    sprout: `<g transform="translate(0 -50)"><ellipse cy="10" rx="7" ry="3" fill="#af9164" stroke="#8a7554" stroke-width="1.3"/><path d="M0 9Q-1 2 0-2" stroke="#719252" stroke-width="2.5" fill="none"/><path d="M0-2Q-12-6-13-16Q-2-14 0-2Z" fill="#8ead6d" stroke="#647f4f" stroke-width="1.8"/><path d="M0-2Q12-8 14-17Q3-15 0-2Z" fill="#b8ce87" stroke="#647f4f" stroke-width="1.8"/><path d="M-9-11L-2-4M3-5L10-12" stroke="#d9e5ae" stroke-width="1.3" stroke-linecap="round"/></g>`,
+    sprout: `<g transform="translate(0 -50)"><ellipse cy="10" rx="7" ry="3" fill="#a89478" stroke="#a89478" stroke-width="1.6"/><path d="M0 9Q-1 2 0-2" stroke="#4e9677" stroke-width="2.4" fill="none"/><path d="M0-2Q-12-6-13-16Q-2-14 0-2Z" fill="#93ab6c" stroke="#4e9677" stroke-width="1.6"/><path d="M0-2Q12-8 14-17Q3-15 0-2Z" fill="#b7e779" stroke="#4e9677" stroke-width="1.6"/><path d="M-9-11L-2-4M3-5L10-12" stroke="#ffe49a" stroke-width="1.6" stroke-linecap="round"/></g>`,
     moonpin: `<g transform="translate(-26 26)"><path d="M4 -10 A11 11 0 1 0 4 10 A8 8 0 1 1 4 -10" fill="#ffe49a" stroke="${GOLD.mid}" stroke-width="2.4"/><circle cx="8" cy="-9" r="2.4" fill="#f3c955" stroke="${GOLD.mid}" stroke-width="1.6"/><path d="M-2-6Q-8 0-2 6" fill="none" stroke="#fffaf0" stroke-width="1.6" stroke-linecap="round"/></g>`,
   };
 
@@ -920,44 +1197,36 @@
     { id: "moonpin", cost: 10 },
   ];
 
+  // Flat egg with the cast's ink contour, sitting IN a woven nest (update:
+  // open art items, 2026-10-01). Each tap escalates: a fissure, then a second
+  // fissure and a chip with warm light and the pet's eyes peeking out. The
+  // shell wobbles; the nest stays put.
   function egg({ size = 150, cracks = 0 } = {}) {
-    const id = gradId();
+    const ink = "#4a3620";
     return `
-    <svg class="art-egg" viewBox="-50 -60 100 120" width="${size}" height="${size * 1.2}" aria-hidden="true">
-      <defs>
-        <radialGradient id="${id}" cx="0.36" cy="0.3" r="1">
-          <stop offset="0" stop-color="#fffdf6"/><stop offset="0.7" stop-color="#fdf0d2"/><stop offset="1" stop-color="#ecd39a"/>
-        </radialGradient>
-      </defs>
-      <g class="art-egg-body">
-        <ellipse cy="56" rx="34" ry="7" fill="${SHADOW}"/>
-        <path d="M0 -52 C30 -52 42 -18 42 8 C42 36 24 52 0 52 C-24 52 -42 36 -42 8 C-42 -18 -30 -52 0 -52 Z"
-          fill="url(#${id})" stroke="${GOLD.light}" stroke-width="4"/>
-        <circle cx="-12" cy="-22" r="8" fill="#fff" opacity="0.7"/>
-        <g fill="#ffc22e" opacity="0.8"><circle cx="14" cy="6" r="5"/><circle cx="-16" cy="18" r="4"/><circle cx="4" cy="32" r="3.4"/></g>
-        ${
-          // Each tap has to be unmistakable, so the stages escalate hard: a
-          // real fissure, then a second one plus a chip knocked loose and warm
-          // light leaking from inside. The old version drew two thin hairlines
-          // that a child couldn't tell apart from the shell speckles.
-          cracks >= 1
-            ? `<path d="M-26 -14 L-14 -6 L-22 4 L-10 12" fill="none" stroke="${INKS.soft}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-               <path d="M-14 -6 L-4 -12" fill="none" stroke="${INKS.soft}" stroke-width="3" stroke-linecap="round"/>`
-            : ""
-        }
-        ${
-          cracks >= 2
-            ? `<path d="M22 -22 L12 -10 L24 -2 L14 10 L22 20" fill="none" stroke="${INKS.soft}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-               <path d="M-10 12 L2 16 L14 10" fill="none" stroke="${INKS.soft}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-               <path d="M2 16 L0 30" fill="none" stroke="${INKS.soft}" stroke-width="3" stroke-linecap="round"/>
-               <path d="M12 -10 L24 -2 L14 10 Z" fill="#3a2c1a" opacity="0.5"/>
-               <circle cx="18" cy="-1" r="9" fill="#fff6c9" opacity="0.75"/>
-               <circle cx="18" cy="-1" r="4.5" fill="#fffdf0"/>`
-            : ""
-        }
+    <svg class="art-egg" viewBox="-62 -60 124 124" width="${size}" height="${size}" aria-hidden="true">
+      <ellipse cy="58" rx="54" ry="5" fill="#2f5c46" opacity=".2"/>
+      <g class="art-egg-nest-back"><ellipse cy="32" rx="54" ry="13" fill="#a89478" stroke="${ink}" stroke-width="3"/><ellipse cy="33" rx="44" ry="8" fill="#70501b"/></g>
+      <g class="art-egg-tap"><g class="art-egg-body">
+        <path d="M0 -52 C30 -52 42 -18 42 8 C42 36 24 52 0 52 C-24 52 -42 36 -42 8 C-42 -18 -30 -52 0 -52 Z" fill="#fffdf7"/>
+        <path d="M18 -40 C34 -26 40 -4 40 10 C40 34 24 50 2 52 C22 44 32 26 30 6 C29 -12 26 -28 18 -40 Z" fill="#e5dcc8"/>
+        <g><circle cx="14" cy="-4" r="6" fill="#ffa798"/><circle cx="-18" cy="12" r="5" fill="#96ecff"/><circle cx="-6" cy="-30" r="4" fill="#f3c955"/><circle cx="22" cy="24" r="4" fill="#b7e779"/></g>
+        ${cracks >= 2 ? `<path d="M12 -12 L26 -2 L16 10 L4 2 Z" fill="#3b2a19"/>
+          <path d="M12 -12 L26 -2 L16 10 L4 2 Z" fill="none" stroke="#ffe49a" stroke-width="2.4" stroke-linejoin="round"/>
+          <g class="art-egg-peek"><circle cx="11" cy="0" r="2.6" fill="#fffdf7"/><circle cx="18" cy="0" r="2.6" fill="#fffdf7"/><circle cx="11.6" cy=".4" r="1.3" fill="${ink}"/><circle cx="18.6" cy=".4" r="1.3" fill="${ink}"/></g>` : ""}
+        <path d="M0 -52 C30 -52 42 -18 42 8 C42 36 24 52 0 52 C-24 52 -42 36 -42 8 C-42 -18 -30 -52 0 -52 Z" fill="none" stroke="${ink}" stroke-width="3"/>
+        ${cracks >= 1 ? `<path d="M-32 -12 L-19 -3 L-28 8 L-15 15" fill="none" stroke="${ink}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M-19 -3 L-8 -10" fill="none" stroke="${ink}" stroke-width="2.4" stroke-linecap="round"/>` : ""}
+        ${cracks >= 2 ? `<path d="M12 -12 L17 -19 L14 -24 L20 -31 M26 -2 L31 -6 L34 1 L39 -2 M16 10 L14 16 L19 19 L17 26" fill="none" stroke="${ink}" stroke-width="2.4" stroke-linecap="round"/>` : ""}
+      </g></g>
+      <g class="art-egg-nest">
+        <path d="M-58 33Q0 50 58 33L51 50Q0 66-51 50Z" fill="#c69434" stroke="${ink}" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M-48 41Q-10 53 30 45M-42 48Q0 58 44 47M-32 38L-22 55M6 44L2 59M34 40L28 55" fill="none" stroke="#70501b" stroke-width="2.4" stroke-linecap="round"/>
+        <path d="M-52 37Q-22 46 8 46" fill="none" stroke="#ffe49a" stroke-width="2.4" stroke-linecap="round" opacity=".7"/>
+        <path d="M46 36Q61 25 61 41Q53 47 46 36Z" fill="#7fce54" stroke="#4e9677" stroke-width="1.6"/><path d="M-46 38Q-62 30-60 44Q-52 48-46 38Z" fill="#7fce54" stroke="#4e9677" stroke-width="1.6"/>
       </g>
     </svg>`;
   }
+
 
   // ---------- the skill flower ----------
   // The check-up's wordless report card: five petals, one per skill
@@ -973,11 +1242,11 @@
   ];
 
   const PETAL_ICONS = {
-    identify: `<circle r="5.5" fill="none" stroke="#fff" stroke-width="2.4"/><circle r="1.8" fill="#fff"/>`,
-    memorize: `<rect x="-7" y="-5" width="8" height="10" rx="2" fill="none" stroke="#fff" stroke-width="2.4"/><rect x="-1" y="-5" width="8" height="10" rx="2" fill="none" stroke="#fff" stroke-width="2.4"/>`,
-    visualize: `<text y="5" text-anchor="middle" font-family="'Amiri Quran', serif" font-size="15" fill="#fff">ﺑ</text>`,
-    blend: `<circle cx="-4" cy="0" r="4.5" fill="none" stroke="#fff" stroke-width="2.4"/><circle cx="4" cy="0" r="4.5" fill="none" stroke="#fff" stroke-width="2.4"/>`,
-    write: `<path d="M-5 6 L3 -6 L6 -3 L-2 8 Z M-5 6 L-6 9 L-3 8 Z" fill="#fff"/>`,
+    identify: `<circle r="5.5" fill="none" stroke="#fffdf7" stroke-width="2.4"/><circle r="1.8" fill="#fffdf7"/>`,
+    memorize: `<rect x="-7" y="-5" width="8" height="10" rx="2" fill="none" stroke="#fffdf7" stroke-width="2.4"/><rect x="-1" y="-5" width="8" height="10" rx="2" fill="none" stroke="#fffdf7" stroke-width="2.4"/>`,
+    visualize: `<text y="5" text-anchor="middle" font-family="'Amiri Quran', serif" font-size="15" fill="#fffdf7">ﺑ</text>`,
+    blend: `<circle cx="-4" cy="0" r="4.5" fill="none" stroke="#fffdf7" stroke-width="2.4"/><circle cx="4" cy="0" r="4.5" fill="none" stroke="#fffdf7" stroke-width="2.4"/>`,
+    write: `<path d="M-5 6 L3 -6 L6 -3 L-2 8 Z M-5 6 L-6 9 L-3 8 Z" fill="#fffdf7"/>`,
   };
 
   function skillFlower({ scores = {}, size = 170 } = {}) {
@@ -997,7 +1266,7 @@
     return `
     <svg class="art-flower" viewBox="-70 -70 140 140" width="${size}" height="${size}" aria-hidden="true">
       ${petals}
-      <circle r="17" fill="#ffd23e" stroke="${GOLD.mid}" stroke-width="3"/>
+      <circle r="17" fill="#f3c955" stroke="${GOLD.mid}" stroke-width="3"/>
       ${face(0, -1, 0.55)}
     </svg>`;
   }
@@ -1008,43 +1277,43 @@
   // tilt playfully in the album; unowned slots are grey question blanks.
 
   const STICKER_ART = {
-    sun: `<g fill="none" stroke="#be8d3f" stroke-width="3" stroke-linecap="round">${[0,45,90,135,180,225,270,315].map(a=>`<path d="M0-22V-27" transform="rotate(${a})"/>`).join('')}</g><circle r="17" fill="#f3cb64" stroke="#9a743d" stroke-width="2"/><path d="M-14 7Q0 20 14 7Q9 20-3 17Z" fill="#dba548"/><path d="M-11-6Q-8-13-1-13" fill="none" stroke="#fff1b2" stroke-width="3"/><g fill="#5d4930"><circle cx="-6" cy="-1" r="2"/><circle cx="6" cy="-1" r="2"/></g><path d="M-4 6Q0 10 4 6" fill="none" stroke="#5d4930" stroke-width="2"/>`,
-    moon: `<path d="M11-22C-7-27-24-11-21 7C-18 25 6 30 21 12C5 17-6 5-3-8C-1-14 4-19 11-22Z" fill="#f1d88e" stroke="#9c8352" stroke-width="2"/><path d="M-17 2Q-18 17-4 21" fill="none" stroke="#d4b36f" stroke-width="4"/><path d="M-17-7Q-13-17-5-19" fill="none" stroke="#fff5cc" stroke-width="3"/><circle cx="-12" cy="8" r="3" fill="#debe7c"/><circle cx="-7" cy="16" r="1.7" fill="#debe7c"/>`,
-    star: `<path d="M0-24Q2-24 4-19L9-8L22-6Q28-5 23 0L13 9L16 22Q17 28 11 24L0 17L-12 24Q-18 27-16 20L-13 9L-23 0Q-28-5-22-6L-9-8L-4-19Q-2-24 0-24Z" fill="#f3cb64" stroke="#9a743d" stroke-width="2" stroke-linejoin="round"/><path d="M-15 1L-8 7L-10 17L0 11L10 17L8 6L16-1L7 0L0 7Z" fill="#dfae50" opacity=".55"/><path d="M-15-3L-6-4L0-17" fill="none" stroke="#fff1b2" stroke-width="3" stroke-linecap="round"/>`,
-    rainbow: `<g fill="none" stroke-width="6"><path d="M-23 13A23 23 0 0 1 23 13" stroke="#d78a91"/><path d="M-17 13A17 17 0 0 1 17 13" stroke="#ebc466"/><path d="M-11 13A11 11 0 0 1 11 13" stroke="#87b59d"/></g><g fill="#fffdf4" stroke="#b9b49b" stroke-width="1.7"><path d="M-28 14Q-30 7-24 7Q-20 0-15 8Q-7 9-11 16Q-18 20-28 17Z"/><path d="M11 16Q7 9 15 8Q20 0 24 7Q30 7 28 14L28 17Q18 20 11 16Z"/></g>`,
-    palm: `<path d="M-6 24Q-1 8-4-8L3-10Q8 8 2 24Z" fill="#bf9260" stroke="#866849" stroke-width="2"/><path d="M-3 4L3 7M-3 13L2 16" stroke="#9b754f" stroke-width="2"/><g stroke="#567653" stroke-width="1.6" stroke-linejoin="round"><path d="M0-10Q-23-19-26 0Q-14-9 0-10Z" fill="#83a967"/><path d="M0-10Q-14-31-26-17Q-12-19 0-10Z" fill="#94b775"/><path d="M0-10Q-7-31 5-28Q11-19 0-10Z" fill="#83a967"/><path d="M0-10Q13-32 26-17Q12-20 0-10Z" fill="#94b775"/><path d="M0-10Q24-15 27 4Q12-7 0-10Z" fill="#729b60"/></g><circle cx="-4" cy="-7" r="4" fill="#b18450" stroke="#866849" stroke-width="1.5"/><circle cx="3" cy="-6" r="4" fill="#c99b61" stroke="#866849" stroke-width="1.5"/>`,
-    flower: `<path d="M1 3Q-3 15 0 26" fill="none" stroke="#668151" stroke-width="3"/><path d="M0 21Q-17 19-16 9Q-5 7 0 21M0 17Q13 4 18 9Q17 21 0 23" fill="#91b275" stroke="#668151" stroke-width="1.7"/><g transform="translate(0 -8)">${[0,72,144,216,288].map(a=>`<ellipse cy="-8" rx="6" ry="10" transform="rotate(${a})" fill="#e89aa7" stroke="#9c6470" stroke-width="1.6"/>`).join('')}<circle r="7" fill="#f4ce69" stroke="#ad8948" stroke-width="1.6"/><circle cx="-2" cy="-2" r="2" fill="#fff0af"/></g>`,
-    butterfly: `<g stroke="#705b62" stroke-width="1.8"><path d="M-2-8C-29-37-31-2-9 3C-28 8-13 30-2 11Z" fill="#9dc7d2"/><path d="M2-8C29-37 31-2 9 3C28 8 13 30 2 11Z" fill="#9dc7d2"/><path d="M-3 2Q-22 3-15 15Q-7 24-2 10M3 2Q22 3 15 15Q7 24 2 10" fill="#d8a0b3"/></g><g fill="#dff0e6"><ellipse cx="-15" cy="-10" rx="4" ry="6" transform="rotate(-28 -15 -10)"/><ellipse cx="15" cy="-10" rx="4" ry="6" transform="rotate(28 15 -10)"/></g><path d="M-2-13L-7-21M2-13L7-21" fill="none" stroke="#665440" stroke-width="2"/><rect x="-3" y="-14" width="6" height="30" rx="3" fill="#665440"/>`,
-    bee: `<g fill="#dfefdf" stroke="#93b7b2" stroke-width="1.7"><path d="M-3-7C-24-34-27-7-3-3Z"/><path d="M0-7C10-31 23-13 5-2Z"/></g><path d="M-21 2L-27 6L-20 10Z" fill="#67513a"/><ellipse cx="-3" cy="6" rx="19" ry="13" fill="#edc46a" stroke="#8e7040" stroke-width="2"/><path d="M-11-5Q-16 7-10 18M-1-7Q-6 6-1 19" fill="none" stroke="#71573b" stroke-width="5"/><path d="M-17-1Q-12-6-7-5" fill="none" stroke="#fff0b4" stroke-width="2"/><circle cx="15" cy="3" r="9" fill="#f4d082" stroke="#8e7040" stroke-width="2"/><circle cx="17" cy="1" r="1.8" fill="#594631"/><path d="M14-5L13-13M18 8Q21 9 22 6" fill="none" stroke="#594631" stroke-width="1.8"/>`,
-    dove: `<path d="M-13 8L-26 4L-22 17L-12 14" fill="#dce7dc" stroke="#80948a" stroke-width="2" stroke-linejoin="round"/><path d="M-17 7Q-12-2 0-2Q2-16 13-14Q23-13 21-2Q22 12 9 17Q-10 23-17 7Z" fill="#fffcf0" stroke="#80948a" stroke-width="2"/><path d="M-10 4Q-16-5-13-15Q-2-10 5 4Q-2 15-10 4Z" fill="#e1eade" stroke="#80948a" stroke-width="1.7"/><path d="M21-6L28-2L21 1" fill="#e4b25f" stroke="#aa8250" stroke-width="1.4"/><circle cx="15" cy="-7" r="1.8" fill="#56635b"/><path d="M4 17L2 22M10 17L9 22" stroke="#b59770" stroke-width="2" stroke-linecap="round"/>`,
-    fish: `<path d="M-13 0Q-24-12-27-10L-24 0L-27 11Q-20 12-13 3" fill="#e6b66a" stroke="#897854" stroke-width="2" stroke-linejoin="round"/><path d="M-2-10Q1-22 12-16L10-9M0 10L5 19L12 10" fill="#7ca6aa" stroke="#63898d" stroke-width="1.6"/><path d="M-17 0Q-8-15 9-12Q25-10 26 0Q25 11 9 13Q-8 15-17 0Z" fill="#92c6c4" stroke="#63898d" stroke-width="2"/><path d="M-10 5Q5 15 20 5" fill="none" stroke="#72aaa9" stroke-width="4" stroke-linecap="round"/><path d="M0-6Q-5 0 0 6L7 0Z" fill="#e6c783" stroke="#897854" stroke-width="1.5"/><circle cx="17" cy="-3" r="2.3" fill="#405f5c"/><circle cx="17.5" cy="-3.8" r=".7" fill="#fff"/><path d="M24 4L26 3M1-9Q6-11 10-9" fill="none" stroke="#e3f2e6" stroke-width="2" stroke-linecap="round"/>`,
-    boat: `<path d="M-26 7L-7 21L16 21L27 7L2 12Z" fill="#eeddb9" stroke="#8d7857" stroke-width="2" stroke-linejoin="round"/><path d="M-26 7L4 16L16 21L-7 21Z" fill="#d0bb91"/><path d="M2 10L4-25L-18 6Z" fill="#fff9e8" stroke="#8d7857" stroke-width="2" stroke-linejoin="round"/><path d="M4-25L-6 7L2 10Z" fill="#e1cfaa"/><path d="M7-16L7 7L24 7Z" fill="#fff9e8" stroke="#8d7857" stroke-width="2" stroke-linejoin="round"/><path d="M-23 26Q-17 23-11 26M4 27Q13 24 22 26" fill="none" stroke="#8ebbb6" stroke-width="2" stroke-linecap="round"/>`,
-    lantern: `<path d="M-6-18V-23Q0-30 6-23V-18" fill="none" stroke="#957749" stroke-width="2.5"/><path d="M-12-15L12-15L16-8L13 17L-13 17L-16-8Z" fill="#f4d68a" stroke="#957749" stroke-width="2" stroke-linejoin="round"/><path d="M-6-14L-8 17M6-14L8 17M-15-7H15" fill="none" stroke="#c4a566" stroke-width="2"/><path d="M0-4Q-8 5-3 10Q5 16 6 7Q5 2 2 0Q3 6 0 5Z" fill="#e9ad57"/><path d="M0 4Q-4 9 0 11Q4 10 0 4Z" fill="#fff8d4"/><path d="M-12-16L-7-20H7L12-16M-14 17H14V22H-14Z" fill="#a7b89a" stroke="#738a6a" stroke-width="2" stroke-linejoin="round"/><path d="M-10-11L-11 1" stroke="#fff4c5" stroke-width="2" stroke-linecap="round"/>`,
-    key: `<g transform="rotate(28)"><path d="M-4-5H4V8H12V14H4V19H10V25H-4Z" fill="#e4b95f" stroke="#a78244" stroke-width="2" stroke-linejoin="round"/><path d="M-1 0V20" stroke="#fff0af" stroke-width="2" stroke-linecap="round"/><circle cy="-13" r="12" fill="#efd080" stroke="#a78244" stroke-width="2"/><circle cy="-13" r="6" fill="#f7ecd5" stroke="#bd9955" stroke-width="1.6"/><path d="M-8-17Q-6-22-1-22" fill="none" stroke="#fff2bd" stroke-width="2.3" stroke-linecap="round"/></g>`,
-    egg: `<path d="M0-26C9-26 21-8 21 7C21 22 12 28 0 28C-12 28-21 22-21 7C-21-8-9-26 0-26Z" fill="#f3e2bd" stroke="#b79c70" stroke-width="2"/><path d="M15-6C22 17 7 27-7 22Q7 33 18 19Q24 9 15-6Z" fill="#dfc9a0"/><path d="M-12-8Q-10-16-4-19" fill="none" stroke="#fff9e4" stroke-width="4" stroke-linecap="round"/><g fill="#c5ad8c" opacity=".75"><ellipse cx="-11" cy="7" rx="2" ry="2.7" transform="rotate(24 -11 7)"/><ellipse cx="7" cy="0" rx="1.8" ry="2.4"/><circle cx="2" cy="13" r="2"/><circle cx="-5" cy="-4" r="1.3"/><circle cx="10" cy="17" r="1.2"/></g>`,
-    cat: `<path d="M-20-6L-23-25Q-12-24-8-16Q0-20 8-16Q15-26 23-25L20-6Q26 10 16 21Q0 30-16 21Q-26 10-20-6Z" fill="#d7ad79" stroke="#987650" stroke-width="2"/><path d="M-17-10L-19-19L-11-14M17-10L19-19L11-14" fill="#e6bdaf" stroke="#b18a70" stroke-width="1.5"/><path d="M-10 5Q0 1 10 5Q19 19 0 22Q-19 19-10 5Z" fill="#f4e4c7"/><g fill="#584b3c"><ellipse cx="-9" cy="1" rx="3" ry="4"/><ellipse cx="9" cy="1" rx="3" ry="4"/></g><g fill="#fff8e5"><circle cx="-10" cy="0" r="1"/><circle cx="8" cy="0" r="1"/></g><path d="M-3 8H3L0 11Z" fill="#b88379"/><path d="M0 11V14Q-4 18-7 14M0 14Q4 18 7 14M-14 10L-24 8M-14 15L-24 17M14 10L24 8M14 15L24 17" fill="none" stroke="#8e7358" stroke-width="1.5" stroke-linecap="round"/>`,
-    cloud: `<path d="M-20 13Q-31 12-28 1Q-26-7-18-7Q-20-21-5-22Q6-25 12-12Q27-16 29-3Q35 7 25 13Q13 18 2 14Q-11 18-20 13Z" fill="#fff9e9" stroke="#94aaa2" stroke-width="2"/><path d="M-25 6Q-19 11-11 8Q0 15 10 8Q22 12 28 4Q29 14 17 14L-16 15Q-23 14-25 6Z" fill="#d8e6da"/><path d="M-13-12Q-12-18-5-18Q2-21 6-15" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>`,
+    sun: `<g fill="none" stroke="#c69434" stroke-width="3" stroke-linecap="round">${[0,45,90,135,180,225,270,315].map(a=>`<path d="M0-22V-27" transform="rotate(${a})"/>`).join('')}</g><circle r="17" fill="#f3c955" stroke="#a89478" stroke-width="2.4"/><path d="M-14 7Q0 20 14 7Q9 20-3 17Z" fill="#c69434"/><path d="M-11-6Q-8-13-1-13" fill="none" stroke="#ffe49a" stroke-width="3"/><g fill="#4a3620"><circle cx="-6" cy="-1" r="2"/><circle cx="6" cy="-1" r="2"/></g><path d="M-4 6Q0 10 4 6" fill="none" stroke="#4a3620" stroke-width="2.4"/>`,
+    moon: `<path d="M11-22C-7-27-24-11-21 7C-18 25 6 30 21 12C5 17-6 5-3-8C-1-14 4-19 11-22Z" fill="#ffe49a" stroke="#a89478" stroke-width="2.4"/><path d="M-17 2Q-18 17-4 21" fill="none" stroke="#c9bda4" stroke-width="4"/><path d="M-17-7Q-13-17-5-19" fill="none" stroke="#fffaf0" stroke-width="3"/><circle cx="-12" cy="8" r="3" fill="#c9bda4"/><circle cx="-7" cy="16" r="1.7" fill="#c9bda4"/>`,
+    star: `<path d="M0-24Q2-24 4-19L9-8L22-6Q28-5 23 0L13 9L16 22Q17 28 11 24L0 17L-12 24Q-18 27-16 20L-13 9L-23 0Q-28-5-22-6L-9-8L-4-19Q-2-24 0-24Z" fill="#f3c955" stroke="#a89478" stroke-width="2.4" stroke-linejoin="round"/><path d="M-15 1L-8 7L-10 17L0 11L10 17L8 6L16-1L7 0L0 7Z" fill="#c69434" opacity=".55"/><path d="M-15-3L-6-4L0-17" fill="none" stroke="#ffe49a" stroke-width="3" stroke-linecap="round"/>`,
+    rainbow: `<g fill="none" stroke-width="6"><path d="M-23 13A23 23 0 0 1 23 13" stroke="#ee806f"/><path d="M-17 13A17 17 0 0 1 17 13" stroke="#f3c955"/><path d="M-11 13A11 11 0 0 1 11 13" stroke="#4e9677"/></g><g fill="#fffaf0" stroke="#c9bda4" stroke-width="1.6"><path d="M-28 14Q-30 7-24 7Q-20 0-15 8Q-7 9-11 16Q-18 20-28 17Z"/><path d="M11 16Q7 9 15 8Q20 0 24 7Q30 7 28 14L28 17Q18 20 11 16Z"/></g>`,
+    palm: `<path d="M-6 24Q-1 8-4-8L3-10Q8 8 2 24Z" fill="#a89478" stroke="#70501b" stroke-width="2.4"/><path d="M-3 4L3 7M-3 13L2 16" stroke="#a89478" stroke-width="2.4"/><g stroke="#2f5c46" stroke-width="1.6" stroke-linejoin="round"><path d="M0-10Q-23-19-26 0Q-14-9 0-10Z" fill="#4e9677"/><path d="M0-10Q-14-31-26-17Q-12-19 0-10Z" fill="#7fce54"/><path d="M0-10Q-7-31 5-28Q11-19 0-10Z" fill="#4e9677"/><path d="M0-10Q13-32 26-17Q12-20 0-10Z" fill="#7fce54"/><path d="M0-10Q24-15 27 4Q12-7 0-10Z" fill="#4e9677"/></g><circle cx="-4" cy="-7" r="4" fill="#a89478" stroke="#70501b" stroke-width="1.6"/><circle cx="3" cy="-6" r="4" fill="#c69434" stroke="#70501b" stroke-width="1.6"/>`,
+    flower: `<path d="M1 3Q-3 15 0 26" fill="none" stroke="#4e9677" stroke-width="3"/><path d="M0 21Q-17 19-16 9Q-5 7 0 21M0 17Q13 4 18 9Q17 21 0 23" fill="#7fce54" stroke="#4e9677" stroke-width="1.6"/><g transform="translate(0 -8)">${[0,72,144,216,288].map(a=>`<ellipse cy="-8" rx="6" ry="10" transform="rotate(${a})" fill="#ffa798" stroke="#c25a49" stroke-width="1.6"/>`).join('')}<circle r="7" fill="#f3c955" stroke="#c69434" stroke-width="1.6"/><circle cx="-2" cy="-2" r="2" fill="#ffe49a"/></g>`,
+    butterfly: `<g stroke="#4a3620" stroke-width="1.6"><path d="M-2-8C-29-37-31-2-9 3C-28 8-13 30-2 11Z" fill="#62cdf4"/><path d="M2-8C29-37 31-2 9 3C28 8 13 30 2 11Z" fill="#62cdf4"/><path d="M-3 2Q-22 3-15 15Q-7 24-2 10M3 2Q22 3 15 15Q7 24 2 10" fill="#ffa798"/></g><g fill="#ccfbef"><ellipse cx="-15" cy="-10" rx="4" ry="6" transform="rotate(-28 -15 -10)"/><ellipse cx="15" cy="-10" rx="4" ry="6" transform="rotate(28 15 -10)"/></g><path d="M-2-13L-7-21M2-13L7-21" fill="none" stroke="#70501b" stroke-width="2.4"/><rect x="-3" y="-14" width="6" height="30" rx="3" fill="#70501b"/>`,
+    bee: `<g fill="#ccfbef" stroke="#62cdf4" stroke-width="1.6"><path d="M-3-7C-24-34-27-7-3-3Z"/><path d="M0-7C10-31 23-13 5-2Z"/></g><path d="M-21 2L-27 6L-20 10Z" fill="#70501b"/><ellipse cx="-3" cy="6" rx="19" ry="13" fill="#f3c955" stroke="#70501b" stroke-width="2.4"/><path d="M-11-5Q-16 7-10 18M-1-7Q-6 6-1 19" fill="none" stroke="#70501b" stroke-width="4"/><path d="M-17-1Q-12-6-7-5" fill="none" stroke="#ffe49a" stroke-width="2.4"/><circle cx="15" cy="3" r="9" fill="#ffe49a" stroke="#70501b" stroke-width="2.4"/><circle cx="17" cy="1" r="1.8" fill="#4a3620"/><path d="M14-5L13-13M18 8Q21 9 22 6" fill="none" stroke="#4a3620" stroke-width="1.6"/>`,
+    dove: `<path d="M-13 8L-26 4L-22 17L-12 14" fill="#e5dcc8" stroke="#a89478" stroke-width="2.4" stroke-linejoin="round"/><path d="M-17 7Q-12-2 0-2Q2-16 13-14Q23-13 21-2Q22 12 9 17Q-10 23-17 7Z" fill="#fffaf0" stroke="#a89478" stroke-width="2.4"/><path d="M-10 4Q-16-5-13-15Q-2-10 5 4Q-2 15-10 4Z" fill="#e5dcc8" stroke="#a89478" stroke-width="1.6"/><path d="M21-6L28-2L21 1" fill="#f3c955" stroke="#a89478" stroke-width="1.6"/><circle cx="15" cy="-7" r="1.8" fill="#2f5c46"/><path d="M4 17L2 22M10 17L9 22" stroke="#a89478" stroke-width="2.4" stroke-linecap="round"/>`,
+    fish: `<path d="M-13 0Q-24-12-27-10L-24 0L-27 11Q-20 12-13 3" fill="#f3c955" stroke="#a89478" stroke-width="2.4" stroke-linejoin="round"/><path d="M-2-10Q1-22 12-16L10-9M0 10L5 19L12 10" fill="#62cdf4" stroke="#3a8fc4" stroke-width="1.6"/><path d="M-17 0Q-8-15 9-12Q25-10 26 0Q25 11 9 13Q-8 15-17 0Z" fill="#96ecff" stroke="#3a8fc4" stroke-width="2.4"/><path d="M-10 5Q5 15 20 5" fill="none" stroke="#4e9677" stroke-width="4" stroke-linecap="round"/><path d="M0-6Q-5 0 0 6L7 0Z" fill="#ffe49a" stroke="#a89478" stroke-width="1.6"/><circle cx="17" cy="-3" r="2.3" fill="#2f5c46"/><circle cx="17.5" cy="-3.8" r=".7" fill="#fffdf7"/><path d="M24 4L26 3M1-9Q6-11 10-9" fill="none" stroke="#ccfbef" stroke-width="2.4" stroke-linecap="round"/>`,
+    boat: `<path d="M-26 7L-7 21L16 21L27 7L2 12Z" fill="#e5dcc8" stroke="#a89478" stroke-width="2.4" stroke-linejoin="round"/><path d="M-26 7L4 16L16 21L-7 21Z" fill="#c9bda4"/><path d="M2 10L4-25L-18 6Z" fill="#fffaf0" stroke="#a89478" stroke-width="2.4" stroke-linejoin="round"/><path d="M4-25L-6 7L2 10Z" fill="#e5dcc8"/><path d="M7-16L7 7L24 7Z" fill="#fffaf0" stroke="#a89478" stroke-width="2.4" stroke-linejoin="round"/><path d="M-23 26Q-17 23-11 26M4 27Q13 24 22 26" fill="none" stroke="#62cdf4" stroke-width="2.4" stroke-linecap="round"/>`,
+    lantern: `<path d="M-6-18V-23Q0-30 6-23V-18" fill="none" stroke="#a89478" stroke-width="2.4"/><path d="M-12-15L12-15L16-8L13 17L-13 17L-16-8Z" fill="#ffe49a" stroke="#a89478" stroke-width="2.4" stroke-linejoin="round"/><path d="M-6-14L-8 17M6-14L8 17M-15-7H15" fill="none" stroke="#c69434" stroke-width="2.4"/><path d="M0-4Q-8 5-3 10Q5 16 6 7Q5 2 2 0Q3 6 0 5Z" fill="#ffa06e"/><path d="M0 4Q-4 9 0 11Q4 10 0 4Z" fill="#fffaf0"/><path d="M-12-16L-7-20H7L12-16M-14 17H14V22H-14Z" fill="#c9bda4" stroke="#4e9677" stroke-width="2.4" stroke-linejoin="round"/><path d="M-10-11L-11 1" stroke="#ffe49a" stroke-width="2.4" stroke-linecap="round"/>`,
+    key: `<g transform="rotate(28)"><path d="M-4-5H4V8H12V14H4V19H10V25H-4Z" fill="#f3c955" stroke="#c69434" stroke-width="2.4" stroke-linejoin="round"/><path d="M-1 0V20" stroke="#ffe49a" stroke-width="2.4" stroke-linecap="round"/><circle cy="-13" r="12" fill="#ffe49a" stroke="#c69434" stroke-width="2.4"/><circle cy="-13" r="6" fill="#e5dcc8" stroke="#c69434" stroke-width="1.6"/><path d="M-8-17Q-6-22-1-22" fill="none" stroke="#ffe49a" stroke-width="2.4" stroke-linecap="round"/></g>`,
+    egg: `<path d="M0-26C9-26 21-8 21 7C21 22 12 28 0 28C-12 28-21 22-21 7C-21-8-9-26 0-26Z" fill="#e5dcc8" stroke="#a89478" stroke-width="2.4"/><path d="M15-6C22 17 7 27-7 22Q7 33 18 19Q24 9 15-6Z" fill="#c9bda4"/><path d="M-12-8Q-10-16-4-19" fill="none" stroke="#fffaf0" stroke-width="4" stroke-linecap="round"/><g fill="#c9bda4" opacity=".75"><ellipse cx="-11" cy="7" rx="2" ry="2.7" transform="rotate(24 -11 7)"/><ellipse cx="7" cy="0" rx="1.8" ry="2.4"/><circle cx="2" cy="13" r="2"/><circle cx="-5" cy="-4" r="1.3"/><circle cx="10" cy="17" r="1.2"/></g>`,
+    cat: `<path d="M-20-6L-23-25Q-12-24-8-16Q0-20 8-16Q15-26 23-25L20-6Q26 10 16 21Q0 30-16 21Q-26 10-20-6Z" fill="#c9bda4" stroke="#a89478" stroke-width="2.4"/><path d="M-17-10L-19-19L-11-14M17-10L19-19L11-14" fill="#c9bda4" stroke="#a89478" stroke-width="1.6"/><path d="M-10 5Q0 1 10 5Q19 19 0 22Q-19 19-10 5Z" fill="#e5dcc8"/><g fill="#4a3620"><ellipse cx="-9" cy="1" rx="3" ry="4"/><ellipse cx="9" cy="1" rx="3" ry="4"/></g><g fill="#fffaf0"><circle cx="-10" cy="0" r="1"/><circle cx="8" cy="0" r="1"/></g><path d="M-3 8H3L0 11Z" fill="#ee806f"/><path d="M0 11V14Q-4 18-7 14M0 14Q4 18 7 14M-14 10L-24 8M-14 15L-24 17M14 10L24 8M14 15L24 17" fill="none" stroke="#a89478" stroke-width="1.6" stroke-linecap="round"/>`,
+    cloud: `<path d="M-20 13Q-31 12-28 1Q-26-7-18-7Q-20-21-5-22Q6-25 12-12Q27-16 29-3Q35 7 25 13Q13 18 2 14Q-11 18-20 13Z" fill="#fffaf0" stroke="#a89478" stroke-width="2.4"/><path d="M-25 6Q-19 11-11 8Q0 15 10 8Q22 12 28 4Q29 14 17 14L-16 15Q-23 14-25 6Z" fill="#e5dcc8"/><path d="M-13-12Q-12-18-5-18Q2-21 6-15" fill="none" stroke="#fffdf7" stroke-width="3" stroke-linecap="round"/>`,
     // The Quranic animals — the island's cast, sticker-sized.
-    camel: `<path d="M-23 2Q-28 3-28 10" fill="none" stroke="#ac875c" stroke-width="2.5" stroke-linecap="round"/><path d="M-18 10V26H-12V11M5 10V26H11V9" fill="#b59265" stroke="#97784f" stroke-width="1.8" stroke-linejoin="round"/><path d="M-23 10V-1Q-21-8-13-6Q-10-25 1-20Q7-18 7-7L14-8L16-24Q16-29 23-27L28-20Q29-15 23-15H21L19 7Q17 15 8 15H-14Q-23 15-23 10Z" fill="#d5b27d" stroke="#97784f" stroke-width="2" stroke-linejoin="round"/><path d="M-18 4Q-10 9 4 6" fill="none" stroke="#e8ce9f" stroke-width="3" stroke-linecap="round"/><path d="M17-25L13-28L15-21" fill="#c09969" stroke="#97784f" stroke-width="1.4"/><circle cx="23" cy="-22" r="1.5" fill="#64503a"/><path d="M24-17H27" stroke="#997452" stroke-width="1.3"/>`,
-    elephant: `<path d="M-23 3Q-29 6-28 13" fill="none" stroke="#8e9c9a" stroke-width="2.5" stroke-linecap="round"/><path d="M-20 7V26H-11V16H5V26H13V7" fill="#adbcb7" stroke="#819991" stroke-width="1.8" stroke-linejoin="round"/><path d="M-24 4Q-24-15-8-15Q3-19 13-13Q25-14 25-2V14Q25 24 15 22L13 17Q21 20 19 9L16 2Q12 14-1 16Q-22 20-24 4Z" fill="#bfcfc6" stroke="#819991" stroke-width="2"/><path d="M-4-13Q-20-18-18 0Q-17 14-4 8Q3 0-4-13Z" fill="#d9dfcd" stroke="#94a89a" stroke-width="1.6"/><path d="M-13-8Q-17 0-11 5" fill="none" stroke="#edf0dc" stroke-width="2" stroke-linecap="round"/><circle cx="14" cy="-4" r="2" fill="#577067"/><path d="M19 10H23M20 15L24 14" stroke="#94aaa0" stroke-width="1.4"/>`,
-    ant: `<g fill="none" stroke="#8b6b51" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1-3L-3-14L-12-20M2-3L5-17L2-24M4-2L19-17L27-18M1 4L-6 17L-18 23M3 5L5 20L0 27M5 4L18 15L26 21"/></g><ellipse cx="-13" cy="5" rx="12" ry="9" transform="rotate(-22 -13 5)" fill="#b49375" stroke="#8b6b51" stroke-width="1.8"/><ellipse cx="2" cy="1" rx="7" ry="6" fill="#c6a486" stroke="#8b6b51" stroke-width="1.8"/><path d="M11-9L10-15L7-18M19-7L25-11L30-10" fill="none" stroke="#8b6b51" stroke-width="1.8" stroke-linecap="round"/><circle cx="14" cy="-4" r="9" fill="#c6a486" stroke="#8b6b51" stroke-width="1.8"/><circle cx="17" cy="-6" r="2" fill="#624b3a"/><path d="M16 1Q20 3 21 0M-20 2Q-17-2-12-2" fill="none" stroke="#e8cba5" stroke-width="2" stroke-linecap="round"/>`,
-    spider: `<g fill="none" stroke="#8c7996" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">${[-1,1].map(k=>`<g transform="scale(${k} 1)"><path d="M6-3L18-16L19-24M9 0L25-8L29-17M10 4L26 4L31-2M8 7L22 15L26 23"/></g>`).join('')}</g><ellipse cy="9" rx="14" ry="16" fill="#b2a0bf" stroke="#8c7996" stroke-width="1.8"/><path d="M-8 4Q-9 15 0 19" fill="none" stroke="#d9c8dc" stroke-width="3" stroke-linecap="round"/><circle cy="-7" r="11" fill="#c7b4d0" stroke="#8c7996" stroke-width="1.8"/><g fill="#faf5e5"><ellipse cx="-4" cy="-9" rx="3.5" ry="4.5"/><ellipse cx="4" cy="-9" rx="3.5" ry="4.5"/></g><g fill="#63576d"><circle cx="-3" cy="-8" r="2"/><circle cx="5" cy="-8" r="2"/></g><path d="M-3-2Q0 1 3-2" fill="none" stroke="#84718e" stroke-width="1.5" stroke-linecap="round"/>`,
-    crow: `<path d="M-15 9L-28 6L-24 18L-10 16" fill="#78858c" stroke="#5c7179" stroke-width="1.8" stroke-linejoin="round"/><path d="M-18 7Q-16-6-1-7Q0-22 13-21Q27-18 22-6Q22 13 7 18Q-13 22-18 7Z" fill="#7e8b92" stroke="#5c7179" stroke-width="2"/><path d="M-13 2Q-3-5 8 3Q3 15-9 12Z" fill="#a8b5b6" stroke="#6e8389" stroke-width="1.5"/><path d="M22-14L32-9L22-6Z" fill="#9d9c84" stroke="#6e7772" stroke-width="1.3"/><circle cx="15" cy="-13" r="3" fill="#f1f0db"/><circle cx="16" cy="-13" r="1.6" fill="#455b65"/><path d="M0 18L-1 24H-6M10 17L10 23H6" fill="none" stroke="#899480" stroke-width="2" stroke-linecap="round"/>`,
-    hoopoe: `<path d="M3-14Q-7-20-6-30L0-28L4-20L6-30L12-29L12-20L19-27L23-23L16-13Z" fill="#d9ae7e" stroke="#ac885e" stroke-width="1.5"/><path d="M-6-30L0-28M6-30L12-29M19-27L23-23" stroke="#807e74" stroke-width="3"/><path d="M-15 10L-29 8L-25 21L-10 18" fill="#f3e8ce" stroke="#9c927a" stroke-width="1.8"/><path d="M-27 13L-15 14M-24 18L-13 18" stroke="#8d9290" stroke-width="3"/><path d="M-19 8Q-14-5 0-6Q1-17 10-17Q22-17 20-5Q19 13 6 18Q-12 22-19 8Z" fill="#dcb68a" stroke="#ab8966" stroke-width="1.8"/><path d="M-14 2Q-5-4 6 4L-1 14Q-10 17-14 2Z" fill="#f5ebd4" stroke="#a3a08c" stroke-width="1.3"/><path d="M-11 4L3 7M-8 10L0 12" stroke="#8b9290" stroke-width="3"/><path d="M20-10Q29-9 33-3L20-6Z" fill="#85867a"/><circle cx="13" cy="-10" r="1.7" fill="#6d5b45"/><path d="M-2 18V24M8 18V24" stroke="#9d8a62" stroke-width="2" stroke-linecap="round"/>`,
-    whale: `<path d="M-16 2Q-26-1-28-11Q-18-13-14-5Q-12-15-3-14Q-3-3-12 3" fill="#89b7bf" stroke="#65969f" stroke-width="1.8" stroke-linejoin="round"/><path d="M-19 0Q-10 6-7-5Q-3-19 13-16Q30-14 30 2Q31 20 8 21Q-16 22-19 0Z" fill="#9bc6cc" stroke="#65969f" stroke-width="2"/><path d="M-12 10Q5 23 24 11Q21 22 7 21Q-5 20-12 10Z" fill="#dce9d8"/><path d="M0 6Q-4 17 7 20Q13 15 11 7" fill="#7eafb8" stroke="#65969f" stroke-width="1.5"/><circle cx="22" cy="-1" r="2" fill="#466f78"/><path d="M24 8Q27 9 29 5" fill="none" stroke="#65969f" stroke-width="1.5"/><path d="M6-19Q2-25-3-23M6-19Q10-29 15-25" fill="none" stroke="#a4d2ce" stroke-width="2.5" stroke-linecap="round"/>`,
-    fig: `<path d="M-6-12Q-5-20 0-24" fill="none" stroke="#806951" stroke-width="3" stroke-linecap="round"/><path d="M-5-15Q-23-15-20-25Q-8-28-5-15Z" fill="#8ca776" stroke="#647f59" stroke-width="1.5"/><path d="M-8-14C-8-3-24 1-21 14Q-19 25-5 24Q9 24 12 12C15-1-2-4-2-14Z" fill="#a48bb4" stroke="#76607f" stroke-width="2"/><path d="M-18 8Q-21 19-8 21" fill="none" stroke="#887097" stroke-width="4" stroke-linecap="round"/><path d="M-12 0L-15 5" stroke="#dbc7da" stroke-width="3" stroke-linecap="round"/><path d="M13-10Q11-5 5 3Q-4 18 13 23Q30 18 22 3Q15-5 16-10Z" fill="#f6e9c6" stroke="#806784" stroke-width="2"/><path d="M14-2Q12 2 9 7Q3 17 14 18Q24 16 19 7Z" fill="#d39ca4"/><g fill="#fff2bc"><ellipse cx="12" cy="7" rx="1" ry="1.5"/><ellipse cx="17" cy="10" rx="1" ry="1.5"/><ellipse cx="10" cy="13" rx="1" ry="1.5"/><ellipse cx="15" cy="15" rx="1" ry="1.5"/></g>`,
-    olive: `<path d="M-9 24Q8 5 8-22M7-5L-6-12M3 6L18 0" fill="none" stroke="#8d8050" stroke-width="2.5" stroke-linecap="round"/><path d="M7-14Q-7-17-10-26Q5-25 7-14M8-14Q22-21 24-28Q10-26 8-14M2 5Q-12 6-21-1Q-6-3 2 5M0 11Q13 16 25 7Q10 6 0 11" fill="#a7b581" stroke="#768854" stroke-width="1.3"/><ellipse cx="-9" cy="-7" rx="8" ry="10" transform="rotate(-22 -9 -7)" fill="#95a56a" stroke="#687d45" stroke-width="1.8"/><ellipse cx="16" cy="-3" rx="7" ry="9" transform="rotate(24 16 -3)" fill="#768951" stroke="#5d7140" stroke-width="1.8"/><ellipse cx="-5" cy="17" rx="8" ry="10" transform="rotate(28 -5 17)" fill="#a0ad70" stroke="#687d45" stroke-width="1.8"/><g fill="none" stroke="#d4dba7" stroke-width="2.5" stroke-linecap="round"><path d="M-12-12L-13-7M14-8L12-5M-6 11L-9 15"/></g>`,
-    dates: `<path d="M1-25Q3-14-2-6M1-18L-16-7M1-14L16-5" fill="none" stroke="#b79a55" stroke-width="2.5" stroke-linecap="round"/><path d="M1-21Q13-27 22-23Q13-17 1-21Z" fill="#93a574" stroke="#708951" stroke-width="1.4"/><g stroke="#8e6745" stroke-width="1.8"><rect x="-25" y="-9" width="15" height="29" rx="7.5" transform="rotate(20 -17 5)" fill="#b88459"/><rect x="9" y="-7" width="15" height="29" rx="7.5" transform="rotate(-18 16 7)" fill="#c29565"/><rect x="-8" y="-1" width="17" height="29" rx="8.5" fill="#a9754d"/></g><path d="M-18-4Q-22 4-20 12M15-1Q18 7 17 14M-3 5Q-5 14-2 21" fill="none" stroke="#e0b782" stroke-width="2.3" stroke-linecap="round"/><path d="M3 6Q5 15 2 23" fill="none" stroke="#93613f" stroke-width="1.7" stroke-linecap="round"/>`,
-    pomegranate: `<path d="M-7-15L-11-24L-3-20L1-27L5-20L12-24L8-15Z" fill="#bf7b6f" stroke="#965e55" stroke-width="1.8" stroke-linejoin="round"/><path d="M0-17C-14-20-25-9-24 6C-23 22-10 28 1 25C17 29 28 16 25 1C23-12 13-18 0-17Z" fill="#d99385" stroke="#a56960" stroke-width="2"/><path d="M-18-4Q-17-10-10-11" fill="none" stroke="#f4c4a6" stroke-width="3" stroke-linecap="round"/><path d="M-6-6Q11-15 19 0Q26 17 7 20Q-11 18-6-6Z" fill="#f5e6bd" stroke="#b27768" stroke-width="1.5"/><path d="M4-7L6 16M-4 5L18 5" stroke="#ddc999" stroke-width="1.5"/><g fill="#bf6d68"><ellipse cx="0" cy="0" rx="2.7" ry="3.1"/><ellipse cx="9" cy="-1" rx="2.7" ry="3.1"/><ellipse cx="14" cy="0" rx="2.2" ry="2.8"/><ellipse cx="0" cy="9" rx="2.7" ry="3.1"/><ellipse cx="10" cy="10" rx="2.7" ry="3.1"/><ellipse cx="15" cy="9" rx="2.2" ry="2.8"/></g>`,
-    grapes: `<path d="M0-10Q-3-21 6-27" fill="none" stroke="#8c7b53" stroke-width="2.5" stroke-linecap="round"/><path d="M0-17L-6-25L-12-22L-22-25L-20-16L-25-10L-16-7L-13 0L-5-7L1-8Z" fill="#9fb780" stroke="#708c5c" stroke-width="1.5" stroke-linejoin="round"/><path d="M-2-14L-17-19" stroke="#ccdab0" stroke-width="1.5"/><path d="M2-18Q21-29 20-15Q17-10 13-14" fill="none" stroke="#8fa16c" stroke-width="1.6" stroke-linecap="round"/><g stroke="#7d688e" stroke-width="1.6"><circle cx="-5" cy="-5" r="7" fill="#b6a1c6"/><circle cx="8" cy="-5" r="7" fill="#a38db7"/><circle cx="-12" cy="6" r="7" fill="#a992ba"/><circle cx="1" cy="7" r="7" fill="#bca7ce"/><circle cx="14" cy="6" r="7" fill="#a38bb4"/><circle cx="-5" cy="17" r="7" fill="#a18ab2"/><circle cx="8" cy="17" r="7" fill="#b39bc4"/><circle cx="1" cy="27" r="6" fill="#a38bb4"/></g><g fill="none" stroke="#e1cfe6" stroke-width="2" stroke-linecap="round"><path d="M-7-8L-8-6M-14 3L-15 5M-1 4L-2 6M6 14L5 16M-1 24L-2 26"/></g>`,
-    honeycomb: `<g stroke="#b9914d" stroke-width="1.5" stroke-linejoin="round">${[[0,0],[-17.32,0],[17.32,0],[-8.66,-15],[8.66,-15],[-8.66,15],[8.66,15]].map(([x,y],i)=>`<g transform="translate(${x} ${y})"><path d="M0-10L8.66-5V5L0 10L-8.66 5V-5Z" fill="${i%2?'#edc976':'#f4d58c'}"/><path d="M0-6L5.2-3V3L0 6L-5.2 3V-3Z" fill="#d7a956" stroke="#c49a4f" stroke-width="1"/><path d="M-5-3L0-6L5-3" fill="none" stroke="#fff0b8" stroke-width="1.5"/></g>`).join('')}</g>`,
-    waterdrop: `<path d="M0-28C-4-17-21-6-21 9C-21 24-9 29 0 29C12 29 21 21 21 9C21-6 5-18 0-28Z" fill="#9bcecf" stroke="#649fa0" stroke-width="2"/><path d="M16 2Q22 20 4 25Q-8 28-16 16Q1 25 11 12Q15 7 16 2Z" fill="#78b6bb"/><path d="M-9-6Q-16 3-15 10" fill="none" stroke="#e5f4e9" stroke-width="4" stroke-linecap="round"/><circle cx="-12" cy="16" r="2" fill="#d5eddf"/>`,
-    mountain: `<path d="M-29 21L-10-13L9 21Z" fill="#afc0b8" stroke="#7d9690" stroke-width="1.8" stroke-linejoin="round"/><path d="M-10-13L-6 21H9Z" fill="#91aaa2"/><path d="M-8 23L12-27L34 23Z" fill="#c4d2c6" stroke="#7d9690" stroke-width="1.8" stroke-linejoin="round"/><path d="M12-27L15 23H34Z" fill="#97b0a8"/><path d="M12-27L22-5L15-10L10-3L3-7Z" fill="#fff7e0" stroke="#a7bbb0" stroke-width="1"/><path d="M-10-13L-3-1L-10-4L-15 2L-18 1Z" fill="#e9efde"/><path d="M-30 23Q-19 16-8 22Q9 15 31 23Q10 29-13 27Z" fill="#97b281"/>`,
-    nest: `<ellipse cy="4" rx="28" ry="10" fill="#b69a6e" stroke="#947c58" stroke-width="2"/><ellipse cy="3" rx="22" ry="7" fill="#827055"/><g stroke="#93a69a" stroke-width="1.5"><path d="M-13-15C-5-15-3-3-6 2Q-14 9-19 1C-22-5-19-15-13-15Z" fill="#dce5cc"/><path d="M4-20C11-20 16-7 12-1Q6 7-1 0C-5-6-2-20 4-20Z" fill="#f2e5bf"/><path d="M17-11C23-11 27 0 23 5Q18 10 12 4C9-1 12-11 17-11Z" fill="#d3e2d2"/></g><path d="M-28 5Q-20 28 0 27Q21 27 28 5Q3 16-28 5Z" fill="#c2a273" stroke="#947c58" stroke-width="2"/><path d="M-22 12Q-5 23 21 13M-15 20Q3 26 16 18M-28 5L-6 13M9 10L28 2" fill="none" stroke="#e4c995" stroke-width="2.3" stroke-linecap="round"/><path d="M-13 10L-2 23M7 13L19 20" stroke="#a7885c" stroke-width="1.6" stroke-linecap="round"/>`,
-    feather: `<path d="M-17 20C-24-1-2-29 13-27C28-23 22-6 10 7Q-2 19-17 20Z" fill="#b0ccc7" stroke="#779a94" stroke-width="1.8"/><path d="M13-26Q18-9 7 5Q-6 15-16 19Q-15 3-2-10Z" fill="#dce8d8"/><path d="M13-22Q0-2-21 27" fill="none" stroke="#829982" stroke-width="2.2" stroke-linecap="round"/><path d="M7-13L15-14M0-3L13-4M-6 6L5 7M-2-2L-7-11M-10 8L-16 2" fill="none" stroke="#91afa6" stroke-width="1.5" stroke-linecap="round"/>`,
-    shell: `<path d="M-9 19Q-31 0-27-13Q-26-20-19-17Q-17-27-9-22Q0-33 9-22Q18-27 20-17Q28-20 29-11Q33 2 10 19L8 25H-8Z" fill="#e3b5a5" stroke="#ac8275" stroke-width="1.8" stroke-linejoin="round"/><path d="M-18-17Q-16 1-6 18M-8-22Q-8-1-2 18M2-25V18M12-21Q12 2 6 18M21-14Q17 4 10 16" fill="none" stroke="#f8ddc4" stroke-width="3" stroke-linecap="round"/><path d="M-9 19H10L8 25H-8Z" fill="#c99c8d" stroke="#ac8275" stroke-width="1.5" stroke-linejoin="round"/>`,
-    turtle: `<g fill="#b6c78b" stroke="#7e965f" stroke-width="1.6"><ellipse cx="-15" cy="-9" rx="8" ry="4" transform="rotate(28 -15 -9)"/><ellipse cx="8" cy="-11" rx="8" ry="4" transform="rotate(-25 8 -11)"/><ellipse cx="-15" cy="13" rx="8" ry="4" transform="rotate(-25 -15 13)"/><ellipse cx="8" cy="15" rx="8" ry="4" transform="rotate(25 8 15)"/><path d="M-20 1L-29 5L-19 8Z"/><ellipse cx="23" cy="0" rx="9" ry="7"/></g><ellipse cx="-2" cy="2" rx="22" ry="17" fill="#a1b47b" stroke="#718b55" stroke-width="2"/><path d="M-8-5L3-7L10 2L5 11L-7 11L-13 3Z" fill="#c4d094" stroke="#81985c" stroke-width="1.5"/><path d="M-8-5L-11-13M3-7L7-13M10 2L20 2M5 11L10 17M-7 11L-11 17M-13 3L-23 2" stroke="#81985c" stroke-width="1.5"/><circle cx="26" cy="-2" r="1.6" fill="#5c7445"/><path d="M25 4Q28 6 30 2" fill="none" stroke="#81985c" stroke-width="1.3"/>`,
-    snake: `<path d="M-25 20Q-14 12-2 19Q21 29 24 13Q26 3 12-1Q0-6 2-17" fill="none" stroke="#7b985d" stroke-width="12" stroke-linecap="round"/><path d="M-25 20Q-14 12-2 19Q21 29 24 13Q26 3 12-1Q0-6 2-17" fill="none" stroke="#b1c68c" stroke-width="8" stroke-linecap="round"/><path d="M-10 16L-8 22M3 17L3 24M16 13L22 16M10-4L8 2" stroke="#8fac71" stroke-width="3" stroke-linecap="round"/><ellipse cx="0" cy="-19" rx="11" ry="9" fill="#c4d69b" stroke="#7b985d" stroke-width="1.8"/><circle cx="-4" cy="-21" r="2" fill="#627b45"/><circle cx="4" cy="-21" r="2" fill="#627b45"/><path d="M-4-15Q0-12 4-15" fill="none" stroke="#8da66b" stroke-width="1.6" stroke-linecap="round"/>`,
+    camel: `<path d="M-21 4Q-26 7-24 14" fill="none" stroke="#70501b" stroke-width="2.4" stroke-linecap="round"/><g fill="#c69434" stroke="#70501b" stroke-width="1.6"><rect x="-17" y="8" width="5" height="17" rx="2"/><rect x="-9" y="9" width="5" height="16" rx="2"/><rect x="2" y="9" width="5" height="16" rx="2"/><rect x="9" y="8" width="5" height="17" rx="2"/></g><path d="M-21 8Q-23-3-14-6Q-8-20 0-8Q5-4 9-5Q11-13 14-17Q17-22 23-20Q27-18 26-14Q25-11 21-12Q18-6 16 4Q15 13 6 13H-15Q-21 13-21 8Z" fill="#f3c955" stroke="#70501b" stroke-width="2.4" stroke-linejoin="round"/><path d="M-17 10Q-4 13 12 9" fill="none" stroke="#c69434" stroke-width="3" stroke-linecap="round" opacity=".7"/><path d="M-11-6Q-7-14-2-8" fill="none" stroke="#ffe49a" stroke-width="3" stroke-linecap="round"/><path d="M18-20L17-25L21-21Z" fill="#c69434" stroke="#70501b" stroke-width="1.6" stroke-linejoin="round"/><circle cx="21" cy="-17" r="2" fill="#4a3620"/><circle cx="21.7" cy="-17.7" r=".7" fill="#fffdf7"/><path d="M23-13Q24.5-12 26-13.5" fill="none" stroke="#70501b" stroke-width="1.6" stroke-linecap="round"/>`,
+    elephant: `<path d="M19 1Q26 3 25 10" fill="none" stroke="#70501b" stroke-width="2.4" stroke-linecap="round"/><g fill="#c9bda4" stroke="#70501b" stroke-width="2.4"><rect x="-12" y="7" width="8" height="17" rx="3"/><rect x="8" y="7" width="8" height="17" rx="3"/></g><path d="M-12-10Q4-17 16-8Q22-2 20 8Q18 15 8 14H-10Q-16 14-16 6Z" fill="#c9bda4" stroke="#70501b" stroke-width="2.4" stroke-linejoin="round"/><path d="M-23-2Q-27 8-24 15Q-22 20-17 17" fill="none" stroke="#70501b" stroke-width="8" stroke-linecap="round"/><path d="M-23-2Q-27 8-24 15Q-22 20-17 17" fill="none" stroke="#c9bda4" stroke-width="4" stroke-linecap="round"/><circle cx="-15" cy="-6" r="11" fill="#c9bda4" stroke="#70501b" stroke-width="2.4"/><path d="M-9-13Q4-17 4-2Q4 9-7 7Q-12 2-9-13Z" fill="#e5dcc8" stroke="#70501b" stroke-width="2.4" stroke-linejoin="round"/><path d="M-6-9Q0-11 0-3Q-1 3-5 2Z" fill="#ffa798"/><path d="M2-9Q10-13 15-8" fill="none" stroke="#e5dcc8" stroke-width="3" stroke-linecap="round"/><circle cx="-18" cy="-8" r="2" fill="#4a3620"/><circle cx="-17.3" cy="-8.7" r=".7" fill="#fffdf7"/><circle cx="-21" cy="-2" r="2.4" fill="#ffa798" opacity=".75"/>`,
+    ant: `<g fill="none" stroke="#8a3a2d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M-3 7L-9 14L-14 15M0 8L0 16L-3 21M3 7L9 14L14 16"/><path d="M14-6Q15-15 21-17M10-7Q8-16 2-18"/></g><ellipse cx="-14" cy="3" rx="10" ry="8" fill="#ee806f" stroke="#8a3a2d" stroke-width="2.4"/><ellipse cx="0" cy="4" rx="6" ry="5" fill="#ee806f" stroke="#8a3a2d" stroke-width="2.4"/><circle cx="12" cy="1" r="8" fill="#ee806f" stroke="#8a3a2d" stroke-width="2.4"/><path d="M-19-1Q-15-4-10-3M7-4Q10-6 13-5" fill="none" stroke="#ffa798" stroke-width="2.4" stroke-linecap="round"/><circle cx="14" cy="0" r="2" fill="#4a3620"/><circle cx="14.7" cy="-0.7" r=".7" fill="#fffdf7"/><path d="M13 4.5Q15 6 17 4.5" fill="none" stroke="#8a3a2d" stroke-width="1.6" stroke-linecap="round"/>`,
+    spider: `<g fill="none" stroke="#6064a0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">${[-1,1].map(k=>`<g transform="scale(${k} 1)"><path d="M6-3L18-16L19-24M9 0L25-8L29-17M10 4L26 4L31-2M8 7L22 15L26 23"/></g>`).join('')}</g><ellipse cy="9" rx="14" ry="16" fill="#b49fcf" stroke="#6064a0" stroke-width="1.6"/><path d="M-8 4Q-9 15 0 19" fill="none" stroke="#e6d6f0" stroke-width="3" stroke-linecap="round"/><circle cy="-7" r="11" fill="#b49fcf" stroke="#6064a0" stroke-width="1.6"/><g fill="#fffaf0"><ellipse cx="-4" cy="-9" rx="3.5" ry="4.5"/><ellipse cx="4" cy="-9" rx="3.5" ry="4.5"/></g><g fill="#4a4d84"><circle cx="-3" cy="-8" r="2"/><circle cx="5" cy="-8" r="2"/></g><path d="M-3-2Q0 1 3-2" fill="none" stroke="#6064a0" stroke-width="1.6" stroke-linecap="round"/>`,
+    crow: `<path d="M-15 9L-28 6L-24 18L-10 16" fill="#a89478" stroke="#4a3620" stroke-width="1.6" stroke-linejoin="round"/><path d="M-18 7Q-16-6-1-7Q0-22 13-21Q27-18 22-6Q22 13 7 18Q-13 22-18 7Z" fill="#a89478" stroke="#4a3620" stroke-width="2.4"/><path d="M-13 2Q-3-5 8 3Q3 15-9 12Z" fill="#c9bda4" stroke="#4a3620" stroke-width="1.6"/><path d="M22-14L32-9L22-6Z" fill="#a89478" stroke="#4a3620" stroke-width="1.6"/><circle cx="15" cy="-13" r="3" fill="#e5dcc8"/><circle cx="16" cy="-13" r="1.6" fill="#2f5c46"/><path d="M0 18L-1 24H-6M10 17L10 23H6" fill="none" stroke="#a89478" stroke-width="2.4" stroke-linecap="round"/>`,
+    hoopoe: `<path d="M-12 6L-26 11L-22 18L-10 12Z" fill="#4a3620"/><path d="M-21 11L-19 16" stroke="#fffdf7" stroke-width="2.4" stroke-linecap="round"/><path d="M-2 14V23M4 14V23" stroke="#70501b" stroke-width="2.4" stroke-linecap="round"/><g transform="translate(8 -13) rotate(-62)"><ellipse cy="-7" rx="3" ry="7" fill="#e8743c" stroke="#7a3512" stroke-width="1.6"/><circle cy="-13" r="2.4" fill="#4a3620"/></g><g transform="translate(8 -13) rotate(-36)"><ellipse cy="-7" rx="3" ry="7" fill="#e8743c" stroke="#7a3512" stroke-width="1.6"/><circle cy="-13" r="2.4" fill="#4a3620"/></g><g transform="translate(8 -13) rotate(-10)"><ellipse cy="-7" rx="3" ry="7" fill="#e8743c" stroke="#7a3512" stroke-width="1.6"/><circle cy="-13" r="2.4" fill="#4a3620"/></g><g transform="translate(8 -13) rotate(16)"><ellipse cy="-7" rx="3" ry="7" fill="#e8743c" stroke="#7a3512" stroke-width="1.6"/><circle cy="-13" r="2.4" fill="#4a3620"/></g><path d="M-14 6Q-12-8 2-8Q14-8 14 4Q14 16 0 16Q-12 16-14 6Z" fill="#ffa06e" stroke="#7a3512" stroke-width="2.4"/><path d="M-12 4Q-2-2 8 6Q2 14-8 12Z" fill="#fffdf7" stroke="#4a3620" stroke-width="1.6" stroke-linejoin="round"/><path d="M-8 4L-6 12M-3 2L-1 13M3 3L4 11" stroke="#4a3620" stroke-width="2.4" stroke-linecap="round"/><circle cx="10" cy="-8" r="7" fill="#ffa06e" stroke="#7a3512" stroke-width="2.4"/><path d="M16-8Q22-6 27-1" fill="none" stroke="#4a3620" stroke-width="2.4" stroke-linecap="round"/><circle cx="12" cy="-9" r="2" fill="#4a3620"/><circle cx="12.7" cy="-9.7" r=".7" fill="#fffdf7"/><circle cx="8" cy="-4" r="2" fill="#ffa798" opacity=".8"/>`,
+    whale: `<path d="M-14 4Q-22 2-26-8Q-18-10-15-3Q-15-12-8-13Q-8-4-12 4" fill="#62cdf4" stroke="#3a8fc4" stroke-width="2.4" stroke-linejoin="round"/><path d="M-16 4Q-14-12 4-12Q24-12 24 4Q24 18 4 18Q-14 18-16 4Z" fill="#62cdf4" stroke="#3a8fc4" stroke-width="2.4"/><path d="M-11 10Q4 18 21 9Q17 17 4 17Q-6 17-11 10Z" fill="#ccfbef"/><path d="M-6-7Q2-11 10-10" fill="none" stroke="#96ecff" stroke-width="3" stroke-linecap="round"/><path d="M1 7Q5 14 10 8Z" fill="#3a8fc4" opacity=".55"/><circle cx="14" cy="0" r="2" fill="#4a3620"/><circle cx="14.7" cy="-0.7" r=".7" fill="#fffdf7"/><circle cx="18" cy="5" r="2.4" fill="#ffa798" opacity=".75"/><path d="M16 9Q19 10.5 22 8" fill="none" stroke="#3a8fc4" stroke-width="1.6" stroke-linecap="round"/><path d="M6-13Q3-20-1-22M6-13Q9-20 13-22M6-13V-24" fill="none" stroke="#96ecff" stroke-width="3" stroke-linecap="round"/>`,
+    fig: `<path d="M-6-12Q-5-20 0-24" fill="none" stroke="#70501b" stroke-width="3" stroke-linecap="round"/><path d="M-5-15Q-23-15-20-25Q-8-28-5-15Z" fill="#4e9677" stroke="#4e9677" stroke-width="1.6"/><path d="M-8-14C-8-3-24 1-21 14Q-19 25-5 24Q9 24 12 12C15-1-2-4-2-14Z" fill="#b49fcf" stroke="#6064a0" stroke-width="2.4"/><path d="M-18 8Q-21 19-8 21" fill="none" stroke="#6064a0" stroke-width="4" stroke-linecap="round"/><path d="M-12 0L-15 5" stroke="#e6d6f0" stroke-width="3" stroke-linecap="round"/><path d="M13-10Q11-5 5 3Q-4 18 13 23Q30 18 22 3Q15-5 16-10Z" fill="#e5dcc8" stroke="#6064a0" stroke-width="2.4"/><path d="M14-2Q12 2 9 7Q3 17 14 18Q24 16 19 7Z" fill="#ffa798"/><g fill="#ffe49a"><ellipse cx="12" cy="7" rx="1" ry="1.5"/><ellipse cx="17" cy="10" rx="1" ry="1.5"/><ellipse cx="10" cy="13" rx="1" ry="1.5"/><ellipse cx="15" cy="15" rx="1" ry="1.5"/></g>`,
+    olive: `<path d="M-9 24Q8 5 8-22M7-5L-6-12M3 6L18 0" fill="none" stroke="#a89478" stroke-width="2.4" stroke-linecap="round"/><path d="M7-14Q-7-17-10-26Q5-25 7-14M8-14Q22-21 24-28Q10-26 8-14M2 5Q-12 6-21-1Q-6-3 2 5M0 11Q13 16 25 7Q10 6 0 11" fill="#c9bda4" stroke="#647d4e" stroke-width="1.6"/><ellipse cx="-9" cy="-7" rx="8" ry="10" transform="rotate(-22 -9 -7)" fill="#93ab6c" stroke="#647d4e" stroke-width="1.6"/><ellipse cx="16" cy="-3" rx="7" ry="9" transform="rotate(24 16 -3)" fill="#647d4e" stroke="#647d4e" stroke-width="1.6"/><ellipse cx="-5" cy="17" rx="8" ry="10" transform="rotate(28 -5 17)" fill="#c9bda4" stroke="#647d4e" stroke-width="1.6"/><g fill="none" stroke="#e5dcc8" stroke-width="2.4" stroke-linecap="round"><path d="M-12-12L-13-7M14-8L12-5M-6 11L-9 15"/></g>`,
+    dates: `<path d="M1-25Q3-14-2-6M1-18L-16-7M1-14L16-5" fill="none" stroke="#c69434" stroke-width="2.4" stroke-linecap="round"/><path d="M1-21Q13-27 22-23Q13-17 1-21Z" fill="#c9bda4" stroke="#647d4e" stroke-width="1.6"/><g stroke="#70501b" stroke-width="1.6"><rect x="-25" y="-9" width="15" height="29" rx="7.5" transform="rotate(20 -17 5)" fill="#a89478"/><rect x="9" y="-7" width="15" height="29" rx="7.5" transform="rotate(-18 16 7)" fill="#a89478"/><rect x="-8" y="-1" width="17" height="29" rx="8.5" fill="#a89478"/></g><path d="M-18-4Q-22 4-20 12M15-1Q18 7 17 14M-3 5Q-5 14-2 21" fill="none" stroke="#c9bda4" stroke-width="2.4" stroke-linecap="round"/><path d="M3 6Q5 15 2 23" fill="none" stroke="#70501b" stroke-width="1.6" stroke-linecap="round"/>`,
+    pomegranate: `<path d="M-7-15L-11-24L-3-20L1-27L5-20L12-24L8-15Z" fill="#ee806f" stroke="#c25a49" stroke-width="1.6" stroke-linejoin="round"/><path d="M0-17C-14-20-25-9-24 6C-23 22-10 28 1 25C17 29 28 16 25 1C23-12 13-18 0-17Z" fill="#ee806f" stroke="#c25a49" stroke-width="2.4"/><path d="M-18-4Q-17-10-10-11" fill="none" stroke="#c9bda4" stroke-width="3" stroke-linecap="round"/><path d="M-6-6Q11-15 19 0Q26 17 7 20Q-11 18-6-6Z" fill="#e5dcc8" stroke="#c25a49" stroke-width="1.6"/><path d="M4-7L6 16M-4 5L18 5" stroke="#c9bda4" stroke-width="1.6"/><g fill="#c25a49"><ellipse cx="0" cy="0" rx="2.7" ry="3.1"/><ellipse cx="9" cy="-1" rx="2.7" ry="3.1"/><ellipse cx="14" cy="0" rx="2.2" ry="2.8"/><ellipse cx="0" cy="9" rx="2.7" ry="3.1"/><ellipse cx="10" cy="10" rx="2.7" ry="3.1"/><ellipse cx="15" cy="9" rx="2.2" ry="2.8"/></g>`,
+    grapes: `<path d="M0-10Q-3-21 6-27" fill="none" stroke="#a89478" stroke-width="2.4" stroke-linecap="round"/><path d="M0-17L-6-25L-12-22L-22-25L-20-16L-25-10L-16-7L-13 0L-5-7L1-8Z" fill="#93ab6c" stroke="#4e9677" stroke-width="1.6" stroke-linejoin="round"/><path d="M-2-14L-17-19" stroke="#e5dcc8" stroke-width="1.6"/><path d="M2-18Q21-29 20-15Q17-10 13-14" fill="none" stroke="#93ab6c" stroke-width="1.6" stroke-linecap="round"/><g stroke="#6064a0" stroke-width="1.6"><circle cx="-5" cy="-5" r="7" fill="#b49fcf"/><circle cx="8" cy="-5" r="7" fill="#b49fcf"/><circle cx="-12" cy="6" r="7" fill="#b49fcf"/><circle cx="1" cy="7" r="7" fill="#b49fcf"/><circle cx="14" cy="6" r="7" fill="#b49fcf"/><circle cx="-5" cy="17" r="7" fill="#b49fcf"/><circle cx="8" cy="17" r="7" fill="#b49fcf"/><circle cx="1" cy="27" r="6" fill="#b49fcf"/></g><g fill="none" stroke="#e6d6f0" stroke-width="2.4" stroke-linecap="round"><path d="M-7-8L-8-6M-14 3L-15 5M-1 4L-2 6M6 14L5 16M-1 24L-2 26"/></g>`,
+    honeycomb: `<g stroke="#c69434" stroke-width="1.6" stroke-linejoin="round">${[[0,0],[-17.32,0],[17.32,0],[-8.66,-15],[8.66,-15],[-8.66,15],[8.66,15]].map(([x,y],i)=>`<g transform="translate(${x} ${y})"><path d="M0-10L8.66-5V5L0 10L-8.66 5V-5Z" fill="${i%2?'#f3c955':'#ffe49a'}"/><path d="M0-6L5.2-3V3L0 6L-5.2 3V-3Z" fill="#c69434" stroke="#c69434" stroke-width="1.6"/><path d="M-5-3L0-6L5-3" fill="none" stroke="#ffe49a" stroke-width="1.6"/></g>`).join('')}</g>`,
+    waterdrop: `<path d="M0-28C-4-17-21-6-21 9C-21 24-9 29 0 29C12 29 21 21 21 9C21-6 5-18 0-28Z" fill="#96ecff" stroke="#3a8fc4" stroke-width="2.4"/><path d="M16 2Q22 20 4 25Q-8 28-16 16Q1 25 11 12Q15 7 16 2Z" fill="#62cdf4"/><path d="M-9-6Q-16 3-15 10" fill="none" stroke="#fffdf7" stroke-width="4" stroke-linecap="round"/><circle cx="-12" cy="16" r="2" fill="#ccfbef"/>`,
+    mountain: `<path d="M-29 21L-10-13L9 21Z" fill="#c9bda4" stroke="#a89478" stroke-width="1.6" stroke-linejoin="round"/><path d="M-10-13L-6 21H9Z" fill="#a89478"/><path d="M-8 23L12-27L34 23Z" fill="#e5dcc8" stroke="#a89478" stroke-width="1.6" stroke-linejoin="round"/><path d="M12-27L15 23H34Z" fill="#c9bda4"/><path d="M12-27L22-5L15-10L10-3L3-7Z" fill="#fffaf0" stroke="#c9bda4" stroke-width="1.6"/><path d="M-10-13L-3-1L-10-4L-15 2L-18 1Z" fill="#fffaf0"/><path d="M-30 23Q-19 16-8 22Q9 15 31 23Q10 29-13 27Z" fill="#93ab6c"/>`,
+    nest: `<ellipse cy="4" rx="28" ry="10" fill="#a89478" stroke="#a89478" stroke-width="2.4"/><ellipse cy="3" rx="22" ry="7" fill="#a89478"/><g stroke="#a89478" stroke-width="1.6"><path d="M-13-15C-5-15-3-3-6 2Q-14 9-19 1C-22-5-19-15-13-15Z" fill="#e5dcc8"/><path d="M4-20C11-20 16-7 12-1Q6 7-1 0C-5-6-2-20 4-20Z" fill="#e5dcc8"/><path d="M17-11C23-11 27 0 23 5Q18 10 12 4C9-1 12-11 17-11Z" fill="#e5dcc8"/></g><path d="M-28 5Q-20 28 0 27Q21 27 28 5Q3 16-28 5Z" fill="#a89478" stroke="#a89478" stroke-width="2.4"/><path d="M-22 12Q-5 23 21 13M-15 20Q3 26 16 18M-28 5L-6 13M9 10L28 2" fill="none" stroke="#c9bda4" stroke-width="2.4" stroke-linecap="round"/><path d="M-13 10L-2 23M7 13L19 20" stroke="#a89478" stroke-width="1.6" stroke-linecap="round"/>`,
+    feather: `<path d="M-17 20C-24-1-2-29 13-27C28-23 22-6 10 7Q-2 19-17 20Z" fill="#c9bda4" stroke="#4e9677" stroke-width="1.6"/><path d="M13-26Q18-9 7 5Q-6 15-16 19Q-15 3-2-10Z" fill="#e5dcc8"/><path d="M13-22Q0-2-21 27" fill="none" stroke="#4e9677" stroke-width="2.4" stroke-linecap="round"/><path d="M7-13L15-14M0-3L13-4M-6 6L5 7M-2-2L-7-11M-10 8L-16 2" fill="none" stroke="#4e9677" stroke-width="1.6" stroke-linecap="round"/>`,
+    shell: `<path d="M-9 19Q-31 0-27-13Q-26-20-19-17Q-17-27-9-22Q0-33 9-22Q18-27 20-17Q28-20 29-11Q33 2 10 19L8 25H-8Z" fill="#c9bda4" stroke="#a89478" stroke-width="1.6" stroke-linejoin="round"/><path d="M-18-17Q-16 1-6 18M-8-22Q-8-1-2 18M2-25V18M12-21Q12 2 6 18M21-14Q17 4 10 16" fill="none" stroke="#e5dcc8" stroke-width="3" stroke-linecap="round"/><path d="M-9 19H10L8 25H-8Z" fill="#ffa798" stroke="#a89478" stroke-width="1.6" stroke-linejoin="round"/>`,
+    turtle: `<g transform="translate(-2 3)"><path d="M-21 5L-26 9L-20 10Z" fill="#b7e779" stroke="#4e9677" stroke-width="1.6" stroke-linejoin="round"/><g fill="#b7e779" stroke="#4e9677" stroke-width="2.4"><rect x="-17" y="2" width="8" height="13" rx="4"/><rect x="7" y="2" width="8" height="13" rx="4"/></g><circle cx="20" cy="-2" r="7" fill="#b7e779" stroke="#4e9677" stroke-width="2.4"/><circle cx="22" cy="-4" r="2" fill="#4a3620"/><circle cx="22.7" cy="-4.7" r=".7" fill="#fffdf7"/><path d="M21 1Q23 2.5 25 1" fill="none" stroke="#4e9677" stroke-width="1.6" stroke-linecap="round"/><path d="M-22 6Q-22-19 0-19Q20-19 20 6Z" fill="#7fce54" stroke="#4e9677" stroke-width="2.4" stroke-linejoin="round"/><path d="M-8-18Q-12-6-8 5M8-18Q12-6 8 5M-21-4Q0-1 20-4" fill="none" stroke="#4e9677" stroke-width="2.4"/><path d="M-14-11Q-8-16 0-16" fill="none" stroke="#b7e779" stroke-width="3" stroke-linecap="round"/><path d="M-23 6Q-1 11 21 6" fill="none" stroke="#4e9677" stroke-width="4" stroke-linecap="round"/></g>`,
+    snake: `<path d="M-25 20Q-14 12-2 19Q21 29 24 13Q26 3 12-1Q0-6 2-17" fill="none" stroke="#93ab6c" stroke-width="12" data-ribbon stroke-linecap="round"/><path d="M-25 20Q-14 12-2 19Q21 29 24 13Q26 3 12-1Q0-6 2-17" fill="none" stroke="#c9bda4" stroke-width="8" stroke-linecap="round"/><path d="M-10 16L-8 22M3 17L3 24M16 13L22 16M10-4L8 2" stroke="#c4d39b" stroke-width="3" stroke-linecap="round"/><ellipse cx="0" cy="-19" rx="11" ry="9" fill="#c9bda4" stroke="#93ab6c" stroke-width="1.6"/><circle cx="-4" cy="-21" r="2" fill="#647d4e"/><circle cx="4" cy="-21" r="2" fill="#647d4e"/><path d="M-4-15Q0-12 4-15" fill="none" stroke="#c4d39b" stroke-width="1.6" stroke-linecap="round"/>`,
   };
 
   ns.LETTERS_STICKERS = Object.keys(STICKER_ART).map((id) => ({ id }));
@@ -1061,14 +1330,22 @@
     <svg class="art-sticker" viewBox="-38 -38 76 76" width="${size}" height="${size}" aria-hidden="true">
       <g transform="rotate(${owned ? tilt : 0})">
         <path d="${DIECUT}" transform="translate(1.5 3)" fill="${SHADOW}"/>
-        <path d="${DIECUT}" fill="${owned ? "#fffdf7" : "#e5dcc8"}" stroke="${owned ? '#d4c3a0' : '#d4c8ae'}" stroke-width="1"/>
-        ${owned ? '<circle r="25" fill="#f7ecd5"/>' : ''}
+        <path d="${DIECUT}" fill="${owned ? "#fffdf7" : "#e5dcc8"}" stroke="${owned ? '#c9bda4' : '#c9bda4'}" stroke-width="1.6"/>
+        ${owned ? '<circle r="25" fill="#e5dcc8"/>' : ''}
         ${owned
           ? `<g data-sticker-art="${id}" stroke-linecap="round" stroke-linejoin="round">${art}</g>
-             <path d="M-24 -14 Q-16 -26 -2 -28" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity="0.8"/>`
-          : `<path d="M-7 -7Q-7 -17 3 -15Q15 -12 7 -3L0 3V5M0 13V14" fill="none" stroke="${INKS.faint}" stroke-width="5" stroke-linecap="round"/>`}
+             <path d="M-24 -14 Q-16 -26 -2 -28" fill="none" stroke="#fffdf7" stroke-width="6" stroke-linecap="round" opacity="0.8"/>`
+          // Missing: the motif's own pale silhouette, like a collector's book —
+          // a wall of identical "?" told a child nothing about what to find.
+          : `<g class="art-sticker-ghost" data-sticker-ghost="${id}" stroke-linecap="round" stroke-linejoin="round" transform="scale(.9)">${art}</g>`}
       </g>
     </svg>`;
+  }
+
+  // Just the motif, no die-cut paper — for sticker friends who visit the garden (v12).
+  function stickerMotif(id, size = 56) {
+    const art = STICKER_ART[id] || "";
+    return `<svg class="art-motif" viewBox="-36 -36 72 72" width="${size}" height="${size}" aria-hidden="true"><g stroke-linecap="round" stroke-linejoin="round">${art}</g></svg>`;
   }
 
   function stickerPack({ size = 120 } = {}) {
@@ -1080,16 +1357,26 @@
         <rect x="-34" y="-38" width="68" height="84" rx="14" fill="hsl(272 55% 40%)"/>
         <rect x="-34" y="-42" width="68" height="84" rx="14" fill="url(#${id})"/>
         <path d="M-34 -18 Q0 -4 34 -18 L34 -42 Q34 -42 22 -42 L-22 -42 Q-34 -42 -34 -42 Z" fill="hsl(272 72% 74%)"/>
-        <g transform="scale(0.7) translate(0 8)" fill="#ffd23e"><path d="M0 -22 L6 -6 L23 -5 L9 6 L14 22 L0 13 L-14 22 L-9 6 L-23 -5 L-6 -6 Z" stroke="${GOLD.mid}" stroke-width="3"/></g>
-        <path d="M-24 -29H24M-23 32H23" fill="none" stroke="#fffdf7" stroke-width="2" stroke-dasharray="3 5" opacity=".65"/>
-        <path d="M-27 -15V23Q-27 31 -21 32" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".3"/>
-        <path d="M21 42L34 29L34 33Q34 42 21 42" fill="#e8d6fa"/>
+        <g transform="scale(0.7) translate(0 8)" fill="#f3c955"><path d="M0 -22 L6 -6 L23 -5 L9 6 L14 22 L0 13 L-14 22 L-9 6 L-23 -5 L-6 -6 Z" stroke="${GOLD.mid}" stroke-width="3"/></g>
+        <path d="M-24 -29H24M-23 32H23" fill="none" stroke="#fffdf7" stroke-width="2.4" stroke-dasharray="3 5" opacity=".65"/>
+        <path d="M-27 -15V23Q-27 31 -21 32" fill="none" stroke="#fffdf7" stroke-width="4" stroke-linecap="round" opacity=".3"/>
+        <path d="M21 42L34 29L34 33Q34 42 21 42" fill="#e6d6f0"/>
       </g>
     </svg>`;
   }
 
   // Confetti burst — appended to body, cleans itself up.
-  function confetti(x, y, golden) {
+  // Material bursts (2026-10-01): a right answer answers in the activity's own
+  // material — pond water, wood chips, seeds, glass glints or garden petals —
+  // instead of one generic confetti. Golden (reward) bursts stay the party.
+  const BURSTS = {
+    petals: { colors: ["#62cdf4", "#b7e779", "#ee806f", "#f3c955"], shape: (i) => (i % 3 === 0 ? "is-round" : ""), count: 14, fall: 0 },
+    water: { colors: ["#3a8fc4", "#62cdf4", "#fffdf7", "#3a8fc4"], shape: () => "is-drop", count: 12, fall: 30, ring: true },
+    wood: { colors: ["#c69434", "#a89478", "#70501b", "#ffe49a"], shape: () => "is-chip", count: 12, fall: 70 },
+    seeds: { colors: ["#c69434", "#70501b", "#7fce54", "#ee806f"], shape: () => "is-seed", count: 12, fall: 60 },
+    glints: { colors: ["#ffe49a", "#fffdf7", "#f3c955"], shape: () => "is-glint", count: 12, fall: -10 },
+  };
+  function confetti(x, y, golden, material = "petals") {
     // Perf: on a fast correct-streak bursts can stack up; two at once is
     // plenty of party, three is a frame drop on tablets.
     if (document.querySelectorAll(".lg-confetti-layer").length >= 2) return;
@@ -1097,19 +1384,26 @@
     layer.className = "lg-confetti-layer";
     layer.style.left = `${x}px`;
     layer.style.top = `${y}px`;
+    const kind = golden ? null : BURSTS[material] || BURSTS.petals;
     const colors = golden
-      ? ["#ffc22e", "#ffe9a8", "#ff7d96", "#54c6ff", "#ffffff"]
-      : ["#54c6ff", "#98dc74", "#ff7d96", "#ffc22e"];
-    const count = golden ? 26 : 14;
+      ? ["#f3c955", "#ffe49a", "#ee806f", "#62cdf4", "#fffdf7"]
+      : kind.colors;
+    const count = golden ? 26 : kind.count;
+    if (kind?.ring) {
+      const ring = document.createElement("b");
+      ring.className = "lg-burst-ring";
+      layer.appendChild(ring);
+    }
     for (let i = 0; i < count; i += 1) {
       const p = document.createElement("i");
       const angle = (Math.PI * 2 * i) / count + Math.random() * 0.7;
-      const dist = 70 + Math.random() * (golden ? 130 : 80);
+      const dist = golden ? 70 + Math.random() * 130 : 46 + Math.random() * 64;
       p.style.setProperty("--dx", `${Math.cos(angle) * dist}px`);
-      p.style.setProperty("--dy", `${Math.sin(angle) * dist - 40}px`);
+      p.style.setProperty("--dy", `${Math.sin(angle) * dist * (golden ? 1 : 0.7) - (golden ? 40 : 0) + (golden ? 0 : kind.fall)}px`);
       p.style.setProperty("--rot", `${Math.random() * 720 - 360}deg`);
       p.style.background = colors[i % colors.length];
-      if (i % 3) p.classList.add("is-round");
+      const shape = golden ? (i % 3 === 0 ? "is-round" : "") : kind.shape(i);
+      if (shape) p.classList.add(shape);
       p.style.animationDelay = `${Math.random() * 80}ms`;
       layer.appendChild(p);
     }
@@ -1118,7 +1412,7 @@
   }
 
   ns.LettersArt = {
-    keyMascot, blobCard, creature, icon, backdrop, dayPhase, PHASES, mapStop,
+    keyMascot, blobCard, letterSign, stickerMotif, yearSeason, yearLayer, creature, icon, backdrop, landLife, weatherFor, weatherLayer, hijri, season, seasonLayer, dayPhase, PHASES, mapStop,
     bloomCluster, confetti, ICONS, pet, egg, sticker, stickerPack, skillFlower,
     inkShift, warmInk, fitGlyphs, fitInlineGlyphs, watchGlyphs,
   };

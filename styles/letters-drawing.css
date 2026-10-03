@@ -4,7 +4,7 @@
   border:0; background:none; box-shadow:none; overflow:visible; mask-image:none; -webkit-mask-image:none;
 }
 .lg-app .lg-play[data-activity="trace"] .trace-wrap {
-  background:linear-gradient(110deg,#7fce54 -20%,#4e9677 36%,#2f5c46 70%);
+  background:var(--lg-board,linear-gradient(110deg,#7fce54 -20%,#4e9677 36%,#2f5c46 70%));
   border:3px solid #4a3620; border-radius:28px;
   box-shadow:0 6px 0 #4a3620,inset 0 3px 0 #b7e779,0 12px 0 rgb(74 54 32 / .14);
 }
@@ -172,7 +172,7 @@
   height: 48px;
   padding: 6px 24px;
 }
-.lg-app .trace-next:focus-visible { outline: 3px solid #4a3620; outline-offset: 5px; }
+.lg-app .trace-next:focus-visible { outline: 4px solid var(--lg-focus); outline-offset: 5px; }
 
 @media (max-width: 560px), (max-height: 650px) {
   .lg-app .drawing-palette { gap: 5px; }
@@ -279,3 +279,23 @@
     padding-block: 2px;
   }
 }
+
+/* ---------- Writing Garden guided trace (v3, 2026-10-01) ---------- */
+.trace-paper .trace-guided{position:absolute;inset:0;width:100%;height:100%;z-index:2;touch-action:none;cursor:crosshair}
+.trace-guided path,.trace-guided circle{vector-effect:none}
+.tg-guide-edge{fill:none;stroke:#c9bda4;stroke-width:15;stroke-linecap:round;stroke-linejoin:round}
+.tg-guide-path{fill:none;stroke:#fffdf7;stroke-width:11;stroke-linecap:round;stroke-linejoin:round}
+.tg-guide-dot{fill:#fffdf7;stroke:#c9bda4;stroke-width:2.4}
+.tg-ink-path{fill:none;stroke-width:9;stroke-linecap:round;stroke-linejoin:round;transition:stroke-dashoffset 90ms linear}
+.tg-ink-path.is-snap{transition:stroke-dashoffset 360ms cubic-bezier(.3,1.4,.5,1)}
+.trace-guided.is-demo .tg-ink-path{transition:none;opacity:.55}
+.tg-ink-dot{fill-opacity:0;transition:fill-opacity 160ms}
+.tg-ink-dot.is-on{fill-opacity:1}
+.tg-ink-dot.is-demo{fill-opacity:.55}
+.tg-start{fill:#7fce54;stroke:#4a3620;stroke-width:2.4;transform-box:fill-box;transform-origin:50% 50%;animation:tg-pulse 1.1s ease-in-out infinite alternate}
+.tg-start.is-dot{fill:none;stroke:#7fce54;stroke-width:3}
+.tg-arrow{fill:none;stroke:#4a3620;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.tg-pen{fill:#4a3620}
+@keyframes tg-pulse{from{transform:scale(.85)}to{transform:scale(1.15)}}
+.lg-reduce-motion .tg-start{animation:none}
+@media(prefers-reduced-motion:reduce){.tg-start{animation:none}.tg-ink-path{transition:none}}

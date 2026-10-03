@@ -9,6 +9,12 @@
     if(!item)return '';
     if(item.kind==='sticker')return ns.LettersArt.sticker({id:item.stickerId,size});
     if(item.kind==='boat')return ns.LettersGardenArt.boat({stage:0});
+    if(item.kind==='blanket')return `<svg viewBox="0 0 120 96" aria-hidden="true"><ellipse cx="60" cy="82" rx="56" ry="8" fill="#2f5c46" opacity=".18"/><path d="M8 72H112L110 79Q60 84 10 79Z" fill="#c25a49" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/><path d="M8 72L28 42H94L112 72Z" fill="#ee806f" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/><path d="M22 52H100M14 63H107M48 42L42 72M73 42L77 72" stroke="#fffdf7" stroke-width="6" opacity=".75"/><g class="blanket-cup"><path d="M84 40H98L96 54Q91 57 86 54Z" fill="#fffdf7" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/><path d="M98 44Q104 45 97 51" fill="none" stroke="#4a3620" stroke-width="2.4"/></g></svg>`;
+    if(item.kind==='can')return `<svg viewBox="0 0 100 96" aria-hidden="true"><ellipse cx="46" cy="84" rx="34" ry="6" fill="#2f5c46" opacity=".18"/><path d="M30 42Q44 16 58 42" fill="none" stroke="#4a3620" stroke-width="4" stroke-linecap="round"/><path d="M62 58L86 36" stroke="#4a3620" stroke-width="8" stroke-linecap="round"/><path d="M62 58L86 36" stroke="#62cdf4" stroke-width="4" stroke-linecap="round"/><circle cx="88" cy="34" r="7" fill="#96ecff" stroke="#4a3620" stroke-width="2.4"/><rect x="22" y="40" width="44" height="42" rx="9" fill="#62cdf4" stroke="#4a3620" stroke-width="2.4"/><path d="M30 48V72" stroke="#96ecff" stroke-width="4" stroke-linecap="round"/></svg>`;
+    if(item.kind==='keepsake'&&item.story!=='parcel'&&item.story!=='picnic'){const art=ns.LettersJourney?.keepsakeArt?.(item.story);if(art)return art;}
+    if(item.kind==='keepsake'&&item.story==='parcel')return `<svg viewBox="0 0 120 96" aria-hidden="true"><ellipse cx="60" cy="88" rx="48" ry="6" fill="#2f5c46" opacity=".18"/>${[[14,46],[58,46],[36,10]].map(([x,y])=>`<g transform="translate(${x} ${y})"><rect x="0" y="6" width="46" height="34" rx="5" fill="#e5dcc8" stroke="#4a3620" stroke-width="2.4"/><path d="M23 6V40M0 20H46" stroke="#c69434" stroke-width="2.4"/><path d="M23 6Q16 -1 13 4Q18 8 23 6Q30 -1 33 4Q28 8 23 6" fill="none" stroke="#c69434" stroke-width="2.4"/></g>`).join('')}</svg>`;
+    if(item.kind==='keepsake')return ns.LettersGardenArt.seedBasket();
+    if(item.kind==='sign')return `<svg viewBox="0 0 80 100" aria-hidden="true"><ellipse cx="40" cy="94" rx="24" ry="5" fill="#2f5c46" opacity=".18"/><path d="M40 92V54" stroke="#a89478" stroke-width="6" stroke-linecap="round"/><rect x="6" y="8" width="68" height="52" rx="8" fill="#fffdf7" stroke="#4a3620" stroke-width="3"/><image href="${item.drawing}" x="12" y="12" width="56" height="44" preserveAspectRatio="xMidYMid meet"/></svg>`;
     return ns.LettersGardenArt.flowerBed({size,count:item.count,centered:true});
   }
 
@@ -22,7 +28,7 @@
         ${landscape()}<button type="button" class="decorate-pet" aria-label="Play with your garden pet">${ctx.petArt()}</button><span class="decorate-pet-reaction" aria-hidden="true"></span>
         ${Array.from({length:4},(_,i)=>`<button class="decorate-slot" type="button" data-slot="${i}" aria-label="Garden space ${i+1}"></button>`).join('')}
         </div><div class="decorate-selection" hidden aria-live="polite"><span class="decorate-selection-preview"></span><span class="decorate-selection-arrow" aria-hidden="true">${ns.LettersArt.icon('arrow',24)}</span></div><div class="decorate-shelf"><button type="button" class="decorate-prev" aria-label="Previous decorations">${ns.LettersArt.icon('next',22)}</button><div class="decorate-tray" role="group" aria-label="Your earned decorations">${this.catalog.length?this.catalog.map(item=>`<button type="button" class="decorate-choice" data-decoration="${item.id}" aria-label="Place ${item.label}" aria-pressed="false">${decorationArt(item,76)}<span class="decorate-used" aria-hidden="true">${ns.LettersArt.icon('check',18)}</span></button>`).join(''):`<button type="button" class="decorate-earn" aria-label="Play a lesson to grow garden flowers">${ns.LettersGardenArt.practicePicture('DotGarden')}${ns.LettersArt.icon('next',28)}</button>`}</div><button type="button" class="decorate-more" aria-label="More decorations">${ns.LettersArt.icon('next',22)}</button></div>
-        <div class="decorate-tools"><button type="button" class="decorate-undo practice-button" aria-label="Undo garden change" disabled>${ns.LettersArt.icon('replay',30)}</button><button type="button" class="decorate-remove practice-button" aria-label="Return selected decoration to the tray" disabled>${removeIcon}</button><button type="button" class="decorate-done practice-button" aria-label="Finish decorating">${ns.LettersArt.icon('check',32)}</button></div>`;
+        <div class="decorate-tools"><button type="button" class="decorate-undo practice-button" aria-label="Undo garden change" disabled>${ns.LettersArt.icon('undo',30)}</button><button type="button" class="decorate-remove practice-button" aria-label="Return selected decoration to the tray" disabled>${removeIcon}</button><button type="button" class="decorate-done practice-button" aria-label="Finish decorating">${ns.LettersArt.icon('check',32)}</button></div>`;
       this.tray=stage.querySelector('.decorate-tray');
       const prev=stage.querySelector('.decorate-prev'),more=stage.querySelector('.decorate-more');
       this.refreshShelf=()=>{if(!this.alive)return;prev.disabled=this.tray.scrollLeft<=1;more.disabled=this.tray.scrollLeft+this.tray.clientWidth>=this.tray.scrollWidth-1;};
@@ -36,9 +42,14 @@
       this.slots.forEach((button,i)=>{
         button.onclick=()=>{
           if(!this.alive)return;
-          if(this.selected){this.place(i,this.selected);return;}
-          const id=this.visible()[i];if(!id)return;
+          const id=this.visible()[i];
+          // Tapping toy after toy plays them; it never swaps one onto another.
+          // Moves go to empty spaces (or come from the tray).
+          if(this.selected&&!(id&&this.selectedSlot!==null)){this.place(i,this.selected);return;}
+          if(!id)return;
+          // Paint first: painting redraws the slot, so the toy animates the fresh art.
           this.selected=id;this.selectedSlot=i;this.paint();
+          this.playToy(i,this.items.get(id));
         };
         this.wireDrag(button,()=>this.visible()[i]);
       });
@@ -49,7 +60,7 @@
       });
       stage.querySelector('.decorate-undo').onclick=()=>{
         if(!this.alive||!this.undo.length)return;
-        this.layout=this.undo.pop();this.selected=null;this.selectedSlot=null;this.save();this.react('undo');
+        this.layout=this.undo.pop();this.selected=null;this.selectedSlot=null;this.petHome();this.save();this.react('undo');
       };
       stage.querySelector('.decorate-remove').onclick=()=>{
         if(!this.alive||this.selectedSlot===null)return;
@@ -57,15 +68,126 @@
       };
       stage.querySelector('.decorate-done').onclick=()=>{if(this.alive)ctx.onDone();};
       stage.querySelector('.decorate-earn')?.addEventListener('click',()=>{if(this.alive)ctx.onDone();});
-      this.pet=stage.querySelector('.decorate-pet');
+      this.pet=stage.querySelector('.decorate-pet');this.board=stage.querySelector('.decorate-board');this.petOffset={x:0,y:0};
       this.petReaction=stage.querySelector('.decorate-pet-reaction');
-      this.pet.onclick=()=>{if(this.alive)this.react('place');};
+      this.pet.onclick=()=>{if(!this.alive)return;if(this.petOffset?.x||this.petOffset?.y){this.petHome();return;}this.react('place');this.rig?.wave();};
+      this.rig=ctx.petRig?.(this.pet);
       this.selection=stage.querySelector('.decorate-selection');this.selectionPreview=stage.querySelector('.decorate-selection-preview');
       this.onKey=e=>{if(e.key==='Escape'&&this.alive){this.dragResets.forEach(reset=>reset());this.selected=null;this.selectedSlot=null;this.paint();}};
       stage.addEventListener('keydown',this.onKey);
       this.paint();
     }
     visible(){return ns.LettersDecorations.visibleSlots(this.layout,this.catalog);}
+    // Pet travel for toys. Offsets are measured from the pet's home spot, so
+    // a walk can start wherever the pet already is (on the blanket, say).
+    later(fn,ms){const t=setTimeout(()=>{this.toyTimers.delete(t);if(this.alive)fn();},ms);(this.toyTimers||=new Set()).add(t);}
+    clearToys(){this.toyTimers?.forEach(clearTimeout);this.toyTimers?.clear();this.board?.querySelectorAll('.decorate-drops').forEach(el=>el.remove());}
+    toward(slot,{share=1,sit=false,seat=.76,across=.5}={}){
+      const a=this.pet.getBoundingClientRect(),b=slot.getBoundingClientRect(),o=this.petOffset||{x:0,y:0};
+      const hx=a.left+a.width/2-o.x,hy=a.top+a.height/2-o.y,hb=a.bottom-o.y;
+      return sit?{x:b.left+b.width*across-hx,y:b.top+b.height*seat-hb}:{x:(b.left+b.width/2-hx)*share,y:(b.top+b.height/2-hy)*share*.64};
+    }
+    petTo(x,y,ms=700,{sit=false}={}){
+      const from=this.petOffset||{x:0,y:0},reduced=this.ctx.reducedMotion?.();
+      this.pet.getAnimations?.().forEach(anim=>anim.cancel());
+      this.pet.style.translate=x||y?`${x}px ${y}px`:'';
+      this.pet.classList.toggle('is-sitting',sit);if(!sit)this.pet.classList.remove('is-riding');this.pet.classList.toggle('is-out',!!(x||y));
+      this.petOffset={x,y};
+      if(reduced||!this.pet.animate)return;
+      this.pet.animate([{translate:`${from.x}px ${from.y}px`},{translate:`${x}px ${y}px`}],{duration:ms,easing:'ease-in-out'});
+      const dir=Math.sign(x-from.x);
+      if(dir){this.rig?.walk(dir);this.later(()=>this.rig?.walk(0),ms);}
+    }
+    petHome(){if(!this.pet||!(this.petOffset?.x||this.petOffset?.y)){this.pet?.classList.remove('is-sitting');return;}this.clearToys();this.petTo(0,0,600);}
+    // Water drops are a short-lived overlay on the board, positioned over a slot.
+    pour(slot){
+      if(!this.board||!slot)return;
+      const b=this.board.getBoundingClientRect(),r=slot.getBoundingClientRect(),drops=document.createElement('span');
+      drops.className='decorate-drops';drops.setAttribute('aria-hidden','true');
+      drops.style.left=`${r.left-b.left+r.width*.5}px`;drops.style.top=`${r.top-b.top+r.height*.05}px`;
+      drops.innerHTML='<i></i><i></i><i></i>';
+      this.board.appendChild(drops);
+      this.later(()=>drops.remove(),1100);
+    }
+    // Update 5: placed rewards are toys. The pet walks over, looks, and joins
+    // in. Playing never moves, removes or changes ownership of anything.
+    playToy(i,item){
+      if(!this.alive||!item)return;
+      const slot=this.slots[i],art=slot?.querySelector?.('svg'),reduced=this.ctx.reducedMotion?.();
+      if(!art)return;
+      this.clearToys();
+      const rig=this.rig,measurable=!!slot.getBoundingClientRect&&!!this.pet?.getBoundingClientRect;
+      art.style.transformBox='fill-box';art.style.transformOrigin='50% 100%';
+      // Blanket: the pet is invited over and sits until tapped or called away.
+      if(item.kind==='blanket'){
+        this.ctx.play?.('rustle');
+        if(measurable){const to=this.toward(slot,{sit:true});this.petTo(to.x,to.y,reduced?0:900,{sit:true});}
+        this.later(()=>{rig?.settle();rig?.cheer();if(!reduced)art.querySelector('.blanket-cup')?.animate?.([{transform:'none'},{transform:'translateY(-4px) rotate(-8deg)'},{transform:'none'}],{duration:600});},reduced?0:900);
+        return;
+      }
+      // Boat: the pet hops in and they sail a little loop together, then the
+      // pet hops out and walks home. Both move by the same pixels.
+      if(item.kind==='boat'&&!reduced&&measurable&&art.animate){
+        this.ctx.play?.('splash');
+        // The paper boat's hull sits a little left of its space's centre.
+        const seat=this.toward(slot,{sit:true,seat:.68,across:.4}),w=art.getBoundingClientRect().width||0;
+        this.petTo(seat.x,seat.y,900,{sit:true});this.pet.classList.add('is-riding');
+        this.later(()=>{
+          slot.classList.add('is-playing');this.ctx.play?.('creak');
+          const sail=[[0,0,0],[.18,-3,-4],[-.1,0,3],[0,0,0]],at=[0,.4,.75,1];
+          art.animate(sail.map(([dx,,r],k)=>({transform:dx||r?`translateX(${dx*100}%) rotate(${r}deg)`:'none',offset:at[k]})),{duration:1800,easing:'ease-in-out'});
+          this.pet.animate?.(sail.map(([dx,dy,r],k)=>({translate:`${seat.x+dx*w}px ${seat.y+dy}px`,rotate:`${r}deg`,offset:at[k]})),{duration:1800,easing:'ease-in-out'});
+          rig?.watch?.(art);
+        },920);
+        this.later(()=>{slot.classList.remove('is-playing');rig?.cheer();},2740);
+        this.later(()=>{this.pet.classList.remove('is-riding');this.petTo(0,0,800);},3500);
+        return;
+      }
+      // Watering can: it floats to each placed flower bed, tips and pours; the
+      // pet follows to look. With nothing to water it waters the grass.
+      if(item.kind==='can'){
+        this.ctx.play?.('clink');
+        const ids=this.visible();
+        const thirsty=this.slots.filter((s,k)=>{const it=this.items.get(ids[k]);return k!==i&&(it?.kind==='flower'||(it?.kind==='keepsake'&&['bed','harvest'].includes(it.story)));}).slice(0,3);
+        const targets=thirsty.length?thirsty:[slot];
+        targets.forEach((target,n)=>this.later(()=>{
+          const tArt=target.querySelector('svg'),r=slot.getBoundingClientRect?.(),t=target.getBoundingClientRect?.();
+          if(!reduced&&r&&t&&art.animate){
+            // The spout is on the can's right, so it hovers up-left of the bed and tips clockwise.
+            const dx=target===slot?0:t.left-r.left-t.width*.32,dy=target===slot?0:t.top-r.top-t.height*.5;
+            slot.classList.add('is-playing');this.later(()=>slot.classList.remove('is-playing'),1500);
+            art.animate([{transform:'none'},{transform:`translate(${dx}px,${dy}px)`,offset:.3},{transform:`translate(${dx}px,${dy}px) rotate(34deg)`,offset:.45},{transform:`translate(${dx}px,${dy}px) rotate(34deg)`,offset:.8},{transform:'none'}],{duration:1500,easing:'ease-in-out'});
+            this.later(()=>{this.pour(target);this.ctx.play?.('pour');},560);
+          }
+          if(target!==slot){
+            this.later(()=>{tArt?.animate?.([{transform:'none'},{transform:'scale(1.08) translateY(-4%)',offset:.5},{transform:'none'}],{duration:reduced?1:520});target.classList.add('is-watered');this.later(()=>target.classList.remove('is-watered'),900);},reduced?0:900);
+            if(measurable){const to=this.toward(target,{share:.55});this.petTo(to.x,to.y,reduced?0:700);}
+          }
+          this.later(()=>rig?.inspect(target,500,()=>rig?.cheer()),reduced?0:760);
+        },n*(reduced?0:1600)));
+        this.later(()=>this.petTo(0,0,reduced?0:700),reduced?0:targets.length*1600+400);
+        return;
+      }
+      if(!reduced){
+        const moves={
+          boat:[{transform:'none'},{transform:'translateX(14%) rotate(-5deg)',offset:.35},{transform:'translateX(-8%) rotate(4deg)',offset:.7},{transform:'none'}],
+          flower:[{transform:'none'},{transform:'rotate(-6deg) scale(1.04)',offset:.3},{transform:'rotate(5deg)',offset:.6},{transform:'none'}],
+          sticker:[{transform:'none'},{transform:'rotate(-10deg) scale(1.08)',offset:.4},{transform:'rotate(8deg)',offset:.7},{transform:'none'}],
+          sign:[{transform:'none'},{transform:'rotate(-7deg)',offset:.4},{transform:'rotate(5deg)',offset:.75},{transform:'none'}],
+          keepsake:[{transform:'none'},{transform:'translateY(-8%) scale(1.04)',offset:.4},{transform:'none'}],
+        };
+        art.animate?.(moves[item.kind]||moves.keepsake,{duration:item.kind==='boat'?1600:900,easing:'ease-in-out'});
+      }
+      // Each toy sounds like its material: cloth, paper, wood, glass, water.
+      this.ctx.play?.({flower:'rustle',sticker:'boing',sign:'dock',keepsake:'chime',boat:'splash'}[item.kind]||'seed');
+      // The pet comes over to the toy, looks at it, celebrates, then goes home.
+      if(!reduced&&measurable){
+        const to=this.toward(slot,{share:.55});
+        this.petTo(to.x,to.y,720);
+        this.later(()=>rig?.inspect(slot,700,()=>rig?.cheer()),720);
+        this.later(()=>this.petTo(0,0,700),1700);
+      }else rig?.inspect(slot,600,()=>rig?.cheer());
+    }
     wireDrag(button,idOf){
       let suppressUntil=0;
       const end=(e,cancel=false)=>{
@@ -116,7 +238,7 @@
       if(!this.alive||!next)return;
       this.undo.push(this.layout);if(this.undo.length>20)this.undo.shift();
       this.layout=next;this.selected=null;this.selectedSlot=null;
-      this.save();this.react(reaction);
+      this.petHome();this.save();this.react(reaction);
     }
     save(){
       this.dragResets.forEach(reset=>reset());
@@ -152,7 +274,7 @@
       this.petReaction.innerHTML=ns.LettersArt.icon(kind==='undo'?'replay':kind==='remove'?'arrow':'flower',22);
       clearTimeout(this.reactTimer);this.reactTimer=setTimeout(()=>{if(this.alive)['is-happy','is-place','is-remove','is-undo'].forEach(name=>this.pet.classList.remove(name));},450);
     }
-    destroy(){this.alive=false;this.shelfObserver?.disconnect();this.tray.removeEventListener('scroll',this.refreshShelf);clearTimeout(this.reactTimer);this.dragResets.forEach(reset=>reset());this.ctx.stage.removeEventListener('keydown',this.onKey);}
+    destroy(){this.alive=false;this.clearToys();this.rig?.destroy();this.shelfObserver?.disconnect();this.tray.removeEventListener('scroll',this.refreshShelf);clearTimeout(this.reactTimer);this.dragResets.forEach(reset=>reset());this.ctx.stage.removeEventListener('keydown',this.onKey);}
   }
   ns.DecoratingGarden=DecoratingGarden;
   ns.DecoratingGarden.icon=icon;

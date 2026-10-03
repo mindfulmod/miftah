@@ -83,10 +83,10 @@ test('pack-smile reference Pop starts choices in the scene and keeps them near t
   const game = Object.create(ns.LettersMiniGames.pop.prototype);
   Object.assign(game, { ctx: { referenceJourney: true, garden: false, hue: 20, level: 0 }, sky: { appendChild: el => appended.push(el) }, skyH: 100, laneCount: 3, bubbles: [] });
   game.spawn(items[0], 0, 0);
-  assert.equal(game.bubbles[0].y, 0.04);
+  assert.equal(game.bubbles[0].y, 0.17, "the top row starts below the pond jetty");
   assert.equal(appended[0].style.width, '26%');
   assert.match(appended[0].style.transform, /translate3d\(-50%/);
-  assert.match(appended[0].style.transform, /4px/);
+  assert.match(appended[0].style.transform, /17px/);
 });
 
 test('non-reference reduced-motion Pop keeps legacy choices in the visible band', () => {

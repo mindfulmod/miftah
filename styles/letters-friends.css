@@ -1,0 +1,84 @@
+/* Letter Friends (v26) and Today's Walk (v25), 2026-10-02. */
+
+/* ---------- a friend: the letter's body, its dress, and three looks ---------- */
+.lf { display: block; overflow: visible; }
+.lf .lf-dress { transition: opacity .55s ease, transform .55s cubic-bezier(.3, 1.4, .5, 1); transform-box: view-box; transform-origin: 50% 60%; }
+.lf .lf-fill { transition: stroke .5s ease; }
+.lf .lf-fill-dot { transition: fill .5s ease; }
+.lf.is-soft .lf-dress { opacity: .42; }
+.lf.is-plain .lf-dress { opacity: 0; transform: scale(.86); }
+.lf.is-plain .lf-fill { stroke: #4a3620; }
+.lf.is-plain .lf-fill-dot { fill: #4a3620; }
+/* Growing in: the dress pops on a beat after the colour arrives. */
+.lf.is-growing .lf-dress { transition-delay: .18s; }
+@media (prefers-reduced-motion: reduce) { .lf .lf-dress, .lf .lf-fill, .lf .lf-fill-dot { transition: none; } }
+
+/* ---------- Find My Friend ---------- */
+.ff { display: grid; gap: clamp(12px, 3vh, 26px); justify-items: center; padding: 8px 12px 16px; }
+.ff-top button { appearance: none; border: 0; background: #fffaf0; border-radius: 28px; padding: 10px; box-shadow: 0 4px 0 #c9bda4, 0 0 0 4px #4a3620; cursor: pointer; position: relative; }
+.ff-top svg { width: min(150px, 30vw, 22vh); height: auto; display: block; }
+.ff-curtain.is-peeking .ff-peek { position: absolute; inset: auto -18px -14px auto; animation: ff-peek .5s ease-out both; }
+.ff-peek svg { width: 82px; }
+@keyframes ff-peek { from { transform: translateY(14px) scale(.6); opacity: 0; } to { transform: none; opacity: 1; } }
+.ff-choices { display: flex; flex-wrap: nowrap; max-width: 100%; justify-content: center; gap: clamp(12px, 3vw, 26px); }
+.ff-card { appearance: none; border: 0; background: #ccfbef; border-radius: 26px; padding: 10px; min-width: 0; flex: 0 1 auto; box-shadow: 0 5px 0 #62cdf4, 0 0 0 4px #4a3620; cursor: pointer; transition: transform .25s ease, opacity .3s ease; }
+.ff-card svg { width: min(140px, 25vw, 20vh); height: auto; }
+.ff-card.is-letter { background: #fffaf0; box-shadow: 0 5px 0 #c9bda4, 0 0 0 4px #4a3620; }
+.ff-card.is-hint { animation: ff-hint 1.2s ease-in-out infinite; }
+.ff-card.is-right { transform: translateY(-6px) scale(1.06); background: #b7e779; }
+.ff-card.is-away { opacity: .35; transform: scale(.94); }
+@keyframes ff-hint { 50% { box-shadow: 0 5px 0 #62cdf4, 0 0 0 4px #4a3620, 0 0 0 12px #ffe49a; } }
+.ff-progress { display: flex; gap: 8px; }
+.ff-progress i { width: 14px; height: 14px; border-radius: 50%; background: #e5dcc8; box-shadow: inset 0 0 0 2.4px #a89478; }
+.ff-progress i.is-on { background: #ffa06e; }
+.ff-progress i.is-done { background: #7fce54; }
+@media (prefers-reduced-motion: reduce) { .ff-card.is-hint, .ff-curtain.is-peeking .ff-peek { animation: none; } }
+
+/* ---------- the Friend Book spread ---------- */
+.fb { display: grid; gap: 14px; justify-items: center; padding: 8px 12px 18px; }
+.fb-spread { display: grid; justify-items: center; gap: 10px; background: #fffdf7; border-radius: 30px; padding: 18px 26px 22px; box-shadow: 0 6px 0 #e5dcc8, 0 0 0 4px #4a3620; min-width: min(88vw, 360px); }
+.fb-friend { appearance: none; border: 0; background: #ccfbef; border-radius: 50%; padding: 18px; cursor: pointer; box-shadow: inset 0 -8px 0 #96ecff; }
+.fb-friend svg { width: clamp(170px, 40vmin, 240px); height: auto; }
+.fb-caption { display: flex; align-items: baseline; gap: 22px; font-family: "Amiri Quran", serif; color: #4a3620; }
+.fb-letter { font-size: clamp(44px, 9vmin, 64px); line-height: 1.4; }
+.fb-word-wrap { position: relative; display: inline-block; font-size: clamp(40px, 8vmin, 56px); line-height: 1.5; }
+.fb-word { position: relative; z-index: 1; }
+.fb-mark { position: absolute; top: .3em; height: .95em; border-radius: 18px; background: #ffe49a; box-shadow: 0 0 0 3px #ffa798; opacity: 0; transition: opacity .4s ease; z-index: 0; }
+.fb-nav { display: flex; gap: 22px; align-items: center; direction: ltr; }
+.fb-next svg { transform: scaleX(-1); }
+.fb-nav button[disabled] { opacity: .35; }
+
+/* ---------- Letter book pages: friends instead of signs ---------- */
+.book-letter.is-friend { background: #ccfbef; border-radius: 22px; padding: 4px; }
+.book-letter.is-friend svg { width: 76px; height: 76px; }
+
+/* ---------- meeting a letter: its friend arrives ---------- */
+.meet-friend { position: absolute; inset: auto -1% -3% auto; appearance: none; border: 0; background: #ccfbef; border-radius: 50%; padding: 8px; box-shadow: 0 4px 0 #96ecff, 0 0 0 4px #4a3620; cursor: pointer; z-index: 3; animation: meet-friend-in .7s cubic-bezier(.3, 1.5, .5, 1) both; }
+.meet-friend svg { width: clamp(80px, 16vmin, 112px); height: auto; }
+@keyframes meet-friend-in { from { transform: translateY(30px) scale(.4); opacity: 0; } to { transform: none; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .meet-friend { animation: none; } }
+
+/* ---------- Today's Walk ---------- */
+.map-walk { position: relative; }
+/* The walk is the day's live thing until it is walked (ART §2 accent-warm). */
+.map-walk:not(.is-finished) { box-shadow: 0 0 0 4px #ffa06e; }
+.map-walk .walk-steps { position: absolute; inset: auto 0 -6px 0; display: flex; justify-content: center; gap: 3px; }
+.map-walk .walk-steps i { width: 7px; height: 7px; border-radius: 50%; background: #e5dcc8; box-shadow: inset 0 0 0 1.6px #a89478; }
+.map-walk .walk-steps i.is-done { background: #7fce54; }
+.lg-walk .walk-stage { display: grid; gap: 18px; justify-items: center; padding: 10px 12px 20px; }
+.walk-trail { position: relative; width: min(94vw, 720px); height: clamp(260px, 52vh, 420px); }
+.walk-trail.is-upright { width: min(92vw, 460px); height: min(76vh, 760px); }
+.walk-trail > svg.walk-path { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.walk-stone { position: absolute; transform: translate(-50%, -50%); appearance: none; border: 0; padding: 0; background: #fffaf0; border-radius: 50%; width: clamp(84px, 15vmin, 116px); height: clamp(84px, 15vmin, 116px); box-shadow: 0 5px 0 #c9bda4, 0 0 0 4px #4a3620; cursor: pointer; display: grid; place-items: center; }
+.walk-stone svg { width: 78%; height: 78%; }
+.walk-stone.is-done { background: #b7e779; box-shadow: 0 5px 0 #4e9677, 0 0 0 4px #4a3620; }
+.walk-stone.is-next { box-shadow: 0 5px 0 #c9bda4, 0 0 0 4px #4a3620, 0 0 0 10px #ffa06e; animation: walk-next 1.6s ease-in-out infinite; }
+.walk-stone .walk-check { position: absolute; inset: -6px -6px auto auto; width: 30px; height: 30px; border-radius: 50%; background: #7fce54; box-shadow: 0 0 0 3px #4a3620; display: grid; place-items: center; }
+.walk-stone .walk-check svg { width: 20px; height: 20px; }
+.walk-pet { position: absolute; transform: translate(-112%, -78%); pointer-events: none; transition: left .9s ease, top .9s ease; }
+.walk-end { position: absolute; transform: translate(-50%, -50%); width: clamp(70px, 12vmin, 96px); }
+.walk-nap { display: grid; justify-items: center; gap: 8px; }
+.walk-nap .walk-zz { font: 700 28px ui-rounded, system-ui; color: #6064a0; animation: walk-zz 2.4s ease-in-out infinite; }
+@keyframes walk-next { 50% { box-shadow: 0 5px 0 #c9bda4, 0 0 0 4px #4a3620, 0 0 0 16px #ffe49a; } }
+@keyframes walk-zz { 50% { transform: translateY(-8px); opacity: .5; } }
+@media (prefers-reduced-motion: reduce) { .walk-stone.is-next, .walk-nap .walk-zz { animation: none; } .walk-pet { transition: none; } }

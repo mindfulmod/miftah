@@ -56,6 +56,8 @@
         if (result.status !== 'fulfilled' || !result.value) continue;
         const {n,data}=result.value;
         if (!Array.isArray(data?.ayahs)) continue;
+        // Ayah Garden (v15) reads whole surahs, so keep them, not just words.
+        (this.surahs ||= new Map()).set(n, { number: n, name: data.surah?.name || '', ayahs: data.ayahs.filter(a => Array.isArray(a?.words)).map(a => ({ number: a.number, words: a.words.filter(w => typeof w?.arabic === 'string').map(w => ({ arabic: w.arabic, audioPath: w.audio || `wbw/${pad3(n)}_${pad3(a.number)}_${pad3(w.position)}.mp3` })) })) });
         for (const ayah of data.ayahs) {
           if (!Array.isArray(ayah?.words)) continue;
           for (const w of ayah.words) {

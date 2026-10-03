@@ -66,7 +66,7 @@
 .lg-app .lg-play[data-activity="feed"] .is-delivered .feed-food:not(.is-flying) { visibility:hidden; }
 .lg-app .lg-play[data-activity="feed"] .feed-next { min-width:88px; height:62px; padding:8px 20px; }
 .lg-app .lg-play[data-activity="feed"] .feed-replay { width:56px; height:56px; }
-.lg-app .lg-play[data-activity="feed"] .feed-creature:focus-visible { outline:3px solid #e8743c; outline-offset:3px; border-radius:30px; }
+.lg-app .lg-play[data-activity="feed"] .feed-creature:focus-visible { outline:4px solid var(--lg-focus); outline-offset:3px; border-radius:30px; }
 .lg-app .lg-play[data-activity="feed"] .lg-activity-art > .is-picnic-flowers { left:0; bottom:14%; width:clamp(42px,12%,70px); }
 @media(max-height:650px) and (orientation:portrait) {
   .lg-app .lg-play[data-activity="feed"] .play-stage { margin-bottom:20px; max-height:none; }

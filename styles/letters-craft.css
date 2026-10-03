@@ -35,14 +35,14 @@
 .path-page { box-sizing:border-box; width:76px; height:58px; min-width:44px; padding:3px; border:3px solid #a89478; border-radius:8px; background:#fffaf0; box-shadow:0 3px 0 #c9bda4; }
 .path-page > svg { width:100%; height:100%; display:block; pointer-events:none; }
 .path-page[aria-pressed="true"] { border-color:#4a3620; background:#ffe49a; transform:translateY(-3px); }
-.lg-app :is(.garden-paths,.path-gallery) button:focus-visible { outline:4px solid #3a8fc4; outline-offset:4px; }
+.lg-app :is(.garden-paths,.path-gallery) button:focus-visible { outline:4px solid var(--lg-focus); outline-offset:4px; }
 
 /* The timber joinery plane replaces Build's opaque rectangular backdrop. */
 .lg-app .lg-play[data-activity="build"] .play-stage { background:transparent; border:0; box-shadow:none; overflow:visible; width:min(700px,96%); max-height:min(520px,110vw); }
 .lg-activity-art.is-joinery { border-radius:0; overflow:visible; }
 .lg-activity-art.is-joinery > .is-pencils { width:clamp(56px,12%,84px); left:2%; bottom:21%; }
 .lg-activity-art.is-joinery > .is-paper { width:clamp(48px,10%,70px); right:2%; bottom:21%; }
-.lg-app .lg-play[data-activity="build"] .build-scene { inset:8% 9% 20%; padding:8px 6px 44px; gap:24px; border-radius:22px 22px 28px 28px; background:linear-gradient(110deg,#7fce54 -20%,#4e9677 36%,#2f5c46 70%); box-shadow:inset 0 4px 0 #2f5c46,0 3px 0 #fffaf0; }
+.lg-app .lg-play[data-activity="build"] .build-scene { inset:8% 9% 20%; padding:8px 6px 44px; gap:24px; border-radius:22px 22px 28px 28px; background:var(--lg-board,linear-gradient(110deg,#7fce54 -20%,#4e9677 36%,#2f5c46 70%)); box-shadow:inset 0 4px 0 var(--lg-board-edge,#2f5c46),0 3px 0 #fffaf0; }
 .lg-app .lg-play[data-activity="build"] .build-slots { order:1; flex:0 0 auto; width:auto; min-width:0; max-width:100%; min-height:100px; padding:14px 18px; border:0; border-radius:18px; background:none; box-shadow:none; }
 .lg-app .lg-play[data-activity="build"] .build-slot { width:clamp(56px,16vw,100px); min-width:44px; padding:0; border:2.4px dashed #c9bda4; border-radius:15px; background:#fffaf0; box-shadow:inset 0 3px 0 #e5dcc8; }
 .lg-app .lg-play[data-activity="build"] .build-slot.is-filled { border:0; background:transparent; box-shadow:none; }
@@ -60,7 +60,7 @@
 .lg-app .lg-play[data-activity="build"] .is-ready .build-slots { min-height:0; padding:3px 14px; }
 .lg-app .lg-play[data-activity="build"] .is-ready .build-slot { width:48px; }
 .lg-app .lg-play[data-activity="build"] .is-ready .build-undo-cue { display:none; }
-.lg-app .build-finish button:focus-visible { outline:4px solid #3a8fc4; outline-offset:5px; border-radius:16px; }
+.lg-app .build-finish button:focus-visible { outline:4px solid var(--lg-focus); outline-offset:5px; border-radius:16px; }
 @keyframes craft-word-settle { from { transform:translateY(-6px) scale(.96); } to { transform:none; } }
 .lg-reduce-motion .build-finish .build-whole { animation:none; }
 @media(prefers-reduced-motion:reduce) { .lg-app .build-finish .build-whole { animation:none; } }
@@ -142,7 +142,7 @@
 .lg-app .lg-play:is([data-activity="blend"],[data-activity="fuse"],[data-activity="chain"]) .blend-scene {
  position:absolute; inset:7% 7% 22%; width:auto; height:auto; min-height:0; overflow:visible;
  border:0; border-radius:22px 22px 28px 28px;
- background:linear-gradient(110deg,#7fce54 -20%,#4e9677 36%,#2f5c46 70%); box-shadow:inset 0 4px 0 #2f5c46,0 3px 0 #fffaf0;
+ background:var(--lg-board,linear-gradient(110deg,#7fce54 -20%,#4e9677 36%,#2f5c46 70%)); box-shadow:inset 0 4px 0 var(--lg-board-edge,#2f5c46),0 3px 0 #fffaf0;
 }
 .lg-app .lg-play:is([data-activity="blend"],[data-activity="fuse"],[data-activity="chain"]) .blend-glow {
  width:34%; height:35%; top:46%; border:2.4px dashed #ffe49a; border-radius:50%; opacity:.42;
@@ -174,7 +174,7 @@
 .lg-app .join-next { width:82px; background:linear-gradient(#ffa06e,#e8743c); box-shadow:0 4px 0 #b0501f; }
 .lg-app .join-next > svg { display:block; width:32px; height:32px; }
 .lg-app .join-result button:active { translate:0 2px; }
-.lg-app .join-result button:focus-visible { outline:4px solid #ffe49a; outline-offset:4px; border-radius:16px; }
+.lg-app .join-result button:focus-visible { outline:4px solid var(--lg-focus-on-dark); outline-offset:4px; border-radius:16px; }
 @media(max-width:350px) {
  .lg-app .join-whole { width:108px; }
  .lg-app .join-result { gap:8px; inset:8px 6px 10px; }
@@ -217,7 +217,7 @@
  position:absolute; inset:7% 7% 22%; width:auto; height:auto; min-height:0;
  display:grid; grid-template-rows:minmax(0,1fr) 48px; gap:12px; padding:12px;
  border:0; border-radius:22px 22px 28px 28px; overflow:visible;
- background:linear-gradient(110deg,#7fce54 -20%,#4e9677 36%,#2f5c46 70%); box-shadow:inset 0 4px 0 #2f5c46,0 3px 0 #fffaf0;
+ background:var(--lg-board,linear-gradient(110deg,#7fce54 -20%,#4e9677 36%,#2f5c46 70%)); box-shadow:inset 0 4px 0 var(--lg-board-edge,#2f5c46),0 3px 0 #fffaf0;
 }
 .lg-app :is(.unfuse-scene,.parade-scene) [hidden] { display:none!important; }
 .lg-app :is(.unfuse-scene,.parade-scene) button { color:#4a3620; }
@@ -284,7 +284,7 @@
 .lg-app .parade-actions { display:grid; place-items:center; height:48px; width:100%; }
 .lg-app [data-activity="parade"] .parade-choice { width:clamp(72px,22vw,112px); border:0; padding:0; background:none; box-shadow:none; }
 .lg-app [data-activity="parade"] .parade-choice.is-found { filter:drop-shadow(0 4px 0 rgb(43 30 18 / .16)); }
-.lg-app :is(.unfuse-scene,.parade-scene) button:focus-visible { outline:4px solid #ffe49a; outline-offset:4px; border-radius:16px; }
+.lg-app :is(.unfuse-scene,.parade-scene) button:focus-visible { outline:4px solid var(--lg-focus-on-dark); outline-offset:4px; border-radius:16px; }
 .lg-app :is(.unfuse-scene,.parade-scene) button:active { translate:0 2px; }
 @media(max-width:350px) {
  .lg-app .lg-play[data-activity="parade"] .parade-scene { inset:9% 10% 18%; padding:4px; gap:8px; }
@@ -380,7 +380,7 @@
 .lg-app .catch-replay .orchard-listen { top:3%; bottom:auto; right:0; }
 .lg-app .catch-next { bottom:8%; left:auto; right:2%; width:64px; pointer-events:auto; }
 .lg-app .lg-play[data-activity="catch"] .is-harvested .catch-basket { z-index:1; left:40%; bottom:7%; width:clamp(150px,43vw,180px); }
-.lg-app .lg-play:is([data-activity="catch"],[data-activity="pairs"]) button:focus-visible { outline:4px solid #ffe49a; outline-offset:4px; }
+.lg-app .lg-play:is([data-activity="catch"],[data-activity="pairs"]) button:focus-visible { outline:4px solid var(--lg-focus-on-dark); outline-offset:4px; }
 .lg-app .lg-play:is([data-activity="catch"],[data-activity="pairs"]) button:active { translate:0 2px; }
 .lg-app .lg-play[data-activity="pairs"] .pairs-next:active { translate:-50% 2px; }
 .lg-app .lg-play[data-activity="catch"] .catch-faller:active { translate:0 0; }
@@ -462,7 +462,7 @@
 .lg-app .burst-caught > svg { display:block; width:100%; height:100%; }
 .lg-app .burst-count { min-width:26px; color:#4a3620; font-size:24px; font-weight:900; text-align:center; font-variant-numeric:tabular-nums; }
 .lg-app :is(.burst-tile,.burst-pause):active { translate:0 3px; }
-.lg-app :is(.burst-tile,.burst-pause):focus-visible { outline:4px solid #ffe49a; outline-offset:3px; border-radius:16px; }
+.lg-app :is(.burst-tile,.burst-pause):focus-visible { outline:4px solid var(--lg-focus-on-dark); outline-offset:3px; border-radius:16px; }
 .lg-app .play-stage.is-paused .burst-grid { opacity:.3; pointer-events:none; }
 .lg-app .play-stage.is-paused .burst-ring-fill { transition:none; }
 
@@ -491,3 +491,7 @@
 }
 .lg-app.lg-reduce-motion .burst-ring-fill { transition:none; }
 @media(prefers-reduced-motion:reduce) { .lg-app .burst-ring-fill { transition:none; } }
+
+/* Reach (2026-10-02): no toddler target under ~52px. */
+.lg-app .garden-paths .drawing-color, .lg-app .trace-tools .drawing-color { min-width: 52px; min-height: 52px; }
+.lg-app .discovery-tool { min-height: 56px; }

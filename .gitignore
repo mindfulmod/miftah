@@ -13,3 +13,6 @@ assets/tilesets/*.debug.png
 assets/audio/bakeoff/
 audio-bakeoff.html
 audio-tune.html
+
+# Local QA pages for the Letter Garden test server (not part of the site).
+.qa/

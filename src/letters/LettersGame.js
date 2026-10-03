@@ -12,12 +12,12 @@
 
   // Shared, wordless activity signs for the first two chapter journeys.
   const journeyPictures = {
-    pop: '<ellipse cx="24" cy="29" rx="19" ry="10" fill="#a9e2dc"/><path d="M9 30Q24 24 39 30" fill="none"/><circle cx="24" cy="17" r="8" fill="#fffaf0"/><path d="M20 14L24 12" stroke="#fff"/>',
-    trace: '<path d="M9 32L13 22 31 5 42 16 23 34Z" fill="#83a56c"/><path d="M9 32L13 22 23 34Z" fill="#eed4a5"/><path d="M9 32L14 28 16 33Z" fill="#4a3620"/><path d="M9 41H36" fill="none"/>',
-    pairs: '<rect x="5" y="8" width="23" height="29" rx="6" fill="#dce8c3"/><rect x="20" y="15" width="23" height="29" rx="6" fill="#fffaf0"/><path d="M25 32Q25 23 36 24Q36 34 25 32" fill="#83a56c"/>',
-    feed: '<path d="M8 23H40L36 40H12Z" fill="#e0bc7d"/><path d="M14 24V18A10 10 0 0 1 34 18V24M10 31H38M20 25V38M29 25V38" fill="none"/><path d="M21 17Q10 6 15 5Q26 5 25 17Q26 7 36 9Q37 18 25 19" fill="#83a56c"/>'
+    pop: '<ellipse cx="24" cy="29" rx="19" ry="10" fill="#96ecff"/><path d="M9 30Q24 24 39 30" fill="none"/><circle cx="24" cy="17" r="8" fill="#fffaf0"/><path d="M20 14L24 12" stroke="#fffdf7"/>',
+    trace: '<path d="M9 32L13 22 31 5 42 16 23 34Z" fill="#4e9677"/><path d="M9 32L13 22 23 34Z" fill="#e5dcc8"/><path d="M9 32L14 28 16 33Z" fill="#4a3620"/><path d="M9 41H36" fill="none"/>',
+    pairs: '<rect x="5" y="8" width="23" height="29" rx="6" fill="#e5dcc8"/><rect x="20" y="15" width="23" height="29" rx="6" fill="#fffaf0"/><path d="M25 32Q25 23 36 24Q36 34 25 32" fill="#4e9677"/>',
+    feed: '<path d="M8 23H40L36 40H12Z" fill="#c9bda4"/><path d="M14 24V18A10 10 0 0 1 34 18V24M10 31H38M20 25V38M29 25V38" fill="none"/><path d="M21 17Q10 6 15 5Q26 5 25 17Q26 7 36 9Q37 18 25 19" fill="#4e9677"/>'
   };
-  const journeyPicture = name => `<svg viewBox="0 0 48 48" aria-hidden="true"><g stroke="#655239" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">${journeyPictures[name] || journeyPictures.pop}</g></svg>`;
+  const journeyPicture = name => `<svg viewBox="0 0 48 48" aria-hidden="true"><g stroke="#70501b" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">${journeyPictures[name] || journeyPictures.pop}</g></svg>`;
 
   const todayStr = () => {
     const d = new Date();
@@ -39,11 +39,57 @@
       <ellipse cx="20" cy="18" rx="2" ry="7" fill="#4a3620"/>
     </svg>`;
 
+  // v4 Growing Friend: one trick per letter family, in qaida order.
+  const PET_TRICKS = [
+    { id: "spin", family: "boat", name: "Twirl" },
+    { id: "hop", family: "smile", name: "Triple hop" },
+    { id: "sway", family: "little", name: "Sway dance" },
+    { id: "sing", family: "wave", name: "Sing" },
+    { id: "stretch", family: "tall", name: "Stretch tall" },
+    { id: "juggle", family: "strong", name: "Juggle" },
+    { id: "roll", family: "round", name: "Somersault" },
+  ];
+  const TRICK_GIFTS = [[2, "sprout"], [4, "medal"], [7, "crown"]];
+  // v12: which sticker animals visit, and how they move.
+  const VISITORS = { bee: "sky", butterfly: "sky", dove: "sky", crow: "sky", hoopoe: "sky", camel: "ground", elephant: "ground", ant: "ground", cat: "ground", spider: "ground", snake: "ground", turtle: "ground", fish: "water", whale: "water" };
+  // v19 Quran Treasury: stickers whose word appears in the Quran — [surah,
+  // ayah, word position, the word as written, explicit clip path (if the data
+  // build stores one), surah name]. Every entry was looked up in data/surah-N.json.
+  const TREASURY = {
+    elephant: [105, 1, 7, "ٱلْفِيلِ", "", "الفيل"], ant: [27, 18, 6, "ٱلنَّمْلِ", "", "النمل"], hoopoe: [27, 20, 8, "ٱلْهُدْهُدَ", "", "النمل"],
+    spider: [29, 41, 9, "ٱلْعَنكَبُوتِ", "", "العنكبوت"], bee: [16, 68, 4, "ٱلنَّحْلِ", "", "النحل"], crow: [5, 31, 3, "غُرَابًۭا", "", "المائدة"],
+    butterfly: [101, 4, 4, "كَٱلْفَرَاشِ", "", "القارعة"], fig: [95, 1, 1, "وَٱلتِّينِ", "", "التين"], olive: [95, 1, 2, "وَٱلزَّيْتُونِ", "", "التين"],
+    camel: [88, 17, 4, "ٱلْإِبِلِ", "", "الغاشية"], whale: [68, 48, 7, "ٱلْحُوتِ", "", "القلم"], pomegranate: [55, 68, 4, "وَرُمَّانٌۭ", "", "الرحمن"],
+    moon: [54, 1, 4, "ٱلْقَمَرُ", "", "القمر"], sun: [91, 1, 1, "وَٱلشَّمْسِ", "", "الشمس"], star: [53, 1, 1, "وَٱلنَّجْمِ", "", "النجم"],
+    mountain: [78, 7, 1, "وَٱلْجِبَالَ", "", "النبإ"], dates: [19, 23, 5, "ٱلنَّخْلَةِ", "", "مريم"], grapes: [80, 28, 1, "وَعِنَبًۭا", "", "عبس"],
+    snake: [20, 20, 4, "حَيَّةٌۭ", "", "طه"], palm: [55, 11, 3, "وَٱلنَّخْلُ", "", "الرحمن"], lantern: [24, 35, 9, "مِصْبَاحٌ ۖ", "wbw/024_035_011.mp3", "النور"],
+    key: [6, 59, 2, "مَفَاتِحُ", "wbw/006_059_003.mp3", "الأنعام"], cloud: [2, 164, 36, "وَٱلسَّحَابِ", "", "البقرة"], fish: [18, 61, 6, "حُوتَهُمَا", "", "الكهف"],
+    boat: [18, 71, 6, "ٱلسَّفِينَةِ", "", "الكهف"],
+  };
+  const pad3 = (n) => String(n).padStart(3, "0");
+  const arabicDigits = (n) => String(n).replace(/\d/g, (d) => "٠١٢٣٤٥٦٧٨٩"[d]);
+  const treasuryWord = (id) => {
+    const e = TREASURY[id];
+    if (!e) return null;
+    const [s, a, w, arabic, audio, name] = e;
+    return { id: `q:${id}`, display: arabic.replace(/\s*[ۖۗۘۙۚۛ]\s*$/, ""), speak: arabic, audioPath: audio || `wbw/${pad3(s)}_${pad3(a)}_${pad3(w)}.mp3`, surah: name, ayah: a };
+  };
+  // v23: the world-overview button — a folded map.
+  const WALK_KEY = "quran-trainer:letters:walk";
+  // Today's Walk (v25): a little trail of footprints on the map header.
+  const WALK_BTN = `<svg viewBox="0 0 48 48" width="34" height="34" aria-hidden="true"><path d="M8 40Q16 30 24 32Q32 34 40 22" fill="none" stroke="#c9bda4" stroke-width="6" stroke-linecap="round" data-ribbon/><g fill="#e8743c" stroke="#4a3620" stroke-width="1.6"><ellipse cx="13" cy="33" rx="3.6" ry="5" transform="rotate(-30 13 33)"/><ellipse cx="24" cy="27" rx="3.6" ry="5" transform="rotate(10 24 27)"/><ellipse cx="35" cy="22" rx="3.6" ry="5" transform="rotate(-20 35 22)"/></g><circle cx="40" cy="10" r="5" fill="#f3c955" stroke="#4a3620" stroke-width="1.6"/></svg>`;
+  const WORLD_BTN = `<svg viewBox="0 0 48 48" width="34" height="34" aria-hidden="true"><path d="M6 12L17 8L31 12L42 8V36L31 40L17 36L6 40Z" fill="#fffaf0" stroke="#4a3620" stroke-width="3" stroke-linejoin="round"/><path d="M17 8V36M31 12V40" stroke="#a89478" stroke-width="2.4"/><path d="M9 30Q16 24 22 28Q28 32 38 22" fill="none" stroke="#4e9677" stroke-width="2.4" stroke-linecap="round"/><circle cx="24" cy="20" r="3.6" fill="#e8743c" stroke="#4a3620" stroke-width="1.6"/></svg>`;
+  // v16: the star-chart tab — a four-point star beside a crescent.
+  const SKYTAB = `<svg viewBox="0 0 48 48" width="26" height="26" aria-hidden="true"><path d="M20 8A16 16 0 1 0 26 40A12 12 0 1 1 20 8Z" fill="#6064a0" stroke="#4a3620" stroke-width="3"/><path d="M34 10Q34 18 42 18Q34 18 34 26Q34 18 26 18Q34 18 34 10Z" fill="#f3c955" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/></svg>`;
+  // v8: a little rehal (Quran stand) marks the word shelf.
+  const REHAL = `<svg viewBox="0 0 48 48" width="26" height="26" aria-hidden="true"><path d="M8 40L24 22L40 40M14 40L24 28L34 40" fill="none" stroke="#70501b" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M6 20Q15 12 24 18Q33 12 42 20L40 30Q32 24 24 29Q16 24 8 30Z" fill="#fffaf0" stroke="#4a3620" stroke-width="3" stroke-linejoin="round"/><path d="M24 18V29" stroke="#4a3620" stroke-width="2.4"/></svg>`;
+
   class LettersGame {
     constructor(root) {
       this.root = root;
       this.stopGlyphFit = Art.watchGlyphs?.(root);
       this.sound = new ns.LettersSound(new ns.SoundSystem());
+      if (typeof document !== "undefined" && document.addEventListener) this.watchLandVisibility();
       // Haptics ride along with the sound vocabulary: decorating the two cue
       // entry points here means every existing play()/streakMelody() call site
       // buzzes correctly, with nothing new to keep in sync. Deliberately
@@ -97,16 +143,25 @@
       }
       this.pet = this.loadJSON("quran-trainer:letters:pet", null);
       this.reduceMotion = this.loadJSON("quran-trainer:letters:reduced-motion", false);
+      // Little Sprout (v22) always includes gentle mode.
+      this.sprout = this.loadJSON("quran-trainer:letters:sprout", false);
+      this.gentle = this.loadJSON("quran-trainer:letters:gentle", false) || this.sprout;
       this.skills = this.loadJSON("quran-trainer:letters:skills", {});
       this.wallet = this.loadJSON("quran-trainer:letters:wallet", { earned: 0, spent: 0 });
       // Best stars per world+game, so stars pay for improvement not repetition.
       this.bests = this.loadJSON("quran-trainer:letters:bests", {});
       this.stickers = this.loadJSON("quran-trainer:letters:stickers", { owned: [] });
       this.gardenLayout = this.loadJSON("quran-trainer:letters:garden-layout", {version:1,slots:[null,null,null,null]});
+      this.savedDrawings = this.loadJSON("quran-trainer:letters:drawings", {});
+      // Where the pet waits on the map survives reloads; a locked or unknown
+      // chapter falls back to the current lesson when the map draws.
+      this.mapPetWorld = this.loadJSON("quran-trainer:letters:map-pet", null);
+      this.landsSeen = this.loadJSON("quran-trainer:letters:lands-seen", []);
       this.applyPhase();
       this.initSparkles();
       this.initAmbient();
       this.initTouchFeedback();
+      this.initReach();
       this.showLoading();
       const initialRevision = this.screenRevision || 0;
       const fontReady = Promise.resolve().then(() => document.fonts?.load?.('64px "Amiri Quran"'));
@@ -117,6 +172,10 @@
         ns.LettersBoot.settle(this.worlds.loadWords(),5500)
       ]).then(() => {
         if ((this.screenRevision || 0)!==initialRevision)return;
+        // Family Garden (v9): with more than one child, ask who is playing first.
+        let chosen = false;
+        try { chosen = sessionStorage.getItem("lg-profile-chosen") === "1"; } catch {}
+        if (!chosen && (ns.LettersState?.profiles?.().length || 1) > 1) return this.renderWhoIsPlaying();
         this.pet ? this.renderHome() : this.renderHatch();
       });
     }
@@ -135,6 +194,35 @@
     // wrapper would fling them across the screen. Where a transform is already
     // doing layout work, recoil the inner <svg> instead — visually identical,
     // and it never fights the motion system.
+    // Reach (2026-10-02): forgiveness for very small hands. A tap that lands on
+    // nothing goes to the nearest tappable thing within 32px (44px in gentle
+    // mode) — but ONLY when exactly one thing is that close, so a miss between
+    // two answers never becomes a wrong answer. Navigation (home, sound, the
+    // grown-up dot) and drawing surfaces are never reached for: those need a
+    // direct touch. Keyboard and scripted clicks are left alone.
+    initReach() {
+      const AIM = "button:not([disabled]), [role=button], .pop-bubble, .catch-faller, .map-stop, .meet-bud, .meet-piece, [data-tap]";
+      const NEVER = ".lg-topbar, .lg-grownup-dot, canvas, .trace-guided, .studio-canvas, .gu-scroll, input, select, textarea, [aria-disabled=true]";
+      if (typeof this.root?.addEventListener !== "function") return;
+      this.root.addEventListener("click", (e) => {
+        if (!e.isTrusted || e.detail === 0 || !e.target?.closest) return;
+        if (e.target.closest(AIM) || e.target.closest(NEVER)) return;
+        const scope = e.target.closest("dialog") || this.root;
+        const reach = this.sprout ? 52 : this.gentle ? 44 : 32;
+        const near = [...scope.querySelectorAll(AIM)].filter(el => {
+          if (el.closest(NEVER) || (scope === this.root && el.closest("dialog")) || el.closest("[hidden]")) return false;
+          const r = el.getBoundingClientRect();
+          if (!r.width || !r.height) return false;
+          const dx = Math.max(r.left - e.clientX, 0, e.clientX - r.right), dy = Math.max(r.top - e.clientY, 0, e.clientY - r.bottom);
+          return Math.hypot(dx, dy) <= reach;
+        });
+        if (near.length !== 1) return;
+        e.preventDefault();
+        e.stopPropagation();
+        near[0].click();
+      }, true);
+    }
+
     initTouchFeedback() {
       if (!ns.Haptics) return;
       const TAPPABLE =
@@ -248,6 +336,7 @@
       }
       this.root.addEventListener("pointermove", (e) => {
         if (e.pointerType === "mouse" && e.buttons === 0) return; // drags only, not hover
+        if (this.prefersReducedMotion() || this.gentle) return; // the in-app switch, not only the OS setting; calm in gentle mode
         const now = performance.now();
         if (now - last < 40 && Math.hypot(e.clientX - lx, e.clientY - ly) < 24) return;
         last = now;
@@ -397,7 +486,7 @@
         eggBtn.addEventListener("click", () => {
           if(!el.isConnected || n>=3)return;
           n += 1;
-          this.sound.play(n >= 3 ? "hatch" : "click");
+          this.sound.play(n >= 3 ? "hatch" : "crack");
           if (n >= 3) {
             this.pet = this.pet || { hue: 200, species: "blob", worn: [], bodies: ["blob"] };
             this.saveJSON("quran-trainer:letters:pet", this.pet);
@@ -428,7 +517,10 @@
           this.renderHatch(3);
         });
       }
-      el.querySelector(".hatch-pet").addEventListener("click", () => this.petRecite(null));
+      const hatchling = this.petLife(el.querySelector(".hatch-pet"), el);
+      if (this.hatchWoke) hatchling?.cheer();
+      else { this.hatchWoke = true; hatchling?.wake(() => hatchling.wave()); }
+      el.querySelector(".hatch-pet").addEventListener("click", () => { hatchling?.wave(); this.petRecite(null); });
       el.querySelector(".hatch-go").addEventListener("click", () => {
         this.sound.play("page");
         this.renderHome();
@@ -479,8 +571,10 @@
     // The pet's room: the body shop (new species bought with stars), the
     // dress-up shelf, and the tap-to-recite thought bubble.
     renderPet() {
-      const tab=['friends','outfits','colors'].includes(this.wardrobeTab)?this.wardrobeTab:'outfits';
+      const tab=['friends','outfits','colors','tricks'].includes(this.wardrobeTab)?this.wardrobeTab:'outfits';
+      this.grantTrickGifts();
       const previous=this.root.querySelector('.lg-pet');
+      const changedOutfit=!!previous&&!this.quietPetRender;this.quietPetRender=false;
       this.wardrobeScroll ||= {};
       if(previous?.dataset.wardrobeTab)this.wardrobeScroll[previous.dataset.wardrobeTab]=previous.querySelector('.pet-shelf')?.scrollLeft||0;
       const shelfPositions=[this.wardrobeScroll[tab]||0];
@@ -525,15 +619,18 @@
               <span class="pet-aura" aria-hidden="true"></span>
               <span class="pet-bubble" hidden></span>
               ${this.petSVG(210)}
-            </button></div>
+            </button>
+            <button type="button" class="room-toy room-ball" aria-label="Roll the ball">${ns.LettersRoomArt.toys?.ball || ""}</button>
+            <button type="button" class="room-toy room-drum" aria-label="Play the drum">${ns.LettersRoomArt.toys?.drum || ""}</button>
+            <button type="button" class="room-toy room-wand" aria-label="Blow bubbles">${ns.LettersRoomArt.toys?.wand || ""}</button></div>
             ${Object.keys(this.skills).length ? `<div class="pet-flower">${Art.skillFlower({ scores: this.skills, size: 92 })}</div>` : ""}
           </div>
           <div class="pet-racks">
             <div class="wardrobe-tabs" role="tablist" aria-label="Wardrobe choices">
-              ${['friends','outfits','colors'].map(kind=>`<button type="button" role="tab" id="wardrobe-tab-${kind}" data-wardrobe-tab="${kind}" aria-controls="wardrobe-panel" aria-selected="${tab===kind}" tabindex="${tab===kind?0:-1}" aria-label="Pet ${kind}">${ns.LettersRoomArt.tab(kind)}</button>`).join('')}
+              ${['friends','outfits','colors','tricks'].map(kind=>`<button type="button" role="tab" id="wardrobe-tab-${kind}" data-wardrobe-tab="${kind}" aria-controls="wardrobe-panel" aria-selected="${tab===kind}" tabindex="${tab===kind?0:-1}" aria-label="Pet ${kind}">${ns.LettersRoomArt.tab(kind)}</button>`).join('')}
             </div>
             <div class="wardrobe-panel" id="wardrobe-panel" role="tabpanel" aria-labelledby="wardrobe-tab-${tab}">
-              ${tab==='colors' ? `<div class="pet-color-rack lg-panel" aria-label="Pet color"><div class="pet-color-options">${petHues.map(h=>`<button type="button" class="pet-color-swatch${this.pet.hue===h?' is-picked':''}" data-pet-hue="${h}" aria-pressed="${this.pet.hue===h}" style="--h:${h}" aria-label="${petHueNames[h]}"></button>`).join('')}</div></div>` : `<button type="button" class="wardrobe-prev" aria-label="Previous ${tab}">${Art.icon('next',22)}</button><div class="pet-shelf ${tab==='friends'?'pet-bodies':''} lg-panel">${tab==='friends'?bodyShelf:shelf}</div><button type="button" class="wardrobe-more" aria-label="More ${tab}">${Art.icon('next',22)}</button>`}
+              ${tab==='tricks' ? `<div class="pet-trick-stage lg-panel" aria-label="Pet tricks">${PET_TRICKS.map(tr=>{const known=this.petTricks().includes(tr.id);return `<button type="button" class="pet-trick${known?'':' is-seed'}" data-trick="${tr.id}" aria-label="${known?tr.name:'A trick still growing'}">${ns.LettersRoomArt.trick(known?tr.id:'seed')}</button>`;}).join('')}</div>` : tab==='colors' ? `<div class="pet-color-rack lg-panel" aria-label="Pet color"><div class="pet-color-options">${petHues.map(h=>`<button type="button" class="pet-color-swatch${this.pet.hue===h?' is-picked':''}" data-pet-hue="${h}" aria-pressed="${this.pet.hue===h}" style="--h:${h}" aria-label="${petHueNames[h]}"></button>`).join('')}</div></div>` : `<button type="button" class="wardrobe-prev" aria-label="Previous ${tab}">${Art.icon('next',22)}</button><div class="pet-shelf ${tab==='friends'?'pet-bodies':''} lg-panel">${tab==='friends'?bodyShelf:shelf}</div><button type="button" class="wardrobe-more" aria-label="More ${tab}">${Art.icon('next',22)}</button>`}
             </div>
           </div>
         </div>`,
@@ -542,8 +639,8 @@
       this.wireTopBar(el);
       const tabs=[...el.querySelectorAll('[data-wardrobe-tab]')];
       tabs.forEach((button,index)=>{
-        button.onclick=()=>{if(!el.isConnected)return;this.wardrobeTab=button.dataset.wardrobeTab;this.renderPet();};
-        button.onkeydown=e=>{if(!el.isConnected)return;const next=e.key==='ArrowRight'?(index+1)%3:e.key==='ArrowLeft'?(index+2)%3:e.key==='Home'?0:e.key==='End'?2:null;if(next===null)return;e.preventDefault();this.wardrobeTab=tabs[next].dataset.wardrobeTab;this.renderPet();this.root.querySelector('[role="tab"][aria-selected="true"]')?.focus();};
+        button.onclick=()=>{if(!el.isConnected)return;this.wardrobeTab=button.dataset.wardrobeTab;this.quietPetRender=true;this.renderPet();};
+        button.onkeydown=e=>{if(!el.isConnected)return;const next=e.key==='ArrowRight'?(index+1)%4:e.key==='ArrowLeft'?(index+3)%4:e.key==='Home'?0:e.key==='End'?3:null;if(next===null)return;e.preventDefault();this.wardrobeTab=tabs[next].dataset.wardrobeTab;this.renderPet();this.root.querySelector('[role="tab"][aria-selected="true"]')?.focus();};
       });
       const activeShelf=el.querySelector('.pet-shelf');
       if(activeShelf){
@@ -570,8 +667,14 @@
         });
       }
       const bubble = el.querySelector(".pet-bubble");
+      const roomPet = this.petLife(el.querySelector(".pet-big"), el);
+      if (changedOutfit) roomPet?.cheer();
+      this.wirePlayroom(el, roomPet);
+      this.wireTricks(el, roomPet);
       el.querySelector(".pet-big").addEventListener("click", () => {
         if(!el.isConnected)return;
+        roomPet?.wave();
+        this.sound.voice?.(this.pet?.species);
         bubble.hidden = false;
         this.petRecite(bubble);
         el.querySelector(".pet-big").classList.remove("is-hop");
@@ -584,6 +687,10 @@
           const id = btn.dataset.body;
           const body = ns.LETTERS_BODIES.find((b) => b.id === id);
           const bodies = this.pet.bodies || (this.pet.bodies = ["blob"]);
+          // Free friends (Lumi, Mina, Rafi) are everyone's from the start.
+          // spendStars(0) deliberately refuses, so free ones must not go through
+          // it — that refusal was why they shook and could never be chosen.
+          if (!bodies.includes(id) && body.cost === 0) bodies.push(id);
           if (!bodies.includes(id)) {
             if (!this.spendStars(body.cost)) {
               this.sound.play("wrong");
@@ -622,6 +729,7 @@
           }
           const wornList = this.pet.worn || (this.pet.worn = []);
           const at = wornList.indexOf(id);
+          this.sound.play(at >= 0 ? "rustle" : "tryon");
           if (at >= 0) wornList.splice(at, 1);
           else {
             if (wornList.length >= 3) wornList.shift();
@@ -636,12 +744,12 @@
 
     // ---------- sticker album ----------
 
-    renderAlbum(justOpened = null) {
+    renderAlbum(justOpened = null, { from = null } = {}) {
       const owned = new Set(this.stickers.owned || []);
       const grid = ns.LETTERS_STICKERS.map(
         (s) =>
           owned.has(s.id)
-            ? `<button type="button" class="album-slot${justOpened === s.id ? " is-new" : ""}" data-sticker="${s.id}" aria-label="View ${s.id} sticker">${Art.sticker({id:s.id,size:78})}</button>`
+            ? `<button type="button" class="album-slot${justOpened === s.id ? " is-new" : ""}${TREASURY[s.id] ? " is-treasury" : ""}" data-sticker="${s.id}" aria-label="View ${s.id} sticker${TREASURY[s.id] ? ", a Quran word" : ""}">${Art.sticker({id:s.id,size:78})}${TREASURY[s.id] ? `<svg class="treasury-glint" viewBox="-10 -10 20 20" aria-hidden="true"><path d="M0-9Q0 0 9 0Q0 0 0 9Q0 0-9 0Q0 0 0-9Z" fill="#f3c955" stroke="#70501b" stroke-width="1.6"/></svg>` : ""}</button>`
             : `<span class="album-slot" role="img" aria-label="Sticker not collected">${Art.sticker({id:s.id,owned:false,size:78})}</span>`,
       ).join("");
       const allOwned = ns.LETTERS_STICKERS.every(sticker=>owned.has(sticker.id));
@@ -649,11 +757,12 @@
         "lg-album",
         `${this.topBar()}
         <div class="album-stage">
+          <div class="album-tabs" role="tablist" aria-label="Collections"><button type="button" role="tab" aria-selected="true" class="album-tab is-on" aria-label="Stickers">${Art.icon("star", 24)}</button><button type="button" role="tab" aria-selected="false" class="album-tab" data-book="letters" aria-label="My letters">${Art.icon("book", 26)}</button>${this.shelfWords().length ? `<button type="button" role="tab" aria-selected="false" class="album-tab" data-book="words" aria-label="Quran words">${REHAL}</button>` : ""}<button type="button" role="tab" aria-selected="false" class="album-tab" data-book="sky" aria-label="Letter stars">${SKYTAB}</button></div>
           <div class="album-supply">
           <span class="lg-star-chip">${Art.icon("star", 20)} <b>${this.starBalance()}</b></span>
           ${allOwned
             ? `<div class="album-complete" role="img" aria-label="All stickers collected">${Art.icon("star", 40)}</div>`
-            : `<button type="button" class="album-pack" aria-label="Open a sticker pack for 5 stars" ${this.starBalance()<5?'disabled':''}>${ns.LettersRoomArt.pack(112)}<span class="pet-acc-cost">${Art.icon("star", 14)} 5</span></button>`}
+            : `<button type="button" class="album-pack album-stand${this.stickers.freeVisits ? " is-free" : ""}" aria-label="${this.stickers.freeVisits ? "Visit the sticker stand, free" : "Visit the sticker stand for 5 stars"}" ${this.stickers.freeVisits || this.starBalance() >= 5 ? "" : "disabled"}>${ns.LettersRoomArt.stand(118)}${this.stickers.freeVisits ? `<span class="pet-acc-cost stand-gift" aria-hidden="true">${Art.icon("flower", 16)}</span>` : `<span class="pet-acc-cost">${Art.icon("star", 14)} 5</span>`}</button>`}
           </div><div class="album-grid lg-panel">${grid}</div>
         </div>`,
       );
@@ -663,35 +772,404 @@
         const id=button.dataset.sticker;
         const dialog=document.createElement('dialog');
         dialog.className='sticker-inspect';dialog.setAttribute('aria-label',`${id} sticker`);
-        dialog.innerHTML=`<div class="sticker-inspect-art lg-art-frame">${Art.sticker({id,size:280})}</div><button type="button" class="lg-round-btn sticker-inspect-close" aria-label="Back to stickers">${Art.icon('check',32)}</button>`;
+        const word=treasuryWord(id);
+        dialog.innerHTML=`<div class="sticker-inspect-art lg-art-frame">${Art.sticker({id,size:word?220:280})}</div>${word?`<button type="button" class="treasury-plaque" aria-label="Hear ${word.display} from the Quran"><span class="treasury-word" dir="rtl" lang="ar">${word.display}</span><span class="treasury-ref" dir="rtl" lang="ar">${word.surah} ${arabicDigits(word.ayah)}</span>${Art.icon('speaker',22)}</button>`:''}<button type="button" class="lg-round-btn sticker-inspect-close" aria-label="Back to stickers">${Art.icon('check',32)}</button>`;
         el.appendChild(dialog);
-        dialog.querySelector('button').onclick=()=>dialog.close();
+        dialog.querySelector('.sticker-inspect-close').onclick=()=>dialog.close();
+        // Quran Treasury (v19): this sticker's word, recited from its ayah.
+        if(word){const plaque=dialog.querySelector('.treasury-plaque');plaque.onclick=()=>{plaque.classList.remove('is-heard');void plaque.offsetWidth;plaque.classList.add('is-heard');this.say(word);};setTimeout(()=>dialog.open&&this.say(word),500);}
         dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close();}});
-        dialog.addEventListener('close',()=>{dialog.remove();if(button.isConnected)button.focus();},{once:true});
+        dialog.addEventListener('close',()=>{this.stopSpeech();dialog.remove();if(button.isConnected)button.focus();},{once:true});
         dialog.showModal();
       };
       el.querySelectorAll('[data-sticker]').forEach(button=>button.onclick=()=>inspect(button));
-      if(justOpened){const button=el.querySelector(`[data-sticker="${justOpened}"]`);if(button)inspect(button);}
-      const pack = el.querySelector(".album-pack");
+      el.querySelector('.album-tab[data-book="letters"]')?.addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderLetterBook(); });
+      el.querySelector('.album-tab[data-book="words"]')?.addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderWordShelf(); });
+      el.querySelector('.album-tab[data-book="sky"]')?.addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderStarChart(); });
+      // A sticker just placed from the pack flies from the ceremony into its slot.
+      if(justOpened){const slot=el.querySelector(`[data-sticker="${justOpened}"]`);if(slot)this.landSticker(slot,justOpened,from);}
+      // Sticker stand (v5, spec 02 "earn the choice"): three stickers, face up,
+      // and the child picks one. Stars are spent (or a free visit used) only
+      // when a sticker is chosen; closing the stand costs nothing.
+      const pack = el.querySelector(".album-stand");
       if (pack)
         pack.addEventListener("click", () => {
           if(!el.isConnected||pack.disabled)return;
           const unowned = ns.LETTERS_STICKERS.filter((s) => !owned.has(s.id));
           if (!unowned.length) return;
-          if (!this.spendStars(5)) {
+          if (!this.stickers.freeVisits && this.starBalance() < 5) {
             this.sound.play("wrong");
             pack.classList.remove("is-shake");
             void pack.offsetWidth;
             pack.classList.add("is-shake");
             return;
           }
-          const win = unowned[Math.floor(Math.random() * unowned.length)];
-          (this.stickers.owned = this.stickers.owned || []).push(win.id);
-          this.saveJSON("quran-trainer:letters:stickers", this.stickers);
-          this.sound.play("sticker");
-          this.confettiAt(pack, true);
-          this.renderAlbum(win.id);
+          const offer = unowned.map(s => s.id).sort(() => Math.random() - 0.5).slice(0, 3);
+          this.openStickerStand(el, offer);
         });
+    }
+
+    landSticker(slot, id, from) {
+      slot.scrollIntoView?.({ block: "center" });
+      const settle = () => { if (!slot.isConnected) return; slot.classList.remove("is-new"); void slot.offsetWidth; slot.classList.add("is-new"); this.sound.play("pop"); this.sound.play("chime"); };
+      const to = slot.getBoundingClientRect?.();
+      if (!from || !to?.width || this.prefersReducedMotion() || !document.body?.animate) return settle();
+      const ghost = document.createElement("div");
+      ghost.className = "sticker-flight";
+      ghost.innerHTML = Art.sticker({ id, size: Math.round(from.width) });
+      Object.assign(ghost.style, { left: `${from.left}px`, top: `${from.top}px`, width: `${from.width}px`, height: `${from.height}px` });
+      document.body.appendChild(ghost);
+      slot.style.visibility = "hidden";
+      const dx = to.left + to.width / 2 - (from.left + from.width / 2), dy = to.top + to.height / 2 - (from.top + from.height / 2), k = to.width / from.width;
+      const flight = ghost.animate([{ transform: "none" }, { transform: `translate(${dx * 0.5}px, ${dy * 0.5 - 60}px) scale(${(1 + k) / 2}) rotate(-8deg)`, offset: 0.55 }, { transform: `translate(${dx}px, ${dy}px) scale(${k})` }], { duration: 760, easing: "cubic-bezier(.4,.1,.3,1)" });
+      const done = () => { ghost.remove(); if (slot.isConnected) slot.style.visibility = ""; settle(); };
+      flight.onfinish = done; flight.oncancel = done;
+    }
+
+    openStickerStand(el, offer) {
+      const dialog = document.createElement("dialog");
+      dialog.className = "sticker-stand";
+      dialog.setAttribute("aria-label", "Choose a sticker");
+      const free = !!this.stickers.freeVisits;
+      dialog.innerHTML = `<div class="stand-roof" aria-hidden="true">${ns.LettersRoomArt.stand(90)}</div>
+        <div class="stand-shelf">${offer.map(id => `<button type="button" class="stand-choice" data-sticker="${id}" aria-label="Choose the ${id} sticker">${Art.sticker({ id, size: 96 })}</button>`).join("")}</div>
+        <div class="stand-price" aria-hidden="true">${free ? Art.icon("flower", 22) : `${Art.icon("star", 18)} 5`}</div>
+        <span class="pack-friend" aria-hidden="true">${this.petSVG(76)}</span>
+        <button type="button" class="lg-round-btn stand-close" aria-label="Leave the stand">${Art.icon("undo", 26)}</button>`;
+      el.appendChild(dialog);
+      let chosen = false;
+      dialog.querySelectorAll(".stand-choice").forEach(button => button.addEventListener("click", () => {
+        if (chosen || !el.isConnected) return;
+        const id = button.dataset.sticker;
+        // Pay at the moment of choosing: a free visit first, otherwise 5 stars.
+        if (this.stickers.freeVisits) this.stickers.freeVisits -= 1;
+        else if (!this.spendStars(5)) { this.sound.play("wrong"); return; }
+        chosen = true;
+        (this.stickers.owned = this.stickers.owned || []).push(id);
+        this.saveJSON("quran-trainer:letters:stickers", this.stickers);
+        this.sound.play("sticker");
+        this.sound.voice?.(this.pet?.species);
+        button.classList.add("is-chosen");
+        dialog.querySelectorAll(".stand-choice").forEach(other => { if (other !== button) other.classList.add("is-passed"); });
+        const from = button.querySelector("svg")?.getBoundingClientRect?.();
+        setTimeout(() => { if (dialog.open) dialog.close(); dialog.remove(); this.renderAlbum(id, { from: this.prefersReducedMotion() ? null : from }); }, this.prefersReducedMotion() ? 0 : 520);
+      }));
+      const leave = () => { if (chosen) return; if (dialog.open) dialog.close(); dialog.remove(); };
+      dialog.querySelector(".stand-close").addEventListener("click", leave);
+      dialog.addEventListener("cancel", e => { e.preventDefault(); leave(); });
+      dialog.showModal?.();
+    }
+
+    // Growing Friend (v4, 2026-10-01): the pet learns a trick each time one of
+    // the seven letter families grows strong in the quiet strength model — a
+    // family counts once ¾ of its letters reach mastery 0.6. Learning, not
+    // spending, teaches it. Milestones (2, 4, 7 families) also gift an
+    // accessory into the wardrobe; nothing is ever taken away.
+    strongFamilies() {
+      const strength = ns.LettersStrength;
+      if (!strength || !ns.LETTERS_DATA) return [];
+      return ns.LETTERS_DATA.packs.filter(pack => {
+        const strong = pack.letters.filter(l => strength.mastery(l.char) >= 0.6).length;
+        return strong >= Math.ceil(pack.letters.length * 0.75);
+      }).map(pack => pack.id);
+    }
+
+    petTricks() {
+      const strong = new Set(this.strongFamilies());
+      return PET_TRICKS.filter(tr => strong.has(tr.family)).map(tr => tr.id);
+    }
+
+    grantTrickGifts() {
+      if (!this.pet) return;
+      const n = this.strongFamilies().length, owned = this.pet.accessories || (this.pet.accessories = []);
+      let gave = false;
+      for (const [at, id] of TRICK_GIFTS) if (n >= at && !owned.includes(id)) { owned.push(id); gave = true; }
+      if (gave) this.saveJSON("quran-trainer:letters:pet", this.pet);
+    }
+
+    performTrick(el, id, rig) {
+      const pet = el.querySelector(".pet-big");
+      if (!pet) return;
+      pet.classList.remove(...PET_TRICKS.map(tr => `does-${tr.id}`));
+      void pet.offsetWidth;
+      if (!this.prefersReducedMotion()) pet.classList.add(`does-${id}`);
+      this.sound.voice?.(this.pet?.species);
+      this.sound.play({ spin: "glow", hop: "boing", sway: "tryon", sing: "chime", stretch: "creak", juggle: "pop", roll: "thud" }[id] || "glow");
+      const room = el.querySelector(".pet-diorama");
+      if (room && (id === "sing" || id === "juggle")) {
+        const fx = document.createElement("span");
+        fx.className = `trick-fx is-${id}`;
+        fx.setAttribute("aria-hidden", "true");
+        fx.innerHTML = id === "sing" ? "<i></i><i></i><i></i>" : "<b></b><b></b><b></b>";
+        room.appendChild(fx);
+        setTimeout(() => fx.remove(), 1700);
+      }
+      rig?.cheer?.();
+    }
+
+    wireTricks(el, rig) {
+      const known = this.petTricks();
+      el.querySelectorAll(".pet-trick").forEach(button => button.addEventListener("click", () => {
+        if (!el.isConnected) return;
+        if (button.classList.contains("is-seed")) { rig?.ponder?.(); return; }
+        this.performTrick(el, button.dataset.trick, rig);
+      }));
+      // A trick learned since last time is shown off once, unasked.
+      const seen = this.loadJSON("quran-trainer:letters:tricks-seen", []);
+      const fresh = known.find(id => !seen.includes(id));
+      if (fresh) {
+        this.saveJSON("quran-trainer:letters:tricks-seen", [...seen, fresh]);
+        setTimeout(() => { if (!el.isConnected) return; el.querySelector(".pet-big")?.classList.add("is-new-trick"); this.performTrick(el, fresh, rig); this.confettiAt(el.querySelector(".pet-big"), true); }, 700);
+      }
+    }
+
+    // Playroom (2026-10-01): three toys in the pet's room. Tapping one plays
+    // with the pet — a rolled ball, a drum (three quick beats and the pet
+    // dances), bubbles to pop. No stars, no needs, nothing to keep up.
+    wirePlayroom(el, rig) {
+      const reduced = this.prefersReducedMotion();
+      const pet = el.querySelector(".pet-big");
+      const hop = () => { if (!pet) return; pet.classList.remove("is-hop"); void pet.offsetWidth; pet.classList.add("is-hop"); };
+      const replay = (node, cls) => { node.classList.remove(cls); void node.offsetWidth; node.classList.add(cls); };
+      const ball = el.querySelector(".room-ball");
+      ball?.addEventListener("click", () => {
+        if (!el.isConnected) return;
+        replay(ball, "is-rolling");
+        this.sound.play("boing");
+        rig?.inspect?.(ball, 900, () => { hop(); this.sound.voice?.(this.pet?.species); });
+      });
+      const drum = el.querySelector(".room-drum");
+      let beats = [];
+      drum?.addEventListener("click", () => {
+        if (!el.isConnected) return;
+        replay(drum, "is-beat");
+        this.sound.play("drum");
+        const now = performance.now();
+        beats = [...beats.filter(t => now - t < 1800), now];
+        if (beats.length >= 3) { beats = []; replay(pet, "is-dancing"); rig?.cheer?.(); this.sound.voice?.(this.pet?.species); }
+        else hop();
+      });
+      const wand = el.querySelector(".room-wand"), room = el.querySelector(".pet-diorama");
+      wand?.addEventListener("click", () => {
+        if (!el.isConnected || !room) return;
+        this.sound.play("glow");
+        room.querySelectorAll(".room-bubble").forEach(b => b.remove());
+        rig?.ponder?.();
+        for (let i = 0; i < 5; i += 1) {
+          const b = document.createElement("button");
+          b.type = "button";
+          b.className = "room-bubble";
+          b.setAttribute("aria-label", "Pop the bubble");
+          b.innerHTML = ns.LettersRoomArt.toys.bubble;
+          b.style.left = `${14 + i * 15 + Math.random() * 6}%`;
+          b.style.animationDelay = `${i * 0.22}s`;
+          b.style.setProperty("--sway", `${(i % 2 ? 1 : -1) * (8 + Math.random() * 10)}px`);
+          b.addEventListener("click", () => { if (b.classList.contains("is-popped")) return; b.classList.add("is-popped"); this.sound.play("pop"); hop(); setTimeout(() => b.remove(), 260); });
+          room.appendChild(b);
+          setTimeout(() => b.isConnected && b.remove(), reduced ? 3000 : 5200 + i * 220);
+        }
+      });
+    }
+
+    // My letters (2026-10-01): every letter the child has met, as little garden
+    // signs grouped by the land they were met in. Tap one to hear it. Lands not
+    // reached yet are unopened seed packets — nothing ahead is revealed.
+    renderLetterBook() {
+      const worlds = this.worlds.worlds;
+      const lands = [];
+      for (const world of worlds) {
+        const land = world.biome || "meadow";
+        let group = lands[lands.length - 1];
+        if (!group || group.land !== land) lands.push(group = { land, worlds: [] });
+        group.worlds.push(world);
+      }
+      const sign = (land) => land === "meadow"
+        ? `<svg viewBox="-14 -14 28 28" aria-hidden="true">${[0, 72, 144, 216, 288].map(a => `<ellipse cy="-6" rx="4" ry="6" transform="rotate(${a})" fill="#ffa798" stroke="#4a3620" stroke-width="1.6"/>`).join("")}<circle r="3.6" fill="#f3c955" stroke="#4a3620" stroke-width="1.6"/></svg>`
+        : `<svg viewBox="-14 -14 28 28" aria-hidden="true">${ns.LettersMapArt?.LAND_SIGNS?.[land] || ""}</svg>`;
+      const items = [];
+      const sections = lands.map((group, g) => {
+        const met = group.worlds.filter(w => this.statusOf(w) !== "locked");
+        if (!met.length) return `<section class="book-land is-unopened" data-land="${group.land}"><span class="book-land-sign">${sign(group.land)}</span><span class="book-seed" role="img" aria-label="Not opened yet">${ns.LettersRoomArt.pack(54)}</span></section>`;
+        const signs = met.flatMap(w => (w.meet || []).map(card => {
+          const i = items.push(card) - 1;
+          const latin = !/[؀-ۿ]/.test(card.display);
+          // Letter Friends (v26): a letter with a friend shows the friend,
+          // fading to the bare letter as the Brain sees it is known.
+          const F = ns.LetterFriends;
+          if (F?.FRIENDS?.[card.display]) return `<button type="button" class="book-letter is-friend" data-item="${i}" aria-label="${card.display}: ${F.get(card.display).en}">${F.art(card.display, { size: 76, mode: F.look(ns.gardenBrain?.skills(card.display).friend) })}</button>`;
+          return `<button type="button" class="book-letter" data-item="${i}" aria-label="Hear ${card.display}">${(Art.letterSign || Art.blobCard)({ hue: w.hue, label: card.display, latin, size: 76 })}</button>`;
+        })).join("");
+        const plant = this.masteryPlant(Math.max(...met.map(w => this.worldMasteryOf(w))));
+        return `<section class="book-land" data-land="${group.land}"><header class="book-land-head"><span class="book-land-sign">${sign(group.land)}</span><span class="book-land-plant" aria-hidden="true">${plant}</span></header><div class="book-letters">${signs}</div></section>`;
+      }).join("");
+      const el = this.screen(
+        "lg-album lg-letter-book",
+        `${this.topBar()}
+        <div class="album-stage">
+          <div class="album-tabs" role="tablist" aria-label="Collections"><button type="button" role="tab" aria-selected="false" class="album-tab" data-book="stickers" aria-label="Stickers">${Art.icon("star", 24)}</button><button type="button" role="tab" aria-selected="true" class="album-tab is-on" aria-label="My letters">${Art.icon("book", 26)}</button>${this.shelfWords().length ? `<button type="button" role="tab" aria-selected="false" class="album-tab" data-book="words" aria-label="Quran words">${REHAL}</button>` : ""}<button type="button" role="tab" aria-selected="false" class="album-tab" data-book="sky" aria-label="Letter stars">${SKYTAB}</button></div>
+          <div class="book-pages lg-panel">${sections}</div>
+        </div>`,
+      );
+      this.wireTopBar(el);
+      Art.fitGlyphs?.(el);
+      el.querySelector('.album-tab[data-book="stickers"]')?.addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderAlbum(); });
+      el.querySelector('.album-tab[data-book="words"]')?.addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderWordShelf(); });
+      el.querySelector('.album-tab[data-book="sky"]')?.addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderStarChart(); });
+      el.querySelectorAll(".book-letter").forEach(button => button.addEventListener("click", () => {
+        if (!el.isConnected) return;
+        const card = items[Number(button.dataset.item)];
+        // A friend opens its page in the Letter Friends book.
+        if (button.classList.contains("is-friend")) {
+          const pages = items.filter(c => ns.LetterFriends?.FRIENDS?.[c.display]).map(c => ({ id: c.id || c.display, display: c.display, speak: c.speak }));
+          this.sound.play("page");
+          this.session = { world: this.worlds.worlds.find(w => w.id === "pack-boat"), items: pages, startAt: Math.max(0, pages.findIndex(c => c.display === card.display)) };
+          return this.startPractice("FriendBook", () => this.renderLetterBook());
+        }
+        button.classList.remove("is-said"); void button.offsetWidth; button.classList.add("is-said");
+        this.say(card);
+      }));
+      return el;
+    }
+
+    // Quran Word Shelf (v8, 2026-10-01): real words from the short surahs that
+    // the child can genuinely decode now — the same honesty filter the word
+    // chapters use (every letter and mark taught by a finished chapter). Read
+    // it first, then tap to hear Mishary Alafasy recite that very word.
+    shelfWords() {
+      const pool = this.worlds?.wordPool?.(2, 5, this.progress?.done || []) || [];
+      return pool.slice(0, 30);
+    }
+
+    renderWordShelf() {
+      const words = this.shelfWords();
+      if (!words.length) return this.renderLetterBook();
+      const byLength = new Map();
+      words.forEach((w, i) => { const n = this.worlds.wordTags(w.display).wordLength; if (!byLength.has(n)) byLength.set(n, []); byLength.get(n).push([w, i]); });
+      const glint = `<svg class="shelf-glint" viewBox="-10 -10 20 20" aria-hidden="true"><path d="M0-9Q0 0 9 0Q0 0 0 9Q0 0-9 0Q0 0 0-9Z" fill="#f3c955" stroke="#70501b" stroke-width="1.6"/></svg>`;
+      const shelves = [...byLength.entries()].sort((a, b) => a[0] - b[0]).map(([n, list]) => `<section class="shelf-row" data-length="${n}"><div class="shelf-words">${list.map(([w, i]) => `<button type="button" class="shelf-word" data-word="${i}" aria-label="Hear ${w.display}" dir="rtl" lang="ar">${glint}<span>${w.display}</span></button>`).join("")}</div><i class="shelf-board" aria-hidden="true"></i></section>`).join("");
+      const el = this.screen(
+        "lg-album lg-word-shelf",
+        `${this.topBar()}
+        <div class="album-stage">
+          <div class="album-tabs" role="tablist" aria-label="Collections"><button type="button" role="tab" aria-selected="false" class="album-tab" data-book="stickers" aria-label="Stickers">${Art.icon("star", 24)}</button><button type="button" role="tab" aria-selected="false" class="album-tab" data-book="letters" aria-label="My letters">${Art.icon("book", 26)}</button><button type="button" role="tab" aria-selected="true" class="album-tab is-on" aria-label="Quran words">${REHAL}</button><button type="button" role="tab" aria-selected="false" class="album-tab" data-book="sky" aria-label="Letter stars">${SKYTAB}</button></div>
+          ${this.ayahGardenOpen() ? `<div class="ayah-doors" role="group" aria-label="Surahs">${this.ayahSurahs().map(s => `<button type="button" class="ayah-door" data-surah="${s.number}" aria-label="Surah ${s.name}" dir="rtl" lang="ar">${s.name}</button>`).join("")}</div>` : ""}
+          <div class="shelf-case lg-panel">${shelves}</div>
+        </div>`,
+      );
+      this.wireTopBar(el);
+      el.querySelector('.album-tab[data-book="stickers"]')?.addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderAlbum(); });
+      el.querySelector('.album-tab[data-book="letters"]')?.addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderLetterBook(); });
+      el.querySelector('.album-tab[data-book="sky"]')?.addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderStarChart(); });
+      el.querySelectorAll(".ayah-door").forEach(button => button.addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderAyahGarden(Number(button.dataset.surah)); }));
+      el.querySelectorAll(".shelf-word").forEach(button => button.addEventListener("click", () => {
+        if (!el.isConnected) return;
+        const word = words[Number(button.dataset.word)];
+        button.classList.remove("is-heard"); void button.offsetWidth; button.classList.add("is-heard");
+        this.say(word);
+      }));
+      return el;
+    }
+
+    // Letter Constellations (v16, 2026-10-02): the night sky as a progress
+    // map. Seven constellations, one per letter family. A letter held well is
+    // a gold star wearing its letter; one met and still settling is a dim
+    // star; one not met yet is a faint dot. Lines join a family once it is
+    // met, and turn gold when the family is strong (the trick rule).
+    renderStarChart() {
+      const strength = ns.LettersStrength;
+      const packs = ns.LETTERS_DATA?.packs || [];
+      const strong = new Set(this.strongFamilies());
+      const centers = [[150, 150], [450, 160], [300, 330], [140, 500], [460, 500], [170, 760], [430, 780]];
+      const items = [];
+      const groups = packs.map((pack, k) => {
+        const [cx, cy] = centers[k] || [300, 450];
+        const n = pack.letters.length;
+        const pts = pack.letters.map((l, i) => {
+          const a = -Math.PI * 0.9 + (i / Math.max(1, n - 1)) * Math.PI * 0.9 + ((k % 2) ? 0.4 : -0.2);
+          const r = 92 + ((i * 37 + k * 11) % 23);
+          return [cx + Math.cos(a) * r, cy + Math.sin(a) * r * 0.75 + ((i % 2) ? 14 : -10)];
+        });
+        const states = pack.letters.map(l => {
+          const e = strength?.map?.[l.char];
+          const seen = !!(e && e.r + e.w > 0);
+          return !seen ? "unseen" : strength.mastery(l.char) >= 0.7 ? "bright" : "dim";
+        });
+        const met = states.every(s => s !== "unseen");
+        const line = met ? `<polyline points="${pts.map(p => p.map(v => v.toFixed(1)).join(",")).join(" ")}" fill="none" stroke="${strong.has(pack.id) ? "#f3c955" : "#6064a0"}" stroke-width="${strong.has(pack.id) ? 3 : 1.6}" stroke-linecap="round" stroke-linejoin="round"${strong.has(pack.id) ? "" : ' stroke-dasharray="4 6"'}/>` : "";
+        const stars = pack.letters.map((l, i) => {
+          const [x, y] = pts[i], st = states[i];
+          if (st === "unseen") return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2.4" fill="#6064a0"/>`;
+          const idx = items.push({ id: l.char, display: l.char, speak: l.arName }) - 1;
+          const bright = st === "bright";
+          return `<g class="chart-star${bright ? " is-bright" : ""}" data-item="${idx}" transform="translate(${x.toFixed(1)} ${y.toFixed(1)})" role="button" tabindex="0" aria-label="Star ${l.char}">
+            ${bright ? `<circle r="38" fill="#ffe49a" opacity=".22"/>` : ""}
+            ${bright
+              ? `<path d="M0-38V-26M0 26V38M-38 0H-26M26 0H38" stroke="#f3c955" stroke-width="4" stroke-linecap="round"/><circle r="24" fill="#ffe49a" stroke="#70501b" stroke-width="2.4"/>${(() => { const sh = Art.inkShift ? Art.inkShift(l.char, 34) : { dx: 0, dy: 12 }; return `<text x="${sh.dx.toFixed(1)}" y="${sh.dy.toFixed(1)}" text-anchor="middle" font-family="'Amiri Quran', serif" font-size="34" fill="#4a3620" direction="rtl">${l.char}</text>`; })()}`
+              : `<path d="M0-18Q0 0 18 0Q0 0 0 18Q0 0-18 0Q0 0 0-18Z" fill="#6064a0" stroke="#4a4d84" stroke-width="1.6"/>`}</g>`;
+        }).join("");
+        return `<g class="chart-family" data-family="${pack.id}">${line}${stars}</g>`;
+      }).join("");
+      const dust = Array.from({ length: 40 }, (_, i) => `<circle cx="${(i * 137) % 600}" cy="${(i * 211) % 900}" r="${i % 3 ? 1.2 : 1.8}" fill="#fffaf0" opacity="${0.25 + (i % 4) * 0.12}"/>`).join("");
+      const el = this.screen("lg-album lg-star-chart", `${this.topBar()}
+        <div class="album-stage">
+          <div class="album-tabs" role="tablist" aria-label="Collections"><button type="button" role="tab" aria-selected="false" class="album-tab" data-book="stickers" aria-label="Stickers">${Art.icon("star", 24)}</button><button type="button" role="tab" aria-selected="false" class="album-tab" data-book="letters" aria-label="My letters">${Art.icon("book", 26)}</button>${this.shelfWords().length ? `<button type="button" role="tab" aria-selected="false" class="album-tab" data-book="words" aria-label="Quran words">${REHAL}</button>` : ""}<button type="button" role="tab" aria-selected="true" class="album-tab is-on" aria-label="Letter stars">${SKYTAB}</button></div>
+          <svg class="star-chart" viewBox="0 0 600 900" aria-label="Your letter stars"><defs><linearGradient id="chart-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#23253f"/><stop offset="1" stop-color="#34375f"/></linearGradient></defs><rect width="600" height="900" rx="28" fill="url(#chart-sky)"/>${dust}<path d="M546 56A30 30 0 1 0 552 112A23 23 0 1 1 546 56Z" fill="#e5dcc8"/>${groups}</svg>
+        </div>`);
+      this.wireTopBar(el);
+      el.querySelector('.album-tab[data-book="stickers"]')?.addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderAlbum(); });
+      el.querySelector('.album-tab[data-book="letters"]')?.addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderLetterBook(); });
+      el.querySelector('.album-tab[data-book="words"]')?.addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderWordShelf(); });
+      el.querySelectorAll(".chart-star").forEach(star => {
+        const go = () => { if (!el.isConnected) return; star.classList.remove("is-twinkle"); void star.getBoundingClientRect(); star.classList.add("is-twinkle"); this.say(items[Number(star.dataset.item)]); };
+        star.addEventListener("click", go);
+        star.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
+      });
+      return el;
+    }
+
+    // Ayah Garden (v15, 2026-10-02): follow-along reading of the short surahs,
+    // opened once the first word chapter is done. Words sit as big tiles in
+    // reading order; play recites the ayah word by word (Alafasy) and lights
+    // each word as it is heard; any word can be tapped alone.
+    ayahGardenOpen() { return (this.progress?.done || []).includes("words-2") && this.ayahSurahs().length > 0; }
+    ayahSurahs() {
+      const order = [1, 112, 113, 114, 111, 110, 109, 108, 107, 106, 105];
+      return order.map(n => this.worlds?.surahs?.get(n)).filter(Boolean);
+    }
+
+    renderAyahGarden(number, ayahIndex = 0) {
+      const surah = this.worlds?.surahs?.get(number);
+      if (!surah) return this.renderWordShelf();
+      const ayah = surah.ayahs[Math.max(0, Math.min(ayahIndex, surah.ayahs.length - 1))];
+      const index = surah.ayahs.indexOf(ayah);
+      const el = this.screen("lg-album lg-ayah-garden", `${this.topBar()}
+        <div class="ayah-stage">
+          <div class="ayah-title" dir="rtl" lang="ar">${surah.name}</div>
+          <div class="ayah-dots" aria-hidden="true">${surah.ayahs.map((_, i) => `<i class="${i === index ? "is-on" : i < index ? "is-done" : ""}"></i>`).join("")}</div>
+          <div class="ayah-words lg-panel" dir="rtl" lang="ar">${ayah.words.map((w, i) => `<button type="button" class="ayah-word" data-word="${i}" aria-label="Hear ${w.arabic}">${w.arabic}</button>`).join("")}</div>
+          <div class="ayah-controls">
+            <button type="button" class="lg-round-btn ayah-prev" aria-label="Previous ayah" ${index === 0 ? "disabled" : ""}>${Art.icon("next", 26)}</button>
+            <button type="button" class="lg-big-btn ayah-play" aria-label="Recite this ayah">${Art.icon("play", 40)}</button>
+            <button type="button" class="lg-round-btn ayah-next" aria-label="Next ayah" ${index === surah.ayahs.length - 1 ? "disabled" : ""}>${Art.icon("next", 26)}</button>
+          </div>
+          <span class="ayah-friend" aria-hidden="true">${this.petSVG(80)}</span>
+        </div>`);
+      this.wireTopBar(el, () => this.renderWordShelf());
+      const words = [...el.querySelectorAll(".ayah-word")];
+      let token = 0;
+      const light = i => words.forEach((w, k) => { w.classList.toggle("is-reading", k === i); w.classList.toggle("is-read", k < i); });
+      const playFrom = (i, mine) => {
+        if (!el.isConnected || mine !== token) return;
+        if (i >= ayah.words.length) { light(ayah.words.length); this.sound.play("chime"); return; }
+        light(i);
+        this.say({ display: ayah.words[i].arabic, speak: ayah.words[i].arabic, audioPath: ayah.words[i].audioPath }, () => setTimeout(() => playFrom(i + 1, mine), 220));
+      };
+      el.querySelector(".ayah-play").onclick = () => { token += 1; playFrom(0, token); };
+      words.forEach((button, i) => button.onclick = () => { token += 1; light(-1); button.classList.add("is-reading"); this.say({ display: ayah.words[i].arabic, speak: ayah.words[i].arabic, audioPath: ayah.words[i].audioPath }); });
+      el.querySelector(".ayah-prev").onclick = () => { this.stopSpeech(); this.renderAyahGarden(number, index - 1); };
+      el.querySelector(".ayah-next").onclick = () => { this.stopSpeech(); this.renderAyahGarden(number, index + 1); };
+      Art.fitGlyphs?.(el);
+      return el;
     }
 
     loadStamps() { return this.loadJSON(STAMPS_KEY,{dates:[]}); }
@@ -743,10 +1221,48 @@
 
     say(item, onEnd) {
       if (!item) return;
+      // Real Recitation (v14): a real Quran word carries its word-by-word clip;
+      // play Mishary Alafasy reciting it rather than a speech engine reading
+      // it. Offline or on any failure the same request falls back to the
+      // garden's voice, so a learning prompt never stalls.
+      if (item.audioPath && this.sound.enabled && ns.RecitationAudio && navigator.onLine !== false) return this.recite(item, onEnd);
       // Keep names/diacritics from the curriculum, including word displays.
       // The local bank matches the exact teaching request, including diacritics.
-      // Remote word audioPath is separate from these owner-supplied voice clips.
       return this.speak(item.speak || item.display, onEnd);
+    }
+
+    recite(item, onEnd) {
+      this.stopSpeech();
+      const turn = this.speechTurn;
+      const text = item.speak || item.display;
+      let settled = false, started = false;
+      const done = (ok) => {
+        if (settled || turn !== this.speechTurn) return;
+        settled = true;
+        this.utterance = null;
+        this.sound.setSpeaking?.(false);
+        if (ok) onEnd?.(turn);
+      };
+      const job = { onstart: () => { if (!settled && turn === this.speechTurn) this.sound.setSpeaking?.(true); }, onend: () => done(true), onerror: () => done(false) };
+      this.utterance = job;
+      this.sound.setSpeaking?.(true);
+      this.recitation ||= new ns.RecitationAudio(() => this.sound.enabled);
+      const r = this.recitation;
+      if (!r.el) { r.el = new Audio(); r.el.preload = "auto"; }
+      // Fall back to the garden's voice on the SAME job, so callers' hooks hold.
+      const fallback = () => {
+        if (settled || turn !== this.speechTurn || started) return;
+        started = true;
+        try { r.el.pause(); } catch {}
+        if (!(this.voice?.play(text, job, () => this.startNativeSpeech(text, job)) || this.startNativeSpeech(text, job))) job.onerror();
+      };
+      r.el.onplaying = () => { started = true; job.onstart?.(); };
+      r.el.onended = () => { if (turn === this.speechTurn) job.onend?.(); };
+      r.el.onerror = fallback;
+      // A clip that never starts (blocked, slow network) hands over quickly.
+      setTimeout(() => { if (!started) fallback(); }, 2500);
+      r.playWord(item.audioPath);
+      return job;
     }
 
     canSpeak(item) {
@@ -765,6 +1281,7 @@
       this.nativeUtterance = null;
       this.voice?.cancel();
       try { window.speechSynthesis?.cancel(); } catch {}
+      try { this.recitation?.stop(); } catch {}
     }
 
     speak(text, onEnd) {
@@ -849,14 +1366,26 @@
     }
 
     confettiAt(el, golden) {
-      if (!el?.isConnected || this.prefersReducedMotion()) return;
+      if (!el?.isConnected || this.prefersReducedMotion() || this.gentle) return;
       const rect = el.getBoundingClientRect();
-      Art.confetti(rect.left + rect.width / 2, rect.top + rect.height / 2, golden);
+      Art.confetti(rect.left + rect.width / 2, rect.top + rect.height / 2, golden, golden ? null : this.activityMaterial());
+    }
+
+    // The material a right answer is made of: a craft chapter's own material
+    // first (garland petals, harvest seeds, jar glints, raft wood), otherwise
+    // the activity's (pond water, basket seeds, building wood…).
+    activityMaterial() {
+      const journey = ns.LettersJourney?.forWorld?.(this.session?.world);
+      const craft = journey?.craft && { garland: "petals", harvest: "seeds", jars: "glints", raft: "wood" }[journey.kind];
+      if (craft) return craft;
+      return { pop: "water", catch: "seeds", feed: "seeds", build: "wood", chain: "wood", unfuse: "wood", blend: "glints", fuse: "glints", burst: "glints", trace: "glints", pairs: "petals", parade: "petals" }[this.currentActivity] || "petals";
     }
 
     // ---------- chrome ----------
 
     screen(className, inner) {
+      this.screenListeners?.abort();
+      this.screenListeners = typeof AbortController === 'function' ? new AbortController() : null;
       this.stopJourneyPose?.();
       this.stopJourneyPose = null;
       this.onLearningSoundChange = null;
@@ -884,22 +1413,59 @@
       const activity = this.session?.plan?.[step]?.game || this.session?.world.games[step];
       const pond = ["lg-play", "lg-stars"].includes(className) && activity === "pop";
       this.root.classList.toggle("lg-pond-activity", pond);
+      this.currentActivity = className === "lg-play" ? activity : null;
       this.root.classList.toggle("lg-boat-chapter", garden);
       this.root.classList.toggle("lg-reference-journey", garden);
-      this.root.classList.toggle("lg-boat-adventure", this.isBoatAdventure() && garden);
+      this.root.classList.toggle("lg-boat-adventure", this.isBoatAdventure() && ["lg-meet", "lg-play", "lg-stars", "lg-party"].includes(className));
       this.root.classList.toggle("lg-reduce-motion", !!this.reduceMotion);
       document.body.classList.toggle("lg-reduce-motion", !!this.reduceMotion);
       document.body.classList.toggle("lg-calm-garden", garden || pond);
       this.root.dataset.gardenPhase = Art.dayPhase();
       const stage = ns.LettersGardenArt.growth(this.progress, this.bests);
-      this.root.innerHTML = `${garden || pond ? ns.LettersGardenArt.backdrop(stage) : Art.backdrop()}<div class="lg-screen ${className}">${inner}</div>`;
-      return this.root.querySelector(".lg-screen");
+      // Activities stand in their chapter's land; home, map and menus keep the meadow.
+      const activityLand = ["lg-meet", "lg-play", "lg-stars", "lg-party"].includes(className) ? this.session?.world?.biome : undefined;
+      // The land's quiet soundscape plays under its activities and in the
+      // child's own garden; home, map and menus are silent between taps.
+      // Activity boards take the land's own material (styles: --lg-board).
+      if (activityLand && activityLand !== "meadow") this.root.dataset.land = activityLand; else delete this.root.dataset.land;
+      this.landBed = activityLand || (className === "lg-my-garden" ? "river" : className === "lg-meet" || className === "lg-play" ? "meadow" : null);
+      // Gentle mode (v17): calm senses — no land beds, no weather, no creatures.
+      this.root.classList.toggle("lg-gentle", !!this.gentle);
+      if (this.gentle) this.landBed = null;
+      if (!document.hidden) this.sound?.setLand?.(this.landBed);
+      // Today's weather sits behind the screen's content (over the map on home).
+      const weather = Art.weatherFor ? Art.weatherFor() : "clear";
+      this.root.dataset.weather = weather;
+      this.sound?.setRain?.(weather === "drizzle" && !!this.landBed);
+      this.root.innerHTML = `${garden || pond ? ns.LettersGardenArt.backdrop(stage) : Art.backdrop(undefined, activityLand)}<div class="lg-screen ${className}">${Art.weatherLayer ? Art.weatherLayer(weather) : ""}${Art.seasonLayer ? Art.seasonLayer(this.season()) : ""}${Art.yearLayer ? Art.yearLayer(Art.yearSeason(new Date(), this.loadJSON("quran-trainer:letters:hemisphere", "north") === "south")) : ""}${inner}</div>`;
+      const screenEl = this.root.querySelector(".lg-screen");
+      if (this.gentle && className === "lg-play") this.watchIdlePrompt(screenEl);
+      return screenEl;
+    }
+
+    // Gentle mode: if no finger has touched the screen for 8 seconds, the
+    // prompt says itself again (the same as tapping its replay) — twice at most.
+    watchIdlePrompt(screenEl) {
+      clearTimeout(this._idleTimer);
+      let repeats = 0;
+      const arm = () => {
+        clearTimeout(this._idleTimer);
+        if (repeats >= 2) return;
+        this._idleTimer = setTimeout(() => {
+          if (!screenEl.isConnected) return;
+          const replay = screenEl.querySelector(".play-bubble, .practice-replay");
+          if (replay && !replay.disabled) { repeats += 1; replay.click(); }
+          arm();
+        }, 8000);
+      };
+      screenEl.addEventListener("pointerdown", () => { repeats = 0; arm(); });
+      arm();
     }
 
     topBar({ home = true } = {}) {
       return `
         <div class="lg-topbar">
-          ${home ? `<button type="button" class="lg-round-btn lg-home" aria-label="Home">${Art.icon("home", 32)}</button>` : "<span></span>"}
+          ${home ? `<button type="button" class="lg-round-btn lg-home-btn" aria-label="Home">${Art.icon("home", 32)}</button>` : "<span></span>"}
           <div class="lg-topbar-right">
             <button type="button" class="lg-round-btn lg-sound" aria-label="Toggle sound">${Art.icon("speaker", 32)}</button>
             <button type="button" class="lg-grownup-dot" aria-label="For grown-ups (hold)" title="For grown-ups — hold"></button>
@@ -923,12 +1489,19 @@
     }
 
     wireTopBar(el, onHome) {
-      const home = el.querySelector(".lg-home");
-      if (home)
-        home.addEventListener("click", () => {
-          this.sound.play("page");
-          onHome ? onHome() : this.renderHome();
-        });
+      const home = el.querySelector(".lg-home-btn");
+      const leave = () => { this.sound.play("page"); onHome ? onHome() : this.renderHome(); };
+      // Little Sprout: inside an activity, Home needs a short hold (a ring
+      // fills) so a stray tap from a tiny hand doesn't end the game.
+      const holdToLeave = this.sprout && /\blg-(play|meet|stars)\b/.test(el.className);
+      if (home && holdToLeave) {
+        home.classList.add("is-hold");
+        let timer = null;
+        const stop = () => { clearTimeout(timer); timer = null; home.classList.remove("is-holding"); };
+        home.addEventListener("pointerdown", () => { stop(); home.classList.add("is-holding"); timer = setTimeout(() => { stop(); leave(); }, 800); });
+        ["pointerup", "pointercancel", "pointerleave"].forEach(type => home.addEventListener(type, stop));
+        home.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); leave(); } });
+      } else if (home) home.addEventListener("click", leave);
       const soundBtn = el.querySelector(".lg-sound");
       const syncSound = () => { soundBtn.classList.toggle("is-off", !this.sound.enabled); soundBtn.setAttribute("aria-pressed", String(this.sound.enabled)); };
       soundBtn.addEventListener("click", () => {
@@ -1048,10 +1621,28 @@
             <p class="gu-sub">A gentle 30 seconds together — no app needed.</p>
             ${askHTML}
           </div>
+          <div class="gu-section lg-panel gu-family">
+            <h3>Children</h3>
+            <p class="gu-sub">Each child keeps their own garden, pet and progress. Tap a pet to switch.</p>
+            <div class="gu-family-pets">${(ns.LettersState?.profiles?.() || [{ id: "p1" }]).map((p, i) => `<button type="button" class="gu-family-pet${p.id === ns.LettersState?.activeProfile?.() ? " is-active" : ""}" data-profile="${p.id}" aria-label="Child ${i + 1}${p.id === ns.LettersState?.activeProfile?.() ? ", playing now" : ""}">${this.profilePet(p.id, 72)}</button>`).join("")}
+              ${(ns.LettersState?.profiles?.() || []).length < 6 ? `<button type="button" class="gu-family-add" aria-label="Add a child">${Art.egg({ size: 56 })}<span>Add a child</span></button>` : ""}</div>
+          </div>
+          <div class="gu-section lg-panel gu-read-together">
+            <h3>Read together</h3>
+            <p class="gu-sub">Six cards, weakest first. They read each one aloud; you tap whether they read it. A few minutes, side by side.</p>
+            <button type="button" class="lg-big-btn gu-read-start">Start reading together</button>
+            ${(() => { const last = (this.loadJSON("quran-trainer:letters:read-aloud", []) || []).slice(-1)[0];
+              return last ? `<p class="gu-read-last">Last time (${last.at}): read ${last.read.length} of ${last.read.length + last.notYet.length}${last.notYet.length ? ` — still settling: <span dir="rtl" lang="ar">${last.notYet.join(" ")}</span>` : ""}.</p>` : ""; })()}
+          </div>
           <div class="gu-section lg-panel">
             <h3>Sound and motion</h3>
             <button type="button" class="lg-big-btn gu-sound-toggle">${this.sound.enabled ? "Sound is on" : "Sound is off"}</button>
             <button type="button" class="lg-big-btn gu-motion-toggle" aria-pressed="${!!this.reduceMotion}">Reduce motion</button>
+            <button type="button" class="lg-big-btn gu-hemisphere-toggle" aria-pressed="${this.loadJSON("quran-trainer:letters:hemisphere", "north") === "south"}">Seasons: ${this.loadJSON("quran-trainer:letters:hemisphere", "north") === "south" ? "southern" : "northern"} hemisphere</button>
+            <button type="button" class="lg-big-btn gu-sprout-toggle" aria-pressed="${!!this.sprout}">Little sprout (age 2–3)${this.sprout ? " is on" : ""}</button>
+            <button type="button" class="lg-big-btn gu-gentle-toggle" aria-pressed="${!!this.gentle}">Gentle mode${this.gentle ? " is on" : ""}</button>
+            <p class="gu-sub">Little sprout (this child only) turns on gentle mode, reaches further for near-miss taps, lights up the right answer after a wrong one, and needs a short hold on Home to leave an activity.</p>
+            <p class="gu-sub">Gentle mode (this child only): no weather, creatures or background sounds, no timed challenge, bigger buttons, and the question repeats itself if they pause.</p>
           </div>
         </div>`,
       );
@@ -1059,6 +1650,23 @@
       el.querySelector(".gu-motion-toggle").addEventListener("click", () => {
         this.reduceMotion = !this.reduceMotion;
         this.saveJSON("quran-trainer:letters:reduced-motion", this.reduceMotion);
+        this.renderGrownup();
+      });
+      el.querySelector(".gu-hemisphere-toggle")?.addEventListener("click", () => {
+        const south = this.loadJSON("quran-trainer:letters:hemisphere", "north") === "south";
+        this.saveJSON("quran-trainer:letters:hemisphere", south ? "north" : "south");
+        this.renderGrownup();
+      });
+      el.querySelector(".gu-sprout-toggle")?.addEventListener("click", () => {
+        this.sprout = !this.sprout;
+        this.saveJSON("quran-trainer:letters:sprout", this.sprout);
+        this.gentle = this.loadJSON("quran-trainer:letters:gentle", false) || this.sprout;
+        this.renderGrownup();
+      });
+      el.querySelector(".gu-gentle-toggle")?.addEventListener("click", () => {
+        if (this.sprout) return; // sprout always keeps gentle on
+        this.gentle = !this.gentle;
+        this.saveJSON("quran-trainer:letters:gentle", this.gentle);
         this.renderGrownup();
       });
       const st = el.querySelector(".gu-sound-toggle");
@@ -1071,6 +1679,16 @@
       // stampToday() and the daily ritual are untouched — only the audience moved.
       // For the child, the mastery garden already says "you keep coming back" in a
       // form they can read: things grow.
+      el.querySelector(".gu-read-start")?.addEventListener("click", () => { this.sound.play("page"); this.renderReadTogether(); });
+      el.querySelectorAll(".gu-family-pet").forEach(button => button.addEventListener("click", () => {
+        if (button.classList.contains("is-active")) return;
+        this.switchProfile(button.dataset.profile);
+      }));
+      el.querySelector(".gu-family-add")?.addEventListener("click", () => {
+        // The household's first child becomes "p1" in the list the first time a sibling is added.
+        if (!(ns.LettersState.read("quran-trainer:letters:profiles", []) || []).length) ns.LettersState.write("quran-trainer:letters:profiles", [{ id: "p1" }]);
+        this.switchProfile(ns.LettersState.addProfile());
+      });
       const stampsLink = el.querySelector(".gu-stamps-link");
       if (stampsLink)
         stampsLink.addEventListener("click", () => {
@@ -1079,21 +1697,300 @@
         });
     }
 
+    // Garden Visitors (v12, 2026-10-02): animal stickers the child owns come to
+    // their garden — flyers flutter in the sky, swimmers by the water, the rest
+    // wander the grass. Up to three a day, a different few each day. Tapping
+    // one makes it hop and call, and the pet comes to look. Pure play.
+    addGardenVisitors(el) {
+      const board = el.querySelector(".decorate-board");
+      if (!board || !Art.stickerMotif) return;
+      this.addSiblingPets(board);
+      const owned = new Set(this.stickers?.owned || []);
+      const pool = Object.keys(VISITORS).filter(id => owned.has(id));
+      if (!pool.length) return;
+      let h = 7;
+      for (const c of todayStr()) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+      const today = pool.map((id, i) => [((h >>> (i % 16)) ^ (i * 2654435761)) >>> 0, id]).sort((a, b) => a[0] - b[0]).slice(0, 3).map(([, id]) => id);
+      const spots = { sky: [["3%", "2%"], ["80%", "5%"]], ground: [["4%", "auto"], ["78%", "auto"]], water: [["84%", "auto"]] };
+      const used = { sky: 0, ground: 0, water: 0 };
+      today.forEach(id => {
+        const move = VISITORS[id];
+        const spot = spots[move][used[move]++ % spots[move].length];
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = `garden-visitor is-${move}`;
+        b.setAttribute("aria-label", `Visiting ${id}`);
+        b.style.left = spot[0];
+        if (move === "sky") b.style.top = spot[1]; else b.style.bottom = move === "water" ? "16%" : "3%";
+        b.innerHTML = `<span class="visitor-walk">${Art.stickerMotif(id, 56)}</span>`;
+        b.addEventListener("click", () => {
+          if (!el.isConnected) return;
+          b.classList.remove("is-hop"); void b.offsetWidth; b.classList.add("is-hop");
+          this.sound.play({ sky: "chime", ground: "boing", water: "splash" }[move]);
+          this.game?.rig?.inspect?.(b, 1100, () => this.game?.rig?.cheer?.());
+        });
+        board.appendChild(b);
+      });
+    }
+
+    // Garden Together (v20): the hatched pets of this child's siblings.
+    siblingPets() {
+      const S = ns.LettersState;
+      if (!S?.profiles) return [];
+      const me = S.activeProfile();
+      return S.profiles().filter(p => p.id !== me).map(p => S.readAs(p.id, "quran-trainer:letters:pet", null)).filter(Boolean);
+    }
+
+    startTogether() {
+      const friends = this.siblingPets();
+      if (!friends.length) return this.renderPracticeGarden();
+      const go = (pet) => { this.partnerPet = pet; this.startPractice("GardenTogether", () => this.renderPracticeGarden()); };
+      if (friends.length === 1) return go(friends[0]);
+      // More than one sibling: whose pet is playing with you today?
+      const el = this.screen("lg-who", `${this.topBar()}<div class="who-stage"><div class="who-pets" role="group" aria-label="Who is playing with you?">${friends.map((p, i) => `<button type="button" class="who-pet" data-friend="${i}" aria-label="Friend ${i + 1}">${Art.pet({ hue: p.hue ?? 200, species: p.species || "blob", stage: 1, worn: p.worn || [], size: 120 })}</button>`).join("")}</div></div>`);
+      this.wireTopBar(el, () => this.renderPracticeGarden());
+      el.querySelectorAll("[data-friend]").forEach(b => b.onclick = () => go(friends[Number(b.dataset.friend)]));
+    }
+
+    // Sibling Play Dates (v18, 2026-10-02): brothers' and sisters' hatched
+    // pets come to play in this child's garden — up to two, on the grass.
+    // Tap one: it hops and calls in its own voice, and this child's pet cheers.
+    addSiblingPets(board) {
+      const S = ns.LettersState;
+      if (!S?.profiles) return;
+      const me = S.activeProfile();
+      const friends = S.profiles().filter(p => p.id !== me).map(p => S.readAs(p.id, "quran-trainer:letters:pet", null)).filter(Boolean).slice(0, 2);
+      friends.forEach((pet, i) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "garden-visitor garden-sibling is-ground";
+        b.setAttribute("aria-label", "A friend's pet visiting");
+        b.style.left = i ? "60%" : "30%";
+        b.style.bottom = "2%";
+        b.innerHTML = `<span class="visitor-walk">${Art.pet({ hue: pet.hue ?? 200, species: pet.species || "blob", stage: 1, worn: pet.worn || [], size: 70 })}</span>`;
+        b.addEventListener("click", () => {
+          if (!board.isConnected) return;
+          b.classList.remove("is-hop"); void b.offsetWidth; b.classList.add("is-hop");
+          this.sound.voice?.(pet.species);
+          this.game?.rig?.inspect?.(b, 1100, () => this.game?.rig?.cheer?.());
+        });
+        board.appendChild(b);
+      });
+    }
+
+    // World Overview (v23, 2026-10-02): the six lands stacked like a fold-out
+    // map — meadow at the bottom, the riverlands at the top — with a dot per
+    // chapter (gold done, pulsing current), the pet where it waits, and mist
+    // over lands not reached yet. Tap a land to glide there.
+    openWorldOverview(el, scroll, yOf) {
+      const worlds = this.worlds.worlds;
+      const lands = [];
+      worlds.forEach((w, i) => { const last = lands[lands.length - 1]; if (last && last.biome === w.biome) last.idx.push(i); else lands.push({ biome: w.biome, idx: [i] }); });
+      const tint = { meadow: "#b7e779", orchard: "#ffe49a", lagoon: "#ccfbef", night: "#6064a0", peaks: "#e5dcc8", river: "#96ecff" };
+      const sign = b => b === "meadow" ? `<g>${[0, 72, 144, 216, 288].map(a => `<ellipse cy="-6" rx="4" ry="6" transform="rotate(${a})" fill="#ffa798" stroke="#4a3620" stroke-width="1.6"/>`).join("")}<circle r="3.6" fill="#f3c955" stroke="#4a3620" stroke-width="1.6"/></g>` : (ns.LettersMapArt?.LAND_SIGNS?.[b] || "");
+      const petI = Math.max(0, worlds.findIndex(w => w.id === this.mapPetWorld) >= 0 ? worlds.findIndex(w => w.id === this.mapPetWorld) : worlds.findIndex(w => this.statusOf(w) === "current"));
+      const H = 110, W = 300, total = lands.length * H;
+      const regions = lands.map((land, k) => {
+        const y = total - (k + 1) * H;
+        const reached = land.idx.some(i => this.statusOf(worlds[i]) !== "locked");
+        const dots = land.idx.map((i, j) => {
+          const st = this.statusOf(worlds[i]);
+          const x = 70 + (j * 170 / Math.max(1, land.idx.length - 1 || 1)) * (land.idx.length > 1 ? 1 : 0) + (land.idx.length === 1 ? 85 : 0);
+          const dy = y + 70 - (j % 2) * 18;
+          return `${i === petI ? `<g transform="translate(${x} ${dy - 22})"><circle r="10" fill="#fffaf0" stroke="#4a3620" stroke-width="2.4"/><circle cx="-3" cy="-1" r="2" fill="#4a3620"/><circle cx="3" cy="-1" r="2" fill="#4a3620"/></g>` : ""}<circle class="wo-dot${st === "current" ? " is-current" : ""}" cx="${x}" cy="${dy}" r="${st === "current" ? 9 : 7}" fill="${st === "done" ? "#f3c955" : st === "current" ? "#ffa06e" : "#c9bda4"}" stroke="#4a3620" stroke-width="2.4"/>`;
+        }).join("");
+        const path = land.idx.length > 1 ? `<path d="M70 ${y + 70}H240" stroke="#fffaf0" stroke-width="6" stroke-linecap="round" stroke-dasharray="2 10"/>` : "";
+        const mist = reached ? "" : `<g><rect x="0" y="${y}" width="${W}" height="${H}" fill="#fffaf0"/>${[[60, 30], [150, 55], [235, 35]].map(([cx, cy]) => `<path d="M${cx - 40} ${y + cy + 10}Q${cx - 34} ${y + cy - 12} ${cx - 12} ${y + cy - 6}Q${cx} ${y + cy - 24} ${cx + 18} ${y + cy - 8}Q${cx + 40} ${y + cy - 10} ${cx + 40} ${y + cy + 10}Z" fill="#e5dcc8"/>`).join("")}</g>`;
+        return `<g class="wo-land${reached ? "" : " is-misty"}" data-land-index="${k}" role="button" tabindex="0" aria-label="${reached ? `Go to the ${land.biome}` : "A land still in the mist"}">
+          <rect x="0" y="${y}" width="${W}" height="${H}" fill="${tint[land.biome] || "#b7e779"}"/>${path}${dots}
+          <g transform="translate(${W - 34} ${y + 30}) scale(1.4)">${sign(land.biome)}</g>${mist}</g>`;
+      }).join("");
+      const dialog = document.createElement("dialog");
+      dialog.className = "world-overview";
+      dialog.setAttribute("aria-label", "The whole world");
+      dialog.innerHTML = `<svg class="wo-map" viewBox="0 0 ${W} ${total}" aria-hidden="false"><rect width="${W}" height="${total}" rx="18" fill="#fffaf0"/>${regions}<path d="M${W - 10} 0V${total}" stroke="#62cdf4" stroke-width="16" opacity=".6" data-ribbon/></svg><button type="button" class="lg-round-btn wo-close" aria-label="Back to the map">${Art.icon("check", 28)}</button>`;
+      el.appendChild(dialog);
+      const close = () => { if (dialog.open) dialog.close(); dialog.remove(); };
+      dialog.querySelector(".wo-close").onclick = close;
+      dialog.addEventListener("cancel", e => { e.preventDefault(); close(); });
+      dialog.querySelectorAll(".wo-land:not(.is-misty)").forEach(g => {
+        const go = () => {
+          const land = lands[Number(g.dataset.landIndex)];
+          const target = land.idx.find(i => this.statusOf(worlds[i]) === "current") ?? land.idx[0];
+          close();
+          this.sound.play("glow");
+          scroll.scrollTo?.({ top: Math.max(0, yOf(target) - scroll.clientHeight * 0.55), behavior: this.prefersReducedMotion() ? "auto" : "smooth" });
+        };
+        g.addEventListener("click", go);
+        g.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
+      });
+      dialog.showModal?.();
+    }
+
+    // Little Sprout (v22): light up whichever choice on the board shows the
+    // target, so the very next tap succeeds. Matches on the visible text.
+    glowAnswer(el, target) {
+      const want = String(target.display || "").trim();
+      if (!want) return;
+      const choices = [...el.querySelectorAll("button, [role=button], .pop-bubble, .catch-faller")].filter(c => !c.closest(".lg-topbar, .play-bubble, .practice-replay, .learning-hint, .play-heading") && !c.matches(".play-bubble, .practice-replay") && (c.textContent || "").trim() === want);
+      choices.forEach(c => { c.classList.remove("is-sprout-glow"); void c.offsetWidth; c.classList.add("is-sprout-glow"); setTimeout(() => c.classList.remove("is-sprout-glow"), 4200); });
+    }
+
+    // Sound Lab (v11): the marks a finished chapter has taught, in qaida order.
+    taughtMarks() {
+      const done = new Set(this.progress?.done || []);
+      const marks = [];
+      if (done.has("fatha")) marks.push("\u064E");
+      if (done.has("kasra-damma")) marks.push("\u0650", "\u064F");
+      if (done.has("tanween")) marks.push("\u064B", "\u064D", "\u064C");
+      if (done.has("sukoon")) marks.push("\u0652");
+      if (done.has("shaddah")) marks.push("\u0651");
+      return marks;
+    }
+
+    // Moon Calendar (v10): today's season, and its once-a-year Eid gift — the
+    // crescent pin, added to the wardrobe with a little show on the map.
+    season() {
+      if (this._seasonDay !== todayStr()) { this._seasonDay = todayStr(); this._season = Art.season ? Art.season() : null; }
+      return this._season;
+    }
+
+    giveSeasonGift(el, rig) {
+      const kind = this.season();
+      if (!kind || !kind.startsWith("eid") || !this.pet) return;
+      const year = Art.hijri?.()?.year;
+      const tag = `${year}-${kind}`;
+      const given = this.loadJSON("quran-trainer:letters:season-gifts", []);
+      if (given.includes(tag)) return;
+      this.saveJSON("quran-trainer:letters:season-gifts", [...given, tag].slice(-10));
+      const owned = this.pet.accessories || (this.pet.accessories = []);
+      if (!owned.includes("moonpin")) owned.push("moonpin");
+      if (!(this.pet.worn || []).includes("moonpin")) (this.pet.worn = this.pet.worn || []).push("moonpin");
+      this.saveJSON("quran-trainer:letters:pet", this.pet);
+      setTimeout(() => {
+        if (!el.isConnected) return;
+        const walker = el.querySelector(".map-here");
+        if (walker) walker.innerHTML = this.petSVG(64);
+        this.confettiAt(walker, true);
+        this.sound.play("cheer2");
+        rig?.cheer?.();
+      }, 900);
+    }
+
+    // Family Garden (v9, 2026-10-02): siblings each keep their own garden —
+    // pet, progress, stickers, strength. Children can't read names, so each is
+    // shown by their own pet (or their unhatched egg). Switching reloads, so
+    // every system starts clean on the chosen child's data.
+    profilePet(id, size) {
+      const S = ns.LettersState, pet = S?.readAs?.(id, "quran-trainer:letters:pet", null);
+      if (!pet) return Art.egg({ size: Math.round(size * 0.9) });
+      return Art.pet({ hue: pet.hue ?? 200, species: pet.species || "blob", stage: 1, worn: pet.worn || [], size });
+    }
+
+    switchProfile(id) {
+      try { sessionStorage.setItem("lg-profile-chosen", "1"); } catch {}
+      ns.LettersState?.setActive?.(id);
+      this.stopSpeech?.();
+      this.sound?.setLand?.(null);
+      setTimeout(() => location.reload(), 120);
+    }
+
+    renderWhoIsPlaying() {
+      const list = ns.LettersState.profiles();
+      const el = this.screen("lg-who", `<div class="who-stage">
+          <div class="who-pets" role="group" aria-label="Who is playing?">${list.map((p, i) => `<button type="button" class="who-pet" data-profile="${p.id}" aria-label="Child ${i + 1}">${this.profilePet(p.id, 120)}</button>`).join("")}</div>
+        </div>`);
+      el.querySelectorAll(".who-pet").forEach(button => button.addEventListener("click", () => {
+        if (!el.isConnected) return;
+        button.classList.add("is-picked");
+        this.sound.play("chime");
+        this.switchProfile(button.dataset.profile);
+      }));
+      return el;
+    }
+
+    // Read Together (v7, 2026-10-01). Spec 02's proof that the garden works is
+    // the child reading fresh letters to a grown-up outside the app; this makes
+    // that ritual a guided few minutes. Six cards from what has been taught,
+    // weakest first. The child reads aloud; the grown-up taps "read it" or "not
+    // yet" (and can play the sound to check). Results are the grown-up's: kept
+    // apart from the quiet strength model and shown back in this corner.
+    readTogetherItems() {
+      const done = new Set(this.progress.done || []);
+      const seen = new Map();
+      for (const world of this.worlds.worlds) {
+        if (!done.has(world.id)) continue;
+        for (const item of world.items() || []) if (item?.id && item.display && !seen.has(item.id)) seen.set(item.id, item);
+      }
+      let items = [...seen.values()];
+      if (!items.length) items = this.petKnowledge().map(l => ({ id: l.char, display: l.char, speak: l.arName }));
+      const strength = ns.LettersStrength;
+      return strength?.weakest ? strength.weakest(items, 6) : items.slice(0, 6);
+    }
+
+    renderReadTogether() {
+      const cards = this.readTogetherItems();
+      if (!cards.length) return this.renderGrownup();
+      const results = { read: [], notYet: [] };
+      let i = 0;
+      const el = this.screen("lg-grownup lg-read-together", `${this.topBar({ home: true })}
+        <div class="rt-stage">
+          <div class="rt-dots" aria-hidden="true">${cards.map(() => "<i></i>").join("")}</div>
+          <div class="rt-card" role="img"></div>
+          <div class="rt-controls">
+            <button type="button" class="rt-hear" aria-label="Hear it">${Art.icon("speaker", 30)}<span>Hear it</span></button>
+            <button type="button" class="rt-not-yet" aria-label="Not yet">${ns.LettersRoomArt.trick("seed")}<span>Not yet</span></button>
+            <button type="button" class="rt-read" aria-label="They read it">${Art.icon("check", 34)}<span>Read it</span></button>
+          </div>
+          <span class="rt-friend" aria-hidden="true">${this.petSVG(96)}</span>
+        </div>`);
+      this.wireTopBar(el, () => this.renderGrownup());
+      const card = el.querySelector(".rt-card"), dots = [...el.querySelectorAll(".rt-dots i")];
+      const rig = this.petLife(el.querySelector(".rt-friend"), el);
+      const show = () => {
+        const item = cards[i];
+        const latin = !/[؀-ۿ]/.test(item.display);
+        card.innerHTML = (Art.letterSign || Art.blobCard)({ hue: 150, label: item.display, latin, size: 260 });
+        card.setAttribute("aria-label", `Read this: ${item.display}`);
+        Art.fitGlyphs?.(el);
+        dots.forEach((d, k) => d.className = k < i ? "is-done" : k === i ? "is-on" : "");
+      };
+      const mark = (ok) => {
+        const item = cards[i];
+        (ok ? results.read : results.notYet).push(item.display);
+        if (ok) { this.sound.play("chime"); rig?.cheer?.(); } else { this.sound.play("rustle"); }
+        i += 1;
+        if (i < cards.length) return show();
+        const history = this.loadJSON("quran-trainer:letters:read-aloud", []) || [];
+        history.push({ at: todayStr(), read: results.read, notYet: results.notYet });
+        this.saveJSON("quran-trainer:letters:read-aloud", history.slice(-20));
+        el.querySelector(".rt-stage").innerHTML = `<div class="rt-done lg-panel">
+          <div class="rt-done-art" aria-hidden="true">${this.petSVG(150, "proud")}</div>
+          <p><b>${results.read.length} of ${cards.length}</b> read aloud together.</p>
+          ${results.notYet.length ? `<p>Still settling: <span dir="rtl" lang="ar">${results.notYet.join(" ")}</span> — worth another look together soon.</p>` : "<p>Every card — lovely reading.</p>"}
+          <button type="button" class="lg-big-btn rt-back">Back to the grown-up corner</button></div>`;
+        this.sound.play("cheer2");
+        this.confettiAt(el.querySelector(".rt-done-art"), true);
+        el.querySelector(".rt-back").onclick = () => this.renderGrownup();
+      };
+      el.querySelector(".rt-hear").onclick = () => this.say(cards[i]);
+      el.querySelector(".rt-read").onclick = () => mark(true);
+      el.querySelector(".rt-not-yet").onclick = () => mark(false);
+      show();
+    }
+
     // ---------- home: the journey map ----------
 
     // Tiny biome scenery decals stamped along the trail — same tactile SVG
     // language as the rest of the garden (plum ink, candy fills, no black).
     biomeDeco(biome) {
-      // A miniature habitat at the existing decorative anchor. Silhouettes,
-      // not extra size, distinguish the region from its neighboring stop.
-      const D = {
-        orchard: `<ellipse cx="32" cy="43" rx="24" ry="4" fill="#7ca66c" opacity=".4"/><path d="M30 42V25M34 32L42 24M30 33L21 25" fill="none" stroke="#90724d" stroke-width="5" stroke-linecap="round"/><path d="M15 28Q5 22 12 14Q10 5 22 6Q30-1 38 6Q50 3 51 15Q61 21 49 28Q39 33 32 28Q23 34 15 28Z" fill="#80a963" stroke="#587a4d" stroke-width="1.8"/><path d="M14 17Q15 9 23 11Q31 4 37 10Q44 7 47 14" fill="none" stroke="#b8cd84" stroke-width="3" stroke-linecap="round"/><g fill="#df8a6d" stroke="#a36c52" stroke-width="1.2"><circle cx="21" cy="21" r="4"/><circle cx="40" cy="24" r="4"/><circle cx="34" cy="13" r="3.6"/></g><path d="M20 16L22 18M39 19L42 20M33 8L35 10" stroke="#5d794b" stroke-width="1.5" stroke-linecap="round"/>`,
-        lagoon: `<path d="M5 39Q10 31 29 33Q48 29 59 38Q61 44 34 45Q9 47 5 39Z" fill="#8ac9cb" stroke="#609e9a" stroke-width="1.5"/><path d="M19 40Q20 22 18 9M25 40Q31 21 31 14M15 40Q13 29 7 23" fill="none" stroke="#628954" stroke-width="2.2" stroke-linecap="round"/><path d="M19 34Q8 28 10 15Q19 24 19 34M25 37Q39 31 41 20Q29 27 25 37" fill="#8da965"/><path d="M17 8V17M31 12V21" stroke="#ad8b5c" stroke-width="5" stroke-linecap="round"/><path d="M35 40H49M10 41H17" stroke="#d8efdf" stroke-width="1.8" stroke-linecap="round"/><path d="M42 32Q52 26 56 33L49 35Z" fill="#759c66"/><path d="M48 30Q43 23 48 24Q51 19 53 25Q58 25 53 31Z" fill="#e5acb5" stroke="#ac8490" stroke-width="1"/>`,
-        night: `<path d="M8 42Q16 32 30 36Q44 31 56 41Q47 47 32 45Q14 47 8 42Z" fill="#789888"/><path d="M38 5C21 1 17 21 28 27Q40 34 48 21C34 27 27 11 38 5Z" fill="#eddb9c" stroke="#ac9a69" stroke-width="1.5"/><path d="M18 40Q19 32 15 29M41 42Q43 35 48 32" fill="none" stroke="#526e62" stroke-width="2" stroke-linecap="round"/><path d="M17 36Q9 35 10 29Q17 29 17 36M44 37Q54 37 53 30Q46 30 44 37" fill="#b0c39a"/><g fill="#f6e8a5"><circle cx="13" cy="17" r="2"/><circle cx="50" cy="12" r="1.5"/><circle cx="28" cy="37" r="1.6"/></g><g stroke="#c3cfb0" stroke-width="1" fill="none"><path d="M10 13L8 11M16 13L18 11M48 8L46 6M52 8L54 6"/></g>`,
-        peaks: `<path d="M4 43L21 12L39 43Z" fill="#a7b6b3" stroke="#7b9290" stroke-width="1.6" stroke-linejoin="round"/><path d="M21 12L25 43H39Z" fill="#8aa0a0"/><path d="M23 43L42 5L61 43Z" fill="#c4d0c7" stroke="#7b9290" stroke-width="1.6" stroke-linejoin="round"/><path d="M42 5L44 42H61Z" fill="#9db4b0"/><path d="M42 5L50 21L44 18L40 23L34 21Z" fill="#fff8e4" stroke="#a4b8ad" stroke-width="1"/><path d="M14 26L21 12L28 25L22 22L19 27Z" fill="#e6eddf"/><path d="M3 43Q17 37 30 42Q44 35 61 43L58 46H7Z" fill="#87a575"/>`,
-        river: `<path d="M28 4Q15 12 32 20Q53 31 36 44H56Q66 29 45 20Q26 11 41 4Z" fill="#d7c9a5"/><path d="M31 4Q20 12 36 20Q56 31 40 44H52Q63 30 41 20Q23 11 38 4Z" fill="#8ec9cb"/><path d="M30 10Q28 14 37 18M44 25Q53 31 48 35" fill="none" stroke="#d8efdf" stroke-width="2" stroke-linecap="round"/><path d="M5 40Q7 31 17 34Q23 29 28 39Q17 46 5 40Z" fill="#a5b2a0" stroke="#7e9182" stroke-width="1.4"/><path d="M9 37Q13 34 17 36" fill="none" stroke="#e0e5ca" stroke-width="2" stroke-linecap="round"/><path d="M18 32Q20 20 15 16M21 34Q24 24 29 22" fill="none" stroke="#769a67" stroke-width="2" stroke-linecap="round"/><ellipse cx="29" cy="43" rx="5" ry="2.8" fill="#c0baa1"/>`,
-      };
-      return biome === "meadow" ? ns.LettersGardenArt.flowerBed({size:76}) : D[biome] ? `<svg viewBox="0 0 64 48" aria-hidden="true">${D[biome]}</svg>` : "";
+      // A miniature habitat for the reward garden. Later regions reuse their
+      // own map landmark (palette, contour and silhouette already match the
+      // map), so a chapter's reward shows the place the child walked to.
+      if (biome === "meadow") return ns.LettersGardenArt.flowerBed({size:76});
+      const mark = ns.LettersMapArt?.landmark?.(biome, 0) || "";
+      // The river landing is a jetty; give it its water so it reads alone.
+      return biome === "river" ? mark.replace('aria-hidden="true">', 'aria-hidden="true"><ellipse cx="88" cy="146" rx="84" ry="16" fill="#62cdf4"/><path d="M22 144Q88 128 154 144" fill="none" stroke="#96ecff" stroke-width="4" stroke-linecap="round"/>') : mark;
     }
 
     // The mastery garden (spec: specs/02): every chapter grows a plant beside
@@ -1109,27 +2006,25 @@
       }
     }
     masteryPlant(m) {
-      const ink = "#3a2c48";
-      const stem = `<path d="M24 46 C24 40 23 34 24 26" fill="none" stroke="#4e9677" stroke-width="3" stroke-linecap="round"/>`;
-      const leaves = `<path d="M24 38 C16 36 13 30 12 25 C19 25 24 30 24 36 Z" fill="#5cc23e" stroke="${ink}" stroke-width="1.4"/>
-        <path d="M24 34 C32 32 35 27 36 22 C29 22 24 27 24 32 Z" fill="#6fce4e" stroke="${ink}" stroke-width="1.4"/>`;
+      // Four stages, each readable on its own at map size: seed, sprout, bud,
+      // flower. Same warm ink as the rest of the garden (never cold navy), all
+      // standing in one soil mound so the stages read as one plant growing.
+      const ink = "#4a3620";
+      const mound = `<ellipse cx="24" cy="46" rx="15" ry="3.5" fill="#2f5c46" opacity="0.18"/><path d="M11 46Q13 38 24 38Q35 38 37 46Z" fill="#a89478" stroke="${ink}" stroke-width="1.6" stroke-linejoin="round"/>`;
+      const stem = (top) => `<path d="M24 40C24 34 23 ${top + 8} 24 ${top}" fill="none" stroke="#4e9677" stroke-width="3" stroke-linecap="round"/>`;
+      const leaf = (y, side) => `<path d="M24 ${y}C${24 + side * 8} ${y - 1} ${24 + side * 12} ${y - 6} ${24 + side * 13} ${y - 12}C${24 + side * 5} ${y - 12} 24 ${y - 6} 24 ${y}Z" fill="#7fce54" stroke="${ink}" stroke-width="1.6" stroke-linejoin="round"/>`;
+      let top;
       if (m < 0.15) {
-        // seed: a little mound with a green tip
-        return `<svg viewBox="0 0 48 50"><ellipse cx="24" cy="45" rx="9" ry="4" fill="#b07a4a"/><path d="M24 44 C23 40 23 39 24 37" stroke="#5cc23e" stroke-width="3" stroke-linecap="round" fill="none"/></svg>`;
+        top = `<ellipse cx="24" cy="38" rx="5" ry="6.5" fill="#c69434" stroke="${ink}" stroke-width="1.6" transform="rotate(-12 24 38)"/><path d="M24 32Q25 28 27 26" fill="none" stroke="#4e9677" stroke-width="3" stroke-linecap="round"/>`;
+      } else if (m < 0.42) {
+        top = `${stem(26)}${leaf(30, 1)}`;
+      } else if (m < 0.72) {
+        top = `${stem(18)}${leaf(34, -1)}${leaf(30, 1)}<path d="M24 6C18 10 18 18 24 20C30 18 30 10 24 6Z" fill="#ffa798" stroke="${ink}" stroke-width="1.6" stroke-linejoin="round"/><path d="M19 17Q24 22 29 17" fill="none" stroke="#4e9677" stroke-width="2.4" stroke-linecap="round"/>`;
+      } else {
+        const petals = [0, 72, 144, 216, 288].map(a => `<ellipse cx="24" cy="7" rx="5.5" ry="7.5" fill="#ffa798" stroke="${ink}" stroke-width="1.6" transform="rotate(${a} 24 15)"/>`).join("");
+        top = `${stem(20)}${leaf(34, -1)}${leaf(30, 1)}${petals}<circle cx="24" cy="15" r="4.5" fill="#f3c955" stroke="${ink}" stroke-width="1.6"/>`;
       }
-      if (m < 0.42) {
-        // sprout: short stem + one leaf
-        return `<svg viewBox="0 0 48 50"><ellipse cx="24" cy="46" rx="8" ry="3.5" fill="#b07a4a" opacity="0.6"/><path d="M24 46 C24 40 23 36 24 32" stroke="#4e9677" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M24 40 C17 38 14 33 13 29 C20 29 24 33 24 38 Z" fill="#5cc23e" stroke="${ink}" stroke-width="1.4"/></svg>`;
-      }
-      if (m < 0.72) {
-        // bud: full stem, leaves, closed bud
-        return `<svg viewBox="0 0 48 50">${stem}${leaves}<ellipse cx="24" cy="22" rx="6" ry="8" fill="#ff8fb1" stroke="${ink}" stroke-width="1.6"/><path d="M24 14 C22 18 22 20 24 22 C26 20 26 18 24 14 Z" fill="#ffa9c4"/></svg>`;
-      }
-      // bloom: open flower
-      const petals = [0, 72, 144, 216, 288]
-        .map((a) => `<ellipse cx="24" cy="12" rx="5.5" ry="8" fill="#ff8fb1" stroke="${ink}" stroke-width="1.4" transform="rotate(${a} 24 20)"/>`)
-        .join("");
-      return `<svg viewBox="0 0 48 50">${stem}${leaves}<g>${petals}<circle cx="24" cy="20" r="5" fill="#ffc22e" stroke="${ink}" stroke-width="1.4"/></g></svg>`;
+      return `<svg viewBox="0 0 48 50" data-plant-stage="${m < 0.15 ? "seed" : m < 0.42 ? "sprout" : m < 0.72 ? "bud" : "flower"}">${mound}${top}</svg>`;
     }
 
     renderHome() {
@@ -1147,10 +2042,16 @@
       const height = total * GAP + 240;
       const yOf = (i) => height - 150 - i * GAP;
       const xOf = (i) => (i % 2 === 0 ? 28 : 72); // percent of the path width
+      const side = (i) => (i % 2 === 0 ? 17 : -17); // the pet waits beside its stop
+      // The pet waits where the child last went; a new learner finds it at the next lesson.
+      const currentI = worlds.findIndex(world => this.statusOf(world) === "current");
+      const visitedI = worlds.findIndex(world => world.id === this.mapPetWorld);
+      const petI = visitedI >= 0 && this.statusOf(worlds[visitedI]) !== "locked" ? visitedI : currentI;
       const el = this.screen(
         "lg-home",
         `${this.topBar({ home: false })}
         <div class="map-daily-row lg-tray" aria-label="Garden activities">
+          ${(() => { const walk = this.todaysWalk(); return walk ? `<button type="button" class="map-walk${walk.done.length >= walk.stops.length ? " is-finished" : ""}" aria-label="Today's walk${walk.done.length >= walk.stops.length ? ", finished" : ""}">${WALK_BTN}<span class="walk-steps" aria-hidden="true">${walk.stops.map((_, i) => `<i class="${walk.done.includes(i) ? "is-done" : ""}"></i>`).join("")}</span></button>` : ""; })()}
           ${daily ? `<button type="button" aria-label="Daily letter practice" class="map-daily${stampedToday ? " is-stamped" : ""}">${Art.icon("sun", 34)}${stampedToday ? `<i class="map-daily-check">${Art.icon("check", 16)}</i>` : ""}</button>` : ""}
           ${daily ? `<button type="button" class="map-checkup" aria-label="Letter check-up">${Art.icon("flower", 34)}</button>` : ""}
           <button type="button" class="map-pet" aria-label="Your pet and wardrobe">${this.petSVG(46)}</button>
@@ -1172,16 +2073,21 @@
                 // A mastery plant grows beside every met world, its stage set
                 // by how well the child holds that chapter's letters.
                 const plant = status !== "locked"
-                  ? `<span class="map-plant" style="left:${xOf(i) + (i % 2 === 0 ? -18 : 18)}%; top:${yOf(i) + 40}px">${this.masteryPlant(this.worldMasteryOf(world))}</span>`
+                  ? `<span class="map-plant" data-plant-world="${world.id}" style="left:${xOf(i) + (i % 2 === 0 ? -18 : 18)}%; top:${yOf(i) + 40}px">${this.masteryPlant(this.worldMasteryOf(world))}</span>`
                   : "";
                 return `
                   ${plant}
-                  ${world.id === "pack-boat" ? `<span class="map-boat-landmark" style="left:${xOf(i) + 37}%;top:${yOf(i) - 10}px">${ns.LettersGardenArt.boat({stage: ns.LettersGardenArt.growth(this.progress, this.bests)})}${ns.LettersJourney?.memento(this.progress) || ''}</span>` : ""}
-                  ${world.id === "pack-boat" ? "" : `<span class="map-landmark" aria-hidden="true" style="left:${i%2===0?74:26}%; top:${yOf(i)+35}px">${ns.LettersMapArt.landmark(world.biome,i)}</span>`}
+                  ${world.id === "pack-boat" ? `<button type="button" class="map-boat-landmark map-toy" data-toy="boat" aria-label="Sail the paper boat" style="left:${xOf(i) + 37}%;top:${yOf(i) - 10}px">${ns.LettersGardenArt.boat({stage: ns.LettersGardenArt.growth(this.progress, this.bests)})}${ns.LettersJourney?.memento(this.progress) || ''}</button>` : ""}
+                  ${world.id === "pack-boat" ? "" : (() => {
+                    const kind = ns.LettersMapArt.kind?.(world.biome, i), toy = ns.LettersMapArt.TOYS?.[kind];
+                    const at = `left:${i%2===0?74:26}%; top:${yOf(i)+35}px`;
+                    return toy ? `<button type="button" class="map-landmark map-toy" data-toy="${kind}" aria-label="${toy}" style="${at}">${ns.LettersMapArt.landmark(world.biome,i)}</button>`
+                      : `<span class="map-landmark" aria-hidden="true" style="${at}">${ns.LettersMapArt.landmark(world.biome,i)}</span>`;
+                  })()}
                   <div class="map-node" data-node-world="${world.id}" style="${at}"><button type="button" class="map-stop is-${status}" data-world="${world.id}" ${status === "current" ? 'aria-current="step"' : ""} aria-label="${world.id === 'pack-boat' ? 'Boat Letters' : world.icon}${status==='done' ? `, completed, ${this.stars[world.id]||0} of 3 stars` : status==='current' ? ', next chapter' : ', locked'}" ${status === "locked" ? "disabled" : ""}>
                     ${Art.mapStop({ hue: world.hue, label: world.icon, status, stars: this.stars[world.id] || 0, latin: !/[؀-ۿ]/.test(world.icon) })}
-                  </button>${status === "done" ? `<span class="map-flower-bed" aria-hidden="true">${ns.LettersGardenArt.flowerBed({size:88})}</span>` : ""}</div>
-                  ${status === "current" ? `<span class="map-here" style="left:${xOf(i) + (i % 2 === 0 ? 17 : -17)}%; top:${yOf(i)}px">${this.petSVG(64)}</span>` : ""}
+                  </button>${status === "done" ? (world.id !== "pack-boat" && ns.LettersJourney?.memento?.(this.progress, world)) || `<span class="map-flower-bed" aria-hidden="true">${ns.LettersGardenArt.flowerBed({size:88})}</span>` : ""}</div>
+                  ${i === petI ? `<span class="map-here" data-stop="${i}" style="left:${xOf(i) + side(i)}%; top:${yOf(i)}px">${this.petSVG(64)}</span>` : ""}
                   ${status === "current" && !this.progress.done.length ? `<span class="map-tap" style="left:${xOf(i)}%; top:${yOf(i) - 96}px; bottom:auto; margin:0;">${Art.icon("arrow", 44)}</span>` : ""}`;
               })
               .join("")}
@@ -1198,6 +2104,37 @@
       const trail = el.querySelector(".map-trail");
       const terrain = el.querySelector(".map-landscape");
       const scroll = el.querySelector(".map-scroll");
+      const placeWheel = () => {
+        if (!el.isConnected) return;
+        const w = pathEl.clientWidth || 430, landscapeWidth = scroll.clientWidth || w;
+        const brooks = ns.LettersMapArt.brooks?.({width:landscapeWidth,pathWidth:w,stops:worlds.map((world,i)=>({y:yOf(i),biome:world.biome,left:i%2===0}))}) || [];
+      pathEl.querySelector(".map-wheel")?.remove();
+      if (brooks.length && ns.LettersMapArt.waterwheel) {
+        const box = pathEl.getBoundingClientRect(), shift = (landscapeWidth - w) / 2;
+        const size = Math.max(70, Math.min(96, window.innerWidth * .18));
+        // Guard what a child sees and touches: stop buttons (with stars) and the
+        // drawn part of landmarks, plants, flower beds and chapter keepsakes.
+        const taken = [...pathEl.querySelectorAll(".map-stop, .map-landmark > svg, .map-boat-landmark > svg, .map-plant, .map-flower-bed, .map-journey-memento > svg, .map-picnic-memento > svg")].map((n) => {
+          const r = n.getBoundingClientRect(), inset = n.classList.contains("map-stop") ? -6 : Math.min(r.width, r.height) * .18;
+          return { l: r.left - box.left + inset, r: r.right - box.left - inset, t: r.top - box.top + inset, b: r.bottom - box.top - inset };
+        });
+        const free = (x, y) => {
+          const me = { l: x - size / 2, r: x + size / 2, t: y - size * 1.08 * .85, b: y + size * 1.08 * .2 };
+          if (me.l < 4 || me.r > w + size * .25) return false;
+          return !taken.some((o) => me.l < o.r && o.l < me.r && me.t < o.b && o.t < me.b);
+        };
+        let spot = null;
+        for (const b of brooks) {
+          // Try the river mouth first, where the brook has fallen to its lowest.
+          for (const f of [.96, 1.04, .9]) for (const dy of [0, -8, 8, -16]) {
+            const x = b.x0 + (b.x1 - b.x0) * f - shift, y = (b.y2 ?? b.y) + dy;
+            if (!spot && free(x, y)) spot = { x, y };
+          }
+          if (spot) break;
+        }
+        if (spot) pathEl.insertAdjacentHTML("beforeend", `<button type="button" class="map-landmark map-toy map-wheel" data-toy="waterwheel" aria-label="${ns.LettersMapArt.TOYS.waterwheel}" style="left:${spot.x.toFixed(1)}px;top:${spot.y.toFixed(1)}px;width:${size.toFixed(0)}px">${ns.LettersMapArt.waterwheel()}</button>`);
+      }
+      };
       let drawnWidth=0;
       const drawTrail=()=>{
         if(!el.isConnected)return;
@@ -1219,9 +2156,43 @@
         d += ` C ${a[0]} ${a[1] - GAP * 0.45}, ${b[0]} ${b[1] + GAP * 0.45}, ${b[0]} ${b[1]}`;
       }
       trail.innerHTML = `
-        <path d="${d}" fill="none" stroke="#caa96f" stroke-width="17" stroke-linecap="round" opacity="0.8"/>
-        <path d="${d}" fill="none" stroke="#fffaf0" stroke-width="13" stroke-linecap="round"/>
-        <path d="${d}" fill="none" stroke="#7fc6a4" stroke-width="6" stroke-linecap="round" stroke-dasharray="1 22"/>`;
+        <path d="${d}" fill="none" stroke="#c9bda4" stroke-width="17" stroke-linecap="round" data-ribbon opacity="0.8"/>
+        <path d="${d}" fill="none" stroke="#fffaf0" stroke-width="13" stroke-linecap="round" data-ribbon/>
+        <path d="${d}" fill="none" stroke="#7fce54" stroke-width="6" stroke-linecap="round" stroke-dasharray="1 22"/>`;
+      // Bridges carry the trail over each brook; the waterwheel finds a free bank.
+      const brooks = ns.LettersMapArt.brooks?.({width:landscapeWidth,pathWidth:w,stops:worlds.map((world,i)=>({y:yOf(i),biome:world.biome,left:i%2===0}))}) || [];
+      const line = trail.querySelector("path");
+      if (brooks.length && line?.getTotalLength && ns.LettersMapArt.bridge) {
+        const total = line.getTotalLength();
+        const atY = (y) => { let lo = 0, hi = total; for (let k = 0; k < 24; k += 1) { const m = (lo + hi) / 2; if (line.getPointAtLength(m).y > y) lo = m; else hi = m; } return (lo + hi) / 2; };
+        trail.insertAdjacentHTML("beforeend", brooks.map((b) => {
+          const L = atY(b.y), p = line.getPointAtLength(L), a = line.getPointAtLength(Math.max(0, L - 6)), c = line.getPointAtLength(Math.min(total, L + 6));
+          return `<g class="map-bridge" transform="translate(${p.x.toFixed(1)} ${p.y.toFixed(1)}) rotate(${(Math.atan2(c.y - a.y, c.x - a.x) * 180 / Math.PI).toFixed(1)})">${ns.LettersMapArt.bridge()}</g>`;
+        }).join(""));
+      }
+      // Land gates stand just past each boundary bridge, inside the new land.
+      if (line?.getTotalLength && ns.LettersMapArt.gate) {
+        const total = line.getTotalLength();
+        const atY = (y) => { let lo = 0, hi = total; for (let k = 0; k < 24; k += 1) { const m = (lo + hi) / 2; if (line.getPointAtLength(m).y > y) lo = m; else hi = m; } return (lo + hi) / 2; };
+        const gates = [];
+        for (let i = 0; i < worlds.length - 1; i += 1) {
+          const land = worlds[i + 1].biome;
+          if (!land || land === worlds[i].biome) continue;
+          const brook = brooks.find(b => b.y < yOf(i) && b.y > yOf(i + 1));
+          // The pole stands on the far bank beside the bridge, on the side away
+          // from the next stop, with its banner hanging over the trail.
+          const by = brook ? brook.y : (yOf(i) + yOf(i + 1)) / 2;
+          const p = line.getPointAtLength(atY(by - 12));
+          const side = (w * xOf(i + 1)) / 100 < p.x ? 1 : -1;
+          const reached = this.statusOf(worlds[i + 1]) !== "locked";
+          const open = reached && this.landsSeen.includes(land);
+          gates.push(`<g class="map-gate-at${reached && !open ? " is-arriving-next" : ""}" data-gate-land="${land}" transform="translate(${(p.x + side * 50).toFixed(1)} ${p.y.toFixed(1)})">${ns.LettersMapArt.gate(land, open, -side)}</g>`);
+        }
+        trail.insertAdjacentHTML("beforeend", gates.join(""));
+      }
+      // Seat the waterwheel once layout has settled (after paint and fonts).
+      const settle = () => typeof requestAnimationFrame === 'function' ? requestAnimationFrame(() => requestAnimationFrame(placeWheel)) : setTimeout(placeWheel, 0);
+      settle(); setTimeout(() => el.isConnected && placeWheel(), 400); document.fonts?.ready?.then(() => el.isConnected && placeWheel());
       };
       drawTrail();
       if(typeof ResizeObserver!=='undefined'){
@@ -1231,14 +2202,107 @@
         window.addEventListener('resize',drawTrail);
         this.stopMapResize=()=>window.removeEventListener('resize',drawTrail);
       }
-      for (const btn of el.querySelectorAll(".map-stop[data-world]")) {
-        btn.addEventListener("click", () => {
-          const world = worlds.find((w) => w.id === btn.dataset.world);
-          if (!world || this.statusOf(world) === "locked") return;
-          this.sound.play("click");
-          this.startWorld(world);
+      const walker = el.querySelector(".map-here");
+      const mapRig = this.petLife(walker, el);
+      // Travel (update 2): the pet walks the real trail to a tapped chapter, then
+      // enters. Tapping where the pet already is, or the same stop again while it
+      // walks, enters at once. Reduced motion enters without the walk.
+      let travel = null;
+      const enter = (world) => {
+        if (!el.isConnected) return;
+        if (travel?.frame) cancelAnimationFrame(travel.frame);
+        travel = null; mapRig?.walk(0);
+        if (this.mapPetWorld !== world.id) this.saveJSON("quran-trainer:letters:map-pet", world.id);
+        this.mapPetWorld = world.id;
+        this.sound.play("click");
+        this.startWorld(world);
+      };
+      const trailPath = () => trail.querySelector("path");
+      const lengthAtY = (path, y) => {
+        let lo = 0, hi = path.getTotalLength();
+        for (let k = 0; k < 24; k += 1) { const mid = (lo + hi) / 2; if (path.getPointAtLength(mid).y > y) lo = mid; else hi = mid; }
+        return (lo + hi) / 2;
+      };
+      const walkTo = (world, i, { stay = false } = {}) => {
+        const path = trailPath(), w = pathEl.clientWidth || 430;
+        if (!walker || !path?.getTotalLength || this.prefersReducedMotion()) return enter(world);
+        const from = travel ? { L: travel.L, off: travel.off } : (() => {
+          const at = Number(walker.dataset.stop);
+          const start = Math.abs(i - at) > 2 ? i + (i > at ? -2 : 2) : at; // long trips start nearby
+          if (start !== at) walker.animate?.([{ opacity: 0 }, { opacity: 1 }], { duration: 260 });
+          return { L: lengthAtY(path, yOf(start)), off: (w * side(start)) / 100 };
+        })();
+        if (travel?.frame) cancelAnimationFrame(travel.frame);
+        const L1 = lengthAtY(path, yOf(i)), off1 = (w * side(i)) / 100;
+        const dur = Math.max(900, Math.min(2200, 300 + Math.abs(L1 - from.L) * 2.2));
+        const t0 = performance.now();
+        travel = { world, L: from.L, off: from.off, frame: null };
+        this.sound.play("seed");
+        let lastX = null;
+        const step = (now) => {
+          if (!el.isConnected || !travel || travel.world !== world) return;
+          const p = Math.min(1, (now - t0) / dur), e = p < .5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+          const L = from.L + (L1 - from.L) * e, pt = path.getPointAtLength(L);
+          const off = e < .2 ? from.off * (1 - e / .2) : e > .8 ? off1 * ((e - .8) / .2) : 0;
+          const x = pt.x + off;
+          if (lastX != null && Math.abs(x - lastX) > .4) { const dir = Math.sign(x - lastX); walker.style.setProperty("--face", dir); mapRig?.walk(dir); }
+          lastX = x; travel.L = L; travel.off = off;
+          walker.style.left = `${x}px`; walker.style.top = `${pt.y}px`;
+          if (p < 1) { travel.frame = requestAnimationFrame(step); return; }
+          walker.dataset.stop = String(i); walker.style.removeProperty("--face");
+          mapRig?.walk(0); this.sound.play("drop");
+          travel.frame = null;
+          // A welcome walk settles beside the stop instead of entering it.
+          setTimeout(() => { if (travel?.world !== world) return; if (!stay) return enter(world); travel = null; this.mapPetWorld = world.id; this.saveJSON("quran-trainer:letters:map-pet", world.id); }, 220);
+        };
+        travel.frame = requestAnimationFrame(step);
+        // Keep the walker in view on long trips.
+        const scroller = el.querySelector(".map-scroll");
+        if (scroller) scroller.scrollTo?.({ top: Math.max(0, yOf(i) - scroller.clientHeight * .55), behavior: "smooth" });
+      };
+      worlds.forEach((world, i) => {
+        const btn = el.querySelector(`.map-stop[data-world="${world.id}"]`);
+        btn?.addEventListener("click", () => {
+          if (!el.isConnected) return;
+          if (this.statusOf(world) === "locked") { mapRig?.inspect(btn, 500, () => mapRig.ponder()); return; }
+          if (travel?.world === world || (!travel && Number(walker?.dataset.stop) === i)) return enter(world);
+          walkTo(world, i);
         });
-      }
+      });
+      // Back on the map (2026-10-01): after a chapter is finished the map shows
+      // it happen — the keepsake drops onto the stop, its plant grows, the next
+      // stop opens and the pet walks there. Then any new land arrives.
+      const welcome = this.mapWelcome;
+      this.mapWelcome = null;
+      this.giveSeasonGift(el, mapRig);
+      // World Overview (v23): the whole world on one fold-out page.
+      if (typeof el.insertAdjacentHTML === "function") el.insertAdjacentHTML("beforeend", `<button type="button" class="map-world-btn" aria-label="See the whole world">${WORLD_BTN}</button>`);
+      const worldBtn = el.querySelector?.(".map-world-btn");
+      if (worldBtn) worldBtn.onclick = () => { if (el.isConnected) { this.sound.play("page"); this.openWorldOverview(el, scroll, yOf); } };
+      if (welcome) this.playMapWelcome(el, scroll, { welcome, worlds, yOf, walkTo, rig: mapRig, then: () => this.arriveInLand(el, scroll, mapRig) });
+      else this.arriveInLand(el, scroll, mapRig);
+      // Landmark toys: shake a tree, lift a leaf, light a lantern, sail the boat.
+      const sailBoat = (button) => {
+        const boat = button.querySelector("svg");
+        if (!boat || button.dataset.playing) return false;
+        button.dataset.playing = "1";
+        if (!this.prefersReducedMotion()) boat.animate?.([
+          { transform: "translate(0,0) rotate(0)" }, { transform: "translate(18%,-4%) rotate(-4deg)", offset: .3 },
+          { transform: "translate(34%,-2%) rotate(3deg)", offset: .55 }, { transform: "translate(14%,-3%) rotate(-2deg)", offset: .8 },
+          { transform: "translate(0,0) rotate(0)" }], { duration: 2600, easing: "ease-in-out" });
+        setTimeout(() => { delete button.dataset.playing; }, 2700);
+        return true;
+      };
+      pathEl.addEventListener("click", (event) => {
+        const toy = event.target?.closest?.(".map-toy");
+        if (!toy || !el.isConnected) return;
+        const played = toy.dataset.toy === "boat" ? sailBoat(toy)
+          : ns.LettersMapArt.play(toy, toy.dataset.toy, { reduced: this.prefersReducedMotion(), onLand: () => this.sound.play("thud") });
+        if (!played) return;
+        this.sound.play({ orchard: "rustle", reeds: "ripple", lantern: "glow", waterwheel: "splash", boat: "splash", basket: "rustle" }[toy.dataset.toy] || "seed");
+        mapRig?.inspect(toy, 1400, () => mapRig.cheer());
+      });
+      el.querySelector(".map-walk")?.addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderWalk(); });
       const dailyBtn = el.querySelector(".map-daily");
       if (dailyBtn)
         dailyBtn.addEventListener("click", () => {
@@ -1255,6 +2319,7 @@
         this.sound.play("page");
         this.renderPet();
       });
+      this.sceneRig(el.querySelector(".map-pet"));
       el.querySelector(".map-album").addEventListener("click", () => {
         this.sound.play("page");
         this.renderAlbum();
@@ -1348,8 +2413,13 @@
 
     showsRoundProgress() { return this.isReferenceJourney() || this.isGentleDaily(); }
 
+    // Every chapter with a connected adventure (update 3) shares the reference
+    // presentation Boat and ح established: round progress and garden layout.
+    // Later-chapter projects are presentation only: their Pop and Catch keep
+    // the moving play those chapters were tuned with.
     isReferenceJourney(world = this.session?.world) {
-      return world?.id === 'pack-boat' || world?.id === 'pack-smile';
+      const journey = ns.LettersJourney?.forWorld(world);
+      return world?.id === 'pack-boat' || world?.id === 'pack-smile' || (!!journey && !journey.craft);
     }
 
     isBoatAdventure() {
@@ -1360,9 +2430,54 @@
     adventureScene(completed, interactivePet = false) {
       if (!this.isBoatAdventure()) return '';
       return ns.LettersJourney.scene({ completed, interactivePet, items: this.session.items,
+        kind: ns.LettersJourney.forWorld(this.session.world)?.kind,
         drawings: this.session.journeyDrawings,
         pet: this.petSVG(150, completed === 3 ? 'delighted' : 'proud'),
         growth: ns.LettersGardenArt.growth(this.progress, this.bests) });
+    }
+
+    // The pet follows whatever the child presses on this screen (outside the
+    // pet itself) until release. Listeners end with the screen.
+    petLife(host, scope) {
+      const rig = this.sceneRig(host);
+      if (!rig || !scope) return rig;
+      const signal = this.screenListeners?.signal;
+      let holding = false, touched = null, touchedAt = 0, reactedAt = 0, reactedKind = null;
+      const pick = event => {
+        const item = event.target?.closest?.('button,[role="button"]');
+        return item && !host.contains(item) && scope.contains(item) ? item : null;
+      };
+      scope.addEventListener('pointerdown', event => {
+        const item = pick(event);
+        if (!item) return;
+        holding = true; touched = item; touchedAt = Date.now(); rig.watch(item); rig.reach(item);
+      }, { capture: true, signal });
+      scope.addEventListener('click', event => {
+        const item = pick(event);
+        if (item) { touched = item; touchedAt = Date.now(); }
+      }, { capture: true, signal });
+      // Same answer reaction as activities: only the child's own pick is looked at.
+      rig.react = outcome => {
+        const now = Date.now();
+        if (typeof outcome?.correct !== 'boolean' || now - touchedAt > 2500) return;
+        if (now - reactedAt < 600 && reactedKind === outcome.correct) return;
+        reactedAt = now; reactedKind = outcome.correct;
+        const mine = touched?.isConnected ? touched : null;
+        if (outcome.correct) rig.cheer(() => mine?.isConnected && rig.inspect(mine, 1200));
+        else if (mine) rig.inspect(mine, 450, () => rig.ponder());
+        else rig.ponder();
+      };
+      const letGo = () => { if (holding) { holding = false; rig.settle(); } };
+      window.addEventListener('pointerup', letGo, { signal });
+      window.addEventListener('pointercancel', letGo, { signal });
+      return rig;
+    }
+
+    // Companion life outside activities (meet, stars, party).
+    // The rig stops itself when its screen is replaced.
+    sceneRig(host) {
+      if (!host || !ns.LettersPetRig) return null;
+      return ns.LettersPetRig.attach(host, { reducedMotion: () => this.prefersReducedMotion() });
     }
 
     journeyRoute(completed = 0) {
@@ -1399,6 +2514,70 @@
     //   assemble — cards with parts (syllables, joins, muqattaat) arrive as
     //             pieces the child taps together; the fused card is the reveal;
     //   wake    — everything else sleeps inside a sparkle bud until tapped.
+    // Land beds stop while the page is hidden and resume where they were.
+    watchLandVisibility() {
+      if (this._landVisibility) return;
+      this._landVisibility = () => this.sound.setLand?.(document.hidden ? null : this.landBed);
+      document.addEventListener("visibilitychange", this._landVisibility);
+    }
+
+    playMapWelcome(el, scroll, { welcome, worlds, yOf, walkTo, rig, then }) {
+      const doneI = worlds.findIndex(w => w.id === welcome.world);
+      if (doneI < 0) return then();
+      const nextI = worlds.findIndex(w => this.statusOf(w) === "current");
+      const reduced = this.prefersReducedMotion();
+      const at = (ms, fn) => setTimeout(() => { if (el.isConnected) fn(); }, reduced ? 0 : ms);
+      scroll.scrollTo?.({ top: Math.max(0, yOf(doneI) - scroll.clientHeight * 0.55), behavior: reduced ? "auto" : "smooth" });
+      const node = el.querySelector(`.map-node[data-node-world="${welcome.world}"]`);
+      at(650, () => {
+        const keepsake = node?.querySelector(".map-journey-memento, .map-picnic-memento, .map-flower-bed");
+        keepsake?.classList.add("is-landing");
+        this.sound.play("thud");
+        if (keepsake) this.confettiAt(keepsake);
+      });
+      at(1350, () => {
+        el.querySelector(`.map-plant[data-plant-world="${welcome.world}"]`)?.classList.add("is-growing");
+        this.sound.play("glow");
+      });
+      at(2100, () => {
+        const next = nextI >= 0 ? el.querySelector(`.map-stop[data-world="${worlds[nextI].id}"]`) : null;
+        next?.classList.add("is-opening");
+        this.sound.play("pop");
+        this.sound.play("chime");
+        if (next && !reduced && nextI !== doneI) {
+          walkTo(worlds[nextI], nextI, { stay: true });
+          setTimeout(() => el.isConnected && then(), 2600);
+        } else {
+          rig?.cheer?.();
+          then();
+        }
+      });
+    }
+
+    // Land arrival (2026-10-01): the first time a new land opens, the map
+    // glides to its gate, the banner unfurls with the land's chord, and the pet
+    // turns to look. Once per land; reduced motion unfurls without the glide.
+    arriveInLand(el, scroll, rig) {
+      const next = el.querySelector(".map-gate-at.is-arriving-next");
+      if (!next) return;
+      const land = next.dataset.gateLand;
+      this.landsSeen = [...new Set([...(this.landsSeen || []), land])];
+      this.saveJSON("quran-trainer:letters:lands-seen", this.landsSeen);
+      const reduced = this.prefersReducedMotion();
+      setTimeout(() => {
+        if (!el.isConnected) return;
+        const r = next.getBoundingClientRect?.(), s = scroll.getBoundingClientRect?.();
+        if (r && s && scroll.scrollTo) scroll.scrollTo({ top: scroll.scrollTop + r.top - s.top - s.height * 0.45, behavior: reduced ? "auto" : "smooth" });
+        setTimeout(() => {
+          if (!el.isConnected) return;
+          next.querySelector(".map-gate")?.classList.add("is-open", "is-arriving");
+          this.sound.play("biomeArrival");
+          setTimeout(() => this.sound.play("chime"), 380);
+          rig?.inspect?.(next, 1600, () => rig?.cheer?.());
+        }, reduced ? 0 : 900);
+      }, reduced ? 0 : 700);
+    }
+
     renderMeet() {
       const s = this.session;
       const card = s.world.meet[s.meetIndex];
@@ -1406,7 +2585,8 @@
       const isReplay = this.progress.done.includes(s.world.id);
       const parts =
         !isReplay && Array.isArray(card.parts) && card.parts.length >= 2 ? card.parts : null;
-      const bigCard = Art.blobCard({ hue: s.world.hue, label: card.display, latin });
+      // The letter is the hero: a garden sign, inked in writing direction on reveal.
+      const bigCard = (Art.letterSign || Art.blobCard)({ hue: s.world.hue, label: card.display, latin });
       const hidden = isReplay ? "" : "hidden";
       const opener = isReplay
         ? ""
@@ -1415,7 +2595,7 @@
               ${parts
                 .map(
                   (p, i) => `<button type="button" class="meet-piece" aria-label="Join ${p.display}" data-i="${i}" style="--pi:${i}">
-                    ${Art.blobCard({ hue: s.world.hue, label: p.display, latin: false })}</button>`,
+                    ${(Art.letterSign || Art.blobCard)({ hue: s.world.hue, label: p.display, latin: false })}</button>`,
                 )
                 .join("")}
             </div>`
@@ -1427,9 +2607,13 @@
           ${opener}
           <button type="button" class="meet-card" aria-label="Listen to ${card.display}" ${hidden}>${bigCard}</button></div>
           ${this.journeyRoute()}
-          <div class="meet-dots">${s.world.meet.map((_, i) => `<i class="${i === s.meetIndex ? "is-on" : ""}"></i>`).join("")}</div>
+          <div class="meet-dots meet-trail" aria-hidden="true">${s.world.meet.map((m, i) => i < s.meetIndex
+            // Letters already met ride along as little seed tags; later ones stay unopened seeds.
+            ? `<i class="is-met">${(() => { const lat = !/[؀-ۿ]/.test(m.display), fs = lat ? 16 : 24, sh = Art.inkShift ? Art.inkShift(m.display, fs, lat) : { dx: 0, dy: 0 };
+                return `<svg viewBox="0 0 36 30" width="36" height="30" aria-hidden="true"><text x="${(18 + sh.dx).toFixed(1)}" y="${(15 + sh.dy).toFixed(1)}" text-anchor="middle" font-family="${lat ? "ui-rounded, system-ui, sans-serif" : "'Amiri Quran', serif"}" font-size="${fs}" fill="#4a3620" ${lat ? "" : 'direction="rtl"'}>${m.display}</text></svg>`; })()}</i>`
+            : `<i class="${i === s.meetIndex ? "is-on" : ""}"></i>`).join("")}</div>
           <div class="meet-nav">
-            <button type="button" class="lg-round-btn meet-hear${this.isBoatAdventure() ? ' adventure-companion' : ''}" aria-label="Hear the letter again" ${hidden}>${this.isBoatAdventure() ? `${this.petSVG(66)}<span>${Art.icon('speaker',20)}</span>` : Art.icon("speaker", 36)}</button>
+            <button type="button" class="lg-round-btn meet-hear adventure-companion" aria-label="Hear the letter again" ${hidden}>${this.petSVG(66)}<span>${Art.icon('speaker',20)}</span></button>
             <button type="button" class="lg-big-btn meet-next" aria-label="Continue" ${hidden}>${Art.icon("next", 40)}</button>
           </div>
         </div>`,
@@ -1466,7 +2650,21 @@
         el.querySelector(".meet-hear").hidden = false;
         el.querySelector(".meet-next").hidden = false;
         sayWithMe();
+        // Letter Friends (v26): after the letter speaks, its friend arrives —
+        // wearing the letter as its body — calls once and says its name.
+        const F = ns.LetterFriends, char = card.display;
+        if (F?.FRIENDS?.[char] && typeof el.querySelector(".meet-display")?.insertAdjacentHTML === "function") setTimeout(() => {
+          if (!el.isConnected || el.querySelector(".meet-friend")) return;
+          el.querySelector(".meet-display").insertAdjacentHTML("beforeend", `<button type="button" class="meet-friend" aria-label="${F.get(char).en}">${F.art(char, { size: 104, mode: "plain" })}</button>`);
+          const btn = el.querySelector(".meet-friend"), grow = () => { const svg = btn.querySelector("svg.lf"); svg?.classList.remove("is-plain"); svg?.classList.add("is-growing"); };
+          const greet = () => { if (!el.isConnected) return; grow(); setTimeout(() => { if (!el.isConnected) return; this.sound.play(F.get(char).call); setTimeout(() => el.isConnected && this.say(F.item(char)), 520); }, 380); };
+          btn.addEventListener("click", greet);
+          setTimeout(greet, 260);
+        }, 2300);
       };
+      const companion = this.sceneRig(el.querySelector('.adventure-companion'));
+      cardEl.addEventListener("click", () => companion?.inspect(cardEl, 1200));
+      el.querySelector('.meet-hear')?.addEventListener('click', () => companion?.inspect(cardEl, 1200));
       cardEl.addEventListener("click", speakCard);
       // Fingers on every new letter (2026-07-25). The owner's read was right —
       // finger involvement is the strongest engagement lever here — but leading a
@@ -1641,7 +2839,57 @@
 
       const petEl = el.querySelector(".play-pet");
       let poseTimer = null;
-      this.stopJourneyPose = () => {clearTimeout(poseTimer);};
+      // The participating pet (update 1): every activity, every chapter.
+      let rig = null;
+      const petRig = () => {
+        if (!ns.LettersPetRig || !el.isConnected) return null;
+        const host = gameName === 'feed' ? el.querySelector('.feed-creature') : petEl;
+        if (!rig?.alive && host) rig = ns.LettersPetRig.attach(host, { reducedMotion: () => this.prefersReducedMotion() });
+        return rig;
+      };
+      const pet = ns.LettersPetRig ? {
+        watch: target => petRig()?.watch(target), reach: target => petRig()?.reach(target),
+        settle: () => petRig()?.settle(), cheer: next => petRig()?.cheer(next),
+        inspect: (target, ms, next) => petRig()?.inspect(target, ms, next),
+        ponder: next => petRig()?.ponder(next), wave: next => petRig()?.wave(next),
+      } : null;
+      // Whatever the child presses or drags, the pet follows. Only the child's
+      // own touch picks the target, so the pet can never point at an answer.
+      let touched = null, touchedAt = 0, holding = false;
+      const touchable = target => target?.closest?.('button,[role="button"]');
+      stage.addEventListener('pointerdown', event => {
+        const item = touchable(event.target);
+        if (!item || !stage.contains(item)) return;
+        touched = item; touchedAt = Date.now(); holding = true;
+        pet?.watch(item); pet?.reach(item);
+      }, true);
+      stage.addEventListener('click', event => {
+        const item = touchable(event.target);
+        if (item && stage.contains(item)) { touched = item; touchedAt = Date.now(); }
+      }, true);
+      const letGo = () => { if (holding) { holding = false; pet?.settle(); } };
+      window.addEventListener('pointerup', letGo);
+      window.addEventListener('pointercancel', letGo);
+      // Answers drive the pet through the learning report every game already
+      // sends. Pond, Trace and Feed choreograph their own moments instead.
+      const ownChoreography = ['pop', 'trace', 'feed'].includes(gameName);
+      let reactedAt = 0, reactedKind = null;
+      const reactToOutcome = outcome => {
+        const now = Date.now();
+        // Burst is timed: the pet stays a quiet watcher so it never competes with the clock.
+        if (!pet || ownChoreography || gameName === 'burst' || typeof outcome?.correct !== 'boolean') return;
+        // Batch reports repeat one verdict; a quick fix after a miss still celebrates.
+        if (now - touchedAt > 2500 || (now - reactedAt < 600 && reactedKind === outcome.correct)) return;
+        reactedAt = now; reactedKind = outcome.correct;
+        const pick = touched?.isConnected ? touched : null;
+        if (outcome.correct) pet.cheer(() => pick?.isConnected && pet.inspect(pick, 1200));
+        else if (pick) pet.inspect(pick, 450, () => pet.ponder());
+        else pet.ponder();
+      };
+      this.stopJourneyPose = () => {
+        clearTimeout(poseTimer); rig?.destroy(); rig = null;
+        window.removeEventListener('pointerup', letGo); window.removeEventListener('pointercancel', letGo);
+      };
       let poseLockedUntil = 0;
       // The presenter is the child's own blob pet (squirrel reverted
       // 2026-07-18). Poses map to blob moods: listening/success open the
@@ -1690,6 +2938,7 @@
       };
       petEl.addEventListener("click", () => {
         setPetPose("success", 900);
+        pet?.wave();
         this.petRecite(null);
       });
       // Learning evidence travels on its own explicit channel. Prompt replay
@@ -1726,10 +2975,17 @@
             picture.getContext('2d').drawImage(canvas, (160-width)/2, (160-height)/2, width, height);
             s.journeyDrawings ||= {};
             s.journeyDrawings[item.display] = picture.toDataURL('image/png');
+            // Keep the newest few so they can become garden signs after a reload.
+            const kept = { ...(this.savedDrawings || {}) };
+            delete kept[item.display];
+            kept[item.display] = s.journeyDrawings[item.display];
+            this.savedDrawings = Object.fromEntries(Object.entries(kept).slice(-8));
+            this.saveJSON("quran-trainer:letters:drawings", this.savedDrawings);
           } catch { /* A thumbnail must never block drawing completion. */ }
         },
-        onPetTap: () => {setPetPose('listening', 900); if(currentTarget)sayWithPose(currentTarget);},
-        garden: s.world.id === "pack-boat" || this.isGentleDaily(),
+        onPetTap: () => {setPetPose('listening', 900); pet?.wave(); if(currentTarget)sayWithPose(currentTarget);},
+        pet,
+        garden: ["picnic", "parcel"].includes(ns.LettersJourney?.forWorld(s.world)?.kind) || this.isGentleDaily(),
         referenceJourney: this.isReferenceJourney(s.world),
         setRoundProgress: (current,total) => {
           if (!this.showsRoundProgress() || !el.isConnected) return;
@@ -1758,6 +3014,7 @@
         onPauseChange: paused => {if(paused && el.isConnected)this.stopSpeech();},
         say: (item) => sayWithPose(item),
         reportOutcome: (outcome) => {
+          reactToOutcome(outcome);
           const active = outcome.itemId === currentTarget?.id;
           const prompted = active && outcome.evidence === 'supported_visible_matching' && gameName !== 'pairs';
           return learning?.report({...outcome,
@@ -1771,6 +3028,8 @@
         clearLearningHint: () => {hint.hidden=true;},
         showLearningHint: (target, selected) => {
           revealPrompt(true);
+          // Little Sprout: errorless — the right answer glows right away.
+          if (this.sprout && target) this.glowAnswer(el, target);
           if (!selected || (target.id || target.display)===(selected.id || selected.display)) return;
           const feature=ns.LettersLearning?.contrast(target,selected) || 'shape';
           hint.hidden=false;hint.dataset.feature=feature;
@@ -1798,6 +3057,9 @@
           if (name === "correct") {
             this._streak = (this._streak || 0) + 1;
             this.sound.streakMelody(this._streak);
+            // The material answers too, softly under the melody.
+            const cue = { water: "ripple", wood: "dock", seeds: "thud", glints: "clink" }[this.activityMaterial()];
+            if (cue) this.sound.play(cue);
           } else if (name === "wrong") {
             this._streak = 0;
             this.sound.play(name);
@@ -1891,17 +3153,110 @@
       this.renderStars(stars);
     }
 
+    // ---------- the Garden Brain's day: Today's Walk (v25) ----------
+
+    // Every letter met in a finished chapter, as speakable items.
+    knownItems() {
+      return this.petKnowledge().map(letter=>({id:letter.char,display:letter.char,speak:letter.arName,objective:'letter-name'}));
+    }
+
+    // The walk is planned once a day per child and kept, so re-drawing the
+    // map never reshuffles it. A new day (or a newly finished chapter that
+    // changes what the child knows) plans afresh.
+    todaysWalk() {
+      if(!ns.gardenBrain||!ns.LETTERS_DATA?.packs)return null;
+      const known=this.petKnowledge().map(l=>l.char);
+      if(!known.length)return null;
+      const today=todayStr();
+      const saved=this.loadJSON(WALK_KEY,null);
+      if(saved&&saved.date===today&&saved.known===known.length&&Array.isArray(saved.stops)&&saved.stops.length)return saved;
+      const plan=ns.gardenBrain.planWalk({known,sprout:!!this.sprout,marks:this.taughtMarks(),date:today,
+        profile:ns.LettersState?.activeProfile?.()||'p1',huntable:known.length>=3});
+      if(!plan)return null;
+      const walk={date:today,known:known.length,stops:plan.stops,done:[],stamped:false};
+      this.saveJSON(WALK_KEY,walk);
+      return walk;
+    }
+
+    renderWalk() {
+      const walk=this.todaysWalk();
+      if(!walk)return this.renderHome();
+      this.session=null;
+      const n=walk.stops.length, finished=walk.done.length>=n;
+      const next=walk.stops.findIndex((_,i)=>!walk.done.includes(i));
+      // Stones run right to left, the way an Arabic page turns, and end at
+      // the pet's nap spot.
+      // Upright screens walk top to bottom instead, zig-zagging down the page.
+      const upright=(window.innerWidth||800)<(window.innerHeight||600)*1.05;
+      const pos=i=>upright?{x:i%2?28:72,y:9+i*(72/Math.max(1,n-1))}:{x:88-i*(70/Math.max(1,n-1)),y:i%2?34:68};
+      const nap=upright?{x:n%2?28:72,y:95}:{x:7,y:46};
+      const pts=[...walk.stops.map((_,i)=>pos(i)),nap];
+      const d=pts.map((p,i)=>`${i?'L':'M'}${p.x} ${p.y}`).join('');
+      const petAt=finished?nap:pos(next<0?0:next);
+      const el=this.screen('lg-walk',`${this.topBar()}<div class="walk-stage">
+        <div class="walk-trail${upright?' is-upright':''}">
+          <svg class="walk-path" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="${d}" fill="none" stroke="#e5dcc8" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" data-ribbon/><path d="${d}" fill="none" stroke="#c9bda4" stroke-width="3" stroke-dasharray="2 14" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>
+          ${walk.stops.map((stop,i)=>{const p=pos(i),done=walk.done.includes(i);
+            return `<button type="button" class="walk-stone${done?' is-done':''}${i===next?' is-next':''}" data-stop="${i}" style="left:${p.x}%;top:${p.y}%" aria-label="Walk stop ${i+1} of ${n}${done?', done':i===next?', next':''}">${stop.kind==='LetterDelivery'?ns.LetterDelivery.icon(90):ns.LettersGardenArt.practicePicture(stop.kind,{petArt:stop.kind==='Feed'?this.petSVG(100):''})}${done?`<span class="walk-check">${Art.icon('check',20)}</span>`:''}</button>`;}).join('')}
+          <span class="walk-end" style="left:${nap.x}%;top:${nap.y}%" aria-hidden="true">${ns.LettersRoomArt?.cushion?.()||`<svg viewBox="0 0 80 40"><ellipse cx="40" cy="26" rx="36" ry="12" fill="#ffa798" stroke="#4a3620" stroke-width="3"/><ellipse cx="40" cy="22" rx="24" ry="6" fill="#ee806f"/></svg>`}</span>
+          <span class="walk-pet${finished?' walk-nap':''}" style="left:${petAt.x}%;top:${petAt.y}%">${this.petSVG(finished?70:64,finished?'sleepy':undefined)}${finished?'<span class="walk-zz" aria-hidden="true">z z</span>':''}</span>
+        </div>
+      </div>`);
+      this.wireTopBar(el);
+      el.querySelectorAll('.walk-stone').forEach(b=>b.addEventListener('click',()=>{if(el.isConnected){this.sound.play('click');this.startWalkStop(Number(b.dataset.stop));}}));
+      if(finished&&!walk.stamped){
+        // A finished walk earns the day's stamp — the calendar ritual the game
+        // already has — and nothing else: no new currency, no streak.
+        walk.stamped=true;this.saveJSON(WALK_KEY,walk);
+        this.stampToday?.();
+        this.sound.play('cheer2');
+        this.confettiAt(el.querySelector('.walk-pet'));
+      }
+      return el;
+    }
+
+    startWalkStop(i) {
+      const walk=this.todaysWalk(), stop=walk?.stops?.[i];
+      if(!stop)return this.renderWalk();
+      const byChar=new Map(this.knownItems().map(item=>[item.display,item]));
+      let items=(stop.letters||[]).map(c=>byChar.get(c)).filter(Boolean);
+      // Choice games need at least three letters on the board; borrow
+      // familiar ones rather than show the same letter twice.
+      if(items.length<3)for(const item of byChar.values()){if(items.length>=3)break;if(!items.includes(item))items.push(item);}
+      if(!items.length)return this.renderWalk();
+      const world=this.worlds.worlds.find(w=>w.id==='pack-boat');
+      this.session={world,items,startAt:0,walkStop:i};
+      const started=Date.now();
+      // A stop counts as walked when it is played — finished, or simply given
+      // a fair go. Leaving early is always fine; it just stays open.
+      const leave=completed=>{
+        const w=this.todaysWalk();
+        if(w&&(completed||Date.now()-started>=20000)&&!w.done.includes(i)){w.done=[...w.done,i];this.saveJSON(WALK_KEY,w);}
+        this.renderWalk();
+      };
+      this.startPractice(stop.kind,()=>leave(false),()=>leave(true));
+    }
+
     renderPracticeGarden() {
       const world=this.worlds.worlds.find(w=>w.id==='pack-boat');
       const familiar=this.petKnowledge().map(letter=>({id:letter.char,display:letter.char,speak:letter.arName,objective:'letter-name'}));
       this.session={world,items:familiar.length?familiar:world.items()};
-      const choices=['Feed','DotGarden','GardenPaths'];
+      const choices=['Feed','DotGarden','GardenPaths','WaterGarden'];
+      // Letter Balloons (v24): free play for the youngest — first for a little sprout.
+      if(this.sprout)choices.unshift('LetterBalloons');else choices.push('LetterBalloons');
+      // Letter Friends (v26): find a friend, and read the friends' book.
+      if(this.petKnowledge().length>=2)choices.splice(1,0,'FriendFind');
+      if(this.petKnowledge().length)choices.push('FriendBook');
+      if(this.petKnowledge().length>=3)choices.push('LetterHunt');
+      if(this.petKnowledge().length&&this.taughtMarks().length)choices.push('SoundLab');
+      if(this.petKnowledge().length)choices.push('LetterStudio');
+      if(this.petKnowledge().length>=4&&this.siblingPets().length)choices.push('GardenTogether');
       if(this.petKnowledge().length)choices.push('LetterDelivery');
       if(this.workshopWorlds().length)choices.push('Workshop');
-      if(this.worlds.dailySession(this.progress.done))choices.push('Burst');
-      const el=this.screen('lg-meet',`${this.topBar()}<div class="practice-garden-hub"><div class="practice-garden-choices">${choices.map(kind=>`<button type="button" data-kind="${kind}" aria-label="${({Feed:'Feed a friend',DotGarden:'Dot Garden: place the dots',GardenPaths:'Garden Paths: draw letters',LetterDelivery:'Letter Delivery: familiar letters',Workshop:'Word Workshop: build familiar sounds',Burst:'Optional timed letter challenge'})[kind]}">${kind==='LetterDelivery'?ns.LetterDelivery.icon(120):ns.LettersGardenArt.practicePicture(kind,{petArt:kind==='Feed'?this.petSVG(100):''})}<span class="practice-play" aria-hidden="true">${Art.icon('next',24)}</span></button>`).join('')}</div></div>`);
+      if(this.worlds.dailySession(this.progress.done)&&!this.gentle)choices.push('Burst');
+      const el=this.screen('lg-meet',`${this.topBar()}<div class="practice-garden-hub"><div class="practice-garden-choices">${choices.map(kind=>`<button type="button" data-kind="${kind}" aria-label="${({Feed:'Feed a friend',DotGarden:'Dot Garden: place the dots',GardenPaths:'Garden Paths: draw letters',WaterGarden:'Water Garden: open the letter gates',LetterDelivery:'Letter Delivery: familiar letters',Workshop:'Word Workshop: build familiar sounds',Burst:'Optional timed letter challenge',LetterHunt:'Letter Hunt: find the letter in the picture',SoundLab:'Sound Lab: join a letter and a mark',LetterStudio:'Letter Studio: make a picture',GardenTogether:'Garden Together: play with a brother or sister',LetterBalloons:'Letter Balloons: pop and hear the letters',FriendFind:'Find my friend',FriendBook:'The Letter Friends book'})[kind]}">${kind==='LetterDelivery'?ns.LetterDelivery.icon(120):ns.LettersGardenArt.practicePicture(kind,{petArt:kind==='Feed'?this.petSVG(100):''})}<span class="practice-play" aria-hidden="true">${Art.icon('next',24)}</span></button>`).join('')}</div></div>`);
       this.wireTopBar(el);
-      el.querySelectorAll('[data-kind]').forEach(b=>b.onclick=()=>b.dataset.kind==='Burst'?this.startDaily(true):b.dataset.kind==='Workshop'?this.renderWorkshop():this.startPractice(b.dataset.kind,()=>this.renderPracticeGarden()));
+      el.querySelectorAll('[data-kind]').forEach(b=>b.onclick=()=>b.dataset.kind==='Burst'?this.startDaily(true):b.dataset.kind==='Workshop'?this.renderWorkshop():b.dataset.kind==='GardenTogether'?this.startTogether():this.startPractice(b.dataset.kind,()=>this.renderPracticeGarden()));
     }
 
     renderDecoratingGarden() {
@@ -1910,11 +3265,12 @@
       this.wireTopBar(el);
       this.game=new ns.DecoratingGarden({
         stage:el.querySelector('.my-garden-stage'),layout:this.gardenLayout,
-        catalog:ns.LettersDecorations.catalog(this),petArt:()=>this.petSVG(112,'proud'),
+        catalog:ns.LettersDecorations.catalog(this),petArt:()=>this.petSVG(112,'proud'),petRig:host=>this.sceneRig(host),
         reducedMotion:()=>this.prefersReducedMotion(),play:name=>this.sound.play(name),
         onChange:layout=>{if(!el.isConnected)return;this.gardenLayout=layout;this.saveJSON('quran-trainer:letters:garden-layout',layout);},
         onDone:()=>{if(el.isConnected)this.renderHome();}
       });
+      this.addGardenVisitors(el);
       if(this.petKnowledge().length){
         const launch=document.createElement('button');launch.type='button';launch.className='decorate-delivery practice-button';
         launch.setAttribute('aria-label','Play Letter Delivery');launch.innerHTML=ns.LetterDelivery.icon(44);
@@ -1938,7 +3294,7 @@
       const el=this.screen('lg-meet',`${this.topBar()}<div class="workshop-picker">
         <div class="workshop-sign" aria-hidden="true">${ns.LettersGardenArt.practicePicture('Workshop')}</div>
         <div class="workshop-chapters">${entries.map(({world},i)=>`<button type="button" data-workshop="${i}" aria-label="Practice building ${/[؀-ۿ]/.test(world.icon)?world.icon:'familiar words'}">
-          <svg viewBox="0 0 140 110" aria-hidden="true"><rect x="8" y="10" width="124" height="86" rx="20" fill="#e0c79b" stroke="#947a52" stroke-width="3"/><rect x="15" y="16" width="110" height="70" rx="15" fill="#fff8e7"/>${/[؀-ۿ]/.test(world.icon)?`<text x="70" y="50" text-anchor="middle" font-family="Amiri Quran, serif" font-size="40" fill="#4a3620" data-fit-box="70,50,84,46,42">${world.icon}</text>`:`<g transform="translate(43 24)">${Art.icon('book',54)}</g>`}</svg>
+          <svg viewBox="0 0 140 110" aria-hidden="true"><rect x="8" y="10" width="124" height="86" rx="20" fill="#c9bda4" stroke="#a89478" stroke-width="3"/><rect x="15" y="16" width="110" height="70" rx="15" fill="#fffaf0"/>${/[؀-ۿ]/.test(world.icon)?`<text x="70" y="50" text-anchor="middle" font-family="Amiri Quran, serif" font-size="40" fill="#4a3620" data-fit-box="70,50,84,46,42">${world.icon}</text>`:`<g transform="translate(43 24)">${Art.icon('book',54)}</g>`}</svg>
           <span class="practice-play" aria-hidden="true">${Art.icon('next',24)}</span></button>`).join('')}</div></div>`);
       this.wireTopBar(el,()=>this.renderPracticeGarden());
       el.querySelectorAll('[data-workshop]').forEach(button=>button.onclick=()=>{
@@ -1954,14 +3310,14 @@
     wirePractice(el,back) {
       el.querySelectorAll('[data-practice]').forEach(b=>b.onclick=()=>this.startPractice(b.dataset.practice,back));
     }
-    startPractice(kind,back) {
-      if(!['Feed','Workshop','DotGarden','GardenPaths','LetterDelivery'].includes(kind))return back?.();
+    startPractice(kind,back,onDone) {
+      if(!['Feed','Workshop','DotGarden','GardenPaths','WaterGarden','LetterDelivery','LetterHunt','SoundLab','LetterStudio','GardenTogether','LetterBalloons','FriendFind','FriendBook'].includes(kind))return back?.();
       if(kind==='LetterDelivery'){const items=this.petKnowledge().map(letter=>({id:letter.char,display:letter.char,speak:letter.arName}));if(!items.length)return back?.();this.session={world:this.worlds.worlds.find(w=>w.id==='pack-boat'),items};}
       const s=this.session;
       if(!s?.world || !(s.items||s.world.items()).length)return back?.();
       const el=this.screen('lg-play',`${this.topBar()}<div class="practice-heading">${kind==='Feed'?'':this.petSVG(76)}<button class="practice-replay" type="button" aria-label="Hear the letter again"></button></div><div class="practice-stage"></div>`);
-      el.dataset.activity=kind==='Feed'?'feed':kind==='Workshop'?'build':kind==='LetterDelivery'?'delivery':kind==='DotGarden'?'dots':'practice';
-      if(kind==='LetterDelivery')el.querySelector('.practice-heading').hidden=true;
+      el.dataset.activity=kind==='Feed'?'feed':kind==='Workshop'?'build':kind==='LetterDelivery'?'delivery':kind==='DotGarden'?'dots':kind==='WaterGarden'?'water':kind==='LetterHunt'?'hunt':kind==='SoundLab'?'lab':kind==='LetterStudio'?'studio':kind==='GardenTogether'?'together':kind==='LetterBalloons'?'balloons':kind==='FriendFind'?'friend':kind==='FriendBook'?'friend-book':'practice';
+      if(kind==='LetterDelivery'||kind==='GardenTogether'||kind==='FriendBook')el.querySelector('.practice-heading').hidden=true;
       if(kind==='Feed'||kind==='Workshop')el.querySelector('.practice-stage').classList.add('play-stage');
       this.wireTopBar(el,back);
       const replay=el.querySelector('.practice-replay');let current=null;
@@ -1969,6 +3325,7 @@
       const learning=ns.LettersLearning?.LearningSession
         ? new ns.LettersLearning.LearningSession(ns.LettersStrength)
         : null;
+      let friend=null;
       const ctx={stage:el.querySelector('.practice-stage'),items:s.items||s.world.items(),
         activity:kind,worldId:s.world.id,completedWorldIds:this.progress?.done || [],
         reducedMotion:()=>this.prefersReducedMotion(),petArt:()=>this.petSVG(140,'open'),
@@ -1980,14 +3337,33 @@
           else if(item)replay.textContent=item.display;else replay.innerHTML=Art.icon('speaker',32);
         },
         say:item=>{if(kind!=='Workshop')current=item;return this.sayForLearning(item);},
-        reportOutcome:outcome=>learning?.report(outcome),
+        reportOutcome:outcome=>{if(kind!=='Feed'&&kind!=='Burst')friend?.react?.(outcome);return learning?.report(outcome);},
+        pet:{watch:t=>friend?.watch(t),reach:t=>friend?.reach(t),settle:()=>friend?.settle(),cheer:n=>friend?.cheer(n),
+          inspect:(t,ms,n)=>friend?.inspect(t,ms,n),ponder:n=>friend?.ponder(n),wave:n=>friend?.wave(n)},
         correct:()=>this.sound.play('correct'),
-        done:()=>{if(el.isConnected)back();}};
+        sfx:name=>this.sound.play(name),
+        // Letter Hunt draws the child's newest land; its finds burst in petals.
+        land:kind==='LetterHunt'||kind==='LetterStudio'?([...this.worlds.worlds].reverse().find(w=>this.statusOf(w)!=='locked')?.biome || 'meadow'):undefined,
+        confettiAt:target=>this.confettiAt(target),
+        marks:kind==='SoundLab'?this.taughtMarks():undefined,
+        petA:kind==='GardenTogether'?this.petSVG(96):undefined,
+        starter:kind==='LetterBalloons'?(ns.LETTERS_DATA?.packs?.[0]?.letters||[]).map(l=>({id:l.char,display:l.char,speak:l.arName})):undefined,
+        petB:kind==='GardenTogether'&&this.partnerPet?Art.pet({hue:this.partnerPet.hue??200,species:this.partnerPet.species||'blob',stage:1,worn:this.partnerPet.worn||[],size:96}):undefined,
+        voice:k=>this.sound.voice?.(k===0?this.pet?.species:this.partnerPet?.species),
+        stickers:kind==='LetterStudio'?(this.stickers?.owned||[]).filter(id=>VISITORS[id]):undefined,
+        // Letter Studio pictures hang in the garden as signs (the drawings store).
+        saveDrawing:url=>{const kept={...(this.savedDrawings||{})};const n=1+Object.keys(kept).filter(k=>/^art\d$/.test(k)).length%3;delete kept[`art${n}`];kept[`art${n}`]=url;this.savedDrawings=Object.fromEntries(Object.entries(kept).slice(-8));this.saveJSON('quran-trainer:letters:drawings',this.savedDrawings);},
+        // Letter Friends (v26): distractors and book pages come from every letter met.
+        known:kind==='FriendFind'||kind==='FriendBook'?this.knownItems():undefined,
+        startAt:kind==='FriendBook'?(s.startAt||0):undefined,
+        beginner:kind==='FriendFind'?!!this.sprout:undefined,
+        done:()=>{if(el.isConnected)(onDone||back)();}};
       if(kind==='Feed')this.game=new ns.LettersMiniGames.feed({...ctx,garden:true,beginner:true,level:0,rounds:4,hue:150,extraItems:[],petArt:()=>this.petSVG(180),setPrompt:ctx.prompt,sfx:name=>this.sound.play(name),confettiAt:target=>this.confettiAt(target),onDone:ctx.done});
       else if(kind==='Workshop')this.game=new ns.LettersMiniGames.build({...ctx,setPrompt:ctx.prompt,sfx:name=>this.sound.play(name),confettiAt:target=>this.confettiAt(target),onDone:ctx.done});
       else if(kind==='LetterDelivery')this.game=new ns.LetterDelivery(ctx);
       else this.game=new ns.GardenPractice[kind](ctx);
       if(kind==='Workshop'||kind==='Feed')this.unmountActivityArt=ns.LettersActivityArt?.mount(ctx.stage,kind==='Feed'?'feed':'build');
+      if(kind!=='LetterDelivery')friend=this.petLife(kind==='Feed'?el.querySelector('.feed-creature'):el.querySelector('.practice-heading'),ctx.stage);
     }
 
     gardenReward(finished=false) {
@@ -2028,12 +3404,19 @@
           </div>
           <div class="stars-nav">
             <button type="button" class="lg-round-btn stars-replay" aria-label="Play again">${Art.icon("replay", 34)}</button>
-            <button type="button" class="lg-big-btn stars-next" aria-label="${nextStep?.label || 'Continue'}">${nextStep ? `<span class="adventure-next-icon">${ns.LettersJourney.icon(nextStep.game)}</span>` : ''}${Art.icon(lastGame ? "check" : "next", 40)}</button>
+            <button type="button" class="lg-big-btn stars-next" aria-label="${nextStep?.label || 'Continue'}">${nextStep ? `<span class="adventure-next-icon">${ns.LettersJourney.icon(nextStep.game, ns.LettersJourney.forWorld(s.world)?.kind)}</span>` : ''}${Art.icon(lastGame ? "check" : "next", 40)}</button>
           </div>
         </div>`,
       );
       this.wireTopBar(el);
       this.wirePractice(el,()=>this.renderStars(stars));
+      // A craft chapter's step lands with the sound of its material.
+      const craftKind = ns.LettersJourney?.forWorld?.(s.world)?.craft && ns.LettersJourney.forWorld(s.world).kind;
+      const craftCue = { garland: "thread", harvest: "thud", jars: "clink", raft: "dock" }[craftKind];
+      if (craftCue) setTimeout(() => { if (el.isConnected) this.sound.play(craftCue); }, 420);
+      // The pet celebrates, then looks over the packets it is carrying onward.
+      const friend = this.sceneRig(el.querySelector('.adventure-friend, .reward-friend'));
+      friend?.cheer(() => friend.inspect(el.querySelector('.adventure-cargo, .reward-ground'), 1600));
       const row = el.querySelector(".stars-row");
       // Climb the star ladder: one bright, rising bell per star as it drops
       // in (synced to the stagger), then the payoff chord once the last one
@@ -2091,6 +3474,8 @@
         // Daily review: the day's stamp (and one island payout per day).
         const firstToday = this.stampToday();
         if (firstToday && this.island) this.island.completeStudyStep();
+        // Earn the choice (v5): the day's first bouquet earns a sticker-stand visit.
+        if (firstToday && this.stickers) { this.stickers.freeVisits = Math.min(9, (this.stickers.freeVisits || 0) + 1); this.saveJSON("quran-trainer:letters:stickers", this.stickers); }
         this.renderParty(worldStars, firstToday);
         return;
       }
@@ -2101,6 +3486,7 @@
       if (newlyDone) {
         this.progress.done.push(s.world.id);
         this.saveProgress();
+        this.mapWelcome = { world: s.world.id };
         if (this.island) this.island.completeStudyStep();
       }
       this.renderParty(worldStars, newlyDone);
@@ -2113,7 +3499,7 @@
       // reading real words from the Quran. Mark the moment.
       const isQuranWords = this.session && this.session.world && this.session.world.kind === "words";
       const capstone = isQuranWords && newlyDone
-        ? `<div class="party-capstone">✨ ${Art.icon("book", 26)}  ✨</div>`
+        ? `<div class="party-capstone"><svg class="party-glint" viewBox="-10 -10 20 20" aria-hidden="true"><path d="M0-9Q0 0 9 0Q0 0 0 9Q0 0-9 0Q0 0 0-9Z" fill="#f3c955" stroke="#70501b" stroke-width="1.6"/></svg>${Art.icon("book", 26)}<svg class="party-glint" viewBox="-10 -10 20 20" aria-hidden="true"><path d="M0-9Q0 0 9 0Q0 0 0 9Q0 0-9 0Q0 0 0-9Z" fill="#f3c955" stroke="#70501b" stroke-width="1.6"/></svg></div>`
         : "";
       const el = this.screen(
         "lg-party",
@@ -2124,7 +3510,7 @@
           <div class="party-stars" role="img" aria-label="${stars} of 3 stars">
             ${[0, 1, 2].map((i) => `<span class="stars-star ${i < stars ? "is-on" : ""}" style="animation-delay:${i * 240}ms">${Art.icon("star", 64)}</span>`).join("")}
           </div>
-          <div class="party-actions">${adventure ? `<button type="button" class="lg-round-btn party-replay" aria-label="Play the delivery again">${Art.icon('replay',32)}</button>` : ''}<button type="button" class="party-decorate" aria-label="Decorate with your earned rewards">${ns.DecoratingGarden.icon(50)}</button><button type="button" class="lg-big-btn party-next" aria-label="Return to the garden">${Art.icon("home", 44)}</button></div>
+          <div class="party-actions">${adventure ? `<button type="button" class="lg-round-btn party-replay" aria-label="${ns.LettersJourney.REPLAY?.[ns.LettersJourney.forWorld(this.session?.world)?.kind] || 'Play the delivery again'}">${Art.icon('replay',32)}</button>` : ''}<button type="button" class="party-decorate" aria-label="Decorate with your earned rewards">${ns.DecoratingGarden.icon(50)}</button><button type="button" class="lg-big-btn party-next" aria-label="Return to the garden">${Art.icon("home", 44)}</button></div>
         </div>`,
       );
       this.sound.play(newlyDone ? "worldClear" : "perfect");
@@ -2135,8 +3521,11 @@
       const replay = el.querySelector('.party-replay');
       if(replay)replay.onclick=()=>this.replayActivity(el,true);
       const partyPet = el.querySelector(".party-pet");
+      const partyRig = this.sceneRig(partyPet);
+      partyRig?.cheer(() => partyRig.inspect(el.querySelector('.adventure-basket, .adventure-cargo, .party-flower, .party-mascot'), 1600));
       partyPet.addEventListener("click", () => {
         if(!el.isConnected)return;
+        partyRig?.cheer();
         this.petRecite(partyPet.querySelector(".pet-bubble"));
         partyPet.querySelector(".pet-bubble").hidden = false;
       });

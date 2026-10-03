@@ -30,7 +30,7 @@
 .lg-app.lg-boat-adventure .stars-next { display:flex; align-items:center; justify-content:center; min-width:150px; gap:12px; padding:8px 20px; }
 .adventure-next-icon { display:grid; place-items:center; width:48px; height:48px; }
 .adventure-next-icon > svg { width:100%; height:100%; }
-.lg-boat-adventure .meet-nav .adventure-companion { position:relative; width:72px; height:76px; padding:0; border:0; box-shadow:none; background:none; }
+.lg-app .meet-nav .adventure-companion { position:relative; width:72px; height:76px; padding:0; border:0; box-shadow:none; background:none; }
 .adventure-companion > svg,.adventure-companion > .lg-animal { width:100%!important; height:100%!important; }
 .adventure-companion > span { position:absolute; display:grid; place-items:center; right:-5px; bottom:0; width:29px; height:29px; border:2px solid #4a3620; border-radius:50%; background:#fffaf0; }
 .lg-boat-adventure .party-actions { gap:12px; align-items:center; }
@@ -45,7 +45,7 @@
 .lg-boat-adventure .lg-play .adventure-stop i svg { width:10px; height:10px; }
 .lg-app .play-pet[hidden] { display:none!important; }
 .lg-boat-adventure button.feed-creature { position:relative; padding:0; border:0; background:none; margin:0 auto; cursor:pointer; }
-.lg-boat-adventure button.feed-creature:focus-visible { outline:3px solid #e8743c; outline-offset:4px; border-radius:32px; }
+.lg-boat-adventure button.feed-creature:focus-visible { outline:4px solid var(--lg-focus); outline-offset:4px; border-radius:32px; }
 .lg-boat-adventure .feed-creature[data-pose="thinking"] > :is(svg,.lg-animal) { rotate:-3deg; translate:0 3px; }
 .lg-boat-adventure .feed-creature[data-pose="proud"] > :is(svg,.lg-animal) { rotate:2deg; translate:0 -3px; }
 .lg-boat-adventure .feed-creature > :is(svg,.lg-animal) { transition:rotate 180ms ease-out,translate 180ms ease-out; }
@@ -76,4 +76,32 @@
   .lg-boat-adventure .lg-meet .adventure-route { gap:20px; padding:0; }
   .lg-boat-adventure .lg-meet .adventure-stop { height:28px; width:32px; }
   .lg-boat-adventure .lg-meet .adventure-stop > svg { width:26px; height:26px; }
+}
+
+/* Update 3: every chapter adventure. The seed bed grows sprouts, the child's
+   own signs, then blooms; keepsakes stay at the finished chapter's stop. */
+.seed-bed-scene .adventure-friend { right:3%; }
+.seed-bed .bed-sign { transform-box:fill-box; transform-origin:50% 100%; transform:rotate(var(--sign-turn,0deg)); }
+.map-journey-memento { position:absolute; top:calc(100% + 6px); left:50%; width:112px; transform:translateX(-50%); pointer-events:none; }
+.map-journey-memento > svg { display:block; width:100%; height:auto; }
+@media (prefers-reduced-motion:no-preference) {
+  .lg-app:not(.lg-reduce-motion) .seed-bed-scene[data-journey-phase="3"] .bed-bloom { transform-box:fill-box; transform-origin:50% 100%; animation:bed-bloom 520ms cubic-bezier(.2,.8,.2,1) both; }
+  .lg-app:not(.lg-reduce-motion) .seed-bed-scene .bed-bloom:nth-child(odd) { animation-delay:90ms; }
+  @keyframes bed-bloom { from { transform:scale(.6); opacity:.3; } to { transform:scale(1); opacity:1; } }
+}
+
+/* Later-chapter projects (lanterns, fruit tree, seed jars, raft). Motion is
+   decoration on the finished phase only; the still frame tells the story. */
+.craft-scene .adventure-friend { right:2%; }
+.map-journey-memento[data-craft="harvest"] { width:84px; }
+.map-journey-memento[data-craft="raft"] { width:100px; }
+@media (prefers-reduced-motion:no-preference) {
+  .lg-app:not(.lg-reduce-motion) .craft-scene[data-journey-phase="3"] .craft-lantern { transform-box:fill-box; transform-origin:50% 0; animation:craft-swing 2.8s ease-in-out infinite alternate; }
+  .lg-app:not(.lg-reduce-motion) .craft-scene .craft-twinkle { transform-box:fill-box; transform-origin:center; animation:craft-twinkle 1.6s ease-in-out infinite alternate; }
+  .lg-app:not(.lg-reduce-motion) .craft-scene[data-journey-phase="2"] .craft-fruit,
+  .lg-app:not(.lg-reduce-motion) .craft-scene[data-journey-phase="1"] .craft-canopy { transform-box:fill-box; transform-origin:50% 100%; animation:bed-bloom 520ms cubic-bezier(.2,.8,.2,1) both; }
+  .lg-app:not(.lg-reduce-motion) .craft-scene .craft-raft-boat.is-afloat { animation:craft-bob 2.4s ease-in-out infinite alternate; }
+  @keyframes craft-swing { from { transform:rotate(var(--swing,-3deg)); } to { transform:rotate(calc(var(--swing,-3deg) * -1)); } }
+  @keyframes craft-twinkle { from { transform:scale(.7); opacity:.6; } to { transform:scale(1.1); opacity:1; } }
+  @keyframes craft-bob { from { transform:translateY(0); } to { transform:translateY(-3px); } }
 }

@@ -1,18 +1,22 @@
 /* Live Letter Garden: shared art refinement. The scenic world stays visible. */
-.lg-round-btn{background:#fff8e7;color:#4a3620;box-shadow:0 5px 0 #806341,inset 0 3px 0 #fffdf7;border:3px solid #4a3620}
-.lg-round-btn.lg-home{background:#fff0c8;color:#526f3c}
-.lg-round-btn.is-off{opacity:1;background:#e9e3d4;color:#807765}
-.lg-big-btn{border-width:3px;background:#e88345;box-shadow:0 6px 0 #895331,inset 0 3px 0 #ffa76b;border-radius:24px}
+.lg-round-btn{background:#fffaf0;color:#4a3620;box-shadow:0 5px 0 #70501b,inset 0 3px 0 #fffdf7;border:3px solid #4a3620}
+/* Home is the one filled control: its own class, never the map screen's .lg-home. */
+.lg-round-btn.lg-home-btn{background:#4e9677;color:#fffdf7;box-shadow:0 5px 0 #2f5c46,inset 0 3px 0 #7fce54}
+.lg-round-btn.lg-home-btn:active{box-shadow:0 1px 0 #2f5c46}
+.lg-app .lg-sound.is-off .icon-muted{display:inline}
+.lg-app .lg-sound.is-off .icon-waves{display:none}
+.lg-round-btn.is-off{opacity:1;background:#e5dcc8;color:#a89478}
+.lg-big-btn{border-width:3px;background:#e8743c;box-shadow:0 6px 0 #70501b,inset 0 3px 0 #ffa06e;border-radius:24px}
 .lg-topbar{flex-shrink:0;min-height:58px}
 /* Progress belongs on a separate light plaque, not on the coin's dark rim. */
-.map-star-on path{fill:#f6c644;stroke:#805014;stroke-width:4;stroke-linejoin:round}
-.map-star-off path{fill:#e3d9bf;stroke:#9b8967;stroke-width:3;opacity:1}
+.map-star-on path{fill:#f3c955;stroke:#70501b;stroke-width:4;stroke-linejoin:round}
+.map-star-off path{fill:#e5dcc8;stroke:#a89478;stroke-width:3;opacity:1}
 .lg-screen.lg-home .map-stop{width:clamp(114px,29vw,136px)}
-.lg-screen.lg-home .map-stop.is-current::before{border-color:#3e7357;background:#fff8df66;inset:-6px}
-.lg-screen.lg-home .map-daily-row{border:2px solid #bbaa86;box-shadow:0 5px 0 #c2b28c;background:#fff8e7;gap:10px}
-.lg-screen.lg-home .map-daily-row button{border-color:#967b52;box-shadow:0 3px 0 #c2b28c,inset 0 2px 0 #fff}
-.lg-screen.lg-home .map-album{color:#805014}
-.map-practice-garden{border-color:#3e7357;background:#e5f1cb;box-shadow:0 4px 0 #608768,inset 0 3px 0 #f5f9e9}
+.lg-screen.lg-home .map-stop.is-current::before{border-color:#2f5c46;background:#fff8df66;inset:-6px}
+.lg-screen.lg-home .map-daily-row{border:2px solid #c9bda4;box-shadow:0 5px 0 #c9bda4;background:#fffaf0;gap:10px}
+.lg-screen.lg-home .map-daily-row button{border-color:#a89478;box-shadow:0 3px 0 #c9bda4,inset 0 2px 0 #fffdf7}
+.lg-screen.lg-home .map-album{color:#70501b}
+.map-practice-garden{border-color:#2f5c46;background:#e5dcc8;box-shadow:0 4px 0 #4e9677,inset 0 3px 0 #fffaf0}
 /* A consistent presenter and softly bounded play surface across all chapters. */
 
 .lg-play .play-mascot{display:none}
@@ -22,35 +26,39 @@
 
 
 
-.lg-app:not(.lg-boat-chapter) .lg-play .play-stage{width:min(760px,100%);margin:0 auto 30px;max-height:min(550px,64vh);min-height:0;mask-image:none;-webkit-mask-image:none;border:2px solid #b6a17c;border-radius:32px;background:linear-gradient(#fffaf0eb,#fff8e7cf);box-shadow:0 6px 0 #82684033}
-.lg-play .build-slot{background:#efe7d1;border-color:#9d8b69;box-shadow:inset 0 3px 0 #d8caad}
+.lg-app:not(.lg-boat-chapter) .lg-play .play-stage{width:min(760px,100%);margin:0 auto 30px;max-height:min(550px,64vh);min-height:0;mask-image:none;-webkit-mask-image:none;border:2px solid #a89478;border-radius:32px;background:linear-gradient(#fffaf0eb,#fff8e7cf);box-shadow:0 6px 0 #82684033}
+.lg-play .build-slot{background:#e5dcc8;border-color:#a89478;box-shadow:inset 0 3px 0 #c9bda4}
 .build-slots{max-width:100%;gap:8px}.build-slot{max-width:25vw}
-.practice-tools{padding:8px 12px;background:#fff8e7;border:1px solid #c2b28c;border-radius:26px;box-shadow:0 4px 0 #b6a17c}
+.practice-tools{padding:8px 12px;background:#fffaf0;border:1px solid #c9bda4;border-radius:26px;box-shadow:0 4px 0 #a89478}
 /* Rewards are a scene again, including chapters after Boat Letters. */
 .lg-stars .stars-stage,.lg-party .party-stage{width:min(580px,100%);max-height:none;min-height:0;flex:0 1 auto;margin:auto;padding:18px 12px;gap:18px;border:0;background:none;box-shadow:none;overflow-y:auto}
 .lg-stars .garden-reward,.lg-party .garden-reward{width:clamp(190px,32vw,310px);flex-shrink:0}
-.lg-stars .stars-row,.lg-party .party-stars{gap:10px;padding:10px 20px;background:#fff8e7;border:2px solid #c2a96e;border-radius:34px;box-shadow:0 4px 0 #bca06a}
-.stars-star.is-on{color:#f6c644}.stars-star.is-on svg path{stroke:#805014;stroke-width:2;stroke-linejoin:round}
-.stars-star:not(.is-on){color:#d8cdb3}.stars-star:not(.is-on) svg path{stroke:#9b8967;stroke-width:2}
+.lg-stars .stars-row,.lg-party .party-stars{gap:10px;padding:10px 20px;background:#fffaf0;border:2px solid #a89478;border-radius:34px;box-shadow:0 4px 0 #a89478}
+.stars-star.is-on{color:#f3c955}.stars-star.is-on svg path{stroke:#70501b;stroke-width:2;stroke-linejoin:round}
+.stars-star:not(.is-on){color:#c9bda4}.stars-star:not(.is-on) svg path{stroke:#a89478;stroke-width:2}
 .garden-practice-links{padding:0;gap:12px}
 .lg-party .party-pair{align-items:flex-end;gap:24px}
 .lg-party .party-pair svg{max-height:140px}
 /* A real resting place beneath the egg, and a fitted pet dressing area. */
-.hatch-egg{isolation:isolate}.hatch-egg::before{content:"";position:absolute;z-index:-1;left:-15%;right:-15%;bottom:-6px;height:48px;border-radius:50%;background:#c4d994;border:3px solid #718549;box-shadow:0 7px 0 #63834e44}
-.hatch-egg::after{content:"";position:absolute;z-index:-1;left:0;right:0;bottom:7px;height:20px;border-radius:50%;background:#e2e7b4}
+.hatch-egg{isolation:isolate}.hatch-egg::before{content:"";position:absolute;z-index:-1;left:-15%;right:-15%;bottom:-6px;height:48px;border-radius:50%;background:#b7e779;border:3px solid #647d4e;box-shadow:0 7px 0 #63834e44}
+.hatch-egg::after{content:"";position:absolute;z-index:-1;left:0;right:0;bottom:7px;height:20px;border-radius:50%;background:#e5dcc8}
 
 
 
 
 
-.pet-color-icon{color:#5c864b;display:grid;place-items:center}
-.pet-acc-cost{color:#805014}
-.album-pack{position:relative}.album-pack:focus-visible{outline:3px solid #e8743c;outline-offset:5px}
-.stamps-grid{width:min(400px,100%);grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;padding:14px;border:2px solid #8b7350;box-shadow:0 5px 0 #b6a17c}
-.stamp-cell{width:100%;height:auto;aspect-ratio:1;min-width:0;border:1px solid #b6a17c;border-radius:10px;color:#806c4b;background:#f4eddc}
-.stamp-cell.is-today{outline:3px solid #4e9677;outline-offset:1px;background:#e1efc8}
-.stamp-cell.is-future{opacity:.65}.stamp-cell svg{width:75%;height:75%}
-.lg-grownup .lg-panel{border:2px solid #967b52;box-shadow:0 4px 0 #b6a17c}
+.pet-color-icon{color:#4e9677;display:grid;place-items:center}
+.pet-acc-cost{color:#70501b}
+.album-pack{position:relative}.album-pack:focus-visible{outline:4px solid var(--lg-focus);outline-offset:5px}
+.stamps-grid{width:min(400px,100%);grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;padding:14px;border:2px solid #a89478;box-shadow:0 5px 0 #a89478}
+.stamp-cell{width:100%;height:auto;aspect-ratio:1;min-width:0;border:1px solid #a89478;border-radius:10px;color:#70501b;background:#fffaf0}
+.stamp-cell.is-today{outline:3px solid #4e9677;outline-offset:1px;background:#e5dcc8}
+/* Today keeps its gold once stamped; future days recede by colour and a dashed
+   edge, never opacity; past unplayed days stay plain paper (no "missed" mark). */
+.stamp-cell.is-today.is-stamped{background:#ffe49a}
+.stamp-cell.is-future{opacity:1;background:transparent;border-style:dashed;border-color:#c9bda4;color:#a89478}
+.stamp-cell svg{width:75%;height:75%}
+.lg-grownup .lg-panel{border:2px solid #a89478;box-shadow:0 4px 0 #a89478}
 @media(max-width:600px){
 
 
@@ -88,7 +96,7 @@
 @keyframes garden-petal-sway{0%,100%{rotate:-3deg}50%{rotate:3deg}}
 .lg-home .map-deco:has(.garden-flower-bed){width:76px;opacity:.88}
 /* The pond is an activity surface across chapters, not a chapter override. */
-.lg-app.lg-pond-activity{background:radial-gradient(ellipse at 50% 30%,#fffdf7,#fffaf0 45%,#dcf5e9)}
+.lg-app.lg-pond-activity{background:radial-gradient(ellipse at 50% 30%,#fffdf7,#fffaf0 45%,#ccfbef)}
 .garden-pond-detail{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
 .lg-pond-activity .pop-sky{z-index:1}
 .lg-pond-activity .stars-stage{background:none;border:0;box-shadow:none}
@@ -116,13 +124,13 @@
 /* Matching bed, assembly bench, and combining table: activity-scoped surfaces. */
 .lg-app .lg-play:is([data-activity="pairs"],[data-activity="build"],[data-activity="blend"]) .play-stage {
  width:min(700px,100%);min-height:0;max-height:540px;margin:8px auto 52px;
- mask-image:none;-webkit-mask-image:none;border:3px solid #a08b60;overflow:visible;
- border-radius:32px;background:#f1e4c3;box-shadow:0 6px 0 #b19b73;
+ mask-image:none;-webkit-mask-image:none;border:3px solid #a89478;overflow:visible;
+ border-radius:32px;background:#e5dcc8;box-shadow:0 6px 0 #a89478;
 }
-.lg-app .lg-play[data-activity="pairs"] .play-stage {background:radial-gradient(ellipse at top,#f5f8e7,#dce9c2);border-color:#82996a;box-shadow:0 6px 0 #a7bb8b}
+.lg-app .lg-play[data-activity="pairs"] .play-stage {background:radial-gradient(ellipse at top,#fffaf0,#e5dcc8);border-color:#93ab6c;box-shadow:0 6px 0 #93ab6c}
 .lg-app .lg-play[data-activity="pairs"] .pairs-grid {padding:14px;gap:12px;grid-template-columns:repeat(2,minmax(0,1fr));max-width:500px}
 .lg-app .lg-play[data-activity="pairs"] .pairs-card {width:min(100%,120px);border-radius:20px}
-.lg-app .lg-play[data-activity="pairs"] .pairs-card.is-selected {outline:3px solid #56744a;outline-offset:3px;filter:none;transform:translateY(-3px)}
+.lg-app .lg-play[data-activity="pairs"] .pairs-card.is-selected {outline:3px solid #2f5c46;outline-offset:3px;filter:none;transform:translateY(-3px)}
 .lg-app .lg-play[data-activity="pairs"] .pairs-card.is-matched {animation:none;opacity:.4;transform:scale(.88);transition:transform 300ms,opacity 300ms}
 
 
@@ -131,11 +139,11 @@
 
 .build-whole {width:clamp(100px,30vw,146px);max-height:150px;animation:lg-arrive 320ms ease-out}
 .build-whole svg {width:100%;height:100%}
-.lg-app .lg-play[data-activity="blend"] .play-stage {background:radial-gradient(ellipse at 50% 46%,#fffaf0 0 28%,#e3ebcf 70%,#c1d2a6);border-color:#8e9a74;box-shadow:0 6px 0 #a9b58b}
+.lg-app .lg-play[data-activity="blend"] .play-stage {background:radial-gradient(ellipse at 50% 46%,#fffaf0 0 28%,#e5dcc8 70%,#c9bda4);border-color:#a89478;box-shadow:0 6px 0 #c9bda4}
 .lg-app .lg-play[data-activity="blend"] .blend-scene {min-height:0;border-radius:28px}
-.lg-app .lg-play[data-activity="blend"] .blend-glow {width:120px;height:120px;border:2px dashed #a3b08c;background:#fffbed55;animation:none}
+.lg-app .lg-play[data-activity="blend"] .blend-glow {width:120px;height:120px;border:2px dashed #c9bda4;background:#fffbed55;animation:none}
 .lg-app .lg-play[data-activity="blend"] .blend-part {width:clamp(72px,23vw,110px);touch-action:none}
-.lg-app .lg-play[data-activity="blend"] .blend-part.is-lifted {outline:3px solid #648451;outline-offset:2px;border-radius:18px;filter:none;scale:1.04}
+.lg-app .lg-play[data-activity="blend"] .blend-part.is-lifted {outline:3px solid #4e9677;outline-offset:2px;border-radius:18px;filter:none;scale:1.04}
 @media(min-width:601px){.lg-app .lg-play[data-activity="pairs"] .pairs-grid{grid-template-columns:repeat(3,minmax(0,1fr));max-width:600px}}
 @media(max-height:650px){
  .lg-app .lg-play:is([data-activity="pairs"],[data-activity="build"],[data-activity="blend"]) .play-stage {max-height:57vh;margin-bottom:42px}
@@ -150,25 +158,25 @@
 /* Orchard and joining family — no changes to other activity surfaces. */
 .lg-app .lg-play:is([data-activity="catch"],[data-activity="fuse"],[data-activity="unfuse"],[data-activity="chain"]) .play-stage{
  width:min(720px,100%);min-height:0;max-height:550px;margin:8px auto 48px;mask-image:none;-webkit-mask-image:none;
- border:3px solid #929b73;border-radius:34px;background:radial-gradient(ellipse at 50% 40%,#fffaf0,#e6edcf);box-shadow:0 6px 0 #acb58f;overflow:hidden;
+ border:3px solid #a89478;border-radius:34px;background:radial-gradient(ellipse at 50% 40%,#fffaf0,#e5dcc8);box-shadow:0 6px 0 #c9bda4;overflow:hidden;
 }
-.lg-app .lg-play[data-activity="catch"] .play-stage{background:linear-gradient(#e4f5e4,#f9f6dc 65%,#bfd79b);touch-action:none}
+.lg-app .lg-play[data-activity="catch"] .play-stage{background:linear-gradient(#ccfbef,#fffaf0 65%,#c9bda4);touch-action:none}
 .catch-canopy{position:absolute;inset:0 0 auto;width:100%;height:56px;pointer-events:none;z-index:0}
 .lg-app [data-activity="catch"] .catch-field{overflow:hidden;z-index:1}
 .lg-app [data-activity="catch"] .catch-faller{width:clamp(66px,20vw,94px)}
 .lg-app [data-activity="catch"] .catch-basket{width:clamp(112px,32vw,160px);bottom:0;z-index:2;filter:none}
 .lg-app [data-activity="fuse"] .blend-scene,.lg-app [data-activity="chain"] .blend-scene{min-height:0}
-.lg-app [data-activity="fuse"] .blend-glow{width:130px;height:130px;background:#fcf4d955;border:2px dashed #a5b18a;animation:none}
-.lg-app [data-activity="chain"] .blend-glow{left:50%;width:70%;height:68px;border-radius:40px;background:#cfddb4;box-shadow:inset 0 3px 0 #a4b88655;animation:none}
+.lg-app [data-activity="fuse"] .blend-glow{width:130px;height:130px;background:#fcf4d955;border:2px dashed #c9bda4;animation:none}
+.lg-app [data-activity="chain"] .blend-glow{left:50%;width:70%;height:68px;border-radius:40px;background:#e5dcc8;box-shadow:inset 0 3px 0 #a4b88655;animation:none}
 .lg-app [data-activity="chain"] .chain-base{left:67%;width:clamp(105px,29vw,146px)}
 .lg-app [data-activity="chain"] .chain-base.is-grown{left:50%;width:clamp(150px,44vw,200px)}
 .lg-app [data-activity="unfuse"] .unfuse-scene{min-height:0;height:100%;padding:12px;box-sizing:border-box;background:linear-gradient(90deg,transparent 49.7%,#bdc99c55 49.7% 50.3%,transparent 50.3%)}
 .lg-app [data-activity="unfuse"] .unfuse-quiz{width:100%;justify-content:center;gap:8px}
 .lg-app [data-activity="unfuse"] .unfuse-pick{width:min(29%,110px)}
 .lg-app [data-activity="unfuse"] .unfuse-seam{background:none;border:0;top:4%;height:90%;box-shadow:none}
-.lg-app [data-activity="unfuse"] .unfuse-seam:before,.lg-app [data-activity="unfuse"] .unfuse-seam:after{content:"";position:absolute;left:0;width:2px;height:12%;background:#8b7651}
+.lg-app [data-activity="unfuse"] .unfuse-seam:before,.lg-app [data-activity="unfuse"] .unfuse-seam:after{content:"";position:absolute;left:0;width:2px;height:12%;background:#a89478}
 .lg-app [data-activity="unfuse"] .unfuse-seam:after{bottom:0}
-.lg-app [data-activity="unfuse"] .unfuse-arrow{color:#6d865a;opacity:1}
+.lg-app [data-activity="unfuse"] .unfuse-arrow{color:#4e9677;opacity:1}
 @media(max-height:650px){.lg-app .lg-play:is([data-activity="catch"],[data-activity="fuse"],[data-activity="unfuse"],[data-activity="chain"]) .play-stage{max-height:58vh;margin-bottom:40px}}
 /* Hint motion must preserve the centered anchors used by draggable pieces. */
 .blend-part.is-dragdemo{animation:lg-anchored-drag-hint 1250ms var(--lg-out)}
@@ -179,28 +187,28 @@
 @media(prefers-reduced-motion:reduce){.blend-part.is-dragdemo,.chain-base.is-drop-target{animation:none}}
 
 /* Final activity family: a harvest bed and coordinated practice tools. */
-.lg-app .dot-bed{background:radial-gradient(ellipse,#fffaf0 45%,#e7edcf);border:3px solid #93a277;box-shadow:0 5px 0 #b1bd92;border-radius:30px}
-.lg-app .dot-zone{background:#f2e9ce;border-color:#b6a37c;border-radius:16px}
-.lg-app .practice-tools{padding:9px 16px;background:#e5cfaa;border:2px solid #ac9166;border-radius:24px;box-shadow:0 3px 0 #b6a07c;gap:16px}
-.lg-app .practice-tools .practice-button{width:54px;height:54px;min-width:54px;min-height:54px;padding:10px;background:#fff8e6;border:2px solid #9a845f;border-radius:16px;box-shadow:0 3px 0 #b49d78}
+.lg-app .dot-bed{background:radial-gradient(ellipse,#fffaf0 45%,#e5dcc8);border:3px solid #c9bda4;box-shadow:0 5px 0 #c9bda4;border-radius:30px}
+.lg-app .dot-zone{background:#e5dcc8;border-color:#a89478;border-radius:16px}
+.lg-app .practice-tools{padding:9px 16px;background:#e5dcc8;border:2px solid #a89478;border-radius:24px;box-shadow:0 3px 0 #a89478;gap:16px}
+.lg-app .practice-tools .practice-button{width:54px;height:54px;min-width:54px;min-height:54px;padding:10px;background:#fffaf0;border:2px solid #a89478;border-radius:16px;box-shadow:0 3px 0 #a89478}
 .practice-tools .practice-button svg{display:block;width:100%;height:100%}
-.lg-app .practice-tools .dot-check,.lg-app .practice-tools .path-next{background:#e1eccb;border-color:#8b9d6e}
-.lg-app .path-paper{background:linear-gradient(150deg,#fffef6,#fff9e9);border:10px solid #ddc296;border-radius:26px;box-shadow:0 5px 0 #b69a6e,inset 0 0 0 2px #c9b58e}
-.lg-app .path-guide{color:#c1cda7}
-.lg-app .dot-answers button{border:3px solid #8f9e72;background:#fffaf0;box-shadow:0 5px 0 #b2bf92;border-radius:22px}
+.lg-app .practice-tools .dot-check,.lg-app .practice-tools .path-next{background:#e5dcc8;border-color:#93ab6c}
+.lg-app .path-paper{background:linear-gradient(150deg,#fffdf7,#fffaf0);border:10px solid #c9bda4;border-radius:26px;box-shadow:0 5px 0 #a89478,inset 0 0 0 2px #c9bda4}
+.lg-app .path-guide{color:#c9bda4}
+.lg-app .dot-answers button{border:3px solid #93ab6c;background:#fffaf0;box-shadow:0 5px 0 #c9bda4;border-radius:22px}
 .practice-listen svg{width:58px;height:58px}
 .practice-status svg{width:24px;height:24px}
 @media(max-height:650px){.lg-app .practice-tools{padding:6px 12px;gap:14px}.lg-app .practice-tools .practice-button{width:48px;height:48px;min-width:48px;min-height:48px}.lg-app .path-paper{min-height:160px}}
 
 /* Collected art can be explored at a child's scale without spending again. */
 button.album-slot{cursor:pointer;appearance:none;font:inherit;display:grid;place-items:center}
-button.album-slot:focus-visible{outline:3px solid #577c4c;outline-offset:3px}
+button.album-slot:focus-visible{outline:4px solid var(--lg-focus);outline-offset:3px}
 button.album-slot:active{transform:scale(.96)}
-.sticker-inspect{width:min(340px,calc(100vw - 44px));max-height:calc(100dvh - 36px);box-sizing:border-box;padding:22px 16px 18px;border:3px solid #aa956d;border-radius:36px;background:radial-gradient(ellipse at 50% 35%,#fffef2,#e6edcf);box-shadow:0 8px 0 #80684433;overflow:auto;text-align:center}
+.sticker-inspect{width:min(340px,calc(100vw - 44px));max-height:calc(100dvh - 36px);box-sizing:border-box;padding:22px 16px 18px;border:3px solid #a89478;border-radius:36px;background:radial-gradient(ellipse at 50% 35%,#fffaf0,#e5dcc8);box-shadow:0 8px 0 #80684433;overflow:auto;text-align:center}
 .sticker-inspect::backdrop{background:#344b3b88}
 .sticker-inspect-art{display:grid;place-items:center;padding:6px 0 14px}
 .sticker-inspect-art svg{display:block;width:100%;height:auto;max-width:280px}
-.sticker-inspect-close{margin:0 auto;background:#f7e5b0}
+.sticker-inspect-close{margin:0 auto;background:#ffe49a}
 .garden-practice-links button{width:110px;height:76px;padding:0 6px;display:grid;place-items:center}
 .garden-practice-links .practice-picture{width:100%;height:100%;display:block;pointer-events:none}
 @media(max-height:650px){.sticker-inspect-art svg{max-width:230px}.garden-practice-links button{width:92px;height:62px}}
@@ -212,26 +220,26 @@ button.album-slot:active{transform:scale(.96)}
 .workshop-picker{width:min(650px,100%);min-height:0;overflow:auto;align-self:center;padding:8px 4px 18px;box-sizing:border-box}
 .workshop-sign{text-align:center}.workshop-sign svg{width:160px;height:112px}
 .workshop-chapters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:8px}
-.workshop-chapters button{display:grid;place-items:center;min-width:0;padding:6px;border:2px solid #9d885f;border-radius:24px;background:#fff8e7;box-shadow:0 4px 0 #b7a57c;cursor:pointer}
+.workshop-chapters button{display:grid;place-items:center;min-width:0;padding:6px;border:2px solid #a89478;border-radius:24px;background:#fffaf0;box-shadow:0 4px 0 #a89478;cursor:pointer}
 .workshop-chapters svg{display:block;width:100%;height:auto;max-height:110px}
 .workshop-chapters .practice-play svg{width:24px;height:24px}
-.workshop-chapters button:focus-visible{outline:4px solid #558569;outline-offset:3px}
-.workshop-chapters button:active{transform:translateY(2px);box-shadow:0 2px 0 #b7a57c}
+.workshop-chapters button:focus-visible{outline:4px solid var(--lg-focus);outline-offset:3px}
+.workshop-chapters button:active{transform:translateY(2px);box-shadow:0 2px 0 #a89478}
 @media(max-width:600px){.workshop-chapters{grid-template-columns:repeat(2,minmax(0,1fr))}.practice-garden-choices:has([data-kind="Workshop"]){margin:10px 0}.practice-garden-choices:has([data-kind="Workshop"]) button{min-height:144px}.practice-garden-choices:has([data-kind="Workshop"]) .practice-picture{height:98px;flex-basis:98px}}
 
 .lg-play[data-activity="build"] .practice-replay{width:120px;padding:0;display:grid;place-items:center}
 .lg-play[data-activity="build"] .practice-replay>svg{width:100%;height:100%;display:block}
 
 /* Selection remains recognizable without relying on color alone. */
-.pet-selected-mark{position:absolute;right:3px;bottom:3px;display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:#e9f4cf;border:1.5px solid #60815a;color:#446d46;box-shadow:0 1px 0 #a7ba8b;pointer-events:none}
+.pet-selected-mark{position:absolute;right:3px;bottom:3px;display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:#fffaf0;border:1.5px solid #4e9677;color:#2f5c46;box-shadow:0 1px 0 #c9bda4;pointer-events:none}
 .pet-selected-mark svg{display:block;width:16px;height:16px}
-.pet-room .pet-acc:focus-visible,.pet-room .pet-color-swatch:focus-visible{outline:3px solid #4e795d;outline-offset:3px}
+.pet-room .pet-acc:focus-visible,.pet-room .pet-color-swatch:focus-visible{outline:4px solid var(--lg-focus);outline-offset:3px}
 
 /* Placed Build pieces can return to the tray until the answer is complete. */
-button.build-slot{position:relative;padding:0;color:#5e7950;appearance:none;cursor:pointer}
+button.build-slot{position:relative;padding:0;color:#4e9677;appearance:none;cursor:pointer}
 button.build-slot:disabled{cursor:default;opacity:1}
-button.build-slot:focus-visible{outline:3px solid #507758;outline-offset:3px}
-.build-undo-cue{position:absolute;right:2px;top:2px;display:grid;place-items:center;width:18px;height:18px;border-radius:50%;background:#ecf4d9;border:1px solid #8da376;pointer-events:none}
+button.build-slot:focus-visible{outline:4px solid var(--lg-focus);outline-offset:3px}
+.build-undo-cue{position:absolute;right:2px;top:2px;display:grid;place-items:center;width:18px;height:18px;border-radius:50%;background:#fffaf0;border:1px solid #93ab6c;pointer-events:none}
 .build-slot .build-undo-cue svg{width:14px;height:14px;animation:none}
 .build-slot:disabled .build-undo-cue{display:none}
 .garden-habitat-reward{display:block;width:100%;height:auto}
@@ -251,11 +259,11 @@ body.lg-wardrobe-screen .lg-ambient{display:none}
 @media(max-width:600px){.practice-garden-choices .practice-friend-picture{width:160px;height:110px;flex:0 1 190px}.practice-garden-choices:has([data-kind="Workshop"]) .practice-friend-picture{width:100%;height:98px;flex-basis:98px}}
 .practice-garden-choices .practice-friend-picture>.practice-picture{width:100%;height:100%;max-height:none}
 
-.catch-basket:focus-visible{outline:3px solid #4a3620;outline-offset:-3px;border-radius:28px}
+.catch-basket:focus-visible{outline:4px solid var(--lg-focus);outline-offset:-3px;border-radius:28px}
 
 /* Reduced motion keeps the listening choice untimed and stationary. */
 .catch-still .catch-choice{pointer-events:auto;border:0;padding:0;background:none;cursor:pointer;width:24%;max-width:110px;transform:translateX(-50%);transition:none;animation:none}
-.catch-still .catch-choice:focus-visible{outline:3px solid #4a3620;outline-offset:3px;border-radius:18px}
+.catch-still .catch-choice:focus-visible{outline:4px solid var(--lg-focus);outline-offset:3px;border-radius:18px}
 .catch-still .catch-basket{transition:none;animation:none}
 
 /* Recall cards frame the actual ink rather than the font line box. */
@@ -329,19 +337,19 @@ body.lg-wardrobe-screen .lg-ambient{display:none}
 
 /* Bounded startup and clearer optional-practice controls. */
 .lg-loading{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px}
-.loading-flower{display:grid;place-items:center;width:124px;height:124px;border:3px solid #ad956d;border-radius:50%;background:#fffaf0;box-shadow:0 6px 0 #d2bc91}
+.loading-flower{display:grid;place-items:center;width:124px;height:124px;border:3px solid #a89478;border-radius:50%;background:#fffaf0;box-shadow:0 6px 0 #c9bda4}
 .loading-seeds{display:flex;gap:12px}
-.loading-seeds i{width:10px;height:10px;border-radius:50%;background:#617b50;animation:loading-seed 1.2s ease-in-out infinite}
+.loading-seeds i{width:10px;height:10px;border-radius:50%;background:#4e9677;animation:loading-seed 1.2s ease-in-out infinite}
 .loading-seeds i:nth-child(2){animation-delay:.15s}.loading-seeds i:nth-child(3){animation-delay:.3s}
 @keyframes loading-seed{50%{opacity:.4;transform:translateY(-4px)}}
 @media(prefers-reduced-motion:reduce){.loading-seeds i{animation:none}}
 .lg-reduce-motion .loading-seeds i{animation:none}
 .hatch-pet{display:block;padding:0;border:0;background:none;cursor:pointer}
-.gu-save-notice{padding:14px;border:2px solid #ad956d;border-radius:14px;background:#fff3d2;color:#4a3620}
+.gu-save-notice{padding:14px;border:2px solid #a89478;border-radius:14px;background:#fffaf0;color:#4a3620}
 .dot-progress{display:flex;justify-content:center;align-items:center;gap:8px;min-height:16px;flex-shrink:0}
 .dot-progress i{width:9px;height:9px;border-radius:50%;border:2px solid #70501b;background:#fffaf0}
 .dot-progress i.is-on,.dot-progress i.is-done{background:#f3c955}
-.path-reference{width:64px;height:64px;display:grid;place-items:center;flex-shrink:0;border:2px solid #ad956d;border-radius:16px;background:#fffaf0}
+.path-reference{width:64px;height:64px;display:grid;place-items:center;flex-shrink:0;border:2px solid #a89478;border-radius:16px;background:#fffaf0}
 .path-reference>svg{width:100%;height:100%}
 .practice-replay>svg{width:32px;height:32px;vertical-align:middle}
 @media(max-height:650px){.path-reference{width:44px;height:44px;border-radius:12px}.garden-paths:has(.path-reference) .path-paper{min-height:100px}}

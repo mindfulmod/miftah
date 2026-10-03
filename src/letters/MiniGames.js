@@ -130,7 +130,7 @@
   // em box (ط rides high, م hangs low), so the tile measures each string's
   // real ink (Art.inkShift, canvas TextMetrics) and places the baseline so
   // the visible glyph — not the em box — sits dead centre.
-  function glyphText(display, { fill = "#2b2233", maxSize = 44, fitWidth = 72, fitHeight = 62, scaleByLength = true } = {}) {
+  function glyphText(display, { fill = "#23253f", maxSize = 44, fitWidth = 72, fitHeight = 62, scaleByLength = true } = {}) {
     const latin = !isArabic(display);
     const len = [...display.replace(DIACRITICS, "")].length;
     const size = latin
@@ -149,7 +149,7 @@
       <svg viewBox="-52 -54 104 106" aria-hidden="true">
         <rect x="-46" y="-38" width="92" height="84" rx="22" fill="#4a3620"/>
         <rect x="-46" y="-46" width="92" height="84" rx="22" fill="hsl(${hue} 52% 86%)" stroke="#4a3620" stroke-width="4"/>
-        <rect class="tile-face" x="-39" y="-39" width="78" height="70" rx="16" fill="#fffaf0"/><path d="M-28 -32H26" stroke="#fff" stroke-width="4" stroke-linecap="round"/><path d="M-28 29H28" stroke="#e5dcc8" stroke-width="2" stroke-linecap="round"/>
+        <rect class="tile-face" x="-39" y="-39" width="78" height="70" rx="16" fill="#fffaf0"/><path d="M-28 -32H26" stroke="#fffdf7" stroke-width="4" stroke-linecap="round"/><path d="M-28 29H28" stroke="#e5dcc8" stroke-width="2.4" stroke-linecap="round"/>
         <g transform="translate(0 -4)">${glyphText(item.display, { maxSize: 42 })}</g>
       </svg>`;
   }
@@ -223,11 +223,17 @@
       this.timers = new Set();
       if (!this.rounds.length) { this.alive = false; ctx.onDone(0); return; }
       this.bubbles = [];
-      ctx.stage.innerHTML = `${ns.LettersGardenArt.pond()}<div class="pop-sky"></div><div class="pond-finish" hidden><button type="button" class="pond-replay lg-round-btn" aria-label="Hear the found letter again">${Art.icon('speaker',30)}</button><button type="button" class="pond-next lg-big-btn" aria-label="Continue">${Art.icon('next',36)}</button></div>`;
+      ctx.stage.innerHTML = `${ns.LettersGardenArt.pond()}<div class="pop-sky"></div><div class="pond-dock" aria-hidden="true"><svg class="pond-dock-pier" viewBox="0 0 300 64" preserveAspectRatio="none"><path d="M30 40V62M150 40V62M270 40V62" stroke="#70501b" stroke-width="8" stroke-linecap="round"/><rect x="4" y="8" width="292" height="38" rx="10" fill="#c69434" stroke="#4a3620" stroke-width="3"/><path d="M8 18H292" stroke="#ffe49a" stroke-width="3" stroke-linecap="round" opacity=".6"/><path d="M78 10V44M150 10V44M222 10V44" stroke="#a89478" stroke-width="2.4"/></svg><span class="pond-dock-slots"></span></div><div class="pond-finish" hidden><button type="button" class="pond-replay lg-round-btn" aria-label="Hear the found letter again">${Art.icon('speaker',30)}</button><button type="button" class="pond-next lg-big-btn" aria-label="Continue">${Art.icon('next',36)}</button></div>`;
       this.sky = ctx.stage.querySelector(".pop-sky");
       this.finishEl = ctx.stage.querySelector('.pond-finish');
       this.nextBtn = ctx.stage.querySelector('.pond-next');
       this.replayBtn = ctx.stage.querySelector('.pond-replay');
+      // Update 4: each find is retrieved to a little jetty that fills over the
+      // game. Docking happens after the verdict and never reports or scores.
+      this.dockEl = ctx.stage.querySelector('.pond-dock');
+      this.dockSlots = ctx.stage.querySelector('.pond-dock-slots');
+      this.docked = [];
+      this.renderDock();
       this.nextBtn.onclick = event => {if(event.detail<2)this.advance();};
       this.replayBtn.onclick = () => this.replayFound();
       // Perf: bubbles move via transform (composited), not top (layout).
@@ -292,7 +298,7 @@
       const laneW=84/Math.max(2,this.laneCount||3),grid=stationary&&this.laneCount>2&&!this.widePond;
       el.style.width=`${stationary&&this.ctx.garden&&!this.widePond?32:laneW-2}%`;
       el.style.left=`${stationary?(grid?28+(lane%2)*44:8+(lane+.5)*laneW):6+lane*laneW}%`;
-      if(stationary || this.widePond)bubble.y=grid ? .04+Math.floor(lane/2)*.50 : .35;
+      if(stationary || this.widePond)bubble.y=grid ? .17+Math.floor(lane/2)*.43 : .35;
       bubble.restY=bubble.y;
       el.style.transform=`translate3d(${stationary?'-50%':'0'}, ${bubble.y*this.skyH}px, 0)`;
     }
@@ -317,6 +323,11 @@
     }
 
     popAttempt(bubble, event) {
+      if (this.alive && this.completionReady && bubble === this.found) {
+        // Tapping the found packet again brings it to the jetty (= Continue).
+        if (this.clock() - (this.foundAt || 0) > 500) this.advance();
+        return;
+      }
       if (!this.alive || this.advancing || !this.bubbles.includes(bubble) || bubble.el.classList.contains("is-popped") || bubble.el.classList.contains("is-scaffolded") || bubble.el.classList.contains("is-no")) return;
       this.pondRipple(bubble, event);
       const round = this.rounds[this.roundIndex];
@@ -328,13 +339,16 @@
         bubble.el.classList.remove('is-helpful');
         bubble.el.classList.add("is-found");
         this.sky.classList.add('has-found');
-        this.bubbles.forEach(b=>b.el.disabled=true);
+        this.bubbles.forEach(b=>b.el.disabled=b!==bubble);
+        this.foundAt = this.clock();
+        bubble.el.setAttribute?.("aria-label", `Bring ${bubble.item.display} to the jetty`);
         this.ctx.clearLearningHint?.();
         reportPromptMatch(this.ctx, round, true, bubble.item, "pop");
         this.ctx.sfx("correct");
         this.ctx.confettiAt(bubble.el);
         this.ctx.say(round.target);
         this.ctx.petReact?.('proud');
+        this.ctx.pet?.cheer(() => this.ctx.pet?.inspect(bubble.el, 1400));
         this.completionReady = true;
         this.finishEl.hidden = false;
         this.keepFoundVisible();
@@ -354,6 +368,8 @@
         svg.classList.add("is-shake");
         bubble.el.classList.add("is-no");
         bubble.el.disabled = true;
+        // The pet looks at the child's own pick, then wonders. It never looks at the answer.
+        this.ctx.pet?.inspect(bubble.el, 450, () => this.ctx.pet?.ponder());
         const retryRound = this.roundIndex;
         if (this.ctx.beginner) this.bubbles.find(b => b.item.id === round.target.id)?.el.classList.add("is-helpful");
         this.later(() => {
@@ -371,12 +387,65 @@
       if (!this.alive || !this.completionReady) return;
       this.completionReady = false;
       this.nextBtn.disabled = true; this.replayBtn.disabled = true;
+      this.dock(this.found);
       this.roundIndex += 1;
       if (this.roundIndex >= this.rounds.length) return this.finish();
       this.startRound();
       this.bubbles[0]?.el.focus?.({preventScroll:true});
       this.lastTime=performance.now();
       this.frame=requestAnimationFrame(this.tick);
+    }
+
+    clock() { return globalThis.performance?.now?.() ?? Date.now(); }
+
+    renderDock(fresh = -1) {
+      if (!this.dockSlots) return;
+      const total = Math.max(1, Math.min(6, this.rounds.length));
+      this.dockSlots.style?.setProperty?.('--dock-count', total);
+      this.dockSlots.innerHTML = Array.from({ length: total }, (_, i) => {
+        const art = this.docked[i];
+        return `<i class="pond-dock-slot${art ? ' is-full' : ''}${i === fresh ? ' is-new' : ''}">${art || ''}</i>`;
+      }).join('');
+    }
+
+    // The found packet sails to its jetty slot. The next round starts at once;
+    // the flight is a page-level ghost so it never delays or blocks play.
+    dock(found) {
+      const art = found?.el?.querySelector?.('svg')?.outerHTML;
+      if (!art || !this.dockSlots || this.docked.length >= Math.min(6, this.rounds.length)) return;
+      const index = this.docked.length;
+      const from = found.el.querySelector('svg').getBoundingClientRect?.();
+      this.docked.push(art);
+      this.ctx.sfx?.('dock');
+      const reduced = !!this.ctx.reducedMotion?.();
+      if (reduced || !from?.width || typeof document === 'undefined' || !document.body?.appendChild) { this.renderDock(index); return; }
+      this.renderDock();
+      const slot = this.dockSlots.children?.[index], to = slot?.getBoundingClientRect?.();
+      if (!slot || !to?.width) { this.renderDock(index); return; }
+      slot.classList.add('is-waiting');
+      const ghost = document.createElement('div');
+      ghost.className = 'pond-dock-ghost';
+      ghost.setAttribute('aria-hidden', 'true');
+      ghost.innerHTML = art;
+      Object.assign(ghost.style, { left: `${from.left}px`, top: `${from.top}px`, width: `${from.width}px`, height: `${from.height}px` });
+      document.body.appendChild(ghost);
+      this.ghosts = (this.ghosts || new Set()).add(ghost);
+      const dx = to.left + to.width / 2 - (from.left + from.width / 2), dy = to.top + to.height / 2 - (from.top + from.height / 2);
+      const scale = Math.min(to.width / from.width, to.height / from.height) * .92;
+      const flight = ghost.animate?.([
+        { transform: 'none' },
+        { transform: `translate(${dx * .5}px, ${dy * .5 - 18}px) rotate(-6deg) scale(${(1 + scale) / 2})`, offset: .55 },
+        { transform: `translate(${dx}px, ${dy}px) scale(${scale})` },
+      ], { duration: 560, easing: 'cubic-bezier(.3,.7,.3,1)' });
+      const land = () => {
+        ghost.remove(); this.ghosts?.delete(ghost);
+        if (!this.alive) return;
+        slot.classList.remove('is-waiting');
+        slot.classList.add('is-full', 'is-new');
+        slot.innerHTML = art;
+        this.ctx.pet?.inspect?.(slot, 600);
+      };
+      if (flight) flight.onfinish = land; else land();
     }
 
     keepFoundVisible() {
@@ -388,7 +457,8 @@
       // landscape the dock is beside the water, so the full height is available.
       const aboveDock=water&&dock?.width&&packet&&packet.right>dock.left&&packet.left<dock.right;
       const available=aboveDock?Math.min(this.skyH,dock.top-water.top-12):this.skyH;
-      b.y=Math.max(.04,Math.min(b.y,Math.max(.04,(available-height*1.18)/this.skyH)));
+      const jetty=this.dockEl?.getBoundingClientRect?.(),floor=water&&jetty?.height?Math.max(.04,(jetty.bottom-water.top+4)/this.skyH):.04;
+      b.y=Math.max(floor,Math.min(b.y,Math.max(floor,(available-height*1.18)/this.skyH)));
       b.el.style.transform=`translate3d(${b.stationary?'-50%':'0'}, ${b.y*this.skyH}px, 0)`;
     }
 
@@ -396,6 +466,7 @@
       if (!this.alive || !this.completionReady) return;
       this.ctx.say(this.rounds[this.roundIndex].target);
       this.ctx.petReact?.('listening');
+      this.ctx.pet?.inspect(this.found?.el, 900);
     }
 
     later(fn, delay) {
@@ -433,6 +504,7 @@
       if(this.frame!=null)cancelAnimationFrame(this.frame);
       this.frame=null;
       this.timers?.forEach(clearTimeout); this.timers?.clear();
+      this.ghosts?.forEach(ghost => ghost.remove()); this.ghosts?.clear();
       window.removeEventListener("resize", this.onResize);
     }
   }
@@ -455,6 +527,14 @@
         </div><div class="catch-basket catch-basket-front" aria-hidden="true">${orchardBasket(true)}</div>`;
       this.field = ctx.stage.querySelector(".catch-field");
       this.basket = ctx.stage.querySelector(".catch-basket");
+      // A short collection project (update 4): the basket shows a slot for each
+      // fruit to gather and fills as the child catches them.
+      this.harvest = [];
+      // Fruit sits inside the basket's own drawing, between its interior and rim.
+      const back = this.basket?.querySelector?.("svg"), interior = back?.querySelector?.('ellipse[rx="74"]');
+      if (interior) interior.insertAdjacentHTML("afterend", '<g class="catch-pile" aria-hidden="true"></g>');
+      this.pile = back?.querySelector?.(".catch-pile");
+      this.renderPile();
       this.result = ctx.stage.querySelector(".catch-result");
       ctx.stage.classList.toggle("catch-still",this.still);
       if(this.still){this.basket.removeAttribute("role");this.basket.removeAttribute("tabindex");this.basket.setAttribute("aria-hidden","true");}
@@ -497,6 +577,18 @@
       this.basket.style.left = `${this.basketX * 100}%`;
       const available = 1-2*edge;
       this.basket.setAttribute('aria-valuenow', String(available > 0 ? Math.round((this.basketX-edge)/available*100) : 50));
+    }
+
+    renderPile(fresh = false) {
+      if (!this.pile) return;
+      const total = Math.max(1, Math.min(6, this.rounds?.length || 1));
+      const xs = Array.from({ length: total }, (_, i) => 90 + (i - (total - 1) / 2) * Math.min(30, 132 / total));
+      this.pile.innerHTML = `${xs.map((x, i) => {
+        const y = 46 - (i % 2) * 5, got = i < (this.harvest || []).length;
+        return got
+          ? `<g class="pile-fruit${fresh && i === (this.harvest || []).length - 1 ? ' is-new' : ''}"><path d="M${x} ${y - 11}Q${x - 1} ${y - 16} ${x + 2} ${y - 18}" stroke="#4a3620" stroke-width="1.6" fill="none"/><circle cx="${x}" cy="${y}" r="12" fill="#f3c955" stroke="#4a3620" stroke-width="2.4"/><circle cx="${x - 4}" cy="${y - 4}" r="3.5" fill="#ffe49a"/></g>`
+          : `<circle class="pile-slot" cx="${x}" cy="${y}" r="11" fill="none" stroke="#c9bda4" stroke-width="2.4" stroke-dasharray="3 4"/>`;
+      }).join('')}`;
     }
 
     startRound(focus = false) {
@@ -597,6 +689,8 @@
       this.ctx.say(round.target);
       this.clearFallers();
       this.ctx.stage.classList.add("is-harvested");
+      (this.harvest ||= []).push(round.target.display);
+      this.renderPile(true);
       this.basket.removeAttribute("role");this.basket.removeAttribute("tabindex");this.basket.setAttribute("aria-hidden","true");
       this.basketX=.5;
       this.basket.style.left="";
@@ -1016,16 +1110,17 @@
           el.setAttribute("aria-pressed","false");
           this.dragResets.push(ns.GardenPractice.draggable(el,{
             enabled:()=>this.alive&&!this.feeding&&!el.disabled,
-            onDragStart:()=>this.ctx.petReact?.('thinking'),
+            onDragStart:()=>{this.ctx.petReact?.('thinking');this.ctx.pet?.watch(el);this.ctx.pet?.reach(el);},
             onDragMove:(x,y)=>this.setDeliveryNear(this.deliveryContains(x,y)),
-            onDragEnd:()=>{this.setDeliveryNear(false);this.ctx.petReact?.('presenting');},
+            onDragEnd:()=>{this.setDeliveryNear(false);this.ctx.petReact?.('presenting');this.ctx.pet?.settle();},
             drop:(x,y,released)=>{if(this.deliveryContains(x,y))this.offer(item,el,released);}
           }));
           el.addEventListener('click',()=>{
             if(!this.alive||this.feeding||el.disabled)return;
-            if(this.selected?.el===el){this.selected=null;el.setAttribute("aria-pressed","false");this.basket.classList.remove("is-ready");this.basket.setAttribute("aria-disabled","true");this.basket.disabled=true;return;}
+            if(this.selected?.el===el){this.selected=null;this.ctx.pet?.settle();el.setAttribute("aria-pressed","false");this.basket.classList.remove("is-ready");this.basket.setAttribute("aria-disabled","true");this.basket.disabled=true;return;}
             this.selected={item,el};
             this.ctx.petReact?.('thinking');
+            this.ctx.pet?.watch(el);this.ctx.pet?.reach(el);
             this.basket.classList.add("is-ready");this.basket.setAttribute("aria-disabled","false");this.basket.disabled=false;
             this.tray.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b===el)));
           });
@@ -1072,6 +1167,7 @@
         void el.offsetWidth;
         el.classList.add("is-shake");
         this.ctx.say(round.target);
+        this.ctx.pet?.inspect(el, 450, () => this.ctx.pet?.ponder());
         // Scaffolded retry: the refused food quietly leaves the tray.
         const retryRound=this.roundIndex;
         this.later(() => {if(this.roundIndex===retryRound)el.classList.add("is-scaffolded");}, 650);
@@ -1104,6 +1200,7 @@
         if(this.delivered)this.delivered.innerHTML=el.innerHTML;
         if(this.basket)this.basket.classList.add("is-filled");
         this.ctx.petReact?.("proud");
+        this.ctx.pet?.cheer(() => this.ctx.pet?.inspect(this.delivered || this.basket, 1600));
         this.creatureEl.classList.remove("is-chomp");
         void this.creatureEl.offsetWidth;
         this.creatureEl.classList.add("is-chomp");
@@ -1115,6 +1212,7 @@
       if (!this.alive || !this.completionReady) return;
       this.ctx.say(this.rounds[this.roundIndex].target);
       this.ctx.petReact?.('listening');
+      this.ctx.pet?.inspect(this.delivered || this.basket, 900);
     }
 
     continueDelivery() {
@@ -1139,7 +1237,8 @@
   // ---------- Trace: write the letter with your finger ----------
   // Brain Age's signature mechanic, kid-sized: a huge pale letter is the
   // guide, the child crayons over it, and covering enough of the glyph wins.
-  // No stroke-order pedantry — coverage is the goal, scribbling feels great.
+  // Single letters are now guided stroke by stroke (LettersStrokes, v3);
+  // joined words keep coverage — covering enough of the glyph wins.
   class TraceGame {
     constructor(ctx) {
       this.ctx = ctx;
@@ -1172,7 +1271,7 @@
       this.canvas.addEventListener("pointercancel", (e) => this.cancelStroke(e));
       this.canvas.addEventListener("lostpointercapture", (e) => this.cancelStroke(e));
       window.addEventListener("pointerup", (this.penUpBound = (e) => this.penUp(e)));
-      this.paletteButtons = DrawingPalette.wire(ctx.stage,{active:()=>this.alive&&!this.advancing,release:()=>this.cancelStroke(),onChange:color=>{this.inkColor=color;if(this.g)this.g.strokeStyle=color;}});
+      this.paletteButtons = DrawingPalette.wire(ctx.stage,{active:()=>this.alive&&!this.advancing,release:()=>this.cancelStroke(),onChange:color=>{this.inkColor=color;if(this.g)this.g.strokeStyle=color;this.guided?.setInk(color);}});
       // The glyph guide needs the Quran font; wait for it, then start.
       const ready = document.fonts && document.fonts.load ? document.fonts.load('100px "Amiri Quran"') : Promise.resolve();
       ready.finally(() => {
@@ -1301,9 +1400,38 @@
       this.g.strokeStyle = this.inkColor || DrawingPalette.current();
       this.g.lineWidth = this.brush;
       this.paint = new Set(); // painted sample cells, keyed x|y
+      // Writing Garden (v3): single letters (with any harakat) are taught
+      // stroke by stroke from the handwriting model; joined words keep the
+      // coverage trace above.
+      this.guided?.destroy();
+      this.guided = null;
+      const strokes = ns.LettersStrokes?.forItem?.(target);
+      if (strokes) {
+        this.g.clearRect(0, 0, w, h);
+        this.canvas.parentElement.classList.add("is-guided");
+        this.guided = ns.LettersStrokes.guide(this.canvas.parentElement, strokes, {
+          ink: () => this.inkColor || DrawingPalette.current(),
+          reduced: !!this.ctx.reducedMotion?.(),
+          onStroke: () => { if (this.clearBtn) this.clearBtn.disabled = false; this.ctx.sfx("seed"); },
+          onSnap: () => this.ctx.sfx("drip"),
+          onMove: (e) => {
+            if (!e) { this.ctx.pet?.settle(); this.watching = false; return; }
+            this.penClient = { x: e.clientX, y: e.clientY };
+            if (!this.watching) { this.watching = true; this.ctx.petReact?.("thinking"); this.ctx.pet?.watch(() => this.penClient); }
+          },
+          onDone: () => {
+            if (!this.alive || this.advancing) return;
+            this.guided.paint(this.canvas, this.inkColor || DrawingPalette.current());
+            this.completeDrawing();
+          },
+        });
+      } else {
+        this.canvas.parentElement.classList.remove("is-guided");
+      }
     }
 
     clearDrawing() {
+      if (this.alive && !this.advancing && this.guided) { this.guided.reset(); this.clearBtn.disabled = true; return; }
       if (this.alive && !this.advancing && this.g) {this.cancelStroke();this.startRound();}
     }
 
@@ -1325,6 +1453,7 @@
       const id = this.activePointer;
       this.activePointer = null;
       this.drawing = false;
+      this.ctx?.pet?.settle();
       if (id != null && this.canvas?.hasPointerCapture?.(id)) this.canvas.releasePointerCapture(id);
     }
 
@@ -1337,6 +1466,10 @@
       if (this.clearBtn) this.clearBtn.disabled = false;
       this.canvas.setPointerCapture?.(e.pointerId);
       this.ctx.petReact?.("thinking");
+      // Drawing together: the pet follows the pen tip and steadies toward the board.
+      this.penClient = { x: e.clientX, y: e.clientY };
+      this.ctx.pet?.watch(() => this.penClient);
+      this.ctx.pet?.reach(() => this.penClient);
       // A plain tap must leave ink too — kids dot the dots with single taps,
       // and letters like ب can't pass their dot-cluster check without it.
       if (this.g) {
@@ -1359,6 +1492,7 @@
       if (!this.drawing || !this.alive || this.advancing || e.pointerId !== this.activePointer) return;
       const point = this.pos(e);
       if (!point) return;
+      this.penClient = { x: e.clientX, y: e.clientY };
       const [x, y] = point;
       this.g.beginPath();
       this.g.moveTo(this.last[0], this.last[1]);
@@ -1446,6 +1580,7 @@
       reportAssembly(this.ctx,target,true);
       this.ctx.sfx('correct');
       this.ctx.petReact?.('proud');
+      this.ctx.pet?.cheer(() => this.ctx.pet?.inspect(this.canvas, 1600));
       this.ctx.confettiAt(this.canvas);
       this.ctx.say(target);
       this.nextBtn.focus?.({preventScroll:true});
@@ -1464,6 +1599,7 @@
       this.alive = false;
       this.completionReady = false;
       this.cancelStroke();
+      this.guided?.destroy();
       this.canvas?.parentElement?.querySelectorAll?.(".trace-hint")?.forEach((el) => el.remove());
       window.removeEventListener("pointerup", this.penUpBound);
       this.ctx.onDone(this.slips);
@@ -1473,6 +1609,7 @@
       this.alive = false;
       this.completionReady = false;
       this.cancelStroke();
+      this.guided?.destroy();
       window.removeEventListener("pointerup", this.penUpBound);
     }
   }
@@ -1708,6 +1845,35 @@
       this.startRound();
     }
 
+    // Update 4: a finished word leaves the workbench as a labelled parcel and
+    // joins a small shelf of things made. Decoration only: a copy flies, the
+    // lesson has already advanced, and nothing here scores or saves.
+    shipParcel(whole,target){
+      (this.made ||= []).push(target.display);
+      this.freshParcel=true;
+      if(this.ctx.reducedMotion?.()||!whole?.getBoundingClientRect||typeof document==='undefined')return;
+      const from=whole.getBoundingClientRect();
+      if(!from.width)return;
+      // The stage is rebuilt for the next round, so the copy flies on the page.
+      const ghost=whole.cloneNode(true);ghost.className='build-ghost';ghost.removeAttribute('aria-label');ghost.setAttribute('aria-hidden','true');
+      ghost.style.cssText=`position:fixed;left:${from.left}px;top:${from.top}px;width:${from.width}px;height:${from.height}px;margin:0;pointer-events:none;z-index:50`;
+      document.body.appendChild(ghost);
+      queueMicrotask(()=>{
+        const to=this.ctx.stage?.querySelector?.('.build-shelf .build-parcel:last-child')?.getBoundingClientRect?.();
+        const dx=to?.width?to.left+to.width/2-(from.left+from.width/2):window.innerWidth,dy=to?.width?to.top+to.height/2-(from.top+from.height/2):-60;
+        const flight=ghost.animate?.([{transform:'none',opacity:1},{transform:`translate(${dx*.5}px,${dy*.5-30}px) rotate(6deg) scale(.7)`,opacity:1,offset:.6},{transform:`translate(${dx}px,${dy}px) scale(.25)`,opacity:0}],{duration:520,easing:'cubic-bezier(.3,.7,.3,1)'});
+        if(flight)flight.onfinish=()=>ghost.remove();else ghost.remove();
+      });
+    }
+
+    renderShelf(){
+      const stage=this.ctx.stage;
+      if(!this.made?.length||!stage?.insertAdjacentHTML)return;
+      stage.querySelector('.build-shelf')?.remove();
+      stage.insertAdjacentHTML('beforeend',`<div class="build-shelf" aria-hidden="true">${this.made.slice(-5).map((word,i,list)=>`<span class="build-parcel${this.freshParcel&&i===list.length-1?' is-new':''}"><svg viewBox="0 0 60 48" aria-hidden="true"><rect x="3" y="8" width="54" height="36" rx="5" fill="#e5dcc8" stroke="#4a3620" stroke-width="2.4"/><path d="M30 8V44M3 22H57" stroke="#c69434" stroke-width="2.4"/><path d="M30 8Q22 0 18 6Q24 10 30 8Q38 0 42 6Q36 10 30 8" fill="none" stroke="#c69434" stroke-width="2.4"/><rect x="11" y="25" width="38" height="16" rx="3" fill="#fffdf7"/><text x="30" y="38" text-anchor="middle" font-family="Amiri Quran, serif" font-size="13" fill="#4a3620" direction="rtl">${String(word).replace(/[&<>"']/g,'')}</text></svg></span>`).join('')}</div>`);
+      this.freshParcel=false;
+    }
+
     startRound() {
       if (!this.alive) return;
       const ctx = this.ctx;
@@ -1795,9 +1961,10 @@
           whole.onclick=()=>{if(this.alive&&this.ready&&this.roundIndex===round)this.ctx.say(target);};
           next.onclick=()=>{
             if(!this.alive||!this.ready||this.roundIndex!==round)return;
+            this.shipParcel(whole,target);
             this.ready=false;this.roundIndex++;
             if(this.roundIndex>=this.targets.length){this.alive=false;this.ctx.onDone(this.slips);return;}
-            this.startRound();this.ctx.stage.querySelector('.build-tile:not(:disabled)')?.focus?.({preventScroll:true});
+            this.startRound();this.renderShelf();this.ctx.stage.querySelector('.build-tile:not(:disabled)')?.focus?.({preventScroll:true});
           };
           this.ctx.say(target);next.focus({preventScroll:true});
         };
@@ -2080,7 +2247,8 @@
       for (const other of this.els) {
         if (other === el || other.disabled || other.classList.contains("is-scaffolded") || other.classList.contains("is-gone")) continue;
         const o = other.getBoundingClientRect();
-        if (Math.hypot(o.left + o.width / 2 - cx, o.top + o.height / 2 - cy) < r.width * 0.72) {
+        // Generous: a piece dropped anywhere near its partner joins it.
+        if (Math.hypot(o.left + o.width / 2 - cx, o.top + o.height / 2 - cy) < r.width * 0.95) {
           return other;
         }
       }

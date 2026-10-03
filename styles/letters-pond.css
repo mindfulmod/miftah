@@ -32,7 +32,7 @@
 .lg-app .lg-play[data-activity="pop"] .has-found .pop-bubble:not(.is-found) { visibility:hidden; }
 .lg-app .lg-play[data-activity="pop"] .pop-bubble.is-no { opacity:.55; }
 .lg-app .lg-play[data-activity="pop"] .pop-bubble.is-no svg .tile-face { fill:#fffaf0; }
-.lg-app .lg-play[data-activity="pop"] .pop-bubble:focus-visible { outline:3px solid #e8743c; outline-offset:6px; }
+.lg-app .lg-play[data-activity="pop"] .pop-bubble:focus-visible { outline:4px solid var(--lg-focus); outline-offset:6px; }
 .lg-app .lg-play[data-activity="pop"] .pond-touch-ring { z-index:2; }
 .pond-finish {
   position:absolute; z-index:4; left:50%; bottom:16px; transform:translateX(-50%);
@@ -62,3 +62,21 @@
 .lg-reduce-motion .lg-play[data-activity="pop"] .pop-bubble,
 .lg-reduce-motion .lg-play[data-activity="pop"] .pop-bubble > svg { animation:none!important; transition:none!important; }
 @media(prefers-reduced-motion:reduce) { .lg-app .lg-play[data-activity="pop"] .pop-bubble,.lg-app .lg-play[data-activity="pop"] .pop-bubble > svg { animation:none!important; transition:none!important; } }
+
+/* Update 4: the jetty on the far shore. Each find sails here after Continue
+   (or a second tap on the found packet); the dock is decoration, not a score. */
+.pond-dock { position:absolute; z-index:2; top:2.5%; left:50%; transform:translateX(-50%); width:min(66%,300px); height:clamp(46px,13%,66px); pointer-events:none; }
+.pond-dock-pier { position:absolute; inset:0; width:100%; height:100%; }
+.pond-dock-slots { position:absolute; left:4%; right:4%; top:10%; height:62%; display:flex; justify-content:space-evenly; align-items:center; }
+.pond-dock-slot { position:relative; display:grid; place-items:center; height:100%; aspect-ratio:1; max-width:calc(92% / var(--dock-count,4)); border-radius:10px; border:2px dashed #ffe49a; }
+.pond-dock-slot.is-full { border-color:transparent; }
+.pond-dock-slot > svg { width:100%; height:100%; filter:drop-shadow(0 2px 0 rgb(74 54 32 / .25)); }
+.pond-dock-ghost { position:fixed; z-index:60; pointer-events:none; }
+.pond-dock-ghost > svg { display:block; width:100%; height:100%; }
+@media(orientation:landscape) and (max-height:450px) {
+ .pond-dock { left:4%; transform:none; width:min(56%,280px); height:clamp(38px,15%,52px); top:2%; }
+}
+@media (prefers-reduced-motion:no-preference) {
+  .lg-app:not(.lg-reduce-motion) .pond-dock-slot.is-new > svg { animation:pond-dock-land 360ms cubic-bezier(.2,.8,.2,1) both; }
+  @keyframes pond-dock-land { from { transform:translateY(-6px) scale(1.12); } 60% { transform:translateY(2px) scale(.96); } to { transform:none; } }
+}

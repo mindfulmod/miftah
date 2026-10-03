@@ -17,14 +17,14 @@
 .lg-home .map-flower-bed{top:calc(100% + 12px);width:88px;height:71px}
 .lg-home .map-node>.map-stop{filter:drop-shadow(0 7px 0 #2f5c4620)}
 .lg-home .map-stop.is-current::before{inset:-12px;background:radial-gradient(ellipse,#ffe49a88,transparent 70%);border:none}
-.lg-home .map-plant{z-index:2;width:38px}
+.lg-home .map-plant{z-index:2;width:46px}
 .lg-home .map-daily-row{position:relative;z-index:5;box-shadow:0 5px 0 #c9bda4,inset 0 3px 0 #fffdf7;background:#fffaf0;border-color:#a89478}
 .lg-home .map-daily-row button{background:#fffaf0;box-shadow:0 3px 0 #c9bda4;border-color:#a89478}
 .lg-home .map-play-places{position:relative;z-index:5;margin:6px 0 13px}
 .lg-home .map-play-places button{border:3px solid #a89478;border-radius:18px 18px 22px 22px;box-shadow:0 5px 0 #c9bda4,inset 0 3px 0 #fffdf7;background:#fffaf0}
 .lg-home .map-play-places button:active{transform:translateY(3px);box-shadow:0 2px 0 #c9bda4}
-.lg-home .map-play-places button:focus-visible{outline:3px solid #70501b;outline-offset:3px}
-.lg-home .map-stop:focus-visible{outline:3px solid #70501b;outline-offset:8px;border-radius:50%}
+.lg-home .map-play-places button:focus-visible{outline:4px solid var(--lg-focus);outline-offset:3px}
+.lg-home .map-stop:focus-visible{outline:4px solid var(--lg-focus);outline-offset:8px;border-radius:50%}
 @media(min-width:1000px){.lg-home .map-node{width:160px;height:160px}.lg-home .map-here .art-pet{width:84px}.lg-home .map-daily-row{position:absolute;left:24px;top:12px;margin:0}.lg-home .map-play-places{position:absolute;left:50%;top:12px;transform:translateX(-50%);margin:0;gap:14px}.lg-home .map-scroll{scroll-padding-top:100px}.lg-screen.lg-home>.lg-topbar{min-height:74px}}
 @media(max-width:600px){.lg-home .map-landmark{width:clamp(104px,29vw,145px)}.lg-home .map-boat-landmark{width:clamp(130px,38vw,178px)}.lg-home .map-play-places{margin:4px 0 10px}.lg-home .map-daily-row{margin-top:2px}}
 @media(prefers-reduced-motion:reduce){.lg-home .map-stop,.lg-home .map-stop-art,.lg-home .map-stop::before{animation:none!important;transition:none!important}}
@@ -50,3 +50,67 @@
  .lg-screen.lg-home .map-play-places button>svg:last-child{width:16px;height:16px}
  .lg-screen.lg-home .map-scroll{scroll-padding-top:80px}
 }
+
+/* Update 2: the pet walks the trail and landmarks are touch toys. */
+.lg-home .map-here>*{transform:scaleX(var(--face,1));transition:transform 160ms var(--lg-out,ease-out)}
+.lg-home .map-toy{pointer-events:auto;background:none;border:0;padding:0;margin:0;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.lg-home .map-toy:focus-visible{outline:4px solid var(--lg-focus);outline-offset:4px;border-radius:24px}
+.lg-home .map-toy svg{overflow:visible}
+.lg-reduce-motion .lg-home .map-here>*{transition:none}
+@media(prefers-reduced-motion:reduce){.lg-home .map-here>*{transition:none}}
+.lg-home .map-wheel{transform:translate(-50%,-83%);z-index:2}
+.lg-home .map-wheel .lm-wheel{transform-box:view-box;transform-origin:60px 58px;animation:lg-waterwheel 14s linear infinite}
+@keyframes lg-waterwheel{to{transform:rotate(360deg)}}
+.lg-reduce-motion .lg-home .map-wheel .lm-wheel{animation:none}
+@media(prefers-reduced-motion:reduce){.lg-home .map-wheel .lm-wheel{animation:none}}
+.lg-home .map-wheel{animation:lg-wheel-arrive 360ms var(--lg-out,ease-out) both}
+@keyframes lg-wheel-arrive{from{opacity:0}to{opacity:1}}
+.lg-reduce-motion .lg-home .map-wheel{animation:none}
+@media(prefers-reduced-motion:reduce){.lg-home .map-wheel{animation:none}}
+
+/* Phone portrait (2026-10-01): the activity tray joins the top bar's empty left
+   side, so the header is two rows instead of three and the map gets that space
+   back. Below 360px it keeps its own row — there is no room beside the sound
+   button for four 44px targets. */
+@media(min-width:360px) and (max-width:600px) and (min-height:501px){
+ .lg-screen.lg-home .map-daily-row{position:absolute;left:10px;top:max(10px,env(safe-area-inset-top));margin:0;padding:3px 5px;gap:6px;z-index:7}
+ .lg-screen.lg-home .map-daily-row button{width:44px;height:44px;min-width:44px;border-radius:14px}
+ .lg-screen.lg-home .map-daily-row .map-pet svg,.lg-screen.lg-home .map-daily-row .map-pet .lg-animal{max-width:38px;max-height:38px}
+ .lg-screen.lg-home .map-play-places{margin-top:8px}
+}
+
+/* Land gates (2026-10-01): rolled banner until the land is reached; the first
+   unfurl is the arrival. */
+.map-gate .map-gate-banner{transform-box:fill-box;transform-origin:50% 0;transform:scaleY(0)}
+.map-gate.is-open .map-gate-banner{transform:none}
+.map-gate.is-open .map-gate-roll{opacity:0}
+.map-gate.is-arriving .map-gate-banner{animation:gate-unfurl 900ms cubic-bezier(.3,1.5,.5,1) both}
+.map-gate.is-arriving .map-gate-roll{animation:gate-roll 400ms ease-out both}
+@keyframes gate-unfurl{0%{transform:scaleY(0)}70%{transform:scaleY(1.08)}100%{transform:scaleY(1)}}
+@keyframes gate-roll{from{opacity:1}to{opacity:0}}
+.lg-reduce-motion .map-gate .map-gate-banner,.lg-reduce-motion .map-gate .map-gate-roll{animation:none!important}
+@media(prefers-reduced-motion:reduce){.map-gate .map-gate-banner,.map-gate .map-gate-roll{animation:none!important}}
+
+/* Back on the map (2026-10-01): the finished chapter's moment, in order. */
+.lg-home .is-landing{animation:map-keepsake-land 760ms cubic-bezier(.3,1.5,.5,1) both}
+.lg-home .map-plant.is-growing{animation:map-plant-grow 900ms cubic-bezier(.3,1.6,.5,1) both;transform-origin:50% 100%}
+.lg-home .map-stop.is-opening .map-stop-art{animation:map-stop-open 700ms cubic-bezier(.3,1.6,.5,1) both}
+@keyframes map-keepsake-land{0%{transform:translateY(-70px) scale(.7);opacity:0}60%{transform:translateY(4px) scale(1.06);opacity:1}100%{transform:none}}
+@keyframes map-plant-grow{0%{scale:.3}70%{scale:1.15}100%{scale:1}}
+@keyframes map-stop-open{0%{scale:.6}60%{scale:1.18}100%{scale:1}}
+.lg-reduce-motion .lg-home .is-landing,.lg-reduce-motion .lg-home .map-plant.is-growing,.lg-reduce-motion .lg-home .map-stop.is-opening .map-stop-art{animation:none!important}
+@media(prefers-reduced-motion:reduce){.lg-home .is-landing,.lg-home .map-plant.is-growing,.lg-home .map-stop.is-opening .map-stop-art{animation:none!important}}
+.party-capstone .party-glint{width:22px;height:22px;vertical-align:middle}
+
+/* ---------- v23 World Overview ---------- */
+.lg-home .map-world-btn{position:absolute;right:12px;bottom:max(16px,env(safe-area-inset-bottom));z-index:6;width:62px;height:62px;border-radius:50%;border:3px solid #4a3620;background:#fffaf0;box-shadow:0 5px 0 #70501b;display:grid;place-items:center;cursor:pointer}
+.lg-home .map-world-btn:focus-visible{outline:4px solid var(--lg-focus);outline-offset:3px}
+.world-overview{width:min(340px,calc(100vw - 28px));max-height:calc(100dvh - 28px);box-sizing:border-box;padding:14px 14px 12px;border:3px solid #a89478;border-radius:28px;background:#e5dcc8;box-shadow:0 8px 0 #c9bda4;display:grid;justify-items:center;gap:10px;overflow:auto}
+.world-overview::backdrop{background:#23253fb3}
+.wo-map{width:100%;height:auto;max-height:calc(100dvh - 140px);border-radius:18px;border:3px solid #4a3620}
+.wo-land{cursor:pointer;outline:none}
+.wo-land:focus-visible rect{stroke:#e8743c;stroke-width:4}
+.wo-land.is-misty{cursor:default}
+.wo-dot.is-current{animation:wo-pulse 1.2s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:50% 50%}
+@keyframes wo-pulse{to{transform:scale(1.25)}}
+.lg-reduce-motion .wo-dot.is-current{animation:none}

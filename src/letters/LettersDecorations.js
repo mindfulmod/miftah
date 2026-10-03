@@ -8,7 +8,8 @@
   const entries = (catalog) => Array.isArray(catalog) ? catalog : [];
   const ids = (catalog) => new Set(entries(catalog).map((item) => item && item.id).filter((id) => typeof id === 'string'));
 
-  function catalog({ progress = {}, bests = {}, stickers = {} } = {}) {
+  const KEEPSAKE_LABELS = { bed: 'seed bed', picnic: 'picnic basket', parcel: 'parcel stack', garland: 'lantern string', harvest: 'fruit tree', jars: 'seed jars', raft: 'little raft' };
+  function catalog({ progress = {}, bests = {}, stickers = {}, savedDrawings = {} } = {}) {
     const safeProgress = progress && typeof progress === 'object' && Array.isArray(progress.done)
       ? progress : { done: [] };
     const safeBests = bests && typeof bests === 'object' ? bests : {};
@@ -19,11 +20,29 @@
       if (earned >= count) result.push({ id: `flower:${count}`, label: FLOWER_LABELS[count - 1], kind: 'flower', count });
     }
     if (earned >= 1) result.push({ id: 'boat', label: 'paper boat', kind: 'boat' });
+    // Garden props come from finished stories, never from a new currency:
+    // any picnic chapter brings the blanket, any seed bed the watering can.
+    const storyOf = ns.LettersJourney?.CHAPTERS || {};
+    const stories = new Set(safeProgress.done.map((id) => storyOf[id]).filter(Boolean));
+    if (stories.has('picnic')) result.push({ id: 'blanket', label: 'picnic blanket', kind: 'blanket' });
+    if (stories.has('bed')) result.push({ id: 'can', label: 'watering can', kind: 'can' });
     const known = new Set((Array.isArray(ns.LETTERS_STICKERS) ? ns.LETTERS_STICKERS : []).map((item) => item && item.id));
     const owned = new Set(Array.isArray(stickers && stickers.owned) ? stickers.owned : []);
     for (const stickerId of STICKER_IDS) {
       if (known.has(stickerId) && owned.has(stickerId)) {
         result.push({ id: `sticker:${stickerId}`, label: STICKER_LABELS[stickerId] + ' sticker', kind: 'sticker', stickerId });
+      }
+    }
+    // Update 5: finished chapter keepsakes and the child's own drawings as signs.
+    const chapters = ns.LettersJourney?.CHAPTERS || {};
+    for (const id of safeProgress.done) {
+      const story = chapters[id];
+      if (story && id !== 'pack-boat') result.push({ id: `keepsake:${id}`, label: KEEPSAKE_LABELS[story] || 'keepsake', kind: 'keepsake', story, worldId: id });
+    }
+    const drawings = savedDrawings && typeof savedDrawings === 'object' ? Object.entries(savedDrawings) : [];
+    for (const [letter, drawing] of drawings.slice(-4)) {
+      if (typeof drawing === 'string' && /^data:image\/png;base64,[A-Za-z0-9+/=]+$/.test(drawing)) {
+        result.push({ id: `sign:${letter}`, label: `${letter} sign`, kind: 'sign', letter, drawing });
       }
     }
     return result;

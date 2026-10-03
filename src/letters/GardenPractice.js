@@ -11,7 +11,9 @@
     el.addEventListener('click',e=>{if(performance.now()<suppressUntil){e.preventDefault();e.stopImmediatePropagation();}},true);
     return reset;
   }
-  const inside=(el,x,y)=>{const r=el.getBoundingClientRect();return r.width>0&&r.height>0&&x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom;};
+  // Drops count within a 28px margin of the target — toddlers let go early.
+  const DROP_SLACK=28;
+  const inside=(el,x,y)=>{const r=el.getBoundingClientRect();return r.width>0&&r.height>0&&x>=r.left-DROP_SLACK&&x<=r.right+DROP_SLACK&&y>=r.top-DROP_SLACK&&y<=r.bottom+DROP_SLACK;};
   const button=(label,content,cls='')=>`<button type="button" aria-label="${label}" class="practice-button ${cls}">${content}</button>`;
   const drawingColors=[
     {id:'green',name:'Green',hue:95,value:'hsl(95 62% 54%)'},
@@ -52,8 +54,8 @@
   };
   ns.DrawingPalette=DrawingPalette;
   const tool=name=>ns.LettersArt.icon(name,30);
-  const eye='<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M3 20Q20 1 37 20Q20 39 3 20Z" fill="#dce8c3" stroke="#617b50" stroke-width="3"/><circle cx="20" cy="20" r="7" fill="#617b50"/><circle cx="18" cy="17" r="2" fill="#fffaf0"/></svg>';
-  const seedDot='<svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="10" fill="#4a3620"/><circle cx="17" cy="16" r="2.5" fill="#c9b28b"/></svg>';
+  const eye='<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M3 20Q20 1 37 20Q20 39 3 20Z" fill="#e5dcc8" stroke="#4e9677" stroke-width="3"/><circle cx="20" cy="20" r="7" fill="#4e9677"/><circle cx="18" cy="17" r="2" fill="#fffaf0"/></svg>';
+  const seedDot='<svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="10" fill="#4a3620"/><circle cx="17" cy="16" r="2.5" fill="#c9bda4"/></svg>';
   const eraser='<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M6 25L23 8Q26 5 29 8L35 14Q38 17 35 20L19 35H15Z" fill="#ee806f" stroke="#4a3620" stroke-width="3"/><path d="M6 25L13 18 26 28 19 35H15Z" fill="#fffaf0" stroke="#4a3620" stroke-width="3"/><path d="M25 35H36" stroke="#4a3620" stroke-width="3"/></svg>';
   const glyph=display=>{const s=ns.LettersArt.inkShift(display,44,false);return `<svg class="dot-recall-glyph" viewBox="-50 -50 100 100" aria-hidden="true"><text data-fit-box="0,0,72,62,44" x="${s.dx}" y="${s.dy}" text-anchor="middle" font-family="'Amiri Quran',serif" font-size="44" fill="#4a3620" direction="rtl">${display}</text></svg>`;};
   const dots=count=>`<span class="dot-cluster dots-${count}" aria-hidden="true">${Array.from({length:count},()=>'<i aria-hidden="true">●</i>').join('')}</span>`;
@@ -128,7 +130,7 @@
       this.ctx.stage.innerHTML=`<div class="dot-garden is-exploring">${pottingScene()}<div class="dot-discoveries" aria-label="Letters explored">${this.exploreItems.map((item,i)=>`<i data-discovery="${i}" aria-label="${item.display}"></i>`).join('')}</div>
         ${button('Hear the discovered letter',glyph(this.exploreItems[0].display),'dot-discovery-card')}
         <div class="dot-explore-tray" role="group" aria-label="Try another dot pattern">${this.exploreItems.map(item=>button(`Try ${item.display}`,patternPicture(item),'dot-pattern-choice')).join('')}</div>
-        <div class="practice-tools dot-explore-tools">${button('Undo dot change',tool('replay'),'dot-explore-undo')}${button('Start repairing letters',tool('next'),'dot-explore-next')}</div></div>`;
+        <div class="practice-tools dot-explore-tools">${button('Undo dot change',tool('undo'),'dot-explore-undo')}${button('Start repairing letters',tool('next'),'dot-explore-next')}</div></div>`;
       const card=this.ctx.stage.querySelector('.dot-discovery-card'),choices=[...this.ctx.stage.querySelectorAll('.dot-pattern-choice')],undo=this.ctx.stage.querySelector('.dot-explore-undo');
       const paint=(speak=true)=>{
         const item=this.exploreItems[this.exploreIndex];this.target=item;card.innerHTML=glyph(item.display)+(this.ctx.canListen?.()!==false?`<span class="dot-discovery-speaker" aria-hidden="true">${tool('speaker')}</span>`:'');card.setAttribute('aria-label',`Hear ${item.display}`);
@@ -190,7 +192,7 @@
         ${button('Place a dot above','<span class="dot-hint" aria-hidden="true"></span><span class="dot-placed"></span>','dot-zone dot-above')}
         <span class="dot-base" lang="ar">${this.round.family.body}</span>
         ${button('Place a dot below','<span class="dot-hint" aria-hidden="true"></span><span class="dot-placed"></span>','dot-zone dot-below')}
-        </div><div class="practice-tools">${button('Take a seed dot',seedDot,'dot-seed')}${button('Remove last dot',tool('replay'),'dot-undo')}${button('Check letter',tool('check'),'dot-check')}</div><div class="practice-status" role="status" aria-live="polite"></div></div>`;
+        </div><div class="practice-tools">${button('Take a seed dot',seedDot,'dot-seed')}${button('Remove last dot',tool('undo'),'dot-undo')}${button('Check letter',tool('check'),'dot-check')}</div><div class="practice-status" role="status" aria-live="polite"></div></div>`;
       const source=this.ctx.stage.querySelector('.dot-seed');this.zones=['above','below'].map(name=>this.ctx.stage.querySelector('.dot-'+name));
       if(this.round.mode==='guided'){const hint=this.zones[targetSpec.below?1:0]?.querySelector?.('.dot-hint');if(hint)hint.innerHTML=dots(targetSpec.below||targetSpec.above);}
       this.history=[];if(sourceSpec){for(let i=0;i<this.above;i++)this.history.push('above');for(let i=0;i<this.below;i++)this.history.push('below');}
@@ -223,7 +225,7 @@
   // never correctness or mastery. Keep the child's own marks until they turn the page.
   // Recorded brush width matches the canvas ink; it is not a prop contour.
   const inkPicture=(strokes,width,height)=>`<svg viewBox="0 0 ${width} ${height}" aria-hidden="true"><svg width="${width}" height="${height}" viewBox="0 0 800 500" preserveAspectRatio="none">${strokes.map(stroke=>`<path d="M${stroke.points.map(point=>point.join(',')).join('L')}" fill="none" stroke="${stroke.color}" style="stroke-width:14px" stroke-linecap="round" stroke-linejoin="round"/>`).join('')}</svg></svg>`;
-  const pathUndo='<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M10 14H24A10 10 0 1 1 24 34M10 14L17 7M10 14L17 21" fill="none" stroke="#4a3620" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const pathUndo=()=>tool('undo');
   class GardenPaths{
     constructor(ctx){
       this.ctx=ctx;this.alive=true;this.index=0;this.busy=false;this.drawings=[];this.inkColor=DrawingPalette.startForPet(ctx.petHue);
@@ -235,7 +237,7 @@
       const round=this.rounds[this.index],target=round?.target;if(!target){if(this.drawings.length)this.showGallery();else this.finish();return;}const mode=round.mode;
       this.ctx.prompt?.(target);this.ctx.say?.(target);this.hasInk=false;this.pointer=null;this.busy=false;this.reviewing=false;this.strokes=[];
       const guideShift=ns.LettersArt.inkShift(target.display,84,false);
-      this.ctx.stage.innerHTML=`<div class="garden-paths"><div class="path-progress" role="progressbar" aria-valuemin="0" aria-valuemax="${this.rounds.length}" aria-valuenow="${this.index}" aria-label="Drawing ${this.index+1} of ${this.rounds.length}, ${mode}">${Array.from({length:this.rounds.length},(_,i)=>`<i class="${i<=this.index?'is-on':''}" aria-hidden="true"></i>`).join('')}</div><div class="path-workbook"><div class="path-paper"><div class="path-guide${mode==='partial'?' path-guide-partial':''}"${mode==='partial'?' style="clip-path:inset(0 48% 0 0)"':''}><svg class="path-guide-glyph" viewBox="0 0 100 100" aria-hidden="true"><text data-fit-box="50,50,78,74,84" x="${50+guideShift.dx}" y="${50+guideShift.dy}" text-anchor="middle" font-size="84" font-family="'Amiri Quran',serif" fill="#c9bda4" direction="rtl">${target.display}</text></svg></div><canvas aria-label="Draw ${target.display} here"></canvas></div><span class="path-made" role="status" aria-label="Your drawing is ready" hidden><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M10 29Q5 8 30 7Q36 29 10 29Z" fill="#4e9677"/><path d="M13 25Q14 12 27 10Q22 22 13 25Z" fill="#b7e779"/><path d="M9 33L25 14" stroke="#2f5c46" stroke-width="3" stroke-linecap="round"/></svg></span></div>${DrawingPalette.markup()}<div class="practice-tools path-editing-tools">${button('Undo last stroke',pathUndo,'path-undo')}${button('Clear drawing',eraser,'path-clear')}${button('Show or hide guide',eye,'path-guide-toggle')}${button('Finish this drawing',tool('check'),'path-next')}</div><div class="practice-tools path-review-tools" hidden>${button('Keep drawing','<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M9 29L27 5L35 11L17 35L6 37Z" fill="#f3c955" stroke="#4a3620" stroke-width="3" stroke-linejoin="round"/><path d="M9 29L17 35L6 37Z" fill="#fffaf0"/><path d="M14 28L28 10" stroke="#ffe49a" stroke-width="3"/></svg>','path-edit')}${button('Turn the page',tool('next'),'path-continue')}</div></div>`;
+      this.ctx.stage.innerHTML=`<div class="garden-paths"><div class="path-progress" role="progressbar" aria-valuemin="0" aria-valuemax="${this.rounds.length}" aria-valuenow="${this.index}" aria-label="Drawing ${this.index+1} of ${this.rounds.length}, ${mode}">${Array.from({length:this.rounds.length},(_,i)=>`<i class="${i<=this.index?'is-on':''}" aria-hidden="true"></i>`).join('')}</div><div class="path-workbook"><div class="path-paper"><div class="path-guide${mode==='partial'?' path-guide-partial':''}"${mode==='partial'?' style="clip-path:inset(0 48% 0 0)"':''}><svg class="path-guide-glyph" viewBox="0 0 100 100" aria-hidden="true"><text data-fit-box="50,50,78,74,84" x="${50+guideShift.dx}" y="${50+guideShift.dy}" text-anchor="middle" font-size="84" font-family="'Amiri Quran',serif" fill="#c9bda4" direction="rtl">${target.display}</text></svg></div><canvas aria-label="Draw ${target.display} here"></canvas></div><span class="path-made" role="status" aria-label="Your drawing is ready" hidden><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M10 29Q5 8 30 7Q36 29 10 29Z" fill="#4e9677"/><path d="M13 25Q14 12 27 10Q22 22 13 25Z" fill="#b7e779"/><path d="M9 33L25 14" stroke="#2f5c46" stroke-width="3" stroke-linecap="round"/></svg></span></div>${DrawingPalette.markup()}<div class="practice-tools path-editing-tools">${button('Undo last stroke',pathUndo(),'path-undo')}${button('Clear drawing',eraser,'path-clear')}${button('Show or hide guide',eye,'path-guide-toggle')}${button('Finish this drawing',tool('check'),'path-next')}</div><div class="practice-tools path-review-tools" hidden>${button('Keep drawing','<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M9 29L27 5L35 11L17 35L6 37Z" fill="#f3c955" stroke="#4a3620" stroke-width="3" stroke-linejoin="round"/><path d="M9 29L17 35L6 37Z" fill="#fffaf0"/><path d="M14 28L28 10" stroke="#ffe49a" stroke-width="3"/></svg>','path-edit')}${button('Turn the page',tool('next'),'path-continue')}</div></div>`;
       ns.LettersArt.fitGlyphs?.(this.ctx.stage);
       const find=s=>this.ctx.stage.querySelector(s),canvas=find('canvas'),guide=find('.path-guide'),next=find('.path-next'),clear=find('.path-clear'),toggle=find('.path-guide-toggle'),undo=find('.path-undo'),g=canvas.getContext('2d');
       canvas.width=800;canvas.height=500;guide.hidden=false;next.disabled=true;clear.disabled=true;if(undo)undo.disabled=true;

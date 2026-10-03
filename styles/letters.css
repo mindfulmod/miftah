@@ -14,10 +14,14 @@
 :root {
   /* palette */
   --lg-ink: #4a3620; /* warm espresso contour — replaces the old cold navy */
+  /* One keyboard-focus ring everywhere (accent-warm = "the live thing"), and a
+     pale-gold twin for dark boards where orange would sink. */
+  --lg-focus: #e8743c;
+  --lg-focus-on-dark: #ffe49a;
   --lg-shadow: rgba(74, 54, 32, 0.2);
   --lg-cream: #fffaf0;
   --lg-cream-edge: #e5dcc8;
-  --lg-paper-muted: #f4f0e4;
+  --lg-paper-muted: #fffaf0;
   /* Primary action. Warm on purpose: the storybook palette is cream, espresso
      and green, and a cool blue button was the one element that read as app
      chrome rather than part of the toy. Tangerine keeps the same "press me"
@@ -30,7 +34,7 @@
   --lg-gold-edge: #c69434;
   --lg-gold-deep: #70501b;
   --lg-coral: #ee806f;
-  --lg-green: #7fc6a4;
+  --lg-green: #7fce54;
   --lg-green-deep: #4e9677;
   --lg-outline: 3px solid var(--lg-ink);
   --lg-lift-sm: 0 5px 0 var(--lg-ink);
@@ -155,7 +159,7 @@ body {
   border-radius: var(--lg-radius-sm);
   background: var(--lg-action);
   box-shadow: 0 6px 0 var(--lg-action-edge), 0 9px 0 var(--lg-ink);
-  color: #fff;
+  color: #fffdf7;
   cursor: pointer;
   transition: transform 140ms var(--lg-spring), box-shadow 140ms var(--lg-out);
 }
@@ -190,10 +194,10 @@ body {
   to { transform: translateX(880px); }
 }
 
-.art-sun-glow { animation: lg-sun-breathe 6s ease-in-out infinite; transform-origin: 670px 90px; }
+.art-sun-glow { animation: lg-sun-breathe 6s ease-in-out infinite; transform-box: view-box; transform-origin: 620px 88px; }
 @keyframes lg-sun-breathe { 50% { transform: scale(1.05); } }
 
-.art-stars circle { animation: lg-twinkle 3.4s ease-in-out infinite; }
+.art-stars > * { animation: lg-twinkle 3.4s ease-in-out infinite; }
 @keyframes lg-twinkle { 50% { opacity: 0.3; } }
 
 .art-fireflies circle { animation: lg-firefly 5.2s ease-in-out infinite; }
@@ -210,13 +214,13 @@ body {
   height: 12px;
   margin: -6px 0 0 -6px;
   pointer-events: none;
-  background: radial-gradient(circle, #fff 20%, var(--lg-gold) 55%, transparent 72%);
+  background: radial-gradient(circle, #fffdf7 20%, var(--lg-gold) 55%, transparent 72%);
   border-radius: 50%;
   animation: lg-spark 620ms var(--lg-out) forwards;
 }
 
-.lg-spark.is-pink { background: radial-gradient(circle, #fff 20%, var(--lg-coral) 55%, transparent 72%); }
-.lg-spark.is-blue { background: radial-gradient(circle, #fff 20%, #54c6ff 55%, transparent 72%); }
+.lg-spark.is-pink { background: radial-gradient(circle, #fffdf7 20%, var(--lg-coral) 55%, transparent 72%); }
+.lg-spark.is-blue { background: radial-gradient(circle, #fffdf7 20%, #62cdf4 55%, transparent 72%); }
 
 @keyframes lg-spark {
   from { opacity: 1; transform: translate(0, 0) scale(1); }
@@ -395,8 +399,8 @@ body {
   aspect-ratio: 1;
   border: none;
   border-radius: 50%;
-  background: radial-gradient(circle at 36% 30%, #fff6d8, #ffd88f 58%, #f4b95d 90%);
-  box-shadow: 0 6px 0 #c98f3a, 0 12px 22px -8px var(--lg-shadow);
+  background: radial-gradient(circle at 36% 30%, #fffaf0, #ffe49a 58%, #f3c955 90%);
+  box-shadow: 0 6px 0 #c69434, 0 12px 22px -8px var(--lg-shadow);
   cursor: pointer;
   display: grid;
   place-items: center;
@@ -463,7 +467,7 @@ body {
   padding: 8px 18px 10px;
   border: 2px solid var(--lg-ink);
   border-radius: var(--lg-radius-sm);
-  background: #fff1c9;
+  background: #fffaf0;
   box-shadow: 0 4px 0 var(--lg-ink);
   cursor: pointer;
   transition: transform 140ms var(--lg-spring);
@@ -481,7 +485,7 @@ body {
   border-radius: 4px;
   border-left: 2px solid var(--lg-ink);
   border-bottom: 2px solid var(--lg-ink);
-  background: #fff1c9;
+  background: #fffaf0;
   transform: translateY(-50%) rotate(45deg);
 }
 
@@ -517,8 +521,8 @@ body {
   border-radius: 18px;
   /* rising and falling pieces dissolve at the stage's top edge instead of
      getting sliced by an invisible line under the prompt row */
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 64px);
-  mask-image: linear-gradient(to bottom, transparent 0, #000 64px);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #0a1f1a 64px);
+  mask-image: linear-gradient(to bottom, transparent 0, #0a1f1a 64px);
 }
 
 /* ---------- bubble pop ---------- */
@@ -549,13 +553,16 @@ body {
   100% { transform: scale(0.3); opacity: 0; }
 }
 
-.is-shake { animation: lg-shake 460ms var(--lg-out); }
+/* Try-again is a small wobble, not a head-shake "no": for a 4-year-old a big
+   shake reads as being told off. Reduced motion drops it; the sound remains. */
+.is-shake { animation: lg-shake 420ms var(--lg-out); }
 @keyframes lg-shake {
   0%, 100% { transform: translateX(0) rotate(0); }
-  25% { transform: translateX(-9px) rotate(-4deg); }
-  50% { transform: translateX(8px) rotate(3deg); }
-  75% { transform: translateX(-5px) rotate(-2deg); }
+  30% { transform: translateX(-4px) rotate(-1.5deg); }
+  65% { transform: translateX(3px) rotate(1deg); }
 }
+.lg-reduce-motion .is-shake { animation: none; }
+@media (prefers-reduced-motion: reduce) { .is-shake { animation: none; } }
 
 /* ---------- catch ---------- */
 .catch-field { position: absolute; inset: 0; }
@@ -719,15 +726,22 @@ body {
 
 /* ---------- confetti ---------- */
 .lg-confetti-layer { position: fixed; z-index: 60; pointer-events: none; }
+/* One shape family from the garden: petals and round seeds, no paper strips. */
 .lg-confetti-layer i {
   position: absolute;
   width: 11px;
   height: 15px;
-  border-radius: 3px;
+  border-radius: 70% 0 70% 0;
   animation: lg-confetti 1.05s var(--lg-out) forwards;
 }
 
 .lg-confetti-layer i.is-round { width: 11px; height: 11px; border-radius: 50%; }
+.lg-confetti-layer i.is-drop { width: 9px; height: 12px; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; }
+.lg-confetti-layer i.is-chip { width: 12px; height: 6px; border-radius: 2px; }
+.lg-confetti-layer i.is-seed { width: 8px; height: 11px; border-radius: 50%; }
+.lg-confetti-layer i.is-glint { width: 13px; height: 13px; border-radius: 0; clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); }
+.lg-burst-ring { position: absolute; left: -30px; top: -10px; width: 60px; height: 20px; border: 3px solid #fffdf7; box-shadow: 0 0 0 2px #62cdf4; border-radius: 50%; animation: lg-burst-ring 700ms ease-out forwards; }
+@keyframes lg-burst-ring { from { transform: scale(0.3); opacity: 1; } to { transform: scale(2.2); opacity: 0; } }
 
 @keyframes lg-confetti {
   from { transform: translate(0, 0) rotate(0); opacity: 1; }
@@ -739,7 +753,10 @@ body {
    sky rect too, so the sky rendered more saturated than the identical hex on
    <body> behind it — and that mismatch was visible as a band across the top
    wherever the compositor let the body show through. */
-.art-scenery-tint { filter: saturate(1.28) hue-rotate(calc((var(--lg-hue, 150) - 150) * 0.35deg)); }
+/* Retired 2026-10-01: the tint saturated every scene ×1.28 and rotated hues up
+   to 65°, so the locked palette never reached the screen (pink moons, magenta
+   peaks). Chapter identity now comes from the land art (backdrop biome). */
+.art-scenery-tint { filter: none; }
 
 /* ---------- daily training & stamp calendar ---------- */
 .map-daily-row {
@@ -776,14 +793,14 @@ body {
 }
 
 .map-daily {
-  background: radial-gradient(circle at 34% 28%, #ffe27a, #f59a1d 78%);
-  box-shadow: 0 4px 0 #c47f12;
-  color: #fff6da;
+  background: radial-gradient(circle at 34% 28%, #ffe49a, #c69434 78%);
+  box-shadow: 0 4px 0 #c69434;
+  color: #fffaf0;
   animation: lg-bounce 2s var(--lg-spring) infinite;
 }
 
-.map-daily:active { transform: translateY(4px); box-shadow: 0 1px 0 #c47f12; }
-.map-daily.is-stamped { animation: none; box-shadow: 0 5px 0 #c47f12; }
+.map-daily:active { transform: translateY(4px); box-shadow: 0 1px 0 #c69434; }
+.map-daily.is-stamped { animation: none; box-shadow: 0 5px 0 #c69434; }
 
 .map-daily-check {
   position: absolute;
@@ -794,9 +811,9 @@ body {
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: linear-gradient(#b4ea8c, var(--lg-green));
+  background: linear-gradient(#b7e779, var(--lg-green));
   box-shadow: 0 2px 0 var(--lg-green-deep);
-  color: #1d4310;
+  color: #2f5c46;
 }
 
 .map-calendar {
@@ -817,7 +834,7 @@ body {
   z-index: 2;
 }
 
-.stamps-moon { color: #f59a1d; }
+.stamps-moon { color: #c69434; }
 
 .stamps-grid {
   display: grid;
@@ -838,15 +855,15 @@ body {
   height: 42px;
   border: 2px solid var(--lg-ink);
   border-radius: 13px;
-  background: #f2ead4;
-  color: #b3a88c;
+  background: #e5dcc8;
+  color: #a89478;
   font-weight: 800;
   font-size: 15px;
 }
 
-.stamp-cell.is-stamped { background: #fff3c2; color: var(--lg-gold); }
+.stamp-cell.is-stamped { background: #ffe49a; color: var(--lg-gold); }
 .stamp-cell.is-stamped svg path { fill: var(--lg-gold); stroke: var(--lg-gold-edge); stroke-width: 4; }
-.stamp-cell.is-today { outline: 4px solid #54c6ff; outline-offset: 2px; }
+.stamp-cell.is-today { outline: 4px solid #62cdf4; outline-offset: 2px; }
 .stamp-cell.is-future { opacity: 0.45; }
 
 /* ---------- trace ---------- */
@@ -921,7 +938,7 @@ body {
   cursor: pointer;
 }
 
-.hatch-egg .art-egg-body { animation: lg-wiggle 1.6s ease-in-out infinite; transform-origin: 0px 52px; }
+.hatch-egg .art-egg-body { animation: lg-wiggle 1.6s ease-in-out infinite; transform-origin: 0px 40px; }
 @keyframes lg-wiggle {
   0%, 100% { transform: rotate(0); }
   30% { transform: rotate(-4deg); }
@@ -959,7 +976,7 @@ body {
   min-width: 52px;
   height: 52px;
   border-radius: 50% 50% 50% 12%;
-  background: linear-gradient(#fffdf6, var(--lg-cream));
+  background: linear-gradient(#fffdf7, var(--lg-cream));
   box-shadow: 0 4px 0 var(--lg-cream-edge), 0 10px 16px -8px var(--lg-shadow);
   color: var(--lg-ink);
   font-family: "Amiri Quran", serif;
@@ -1044,12 +1061,12 @@ body {
 }
 
 .pet-acc:active { transform: translateY(3px) scale(0.98); box-shadow: 0 1px 0 var(--lg-ink); }
-/* "Not yours yet" must not look like "broken". At 45% opacity plus grayscale a
-   child reads a disabled control, not a thing to save up for — so keep it fully
-   opaque and legible, and let the loss of COLOUR carry the state while the gold
-   price tag says it is obtainable. */
-.pet-acc:not(.is-owned) .pet-acc-art { opacity: 0.92; filter: grayscale(0.9); }
-.pet-acc.is-worn { border-color: var(--lg-ink); background: #fff1c9; outline: 3px solid var(--lg-gold); outline-offset: 2px; }
+/* "Not yours yet" must not look like "broken" — and since 2026-10-01 not grey
+   either: a greyed hat on a greyed pet hid the very thing to save up for. Full
+   colour shows what the child would get; the gold star price chip carries the
+   state. */
+.pet-acc:not(.is-owned) .pet-acc-art { opacity: 1; filter: none; }
+.pet-acc.is-worn { border-color: var(--lg-ink); background: #fffaf0; outline: 3px solid var(--lg-gold); outline-offset: 2px; }
 
 .pet-acc-cost {
   display: inline-flex;
@@ -1085,6 +1102,10 @@ body {
   background: var(--lg-paper-muted);
 }
 .album-slot.is-new { animation: lg-sticker-land 620ms var(--lg-spring-big); }
+/* Uncollected stickers: one flat paper tone over the whole motif (CSS beats the
+   art's presentation attributes); line-only parts stay lines. */
+.art-sticker-ghost * { stroke: #c9bda4; }
+.art-sticker-ghost [fill]:not([fill="none"]) { fill: #c9bda4; }
 @keyframes lg-sticker-land {
   0% { transform: scale(2) rotate(14deg); opacity: 0; }
   60% { transform: scale(0.94) rotate(-3deg); opacity: 1; }
@@ -1151,7 +1172,7 @@ body {
 .build-tile.is-used { opacity: 0.18; pointer-events: none; transform: scale(0.85); }
 
 /* ---------- feedback polish ---------- */
-.pop-bubble.is-no svg .tile-face { fill: #ffd9d3; }
+.pop-bubble.is-no svg .tile-face { fill: #e5dcc8; }
 
 .pop-cross {
   position: absolute;
@@ -1179,12 +1200,12 @@ body {
 
 /* ---------- check-up & skill flower ---------- */
 .map-checkup {
-  background: radial-gradient(circle at 34% 28%, #e0b6f5, #a75fd1 78%);
-  box-shadow: 0 4px 0 #7a3aa0;
-  color: #fdf3ff;
+  background: radial-gradient(circle at 34% 28%, #e6d6f0, #8c74b0 78%);
+  box-shadow: 0 4px 0 #5e4680;
+  color: #fffdf7;
 }
 
-.map-checkup:active { transform: translateY(4px); box-shadow: 0 1px 0 #7a3aa0; }
+.map-checkup:active { transform: translateY(4px); box-shadow: 0 1px 0 #5e4680; }
 
 .pet-flower, .party-flower { display: grid; place-items: center; }
 .party-flower { animation: lg-arrive 620ms var(--lg-spring-big); }
@@ -1207,7 +1228,7 @@ body {
   left: 50%;
   bottom: 100%;
   margin: 0 0 2px -22px;
-  color: #f0503f;
+  color: #e8743c;
   filter: drop-shadow(0 2px 3px rgba(80, 30, 10, 0.4));
   animation: lg-tap 1.1s ease-in-out infinite;
   pointer-events: none;
@@ -1274,7 +1295,7 @@ body {
   .art-mascot-body, .art-blob-body, .art-creature-body, .art-pet-body,
   .map-stop.is-current .map-stop-art, .map-stop.is-current::before,
   .party-mascot, .party-pet .art-pet-body, .art-eyes, .map-daily,
-  .art-cloud-a, .art-cloud-b, .art-sun-glow, .art-stars circle,
+  .art-cloud-a, .art-cloud-b, .art-sun-glow, .art-stars > *,
   .art-fireflies circle, .art-bloom, .hatch-egg .art-egg-body,
   .album-pack .art-pack, .map-tap { animation: none; }
   .lg-screen { animation: lg-screen-fade 220ms ease both; }
@@ -1508,7 +1529,7 @@ body {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: radial-gradient(circle, #fff 10%, #ffe27a 45%, transparent 72%);
+  background: radial-gradient(circle, #fffdf7 10%, #ffe49a 45%, transparent 72%);
   animation: ff-cross var(--amb-dur, 26s) linear var(--amb-delay, 0s) infinite,
              ff-glow 2.4s ease-in-out infinite;
 }
@@ -1551,24 +1572,24 @@ body.lg-in-game .lg-ambient { display: none; }
 .gu-scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 6px 2px 30px; display: flex; flex-direction: column; gap: 14px; }
 .lg-grownup .lg-panel { padding: 16px 18px; }
 .gu-head h2 { margin: 0 0 4px; font-size: 1.4rem; color: var(--lg-ink); }
-.gu-head p { margin: 0 0 12px; color: #6a5842; }
+.gu-head p { margin: 0 0 12px; color: #70501b; }
 .gu-stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
 .gu-stat { text-align: center; }
 .gu-stat b { display: block; font-size: 1.5rem; color: var(--lg-ink); }
-.gu-stat span { font-size: 0.72rem; color: #6a5842; }
+.gu-stat span { font-size: 0.72rem; color: #70501b; }
 .gu-section h3 { margin: 0 0 8px; color: var(--lg-ink); font-size: 1.05rem; }
-.gu-sub { margin: -4px 0 10px; color: #6a5842; font-size: 0.85rem; }
-.gu-legend { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 10px; font-size: 0.78rem; color: #6a5842; }
+.gu-sub { margin: -4px 0 10px; color: #70501b; font-size: 0.85rem; }
+.gu-legend { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 10px; font-size: 0.78rem; color: #70501b; }
 .gu-legend span { display: inline-flex; align-items: center; gap: 5px; }
 .gu-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
-.gu-strong { background: #5cc23e; } .gu-growing { background: #f3c955; }
-.gu-love { background: #ee806f; } .gu-new { background: #d8cdb8; }
+.gu-strong { background: #7fce54; } .gu-growing { background: #f3c955; }
+.gu-love { background: #ee806f; } .gu-new { background: #e5dcc8; }
 .gu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(40px, 1fr)); gap: 6px; }
 .gu-cell {
   aspect-ratio: 1; border-radius: 12px; display: grid; place-items: center;
   border: 2px solid rgba(74,54,32,0.18);
 }
-.gu-cell.gu-strong { background: rgba(92,194,62,0.22); border-color: #5cc23e; }
+.gu-cell.gu-strong { background: rgba(92,194,62,0.22); border-color: #7fce54; }
 .gu-cell.gu-growing { background: rgba(243,201,85,0.22); border-color: #f3c955; }
 .gu-cell.gu-love { background: rgba(238,128,111,0.2); border-color: #ee806f; }
 .gu-cell.gu-new { background: rgba(216,205,184,0.18); }
@@ -1576,15 +1597,17 @@ body.lg-in-game .lg-ambient { display: none; }
 .gu-ask-cards { display: flex; gap: 10px; }
 .gu-ask-card { flex: 1; text-align: center; padding: 14px 8px; border-radius: 18px; border: var(--lg-outline); background: var(--lg-cream); box-shadow: var(--lg-lift-sm); }
 .gu-ask-ar { display: block; font-family: "Amiri Quran", serif; font-size: 2.4rem; color: var(--lg-ink); }
-.gu-ask-name { font-size: 0.85rem; color: #6a5842; }
-.gu-ask-none { color: #6a5842; font-size: 0.9rem; }
+.gu-ask-name { font-size: 0.85rem; color: #70501b; }
+.gu-ask-none { color: #70501b; font-size: 0.9rem; }
 
 /* ---------- say-it-with-me + Quran-word capstone ---------- */
 .meet-card.is-your-turn { animation: meet-your-turn 1.6s var(--lg-spring) infinite; }
 .meet-card.is-your-turn::after {
-  content: "🗣";
+  /* A drawn "your turn" bubble (palette ink + paper), never a platform emoji. */
+  content: "";
   position: absolute; top: -6px; right: -6px;
-  font-size: 28px;
+  width: 44px; height: 40px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 44 40'%3E%3Cpath d='M6 4H38Q42 4 42 8V24Q42 28 38 28H20L10 36V28H6Q2 28 2 24V8Q2 4 6 4Z' fill='%23fffdf7' stroke='%234a3620' stroke-width='3' stroke-linejoin='round'/%3E%3Cpath d='M14 13Q17 16 14 19M20 10Q25 16 20 22M26 8Q33 16 26 24' fill='none' stroke='%23e8743c' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
   animation: lg-bounce 0.9s var(--lg-spring) infinite;
 }
 @keyframes meet-your-turn {
@@ -1595,7 +1618,7 @@ body.lg-in-game .lg-ambient { display: none; }
   display: flex; align-items: center; justify-content: center; gap: 8px;
   margin-bottom: 12px; padding: 10px 16px;
   border-radius: var(--lg-radius);
-  background: linear-gradient(90deg, var(--lg-gold-hi), #ffe9a8);
+  background: linear-gradient(90deg, var(--lg-gold-hi), #ffe49a);
   border: var(--lg-outline);
   color: var(--lg-gold-deep); font-weight: 800; font-size: 0.95rem;
   text-align: center; line-height: 1.35;
@@ -1664,7 +1687,7 @@ body.lg-in-game .lg-ambient { display: none; }
 /* The egg answers every tap: a sharp shudder that settles. Paired with the
    escalating cracks in Art.egg() so tap 1 and tap 2 are unmistakably
    different — the old build repainted so fast the child saw nothing. */
-.art-egg.is-wobble { animation: lg-egg-wobble 460ms var(--lg-out, var(--lg-out)); transform-origin: 0px 52px; }
+.art-egg.is-wobble .art-egg-tap { animation: lg-egg-wobble 460ms var(--lg-out, var(--lg-out)); transform-origin: 0px 40px; }
 @keyframes lg-egg-wobble {
   0% { transform: rotate(0deg) scale(1); }
   18% { transform: rotate(-5deg) scale(1.04, 0.96); }
@@ -1673,14 +1696,14 @@ body.lg-in-game .lg-ambient { display: none; }
   82% { transform: rotate(1.2deg) scale(1); }
   100% { transform: rotate(0deg) scale(1); }
 }
-@media (prefers-reduced-motion: reduce) { .art-egg.is-wobble { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .art-egg.is-wobble .art-egg-tap { animation: none; } }
 
 /* Journey-map hierarchy (2026-07-24): the live stop must win the screen.
    Locked stops sit back — smaller, softer, no competing contour — so a garden
    full of not-yet-earned worlds reads as "more to grow" instead of a wall of
    locks. The current stop already bounces and carries a halo; recessing its
    neighbours is what actually makes it read as the one place to go. */
-.map-stop.is-locked { opacity: 0.92; }
+.map-stop.is-locked { opacity: 1; }
 .map-stop.is-locked .map-stop-art { transform: scale(0.8); }
 .map-stop.is-locked:active .map-stop-art { transform: scale(0.78); }
 /* Done stops stay warm and golden but stop shouting over the live one. */
@@ -1789,16 +1812,16 @@ body.lg-in-game .lg-ambient { display: none; }
 .pet-room .pet-shelf { scroll-snap-type: x proximity; scroll-padding-left: 12px; }
 .pet-room .pet-acc { scroll-snap-align: center; }
 .pet-room .pet-shelf.can-right {
-  -webkit-mask-image: linear-gradient(to right, #000 0, #000 84%, transparent 100%);
-          mask-image: linear-gradient(to right, #000 0, #000 84%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, #0a1f1a 0, #0a1f1a 84%, transparent 100%);
+          mask-image: linear-gradient(to right, #0a1f1a 0, #0a1f1a 84%, transparent 100%);
 }
 .pet-room .pet-shelf.can-left {
-  -webkit-mask-image: linear-gradient(to left, #000 0, #000 84%, transparent 100%);
-          mask-image: linear-gradient(to left, #000 0, #000 84%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to left, #0a1f1a 0, #0a1f1a 84%, transparent 100%);
+          mask-image: linear-gradient(to left, #0a1f1a 0, #0a1f1a 84%, transparent 100%);
 }
 .pet-room .pet-shelf.can-left.can-right {
-  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%);
-          mask-image: linear-gradient(to right, transparent 0, #000 9%, #000 91%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #0a1f1a 9%, #0a1f1a 91%, transparent 100%);
+          mask-image: linear-gradient(to right, transparent 0, #0a1f1a 9%, #0a1f1a 91%, transparent 100%);
 }
 
 /* The day-count stat doubles as the way into the stamp calendar, which moved out
@@ -1893,7 +1916,7 @@ body.lg-in-game .lg-ambient { display: none; }
 .lg-boat-chapter .party-stars svg { width: 44px; height: 44px; }
 .garden-reward-finished { width: clamp(180px, 30vw, 290px); }
 .map-boat-landmark { position: absolute; width: 200px; transform: translate(-50%, -38%); pointer-events: none; z-index: 1; }
-.lg-boat-chapter button:focus-visible { outline: 4px solid #e8743c; outline-offset: 5px; }
+.lg-boat-chapter button:focus-visible { outline: 4px solid var(--lg-focus); outline-offset: 5px; }
 @media (max-width: 600px) {
 
 
@@ -1992,11 +2015,11 @@ body.lg-reduce-motion .lg-ambient, body.lg-reduce-motion .lg-spark { display: no
 .lg-home .map-daily-row button{width:58px;height:58px;min-width:48px;border-radius:18px;background:#fffdf7;border:2px solid #c9bda4;box-shadow:0 3px 0 #c9bda4}
 .map-practice-garden{display:flex;align-items:center;justify-content:center;gap:14px;align-self:center;width:min(400px,94%);min-height:52px;margin:8px 0 14px;border:2px solid #4e9677;border-radius:20px;background:#fffaf0;color:#2f5c46;box-shadow:0 4px 0 #c9bda4;font:600 17px system-ui;cursor:pointer;flex-shrink:0}
 .map-practice-garden:disabled{opacity:.45;cursor:default}.map-practice-garden:active:not(:disabled){transform:translateY(2px)}
-.lg-home .map-scroll{mask-image:linear-gradient(transparent,#000 22px,#000 calc(100% - 20px),transparent)}
+.lg-home .map-scroll{mask-image:linear-gradient(transparent,#0a1f1a 22px,#0a1f1a calc(100% - 20px),transparent)}
 .lg-home .map-path{max-width:470px}.lg-home .map-stop{width:clamp(100px,27vw,126px)}
 .lg-home .map-stop.is-current .map-stop-art{animation:none;transform:scale(1.04);transform-origin:center}
 .lg-home .map-stop.is-current::before{animation:none;inset:-7px;border:3px solid #4e9677;background:#b7e77955;border-radius:50%}
-.lg-home .map-stop.is-locked .map-stop-art{transform:scale(.72);opacity:.8}
+.lg-home .map-stop.is-locked .map-stop-art{transform:scale(.72);opacity:1}
 .lg-home .map-here{pointer-events:none}.lg-home .map-deco{opacity:1}.lg-home .map-band{opacity:.55}
 .lg-home .map-boat-landmark{width:160px}
 .practice-garden-hub{width:min(700px,100%);margin:auto;z-index:2;text-align:center;color:#4a3620}
@@ -2005,17 +2028,296 @@ body.lg-reduce-motion .lg-ambient, body.lg-reduce-motion .lg-spark { display: no
 .practice-garden-choices button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;min-height:190px;padding:12px;border:3px solid #4a3620;border-radius:26px;background:#fffaf0;box-shadow:0 6px 0 #c9bda4;cursor:pointer;color:#4a3620}
 .practice-garden-choices strong{font:600 16px system-ui}.practice-symbol{display:grid;place-items:center;min-height:110px;font:38px 'Geeza Pro',Arial,sans-serif}
 .practice-garden-choices button:active{transform:translateY(3px);box-shadow:0 3px 0 #c9bda4}
-.lg-screen button:focus-visible{outline:3px solid #e8743c;outline-offset:4px}
+.lg-screen button:focus-visible{outline:4px solid var(--lg-focus);outline-offset:4px}
 @media(max-width:600px){.map-title{left:18px;font-size:22px}.lg-home .map-daily-row{gap:8px;padding:6px 8px}.lg-home .map-daily-row button{width:52px;height:52px}.practice-garden-choices{grid-template-columns:1fr;gap:12px;margin:16px 0}.practice-garden-choices button{flex-direction:row;justify-content:flex-start;min-height:92px;padding:6px 18px}.practice-garden-choices button>.lg-animal{width:68px!important;height:76px!important}.practice-garden-choices button>svg{width:68px;height:76px}.practice-symbol{min-height:76px;width:88px;font-size:32px}.practice-garden-hub h1{margin:12px 0}}
 .lg-home .map-daily-row .map-daily{color:#b0501f}
 .lg-home .map-daily-row .map-checkup{color:#4e9677}
 
 /* Keep the scenery; navigation is readable through pictures, never prose. */
 .map-practice-garden{width:112px;min-height:54px;gap:18px;margin:8px 0 10px}
-.practice-garden-choices button{position:relative;gap:8px;overflow:hidden;background:linear-gradient(#fffdf7,#fff4dc)}
+.practice-garden-choices button{position:relative;gap:8px;overflow:hidden;background:linear-gradient(#fffdf7,#fffaf0)}
 .practice-garden-choices .practice-picture{display:block;width:100%;height:auto;max-height:200px;flex:1;min-width:0}
 .practice-play{display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:#b7e779;flex-shrink:0}
-.album-grid{width:min(420px,100%);box-sizing:border-box;gap:10px;flex-shrink:0;background:#fff8e7;border-color:#806341;box-shadow:0 6px 0 #bda580}
-.album-slot{min-width:0;min-height:0;aspect-ratio:1;padding:3px;border:1px dashed #c7b796;border-radius:18px;background:#f2e7cf;box-shadow:inset 0 2px 3px #80634112}
+.album-grid{width:min(420px,100%);box-sizing:border-box;gap:10px;flex-shrink:0;background:#fffaf0;border-color:#70501b;box-shadow:0 6px 0 #a89478}
+.album-slot{min-width:0;min-height:0;aspect-ratio:1;padding:3px;border:1px dashed #c9bda4;border-radius:18px;background:#e5dcc8;box-shadow:inset 0 2px 3px #80634112}
 .album-slot .art-sticker{display:block;width:100%;height:100%;max-width:88px;max-height:88px;min-width:0}
 @media(max-width:600px){.practice-garden-choices button{flex-direction:row;justify-content:center;min-height:118px;padding:8px 16px}.practice-garden-choices .practice-picture{width:160px;height:110px;flex:0 1 190px}.album-grid{gap:7px;padding:10px}}
+
+/* ---------- living lands (2026-10-01) ---------- */
+/* Travel paths are short loops in viewBox pixels; inner groups flap/bob. All of
+   it is scenery: no pointer events, and removed entirely under reduced motion. */
+.art-life { pointer-events: none; }
+.art-life .life-travel, .art-life .life-fall, .art-life .life-jump, .art-life .life-ring,
+.art-life .life-drift, .art-life .life-flap, .art-life .life-bob, .art-life .life-spin, .art-life .life-glide {
+  transform-box: fill-box; transform-origin: 50% 50%;
+}
+.art-life .life-flap { animation: life-flap 0.32s ease-in-out infinite alternate; }
+.art-life .life-bob { animation: life-bob 1.8s ease-in-out infinite alternate; }
+.art-life .life-hover-a { animation: life-hover-a 9s ease-in-out infinite; }
+.art-life .life-hover-b { animation: life-hover-b 11s ease-in-out infinite; }
+.art-life .life-orbit-a { animation: life-orbit 4.6s linear infinite; }
+.art-life .life-orbit-b { animation: life-orbit 5.4s linear infinite reverse; }
+.art-life .life-fall { animation: life-fall 7.5s linear infinite; opacity: 0; }
+.art-life .life-spin { animation: life-spin 2.4s ease-in-out infinite alternate; }
+.art-life .life-jump { animation: life-jump 7s ease-in-out infinite; opacity: 0; }
+.art-life .life-ring { animation: life-ring 7s ease-out infinite; opacity: 0; transform-origin: 50% 50%; }
+.art-life .life-glide-a { animation: life-glide 26s linear infinite; }
+.art-life .life-glide-b { animation: life-glide 32s linear infinite; }
+.art-life .life-glide { animation: life-wings 1.6s ease-in-out infinite alternate; }
+.art-life .life-drift { animation: life-drift 30s linear infinite; }
+@keyframes life-flap { from { transform: scaleX(1); } to { transform: scaleX(0.35); } }
+@keyframes life-bob { from { transform: translateY(-2px) rotate(-3deg); } to { transform: translateY(2px) rotate(3deg); } }
+@keyframes life-hover-a { 0%,100% { transform: translate(0,0); } 25% { transform: translate(30px,-26px); } 50% { transform: translate(-8px,-40px); } 75% { transform: translate(-26px,-12px); } }
+@keyframes life-hover-b { 0%,100% { transform: translate(0,0); } 30% { transform: translate(-28px,-20px); } 60% { transform: translate(14px,-38px); } 80% { transform: translate(24px,-10px); } }
+@keyframes life-orbit { from { transform: rotate(0deg) translateX(22px) rotate(0deg); } to { transform: rotate(360deg) translateX(22px) rotate(-360deg); } }
+@keyframes life-fall { 0% { opacity: 0; transform: translate(0,0); } 10% { opacity: 1; } 50% { transform: translate(18px,70px); } 90% { opacity: 1; } 100% { opacity: 0; transform: translate(-6px,150px); } }
+@keyframes life-spin { from { transform: rotate(-40deg); } to { transform: rotate(40deg); } }
+@keyframes life-jump { 0%,70% { opacity: 0; transform: translate(0,0) rotate(0); } 72% { opacity: 1; } 80% { transform: translate(24px,-34px) rotate(-30deg); } 88% { opacity: 1; transform: translate(48px,0) rotate(40deg); } 90%,100% { opacity: 0; transform: translate(48px,4px) rotate(40deg); } }
+@keyframes life-ring { 0%,88% { opacity: 0; transform: scale(0.4); } 90% { opacity: 1; } 100% { opacity: 0; transform: scale(1.8); } }
+@keyframes life-glide { from { transform: translateX(0); } to { transform: translateX(900px); } }
+@keyframes life-wings { from { transform: scaleY(1); } to { transform: scaleY(0.55); } }
+@keyframes life-drift { 0% { transform: translate(0,0); } 25% { transform: translate(-272px,44px); } 50% { transform: translate(-512px,100px); } 75% { transform: translate(-692px,124px); } 100% { transform: translate(-860px,130px); } }
+.lg-reduce-motion .art-life { display: none; }
+@media (prefers-reduced-motion: reduce) { .art-life { display: none; } }
+.garden-scenery .garden-life{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+
+/* ---------- meet sign reveal + letter trail (2026-10-01) ---------- */
+.meet-card .art-sign .sign-wipe { transform-box: fill-box; transform-origin: 100% 50%; }
+.meet-card .art-sign[data-dir="ltr"] .sign-wipe { transform-origin: 0% 50%; }
+.meet-card.is-born .art-sign .sign-wipe { animation: sign-wipe 1100ms cubic-bezier(.45,.05,.4,1) 260ms both; }
+.art-sign .sign-pen { opacity: 0; }
+.meet-card.is-born .art-sign .sign-pen { animation: sign-pen 1100ms cubic-bezier(.45,.05,.4,1) 260ms both; }
+.meet-card.is-born .art-sign[data-dir="ltr"] .sign-pen { animation-name: sign-pen-ltr; }
+@keyframes sign-wipe { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes sign-pen { 0% { opacity: 0; translate: 0 0; } 10% { opacity: 1; } 85% { opacity: 1; } 100% { opacity: 0; translate: -190px 0; } }
+@keyframes sign-pen-ltr { 0% { opacity: 0; translate: 0 0; } 10% { opacity: 1; } 85% { opacity: 1; } 100% { opacity: 0; translate: 190px 0; } }
+.lg-reduce-motion .meet-card .art-sign .sign-wipe, .lg-reduce-motion .meet-card .art-sign .sign-pen { animation: none !important; }
+@media (prefers-reduced-motion: reduce) { .meet-card .art-sign .sign-wipe, .meet-card .art-sign .sign-pen { animation: none !important; } }
+.meet-trail { align-items: center; }
+.meet-trail i.is-met {
+  width: 40px; height: 34px; padding: 0; box-sizing: border-box;
+  display: grid; place-items: center; overflow: hidden; border-radius: 10px 10px 12px 12px;
+  background: #fffaf0; border: 2px solid #a89478; box-shadow: 0 2px 0 #c9bda4;
+}
+.meet-trail i.is-met svg { display: block; }
+
+/* ---------- daily weather (2026-10-01) ---------- */
+/* Behind the screen's content (the screen isolates its own stacking), over the
+   map scroll on home, and under every control. */
+.lg-screen { isolation: isolate; }
+.lg-weather { position: absolute; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+.lg-home > .lg-weather { z-index: 2; }
+.wx-rain { position: absolute; inset: -20% 0 0; background: repeating-linear-gradient(105deg, transparent 0 26px, #ccfbef66 26px 28px, transparent 28px 61px); animation: wx-rain 0.9s linear infinite; }
+.wx-rain.is-far { opacity: .55; background-size: 140% 140%; animation-duration: 1.4s; }
+@keyframes wx-rain { from { transform: translate(0, 0); } to { transform: translate(-16px, 60px); } }
+.wx-leaf { position: absolute; left: -40px; width: calc(28px * var(--k, 1)); height: calc(18px * var(--k, 1)); animation: wx-leaf 12s linear infinite; }
+@keyframes wx-leaf { 0% { transform: translate(0, 0) rotate(0); } 25% { transform: translate(28vw, 26px) rotate(140deg); } 50% { transform: translate(55vw, -6px) rotate(250deg); } 75% { transform: translate(82vw, 30px) rotate(400deg); } 100% { transform: translate(115vw, 8px) rotate(540deg); } }
+.wx-rainbow { position: absolute; left: -6%; top: 9%; width: min(70%, 460px); opacity: .5; }
+.lg-home > .lg-weather .wx-rainbow { opacity: .35; }
+.lg-reduce-motion .wx-rain, .lg-reduce-motion .wx-leaf { display: none; }
+@media (prefers-reduced-motion: reduce) { .wx-rain, .wx-leaf { display: none; } }
+
+/* ---------- land-made activity boards (2026-10-01) ---------- */
+/* Every board stays mid-to-dark so cream tiles and dashed targets keep their
+   contrast; the meadow keeps the original green board. */
+.lg-app[data-land="orchard"] { --lg-board: linear-gradient(110deg, #ffe49a55 -10%, transparent 35%), repeating-linear-gradient(180deg, #c69434 0 34px, #70501b 34px 37px); --lg-board-edge: #70501b; }
+.lg-app[data-land="lagoon"] { --lg-board: radial-gradient(circle at 30% 30%, #ccfbef 0 3px, transparent 4px) 0 0 / 46px 46px, radial-gradient(circle at 70% 75%, #96ecff 0 2px, transparent 3px) 0 0 / 46px 46px, linear-gradient(160deg, #62cdf4 -20%, #3a8fc4 45%, #34375f 105%); --lg-board-edge: #34375f; }
+.lg-app[data-land="night"] { --lg-board: radial-gradient(ellipse at 50% -10%, #ffe49a66 0, transparent 55%), linear-gradient(170deg, #4a4d84, #23253f); --lg-board-edge: #23253f; }
+.lg-app[data-land="peaks"] { --lg-board: repeating-linear-gradient(62deg, transparent 0 70px, #70501b44 70px 72px), linear-gradient(115deg, #c9bda4 -20%, #a89478 40%, #70501b 100%); --lg-board-edge: #70501b; }
+.lg-app[data-land="river"] { --lg-board: repeating-linear-gradient(0deg, transparent 0 22px, #3e523666 22px 24px), repeating-linear-gradient(90deg, #647d4e 0 10px, #3e5236 10px 12px); --lg-board-edge: #3e5236; }
+
+/* Writing Garden (v3): the meet reveal writes the letter with its real strokes,
+   then the printed letter settles in and the strokes fade. Static signs (and
+   reduced motion) show only the printed letter. */
+.art-sign .sign-strokes { opacity: 0; }
+.meet-card.is-born .art-sign:has(.sign-strokes) .sign-wipe { animation: none; }
+.meet-card.is-born .art-sign:has(.sign-strokes) .sign-pen { display: none; }
+.meet-card.is-born .art-sign:has(.sign-strokes) .sign-ink { animation: sign-ink-in 420ms ease-out calc(var(--t, 1s) + 0.35s) both; }
+.meet-card.is-born .art-sign .sign-strokes { animation: sign-strokes-out 500ms ease-in calc(var(--t, 1s) + 0.45s) both; }
+.meet-card.is-born .art-sign .sign-strokes path { stroke-dasharray: 100 100; animation: sign-stroke 420ms ease-in-out calc(var(--d) + 0.25s) both; }
+.meet-card.is-born .art-sign .sign-strokes circle { transform-box: fill-box; transform-origin: 50% 50%; animation: sign-dot 220ms cubic-bezier(.3,1.6,.5,1) calc(var(--d) + 0.25s) both; }
+@keyframes sign-stroke { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
+@keyframes sign-dot { from { transform: scale(0); } to { transform: scale(1); } }
+@keyframes sign-strokes-out { 0% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes sign-ink-in { from { opacity: 0; } to { opacity: 1; } }
+.lg-reduce-motion .meet-card .art-sign .sign-strokes, .lg-reduce-motion .meet-card .art-sign .sign-ink { animation: none !important; }
+@media (prefers-reduced-motion: reduce) { .meet-card .art-sign .sign-strokes, .meet-card .art-sign .sign-ink { animation: none !important; } }
+
+/* ---------- v6 Letter Hunt ---------- */
+.lg-play[data-activity="hunt"] .practice-stage { display: grid; grid-template-rows: minmax(0, 1fr) auto; gap: 8px; }
+.hunt { position: relative; display: grid; grid-template-rows: minmax(0, 1fr) auto; gap: 8px; width: min(100%, 760px); height: 100%; margin: 0 auto; }
+.hunt-scene { width: 100%; height: 100%; min-height: 300px; max-height: 100%; border: 3px solid #4a3620; border-radius: 28px; box-shadow: 0 6px 0 #4a3620; background: #96ecff; }
+.hunt-spot { cursor: pointer; outline: none; }
+.hunt-spot:focus-visible .hunt-thing { filter: drop-shadow(0 0 0 #e8743c) drop-shadow(0 0 6px #e8743c); }
+.hunt-thing { transform-box: fill-box; transform-origin: 50% 100%; }
+.hunt-spot.is-found .hunt-letter { fill: #4e9677; }
+.hunt-spot.is-found .hunt-thing { animation: hunt-found 900ms cubic-bezier(.3,1.5,.5,1) both; }
+.hunt-spot.is-kite.is-found .hunt-thing, .hunt-spot.is-cloud.is-found .hunt-thing, .hunt-spot.is-lantern.is-found .hunt-thing { animation-name: hunt-float; }
+.hunt-spot.is-sail.is-found .hunt-thing, .hunt-spot.is-lily.is-found .hunt-thing { animation-name: hunt-bob; }
+@keyframes hunt-found { 0% { transform: none; } 40% { transform: translateY(-8%) scale(1.12); } 100% { transform: scale(1.04); } }
+@keyframes hunt-float { 0% { transform: none; } 50% { transform: translateY(-14%) rotate(-6deg); } 100% { transform: translateY(-6%); } }
+@keyframes hunt-bob { 0%, 100% { transform: none; } 30% { transform: translateY(-6%) rotate(-4deg); } 65% { transform: translateY(2%) rotate(3deg); } }
+.hunt-basket { display: flex; justify-content: center; gap: 8px; min-height: 46px; padding: 6px 10px; margin: 0 auto; border: 3px solid #4a3620; border-radius: 16px 16px 24px 24px; background: repeating-linear-gradient(90deg, #c69434 0 14px, #a89478 14px 16px); box-shadow: 0 4px 0 #70501b; min-width: 180px; }
+.hunt-found { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: #fffaf0; border: 2px solid #4a3620; font: 22px/1 "Amiri Quran", serif; color: #4a3620; animation: hunt-drop 420ms cubic-bezier(.3,1.5,.5,1) both; padding-bottom: 6px; box-sizing: border-box; }
+@keyframes hunt-drop { from { transform: translateY(-30px) scale(.5); opacity: 0; } to { transform: none; opacity: 1; } }
+.lg-reduce-motion .hunt-spot .hunt-thing, .lg-reduce-motion .hunt-found { animation: none !important; }
+@media (prefers-reduced-motion: reduce) { .hunt-spot .hunt-thing, .hunt-found { animation: none !important; } }
+
+/* ---------- v7 Read Together ---------- */
+.rt-stage { position: relative; display: grid; justify-items: center; align-content: center; gap: 14px; width: min(100%, 520px); margin: auto; padding: 8px 4px 24px; }
+.rt-dots { display: flex; gap: 8px; }
+.rt-dots i { width: 14px; height: 14px; border-radius: 50%; border: 2px solid #4a3620; background: #e5dcc8; }
+.rt-dots i.is-on { background: #f3c955; transform: scale(1.2); }
+.rt-dots i.is-done { background: #7fce54; }
+.rt-card { width: min(78vw, 300px); }
+.rt-card svg { display: block; width: 100%; height: auto; }
+.rt-controls { display: grid; grid-template-columns: 1fr 1fr 1.3fr; gap: 10px; width: 100%; }
+.rt-controls button { display: grid; justify-items: center; gap: 4px; padding: 10px 6px; border: 3px solid #4a3620; border-radius: 20px; background: #fffaf0; box-shadow: 0 4px 0 #70501b; color: #4a3620; font: 700 14px/1.2 ui-rounded, system-ui, sans-serif; cursor: pointer; }
+.rt-controls button svg { width: 34px; height: 34px; }
+.rt-controls .rt-read { background: #b7e779; }
+.rt-controls .rt-not-yet { background: #e5dcc8; }
+.rt-controls button:focus-visible { outline: 4px solid var(--lg-focus); outline-offset: 3px; }
+.rt-friend { position: absolute; left: -10px; bottom: 112px; width: 64px; pointer-events: none; }
+.rt-done { display: grid; justify-items: center; gap: 10px; padding: 18px; text-align: center; color: #4a3620; }
+.gu-read-last { font-size: 14px; color: #70501b; }
+
+/* ---------- v9 Family Garden ---------- */
+.lg-who .who-stage { display: grid; place-items: center; min-height: 100%; }
+.who-pets { display: flex; flex-wrap: wrap; justify-content: center; gap: 18px; max-width: 520px; padding: 20px; }
+.who-pet { width: 140px; height: 150px; padding: 8px; border: 3px solid #4a3620; border-radius: 32px 32px 40px 40px; background: radial-gradient(ellipse at 50% 92%, #c9bda4 0 30%, transparent 31%), #fffaf0; box-shadow: 0 6px 0 #70501b; cursor: pointer; display: grid; place-items: end center; }
+.who-pet > svg, .who-pet > .lg-animal { width: 100% !important; height: 100% !important; }
+.who-pet.is-picked { transform: translateY(-8px) scale(1.06); transition: transform 260ms cubic-bezier(.3,1.6,.5,1); }
+.who-pet:focus-visible, .gu-family-pet:focus-visible, .gu-family-add:focus-visible { outline: 4px solid var(--lg-focus); outline-offset: 3px; }
+.gu-family-pets { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; }
+.gu-family-pet { width: 86px; height: 92px; padding: 4px; border: 2px solid #a89478; border-radius: 22px; background: #fffaf0; cursor: pointer; display: grid; place-items: end center; }
+.gu-family-pet.is-active { border: 3px solid #4e9677; box-shadow: 0 0 0 3px #b7e779; }
+.gu-family-pet > svg, .gu-family-pet > .lg-animal { width: 100% !important; height: 100% !important; }
+.gu-family-add { display: grid; justify-items: center; gap: 2px; padding: 6px 10px; border: 2px dashed #a89478; border-radius: 22px; background: #fffdf7; color: #70501b; font: 700 13px ui-rounded, system-ui, sans-serif; cursor: pointer; }
+.gu-family-add svg { width: 56px; height: 56px; }
+
+/* ---------- v10 Moon Calendar ---------- */
+.lg-season { position: absolute; left: 0; right: 0; top: 0; height: min(22vh, 150px); z-index: -1; pointer-events: none; overflow: hidden; }
+.lg-season svg { width: 100%; height: 100%; display: block; }
+.lg-home > .lg-season { z-index: 2; top: calc(max(10px, env(safe-area-inset-top)) + 54px); }
+.lg-season .season-lamp { transform-box: fill-box; transform-origin: 50% 0; animation: season-sway 4s ease-in-out infinite alternate; }
+.lg-season g:nth-of-type(odd) > .season-lamp { animation-delay: -2s; }
+@keyframes season-sway { from { transform: rotate(-3deg); } to { transform: rotate(3deg); } }
+.lg-reduce-motion .lg-season .season-lamp { animation: none; }
+@media (prefers-reduced-motion: reduce) { .lg-season .season-lamp { animation: none; } }
+
+/* ---------- v11 Sound Lab ---------- */
+.lab { display: grid; justify-items: center; gap: 10px; width: min(100%, 560px); margin: 0 auto; padding-bottom: 10px; }
+.lab-strip { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; min-height: 40px; }
+.lab-made { min-width: 44px; height: 48px; padding: 0 8px; line-height: 2; overflow: visible; border: 2px solid #4a3620; border-radius: 12px; background: #fffaf0; font: 24px/1.5 "Amiri Quran", serif; color: #4a3620; cursor: pointer; }
+.lab-bench { display: flex; align-items: center; gap: 10px; direction: rtl; }
+.lab-slot { width: 74px; height: 84px; line-height: 2; overflow: visible; border: 3px dashed #a89478; border-radius: 20px; background: #fffdf7; font: 40px/1.6 "Amiri Quran", serif; color: #4a3620; cursor: pointer; }
+.lab-slot.is-full { border-style: solid; border-color: #4a3620; background: #fffaf0; box-shadow: 0 4px 0 #70501b; }
+.lab-plus { font: 800 28px ui-rounded, system-ui, sans-serif; color: #70501b; }
+.lab-press { position: relative; width: min(100%, 300px); }
+.lab-machine { display: block; width: 100%; height: auto; }
+.lab-press.is-running .lab-gear { transform-box: fill-box; transform-origin: 50% 50%; animation: lab-gear 650ms ease-in-out; }
+.lab-press.is-running .lab-machine { animation: lab-hum 650ms ease-in-out; }
+@keyframes lab-gear { to { rotate: 180deg; } }
+@keyframes lab-hum { 25% { transform: translateX(-2px); } 50% { transform: translateX(2px); } 75% { transform: translateX(-1px); } }
+.lab-out { position: absolute; left: 50%; top: -14%; translate: -50% 0; width: 120px; padding: 0; overflow: visible; border: 0; background: none; font: 44px/1.5 "Amiri Quran", serif; color: #4a3620; cursor: pointer; }
+.lab-out svg { display: block; width: 120px; height: auto; }
+.lab-out.is-new { animation: lab-out 520ms cubic-bezier(.3,1.6,.5,1); }
+@keyframes lab-out { from { scale: .4; } to { scale: 1; } }
+.lab-tray { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; max-width: 100%; direction: rtl; }
+.lab-tile { width: 48px; height: 56px; padding: 0; line-height: 2; overflow: visible; border: 2px solid #4a3620; border-radius: 12px; background: #fffaf0; box-shadow: 0 3px 0 #c9bda4; font: 28px/1.6 "Amiri Quran", serif; color: #4a3620; cursor: pointer; }
+.lab-tile.is-mark { background: #ffe49a; font-size: 30px; }
+.lab-tile:focus-visible, .lab-slot:focus-visible, .lab-out:focus-visible, .lab-made:focus-visible { outline: 4px solid var(--lg-focus); outline-offset: 2px; }
+.lg-reduce-motion .lab-press .lab-gear, .lg-reduce-motion .lab-press .lab-machine, .lg-reduce-motion .lab-out { animation: none !important; }
+
+/* ---------- v12 Garden Visitors ---------- */
+.decorate-board { position: relative; }
+.garden-visitor { position: absolute; z-index: 2; width: 56px; height: 56px; padding: 0; border: 0; background: none; cursor: pointer; }
+.garden-visitor svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.garden-visitor:focus-visible { outline: 4px solid var(--lg-focus); outline-offset: 2px; border-radius: 50%; }
+.garden-visitor.is-ground .visitor-walk { display: block; animation: visitor-wander 9s ease-in-out infinite; }
+.garden-visitor.is-sky .visitor-walk { display: block; animation: visitor-flutter 6s ease-in-out infinite; }
+.garden-visitor.is-water .visitor-walk { display: block; animation: visitor-bob 3.2s ease-in-out infinite alternate; }
+.garden-visitor.is-hop { animation: visitor-hop 520ms cubic-bezier(.3,1.6,.5,1); }
+@keyframes visitor-wander { 0%, 100% { transform: translateX(0) scaleX(1); } 45% { transform: translateX(34px) scaleX(1); } 50% { transform: translateX(34px) scaleX(-1); } 95% { transform: translateX(0) scaleX(-1); } }
+@keyframes visitor-flutter { 0%, 100% { transform: translate(0, 0) rotate(-4deg); } 25% { transform: translate(18px, -10px) rotate(4deg); } 50% { transform: translate(30px, 4px) rotate(-3deg); } 75% { transform: translate(10px, 10px) rotate(3deg); } }
+@keyframes visitor-bob { from { transform: translateY(0) rotate(-3deg); } to { transform: translateY(-5px) rotate(3deg); } }
+@keyframes visitor-hop { 40% { translate: 0 -22px; } 100% { translate: 0 0; } }
+.lg-reduce-motion .garden-visitor .visitor-walk, .lg-reduce-motion .garden-visitor.is-hop { animation: none; }
+@media (prefers-reduced-motion: reduce) { .garden-visitor .visitor-walk, .garden-visitor.is-hop { animation: none; } }
+
+/* ---------- v13 Letter Studio ---------- */
+.studio { display: grid; justify-items: center; gap: 10px; width: min(100%, 620px); margin: 0 auto; padding-bottom: 8px; }
+.studio-canvas { width: 100%; height: auto; border: 3px solid #4a3620; border-radius: 22px; box-shadow: 0 6px 0 #4a3620; cursor: crosshair; touch-action: manipulation; }
+.studio-placed { animation: studio-stamp 260ms cubic-bezier(.3,1.6,.5,1); transform-box: fill-box; transform-origin: 50% 50%; }
+@keyframes studio-stamp { from { opacity: 0; } to { opacity: 1; } }
+.studio-inks { display: flex; gap: 10px; }
+.studio-ink { width: 40px; height: 40px; border-radius: 50%; border: 3px solid #fffaf0; background: var(--ink); box-shadow: 0 0 0 2px #4a3620; cursor: pointer; }
+.studio-ink.is-on { box-shadow: 0 0 0 3px #4a3620, 0 0 0 7px #f3c955; }
+.studio-tray { display: flex; gap: 6px; overflow-x: auto; max-width: 100%; padding: 4px 4px 8px; direction: rtl; scrollbar-width: thin; }
+.studio-stamp { flex: 0 0 auto; width: 52px; height: 56px; border: 2px solid #4a3620; border-radius: 14px; background: #fffaf0; box-shadow: 0 3px 0 #c9bda4; font: 30px/1.8 "Amiri Quran", serif; color: #4a3620; cursor: pointer; padding: 0; overflow: visible; }
+.studio-stamp.is-sticker svg { display: block; margin: auto; }
+.studio-stamp.is-on { background: #ffe49a; box-shadow: 0 3px 0 #70501b; transform: translateY(-3px); }
+.studio-tools { display: flex; gap: 14px; align-items: center; }
+.studio-stamp:focus-visible, .studio-ink:focus-visible { outline: 4px solid var(--lg-focus); outline-offset: 3px; }
+.lg-reduce-motion .studio-placed { animation: none; }
+
+/* ---------- v17 Gentle mode ---------- */
+.lg-gentle .lg-weather, .lg-gentle .lg-season, .lg-gentle .art-life, .lg-gentle .art-fireflies, .lg-gentle .garden-life { display: none !important; }
+.lg-gentle .lg-round-btn { width: 64px; height: 64px; }
+.lg-gentle .lg-big-btn { min-height: 76px; }
+.lg-gentle .art-cloud-a, .lg-gentle .art-cloud-b { animation: none; }
+.garden-sibling { width: 70px; height: 74px; }
+.garden-sibling .visitor-walk { animation-duration: 12s !important; }
+
+/* ---------- v20 Garden Together ---------- */
+.together { display: grid; gap: 12px; width: min(100%, 560px); margin: 0 auto; }
+.together-pets { display: grid; grid-template-columns: 1fr auto 1fr; align-items: end; gap: 8px; }
+.together-pet { justify-self: center; width: 96px; opacity: .6; transform: scale(.85); transition: transform 260ms cubic-bezier(.3,1.5,.5,1), opacity 260ms; }
+.together-pet.is-turn { opacity: 1; transform: scale(1.08); filter: drop-shadow(0 0 0 #f3c955) drop-shadow(0 4px 8px #f3c95599); }
+.together-pet.is-cheer { animation: together-cheer 700ms cubic-bezier(.3,1.6,.5,1); }
+.together-pet > svg, .together-pet > .lg-animal { width: 100% !important; height: auto !important; }
+@keyframes together-cheer { 40% { translate: 0 -18px; } 100% { translate: 0 0; } }
+.together-basket { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; min-width: 90px; min-height: 46px; padding: 6px; border: 3px solid #4a3620; border-radius: 12px 12px 22px 22px; background: repeating-linear-gradient(90deg, #c69434 0 12px, #a89478 12px 14px); }
+.together-basket i { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: #fffaf0; border: 2px solid #4a3620; font: 18px/1.8 "Amiri Quran", serif; font-style: normal; color: #4a3620; }
+.together-board { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.together-card { position: relative; aspect-ratio: 3 / 4; border: 3px solid #4a3620; border-radius: 16px; background: #4e9677; box-shadow: 0 4px 0 #2f5c46; cursor: pointer; padding: 0; overflow: hidden; }
+.together-back { position: absolute; inset: 8px; border-radius: 10px; background: radial-gradient(circle, #7fce54 0 18%, transparent 19%) 0 0 / 18px 18px, #4e9677; }
+.together-face { position: absolute; inset: 0; display: grid; place-items: center; background: #fffaf0; font: 40px/1.8 "Amiri Quran", serif; color: #4a3620; opacity: 0; transition: opacity 160ms; }
+.together-card.is-up .together-face, .together-card.is-matched .together-face { opacity: 1; }
+.together-card.is-matched { box-shadow: 0 4px 0 #f3c955; border-color: #70501b; }
+.together-card:focus-visible { outline: 4px solid var(--lg-focus); outline-offset: 3px; }
+.lg-reduce-motion .together-pet, .lg-reduce-motion .together-pet.is-cheer { transition: none; animation: none; }
+
+/* ---------- v21 Seasons of the Year ---------- */
+.lg-year { position: absolute; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+.lg-home > .lg-year { z-index: 2; }
+.yr-fall { position: absolute; top: -24px; width: 18px; height: 18px; animation: yr-fall 11s linear infinite; }
+.yr-fall svg { width: 100%; height: 100%; display: block; }
+.lg-year[data-year="winter"] .yr-fall { width: 10px; height: 10px; }
+@keyframes yr-fall { 0% { transform: translate(0, 0) rotate(0); } 50% { transform: translate(28px, 55vh) rotate(160deg); } 100% { transform: translate(-10px, 110vh) rotate(320deg); } }
+.lg-gentle .lg-year { display: none !important; }
+.lg-reduce-motion .lg-year { display: none; }
+@media (prefers-reduced-motion: reduce) { .lg-year { display: none; } }
+
+/* ---------- v22 Little Sprout ---------- */
+/* A glow that follows the drawn shape (answer cards are often transparent
+   buttons around a drawing), pulsing gently. */
+.is-sprout-glow { z-index: 3; animation: sprout-glow 1.1s ease-in-out infinite alternate; }
+@keyframes sprout-glow { from { filter: drop-shadow(0 0 3px #f3c955) drop-shadow(0 0 1px #ffe49a); } to { filter: drop-shadow(0 0 12px #f3c955) drop-shadow(0 0 4px #ffe49a); } }
+.lg-home-btn.is-hold { position: relative; }
+.lg-home-btn.is-hold::after { content: ""; position: absolute; inset: -7px; border-radius: 50%; border: 5px solid #f3c955; clip-path: inset(0 100% 0 0); }
+.lg-home-btn.is-hold.is-holding::after { animation: sprout-hold 800ms linear forwards; }
+@keyframes sprout-hold { to { clip-path: inset(0 0 0 0); } }
+.lg-reduce-motion .is-sprout-glow { animation: none; filter: drop-shadow(0 0 8px #f3c955) drop-shadow(0 0 3px #ffe49a); }
+
+/* ---------- v24 Letter Balloons ---------- */
+.lg-play[data-activity="balloons"] .practice-stage { position: relative; }
+.balloons { position: relative; width: min(100%, 560px); height: min(72vh, 620px); margin: 0 auto; overflow: hidden; border: 3px solid #4a3620; border-radius: 28px; background: linear-gradient(#96ecff, #ccfbef); box-shadow: 0 6px 0 #4a3620; }
+.balloon { position: absolute; bottom: -150px; width: 96px; height: 134px; padding: 0; border: 0; background: none; cursor: pointer; animation: balloon-rise var(--rise, 15s) linear infinite; }
+.balloon svg { display: block; width: 100%; height: 100%; }
+.balloon.is-popped { animation: balloon-pop 380ms ease-out forwards; }
+@keyframes balloon-rise { 0% { transform: translate(0, 0); } 50% { transform: translate(var(--sway, 12px), calc(-0.55 * min(72vh, 620px))); } 100% { transform: translate(0, calc(-1 * min(72vh, 620px) - 160px)); } }
+@keyframes balloon-pop { to { transform: scale(1.5); opacity: 0; } }
+.balloons.is-still .balloon { animation: none; bottom: auto; }
+.balloons.is-still .balloon.is-popped { animation: none; opacity: 0; }
+.balloon:focus-visible { outline: 4px solid var(--lg-focus); outline-offset: 2px; border-radius: 50%; }

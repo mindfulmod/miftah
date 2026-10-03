@@ -73,7 +73,11 @@ for (const file of files) {
       badHex.get(raw).push(where);
     }
 
+    // A ribbon is a stroke used as a filled band (map trail, snake body): a mass
+    // under ART.md §3, not a contour, so its width is free.
     for (const m of line.matchAll(/stroke-width="([0-9.]+)"/g)) {
+      const tag = line.slice(line.lastIndexOf("<", m.index), line.indexOf("/>", m.index) + 1 || undefined);
+      if (tag.includes("data-ribbon")) continue;
       if (ALLOWED_WIDTHS.has(m[1])) continue;
       if (!badWidth.has(m[1])) badWidth.set(m[1], []);
       badWidth.get(m[1]).push(where);

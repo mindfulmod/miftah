@@ -48,7 +48,7 @@
 .dot-pattern .dots-0 { visibility:hidden; }
 .dot-pattern .dots-3 { display:grid; grid-template-columns:12px 12px; grid-template-rows:8px 8px; gap:0; }
 .lg-app .dot-garden .practice-button:active { translate:0 2px; }
-.lg-app .dot-garden .practice-button:focus-visible { outline:4px solid #3a8fc4; outline-offset:5px; }
+.lg-app .dot-garden .practice-button:focus-visible { outline:4px solid var(--lg-focus); outline-offset:5px; }
 @keyframes dot-label-settle { from { transform:translateY(-4px); } to { transform:translateY(0); } }
 @media(max-height:650px) {
   .lg-play[data-activity="dots"] .practice-heading { height:72px; }

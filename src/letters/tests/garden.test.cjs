@@ -385,7 +385,7 @@ test('Pop holds a correct find for child-led Next and replay adds no outcome',()
  const {ns,timers}=runtime();const f=popSuccessFixture(ns);
  f.game.popAttempt(f.right);
  assert.equal(f.game.advancing,true);assert.equal(f.game.completionReady,true);
- assert.equal(f.game.roundIndex,0);assert.equal(f.right.el.disabled,true);assert.equal(f.other.el.disabled,true);
+ assert.equal(f.game.roundIndex,0);assert.equal(f.right.el.disabled,false,'the find stays tappable to bring it to the jetty');assert.equal(f.other.el.disabled,true);
  assert.equal(f.game.finishEl.hidden,false);assert.equal(f.game.nextBtn.disabled,false);assert.equal(f.game.replayBtn.disabled,false);
  assert.equal(timers.length,0,'a correct find does not schedule automatic advance');
  assert.equal(f.outcomes.length,1);assert.deepEqual(f.spoken,['right']);
@@ -597,4 +597,24 @@ test('Chain keyboard, pointer release, clamped drag and lost capture recover',()
 test('Trace ignores unreadied, secondary and concurrent strokes; clear cancels drawing',()=>{
  const {ns}=runtime();const game=Object.create(ns.LettersMiniGames.trace.prototype);Object.assign(game,{alive:true,drawing:false,advancing:false,startRound(){}});
  game.penDown({button:0});assert.equal(game.drawing,false);game.g={};game.penDown({button:2});assert.equal(game.drawing,false);game.drawing=true;game.penDown({button:0});game.clearDrawing();assert.equal(game.drawing,false);
+});
+
+test('Pond docking: a second tap on the find continues, after a short guard, and adds no outcome',()=>{
+ const {ns}=runtime();const f=popSuccessFixture(ns);let now=1000;
+ f.game.clock=()=>now;
+ f.game.popAttempt(f.right);assert.equal(f.outcomes.length,1);
+ now+=200;f.game.popAttempt(f.right);assert.equal(f.game.roundIndex,0,'an accidental double tap does not skip ahead');
+ now+=600;f.game.popAttempt(f.right);assert.equal(f.game.roundIndex,1);assert.equal(f.started(),1);
+ assert.equal(f.outcomes.length,1,'docking never reports');
+});
+
+test('Pond jetty fills one slot per find without touching learning state',()=>{
+ const {ns}=runtime();const f=popSuccessFixture(ns);
+ const slots={innerHTML:'',style:{setProperty(){}},children:[]};
+ Object.assign(f.game,{dockSlots:slots,docked:[]});
+ f.right.el.querySelector=()=>({outerHTML:'<svg data-x="1"></svg>',classList:{add(){},remove(){}},getBoundingClientRect:()=>({width:0})});
+ f.game.renderDock();assert.equal((slots.innerHTML.match(/pond-dock-slot/g)||[]).length,2);
+ f.game.popAttempt(f.right);f.game.advance();
+ assert.equal(f.game.docked.length,1);assert.match(slots.innerHTML,/is-full is-new"><svg data-x="1">/);
+ assert.equal(f.outcomes.length,1);
 });

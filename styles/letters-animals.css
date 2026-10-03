@@ -68,3 +68,8 @@
 
 
 /* Keep the animal's ground aligned with its companion in short screens. */
+
+/* Flat cast with ink contour (ART.md "Flat cast", owner 2026-09-30): solid
+   fills, one warm ink outline on the silhouette, no shading layers. */
+.lg-animal .mammal-brow{fill:none;stroke:var(--overlay);stroke-width:6;stroke-linecap:round}
+.lg-animal .ink{stroke:#4a3620;stroke-width:6;stroke-linejoin:round}

@@ -1,0 +1,63 @@
+/* Water Garden (update 4). Scenery is one SVG; gates and bends are real
+   buttons over it so the letters stay live, fitted Arabic and big targets. */
+.water-garden { position:relative; width:min(560px,100%); margin:0 auto; aspect-ratio:360/320; max-height:68vh; }
+.water-garden .wg-scene { display:block; width:100%; height:100%; }
+.wg-gates, .wg-bends { position:absolute; inset:0; pointer-events:none; }
+.wg-gate-tag, .wg-bend { position:absolute; pointer-events:auto; transform:translate(-50%,-50%); touch-action:manipulation; -webkit-tap-highlight-color:transparent; }
+.wg-gate-tag { top:24%; width:max(54px,15%); aspect-ratio:1; display:grid; place-items:center; padding:0; background:#fffdf7; border:3px solid #4a3620; border-radius:14px; box-shadow:0 4px 0 #c9bda4; font:400 clamp(26px,7vw,40px)/1 "Amiri Quran",serif; color:#4a3620; transition:transform 260ms cubic-bezier(.2,.8,.2,1); }
+.wg-gate-tag span { transform:translateY(-8%); }
+.wg-gate-tag:active { transform:translate(-50%,-46%); box-shadow:0 1px 0 #c9bda4; }
+.wg-gate-tag.is-open { transform:translate(-50%,-78%); }
+.wg-gate-tag:disabled { opacity:.75; }
+.wg-bend { top:71.9%; width:max(48px,12%); aspect-ratio:1; border-radius:50%; border:0; background:transparent; }
+.wg-bend.is-hint { box-shadow:0 0 0 4px #ffa06e; animation:wg-hint 1.2s ease-in-out infinite; }
+@keyframes wg-hint { 50% { box-shadow:0 0 0 9px #ffa06e66; } }
+.wg-gate-tag:focus-visible, .wg-bend:focus-visible, .wg-done:focus-visible { outline:4px solid var(--lg-focus); outline-offset:3px; }
+.wg-progress { position:absolute; left:50%; top:-2px; transform:translateX(-50%); display:flex; gap:6px; }
+.wg-progress i { width:10px; height:10px; border-radius:50%; background:#e5dcc8; border:2px solid #c9bda4; }
+.wg-progress i.is-done { background:#7fce54; border-color:#4e9677; }
+.wg-progress i.is-on { background:#f3c955; border-color:#c69434; }
+.wg-done { position:absolute; right:2%; bottom:2%; }
+.wg-scene .wg-board { transition:transform 380ms cubic-bezier(.2,.8,.2,1); }
+.wg-scene .wg-turn { transition:transform 460ms cubic-bezier(.3,1.45,.5,1); }
+.wg-scene .wg-turn-cue { transition:opacity 300ms ease-out; }
+.wg-scene .wg-bloom, .wg-scene .wg-bud { transition:opacity 420ms ease-out; }
+.lg-reduce-motion .water-garden *, .lg-reduce-motion .water-garden { transition:none!important; animation:none!important; }
+@media (prefers-reduced-motion:reduce) { .water-garden * { transition:none!important; animation:none!important; } }
+
+/* Catch collection project: the basket fills with each fruit gathered. */
+@media (prefers-reduced-motion:no-preference) {
+  .lg-app:not(.lg-reduce-motion) .catch-pile .pile-fruit.is-new { transform-box:fill-box; transform-origin:50% 100%; animation:pile-drop 420ms cubic-bezier(.2,.8,.2,1) both; }
+  @keyframes pile-drop { from { transform:translateY(-14px) scale(.7); opacity:0; } to { transform:none; opacity:1; } }
+}
+
+/* Build: finished words leave the bench as parcels onto a small shelf. */
+.lg-play .play-stage { position:relative; }
+.build-shelf { position:absolute; right:6px; top:6px; display:flex; gap:4px; z-index:3; pointer-events:none; }
+.build-shelf .build-parcel { width:40px; }
+.build-shelf .build-parcel svg { display:block; width:100%; height:auto; }
+@media (prefers-reduced-motion:no-preference) {
+  .lg-app:not(.lg-reduce-motion) .build-shelf .build-parcel.is-new { animation:parcel-land 380ms 380ms cubic-bezier(.2,.8,.2,1) both; }
+  @keyframes parcel-land { from { transform:translateY(-10px) scale(.6); opacity:0; } to { transform:none; opacity:1; } }
+}
+/* The caught fruit is held up above the basket (not over it) so the pile
+   filling below stays visible; the basket's opening is ~54% of its width up. */
+.lg-app .lg-play[data-activity="catch"] .is-harvested .catch-replay { width:clamp(96px,28vw,124px); bottom:calc(7% + min(43vw,180px) * .5); }
+@media(orientation:landscape) and (max-height:450px) {
+  .lg-app .lg-play[data-activity="catch"] .is-harvested .catch-replay { width:84px; bottom:calc(8% + 62px); }
+}
+
+/* Garden props (update 5): the pet sits on the blanket; the watering can
+   pours a few drops over a placed flower bed. Decoration only. */
+.decorate-pet.is-out { z-index:3; }
+.decorate-slot.is-playing { z-index:4; }
+.decorate-pet.is-sitting { transform-origin:50% 100%; scale:.84; }
+.decorate-pet.is-riding { scale:.62; transition:scale 300ms ease-out; }
+.decorate-drops { position:absolute; z-index:4; width:44px; height:52px; margin-left:-22px; pointer-events:none; }
+.decorate-drops i { position:absolute; top:0; width:8px; height:11px; border-radius:50% 50% 50% 50% / 62% 62% 38% 38%; background:#62cdf4; border:1.6px solid #4a3620; opacity:0; }
+.decorate-drops i:nth-child(1) { left:6px; } .decorate-drops i:nth-child(2) { left:18px; animation-delay:160ms!important; } .decorate-drops i:nth-child(3) { left:30px; animation-delay:320ms!important; }
+.decorate-slot.is-watered::after { content:''; position:absolute; right:8%; top:6%; width:18px; height:18px; background:#ffe49a; clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%); }
+@media (prefers-reduced-motion:no-preference) {
+  .lg-app:not(.lg-reduce-motion) .decorate-drops i { animation:garden-drop 620ms ease-in both; }
+  @keyframes garden-drop { from { transform:translateY(0); opacity:1; } to { transform:translateY(40px); opacity:0; } }
+}
