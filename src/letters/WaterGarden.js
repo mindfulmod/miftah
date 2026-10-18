@@ -11,6 +11,8 @@
   const escape = text => String(text || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const shuffle = list => { const a = list.slice(); for (let i = a.length - 1; i > 0; i -= 1) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 
+  // v58: the three flowers are coral, yellow and lavender. Coral beside pink
+  // read as one colour, so the yellow middle flower looked like an odd one out.
   function scene() {
     const lane = (x, i) => `
       <rect x="${x - 11}" y="92" width="22" height="122" rx="6" fill="#a89478"/>
@@ -35,8 +37,8 @@
       <g class="wg-flower" data-lane="${i}" transform="translate(0 12)">
         <path d="M${x} 300Q${x + 2} 284 ${x} 270" stroke="#4e9677" stroke-width="4" stroke-linecap="round" fill="none"/>
         <path d="M${x + 1} 288Q${x - 14} 288 ${x - 13} 276Q${x - 2} 277 ${x + 1} 288" fill="#7fce54"/>
-        <g class="wg-bud"><path d="M${x} 270Q${x - 9} 262 ${x - 4} 254Q${x} 258 ${x + 4} 254Q${x + 9} 262 ${x} 270Z" fill="${['#ee806f', '#f3c955', '#ffa798'][i]}" stroke="#4a3620" stroke-width="1.6"/></g>
-        <g class="wg-bloom" opacity="0">${[0, 72, 144, 216, 288].map(a => `<ellipse cx="${x}" cy="252" rx="7" ry="11" transform="rotate(${a} ${x} 262)" fill="${['#ee806f', '#f3c955', '#ffa798'][i]}" stroke="#4a3620" stroke-width="1.6"/>`).join('')}<circle cx="${x}" cy="262" r="7" fill="#ffe49a" stroke="#4a3620" stroke-width="1.6"/></g>
+        <g class="wg-bud"><path d="M${x} 270Q${x - 9} 262 ${x - 4} 254Q${x} 258 ${x + 4} 254Q${x + 9} 262 ${x} 270Z" fill="${['#ee806f', '#f3c955', '#b49fcf'][i]}" stroke="#4a3620" stroke-width="1.6"/></g>
+        <g class="wg-bloom" opacity="0">${[0, 72, 144, 216, 288].map(a => `<ellipse cx="${x}" cy="252" rx="7" ry="11" transform="rotate(${a} ${x} 262)" fill="${['#ee806f', '#f3c955', '#b49fcf'][i]}" stroke="#4a3620" stroke-width="1.6"/>`).join('')}<circle cx="${x}" cy="262" r="7" fill="#ffe49a" stroke="#4a3620" stroke-width="1.6"/></g>
       </g>
       <g class="wg-gate" data-lane="${i}"><rect x="${x - 17}" y="60" width="6" height="36" rx="2" fill="#a89478" stroke="#4a3620" stroke-width="1.6"/><rect x="${x + 11}" y="60" width="6" height="36" rx="2" fill="#a89478" stroke="#4a3620" stroke-width="1.6"/><g class="wg-board"><rect x="${x - 13}" y="62" width="26" height="30" rx="3" fill="#c9bda4" stroke="#4a3620" stroke-width="2.4"/><path d="M${x - 9} 70H${x + 9}M${x - 9} 78H${x + 9}M${x - 9} 86H${x + 9}" stroke="#a89478" stroke-width="1.6"/></g></g>`;
     return `<svg class="wg-scene" viewBox="0 0 360 320" aria-hidden="true">

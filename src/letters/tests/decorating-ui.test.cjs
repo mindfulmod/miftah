@@ -9,7 +9,7 @@ function classList() { const set = new Set(); return { add: (...xs) => xs.forEac
 function node(dataset = {}) {
   const events = {}, attrs = {}; let captured = null;
   return { dataset, events, attrs, style: {}, innerHTML: '', disabled: false, scrollLeft: 0, clientWidth: 300, scrollWidth: 300,
-    classList: classList(), setAttribute: (k, v) => { attrs[k] = v; },
+    classList: classList(), setAttribute: (k, v) => { attrs[k] = v; }, removeAttribute: (k) => { delete attrs[k]; }, getClientRects: () => [1], offsetWidth: 40,
     addEventListener: (k, fn) => { (events[k] ||= []).push(fn); }, removeEventListener() {},
     dispatch: (k, e = {}) => (events[k] || []).forEach((fn) => fn(e)),
     setPointerCapture: (id) => { captured = id; }, hasPointerCapture: (id) => captured === id,
@@ -60,8 +60,8 @@ test('remove then undo restores the selected decoration', () => {
   r.controls['.decorate-undo'].onclick(); assert.deepEqual(plain(r.garden.layout.slots), ['flower:1', null, null, null]); assert.equal(r.controls['.decorate-pet'].classList.contains('is-undo'), true); assert.match(r.controls['.decorate-pet-reaction'].innerHTML, /replay/);
 });
 
-test('empty catalog disables inert slots and stale callbacks after destroy do nothing', () => {
-  const r = runtime(empty, []); assert.ok(r.slots.every((slot) => slot.disabled)); const old = r.slots[0].onclick; r.garden.destroy(); old(); assert.equal(r.changes(), 0);
+test('empty catalog makes slots inert (aria-disabled, a tap only hops the lesson card) and stale callbacks after destroy do nothing', () => {
+  const r = runtime(empty, []); assert.ok(r.slots.every((slot) => slot.attrs['aria-disabled'] === 'true')); r.slots[0].onclick(); assert.equal(r.changes(), 0); const old = r.slots[0].onclick; r.garden.destroy(); old(); assert.equal(r.changes(), 0);
 });
 
 test('cancel, wrong pointer, and destroy clean up drag without saving', () => {

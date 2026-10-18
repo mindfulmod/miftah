@@ -32,7 +32,7 @@ test("v15 Ayah Garden: whole short surahs kept, opened after the first word chap
 
 test("v16 Letter Constellations: seven families, bright/dim/unseen from mastery, gold lines only when strong, on palette", () => {
   const chart = slice("    renderStarChart() {", "    // Ayah Garden (v15, 2026-10-02):");
-  assert.match(chart, /return !seen \? "unseen" : strength\.mastery\(l\.char\) >= 0\.7 \? "bright" : "dim";/);
+  assert.match(chart, /return !seen \? "unseen" : this\.grownMark\("letters", l\.char, strength\.mastery\(l\.char\)\) >= 0\.7 \? "bright" : "dim";/);
   assert.match(chart, /strong\.has\(pack\.id\) \? "#f3c955" : "#6064a0"/);
   assert.deepEqual(off(chart), []);
   assert.doesNotMatch(chart, /saveJSON|spendStars/);
@@ -44,10 +44,11 @@ test("v17 Gentle mode: per child; calms senses, hides the timed challenge, repea
   assert.doesNotMatch(state.match(/const SHARED = new Set\(\[[^\]]*\]\)/)[0], /gentle/, "gentle belongs to one child");
   assert.match(game, /if \(this\.gentle\) this\.landBed = null;/);
   assert.match(game, /if\(this\.worlds\.dailySession\(this\.progress\.done\)&&!this\.gentle\)choices\.push\('Burst'\);/);
-  assert.match(game, /if \(!el\?\.isConnected \|\| this\.prefersReducedMotion\(\) \|\| this\.gentle\) return;/);
-  const idle = slice("    watchIdlePrompt(screenEl) {", "    topBar({ home = true } = {}) {");
-  assert.match(idle, /if \(repeats >= 2\) return;/);
-  assert.match(idle, /}, 8000\);/);
+  assert.match(game, /const calm = this\.gentle && !\(this\.sprout && !this\.loadJSON\(\"quran-trainer:letters:gentle\", false\)\);\n\s+if \(!el\?\.isConnected \|\| this\.prefersReducedMotion\(\) \|\| calm\) return;/);
+  const idle = slice("    watchIdlePrompt(screenEl, wait = 8000, times = 2) {", "    topBar({ home = true } = {}) {");
+  assert.match(idle, /if \(repeats >= times\) return;/);
+  assert.match(game, /this\.watchIdlePrompt\(screenEl, this\.gentle \|\| this\.sprout \? 8000 : 14000, this\.gentle \|\| this\.sprout \? 2 : 1\);/, "v57: every child gets idle help; gentle sooner and twice");
+  assert.match(idle, /}, wait\);/);
 });
 
 test("v18 Sibling Play Dates: other children's hatched pets visit, read-only", () => {

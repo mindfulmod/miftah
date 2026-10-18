@@ -50,7 +50,9 @@
       const policy = ns.LettersLearning?.profile?.(this.target, { skill: "friend", activity: "FriendFind", beginner: this.ctx.beginner }) || { promptMode: "match", choiceCount: 2 };
       this.mode = policy.promptMode === "listen" && this.ctx.canListen?.() !== false ? "listen" : "match";
       const n = Math.max(2, Math.min(3, policy.choiceCount || 2, this.pool.length));
-      const others = shuffle(this.pool.filter((i) => i.display !== char)).slice(0, n - 1);
+      // Smart Choices (v50): the Brain picks which friends stand beside it.
+      const picked = ns.gardenBrain?.others ? ns.gardenBrain.others(char, this.pool.map((i) => i.display), n - 1, { skill: "friend", beginner: this.ctx.beginner }) : null;
+      const others = picked ? picked.map((c) => this.pool.find((i) => i.display === c)).filter(Boolean) : shuffle(this.pool.filter((i) => i.display !== char)).slice(0, n - 1);
       this.offered = shuffle([this.target, ...others]);
       this.missed = false;
       this.heard = false;

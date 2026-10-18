@@ -255,17 +255,26 @@
   const FACE_STATES = {
     neutral:   { lid: null,    pd: [0, 0],       ps: 1,    mouth: "smile", cheeks: 0.5, tilt: 0,
                  browL: "M-19 -19 Q-12 -22.5 -5 -19",   browR: "M5 -19 Q12 -22.5 19 -19" },
-    curious:   { lid: null,    pd: [2.6, -1.6],  ps: 1,    mouth: "oh",    cheeks: 0.5, tilt: 4,
+    // v58: curious is the face a MISS gets. Its round "oh" read as "oh no!" at
+    // the 64px the pet stands in most games; a small lopsided smile keeps the
+    // tilt and lifted brow ("hmm, let's look again") and says it is okay.
+    curious:   { lid: null,    pd: [2.6, -1.6],  ps: 1,    mouth: "hmm",   cheeks: 0.5, tilt: 4,
                  browL: "M-19 -24 Q-12 -28 -5 -22.5",   browR: "M5 -18.5 Q12 -20 19 -19" },
     delighted: { lid: null,    pd: [0, -0.6],    ps: 1,    mouth: "grin",  cheeks: 1,   tilt: -2,
                  browL: "M-19 -23 Q-12 -27.5 -5 -22.5", browR: "M5 -22.5 Q12 -27.5 19 -23" },
     sleepy:    { lid: "heavy", pd: [0, 3.2],     ps: 1,    mouth: "tiny",  cheeks: 0.5, tilt: 6,
                  browL: "M-19 -19 Q-12 -20.5 -5 -18.5", browR: "M5 -18.5 Q12 -20.5 19 -19" },
     proud:     { lid: null,    pd: [0, -0.6],    ps: 1,    mouth: "wide",  cheeks: 1,   tilt: 0,
-                 browL: "M-19 -20 L-5 -20.8",           browR: "M5 -20.8 L19 -20" },
-    thinking:  { lid: "halfL", pd: [-3.2, -2.4], ps: 1,    mouth: "purse", cheeks: 0.5, tilt: -3,
+                 browL: "M-19 -21 Q-12 -25 -5 -21.5",   browR: "M5 -21.5 Q12 -25 19 -21" },
+    // v58: thinking was a half-lidded eye and pursed lips — a side-eye that
+    // greeted every card a child picked up and every stroke they began, as if
+    // the pet doubted them. Now it looks up with interest and a small smile:
+    // "ooh, what will you do?" rather than "are you sure?".
+    thinking:  { lid: null,    pd: [-2.6, -2.4], ps: 1.06, mouth: "tiny",  cheeks: 0.5, tilt: -3,
                  browL: "M-19 -18.5 Q-12 -20 -5 -19.5", browR: "M5 -24.5 Q12 -29 19 -24" },
-    listening: { lid: null,    pd: [0, 0],       ps: 1.12, mouth: "small", cheeks: 0.5, tilt: -6,
+    // v58: listening is the face a child sees most of a game; its "o" mouth
+    // read as a little anxious. A small open smile keeps it attentive and warm.
+    listening: { lid: null,    pd: [0, 0],       ps: 1.12, mouth: "hum",   cheeks: 0.5, tilt: -6,
                  browL: "M-19 -22 Q-12 -26 -5 -22",     browR: "M5 -22 Q12 -26 19 -22" },
   };
   // Legacy mood names still used by callers. "sad" deliberately resolves to
@@ -295,8 +304,14 @@
     grin: `<path d="M-9 12.8 A 9 8 0 0 0 9 12.8 Z" fill="#8a3a2d"/><ellipse cx="0" cy="17.6" rx="4.4" ry="2.6" fill="#ffa798"/>`,
     oh: `<ellipse cx="2.4" cy="15" rx="3" ry="3.4" fill="#8a3a2d" stroke="${INK}" stroke-width="1.6"/>`,
     tiny: `<path d="M-3.4 14.4 Q0 17.2 3.4 14.4" fill="none" stroke="${INK}" stroke-width="2.4" stroke-linecap="round"/>`,
-    wide: `<path d="M-8.5 12.6 Q0 19.6 8.5 12.6" fill="none" stroke="${INK}" stroke-width="3" stroke-linecap="round"/>`,
+    // v58: "proud" was a 3-unit ink line — at the size the pet stands on a
+    // phone's reward screen it all but vanished and the pet looked blank right
+    // when the child should feel celebrated. A filled, closed-lip beam reads as
+    // a smile at any size and stays calmer than the open "grin".
+    wide: `<path d="M-10 12 Q0 23 10 12 Q0 15.8 -10 12 Z" fill="#8a3a2d" stroke="${INK}" stroke-width="1.6" stroke-linejoin="round"/>`,
     purse: `<ellipse cx="4.2" cy="15" rx="2.8" ry="2.2" fill="#8a3a2d"/><path d="M-5 13.6 Q-1.4 15.8 1.6 14.2" fill="none" stroke="${INK}" stroke-width="1.6" stroke-linecap="round"/>`,
+    hmm: `<path d="M-3 13.6 A 5.2 4.2 0 0 0 7.4 13 Z" fill="#8a3a2d" stroke="${INK}" stroke-width="1.6" stroke-linejoin="round"/>`,
+    hum: `<path d="M-5 13.4 A 5 4.4 0 0 0 5 13.4 Z" fill="#8a3a2d" stroke="${INK}" stroke-width="1.6" stroke-linejoin="round"/>`,
     small: `<ellipse cx="0" cy="15" rx="2.6" ry="2.6" fill="#8a3a2d" stroke="${INK}" stroke-width="1.6"/>`,
   };
 
@@ -477,15 +492,21 @@
     <svg class="art-blob art-sign" data-dir="${latin ? "ltr" : "rtl"}" viewBox="0 0 250 280" width="${size}" height="${size * 1.12}" aria-hidden="true">
       <defs><clipPath id="${id}"><rect class="sign-wipe" x="24" y="40" width="202" height="196"/></clipPath></defs>
       <ellipse cx="125" cy="270" rx="86" ry="8" fill="${SHADOW}"/>
-      <g fill="#a89478" stroke="${INK}" stroke-width="3" stroke-linejoin="round">
-        <path d="M70 226V266H84V226Z"/><path d="M166 226V266H180V226Z"/>
-      </g>
+      <!-- 2026-10-18 (construction detail): a real easel — splayed front
+           legs, a back leg, a crossbar, and a chalk tray under the board. -->
+      <path d="M125 30L125 262" stroke="${INK}" stroke-width="16" stroke-linecap="round"/><path d="M125 30L125 262" stroke="#70501b" stroke-width="10" stroke-linecap="round"/>
+      <path d="M100 20L62 266M150 20L188 266" stroke="${INK}" stroke-width="16" stroke-linecap="round"/><path d="M100 20L62 266M150 20L188 266" stroke="#c69434" stroke-width="10" stroke-linecap="round"/>
+      <path d="M98 26L64 250M152 26L186 250" stroke="#ffe49a" stroke-width="2.4" stroke-linecap="round" opacity=".8"/>
+      <path d="M76 252H174" stroke="${INK}" stroke-width="8" stroke-linecap="round"/><path d="M76 252H174" stroke="#c69434" stroke-width="4" stroke-linecap="round"/>
       <rect x="12" y="38" width="226" height="196" rx="28" fill="${p.clothDark}"/>
       <rect x="12" y="30" width="226" height="196" rx="28" fill="#fffdf7" stroke="${INK}" stroke-width="6"/>
       <rect x="28" y="46" width="194" height="164" rx="18" fill="#fffaf0"/>
       <path d="M44 196H206" stroke="${p.body}" stroke-width="4" stroke-linecap="round"/>
       <path d="M40 54H150" stroke="#fffdf7" stroke-width="6" stroke-linecap="round" opacity="0.8"/>
       <g transform="translate(125 26)">${sproutArt(1.35, p.leaf, p.leafDark)}</g>
+      <rect x="26" y="218" width="198" height="14" rx="7" fill="#c69434" stroke="${INK}" stroke-width="3"/><path d="M36 222H120" stroke="#ffe49a" stroke-width="2.4" stroke-linecap="round"/>
+      <rect x="150" y="210" width="26" height="9" rx="4.5" fill="#fffdf7" stroke="${INK}" stroke-width="2.4"/><rect x="182" y="210" width="20" height="9" rx="4.5" fill="${p.body}" stroke="${INK}" stroke-width="2.4"/>
+      <rect x="52" y="206" width="30" height="13" rx="4" fill="#ee806f" stroke="${INK}" stroke-width="2.4"/><rect x="52" y="206" width="12" height="13" rx="4" fill="#fffaf0" stroke="${INK}" stroke-width="2.4"/>
       <g clip-path="url(#${id})">
         <text class="sign-ink" data-fit-box="${cx},${cy},176,128,${fontSize}" x="${(cx + s.dx).toFixed(1)}" y="${(cy + s.dy).toFixed(1)}" text-anchor="middle"
           font-family="${latin ? LATIN_FONT : AMIRI}" font-size="${fontSize}" fill="${INK}" ${latin ? "" : `direction="rtl"`}>${label}</text>
@@ -595,6 +616,64 @@
 
   function icon(name, size = 30) {
     return `<svg viewBox="0 0 64 64" width="${size}" height="${size}" aria-hidden="true">${ICONS[name] || ""}</svg>`;
+  }
+
+  // v58: illustrated versions of the pictorial icons, in the cast's flat +
+  // ink style (palette fills, one ink contour). icon() stays for button
+  // glyphs (next, speaker, check…), which want one bold colour; these are for
+  // places the icon is a PICTURE — the map's daily sun and check-up flower,
+  // the rewards star, the album's book tab — where a one-colour glyph read as
+  // a stock emoji beside the drawn walk and pet.
+  const ART_ICONS = {
+    // 2026-10-13: "not yet, but growing" — a seedling in a little pot. Used
+    // where a place opens later, instead of fading the button (a faded
+    // button reads as "not for you").
+    sprout: `<ellipse cx="32" cy="59" rx="18" ry="3" fill="#2f5c46" opacity=".18"/>
+      <path d="M32 40Q31 30 32 22" fill="none" stroke="#4e9677" stroke-width="4" stroke-linecap="round"/>
+      <path d="M32 28Q20 26 15 14Q28 12 32 28Z" fill="#7fce54" stroke="${INK}" stroke-width="2.4" stroke-linejoin="round"/>
+      <path d="M32 24Q42 18 49 8Q36 6 32 24Z" fill="#b7e779" stroke="${INK}" stroke-width="2.4" stroke-linejoin="round"/>
+      <path d="M19 15Q23 19 29 24" fill="none" stroke="#4e9677" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M17 38H47L43 57H21Z" fill="#e8743c" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/>
+      <rect x="14" y="34" width="36" height="8" rx="3" fill="#ffa06e" stroke="${INK}" stroke-width="3"/>
+      <path d="M22 45L24 53" stroke="#ffa06e" stroke-width="2.4" stroke-linecap="round"/>`,
+    // 2026-10-13: a wrapped present — "this one's free, for you" with no words
+    // (the sticker stand's free visit, which a 16px flower never said).
+    gift: `<ellipse cx="32" cy="59" rx="22" ry="3" fill="#2f5c46" opacity=".18"/>
+      <rect x="11" y="28" width="42" height="29" rx="4" fill="#ee806f" stroke="${INK}" stroke-width="3"/>
+      <rect x="7" y="20" width="50" height="11" rx="4" fill="#ffa798" stroke="${INK}" stroke-width="3"/>
+      <path d="M32 20V57" stroke="${INK}" stroke-width="10"/><path d="M32 21.5V55.5" stroke="#f3c955" stroke-width="5"/>
+      <path d="M31 19Q20 6 15 12Q12 19 31 19ZM33 19Q44 6 49 12Q52 19 33 19Z" fill="#f3c955" stroke="${INK}" stroke-width="2.4" stroke-linejoin="round"/>
+      <circle cx="32" cy="19" r="4" fill="#c69434" stroke="${INK}" stroke-width="2.4"/>
+      <path d="M15 35V48M12 24H22" stroke="#fffdf7" stroke-width="2.4" stroke-linecap="round" opacity=".6"/>`,
+    sun: `<g stroke="${INK}" stroke-width="2.4" stroke-linejoin="round">${[0, 45, 90, 135, 180, 225, 270, 315].map((a) => `<path d="M32 3L37 13H27Z" fill="#f3c955" transform="rotate(${a} 32 32)"/>`).join("")}</g>
+      <circle cx="32" cy="32" r="17" fill="#f3c955" stroke="${INK}" stroke-width="3"/>
+      <path d="M21 27Q24 18 33 17" fill="none" stroke="#ffe49a" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="26" cy="31" r="2.2" fill="${INK}"/><circle cx="38" cy="31" r="2.2" fill="${INK}"/>
+      <path d="M27 37Q32 41 37 37" fill="none" stroke="${INK}" stroke-width="2.4" stroke-linecap="round"/>
+      <circle cx="22" cy="37" r="2.6" fill="#ffa798"/><circle cx="42" cy="37" r="2.6" fill="#ffa798"/>`,
+    flower: `<path d="M32 40Q31 52 33 60" fill="none" stroke="#4e9677" stroke-width="4" stroke-linecap="round"/>
+      <path d="M33 52Q44 44 50 50Q43 58 33 54Z" fill="#7fce54" stroke="${INK}" stroke-width="2.4" stroke-linejoin="round"/>
+      <g stroke="${INK}" stroke-width="2.4">${[0, 72, 144, 216, 288].map((a) => `<ellipse cx="32" cy="14" rx="8" ry="11" fill="#ffa798" transform="rotate(${a} 32 27)"/>`).join("")}</g>
+      <circle cx="32" cy="27" r="7.5" fill="#f3c955" stroke="${INK}" stroke-width="2.4"/><circle cx="30" cy="25" r="2" fill="#ffe49a"/>`,
+    star: `<path d="M32 5L39.5 22L58 23.5L44 36L48.5 54.5L32 45L15.5 54.5L20 36L6 23.5L24.5 22Z" fill="#f3c955" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M22 26L28 25.5L31 18" fill="none" stroke="#ffe49a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M44 41L46 47" stroke="#c69434" stroke-width="2.4" stroke-linecap="round"/>`,
+    book: `<path d="M6 16Q18 10 32 16Q46 10 58 16V52Q46 46 32 52Q18 46 6 52Z" fill="#ee806f" stroke="${INK}" stroke-width="3" stroke-linejoin="round" transform="translate(0 3)"/>
+      <path d="M9 15Q20 10 32 15V49Q20 44 9 49Z" fill="#fffaf0" stroke="${INK}" stroke-width="2.4" stroke-linejoin="round"/>
+      <path d="M55 15Q44 10 32 15V49Q44 44 55 49Z" fill="#fffaf0" stroke="${INK}" stroke-width="2.4" stroke-linejoin="round"/>
+      <path d="M14 23Q21 20 27 23M14 31Q21 28 27 31M14 39Q19 37 23 39M37 23Q43 20 50 23M37 31Q43 28 50 31M37 39Q42 37 46 39" fill="none" stroke="#c9bda4" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M44 12V26L47.5 22.5L51 26V12" fill="#7fce54" stroke="${INK}" stroke-width="1.6" stroke-linejoin="round"/>`,
+    paw: `<ellipse cx="32" cy="42" rx="14" ry="12" fill="#a89478" stroke="${INK}" stroke-width="3"/>
+      ${[[15, 26], [25, 16], [39, 16], [49, 26]].map(([x, y]) => `<ellipse cx="${x}" cy="${y}" rx="6" ry="7.5" fill="#a89478" stroke="${INK}" stroke-width="2.4"/>`).join("")}
+      <ellipse cx="32" cy="43" rx="7" ry="5.5" fill="#ffa798"/>`,
+    calendar: `<rect x="8" y="12" width="48" height="44" rx="8" fill="#fffaf0" stroke="${INK}" stroke-width="3"/>
+      <path d="M8 20Q8 12 16 12H48Q56 12 56 20V25H8Z" fill="#ee806f" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M20 7V17M44 7V17" stroke="${INK}" stroke-width="4" stroke-linecap="round"/>
+      ${[[19, 34], [32, 34], [45, 34], [19, 46], [32, 46]].map(([x, y], i) => `<circle cx="${x}" cy="${y}" r="3.6" fill="${i === 4 ? "#7fce54" : "#c9bda4"}"/>`).join("")}`,
+  };
+  function artIcon(name, size = 30) {
+    if (!ART_ICONS[name]) return icon(name, size);
+    return `<svg class="art-icon" viewBox="0 0 64 64" width="${size}" height="${size}" aria-hidden="true">${ART_ICONS[name]}</svg>`;
   }
 
   // ---------- day/night ----------
@@ -720,7 +799,9 @@
       };
     }
     if (biome === "orchard") {
-      const fruit = (x, y, k) => `<g transform="translate(${x} ${y}) scale(${k})" class="art-fruit-tree">
+      // 2026-10-18: the constructed DetailKit tree when available.
+      const fruit = (x, y, k) => ns.DetailKit ? `<g transform="translate(${x} ${y}) scale(${(k * 0.85).toFixed(2)})" class="art-fruit-tree">${ns.DetailKit.tree({ kind: "apple", seed: x, leaf: night ? ["#4e9677", "#2f5c46", "#23253f"] : ["#b7e779", "#7fce54", "#4e9677"] })}</g>` : fruitV1(x, y, k);
+      const fruitV1 = (x, y, k) => `<g transform="translate(${x} ${y}) scale(${k})" class="art-fruit-tree">
           <ellipse cx="0" cy="4" rx="30" ry="6" fill="${night ? "#23253f" : "#4e9677"}" opacity="0.3"/>
           <path d="M0 2V-34" stroke="#70501b" stroke-width="8" stroke-linecap="round"/>
           <circle cx="0" cy="-58" r="36" fill="${night ? "#2f5c46" : "#4e9677"}"/>
@@ -993,18 +1074,51 @@
 
   // One map stop: a circular badge with the same navy rim, warm face and
   // shallow physical lift as every interactive card.
-  function mapStop({ hue, label, status, stars = 0, latin = false }) {
-    const faceColor = status === "done" ? "#f3c955" : status === "current" ? `hsl(${hue} 54% 70%)` : "#e5dcc8";
-    const insetColor = status === "done" ? "#fffaf0" : status === "current" ? `hsl(${hue} 55% 88%)` : "#fffaf0";
+  // v58: custom map-stop pictures for chapters whose mark isn't a letter. The
+  // word chapters used 📖/📗, which the platform drew as stock emoji. Flat
+  // fills, one ink contour, palette only; drawn to sit inside the r36 inset.
+  const MAP_ART = {
+    // An open book: reading whole words.
+    book: `<g transform="translate(0 -2)">
+      <path d="M-27 -12 Q-14 -18 0 -12 Q14 -18 27 -12 V16 Q14 10 0 16 Q-14 10 -27 16 Z" fill="#4e9677" stroke="${INK}" stroke-width="3" stroke-linejoin="round" transform="translate(0 4)"/>
+      <path d="M-24 -14 Q-12 -20 0 -14 V14 Q-12 8 -24 14 Z" fill="#fffaf0" stroke="${INK}" stroke-width="2.4" stroke-linejoin="round"/>
+      <path d="M24 -14 Q12 -20 0 -14 V14 Q12 8 24 14 Z" fill="#fffaf0" stroke="${INK}" stroke-width="2.4" stroke-linejoin="round"/>
+      <path d="M-19 -8 Q-11 -11 -4 -8 M-19 -1 Q-11 -4 -4 -1 M-19 6 Q-13 4 -8 6 M4 -8 Q11 -11 19 -8 M4 -1 Q11 -4 19 -1 M4 6 Q10 4 15 6" fill="none" stroke="#c9bda4" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M14 -16 V-4 L17 -7 L20 -4 V-16" fill="#ee806f" stroke="${INK}" stroke-width="1.6" stroke-linejoin="round"/>
+    </g>`,
+    // Two stacked books with a leaf: the long words, the last stretch.
+    books: `<g transform="translate(0 2)">
+      <rect x="-24" y="4" width="48" height="12" rx="3" fill="#62cdf4" stroke="${INK}" stroke-width="3"/>
+      <path d="M18 6 V14" stroke="#fffaf0" stroke-width="2.4" stroke-linecap="round"/>
+      <rect x="-20" y="-9" width="42" height="13" rx="3" fill="#f3c955" stroke="${INK}" stroke-width="3" transform="rotate(-6 0 -2)"/>
+      <path d="M-14 -6 V2" stroke="#fffaf0" stroke-width="2.4" stroke-linecap="round" transform="rotate(-6 0 -2)"/>
+      <path d="M4 -10 Q6 -24 18 -24 Q18 -12 4 -10 Z" fill="#7fce54" stroke="${INK}" stroke-width="2.4" stroke-linejoin="round"/>
+      <path d="M6 -12 Q11 -17 15 -21" fill="none" stroke="#4e9677" stroke-width="1.6" stroke-linecap="round"/>
+    </g>`,
+  };
+
+  function mapStop({ hue, label, status, stars = 0, latin = false, partway = 0 }) {
+    // 2026-10-16 (focal colour): the current stop — where the child goes
+    // next — was a pale wash while finished stops wore bold gold, so the past
+    // shouted louder than the next step. It now has the most saturated ring on
+    // the map around a bright centre that makes its letter pop.
+    const faceColor = status === "done" ? "#f3c955" : status === "current" ? `hsl(${hue} 68% 56%)` : "#e5dcc8";
+    const insetColor = status === "done" ? "#fffaf0" : status === "current" ? "#fffdf7" : "#fffaf0";
     // Warm bronze coin-rim gives the whole path a sunlit, treasure-map feel —
     // no more cold navy drop under the stops.
     const rim = status === "done" ? "#c69434" : status === "current" ? "#c69434" : "#c9bda4";
-    const starRow = [0, 1, 2]
-      .map(
-        (i) =>
-          `<g transform="translate(${(i - 1) * 24} 43) scale(0.32)" class="${i < stars ? "map-star-on" : "map-star-off"}"><g transform="translate(-32 -32)">${ICONS.star}</g></g>`,
-      )
-      .join("");
+    // Encouragement pass (v57): a played chapter shows only the stars it
+    // earned, centred — never empty slots beside them, which read as "you
+    // missed some". Three soft outlines remain only on a chapter not yet
+    // played, as an invitation.
+    // v58: a finished chapter always shows at least one earned star — progress
+    // saved without a star count (older saves) showed three empty outlines on a
+    // chapter the child had completed, which reads as "you got nothing".
+    if (status === "done" && !(stars > 0)) stars = 1;
+    const shown = stars > 0 ? Math.min(3, stars) : 3;
+    const starRow = Array.from({ length: shown }, (_, i) =>
+      `<g transform="translate(${(i - (shown - 1) / 2) * 24} 43) scale(0.32)" class="${stars > 0 ? "map-star-on" : "map-star-off"}"><g transform="translate(-32 -32)">${ICONS.star}</g></g>`,
+    ).join("");
     // Locked stops are drawn RECESSIVE on purpose (2026-07-24). They used to
     // carry a cool-grey padlock at full contrast and full size, which made a
     // screen of not-yet-earned stops the loudest thing in the garden — a wall
@@ -1018,9 +1132,29 @@
     const contour = locked ? "#a89478" : INK;
     return `
     <svg viewBox="-60 -60 120 120" class="map-stop-art" aria-hidden="true">
-      <circle cy="6" r="47" fill="${rim}"/>
+      <ellipse class="map-stop-shadow" cx="5" cy="52" rx="${locked ? 34 : 42}" ry="6.5" fill="#3e5236" opacity="0.22"/>
+      <circle cy="6" r="47" fill="${locked ? rim : "#70501b"}"/>
       <circle r="47" fill="${faceColor}" stroke="${contour}" stroke-width="${locked ? 3 : 6}"/>
+      ${
+        // v66 (art system): one light, top-left. A lit rim on the upper left
+        // and a shade on the lower right make the stop a carved coin sitting
+        // in the land, and the paper face reads as set INTO it (its own shade
+        // falls on the upper left edge). Locked stops stay flat and quiet.
+        locked ? "" : `<g class="map-stop-light" fill="none" stroke-width="4" stroke-linecap="round">
+        <path d="M-41.4 -7.3A42 42 0 0 1 7.3 -41.4" stroke="${status === "done" ? "#ffe49a" : `hsl(${hue} 78% 74%)`}"/>
+        <path d="M41.4 7.3A42 42 0 0 1 -7.3 41.4" stroke="${status === "done" ? "#c69434" : `hsl(${hue} 60% 42%)`}"/></g>`
+      }
       <circle r="36" fill="${insetColor}" stroke="${contour}" stroke-width="${locked ? 1.6 : 3}"/>
+      ${locked ? "" : `<path class="map-stop-inset-shade" d="M-32.5 -5.7A33 33 0 0 1 5.7 -32.5" fill="none" stroke="#e5dcc8" stroke-width="4" stroke-linecap="round"/>`}
+      ${
+        // 2026-10-13: a chapter left half-way shows how far the child got —
+        // a gold arc filling the ring — so coming back reads "nearly there",
+        // not "start again".
+        !locked && partway > 0 && partway < 1
+          ? (() => { const dash = `pathLength="100" stroke-dasharray="${Math.round(Math.max(0.12, partway) * 100)} 100" transform="rotate(-90)"`;
+              return `<g class="map-stop-partway"><circle r="47" fill="none" stroke="${INK}" stroke-width="10" stroke-linecap="round" ${dash}/><circle r="47" fill="none" stroke="#f3c955" stroke-width="6" stroke-linecap="round" ${dash}/></g>`; })()
+          : ""
+      }
       ${
         locked
           ? `<g class="map-stop-seed" transform="translate(0 4)">
@@ -1028,6 +1162,7 @@
                <path d="M0 -12 Q1 -19 0 -24" fill="none" stroke="${INKS.faint}" stroke-width="2.4" stroke-linecap="round"/>
                <path d="M0 -20 Q-7 -23 -9 -29 Q-1 -28 0 -20 Z" fill="#93ab6c" stroke="${INKS.soft}" stroke-width="1.6" stroke-linejoin="round"/>
              </g>`
+          : String(label).startsWith("art:") ? (MAP_ART[String(label).slice(4)] || "")
           : (() => {
               const size = latin ? 24 : [...label.replace(/[ً-ْٰٓ-ٟؐ-ؚۖ-ۭ]/g, "")].length >= 3 ? 27 : 39;
               // Optical centre, nudged 3 up so the star row below reads as a
@@ -1036,7 +1171,7 @@
               return `<text data-fit-box="0,-3,51,44,${size}" x="${s.dx.toFixed(1)}" y="${(s.dy - 3).toFixed(1)}" text-anchor="middle" font-family="${latin ? LATIN_FONT : AMIRI}" font-size="${size}" fill="${INK}" ${latin ? "" : `direction="rtl"`}>${label}</text>`;
             })()
       }
-      ${status !== "locked" ? `<rect class="map-star-plaque" x="-39" y="29" width="78" height="29" rx="14" fill="#fffaf0" stroke="#70501b" stroke-width="2.4"/>${starRow}` : ""}
+      ${status !== "locked" ? `<g class="map-star-plaque"><rect x="-39" y="31" width="78" height="29" rx="10" fill="#70501b"/><rect x="-39" y="29" width="78" height="29" rx="10" fill="#c69434" stroke="${INK}" stroke-width="2.4"/><path d="M-31 32.6H31" stroke="#ffe49a" stroke-width="2.4" stroke-linecap="round"/></g>${starRow}` : ""}
     </svg>`;
   }
 
@@ -1201,15 +1336,17 @@
   // open art items, 2026-10-01). Each tap escalates: a fissure, then a second
   // fissure and a chip with warm light and the pet's eyes peeking out. The
   // shell wobbles; the nest stays put.
-  function egg({ size = 150, cracks = 0 } = {}) {
+  // v58: `shell` = [fill, shade] lets siblings' unhatched eggs differ on the
+  // who's-playing screen (identical eggs left a toddler unable to find theirs).
+  function egg({ size = 150, cracks = 0, shell = ["#fffdf7", "#e5dcc8"] } = {}) {
     const ink = "#4a3620";
     return `
     <svg class="art-egg" viewBox="-62 -60 124 124" width="${size}" height="${size}" aria-hidden="true">
       <ellipse cy="58" rx="54" ry="5" fill="#2f5c46" opacity=".2"/>
       <g class="art-egg-nest-back"><ellipse cy="32" rx="54" ry="13" fill="#a89478" stroke="${ink}" stroke-width="3"/><ellipse cy="33" rx="44" ry="8" fill="#70501b"/></g>
       <g class="art-egg-tap"><g class="art-egg-body">
-        <path d="M0 -52 C30 -52 42 -18 42 8 C42 36 24 52 0 52 C-24 52 -42 36 -42 8 C-42 -18 -30 -52 0 -52 Z" fill="#fffdf7"/>
-        <path d="M18 -40 C34 -26 40 -4 40 10 C40 34 24 50 2 52 C22 44 32 26 30 6 C29 -12 26 -28 18 -40 Z" fill="#e5dcc8"/>
+        <path d="M0 -52 C30 -52 42 -18 42 8 C42 36 24 52 0 52 C-24 52 -42 36 -42 8 C-42 -18 -30 -52 0 -52 Z" fill="${shell[0]}"/>
+        <path d="M18 -40 C34 -26 40 -4 40 10 C40 34 24 50 2 52 C22 44 32 26 30 6 C29 -12 26 -28 18 -40 Z" fill="${shell[1]}"/>
         <g><circle cx="14" cy="-4" r="6" fill="#ffa798"/><circle cx="-18" cy="12" r="5" fill="#96ecff"/><circle cx="-6" cy="-30" r="4" fill="#f3c955"/><circle cx="22" cy="24" r="4" fill="#b7e779"/></g>
         ${cracks >= 2 ? `<path d="M12 -12 L26 -2 L16 10 L4 2 Z" fill="#3b2a19"/>
           <path d="M12 -12 L26 -2 L16 10 L4 2 Z" fill="none" stroke="#ffe49a" stroke-width="2.4" stroke-linejoin="round"/>
@@ -1225,6 +1362,38 @@
         <path d="M46 36Q61 25 61 41Q53 47 46 36Z" fill="#7fce54" stroke="#4e9677" stroke-width="1.6"/><path d="M-46 38Q-62 30-60 44Q-52 48-46 38Z" fill="#7fce54" stroke="#4e9677" stroke-width="1.6"/>
       </g>
     </svg>`;
+  }
+
+  // The hatched egg (2026-10-13): the egg used to vanish the moment it
+  // hatched. Now the new pet sits in the bottom half of its own shell (same
+  // shell colours and spots), the top lies tipped on the grass beside it, and
+  // two flecks fall nearby, so the egg the child tapped clearly became this pet.
+  function eggShells({ shell = ["#fffdf7", "#e5dcc8"] } = {}) {
+    const ink = "#4a3620";
+    const rim = "M-46 -8L-37 -18L-28 -8L-18 -20L-8 -9L2 -19L12 -8L22 -18L31 -7L40 -16L46 -6";
+    return {
+      cup: `<svg class="art-shell-cup" viewBox="-52 -24 104 50" aria-hidden="true">
+        <path d="${rim}C46 10 26 22 0 22C-26 22-46 10-46-8Z" fill="${shell[0]}"/>
+        <path d="M31 -7L40 -16L46 -6C46 10 26 22 0 22C20 16 32 6 31-7Z" fill="${shell[1]}"/>
+        <circle cx="-22" cy="6" r="5" fill="#96ecff"/><circle cx="14" cy="10" r="4" fill="#ffa798"/><circle cx="-2" cy="2" r="3" fill="#f3c955"/>
+        <path d="${rim}C46 10 26 22 0 22C-26 22-46 10-46-8Z" fill="none" stroke="${ink}" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M-38 4Q-30 14-16 17" fill="none" stroke="#fffdf7" stroke-width="2.4" stroke-linecap="round" opacity=".8"/>
+      </svg>`,
+      cap: `<svg class="art-shell-cap" viewBox="-34 -30 68 52" aria-hidden="true">
+        <ellipse cy="18" rx="24" ry="3.6" fill="#2f5c46" opacity=".2"/>
+        <g transform="rotate(-22)">
+          <path d="M-26 6C-26-14-12-24 0-24C12-24 26-14 26 6L18-3L10 7L2-3L-6 7L-14-3L-20 6Z" fill="${shell[0]}"/>
+          <path d="M12-22C22-16 26-6 26 6L18-3L14 2C16-8 15-16 12-22Z" fill="${shell[1]}"/>
+          <circle cx="-8" cy="-8" r="4" fill="#b7e779"/><circle cx="8" cy="-14" r="3" fill="#ffa798"/>
+          <path d="M-26 6C-26-14-12-24 0-24C12-24 26-14 26 6L18-3L10 7L2-3L-6 7L-14-3L-20 6Z" fill="none" stroke="${ink}" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M-18-6Q-16-14-8-18" fill="none" stroke="#fffdf7" stroke-width="2.4" stroke-linecap="round" opacity=".8"/>
+        </g>
+      </svg>`,
+      flecks: `<svg class="art-shell-flecks" viewBox="-30 -10 60 20" aria-hidden="true">
+        <path d="M-24 2L-16-4L-12 4Z" fill="${shell[0]}" stroke="${ink}" stroke-width="1.6" stroke-linejoin="round"/>
+        <path d="M14 4L20-3L26 3L20 6Z" fill="${shell[1]}" stroke="${ink}" stroke-width="1.6" stroke-linejoin="round"/>
+      </svg>`,
+    };
   }
 
 
@@ -1252,7 +1421,9 @@
   function skillFlower({ scores = {}, size = 170 } = {}) {
     const petals = ns.LETTERS_SKILLS.map((skill, i) => {
       const angle = i * 72 - 90;
-      const score = scores[skill.id] ? scores[skill.id].score || 0 : 0;
+      // A petal never shrinks in front of a child: it shows the best check-up
+      // (the latest stays stored for grown-ups). v58.
+      const score = scores[skill.id] ? Math.max(Number(scores[skill.id].score) || 0, Number(scores[skill.id].best) || 0) : 0;
       const len = [13, 22, 30, 38][Math.max(0, Math.min(3, score))];
       const fill = score > 0 ? `hsl(${skill.hue} 76% 62%)` : "rgba(186, 176, 202, 0.5)";
       const rim = score > 0 ? `hsl(${skill.hue} 66% 42%)` : "rgba(130, 118, 148, 0.5)";
@@ -1412,8 +1583,8 @@
   }
 
   ns.LettersArt = {
-    keyMascot, blobCard, letterSign, stickerMotif, yearSeason, yearLayer, creature, icon, backdrop, landLife, weatherFor, weatherLayer, hijri, season, seasonLayer, dayPhase, PHASES, mapStop,
-    bloomCluster, confetti, ICONS, pet, egg, sticker, stickerPack, skillFlower,
+    keyMascot, blobCard, letterSign, stickerMotif, yearSeason, yearLayer, creature, icon, artIcon, backdrop, landLife, weatherFor, weatherLayer, hijri, season, seasonLayer, dayPhase, PHASES, mapStop,
+    bloomCluster, confetti, ICONS, pet, egg, eggShells, sticker, stickerPack, skillFlower,
     inkShift, warmInk, fitGlyphs, fitInlineGlyphs, watchGlyphs,
   };
 })(window.MiftahGame || (window.MiftahGame = {}));

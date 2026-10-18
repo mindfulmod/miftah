@@ -82,20 +82,20 @@
 }
 @media(max-width:560px) {
  .lg-app .garden-paths { grid-template-rows:16px minmax(80px,1fr) 104px 60px; gap:8px; }
- .lg-app .garden-paths > .drawing-palette { display:grid; grid-template-columns:repeat(4,44px); padding:3px 8px; gap:6px; }
+ .lg-app .garden-paths > .drawing-palette { display:grid; grid-template-columns:repeat(4,52px); padding:3px 8px; gap:6px; } /* v58: columns match the 52px reach minimum below (were 44, swatches overlapped 8px) */
  .lg-app .garden-paths .drawing-color { width:44px; min-width:44px; height:44px; min-height:44px; padding:4px 10px; }
  .lg-app .garden-paths .drawing-color span { height:28px; }
 }
 @media(orientation:landscape) and (max-height:450px) {
- .lg-play:has(.garden-paths,.path-gallery) .practice-heading { position:absolute; top:4px; left:64px; right:64px; width:auto; height:48px; margin:0; }
+ .lg-play:has(.garden-paths,.path-gallery) .practice-heading { position:absolute; top:4px; left:88px; right:64px; width:auto; height:48px; margin:0; }
  .lg-app .lg-screen.lg-play:has(.garden-paths,.path-gallery) .practice-replay { height:44px; min-height:44px; max-height:44px; padding:4px 10px; font-size:32px; }
  .lg-play:has(.garden-paths,.path-gallery) .practice-heading > :first-child { width:40px!important; height:44px!important; }
  .lg-app .lg-screen.lg-play:has(.garden-paths,.path-gallery) { padding:4px 8px; overflow:hidden; }
  .lg-app .lg-screen.lg-play:has(.garden-paths,.path-gallery) > .practice-stage { margin:54px auto 0; max-height:none; flex:1 1 0; }
- .lg-app .garden-paths { grid-template-columns:minmax(0,1fr) 100px; grid-template-rows:12px minmax(100px,1fr) 50px; gap:5px 10px; padding:0 6px 8px; }
+ .lg-app .garden-paths { grid-template-columns:minmax(0,1fr) 116px; grid-template-rows:12px minmax(100px,1fr) 50px; gap:5px 10px; padding:0 6px 8px; }
  .lg-app .garden-paths .path-progress { grid-column:1; grid-row:1; }
  .lg-app .garden-paths .path-workbook { grid-column:1; grid-row:2; }
- .lg-app .garden-paths > .drawing-palette { grid-column:2; grid-row:1 / 4; display:grid; grid-template-columns:repeat(2,44px); padding:3px; gap:4px; }
+ .lg-app .garden-paths > .drawing-palette { grid-column:2; grid-row:1 / 4; display:grid; grid-template-columns:repeat(2,52px); padding:3px; gap:4px; }
  .lg-app .garden-paths .drawing-color { width:44px; min-width:44px; height:44px; min-height:44px; padding:4px 10px; }
  .lg-app .garden-paths .drawing-color span { height:28px; }
  .lg-app .garden-paths > .practice-tools { grid-column:1; grid-row:3; gap:12px; padding:0 10px; }
@@ -385,6 +385,14 @@
 .lg-app .lg-play[data-activity="pairs"] .pairs-next:active { translate:-50% 2px; }
 .lg-app .lg-play[data-activity="catch"] .catch-faller:active { translate:0 0; }
 .lg-app .lg-play[data-activity="catch"] .catch-choice:active { translate:-50% 0; }
+/* v58: on a short phone a two-pair board left its cards 63px (words ~18px)
+   inside 100px columns. A taller board and 76px cards — words ~20% bigger,
+   still clear of the pots below. Three-pair boards keep their layout. */
+@media(max-height:650px) and (orientation:portrait) {
+ .lg-app .lg-play[data-activity="pairs"]:has(.pairs-grid[data-pair-count="2"]) .play-stage { max-height:64vh; margin-bottom:16px; }
+ .lg-app .lg-play[data-activity="pairs"] .pairs-grid[data-pair-count="2"] { inset:12px 14px 124px; }
+ .lg-app .lg-play[data-activity="pairs"] .pairs-grid[data-pair-count="2"] .pairs-card { width:min(100%,76px); }
+}
 @keyframes orchard-settle { from { scale:1.04; } to { scale:1; } }
 @media(min-width:601px) {
  .lg-app .lg-play[data-activity="pairs"] .pairs-grid[data-pair-count="3"] { grid-template-columns:repeat(3,minmax(0,1fr)); }

@@ -1,0 +1,240 @@
+/* The Toy Box (v42–v47): Friend Pairs, Dot Nests, Friend Jigsaw, Bath Time,
+   Letter Fishing, Colour a Friend. Palette: ART.md §2. */
+.tb { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(10px, 2.2vh, 20px); justify-items: center; align-content: start; padding: 6px 12px 16px; width: 100%; box-sizing: border-box; }
+.tb button { appearance: none; border: 0; background: none; padding: 0; cursor: pointer; font: inherit; color: inherit; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+.tb button:focus-visible { outline: 4px solid var(--lg-focus); outline-offset: 3px; }
+.tb-progress { display: flex; gap: 8px; }
+.tb-progress i { width: 14px; height: 14px; border-radius: 50%; background: #e5dcc8; box-shadow: inset 0 0 0 2.4px #a89478; }
+.tb-progress i.is-on { background: #ffa06e; }
+.tb-progress i.is-done { background: #7fce54; }
+
+/* ---------- Friend Pairs ---------- */
+.tb-cards { display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); gap: clamp(8px, 2.4vw, 16px); width: min(100%, calc(var(--cols, 3) * 138px)); }
+.tb-card { position: relative; aspect-ratio: 3 / 4; min-height: 96px; perspective: 700px; border-radius: 20px; }
+.tb-card-back, .tb-card-face { position: absolute; inset: 0; display: grid; place-items: center; border-radius: 20px; border: 3px solid #4a3620; box-shadow: 0 5px 0 #c9bda4; backface-visibility: hidden; -webkit-backface-visibility: hidden; transition: transform .38s cubic-bezier(.3, 1.3, .5, 1); }
+.tb-card-back { background: #b7e779; }
+.tb-card-back svg { width: 62%; height: auto; }
+.tb-card-face { background: #fffaf0; transform: rotateY(180deg); }
+.tb-card-face.is-letter { background: #ccfbef; }
+.tb-card-face svg { width: 86%; height: auto; }
+.tb-card.is-up .tb-card-back { transform: rotateY(-180deg); }
+.tb-card.is-up .tb-card-face { transform: rotateY(0); }
+.tb-card.is-matched .tb-card-face { box-shadow: 0 0 0 5px #f3c955, 0 5px 0 #c9bda4; animation: tb-hop .5s ease-out; }
+.tb-card.is-matched { cursor: default; }
+.tb-cards.is-cleared .tb-card { animation: tb-hop .6s ease-out; }
+@keyframes tb-hop { 40% { translate: 0 -10px; } }
+
+/* ---------- Dot Nests ---------- */
+.tb-branch { position: relative; display: grid; place-items: center; width: min(78vw, 250px); aspect-ratio: 1.3; border-radius: 40% 40% 34% 34%; background: radial-gradient(ellipse 50% 50% at 50% 50%, #ccfbef 0 98%, transparent 100%); }
+.tb-letter { display: grid; place-items: center; z-index: 2; }
+.tb-letter svg { width: min(44vw, 150px); height: auto; }
+.tb-nests .tb-letter .lf.is-plain .lf-fill-dot, .tb-nests .tb-letter .lf .lf-fill-dot { fill: #e8743c; }
+.tb-nest-row { display: flex; justify-content: center; gap: clamp(8px, 3vw, 20px); width: 100%; }
+.tb-nest { position: relative; box-sizing: border-box; flex: 0 1 140px; min-width: 0; min-height: 84px; padding: 6px; border-radius: 26px; background: #fffaf0; box-shadow: inset 0 0 0 3px #4a3620, 0 5px 0 #c9bda4; transition: transform .12s; }
+.tb-nest svg { width: 100%; height: auto; display: block; }
+.tb-nest.is-home { box-shadow: inset 0 0 0 3px #4a3620, 0 0 0 5px #7fce54, 0 5px 0 #c9bda4; }
+.tb-nest-friend { position: absolute; left: 50%; bottom: 58%; translate: -50% 0; pointer-events: none; animation: tb-peep .5s cubic-bezier(.3, 1.6, .5, 1); }
+@keyframes tb-peep { from { scale: .2; opacity: 0; } }
+.tb-where { position: relative; width: min(100%, 420px); aspect-ratio: 300 / 230; }
+.tb-tree { position: absolute; inset: 0; width: 100%; height: 100%; }
+.tb-where .tb-nest { position: absolute; width: 30%; min-height: 0; }
+.tb-where .tb-nest.is-high { right: 8%; top: 30%; }
+.tb-where .tb-nest.is-low { left: 6%; bottom: 2%; }
+.tb-where .tb-letter { position: absolute; left: 50%; top: 52%; translate: -50% -50%; }
+.tb-where .tb-letter svg { width: min(30vw, 120px); }
+
+/* ---------- Friend Jigsaw ---------- */
+.tb-board { position: relative; display: grid; width: min(76vw, 300px, 38vh); aspect-ratio: 1; border-radius: 26px; background: #fffaf0; box-shadow: inset 0 0 0 3px #4a3620, 0 6px 0 #c9bda4; overflow: hidden; }
+.tb-board.is-2 { grid-template-columns: 1fr 1fr; }
+.tb-board.is-4 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
+.tb-ghost { position: absolute; inset: 0; display: grid; place-items: center; opacity: .16; pointer-events: none; }
+.tb-ghost svg, .tb-whole svg { width: 100%; height: 100%; }
+.tb-slot { position: relative; display: grid; place-items: stretch; min-width: 0; min-height: 0; box-shadow: inset 0 0 0 1.6px rgba(74, 54, 32, .25); }
+.tb-slot svg { width: 100%; height: 100%; display: block; }
+.tb-slot.is-wanted { background: rgba(243, 201, 85, .35); animation: tb-want 1.4s ease-in-out infinite; }
+@keyframes tb-want { 50% { background: rgba(243, 201, 85, .6); } }
+.tb-slot.is-placed { box-shadow: none; animation: tb-snap .3s ease-out; }
+@keyframes tb-snap { from { scale: 1.08; } }
+.tb-board.is-whole .tb-slot { opacity: 0; transition: opacity .3s; }
+.tb-whole { position: absolute; inset: 0; display: grid; place-items: center; animation: tb-hop .6s ease-out; }
+.tb-tray { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(8px, 2.4vw, 16px); min-height: 90px; }
+.tb-piece { padding: 6px; border-radius: 18px; background: #fffaf0; box-shadow: inset 0 0 0 3px #4a3620, 0 5px 0 #c9bda4; display: grid; place-items: center; min-width: 64px; min-height: 64px; }
+.tb-piece svg { display: block; max-width: min(27vw, 120px); max-height: min(44vw, 170px); width: auto; height: auto; }
+.tb-piece:nth-child(odd) { rotate: -4deg; }
+.tb-piece:nth-child(even) { rotate: 3deg; }
+
+/* ---------- Bath Time ---------- */
+.tb-tub-wrap { width: min(80vw, 330px); touch-action: none; }
+.tb-tub { width: 100%; height: auto; display: block; cursor: grab; user-select: none; -webkit-user-select: none; touch-action: none; }
+.tb-bath-friend.is-clean { animation: tb-shake .6s ease-in-out; transform-origin: 50px 60px; }
+@keyframes tb-shake { 25% { rotate: -5deg; } 50% { rotate: 5deg; } 75% { rotate: -3deg; } }
+.tb-bubble { animation: tb-bubble .9s ease-out forwards; transform-box: fill-box; transform-origin: center; }
+@keyframes tb-bubble { to { translate: 0 -18px; opacity: 0; scale: 1.4; } }
+.tb-bath-tools { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; }
+.tb-sponge { width: 76px; height: 64px; border-radius: 20px; background: #fffaf0 !important; box-shadow: inset 0 0 0 3px #4a3620, 0 5px 0 #c9bda4; display: grid; place-items: center; }
+.tb-sponge svg { width: 60px; height: auto; }
+.tb-guess { display: flex; gap: 10px; animation: tb-peep .4s ease-out; }
+.tb-guess-letter { width: 72px; height: 72px; border-radius: 20px; background: #ccfbef !important; box-shadow: inset 0 0 0 3px #4a3620, 0 5px 0 #c9bda4; display: grid; place-items: center; }
+.tb-guess-letter.is-right { box-shadow: inset 0 0 0 3px #4a3620, 0 0 0 5px #7fce54; }
+
+/* ---------- Letter Fishing ---------- */
+.tb-pond { position: relative; width: min(100%, 560px); height: clamp(300px, 54vh, 460px); border-radius: 28px; overflow: hidden; background: #ccfbef; box-shadow: inset 0 0 0 3px #4a3620; }
+.tb-water { position: absolute; inset: 0; width: 100%; height: 100%; }
+/* v58: each fish owns a row below the water line and is never taller than it,
+   so neighbours swim past each other instead of colliding (rows overlapped by
+   12px on iPad and 17px on a sideways phone, a mis-tap waiting to happen). */
+.tb-pond { container-type: size; }
+.tb-fish { --fh: min(clamp(64px, 17vw, 80px), calc(87cqh / var(--n, 5))); --fw: calc(var(--fh) * 1.65); position: absolute; top: calc(11cqh + var(--row, 0) * 87cqh / var(--n, 5)); left: var(--x); width: var(--fw); height: var(--fh); animation: tb-swim var(--dur) linear var(--delay) infinite; z-index: 1; }
+.tb-fish-body { position: absolute; inset: 0; animation: tb-face var(--dur) linear var(--delay) infinite; }
+.tb-fish-body svg { width: 100%; height: 100%; display: block; }
+.tb-fish-letter { position: absolute; left: 50%; top: 50%; translate: -50% -48%; width: 46%; aspect-ratio: 1; border-radius: 50%; background: #fffdf7; box-shadow: inset 0 0 0 2.4px #4a3620; display: grid; place-items: center; pointer-events: none; }
+.tb-fish-letter svg { width: 88%; height: auto; }
+@keyframes tb-swim { 0%, 100% { left: 2%; } 50% { left: calc(98% - var(--fw)); } }
+@keyframes tb-face { 0%, 49.9% { transform: scaleX(1); } 50%, 100% { transform: scaleX(-1); } }
+.tb-fish.is-wriggle .tb-fish-body { animation-play-state: paused; }
+.tb-fish.is-wriggle { animation-play-state: paused; rotate: 0deg; }
+.tb-fish.is-wriggle .tb-fish-letter { animation: tb-wriggle .7s ease-in-out; }
+@keyframes tb-wriggle { 20% { rotate: -12deg; } 40% { rotate: 12deg; } 60% { rotate: -8deg; } 80% { rotate: 6deg; } }
+.tb-fish.is-caught, .tb-fish.is-caught .tb-fish-body { animation: none; }
+.tb-fish.is-up { transition: translate .7s cubic-bezier(.5, 0, .8, .4), opacity .7s; translate: 0 -260px; opacity: 0; }
+.tb-line { position: absolute; top: 0; left: 50%; width: 3px; height: 0; background: #4a3620; opacity: 0; pointer-events: none; z-index: 2; }
+.tb-line::after { content: ""; position: absolute; bottom: -8px; left: -5px; width: 9px; height: 10px; border: 3px solid #4a3620; border-top: 0; border-radius: 0 0 8px 8px; }
+.tb-line.is-cast { animation: tb-cast .9s ease-out; }
+@keyframes tb-cast { 0% { opacity: 1; transform: scaleY(0); transform-origin: top; } 40%, 70% { opacity: 1; transform: scaleY(1); transform-origin: top; } 100% { opacity: 0; transform: scaleY(0); transform-origin: top; } }
+.tb-bucket { position: absolute; right: 10px; top: 8px; width: 74px; z-index: 3; }
+.tb-bucket svg { width: 100%; height: auto; display: block; }
+.tb-bucket-in { position: absolute; left: 14%; right: 14%; top: 38%; display: flex; flex-wrap: wrap; justify-content: center; gap: 1px; }
+.tb-bucket-in i { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: #fffdf7; }
+.tb-bucket-in i svg { width: 20px; height: 20px; }
+
+/* ---------- Colour a Friend ---------- */
+.tb-paper { width: min(80vw, 300px, 34vh, max(140px, calc(100dvh - 410px))); aspect-ratio: 1; display: grid; place-items: center; border-radius: 22px; background: #fffdf7; box-shadow: inset 0 0 0 3px #4a3620, 0 6px 0 #c9bda4; }
+.tb-paper svg { width: 92%; height: 92%; cursor: pointer; }
+.tb-paper svg [data-part], .tb-paper svg [data-body-edge] { transition: fill .2s, stroke .2s; }
+.tb-paper.is-hung { animation: tb-hop .6s ease-out; box-shadow: inset 0 0 0 3px #4a3620, 0 0 0 8px #c69434, 0 6px 0 #c9bda4; }
+.tb-crayons { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 6px; width: min(100%, 420px); }
+.tb-crayon { display: grid; place-items: end center; min-height: 64px; border-radius: 14px; padding-top: 6px !important; transition: transform .15s; }
+.tb-crayon svg { width: min(100%, 34px); height: auto; }
+.tb-crayon.is-on { transform: translateY(-10px); }
+.tb-crayon.is-on svg { filter: drop-shadow(0 4px 0 rgba(74, 54, 32, .35)); }
+.tb-colour-tools { display: flex; gap: 14px; justify-content: center; }
+.tb-next-page, .tb-hang { width: 72px; height: 72px; border-radius: 22px; background: #fffaf0 !important; box-shadow: inset 0 0 0 3px #4a3620, 0 5px 0 #c9bda4; display: grid; place-items: center; }
+.tb-hang svg { width: 52px; height: 52px; }
+.tb-hang:not([hidden]) { animation: tb-peep .4s ease-out; }
+.tb-hang[hidden] { display: none; }
+
+/* Landscape phones: side by side where it helps. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .tb { gap: 8px; padding-block: 2px 6px; }
+  .tb-cards { width: min(100%, calc(var(--cols, 3) * 104px)); }
+  .tb-card { min-height: 0; aspect-ratio: 1; }
+  .tb-pond { height: 72vh; }
+  .tb-board, .tb-paper { width: min(56vh, 240px); }
+  .tb-tub-wrap { width: min(56vh, 240px); }
+  .tb-colour { grid-template-columns: auto minmax(0, 1fr); align-items: center; }
+  .tb-colour .tb-paper { grid-row: span 2; }
+  /* v58: beside the picture eight crayons in a row were 33px wide — two rows
+     of four keep each a real finger target. */
+  .tb-colour .tb-crayons { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px 10px; width: min(100%, 300px); justify-self: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tb-card-back, .tb-card-face { transition: none; }
+  .tb-card.is-matched .tb-card-face, .tb-cards.is-cleared .tb-card, .tb-nest-friend, .tb-slot.is-wanted, .tb-slot.is-placed, .tb-whole, .tb-bath-friend.is-clean, .tb-guess, .tb-line.is-cast, .tb-paper.is-hung, .tb-hang:not([hidden]), .tb-fish.is-wriggle .tb-fish-letter { animation: none; }
+  .tb-bubble { animation: none; opacity: 0; }
+  .tb-fish, .tb-fish-body { animation: none; }
+  .tb-fish.is-up { transition: opacity .3s; translate: none; }
+}
+.lg-app.lg-reduce-motion .tb-fish, .lg-app.lg-reduce-motion .tb-fish-body { animation: none; }
+/* Pieces are cut from the friend by their viewBox; friends normally draw
+   past their box (for wiggles), so the pieces clip. */
+.tb-piece svg.lf, .tb-slot svg.lf { overflow: hidden; }
+
+/* Narrow phones: crayons in two rows of four, each a real finger target. */
+@media (max-width: 440px) {
+  .tb-crayons { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px 10px; width: min(100%, 300px); }
+  .tb-crayon { min-height: 54px; }
+  .tb-crayon svg { width: 30px; }
+  .tb-crayon.is-on { transform: translateY(-6px); }
+}
+
+/* Short screens: smaller loose pieces so the tray and the board both fit. */
+@media (max-height: 760px) and (orientation: portrait) {
+  .tb-piece svg { max-width: min(20vw, 72px); max-height: min(30vw, 108px); }
+  .tb-tray { gap: 8px; min-height: 72px; }
+}
+
+/* ---------- Spot the Change (v51) ---------- */
+.lk-eye { width: 92px; }
+.lk-eye svg { width: 100%; height: auto; display: block; }
+.lk-eye.is-looking { animation: lk-look 2.4s ease-in-out infinite; }
+@keyframes lk-look { 0%, 100% { translate: -10px 0; } 50% { translate: 10px 0; } }
+.lk-eye.is-asking { opacity: .5; animation: none; }
+.lk-row { position: relative; display: grid; grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr)); gap: clamp(8px, 2.4vw, 16px); width: min(100%, calc(var(--cols, 2) * 150px)); padding: 10px; border-radius: 28px; background: #b7e779; box-shadow: inset 0 0 0 3px #4a3620; box-sizing: border-box; }
+.lk-stone { position: relative; display: grid; place-items: center; aspect-ratio: 1 / .92; min-height: 84px; }
+.lk-stone:disabled { cursor: default; }
+.lk-stone-art { position: absolute; inset: 8% 0 0; width: 100%; height: 92%; }
+.lk-letter { position: relative; display: grid; place-items: center; width: 78%; }
+.lk-letter svg { width: 100%; height: auto; }
+.lk-stone.is-found .lk-letter { visibility: hidden; }
+.lk-stone.is-found { box-shadow: 0 0 0 5px #f3c955; border-radius: 22px; }
+.lk-stone.is-was .lk-letter svg { filter: drop-shadow(0 0 6px #f3c955); }
+.lk-pop { position: absolute; inset: 0; display: grid; place-items: center; animation: tb-peep .5s cubic-bezier(.3, 1.6, .5, 1); }
+.lk-pop svg { width: 92%; height: auto; }
+.lk-was { position: absolute; top: -18px; right: -8px; width: 40px; height: 40px; border-radius: 50%; background: #fffdf7; box-shadow: inset 0 0 0 2.4px #4a3620; display: grid; place-items: center; opacity: .85; }
+.lk-curtain { position: absolute; inset: 0; border-radius: 28px; background: #2f5c46; opacity: 0; pointer-events: none; transition: opacity .3s; }
+.lk-row.is-dark .lk-curtain { opacity: .96; }
+
+/* ---------- Family Buses (v52) ---------- */
+.lk-stop { display: grid; place-items: center; width: 112px; height: 112px; border-radius: 50%; background: #ccfbef; box-shadow: inset 0 0 0 3px #4a3620; }
+.lk-rider.is-boarded { animation: lk-board .5s ease-in forwards; }
+@keyframes lk-board { to { translate: 0 60px; scale: .3; opacity: 0; } }
+.lk-road { display: grid; gap: 10px; width: min(100%, 360px); padding: 0; }
+.lk-bus { position: relative; display: block; width: 100%; max-width: min(240px, 26vh); justify-self: center; transition: translate .12s; }
+.lk-bus-art { width: 100%; height: auto; display: block; }
+.lk-driver { position: absolute; right: 6%; top: 15%; width: 28%; display: grid; place-items: center; }
+.lk-driver svg { width: 100%; height: auto; }
+.lk-seats { position: absolute; left: 12%; top: 19%; width: 42%; display: flex; gap: 5%; }
+.lk-seats i { width: 46%; display: grid; place-items: center; animation: tb-peep .4s ease-out; }
+.lk-seats i svg { width: 100%; height: auto; }
+.lk-bus.is-going { animation: lk-drive 1.4s ease-in .9s forwards; }
+@keyframes lk-drive { 20% { translate: 6px 0; } 100% { translate: 120% 0; opacity: 0; } }
+.lk-bus.is-hint { border-radius: 26px; }
+@media (orientation: landscape) and (max-height: 500px) {
+  .lk-buses { grid-template-columns: auto minmax(0, 1fr); align-items: center; }
+  .lk-road { grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; }
+  .lk-stop { width: 104px; height: 104px; }
+  .lk-row { width: min(100%, calc(var(--n, 4) * 110px)); }
+}
+@media (max-height: 700px) and (orientation: portrait) { .lk-stop { width: 96px; height: 96px; } .lk-stop svg { width: 80px; height: 80px; } .lk-bus { max-width: min(220px, 22vh); } } /* v81: three buses at 26vh pushed the seed row off the board on a 667px phone */
+@media (prefers-reduced-motion: reduce) {
+  .lk-eye.is-looking, .lk-pop, .lk-rider.is-boarded, .lk-bus.is-going, .lk-seats i { animation: none; }
+  .lk-rider.is-boarded { opacity: .3; }
+}
+@media (min-width: 720px) and (min-height: 560px) { .lk-row { grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr)); width: min(100%, calc(var(--n, 4) * 150px)); } }
+/* Big screens (v53): buses park side by side, so each can be bigger. */
+@media (min-width: 700px) and (orientation: landscape), (min-width: 700px) and (min-height: 900px) {
+  .lk-road { grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); width: min(100%, 860px); gap: 18px; }
+  .lk-bus { max-width: 270px; }
+  .lk-stop { width: 140px; height: 140px; }
+}
+
+/* Keyboard and switch access (v54). */
+.lg-app svg.trace-guided:focus-visible { outline: 4px solid var(--lg-focus); outline-offset: 3px; border-radius: 18px; }
+.tb-paper svg [data-part]:focus-visible { outline: 4px solid var(--lg-focus); outline-offset: 2px; }
+.tb-paper svg .lf-fill[data-part]:focus-visible { stroke-width: 8; filter: drop-shadow(0 0 3px #3a8fc4); }
+
+/* Tactile pass (v55): toy-box lips squash flat as they go down. */
+.lg-app :is(.tb-nest, .tb-piece, .tb-sponge, .tb-guess-letter, .tb-next-page, .tb-hang).is-pressed { translate: 0 4px; box-shadow: inset 0 0 0 3px #4a3620, 0 1px 0 #c9bda4; }
+.lg-app .tb-card.is-pressed .tb-card-back { box-shadow: 0 1px 0 #c9bda4; }
+.lg-app .tb-card.is-pressed { translate: 0 4px; scale: 1; }
+/* Feel pass (v56): the sponge in the hand, and mud flecks. */
+.tb-tub-wrap { position: relative; }
+.tb-sponge-cursor { position: absolute; left: 0; top: 0; width: 64px; pointer-events: none; opacity: 0; transition: opacity .25s; filter: drop-shadow(0 4px 0 rgba(74, 54, 32, .25)); }
+.tb-sponge-cursor svg { width: 100%; height: auto; display: block; }
+.tb-sponge-cursor.is-scrubbing { opacity: 1; transition-duration: .05s; }
+.tb-fleck { animation: tb-fleck .5s ease-out forwards; transform-box: fill-box; }
+@keyframes tb-fleck { to { translate: var(--dx) var(--dy); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .tb-sponge-cursor { filter: none; } }
+/* The right bus takes the hit, then drives away. */
+.lk-bus.is-going.is-hit { animation: lg-hit .5s linear, lk-drive 1.4s ease-in .9s forwards; }

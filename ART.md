@@ -664,3 +664,79 @@ See `docs/letter-garden/RELEASES.md`. Art rules they add:
   is always the same chunky letter the child traces.
 - Today's Walk: stones are touchable discs (paper with 4 ink); the next stone
   is ringed in accent-warm; walked stones go foliage-light with a check.
+
+## Pet language — owner direction 2026-10-17
+
+The owner asked whether the world fits the pet. It did not: the pet is flat,
+round and chunky with one even outline, while props were shaded,
+straight-edged and drawn at six line weights. The owner kept the existing
+colours and wood ("I like what we have") and asked for more detail than a
+first, too-plain redraw. This section **overrides §4's ">24px uses a ramp"
+rule for props, landmarks and UI**. Ramps still apply to big masses: sky,
+hills, water and ground.
+
+Every prop, landmark and piece of UI follows four rules:
+1. **Flat colour plus one shine.** Use a solid fill with a single soft
+   highlight shape. No gradients on objects.
+2. **The pet's geometry.** Build from circles, capsules, blobs and rounded
+   rectangles, with corner radius ≥ 25% of the short side. Keep shapes
+   chunky, low and wide, with a slightly oversized top (roof, canopy, lid).
+   Use round joins and caps everywhere (v102). Origami, stars, sparkles and
+   glyphs are exempt.
+3. **One ink weight matching the pet.** Use `#4a3620` at 4 for the outline,
+   3 for small parts and 2.4 for tiny parts.
+4. **Detail in colour-matched lines.** Thin 2.4 lines in a deeper shade of
+   the object's own ramp: grain, seams, veins, bands, stitching. Add small
+   charming parts too: tufts, a flower, a ladybird, a bee, rivets, a knob.
+   Aim for the old art's richness, never its noise.
+
+Reference sheets: `.qa/pet-language.html`, `.qa/map-landmarks-ab.html` and
+`.qa/ui-pet-language.html`.
+
+Built so far:
+- village landmarks (v103, v105);
+- map landmarks (v104);
+- land gates and the seed basket (v107);
+- the sticker stall (v106);
+- the pond-corner reeds (v108);
+- UI touches (v109);
+- the pond jetty (v110).
+
+Every redraw keeps its predecessor as `*.classic` for A/B or rollback.
+
+## Construction detail — owner direction 2026-10-18
+
+"Those trees look really bad, the hut doesn't have enough geometry … a house
+isn't just a square." Style rules (outline, round joins, flat fill and one
+shine) aren't enough on their own. Every object must be **built from its
+anatomy**.
+
+1. **Anatomy first.** List the parts that make an object recognisable, then
+   draw them as separate shapes:
+   - **house:** foundation, walls with material lines and corner trims, an
+     overhanging roof with tiles, eaves and a ridge cap, a chimney, a framed
+     door with planks, knob and step, and windows with mullions, sills,
+     shutters and a flower box;
+   - **tree:** flared roots, bark, forked branches, a canopy of clumps, leaf
+     ticks and fruit or blossom;
+   - **palm:** a ringed, tapering, curved trunk, serrated fronds with
+     midribs and coconuts.
+2. **Detail by importance.** Hero objects (landmarks and scenes children
+   play in) get full anatomy. Background objects get a reduced set, but
+   never a bare primitive.
+3. **Variety.** Repeated objects take a seed: neighbouring trees never
+   match.
+4. **Silhouette test.** At thumbnail size the outline alone must read as
+   the object.
+5. **Story touches.** Smoke, a flower box, a lantern or a pennant make a
+   place feel lived-in, which is what invites a child in.
+6. **Composition.** A scene has one clear hero, one supporting element and
+   open space where children place stickers.
+
+The shared kit is `src/letters/DetailKit.js` (tree, palm, house, barn,
+boat). The preview is `.qa/detail-kit.html`.
+7. **Decoration never looks like an answer.** Scenery near a game board
+   must not repeat the shape or colour of the things a child taps. The catch
+   game's framing trees carry blossoms, not apples, because the golden
+   letter apples are the answers. When adding detail, check what the child
+   is meant to find on that screen.

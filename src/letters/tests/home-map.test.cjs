@@ -131,8 +131,9 @@ test("home map preserves the 22-stop progression and restores the current scroll
   assert.deepEqual([...screen.generated.matchAll(/data-node-world="([^"]+)"/g)].map((match) => match[1]), ids);
   const markup=[...screen.generated.matchAll(/<button[^>]*class="map-stop[^>]*>/g)].map(match=>match[0]);
   assert.deepEqual(markup.map(tag=>/data-world="([^"]+)"/.exec(tag)[1]),ids);
-  assert.ok(markup.slice(4).every(tag=>/\sdisabled(?:\s|>)/.test(tag)));
-  assert.ok(markup.slice(0,4).every(tag=>!/\sdisabled(?:\s|>)/.test(tag)));
+  // Locked stops answer a tap (the hand shows the open stop), so they are aria-disabled, not dead.
+  assert.ok(markup.slice(4).every(tag=>/\saria-disabled="true"/.test(tag)));
+  assert.ok(markup.slice(0,4).every(tag=>!/disabled/.test(tag)));
   assert.equal([...screen.generated.matchAll(/class="map-landscape"/g)].length,1);
   assert.equal(screen.stopButtons.filter((button) => button.className.includes("is-current")).length, 1);
   assert.equal(screen.stopButtons[3].className, "map-stop is-current");

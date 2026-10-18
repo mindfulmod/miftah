@@ -68,9 +68,10 @@
     next() {
       if (this.round >= this.asks.length) return this.finish();
       const target = this.asks[this.round];
-      this.target = target; this.missed = false; this.heard = true; this.found = 0;
+      this.target = target; this.missed = false; this.heard = true; this.found = 0; this.sweeps = 0;
       const nTarget = this.ctx.beginner ? 2 : 3;
-      const others = shuffle(this.known.filter((c) => c !== target));
+      // Smart Choices (v50): look-alike decoys hide in the dark once a letter is known.
+      const others = ns.gardenBrain?.others ? ns.gardenBrain.others(target, this.known, this.known.length, { skill: "name", beginner: this.ctx.beginner }) : shuffle(this.known.filter((c) => c !== target));
       const decoys = Array.from({ length: this.ctx.beginner ? 3 : 5 }, (_, i) => others[i % others.length]);
       // Hiding places on a jittered grid, so nothing overlaps.
       // Upright screens get a tall night garden (3 across, 4 down).
@@ -107,6 +108,17 @@
       // not pick it straight out of the dark.
       this.justLit = thing || null;
       this.moveTo(((e.clientX - r.left) / r.width) * 100, ((e.clientY - r.top) / r.height) * 100);
+      // Searching the dark for a long time is not failing, but it can feel like
+      // it: after six empty sweeps the lantern drifts to a letter being looked
+      // for (that find counts as helped).
+      if (e.type !== "pointerdown") return;
+      const found = this.root.querySelectorAll(".sh-thing.is-lit:not(.is-found)").length;
+      this.sweeps = found ? 0 : (this.sweeps || 0) + 1;
+      if (this.sweeps >= 6) {
+        this.sweeps = 0;
+        const k = this.hidden.findIndex((h, j) => h.c === this.target && !this.root.querySelector(`.sh-thing[data-i="${j}"]`)?.classList.contains("is-found"));
+        if (k >= 0) { this.missed = true; this.later(() => { this.moveTo(this.hidden[k].x, this.hidden[k].y); this.ctx.sfx?.("glow"); }, 350); }
+      }
     }
     moveTo(x, y) {
       this.lx = Math.max(0, Math.min(100, x)); this.ly = Math.max(0, Math.min(100, y));
@@ -131,8 +143,18 @@
       if (!right) {
         this.missed = true;
         this.ctx.sfx?.("softwrong"); this.wobble(b);
+        // Encouragement pass (v57): a second miss lights one of the letters
+        // being looked for — nobody wanders the dark for long.
+        this.misses = (this.misses || 0) + 1;
+        if (this.misses >= 2) {
+          const k = this.hidden.findIndex((h, j) => h.c === this.target && !this.root.querySelector(`.sh-thing[data-i="${j}"]`)?.classList.contains("is-found"));
+          const t = this.root.querySelector(`.sh-thing[data-i="${k}"]`);
+          if (t) { this.moveTo(this.hidden[k].x, this.hidden[k].y); this.root.querySelectorAll(".sh-thing").forEach((o) => o.classList.toggle("is-hint", o === t)); }
+        }
         return;
       }
+      this.misses = 0; this.sweeps = 0;
+      this.root.querySelectorAll(".sh-thing.is-hint").forEach((o) => o.classList.remove("is-hint"));
       b.classList.add("is-found");
       this.ctx.sfx?.("glow");
       this.ctx.confettiAt?.(b);

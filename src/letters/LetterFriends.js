@@ -20,7 +20,8 @@
   const INK = "#4a3620";
   const ink = (w) => `stroke="${INK}" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round"`;
   const line = (d, color, w) => `<path d="${d}" fill="none" stroke="${color}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>`;
-  const eye = (x, y, r = 1.8) => `<circle cx="${x}" cy="${y}" r="${r}" fill="${INK}"/>`;
+  // Eyes carry a class so friends can blink (v38, Living Friends).
+  const eye = (x, y, r = 1.8) => `<circle class="lf-eye" cx="${x}" cy="${y}" r="${r}" fill="${INK}"/>`;
   const legs = (pts) => pts.map(([x, y, x2, y2]) => line(`M${x} ${y}L${x2} ${y2}`, INK, 3)).join("");
 
   // word: the friend's Arabic name, fully vowelled. en: grown-up gloss only.
@@ -33,7 +34,7 @@
       back: line("M2 80Q14 74 26 80T50 80T74 80T98 80", "#62cdf4", 3),
       front: `<circle cx="16" cy="36" r="10" fill="#ffe49a" ${ink(3)}/><path d="M8 35Q-2 36 6 41Q10 42 10 38Z" fill="#e8743c" ${ink(2.4)}/>${eye(15, 33)}<path d="M36 56Q50 50 64 58Q52 64 38 60Z" fill="#f3c955" ${ink(2.4)}/><path d="M82 47L93 37L88 50Z" fill="#ffe49a" ${ink(2.4)}/>` },
     "ت": { id: "crocodile", word: "تِمْسَاح", en: "crocodile", call: "friend-crocodile", fill: "#7fce54", dot: "#fffdf7",
-      back: `<path d="M0 48H100V90Q100 96 94 96H6Q0 96 0 90Z" fill="#96ecff" opacity=".55"/><path d="M34 42Q36 26 50 28Q64 26 66 42Z" fill="#7fce54" ${ink(3)}/>`,
+      back: `<path d="M0 50Q12 46 25 50T50 50T75 50T100 50V84Q50 98 0 84Z" fill="#96ecff" opacity=".55"/><path d="M34 42Q36 26 50 28Q64 26 66 42Z" fill="#7fce54" ${ink(3)}/>`,
       front: `${eye(58, 33, 2)}${eye(42, 33, 2)}<path d="M17 46Q6 43 3 49Q7 54 18 53" fill="#7fce54" ${ink(3)}/><circle cx="7" cy="48" r="1.6" fill="${INK}"/><path d="M84 47L97 41L87 53Z" fill="#7fce54" ${ink(2.4)}/>${line("M40 64l3 3 3-3 3 3 3-3 3 3 3-3", "#4e9677", 2.4)}` },
     "ث": { id: "fox", word: "ثَعْلَب", en: "fox", call: "friend-fox", fill: "#ee806f", dot: "#f3c955",
       front: `<path d="M78 50Q76 36 86 34L88 25L92 34Q99 38 97 48Q90 55 78 50Z" fill="#ee806f" ${ink(3)}/>${line("M84 43q3 2 6 0", INK, 1.6)}<circle cx="97" cy="47" r="1.6" fill="${INK}"/><path d="M17 47Q3 36 10 25Q21 30 21 45Z" fill="#ee806f" ${ink(3)}/><path d="M10 25Q8 32 13 34Q16 30 10 25Z" fill="#fffdf7" ${ink(1.6)}/>${line("M36 62Q50 66 64 62", "#ffa798", 3)}` },
@@ -41,10 +42,16 @@
       back: `<path d="M38 26Q50 -8 68 26Z" fill="#e5dcc8" ${ink(3)}/>`,
       front: `<ellipse cx="22" cy="27" rx="9" ry="7" fill="#e5dcc8" ${ink(3)}/><path d="M25 21l2-6 3 6Z" fill="#e5dcc8" ${ink(2.4)}/>${eye(21, 25, 1.6)}${line("M14 29q2 1 4 0", INK, 1.6)}${legs([[40, 87, 38, 98], [64, 89, 66, 98]])}${line("M80 82l8-4", INK, 2.4)}` },
     "ح": { id: "horse", word: "حِصَان", en: "horse", call: "friend-horse", fill: "#c25a49",
-      front: `<path d="M30 22Q18 17 11 26Q9 33 18 33Q25 32 30 30Z" fill="#c25a49" ${ink(3)}/><path d="M25 20l2-7 4 6Z" fill="#c25a49" ${ink(2.4)}/>${eye(21, 24, 1.6)}<circle cx="13" cy="29" r="1.4" fill="${INK}"/>${line("M35 21l-2-7M43 19l-1-7M51 19v-7M59 20l1-7M66 23l2-7", "#8a3a2d", 4)}${legs([[40, 87, 38, 98], [64, 89, 66, 98]])}${line("M80 82Q92 78 94 90", "#8a3a2d", 4)}` },
-    "خ": { id: "sheep", word: "خَرُوف", en: "sheep", call: "friend-sheep", fill: "#c9bda4", dot: "#fffdf7",
-      back: [[34, 56], [28, 70], [38, 82], [54, 86], [70, 85], [46, 64], [58, 74]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="10" fill="#fffdf7" ${ink(2.4)}/>`).join(""),
-      front: `<ellipse cx="22" cy="28" rx="8" ry="9" fill="#a89478" ${ink(3)}/><circle cx="19" cy="26" r="1.8" fill="#fffdf7"/><circle cx="26" cy="26" r="1.8" fill="#fffdf7"/><path d="M14 24Q8 22 10 28M30 24Q36 22 34 28" fill="none" ${ink(2.4)}/>${legs([[40, 90, 40, 99], [64, 92, 64, 99]])}` },
+      front: `<path d="M30 22Q18 17 11 26Q9 33 18 33Q25 32 30 30Z" fill="#c25a49" ${ink(3)}/><path d="M25 20l2-7 4 6Z" fill="#c25a49" ${ink(2.4)}/>${eye(21, 24, 1.6)}<circle cx="13" cy="29" r="1.4" fill="${INK}"/><path d="M29 22Q30 11 37 16Q39 7 46 14Q50 8 55 18Q47 17 40 20Q34 21 29 22Z" fill="#8a3a2d" ${ink(2.4)}/>${legs([[40, 87, 38, 98], [64, 89, 66, 98]])}${line("M80 82Q92 78 94 90", "#8a3a2d", 4)}` },
+    // The sheep (redrawn v38): one fluffy cloud of wool with a clean outline —
+    // an ink layer of puffs first, then a white layer on top, so the inner
+    // edges vanish — around the ح-body, a soft face, ears and little legs.
+    "خ": { id: "sheep", word: "خَرُوف", en: "sheep", call: "friend-sheep", fill: "#e5dcc8", dot: "#fffdf7",
+      back: (() => {
+        const puffs = [[30, 52], [24, 64], [28, 77], [40, 86], [55, 89], [70, 87], [80, 78], [62, 50], [44, 46], [50, 66], [64, 70]];
+        return `${legs([[40, 90, 40, 99], [64, 92, 64, 99]])}${puffs.map(([x, y]) => `<circle cx="${x}" cy="${y}" r="11.5" fill="${INK}"/>`).join("")}${puffs.map(([x, y]) => `<circle cx="${x}" cy="${y}" r="9.5" fill="#fffdf7"/>`).join("")}`;
+      })(),
+      front: `<path d="M10 22Q4 18 6 26Q8 30 13 28M34 22Q40 18 38 26Q36 30 31 28" fill="#a89478" ${ink(2.4)}/><ellipse cx="22" cy="29" rx="9" ry="10" fill="#c9bda4" ${ink(3)}/><path d="M15 21Q18 15 22 18Q26 15 29 21" fill="#fffdf7" ${ink(1.6)}/>${eye(19, 28)}${eye(25, 28)}<path d="M20 34q2 1.6 4 0" fill="none" ${ink(1.6)}/><circle cx="16" cy="32" r="1.8" fill="#ffa798"/><circle cx="28" cy="32" r="1.8" fill="#ffa798"/>` },
     "د": { id: "bear", word: "دُبّ", en: "bear", call: "friend-bear", fill: "#c69434",
       back: `<circle cx="30" cy="15" r="4.6" fill="#c69434" ${ink(2.4)}/><circle cx="46" cy="14" r="4.6" fill="#c69434" ${ink(2.4)}/>`,
       front: `<circle cx="38" cy="24" r="11" fill="#c69434" ${ink(3)}/><ellipse cx="34" cy="29" rx="5" ry="4" fill="#ffe49a" ${ink(1.6)}/><circle cx="32" cy="28" r="1.6" fill="${INK}"/>${eye(41, 21, 1.6)}${line("M54 50Q59 56 57 62", "#ffe49a", 4)}<ellipse cx="28" cy="67" rx="6" ry="4.4" fill="#c69434" ${ink(2.4)}/>` },
@@ -63,7 +70,7 @@
       back: `${line("M76 4V-1M98 28h5M54 28h-5M92 12l4-4M60 12l-4-4M94 44l4 3M58 44l-4 3", "#c69434", 3)}<circle cx="76" cy="28" r="18" fill="#f3c955" ${ink(3)}/><circle cx="64" cy="37" r="3" fill="#ffa798"/><circle cx="88" cy="37" r="3" fill="#ffa798"/>`,
       front: `${eye(68, 33, 2)}${eye(84, 33, 2)}<path d="M76 16l1.4 2.6 2.6 1.4-2.6 1.4-1.4 2.6-1.4-2.6-2.6-1.4 2.6-1.4Z" fill="#f3c955"/>${line("M71 40Q76 44 81 40", INK, 2.4)}` },
     "ص": { id: "shell", word: "صَدَفَة", en: "seashell", call: "ripple", fill: "#ee806f",
-      back: `<path d="M0 84Q50 76 100 84V98H0Z" fill="#e5dcc8"/><path d="M56 60Q54 20 80 22Q106 26 102 60Z" fill="#ffa798" ${ink(3)}/>${line("M62 30L64 24M74 26V20M86 26L88 20M97 34L101 30", "#c25a49", 2.4)}` },
+      back: `<path d="M2 88Q50 76 98 88Q94 97 50 97Q6 97 2 88Z" fill="#e5dcc8"/><path d="M56 60Q54 20 80 22Q106 26 102 60Z" fill="#ffa798" ${ink(3)}/>${line("M62 30L64 24M74 26V20M86 26L88 20M97 34L101 30", "#c25a49", 2.4)}` },
     "ض": { id: "frog", word: "ضِفْدَع", en: "frog", call: "friend-frog", fill: "#b7e779", dot: "#fffdf7",
       back: `<ellipse cx="50" cy="88" rx="42" ry="8" fill="#4e9677"/>`,
       front: `${eye(78, 28, 2)}<circle cx="91" cy="35" r="5" fill="#fffdf7" ${ink(2.4)}/>${eye(91, 35, 2)}${line("M70 53Q80 57 90 51", INK, 1.6)}<path d="M16 54Q6 58 8 66L19 64" fill="#b7e779" ${ink(2.4)}/>` },
@@ -88,20 +95,20 @@
       back: `<path d="M24 22H80V64H24Z" fill="#fffaf0" ${ink(3)}/>${line("M62 32H74M62 40H74M62 48H74M28 32H40M28 40H40M28 48H40", "#c9bda4", 2.4)}`,
       front: line("M56 34Q46 38 54 42Q46 46 54 50", "#ee806f", 4) },
     "ل": { id: "lemon", word: "لَيْمُون", en: "lemon", call: "drip", fill: "#4e9677",
-      back: `<ellipse cx="42" cy="66" rx="12" ry="9" fill="#ffe49a" ${ink(3)}/>${line("M36 62q3-3 7-3", "#fffdf7", 3)}`,
-      front: `<path d="M64 18Q76 8 86 16Q76 24 64 20Z" fill="#7fce54" ${ink(2.4)}/>` },
+      back: `<path d="M26 66Q24 63 28 62Q32 54 42 54Q52 54 56 62Q60 63 58 66Q60 69 56 70Q52 78 42 78Q32 78 28 70Q24 69 26 66Z" fill="#f3c955" ${ink(3)}/>${line("M33 60q4-3 9-3", "#fffdf7", 3)}`,
+      front: `<path d="M64 18Q76 8 86 16Q76 24 64 20Z" fill="#7fce54" ${ink(2.4)}/>${eye(37, 66)}${eye(47, 66)}${line("M39 71q3 2 6 0", INK, 1.6)}` },
     // Meem's friend is the key — مِفْتَاح, the word this whole app is named for.
     "م": { id: "key", word: "مِفْتَاح", en: "key", call: "clink", fill: "#f3c955",
       front: `<circle cx="56" cy="42" r="3.6" fill="#fffaf0" ${ink(1.6)}/><path d="M43 71h-9v5h9Z" fill="#f3c955" ${ink(2.4)}/><path d="M43 79h-9v5h9Z" fill="#f3c955" ${ink(2.4)}/>${line("M50 36q3-3 7-3", "#fffdf7", 3)}` },
-    "ن": { id: "bee", word: "نَحْلَة", en: "bee", call: "friend-bee", fill: "#ee806f", dot: "#f3c955",
-      back: `${line("M52 78V99", "#4e9677", 4)}<path d="M22 42Q14 30 26 28Q30 36 26 44Z" fill="#ffa798" ${ink(2.4)}/><path d="M82 40Q90 28 78 26Q74 34 78 42Z" fill="#ffa798" ${ink(2.4)}/>`,
-      front: `<ellipse cx="48" cy="23" rx="5" ry="3.6" fill="#ccfbef" ${ink(1.6)}/><ellipse cx="56" cy="23" rx="5" ry="3.6" fill="#ccfbef" ${ink(1.6)}/>${line("M51 27v6M54 27v6", INK, 1.6)}${line("M58 32q10 4 15-6", INK, 1.6)}` },
+    "ن": { id: "bee", word: "نَحْلَة", en: "bee", call: "friend-bee", fill: "#f3c955", dot: "#e8743c",
+      back: `<ellipse cx="88" cy="56" rx="7" ry="12" transform="rotate(30 88 56)" fill="#ccfbef" ${ink(2.4)}/><ellipse cx="96" cy="64" rx="5" ry="9" transform="rotate(60 96 64)" fill="#ccfbef" ${ink(2.4)}/><path d="M17 44L22 31L27 44Z" fill="${INK}"/>`,
+      front: `${line("M20.6 69L27.4 63M39.2 78.3L42 69.7M62.7 69.6L65.5 78.2M73 63.1L80 68.9", INK, 3)}<circle cx="84" cy="34" r="10" fill="#f3c955" ${ink(3)}/>${line("M80 25Q78 16 73 15M88 25Q91 16 96 16", INK, 1.6)}${eye(81, 33)}${eye(88, 33)}${line("M82 38q2.4 2 5 0", INK, 1.6)}<circle cx="78" cy="37" r="1.8" fill="#ffa798"/>` },
     "ه": { id: "hoopoe", word: "هُدْهُد", en: "hoopoe", call: "friend-hoopoe", fill: "#ffa798",
       back: `<path d="M40 30L34 10L42 22L46 5L50 22L58 10L54 30Z" fill="#e8743c" ${ink(2.4)}/>`,
       front: `<path d="M31 50Q16 50 9 58Q18 56 31 56Z" fill="#a89478" ${ink(1.6)}/>${eye(37, 52, 2)}${line("M65 52l6 2M65 60l7 1M63 68l6 3", INK, 3)}${line("M45 79l-2 11M56 79l2 11", INK, 2.4)}` },
     "و": { id: "rose", word: "وَرْدَة", en: "rose", call: "chime", fill: "#ee806f",
-      back: `<path d="M38 44Q34 28 50 28Q66 28 64 44Q66 60 50 60Q34 60 38 44Z" fill="#ffa798" ${ink(3)}/>`,
-      front: `<path d="M44 72Q34 62 30 70Q36 78 44 72Z" fill="#7fce54" ${ink(2.4)}/>` },
+      back: `${[[50, 30], [64, 38], [62, 54], [38, 54], [36, 38]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="10" fill="#ffa798" ${ink(3)}/>`).join("")}<circle cx="50" cy="45" r="13" fill="#ffa798"/>`,
+      front: `${line("M58 56Q64 66 52 76Q40 84 26 80", "#7fce54", 8)}<path d="M44 72Q34 62 30 70Q36 78 44 72Z" fill="#7fce54" ${ink(2.4)}/><path d="M58 68l6 1-4 4Z" fill="${INK}"/>${line("M47 40q3-4 7-1", "#c25a49", 2.4)}` },
     "ي": { id: "dove", word: "يَمَامَة", en: "dove", call: "friend-dove", fill: "#fffdf7", dot: "#ffa798",
       back: `<path d="M40 66Q54 54 70 64Q56 76 40 72Z" fill="#ccfbef" ${ink(2.4)}/>`,
       front: `${eye(64, 41)}<path d="M70 38l7 2-7 3Z" fill="#f3c955" ${ink(1.6)}/><path d="M30 54L15 46L19 59Z" fill="#fffdf7" ${ink(2.4)}/>` },

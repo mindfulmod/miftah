@@ -1,12 +1,62 @@
 // A small, wordless home for earned rewards. Layout never changes ownership.
 (function(ns){
   const icon = (size=48) => `<svg width="${size}" height="${size}" viewBox="0 0 64 64" aria-hidden="true"><path d="M8 40Q32 29 56 40L50 54Q32 61 14 54Z" fill="#b7e779"/><path d="M11 47Q31 56 53 47L50 54Q32 61 14 54Z" fill="#4e9677"/><path d="M26 43V23M26 37Q12 37 15 27Q25 26 26 37" fill="#7fce54" stroke="#4a3620" stroke-width="2.4"/><g fill="#ee806f" stroke="#4a3620" stroke-width="1.6"><circle cx="26" cy="14" r="7"/><circle cx="19" cy="20" r="7"/><circle cx="33" cy="20" r="7"/><circle cx="26" cy="26" r="7"/></g><circle cx="26" cy="20" r="5" fill="#f3c955"/><path d="M42 42L52 16Q56 12 58 17L48 45Z" fill="#fffaf0" stroke="#4a3620" stroke-width="2.4"/><path d="M42 41Q32 45 38 53Q48 53 48 44" fill="#ee806f" stroke="#4a3620" stroke-width="2.4"/></svg>`;
-  const landscape = () => `<svg class="decorate-land" viewBox="0 0 600 480" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="decorate-soil" x2="0" y2="1"><stop stop-color="#b7e779"/><stop offset="1" stop-color="#4e9677"/></linearGradient></defs><ellipse cx="300" cy="428" rx="274" ry="37" fill="#2f5c46" opacity=".22"/><path d="M24 175Q37 116 160 109Q280 85 416 111Q569 121 579 190L574 377Q565 438 302 449Q40 438 28 382Z" fill="#e5dcc8"/><path d="M30 175Q39 121 161 116Q281 91 417 118Q562 128 572 190L567 371Q557 425 302 437Q46 426 35 376Z" fill="url(#decorate-soil)"/><path d="M39 194Q136 134 256 171Q405 209 566 154" fill="none" stroke="#b7e779" stroke-width="8" opacity=".65"/><path d="M564 257Q497 235 491 313Q484 362 539 390L567 371Z" fill="#e5dcc8"/><path d="M562 271Q510 253 506 312Q499 345 553 376L564 365Z" fill="#62cdf4"/><path d="M518 294Q541 288 562 298M518 325Q541 319 563 330" stroke="#ccfbef" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M44 309Q24 287 42 270Q51 284 47 303M45 310Q62 281 77 293Q73 309 45 310" fill="#2f5c46" opacity=".6"/></svg>`;
-  const plus = '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 14V34M14 24H34" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>';
+  // v112: the garden island in the pet's language — a chunky rounded slab
+  // (flat grass top + one shine, soil sides with colour-matched layers and
+  // pebbles, a scalloped turf edge, the pond with ripples), tufts and tiny
+  // flowers around the rim. The classic island stays as landscapeClassic.
+  const landscapeClassic = () => `<svg class="decorate-land" viewBox="0 0 600 480" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="decorate-soil" x2="0" y2="1"><stop stop-color="#b7e779"/><stop offset="1" stop-color="#4e9677"/></linearGradient></defs><ellipse cx="300" cy="428" rx="274" ry="37" fill="#2f5c46" opacity=".22"/><path d="M24 175Q37 116 160 109Q280 85 416 111Q569 121 579 190L574 377Q565 438 302 449Q40 438 28 382Z" fill="#e5dcc8"/><path d="M30 175Q39 121 161 116Q281 91 417 118Q562 128 572 190L567 371Q557 425 302 437Q46 426 35 376Z" fill="url(#decorate-soil)"/><path d="M39 194Q136 134 256 171Q405 209 566 154" fill="none" stroke="#b7e779" stroke-width="8" opacity=".65"/><path d="M564 257Q497 235 491 313Q484 362 539 390L567 371Z" fill="#e5dcc8"/><path d="M562 271Q510 253 506 312Q499 345 553 376L564 365Z" fill="#62cdf4"/><path d="M518 294Q541 288 562 298M518 325Q541 319 563 330" stroke="#ccfbef" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M44 309Q24 287 42 270Q51 284 47 303M45 310Q62 281 77 293Q73 309 45 310" fill="#2f5c46" opacity=".6"/></svg>`;
+  const tuftD = (x, y) => `<path d="M${x - 9} ${y}Q${x - 9} ${y - 12} ${x - 3} ${y - 15}M${x} ${y}Q${x} ${y - 15} ${x + 5} ${y - 19}M${x + 9} ${y}Q${x + 10} ${y - 10} ${x + 15} ${y - 12}" fill="none" stroke="#4e9677" stroke-width="4" stroke-linecap="round"/>`;
+  const daisyD = (x, y, c, d) => `${[0, 72, 144, 216, 288].map((a) => `<circle cx="${x}" cy="${y - 6}" r="6" fill="${c}" stroke="${d}" stroke-width="2.4" transform="rotate(${a} ${x} ${y})"/>`).join("")}<circle cx="${x}" cy="${y}" r="4.5" fill="#f3c955" stroke="#c69434" stroke-width="2.4"/>`;
+  // v118: at night the island's grass steps one shade down the green ramp
+  // (the planted treasures stay bright — they're the point of the screen).
+  const NIGHT_ISLAND = { "#7fce54": "#4e9677", "#b7e779": "#7fce54", "#4e9677": "#2f5c46", "#62cdf4": "#3a8fc4", "#ccfbef": "#96ecff" };
+  const nightIsland = (svg) => ns.LettersArt?.dayPhase?.() === "night" ? svg.replace(/#[0-9a-f]{6}/gi, (h) => NIGHT_ISLAND[h.toLowerCase()] || h) : svg;
+  const landscape = () => `<svg class="decorate-land" viewBox="0 0 600 480" preserveAspectRatio="none" aria-hidden="true">
+    <ellipse cx="300" cy="432" rx="274" ry="36" fill="#2f5c46" opacity=".22"/>
+    <path d="M28 190Q28 112 160 108Q300 92 440 110Q574 118 574 192V372Q574 440 302 450Q28 440 28 376Z" fill="#a89478" stroke="#4a3620" stroke-width="6" stroke-linejoin="round"/>
+    <path d="M48 414Q170 436 300 434Q440 432 552 410" fill="none" stroke="#70501b" stroke-width="3" stroke-linecap="round"/>
+    ${[[90, 420], [210, 434], [380, 432], [490, 418], [140, 432]].map(([x, y], i) => `<ellipse cx="${x}" cy="${y}" rx="${9 - i % 2 * 3}" ry="${6 - i % 2 * 2}" fill="#c9bda4" stroke="#70501b" stroke-width="2.4"/>`).join("")}
+    <path d="M28 190Q28 112 160 108Q300 92 440 110Q574 118 574 192V384Q500 408 440 392Q380 414 300 398Q220 416 160 394Q90 412 28 388Z" fill="#7fce54" stroke="#4a3620" stroke-width="6" stroke-linejoin="round"/>
+    <path d="M60 170Q140 134 250 150" fill="none" stroke="#b7e779" stroke-width="12" stroke-linecap="round" opacity=".8"/>
+    <path d="M150 210Q190 200 230 212M330 196Q370 186 410 198M220 330Q260 320 300 332M380 300Q420 290 460 302" fill="none" stroke="#4e9677" stroke-width="3" stroke-linecap="round"/>
+    <path d="M574 236Q506 222 500 276Q496 312 544 330Q560 334 574 326Z" fill="#62cdf4" stroke="#4a3620" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M520 262Q540 256 562 264M516 290Q538 284 560 292" fill="none" stroke="#ccfbef" stroke-width="4" stroke-linecap="round"/>
+    <ellipse cx="530" cy="310" rx="14" ry="6" fill="#7fce54" stroke="#4e9677" stroke-width="2.4"/>
+    ${tuftD(70, 380)}${tuftD(190, 392)}${tuftD(420, 388)}${tuftD(300, 230)}${tuftD(56, 168)}${tuftD(470, 140)}
+    ${daisyD(110, 160, "#ffa798", "#ee806f")}${daisyD(420, 128, "#e6d6f0", "#b49fcf")}${daisyD(300, 360, "#ffe49a", "#c69434")}
+  </svg>`;
+  // 2026-10-13: an empty space is a patch of freshly dug soil waiting for
+  // something — a "+" in a dashed box is a grown-up's "add" sign that a
+  // three-year-old can't read.
+  const plus = '<svg class="decorate-soil" viewBox="0 0 100 100" aria-hidden="true"><ellipse cx="50" cy="66" rx="42" ry="20" fill="#70501b" opacity=".18"/><path d="M10 62Q12 42 50 40Q88 42 90 62Q86 80 50 82Q14 80 10 62Z" fill="#a89478" stroke="#70501b" stroke-width="3" stroke-linejoin="round"/><path d="M22 58Q34 52 46 56M54 54Q66 50 78 57M30 68Q44 64 58 68M62 70Q70 67 76 69" fill="none" stroke="#70501b" stroke-width="2.4" stroke-linecap="round"/><circle cx="38" cy="62" r="2.4" fill="#70501b"/><circle cx="66" cy="62" r="2" fill="#70501b"/><circle cx="52" cy="73" r="2" fill="#70501b"/><path d="M18 50Q20 44 23 48M80 48Q83 43 85 49" fill="none" stroke="#7fce54" stroke-width="2.4" stroke-linecap="round"/></svg>';
   const removeIcon = '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M9 34Q24 25 39 34L35 41H13Z" fill="#e5dcc8" stroke="currentColor" stroke-width="3"/><path d="M24 30V8M15 17L24 8 33 17" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  // v58: keepsakes from same-theme chapters were identical (three picnic
+  // baskets, four fruit trees…). Each now hangs a little tag with its
+  // chapter's mark — a souvenir of THAT chapter, not a copy.
+  function keepsakeTag(item,art){
+    const mark=ns.LettersWorldMarks?.[item.worldId];
+    if(!mark||!art)return art;
+    const face=String(mark).startsWith('art:')?ns.LettersArt.artIcon(mark==='art:books'?'star':'book',20):mark;
+    return `${art}<span class="keepsake-tag" aria-hidden="true">${face}</span>`;
+  }
 
   function decorationArt(item,size=100){
     if(!item)return '';
+    if(item.kind==='keepsake')return keepsakeTag(item,keepsakeArt(item,size));
+    return baseArt(item,size);
+  }
+  function keepsakeArt(item,size){return baseArt(item,size);}
+  function baseArt(item,size=100){
+    if(!item)return '';
+    if(item.kind==='shell'){
+      // The pet's own egg shell: the bottom half on a grass tuft, its top leaning against it.
+      const sh=ns.LettersArt.eggShells?.({shell:item.shell});if(!sh)return '';
+      const at=(svg,x,y,w,h)=>svg.replace('<svg ',`<svg x="${x}" y="${y}" width="${w}" height="${h}" `);
+      return `<svg class="decorate-shell" viewBox="0 0 120 96" aria-hidden="true"><ellipse cx="60" cy="86" rx="50" ry="7" fill="#2f5c46" opacity=".18"/><path d="M14 84Q20 72 26 84M92 84Q99 70 106 84M30 85Q34 78 38 85" fill="#7fce54" stroke="#4e9677" stroke-width="1.6" stroke-linejoin="round"/><g class="shell-cup">${at(sh.cup,2,26,100,56)}</g><g class="shell-cap">${at(sh.cap,70,30,50,44)}</g></svg>`;
+    }
+    if(item.kind==='treasure')return ns.LettersRoomArt?.treasure?.(item.find,size)||'';
     if(item.kind==='sticker')return ns.LettersArt.sticker({id:item.stickerId,size});
     if(item.kind==='boat')return ns.LettersGardenArt.boat({stage:0});
     if(item.kind==='blanket')return `<svg viewBox="0 0 120 96" aria-hidden="true"><ellipse cx="60" cy="82" rx="56" ry="8" fill="#2f5c46" opacity=".18"/><path d="M8 72H112L110 79Q60 84 10 79Z" fill="#c25a49" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/><path d="M8 72L28 42H94L112 72Z" fill="#ee806f" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/><path d="M22 52H100M14 63H107M48 42L42 72M73 42L77 72" stroke="#fffdf7" stroke-width="6" opacity=".75"/><g class="blanket-cup"><path d="M84 40H98L96 54Q91 57 86 54Z" fill="#fffdf7" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/><path d="M98 44Q104 45 97 51" fill="none" stroke="#4a3620" stroke-width="2.4"/></g></svg>`;
@@ -24,10 +74,10 @@
       this.catalog=ctx.catalog;this.items=new Map(this.catalog.map(item=>[item.id,item]));
       this.selected=null;this.selectedSlot=null;this.undo=[];this.dragResets=[];
       const stage=ctx.stage;
-      stage.innerHTML=`<div class="decorate-board" aria-label="Your decorating garden">
-        ${landscape()}<button type="button" class="decorate-pet" aria-label="Play with your garden pet">${ctx.petArt()}</button><span class="decorate-pet-reaction" aria-hidden="true"></span>
-        ${Array.from({length:4},(_,i)=>`<button class="decorate-slot" type="button" data-slot="${i}" aria-label="Garden space ${i+1}"></button>`).join('')}
-        </div><div class="decorate-selection" hidden aria-live="polite"><span class="decorate-selection-preview"></span><span class="decorate-selection-arrow" aria-hidden="true">${ns.LettersArt.icon('arrow',24)}</span></div><div class="decorate-shelf"><button type="button" class="decorate-prev" aria-label="Previous decorations">${ns.LettersArt.icon('next',22)}</button><div class="decorate-tray" role="group" aria-label="Your earned decorations">${this.catalog.length?this.catalog.map(item=>`<button type="button" class="decorate-choice" data-decoration="${item.id}" aria-label="Place ${item.label}" aria-pressed="false">${decorationArt(item,76)}<span class="decorate-used" aria-hidden="true">${ns.LettersArt.icon('check',18)}</span></button>`).join(''):`<button type="button" class="decorate-earn" aria-label="Play a lesson to grow garden flowers">${ns.LettersGardenArt.practicePicture('DotGarden')}${ns.LettersArt.icon('next',28)}</button>`}</div><button type="button" class="decorate-more" aria-label="More decorations">${ns.LettersArt.icon('next',22)}</button></div>
+      stage.innerHTML=`<div class="decorate-board" data-spaces="${ns.LettersDecorations.size||4}" aria-label="Your decorating garden">
+        ${nightIsland(landscape())}<button type="button" class="decorate-pet" aria-label="Play with your garden pet">${ctx.petArt()}</button><span class="decorate-pet-reaction" aria-hidden="true"></span>
+        ${Array.from({length:ns.LettersDecorations.size||4},(_,i)=>`<button class="decorate-slot" type="button" data-slot="${i}" aria-label="Garden space ${i+1}"></button>`).join('')}
+        </div><div class="decorate-selection" hidden aria-live="polite"><span class="decorate-selection-preview"></span><span class="decorate-selection-arrow" aria-hidden="true">${ns.LettersArt.icon('arrow',24)}</span></div><div class="decorate-shelf"><button type="button" class="decorate-prev" aria-label="Previous decorations">${ns.LettersArt.icon('next',22)}</button><div class="decorate-tray" role="group" aria-label="Your earned decorations">${this.catalog.length?this.catalog.map(item=>`<button type="button" class="decorate-choice" data-decoration="${item.id}" aria-label="Place ${item.label}" aria-pressed="false">${decorationArt(item,76)}<span class="decorate-used" aria-hidden="true">${ns.LettersArt.icon('check',18)}</span></button>`).join('')+(this.catalog.every(item=>item.kind==='shell')?`<button type="button" class="decorate-earn" aria-label="Play a lesson to grow garden flowers">${ns.LettersGardenArt.practicePicture('DotGarden')}${ns.LettersArt.icon('next',28)}</button>`:''):`<button type="button" class="decorate-earn" aria-label="Play a lesson to grow garden flowers">${ns.LettersGardenArt.practicePicture('DotGarden')}${ns.LettersArt.icon('next',28)}</button>`}</div><button type="button" class="decorate-more" aria-label="More decorations">${ns.LettersArt.icon('next',22)}</button></div>
         <div class="decorate-tools"><button type="button" class="decorate-undo practice-button" aria-label="Undo garden change" disabled>${ns.LettersArt.icon('undo',30)}</button><button type="button" class="decorate-remove practice-button" aria-label="Return selected decoration to the tray" disabled>${removeIcon}</button><button type="button" class="decorate-done practice-button" aria-label="Finish decorating">${ns.LettersArt.icon('check',32)}</button></div>`;
       this.tray=stage.querySelector('.decorate-tray');
       const prev=stage.querySelector('.decorate-prev'),more=stage.querySelector('.decorate-more');
@@ -46,7 +96,9 @@
           // Tapping toy after toy plays them; it never swaps one onto another.
           // Moves go to empty spaces (or come from the tray).
           if(this.selected&&!(id&&this.selectedSlot!==null)){this.place(i,this.selected);return;}
-          if(!id)return;
+          // An empty space never ignores a tap: what can go there hops (or,
+          // with nothing grown yet, the card that leads to a lesson does).
+          if(!id){const hint=this.catalog.length?this.choices.find(c=>c.getClientRects().length):stage.querySelector('.decorate-earn');if(hint){hint.classList.remove('is-soon');void hint.offsetWidth;hint.classList.add('is-soon');}return;}
           // Paint first: painting redraws the slot, so the toy animates the fresh art.
           this.selected=id;this.selectedSlot=i;this.paint();
           this.playToy(i,this.items.get(id));
@@ -81,7 +133,7 @@
     // Pet travel for toys. Offsets are measured from the pet's home spot, so
     // a walk can start wherever the pet already is (on the blanket, say).
     later(fn,ms){const t=setTimeout(()=>{this.toyTimers.delete(t);if(this.alive)fn();},ms);(this.toyTimers||=new Set()).add(t);}
-    clearToys(){this.toyTimers?.forEach(clearTimeout);this.toyTimers?.clear();this.board?.querySelectorAll('.decorate-drops').forEach(el=>el.remove());}
+    clearToys(){this.toyTimers?.forEach(clearTimeout);this.toyTimers?.clear();this.board?.querySelectorAll('.decorate-drops,.decorate-shell-front').forEach(el=>el.remove());}
     toward(slot,{share=1,sit=false,seat=.76,across=.5}={}){
       const a=this.pet.getBoundingClientRect(),b=slot.getBoundingClientRect(),o=this.petOffset||{x:0,y:0};
       const hx=a.left+a.width/2-o.x,hy=a.top+a.height/2-o.y,hb=a.bottom-o.y;
@@ -118,6 +170,20 @@
       this.clearToys();
       const rig=this.rig,measurable=!!slot.getBoundingClientRect&&!!this.pet?.getBoundingClientRect;
       art.style.transformBox='fill-box';art.style.transformOrigin='50% 100%';
+      // Egg shell: the pet climbs back into the shell it hatched from and sits
+      // there, pleased, until tapped or called away.
+      if(item.kind==='shell'){
+        this.ctx.play?.('crack');
+        if(measurable){const to=this.toward(slot,{sit:true,seat:.86,across:.42});this.petTo(to.x,to.y,reduced?0:900,{sit:true});}
+        this.later(()=>{
+          // The shell's front rim is drawn again over the pet, so it sits IN the shell, not on it.
+          if(measurable&&this.board){const b=this.board.getBoundingClientRect(),r=art.getBoundingClientRect(),front=document.createElement('span');
+            front.className='decorate-shell-front';front.setAttribute('aria-hidden','true');
+            Object.assign(front.style,{left:`${r.left-b.left}px`,top:`${r.top-b.top}px`,width:`${r.width}px`,height:`${r.height}px`});
+            front.innerHTML=baseArt(item);this.board.appendChild(front);}
+          rig?.settle();rig?.cheer();if(!reduced)art.querySelector('.shell-cap')?.animate?.([{transform:'none'},{transform:'translateY(-6px) rotate(-10deg)'},{transform:'none'}],{duration:600});},reduced?0:900);
+        return;
+      }
       // Blanket: the pet is invited over and sits until tapped or called away.
       if(item.kind==='blanket'){
         this.ctx.play?.('rustle');
@@ -195,12 +261,15 @@
         if(!drag||drag.button!==button||(e&&e.pointerId!==drag.id))return;
         this.drag=null;
         button.classList.remove('is-drag-source');
-        this.ghost?.remove();this.ghost=null;
+        const ghost=this.ghost;this.ghost=null;
         if(button.hasPointerCapture(drag.id))button.releasePointerCapture(drag.id);
+        const i=drag.moved&&!cancel&&e?this.slots.findIndex(slot=>ns.GardenPractice.inside(slot,e.clientX,e.clientY)):-1;
+        // A decoration dropped on bare ground floats back to its shelf.
+        if(ghost&&i<0&&!cancel&&button.isConnected&&ghost.animate&&!this.ctx.reducedMotion?.()&&!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches){const b=button.getBoundingClientRect();ghost.animate([{left:ghost.style.left,top:ghost.style.top,opacity:1},{left:`${b.left+b.width/2}px`,top:`${b.top+b.height/2}px`,opacity:.4}],{duration:320,easing:'cubic-bezier(.4,0,.3,1)'}).onfinish=()=>ghost.remove();}
+        else ghost?.remove();
         if(drag.moved){
           suppressUntil=performance.now()+500;
           this.selected=drag.previous;this.selectedSlot=drag.previousSlot;
-          const i=!cancel&&e?this.slots.findIndex(slot=>ns.GardenPractice.inside(slot,e.clientX,e.clientY)):-1;
           if(i>=0)this.place(i,drag.asset);
           this.paint();
         }
@@ -251,7 +320,7 @@
         const item=this.items.get(ids[i]);button.innerHTML=item?decorationArt(item):plus;
         button.classList.toggle('is-filled',!!item);button.classList.toggle('is-target',!!this.selected);
         button.classList.toggle('is-picked',this.selectedSlot===i);
-        button.disabled=!this.catalog.length;
+        if(this.catalog.length)button.removeAttribute('aria-disabled');else button.setAttribute('aria-disabled','true');
         button.setAttribute('aria-pressed',String(this.selectedSlot===i));
         button.setAttribute('aria-label',`Garden space ${i+1}${item?', '+item.label:', empty'}${this.selected?', place '+this.items.get(this.selected).label:''}`);
       });
@@ -278,4 +347,5 @@
   }
   ns.DecoratingGarden=DecoratingGarden;
   ns.DecoratingGarden.icon=icon;
+  ns.DecoratingGarden.art=decorationArt; // v58: for the QA art gallery
 })(window.MiftahGame||(window.MiftahGame={}));

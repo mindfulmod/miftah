@@ -26,6 +26,8 @@
 .lg-home .map-play-places button:focus-visible{outline:4px solid var(--lg-focus);outline-offset:3px}
 .lg-home .map-stop:focus-visible{outline:4px solid var(--lg-focus);outline-offset:8px;border-radius:50%}
 @media(min-width:1000px){.lg-home .map-node{width:160px;height:160px}.lg-home .map-here .art-pet{width:84px}.lg-home .map-daily-row{position:absolute;left:24px;top:12px;margin:0}.lg-home .map-play-places{position:absolute;left:50%;top:12px;transform:translateX(-50%);margin:0;gap:14px}.lg-home .map-scroll{scroll-padding-top:100px}.lg-screen.lg-home>.lg-topbar{min-height:74px}}
+/* iPad landscape (1024–1279px): centred, the play places ran under the daily tray (63px overlap at 1024) — sit them beside the sound button instead. */
+@media(min-width:1000px) and (max-width:1279px){.lg-home .map-play-places{left:auto;right:118px;transform:none}}
 @media(max-width:600px){.lg-home .map-landmark{width:clamp(104px,29vw,145px)}.lg-home .map-boat-landmark{width:clamp(130px,38vw,178px)}.lg-home .map-play-places{margin:4px 0 10px}.lg-home .map-daily-row{margin-top:2px}}
 @media(prefers-reduced-motion:reduce){.lg-home .map-stop,.lg-home .map-stop-art,.lg-home .map-stop::before{animation:none!important;transition:none!important}}
 .lg-reduce-motion .lg-home .map-stop,.lg-reduce-motion .lg-home .map-stop-art,.lg-reduce-motion .lg-home .map-stop::before{animation:none!important;transition:none!important}
@@ -49,7 +51,11 @@
  .lg-screen.lg-home .map-play-places button>svg:first-child{width:42px;height:42px}
  .lg-screen.lg-home .map-play-places button>svg:last-child{width:16px;height:16px}
  .lg-screen.lg-home .map-scroll{scroll-padding-top:80px}
+ /* v58: the place buttons sat at a fixed left:234px, which assumed a narrower daily strip — with its five 56px buttons (the small-hands minimum) the strip runs to 328px, and the practice, decorate and garden buttons covered the pet and rewards buttons. They now sit from the right, clear of the sound button. */
+ .lg-app .lg-screen.lg-home .map-play-places{left:auto;right:112px}
 }
+/* …and on the narrowest sideways phones (667px) they slim a little so all three fit beside the strip. */
+@media(min-width:540px) and (max-width:760px) and (max-height:500px){.lg-app .lg-screen.lg-home .map-play-places{gap:6px}.lg-app .lg-screen.lg-home .map-play-places button{width:64px}}
 
 /* Update 2: the pet walks the trail and landmarks are touch toys. */
 .lg-home .map-here>*{transform:scaleX(var(--face,1));transition:transform 160ms var(--lg-out,ease-out)}
@@ -114,3 +120,80 @@
 .wo-dot.is-current{animation:wo-pulse 1.2s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:50% 50%}
 @keyframes wo-pulse{to{transform:scale(1.25)}}
 .lg-reduce-motion .wo-dot.is-current{animation:none}
+/* v58: on the narrowest phones (≈300px) the three place buttons were 303px in a 278px row, so the practice button hung off the left edge. They tighten to fit. */
+@media(max-width:340px){.lg-app .lg-home .map-play-places{gap:8px}.lg-app .lg-home .map-play-places .map-practice-garden{width:104px}.lg-app .lg-home .map-play-places .map-practice-garden>svg:first-child{width:62px;height:42px}.lg-app .lg-home .map-play-places .map-decorate{width:84px}}
+/* 2026-10-13: the map pet dozes when the map is left quiet; z z float up
+   (a pseudo-element, so the pet's left/right flip never mirrors the z). */
+.lg-home .map-here.is-dozing::after{content:"z z";position:absolute;right:-18px;top:-20px;font:700 22px ui-rounded,system-ui,sans-serif;color:#6064a0;letter-spacing:2px;pointer-events:none;animation:walk-zz 2.4s ease-in-out infinite}
+@media (prefers-reduced-motion: reduce){.lg-home .map-here.is-dozing::after{animation:none}}
+.lg-reduce-motion .lg-home .map-here.is-dozing::after{animation:none}
+/* 2026-10-13: the practice garden before it opens — full colour, with a
+   seedling in a pot where the arrow goes. A tap makes the seedling sway and
+   the hand points to the chapter that opens it. */
+.lg-app .map-practice-garden.is-growing{opacity:1;cursor:pointer;gap:6px}
+.lg-app .map-practice-garden.is-growing>svg:first-child{filter:none}
+.lg-app .map-practice-garden .mpg-sprout{display:block;line-height:0;transform-origin:50% 90%}
+.lg-app .map-practice-garden .mpg-sprout svg{display:block}
+.lg-app .map-practice-garden.is-growing.is-soon .mpg-sprout{animation:mpg-sway .7s cubic-bezier(.3,1.6,.5,1)}
+@keyframes mpg-sway{30%{transform:rotate(-12deg) scale(1.12)}65%{transform:rotate(8deg)}}
+@media (prefers-reduced-motion: reduce){.lg-app .map-practice-garden.is-growing.is-soon .mpg-sprout{animation:none}}
+.lg-reduce-motion .lg-app .map-practice-garden.is-growing.is-soon .mpg-sprout,.lg-app.lg-reduce-motion .map-practice-garden.is-growing.is-soon .mpg-sprout{animation:none}
+/* 2026-10-13: today's treasure on the map — it sits in the grass with a
+   slow glint so it is noticed, and is a big friendly tap target. */
+.lg-home .map-find{position:absolute;z-index:4;width:64px;height:64px;margin:-32px 0 0 -32px;padding:6px;border:0;border-radius:50%;background:radial-gradient(closest-side,#fffaf0cc,#fffaf000);cursor:pointer;display:grid;place-items:center;animation:map-find-bob 2.6s ease-in-out infinite}
+.lg-home .map-find svg{display:block;width:52px;height:52px}
+.lg-home .map-find .map-find-glint{position:absolute;right:4px;top:2px;width:18px;height:18px;background:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%22-10 -10 20 20%22%3E%3Cpath d=%22M0-9Q0 0 9 0Q0 0 0 9Q0 0-9 0Q0 0 0-9Z%22 fill=%22%23ffe49a%22 stroke=%22%23c69434%22 stroke-width=%221.6%22/%3E%3C/svg%3E") center/contain no-repeat;animation:map-find-glint 1.8s ease-in-out infinite}
+@keyframes map-find-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes map-find-glint{0%,100%{transform:scale(.5) rotate(0);opacity:.3}50%{transform:scale(1.1) rotate(45deg);opacity:1}}
+@media (prefers-reduced-motion: reduce){.lg-home .map-find,.lg-home .map-find .map-find-glint{animation:none}}
+.lg-reduce-motion .lg-home .map-find,.lg-reduce-motion .lg-home .map-find .map-find-glint{animation:none}
+.lg-home .map-album.is-soon{animation:lg-soon .6s cubic-bezier(.3,1.6,.5,1)}
+
+/* 2026-10-16: the pet is the star of the map — it stood at 68px beside
+   114px stops. Toddlers look first at the biggest moving character. */
+.lg-home .map-here .art-pet, .lg-home .map-here > svg { width: 88px; height: auto; }
+@media (min-width: 1000px) { .lg-home .map-here .art-pet, .lg-home .map-here > svg { width: 108px; } }
+@media (min-width: 1000px) { .lg-home .map-find { margin-top: 0; } }
+/* 2026-10-16: today's visiting letter friend beside a finished stop. */
+.lg-home .map-visitor{position:absolute;z-index:4;width:72px;height:80px;margin:-80px 0 0 -36px;padding:0;border:0;background:none;cursor:pointer;display:grid;place-items:end center}
+.lg-home .map-visitor svg{display:block;width:66px;height:auto}
+.lg-home .map-visitor::after{content:"";position:absolute;left:14px;right:14px;bottom:-2px;height:8px;border-radius:50%;background:#2f5c46;opacity:.18;z-index:-1}
+@media (min-width:1000px){.lg-home .map-visitor{width:92px;height:100px;margin:-100px 0 0 -46px}.lg-home .map-visitor svg{width:86px}}
+/* 2026-10-16: tomorrow's bud — calm, no glint (nothing to collect today). */
+.lg-home .map-bud{position:absolute;z-index:4;width:60px;height:60px;margin:-30px 0 0 -30px;padding:4px;border:0;background:none;cursor:pointer}
+.lg-home .map-bud svg{display:block;width:100%;height:100%}
+.lg-home .map-bud svg path:last-child{animation:walk-zz 2.4s ease-in-out infinite}
+@media (min-width:1000px){.lg-home .map-bud{margin-top:0}}
+@media (prefers-reduced-motion: reduce){.lg-home .map-bud svg path:last-child{animation:none}}
+.lg-reduce-motion .lg-home .map-bud svg path:last-child{animation:none}
+/* 2026-10-16: the occasional balloon visitor drifts across the top of the map. */
+.lg-home .map-balloon{position:absolute;z-index:6;top:230px;left:-110px;width:86px;height:118px;padding:0;border:0;background:none;cursor:pointer;animation:map-balloon-drift 22s linear forwards}
+.lg-home .map-balloon-art{position:absolute;inset:0;width:100%;height:100%}
+.lg-home .map-balloon-rider{position:absolute;left:50%;bottom:24px;width:54px;transform:translateX(-50%);pointer-events:none}
+.lg-home .map-balloon-rider svg{display:block;width:54px;height:auto;filter:drop-shadow(0 2px 0 #fffaf0)}
+@keyframes map-balloon-drift{0%{transform:translate(0,0)}25%{transform:translate(30vw,-14px)}50%{transform:translate(60vw,6px)}75%{transform:translate(90vw,-10px)}100%{transform:translate(calc(100vw + 120px),0)}}
+@media (prefers-reduced-motion: reduce){.lg-home .map-balloon{display:none}}
+.lg-reduce-motion .lg-home .map-balloon{display:none}
+/* ---------- v64 The Garden Village (2026-10-16) ---------- */
+.lg-app .lg-village { padding: 0; }
+.lg-app .lg-village > .lg-topbar { position: absolute; left: 0; right: 0; top: 0; z-index: 5; padding: max(10px, env(safe-area-inset-top)) 12px 0; pointer-events: none; }
+.lg-app .lg-village > .lg-topbar > * { pointer-events: auto; }
+.lg-app .vg-stage { position: absolute; inset: 0; background: linear-gradient(180deg, #96ecff 0 34%, #7fce54 34%); }
+.lg-app[data-garden-phase="night"] .vg-stage { background: linear-gradient(180deg, #23253f 0 34%, #2f5c46 34%); }
+.lg-app .vg-scene { display: block; width: 100%; height: 100%; }
+.lg-app .vg-spot, .lg-app .vg-pet, .lg-app .vg-find, .lg-app .vg-bud { cursor: pointer; outline: none; }
+.lg-app .vg-spot-in, .lg-app .vg-find-in { transform-box: fill-box; transform-origin: 50% 100%; }
+.lg-app .vg-spot:focus-visible .vg-spot-in { filter: drop-shadow(0 0 0 #e8743c) drop-shadow(0 0 6px #e8743c); }
+.lg-app .vg-spot[data-go="journey"] .vg-medal { transform-box: fill-box; transform-origin: 50% 0; animation: vg-swing 3.2s ease-in-out infinite; }
+@keyframes vg-swing { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+.lg-app .vg-pool { animation: vg-pool 3.2s ease-in-out infinite; }
+@keyframes vg-pool { 50% { opacity: .65; } }
+.lg-app .vg-find-in { animation: map-find-bob 2.6s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .lg-app .vg-spot[data-go="journey"] .vg-medal, .lg-app .vg-pool, .lg-app .vg-find-in { animation: none; } }
+.lg-app.lg-reduce-motion .vg-spot[data-go="journey"] .vg-medal, .lg-app.lg-reduce-motion .vg-pool, .lg-app.lg-reduce-motion .vg-find-in { animation: none; }
+/* the map, one level in: header rows live in the village; a cottage leads back */
+.lg-home.has-village .map-daily-row, .lg-home.has-village .map-play-places { display: none !important; }
+.lg-home .map-village { position: absolute; z-index: 6; left: max(12px, env(safe-area-inset-left)); top: max(10px, env(safe-area-inset-top)); width: 64px; height: 64px; padding: 6px; border: 3px solid #4a3620; border-radius: 50%; background: #fffaf0; box-shadow: 0 4px 0 #c9bda4; cursor: pointer; display: grid; place-items: center; }
+.lg-home .map-village svg { display: block; width: 44px; height: 44px; }
+/* v65: repeated landmarks vary in size and facing (set per stop). */
+.lg-home .map-landmark > svg { transform: scale(calc(var(--lm-s, 1) * var(--lm-f, 1)), var(--lm-s, 1)); transform-origin: 50% 90%; }

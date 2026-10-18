@@ -37,10 +37,48 @@
     star3: 24,
     ayahComplete: [12, 50, 18, 50, 24],
     perfect: [12, 40, 16, 40, 20, 40, 32],
+    // Tactile pass (v55): presses, pops, and the grain of sand and mud.
+    press: 6,
+    softwrong: 24,
+    sand: 4,
+    blob: 8,
+    chick: 10,
+    splash: 14,
   };
 
   const supported =
     typeof navigator !== "undefined" && typeof navigator.vibrate === "function";
+
+  // Tactile pass (v55): iPhone and iPad. Safari has no Vibration API, but
+  // since iOS 18 toggling a native switch control (<input type="checkbox"
+  // switch>) plays the system's own light haptic tick, and a label click
+  // toggles it. So on iOS a tick is: a hidden label + switch, clicked, then
+  // removed. It only fires during (or just after) a real touch, which is
+  // exactly when we want it. One fixed tick, so patterns become ticks at the
+  // pattern's buzz times. Rate-limited so scrubbing never becomes a rattle.
+  const ios = !supported && typeof navigator !== "undefined" && typeof document !== "undefined" &&
+    (/iP(hone|ad|od)/.test(navigator.userAgent || "") || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1));
+  let lastTick = 0;
+  function iosTick(gap = 45) {
+    const now = Date.now();
+    if (now - lastTick < gap) return false;
+    lastTick = now;
+    try {
+      const label = document.createElement("label");
+      label.setAttribute("aria-hidden", "true");
+      label.style.display = "none";
+      const input = document.createElement("input");
+      input.type = "checkbox";
+      input.setAttribute("switch", "");
+      label.appendChild(input);
+      document.head.appendChild(label);
+      label.click();
+      label.remove();
+      return true;
+    } catch {
+      return false;
+    }
+  }
 
   let enabled = true;
   try {
@@ -48,9 +86,19 @@
   } catch {}
 
   function pulse(name) {
-    if (!supported || !enabled) return false;
+    if (!enabled) return false;
     const pattern = PATTERNS[name];
     if (pattern === undefined) return false;
+    if (ios) {
+      // Grain textures tick at most ~8 times a second; a pattern ticks once
+      // per buzz (up to three).
+      if (name === "sand") return iosTick(120);
+      if (!Array.isArray(pattern)) return iosTick();
+      let at = 0;
+      pattern.forEach((ms, i) => { if (i % 2 === 0 && i < 6) setTimeout(() => iosTick(30), at); at += ms; });
+      return true;
+    }
+    if (!supported) return false;
     try {
       return navigator.vibrate(pattern);
     } catch {
@@ -91,6 +139,9 @@
     impact,
     toggle,
     supported,
+    // True when this device can be felt at all (Android buzz or iOS tick).
+    felt: supported || ios,
+    ios,
     get enabled() {
       return enabled;
     },

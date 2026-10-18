@@ -61,7 +61,7 @@ test("v27 Book Corner and walk: all games on one shelf; walks rotate association
   assert.match(game, /renderBookCorner\(\) \{/);
   for (const k of ["FriendBook", "FriendFind", "PeekFlaps", "SoundSort", "FriendShapes", "HoopoeTrip", "BusyMarket"]) assert.match(game, new RegExp(`\\['${k}',`));
   assert.match(game, /choices\.splice\(1,0,'BookCorner'\)/);
-  assert.match(source("GardenBrain.js"), /pickOne\(\["FriendFind", "PeekFlaps", "SoundSort", "FriendShapes", "FillGap"\]\)/);
+  assert.match(source("GardenBrain.js"), /pickOne\(\["FriendFind", "PeekFlaps", "SoundSort", "FriendShapes", "FillGap"/);
   assert.match(source("LettersState.js"), /FriendBook\|PeekFlaps\|SoundSort\|HoopoeTrip\|FriendShapes\|BusyMarket/);
   const html = fs.readFileSync(path.join(root, "letters.html"), "utf8");
   const sw = fs.readFileSync(path.join(root, "sw.js"), "utf8");

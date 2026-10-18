@@ -87,6 +87,29 @@
 
     // The letters a walk should carry, most due first, with one comfortable
     // letter to open on (an easy win is how a session should start).
+    // Smart Choices (v50): which wrong answers to offer beside a letter. While
+    // a letter is new (or for a little sprout) the others look nothing like it
+    // — a different body, different dots — so the first win is easy. Once the
+    // letter is known (skill ≥ 0.6) the others are its look-alikes: the same
+    // body with other dots (ب beside ت ث), then the same dots in the same
+    // place. In between, any letter. Big Brain Academy's "harder after right
+    // answers" without a visible level, a timer or a score.
+    others(target, pool, n, { skill = "name", beginner = false, rand = Math.random } = {}) {
+      const L = ns.LettersStrokes?.LETTERS || {};
+      const body = (c) => (L[c] || []).filter((s) => typeof s === "string").join("|");
+      const dots = (c) => (L[c] || []).filter((s) => s && s.dot).map((s) => s.dot);
+      const side = (c) => { const d = dots(c); return d.length ? (d[0][1] > 60 ? "below" : "above") : "none"; };
+      const like = (c) => (body(c) && body(c) === body(target) ? 3 : 0) + (dots(c).length === dots(target).length && side(c) === side(target) ? 1 : 0);
+      const cands = [...new Set(pool || [])].filter((c) => c && c !== target);
+      const level = beginner ? 0 : clamp(this.skills(target)?.[skill]);
+      const jitter = new Map(cands.map((c) => [c, rand()]));
+      const byChance = (a, b) => jitter.get(a) - jitter.get(b);
+      if (level >= 0.6) cands.sort((a, b) => like(b) - like(a) || byChance(a, b));
+      else if (level < 0.3) cands.sort((a, b) => like(a) - like(b) || byChance(a, b));
+      else cands.sort(byChance);
+      return cands.slice(0, Math.max(0, n));
+    }
+
     dueLetters(known, n = 4, now = Date.now()) {
       const chars = [...new Set((known || []).filter(Boolean))];
       if (!chars.length) return [];
@@ -120,7 +143,7 @@
     //   marks      harakat taught (Sound Lab available)
     //   date       YYYY-MM-DD (seeds the walk), profile id
     // Every stop is { kind, skill, letters } where kind is a practice activity.
-    planWalk({ known = [], sprout = false, marks = [], date = "", profile = "p1", huntable = true } = {}) {
+    planWalk({ known = [], sprout = false, marks = [], date = "", profile = "p1", huntable = true, reader = false } = {}) {
       if (!known.length) return null;
       const rand = seeded(`${date}:${profile}:${known.length}`);
       const pickOne = (list) => list[Math.floor(rand() * list.length)];
@@ -129,14 +152,14 @@
       const add = (kind, skill, items = letters) => stops.push({ kind, skill, letters: items.slice() });
       if (sprout) {
         add("LetterBalloons", "name", known.slice(0, 6));
-        if (known.length >= 2) add(pickOne(["FriendFind", "FriendShapes"]), "friend");
+        if (known.length >= 2) add(pickOne(["FriendFind", "FriendShapes", "FriendPairs", "BathTime"]), "friend");
         add("FriendBook", "friend", letters.slice(0, 1));
         return { date, stops };
       }
       add("Feed", "name");
       // The association stop rotates through the picture-book games (v27).
-      if (known.length >= 2) add(pickOne(["FriendFind", "PeekFlaps", "SoundSort", "FriendShapes", "FillGap"]), "friend");
-      add(pickOne(known.length >= 3 && huntable ? ["WaterGarden", "LetterHunt", "LetterDelivery", "DotsLast", "SameLetter", "EchoParade", "LanternHunt", "LetterShadows"] : ["WaterGarden", "LetterDelivery"]), "name");
+      if (known.length >= 2) add(pickOne(["FriendFind", "PeekFlaps", "SoundSort", "FriendShapes", "FillGap", "FriendPairs", "FriendJigsaw", "BathTime"]), "friend");
+      add(pickOne(known.length >= 3 && huntable ? ["WaterGarden", "LetterHunt", "LetterDelivery", "DotsLast", "SameLetter", "EchoParade", "LanternHunt", "LetterShadows", "LetterFishing", "LetterFishing", "DotNests", "SpotChange", "FamilyBuses", ...(reader ? ["ListenFind", "ListenFind", "WordGap"] : [])] : ["WaterGarden", "LetterDelivery", "LetterFishing"]), "name");
       // The weakest practisable skill gets the fourth stop.
       const can = ["write", "friend"];
       if (marks.length) can.push("sound");

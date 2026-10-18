@@ -1,0 +1,583 @@
+/* v65 — the UI material pass (2026-10-16, owner-approved art direction).
+   The interface was app-kit: cream rounded cards with grey drop shadows, the
+   loudest shapes on most screens. Now it is made of the garden's own
+   materials, matching the village:
+     - cards and panels: paper mounted in a honey-wood frame (ink outline,
+       wood border with a lit top edge, a darker wood "drop"), with a faint
+       paper grain;
+     - tabs: wooden plank tabs; the open one is paper, lifted, on gold;
+     - the reward star pill: a wooden plaque the gold stars sit on;
+     - trays and shelves: a wooden shelf with a lip.
+   One light: lit edges top-left, drops to the lower right. Palette only. */
+
+.lg-app {
+  --wood: #c69434; --wood-lit: #ffe49a; --wood-dark: #70501b; --ink: #4a3620;
+  --paper-grain: radial-gradient(circle at 20% 30%, #e5dcc855 0 1px, transparent 1.6px) 0 0 / 14px 14px, radial-gradient(circle at 70% 70%, #e5dcc844 0 1px, transparent 1.6px) 0 0 / 18px 18px;
+}
+
+/* Paper in a wooden frame: game tiles in the practice garden and its hubs. */
+.lg-app .practice-garden-choices button {
+  border: 4px solid var(--wood);
+  background: var(--paper-grain), #fffaf0;
+  box-shadow: 0 0 0 3px var(--ink), inset 0 2px 0 var(--wood-lit), 0 7px 0 3px var(--wood-dark);
+}
+.lg-app .practice-garden-choices button:active { box-shadow: 0 0 0 3px var(--ink), inset 0 2px 0 var(--wood-lit), 0 3px 0 3px var(--wood-dark); }
+
+/* Panels (sticker album, word shelf, wardrobe shelf, stages): paper on wood. */
+.lg-app .lg-panel:not(.stars-stage):not(.party-stage):not(.meet-stage):not(.play-prompt) {
+  border-color: var(--ink);
+  background-image: var(--paper-grain);
+  box-shadow: inset 0 0 0 4px var(--wood), inset 0 0 0 6px var(--wood-lit), 0 6px 0 var(--wood-dark);
+}
+
+/* Album tabs: wooden plank tabs; the open page is paper on gold, lifted. */
+.lg-app .album-tab {
+  border: 3px solid var(--ink);
+  background: linear-gradient(180deg, var(--wood-lit) 0 3px, var(--wood) 3px 100%);
+  box-shadow: 0 4px 0 var(--wood-dark);
+}
+.lg-app .album-tab svg { filter: drop-shadow(0 1px 0 #fffaf0); }
+.lg-app .album-tab.is-on {
+  background: var(--paper-grain), #fffaf0;
+  box-shadow: 0 0 0 3px var(--wood-lit), 0 4px 0 var(--wood);
+  transform: translateY(-3px);
+}
+
+/* The star pill on the stars and party screens: a wooden plaque. */
+.lg-app .lg-party .party-stars, .lg-app .lg-stars .stars-row {
+  background: linear-gradient(180deg, var(--wood-lit) 0 4px, var(--wood) 4px 100%);
+  border: 3px solid var(--ink);
+  box-shadow: inset 0 -5px 0 #70501b55, 0 5px 0 var(--wood-dark);
+}
+.lg-app .stars-star svg { filter: drop-shadow(0 2px 0 #70501b); }
+
+/* Trays and shelves (garden tray, sticker-scene tray, wardrobe shelf): a wooden shelf with a lip. */
+.lg-app .decorate-tray, .lg-app .ss-tray, .lg-app .pet-room .pet-shelf {
+  border: 3px solid var(--ink);
+  background: var(--paper-grain), #fffaf0;
+  box-shadow: inset 0 -10px 0 var(--wood), inset 0 -13px 0 var(--wood-lit), 0 5px 0 var(--wood-dark);
+}
+
+/* Small round buttons (sound, replay): a paper disc on a wooden rim. */
+.lg-app .lg-round-btn:not(.lg-home-btn) { border-color: var(--ink); box-shadow: 0 0 0 3px var(--wood), 0 6px 0 2px var(--wood-dark), inset 0 3px 0 #fffdf7; }
+.lg-app .lg-round-btn:not(.lg-home-btn):active { box-shadow: 0 0 0 3px var(--wood), 0 2px 0 2px var(--wood-dark); }
+
+/* The play board: every practice game's stage is a paper board in a wooden
+   frame. Several toy and listening games (bath, puzzles, ears, costumes, the
+   word tree…) floated straight on the sky while the chapter games sat on
+   boards — the stage now always says "this is the table you play on". */
+.lg-app .lg-play .practice-stage:has(> :is(.tb, .pz, .bk, .sh, .vh, .ws, .wd, .ff, .ea, .ch, .wt-game)) {
+  box-sizing: border-box;
+  padding: 8px;
+  border-radius: 30px;
+  background: var(--paper-grain), linear-gradient(180deg, #fffdf7, #fffaf0 60%, #e5dcc8);
+  /* the whole frame is shadows: an ink ring outside, wood inside — no layout space taken */
+  box-shadow: 0 0 0 3px var(--ink), inset 0 0 0 5px var(--wood), inset 0 0 0 7px var(--wood-lit), 0 7px 0 3px var(--wood-dark);
+}
+@media (max-height: 600px), (max-width: 360px) {
+  .lg-app .lg-play .practice-stage:has(> :is(.tb, .pz, .bk, .sh, .vh, .ws, .wd, .ff, .ea, .ch, .wt-game)) { padding: 0; }
+}
+
+/* v66 — chapter step tiles (both the picture row and the boat adventure row).
+   They were cream app pills with a grey hairline and a mint "done" fill: the
+   last app-kit shapes on a game screen. Now they're the same material as the
+   rest of the UI: little paper tiles in honey-wood frames, joined by a
+   dotted sand trail. Finished steps glow gold (a warm "you did this"), the
+   step you're on now stands lifted in full ink, and upcoming steps are quiet
+   paper in a faint frame. They aren't dimmed or locked: nothing here says
+   "you can't". Sizes are unchanged; only materials change. */
+.lg-app :is(.journey-stop,.adventure-stop) {
+  border: 2px solid #c9bda4;
+  background: var(--paper-grain), #fffaf0;
+  box-shadow: inset 0 2px 0 #fffdf7, 0 3px 0 #c9bda4;
+}
+.lg-app :is(.journey-stop,.adventure-stop).is-done {
+  border-color: var(--wood);
+  background: linear-gradient(180deg, #fffdf7 0 18%, var(--wood-lit) 60%, #f3c955 100%);
+  box-shadow: 0 0 0 2px var(--ink), inset 0 2px 0 #fffdf7, 0 4px 0 2px var(--wood-dark);
+}
+.lg-app :is(.journey-stop.is-now,.adventure-stop[aria-current]) {
+  border-color: var(--wood);
+  background: var(--paper-grain), #fffdf7;
+  box-shadow: 0 0 0 2px var(--ink), inset 0 2px 0 var(--wood-lit), 0 4px 0 2px var(--wood-dark), 0 0 0 7px #ffe49a99;
+  transform: translateY(-2px);
+}
+/* The check badge: a green leaf-coin with an ink ring and a lit top. */
+.lg-app :is(.journey-stop,.adventure-stop) > i {
+  background: radial-gradient(circle at 35% 30%, #7fce54 0 30%, #4e9677 75%);
+  border: 2px solid var(--ink);
+  box-shadow: 0 2px 0 #2f5c46;
+}
+/* The links between steps: a dotted sand trail, gold once walked. */
+.lg-app .journey-route { gap: 16px; }
+.lg-app .journey-stop:not(:last-child)::after {
+  content: ''; position: absolute; left: calc(100% + 3px); top: calc(50% - 2px); width: 12px; height: 5px;
+  background: radial-gradient(circle, #c9bda4 0 2.2px, transparent 2.6px) 0 0 / 6px 5px repeat-x;
+}
+.lg-app :is(.journey-stop,.adventure-stop):not(:last-child)::after { border-radius: 0; }
+.lg-app .adventure-stop:not(:last-child)::after {
+  height: 5px; top: calc(50% - 2px);
+  background: radial-gradient(circle, #c9bda4 0 2.2px, transparent 2.6px) 0 0 / 7px 5px repeat-x;
+}
+.lg-app :is(.journey-stop,.adventure-stop).is-done:not(:last-child)::after {
+  background: radial-gradient(circle, var(--wood) 0 2.4px, transparent 2.8px) 0 0 / 7px 5px repeat-x;
+}
+@media (prefers-reduced-motion: reduce) { .lg-app :is(.journey-stop.is-now,.adventure-stop[aria-current]) { transform: none; } }
+.lg-reduce-motion :is(.journey-stop.is-now,.adventure-stop[aria-current]) { transform: none; }
+
+/* v67 — the second look. After a mix-up the game shows the child's pick
+   beside the letter it wanted. It was a cream app pill with an arrow from
+   one to the other, which reads as a correction slip: "yours → the right
+   one". Now it's a little spot-the-difference: two equal paper cards on a
+   slip in a wood frame, a magnifying glass between them, and the wanted
+   letter lit gold. The child's pick is never crossed out, faded or
+   marked; it stands as an equal, because the two really are look-alikes.
+   Sizes are unchanged (frames are shadows only). */
+.lg-app .learning-hint {
+  border-color: var(--wood);
+  background: var(--paper-grain), #fffaf0;
+  box-shadow: 0 0 0 3px var(--ink), inset 0 2px 0 var(--wood-lit), 0 5px 0 3px var(--wood-dark);
+}
+.lg-app .learning-compare {
+  border-radius: 12px;
+  background: #fffdf7;
+  box-shadow: inset 0 0 0 2px #e5dcc8, 0 2px 0 #c9bda4;
+}
+.lg-app .learning-compare.is-target {
+  border-bottom: 0;
+  background: linear-gradient(180deg, #fffdf7 0 30%, var(--wood-lit) 100%);
+  box-shadow: inset 0 0 0 2px var(--wood), 0 2px 0 var(--wood-dark), 0 0 0 5px #ffe49a99;
+  animation: lg-second-look 1.4s ease-in-out 2;
+}
+.lg-app .learning-hint[data-feature="dots"] .learning-compare.is-target { box-shadow: inset 0 0 0 3px #f3c955, 0 2px 0 var(--wood-dark), 0 0 0 5px #ffe49a99; }
+.lg-app .learning-hint[data-feature="marks"] .learning-compare.is-target { box-shadow: inset 0 0 0 3px #ee806f, 0 2px 0 var(--wood-dark), 0 0 0 5px #ffa79899; }
+.lg-app .learning-look { display: grid; place-items: center; }
+.lg-app .learning-look > svg { display: block; transform: rotate(-8deg); }
+@keyframes lg-second-look { 50% { transform: translateY(-2px) scale(1.04); } }
+@media (prefers-reduced-motion: reduce) { .lg-app .learning-compare.is-target { animation: none; } }
+.lg-reduce-motion .learning-compare.is-target { animation: none; }
+
+/* v69 — progress that grows. The round dots under the prompt (and the dots
+   in the story/leaf games) were thin app rings, 9px on the play screen. Now
+   the row is a little seed row: rounds still to come are pale seeds, the
+   round you're on is a gold seed with a soft glow, and every round you've
+   finished has sprouted into a green leaf — so progress reads as "look how
+   much has grown", never as empty slots. Shapes are border-radius only. */
+.lg-app :is(.play-dots,.meet-dots,.bk-progress,.ayah-dots,.delivery-progress,.tb-progress,.dot-progress,.path-progress,.ff-progress,.sand-progress,.pz-progress,.wg-progress,.rt-dots) i {
+  border-radius: 50% 50% 50% 50% / 62% 62% 38% 38%;
+  border: 2px solid #a89478;
+  background: #e5dcc8;
+  box-shadow: inset 1px 1px 0 #fffaf0;
+}
+.lg-app .lg-play .play-dots i { width: 10px; height: 13px; }
+.lg-app :is(.play-dots,.meet-dots,.bk-progress,.ayah-dots,.delivery-progress,.tb-progress,.ff-progress,.sand-progress,.pz-progress,.wg-progress,.rt-dots) i.is-on {
+  border-color: var(--ink);
+  background: radial-gradient(circle at 35% 35%, #ffe49a 0 30%, #f3c955 70%);
+  box-shadow: 0 0 0 3px #ffe49a99;
+}
+.lg-app :is(.play-dots,.bk-progress,.ayah-dots,.delivery-progress,.tb-progress,.ff-progress,.sand-progress,.pz-progress,.wg-progress,.rt-dots) i.is-done, .lg-app :is(.dot-progress,.path-progress) i.is-on {
+  border-radius: 0 100%;
+  border-color: #2f5c46;
+  background: linear-gradient(135deg, #b7e779 0 35%, #7fce54 70%);
+  box-shadow: inset 1px 1px 0 #fffaf0;
+}
+.lg-app .lg-play .play-dots i.is-done { width: 12px; height: 12px; }
+
+/* v70 — the sticker stand's star savings. Five pips fill toward the next
+   visit, but with few stars they were grey outlines in a pale app pill: a
+   row of "you have none". Now they sit on the same wooden board as the map
+   stops' stars: an empty spot is a star-shaped hollow carved into the wood
+   (waiting to be filled, like a coin slot), and each saved star sits in its
+   hollow in gold. */
+.lg-app .stand-pips {
+  gap: 3px; padding: 5px 8px; border-radius: 10px;
+  background: linear-gradient(180deg, var(--wood-lit) 0 2px, var(--wood) 2px 100%);
+  box-shadow: 0 0 0 2.4px var(--ink), 0 3px 0 2.4px var(--wood-dark);
+}
+.lg-app .stand-pips i { color: #70501b; }
+.lg-app .stand-pips i svg path { stroke: #c69434; stroke-width: 1.6; }
+.lg-app .stand-pips i.is-on { color: #f3c955; }
+.lg-app .stand-pips i.is-on svg path { stroke: #4a3620; stroke-width: 2.4; }
+.lg-app .stand-pips i.is-on svg { filter: drop-shadow(0 1px 0 #ffe49a); }
+
+/* v70 — the chapter's friends at the party stood in translucent white app
+   circles. Now each is a paper coin in a honey-wood rim, lit top-left, with
+   the touchable ink edge, so the party's guests match the map's stops. */
+.lg-app .party-friend {
+  background: radial-gradient(circle at 35% 30%, #fffdf7 0 40%, #fffaf0 65%, #e5dcc8 100%);
+  box-shadow: 0 0 0 2.4px var(--ink), inset 0 0 0 3px var(--wood), inset 2px 3px 0 3px var(--wood-lit), 0 4px 0 2.4px var(--wood-dark);
+}
+
+/* v71 — the album as a colouring book. A sticker not found yet was a solid
+   beige blob on a beige die-cut on a beige slot: a fresh album was a wall of
+   dust. Now each missing sticker is its own line drawing in warm tan on
+   white paper, like a colouring page waiting for its colours, so the page
+   reads "things to find" instead of "things I don't have". Found stickers
+   are unchanged. */
+.lg-app .lg-album span.album-slot { background: #fffaf0; border: 2px dashed #e5dcc8; }
+.lg-app span.album-slot .art-sticker > g > path:nth-of-type(2) { fill: #fffdf7; stroke: #e5dcc8; }
+.lg-app span.album-slot .art-sticker > g > path:nth-of-type(1) { fill: #e5dcc8; }
+.lg-app .art-sticker-ghost * { stroke: #a89478; }
+.lg-app .art-sticker-ghost [fill]:not([fill="none"]) { fill: #fffdf7; }
+
+/* v72 — the wardrobe catches up with the album. Its category tabs were cream
+   app tabs (the open one mint), the star count a white app pill, and the
+   shelf arrows cream app buttons that faded to a cold 40% grey at the end of
+   the shelf. Now: plank tabs (the open one paper, lifted, on gold — same as
+   the album), the star count on a little wooden plaque, the arrows wooden
+   buttons, and an arrow with nothing more to show simply rests as quiet
+   paper, not a ghost. Sizes unchanged. */
+.lg-app .wardrobe-tabs button {
+  border-color: var(--ink);
+  background: linear-gradient(180deg, var(--wood-lit) 0 3px, var(--wood) 3px 100%);
+  box-shadow: 0 4px 0 var(--wood-dark);
+}
+.lg-app .wardrobe-tabs button svg { filter: drop-shadow(0 1px 0 #fffaf0); }
+.lg-app .wardrobe-tabs button[aria-selected=true] {
+  border-color: var(--ink);
+  background: var(--paper-grain), #fffaf0;
+  box-shadow: 0 0 0 3px var(--wood-lit), 0 4px 0 var(--wood);
+  transform: translateY(-3px);
+}
+.lg-app .lg-star-chip {
+  border-radius: 12px;
+  background: linear-gradient(180deg, var(--wood-lit) 0 3px, var(--wood) 3px 100%);
+  box-shadow: 0 0 0 1px var(--ink), 0 4px 0 1px var(--wood-dark);
+  color: #f3c955;
+}
+.lg-app .lg-star-chip svg path { stroke: var(--ink); }
+.lg-app .lg-star-chip b { color: #fffdf7; text-shadow: 0 2px 0 var(--ink), 0 0 2px var(--ink); }
+.lg-app :is(.wardrobe-prev,.wardrobe-more) {
+  border-color: var(--ink);
+  background: linear-gradient(180deg, var(--wood-lit) 0 3px, var(--wood) 3px 100%);
+  color: #fffdf7;
+  box-shadow: 0 4px 0 var(--wood-dark);
+}
+.lg-app :is(.wardrobe-prev,.wardrobe-more) svg { filter: drop-shadow(0 2px 0 var(--ink)); }
+.lg-app :is(.wardrobe-prev,.wardrobe-more):disabled {
+  opacity: 1; border-color: #c9bda4; background: #fffaf0; color: #c9bda4; box-shadow: 0 2px 0 #e5dcc8;
+}
+.lg-app :is(.wardrobe-prev,.wardrobe-more):disabled svg { filter: none; }
+@media (prefers-reduced-motion: reduce) { .lg-app .wardrobe-tabs button[aria-selected=true] { transform: none; } }
+
+/* v73 — "nothing more this way" is a resting state, never a ghost. The
+   remaining disabled buttons (decorate shelf arrows, the ayah reader's
+   back/next at either end, the delivery help buttons once used, the map's
+   play places, the practice tool buttons like the garden's undo) dropped to 30–45% opacity: a washed-out button reads as
+   broken, or as "not for you". They now rest as quiet paper at full
+   opacity with a faint frame, the same as the wardrobe arrows. The decorate
+   arrows themselves become wooden, like the wardrobe's. */
+.lg-app :is(.decorate-prev,.decorate-more) {
+  border-color: var(--ink);
+  background: linear-gradient(180deg, var(--wood-lit) 0 3px, var(--wood) 3px 100%);
+  color: #fffdf7;
+  box-shadow: 0 4px 0 var(--wood-dark);
+}
+.lg-app :is(.decorate-prev,.decorate-more) svg { filter: drop-shadow(0 2px 0 var(--ink)); }
+.lg-app :is(.decorate-prev,.decorate-more,.ayah-controls button,.delivery-support button,.map-play-places button,.practice-button,.fb-nav button,.lb-nav button):disabled {
+  opacity: 1; border-color: #c9bda4; background: #fffaf0; color: #c9bda4; box-shadow: 0 2px 0 #e5dcc8;
+}
+.lg-app :is(.decorate-prev,.decorate-more,.ayah-controls button,.delivery-support button,.map-play-places button,.practice-button,.fb-nav button,.lb-nav button):disabled svg { filter: none; opacity: .5; }
+/* v73: the garden's tool buttons never centred their icons — an inline svg
+   sat on the text baseline, low and to the left, so undo/remove/done looked
+   misprinted. Grid-centre them. */
+.lg-app .decorate-tools .practice-button { display: grid; place-items: center; }
+.lg-app .decorate-tools .practice-button > svg { display: block; }
+
+/* v74 — "hear it again" looks alive. The speaker in the pet's speech bubble
+   was 55% ink: grey, the colour of a switched-off control, on the one thing
+   a pre-reader most needs to know they can tap. It is now full ink on a soft
+   gold disc, so it reads as "tap me" without growing the bubble. */
+.lg-app .play-bubble-icon {
+  color: var(--ink);
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffe49a 0 58%, #ffe49a00 64%);
+}
+
+/* v75 — today's walk. Its stones were plain white discs on a thin grey
+   dotted line. Now the line is a sand trail (the village's) and each stone
+   is a paper coin in a honey-wood rim, lit top-left; a walked stone turns
+   gold-lit with its green check, and the next one keeps its warm halo. */
+.lg-app .walk-stone {
+  background: radial-gradient(circle at 35% 30%, #fffdf7 0 40%, #fffaf0 65%, #e5dcc8 100%);
+  box-shadow: 0 0 0 4px var(--ink), inset 0 0 0 5px var(--wood), inset 3px 4px 0 5px var(--wood-lit), 0 7px 0 4px var(--wood-dark);
+}
+.lg-app .walk-stone.is-done {
+  background: radial-gradient(circle at 35% 30%, #fffdf7 0 25%, var(--wood-lit) 60%, #f3c955 100%);
+  box-shadow: 0 0 0 4px var(--ink), inset 0 0 0 5px var(--wood), 0 7px 0 4px var(--wood-dark);
+}
+.lg-app .walk-stone.is-next {
+  box-shadow: 0 0 0 4px var(--ink), inset 0 0 0 5px var(--wood), inset 3px 4px 0 5px var(--wood-lit), 0 7px 0 4px var(--wood-dark), 0 0 0 11px #ffa06e;
+}
+@keyframes walk-next { 50% { box-shadow: 0 0 0 4px #4a3620, inset 0 0 0 5px #c69434, inset 3px 4px 0 5px #ffe49a, 0 7px 0 4px #70501b, 0 0 0 16px #ffe49a; } }
+
+/* v76 — the practice games' "hear it" letter card (.practice-replay) was a
+   cream app card: a child couldn't tell it was a button that speaks. Now it
+   is paper in a honey-wood frame, like the game tiles, with a little gold
+   speaker badge on its corner — the same gold "tap to hear" disc as the
+   pet's bubble (v74). */
+.lg-app .practice-replay {
+  position: relative;
+  border-color: var(--wood);
+  background: var(--paper-grain), #fffdf7;
+  box-shadow: 0 0 0 3px var(--ink), inset 0 2px 0 var(--wood-lit), 0 5px 0 3px var(--wood-dark);
+}
+.lg-app .practice-replay::after {
+  content: ''; position: absolute; top: -10px; right: -10px; width: 24px; height: 24px; border-radius: 50%; pointer-events: none;
+  background: #ffe49a url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 9.5h3l4-3.5v12l-4-3.5H5z' fill='%234a3620'/%3E%3Cpath d='M15 9q2 3 0 6' fill='none' stroke='%234a3620' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") center / 18px no-repeat;
+  box-shadow: 0 0 0 2px var(--ink), 0 2px 0 2px var(--wood-dark);
+}
+.lg-app .practice-replay[hidden]::after { display: none; }
+/* v76: the drawing, repair and delivery rows were 9–10px rings; same seed size as the play row. */
+.lg-app :is(.dot-progress,.path-progress,.delivery-progress) i { width: 10px; height: 13px; }
+.lg-app :is(.dot-progress,.path-progress) i.is-on, .lg-app .delivery-progress i.is-done { width: 12px; height: 12px; }
+/* v76: Dot Garden's "letters explored" row joins the seed row: seeds, then a leaf for each letter found. */
+.lg-app .dot-discoveries i { width: 10px; height: 13px; border: 2px solid #a89478; border-radius: 50% 50% 50% 50% / 62% 62% 38% 38%; background: #e5dcc8; box-shadow: inset 1px 1px 0 #fffaf0; }
+.lg-app .dot-discoveries i.is-found { width: 12px; height: 12px; border-radius: 0 100%; border-color: #2f5c46; background: linear-gradient(135deg, #b7e779 0 35%, #7fce54 70%); box-shadow: inset 1px 1px 0 #fffaf0; }
+
+/* v78 — the first choice a child ever makes (their friend's colour) sat in
+   a white app pill. Now the paints sit on a little wooden painter's tray,
+   lit top-left, and the picked paint wears a bright paper ring (gold would
+   vanish against the honey wood). */
+.lg-app .hatch-hues {
+  border: 3px solid var(--ink);
+  background: linear-gradient(180deg, var(--wood-lit) 0 3px, var(--wood) 3px 100%);
+  box-shadow: inset 0 -4px 0 #70501b55, 0 6px 0 var(--wood-dark);
+}
+.lg-app .hatch-hue.is-picked { outline: 4px solid #fffdf7; outline-offset: 2px; transform: translateY(-2px); }
+@media (prefers-reduced-motion: reduce) { .lg-app .hatch-hue.is-picked { transform: none; } }
+
+/* v79 — a chapter not yet played shows three star spots on its stop's
+   wooden board, as an invitation. Drawn as pale grey stars on honey wood
+   they read like "0 of 3". They are now carved star hollows in the board,
+   like the sticker stand's savings (v70): places waiting for stars. */
+.map-star-off path { fill: #70501b; stroke: #c69434; stroke-width: 5; }
+
+/* v80 — the boat chapter's meet seed row sat in a white app pill. It now
+   sits on a little honey-wood board, like the stars plaque. */
+.lg-app.lg-boat-chapter .meet-dots, .lg-app .lg-boat-chapter .meet-dots {
+  background: linear-gradient(180deg, var(--wood-lit) 0 2px, var(--wood) 2px 100%);
+  border-radius: 12px;
+  box-shadow: 0 0 0 2.4px var(--ink), 0 3px 0 2.4px var(--wood-dark);
+}
+
+/* v81 — each practice-garden group is headed by a little picture chip
+   (heart, ear, hand…). They were plain white app circles; now they're paper
+   coins in honey-wood rims like the party guests and the walk's stones. */
+.lg-app .pg-chip {
+  background: radial-gradient(circle at 35% 30%, #fffdf7 0 40%, #fffaf0 65%, #e5dcc8 100%);
+  box-shadow: 0 0 0 2.4px var(--ink), inset 0 0 0 3px var(--wood), inset 2px 3px 0 3px var(--wood-lit), 0 4px 0 2.4px var(--wood-dark);
+}
+/* v81: the badge is for a letter card. When the card already IS an icon
+   (the speaker in the listening games, the eye in Spot the Change) a second
+   speaker is noise, so it goes. Workshop's svg-drawn letter (has <text>)
+   keeps its badge. */
+.lg-app .practice-replay:has(> svg):not(:has(text))::after { display: none; }
+
+/* v84 — the pet stays on a phone held sideways. In the side rail the pet
+   and the "hear it" card stack in one column, but an older short-screen
+   rule (letters.css, max-height 650px) pinned the heading to 72px. The
+   stack overflowed upward and the pet slid behind the home button, so in
+   most practice games a sideways phone had no friend cheering. The rail's
+   column now takes its own height (top/bottom from the rail). */
+@media (orientation: landscape) and (max-height: 500px) {
+  .lg-app .lg-play .practice-heading { height: auto; }
+}
+
+/* v85 — big screens get a bigger friend. On a tablet the practice games'
+   pet was ~40px beside a 500px board, and the progress seeds were specks:
+   the companion who cheers every right answer barely registered. On large
+   screens the heading grows (pet ~104px, "hear it" card 96px tall) and the
+   seed rows double up in size. */
+@media (min-width: 700px) and (min-height: 700px) {
+  .lg-app .lg-play .practice-heading { height: 124px; gap: 28px; }
+  .lg-app .lg-play .practice-heading > svg, .lg-app .lg-play .practice-heading > .lg-animal { width: 104px !important; height: 116px !important; }
+  .lg-app .lg-play .practice-replay { height: 96px; min-width: 120px; font-size: 58px; }
+  .lg-app .lg-play .practice-replay > svg:not(:has(text)) { width: 48px; height: 48px; }
+  /* The chapter games' prompt row (pet + speech bubble + seeds) too. */
+  .lg-app .lg-play .play-prompt { width: min(820px, 100%); min-height: 150px; column-gap: 20px; grid-template-rows: minmax(84px, auto) 24px; }
+  .lg-app .lg-play .play-pet { width: 124px; height: 140px; }
+  .lg-app .lg-play .play-bubble { min-width: 136px; min-height: 96px; padding: 12px 20px; }
+  .lg-app .lg-play .play-bubble-glyph { font-size: 60px; }
+  .lg-app .lg-play .play-bubble-icon svg { width: 36px; height: 36px; }
+  .lg-app .lg-play .play-dots { gap: 10px; }
+  .lg-app .lg-play .play-dots i { width: 14px; height: 18px; }
+  .lg-app .lg-play .play-dots i.is-done { width: 17px; height: 17px; }
+  /* Chapter step tiles (the in-game row stays compact on phones). */
+  .lg-app .lg-boat-adventure .lg-play .adventure-stop, .lg-app.lg-boat-adventure .lg-play .adventure-stop { width: 46px; height: 42px; }
+  .lg-app .lg-boat-adventure .lg-play .adventure-stop > svg, .lg-app.lg-boat-adventure .lg-play .adventure-stop > svg { width: 34px; height: 34px; }
+  .lg-app .journey-route { height: 52px; }
+  .lg-app .journey-stop { width: 52px; height: 46px; }
+  .lg-app .journey-stop > svg { width: 36px; height: 36px; }
+  /* Rooms (v90): the album's plank tabs and stall, the wardrobe's tabs. */
+  .lg-app .album-tab { width: 78px; height: 68px; }
+  .lg-app .album-tab svg { transform: scale(1.25); }
+  .lg-app .lg-album .album-stand > svg { width: 150px; height: auto; }
+  .lg-app .wardrobe-tabs button { width: 84px; min-height: 64px; }
+  .lg-app .wardrobe-tabs button svg { width: 46px; height: 46px; }
+  .lg-app .lg-star-chip { font-size: 22px; padding: 9px 16px 11px; }
+  .lg-app :is(.tb-progress,.pz-progress,.ff-progress,.bk-progress,.sand-progress,.wg-progress,.dot-progress,.path-progress,.delivery-progress) { gap: 12px; }
+  .lg-app :is(.tb-progress,.pz-progress,.ff-progress,.bk-progress,.sand-progress,.wg-progress,.dot-progress,.path-progress,.delivery-progress) i { width: 15px; height: 19px; }
+  .lg-app :is(.tb-progress,.pz-progress,.ff-progress,.bk-progress,.sand-progress,.wg-progress,.delivery-progress) i.is-done,
+  .lg-app :is(.dot-progress,.path-progress) i.is-on { width: 18px; height: 18px; }
+}
+
+/* v89 — the journey map keeps the time of day too. It had only a night
+   version, so after school the games and the village glowed at sunset while
+   the map sat at noon. A soft light wash (never tappable; above the map at z 2, below the top bar at z 5) warms it: coral at sunset, pale gold in the morning, fading out
+   toward the bottom so the stops keep their own colours. */
+.lg-app:is([data-garden-phase="sunset"],[data-garden-phase="morning"]) .lg-home::after {
+  content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+}
+.lg-app[data-garden-phase="sunset"] .lg-home::after { background: linear-gradient(180deg, #ffa79840 0, #ffe49a1a 30%, #ffe49a00 55%); }
+.lg-app[data-garden-phase="morning"] .lg-home::after { background: linear-gradient(180deg, #ffe49a40 0, #ffe49a14 30%, #ffe49a00 55%); }
+
+/* v91 — the "letters didn't load" screen. Its top bar floated mid-screen
+   (the loading screen centres everything), and it held only a flower in a
+   plain disc and a retry button. Now the bar sits at the top, the pet
+   waits beside the flower, and the flower sits in a wooden coin. */
+.lg-app .lg-screen.lg-loading > .lg-topbar { position: absolute; top: 12px; left: 12px; right: 12px; margin: 0; }
+.lg-app .loading-wait { display: flex; align-items: flex-end; justify-content: center; gap: 14px; }
+.lg-app .loading-wait > :first-child:not(.loading-flower) { width: 108px; height: 120px; flex: 0 0 auto; }
+.lg-app .loading-flower {
+  border: 0;
+  background: radial-gradient(circle at 35% 30%, #fffdf7 0 40%, #fffaf0 65%, #e5dcc8 100%);
+  box-shadow: 0 0 0 3px var(--ink), inset 0 0 0 4px var(--wood), inset 2px 3px 0 4px var(--wood-lit), 0 6px 0 3px var(--wood-dark);
+}
+
+/* v92 — a cozy night pond. At night the pond turned a flat slate-teal
+   (indigo into dark green): murky water reads gloomy. Now it is moonlit —
+   indigo at the top, a clear moon-blue middle, and the moon's soft gold
+   reflection lying on the surface in two ripples. */
+.lg-app.lg-pond-activity[data-garden-phase="night"] .lg-play[data-activity="pop"] .play-stage {
+  background:
+    radial-gradient(ellipse 18% 3.2% at 70% 20%, #ffe49a99, #ffe49a00 75%),
+    radial-gradient(ellipse 12% 2.4% at 70% 27%, #ffe49a66, #ffe49a00 75%),
+    radial-gradient(ellipse 30% 14% at 70% 22%, #96ecff33, #96ecff00 80%),
+    linear-gradient(165deg, #4a4d84, #3a8fc4 55%, #34375f);
+}
+
+/* v94 — the friends' garden at night kept a pale daytime sky strip and a
+   noon lawn under the starry backdrop. At night its little sky is indigo
+   with a few stars and the grass and beds drop one step down the green ramp
+   (still bright enough that every friend and sign reads clearly). */
+.lg-app[data-garden-phase="night"] .lg-friends-garden .sg-meadow {
+  background:
+    radial-gradient(circle at 18% 14%, #fffaf0 0 1.6px, #fffaf000 2.2px),
+    radial-gradient(circle at 46% 26%, #fffaf0 0 1.2px, #fffaf000 1.8px),
+    radial-gradient(circle at 78% 10%, #fffaf0 0 1.6px, #fffaf000 2.2px),
+    radial-gradient(circle at 90% 30%, #ffe49a 0 1.2px, #ffe49a00 1.8px),
+    linear-gradient(180deg, #4a4d84 0, #6064a0 48%, #7fce54 48%);
+  box-shadow: inset 0 -6px 0 #4e9677;
+}
+.lg-app[data-garden-phase="night"] .lg-friends-garden .sg-meadow::before { background: radial-gradient(ellipse at 20% 100%, #4e9677 0 40%, transparent 41%) 0 0/120px 18px repeat-x; }
+.lg-app[data-garden-phase="night"] .lg-friends-garden .sg-plots { background-color: #7fce54; box-shadow: inset 0 -10px 0 #4e9677, 0 0 0 4px #4a3620; }
+
+/* v95 — on the meet screen's wooden board (v80) the pale "still to come"
+   seeds were tan on honey wood and nearly vanished. On wood they get a
+   dark-wood outline and a paper fill. */
+.lg-app .lg-boat-chapter .meet-dots i:not(.is-on):not(.is-done), .lg-app.lg-boat-chapter .meet-dots i:not(.is-on):not(.is-done) { border-color: #70501b; background: #fffaf0; }
+
+/* v99 — the album's supply row (star count, sticker stall + savings, scenes
+   button) overflowed a 375px phone once the child had stars: the count and
+   the scenes button were sliced by the screen edges. On narrow screens the
+   row tightens its gaps and wraps instead of spilling. */
+@media (max-width: 520px) {
+  .lg-app .lg-album .album-supply { flex-wrap: nowrap; gap: 8px; padding: 0 4px 4px; }
+  .lg-app .lg-album .album-supply > * { flex-shrink: 1; min-width: 0; }
+  .lg-app .lg-album .album-stand > svg { width: 96px; height: auto; }
+  .lg-app .lg-album .album-scenes { width: 60px; height: 56px; flex: 0 0 60px; }
+  .lg-app .lg-album .album-scenes > svg { width: 100%; height: 100%; }
+  .lg-app .lg-album .lg-star-chip { flex: 0 0 auto; padding: 6px 9px 7px; font-size: 16px; gap: 3px; }
+  .lg-app .lg-album .stand-pips { gap: 1px; padding: 4px 5px; }
+  .lg-app .lg-album .stand-pips i svg { width: 12px; height: 12px; }
+}
+@media (max-width: 360px) {
+  .lg-app .lg-album .album-stand > svg { width: 80px; }
+  .lg-app .lg-album .album-scenes { width: 52px; height: 50px; flex-basis: 52px; }
+}
+/* v99 sideways: star count + scenes button share a row above the stall, so
+   the column fits a 375px-tall screen. */
+@media (max-height: 450px) and (orientation: landscape) {
+  .lg-app .lg-album .album-supply { display: grid; grid-template-columns: auto auto; align-items: center; justify-items: center; gap: 8px 12px; }
+  .lg-app .lg-album .album-supply > .lg-star-chip { order: 1; }
+  .lg-app .lg-album .album-supply > .album-scenes { order: 2; width: 60px; height: 56px; }
+  .lg-app .lg-album .album-supply > :is(.album-stand,.album-complete) { order: 3; grid-column: 1 / -1; }
+  .lg-app .lg-album .album-supply > .album-stand > svg { width: 104px; height: auto; }
+}
+/* v99: once five stars are saved the stall shows "★ 5" — it was a white app
+   pill. Now it's a little gold tag on the wood: "ready!" */
+.lg-app .lg-album .album-stand .pet-acc-cost {
+  border: 0; border-radius: 10px; color: var(--ink); font-weight: 900;
+  background: linear-gradient(180deg, #fffdf7 0 2px, #ffe49a 2px 100%);
+  box-shadow: 0 0 0 2.4px var(--ink), 0 3px 0 2.4px var(--wood-dark), 0 0 0 7px #ffe49a66;
+}
+.lg-app .lg-album .album-stand .pet-acc-cost svg path { fill: #f3c955; stroke: var(--ink); }
+
+/* v100: the full-album rosette sits up with a soft gold glow and a gentle sway. */
+.lg-app .album-complete { display: grid; place-items: center; filter: drop-shadow(0 4px 0 #70501b55) drop-shadow(0 0 10px #ffe49a); }
+.lg-app .album-complete > svg { transform-origin: 50% 10%; animation: album-rosette 3.2s ease-in-out infinite; }
+@keyframes album-rosette { 50% { transform: rotate(4deg); } }
+@media (prefers-reduced-motion: reduce) { .lg-app .album-complete > svg { animation: none; } }
+.lg-reduce-motion .album-complete > svg { animation: none; }
+
+/* v102 — one shape language, step 1 (style-independent; see
+   reviews/geometry-audit-2026-10-16.md). ~700 stroked shapes met at sharp
+   mitred corners, so props read as cut from tin next to the round pets.
+   Every outline now meets in a round join. (CSS outranks the SVG
+   presentation attribute, so this applies even where art set none.) */
+.lg-app svg :is(path, polygon, polyline, rect, line) { stroke-linejoin: round; }
+
+/* v109 — UI touches in the pet's language (preview .qa/ui-pet-language.html).
+   The UI already sits in the right shapes; this adds the detail the world
+   props now carry: a little wood grain and one soft shine on every wooden
+   pill, and a faint stitched inner border on paper cards. Layered as extra
+   backgrounds, so sizes, borders and states are untouched. */
+.lg-app :is(.album-tab:not(.is-on), .wardrobe-tabs button:not([aria-selected=true]), .lg-star-chip, .wardrobe-prev:not(:disabled), .wardrobe-more:not(:disabled), .decorate-prev:not(:disabled), .decorate-more:not(:disabled), .stand-pips) {
+  background-image:
+    radial-gradient(ellipse 22% 14% at 26% 24%, #fffdf7aa, #fffdf700 72%),
+    radial-gradient(ellipse 60% 30% at 40% 78%, #70501b00 58%, #70501b40 62%, #70501b00 66%),
+    radial-gradient(ellipse 50% 26% at 72% 38%, #70501b00 58%, #70501b33 62%, #70501b00 66%),
+    linear-gradient(180deg, var(--wood-lit) 0 3px, var(--wood) 3px 100%);
+}
+.lg-app :is(.pop-bubble, .practice-garden-choices button, .learning-compare)::after {
+  content: ''; position: absolute; inset: 6px; border-radius: inherit; pointer-events: none;
+  border: 2px dashed #e5dcc8; opacity: .8;
+}
+.lg-app .learning-compare { position: relative; }
+
+/* v110: the pond jetty's empty slots are soft rounded nests (were squared dashed boxes). */
+.lg-app .pond-dock-slot:not(.is-full) { border-radius: 16px; border-color: #ffe49a; background: #70501b33; }
+
+/* v111 — the friends' garden fence in the pet language (matches the village
+   fence, v103): capsule pickets with an ink edge and a highlight seam on a
+   rounded rail, instead of pointed pickets on thin rails. */
+.lg-app .lg-friends-garden .sg-fence {
+  background: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2248%22 height=%2240%22 viewBox=%220 0 48 40%22%3E%3Crect x=%22-2%22 y=%2220%22 width=%2252%22 height=%229%22 rx=%224.5%22 fill=%22%23fffaf0%22 stroke=%22%234a3620%22 stroke-width=%223%22/%3E%3Crect x=%226%22 y=%224%22 width=%2214%22 height=%2234%22 rx=%227%22 fill=%22%23fffaf0%22 stroke=%22%234a3620%22 stroke-width=%223%22/%3E%3Crect x=%2230%22 y=%224%22 width=%2214%22 height=%2234%22 rx=%227%22 fill=%22%23fffaf0%22 stroke=%22%234a3620%22 stroke-width=%223%22/%3E%3Cpath d=%22M16 10V32M40 10V32%22 stroke=%22%23e5dcc8%22 stroke-width=%222.4%22 stroke-linecap=%22round%22/%3E%3C/svg%3E") 0 0 / 48px 40px repeat-x;
+}
+
+/* v135 — the Word Tree in the pet language: each branch is a chunky inked
+   limb with bark lines, and each root seed is a wooden coin with a lit top
+   edge and one shine (the seed letters stay as they are). */
+.lg-app .wt-branch::before {
+  height: 12px; border-radius: 6px; top: calc(50% - 2px);
+  background: linear-gradient(180deg, #c69434 0 40%, #70501b 40% 100%);
+  box-shadow: 0 0 0 3px #4a3620;
+}
+.lg-app .wt-seed {
+  background: radial-gradient(ellipse 30% 16% at 34% 26%, #fffdf7aa, #fffdf700 70%), #c69434;
+  box-shadow: inset 0 3px 0 #ffe49a, 0 4px 0 #70501b;
+}
+.lg-app .wt-seed-letters { text-shadow: 0 2px 0 #4a3620; }
+
+/* v142: the Costume House hub's tile pictures sat tiny inside big cards. */
+.lg-app .lg-costume-house .practice-garden-choices button > svg { width: 100%; height: 96px; max-height: 96px; flex: 0 0 96px; }
+@media (min-width: 700px) { .lg-app .lg-costume-house .practice-garden-choices button > svg { height: 124px; max-height: 124px; flex-basis: 124px; } }
+
+/* v143: the "who is playing?" pet cards are paper in a honey-wood frame,
+   like the game tiles, instead of plain cream app cards. */
+.lg-app .who-pet {
+  border: 4px solid var(--wood);
+  background: var(--paper-grain), #fffaf0;
+  box-shadow: 0 0 0 3px var(--ink), inset 0 2px 0 var(--wood-lit), 0 7px 0 3px var(--wood-dark);
+}

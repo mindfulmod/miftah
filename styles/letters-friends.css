@@ -79,6 +79,10 @@
 .walk-end { position: absolute; transform: translate(-50%, -50%); width: clamp(70px, 12vmin, 96px); }
 .walk-nap { display: grid; justify-items: center; gap: 8px; }
 .walk-nap .walk-zz { font: 700 28px ui-rounded, system-ui; color: #6064a0; animation: walk-zz 2.4s ease-in-out infinite; }
+/* v58: the napping pet lies ON the nap bed (its z z floats above its head),
+   not hovering over it. */
+.walk-pet.walk-nap { transform: translate(-56%, -104%); }
+.walk-nap .walk-zz { position: absolute; top: -22px; right: -14px; }
 @keyframes walk-next { 50% { box-shadow: 0 5px 0 #c9bda4, 0 0 0 4px #4a3620, 0 0 0 16px #ffe49a; } }
 @keyframes walk-zz { 50% { transform: translateY(-8px); opacity: .5; } }
 @media (prefers-reduced-motion: reduce) { .walk-stone.is-next, .walk-nap .walk-zz { animation: none; } .walk-pet { transition: none; } }
@@ -96,6 +100,8 @@
 /* Peekaboo flaps */
 .bk-ask .bk-ear, .bk-ask .bk-pic { display: grid; place-items: center; width: 96px; height: 96px; border-radius: 50%; background: #fffaf0; box-shadow: 0 5px 0 #c9bda4, 0 0 0 4px #4a3620; }
 .bk-hedge { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(10px, 2.6vw, 22px); padding: 18px 14px 10px; border-radius: 30px; background: #b7e779; box-shadow: inset 0 -10px 0 #7fce54; }
+/* v58: four doors wrapped three-and-one, the last one alone on its row; they sit two-and-two instead. */
+.bk-hedge:has(> :nth-child(4):last-child) { display: grid; grid-template-columns: repeat(2, auto); justify-content: center; }
 .bk-flap { position: relative; width: clamp(92px, 21vw, 132px); aspect-ratio: 100 / 110; background: #fffdf7; border-radius: 46px 46px 12px 12px; box-shadow: 0 0 0 4px #4a3620; padding: 0; perspective: 600px; }
 .bk-behind { position: absolute; inset: 14% 8% 6%; display: grid; place-items: center; }
 .bk-behind svg { width: 90%; height: auto; }
@@ -151,9 +157,13 @@
 .bk-lens > span svg { width: 100%; height: auto; }
 .bk-bag { flex: 1; min-height: 52px; border-radius: 26px; background: #fffaf0; box-shadow: inset 0 0 0 3px #c9bda4; display: flex; flex-wrap: wrap; gap: 4px; padding: 6px 12px; align-items: center; }
 .bk-scene { position: relative; width: 100%; max-width: 640px; aspect-ratio: 4 / 3; border-radius: 26px; overflow: hidden; box-shadow: 0 0 0 4px #4a3620; background: #ccfbef; }
+/* v58: on a narrow phone the 4:3 market's rows (47px at 320 wide) were closer
+   than the 56px goods, which overlapped 20%; portrait phones have the height,
+   so the market goes square there. */
+@media (max-width: 480px) and (orientation: portrait) { .bk-scene { aspect-ratio: 1; } }
 .bk-stalls { position: absolute; inset: 0; width: 100%; height: 100%; }
 .bk-good { position: absolute; width: clamp(56px, 14%, 84px); aspect-ratio: 1; padding: 0; background: transparent; border-radius: 50%; transition: transform .3s ease, opacity .4s ease; }
-.bk-good svg { width: 100%; height: 100%; }
+.bk-good svg { display: block; width: 100%; height: 100%; } /* v58: inline svg added a 6px baseline gap, so goods reached into the next shelf row */
 .bk-good.is-found { opacity: .25; transform: scale(.7); pointer-events: none; }
 @media (prefers-reduced-motion: reduce) {
   .bk .is-hint, .bk-walker, .bk-walker.is-new, .bk-card, .lf.is-whole .lf-body { animation: none; }
@@ -199,6 +209,9 @@
 .lb-spine:nth-child(2n) { box-shadow: inset 12px 0 0 #62cdf4, 0 6px 0 #c9bda4, 0 0 0 4px #4a3620; }
 .lb-spine:nth-child(3n) { box-shadow: inset 12px 0 0 #7fce54, 0 6px 0 #c9bda4, 0 0 0 4px #4a3620; }
 .lb-spine-title { font: 26px/1.5 "Amiri Quran", serif; color: #4a3620; }
+/* v58: the page never scrolls; four tall books in one column left the last out of reach on a phone. Two to a row there, and the shelf scrolls as a fallback. */
+.lg-book-shelf .lb-shelf { max-height: calc(100dvh - 90px); overflow-y: auto; overscroll-behavior: contain; margin-block: auto; } /* v58: centred, not crowded at the top over an empty half-screen */
+@media (max-width: 600px) { .lb-shelf { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 12px; } .lb-spine { width: min(100%, 132px); padding: 10px 8px 12px; } .lb-spine-art svg { width: 92px; height: auto; } .lb-spine-title { font-size: 19px; } }
 .lb-fav { position: absolute; inset: -10px -10px auto auto; width: 34px; height: 34px; border-radius: 50%; background: #ffe49a; box-shadow: 0 0 0 3px #4a3620; display: grid; place-items: center; }
 .lb { display: grid; gap: 14px; justify-items: center; padding: 6px 12px 18px; width: 100%; box-sizing: border-box; min-width: 0; }
 .lb-page { width: 100%; max-width: 560px; min-width: 0; border-radius: 18px 30px 30px 18px; background: #fffdf7; box-shadow: inset -14px 0 0 #e5dcc8, 0 6px 0 #c9bda4, 0 0 0 4px #4a3620; padding: 14px 26px 18px 14px; box-sizing: border-box; display: grid; gap: 10px; }
@@ -255,7 +268,8 @@
 .sg-scene.is-page-1 .sg-wind { opacity: 1; animation: sg-gust 1.6s ease-in-out infinite; }
 .sg-scene.is-page-1 .sg-friend, .sg-scene.is-page-2 .sg-friend { transform: translate(calc((var(--i) - 3.5) * 40vw), -70vh) rotate(calc(var(--i) * 90deg)); opacity: 0; }
 .sg-scene.is-page-1 .sg-sky, .sg-scene.is-page-2 .sg-sky { filter: saturate(.45) brightness(1.06); }
-.sg-scene.is-page-2 .sg-pet, .sg-scene.is-page-3 .sg-pet { opacity: 1; }
+/* v58: the pet watches the gust too, so the frame is never empty when the friends blow away — the child always has someone to follow. */
+.sg-scene.is-page-1 .sg-pet, .sg-scene.is-page-2 .sg-pet, .sg-scene.is-page-3 .sg-pet { opacity: 1; }
 .sg-scene.is-page-3 .sg-friends { align-content: center; justify-content: flex-end; padding-right: 12%; }
 .sg-scene.is-page-3 .sg-friend { display: none; }
 .sg-scene.is-page-3 .sg-friend:first-child { display: block; opacity: 1; transform: scale(1.7); animation: sg-home .9s cubic-bezier(.3, 1.5, .5, 1) both; }
@@ -273,6 +287,9 @@
 .sg-plots { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 10px; width: 100%; max-width: 760px; padding: 16px; box-sizing: border-box; border-radius: 30px; background: #b7e779; box-shadow: inset 0 -10px 0 #7fce54, 0 0 0 4px #4a3620; }
 .sg-plot { appearance: none; border: 0; background: transparent; cursor: pointer; display: grid; place-items: center; min-height: 92px; padding: 0; }
 .sg-plot:not(.is-home) svg { width: 70px; }
+/* v58: the page never scrolls, and 28 friends in tall plots ran ~900px below a phone screen — 20 of them could not be seen. The plot bed scrolls within the screen, and phones fit four friends to a row. */
+.lg-friends-garden .sg-plots { max-height: calc(100dvh - 170px); overflow-y: auto; overscroll-behavior: contain; }
+@media (max-width: 600px) { .sg-plots { grid-template-columns: repeat(auto-fill, minmax(58px, 1fr)); gap: 6px; padding: 12px 10px; } .sg-plot { min-height: 70px; } .sg-plot svg { width: 56px !important; } }
 
 /* The Bismillah graduation. */
 .sg-grad { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; justify-items: center; padding: 10px 12px 20px; width: 100%; box-sizing: border-box; }
@@ -291,8 +308,27 @@
   .sg-parade span, .sg-scene.is-page-1 .sg-wind, .sg-grad.is-celebrating .sg-grad-friends span { animation: none; }
   .sg-friend, .sg-sky, .sg-wash { transition: none; }
 }
+/* v58: on an upright screen the 3:2 story card filled only the top third and
+   left the rest of the first screen a child ever sees empty, with 60px friends
+   lost in it (worst on an upright iPad). The card is a container, so friends
+   and pet are sized from the card itself; upright, it grows to 4:5 and sits
+   in the middle, so the friends are big enough to meet. */
+.sg-scene { container-type: inline-size; }
+.sg-friend svg { width: clamp(56px, 13cqw, 116px); height: auto; }
+@media (orientation: landscape) and (min-height: 501px) {
+  .lg-story .sg-story { margin-block: auto; }
+  .lg-story .sg-scene { max-width: none; width: min(100%, calc((100dvh - 200px) * 3 / 2)); }
+}
+@media (orientation: portrait) {
+  .lg-story .sg-story { margin-block: auto; }
+  .lg-story .sg-scene { aspect-ratio: 4 / 5; width: min(100%, calc((100dvh - 200px) * 4 / 5)); }
+  .lg-story .sg-friends { inset: 14% 4% 8%; gap: 6px 2px; }
+  .lg-story .sg-friend svg { width: 27cqw; }
+  .lg-story .sg-pet svg { width: min(48cqw, 260px); height: auto; }
+}
 @media (orientation: landscape) and (max-height: 500px) {
-  .sg-scene { max-width: none; width: auto; height: calc(100vh - 30px); }
+  /* v58: was 100vh - 30px, which ignored the 76px top bar — the friends stood below the screen. */
+  .sg-scene { max-width: none; width: auto; height: calc(100dvh - 96px); }
   .sg-story { grid-template-columns: 1fr auto; align-items: center; }
   .sg-grad { grid-template-columns: 1fr auto; align-items: center; }
   .sg-grad-friends { grid-column: 1 / -1; }
@@ -308,6 +344,10 @@
 .pz-board { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(10px, 3vw, 22px); }
 .pz-tile { background: #fffaf0; border-radius: 26px; padding: 10px; box-shadow: 0 5px 0 #c9bda4, 0 0 0 4px #4a3620; transition: transform .2s ease; }
 .pz-tile svg { width: min(92px, 22vw); height: auto; }
+/* v58: on a 320px phone three tiles needed 302px of a 296px row, so the third
+   dropped to its own row and ended 2px from the bottom edge. They trim to fit
+   one row, with room to breathe below. */
+@media (max-width: 360px) { .pz-board { gap: 8px; } .pz-tile { padding: 8px; } .pz-tile svg { width: min(92px, 19vw); } }
 .pz .is-hint { animation: bk-hint 1.2s ease-in-out infinite; }
 /* Echo parade */
 .pz-singers { display: flex; gap: 8px; min-height: 84px; padding: 6px 14px; border-radius: 26px; background: #b7e779; box-shadow: inset 0 -8px 0 #7fce54; transition: filter .4s ease; }
@@ -332,9 +372,12 @@
 .pz-reveal.is-early { box-shadow: 0 6px 0 #c9bda4, 0 0 0 4px #4a3620, 0 0 0 12px #ffe49a; }
 /* Letter train */
 .pz-sky { position: relative; width: 100%; max-width: 640px; height: clamp(200px, 40vh, 320px); border-radius: 28px; background: linear-gradient(#96ecff, #ccfbef); overflow: hidden; }
-.pz-balloon { position: absolute; left: clamp(4px, calc(var(--x) - 40px), calc(100% - 84px)); top: 12%; width: 80px; background: transparent; padding: 0; animation: pz-float 3.2s ease-in-out infinite; animation-delay: var(--d); }
+/* v58: each balloon is centred in its own share of the sky and never wider
+   than it — the old spacing let neighbours overlap by 12px on a phone. */
+.pz-balloon { --bw: min(80px, calc(100% / var(--n, 4) - 8px)); position: absolute; left: calc((var(--i, 0) + .5) * 100% / var(--n, 4) - var(--bw) / 2); top: 12%; width: var(--bw); background: transparent; padding: 0; animation: pz-float 3.2s ease-in-out infinite; animation-delay: var(--d); }
 .pz-balloon svg { width: 100%; height: auto; display: block; }
-.pz-balloon-letter { position: absolute; left: 50%; top: 38%; transform: translate(-50%, -50%); }
+.pz-balloon-letter { position: absolute; left: 50%; top: 38%; width: 62%; transform: translate(-50%, -50%); }
+.pz-balloon-letter svg { display: block; width: 100%; height: auto; }
 .pz-balloon.is-popped { visibility: hidden; }
 @keyframes pz-float { 50% { transform: translateY(-10px); } }
 .pz-rails { display: flex; align-items: flex-end; gap: 2px; min-height: 76px; padding: 0 10px 6px; border-bottom: 6px solid #a89478; width: min(100%, 640px); box-sizing: border-box; }
@@ -360,8 +403,8 @@
   .pz-echo .pz-singers, .pz-dots .pz-reveal, .pz-same .pz-target { grid-row: 1 / 3; }
   .pz-echo .pz-slots { grid-column: 2; }
   .pz-sky { height: calc(100vh - 140px); max-width: none; }
-  .pz-balloon { width: clamp(84px, 26vh, 110px); }
-  .pz-balloon-letter svg { width: 60px; height: 60px; }
+  .pz-balloon { --bw: min(clamp(84px, 26vh, 110px), calc(100% / var(--n, 4) - 8px)); }
+  .pz-balloon-letter { width: 56%; }
 }
 
 /* ---------- Lantern Hunt and Letter Shadows (v32) ---------- */
@@ -406,6 +449,8 @@
 /* ---------- UI pass (2026-10-03): kid-sized, grouped, consistent ---------- */
 /* The practice garden in five colour-coded groups, each with a picture chip. */
 .lg-practice-garden .practice-garden-hub { display: grid; gap: 14px; }
+/* Wide, short screens (iPad landscape): the groups sit two by two, so a little sprout sees every toy without scrolling (v58). */
+@media (min-width: 900px) and (max-height: 900px) { .lg-practice-garden .practice-garden-hub { width: min(1000px, 100%); grid-template-columns: 1fr 1fr; align-items: start; } }
 .pg-group { position: relative; border-radius: 30px; padding: 30px 10px 12px; }
 .pg-group[data-group="play"] { background: #ffa798; box-shadow: inset 0 -6px 0 #ee806f; }
 .pg-group[data-group="read"] { background: #ccfbef; box-shadow: inset 0 -6px 0 #96ecff; }
@@ -414,6 +459,45 @@
 .pg-group[data-group="explore"] { background: #b7e779; box-shadow: inset 0 -6px 0 #7fce54; }
 .pg-chip { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); width: 48px; height: 48px; border-radius: 50%; background: #fffdf7; box-shadow: 0 0 0 3px #4a3620, 0 3px 0 #c9bda4; display: grid; place-items: center; }
 .pg-group .practice-garden-choices { margin: 0; }
+/* v58: a little sprout's nine toys all fit one phone screen — a 2–3-year-old
+   won't scroll, so four of the nine (books, pairs, sand, colouring) sat
+   unseen below the fold. Three smaller tiles a row, single-toy groups side by
+   side, colour groups kept. Tiles stay ≥100px. */
+@media (max-width: 480px) {
+  .lg-app .lg-practice-garden.is-sprout .practice-garden-hub { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .lg-app .lg-practice-garden.is-sprout .pg-group { grid-column: 1 / -1; padding: 26px 8px 10px; }
+  .lg-app .lg-practice-garden.is-sprout .pg-group:has(.practice-garden-choices > button:only-child) { grid-column: auto; }
+  .lg-app .lg-practice-garden.is-sprout .pg-group .practice-garden-choices { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .lg-app .lg-practice-garden.is-sprout .pg-group:has(.practice-garden-choices > button:only-child) .practice-garden-choices { grid-template-columns: 1fr; }
+  .lg-app .lg-practice-garden.is-sprout .practice-garden-choices > button { padding: 6px 5px; min-height: 0 !important; }
+  .lg-app .lg-practice-garden.is-sprout .practice-garden-choices > button:last-child:nth-child(odd) { grid-column: auto; width: auto; justify-self: stretch; }
+  .lg-app .lg-practice-garden.is-sprout .practice-garden-choices > button > svg:first-child { height: 56px !important; width: auto; max-width: 100%; flex: 0 0 56px; }
+  .lg-app .lg-practice-garden.is-sprout :is(.practice-picture, .practice-friend-picture) { height: 56px !important; flex: 0 0 56px !important; }
+  .lg-app .lg-practice-garden.is-sprout :is(.practice-picture, .practice-friend-picture) svg { height: 56px !important; width: auto; max-width: 100%; }
+  .lg-app .lg-practice-garden.is-sprout .practice-play svg { width: 24px; height: 24px; }
+}
+/* v58: the Book Corner and the Puzzle Tree hold eight games each; in two
+   columns the last two (Busy Market + the Living Books shelf; Build a Letter
+   + Fill the Gap) sat below the fold on a phone. Three a row keeps all eight
+   on screen. */
+@media (max-width: 480px) {
+  .lg-app :is(.lg-book-corner, .lg-puzzle-tree) .practice-garden-choices { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .lg-app :is(.lg-book-corner, .lg-puzzle-tree) .practice-garden-choices > button { padding: 6px 5px; min-height: 0 !important; }
+  .lg-app :is(.lg-book-corner, .lg-puzzle-tree) .practice-garden-choices > button:last-child:nth-child(odd) { grid-column: auto; width: auto; justify-self: stretch; }
+  .lg-app :is(.lg-book-corner, .lg-puzzle-tree) .practice-garden-choices > button > svg:first-child,
+  .lg-app :is(.lg-book-corner, .lg-puzzle-tree) :is(.practice-picture, .practice-friend-picture),
+  .lg-app :is(.lg-book-corner, .lg-puzzle-tree) :is(.practice-picture, .practice-friend-picture) svg { height: 56px !important; flex: 0 0 56px !important; width: auto; max-width: 100%; }
+  .lg-app :is(.lg-book-corner, .lg-puzzle-tree) .practice-play svg { width: 24px; height: 24px; }
+}
+@media (max-width: 480px) and (max-height: 620px) {
+  .lg-app .lg-practice-garden.is-sprout .practice-garden-choices > button > svg:first-child,
+  .lg-app .lg-practice-garden.is-sprout :is(.practice-picture, .practice-friend-picture),
+  .lg-app .lg-practice-garden.is-sprout :is(.practice-picture, .practice-friend-picture) svg { height: 40px !important; flex-basis: 40px !important; }
+  .lg-app .lg-practice-garden.is-sprout .practice-play svg { width: 20px; height: 20px; }
+  .lg-app .lg-practice-garden.is-sprout .pg-group { padding: 22px 6px 8px; }
+  .lg-app .lg-practice-garden.is-sprout .practice-garden-hub { gap: 6px; }
+  .lg-app .lg-practice-garden.is-sprout .practice-garden-choices > button { padding: 4px; }
+}
 /* Every control a small hand might reach is at least 56px. */
 .lg-screen.lg-home .map-daily-row button { width: 56px !important; height: 56px !important; min-width: 56px !important; }
 @media (max-width: 359px) { .lg-screen.lg-home .map-daily-row button { width: 50px !important; height: 50px !important; min-width: 50px !important; } }
@@ -425,9 +509,7 @@
 .studio-ink { width: 52px; height: 52px; }
 /* One shared "press" feel for every big game tile. */
 .pz-tile, .ff-card, .bk-friend, .bk-piece, .bk-flap, .bk-basket, .lb-spine, .sg-plot { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
-.pz-tile:active, .ff-card:active, .bk-friend:active, .bk-piece:active, .lb-spine:active { transform: translateY(3px) scale(.97); }
 .pz-tile:focus-visible, .ff-card:focus-visible, .bk-friend:focus-visible, .bk-piece:focus-visible, .bk-flap:focus-visible, .bk-basket:focus-visible, .lb-spine:focus-visible, .sg-plot:focus-visible, .sh-thing:focus-visible { outline: 4px solid var(--lg-focus); outline-offset: 3px; }
-@media (prefers-reduced-motion: reduce) { .pz-tile:active, .ff-card:active, .bk-friend:active, .bk-piece:active, .lb-spine:active { transform: none; } }
 
 /* ---------- Vowel Hats (v33) ---------- */
 .vh { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(12px, 2.6vh, 22px); justify-items: center; padding: 6px 12px 16px; width: 100%; box-sizing: border-box; }
@@ -438,15 +520,16 @@
 @keyframes vh-drop { from { transform: translateY(-30px) scale(1.4); opacity: 0; } to { transform: none; opacity: 1; } }
 .vh-shelf { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(10px, 3vw, 22px); padding: 12px 16px; border-radius: 26px; background: #e5dcc8; box-shadow: inset 0 -8px 0 #c9bda4; }
 .vh-choice { background: #fffdf7; border-radius: 22px; padding: 10px 12px; min-width: 96px; min-height: 76px; box-shadow: 0 5px 0 #c9bda4, 0 0 0 4px #4a3620; display: grid; place-items: center; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+/* v58: on a phone three 96px hats stacked into a tall column and pushed the progress off-screen; a little narrower, they sit in one row. */
+@media (max-width: 420px) { .vh-shelf { gap: 10px; padding: 12px 10px; } .vh-choice { min-width: 74px; padding: 8px; } }
 .vh-choice.is-friend { padding: 8px; }
 .vh-choice.is-friend svg { width: min(120px, 26vw, 22vh); height: auto; overflow: visible; }
 .vh-thing { overflow: visible; }
-.vh-choice:active { transform: translateY(3px) scale(.97); }
 .vh-choice.is-taken { opacity: .35; }
 .vh-choice.is-right { background: #b7e779; }
 .vh .is-hint { animation: bk-hint 1.2s ease-in-out infinite; }
 .vh-choice:focus-visible { outline: 4px solid var(--lg-focus); outline-offset: 3px; }
-@media (prefers-reduced-motion: reduce) { .vh-friend.is-dressed .vh-on, .vh .is-hint { animation: none; } .vh-choice:active { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .vh-friend.is-dressed .vh-on, .vh .is-hint { animation: none; } }
 @media (orientation: landscape) and (max-height: 500px) {
   .vh { grid-template-columns: auto 1fr; grid-template-rows: 1fr auto; align-items: center; height: 100%; column-gap: 20px; }
   .vh .vh-stage { grid-row: 1 / 3; }
@@ -467,7 +550,6 @@
 .ws-tray { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(10px, 3vw, 20px); min-height: 100px; padding: 10px 14px; border-radius: 24px; background: #e5dcc8; box-shadow: inset 0 -8px 0 #c9bda4; }
 .ws-piece { background: #fffaf0; border-radius: 20px; padding: 8px; box-shadow: 0 5px 0 #c9bda4, 0 0 0 4px #4a3620; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
 .ws-piece svg { width: min(80px, 20vw); height: auto; display: block; }
-.ws-piece:active { transform: translateY(3px) scale(.97); }
 .ws-piece:focus-visible { outline: 4px solid var(--lg-focus); outline-offset: 3px; }
 .ws .is-hint { animation: bk-hint 1.2s ease-in-out infinite; }
 .ws-card { display: grid; justify-items: center; gap: 6px; padding: 14px 24px; border-radius: 28px; background: #fffdf7; box-shadow: 0 6px 0 #c9bda4, 0 0 0 4px #4a3620; }
@@ -475,11 +557,494 @@
 .ws-word { display: flex; align-items: center; gap: 4px; font: clamp(40px, 8vmin, 56px)/1.6 "Amiri Quran", serif; color: #4a3620; min-height: 1.6em; }
 .ws-hole { display: inline-block; width: .9em; height: 1.1em; border-radius: 12px; background: #ccfbef; box-shadow: inset 0 0 0 3px #62cdf4; animation: bk-hint 1.6s ease-in-out infinite; }
 .ws-word.is-whole .ws-whole { animation: ff-peek .45s ease-out both; }
-@media (prefers-reduced-motion: reduce) { .ws-in, .ws .is-hint, .ws-hole, .ws-word.is-whole .ws-whole { animation: none; } .ws-piece:active { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .ws-in, .ws .is-hint, .ws-hole, .ws-word.is-whole .ws-whole { animation: none; } }
 @media (orientation: landscape) and (max-height: 500px) {
   .ws { grid-template-columns: auto 1fr; grid-template-rows: 1fr auto; align-items: center; height: 100%; column-gap: 20px; }
   .ws .ws-frame, .ws .ws-card { grid-row: 1 / 3; }
 }
 .ws-tray:empty { visibility: hidden; }
+/* v83: three pieces wrapped to two rows on a 375px phone and pushed the seed row off the board. */
+@media (max-height: 700px) and (orientation: portrait) { .ws-piece svg { width: min(64px, 16vw); } .ws-tray { min-height: 0; } }
 /* v35: syllable tiles in Echo Parade. */
 .pz-syl { display: grid; place-items: center; min-width: 84px; min-height: 84px; font: clamp(38px, 9vmin, 52px)/1.6 "Amiri Quran", serif; color: #4a3620; }
+
+/* ---------- Word-stage games (v36–v37) ---------- */
+.wd { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(12px, 2.6vh, 22px); justify-items: center; padding: 6px 12px 16px; width: 100%; box-sizing: border-box; }
+.wd button { appearance: none; border: 0; cursor: pointer; font: inherit; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+.wd-cards { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(10px, 3vw, 22px); }
+.wd .wd-card { position: relative; min-width: 120px; min-height: 96px; padding: 10px 22px; border-radius: 26px; background: #fffdf7; box-shadow: 0 6px 0 #c9bda4, 0 0 0 4px #4a3620; }
+.wd-word { font: clamp(40px, 9vmin, 60px)/1.7 "Amiri Quran", serif; color: #4a3620; }
+.wd-card.has-crown { background: #ffe49a; }
+.wd-crown-badge { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); }
+.wd-card.is-right { background: #b7e779; transform: translateY(-4px); }
+.wd-card:focus-visible, .wd-piece:focus-visible, .wd-ear:focus-visible { outline: 4px solid var(--lg-focus); outline-offset: 3px; }
+.wd .is-hint { animation: bk-hint 1.2s ease-in-out infinite; }
+.wd-twins { position: relative; height: 0; width: 100%; max-width: 320px; transition: height .4s ease; }
+.wd-twins.is-on { height: 120px; }
+.wd-twin, .wd-one { position: absolute; top: 0; }
+.wd-twin:nth-child(1) { left: 10%; animation: wd-twin-l 1.6s ease-in-out both; }
+.wd-twin:nth-child(2) { right: 10%; animation: wd-twin-r 1.6s ease-in-out both; }
+.wd-one { left: 50%; transform: translateX(-50%); opacity: 0; animation: wd-one .6s ease-out 1.4s both; }
+@keyframes wd-twin-l { 0% { opacity: 0; } 25% { opacity: 1; } 70% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateX(70%); } }
+@keyframes wd-twin-r { 0% { opacity: 0; } 25% { opacity: 1; } 70% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateX(-70%); } }
+@keyframes wd-one { from { opacity: 0; transform: translateX(-50%) scale(.6); } to { opacity: 1; transform: translateX(-50%); } }
+.wd-ear { position: relative; width: 104px; height: 104px; border-radius: 50%; background: #ccfbef; box-shadow: 0 6px 0 #96ecff, 0 0 0 4px #4a3620; display: grid; place-items: center; }
+.wd-ear-note { position: absolute; right: -30px; top: -18px; }
+.wd-gapword { display: flex; align-items: center; gap: 2px; padding: 12px 24px; border-radius: 26px; background: #fffdf7; box-shadow: 0 6px 0 #c9bda4, 0 0 0 4px #4a3620; font: clamp(44px, 10vmin, 64px)/1.7 "Amiri Quran", serif; color: #4a3620; }
+.wd-hole { display: inline-block; width: .9em; height: 1.1em; border-radius: 12px; background: #ccfbef; box-shadow: inset 0 0 0 3px #62cdf4; animation: bk-hint 1.6s ease-in-out infinite; }
+.wd-gapword.is-whole .wd-whole { animation: ff-peek .45s ease-out both; }
+.wd-pieces { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(10px, 3vw, 20px); }
+.wd .wd-piece { min-width: 84px; min-height: 84px; padding: 4px 14px; border-radius: 22px; background: #fffaf0; box-shadow: 0 5px 0 #c9bda4, 0 0 0 4px #4a3620; font: clamp(36px, 8vmin, 50px)/1.7 "Amiri Quran", serif; color: #4a3620; }
+@media (prefers-reduced-motion: reduce) { .wd .is-hint, .wd-hole, .wd-twin, .wd-one, .wd-gapword.is-whole .wd-whole { animation: none; } .wd-one { opacity: 1; } }
+@media (orientation: landscape) and (max-height: 500px) { .wd { height: 100%; align-content: center; } .wd-twins.is-on { height: 90px; } }
+
+/* ---------- Living Friends (v38) ---------- */
+/* Friends blink — everywhere, gently, never in step with each other. */
+.lf .lf-eye { transform-box: fill-box; transform-origin: 50% 50%; animation: lf-blink 5.2s infinite; }
+.lf:nth-of-type(2n) .lf-eye, :nth-child(2n) > .lf .lf-eye, :nth-child(2n) > * > .lf .lf-eye { animation-delay: -1.9s; animation-duration: 6.1s; }
+:nth-child(3n) > .lf .lf-eye, :nth-child(3n) > * > .lf .lf-eye { animation-delay: -3.4s; animation-duration: 4.7s; }
+@keyframes lf-blink { 0%, 93%, 100% { transform: none; } 95% { transform: scaleY(.12); } }
+/* In calm places (their garden, the book, meeting them, the story) they breathe. */
+.sg-plot.is-home .lf, .fb-friend .lf, .meet-friend .lf, .sg-friend .lf, .bk-walker .lf, .ws-friend .lf { transform-box: view-box; transform-origin: 50% 92%; animation: lf-breathe 3.4s ease-in-out infinite; }
+.sg-plot.is-home:nth-child(2n) .lf { animation-delay: -1.2s; }
+.sg-plot.is-home:nth-child(3n) .lf { animation-delay: -2.3s; }
+@keyframes lf-breathe { 50% { transform: translateY(-2.5%) scale(1.012, .99); } }
+/* A tap: squash, stretch, and the letter body glows gold for a beat. */
+.lf.is-wiggle { transform-box: view-box; transform-origin: 50% 92%; animation: lf-wiggle .62s cubic-bezier(.3, 1.5, .5, 1) !important; }
+.lf.is-wiggle .lf-fill { animation: lf-glow .62s ease; }
+.lf.is-wiggle .lf-fill-dot { animation: lf-glow-dot .62s ease; }
+@keyframes lf-wiggle { 0% { transform: none; } 28% { transform: scale(1.08, .9); } 58% { transform: scale(.95, 1.07) rotate(-3deg); } 100% { transform: none; } }
+@keyframes lf-glow { 35%, 60% { stroke: #ffe49a; } }
+@keyframes lf-glow-dot { 35%, 60% { fill: #ffe49a; } }
+@media (prefers-reduced-motion: reduce) { .lf .lf-eye, .sg-plot.is-home .lf, .fb-friend .lf, .meet-friend .lf, .sg-friend .lf, .bk-walker .lf, .ws-friend .lf, .lf.is-wiggle, .lf.is-wiggle .lf-fill, .lf.is-wiggle .lf-fill-dot { animation: none !important; } }
+
+/* Quality pass (v40): seeing games hide the replay button. */
+.lg-app .practice-heading .practice-replay[hidden] { display: none; }
+
+/* Polish pass (v41) ------------------------------------------------------ */
+/* A hint is also a still gold ring, so it shows when motion is reduced. */
+.lg-app :is(.ff, .bk, .pz, .vh, .ws, .wd, .sh, .tb) .is-hint { box-shadow: 0 0 0 5px #f3c955, 0 0 0 8px rgba(74, 54, 32, .18); border-radius: 22px; }
+/* v58: Dot Garden's way-on and Check glow like every other game's hint. */
+.lg-app .dot-garden .practice-tools .practice-button.is-hint { box-shadow: 0 4px 0 #b0501f, 0 0 0 5px #f3c955, 0 0 0 8px rgba(74, 54, 32, .18) !important; animation: bk-hint 1.2s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .lg-app .dot-garden .practice-tools .practice-button.is-hint { animation: none; } }
+.lg-app.lg-reduce-motion .dot-garden .practice-tools .practice-button.is-hint { animation: none; }
+/* A lonely last tile sits in the middle of its row, not stranded at the side. */
+.lg-app .pg-group .practice-garden-choices > button:last-child:nth-child(3n+1) { grid-column: 2; }
+@media (max-width: 600px) {
+  .lg-app .pg-group .practice-garden-choices > button:last-child:nth-child(3n+1) { grid-column: auto; }
+  .lg-app .pg-group .practice-garden-choices > button:last-child:nth-child(odd) { grid-column: 1 / -1; justify-self: center; width: calc(50% - 5px); }
+}
+/* Each new round fades in rather than snapping (zero specificity, opacity
+   only, so it never overrides a game's own motion or placement). */
+@keyframes lg-round-in { from { opacity: 0; } to { opacity: 1; } }
+:where(.lg-app :is(.ff, .bk, .pz, .vh, .ws, .wd, .sh, .tb) > *) { animation: lg-round-in .28s ease-out backwards; }
+@media (prefers-reduced-motion: reduce) { :where(.lg-app :is(.ff, .bk, .pz, .vh, .ws, .wd, .sh, .tb) > *) { animation: none; } }
+.lg-app.lg-reduce-motion :where(:is(.ff, .bk, .pz, .vh, .ws, .wd, .sh, .tb) > *) { animation: none; }
+
+/* Friend Moves (v49): every friend answers a tap with its own move instead
+   of the shared wiggle — the duck bobs, the frog hops, the bee buzzes, the
+   key turns, the book opens. The letter body still glows (lf-glow above), so
+   the move and the letter arrive together. Moves keep the letter upright and
+   unmirrored. Reduced motion: none of it (the rule above). */
+.lf.is-wiggle[data-friend] { animation-duration: .9s !important; }
+.lf.is-wiggle[data-friend="ا"], .lf.is-wiggle[data-friend="خ"] { animation-name: lf-m-hop !important; }
+.lf.is-wiggle[data-friend="ض"], .lf.is-wiggle[data-friend="غ"] { animation-name: lf-m-leap !important; }
+.lf.is-wiggle[data-friend="ب"], .lf.is-wiggle[data-friend="ت"] { animation-name: lf-m-bob !important; }
+.lf.is-wiggle[data-friend="س"] { animation-name: lf-m-swim !important; }
+.lf.is-wiggle[data-friend="ن"] { animation-name: lf-m-buzz !important; }
+.lf.is-wiggle[data-friend="ج"], .lf.is-wiggle[data-friend="ذ"], .lf.is-wiggle[data-friend="ر"], .lf.is-wiggle[data-friend="و"] { animation-name: lf-m-sway !important; transform-origin: 50% 96%; }
+.lf.is-wiggle[data-friend="ح"] { animation-name: lf-m-gallop !important; }
+.lf.is-wiggle[data-friend="د"], .lf.is-wiggle[data-friend="ف"] { animation-name: lf-m-stomp !important; }
+.lf.is-wiggle[data-friend="ث"], .lf.is-wiggle[data-friend="ق"] { animation-name: lf-m-pounce !important; }
+.lf.is-wiggle[data-friend="ز"] { animation-name: lf-m-stretch !important; }
+.lf.is-wiggle[data-friend="ش"] { animation-name: lf-m-shine !important; transform-origin: 50% 50%; }
+.lf.is-wiggle[data-friend="ص"], .lf.is-wiggle[data-friend="ظ"], .lf.is-wiggle[data-friend="ك"] { animation-name: lf-m-open !important; }
+.lf.is-wiggle[data-friend="ط"] { animation-name: lf-m-fan !important; }
+.lf.is-wiggle[data-friend="ع"] { animation-name: lf-m-jiggle !important; }
+.lf.is-wiggle[data-friend="ل"] { animation-name: lf-m-squeeze !important; }
+.lf.is-wiggle[data-friend="م"] { animation-name: lf-m-turn !important; transform-origin: 50% 40%; }
+.lf.is-wiggle[data-friend="ه"], .lf.is-wiggle[data-friend="ي"] { animation-name: lf-m-flutter !important; }
+@keyframes lf-m-hop { 0%, 100% { transform: none; } 20% { transform: scale(1.06, .9); } 45% { transform: translateY(-14%) scale(.96, 1.06); } 70% { transform: scale(1.06, .92); } 85% { transform: translateY(-4%); } }
+@keyframes lf-m-leap { 0%, 100% { transform: none; } 18% { transform: scale(1.08, .88); } 48% { transform: translate(-6%, -20%) rotate(-8deg); } 75% { transform: scale(1.05, .93); } }
+@keyframes lf-m-bob { 0%, 100% { transform: none; } 25% { transform: translateY(5%) rotate(2deg); } 50% { transform: translateY(-3%) rotate(-2deg); } 75% { transform: translateY(3%) rotate(1deg); } }
+@keyframes lf-m-swim { 0%, 100% { transform: none; } 20% { transform: translateX(-6%) rotate(-5deg); } 45% { transform: translateX(6%) rotate(5deg); } 70% { transform: translateX(-3%) rotate(-2deg); } }
+@keyframes lf-m-buzz { 0%, 100% { transform: none; } 10%, 30%, 50%, 70% { transform: translate(2%, -3%) rotate(2deg); } 20%, 40%, 60%, 80% { transform: translate(-2%, -5%) rotate(-2deg); } }
+@keyframes lf-m-sway { 0%, 100% { transform: none; } 25% { transform: rotate(-7deg); } 60% { transform: rotate(6deg); } 85% { transform: rotate(-2deg); } }
+@keyframes lf-m-gallop { 0%, 100% { transform: none; } 20% { transform: translateY(-6%) rotate(-5deg); } 40% { transform: rotate(4deg); } 60% { transform: translateY(-6%) rotate(-5deg); } 80% { transform: rotate(3deg); } }
+@keyframes lf-m-stomp { 0%, 100% { transform: none; } 30% { transform: translateY(-8%) scale(.97, 1.04); } 55% { transform: scale(1.1, .86); } 75% { transform: scale(.98, 1.02); } }
+@keyframes lf-m-pounce { 0%, 100% { transform: none; } 30% { transform: scale(1.08, .86) translateX(4%); } 55% { transform: translate(-8%, -8%) scale(.96, 1.05); } 80% { transform: translateX(-2%); } }
+@keyframes lf-m-stretch { 0%, 100% { transform: none; } 35% { transform: scale(.94, 1.14); } 65% { transform: scale(1.03, .97); } }
+@keyframes lf-m-shine { 0%, 100% { transform: none; } 40% { transform: scale(1.1) rotate(6deg); } 70% { transform: scale(.98) rotate(-3deg); } }
+@keyframes lf-m-open { 0%, 100% { transform: none; } 25% { transform: scale(1.04, .86); } 55% { transform: scale(.97, 1.08); } 80% { transform: scale(1.01, .98); } }
+@keyframes lf-m-fan { 0%, 100% { transform: none; } 35% { transform: scale(1.14, .96); } 65% { transform: scale(.98, 1.03); } }
+@keyframes lf-m-jiggle { 0%, 100% { transform: none; } 15%, 45%, 75% { transform: scale(1.05, .95) rotate(2deg); } 30%, 60%, 90% { transform: scale(.96, 1.04) rotate(-2deg); } }
+@keyframes lf-m-squeeze { 0%, 100% { transform: none; } 30% { transform: scale(.88, 1.06); } 60% { transform: scale(1.06, .95); } }
+@keyframes lf-m-turn { 0%, 100% { transform: none; } 30% { transform: rotate(-16deg); } 60% { transform: rotate(10deg); } 85% { transform: rotate(-3deg); } }
+@keyframes lf-m-flutter { 0%, 100% { transform: none; } 15% { transform: translateY(-6%) scale(1.04, .94); } 30% { transform: translateY(-10%) scale(.97, 1.04); } 45% { transform: translateY(-12%) scale(1.04, .94); } 70% { transform: translateY(-4%); } }
+
+/* Tactile pass (v55) ------------------------------------------------------
+   A press should feel like pressing something. While a finger is down the
+   thing sinks (translate/scale — separate properties, so they never clobber
+   a game's own transform) and a raised lip squashes flat; on release it
+   springs back past level and settles, like a rubber key. Paired with a
+   thock-and-pop sound, a ripple at the fingertip and a real tick where the
+   device has one (LettersGame.initTouchFeedback, Haptics.js). */
+.lg-app .is-pressed { translate: 0 3px; scale: .95; filter: brightness(.97); transition: translate 70ms ease-out, scale 70ms ease-out, filter 70ms ease-out, box-shadow 70ms ease-out; }
+.lg-app .practice-garden-choices button.is-pressed, .lg-app .walk-stone.is-pressed, .lg-app .map-stop.is-pressed { scale: .97; }
+.lg-app .is-released { animation: lg-spring .42s cubic-bezier(.25, 1.7, .45, 1); }
+@keyframes lg-spring { 0% { translate: 0 3px; scale: .95; } 40% { translate: 0 -2px; scale: 1.04; } 70% { translate: 0 .5px; scale: .99; } 100% { translate: 0 0; scale: 1; } }
+/* Lips squash flat as the button goes down. */
+.lg-app :is(.ff-card, .ff-top button, .walk-stone, .bk-ear, .bk-pic, .bk-friend, .bk-piece, .pz-tile, .vh-choice, .ws-piece, .wd-card, .wd-piece).is-pressed { translate: 0 4px; box-shadow: 0 1px 0 #c9bda4, 0 0 0 4px #4a3620; }
+.lg-app :is(.practice-replay, .practice-button, .delivery-listen, .wg-gate-tag, .garden-practice-links button, .practice-garden-choices button).is-pressed { translate: 0 3px; box-shadow: 0 1px 0 #c9bda4; }
+.lg-app .dot-answers button.is-pressed { translate: 0 4px; box-shadow: 0 1px 0 #c9bda4; }
+.lg-home .map-play-places button.is-pressed, .lg-screen.lg-home .map-daily-row button.is-pressed { translate: 0 4px; box-shadow: 0 1px 0 #c9bda4, inset 0 3px 0 #fffdf7; }
+/* The ripple where a fingertip lands; empty ground gets a fainter one. */
+.lg-touch-layer { position: fixed; inset: 0; pointer-events: none; z-index: 9000; overflow: hidden; }
+.lg-bloom { position: absolute; width: 64px; height: 64px; margin: -32px 0 0 -32px; border-radius: 50%; box-shadow: inset 0 0 0 4px rgba(255, 253, 247, .95), 0 0 0 2px rgba(74, 54, 32, .22); animation: lg-bloom .48s cubic-bezier(.2, .7, .3, 1) forwards; }
+.lg-bloom::after { content: ""; position: absolute; inset: 26px; border-radius: 50%; background: rgba(255, 228, 154, .9); animation: lg-bloom-core .3s ease-out forwards; }
+.lg-bloom.is-quiet { width: 40px; height: 40px; margin: -20px 0 0 -20px; box-shadow: inset 0 0 0 3px rgba(255, 253, 247, .6); }
+.lg-bloom.is-quiet::after { display: none; }
+@keyframes lg-bloom { from { scale: .25; opacity: 1; } to { scale: 1.45; opacity: 0; } }
+@keyframes lg-bloom-core { from { scale: 1.6; opacity: 1; } to { scale: .2; opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .lg-app .is-pressed { translate: none; scale: none; transition: none; filter: brightness(.92); }
+  .lg-app .is-released { animation: none; }
+  .lg-bloom { display: none; }
+}
+.lg-app.lg-reduce-motion .is-pressed { translate: none; scale: none; transition: none; filter: brightness(.92); }
+.lg-app.lg-reduce-motion .is-released { animation: none; }
+
+/* Feel pass (v56) ---------------------------------------------------------
+   The visual "touch" an iPad gets instead of haptics (it has no haptic
+   hardware). Right answers HIT: a held squash for ~70ms (fighting games'
+   hit-stop), then a pop past full size that settles. Misses THUD: a dull
+   squash with no bounce, a little grey, a damped "no" shake. Soft things
+   (friends, fish) squash wide and stretch back; firm things press flat. */
+.lg-app .is-pressed.is-soft { scale: 1.05 .9; }
+.lg-app .is-released.is-soft { animation-name: lg-spring-soft; }
+@keyframes lg-spring-soft { 0% { translate: 0 3px; scale: 1.05 .9; } 35% { translate: 0 -3px; scale: .95 1.08; } 65% { translate: 0 .5px; scale: 1.02 .98; } 100% { translate: 0 0; scale: 1; } }
+.lg-app .is-hit { animation: lg-hit .5s linear; }
+@keyframes lg-hit {
+  0%, 14% { scale: .9; translate: 0 3px; animation-timing-function: cubic-bezier(.2, 1.8, .4, 1); }
+  42% { scale: 1.12; translate: 0 -3px; }
+  68% { scale: .98; translate: 0 0; }
+  100% { scale: 1; translate: 0 0; }
+}
+.lg-app .is-hit.is-soft { animation-name: lg-hit-soft; }
+@keyframes lg-hit-soft {
+  0%, 14% { scale: 1.08 .86; translate: 0 4px; animation-timing-function: cubic-bezier(.2, 1.8, .4, 1); }
+  42% { scale: .94 1.14; translate: 0 -5px; }
+  68% { scale: 1.02 .98; translate: 0 0; }
+  100% { scale: 1; translate: 0 0; }
+}
+.lg-app .is-miss { animation: lg-miss .44s ease-out; }
+/* Encouragement pass (v57): no grey — grey reads as sad. A miss is a soft
+   "not that one" shrug: a small squash and a gentle, shrinking sway. */
+@keyframes lg-miss {
+  0% { scale: .96 .98; translate: 0 2px; }
+  25% { translate: -4px 1px; }
+  50% { translate: 3px 0; }
+  75% { translate: -1.5px 0; }
+  100% { scale: 1; translate: 0 0; }
+}
+/* One small flash on the tile that was right (a single flash, never a
+   train — WCAG 2.3.1), and cartoon impact lines from the fingertip. */
+.lg-hit-flash { position: absolute; background: #fffdf7; opacity: 0; animation: lg-hit-flash .24s ease-out; mix-blend-mode: screen; }
+@keyframes lg-hit-flash { 0% { opacity: 0; } 12% { opacity: .85; } 100% { opacity: 0; } }
+.lg-burst { position: absolute; width: 120px; height: 120px; margin: -60px 0 0 -60px; }
+.lg-burst svg { width: 100%; height: 100%; overflow: visible; animation: lg-burst .46s cubic-bezier(.15, .8, .3, 1) forwards; }
+.lg-burst svg path { filter: drop-shadow(0 0 1.6px rgba(74, 54, 32, .55)); }
+@keyframes lg-burst { 0% { scale: .45; opacity: 1; } 60% { opacity: 1; } 100% { scale: 1.35; opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .lg-app .is-hit, .lg-app .is-miss, .lg-app .is-released.is-soft { animation: none; }
+  .lg-app .is-pressed.is-soft { scale: none; }
+  .lg-hit-flash, .lg-burst { display: none; }
+}
+.lg-app.lg-reduce-motion .is-hit, .lg-app.lg-reduce-motion .is-miss { animation: none; }
+
+/* Encouragement pass (v57): the helping hand. After two misses in a row it
+   points at the answer the game is hinting and taps the air above it. */
+.lg-guide-hand { position: absolute; width: 56px; height: 64px; margin: 0 0 0 -14px; animation: lg-guide-in .3s ease-out, lg-guide-tap 1s ease-in-out .3s infinite; filter: drop-shadow(0 4px 0 rgba(74, 54, 32, .28)); }
+.lg-guide-hand svg { width: 100%; height: 100%; }
+@keyframes lg-guide-in { from { opacity: 0; translate: 18px 22px; } }
+@keyframes lg-guide-tap { 0%, 100% { translate: 0 0; } 45% { translate: -3px -10px; } 60% { translate: 0 2px; scale: .94; } }
+@media (prefers-reduced-motion: reduce) { .lg-guide-hand { animation: none; } }
+.lg-app.lg-reduce-motion .lg-guide-hand { animation: none; }
+
+/* Encouragement pass (v57): a single star is a proud star — bigger, with
+   twinkles around it. */
+.stars-star.is-solo { position: relative; margin: 0 18px; }
+.stars-star.is-solo svg { scale: 1.4; }
+.stars-star.is-solo::before, .stars-star.is-solo::after { content: ""; position: absolute; width: 14px; height: 14px; background: #ffe49a; clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); animation: lg-twinkle 1.6s ease-in-out infinite; }
+.stars-star.is-solo::before { left: -16px; top: 8px; }
+.stars-star.is-solo::after { right: -14px; top: -4px; width: 18px; height: 18px; animation-delay: .5s; }
+@keyframes lg-twinkle { 0%, 100% { scale: .6; opacity: .5; } 50% { scale: 1.15; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .stars-star.is-solo::before, .stars-star.is-solo::after { animation: none; } }
+
+/* Encouragement pass (v57): the sticker stand fills up toward a visit. */
+.stand-pips { display: flex; gap: 2px; padding: 5px 7px; border-radius: 14px; background: #fffaf0; box-shadow: inset 0 0 0 2px #e5dcc8; }
+.stand-pips i { display: grid; color: #e5dcc8; }
+.stand-pips i svg path { stroke: #c9bda4; stroke-width: 2; }
+.stand-pips i.is-on { color: #f3c955; }
+.stand-pips i.is-on svg path { stroke: #70501b; }
+.album-stand.is-soon { animation: lg-soon .6s cubic-bezier(.3, 1.6, .5, 1); }
+.album-stand.is-soon .stand-pips i.is-on { animation: lg-twinkle .6s ease-in-out 2; }
+@keyframes lg-soon { 30% { translate: 0 -8px; } 60% { translate: 0 2px; } }
+@media (prefers-reduced-motion: reduce) { .album-stand.is-soon, .album-stand.is-soon .stand-pips i.is-on { animation: none; } }
+.lg-app .is-soon:not(.album-stand) { animation: lg-soon .6s cubic-bezier(.3, 1.6, .5, 1); }
+.lg-app .is-soon .pet-acc-cost { animation: lg-twinkle .6s ease-in-out 2; }
+@media (prefers-reduced-motion: reduce) { .lg-app .is-soon, .lg-app .is-soon .pet-acc-cost { animation: none; } }
+.lg-app.lg-reduce-motion .is-soon, .lg-app.lg-reduce-motion .is-soon .pet-acc-cost { animation: none; }
+
+/* Encouragement pass (v57): a finished game plants a flower. */
+.practice-stage { position: relative; }
+/* v58: a short game sat in the top half of an iPad with the rest empty; it is centred now. Auto margins, not justify-content, so a tall game never loses its top out of reach. */
+.lg-app .practice-stage:has(> :is(.tb, .pz, .bk, .sh, .vh, .ws, .wd, .ff)) { display: flex; flex-direction: column; }
+.lg-app .practice-stage > :is(.tb, .pz, .bk, .sh, .vh, .ws, .wd, .ff) { margin-block: auto; flex-shrink: 0; }
+.pg-bloom { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(255, 253, 247, .72); animation: pg-bloom-in .3s ease-out; z-index: 5; pointer-events: none; }
+.pg-bloom-bed { width: min(60vw, 240px); animation: pg-bloom-grow .7s cubic-bezier(.3, 1.6, .5, 1) .1s both; transform-origin: 50% 90%; }
+.pg-bloom-bed svg { width: 100%; height: auto; display: block; }
+@keyframes pg-bloom-in { from { opacity: 0; } }
+@keyframes pg-bloom-grow { from { scale: .2 .05; opacity: 0; } 60% { scale: 1.08 1.12; opacity: 1; } }
+/* Encouragement pass (v57): the daily strip grew to 56px buttons in the UI
+   pass and its bottom edge sat over the play buttons; they clear it now. */
+@media (min-width: 360px) and (max-width: 600px) and (min-height: 501px) {
+  .lg-app .lg-screen.lg-home .map-play-places { margin-top: 22px; }
+}
+/* A comeback (right after a miss) bursts bigger and golder. */
+.lg-burst.is-big { width: 170px; height: 170px; margin: -85px 0 0 -85px; }
+.lg-burst.is-big svg path { stroke: #f3c955; }
+.lg-burst.is-bloom { width: 150px; height: 150px; margin: -75px 0 0 -75px; }
+.lg-burst.is-bloom svg { animation: lg-bloom .6s cubic-bezier(.2, 1.4, .4, 1) forwards; }
+@keyframes lg-bloom { 0% { scale: .3; rotate: -30deg; opacity: 1; } 55% { scale: 1.1; rotate: 0deg; opacity: 1; } 100% { scale: 1.25; rotate: 10deg; opacity: 0; } }
+/* After a right answer the other choices rest until the next round. */
+.lg-solved > :is(button, [role="button"]):not(.is-won):not(.is-hit):not(.is-right):not(.is-found):not(.is-going) { opacity: .45; scale: .96; transition: opacity .35s ease, scale .35s ease; pointer-events: none; }
+/* Reduced motion: the right answer glows gold, still. */
+.lg-app .is-won-still { box-shadow: 0 0 0 5px #f3c955, 0 0 18px 6px rgba(243, 201, 85, .55) !important; border-radius: 22px; }
+
+/* Playtest report (v57, ?playtest=report): a plain grown-up table. */
+.lg-playtest-report { position: fixed; inset: 16px; z-index: 99999; overflow: auto; padding: 16px; border-radius: 16px; background: #fffaf0; color: #4a3620; font: 14px/1.4 system-ui, sans-serif; box-shadow: 0 0 0 3px #4a3620; }
+.lg-playtest-report h2 { margin: 0 0 4px; font-size: 18px; }
+.lg-playtest-scroll { overflow-x: auto; }
+.lg-playtest-report table { border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.lg-playtest-report th, .lg-playtest-report td { padding: 4px 8px; border-bottom: 1px solid #e5dcc8; text-align: right; white-space: nowrap; }
+.lg-playtest-report th:first-child, .lg-playtest-report td:first-child { text-align: left; }
+.lg-playtest-close { margin-top: 12px; min-height: 44px; padding: 0 18px; border-radius: 12px; border: 2px solid #4a3620; background: #fffdf7; font: inherit; }
+.lg-playtest-close:focus-visible { outline: 4px solid var(--lg-focus); outline-offset: 3px; }
+.pg-bloom.is-still, .pg-bloom.is-still .pg-bloom-bed { animation: none; }
+@media (prefers-reduced-motion: reduce) { .pg-bloom, .pg-bloom-bed { animation: none; } }
+/* Encouragement pass (v57): a refused bubble in the older pop game fades in
+   its own colours ("not this one"), never to a sad grey face. */
+.lg-app .lg-play .pop-bubble.is-no { opacity: .4; transition: opacity .45s ease; }
+
+/* Encouragement pass (v57): the chapter's friends at the party. */
+.party-friends { display: flex; justify-content: center; gap: 4px; flex-wrap: wrap; }
+.party-friend { width: 76px; height: 76px; padding: 0; border: 0; border-radius: 50%; background: rgba(255, 253, 247, .8); box-shadow: 0 3px 0 #c9bda4; display: grid; place-items: center; cursor: pointer; animation: party-friend-in .5s cubic-bezier(.3, 1.6, .5, 1) calc(.5s + var(--i) * .42s) backwards; }
+.party-friend svg { width: 66px; height: 66px; }
+.party-friend:focus-visible { outline: 4px solid var(--lg-focus); outline-offset: 3px; }
+@keyframes party-friend-in { from { translate: 0 30px; scale: .3; opacity: 0; } }
+@media (max-height: 700px) { .party-friend { width: 60px; height: 60px; } .party-friend svg { width: 52px; height: 52px; } }
+@media (prefers-reduced-motion: reduce) { .party-friend { animation: none; } }
+/* 2026-10-13: the friends who came to cheer were the smallest thing on a phone's party (58px with ~95px of height to spare); five still fit at 66. */
+@media (max-width: 440px) { .party-friends { flex-wrap: nowrap; gap: 2px; } .party-friend { width: min(66px, calc((100vw - 44px) / 5)); height: min(66px, calc((100vw - 44px) / 5)); } .party-friend svg { width: 88%; height: 88%; } }
+/* The next chapter's glow breathes, gently inviting. */
+.lg-app .lg-home .map-stop.is-current::before { animation: map-invite 2.4s ease-in-out infinite; }
+@keyframes map-invite { 50% { scale: 1.08; opacity: .75; } }
+@media (prefers-reduced-motion: reduce) { .lg-app .lg-home .map-stop.is-current::before { animation: none; } }
+.lg-app.lg-reduce-motion .lg-home .map-stop.is-current::before { animation: none; }
+
+/* Encouragement pass (v57): a toy never tried twinkles in its corner. */
+.practice-garden-choices button { position: relative; }
+.pg-new { position: absolute; top: 6px; right: 6px; width: 22px; height: 22px; background: #f3c955; clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); filter: drop-shadow(0 0 2px #fffdf7); animation: lg-twinkle 1.8s ease-in-out infinite; pointer-events: none; }
+@media (prefers-reduced-motion: reduce) { .pg-new { animation: none; } }
+
+/* Encouragement pass (v57): the speaker pulses while the game is talking. */
+.lg-app.lg-speaking :is(.practice-replay, .play-bubble):not([hidden]) { animation: lg-speak .55s ease-in-out infinite alternate; }
+@keyframes lg-speak { from { box-shadow: 0 4px 0 #c9bda4, 0 0 0 0 rgba(243, 201, 85, .7); } to { box-shadow: 0 4px 0 #c9bda4, 0 0 0 9px rgba(243, 201, 85, 0); scale: 1.04; } }
+@media (prefers-reduced-motion: reduce) { .lg-app.lg-speaking :is(.practice-replay, .play-bubble):not([hidden]) { animation: none; box-shadow: 0 4px 0 #c9bda4, 0 0 0 4px #f3c955; } }
+.lg-app.lg-reduce-motion.lg-speaking :is(.practice-replay, .play-bubble):not([hidden]) { animation: none; box-shadow: 0 4px 0 #c9bda4, 0 0 0 4px #f3c955; }
+/* v58: at graduation all 28 friends crowded the top edge at 46px, over the moon, with the bottom of an iPad empty. On big screens they gather below the Bismillah and the pet, bigger — the reward for the whole journey. */
+@media (min-width: 700px) and (min-height: 600px) {
+  .sg-grad .sg-rehal { order: 1; } .sg-grad .sg-grad-pet { order: 2; } .sg-grad .sg-grad-friends { order: 3; } .sg-grad .sg-grad-end { order: 4; }
+  .sg-grad .sg-grad-friends svg { width: 60px; height: auto; }
+}
+
+/* v58: on a sideways phone the hubs kept their big 185px tiles, so six of a
+   little sprout's nine toys and five of each hub's eight games sat below the
+   fold. Compact tiles use the width instead: the hubs four a row, a sprout's
+   groups side by side, every toy on one screen. (Older children's long garden
+   still scrolls — they can.) */
+@media (orientation: landscape) and (max-height: 500px) {
+  .lg-app :is(.lg-book-corner, .lg-puzzle-tree, .lg-practice-garden.is-sprout) .practice-garden-choices > button { min-height: 0 !important; padding: 5px 4px; width: auto; }
+  .lg-app :is(.lg-book-corner, .lg-puzzle-tree, .lg-practice-garden.is-sprout) .practice-garden-choices > button > svg:first-child,
+  .lg-app :is(.lg-book-corner, .lg-puzzle-tree, .lg-practice-garden.is-sprout) :is(.practice-picture, .practice-friend-picture),
+  .lg-app :is(.lg-book-corner, .lg-puzzle-tree, .lg-practice-garden.is-sprout) :is(.practice-picture, .practice-friend-picture) svg { height: 48px !important; flex: 0 0 48px !important; width: auto; max-width: 100%; }
+  .lg-app :is(.lg-book-corner, .lg-puzzle-tree, .lg-practice-garden.is-sprout) .practice-play svg { width: 22px; height: 22px; }
+  .lg-app :is(.lg-book-corner, .lg-puzzle-tree, .lg-practice-garden.is-sprout) .practice-garden-choices > button:last-child:nth-child(odd) { grid-column: auto; width: auto; justify-self: stretch; }
+  .lg-app :is(.lg-book-corner, .lg-puzzle-tree) .practice-garden-choices { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; width: min(100%, 520px); margin-inline: auto; }
+  .lg-app .lg-practice-garden.is-sprout .practice-garden-hub { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 8px; width: 100%; }
+  .lg-app .lg-practice-garden.is-sprout .pg-group { flex: 0 0 auto; padding: 22px 6px 8px; }
+  .lg-app .lg-practice-garden.is-sprout .pg-group .practice-garden-choices { display: grid; grid-auto-flow: column; grid-auto-columns: 84px; grid-template-columns: none; gap: 6px; }
+}
+
+/* v58: an upright iPad left a little sprout's Sand Table and Colour a Friend
+   just below the fold. Same arrangement as on phones, full-size tiles. */
+@media (min-width: 481px) and (orientation: portrait) {
+  .lg-app .lg-practice-garden.is-sprout .practice-garden-hub { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .lg-app .lg-practice-garden.is-sprout .pg-group { grid-column: 1 / -1; }
+  .lg-app .lg-practice-garden.is-sprout .pg-group:has(.practice-garden-choices > button:only-child) { grid-column: auto; }
+  .lg-app .lg-practice-garden.is-sprout .pg-group .practice-garden-choices { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .lg-app .lg-practice-garden.is-sprout .pg-group:has(.practice-garden-choices > button:only-child) .practice-garden-choices { grid-template-columns: minmax(0, 220px); justify-content: center; }
+  .lg-app .lg-practice-garden.is-sprout .practice-garden-choices > button:last-child:is(:nth-child(odd), :nth-child(3n+1)) { grid-column: auto; width: auto; justify-self: stretch; }
+}
+
+/* v58: the Friends' Garden as a garden — a picket fence along the top, grass
+   tufts and tiny flowers in the bed, and each friend at home on its mound. */
+.lg-friends-garden .sg-plots { position: relative; background: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22180%22 height=%22140%22 viewBox=%220 0 180 140%22%3E%3Cg fill=%22none%22 stroke=%22%237fce54%22 stroke-width=%223%22 stroke-linecap=%22round%22%3E%3Cpath d=%22M20 34q2-8 4-10M26 34q0-8-2-12M32 34q-2-6-4-8%22/%3E%3Cpath d=%22M120 96q2-8 4-10M126 96q0-8-2-12M132 96q-2-6-4-8%22/%3E%3Cpath d=%22M74 124q2-6 3-8M80 124q0-6-2-9%22/%3E%3C/g%3E%3Cg transform=%22translate%28150 40%29%22 stroke=%22%234a3620%22 stroke-width=%221.6%22%3E%3Ccircle cx=%220%22 cy=%22-5%22 r=%224%22 fill=%22%23ffa798%22/%3E%3Ccircle cx=%225%22 cy=%220%22 r=%224%22 fill=%22%23ffa798%22/%3E%3Ccircle cx=%220%22 cy=%225%22 r=%224%22 fill=%22%23ffa798%22/%3E%3Ccircle cx=%22-5%22 cy=%220%22 r=%224%22 fill=%22%23ffa798%22/%3E%3Ccircle r=%223%22 fill=%22%23f3c955%22/%3E%3C/g%3E%3C/svg%3E") 0 0 / 180px 140px round, #b7e779; }
+.lg-friends-garden .sg-fence { width: 100%; max-width: 760px; height: 40px; margin-bottom: -26px; position: relative; z-index: 1; background: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2248%22 height=%2240%22 viewBox=%220 0 48 40%22%3E%3Cpath d=%22M0 18H48M0 31H48%22 stroke=%22%23a89478%22 stroke-width=%225%22/%3E%3Cpath d=%22M8 38V10L14 3L20 10V38Z M32 38V10L38 3L44 10V38Z%22 fill=%22%23fffaf0%22 stroke=%22%234a3620%22 stroke-width=%222.4%22 stroke-linejoin=%22round%22/%3E%3C/svg%3E") 0 0 / 48px 40px repeat-x; pointer-events: none; }
+.sg-plot.is-home { position: relative; }
+.sg-plot.is-home .sg-mound { position: absolute; left: 50%; bottom: 0; width: 86%; transform: translateX(-50%); pointer-events: none; }
+.sg-plot.is-home .sg-mound svg { display: block; width: 100%; height: auto; }
+.sg-plot.is-home > svg.lf { position: relative; margin-bottom: 8px; }
+
+/* v58: the book shelf is a real bookcase — a wooden cabinet behind the
+   books and a plank under every row (each book's plank overlaps its
+   neighbours', so a row reads as one shelf; the cabinet clips the ends). On a
+   tablet all four books sit on one shelf. */
+.lg-book-shelf .lb-shelf { max-width: 760px; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); row-gap: 34px; padding: 22px 18px 30px; border-radius: 22px; background: #a89478; box-shadow: inset 0 0 0 10px #c69434, inset 0 0 0 13px #4a3620, 0 0 0 3px #4a3620, 0 8px 0 #70501b; }
+.lg-book-shelf .lb-spine::after { content: ""; position: absolute; left: -40px; right: -40px; bottom: -22px; height: 12px; background: #c69434; border-top: 3px solid #4a3620; border-bottom: 3px solid #70501b; z-index: -1; pointer-events: none; }
+.lg-book-shelf .lb-spine { isolation: auto; }
+.lg-book-shelf .lb-shelf { isolation: isolate; margin-inline: auto; align-self: center; justify-self: center; }
+@media (max-width: 600px) { .lg-book-shelf .lb-shelf { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 18px 14px 26px; } }
+
+/* v58: the Puzzle Tree is a tree — its games hang in a leafy canopy (with a
+   few fruits at the edge) on a trunk, instead of floating on the sky. */
+.lg-puzzle-tree .practice-garden-choices { position: relative; isolation: isolate; padding: clamp(22px, 4vw, 40px) clamp(20px, 4vw, 44px); margin-bottom: 64px; background: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 300%22 preserveAspectRatio=%22none%22%3E%3Cg stroke=%22%234a3620%22 stroke-width=%223%22 vector-effect=%22non-scaling-stroke%22%3E%3Cellipse cx=%2234%22 cy=%22120%22 rx=%229%22 ry=%229%22 fill=%22%23ee806f%22/%3E%3Cellipse cx=%22372%22 cy=%22150%22 rx=%229%22 ry=%229%22 fill=%22%23f3c955%22/%3E%3Cellipse cx=%22190%22 cy=%2216%22 rx=%229%22 ry=%229%22 fill=%22%23ee806f%22/%3E%3Cellipse cx=%22350%22 cy=%22236%22 rx=%229%22 ry=%229%22 fill=%22%23ee806f%22/%3E%3Cellipse cx=%2260%22 cy=%22250%22 rx=%229%22 ry=%229%22 fill=%22%23f3c955%22/%3E%3C/g%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat, url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 300%22 preserveAspectRatio=%22none%22%3E%3Cpath d=%22M40 150Q10 120 30 84Q44 54 82 56Q96 22 140 24Q172 4 210 18Q248 2 280 26Q322 22 340 56Q380 60 384 104Q400 140 374 168Q392 210 360 236Q340 270 296 268Q270 292 228 284Q196 300 160 286Q118 296 90 270Q50 270 36 236Q8 206 26 178Q20 162 40 150Z%22 fill=%22%237fce54%22 stroke=%22%234a3620%22 stroke-width=%225%22 vector-effect=%22non-scaling-stroke%22/%3E%3Cpath d=%22M70 92Q84 70 112 72M300 48Q326 50 340 70M52 196Q46 176 58 162%22 fill=%22none%22 stroke=%22%23b7e779%22 stroke-width=%228%22 stroke-linecap=%22round%22 vector-effect=%22non-scaling-stroke%22/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat; }
+.lg-puzzle-tree .practice-garden-choices::after { content: ""; position: absolute; left: 50%; bottom: -62px; width: 120px; height: 70px; transform: translateX(-50%); background: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22120%22 height=%2270%22 viewBox=%220 0 120 70%22%3E%3Cpath d=%22M42 0Q46 40 30 68H90Q74 40 78 0Z%22 fill=%22%23a89478%22 stroke=%22%234a3620%22 stroke-width=%223%22 stroke-linejoin=%22round%22/%3E%3Cpath d=%22M52 10Q54 34 46 58M66 14Q66 36 72 56%22 fill=%22none%22 stroke=%22%2370501b%22 stroke-width=%222.4%22 stroke-linecap=%22round%22/%3E%3Cellipse cx=%2260%22 cy=%2268%22 rx=%2252%22 ry=%225%22 fill=%22%232f5c46%22 opacity=%22.25%22/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat; z-index: -1; pointer-events: none; }
+@media (min-width: 700px) {
+  .lg-puzzle-tree .practice-garden-choices { grid-template-columns: repeat(4, minmax(0, 140px)); justify-content: center; gap: 12px; padding: 48px 64px 44px; width: auto; max-width: none; }
+  .lg-puzzle-tree .practice-garden-choices > button { min-height: 0 !important; padding: 8px 6px; }
+  .lg-puzzle-tree .practice-garden-choices > button:last-child:is(:nth-child(odd), :nth-child(3n+1)) { grid-column: auto; width: auto; justify-self: stretch; }
+}
+
+/* v58: the Book Corner's games sit on a giant open picture book (cover,
+   two pages, the spine) with a ribbon bookmark — not floating on the sky. */
+.lg-book-corner .practice-garden-choices { position: relative; isolation: isolate; padding: clamp(24px, 4vw, 44px) clamp(22px, 4vw, 48px); margin-bottom: 52px; background: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 300%22 preserveAspectRatio=%22none%22%3E%3Cpath d=%22M6 24Q100 4 200 22Q300 4 394 24V292Q300 274 200 294Q100 274 6 292Z%22 fill=%22%23ee806f%22 stroke=%22%234a3620%22 stroke-width=%225%22 vector-effect=%22non-scaling-stroke%22/%3E%3Cpath d=%22M16 22Q104 6 200 22V284Q104 266 16 282Z%22 fill=%22%23fffaf0%22 stroke=%22%234a3620%22 stroke-width=%224%22 vector-effect=%22non-scaling-stroke%22/%3E%3Cpath d=%22M384 22Q296 6 200 22V284Q296 266 384 282Z%22 fill=%22%23fffaf0%22 stroke=%22%234a3620%22 stroke-width=%224%22 vector-effect=%22non-scaling-stroke%22/%3E%3Cpath d=%22M192 24V282M208 24V282%22 stroke=%22%23e5dcc8%22 stroke-width=%226%22 vector-effect=%22non-scaling-stroke%22/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat; }
+.lg-book-corner .practice-garden-choices::after { content: ""; position: absolute; right: 22%; bottom: -54px; width: 36px; height: 70px; background: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2236%22 height=%2270%22 viewBox=%220 0 36 70%22%3E%3Cpath d=%22M6 0H30V66L18 54L6 66Z%22 fill=%22%237fce54%22 stroke=%22%234a3620%22 stroke-width=%223%22 stroke-linejoin=%22round%22/%3E%3Cpath d=%22M12 6V48%22 stroke=%22%23b7e779%22 stroke-width=%223%22 stroke-linecap=%22round%22/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat; z-index: -1; pointer-events: none; }
+@media (min-width: 700px) {
+  .lg-book-corner .practice-garden-choices { grid-template-columns: repeat(4, minmax(0, 140px)); justify-content: center; gap: 12px; padding: 44px 60px 44px; width: auto; max-width: none; }
+  .lg-book-corner .practice-garden-choices > button { min-height: 0 !important; padding: 8px 6px; }
+  .lg-book-corner .practice-garden-choices > button:last-child:is(:nth-child(odd), :nth-child(3n+1)) { grid-column: auto; width: auto; justify-self: stretch; }
+}
+
+/* v58: the Word Workshop's chapters are tiles on a wooden workbench (top,
+   front lip, two legs) instead of cards floating on the sky. */
+.workshop-chapters { position: relative; isolation: isolate; padding: clamp(20px, 3vw, 34px) clamp(18px, 3vw, 36px) clamp(30px, 4vw, 44px); margin-bottom: 46px; background: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 400 300%22 preserveAspectRatio=%22none%22%3E%3Cpath d=%22M10 14H390V270H10Z%22 fill=%22%23c69434%22 stroke=%22%234a3620%22 stroke-width=%225%22 vector-effect=%22non-scaling-stroke%22/%3E%3Cpath d=%22M10 270H390V290H10Z%22 fill=%22%23a89478%22 stroke=%22%234a3620%22 stroke-width=%225%22 vector-effect=%22non-scaling-stroke%22/%3E%3Cpath d=%22M30 60Q150 52 370 64M30 140Q200 132 370 146M30 214Q180 206 370 220%22 fill=%22none%22 stroke=%22%23a89478%22 stroke-width=%224%22 stroke-linecap=%22round%22 vector-effect=%22non-scaling-stroke%22/%3E%3Cpath d=%22M22 22H378%22 stroke=%22%23f3c955%22 stroke-width=%225%22 stroke-linecap=%22round%22 opacity=%22.6%22 vector-effect=%22non-scaling-stroke%22/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat; }
+.workshop-chapters::after { content: ""; position: absolute; left: 0; right: 0; bottom: -44px; height: 48px; background: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%2248%22 viewBox=%220 0 400 48%22 preserveAspectRatio=%22none%22%3E%3Cpath d=%22M40 0H64V44H40ZM336 0H360V44H336Z%22 fill=%22%23a89478%22 stroke=%22%234a3620%22 stroke-width=%223%22 vector-effect=%22non-scaling-stroke%22/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat; z-index: -1; pointer-events: none; }
+@media (min-width: 700px) {
+  .workshop-chapters { grid-template-columns: repeat(5, minmax(0, 120px)); justify-content: center; gap: 12px; padding: 30px 40px 40px; width: auto; }
+  .workshop-chapters svg { max-height: 78px; }
+}
+@media (max-width: 699px) {
+  .workshop-chapters { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 8px; padding: 18px 16px 28px; }
+  .workshop-chapters button { padding: 4px; border-radius: 18px; }
+  .workshop-chapters svg { max-height: 70px; }
+}
+
+/* v58: the practice garden's toy groups are raised wooden garden beds —
+   a wooden rim with an ink line and a strip of soil along the bottom —
+   each keeping its own colour so a child still finds "the writing ones". */
+.lg-practice-garden .pg-group { border-radius: 22px; padding-bottom: 26px; box-shadow: inset 0 0 0 4px #c69434, inset 0 0 0 7px #4a3620, 0 6px 0 #70501b !important; }
+.lg-practice-garden .pg-group::after { content: ""; position: absolute; left: 7px; right: 7px; bottom: 7px; height: 12px; border-radius: 0 0 16px 16px; background: radial-gradient(circle at 10px 6px, #70501b 2px, transparent 3px) 0 0 / 22px 12px, #a89478; pointer-events: none; }
+
+/* 2026-10-13: each plot still waiting carries a little wooden garden label
+   with its friend's letter — a spot saved for a friend, not one of 28 blank
+   sprouts. Decoration only; the plot still rustles when tapped. */
+.sg-plot:not(.is-home) { position: relative; }
+.sg-plot .sg-label { position: absolute; right: 4%; top: 6%; width: 30px; height: 40px; pointer-events: none; transform: rotate(6deg); }
+.sg-plot .sg-label svg { display: block; width: 100% !important; height: 100%; }
+@media (max-width: 600px) { .sg-plot .sg-label { width: 24px; height: 32px; right: 0; top: 2%; } }
+
+/* 2026-10-13: on a sideways phone the graduation's ending (the keepsake
+   scroll and the way back to the garden) appeared in a new row below the
+   screen. On phones it takes the pet's place (sideways: beside the Bismillah). */
+@media (max-height: 760px) {
+  .sg-grad:has(.sg-grad-end:not([hidden])) .sg-grad-pet { display: none; }
+}
+@media (orientation: landscape) and (max-height: 500px) {
+  .sg-grad .sg-grad-end { grid-column: 2; grid-row: 2; }
+}
+@media (max-width: 340px) { .sg-grad .sg-grad-friends svg { width: 36px !important; height: auto; } }
+/* 2026-10-13: a practice star rises out of the finishing bloom (the day's first finish of a toy). */
+.pg-bloom-star { position: absolute; left: 50%; top: 50%; width: 56px; height: 56px; margin: -110px 0 0 -28px; filter: drop-shadow(0 3px 0 #c69434); animation: pg-star-rise .8s cubic-bezier(.3, 1.6, .5, 1) .35s both; }
+.pg-bloom-star svg { display: block; width: 100%; height: 100%; }
+@keyframes pg-star-rise { from { transform: translateY(60px) scale(.2); opacity: 0; } to { transform: none; opacity: 1; } }
+.pg-bloom.is-still .pg-bloom-star { animation: none; }
+@media (prefers-reduced-motion: reduce) { .pg-bloom-star { animation: none; } }
+/* ---------- v60 the living meadow (2026-10-16) ---------- */
+.lg-friends-garden .sg-meadow { position: relative; width: 100%; max-width: 760px; height: 128px; flex: none; border-radius: 28px 28px 0 0; background: linear-gradient(180deg, #ccfbef 0 48%, #b7e779 48%); box-shadow: inset 0 -6px 0 #7fce54; overflow: hidden; }
+.lg-friends-garden .sg-meadow::before { content: ""; position: absolute; left: 0; right: 0; top: 42%; height: 18px; background: radial-gradient(ellipse at 20% 100%, #7fce54 0 40%, transparent 41%) 0 0/120px 18px repeat-x; opacity: .7; }
+.lg-friends-garden .sg-roamer { position: absolute; bottom: 10px; width: 74px; height: 84px; margin-left: -37px; padding: 0; border: 0; background: none; cursor: pointer; display: grid; place-items: end center; transition: left 1.6s ease-in-out; z-index: 1; }
+.lg-friends-garden .sg-roamer svg { display: block; width: 70px; height: auto; transform: scaleX(var(--face, 1)); transition: transform .2s; }
+.lg-friends-garden .sg-roamer::after { content: ""; position: absolute; left: 16px; right: 16px; bottom: -2px; height: 8px; border-radius: 50%; background: #2f5c46; opacity: .2; z-index: -1; }
+.lg-friends-garden .sg-roamer.is-walking svg { animation: sg-hop .4s ease-in-out infinite; }
+@keyframes sg-hop { 50% { translate: 0 -5px; } }
+.lg-friends-garden .sg-meet { position: absolute; bottom: 92px; width: 30px; height: 30px; margin-left: -15px; pointer-events: none; animation: sg-meet 1.4s ease-out forwards; z-index: 2; }
+.lg-friends-garden .sg-meet svg { display: block; width: 100%; height: 100%; }
+@keyframes sg-meet { 0% { transform: translateY(10px) scale(.4); opacity: 0; } 25% { opacity: 1; transform: none; } 100% { transform: translateY(-26px); opacity: 0; } }
+.lg-friends-garden .sg-meadow + .sg-fence { margin-top: 0; }
+@media (prefers-reduced-motion: reduce) { .lg-friends-garden .sg-roamer { transition: none; } .lg-friends-garden .sg-roamer.is-walking svg, .lg-friends-garden .sg-meet { animation: none; } }
+.lg-reduce-motion .lg-friends-garden .sg-roamer { transition: none; }
+@media (max-height: 450px) and (orientation: landscape) { .lg-friends-garden .sg-meadow { height: 104px; } .lg-friends-garden .sg-roamer svg { width: 58px; } }
+@media (max-width: 500px) { .lg-friends-garden .sg-roamer:nth-child(n+5) { display: none; } }
+/* ---------- v61 Ears First (2026-10-16) ---------- */
+.pg-group[data-group="listen"] { background: #c4d39b; }
+.ea { display: grid; justify-items: center; align-content: center; gap: 16px; width: 100%; min-height: 100%; padding: 8px 10px 14px; box-sizing: border-box; }
+.ea-card { width: 150px; height: 150px; padding: 10px; border: 3px solid #4a3620; border-radius: 28px; background: #fffaf0; box-shadow: 0 6px 0 #c9bda4; cursor: pointer; display: grid; place-items: center; }
+.ea-card svg, .ea-choice svg { display: block; width: 100%; height: 100%; }
+.ea-card.is-right, .ea-choice.is-right { border-color: #4e9677; box-shadow: 0 0 0 5px #b7e779, 0 6px 0 #4e9677; }
+.ea-beats { display: flex; gap: 14px; min-height: 30px; }
+.ea-beats i { width: 26px; height: 26px; border: 3px solid #4a3620; border-radius: 50%; background: #fffaf0; }
+.ea-beats i.is-on { background: #f3c955; }
+.ea-beats i.is-pulse { animation: ea-pulse .32s ease-out; }
+@keyframes ea-pulse { 50% { transform: scale(1.35); background: #ffe49a; } }
+.ea-drum-btn { width: 150px; height: 125px; padding: 0; border: 0; background: none; cursor: pointer; }
+.ea-drum-btn svg { display: block; width: 100%; height: 100%; }
+.ea-choices { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.ea-choice { width: 118px; height: 118px; padding: 8px; border: 3px solid #4a3620; border-radius: 24px; background: #fffaf0; box-shadow: 0 5px 0 #c9bda4; cursor: pointer; }
+.ea-choice.is-saying { border-color: #e8743c; box-shadow: 0 0 0 5px #ffe49a, 0 5px 0 #c69434; transform: translateY(-4px); }
+.ea-choice.is-hint, .ea-drum-btn.is-hint svg { filter: drop-shadow(0 0 0 #f3c955) drop-shadow(0 0 8px #f3c955); }
+.ea-three .ea-choice { width: 104px; height: 104px; }
+@media (max-width: 360px) { .ea-choice { width: 96px; height: 96px; } .ea-three .ea-choice { width: 88px; height: 88px; } .ea-card { width: 128px; height: 128px; } }
+@media (max-height: 450px) and (orientation: landscape) { .ea { grid-auto-flow: column; align-items: center; } .ea-card { width: 120px; height: 120px; } .ea-drum-btn { width: 120px; height: 100px; } }
+@media (prefers-reduced-motion: reduce) { .ea-beats i.is-pulse { animation: none; } .ea-choice.is-saying { transform: none; } }
+.lg-reduce-motion .ea-beats i.is-pulse { animation: none; }
+/* ---------- v62 The Costume House (2026-10-16) ---------- */
+.ch { display: grid; justify-items: center; align-content: center; gap: 14px; width: 100%; min-height: 100%; padding: 8px 10px 14px; box-sizing: border-box; }
+.ch-top { display: flex; gap: 18px; align-items: center; }
+.ch-friend, .ch-pic { width: 104px; height: 104px; padding: 8px; border: 3px solid #4a3620; border-radius: 24px; background: #fffaf0; box-shadow: 0 5px 0 #c9bda4; cursor: pointer; display: grid; place-items: center; }
+.ch-friend svg, .ch-pic svg { display: block; width: 100%; height: 100%; }
+.ch-pic-big { width: 124px; height: 124px; }
+.ch-word { display: flex; flex-direction: row; justify-content: center; align-items: baseline; padding: 6px 18px 0; border: 3px solid #4a3620; border-radius: 22px; background: #fffaf0; box-shadow: 0 5px 0 #c9bda4; font-family: 'Amiri Quran', serif; font-size: 64px; line-height: 1.7; color: #4a3620; }
+.ch-piece { display: inline-block; margin: 0 -0.5px; border-radius: 10px; }
+.ch-word.is-tappable .ch-piece { cursor: pointer; padding: 0 1px; }
+.ch-piece.is-found { color: #e8743c; background: #ffe49a88; }
+.ch-piece.is-hint { color: #c69434; text-shadow: 0 0 10px #f3c955; }
+.ch-gap { position: relative; min-width: 46px; border: 3px dashed #c69434; border-radius: 12px; background: #ffe49a44; }
+.ch-gap .ch-gap-ghost { visibility: hidden; }
+.ch-gap.is-filled { border-color: transparent; background: #b7e77966; }
+.ch-gap.is-filled .ch-gap-ghost { visibility: visible; color: #4e9677; }
+.ch-costumes { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.ch-costume { min-width: 84px; height: 84px; padding: 0 12px 10px; border: 3px solid #4a3620; border-radius: 20px; background: #e6d6f0; box-shadow: 0 5px 0 #b49fcf; cursor: pointer; font-family: 'Amiri Quran', serif; font-size: 46px; line-height: 1; color: #4a3620; }
+.ch-costume.is-picked { background: #ffe49a; box-shadow: 0 0 0 4px #f3c955, 0 5px 0 #c69434; transform: translateY(-3px); }
+.ch-costume.is-right { background: #b7e779; }
+.ch-costume.is-used { opacity: .25; pointer-events: none; }
+.ch-costume.is-hint { filter: drop-shadow(0 0 0 #f3c955) drop-shadow(0 0 8px #f3c955); }
+.ch-cars { display: flex; align-items: flex-end; gap: 0; }
+.ch-engine svg { display: block; width: 64px; height: 74px; }
+.ch-car { position: relative; width: 104px; height: 74px; padding: 0; border: 0; background: none; cursor: pointer; }
+.ch-car-body svg { display: block; width: 100%; height: 100%; }
+.ch-car-seat { position: absolute; left: 0; right: 0; top: 4px; text-align: center; font-family: 'Amiri Quran', serif; font-size: 34px; line-height: 1.2; color: #4a3620; }
+.ch-car.is-hint .ch-car-body svg { filter: drop-shadow(0 0 0 #f3c955) drop-shadow(0 0 8px #f3c955); }
+@media (max-width: 380px) { .ch-car { width: 84px; height: 60px; } .ch-engine svg { width: 52px; height: 60px; } .ch-car-seat { font-size: 28px; } .ch-word { font-size: 54px; } .ch-costume { min-width: 72px; height: 72px; font-size: 40px; } }
+@media (max-height: 450px) and (orientation: landscape) { .ch { gap: 8px; } .ch-friend, .ch-pic { width: 84px; height: 84px; } .ch-word { font-size: 50px; } .ch-costume { height: 66px; font-size: 38px; } }

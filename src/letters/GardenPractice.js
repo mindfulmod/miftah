@@ -5,12 +5,14 @@
     const reset=()=>{const id=pointer;pointer=null;el.style.transform='';el.classList.remove('is-dragging');if(id!==null){onDragEnd();if(el.hasPointerCapture?.(id))el.releasePointerCapture(id);}};
     el.addEventListener('pointerdown',e=>{if(!enabled()||e.isPrimary===false||(e.pointerType==='mouse'&&e.button!==0)||pointer!==null)return;pointer=e.pointerId;start=[e.clientX,e.clientY];moved=false;el.setPointerCapture?.(pointer);});
     el.addEventListener('pointermove',e=>{if(e.pointerId!==pointer||e.isPrimary===false)return;if(!enabled()){reset();return;}const dx=e.clientX-start[0],dy=e.clientY-start[1];if(!moved&&Math.hypot(dx,dy)>8){moved=true;onDragStart();}if(moved){el.classList.add('is-dragging');el.style.transform=`translate(${dx}px,${dy}px)`;onDragMove(e.clientX,e.clientY);}});
-    el.addEventListener('pointerup',e=>{if(e.pointerId!==pointer||e.isPrimary===false)return;const dragged=moved;const released=dragged?el.getBoundingClientRect():null;reset();if(dragged){suppressUntil=performance.now()+500;if(enabled())drop(e.clientX,e.clientY,released);}});
+    el.addEventListener('pointerup',e=>{if(e.pointerId!==pointer||e.isPrimary===false)return;const dragged=moved;const released=dragged?el.getBoundingClientRect():null;const off=el.style.transform;reset();if(dragged){suppressUntil=performance.now()+500;const took=enabled()&&drop(e.clientX,e.clientY,released);if(!took)glideHome(el,off);}});
     el.addEventListener('pointercancel',e=>{if(!e||e.pointerId===pointer){if(moved)suppressUntil=performance.now()+500;reset();}});
     el.addEventListener('lostpointercapture',e=>{if(pointer!==null&&(!e||e.pointerId===undefined||e.pointerId===pointer)){if(moved)suppressUntil=performance.now()+500;reset();}});
     el.addEventListener('click',e=>{if(performance.now()<suppressUntil){e.preventDefault();e.stopImmediatePropagation();}},true);
     return reset;
   }
+  // A missed drop floats back to where it lives instead of jumping there.
+  const glideHome=(el,off)=>{if(!off||!el.isConnected||!el.animate||el.closest?.('.lg-reduce-motion')||window.matchMedia?.('(prefers-reduced-motion: reduce)').matches)return;el.animate([{transform:off},{transform:'none'}],{duration:340,easing:'cubic-bezier(.34,1.45,.64,1)'});};
   // Drops count within a 28px margin of the target — toddlers let go early.
   const DROP_SLACK=28;
   const inside=(el,x,y)=>{const r=el.getBoundingClientRect();return r.width>0&&r.height>0&&x>=r.left-DROP_SLACK&&x<=r.right+DROP_SLACK&&y>=r.top-DROP_SLACK&&y<=r.bottom+DROP_SLACK;};
@@ -136,13 +138,15 @@
         const item=this.exploreItems[this.exploreIndex];this.target=item;card.innerHTML=glyph(item.display)+(this.ctx.canListen?.()!==false?`<span class="dot-discovery-speaker" aria-hidden="true">${tool('speaker')}</span>`:'');card.setAttribute('aria-label',`Hear ${item.display}`);
         choices.forEach((choice,i)=>choice.setAttribute('aria-pressed',String(i===this.exploreIndex)));
         this.ctx.stage.querySelectorAll('[data-discovery]').forEach((bud,i)=>bud.classList.toggle('is-found',this.exploreSeen.has(i)));
-        undo.disabled=this.exploreHistory.length===0;this.ctx.stage.querySelector('.dot-garden')?.style.setProperty('--potting-growth',String(.78+Math.min(2,this.exploreSeen.size-1)*.11));this.ctx.prompt?.(item);ns.LettersArt.fitGlyphs?.(card);
+        undo.disabled=this.exploreHistory.length===0;
+        // v58: once every pattern has been tried, the way on glows (and the idle hand points at it) — exploring never becomes a loop.
+        this.ctx.stage.querySelector('.dot-explore-next')?.classList.toggle('is-hint',this.exploreSeen.size>=this.exploreItems.length);this.ctx.stage.querySelector('.dot-garden')?.style.setProperty('--potting-growth',String(.78+Math.min(2,this.exploreSeen.size-1)*.11));this.ctx.prompt?.(item);ns.LettersArt.fitGlyphs?.(card);
         if(speak&&this.ctx.canListen?.()!==false)this.ctx.say?.(item);
       };
       const choose=i=>{if(!active()||!this.exploring||i===this.exploreIndex)return;this.exploreHistory.push(this.exploreIndex);this.exploreIndex=i;this.exploreSeen.add(i);paint();};
       const releases=choices.map((choice,i)=>{
         choice.onclick=()=>choose(i);
-        return draggable(choice,{enabled:()=>active()&&this.exploring,drop:(x,y)=>{if(inside(card,x,y))choose(i);},onDragStart:()=>card.classList.add('is-receiving'),onDragEnd:()=>card.classList.remove('is-receiving')});
+        return draggable(choice,{enabled:()=>active()&&this.exploring,drop:(x,y)=>{if(!inside(card,x,y))return false;choose(i);return true;},onDragStart:()=>card.classList.add('is-receiving'),onDragEnd:()=>card.classList.remove('is-receiving')});
       });
       this.resetDrag=()=>releases.forEach(release=>release());
       card.onclick=()=>{if(active()&&this.ctx.canListen?.()!==false)this.ctx.say?.(this.target);};
@@ -195,18 +199,22 @@
         </div><div class="practice-tools">${button('Take a seed dot',seedDot,'dot-seed')}${button('Remove last dot',tool('undo'),'dot-undo')}${button('Check letter',tool('check'),'dot-check')}</div><div class="practice-status" role="status" aria-live="polite"></div></div>`;
       const source=this.ctx.stage.querySelector('.dot-seed');this.zones=['above','below'].map(name=>this.ctx.stage.querySelector('.dot-'+name));
       if(this.round.mode==='guided'){const hint=this.zones[targetSpec.below?1:0]?.querySelector?.('.dot-hint');if(hint)hint.innerHTML=dots(targetSpec.below||targetSpec.above);}
-      this.history=[];if(sourceSpec){for(let i=0;i<this.above;i++)this.history.push('above');for(let i=0;i<this.below;i++)this.history.push('below');}
+      this.checkMisses=0;this.history=[];if(sourceSpec){for(let i=0;i<this.above;i++)this.history.push('above');for(let i=0;i<this.below;i++)this.history.push('below');}
       const add=name=>{if(!active()||this.busy||source.disabled||this.above+this.below>=3)return;this[name]++;this.history.push(name);source.classList.remove('is-selected');source.setAttribute('aria-pressed','false');this.paint();};
       this.zones.forEach((zone,i)=>zone.onclick=()=>{if(!zone.disabled)add(i?'below':'above');});
       source.setAttribute('aria-pressed','false');source.onclick=()=>{if(!active()||this.busy||source.disabled)return;source.classList.toggle('is-selected');source.setAttribute('aria-pressed',String(source.classList.contains('is-selected')));};
-      this.resetDrag=draggable(source,{enabled:()=>active()&&!this.busy&&!source.disabled,drop:(x,y)=>this.zones.forEach((zone,i)=>{if(inside(zone,x,y))add(i?'below':'above');})});
+      this.resetDrag=draggable(source,{enabled:()=>active()&&!this.busy&&!source.disabled,drop:(x,y)=>{let took=false;this.zones.forEach((zone,i)=>{if(inside(zone,x,y)){add(i?'below':'above');took=true;}});return took;}});
       this.ctx.stage.querySelector('.dot-undo').onclick=()=>{if(!active()||this.busy)return;const last=this.history.pop();if(last)this[last]--;source.classList.remove('is-selected');source.setAttribute('aria-pressed','false');this.paint();};
       this.ctx.stage.querySelector('.dot-check').onclick=()=>{
         if(!active()||this.busy)return;
         if(validDots(this.target.display,this.above,this.below)){
           this.ctx.stage.querySelector('.dot-base').textContent=this.target.display;this.zones.forEach(z=>z.style.visibility='hidden');
           outcome(this.ctx,this.target,{correct:undefined,evidence:'motor_assembly_participation',skill:'construction',selectedId:key(this.target),choiceIds:[key(this.target)],assisted:true,affectsStrength:false});this.advance();
-        }else{this.ctx.say?.(this.target);this.ctx.stage.querySelector('.practice-status').innerHTML=tool('replay');this.zones[targetSpec.below?1:0]?.classList.add('is-help');}
+        }else{
+          this.ctx.say?.(this.target);this.ctx.stage.querySelector('.practice-status').innerHTML=tool('replay');this.zones[targetSpec.below?1:0]?.classList.add('is-help');
+          // v58: no dead ends — after three tries the right dots are placed for the child, and Check glows for one happy tap.
+          if(++this.checkMisses>=3){this.above=targetSpec.above||0;this.below=targetSpec.below||0;this.history=[...Array(this.above).fill('above'),...Array(this.below).fill('below')];this.paint();this.ctx.stage.querySelector('.dot-check')?.classList.add('is-hint');}
+        }
       };
       this.paint();if(this.keyboardFocus)source.focus?.();
     }
@@ -286,5 +294,5 @@
     finish(){if(!this.alive)return;this.release?.();this.alive=false;this.ctx.done?.();}
     destroy(){this.alive=false;this.release?.();this.drawings=[];this.strokes=[];}
   }
-  ns.GardenPractice={DotGarden,GardenPaths,explorationItems,draggable,inside,validDots,dotSpec,repairFamilies,repairPlan,eraserIcon:()=>eraser};
+  ns.GardenPractice={DotGarden,GardenPaths,explorationItems,draggable,glideHome,inside,validDots,dotSpec,repairFamilies,repairPlan,eraserIcon:()=>eraser};
 })(window.MiftahGame||(window.MiftahGame={}));

@@ -198,7 +198,7 @@ test("the map pet travels the trail and waits where the child last went", () => 
   assert.match(game, /const petI = visitedI >= 0 && this\.statusOf\(worlds\[visitedI\]\) !== "locked" \? visitedI : currentI;/, "locked stops never hold the pet");
   assert.match(game, /if \(travel\?\.world === world \|\| \(!travel && Number\(walker\?\.dataset\.stop\) === i\)\) return enter\(world\);/, "repeat taps enter at once");
   assert.match(game, /this\.prefersReducedMotion\(\)\) return enter\(world\);/, "reduced motion skips the walk");
-  assert.match(game, /if \(this\.statusOf\(world\) === "locked"\) \{ mapRig\?\.inspect\(btn, 500, \(\) => mapRig\.ponder\(\)\); return; \}/, "locked stops stay locked");
+  assert.match(game, /if \(this\.statusOf\(world\) === "locked"\) \{\n\s+mapRig\?\.inspect\(btn, 500, \(\) => mapRig\.ponder\(\)\);[\s\S]{0,900}?\n\s+return;\n\s+\}/, "locked stops stay locked");
 });
 
 test("map toys are decorative buttons that reset and never touch progress", () => {

@@ -88,11 +88,20 @@
   .bk-basket { width: min(150px, 18vw); }
   .bk-shapes { grid-template-columns: auto 1fr; grid-template-rows: 1fr auto; }
   .bk-shapes .bk-missing { grid-row: 1 / 3; width: min(240px, 70vh); }
+  /* v58: the letter choices stretched into tall 317px cards, and on a 667px phone the third ran off the right edge. They keep their own height and size to the space beside the friend. */
+  .bk-shapes .bk-pieces { align-items: center; align-self: center; flex-wrap: wrap; }
+  .bk-shapes .bk-piece svg { width: min(104px, 24vh, 10vw); }
   .bk-piece svg, .bk-friend svg { width: min(104px, 24vh, 14vw); }
   .bk-trip { grid-template-columns: 1fr auto; grid-template-rows: auto 1fr auto; column-gap: 20px; }
   .bk-trip .bk-parade { grid-column: 1 / -1; min-height: 70px; }
-  .bk-scene { max-width: none; width: auto; height: calc(100% - 120px); aspect-ratio: 4 / 3; }
-  .bk-market { justify-items: center; }
+  /* v58: the market vanished here — a % height of an unsized parent is 0, and
+     with width:auto the 4:3 scene collapsed to 0×0 (a lens and nothing to tap).
+     The lens and bag now stand beside the market, which sizes from the screen
+     height (387×290 at 667×375, shelf rows clear of the 56px goods). */
+  .bk-scene { max-width: none; width: min(100%, calc((100vh - 40px) * 4 / 3)); aspect-ratio: 4 / 3; }
+  .bk-market { grid-template-columns: 120px minmax(0, 1fr); align-items: center; justify-items: center; column-gap: 14px; }
+  .bk-market .bk-lens-row { flex-direction: column; align-items: center; width: 100%; }
+  .bk-market .bk-bag { flex: none; align-self: stretch; justify-content: center; }
   .sand { grid-template-columns: 1fr auto; align-items: center; height: 100%; }
   .sand-tray { width: min(100%, calc(100vh - 32px)); }
   .sand-tools { flex-direction: column; }
@@ -110,4 +119,51 @@
   .bk-basket-label { width: min(100px, 26vh); height: min(100px, 26vh); }
   /* Today's Walk and the meet screen keep everything on screen. */
   .walk-trail { height: calc(100vh - 70px); }
+}
+
+/* v58: landscape phones use their width. Four games stacked taller than the
+   378px stage, so their last buttons needed a scroll a child may never try. */
+@media (orientation: landscape) and (max-height: 500px) {
+  /* Spot the Change: the stones in one row. */
+  .lk-spot .lk-row { grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr)); width: min(100%, calc(var(--n, 4) * 118px)); }
+  .lk-spot .lk-stone { min-height: 0; }
+  /* Letter Delivery: the garden beside the packets, no forced 360px floor.
+     (Stacked, a 420px-wide garden was 338px tall in a 132px scene: its sign
+     ran off the top and it covered the packets.) The garden sizes to the
+     screen height; the packets wrap two to a row. */
+  .lg-play[data-activity=delivery] .practice-stage, .letter-delivery { min-height: 0; }
+  .lg-app .letter-delivery { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto minmax(0, 1fr) auto; align-items: center; gap: 6px 10px; }
+  .lg-app .delivery-top, .lg-app .delivery-status { grid-column: 1 / -1; }
+  .lg-app .delivery-scene { grid-column: 1; grid-row: 2; height: 100%; min-height: 0; max-height: none; justify-content: center; }
+  .lg-app .delivery-destination { width: min(100%, 420px, calc((100vh - 120px) * 1.2)); }
+  .lg-app .delivery-packets { grid-column: 2; grid-row: 2; display: grid; grid-template-columns: repeat(2, auto); align-content: center; min-height: 0; padding: 0; }
+  .lg-app .delivery-packet { width: min(110px, 26vh); height: calc(min(110px, 26vh) * 1.13); }
+  /* Letter Studio: canvas on one side, inks and stamps on the other. */
+  /* The tool column is 200px (inks wrap 3+2) so the child's picture gets the
+     room: 235×177 → 335×252 on a 667px phone. */
+  .studio { grid-template-columns: minmax(0, 1fr) minmax(0, 200px); width: min(100%, 700px); align-items: center; }
+  .studio-inks { flex-wrap: wrap; justify-content: center; }
+  .studio-canvas { grid-row: 1 / span 3; }
+  /* Sound Lab: bench and press beside the trays. */
+  .lab { grid-template-columns: auto minmax(0, 1fr); width: 100%; align-items: center; column-gap: 16px; }
+  .lab-strip { grid-column: 1 / -1; }
+  .lab-bench { grid-column: 1; grid-row: 2; }
+  .lab-press { grid-column: 1; grid-row: 3; }
+  .lab-marks { grid-column: 2; grid-row: 2; }
+  .lab-letters { grid-column: 2; grid-row: 3; }
+}
+/* v58: Decorate your garden on a landscape phone — the shelf and the finish
+   button sat below the screen behind a scroll. Garden left, shelf and tools right. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .my-garden-stage { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); grid-template-rows: auto auto auto; align-items: center; align-content: center; column-gap: 14px; row-gap: 8px; width: min(900px, 100%); }
+  .decorate-board { grid-column: 1; grid-row: 1 / span 3; height: min(290px, calc(100dvh - 40px)); min-height: 0; flex: none; }
+  .decorate-selection, .decorate-shelf, .decorate-tools { grid-column: 2; }
+  .decorate-shelf { width: 100%; min-width: 0; }
+  .lg-my-garden { overflow-y: visible; }
+}
+/* v58: the four books in one row on a landscape phone. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .lb-shelf { grid-template-columns: repeat(4, minmax(0, 1fr)); max-width: 760px; gap: 14px; padding-top: 8px; }
+  .lb-spine { width: min(100%, 150px); }
+  .lb-spine-art svg { width: 86px; height: auto; }
 }

@@ -135,7 +135,10 @@
     const len = [...display.replace(DIACRITICS, "")].length;
     const size = latin
       ? Math.min(maxSize * 0.6, 26)
-      : !scaleByLength || len <= 1 ? maxSize : len <= 2 ? maxSize * 0.9 : len <= 3 ? maxSize * 0.72 : maxSize * 0.58;
+      // v58: gentler length scaling (was .9/.72/.58) — every glyph is also
+      // fitted to its box by ink, so long words still never spill, but a
+      // Quran word on a phone no longer starts at ~22px.
+      : !scaleByLength || len <= 1 ? maxSize : len <= 2 ? maxSize * 0.95 : len <= 3 ? maxSize * 0.85 : maxSize * 0.78;
     const s = Art.inkShift(display, size, latin);
     return `<text data-fit-box="0,0,${fitWidth},${fitHeight},${size}" x="${s.dx.toFixed(1)}" y="${s.dy.toFixed(1)}" text-anchor="middle"
       font-family="${latin ? "ui-rounded, system-ui, sans-serif" : "'Amiri Quran', serif"}"
@@ -167,7 +170,10 @@
   }
 
   // Activity-specific materials share real, optically fitted curriculum ink.
-  function workshopTile(display, material = "wood", maxSize = 42) {
+  // v58: maxSize 42 → 54. At 42 a single letter filled about a third of its
+  // tile (≈22–24px on a small phone); above 42 the glyph is fitted to the
+  // tile's face, so long words still never spill.
+  function workshopTile(display, material = "wood", maxSize = 54) {
     const leaf = material === "leaf";
     return `<svg viewBox="-52 -54 104 110" aria-hidden="true">
       <path d="M-45-31Q-45-47-29-47H31Q45-47 45-31V31Q45 47 29 47H-29Q-45 47-45 31Z" fill="${leaf?'#4e9677':'#a89478'}" stroke="#4a3620" stroke-width="3"/>
@@ -179,6 +185,8 @@
     </svg>`;
   }
 
+  // v58: the fruit's letter cap 40 → 50; it is ink-fitted to the cream plate
+  // (72×62), so tall letters and two-letter syllables still sit inside it.
   function orchardFruit(display) {
     return `<svg viewBox="-64 -76 128 150" aria-hidden="true">
       <ellipse cx="0" cy="62" rx="42" ry="7" fill="#4a3620" opacity=".14"/>
@@ -188,21 +196,28 @@
       <path d="M0-40C-43-60-55-17-43 20Q-27 54 0 44Q29 56 44 20C57-18 42-59 0-40Z" fill="#f3c955"/>
       <path d="M-37-19Q-31-40-16-36" fill="none" stroke="#ffe49a" stroke-width="6" stroke-linecap="round"/>
       <rect x="-37" y="-31" width="74" height="64" rx="24" fill="#fffaf0"/>
-      ${glyphText(display,{maxSize:40,fill:'#4a3620'})}
+      ${glyphText(display,{maxSize:50,fill:'#4a3620'})}
     </svg>`;
   }
 
+  // v116: the feed basket in the pet language (matches the v107 seed basket):
+  // a round woven body with a colour-matched weave, a chunky gold handle and
+  // rim, a shine and a sprout. frontOnly still draws just the front of it.
   function orchardBasket(frontOnly = false) {
+    const K = (w = 4) => `stroke="#4a3620" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round"`;
     return `<svg viewBox="0 0 180 112" aria-hidden="true">${frontOnly ? '' : `
-      <ellipse cx="90" cy="103" rx="72" ry="7" fill="#4a3620" opacity=".16"/>
-      <path d="M42 53C39 3 139 3 138 53" fill="none" stroke="#4a3620" stroke-width="8"/>
-      <path d="M42 51C42 11 136 11 138 51" fill="none" stroke="#c9bda4" stroke-width="4"/>
-      <ellipse cx="90" cy="52" rx="74" ry="17" fill="#4a3620"/>`}
-      <path d="M18 53L30 91Q90 110 150 91L162 53Q90 76 18 53Z" fill="#c9bda4" stroke="#4a3620" stroke-width="4" stroke-linejoin="round"/>
-      <path d="M27 62L37 86Q90 102 143 86L153 62Q90 82 27 62Z" fill="#e5dcc8"/>
-      <path d="M25 70Q90 90 155 70M28 83Q90 101 152 83M46 63L51 98M75 70L76 102M105 70L103 102M134 63L129 98" fill="none" stroke="#a89478" stroke-width="2.4"/>
-      <path d="M20 52Q90 76 160 52" fill="none" stroke="#fffaf0" stroke-width="4" stroke-linecap="round"/>
-      <path d="M85 83Q65 67 64 81Q65 94 87 92Q104 69 115 79Q113 93 91 94" fill="#4e9677" stroke="#4a3620" stroke-width="1.6"/>
+      <ellipse cx="90" cy="104" rx="70" ry="7" fill="#4a3620" opacity=".16"/>
+      <path d="M44 54Q44 6 90 6Q136 6 136 54" fill="none" stroke="#4a3620" stroke-width="12" stroke-linecap="round"/>
+      <path d="M44 54Q44 6 90 6Q136 6 136 54" fill="none" stroke="#c69434" stroke-width="6" stroke-linecap="round"/>
+      <path d="M52 30Q60 14 78 12" fill="none" stroke="#ffe49a" stroke-width="2.4" stroke-linecap="round"/>
+      <ellipse cx="90" cy="52" rx="72" ry="16" fill="#70501b" ${K()}/>`}
+      <path d="M20 54Q22 88 40 96Q90 112 140 96Q158 88 160 54Q90 76 20 54Z" fill="#c9bda4" ${K()}/>
+      <path d="M26 70Q90 90 154 70M32 84Q90 102 148 84" fill="none" stroke="#a89478" stroke-width="2.4" stroke-linecap="round"/>
+      ${[44, 64, 90, 116, 136].map((x) => `<path d="M${x} ${x === 90 ? 66 : 64}V${x === 90 ? 102 : 96}" fill="none" stroke="#a89478" stroke-width="2.4" stroke-linecap="round"/>`).join("")}
+      <rect x="16" y="46" width="148" height="14" rx="7" fill="#f3c955" ${K(3)}/>
+      <path d="M28 50H70" fill="none" stroke="#ffe49a" stroke-width="2.4" stroke-linecap="round"/>
+      <ellipse cx="40" cy="80" rx="8" ry="4" fill="#fffdf7" opacity=".55"/>
+      <path d="M85 83Q65 67 64 81Q65 94 87 92Q104 69 115 79Q113 93 91 94" fill="#4e9677" stroke="#2f5c46" stroke-width="2.4"/>
     </svg>`;
   }
 
@@ -223,7 +238,7 @@
       this.timers = new Set();
       if (!this.rounds.length) { this.alive = false; ctx.onDone(0); return; }
       this.bubbles = [];
-      ctx.stage.innerHTML = `${ns.LettersGardenArt.pond()}<div class="pop-sky"></div><div class="pond-dock" aria-hidden="true"><svg class="pond-dock-pier" viewBox="0 0 300 64" preserveAspectRatio="none"><path d="M30 40V62M150 40V62M270 40V62" stroke="#70501b" stroke-width="8" stroke-linecap="round"/><rect x="4" y="8" width="292" height="38" rx="10" fill="#c69434" stroke="#4a3620" stroke-width="3"/><path d="M8 18H292" stroke="#ffe49a" stroke-width="3" stroke-linecap="round" opacity=".6"/><path d="M78 10V44M150 10V44M222 10V44" stroke="#a89478" stroke-width="2.4"/></svg><span class="pond-dock-slots"></span></div><div class="pond-finish" hidden><button type="button" class="pond-replay lg-round-btn" aria-label="Hear the found letter again">${Art.icon('speaker',30)}</button><button type="button" class="pond-next lg-big-btn" aria-label="Continue">${Art.icon('next',36)}</button></div>`;
+      ctx.stage.innerHTML = `${ns.LettersGardenArt.pond()}<div class="pop-sky"></div><div class="pond-dock" aria-hidden="true"><svg class="pond-dock-pier" viewBox="0 0 300 64" preserveAspectRatio="none"><g stroke="#4a3620" stroke-width="3" stroke-linejoin="round"><rect x="23" y="36" width="14" height="28" rx="7" fill="#70501b"/><rect x="143" y="36" width="14" height="28" rx="7" fill="#70501b"/><rect x="263" y="36" width="14" height="28" rx="7" fill="#70501b"/></g><path d="M23 50H37M143 50H157M263 50H277" stroke="#ffe49a" stroke-width="2.4" stroke-linecap="round"/><rect x="4" y="12" width="292" height="36" rx="16" fill="#70501b"/><rect x="4" y="8" width="292" height="36" rx="16" fill="#c69434" stroke="#4a3620" stroke-width="3"/><path d="M14 16H286" stroke="#ffe49a" stroke-width="2.4" stroke-linecap="round" opacity=".8"/><path d="M78 12V40M150 12V40M222 12V40" stroke="#70501b" stroke-width="2.4" stroke-linecap="round"/><path d="M30 30Q46 26 60 30M100 28Q114 24 128 28M176 30Q190 26 204 30M242 28Q258 24 272 28" fill="none" stroke="#70501b" stroke-width="1.6" stroke-linecap="round" opacity=".55"/></svg><span class="pond-dock-slots"></span></div><div class="pond-finish" hidden><button type="button" class="pond-replay lg-round-btn" aria-label="Hear the found letter again">${Art.icon('speaker',30)}</button><button type="button" class="pond-next lg-big-btn" aria-label="Continue">${Art.icon('next',36)}</button></div>`;
       this.sky = ctx.stage.querySelector(".pop-sky");
       this.finishEl = ctx.stage.querySelector('.pond-finish');
       this.nextBtn = ctx.stage.querySelector('.pond-next');
@@ -1003,6 +1018,7 @@
       first.el.setAttribute("aria-pressed","false");
       if (first.card.id === card.id) {
         this.ctx.say(card);
+        this.ctx.stage.querySelectorAll?.(".is-hint").forEach((h) => h.classList.remove("is-hint"));
         first.el.classList.add("is-matched");
         el.classList.add("is-matched");
         for (const [node, item] of [[first.el,first.card],[el,card]]) {
@@ -1034,6 +1050,12 @@
           e.classList.remove("is-shake");
           void e.offsetWidth;
           e.classList.add("is-shake");
+        }
+        // Two tries without its partner: the partner glows (and the helping
+        // hand can point at it), so a match is never out of reach.
+        if ((first.tries = (first.tries || 0) + 1) >= 2) {
+          const mate = this.cards.find((c) => c.el !== first.el && c.id === first.card.id && !c.el.classList.contains("is-matched"));
+          mate?.el.classList.add("is-hint");
         }
       }
     }
@@ -1077,6 +1099,8 @@
       this.nextBtn = ctx.stage.querySelector('.feed-next');
       this.replayBtn = ctx.stage.querySelector('.feed-replay');
       this.nextBtn.onclick = () => this.continueDelivery();
+      // v58: tapping the fed friend or the filled basket again carries on, as a second tap on a found bubble does.
+      ctx.stage.addEventListener?.("pointerdown", (e) => { if (this.completionReady && Date.now() - (this.deliveredAt || 0) > 700 && e.target?.closest?.(".feed-creature, .feed-basket")) this.continueDelivery(); });
       this.replayBtn.onclick = () => this.replayDelivered();
       this.tray = ctx.stage.querySelector(".feed-tray");
       this.dragResets=[];
@@ -1190,7 +1214,7 @@
       this.ctx.sfx("correct");
       this.ctx.say(round.target);
       const deliveryRound = this.roundIndex;
-      this.completionReady = true;
+      this.completionReady = true; this.deliveredAt = Date.now();
       this.scene.classList.add('is-delivered');
       this.finishEl.hidden = false;
       this.nextBtn.disabled = false; this.replayBtn.disabled = false;
@@ -1267,6 +1291,8 @@
       this.clearBtn.addEventListener("click", () => this.clearDrawing());
       this.drawing = false;
       this.canvas.addEventListener("pointerdown", (e) => this.penDown(e));
+      // v58: a child who keeps drawing on the finished letter is carried on, like a second tap on a found bubble — never a dead pad.
+      this.canvas.parentElement?.addEventListener?.("pointerdown", () => { if (this.completionReady && Date.now() - (this.completedAt || 0) > 700) this.continueDrawing(); });
       this.canvas.addEventListener("pointermove", (e) => this.penMove(e));
       this.canvas.addEventListener("pointercancel", (e) => this.cancelStroke(e));
       this.canvas.addEventListener("lostpointercapture", (e) => this.cancelStroke(e));
@@ -1400,6 +1426,7 @@
       this.g.strokeStyle = this.inkColor || DrawingPalette.current();
       this.g.lineWidth = this.brush;
       this.paint = new Set(); // painted sample cells, keyed x|y
+      this.tries = 0; // pen-ups that didn't finish — patience lowers the bar (v58)
       // Writing Garden (v3): single letters (with any harakat) are taught
       // stroke by stroke from the handwriting model; joined words keep the
       // coverage trace above.
@@ -1529,11 +1556,15 @@
         0,
       );
       const total = covered / this.guide.length;
-      const missing = (this.clusters || []).filter((c) => this.clusterCoverage(c) < 0.45);
-      if (total >= 0.55 && !missing.length) {
+      // Patience (v58): every few tries the bar comes down a little, so a small
+      // hand scribbling hard is never kept on one word for long.
+      const easy = Math.min(2, Math.floor((this.tries || 0) / 3));
+      const missing = (this.clusters || []).filter((c) => this.clusterCoverage(c) < [0.45, 0.35, 0.25][easy]);
+      if (total >= [0.55, 0.45, 0.35][easy] && !missing.length) {
         this.completeDrawing();
         return;
       }
+      this.tries = (this.tries || 0) + 1;
       // Body done but a cluster (usually the dots!) still untouched: pulse a
       // gentle ring over the smallest missing cluster to point at it.
       if (total >= 0.4 && missing.length) {
@@ -1567,7 +1598,7 @@
       if(!this.alive||this.advancing)return;
       this.cancelStroke();
       this.advancing=true;
-      this.completionReady=true;
+      this.completionReady=true;this.completedAt=Date.now();
       this.clearBtn.disabled=true;
       this.paletteButtons?.forEach(button=>button.disabled=true);
       this.canvas.parentElement.querySelectorAll?.('.trace-hint').forEach(el=>el.remove());
@@ -1733,6 +1764,7 @@
       if (!tiles.includes(this.target)) tiles[0] = this.target;
       this.ctx.setPrompt(this.target);
       this.ctx.say(this.target);
+      this.misses = 0;
       this.grid.innerHTML = "";
       this.grid.setAttribute("data-count",String(tiles.length));
       for (const item of shuffle(tiles)) {
@@ -1767,6 +1799,8 @@
         el.classList.remove("is-shake");
         void el.offsetWidth;
         el.classList.add("is-shake");
+        // Two misses on one leaf: the right one glows.
+        if (++this.misses >= 2) [...this.grid.children].forEach((b) => b.classList.toggle("is-hint", b.getAttribute("aria-label") === this.target.display));
       }
     }
 

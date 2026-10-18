@@ -152,6 +152,7 @@
   class DotsLast extends Base {
     constructor(ctx) {
       super(ctx, "pz-dots", "Dots last");
+      this.noReplay = true; // a seeing game: there is no spoken question to repeat
       const known = knownChars(ctx);
       // Only letters that have a dot-sibling the child knows can be asked.
       this.targets = shuffle(known.filter((c) => dotsOf(c).length && siblings(c, known).length));
@@ -189,6 +190,7 @@
     }
     showDot(i) {
       if (this.busy) return;
+      if (i < this.revealed) return; // already shown early (an eager tap)
       this.root.querySelector(`.pz-dot[data-i="${i}"]`)?.classList.add("is-on");
       this.revealed = i + 1;
       this.ctx.sfx?.("drip");
@@ -215,8 +217,12 @@
       const chosen = this.offered[i];
       const certain = this.determined();
       if (chosen !== this.target && !certain) {
-        // A guess before the dots have arrived: "not yet" — keep watching.
-        this.ctx.sfx?.("softwrong"); this.wobble(btn);
+        // A guess before the dots have arrived isn't wrong, it's eager —
+        // the next dot comes straight away (v57), so impatience earns more
+        // to look at instead of a "no".
+        this.wobble(btn);
+        if (this.revealed < this.dotList.length) this.showDot(this.revealed);
+        else this.ctx.sfx?.("drip");
         return;
       }
       if (certain) this.report(this.target, chosen, this.offered);
@@ -263,7 +269,7 @@
       this.at = 0; this.missed = false; this.busy = false;
       const balloons = shuffle(this.order);
       this.root.innerHTML = `
-        <div class="pz-sky">${balloons.map((c, i) => `<button type="button" class="pz-balloon" data-c="${c}" style="--x:${8 + i * (84 / Math.max(1, balloons.length - 1))}%;--d:${(i % 3) * .4}s" aria-label="${c}">${BALLOON(COLORS[i % COLORS.length])}<span class="pz-balloon-letter">${F().art(c, { size: 50, mode: "plain" })}</span></button>`).join("")}</div>
+        <div class="pz-sky">${balloons.map((c, i) => `<button type="button" class="pz-balloon" data-c="${c}" style="--i:${i};--n:${balloons.length};--d:${(i % 3) * .4}s" aria-label="${c}">${BALLOON(COLORS[i % COLORS.length])}<span class="pz-balloon-letter">${F().art(c, { size: 50, mode: "plain" })}</span></button>`).join("")}</div>
         <div class="pz-rails" dir="rtl"><span class="pz-engine" aria-hidden="true">${ENGINE}</span><span class="pz-cars"></span></div>
         ${this.dots(this.rides, this.ride)}`;
       this.root.querySelectorAll(".pz-balloon").forEach((b) => b.addEventListener("click", () => this.pop(b)));
@@ -294,6 +300,9 @@
       this.ctx.pet?.cheer?.();
       this.chant();
     }
+    // The replay button hums the next balloon's name — a hint, so this train
+    // no longer counts as unaided.
+    replayPrompt() { if (!this.busy && this.order?.[this.at]) { this.missed = true; this.ctx.say?.(item(this.order[this.at])); } }
     async chant() {
       const rails = this.root.querySelector(".pz-rails");
       rails?.classList.add("is-leaving");
@@ -316,6 +325,7 @@
   class SameLetter extends Base {
     constructor(ctx) {
       super(ctx, "pz-same", "Same letter");
+      this.noReplay = true;
       this.known = knownChars(ctx);
       const firsts = (ctx.items || []).map((i) => i.display).filter((c) => this.known.includes(c));
       this.targets = [...new Set([...firsts, ...shuffle(this.known)])];

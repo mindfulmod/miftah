@@ -18,14 +18,14 @@
   const THINGS = {
     cloud: { art: `<path d="M-62 18Q-70-8-44-10Q-36-34-8-26Q8-42 30-26Q58-30 60-4Q72 14 52 22Z" fill="#fffdf7" stroke="#c9bda4" stroke-width="3"/>`, label: [0, 0], size: 40 },
     kite: { art: `<path d="M0-48L34 0L0 52L-34 0Z" fill="#ffa798" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/><path d="M0-48V52M-34 0H34" stroke="#fffaf0" stroke-width="2.4"/><path d="M0 52Q-14 76 6 92Q-8 108 4 126" fill="none" stroke="${INK}" stroke-width="1.6"/>`, label: [0, 0], size: 34, plate: true },
-    trunk: { art: `<path d="M-20 70V-20Q-22-34-8-36H8Q22-34 20-20V70Z" fill="#a89478" stroke="${INK}" stroke-width="3"/><circle cy="-70" r="58" fill="#4e9677"/><path d="M-50-86Q-30-126 10-124Q44-120 54-90Q20-110-50-86Z" fill="#7fce54"/><ellipse cy="14" rx="15" ry="20" fill="#e5dcc8" stroke="#70501b" stroke-width="2.4"/>`, label: [0, 14], size: 30 },
+    trunk: { art: `<path d="M-20 70V-20Q-22-34-8-36H8Q22-34 20-20V70Z" fill="#a89478" stroke="${INK}" stroke-width="3"/><circle cy="-70" r="58" fill="#4e9677"/><path d="M-50-86Q-30-126 10-124Q44-120 54-90Q20-110-50-86Z" fill="#7fce54"/><ellipse cy="14" rx="15" ry="20" fill="#e5dcc8" stroke="#70501b" stroke-width="2.4"/>`, label: [0, 14], size: 30, snug: true },
     rock: { art: `<path d="M-56 30Q-60-6-30-20Q-6-34 24-24Q56-16 58 18Q58 34 40 36H-40Q-56 36-56 30Z" fill="#c9bda4" stroke="${INK}" stroke-width="3"/><path d="M-30-12Q-10-22 12-18" fill="none" stroke="#e5dcc8" stroke-width="4" stroke-linecap="round"/>`, label: [0, 8], size: 36 },
     crate: { art: `<path d="M-46-30H46V40H-46Z" fill="#c69434" stroke="${INK}" stroke-width="3"/><path d="M-46-8H46M-46 18H46" stroke="#70501b" stroke-width="2.4"/><circle cx="-24" cy="-38" r="12" fill="#ee806f" stroke="${INK}" stroke-width="2.4"/><circle cx="2" cy="-40" r="12" fill="#f3c955" stroke="${INK}" stroke-width="2.4"/><circle cx="26" cy="-36" r="12" fill="#ee806f" stroke="${INK}" stroke-width="2.4"/><rect x="-28" y="-8" width="56" height="40" rx="8" fill="#fffaf0" stroke="#70501b" stroke-width="2.4"/>`, label: [0, 11], size: 32 },
     lily: { art: `<ellipse cx="0" cy="10" rx="62" ry="22" fill="#4e9677" stroke="${INK}" stroke-width="3"/><path d="M0 10L40-4" stroke="#2f5c46" stroke-width="3"/><ellipse cx="0" cy="6" rx="50" ry="15" fill="#7fce54"/><circle cx="44" cy="-6" r="8" fill="#ffa798" stroke="${INK}" stroke-width="2.4"/>`, label: [-6, 6], size: 32 },
     sail: { art: `<path d="M-50 30H50L36 52H-36Z" fill="#c69434" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/><path d="M0 30V-70" stroke="${INK}" stroke-width="4"/><path d="M4-66L50 22H4Z" fill="#fffaf0" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/>`, label: [22, -4], size: 30 },
     lantern: { art: `<path d="M0-70V-46" stroke="${INK}" stroke-width="3"/><rect x="-24" y="-46" width="48" height="66" rx="12" fill="#ffe49a" stroke="${INK}" stroke-width="3"/><path d="M-30-46H30M-30 20H30" stroke="#70501b" stroke-width="4" stroke-linecap="round"/>`, label: [0, -13], size: 34 },
     flag: { art: `<path d="M-30 70V-60" stroke="${INK}" stroke-width="4" stroke-linecap="round"/><path d="M-28-62H48L34-30L48 2H-28Z" fill="#62cdf4" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/>`, label: [4, -32], size: 34 },
-    shell: { art: `<path d="M-44 24Q-48-24 0-34Q48-24 44 24Z" fill="#ffa798" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/><path d="M0-30V22M-24-20L-14 22M24-20L14 22" stroke="#ee806f" stroke-width="2.4"/><rect x="-18" y="-6" width="36" height="26" rx="8" fill="#fffaf0" opacity=".9"/>`, label: [0, 7], size: 28 },
+    shell: { art: `<path d="M-44 24Q-48-24 0-34Q48-24 44 24Z" fill="#ffa798" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/><path d="M0-30V22M-24-20L-14 22M24-20L14 22" stroke="#ee806f" stroke-width="2.4"/><rect x="-18" y="-6" width="36" height="26" rx="8" fill="#fffaf0" opacity=".9"/>`, label: [0, 7], size: 28, snug: true },
     pot: { art: `<path d="M-36-10H36L28 40H-28Z" fill="#c25a49" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/><path d="M-40-20H40V-8H-40Z" fill="#ee806f" stroke="${INK}" stroke-width="3"/><path d="M-10-20Q-30-60-6-70M8-20Q20-56 34-62" fill="none" stroke="#4e9677" stroke-width="4" stroke-linecap="round"/><circle cx="-6" cy="-72" r="9" fill="#f3c955" stroke="${INK}" stroke-width="2.4"/>`, label: [0, 16], size: 30 },
   };
   // Six places per land: x, y in an 800×600 picture, and which thing lives there.
@@ -41,6 +41,10 @@
   // Upright phones get their own picture: the same six things in two columns,
   // sky things on top, drawn bigger so letters stay finger- and eye-sized.
   const PORTRAIT = [[160, 150], [440, 170], [150, 420], [450, 440], [160, 690], [440, 700]];
+  // 2026-10-13: thin hiding places (a flag, a kite string) were 35–41px wide on
+  // a small phone. An invisible pad round each letter widens the tap target
+  // without changing the picture.
+  const pad = (t) => `<circle class="hunt-pad" cx="${t.label[0]}" cy="${t.label[1]}" r="60" fill="#fffaf0" fill-opacity="0"/>`;
   function scene(land, letters, portrait = false) {
     const L = LANDS[land] || LANDS.meadow;
     if (portrait) {
@@ -49,7 +53,7 @@
       const things = order.map(([[, , kind], i], k) => {
         const [x, y] = PORTRAIT[k], t = THINGS[kind], letter = letters[i];
         const glyph = letter ? `<text class="hunt-letter" x="${t.label[0]}" y="${t.label[1]}" text-anchor="middle" dominant-baseline="central" font-family="'Amiri Quran', serif" font-size="${Math.round(t.size * 1.3)}" fill="${INK}" direction="rtl">${letter.display}</text>` : "";
-        return `<g class="hunt-spot" data-spot="${i}" data-kind="${kind}" transform="translate(${x} ${y}) scale(1.3)" role="button" tabindex="0" aria-label="${letter ? `Letter ${letter.display}` : "Garden thing"}"><g class="hunt-thing">${t.art}${glyph}</g></g>`;
+        return `<g class="hunt-spot" data-spot="${i}" data-kind="${kind}" transform="translate(${x} ${y}) scale(1.3)" role="button" tabindex="0" aria-label="${letter ? `Letter ${letter.display}` : "Garden thing"}">${pad(t)}<g class="hunt-thing">${t.art}${glyph}</g></g>`;
       }).join("");
       const water = land === "lagoon" || land === "river" ? `<path d="M-20 560Q150 530 300 550Q450 570 620 540V880H-20Z" fill="#62cdf4"/>` : "";
       return `<svg class="hunt-scene is-portrait" viewBox="0 0 600 860" preserveAspectRatio="xMidYMid meet" aria-label="Find the letter in the picture">
@@ -61,10 +65,13 @@
     const peaks = land === "peaks" ? `<path d="M-20 360L150 150L270 300L400 170L560 330L660 190L820 360Z" fill="#e5dcc8"/><path d="M150 150L176 188L150 180L128 196ZM400 170L424 206L402 198L382 212ZM660 190L684 222L662 214L642 228Z" fill="#fffdf7"/>` : "";
     const water = land === "lagoon" || land === "river" ? `<path d="M-20 430Q200 400 400 420Q600 440 820 410V620H-20Z" fill="#62cdf4"/><path d="M60 470q30-8 60 0M520 500q30-8 60 0" fill="none" stroke="#ccfbef" stroke-width="4" stroke-linecap="round"/>` : "";
     const stars = night ? [[80, 60], [300, 40], [480, 90], [720, 50]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="3" fill="#fffaf0"/>`).join("") : "";
+    // v58: on a landscape screen (an iPad held sideways) the letters were 14–27px
+    // wide — small to recognise at 3. They grow 15% where the hiding place has
+    // room; the tree hollow and shell plate (snug) keep their size.
     const spots = L.spots.map(([x, y, kind], i) => {
       const t = THINGS[kind], letter = letters[i];
-      const glyph = letter ? `<text class="hunt-letter" x="${t.label[0]}" y="${t.label[1]}" text-anchor="middle" dominant-baseline="central" font-family="'Amiri Quran', serif" font-size="${t.size}" fill="${INK}" direction="rtl">${letter.display}</text>` : "";
-      return `<g class="hunt-spot" data-spot="${i}" data-kind="${kind}" transform="translate(${x} ${y})" role="button" tabindex="0" aria-label="${letter ? `Letter ${letter.display}` : "Garden thing"}"><g class="hunt-thing">${t.art}${glyph}</g></g>`;
+      const glyph = letter ? `<text class="hunt-letter" x="${t.label[0]}" y="${t.label[1]}" text-anchor="middle" dominant-baseline="central" font-family="'Amiri Quran', serif" font-size="${Math.round(t.size * (t.snug ? 1 : 1.15))}" fill="${INK}" direction="rtl">${letter.display}</text>` : "";
+      return `<g class="hunt-spot" data-spot="${i}" data-kind="${kind}" transform="translate(${x} ${y})" role="button" tabindex="0" aria-label="${letter ? `Letter ${letter.display}` : "Garden thing"}">${pad(t)}<g class="hunt-thing">${t.art}${glyph}</g></g>`;
     }).join("");
     return `<svg class="hunt-scene" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" aria-label="Find the letter in the picture">
       <rect width="800" height="600" fill="${L.sky}"/>${stars}${peaks}
@@ -103,7 +110,8 @@
 
     ask() {
       if (!this.alive) return;
-      this.missed = false;
+      this.missed = false; this.misses = 0;
+      this.svg?.querySelectorAll?.(".hunt-spot.is-hint").forEach((s) => s.classList?.remove?.("is-hint"));
       this.heard = this.ctx.canListen?.() !== false;
       this.assisted = !this.heard;
       // Heard, not shown — unless sound is off.
@@ -135,9 +143,15 @@
         this.ctx.prompt?.(this.target);
         this.wiggle(spot);
         this.ctx.sfx?.("softwrong");
+        // A second miss makes the right spot glow — the picture never hides it for long.
+        if (++this.misses >= 2) {
+          const k = this.letters.findIndex((l, j) => l && !this.found.has(j) && key(l) === key(this.target));
+          this.svg.querySelector(`.hunt-spot[data-spot="${k}"]`)?.classList?.add?.("is-hint");
+        }
         return;
       }
       this.busy = true;
+      spot.classList?.remove?.("is-hint");
       this.found.add(i);
       spot.classList.add("is-found", `is-${spot.dataset.kind}`);
       this.ctx.correct?.();

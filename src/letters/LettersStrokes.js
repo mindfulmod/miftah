@@ -177,15 +177,16 @@
       const part = parts[current];
       if (!part || svg.classList.contains("is-demo")) return;
       if (part.dot) {
-        if (dist(pt, [part.x, part.y]) < DOT_TOL) { part.fill.setAttribute("fill", ink()); part.fill.classList.add("is-on"); finishPart(); }
+        if (dist(pt, [part.x, part.y]) < DOT_TOL * ease(part)) { part.fill.setAttribute("fill", ink()); part.fill.classList.add("is-on"); finishPart(); }
         return;
       }
       // Advance along the stroke while the finger is near what comes next.
       let moved = false;
       for (let j = part.at; j < Math.min(part.samples.length, part.at + 8); j += 1) {
-        if (dist(pt, part.samples[j]) < TOL && (part.at > 0 || j < 4)) { part.at = j; moved = true; }
+        if (dist(pt, part.samples[j]) < TOL * ease(part) && (part.at > 0 || j < 4 + (part.struggle || 0))) { part.at = j; moved = true; }
       }
       if (moved) {
+        press.moved = true;
         part.mark = Math.max(part.mark, Math.floor((part.at / (part.samples.length - 1)) * 4) / 4);
         showProgress(part);
         if (part.at >= part.samples.length - 2) { part.at = part.samples.length - 1; showProgress(part); finishPart(); }
@@ -198,18 +199,53 @@
         showProgress(part);
         later(() => part.path.classList.remove("is-snap"), 380);
         onSnap?.();
+        struggled(part);
       }
+    };
+    // Patience (v58): a small hand that keeps missing the start or wandering
+    // off gets a wider, kinder path each time; after five tries the stroke
+    // draws itself (counted as helped), so no letter is ever a wall.
+    const press = { moved: false };
+    const ease = (part) => 1 + Math.min(part.struggle || 0, 3) * 0.35;
+    const struggled = (part) => {
+      part.struggle = (part.struggle || 0) + 1;
+      if (part.struggle < 5 || !alive || part.done) return;
+      onSnap?.();
+      if (part.dot) { part.fill.setAttribute("fill", ink()); part.fill.classList.add("is-on"); finishPart(); return; }
+      part.at = part.samples.length - 1; part.mark = 1; showProgress(part); finishPart();
     };
     svg.addEventListener("pointerdown", (e) => {
       if (!alive || pointer !== null || e.button > 0 || e.isPrimary === false) return;
       pointer = e.pointerId;
       try { svg.setPointerCapture?.(pointer); } catch {}
+      press.moved = false; press.part = parts[current];
       const pt = toBox(e); if (pt) { follow(pt); onMove?.(e); }
     });
     svg.addEventListener("pointermove", (e) => { if (e.pointerId !== pointer || !alive) return; const pt = toBox(e); if (pt) { follow(pt); onMove?.(e); } });
-    const up = (e) => { if (e.pointerId !== pointer) return; pointer = null; onMove?.(null); };
+    const up = (e) => {
+      if (e.pointerId !== pointer) return; pointer = null; onMove?.(null);
+      // A press that got nowhere on the current stroke is a try too.
+      const part = parts[current];
+      if (part && part === press.part && !press.moved && !part.done && !svg.classList.contains("is-demo")) struggled(part);
+    };
     svg.addEventListener("pointerup", up);
     svg.addEventListener("pointercancel", up);
+    // Keyboard and switch access (v54): the letter can be written a stroke at
+    // a time with Enter or Space. Each stroke written this way counts as a
+    // snap, so it is never recorded as unaided handwriting.
+    svg.setAttribute("tabindex", "0");
+    svg.setAttribute("role", "button");
+    svg.removeAttribute("aria-hidden");
+    svg.setAttribute("aria-label", "Write the letter: press Enter for each stroke");
+    svg.addEventListener("keydown", (e) => {
+      if (e.key !== "Enter" && e.key !== " ") return;
+      e.preventDefault();
+      const part = parts[current];
+      if (!alive || !part || svg.classList.contains("is-demo")) return;
+      onSnap?.();
+      if (part.dot) { part.fill.setAttribute("fill", ink()); part.fill.classList.add("is-on"); finishPart(); return; }
+      part.at = part.samples.length - 1; part.mark = 1; showProgress(part); finishPart();
+    });
     demo();
     return {
       svg,

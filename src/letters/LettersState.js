@@ -63,8 +63,14 @@
     // Living Books (v29): how many times each book has been read.
     if (name === "books") return isObject(value) ? Object.fromEntries(Object.entries(value).filter(([id, n]) => /^[a-z]{2,16}$/.test(id) && Number.isInteger(n) && n >= 0).map(([id, n]) => [id, Math.min(n, 9999)])) : {};
     // Today's Walk (v25): one day's plan and which stops were walked.
+    // Encouragement pass (v57): where a half-played chapter was left.
+    if (name === "resume") {
+      if (!isObject(value) || typeof value.world !== "string" || !/^[a-z0-9-]{2,32}$/.test(value.world)) return null;
+      const n = (v, max) => (Number.isFinite(v) ? Math.max(0, Math.min(max, Math.floor(v))) : 0);
+      return { world: value.world, gameIndex: n(value.gameIndex, 12), starTotal: n(value.starTotal, 60), at: Number.isFinite(value.at) ? value.at : 0 };
+    }
     if (name === "walk") {
-      const KINDS = /^(Feed|WaterGarden|LetterHunt|LetterDelivery|GardenPaths|DotGarden|SoundLab|LetterStudio|LetterBalloons|FriendFind|FriendBook|PeekFlaps|SoundSort|HoopoeTrip|FriendShapes|BusyMarket|SandTable|LivingBook|EchoParade|DotsLast|LetterTrain|SameLetter|LanternHunt|LetterShadows|HatShop|BuildLetter|FillGap)$/;
+      const KINDS = /^(Feed|WaterGarden|LetterHunt|LetterDelivery|GardenPaths|DotGarden|SoundLab|LetterStudio|LetterBalloons|FriendFind|FriendBook|PeekFlaps|SoundSort|HoopoeTrip|FriendShapes|BusyMarket|SandTable|LivingBook|EchoParade|DotsLast|LetterTrain|SameLetter|LanternHunt|LetterShadows|HatShop|BuildLetter|FillGap|TwinCrown|ListenFind|WordGap|FriendPairs|DotNests|FriendJigsaw|BathTime|LetterFishing|ColourFriend|SpotChange|FamilyBuses)$/;
       if (!isObject(value) || !validDate(value.date) || !Array.isArray(value.stops)) return null;
       const stops = value.stops.filter((st) => isObject(st) && KINDS.test(st.kind)).slice(0, 8).map((st) => ({
         kind: st.kind, skill: typeof st.skill === "string" ? st.skill.slice(0, 12) : "name",

@@ -23,7 +23,7 @@ test("v32 Lantern Hunt and Letter Shadows: fair search, any-order shadows, hones
   assert.match(css, /\.sh-dark \{[^}]*radial-gradient/);
   assert.match(css, /\.sh-shadow svg \{[^}]*filter: brightness\(0\)/);
   assert.match(source("LettersGame.js"), /\['LanternHunt',2,/);
-  assert.match(source("GardenBrain.js"), /"LanternHunt", "LetterShadows"\]/);
+  assert.match(source("GardenBrain.js"), /"LanternHunt", "LetterShadows"[,\]]/);
   assert.match(fs.readFileSync(path.join(root, "sw.js"), "utf8"), /"src\/letters\/ShadowGames\.js"/);
   assert.match(fs.readFileSync(path.join(root, "docs", "letter-garden", "RELEASES.md"), "utf8"), /## v32 /);
 });

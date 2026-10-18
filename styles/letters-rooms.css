@@ -96,7 +96,7 @@
 .journey-stop{position:relative;display:grid;place-items:center;width:40px;height:36px;border-radius:12px;background:#fffaf0;border:1px solid #c9bda4}
 .journey-stop>svg{width:28px;height:28px;display:block}.journey-stop.is-done{background:#ccfbef;border-color:#4e9677}
 .journey-stop>i{position:absolute;bottom:-3px;right:-3px;width:16px;height:16px;display:grid;place-items:center;border-radius:50%;background:#4e9677;color:#fffaf0}.journey-stop>i svg{width:12px;height:12px}
-.lg-app .practice-garden-hub{min-height:0;overflow-y:auto;padding:4px 4px 14px}
+.lg-app .practice-garden-hub{min-height:0;overflow-y:auto;padding:20px 4px 14px} /* v58: the group chips sit 14px above their group (+3px ring); 4px of padding let the scroll box crop them */
 .lg-app .practice-garden-choices{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:8px 0}
 .lg-app .practice-garden-choices button{min-width:0;min-height:190px;flex-direction:column;padding:8px;gap:6px}
 .lg-app .practice-garden-choices button>svg,.lg-app .practice-garden-choices .practice-friend-picture{width:100%;height:124px;max-height:124px;flex:0 0 124px}
@@ -156,7 +156,7 @@
 /* ---------- album tabs + My letters (2026-10-01) ---------- */
 .album-tabs{display:flex;gap:10px;justify-content:center;flex:0 0 auto}
 .album-tab{width:56px;height:46px;display:grid;place-items:center;border:2px solid #a89478;border-radius:16px 16px 12px 12px;background:#e5dcc8;color:#70501b;box-shadow:0 3px 0 #c9bda4;cursor:pointer}
-.album-tab.is-on{background:#fffaf0;color:#4a3620;border-color:#4a3620;box-shadow:0 3px 0 #70501b}
+.album-tab.is-on{background:#ffe49a;color:#4a3620;border-color:#4a3620;box-shadow:0 3px 0 #c69434;transform:translateY(-3px)} /* 2026-10-16: the open page is a gold tab, lifted — white on cream barely showed */
 .album-tab:focus-visible{outline:4px solid var(--lg-focus);outline-offset:3px}
 .book-pages{width:100%;max-width:560px;box-sizing:border-box;padding:10px 8px;display:grid;gap:12px;background:#fffaf0;border:2px solid #a89478;border-left:10px solid #c9bda4;border-radius:12px 24px 24px 12px}
 .book-land{display:grid;gap:6px;padding:8px 8px 10px;border-radius:18px;background:#fffdf7;border:2px dashed #e5dcc8}
@@ -200,7 +200,7 @@
 .lg-app .pet-room .pet-trick-stage{display:grid;grid-template-columns:repeat(auto-fit,minmax(58px,1fr));gap:8px;padding:10px;background:#fffaf0;border:2px solid #a89478;border-radius:22px}
 .pet-trick{aspect-ratio:1;min-width:52px;padding:6px;border:2px solid #4a3620;border-radius:16px;background:#fffdf7;box-shadow:0 3px 0 #70501b;cursor:pointer;display:grid;place-items:center}
 .pet-trick svg{width:100%;height:100%}
-.pet-trick.is-seed{border-color:#c9bda4;border-style:dashed;background:#e5dcc8;box-shadow:none}
+.pet-trick.is-seed{border-color:#a89478;background:#fffaf0;box-shadow:0 3px 0 #c9bda4}
 .pet-trick:focus-visible{outline:4px solid var(--lg-focus);outline-offset:3px}
 .lg-app .pet-room .pet-big[class*="does-"]>:is(svg,.lg-animal){transform-origin:50% 100%}
 .lg-app .pet-room .pet-big.does-spin>:is(svg,.lg-animal){animation:trick-spin 900ms ease-in-out}
@@ -238,7 +238,7 @@
 .stand-choice.is-passed{opacity:.35;transform:scale(.9)}
 .stand-price{display:flex;align-items:center;gap:4px;padding:4px 12px;border-radius:14px;background:#fffdf7;border:2px solid #a89478;color:#70501b;font-weight:800}
 .stand-close{position:absolute;right:-10px;top:-10px;width:46px;height:46px}
-.album-stand.is-free .stand-gift{background:#ffe49a}
+.album-stand.is-free .stand-gift{display:block;line-height:0}
 .lg-reduce-motion .stand-choice{transition:none}
 
 /* ---------- v8 Quran Word Shelf ---------- */
@@ -273,14 +273,24 @@
 .lg-reduce-motion .ayah-word{transition:none}
 
 /* ---------- v16 Letter Constellations ---------- */
-.star-chart{width:100%;max-width:520px;height:auto;border:3px solid #4a3620;border-radius:30px;box-shadow:0 6px 0 #4a3620}
+.star-chart{width:min(100%,520px);aspect-ratio:2/3;height:auto;flex-shrink:0;border:3px solid #4a3620;border-radius:30px;box-shadow:0 6px 0 #4a3620} /* v58: the 2:3 sky was letterboxed inside a squarer box, so the frame stood wide of the sky with the hills showing through; the box now keeps the sky's shape */
 .chart-star{cursor:pointer;outline:none}
 .chart-star:focus-visible path{stroke:#e8743c;stroke-width:3}
 .chart-star.is-bright{animation:chart-glow 3.6s ease-in-out infinite alternate}
 .chart-star.is-twinkle path{transform-box:fill-box;transform-origin:50% 50%;animation:chart-twinkle 520ms cubic-bezier(.3,1.6,.5,1)}
 @keyframes chart-glow{from{opacity:.86}to{opacity:1}}
 @keyframes chart-twinkle{40%{transform:scale(1.4) rotate(20deg)}100%{transform:none}}
-.lg-reduce-motion .chart-star,.lg-reduce-motion .chart-star path{animation:none!important}
+.chart-sleep{cursor:pointer;opacity:.8;animation:chart-sleep 3.2s ease-in-out var(--d,0s) infinite alternate}
+.chart-sleeper{transform-box:fill-box;transform-origin:50% 50%}
+.chart-sleep.is-twinkle{opacity:1}
+.chart-sleep.is-twinkle .chart-sleeper{animation:chart-twinkle 520ms cubic-bezier(.3,1.6,.5,1)}
+.chart-eyes-open{display:none}
+.chart-sleep.is-twinkle .chart-eyes-open{display:inline}.chart-sleep.is-twinkle .chart-eyes-shut{display:none}
+.chart-z{animation:chart-z 3.2s ease-in-out var(--d,0s) infinite}
+@keyframes chart-z{0%,100%{opacity:.3;transform:translateY(2px)}50%{opacity:.9;transform:translateY(-3px)}}
+@keyframes chart-sleep{from{opacity:.62}to{opacity:.95}}
+@media(prefers-reduced-motion:reduce){.chart-sleep,.chart-sleeper,.chart-z{animation:none!important}}
+.lg-reduce-motion .chart-star,.lg-reduce-motion .chart-star path,.lg-reduce-motion .chart-sleep,.lg-reduce-motion .chart-sleeper,.lg-reduce-motion .chart-z{animation:none!important}
 
 /* ---------- v19 Quran Treasury ---------- */
 .album-slot.is-treasury{position:relative}
@@ -292,3 +302,210 @@
 .treasury-plaque.is-heard{animation:book-said 520ms cubic-bezier(.3,1.6,.5,1)}
 .treasury-plaque:focus-visible{outline:4px solid var(--lg-focus);outline-offset:3px}
 .lg-reduce-motion .treasury-plaque.is-heard{animation:none}
+/* v58: the egg is 190px on every screen — most of a phone's width, but small in an iPad's big scene. A child's very first tap gets a bigger target there. */
+@media (min-width: 700px) and (min-height: 620px) { .lg-app .lg-hatch .hatch-hero { zoom: 1.3; } }
+
+/* …and on a tall screen it fits the height too; a short one (a sideways phone) keeps the full width and scrolls, so the stars stay big enough to tap. */
+@media (min-height: 600px) { .star-chart { width: min(100%, 520px, calc((100dvh - 190px) * 2 / 3)); } }
+/* v58: after hatching on a sideways phone the pet, colours and the way in were stacked 491px tall in a 390px screen — "Enter the garden" sat wholly below the edge, with nothing to hint it was there, so a brand-new child could be stuck on the very first screen. Short landscape screens lay it out side by side: the pet on the left, colours and the way in on the right. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .lg-app .hatch-stage:has(.hatch-go) { display: grid; grid-template-columns: auto auto; grid-template-rows: auto auto; align-items: center; justify-content: center; column-gap: 28px; row-gap: 18px; width: auto; }
+  .lg-app .hatch-stage:has(.hatch-go) .hatch-hero { grid-row: 1 / 3; width: 300px; }
+  .lg-app .hatch-stage:has(.hatch-go) .hatch-hues { grid-column: 2; align-self: end; }
+  .lg-app .hatch-stage:has(.hatch-go) .hatch-go { grid-column: 2; justify-self: center; align-self: start; }
+}
+
+/* v58: the colour swatches are paint pots — the pot is the picture. */
+.lg-app .pet-room .pet-color-swatch.is-pot{width:52px;height:52px;flex:0 0 52px;padding:0;border:0;border-radius:14px;background:none;box-shadow:none;color:hsl(var(--h) 72% 62%);display:grid;place-items:center}
+.lg-app .pet-room .pet-color-swatch.is-pot svg{width:100%;height:100%;display:block}
+.lg-app .pet-room .pet-color-swatch.is-pot.is-picked{outline:none;background:#ffe49a;box-shadow:0 0 0 3px #4a3620}
+.lg-app .pet-room .pet-color-swatch.is-pot:active{transform:translateY(2px);box-shadow:none}
+
+/* v58: the ayah rests on a wooden rehal (crossed Quran-stand legs) instead of
+   floating — calm and reverent, matching the album's rehal tab. */
+.lg-ayah-garden .ayah-words { position: relative; border-color: #70501b; box-shadow: 0 6px 0 #c69434, 0 9px 0 #4a3620; margin-bottom: 52px; }
+.lg-ayah-garden .ayah-words::after { content: ""; position: absolute; left: 50%; bottom: -60px; width: min(70%, 260px); height: 56px; transform: translateX(-50%); background: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22240%22 height=%2256%22 viewBox=%220 0 240 56%22%3E%3Cg stroke-linecap=%22round%22%3E%3Cpath d=%22M40 6L200 50M200 6L40 50%22 stroke=%22%234a3620%22 stroke-width=%2214%22/%3E%3Cpath d=%22M40 6L200 50M200 6L40 50%22 stroke=%22%23c69434%22 stroke-width=%229%22/%3E%3Cpath d=%22M48 10L112 28M192 10L128 28%22 stroke=%22%23f3c955%22 stroke-width=%222.4%22 opacity=%22.7%22/%3E%3C/g%3E%3Ccircle cx=%22120%22 cy=%2228%22 r=%227%22 fill=%22%23a89478%22 stroke=%22%234a3620%22 stroke-width=%222.4%22/%3E%3C/svg%3E") center / 100% 100% no-repeat; pointer-events: none; z-index: -1; }
+.lg-ayah-garden .ayah-stage { isolation: isolate; }
+
+/* 2026-10-13: the hatched pet sits in the bottom half of its own shell, the
+   top tipped on the grass beside it — the egg the child tapped became this
+   pet. Pieces are decoration only (taps go to the pet). */
+.lg-app .hatch-pet-spot { position: relative; display: grid; place-items: center; z-index: 1; }
+.lg-app .hatch-shell-cup, .lg-app .hatch-shell-cap, .lg-app .hatch-shell-flecks { position: absolute; pointer-events: none; display: block; }
+.lg-app .hatch-shell-cup svg, .lg-app .hatch-shell-cap svg, .lg-app .hatch-shell-flecks svg { display: block; width: 100%; height: auto; }
+.lg-app .hatch-shell-cup { z-index: 2; width: 150px; left: 50%; top: 152px; transform: translateX(-50%); animation: lg-arrive 620ms var(--lg-spring-big); }
+.lg-app .hatch-shell-cap { z-index: 0; width: 68px; left: calc(50% + 86px); bottom: 12px; animation: lg-arrive 620ms 160ms var(--lg-spring-big) both; }
+.lg-app .hatch-shell-flecks { z-index: 0; width: 58px; right: calc(50% + 84px); bottom: 18px; animation: lg-arrive 620ms 240ms var(--lg-spring-big) both; }
+@media (prefers-reduced-motion: reduce) { .lg-app .hatch-shell-cup, .lg-app .hatch-shell-cap, .lg-app .hatch-shell-flecks { animation: none; } }
+
+/* 2026-10-13: a free stand visit waits as a wrapped present beside the stand,
+   bobbing gently (still under reduced motion). */
+.lg-app .lg-album .album-stand .stand-gift { display: block; line-height: 0; filter: drop-shadow(0 3px 0 #4a362022); animation: lg-gift-bob 2.4s ease-in-out infinite; transform-origin: 50% 100%; }
+.lg-app .lg-album .album-stand .stand-gift svg { display: block; }
+@keyframes lg-gift-bob { 0%, 100% { transform: translateY(0) rotate(0); } 40% { transform: translateY(-5px) rotate(-5deg); } 60% { transform: translateY(-5px) rotate(4deg); } }
+@media (prefers-reduced-motion: reduce) { .lg-app .lg-album .album-stand .stand-gift { animation: none; } }
+.lg-app.lg-reduce-motion .lg-album .album-stand .stand-gift { animation: none; }
+/* The first time only: the pet comes out wearing the top of its shell like a
+   hat, and it tumbles off onto the grass as the pet stretches awake. */
+.lg-app .hatch-pet-spot.is-fresh .hatch-shell-cap { z-index: 3; animation: hatch-cap-tumble 1.9s cubic-bezier(.45, 0, .3, 1) both; }
+@keyframes hatch-cap-tumble {
+  0% { transform: translate(-124px, -170px) rotate(22deg) scale(1.4); opacity: 0; }
+  12% { transform: translate(-124px, -170px) rotate(22deg) scale(1.4); opacity: 1; }
+  48% { transform: translate(-124px, -170px) rotate(22deg) scale(1.4); }
+  62% { transform: translate(-70px, -184px) rotate(-30deg); }
+  82% { transform: translate(0, 0) rotate(-6deg); }
+  90% { transform: translate(6px, -10px) rotate(4deg); }
+  100% { transform: none; }
+}
+.lg-app .hatch-pet-spot.is-fresh .hatch-shell-cap ellipse { animation: hatch-cap-shadow 1.9s linear both; }
+@keyframes hatch-cap-shadow { 0%, 80% { opacity: 0; } 100% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .lg-app .hatch-pet-spot.is-fresh .hatch-shell-cap, .lg-app .hatch-pet-spot.is-fresh .hatch-shell-cap ellipse { animation: none; } }
+.lg-app.lg-reduce-motion .hatch-pet-spot.is-fresh .hatch-shell-cap, .lg-app.lg-reduce-motion .hatch-pet-spot.is-fresh .hatch-shell-cap ellipse { animation: none; }
+/* 2026-10-13: wardrobe prices — a gold bar fills toward the price from the
+   child's stars; a price within reach turns gold ("ready"). */
+.pet-room .pet-acc .pet-acc-fill{display:block;width:46px;height:8px;margin:2px auto 0;border:1.6px solid #70501b;border-radius:6px;background:#fffaf0;overflow:hidden}
+.pet-room .pet-acc .pet-acc-fill>i{display:block;height:100%;min-width:4px;background:#f3c955;border-radius:4px}
+.pet-room .pet-acc .pet-acc-cost.is-ready{background:#ffe49a;border-radius:10px;padding:0 6px;box-shadow:0 0 0 1.6px #c69434}
+/* 2026-10-13: on a sideways phone the album stacked tabs, the stall and then
+   the collection, so only a sliver of the first sticker row showed — a child
+   saw almost none of what they own. Sideways, the tabs and stall sit on the
+   left and the collection (stickers, letters, words, sky) fills the right,
+   scrolling in place. */
+@media (max-height: 450px) and (orientation: landscape) {
+  .lg-app .lg-album .album-stage { display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); column-gap: 16px; row-gap: 10px; align-items: start; justify-items: center; max-width: 900px; width: 100%; height: 100%; min-height: 0; overflow: hidden; padding: 2px 8px 6px; margin: 0 auto; box-sizing: border-box; }
+  .lg-app .lg-album .album-tabs { grid-column: 1; grid-row: 1; }
+  .lg-app .lg-album .album-supply { grid-column: 1; grid-row: 2; flex-direction: column; width: auto; gap: 8px; padding: 0; }
+  .lg-app .lg-album .album-stage > :not(.album-tabs):not(.album-supply) { grid-column: 2; grid-row: 1 / 3; max-height: 100%; overflow-y: auto; overscroll-behavior: contain; align-self: stretch; margin: 0; }
+  .lg-app .lg-album .album-stage > svg.star-chart { height: 100%; width: auto; max-width: 100%; overflow: visible; }
+  .lg-app .lg-album .album-stage > .album-grid { grid-auto-rows: max-content; align-content: start; }
+}
+/* 2026-10-13: on a sideways phone the ayah's play button and arrows sat
+   below the screen (the stage ran 470px in a 375px screen) — a child could
+   not start the recitation. Sideways, the controls stand in a column beside
+   the verse, and the rehal's legs step aside to give the verse room. */
+@media (max-height: 450px) and (orientation: landscape) {
+  .lg-ayah-garden .ayah-stage { grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto auto auto; column-gap: 18px; row-gap: 8px; width: min(100%, 760px); padding: 0 4px 8px; align-items: center; }
+  .lg-ayah-garden .ayah-title { grid-column: 1; grid-row: 1; font-size: 24px; padding: 0 18px 6px; }
+  .lg-ayah-garden .ayah-dots { grid-column: 1; grid-row: 2; }
+  .lg-ayah-garden .ayah-words { grid-column: 1; grid-row: 3; margin-bottom: 0; }
+  .lg-ayah-garden .ayah-words::after { display: none; }
+  .lg-ayah-garden .ayah-controls { grid-column: 2; grid-row: 1 / 4; flex-direction: column; gap: 12px; }
+}
+/* 2026-10-13: the room toys are 42px wide — narrow for a toddler's finger.
+   An invisible ring widens the tap area by 8px all round; the art is unchanged. */
+.lg-app .pet-room .room-toy::before{content:"";position:absolute;inset:-8px;border-radius:18px}
+/* 2026-10-13: the treasures shelf — a wooden nature table with a cubby per find. */
+.lg-app .lg-finds .finds-shelf{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:84px;gap:11px 10px;width:min(100%,460px);padding:6px 14px 0;box-sizing:border-box;border:3px solid #70501b;border-radius:20px;background:repeating-linear-gradient(180deg,#e5dcc8 0 84px,#c69434 84px 92px,#70501b 92px 95px) 0 6px/100% 95px repeat-y,#e5dcc8;box-shadow:0 6px 0 #4a3620;overflow:hidden}
+.lg-app .lg-finds .finds-cell{display:grid;place-items:center;align-self:end;justify-self:center;width:min(100%,76px);height:76px;padding:4px;border:0;border-radius:16px;background:#fffaf0aa;cursor:pointer}
+.lg-app .lg-finds .finds-cell svg{width:100%;height:100%;max-width:64px;max-height:64px}
+.lg-app .lg-finds .finds-cell.is-next{background:none;border:2px dashed #c69434;cursor:default}
+.lg-app .lg-finds .finds-cell.is-next svg{width:30px;height:30px;animation:map-find-glint 1.8s ease-in-out infinite}
+@media (prefers-reduced-motion: reduce){.lg-app .lg-finds .finds-cell.is-next svg{animation:none}}
+.lg-app.lg-reduce-motion .lg-finds .finds-cell.is-next svg{animation:none}
+/* 2026-10-16: the pet's growing-up moment. The old pet wiggles inside a
+   ring of sparkles, flashes, and the grown pet pops in. */
+.lg-app .lg-grow { align-items: center; justify-content: center; gap: 18px; }
+.lg-app .grow-stage { position: relative; width: min(340px, 90vw); height: 330px; display: grid; place-items: center; margin: auto auto 0; }
+.lg-app .grow-podium { position: absolute; left: 0; right: 0; bottom: 0; height: 120px; z-index: 0; pointer-events: none; }
+.lg-app .grow-podium svg { width: 100%; height: 100%; }
+.lg-app .grow-pet { position: absolute; bottom: 30px; left: 50%; width: 200px; transform: translateX(-50%); padding: 0; border: 0; background: none; z-index: 2; }
+.lg-app .grow-pet svg { display: block; width: 100%; height: auto; }
+.lg-app .grow-old { animation: grow-old 1.9s ease-in both; }
+.lg-app .grow-new { animation: grow-new .7s cubic-bezier(.3, 1.6, .5, 1) 1.85s both; cursor: pointer; }
+.lg-app .grow-ring { position: absolute; inset: 20px 30px 70px; z-index: 1; pointer-events: none; }
+.lg-app .grow-spark { position: absolute; left: 50%; top: 50%; width: 28px; height: 28px; margin: -14px; transform: rotate(calc(var(--i) * 45deg)) translateY(-120px); animation: grow-spark 1.9s ease-in-out both; }
+.lg-app .grow-go { margin: 0 auto auto; }
+@keyframes grow-old { 0% { opacity: 1; transform: translateX(-50%) scale(1); } 25%, 55% { transform: translateX(-50%) rotate(-4deg); } 40%, 70% { transform: translateX(-50%) rotate(4deg); } 88% { opacity: 1; transform: translateX(-50%) scale(1.06); filter: brightness(1.6); } 100% { opacity: 0; transform: translateX(-50%) scale(1.15); filter: brightness(2); } }
+@keyframes grow-new { from { opacity: 0; transform: translateX(-50%) scale(.6); } to { opacity: 1; transform: translateX(-50%) scale(1); } }
+@keyframes grow-spark { 0% { opacity: 0; transform: rotate(calc(var(--i) * 45deg)) translateY(-150px) scale(.4); } 50% { opacity: 1; transform: rotate(calc(var(--i) * 45deg + 90deg)) translateY(-110px) scale(1); } 100% { opacity: .9; transform: rotate(calc(var(--i) * 45deg + 180deg)) translateY(-130px) scale(.8); } }
+.lg-app .grow-stage.is-still .grow-old { display: none; }
+.lg-app .grow-stage.is-still .grow-new, .lg-app .grow-stage.is-still .grow-spark { animation: none; }
+@media (prefers-reduced-motion: reduce) { .lg-app .grow-old { display: none; } .lg-app .grow-new, .lg-app .grow-spark { animation: none; } }
+@media (max-height: 450px) and (orientation: landscape) { .lg-app .grow-stage { height: 250px; } .lg-app .grow-pet { width: 150px; bottom: 22px; } .lg-app .grow-podium { height: 90px; } }
+/* 2026-10-16: a complete treasure set gets gold trim; the golden set is a second shelf in honey wood. */
+.lg-app .lg-finds .album-stage{gap:14px}
+.lg-app .lg-finds .finds-shelf.is-complete{border-color:#c69434;box-shadow:0 0 0 4px #ffe49a,0 6px 0 #4a3620}
+.lg-app .lg-finds .finds-shelf.is-golden{background:repeating-linear-gradient(180deg,#ffe49a 0 84px,#f3c955 84px 92px,#c69434 92px 95px) 0 6px/100% 95px repeat-y,#ffe49a;border-color:#c69434}
+/* 2026-10-16: the grown garden appears beside the way home after growing up. */
+.lg-app .grow-actions { display: flex; align-items: center; justify-content: center; gap: 18px; margin: 0 auto auto; }
+.lg-app .grow-actions .grow-go { margin: 0; }
+.lg-app .grow-garden { width: 104px; height: 76px; padding: 4px; border: 3px solid #4a3620; border-radius: 20px; background: #fffaf0; box-shadow: 0 4px 0 #c9bda4; cursor: pointer; animation: grow-garden-pop .6s cubic-bezier(.3, 1.6, .5, 1) both; }
+@keyframes grow-garden-pop { from { opacity: 0; transform: scale(.5); } to { opacity: 1; transform: none; } }
+.lg-app .grow-garden svg { display: block; width: 100%; height: 100%; }
+@media (prefers-reduced-motion: reduce) { .lg-app .grow-garden { animation: none; } }
+.lg-app.lg-reduce-motion .grow-garden { animation: none; }
+/* 2026-10-16: special-day treasures (Ramadan fanous, Eid crescent) — a small night-blue shelf of their own. */
+.lg-app .lg-finds .finds-shelf.is-special{grid-template-columns:repeat(4,minmax(0,1fr));background:linear-gradient(180deg,#4a4d84 0 84px,#c69434 84px 92px,#70501b 92px 95px) 0 6px/100% 95px no-repeat,#4a4d84;border-color:#23253f}
+.lg-app .lg-finds .finds-shelf.is-special .finds-cell{background:#6064a0aa}
+/* ---------- Sticker Scenes (v59, 2026-10-16) ---------- */
+.lg-app .album-scenes{display:grid;place-items:center;width:76px;height:68px;padding:4px;border:3px solid #4a3620;border-radius:18px;background:#ffe49a;box-shadow:0 4px 0 #c69434;cursor:pointer}
+.lg-app .album-scenes:active{transform:translateY(2px);box-shadow:0 2px 0 #c69434}
+.lg-app .lg-scenes .ss-stage{flex:1;min-height:0;display:flex;width:100%}
+.ss-wrap{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;gap:10px;width:100%;max-width:900px;margin:0 auto}
+.ss-scenes{display:flex;gap:10px;justify-content:center;flex:none}
+.ss-scene-tab{width:68px;height:46px;padding:0;border:3px solid #a89478;border-radius:12px;overflow:hidden;background:none;cursor:pointer;box-shadow:0 3px 0 #c9bda4}
+.ss-scene-tab svg{display:block;width:100%;height:100%}
+.ss-scene-tab.is-on{border-color:#4a3620;box-shadow:0 0 0 3px #ffe49a,0 3px 0 #70501b;transform:translateY(-2px)}
+.ss-board{position:relative;flex:1 1 auto;min-height:0;width:100%;aspect-ratio:8/5;max-height:62vh;border:4px solid #4a3620;border-radius:22px;overflow:hidden;box-shadow:0 6px 0 #70501b;touch-action:none}
+.ss-board .ss-scene-art{position:absolute;inset:0;width:100%;height:100%;display:block}
+.ss-layer{position:absolute;inset:0}
+.ss-sticker{position:absolute;width:clamp(64px,19%,124px);aspect-ratio:1;padding:0;border:0;background:none;transform:translate(-50%,-50%);cursor:grab;touch-action:none}
+.ss-sticker svg{display:block;width:100%;height:100%;pointer-events:none;filter:drop-shadow(0 3px 0 #4a362033)}
+.ss-sticker.is-held{z-index:5;cursor:grabbing}.ss-sticker.is-held svg{transform:scale(1.12) rotate(-4deg)}
+.ss-sticker.is-leaving{opacity:.45}
+.ss-sticker.is-new svg{animation:ss-plop .45s cubic-bezier(.3,1.6,.5,1)}
+@keyframes ss-plop{from{transform:scale(.3) rotate(-20deg)}to{transform:none}}
+.ss-tray{display:flex;gap:8px;flex:none;width:100%;overflow-x:auto;padding:6px 10px 10px;box-sizing:border-box;border:2px solid #c9bda4;border-radius:22px;background:#fffaf0;scroll-snap-type:x proximity}
+.ss-pick{flex:0 0 72px;width:72px;height:72px;padding:2px;border:0;border-radius:18px;background:#ffe49a66;cursor:pointer;touch-action:none;scroll-snap-align:start}
+.ss-pick svg{display:block;width:100%;height:100%;pointer-events:none}
+.ss-ghost{position:fixed;z-index:90;width:96px;height:96px;transform:translate(-50%,-50%) scale(1.1);pointer-events:none}
+.ss-ghost svg{display:block;width:100%;height:100%}
+@media (prefers-reduced-motion: reduce){.ss-sticker.is-new svg{animation:none}.ss-sticker.is-held svg{transform:none}}
+.lg-reduce-motion .ss-sticker.is-new svg{animation:none}
+@media (max-height:450px) and (orientation:landscape){.ss-wrap{display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-rows:minmax(0,1fr);align-items:center;gap:10px}.ss-scenes{flex-direction:column}.ss-board{max-height:calc(100dvh - 90px)}.ss-tray{flex-direction:column;width:92px;height:calc(100dvh - 90px);overflow-x:hidden;overflow-y:auto}}
+/* ---------- v63 The Word Tree (2026-10-16) ---------- */
+.lg-app .lg-word-tree .wt-tree{position:relative;display:grid;gap:14px;width:min(100%,560px);padding:14px 12px 20px;box-sizing:border-box;border:3px solid #70501b;border-radius:24px;background:linear-gradient(90deg,transparent calc(50% - 9px),#70501b calc(50% - 9px),#70501b calc(50% + 9px),transparent calc(50% + 9px)) center/100% 100% no-repeat,#ccfbef;box-shadow:0 6px 0 #4a3620}
+.wt-branch{position:relative;display:flex;align-items:center;gap:10px;flex-direction:row-reverse;padding-right:calc(50% - 30px)}
+.wt-branch.is-left{flex-direction:row;padding-right:0;padding-left:calc(50% - 30px)}
+.wt-branch::before{content:"";position:absolute;top:50%;height:8px;border-radius:4px;background:#70501b;right:50%;left:20px}
+.wt-branch.is-left::before{left:50%;right:20px}
+.wt-seed{position:relative;z-index:1;flex:none;width:60px;height:60px;padding:0;border:3px solid #4a3620;border-radius:50% 50% 46% 46%;background:#c69434;box-shadow:0 4px 0 #70501b;cursor:pointer;display:grid;place-items:center}
+.wt-seed-letters{display:flex;gap:1px;font-family:'Amiri Quran',serif;font-size:19px;line-height:1;color:#fffaf0}
+.wt-seed-letters b{font-weight:400}
+.wt-leaves{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.wt-leaf{padding:2px 12px 8px;border:2px solid #4e9677;border-radius:22px 4px 22px 4px;background:#b7e779;box-shadow:0 3px 0 #4e9677;cursor:pointer}
+.wt-word{display:inline-flex;flex-direction:row;font-family:'Amiri Quran',serif;font-size:28px;line-height:1.7;color:#4a3620}
+.wt-l{display:inline-block;margin:0 -0.4px}
+.wt-word.is-glow .wt-l.is-root{color:#e8743c;animation:wt-glow 1.4s ease-out}
+@keyframes wt-glow{0%{color:#4a3620}20%{color:#e8743c;text-shadow:0 0 10px #ffe49a}100%{color:#e8743c}}
+.wt-branch.is-new{animation:wt-grow .9s cubic-bezier(.3,1.6,.5,1) both}
+@keyframes wt-grow{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
+.wt-bud{display:grid;place-items:center}.wt-bud svg{width:40px;height:40px}
+.lg-app .lg-word-tree .wt-play{display:grid;place-items:center;width:110px;height:72px;padding:6px}
+.lg-app .lg-word-tree .wt-play svg{width:80px;height:auto}
+.wt-game{display:grid;justify-items:center;align-content:center;gap:18px;width:100%;min-height:100%;padding:10px;box-sizing:border-box}
+.wt-falling{position:relative;width:min(80vw,280px);padding:0;border:0;background:none;cursor:pointer;animation:wt-drift 2.6s ease-in-out infinite}
+.wt-falling .wt-leaf-art{display:block;width:100%;height:auto}
+.wt-falling-word{position:absolute;inset:0 0 6px;display:grid;place-items:center}
+.wt-falling .wt-word{font-size:38px}
+.wt-falling.is-plain .wt-l.is-root{color:#4a3620}
+.wt-falling:not(.is-plain) .wt-l.is-root{color:#e8743c}
+@keyframes wt-drift{0%,100%{transform:rotate(-3deg) translateY(0)}50%{transform:rotate(3deg) translateY(6px)}}
+.wt-homes{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.wt-home{position:relative;width:120px;height:96px;padding:0;border:3px solid #4a3620;border-radius:20px;background:#ccfbef;box-shadow:0 5px 0 #96ecff;cursor:pointer}
+.wt-home .wt-branch-art{position:absolute;inset:6px 6px auto;width:calc(100% - 12px);height:auto}
+.wt-home .wt-seed-letters{position:absolute;left:0;right:0;bottom:8px;justify-content:center;font-size:26px;color:#70501b}
+.wt-home.is-right{background:#b7e779;box-shadow:0 0 0 4px #7fce54,0 5px 0 #4e9677}
+.wt-home.is-hint{filter:drop-shadow(0 0 0 #f3c955) drop-shadow(0 0 8px #f3c955)}
+@media (prefers-reduced-motion: reduce){.wt-falling,.wt-branch.is-new,.wt-word.is-glow .wt-l.is-root{animation:none}}
+.lg-reduce-motion .wt-falling,.lg-reduce-motion .wt-branch.is-new{animation:none}
+/* Phones: the trunk runs down the right edge so each branch's leaves can use the full width and wrap. */
+@media (max-width:520px){
+  .lg-app .lg-word-tree .wt-tree{background:linear-gradient(90deg,transparent calc(100% - 50px),#70501b calc(100% - 50px),#70501b calc(100% - 34px),transparent calc(100% - 34px)) center/100% 100% no-repeat,#ccfbef}
+  .wt-branch,.wt-branch.is-left{flex-direction:row-reverse;padding:0 12px 0 0}
+  .wt-branch::before,.wt-branch.is-left::before{left:10px;right:40px}
+  .wt-leaves{justify-content:flex-end}
+  .wt-word{font-size:24px}.wt-seed{width:52px;height:52px}.wt-seed-letters{font-size:16px}
+}
+/* v63: with treasures and the word tree there can be six album tabs; they narrow to fit a phone. */
+@media (max-width:480px){.album-tabs:has(> :nth-child(6)){gap:6px}.album-tabs:has(> :nth-child(6)) .album-tab{width:48px;height:46px}}

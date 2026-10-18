@@ -104,5 +104,5 @@ function labPetMarkup(id,{hue=selectedHue[id],items=[],size=140,stage=1,mood='ha
 }
 
 
-ns.LettersAnimalArt={render:labPetMarkup,characters};
+ns.LettersAnimalArt={render:labPetMarkup,characters,catalog};
 })(window.MiftahGame || (window.MiftahGame={}));

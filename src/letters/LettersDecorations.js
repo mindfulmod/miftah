@@ -4,18 +4,28 @@
   const STICKER_LABELS = { star: 'Star', palm: 'Palm', dove: 'Dove', fish: 'Fish', boat: 'Boat', lantern: 'Lantern' };
   const FLOWER_LABELS = ['single flower patch', 'two-flower patch', 'three-flower patch'];
 
-  const isIndex = (slot) => Number.isInteger(slot) && slot >= 0 && slot < 4;
+  // 2026-10-16: the garden grows with the pet — 4 spaces, then 6, then 8.
+  let size = 4;
+  const setSize = (n) => { size = Math.max(4, Math.min(8, Number.isInteger(n) ? n : 4)); return size; };
+  const isIndex = (slot) => Number.isInteger(slot) && slot >= 0 && slot < size;
   const entries = (catalog) => Array.isArray(catalog) ? catalog : [];
   const ids = (catalog) => new Set(entries(catalog).map((item) => item && item.id).filter((id) => typeof id === 'string'));
 
   const KEEPSAKE_LABELS = { bed: 'seed bed', picnic: 'picnic basket', parcel: 'parcel stack', garland: 'lantern string', harvest: 'fruit tree', jars: 'seed jars', raft: 'little raft' };
-  function catalog({ progress = {}, bests = {}, stickers = {}, savedDrawings = {} } = {}) {
+  function catalog({ progress = {}, bests = {}, stickers = {}, savedDrawings = {}, pet = null, eggShell = null } = {}) {
     const safeProgress = progress && typeof progress === 'object' && Array.isArray(progress.done)
       ? progress : { done: [] };
     const safeBests = bests && typeof bests === 'object' ? bests : {};
     const earned = ns.LettersGardenArt && typeof ns.LettersGardenArt.growth === 'function'
       ? ns.LettersGardenArt.growth(safeProgress, safeBests) : 0;
     const result = [];
+    // 2026-10-13: every hatched child owns one keepsake from the start: the
+    // egg shell their pet came out of, in their own egg's colours. A new
+    // child's garden was four empty plots and an empty tray.
+    if (pet && typeof pet === 'object') {
+      let shell; try { shell = typeof eggShell === 'function' ? eggShell() : undefined; } catch { shell = undefined; }
+      result.push({ id: 'shell', label: 'egg shell', kind: 'shell', ...(Array.isArray(shell) ? { shell } : {}) });
+    }
     for (let count = 1; count <= 3; count++) {
       if (earned >= count) result.push({ id: `flower:${count}`, label: FLOWER_LABELS[count - 1], kind: 'flower', count });
     }
@@ -39,6 +49,10 @@
       const story = chapters[id];
       if (story && id !== 'pack-boat') result.push({ id: `keepsake:${id}`, label: KEEPSAKE_LABELS[story] || 'keepsake', kind: 'keepsake', story, worldId: id });
     }
+    // 2026-10-16: daily treasures can be placed in the garden too — what a
+    // child finds becomes something to play with, not only to shelve.
+    const finds = Array.isArray(arguments[0]?.findsOwned) ? arguments[0].findsOwned : [];
+    for (const id of finds) if (typeof id === 'string') result.push({ id: `find:${id}`, label: id.replace('gold:', 'golden ') + ' treasure', kind: 'treasure', find: id });
     const drawings = savedDrawings && typeof savedDrawings === 'object' ? Object.entries(savedDrawings) : [];
     for (const [letter, drawing] of drawings.slice(-4)) {
       if (typeof drawing === 'string' && /^data:image\/png;base64,[A-Za-z0-9+/=]+$/.test(drawing)) {
@@ -52,7 +66,7 @@
     const source = value && typeof value === 'object' && !Array.isArray(value) ? value.slots : undefined;
     const slots = Array.isArray(source) ? source : [];
     const seen = new Set();
-    const repaired = Array.from({ length: 4 }, (_, index) => {
+    const repaired = Array.from({ length: size }, (_, index) => {
       const item = slots[index];
       if (typeof item !== 'string' || seen.has(item)) return null;
       seen.add(item);
@@ -85,5 +99,5 @@
     return result;
   }
 
-  ns.LettersDecorations = { catalog, normalize, visibleSlots, place, remove };
+  ns.LettersDecorations = { catalog, normalize, visibleSlots, place, remove, setSize, get size() { return size; } };
 })(window.MiftahGame || (window.MiftahGame = {}));

@@ -50,6 +50,8 @@
     { id: "roll", family: "round", name: "Somersault" },
   ];
   const TRICK_GIFTS = [[2, "sprout"], [4, "medal"], [7, "crown"]];
+  // Each family's unlearned trick is a planted seed in its own colour.
+  const SEED_TINT = { boat: "#96ecff", smile: "#ffa798", little: "#b7e779", wave: "#b49fcf", tall: "#f3c955", strong: "#ee806f", round: "#62cdf4" };
   // v12: which sticker animals visit, and how they move.
   const VISITORS = { bee: "sky", butterfly: "sky", dove: "sky", crow: "sky", hoopoe: "sky", camel: "ground", elephant: "ground", ant: "ground", cat: "ground", spider: "ground", snake: "ground", turtle: "ground", fish: "water", whale: "water" };
   // v19 Quran Treasury: stickers whose word appears in the Quran — [surah,
@@ -76,7 +78,19 @@
   };
   // v23: the world-overview button — a folded map.
   // Practice-garden group chips (UI pass 2026-10-03): wordless pictures.
+  // Encouragement pass (v57): a soft cartoon hand that points, for help.
+  const GUIDE_HAND = `<svg viewBox="0 0 64 72" aria-hidden="true"><path d="M22 6Q30 4 30 12V30L44 32Q56 34 54 46L50 60Q48 68 38 68H26Q18 68 14 60L6 44Q4 38 10 36Q14 35 18 40V12Q18 6 22 6Z" fill="#fffdf7" stroke="#4a3620" stroke-width="4" stroke-linejoin="round"/><path d="M30 30V42M38 32V42M46 34V44" fill="none" stroke="#c9bda4" stroke-width="3" stroke-linecap="round"/></svg>`;
+  // Encouragement pass (v57): where a half-played chapter was left.
+  const RESUME_KEY = "quran-trainer:letters:resume";
+  const FINDS_KEY = "quran-trainer:letters:finds";
+  const TREE_KEY = "quran-trainer:letters:word-tree";
+  const SCENES_KEY = "quran-trainer:letters:sticker-scenes";
+  const STAGE_SEEN_KEY = "quran-trainer:letters:pet-stage-seen";
+  const GREET_KEY = "quran-trainer:letters:greeted";
+  const TRIED_KEY = "quran-trainer:letters:tried";
   const PG_CHIPS = {
+    // Ears First (v61): a listening ear.
+    listen: `<svg viewBox="0 0 40 40" width="34" height="34"><path d="M24 6Q34 6 34 17Q34 23 28 26Q24 28 24 33Q24 38 18 38Q13 38 12 33" fill="#ffa798" stroke="#4a3620" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 18Q14 8 24 6" fill="none" stroke="#4a3620" stroke-width="2.4" stroke-linecap="round"/><path d="M22 16Q26 16 26 20Q26 23 23 24" fill="none" stroke="#4a3620" stroke-width="2.4" stroke-linecap="round"/><path d="M6 14Q3 20 6 26M9 16Q7 20 9 24" fill="none" stroke="#62cdf4" stroke-width="2.4" stroke-linecap="round"/></svg>`,
     play: `<svg viewBox="0 0 40 40" width="34" height="34"><path d="M20 34Q4 24 6 14Q8 6 15 7Q19 8 20 12Q21 8 25 7Q32 6 34 14Q36 24 20 34Z" fill="#ee806f" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/></svg>`,
     read: `<svg viewBox="0 0 40 40" width="34" height="34"><path d="M4 10Q12 6 20 10Q28 6 36 10V32Q28 28 20 32Q12 28 4 32Z" fill="#fffdf7" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/><path d="M20 10V32" stroke="#4a3620" stroke-width="2.4"/></svg>`,
     think: `<svg viewBox="0 0 40 40" width="34" height="34"><path d="M20 5Q31 5 31 16Q31 22 25 26V30H15V26Q9 22 9 16Q9 5 20 5Z" fill="#ffe49a" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/><path d="M15 34H25" stroke="#4a3620" stroke-width="3" stroke-linecap="round"/></svg>`,
@@ -89,6 +103,37 @@
   const WALK_BTN = `<svg viewBox="0 0 48 48" width="34" height="34" aria-hidden="true"><path d="M8 40Q16 30 24 32Q32 34 40 22" fill="none" stroke="#c9bda4" stroke-width="6" stroke-linecap="round" data-ribbon/><g fill="#e8743c" stroke="#4a3620" stroke-width="1.6"><ellipse cx="13" cy="33" rx="3.6" ry="5" transform="rotate(-30 13 33)"/><ellipse cx="24" cy="27" rx="3.6" ry="5" transform="rotate(10 24 27)"/><ellipse cx="35" cy="22" rx="3.6" ry="5" transform="rotate(-20 35 22)"/></g><circle cx="40" cy="10" r="5" fill="#f3c955" stroke="#4a3620" stroke-width="1.6"/></svg>`;
   const WORLD_BTN = `<svg viewBox="0 0 48 48" width="34" height="34" aria-hidden="true"><path d="M6 12L17 8L31 12L42 8V36L31 40L17 36L6 40Z" fill="#fffaf0" stroke="#4a3620" stroke-width="3" stroke-linejoin="round"/><path d="M17 8V36M31 12V40" stroke="#a89478" stroke-width="2.4"/><path d="M9 30Q16 24 22 28Q28 32 38 22" fill="none" stroke="#4e9677" stroke-width="2.4" stroke-linecap="round"/><circle cx="24" cy="20" r="3.6" fill="#e8743c" stroke="#4a3620" stroke-width="1.6"/></svg>`;
   // v16: the star-chart tab — a four-point star beside a crescent.
+  // v58: the pet's colours are little paint pots (were plain dots). The paint
+  // is currentColor, set per swatch from its hue.
+  // v58: the walk's destination — where the pet naps when the walk is done.
+  // Was a bare pink oval (a cushion art that never existed); now a woven bed
+  // with a cushion, a blanket and a little moon flag: "rest here".
+  const NAP_BED = `<svg viewBox="0 0 96 72" aria-hidden="true"><ellipse cx="48" cy="64" rx="42" ry="6" fill="#2f5c46" opacity=".18"/><path d="M78 8V40" stroke="#70501b" stroke-width="3" stroke-linecap="round"/><path d="M78 10Q90 12 90 20Q84 18 78 22Z" fill="#fffaf0" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/><path d="M85 13A4 4 0 1 0 85 19A3 3 0 1 1 85 13Z" fill="#f3c955"/><path d="M8 40Q8 60 48 62Q88 60 88 40Z" fill="#c69434" stroke="#4a3620" stroke-width="3" stroke-linejoin="round"/><path d="M14 48Q48 56 82 48M20 55Q48 61 76 55" fill="none" stroke="#70501b" stroke-width="2.4" stroke-linecap="round"/><ellipse cx="48" cy="40" rx="40" ry="10" fill="#a89478" stroke="#4a3620" stroke-width="3"/><ellipse cx="42" cy="38" rx="28" ry="7" fill="#ffa798" stroke="#4a3620" stroke-width="2.4"/><path d="M30 36Q36 33 44 34" fill="none" stroke="#ffe49a" stroke-width="2.4" stroke-linecap="round"/><path d="M58 34Q74 30 84 38Q76 44 60 42Z" fill="#96ecff" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/><path d="M66 36L70 40M72 34L76 38" stroke="#fffdf7" stroke-width="1.6" stroke-linecap="round"/></svg>`;
+  // Tomorrow's treasure, still a closed bud, asleep (2026-10-16).
+  // v124: tomorrow's bud in the pet language — a round soil mound with
+  // tufts, a chunky closed bud with petal seams and a shine, two leaves, a
+  // faint gold glow ("something is coming"), and the sleepy z.
+  const TOMORROW_BUD = `<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="30" r="22" fill="#ffe49a" opacity=".35"/><ellipse cx="32" cy="59" rx="18" ry="3" fill="#2f5c46" opacity=".2"/><path d="M16 58Q16 49 32 48Q48 49 48 58Z" fill="#a89478" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/><path d="M22 55Q26 53 30 55M36 55Q40 53 44 55" fill="none" stroke="#70501b" stroke-width="1.6" stroke-linecap="round"/><path d="M14 58Q13 53 16 51M50 58Q51 53 48 51" fill="none" stroke="#4e9677" stroke-width="2.4" stroke-linecap="round"/><path d="M32 49Q31 42 32 34" fill="none" stroke="#4e9677" stroke-width="3" stroke-linecap="round"/><path d="M32 44Q21 45 18 36Q28 34 32 44Z" fill="#7fce54" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/><path d="M32 42Q42 42 45 34Q35 32 32 42Z" fill="#b7e779" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/><path d="M32 36Q21 33 22 21Q25 12 32 8Q39 12 42 21Q43 33 32 36Z" fill="#ffa798" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/><path d="M32 34Q28 24 32 10M32 34Q37 24 33 12" fill="none" stroke="#ee806f" stroke-width="1.6" stroke-linecap="round"/><ellipse cx="27" cy="18" rx="2.4" ry="4" fill="#fffdf7" opacity=".7"/><path d="M45 8H51L45 14H51" fill="none" stroke="#6064a0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  // A hot-air balloon for the occasional map visitor (2026-10-16).
+  const BALLOON = `<svg class="map-balloon-art" viewBox="0 0 80 110" aria-hidden="true"><path d="M40 4Q72 4 72 36Q72 56 48 72H32Q8 56 8 36Q8 4 40 4Z" fill="#ee806f" stroke="#4a3620" stroke-width="3" stroke-linejoin="round"/><path d="M40 4Q24 20 32 72M40 4Q56 20 48 72" fill="none" stroke="#4a3620" stroke-width="2.4"/><path d="M40 4Q28 20 34 72H46Q52 20 40 4Z" fill="#ffe49a"/><path d="M40 4Q24 20 32 72M40 4Q56 20 48 72" fill="none" stroke="#4a3620" stroke-width="2.4"/><path d="M18 26Q20 14 30 10" fill="none" stroke="#ffa798" stroke-width="3" stroke-linecap="round"/><path d="M32 72L30 84M48 72L50 84" stroke="#70501b" stroke-width="2.4"/><path d="M26 86H54Q54 104 46 104H34Q26 104 26 86Z" fill="#c69434" stroke="#4a3620" stroke-width="3" stroke-linejoin="round"/><path d="M33 90V102M40 90V103M47 90V102" stroke="#70501b" stroke-width="1.6" stroke-linecap="round"/><rect x="24" y="82" width="32" height="7" rx="3.5" fill="#f3c955" stroke="#4a3620" stroke-width="2.4"/></svg>`;
+  // The grown garden, for the growing-up moment (2026-10-16): a little green
+  // board with its soil spaces; the two new ones sparkle.
+  const GROWN_GARDEN = (stage) => { const n = 2 + stage * 2, cols = n / 2, xs = Array.from({ length: cols }, (_, k) => 16 + (k * 68) / Math.max(1, cols - 1));
+    return `<svg viewBox="0 0 100 70" aria-hidden="true"><ellipse cx="50" cy="64" rx="46" ry="5" fill="#2f5c46" opacity=".18"/><path d="M6 22Q50 10 94 22V52Q50 66 6 52Z" fill="#7fce54" stroke="#4a3620" stroke-width="3" stroke-linejoin="round"/>${[30, 48].flatMap((y, r) => xs.map((x, k) => { const fresh = k === cols - 1; return `<ellipse cx="${x.toFixed(1)}" cy="${y}" rx="${(34 / cols + 2).toFixed(1)}" ry="5" fill="#a89478" stroke="${fresh ? "#f3c955" : "#70501b"}" stroke-width="${fresh ? 2.4 : 1.6}"/>${fresh && r === 0 ? `<path d="M${(x + 6).toFixed(1)} 14Q${(x + 6).toFixed(1)} 20 ${(x + 12).toFixed(1)} 20Q${(x + 6).toFixed(1)} 20 ${(x + 6).toFixed(1)} 26Q${(x + 6).toFixed(1)} 20 ${x.toFixed(1)} 20Q${(x + 6).toFixed(1)} 20 ${(x + 6).toFixed(1)} 14Z" fill="#ffe49a" stroke="#c69434" stroke-width="1.6"/>` : ""}`; })).join("")}</svg>`; };
+  // A little framed picture with stickers on it: "play with your stickers".
+  const SCENES_ICON = `<svg viewBox="0 0 64 56" width="60" height="52" aria-hidden="true"><rect x="3" y="3" width="58" height="46" rx="8" fill="#c69434" stroke="#4a3620" stroke-width="3"/><rect x="10" y="10" width="44" height="32" rx="4" fill="#96ecff"/><path d="M10 34Q24 26 34 32Q44 38 54 30V42H10Z" fill="#7fce54"/><circle cx="44" cy="18" r="5" fill="#ffe49a"/><circle cx="22" cy="24" r="7" fill="#fffaf0" stroke="#4a3620" stroke-width="1.6"/><path d="M22 19L24 23L28 23L25 26L26 30L22 28L18 30L19 26L16 23L20 23Z" fill="#f3c955"/><circle cx="38" cy="33" r="6" fill="#fffaf0" stroke="#4a3620" stroke-width="1.6"/><path d="M35 33Q38 29 41 33Q38 37 35 33Z" fill="#ee806f"/></svg>`;
+  // The Word Tree's tab: a little tree (v63).
+  const TREE_TAB = `<svg viewBox="0 0 48 48" width="28" height="28" aria-hidden="true"><path d="M24 44V26" stroke="#70501b" stroke-width="6" stroke-linecap="round"/><path d="M24 30L14 22M24 26L34 18" stroke="#70501b" stroke-width="4" stroke-linecap="round"/><circle cx="24" cy="14" r="10" fill="#7fce54" stroke="#4a3620" stroke-width="2.4"/><circle cx="12" cy="20" r="7" fill="#b7e779" stroke="#4a3620" stroke-width="2.4"/><circle cx="36" cy="18" r="7" fill="#b7e779" stroke="#4a3620" stroke-width="2.4"/></svg>`;
+  // Back to the village (v64): a little leaf-roofed cottage.
+  const VILLAGE_BTN = `<svg viewBox="0 0 64 64" width="44" height="44" aria-hidden="true"><ellipse cx="33" cy="58" rx="20" ry="3" fill="#2f5c46" opacity=".2"/><path d="M14 56V30Q14 20 32 20Q50 20 50 30V56Z" fill="#fffaf0" stroke="#4a3620" stroke-width="3" stroke-linejoin="round"/><path d="M8 30Q10 6 32 6Q54 6 56 30Q44 26 32 26Q20 26 8 30Z" fill="#7fce54" stroke="#4a3620" stroke-width="3" stroke-linejoin="round"/><path d="M16 20Q20 12 28 10" fill="none" stroke="#b7e779" stroke-width="3" stroke-linecap="round"/><path d="M26 56V44Q26 38 32 38Q38 38 38 44V56Z" fill="#ee806f" stroke="#4a3620" stroke-width="3" stroke-linejoin="round"/></svg>`;
+  const PAINT_POT = `<svg viewBox="0 0 48 48" aria-hidden="true"><ellipse cx="24" cy="44" rx="15" ry="3" fill="#4a3620" opacity=".18"/><path d="M10 16V38Q10 44 24 44Q38 44 38 38V16Z" fill="#e5dcc8" stroke="#4a3620" stroke-width="3" stroke-linejoin="round"/><path d="M11.5 25Q24 30 36.5 25V34Q24 39 11.5 34Z" fill="currentColor" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/><ellipse cx="24" cy="16" rx="14" ry="5" fill="currentColor" stroke="#4a3620" stroke-width="3"/><path d="M33 18Q35 24 33 28Q31 31 33 34" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><path d="M15 15Q19 12 24 12" fill="none" stroke="#fffdf7" stroke-width="2.4" stroke-linecap="round" opacity=".7"/></svg>`;
+  // A rounded five-point star, r≈18, for the sky's sleeping stars.
+  // v67: the "look closely" glass between the two letters after a mix-up.
+// v100: a full sticker album earns a real trophy — a gold rosette with
+  // ribbon tails and a big star — instead of a lone small star.
+  const ALBUM_ROSETTE = `<svg viewBox="-50 -50 100 112" width="84" height="94" aria-hidden="true"><path d="M-18 22L-30 58L-16 50L-8 62L2 28Z" fill="#ee806f" stroke="#4a3620" stroke-width="3" stroke-linejoin="round"/><path d="M18 22L30 58L16 50L8 62L-2 28Z" fill="#62cdf4" stroke="#4a3620" stroke-width="3" stroke-linejoin="round"/><path d="${Array.from({ length: 24 }, (_, k) => { const a = (k / 24) * Math.PI * 2, r = k % 2 ? 36 : 42; return `${k ? "L" : "M"}${(Math.sin(a) * r).toFixed(1)} ${(-Math.cos(a) * r).toFixed(1)}`; }).join("")}Z" fill="#f3c955" stroke="#4a3620" stroke-width="3" stroke-linejoin="round"/><circle r="29" fill="#ffe49a" stroke="#c69434" stroke-width="2.4"/><path d="M0 -19L5.6 -6.8L18.8 -5.6L8.8 3.2L11.8 16.2L0 9.4L-11.8 16.2L-8.8 3.2L-18.8 -5.6L-5.6 -6.8Z" fill="#f3c955" stroke="#4a3620" stroke-width="3" stroke-linejoin="round"/><path d="M-20 -14A24 24 0 0 1 -6 -24" fill="none" stroke="#fffdf7" stroke-width="3" stroke-linecap="round"/></svg>`;
+    const LOOK_GLASS = `<svg viewBox="0 0 32 32" width="26" height="26"><path d="M19.5 19.5L27 27" stroke="#70501b" stroke-width="6" stroke-linecap="round"/><path d="M19.5 19.5L27 27" stroke="#c69434" stroke-width="3" stroke-linecap="round"/><circle cx="13" cy="13" r="9" fill="#96ecff" stroke="#4a3620" stroke-width="3"/><path d="M8.5 11A5 5 0 0 1 12 7.5" fill="none" stroke="#fffdf7" stroke-width="2.4" stroke-linecap="round"/></svg>`;
+  const SLEEP_STAR = (() => { const p = []; for (let i = 0; i < 10; i += 1) { const a = -Math.PI / 2 + (i * Math.PI) / 5, r = i % 2 ? 8.5 : 18; p.push(`${(Math.cos(a) * r).toFixed(1)} ${(Math.sin(a) * r + 2).toFixed(1)}`); } return `M${p.join("L")}Z`; })();
   const SKYTAB = `<svg viewBox="0 0 48 48" width="26" height="26" aria-hidden="true"><path d="M20 8A16 16 0 1 0 26 40A12 12 0 1 1 20 8Z" fill="#6064a0" stroke="#4a3620" stroke-width="3"/><path d="M34 10Q34 18 42 18Q34 18 34 26Q34 18 26 18Q34 18 34 10Z" fill="#f3c955" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/></svg>`;
   // v8: a little rehal (Quran stand) marks the word shelf.
   const REHAL = `<svg viewBox="0 0 48 48" width="26" height="26" aria-hidden="true"><path d="M8 40L24 22L40 40M14 40L24 28L34 40" fill="none" stroke="#70501b" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/><path d="M6 20Q15 12 24 18Q33 12 42 20L40 30Q32 24 24 29Q16 24 8 30Z" fill="#fffaf0" stroke="#4a3620" stroke-width="3" stroke-linejoin="round"/><path d="M24 18V29" stroke="#4a3620" stroke-width="2.4"/></svg>`;
@@ -108,6 +153,9 @@
         const rawPlay = this.sound.play.bind(this.sound);
         this.sound.play = (name) => {
           if (ns.Haptics) ns.Haptics.pulse(name);
+          // Feel pass (v56): right answers hit, misses thud.
+          if (name === "correct") this.feel?.hit?.();
+          else if (name === "softwrong" || name === "wrong") this.feel?.miss?.();
           // Every tappable thing now chimes from one delegated listener, but
           // plenty of handlers still play their own "click" on the following
           // click event. Swallow the duplicate so a single tap is a single
@@ -120,10 +168,17 @@
           return rawPlay(name);
         };
       }
+      // Encouragement pass (v57): while the game is talking, the speaker
+      // button gently pulses — a child sees it's time to listen, not tap.
+      {
+        const rawSpeaking = this.sound.setSpeaking?.bind(this.sound);
+        if (rawSpeaking) this.sound.setSpeaking = (on, ms) => { try { this.root?.classList?.toggle?.("lg-speaking", !!on); } catch {} return rawSpeaking(on, ms); };
+      }
       if (ns.Haptics) {
         const rawMelody = this.sound.streakMelody.bind(this.sound);
         this.sound.streakMelody = (streak) => {
           ns.Haptics.pulse("correct"); // the melody IS the correct-answer cue
+          this.feel?.hit?.();
           return rawMelody(streak);
         };
       }
@@ -175,6 +230,8 @@
       this.initAmbient();
       this.initTouchFeedback();
       this.initReach();
+      this.initPlaytest();
+      this.initRescue();
       this.showLoading();
       const initialRevision = this.screenRevision || 0;
       const fontReady = Promise.resolve().then(() => document.fonts?.load?.('64px "Amiri Quran"'));
@@ -189,13 +246,13 @@
         let chosen = false;
         try { chosen = sessionStorage.getItem("lg-profile-chosen") === "1"; } catch {}
         if (!chosen && (ns.LettersState?.profiles?.().length || 1) > 1) return this.renderWhoIsPlaying();
-        this.pet ? this.renderHome() : this.renderHatch();
+        this.pet ? this.renderVillage() : this.renderHatch();
       });
     }
 
     showLoading() {
       this.root.classList.toggle('lg-reduce-motion',!!this.reduceMotion);
-      this.root.innerHTML=`${Art.backdrop()}<div class="lg-screen lg-loading" role="status" aria-label="Preparing your garden"><div class="loading-flower">${Art.icon('flower',80)}</div><div class="loading-seeds" aria-hidden="true"><i></i><i></i><i></i></div></div>`;
+      this.root.innerHTML=`${Art.backdrop()}<div class="lg-screen lg-loading" role="status" aria-label="Preparing your garden"><div class="loading-flower">${(Art.artIcon||Art.icon)('flower',80)}</div><div class="loading-seeds" aria-hidden="true"><i></i><i></i><i></i></div></div>`;
     }
 
     // Every tappable thing gives way under the finger. One delegated listener
@@ -236,10 +293,131 @@
       }, true);
     }
 
+    // Living Friends (v38): any friend you touch answers with a little
+    // squash-and-stretch while its letter body glows — "this is my letter".
+    initFriendLife() {
+      if (typeof this.root?.addEventListener !== "function") return;
+      this.root.addEventListener("pointerdown", (e) => {
+        if (this.prefersReducedMotion()) return;
+        const host = e.target?.closest?.("button");
+        const svg = host?.querySelector?.("svg.lf");
+        if (!svg) return;
+        svg.classList.remove("is-wiggle");
+        svg.getBoundingClientRect?.();
+        svg.classList.add("is-wiggle");
+        clearTimeout(svg._wiggle);
+        // Friend Moves (v49): each friend's own move runs .9s.
+        svg._wiggle = setTimeout(() => svg.classList.remove("is-wiggle"), 950);
+      }, { passive: true });
+    }
+
+    // Playtest mode (v57): `?playtest` in the address quietly logs, on this
+    // device only, the moments that signal frustration — misses, comebacks,
+    // the helping hand, idle repeats, games left early, the hard-patch ease —
+    // so a grown-up watching a child can see afterwards where it got hard.
+    // `?playtest=report` shows the summary. Off unless asked for; nothing is
+    // sent anywhere.
+    initPlaytest() {
+      let mode = null;
+      try { mode = new URLSearchParams(location.search).get("playtest"); } catch {}
+      if (mode === null) return;
+      const KEY = "quran-trainer:letters:playtest";
+      const read = () => { try { return JSON.parse(localStorage.getItem(KEY) || "[]"); } catch { return []; } };
+      if (mode === "report") return setTimeout(() => this.showPlaytestReport(read()), 600);
+      if (mode === "clear") { try { localStorage.removeItem(KEY); } catch {} }
+      const log = (event, extra = {}) => {
+        const where = this.root.querySelector(".lg-play")?.dataset.activity || this.root.querySelector(".lg-screen")?.className?.replace("lg-screen ", "") || "";
+        const list = read();
+        // Practice games are grouped by their kind; chapter games by screen.
+        const kind = extra.kind || (this.root.querySelector(".practice-stage") ? this._ptKind : undefined);
+        list.push({ t: Date.now(), where, event, ...extra, ...(kind ? { kind } : {}) });
+        try { localStorage.setItem(KEY, JSON.stringify(list.slice(-3000))); } catch {}
+      };
+      this.playtestLog = log;
+      const play = this.sound.play;
+      this.sound.play = (name) => {
+        if (name === "correct") log((this._missStreak || 0) > 0 ? "comeback" : "right");
+        else if (name === "softwrong" || name === "wrong") log("miss");
+        else if (name === "cheer2") { log("finished"); this._ptFinishedAt = Date.now(); }
+        return play(name);
+      };
+      const guide = this.feel?.guide;
+      if (guide) this.feel.guide = (idle) => { log(idle ? "idle-help" : "hand"); return guide(idle); };
+      const start = this.startPractice.bind(this);
+      this.startPractice = (kind, back, onDone) => {
+        this._ptKind = kind;
+        log("start", { kind });
+        // A finished game returns through `back` too; only a return without a
+        // finish (Home, the back button) is "left early".
+        return start(kind, () => { if (Date.now() - (this._ptFinishedAt || 0) > 4000) log("left-early", { kind }); back?.(); }, onDone);
+      };
+      let eased = false;
+      setInterval(() => { if (!!this.easeUp !== eased) { eased = !!this.easeUp; log(eased ? "eased" : "un-eased"); } }, 1000);
+    }
+
+    showPlaytestReport(list) {
+      const by = {};
+      for (const e of list) {
+        const k = e.kind || e.where || "?";
+        const row = by[k] || (by[k] = { start: 0, finished: 0, "left-early": 0, right: 0, comeback: 0, miss: 0, hand: 0, "idle-help": 0, eased: 0 });
+        if (e.event in row) row[e.event] += 1;
+      }
+      const cols = ["start", "finished", "left-early", "right", "comeback", "miss", "hand", "idle-help", "eased"];
+      const rows = Object.entries(by).sort((a, b) => (b[1].miss + b[1]["left-early"] * 3) - (a[1].miss + a[1]["left-early"] * 3));
+      const box = document.createElement("div");
+      box.className = "lg-playtest-report";
+      box.innerHTML = `<h2>Playtest — ${list.length} moments</h2><p>Hardest first (misses, and games left early count triple). Nothing here leaves this device.</p>
+        <div class="lg-playtest-scroll"><table><thead><tr><th>where</th>${cols.map((c) => `<th>${c}</th>`).join("")}</tr></thead><tbody>${rows.map(([k, r]) => `<tr><td>${k}</td>${cols.map((c) => `<td>${r[c] || ""}</td>`).join("")}</tr>`).join("")}</tbody></table></div>
+        <button type="button" class="lg-playtest-close">Close</button>`;
+      document.body.appendChild(box);
+      box.querySelector(".lg-playtest-close").onclick = () => box.remove();
+    }
+
     initTouchFeedback() {
+      this.initFriendLife();
       if (!ns.Haptics) return;
+      // Tactile pass (v55): a press should feel like pressing something.
+      // Web apps get no real haptics on most tablets, so touch is carried by
+      // four channels together, all from this one delegated listener:
+      //   1. the thing sinks while the finger is down (is-pressed) and
+      //      springs back with a little overshoot when it lets go;
+      //   2. it makes the sound of what it is — a soft thock down, a pop up,
+      //      deeper for big things;
+      //   3. a ripple blooms where the finger landed (a faint silent one on
+      //      empty ground, so the world answers every touch);
+      //   4. a real tick where the device can do one (Android buzz; iPhone
+      //      via the system switch — see Haptics.js).
       const TAPPABLE =
-        "button, .pop-bubble, .catch-faller, .map-stop, .meet-bud, .meet-piece, [data-tap]";
+        "button, [role=button], .pop-bubble, .catch-faller, .map-stop, .meet-bud, .meet-piece, [data-tap]";
+      let pressed = null;
+      const layer = document.createElement("div");
+      layer.className = "lg-touch-layer";
+      layer.setAttribute("aria-hidden", "true");
+      this.root.appendChild(layer);
+      const sizeOf = (el) => { const r = el.getBoundingClientRect(); return Math.sqrt(Math.max(1, r.width * r.height)) / 80; };
+      const bloom = (x, y, quiet) => {
+        if (this.prefersReducedMotion()) return;
+        if (!layer.isConnected) this.root.appendChild(layer);
+        const b = document.createElement("i");
+        b.className = quiet ? "lg-bloom is-quiet" : "lg-bloom";
+        b.style.left = `${x}px`; b.style.top = `${y}px`;
+        layer.appendChild(b);
+        setTimeout(() => b.remove(), 520);
+      };
+      const release = (cancelled) => {
+        const el = pressed;
+        if (!el) return;
+        pressed = null;
+        el.classList.remove("is-pressed");
+        if (cancelled || !el.isConnected) return;
+        try { this.sound.press(sizeOf(el), true); } catch {}
+        // The spring — but never over a thing that is already moving (a
+        // swimming fish, a driving bus): it would jump.
+        if (this.prefersReducedMotion() || getComputedStyle(el).animationName !== "none") return;
+        el.classList.remove("is-released"); void el.offsetWidth; el.classList.add("is-released");
+        clearTimeout(el._released);
+        el._released = setTimeout(() => el.classList.remove("is-released"), 420);
+      };
       this.root.addEventListener(
         "pointerdown",
         (e) => {
@@ -252,24 +430,217 @@
           try {
             this.sound.unlock();
           } catch {}
+          if (e.button > 0 || e.isPrimary === false) return;
+          // Writing in sand or on a tracing page is drawing, not pressing.
+          if (e.target.closest?.(".trace-guided, .tb-tub")) return;
           const el = e.target.closest && e.target.closest(TAPPABLE);
-          if (!el) return;
+          if (!el || el.disabled || el.getAttribute("aria-disabled") === "true") { bloom(e.clientX, e.clientY, true); return; }
+          release(true);
+          this._touch = { el, x: e.clientX, y: e.clientY, at: performance.now() };
+          // Parts of a drawing (a colouring patch, a hunt spot) sound and
+          // ripple but don't sink: scaling an SVG part would make it jump.
+          if (!(typeof SVGElement !== "undefined" && el instanceof SVGElement && !(el instanceof SVGSVGElement))) {
+            pressed = el;
+            el.classList.remove("is-released", "is-hit", "is-miss");
+            // Feel pass (v56): friends are soft (they squash wide and stretch
+            // back like rubber); buttons, stones and cards press firm.
+            el.classList.toggle("is-soft", !!el.querySelector?.("svg.lf:not(.is-plain)") || el.classList.contains("tb-fish"));
+            el.classList.add("is-pressed");
+          }
+          bloom(e.clientX, e.clientY, false);
           // Audible confirmation on EVERY tappable, not just the ones whose
           // handlers happen to play something. A child needs to hear that the
-          // thing they touched was the thing that responded.
-          this.sound.play("click");
-          const transformed = getComputedStyle(el).transform !== "none";
-          const target = transformed ? el.querySelector(":scope > svg") : el;
-          // No inner svg to recoil on a transform-positioned piece: skip the
-          // visual rather than break its position. The buzz still fires.
-          // On iOS there is no Vibration API at all, so the recoil is the ONLY
-          // tactile channel a web app gets. Where we can't buzz, press harder:
-          // use the full recoil everywhere instead of the softer button variant.
-          const kind = ns.Haptics.supported && el.tagName === "BUTTON" ? "soft" : "tap";
-          if (target) ns.Haptics.impact(target, kind);
+          // thing they touched was the thing that responded. Handlers that
+          // play their own "click" within 220ms are swallowed (see play()).
+          this._lastTapSound = performance.now();
+          try { this.sound.press(sizeOf(el)); } catch {}
+          ns.Haptics.pulse("press");
         },
         { passive: true },
       );
+      const up = () => release(false);
+      window.addEventListener("pointerup", up, { passive: true });
+      window.addEventListener("pointercancel", () => release(true), { passive: true });
+      // Feel pass (v56) — what an iPad (no haptic hardware at all) gets
+      // instead of a buzz. Built from how games, cartoons and film make an
+      // audience feel contact (see RELEASES v56): a right answer is a HIT —
+      // a held squash (hit-stop), one small flash, a pop past full size,
+      // impact lines from the fingertip, neighbours nudged, a 3px jolt of the
+      // play area — while a miss is a dull thud that doesn't spring. Small
+      // and single by design (WCAG: no flash trains, no big shakes); none of
+      // it under reduced motion. Driven by the sound vocabulary, so every
+      // "correct" and "softwrong" anywhere in the game is felt.
+      const recent = () => {
+        const t = this._touch;
+        return t && t.el?.isConnected && performance.now() - t.at < 1500 ? t : null;
+      };
+      const isSvgPart = (el) => typeof SVGElement !== "undefined" && el instanceof SVGElement && !(el instanceof SVGSVGElement);
+      const moving = (el) => getComputedStyle(el).animationName !== "none" && !el.classList.contains("is-released") && !el.classList.contains("is-hit") && !el.classList.contains("is-miss");
+      const replay = (el, cls, ms) => { el.classList.remove("is-released", "is-hit", "is-miss"); void el.offsetWidth; el.classList.add(cls); clearTimeout(el._feel); el._feel = setTimeout(() => el.classList.remove(cls), ms); };
+      this.feel = {
+        hit: () => {
+          // Encouragement pass (v57): getting it after missing is the proudest
+          // moment — a bigger, golder burst and a little extra chime. Trying
+          // again is what we most want a child to learn feels good.
+          const comeback = (this._missStreak || 0) > 0;
+          this._missStreak = 0;
+          // On a roll (v58): every third win in a row, the burst opens as
+          // petals. Nothing counts it on screen, so losing the run is never seen.
+          this._hitRun = (this._hitRun || 0) + 1;
+          const bloom = !comeback && this._hitRun % 3 === 0;
+          if (this.easeUp && (this._easeWins = (this._easeWins || 0) + 1) >= 5) { this.easeUp = false; this._missTimes = []; }
+          document.querySelectorAll(".lg-guide-hand").forEach((h) => h.remove());
+          const t = recent();
+          if (!t) return;
+          // Reduced motion still deserves the moment: a still golden ring on
+          // the right answer — no movement, no flash.
+          if (this.prefersReducedMotion()) {
+            if (!isSvgPart(t.el)) { t.el.classList.add("is-won-still"); setTimeout(() => t.el.classList.remove("is-won-still"), 900); }
+            return;
+          }
+          const el = t.el;
+          if (!layer.isConnected) this.root.appendChild(layer);
+          // Impact lines burst from where the finger touched.
+          const burst = document.createElement("i");
+          burst.className = comeback ? "lg-burst is-big" : bloom ? "lg-burst is-bloom" : "lg-burst";
+          if (comeback) setTimeout(() => { try { this.sound.play("chime"); } catch {} }, 160);
+          burst.style.left = `${t.x}px`; burst.style.top = `${t.y}px`;
+          if (bloom) burst.innerHTML = `<svg viewBox="-50 -50 100 100" aria-hidden="true">${["#ffa798", "#f3c955", "#b49fcf", "#96ecff", "#7fce54", "#ee806f"].map((fill, k) => `<ellipse cx="0" cy="-30" rx="7" ry="11" fill="${fill}" stroke="#4a3620" stroke-width="1.6" transform="rotate(${k * 60 + 15})"/>`).join("")}</svg>`;
+          else burst.innerHTML = `<svg viewBox="-50 -50 100 100" aria-hidden="true">${Array.from({ length: comeback ? 12 : 8 }, (_, k, all) => { const a = (k / (comeback ? 12 : 8)) * Math.PI * 2 + 0.2; const c = Math.cos(a), s2 = Math.sin(a); return `<path d="M${(c * 22).toFixed(1)} ${(s2 * 22).toFixed(1)}L${(c * 38).toFixed(1)} ${(s2 * 38).toFixed(1)}" stroke="${k % 2 ? "#f3c955" : "#fffdf7"}" stroke-width="6" stroke-linecap="round"/>`; }).join("")}</svg>`;
+          layer.appendChild(burst);
+          setTimeout(() => burst.remove(), bloom ? 640 : 520);
+          if (isSvgPart(el) || moving(el)) return;
+          // The held squash, the flash, the pop.
+          replay(el, "is-hit", 520);
+          // Encouragement pass (v57): the round is won — the other choices
+          // step back softly, so taps during the pause before the next round
+          // don't feel ignored. Only in one-answer games (not pairs or the
+          // harvest, where play goes on), and only until the round re-renders.
+          const box = el.parentElement;
+          if (box && el.closest(".tb, .pz, .bk, .vh, .ws, .wd, .ff, .sh, .lk") && !el.closest(".tb-pairs, .bk-market, .sh-lantern")) {
+            el.classList.add("is-won");
+            box.classList.add("lg-solved");
+            setTimeout(() => { box.classList.remove("lg-solved"); el.classList.remove("is-won"); }, 2600);
+          }
+          const r = el.getBoundingClientRect();
+          if (r.width * r.height < 360 * 360) {
+            const flash = document.createElement("i");
+            flash.className = "lg-hit-flash";
+            Object.assign(flash.style, { left: `${r.left}px`, top: `${r.top}px`, width: `${r.width}px`, height: `${r.height}px`, borderRadius: getComputedStyle(el).borderRadius || "20px" });
+            layer.appendChild(flash);
+            setTimeout(() => flash.remove(), 260);
+          }
+          // Neighbours feel it: they lean away from the hit and come back.
+          const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+          [...(el.parentElement?.children || [])].filter((n) => n !== el && n.matches?.("button") && !moving(n)).slice(0, 6).forEach((n) => {
+            const q = n.getBoundingClientRect();
+            const dx = q.left + q.width / 2 - cx, dy = q.top + q.height / 2 - cy, d = Math.hypot(dx, dy) || 1;
+            n.animate?.([{ translate: "0 0" }, { translate: `${((dx / d) * 5).toFixed(1)}px ${((dy / d) * 5).toFixed(1)}px` }, { translate: "0 0" }], { duration: 300, delay: 70, easing: "cubic-bezier(.3,1.4,.5,1)" });
+          });
+          // The play area takes the blow: a 3px jolt down and back.
+          const stage = el.closest(".practice-stage, .play-stage");
+          stage?.animate?.([{ translate: "0 0" }, { translate: "0 3px" }, { translate: "0 -1px" }, { translate: "0 0" }], { duration: 220, delay: 70, easing: "ease-out" });
+        },
+        miss: () => {
+          // Encouragement pass (v57): a second miss in a row brings a helping
+          // hand that points at the answer the game is hinting — errorless
+          // learning, so being stuck never lasts long enough to give up.
+          this._missStreak = (this._missStreak || 0) + 1;
+          this._hitRun = 0;
+          // Encouragement pass (v57): a hard patch eases the next games. Six
+          // misses within three minutes turns on Little Sprout settings
+          // (fewer, simpler choices) until five right answers in a row.
+          const now = Date.now();
+          this._missTimes = [...(this._missTimes || []).filter((t) => now - t < 180000), now];
+          if (this._missTimes.length >= 6 && !this.easeUp) { this.easeUp = true; this._easeWins = 0; }
+          this._easeWins = 0;
+          // A little sprout (2–3 years) gets the hand after the first miss.
+          if (this._missStreak >= (this.sprout || this.easeUp ? 1 : 2)) setTimeout(() => this.feel.guide(), 30);
+          const t = recent();
+          if (!t || this.prefersReducedMotion()) return;
+          if (isSvgPart(t.el) || moving(t.el)) return;
+          replay(t.el, "is-miss", 460);
+        },
+      };
+
+      // `idle`: a still child gets shown WHERE to touch — the game's hint if
+      // there is one, else the first thing that can be pressed (never the
+      // answer), so a first-timer learns how to play without words.
+      this.feel.guide = (idle = false) => {
+        const stage = this.root.querySelector(".practice-stage, .play-stage");
+        const visible = (el) => el.getClientRects().length && !el.disabled && getComputedStyle(el).visibility !== "hidden";
+        // A stray tap muted a wordless game: a still child is shown the
+        // speaker first, so the garden can talk again.
+        const muted = idle && !this.sound.enabled && [...this.root.querySelectorAll(".lg-sound")].find(visible);
+        if (muted) return this.feel.point(muted);
+        const target = stage && ([...stage.querySelectorAll(".is-hint")].find(visible)
+          || (idle ? [...stage.querySelectorAll(".tb-sponge, button:not(.practice-replay), [role='button'][tabindex='0']")].find(visible) : null)
+          // The older chapter games mark no hint (they fade wrong options and
+          // pulse the question): the hand points at the question — hear it again.
+          || [...this.root.querySelectorAll(".play-bubble")].find(visible));
+        if (target) this.feel.point(target);
+      };
+      this.feel.point = (target) => {
+        if (!target) return;
+        if (!layer.isConnected) this.root.appendChild(layer);
+        layer.querySelectorAll(".lg-guide-hand").forEach((h) => h.remove());
+        const hand = document.createElement("i");
+        hand.className = "lg-guide-hand";
+        const place = () => { const r = target.getBoundingClientRect(); hand.style.left = `${r.left + r.width * 0.62}px`; hand.style.top = `${r.top + r.height * 0.58}px`; };
+        place();
+        hand.innerHTML = GUIDE_HAND;
+        layer.appendChild(hand);
+        // A moving answer (a swimming fish) is followed, not left behind.
+        if (getComputedStyle(target).animationName !== "none") {
+          const follow = () => { if (!hand.isConnected || !target.isConnected) return hand.remove(); place(); requestAnimationFrame(follow); };
+          requestAnimationFrame(follow);
+        }
+        const gone = () => hand.remove();
+        this.root.addEventListener("pointerdown", gone, { once: true });
+        setTimeout(gone, 5000);
+      };
+
+      // Sliding off a button lets it rise without pressing it, like a real key.
+      this.root.addEventListener("pointerout", (e) => {
+        if (pressed && pressed.contains(e.target) && !pressed.contains(e.relatedTarget)) release(true);
+      }, { passive: true });
+
+      // v58: "hear it again" while muted answered with silence — the moment a
+      // child decides the game is broken. Now the speaker bounces and the hand
+      // points at it at once, instead of after the idle wait.
+      this.root.addEventListener("click", (e) => {
+        if (this.sound.enabled) return;
+        if (!e.target.closest?.(".practice-replay, .play-bubble, .delivery-listen, [aria-label^='Hear']")) return;
+        const speaker = [...this.root.querySelectorAll(".lg-sound")].find((el) => el.getClientRects().length && getComputedStyle(el).visibility !== "hidden");
+        if (!speaker) return;
+        if (!this.prefersReducedMotion()) speaker.animate?.([{ scale: "1" }, { scale: "1.25" }, { scale: "1" }], { duration: 360, easing: "cubic-bezier(.3,1.6,.5,1)" });
+        this.feel.point(speaker);
+      });
+    }
+
+    // v58 safety net: an error mid-game can leave a screen with nothing to
+    // tap. If one happens and, a moment later, the game offers no live touch,
+    // the child is carried on (a chapter game) or back (a toy) — never left
+    // staring at a frozen screen. A game that still answers touch is left be.
+    initRescue() {
+      let pending = null;
+      // Two looks, 2.5s then 3s apart: a game's own quiet moment (Spot the
+      // Change's 3.2s "look") must not be mistaken for a frozen screen.
+      const check = (second = false) => {
+        pending = null;
+        const recover = this.rescue;
+        const stage = this.root.querySelector(".lg-play .practice-stage, .lg-play .play-stage");
+        if (!recover || !stage || !stage.isConnected || recover.stage !== stage) return;
+        const live = [...stage.querySelectorAll("button, [role='button']")].some((b) => !b.disabled && b.getAttribute("aria-disabled") !== "true" && b.getClientRects().length && getComputedStyle(b).visibility !== "hidden");
+        if (live) return;
+        if (!second) { pending = setTimeout(() => check(true), 3000); return; }
+        this.rescue = null;
+        console.warn("Letter Garden: no live touch after an error; moving the child on");
+        recover.go();
+      };
+      const onError = () => { if (!pending && this.rescue) pending = setTimeout(() => check(false), 2500); };
+      window.addEventListener?.("error", onError);
+      window.addEventListener?.("unhandledrejection", onError);
     }
 
     // Ambient life (spec: specs/02): a few creatures drift across the garden
@@ -286,6 +657,7 @@
       // Just 2-3 butterflies by day (a crowd reads as wallpaper, a few read
       // as visitors), and they don't all ride the same conveyor: alternate
       // ones fly the other way, each on its own meandering timing.
+      this._ambientNight = night;
       const n = night ? 7 : 2 + Math.round(Math.random());
       for (let i = 0; i < n; i += 1) {
         const c = document.createElement("i");
@@ -388,6 +760,13 @@
 
     // ---------- the Letter Pet ----------
 
+    // v106: one sticker stall everywhere — the album and the stand dialog use
+    // the village's pet-language stall (falls back to the room-art stand).
+    standArt(size) {
+      const V = ns.VillageArt;
+      return V?.stall ? `<svg class="room-stand" width="${size}" height="${Math.round(size * 0.92)}" viewBox="-72 -74 144 150" overflow="visible" aria-hidden="true">${V.stall()}</svg>` : ns.LettersRoomArt.stand(size);
+    }
+
     starBalance() {
       return Math.max(0, (this.wallet.earned || 0) - (this.wallet.spent || 0));
     }
@@ -427,7 +806,7 @@
         const e = strength.map[l.char];
         if (e && e.r + e.w > 0) {
           met += 1;
-          if (strength.mastery(l.char) >= 0.7) strong += 1;
+          if (this.grownMark("letters", l.char, strength.mastery(l.char)) >= 0.7) strong += 1; // the glow never dims (v58)
         }
       }
       if (met < 3) return 0;
@@ -485,10 +864,10 @@
         `${this.topBar({ home: false })}
         <div class="hatch-stage"><div class="hatch-hero"><div class="hatch-nest" aria-hidden="true">${ns.LettersRoomArt.nest()}</div>
           ${hatched
-            ? `<button class="hatch-pet" type="button" aria-label="Listen to your new pet">${this.petSVG(220, "open")}</button></div>
+            ? `<div class="hatch-pet-spot${this.hatchWoke ? "" : " is-fresh"}">${(() => { const sh = Art.eggShells?.({ shell: this.eggShell() }); return sh ? `<span class="hatch-shell-cap" aria-hidden="true">${sh.cap}</span><span class="hatch-shell-flecks" aria-hidden="true">${sh.flecks}</span>` : ""; })()}<button class="hatch-pet" type="button" aria-label="Listen to your new pet">${this.petSVG(220, "open")}</button>${Art.eggShells ? `<span class="hatch-shell-cup" aria-hidden="true">${Art.eggShells({ shell: this.eggShell() }).cup}</span>` : ""}</div></div>
                <div class="hatch-hues">${hues.map((h) => `<button type="button" class="hatch-hue${(this.pet?.hue ?? 200) === h ? " is-picked" : ""}" data-hue="${h}" aria-label="${({200:'Blue',320:'Pink',95:'Green',268:'Purple',28:'Orange'})[h]} pet" aria-pressed="${(this.pet?.hue ?? 200) === h}" style="--h:${h}"></button>`).join("")}</div>
                <button type="button" class="lg-big-btn hatch-go" aria-label="Enter the garden">${Art.icon("check", 40)}</button>`
-            : `<button type="button" class="hatch-egg" aria-label="Tap the egg to hatch your pet">${Art.egg({ size: 190, cracks })}</button></div>`}
+            : `<button type="button" class="hatch-egg" aria-label="Tap the egg to hatch your pet">${Art.egg({ size: 190, cracks, shell: this.eggShell() })}</button></div>`}
         </div>`,
       );
       // No external exit is exposed during hatching.
@@ -496,6 +875,14 @@
       if (!hatched) {
         const eggBtn = el.querySelector(".hatch-egg");
         let n = cracks;
+        // Encouragement pass (v57): a brand-new child who doesn't know to tap
+        // the egg is shown — after 6s untouched, the helping hand points at it.
+        if (typeof eggBtn?.addEventListener === "function" && typeof setTimeout === "function") {
+          let tapped = false;
+          eggBtn.addEventListener("pointerdown", () => { tapped = true; }, { once: true });
+          const t = setTimeout(() => { try { if (!tapped && el.isConnected) this.feel?.point?.(eggBtn); } catch {} }, 6000);
+          t?.unref?.();
+        }
         eggBtn.addEventListener("click", () => {
           if(!el.isConnected || n>=3)return;
           n += 1;
@@ -511,7 +898,7 @@
           // full re-render used to replace this element on the same frame,
           // killing the wobble before it drew — which is exactly why the first
           // taps read as "nothing happened".
-          eggBtn.innerHTML = Art.egg({ size: 190, cracks: n });
+          eggBtn.innerHTML = Art.egg({ size: 190, cracks: n, shell: this.eggShell() });
           const art = eggBtn.querySelector(".art-egg");
           if (art) {
             art.classList.remove("is-wobble");
@@ -534,10 +921,367 @@
       if (this.hatchWoke) hatchling?.cheer();
       else { this.hatchWoke = true; hatchling?.wake(() => hatchling.wave()); }
       el.querySelector(".hatch-pet").addEventListener("click", () => { hatchling?.wave(); this.petRecite(null); });
+      // Encouragement pass (v57): if nothing is touched for 8s after hatching,
+      // the hand points at the big tick that opens the garden.
+      {
+        const go = el.querySelector(".hatch-go");
+        if (typeof el.addEventListener === "function" && typeof setTimeout === "function" && go) {
+          let touched = false;
+          el.addEventListener("pointerdown", () => { touched = true; }, { once: true });
+          const t = setTimeout(() => { try { if (!touched && el.isConnected) this.feel?.point?.(go); } catch {} }, 8000);
+          t?.unref?.();
+        }
+      }
       el.querySelector(".hatch-go").addEventListener("click", () => {
         this.sound.play("page");
-        this.renderHome();
+        this.renderVillage();
       });
+    }
+
+    // ---------- The Garden Village (v64, 2026-10-16) ----------
+    // Owner-approved art direction: home is a PLACE. Every destination is a
+    // landmark — the journey gate (the next letter in its medallion, the one
+    // warm light pool), the pet's cottage (wardrobe) and its yard (decorate),
+    // the sticker stall (album), the friends' bed, the toy chest (practice
+    // garden), stepping stones (today's walk), the sundial (daily practice)
+    // and the flower bed (check-up). The journey map is one level in,
+    // through the gate. Today's treasure and the visiting friend live in the
+    // grass here.
+    renderVillage() {
+      const V = ns.VillageArt;
+      if (!V) return this.renderHome();
+      this.applyPhase?.();
+      const worlds = this.worlds.worlds;
+      const next = worlds[Math.min(this.firstOpenIndex(), worlds.length - 1)];
+      const latin = !/[؀-ۿ]/.test(String(next?.icon || ""));
+      const glyph = String(next?.icon || "").startsWith("art:") ? "★" : (next?.icon || "★");
+      const night = Art.dayPhase?.() === "night";
+      const daily = this.worlds.dailySession(this.progress.done);
+      const stamped = this.stamps.dates.includes(todayStr());
+      const walk = this.todaysWalk?.();
+      const practiceOpen = this.progress.done.includes("pack-boat") || Object.keys(this.bests).some((k) => k.startsWith("pack-boat:"));
+      const friends = this.homeFriends?.() || [];
+      const find = this.todaysFind?.();
+      const bud = !find && this.pet && (() => { const f = this.findsState(); return f.day === todayStr() && this.treasureIds().some((id) => !f.owned.includes(id)); })();
+      const ratio = window.innerWidth / Math.max(1, window.innerHeight), wide = ratio > 1.15, tablet = wide && ratio < 1.5;
+      // Two compositions: an upright one for phones, a wide one for sideways
+      // phones and tablets. Positions are in the scene's own units.
+      const L = tablet
+        // Tablets (4:3 to 3:2): a squarer stage, so the village fills the screen and its landmarks are big.
+        ? { W: 820, H: 640, hz: 0.33, trail: "M410 680Q380 600 430 540Q480 480 410 430Q340 380 400 320Q430 290 410 250", pebbles: [[400, 610], [438, 540], [400, 470], [380, 400], [412, 330]],
+            gate: [410, 130, 1.05], cottage: [140, 360, 1.0], yard: [150, 480, 0.86], stall: [560, 300, 164], friends: [290, 556, 0.98], toy: [600, 560, 0.94],
+            stones: [410, 612, 0.95], sundial: [62, 280, 0.9], flowers: [760, 300, 0.9], pet: [410, 404, 118], find: [520, 446],
+            trees: [[30, 600, 1.15, 1], [790, 610, 1.05, 0], [250, 268, 0.6, 1], [640, 250, 0.55, 0]], bushes: [[520, 610, 0.9], [110, 610, 0.8]] }
+        : wide
+        ? { W: 900, H: 560, hz: 0.36, trail: "M450 600Q420 520 470 470Q520 420 450 370Q380 320 440 270Q470 240 450 200", pebbles: [[440, 540], [478, 470], [440, 400], [420, 330], [452, 262]],
+            gate: [450, 112, 0.92], cottage: [168, 306, 0.95], yard: [168, 410, 0.82], stall: [640, 236, 150], friends: [300, 446, 0.92], toy: [650, 448, 0.86],
+            stones: [450, 528, 0.9], sundial: [80, 252, 0.85], flowers: [822, 262, 0.85], pet: [450, 330, 104], find: [560, 360], visitor: [250, 330],
+            trees: [[40, 470, 1.1, 1], [860, 480, 1, 0], [260, 230, 0.6, 1], [700, 210, 0.55, 0]], bushes: [[560, 520, 0.9], [130, 520, 0.8]] }
+        : { W: 375, H: 667, hz: 0.34, trail: "M168 700Q150 600 196 540Q250 470 186 410Q120 350 182 300Q220 270 188 236", pebbles: [[176, 640], [190, 560], [214, 500], [190, 430], [158, 370], [176, 312]],
+            gate: [188, 128, 0.98], cottage: [86, 330, 0.84], yard: [80, 438, 0.74], stall: [232, 290, 132], friends: [92, 552, 0.88], toy: [292, 560, 0.82],
+            stones: [196, 642, 0.8], sundial: [40, 246, 0.78], flowers: [336, 250, 0.78], pet: [196, 418, 96], find: [272, 478], visitor: [306, 452],
+            trees: [[14, 640, 1.05, 1], [364, 648, 0.85, 0]], bushes: [[352, 392, 0.7], [18, 400, 0.6]] };
+      const at = ([x, y, sc = 1]) => `transform="translate(${x} ${y}) scale(${sc})"`;
+      const spot = (go, label, pos, body, extra = "") => `<g class="vg-spot" data-go="${go}" role="button" tabindex="0" aria-label="${label}" ${at(pos)}${extra}><g class="vg-spot-in">${body}</g></g>`;
+      const nested = (svg, x, y, w, h) => svg.replace(/<svg /, `<svg x="${x}" y="${y}" width="${w}" height="${h}" `);
+      const [sx, sy, sw] = L.stall;
+      const petSize = L.pet[2];
+      const el = this.screen("lg-village", `${this.topBar({ home: false })}
+        <div class="vg-stage"><svg class="vg-scene" viewBox="0 0 ${L.W} ${L.H}" preserveAspectRatio="xMidYMid meet" aria-label="Your garden village">
+          ${V.backdrop(L.W, L.H, { night, horizon: L.hz, phase: Art.dayPhase?.() })}
+          ${V.trail(L.trail, L.pebbles)}
+          ${L.trees.map(([x, y, sc, d]) => V.tree(x, y, sc, !!d)).join("")}${L.bushes.map(([x, y, sc]) => V.bush(x, y, sc)).join("")}
+          <ellipse cx="${L.gate[0]}" cy="${L.gate[1] + 66}" rx="${130 * L.gate[2]}" ry="${100 * L.gate[2]}" fill="url(#vg-pool)" class="vg-pool"/>
+          ${spot("journey", "Go on the letter journey", L.gate, V.gate(glyph, next?.hue ?? 268, latin))}
+          ${spot("pet", "Your pet's house and wardrobe", L.cottage, V.cottage())}
+          ${spot("decorate", "Decorate your garden", L.yard, V.yard())}
+          ${spot("album", "Stickers and treasures", [sx, sy, 1], `${nested(V.stall ? `<svg viewBox="-72 -74 144 150" overflow="visible">${V.stall()}</svg>` : ns.LettersRoomArt.stand(sw), 0, 0, sw, Math.round(sw * 0.92))}${this.starBalance() ? `<g transform="translate(${sw * 0.62} ${sw * 0.12})"><circle r="17" fill="#ffe49a" stroke="#4a3620" stroke-width="3"/><path d="M0 -9L2.6 -3H9L4 1L6 8L0 4L-6 8L-4 1L-9 -3H-2.6Z" fill="#f3c955" stroke="#4a3620" stroke-width="1.6" stroke-linejoin="round"/></g>` : ""}`)}
+          ${spot("friends", "The friends' garden", L.friends, V.friendsBed(friends.slice(-3), (c) => ns.LetterFriends.art(c, { size: 70 })))}
+          ${spot("practice", practiceOpen ? "The toy chest: games to play" : "The toy chest opens after the first chapter", L.toy, V.toyChest(practiceOpen), practiceOpen ? "" : ' aria-disabled="true"')}
+          ${walk ? spot("walk", "Today's walk", L.stones, V.stones(walk.done.length, walk.stops.length)) : ""}
+          ${daily ? spot("daily", "Daily letter practice", L.sundial, V.sundial(stamped)) : ""}
+          ${daily ? spot("checkup", "Letter check-up", L.flowers, V.flowerBed()) : ""}
+          ${find ? `<g class="vg-find" data-find="${find}" role="button" tabindex="0" aria-label="A treasure to pick up" transform="translate(${L.find[0]} ${L.find[1]})"><g class="vg-find-in"><circle class="vg-hit" r="30" fill="#fffaf0" fill-opacity="0"/>${V.shadow(0, 16, 15, 3)}<circle r="21" fill="#ffe49a" opacity=".45"/><circle r="17" fill="none" stroke="#f3c955" stroke-width="2.4" stroke-dasharray="1 7" stroke-linecap="round"/>${[[-20, -14], [19, -16], [22, 10]].map(([x, y]) => `<path transform="translate(${x} ${y}) scale(.5)" d="M0 -9Q1 -1 9 0Q1 1 0 9Q-1 1 -9 0Q-1 -1 0 -9Z" fill="#fffdf7" stroke="#f3c955" stroke-width="2.4"/>`).join("")}${nested(ns.LettersRoomArt.treasure(find, 38), -19, -21, 38, 38)}</g></g>` : ""}
+          ${bud ? `<g class="vg-bud" role="button" tabindex="0" aria-label="Something is growing for tomorrow" transform="translate(${L.find[0]} ${L.find[1]})"><g class="vg-find-in">${nested(TOMORROW_BUD, -24, -30, 48, 48)}</g></g>` : ""}
+          ${V.shadow(L.pet[0], L.pet[1] + petSize * 0.36, petSize * 0.36, petSize * 0.07, 0.25)}
+          <g class="vg-pet" role="button" tabindex="0" aria-label="Your pet">${nested(this.petSVG(petSize, "delighted"), L.pet[0] - petSize / 2, L.pet[1] - petSize * 0.58, petSize, Math.round(petSize * 1.09))}</g>
+        </svg></div>`);
+      this.wireTopBar(el);
+      const rig = this.petLife(el.querySelector(".vg-pet"), el);
+      const go = {
+        journey: () => this.renderHome(),
+        pet: () => this.renderPet(),
+        decorate: () => this.renderDecoratingGarden(),
+        album: () => this.renderAlbum(),
+        friends: () => this.renderFriendsGarden(),
+        practice: () => this.renderPracticeGarden(),
+        walk: () => this.renderWalk(),
+        daily: () => this.startDaily(),
+        checkup: () => this.startCheckup(),
+      };
+      const bounce = (g) => { const inner = g.querySelector(".vg-spot-in"); if (inner && !this.prefersReducedMotion()) inner.animate?.([{ transform: "none" }, { transform: "translateY(-6px) scale(1.04)" }, { transform: "none" }], { duration: 320, easing: "cubic-bezier(.3,1.6,.5,1)" }); };
+      // v96: every landmark (and today's find/bud) gets an invisible tap pad
+      // at least 48 screen px, measured after layout — on a small or sideways
+      // phone the whole village scales down and the sundial, stones and
+      // flower bed shrank to 26–38px, so a small finger missed them.
+      const padSpots = () => {
+        const svg = el.querySelector(".vg-scene"); if (!el.isConnected || !svg?.getScreenCTM) return;
+        el.querySelectorAll(".vg-spot > .vg-spot-in, .vg-find > .vg-find-in, .vg-bud > .vg-find-in").forEach((inner) => {
+          inner.querySelector(":scope > .vg-pad")?.remove();
+          const m = inner.getScreenCTM?.(), k = m ? Math.hypot(m.a, m.b) || 1 : 1, min = 52 / k;
+          let bb; try { bb = inner.getBBox(); } catch { return; }
+          if (!bb || (bb.width >= min && bb.height >= min)) return;
+          const w = Math.max(bb.width, min), h = Math.max(bb.height, min);
+          const r = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+          Object.entries({ class: "vg-pad", x: bb.x + bb.width / 2 - w / 2, y: bb.y + bb.height / 2 - h / 2, width: w, height: h, rx: Math.min(w, h) / 2, fill: "#fffaf0", "fill-opacity": 0 }).forEach(([a, v]) => r.setAttribute(a, String(v)));
+          inner.prepend(r);
+          // Keep the pad on screen: nudge it back inside the scene's edges.
+          const box = svg.getBoundingClientRect(), pr = r.getBoundingClientRect();
+          const dy = pr.bottom > box.bottom ? box.bottom - pr.bottom : pr.top < box.top ? box.top - pr.top : 0;
+          const dx = pr.right > box.right ? box.right - pr.right : pr.left < box.left ? box.left - pr.left : 0;
+          if (dx || dy) { r.setAttribute("x", String(+r.getAttribute("x") + dx / k)); r.setAttribute("y", String(+r.getAttribute("y") + dy / k)); }
+        });
+      };
+      requestAnimationFrame(padSpots);
+      const padResize = () => { if (!el.isConnected) return removeEventListener("resize", padResize); padSpots(); };
+      addEventListener("resize", padResize);
+      el.querySelectorAll(".vg-spot").forEach((g) => {
+        const act = () => {
+          if (!el.isConnected) return;
+          bounce(g);
+          if (g.getAttribute("aria-disabled") === "true") {
+            // Not open yet: it wiggles, and the hand shows the gate.
+            this.sound.play("seed");
+            setTimeout(() => { if (el.isConnected) this.feel?.point?.(el.querySelector('.vg-spot[data-go="journey"]')); }, 500);
+            return;
+          }
+          this.sound.play("page");
+          rig?.inspect?.(g, 500);
+          setTimeout(() => { if (el.isConnected) go[g.dataset.go]?.(); }, this.prefersReducedMotion() ? 0 : 260);
+        };
+        g.addEventListener("click", act);
+        g.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); act(); } });
+      });
+      // v97: at night the village pet gives a sleepy yawn now and then (never
+      // while the child is touching things; reduced motion skips it).
+      if (night && !this.prefersReducedMotion()) {
+        const yawnLoop = () => { if (!el.isConnected) return; if (rig?.alive && !rig.dozing) rig.yawn?.(); setTimeout(yawnLoop, 14000 + Math.random() * 8000); };
+        setTimeout(yawnLoop, 3500);
+      }
+      el.querySelector(".vg-pet")?.addEventListener("click", () => { rig?.cheer?.(); try { this.sound.voice?.(this.pet?.species); } catch {} });
+      // Today's treasure: a tap hops it up and sends it to the stall (the album).
+      const fb = el.querySelector(".vg-find");
+      if (fb) {
+        setTimeout(() => { if (fb.isConnected) rig?.inspect?.(fb, 1600); }, 1400);
+        fb.addEventListener("click", () => {
+          if (fb.dataset.taken) return;
+          fb.dataset.taken = "1";
+          const id = fb.dataset.find;
+          this.collectFind(id);
+          const base = ns.LettersRoomArt?.TREASURE_IDS || [], owned = this.findsState().owned;
+          const setDone = [base, base.map((b) => `gold:${b}`)].some((set) => set.includes(id) && set.every((t) => owned.includes(t)));
+          this.sound.play(setDone ? "fanfare" : "chime");
+          this.confettiAt(fb, true);
+          rig?.cheer?.();
+          const inner = fb.querySelector(".vg-find-in"), stall = el.querySelector('.vg-spot[data-go="album"]');
+          const done = () => { fb.remove(); if (stall) bounce(stall); this.sound.play("pop"); };
+          if (this.prefersReducedMotion() || !inner?.animate || !stall) return setTimeout(done, 500);
+          const a = fb.getBoundingClientRect(), b = stall.getBoundingClientRect(), k = (el.querySelector(".vg-scene").viewBox.baseVal.width || 1) / (el.querySelector(".vg-scene").getBoundingClientRect().width || 1);
+          const dx = (b.left + b.width / 2 - a.left - a.width / 2) * k, dy = (b.top + b.height / 2 - a.top - a.height / 2) * k;
+          const fly = inner.animate([{ transform: "none" }, { transform: "translateY(-30px) scale(1.7)", offset: 0.35 }, { transform: "translateY(-30px) scale(1.7)", offset: 0.55 }, { transform: `translate(${dx}px, ${dy}px) scale(.4)`, opacity: 0.6 }], { duration: 1400, easing: "cubic-bezier(.4,.1,.3,1)" });
+          fly.onfinish = done; fly.oncancel = done;
+        });
+      }
+      el.querySelector(".vg-bud")?.addEventListener("click", (e) => { this.sound.play("seed"); rig?.inspect?.(e.currentTarget, 1200); });
+      // A brand-new child is shown the gate.
+      if (!this.progress.done.length) setTimeout(() => { if (el.isConnected) this.feel?.point?.(el.querySelector('.vg-spot[data-go="journey"]')); }, 5000);
+      return el;
+    }
+
+    // ---------- The Word Tree (v63, 2026-10-16) ----------
+    treeFamilies() { return ns.WordTree?.families?.(this.ayahSurahs?.() || []) || []; }
+    // It starts with four branches and grows one more each new day it is visited.
+    treeState() {
+      const st = this.loadJSON(TREE_KEY, null), today = todayStr(), total = this.treeFamilies().length;
+      const s = st && Number.isInteger(st.branches) ? st : { branches: 4, day: today, grew: null };
+      if (s.day !== today) { s.grew = s.branches < total ? s.branches : null; s.branches = Math.min(total, s.branches + 1); s.day = today; this.saveJSON(TREE_KEY, s); }
+      else if (!st) this.saveJSON(TREE_KEY, s);
+      return { ...s, branches: Math.min(total, s.branches) };
+    }
+    renderWordTree() {
+      const W = ns.WordTree, fams = this.treeFamilies();
+      if (!W || fams.length < 2) return this.renderAlbum();
+      const st = this.treeState(), shown = fams.slice(0, st.branches);
+      const el = this.screen("lg-album lg-word-tree", `${this.topBar()}
+        <div class="album-stage">
+          <div class="album-tabs" role="tablist" aria-label="Collections"><button type="button" role="tab" aria-selected="false" class="album-tab" data-book="stickers" aria-label="Stickers">${(Art.artIcon||Art.icon)("star", 28)}</button><button type="button" role="tab" aria-selected="false" class="album-tab" data-book="letters" aria-label="My letters">${(Art.artIcon||Art.icon)("book", 30)}</button>${this.shelfWords().length ? `<button type="button" role="tab" aria-selected="false" class="album-tab" data-book="words" aria-label="Quran words">${REHAL}</button>` : ""}<button type="button" role="tab" aria-selected="false" class="album-tab" data-book="sky" aria-label="Letter stars">${SKYTAB}</button></div>
+          <div class="wt-tree lg-panel" aria-label="The word tree">
+            ${shown.map((f, i) => `<div class="wt-branch${i % 2 ? " is-left" : ""}${st.grew === i ? " is-new" : ""}" data-root="${f.root}">
+              <button type="button" class="wt-seed" aria-label="The ${f.root} family">${W.seedHTML(f.root)}</button>
+              <div class="wt-leaves">${f.words.slice(0, 5).map((w, k) => `<button type="button" class="wt-leaf" data-k="${k}" aria-label="Hear ${w.arabic}">${W.wordHTML(w, f.root)}</button>`).join("")}</div>
+            </div>`).join("")}
+            ${st.branches < fams.length ? `<div class="wt-bud" role="img" aria-label="More branches will grow"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 36V18" stroke="#70501b" stroke-width="4" stroke-linecap="round"/><path d="M20 22Q8 18 8 8Q20 8 20 22Z" fill="#b7e779" stroke="#4a3620" stroke-width="1.6"/><path d="M20 18Q32 12 32 4Q20 6 20 18Z" fill="#7fce54" stroke="#4a3620" stroke-width="1.6"/></svg></div>` : ""}
+          </div>
+          <button type="button" class="lg-big-btn wt-play" aria-label="Play leaf home">${W.LEAF}</button>
+        </div>`);
+      this.wireTopBar(el);
+      this.addTreasureTab(el);
+      el.querySelector('.album-tab[data-book="stickers"]')?.addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderAlbum(); });
+      el.querySelector('.album-tab[data-book="letters"]')?.addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderLetterBook(); });
+      el.querySelector('.album-tab[data-book="words"]')?.addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderWordShelf(); });
+      el.querySelector('.album-tab[data-book="sky"]')?.addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderStarChart(); });
+      el.querySelectorAll(".wt-branch").forEach((br) => {
+        const f = shown.find((x) => x.root === br.dataset.root);
+        const glow = (nodes) => { nodes.forEach((n) => { n.classList.remove("is-glow"); void n.offsetWidth; n.classList.add("is-glow"); }); };
+        br.querySelector(".wt-seed").addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("chime"); glow([...br.querySelectorAll(".wt-word")]); });
+        br.querySelectorAll(".wt-leaf").forEach((leaf) => leaf.addEventListener("click", () => {
+          if (!el.isConnected) return;
+          glow([leaf.querySelector(".wt-word")]);
+          this.say(W.item(f.words[Number(leaf.dataset.k)]));
+        }));
+      });
+      el.querySelector(".wt-play").addEventListener("click", () => {
+        if (!el.isConnected) return;
+        this.session = { world: this.worlds.worlds.find((w) => w.id === "pack-boat"), items: this.petKnowledge().map((l) => ({ id: l.char, display: l.char, speak: l.arName })) };
+        this.startPractice("LeafHome", () => this.renderWordTree());
+      });
+    }
+
+    // ---------- Sticker Scenes (v59, 2026-10-16) ----------
+    // The stickers a child chose become toys: four picture scenes to place,
+    // move and wiggle them in. Each scene keeps its own arrangement.
+    renderStickerScenes(scene) {
+      const owned = (this.stickers?.owned || []).filter((id) => ns.LETTERS_STICKERS.some((s) => s.id === id));
+      if (!owned.length || !ns.StickerScenes) return this.renderAlbum();
+      const el = this.screen("lg-album lg-scenes", `${this.topBar()}<div class="ss-stage"></div>`);
+      this.wireTopBar(el, () => this.renderAlbum());
+      const layouts = this.loadJSON(SCENES_KEY, {});
+      this.game = new ns.StickerScenes.StickerScene({
+        stage: el.querySelector(".ss-stage"), owned, scene: scene || layouts?._last, layouts,
+        stickerArt: (id, size) => Art.sticker({ id, size }),
+        sound: (name) => this.sound.play(name),
+        reducedMotion: () => this.prefersReducedMotion(),
+        save: (all) => { if (!el.isConnected) return; all._last = this.game?.scene; this.saveJSON(SCENES_KEY, all); },
+      });
+    }
+
+    // ---------- Daily treasures (2026-10-13) ----------
+    // Retention without pressure: each new day the child plays, one small
+    // treasure (a shell, a feather, an acorn…) waits on the map beside the
+    // pet. Tapping it sends it to the album's nature shelf. A missed day costs
+    // nothing and nothing is counted on screen — the only message is "come
+    // and see what's here today". Not a currency, not a loot box.
+    findsState() {
+      const f = this.loadJSON(FINDS_KEY, null);
+      return f && Array.isArray(f.owned) ? f : { owned: [], day: "", pending: null };
+    }
+    todaysFind() {
+      const ids = this.treasureIds();
+      const f = this.findsState(), today = todayStr();
+      if (!this.pet || !ids.length || f.day === today) return null;
+      // A special day brings its own find first (once): Ramadan, then Eid.
+      const special = { ramadan: "fanous", "eid-fitr": "crescent", "eid-adha": "crescent" }[Art.season?.()];
+      if (special && !f.owned.includes(special)) return special;
+      const left = ids.filter((id) => !f.owned.includes(id));
+      if (!left.length) return null;
+      if (!f.pending || !left.includes(f.pending)) { f.pending = left[Math.floor(Math.random() * left.length)]; this.saveJSON(FINDS_KEY, f); }
+      return f.pending;
+    }
+    // The first set, then — once it is complete — the golden set.
+    treasureIds() {
+      const base = ns.LettersRoomArt?.TREASURE_IDS || [];
+      const owned = this.findsState().owned;
+      return base.every((id) => owned.includes(id)) ? [...base, ...base.map((id) => `gold:${id}`)] : base;
+    }
+    collectFind(id) {
+      const f = this.findsState();
+      if (!f.owned.includes(id)) f.owned.push(id);
+      f.day = todayStr(); f.pending = null;
+      this.saveJSON(FINDS_KEY, f);
+    }
+    wireTodaysFind(el, rig) {
+      const btn = el.querySelector(".map-find");
+      if (!btn) return;
+      const id = btn.dataset.find;
+      setTimeout(() => { if (btn.isConnected) rig?.inspect?.(btn, 1600); }, 1400);
+      btn.addEventListener("click", () => {
+        if (btn.dataset.taken) return;
+        btn.dataset.taken = "1";
+        this.collectFind(id);
+        const base = ns.LettersRoomArt?.TREASURE_IDS || [], owned = this.findsState().owned;
+        const setDone = [base, base.map((b) => `gold:${b}`)].some((set) => set.includes(id) && set.every((t) => owned.includes(t)));
+        this.sound.play(setDone ? "fanfare" : "chime");
+        if (setDone) setTimeout(() => { if (btn.isConnected || el.isConnected) this.confettiAt(el.querySelector(".map-album") || btn, true); }, 900);
+        this.confettiAt(btn, true);
+        rig?.cheer?.();
+        const album = el.querySelector(".map-album");
+        const a = btn.getBoundingClientRect(), b = album?.getBoundingClientRect?.();
+        const bump = () => { btn.remove(); if (!album) return; album.classList.remove("is-soon"); void album.offsetWidth; album.classList.add("is-soon"); this.sound.play("pop"); };
+        if (this.prefersReducedMotion() || !b || !btn.animate) return setTimeout(bump, 500);
+        // It hops up big for a moment, then flies into the album.
+        const dx = b.left + b.width / 2 - (a.left + a.width / 2), dy = b.top + b.height / 2 - (a.top + a.height / 2);
+        const fly = btn.animate([{ transform: "none" }, { transform: "translateY(-40px) scale(1.8)", offset: 0.35 }, { transform: "translateY(-40px) scale(1.8)", offset: 0.55 }, { transform: `translate(${dx}px, ${dy}px) scale(.4)`, opacity: 0.6 }], { duration: 1500, easing: "cubic-bezier(.4,.1,.3,1)" });
+        fly.onfinish = bump; fly.oncancel = bump;
+      });
+    }
+    // The Word Tree tab (v63) joins the album once the Ayah Garden is open.
+    addTreeTab(el) {
+      const tabs = el.querySelector(".album-tabs");
+      if (!tabs || !ns.WordTree || !this.ayahGardenOpen?.() || this.treeFamilies().length < 2 || tabs.querySelector('[data-book="tree"]')) return;
+      const on = el.classList.contains("lg-word-tree");
+      tabs.insertAdjacentHTML("beforeend", `<button type="button" role="tab" aria-selected="${on}" class="album-tab${on ? " is-on" : ""}" data-book="tree" aria-label="Word tree">${TREE_TAB}</button>`);
+      if (!on) tabs.querySelector('[data-book="tree"]').addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderWordTree(); });
+    }
+    addTreasureTab(el) {
+      this.addTreeTab(el);
+      const tabs = el.querySelector(".album-tabs");
+      const f = this.findsState();
+      if (!tabs || !f.owned.length || tabs.querySelector('[data-book="finds"]')) return;
+      const on = el.classList.contains("lg-finds");
+      tabs.insertAdjacentHTML("beforeend", `<button type="button" role="tab" aria-selected="${on}" class="album-tab${on ? " is-on" : ""}" data-book="finds" aria-label="Treasures">${ns.LettersRoomArt.treasure("shell", 30)}</button>`);
+      if (!on) tabs.querySelector('[data-book="finds"]').addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderTreasures(); });
+    }
+    renderTreasures() {
+      const f = this.findsState(), R = ns.LettersRoomArt;
+      const base = R?.TREASURE_IDS || [], gold = base.map((b) => `gold:${b}`);
+      const next = `<span class="finds-cell is-next" role="img" aria-label="More to find"><svg viewBox="-10 -10 20 20" width="30" height="30" aria-hidden="true"><path d="M0-9Q0 0 9 0Q0 0 0 9Q0 0-9 0Q0 0 0-9Z" fill="#ffe49a" stroke="#c69434" stroke-width="1.6"/></svg></span>`;
+      const shelf = (set, cls) => {
+        const mine = set.filter((id) => f.owned.includes(id));
+        if (!mine.length) return "";
+        const cells = mine.map((id) => `<button type="button" class="finds-cell" data-find="${id}" aria-label="${id.replace("gold:", "golden ")}">${R.treasure(id, 64)}</button>`);
+        // One more cubby waits with a sparkle while there is more to find.
+        if (mine.length < set.length) cells.push(next);
+        return `<div class="finds-shelf lg-panel ${cls}${mine.length === set.length ? " is-complete" : ""}" aria-label="Your treasures">${cells.join("")}</div>`;
+      };
+      const specials = (R?.SPECIAL_IDS || []).filter((id) => f.owned.includes(id));
+      const cells = [specials.length ? `<div class="finds-shelf lg-panel is-special" aria-label="Special-day treasures">${specials.map((id) => `<button type="button" class="finds-cell" data-find="${id}" aria-label="${id}">${R.treasure(id, 64)}</button>`).join("")}</div>` : "", shelf(base, "is-base"), shelf(gold, "is-golden")];
+      const el = this.screen("lg-album lg-finds", `${this.topBar()}
+        <div class="album-stage">
+          <div class="album-tabs" role="tablist" aria-label="Collections"><button type="button" role="tab" aria-selected="false" class="album-tab" data-book="stickers" aria-label="Stickers">${(Art.artIcon||Art.icon)("star", 28)}</button><button type="button" role="tab" aria-selected="false" class="album-tab" data-book="letters" aria-label="My letters">${(Art.artIcon||Art.icon)("book", 30)}</button>${this.shelfWords().length ? `<button type="button" role="tab" aria-selected="false" class="album-tab" data-book="words" aria-label="Quran words">${REHAL}</button>` : ""}<button type="button" role="tab" aria-selected="false" class="album-tab" data-book="sky" aria-label="Letter stars">${SKYTAB}</button></div>
+          ${cells.join("")}
+        </div>`);
+      this.wireTopBar(el);
+      this.addTreasureTab(el);
+      el.querySelector('.album-tab[data-book="stickers"]')?.addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderAlbum(); });
+      el.querySelector('.album-tab[data-book="letters"]')?.addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderLetterBook(); });
+      el.querySelector('.album-tab[data-book="words"]')?.addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderWordShelf(); });
+      el.querySelector('.album-tab[data-book="sky"]')?.addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderStarChart(); });
+      el.querySelectorAll(".finds-cell[data-find]").forEach((b) => b.addEventListener("click", () => {
+        if (!el.isConnected) return;
+        const art = b.querySelector("svg");
+        if (art && !this.prefersReducedMotion()) art.animate?.([{ transform: "none" }, { transform: "translateY(-8px) rotate(-8deg) scale(1.12)" }, { transform: "none" }], { duration: 480, easing: "cubic-bezier(.3,1.6,.5,1)" });
+        this.sound.play("pop");
+      }));
+      return el;
+    }
+
+    // 2026-10-13: a price a pre-reader can't read ("★ 8") gets a little gold
+    // bar filling toward it from the child's stars — "my stars are growing
+    // toward this" — and turns gold when it's ready to pick.
+    costTag(cost) {
+      const have = this.starBalance?.() || 0, ready = have >= cost;
+      const fill = Math.max(0, Math.min(1, have / Math.max(1, cost)));
+      return `<span class="pet-acc-cost${ready ? " is-ready" : ""}">${(Art.artIcon||Art.icon)("star", 14)} ${cost}</span>${ready ? "" : `<span class="pet-acc-fill" aria-hidden="true"><i style="width:${Math.round(fill * 100)}%"></i></span>`}`;
     }
 
     // Wardrobe shelves swipe horizontally, but the CSS hid the scrollbar
@@ -584,7 +1328,12 @@
     // The pet's room: the body shop (new species bought with stars), the
     // dress-up shelf, and the tap-to-recite thought bubble.
     renderPet() {
-      const tab=['friends','outfits','colors','tricks'].includes(this.wardrobeTab)?this.wardrobeTab:'outfits';
+      // v58: no pet yet (a fresh or cleared profile) means hatching one first — never a broken room.
+      if (!this.pet) return this.renderHatch();
+      // A child with nothing to spend opens on the colours, which are free to
+      // try, rather than a shelf of prices they can't reach yet.
+      const canShop=(this.pet.accessories||[]).length||this.starBalance()>=Math.min(...ns.LETTERS_ACCESSORIES.map(a=>a.cost));
+      const tab=['friends','outfits','colors','tricks'].includes(this.wardrobeTab)?this.wardrobeTab:canShop?'outfits':'colors';
       this.grantTrickGifts();
       const previous=this.root.querySelector('.lg-pet');
       const changedOutfit=!!previous&&!this.quietPetRender;this.quietPetRender=false;
@@ -597,6 +1346,8 @@
         focused?.dataset.acc?`[data-acc="${focused.dataset.acc}"]`:
         focused?.dataset.petHue?`[data-pet-hue="${focused.dataset.petHue}"]`:
         focused?.dataset.wardrobeTab?`[data-wardrobe-tab="${focused.dataset.wardrobeTab}"]`:null;
+      // v58: the shelf previews grin (the delighted face): at 54–62px the plain
+      // smile vanished and a row of pets looked blank, even a little worried.
       const worn = this.pet.worn || [];
       const species = this.pet.species || "blob";
       const petHues = [200, 320, 95, 268, 28];
@@ -605,18 +1356,18 @@
       const bodyShelf = tab==='friends' ? ns.LETTERS_BODIES.map((b) => {
         const owned = b.cost === 0 || ownedBodies.includes(b.id);
         return `<button type="button" class="pet-acc${owned ? " is-owned" : ""}${species === b.id ? " is-worn" : ""}" aria-label="${b.name || b.id}${owned?'':`, ${b.cost} stars`}" aria-pressed="${species === b.id}" data-body="${b.id}">
-          <span class="pet-acc-art lg-art-frame">${Art.pet({ hue: this.pet.hue, species: b.id, stage: 1, size: 54 })}</span>
+          <span class="pet-acc-art lg-art-frame">${Art.pet({ hue: this.pet.hue, species: b.id, stage: 1, size: 54, mood: 'open' })}</span>
           ${species===b.id?`<span class="pet-selected-mark" aria-hidden="true">${Art.icon('check',16)}</span>`:''}
-          ${owned ? "" : `<span class="pet-acc-cost">${Art.icon("star", 12)} ${b.cost}</span>`}
+          ${owned ? "" : this.costTag(b.cost)}
         </button>`;
       }).join("") : "";
       const shelf = tab==='outfits' ? ns.LETTERS_ACCESSORIES.map((acc) => {
         const owned = (this.pet.accessories || []).includes(acc.id);
         const wearing = worn.includes(acc.id);
         return `<button type="button" class="pet-acc${owned ? " is-owned" : ""}${wearing ? " is-worn" : ""}" data-acc="${acc.id}" aria-label="${acc.id}${owned?'':`, ${acc.cost} stars`}" aria-pressed="${wearing}">
-          <span class="pet-acc-art lg-art-frame">${Art.pet({ hue: this.pet.hue, species, stage: 1, worn: [acc.id], size: 62 })}</span>
+          <span class="pet-acc-art lg-art-frame">${Art.pet({ hue: this.pet.hue, species, stage: 1, worn: [acc.id], size: 62, mood: 'open' })}</span>
           ${wearing?`<span class="pet-selected-mark" aria-hidden="true">${Art.icon('check',16)}</span>`:''}
-          ${owned ? "" : `<span class="pet-acc-cost">${Art.icon("star", 12)} ${acc.cost}</span>`}
+          ${owned ? "" : this.costTag(acc.cost)}
         </button>`;
       }).join("") : "";
       // Keep the pet visible while one picture-selected shelf is browsed.
@@ -627,7 +1378,7 @@
         <div class="pet-stage pet-room" style="--pet-radiance:${this.petRadiance().toFixed(2)}">
           <div class="pet-hero">
             <div class="pet-diorama">${ns.LettersRoomArt.floor()}<div class="pet-alcove" aria-hidden="true">${ns.LettersRoomArt.alcove()}</div>
-            <span class="lg-star-chip">${Art.icon("star", 20)} <b>${this.starBalance()}</b></span>
+            ${this.starBalance() ? `<span class="lg-star-chip">${(Art.artIcon||Art.icon)("star", 22)} <b>${this.starBalance()}</b></span>` : ""}
             <button type="button" aria-label="Play with your pet" class="pet-big${this.petRadiance() > 0.15 ? " is-radiant" : ""}">
               <span class="pet-aura" aria-hidden="true"></span>
               <span class="pet-bubble" hidden></span>
@@ -643,7 +1394,7 @@
               ${['friends','outfits','colors','tricks'].map(kind=>`<button type="button" role="tab" id="wardrobe-tab-${kind}" data-wardrobe-tab="${kind}" aria-controls="wardrobe-panel" aria-selected="${tab===kind}" tabindex="${tab===kind?0:-1}" aria-label="Pet ${kind}">${ns.LettersRoomArt.tab(kind)}</button>`).join('')}
             </div>
             <div class="wardrobe-panel" id="wardrobe-panel" role="tabpanel" aria-labelledby="wardrobe-tab-${tab}">
-              ${tab==='tricks' ? `<div class="pet-trick-stage lg-panel" aria-label="Pet tricks">${PET_TRICKS.map(tr=>{const known=this.petTricks().includes(tr.id);return `<button type="button" class="pet-trick${known?'':' is-seed'}" data-trick="${tr.id}" aria-label="${known?tr.name:'A trick still growing'}">${ns.LettersRoomArt.trick(known?tr.id:'seed')}</button>`;}).join('')}</div>` : tab==='colors' ? `<div class="pet-color-rack lg-panel" aria-label="Pet color"><div class="pet-color-options">${petHues.map(h=>`<button type="button" class="pet-color-swatch${this.pet.hue===h?' is-picked':''}" data-pet-hue="${h}" aria-pressed="${this.pet.hue===h}" style="--h:${h}" aria-label="${petHueNames[h]}"></button>`).join('')}</div></div>` : `<button type="button" class="wardrobe-prev" aria-label="Previous ${tab}">${Art.icon('next',22)}</button><div class="pet-shelf ${tab==='friends'?'pet-bodies':''} lg-panel">${tab==='friends'?bodyShelf:shelf}</div><button type="button" class="wardrobe-more" aria-label="More ${tab}">${Art.icon('next',22)}</button>`}
+              ${tab==='tricks' ? `<div class="pet-trick-stage lg-panel" aria-label="Pet tricks">${PET_TRICKS.map(tr=>{const known=this.petTricks().includes(tr.id);return `<button type="button" class="pet-trick${known?'':' is-seed'}" data-trick="${tr.id}" aria-label="${known?tr.name:'A trick still growing'}">${ns.LettersRoomArt.trick(known?tr.id:'seed',SEED_TINT[tr.family])}</button>`;}).join('')}</div>` : tab==='colors' ? `<div class="pet-color-rack lg-panel" aria-label="Pet color"><div class="pet-color-options">${petHues.map(h=>`<button type="button" class="pet-color-swatch is-pot${this.pet.hue===h?' is-picked':''}" data-pet-hue="${h}" aria-pressed="${this.pet.hue===h}" style="--h:${h}" aria-label="${petHueNames[h]}">${PAINT_POT}</button>`).join('')}</div></div>` : `<button type="button" class="wardrobe-prev" aria-label="Previous ${tab}">${Art.icon('next',22)}</button><div class="pet-shelf ${tab==='friends'?'pet-bodies':''} lg-panel">${tab==='friends'?bodyShelf:shelf}</div><button type="button" class="wardrobe-more" aria-label="More ${tab}">${Art.icon('next',22)}</button>`}
             </div>
           </div>
         </div>`,
@@ -706,10 +1457,12 @@
           if (!bodies.includes(id) && body.cost === 0) bodies.push(id);
           if (!bodies.includes(id)) {
             if (!this.spendStars(body.cost)) {
-              this.sound.play("wrong");
-              btn.classList.remove("is-shake");
+              // Encouragement pass (v57): "soon", not "wrong" — it hops and its
+              // star price twinkles; more play brings it closer.
+              this.sound.play("chime");
+              btn.classList.remove("is-soon");
               void btn.offsetWidth;
-              btn.classList.add("is-shake");
+              btn.classList.add("is-soon");
               return;
             }
             bodies.push(id);
@@ -730,10 +1483,12 @@
           const ownedList = this.pet.accessories || (this.pet.accessories = []);
           if (!ownedList.includes(id)) {
             if (!this.spendStars(acc.cost)) {
-              this.sound.play("wrong");
-              btn.classList.remove("is-shake");
+              // Encouragement pass (v57): "soon", not "wrong" — it hops and its
+              // star price twinkles; more play brings it closer.
+              this.sound.play("chime");
+              btn.classList.remove("is-soon");
               void btn.offsetWidth;
-              btn.classList.add("is-shake");
+              btn.classList.add("is-soon");
               return;
             }
             ownedList.push(id);
@@ -745,6 +1500,11 @@
           this.sound.play(at >= 0 ? "rustle" : "tryon");
           if (at >= 0) wornList.splice(at, 1);
           else {
+            // v58: one thing per place — a new hat swaps the old one rather
+            // than stacking two hats sunk into each other.
+            const slotOf = (x) => ns.LettersAnimalArt?.catalog?.find((a) => a.id === x)?.slot;
+            const slot = slotOf(id);
+            if (slot) for (let i = wornList.length - 1; i >= 0; i -= 1) if (slotOf(wornList[i]) === slot) wornList.splice(i, 1);
             if (wornList.length >= 3) wornList.shift();
             wornList.push(id);
           }
@@ -758,6 +1518,13 @@
     // ---------- sticker album ----------
 
     renderAlbum(justOpened = null, { from = null } = {}) {
+      // Encouragement pass (v57): the first look at an empty album is a gift,
+      // not a wall of grey — one free visit to the sticker stand, once.
+      if (this.stickers && !this.stickers.welcomed && !(this.stickers.owned || []).length) {
+        this.stickers.welcomed = true;
+        this.stickers.freeVisits = Math.min(9, (this.stickers.freeVisits || 0) + 1);
+        this.saveJSON("quran-trainer:letters:stickers", this.stickers);
+      }
       const owned = new Set(this.stickers.owned || []);
       const grid = ns.LETTERS_STICKERS.map(
         (s) =>
@@ -770,16 +1537,19 @@
         "lg-album",
         `${this.topBar()}
         <div class="album-stage">
-          <div class="album-tabs" role="tablist" aria-label="Collections"><button type="button" role="tab" aria-selected="true" class="album-tab is-on" aria-label="Stickers">${Art.icon("star", 24)}</button><button type="button" role="tab" aria-selected="false" class="album-tab" data-book="letters" aria-label="My letters">${Art.icon("book", 26)}</button>${this.shelfWords().length ? `<button type="button" role="tab" aria-selected="false" class="album-tab" data-book="words" aria-label="Quran words">${REHAL}</button>` : ""}<button type="button" role="tab" aria-selected="false" class="album-tab" data-book="sky" aria-label="Letter stars">${SKYTAB}</button></div>
+          <div class="album-tabs" role="tablist" aria-label="Collections"><button type="button" role="tab" aria-selected="true" class="album-tab is-on" aria-label="Stickers">${(Art.artIcon||Art.icon)("star", 28)}</button><button type="button" role="tab" aria-selected="false" class="album-tab" data-book="letters" aria-label="My letters">${(Art.artIcon||Art.icon)("book", 30)}</button>${this.shelfWords().length ? `<button type="button" role="tab" aria-selected="false" class="album-tab" data-book="words" aria-label="Quran words">${REHAL}</button>` : ""}<button type="button" role="tab" aria-selected="false" class="album-tab" data-book="sky" aria-label="Letter stars">${SKYTAB}</button></div>
           <div class="album-supply">
-          <span class="lg-star-chip">${Art.icon("star", 20)} <b>${this.starBalance()}</b></span>
+          ${this.starBalance() ? `<span class="lg-star-chip">${(Art.artIcon||Art.icon)("star", 22)} <b>${this.starBalance()}</b></span>` : ""}
           ${allOwned
-            ? `<div class="album-complete" role="img" aria-label="All stickers collected">${Art.icon("star", 40)}</div>`
-            : `<button type="button" class="album-pack album-stand${this.stickers.freeVisits ? " is-free" : ""}" aria-label="${this.stickers.freeVisits ? "Visit the sticker stand, free" : "Visit the sticker stand for 5 stars"}" ${this.stickers.freeVisits || this.starBalance() >= 5 ? "" : "disabled"}>${ns.LettersRoomArt.stand(118)}${this.stickers.freeVisits ? `<span class="pet-acc-cost stand-gift" aria-hidden="true">${Art.icon("flower", 16)}</span>` : `<span class="pet-acc-cost">${Art.icon("star", 14)} 5</span>`}</button>`}
+            ? `<div class="album-complete" role="img" aria-label="All stickers collected">${ALBUM_ROSETTE}</div>`
+            : `<button type="button" class="album-pack album-stand${this.stickers.freeVisits ? " is-free" : ""}" aria-label="${this.stickers.freeVisits ? "Visit the sticker stand, free" : "Visit the sticker stand for 5 stars"}">${this.standArt(118)}${this.stickers.freeVisits ? `<span class="stand-gift" aria-hidden="true">${(Art.artIcon||Art.icon)("gift", 44)}</span>` : (this.starBalance() >= 5 ? `<span class="pet-acc-cost">${Art.icon("star", 14)} 5</span>` : `<span class="stand-pips" aria-hidden="true">${Array.from({ length: 5 }, (_, i) => `<i class="${i < this.starBalance() ? "is-on" : ""}">${Art.icon("star", 14)}</i>`).join("")}</span>`)}</button>`}
+          ${owned.size && ns.StickerScenes ? `<button type="button" class="album-scenes" aria-label="Play with your stickers in a picture">${SCENES_ICON}</button>` : ""}
           </div><div class="album-grid lg-panel">${grid}</div>
         </div>`,
       );
       this.wireTopBar(el);
+      // A free visit waiting is shown, not hidden: a still child is pointed at the stand.
+      if (this.stickers.freeVisits && !allOwned) this.idlePoint(el, 3500, ".album-stand");
       const inspect = button => {
         if(!el.isConnected||el.querySelector("dialog"))return;
         const id=button.dataset.sticker;
@@ -799,6 +1569,8 @@
       el.querySelector('.album-tab[data-book="letters"]')?.addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderLetterBook(); });
       el.querySelector('.album-tab[data-book="words"]')?.addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderWordShelf(); });
       el.querySelector('.album-tab[data-book="sky"]')?.addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderStarChart(); });
+      this.addTreasureTab(el);
+      el.querySelector(".album-scenes")?.addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderStickerScenes(); });
       // A sticker just placed from the pack flies from the ceremony into its slot.
       if(justOpened){const slot=el.querySelector(`[data-sticker="${justOpened}"]`);if(slot)this.landSticker(slot,justOpened,from);}
       // Sticker stand (v5, spec 02 "earn the choice"): three stickers, face up,
@@ -810,11 +1582,13 @@
           if(!el.isConnected||pack.disabled)return;
           const unowned = ns.LETTERS_STICKERS.filter((s) => !owned.has(s.id));
           if (!unowned.length) return;
+          // Encouragement pass (v57): not enough stars yet is "soon", never
+          // "wrong" — the stand hops, its star pips twinkle toward five.
           if (!this.stickers.freeVisits && this.starBalance() < 5) {
-            this.sound.play("wrong");
-            pack.classList.remove("is-shake");
+            this.sound.play("chime");
+            pack.classList.remove("is-soon");
             void pack.offsetWidth;
-            pack.classList.add("is-shake");
+            pack.classList.add("is-soon");
             return;
           }
           const offer = unowned.map(s => s.id).sort(() => Math.random() - 0.5).slice(0, 3);
@@ -844,9 +1618,9 @@
       dialog.className = "sticker-stand";
       dialog.setAttribute("aria-label", "Choose a sticker");
       const free = !!this.stickers.freeVisits;
-      dialog.innerHTML = `<div class="stand-roof" aria-hidden="true">${ns.LettersRoomArt.stand(90)}</div>
+      dialog.innerHTML = `<div class="stand-roof" aria-hidden="true">${this.standArt(90)}</div>
         <div class="stand-shelf">${offer.map(id => `<button type="button" class="stand-choice" data-sticker="${id}" aria-label="Choose the ${id} sticker">${Art.sticker({ id, size: 96 })}</button>`).join("")}</div>
-        <div class="stand-price" aria-hidden="true">${free ? Art.icon("flower", 22) : `${Art.icon("star", 18)} 5`}</div>
+        <div class="stand-price" aria-hidden="true">${free ? (Art.artIcon||Art.icon)("gift", 30) : `${(Art.artIcon||Art.icon)("star", 20)} 5`}</div>
         <span class="pack-friend" aria-hidden="true">${this.petSVG(76)}</span>
         <button type="button" class="lg-round-btn stand-close" aria-label="Leave the stand">${Art.icon("undo", 26)}</button>`;
       el.appendChild(dialog);
@@ -856,7 +1630,7 @@
         const id = button.dataset.sticker;
         // Pay at the moment of choosing: a free visit first, otherwise 5 stars.
         if (this.stickers.freeVisits) this.stickers.freeVisits -= 1;
-        else if (!this.spendStars(5)) { this.sound.play("wrong"); return; }
+        else if (!this.spendStars(5)) { this.sound.play("chime"); return; }
         chosen = true;
         (this.stickers.owned = this.stickers.owned || []).push(id);
         this.saveJSON("quran-trainer:letters:stickers", this.stickers);
@@ -882,7 +1656,8 @@
       const strength = ns.LettersStrength;
       if (!strength || !ns.LETTERS_DATA) return [];
       return ns.LETTERS_DATA.packs.filter(pack => {
-        const strong = pack.letters.filter(l => strength.mastery(l.char) >= 0.6).length;
+        // Read through the grown marks (v58): a trick a pet learned is never forgotten.
+        const strong = pack.letters.filter(l => this.grownMark("letters", l.char, strength.mastery(l.char)) >= 0.6).length;
         return strong >= Math.ceil(pack.letters.length * 0.75);
       }).map(pack => pack.id);
     }
@@ -924,7 +1699,8 @@
       const known = this.petTricks();
       el.querySelectorAll(".pet-trick").forEach(button => button.addEventListener("click", () => {
         if (!el.isConnected) return;
-        if (button.classList.contains("is-seed")) { rig?.ponder?.(); return; }
+        // A seed still growing: it wiggles, and the pet looks at it, curious.
+        if (button.classList.contains("is-seed")) { button.classList.remove("is-soon"); void button.offsetWidth; button.classList.add("is-soon"); this.sound.play("seed"); rig?.ponder?.(); return; }
         this.performTrick(el, button.dataset.trick, rig);
       }));
       // A trick learned since last time is shown off once, unasked.
@@ -1019,7 +1795,7 @@
         "lg-album lg-letter-book",
         `${this.topBar()}
         <div class="album-stage">
-          <div class="album-tabs" role="tablist" aria-label="Collections"><button type="button" role="tab" aria-selected="false" class="album-tab" data-book="stickers" aria-label="Stickers">${Art.icon("star", 24)}</button><button type="button" role="tab" aria-selected="true" class="album-tab is-on" aria-label="My letters">${Art.icon("book", 26)}</button>${this.shelfWords().length ? `<button type="button" role="tab" aria-selected="false" class="album-tab" data-book="words" aria-label="Quran words">${REHAL}</button>` : ""}<button type="button" role="tab" aria-selected="false" class="album-tab" data-book="sky" aria-label="Letter stars">${SKYTAB}</button></div>
+          <div class="album-tabs" role="tablist" aria-label="Collections"><button type="button" role="tab" aria-selected="false" class="album-tab" data-book="stickers" aria-label="Stickers">${(Art.artIcon||Art.icon)("star", 28)}</button><button type="button" role="tab" aria-selected="true" class="album-tab is-on" aria-label="My letters">${(Art.artIcon||Art.icon)("book", 30)}</button>${this.shelfWords().length ? `<button type="button" role="tab" aria-selected="false" class="album-tab" data-book="words" aria-label="Quran words">${REHAL}</button>` : ""}<button type="button" role="tab" aria-selected="false" class="album-tab" data-book="sky" aria-label="Letter stars">${SKYTAB}</button></div>
           <div class="book-pages lg-panel">${sections}</div>
         </div>`,
       );
@@ -1028,6 +1804,7 @@
       el.querySelector('.album-tab[data-book="stickers"]')?.addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderAlbum(); });
       el.querySelector('.album-tab[data-book="words"]')?.addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderWordShelf(); });
       el.querySelector('.album-tab[data-book="sky"]')?.addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderStarChart(); });
+      this.addTreasureTab(el);
       el.querySelectorAll(".book-letter").forEach(button => button.addEventListener("click", () => {
         if (!el.isConnected) return;
         const card = items[Number(button.dataset.item)];
@@ -1064,7 +1841,7 @@
         "lg-album lg-word-shelf",
         `${this.topBar()}
         <div class="album-stage">
-          <div class="album-tabs" role="tablist" aria-label="Collections"><button type="button" role="tab" aria-selected="false" class="album-tab" data-book="stickers" aria-label="Stickers">${Art.icon("star", 24)}</button><button type="button" role="tab" aria-selected="false" class="album-tab" data-book="letters" aria-label="My letters">${Art.icon("book", 26)}</button><button type="button" role="tab" aria-selected="true" class="album-tab is-on" aria-label="Quran words">${REHAL}</button><button type="button" role="tab" aria-selected="false" class="album-tab" data-book="sky" aria-label="Letter stars">${SKYTAB}</button></div>
+          <div class="album-tabs" role="tablist" aria-label="Collections"><button type="button" role="tab" aria-selected="false" class="album-tab" data-book="stickers" aria-label="Stickers">${(Art.artIcon||Art.icon)("star", 28)}</button><button type="button" role="tab" aria-selected="false" class="album-tab" data-book="letters" aria-label="My letters">${(Art.artIcon||Art.icon)("book", 30)}</button><button type="button" role="tab" aria-selected="true" class="album-tab is-on" aria-label="Quran words">${REHAL}</button><button type="button" role="tab" aria-selected="false" class="album-tab" data-book="sky" aria-label="Letter stars">${SKYTAB}</button></div>
           ${this.ayahGardenOpen() ? `<div class="ayah-doors" role="group" aria-label="Surahs">${this.ayahSurahs().map(s => `<button type="button" class="ayah-door" data-surah="${s.number}" aria-label="Surah ${s.name}" dir="rtl" lang="ar">${s.name}</button>`).join("")}</div>` : ""}
           <div class="shelf-case lg-panel">${shelves}</div>
         </div>`,
@@ -1073,6 +1850,7 @@
       el.querySelector('.album-tab[data-book="stickers"]')?.addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderAlbum(); });
       el.querySelector('.album-tab[data-book="letters"]')?.addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderLetterBook(); });
       el.querySelector('.album-tab[data-book="sky"]')?.addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderStarChart(); });
+      this.addTreasureTab(el);
       el.querySelectorAll(".ayah-door").forEach(button => button.addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderAyahGarden(Number(button.dataset.surah)); }));
       el.querySelectorAll(".shelf-word").forEach(button => button.addEventListener("click", () => {
         if (!el.isConnected) return;
@@ -1098,45 +1876,70 @@
         const [cx, cy] = centers[k] || [300, 450];
         const n = pack.letters.length;
         const pts = pack.letters.map((l, i) => {
-          const a = -Math.PI * 0.9 + (i / Math.max(1, n - 1)) * Math.PI * 0.9 + ((k % 2) ? 0.4 : -0.2);
-          const r = 92 + ((i * 37 + k * 11) % 23);
+          // v58: stars touched — a star's disc is ~52 units across but
+          // neighbours sat 54–57 apart (م ن, و ي, ل م, ا ب), so outlines
+          // overlapped. Every ring now spans 1.2π (centred where it was) and a
+          // family of more than four letters gets more room. Measured: closest
+          // pair 66, every star inside the chart.
+          const big = Math.max(0, n - 4);
+          const span = Math.PI * (1.2 + big * 0.3);
+          const a = -Math.PI * 0.9 - (span - Math.PI * 0.9) / 2 + (i / Math.max(1, n - 1)) * span + ((k % 2) ? 0.4 : -0.2);
+          const r = 92 + big * 10 + ((i * 37 + k * 11) % 23);
           return [cx + Math.cos(a) * r, cy + Math.sin(a) * r * 0.75 + ((i % 2) ? 14 : -10)];
         });
         const states = pack.letters.map(l => {
           const e = strength?.map?.[l.char];
           const seen = !!(e && e.r + e.w > 0);
-          return !seen ? "unseen" : strength.mastery(l.char) >= 0.7 ? "bright" : "dim";
+          return !seen ? "unseen" : this.grownMark("letters", l.char, strength.mastery(l.char)) >= 0.7 ? "bright" : "dim";
         });
         const met = states.every(s => s !== "unseen");
         const line = met ? `<polyline points="${pts.map(p => p.map(v => v.toFixed(1)).join(",")).join(" ")}" fill="none" stroke="${strong.has(pack.id) ? "#f3c955" : "#6064a0"}" stroke-width="${strong.has(pack.id) ? 3 : 1.6}" stroke-linecap="round" stroke-linejoin="round"${strong.has(pack.id) ? "" : ' stroke-dasharray="4 6"'}/>` : "";
         const stars = pack.letters.map((l, i) => {
           const [x, y] = pts[i], st = states[i];
-          if (st === "unseen") return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2.4" fill="#6064a0"/>`;
+          // A letter not met yet is a sleeping star — faint, softly
+          // twinkling — so a new child's sky is waiting to light up, not empty.
+          // 2026-10-13: the sleeping star was a 13-unit sparkle the same colour
+          // as the dust, so a new child's sky read as empty. Now it is a little
+          // star asleep — closed eyes, a "z" on the first of each family — and
+          // a tap makes it peek open, so the sky is full of friends to wake.
+          if (st === "unseen") return `<g class="chart-sleep" transform="translate(${x.toFixed(1)} ${y.toFixed(1)})" style="--d:${((i * 0.9 + k * 1.7) % 4).toFixed(1)}s"><circle r="28" fill="#23253f" fill-opacity="0"/><g class="chart-sleeper"><g transform="scale(1.4)"><path d="${SLEEP_STAR}" fill="#6064a0" stroke="#b49fcf" stroke-width="1.6" stroke-linejoin="round"/><path d="M-5 -5Q-2 -9 2 -9" fill="none" stroke="#b49fcf" stroke-width="1.6" stroke-linecap="round"/><path class="chart-eyes-shut" d="M-7 2Q-4.5 5-2 2M2 2Q4.5 5 7 2" fill="none" stroke="#fffaf0" stroke-width="2.4" stroke-linecap="round"/><g class="chart-eyes-open" fill="#fffaf0"><circle cx="-4.5" cy="2" r="2.4"/><circle cx="4.5" cy="2" r="2.4"/></g><circle cx="-8.5" cy="6" r="1.8" fill="#ffa798" opacity=".55"/><circle cx="8.5" cy="6" r="1.8" fill="#ffa798" opacity=".55"/></g></g>${i === 0 ? `<path class="chart-z" d="M20 -34H29L20 -25H29" fill="none" stroke="#b49fcf" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>` : ""}</g>`;
           const idx = items.push({ id: l.char, display: l.char, speak: l.arName }) - 1;
           const bright = st === "bright";
           return `<g class="chart-star${bright ? " is-bright" : ""}" data-item="${idx}" transform="translate(${x.toFixed(1)} ${y.toFixed(1)})" role="button" tabindex="0" aria-label="Star ${l.char}">
             ${bright ? `<circle r="38" fill="#ffe49a" opacity=".22"/>` : ""}
             ${bright
               ? `<path d="M0-38V-26M0 26V38M-38 0H-26M26 0H38" stroke="#f3c955" stroke-width="4" stroke-linecap="round"/><circle r="24" fill="#ffe49a" stroke="#70501b" stroke-width="2.4"/>${(() => { const sh = Art.inkShift ? Art.inkShift(l.char, 34) : { dx: 0, dy: 12 }; return `<text x="${sh.dx.toFixed(1)}" y="${sh.dy.toFixed(1)}" text-anchor="middle" font-family="'Amiri Quran', serif" font-size="34" fill="#4a3620" direction="rtl">${l.char}</text>`; })()}`
-              : `<path d="M0-18Q0 0 18 0Q0 0 0 18Q0 0-18 0Q0 0 0-18Z" fill="#6064a0" stroke="#4a4d84" stroke-width="1.6"/>`}</g>`;
+              // v58: a letter met but still growing is a WAKING star — a soft
+              // half-lit disc with its letter. It was a dark purple sparkle,
+              // darker than a sleeping (unmet) star, so meeting a letter made
+              // its star look dimmer: progress that read as going backwards.
+              : `<circle r="22" fill="#e5dcc8" stroke="#a89478" stroke-width="1.6"/>${(() => { const sh = Art.inkShift ? Art.inkShift(l.char, 30) : { dx: 0, dy: 10 }; return `<text x="${sh.dx.toFixed(1)}" y="${sh.dy.toFixed(1)}" text-anchor="middle" font-family="'Amiri Quran', serif" font-size="30" fill="#70501b" direction="rtl">${l.char}</text>`; })()}`}</g>`;
         }).join("");
         return `<g class="chart-family" data-family="${pack.id}">${line}${stars}</g>`;
       }).join("");
       const dust = Array.from({ length: 40 }, (_, i) => `<circle cx="${(i * 137) % 600}" cy="${(i * 211) % 900}" r="${i % 3 ? 1.2 : 1.8}" fill="#fffaf0" opacity="${0.25 + (i % 4) * 0.12}"/>`).join("");
       const el = this.screen("lg-album lg-star-chart", `${this.topBar()}
         <div class="album-stage">
-          <div class="album-tabs" role="tablist" aria-label="Collections"><button type="button" role="tab" aria-selected="false" class="album-tab" data-book="stickers" aria-label="Stickers">${Art.icon("star", 24)}</button><button type="button" role="tab" aria-selected="false" class="album-tab" data-book="letters" aria-label="My letters">${Art.icon("book", 26)}</button>${this.shelfWords().length ? `<button type="button" role="tab" aria-selected="false" class="album-tab" data-book="words" aria-label="Quran words">${REHAL}</button>` : ""}<button type="button" role="tab" aria-selected="true" class="album-tab is-on" aria-label="Letter stars">${SKYTAB}</button></div>
+          <div class="album-tabs" role="tablist" aria-label="Collections"><button type="button" role="tab" aria-selected="false" class="album-tab" data-book="stickers" aria-label="Stickers">${(Art.artIcon||Art.icon)("star", 28)}</button><button type="button" role="tab" aria-selected="false" class="album-tab" data-book="letters" aria-label="My letters">${(Art.artIcon||Art.icon)("book", 30)}</button>${this.shelfWords().length ? `<button type="button" role="tab" aria-selected="false" class="album-tab" data-book="words" aria-label="Quran words">${REHAL}</button>` : ""}<button type="button" role="tab" aria-selected="true" class="album-tab is-on" aria-label="Letter stars">${SKYTAB}</button></div>
           <svg class="star-chart" viewBox="0 0 600 900" aria-label="Your letter stars"><defs><linearGradient id="chart-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#23253f"/><stop offset="1" stop-color="#34375f"/></linearGradient></defs><rect width="600" height="900" rx="28" fill="url(#chart-sky)"/>${dust}<path d="M546 56A30 30 0 1 0 552 112A23 23 0 1 1 546 56Z" fill="#e5dcc8"/>${groups}</svg>
         </div>`);
       this.wireTopBar(el);
       el.querySelector('.album-tab[data-book="stickers"]')?.addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderAlbum(); });
       el.querySelector('.album-tab[data-book="letters"]')?.addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderLetterBook(); });
       el.querySelector('.album-tab[data-book="words"]')?.addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderWordShelf(); });
+      el.querySelectorAll(".chart-sleep").forEach(star => star.addEventListener("click", () => {
+        if (!el.isConnected) return;
+        star.classList.remove("is-twinkle"); void star.getBoundingClientRect(); star.classList.add("is-twinkle");
+        // It peeks, then dozes off again.
+        clearTimeout(star._doze); star._doze = setTimeout(() => star.classList.remove("is-twinkle"), 1300);
+        this.sound.play("pop");
+      }));
       el.querySelectorAll(".chart-star").forEach(star => {
         const go = () => { if (!el.isConnected) return; star.classList.remove("is-twinkle"); void star.getBoundingClientRect(); star.classList.add("is-twinkle"); this.say(items[Number(star.dataset.item)]); };
         star.addEventListener("click", go);
         star.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
       });
+      this.addTreasureTab(el);
       return el;
     }
 
@@ -1361,13 +2164,24 @@
         const finish = heard => {
           if (settled) return;
           settled = true;
-          clearTimeout(timer);
+          clearTimeout(timer); clearTimeout(silent);
           if (this._learningSpeechCancel === cancel) this._learningSpeechCancel = null;
           resolve(heard);
         };
         const cancel = () => finish(false);
-        const end = utterance.onend, error = utterance.onerror;
+        const end = utterance.onend, error = utterance.onerror, start = utterance.onstart;
         const timer = setTimeout(cancel, 6500);
+        // v58: speech that never STARTS (no voice installed, blocked audio,
+        // offline with no clip) gives up after 4.5s — well after a slow clip's
+        // 2.5s hand-over to the voice — instead of the full 6.5s. Games
+        // that read a sequence aloud (HoopoeTrip's refrain, Letter Train,
+        // Echo Parade, the books) waited 6.5s per word on a silent device and
+        // froze for twenty seconds at a time.
+        let started = false;
+        // A recited Quran word may take 2.5s to hand over to the voice; a
+        // letter name from the clip bank or device voice starts at once.
+        const silent = setTimeout(() => { if (!started) cancel(); }, item?.audioPath ? 4500 : 2000);
+        utterance.onstart = event => { started = true; clearTimeout(silent); start?.(event); };
         this._learningSpeechCancel = cancel;
         utterance.onend = event => { end?.(event); finish(true); };
         utterance.onerror = event => { error?.(event); finish(false); };
@@ -1379,7 +2193,12 @@
     }
 
     confettiAt(el, golden) {
-      if (!el?.isConnected || this.prefersReducedMotion() || this.gentle) return;
+      // v58: gentle mode keeps confetti off — but Little Sprout only turns gentle
+      // on implicitly, which left a toddler's reward and party screens with no
+      // confetti at all, the moment that most says "you did it!". It stays off
+      // when a grown-up chose gentle mode themselves.
+      const calm = this.gentle && !(this.sprout && !this.loadJSON("quran-trainer:letters:gentle", false));
+      if (!el?.isConnected || this.prefersReducedMotion() || calm) return;
       const rect = el.getBoundingClientRect();
       Art.confetti(rect.left + rect.width / 2, rect.top + rect.height / 2, golden, golden ? null : this.activityMaterial());
     }
@@ -1419,8 +2238,15 @@
       // butterfly/firefly layer is invisible behind the play panel anyway —
       // stop compositing it so game frames get the whole budget.
       document.body.classList.toggle("lg-in-game", className === "lg-play");
+      // v97: the creatures are chosen at boot, so a session that ran past
+      // sunset kept daytime butterflies under a starry sky. Re-pick them
+      // whenever the phase has crossed day/night.
+      { const ph = Art.dayPhase(), nightNow = ph === "night" || ph === "dusk";
+        if (this._ambientNight !== undefined && nightNow !== this._ambientNight) this.initAmbient(); }
       document.body.classList.toggle("lg-reward-screen", className === "lg-stars" || className === "lg-party");
       document.body.classList.toggle("lg-wardrobe-screen", className === "lg-pet");
+      // Daytime butterflies don't fly across the night sky of letter stars.
+      document.body.classList.toggle("lg-night-screen", String(className).includes("lg-star-chart"));
       const garden = (this.isReferenceJourney() || this.isGentleDaily()) && ["lg-meet", "lg-play", "lg-stars", "lg-party"].includes(className);
       const step = this.session?.gameIndex || 0;
       const activity = this.session?.plan?.[step]?.game || this.session?.world.games[step];
@@ -1453,24 +2279,65 @@
       this.sound?.setRain?.(weather === "drizzle" && !!this.landBed);
       this.root.innerHTML = `${garden || pond ? ns.LettersGardenArt.backdrop(stage) : Art.backdrop(undefined, activityLand)}<div class="lg-screen ${className}">${Art.weatherLayer ? Art.weatherLayer(weather) : ""}${Art.seasonLayer ? Art.seasonLayer(this.season()) : ""}${Art.yearLayer ? Art.yearLayer(Art.yearSeason(new Date(), this.loadJSON("quran-trainer:letters:hemisphere", "north") === "south")) : ""}${inner}</div>`;
       const screenEl = this.root.querySelector(".lg-screen");
-      if (this.gentle && className === "lg-play") this.watchIdlePrompt(screenEl);
+      // Encouragement pass (v57): every child gets idle help, not only gentle
+      // mode — a quiet child is often a stuck child. Gentle: 8s, twice; else 14s, once.
+      if (className === "lg-play") this.watchIdlePrompt(screenEl, this.gentle || this.sprout ? 8000 : 14000, this.gentle || this.sprout ? 2 : 1);
+      // Encouragement pass (v57): between games (stars, party, meeting a
+      // letter) a child who doesn't know what's next is shown the way — after
+      // 10s untouched, the hand points at the main button forward.
+      if (/\blg-(stars|party|meet)\b/.test(className) && !/lg-practice-garden|lg-book-corner|lg-puzzle-tree/.test(className)) this.idlePoint(screenEl);
+      // In the toy menus, a still child is pointed at a toy — an untried
+      // (twinkling) one first.
+      else if (/lg-practice-garden|lg-book-corner|lg-puzzle-tree/.test(className)) this.idlePoint(screenEl, 12000, "[data-kind]:has(.pg-new), [data-kind]");
+      // v58: Today's Walk too — a still child is shown the next stepping stone.
+      else if (/\blg-walk\b/.test(className)) this.idlePoint(screenEl, 10000, ".walk-stone.is-next");
+      // …and decorating: a still child is shown a decoration to pick up (or,
+      // with nothing grown yet, the card that leads to a lesson).
+      else if (/\blg-my-garden\b/.test(className)) this.idlePoint(screenEl, 10000, ".decorate-choice, .decorate-earn");
       return screenEl;
+    }
+
+    idlePoint(screenEl, ms = 10000, pick = ".meet-bud, .meet-piece:not(.is-set), .stars-next, .meet-next, .party-next") {
+      if (typeof screenEl?.addEventListener !== "function" || typeof setTimeout !== "function") return;
+      let touched = false;
+      screenEl.addEventListener("pointerdown", () => { touched = true; }, { once: true });
+      // A brand-new child (nothing finished yet) is shown sooner; and a hand
+      // that went unnoticed comes back once more before the screen goes quiet.
+      if (!this.progress?.done?.length) ms = Math.min(ms, 5000);
+      let shown = 0;
+      const arm = (wait) => {
+        const t = setTimeout(() => {
+          try {
+            if (touched || !screenEl.isConnected) return;
+            // Try each selector in order, so "an untried toy" wins over "any toy".
+            let target = null;
+            for (const sel of pick.split(/,\s*(?![^(]*\))/)) { target = [...screenEl.querySelectorAll(sel)].find((b) => !b.hidden && !b.disabled && b.getClientRects().length && (() => { const r = b.getBoundingClientRect(); return r.bottom > 60 && r.top < window.innerHeight - 40; })()); if (target) break; }
+            if (target) this.feel?.point?.(target);
+            if (++shown < 2) arm(ms + 5000);
+          } catch {}
+        }, wait);
+        t?.unref?.();
+      };
+      arm(ms);
     }
 
     // Gentle mode: if no finger has touched the screen for 8 seconds, the
     // prompt says itself again (the same as tapping its replay) — twice at most.
-    watchIdlePrompt(screenEl) {
+    watchIdlePrompt(screenEl, wait = 8000, times = 2) {
+      if (typeof setTimeout !== "function" || typeof clearTimeout !== "function") return;
       clearTimeout(this._idleTimer);
       let repeats = 0;
       const arm = () => {
         clearTimeout(this._idleTimer);
-        if (repeats >= 2) return;
+        if (repeats >= times) return;
         this._idleTimer = setTimeout(() => {
           if (!screenEl.isConnected) return;
           const replay = screenEl.querySelector(".play-bubble, .practice-replay");
           if (replay && !replay.disabled) { repeats += 1; replay.click(); }
+          // Encouragement pass (v57): and the helping hand shows where to touch.
+          this.feel?.guide?.(true);
           arm();
-        }, 8000);
+        }, wait);
       };
       screenEl.addEventListener("pointerdown", () => { repeats = 0; arm(); });
       arm();
@@ -1504,7 +2371,10 @@
 
     wireTopBar(el, onHome) {
       const home = el.querySelector(".lg-home-btn");
-      const leave = () => { this.sound.play("page"); onHome ? onHome() : this.renderHome(); };
+      // v64: inside a chapter Home goes back to the journey map; everywhere else, to the village.
+      // Only a real chapter session counts (it tracks gameIndex); hubs and toys reuse the same screen styles.
+      const inChapter = /\blg-(play|meet|stars|party)\b/.test(el.className) && Number.isInteger(this.session?.gameIndex) && !this.session?.chapterBonus;
+      const leave = () => { this.sound.play("page"); onHome ? onHome() : inChapter ? this.renderHome() : this.renderVillage(); };
       // Little Sprout: inside an activity, Home needs a short hold (a ring
       // fills) so a stray tap from a tiny hand doesn't end the game.
       const holdToLeave = this.sprout && /\blg-(play|meet|stars)\b/.test(el.className);
@@ -1904,9 +2774,18 @@
     // pet, progress, stickers, strength. Children can't read names, so each is
     // shown by their own pet (or their unhatched egg). Switching reloads, so
     // every system starts clean on the chosen child's data.
+    // v58: each child's unhatched egg has its own shell (the first child keeps
+    // the cream one), the same on who's-playing and on their hatch screen, so
+    // siblings can find theirs and the egg they picked is the egg that hatches.
+    eggShell(id = ns.LettersState?.activeProfile?.()) {
+      const SHELLS = [["#fffdf7", "#e5dcc8"], ["#ffe49a", "#f3c955"], ["#ccfbef", "#96ecff"], ["#e6d6f0", "#b49fcf"], ["#b7e779", "#7fce54"]];
+      const at = Math.max(0, (ns.LettersState?.profiles?.() || []).findIndex(p => p.id === id));
+      return SHELLS[at % SHELLS.length];
+    }
+
     profilePet(id, size) {
       const S = ns.LettersState, pet = S?.readAs?.(id, "quran-trainer:letters:pet", null);
-      if (!pet) return Art.egg({ size: Math.round(size * 0.9) });
+      if (!pet) return Art.egg({ size: Math.round(size * 0.9), shell: this.eggShell(id) });
       return Art.pet({ hue: pet.hue ?? 200, species: pet.species || "blob", stage: 1, worn: pet.worn || [], size });
     }
 
@@ -2021,24 +2900,38 @@
     // met, sprouting and budding as strength climbs, in full bloom at mastery.
     // The strength model made beautiful; walking the map = seeing what you know.
     worldMasteryOf(world) {
+      let m = 0;
       try {
         const items = world.items ? world.items() : [];
-        return ns.LettersStrength ? ns.LettersStrength.worldMastery(items) : 0;
-      } catch {
-        return 0;
-      }
+        m = ns.LettersStrength ? ns.LettersStrength.worldMastery(items) : 0;
+      } catch {}
+      // Display only, and only ever up (v58): a miss lowers the quiet strength
+      // model, but a flower a child grew never shrinks back to a bud.
+      return this.grownMark("worlds", world?.id, m);
+    }
+    // High-water marks for what a child has SEEN grow (plants, bright stars).
+    grownMark(kind, id, value) {
+      if (!id) return value;
+      const g = this._grown || (this._grown = (() => { const v = this.loadJSON("quran-trainer:letters:grown", {}); return v && typeof v === "object" ? v : {}; })());
+      const box = g[kind] || (g[kind] = {});
+      const best = Math.max(Number(box[id]) || 0, Number(value) || 0);
+      if (best > (Number(box[id]) || 0) + 0.001) { box[id] = Math.round(best * 1000) / 1000; this.saveJSON("quran-trainer:letters:grown", g); }
+      return best;
     }
     masteryPlant(m) {
       // Four stages, each readable on its own at map size: seed, sprout, bud,
       // flower. Same warm ink as the rest of the garden (never cold navy), all
       // standing in one soil mound so the stages read as one plant growing.
       const ink = "#4a3620";
-      const mound = `<ellipse cx="24" cy="46" rx="15" ry="3.5" fill="#2f5c46" opacity="0.18"/><path d="M11 46Q13 38 24 38Q35 38 37 46Z" fill="#a89478" stroke="${ink}" stroke-width="1.6" stroke-linejoin="round"/>`;
+      // v128: a rounder soil mound with a furrow, a pebble and a tuft (was a flat wedge).
+      const mound = `<ellipse cx="24" cy="47" rx="16" ry="3.5" fill="#2f5c46" opacity="0.2"/><path d="M9 46Q9 37 24 37Q39 37 39 46Q39 48 36 48H12Q9 48 9 46Z" fill="#a89478" stroke="${ink}" stroke-width="2.4" stroke-linejoin="round"/><path d="M15 44Q19 42 23 44" fill="none" stroke="#70501b" stroke-width="1.6" stroke-linecap="round"/><ellipse cx="32" cy="44" rx="2.4" ry="1.6" fill="#c9bda4"/><path d="M7 47Q6 43 9 41M41 47Q42 43 39 41" fill="none" stroke="#4e9677" stroke-width="2.4" stroke-linecap="round"/>`;
       const stem = (top) => `<path d="M24 40C24 34 23 ${top + 8} 24 ${top}" fill="none" stroke="#4e9677" stroke-width="3" stroke-linecap="round"/>`;
       const leaf = (y, side) => `<path d="M24 ${y}C${24 + side * 8} ${y - 1} ${24 + side * 12} ${y - 6} ${24 + side * 13} ${y - 12}C${24 + side * 5} ${y - 12} 24 ${y - 6} 24 ${y}Z" fill="#7fce54" stroke="${ink}" stroke-width="1.6" stroke-linejoin="round"/>`;
       let top;
       if (m < 0.15) {
-        top = `<ellipse cx="24" cy="38" rx="5" ry="6.5" fill="#c69434" stroke="${ink}" stroke-width="1.6" transform="rotate(-12 24 38)"/><path d="M24 32Q25 28 27 26" fill="none" stroke="#4e9677" stroke-width="3" stroke-linecap="round"/>`;
+        // v65: the seed stage read as a brown lump on a brown mound. Now a gold
+        // seed peeks out with a tiny two-leaf shoot — clearly "something growing".
+        top = `<ellipse cx="25" cy="39" rx="5.5" ry="4" fill="#f3c955" stroke="${ink}" stroke-width="1.6" transform="rotate(-14 25 39)"/><path d="M24 36Q24 30 25 25" fill="none" stroke="#4e9677" stroke-width="2.4" stroke-linecap="round"/><path d="M25 28Q18 27 16 21Q23 20 25 28Z" fill="#b7e779" stroke="${ink}" stroke-width="1.6" stroke-linejoin="round"/><path d="M25 26Q31 22 34 16Q27 16 25 26Z" fill="#7fce54" stroke="${ink}" stroke-width="1.6" stroke-linejoin="round"/>`;
       } else if (m < 0.42) {
         top = `${stem(26)}${leaf(30, 1)}`;
       } else if (m < 0.72) {
@@ -2062,10 +2955,27 @@
       // to the island crowns the path. Finished stops grow flower gardens.
       const GAP = window.innerWidth < 600 ? 170 : 250;
       const total = worlds.length;
-      const height = total * GAP + 240;
+      // Headroom above the last stop: on a phone the stacked header rows
+      // cover ~200px, and the pet waiting there must never hide behind them.
+      const height = total * GAP + 240 + (window.innerWidth < 600 ? 110 : 0);
       const yOf = (i) => height - 150 - i * GAP;
       const xOf = (i) => (i % 2 === 0 ? 28 : 72); // percent of the path width
       const side = (i) => (i % 2 === 0 ? 17 : -17); // the pet waits beside its stop
+      // v64: today's treasure lives in the village now (the map keeps the visitor and balloon).
+      const find = ns.VillageArt ? null : this.todaysFind?.(); // today's treasure, if one waits
+      // 2026-10-16: once today's find is picked up, a closed bud sleeps where
+      // it was — tomorrow it will be the next treasure. A promise, not a
+      // pressure: skip a few days and the bud simply waits.
+      const bud = !ns.VillageArt && !find && this.pet && (() => { const f = this.findsState(); return f.day === todayStr() && this.treasureIds().some((id) => !f.owned.includes(id)); })();
+      // 2026-10-16: a letter friend the child has met visits one finished stop
+      // each day (a different friend each day) — a daily surprise and a light
+      // review: tap it and it dances and says its name. No question asked.
+      const visitor = (() => { try {
+        const met = this.homeFriends?.() || [], doneIdx = worlds.map((w, k) => (this.progress.done.includes(w.id) ? k : -1)).filter((k) => k >= 0);
+        if (!met.length || !doneIdx.length || !ns.LetterFriends) return null;
+        const day = Math.floor(Date.now() / 86400000);
+        return { c: met[day % met.length], i: Math.max(...doneIdx) };
+      } catch { return null; } })();
       // The pet waits where the child last went; a new learner finds it at the next lesson.
       const currentI = worlds.findIndex(world => this.statusOf(world) === "current");
       const visitedI = worlds.findIndex(world => world.id === this.mapPetWorld);
@@ -2073,15 +2983,18 @@
       const el = this.screen(
         "lg-home",
         `${this.topBar({ home: false })}
+        ${ns.VillageArt ? `<button type="button" class="map-village" aria-label="Back to the village">${VILLAGE_BTN}</button>` : ""}
         <div class="map-daily-row lg-tray" aria-label="Garden activities">
           ${(() => { const walk = this.todaysWalk(); return walk ? `<button type="button" class="map-walk${walk.done.length >= walk.stops.length ? " is-finished" : ""}" aria-label="Today's walk${walk.done.length >= walk.stops.length ? ", finished" : ""}">${WALK_BTN}<span class="walk-steps" aria-hidden="true">${walk.stops.map((_, i) => `<i class="${walk.done.includes(i) ? "is-done" : ""}"></i>`).join("")}</span></button>` : ""; })()}
-          ${daily ? `<button type="button" aria-label="Daily letter practice" class="map-daily${stampedToday ? " is-stamped" : ""}">${Art.icon("sun", 34)}${stampedToday ? `<i class="map-daily-check">${Art.icon("check", 16)}</i>` : ""}</button>` : ""}
-          ${daily ? `<button type="button" class="map-checkup" aria-label="Letter check-up">${Art.icon("flower", 34)}</button>` : ""}
+          ${daily ? `<button type="button" aria-label="Daily letter practice" class="map-daily${stampedToday ? " is-stamped" : ""}">${(Art.artIcon||Art.icon)("sun", 38)}${stampedToday ? `<i class="map-daily-check">${Art.icon("check", 16)}</i>` : ""}</button>` : ""}
+          ${daily ? `<button type="button" class="map-checkup" aria-label="Letter check-up">${(Art.artIcon||Art.icon)("flower", 38)}</button>` : ""}
           <button type="button" class="map-pet" aria-label="Your pet and wardrobe">${this.petSVG(46)}</button>
-          <button type="button" class="map-album" aria-label="Rewards and stickers">${Art.icon("star", 26)}<b>${this.starBalance()}</b></button>
+          <button type="button" class="map-album" aria-label="Rewards and stickers">${(Art.artIcon||Art.icon)("star", 30)}${this.starBalance() ? `<b>${this.starBalance()}</b>` : ""}</button>
         </div>
         <div class="map-play-places" aria-label="Places to play">
-          <button type="button" class="map-practice-garden" aria-label="Open the practice garden" title="Available after your first Boat activity" ${this.progress.done.includes('pack-boat') || Object.keys(this.bests).some(k=>k.startsWith('pack-boat:')) ? '' : 'disabled'}>${ns.LettersGardenArt.practicePicture('DotGarden')}${Art.icon('next',20)}</button>
+          ${(() => { const open = this.progress.done.includes('pack-boat') || Object.keys(this.bests).some(k=>k.startsWith('pack-boat:'));
+            // 2026-10-13: not open yet is a seedling still growing, in full colour — never a faded button.
+            return `<button type="button" class="map-practice-garden${open ? '' : ' is-growing'}" aria-label="Open the practice garden" title="Available after your first Boat activity" ${open ? '' : 'aria-disabled="true"'}>${ns.LettersGardenArt.practicePicture('DotGarden')}${open ? Art.icon('next',20) : `<span class="mpg-sprout" aria-hidden="true">${(Art.artIcon||Art.icon)('sprout',30)}</span>`}</button>`; })()}
           <button type="button" class="map-decorate" aria-label="Decorate your garden">${ns.DecoratingGarden.icon(44)}${Art.icon('next',20)}</button>
         </div>
         <div class="map-scroll">
@@ -2103,14 +3016,18 @@
                   ${world.id === "pack-boat" ? `<button type="button" class="map-boat-landmark map-toy" data-toy="boat" aria-label="Sail the paper boat" style="left:${xOf(i) + 37}%;top:${yOf(i) - 10}px">${ns.LettersGardenArt.boat({stage: ns.LettersGardenArt.growth(this.progress, this.bests)})}${ns.LettersJourney?.memento(this.progress) || ''}</button>` : ""}
                   ${world.id === "pack-boat" ? "" : (() => {
                     const kind = ns.LettersMapArt.kind?.(world.biome, i), toy = ns.LettersMapArt.TOYS?.[kind];
-                    const at = `left:${i%2===0?74:26}%; top:${yOf(i)+35}px`;
+                    // v65: repeated props vary — three sizes and a mirror — never identical copies.
+                    const at = `left:${i%2===0?74:26}%; top:${yOf(i)+35}px; --lm-s:${[1, 0.86, 1.1][i % 3]}; --lm-f:${i % 4 < 2 ? 1 : -1}`;
                     return toy ? `<button type="button" class="map-landmark map-toy" data-toy="${kind}" aria-label="${toy}" style="${at}">${ns.LettersMapArt.landmark(world.biome,i)}</button>`
                       : `<span class="map-landmark" aria-hidden="true" style="${at}">${ns.LettersMapArt.landmark(world.biome,i)}</span>`;
                   })()}
-                  <div class="map-node" data-node-world="${world.id}" style="${at}"><button type="button" class="map-stop is-${status}" data-world="${world.id}" ${status === "current" ? 'aria-current="step"' : ""} aria-label="${world.id === 'pack-boat' ? 'Boat Letters' : world.icon}${status==='done' ? `, completed, ${this.stars[world.id]||0} of 3 stars` : status==='current' ? ', next chapter' : ', locked'}" ${status === "locked" ? "disabled" : ""}>
-                    ${Art.mapStop({ hue: world.hue, label: world.icon, status, stars: this.stars[world.id] || 0, latin: !/[؀-ۿ]/.test(world.icon) })}
+                  <div class="map-node" data-node-world="${world.id}" style="${at}"><button type="button" class="map-stop is-${status}" data-world="${world.id}" ${status === "current" ? 'aria-current="step"' : ""} aria-label="${world.id === 'pack-boat' ? 'Boat Letters' : world.icon}${status==='done' ? `, completed, ${this.stars[world.id]||0} of 3 stars` : status==='current' ? ', next chapter' : ', locked'}" ${status === "locked" ? 'aria-disabled="true"' : ""}>
+                    ${Art.mapStop({ hue: world.hue, label: world.icon, status, stars: this.stars[world.id] || 0, latin: !/[؀-ۿ]/.test(world.icon), partway: status === "current" ? this.partwayOf(world) : 0 })}
                   </button>${status === "done" ? (world.id !== "pack-boat" && ns.LettersJourney?.memento?.(this.progress, world)) || `<span class="map-flower-bed" aria-hidden="true">${ns.LettersGardenArt.flowerBed({size:88})}</span>` : ""}</div>
                   ${i === petI ? `<span class="map-here" data-stop="${i}" style="left:${xOf(i) + side(i)}%; top:${yOf(i)}px">${this.petSVG(64)}</span>` : ""}
+                  ${i === petI && find ? `<button type="button" class="map-find" data-find="${find}" aria-label="A treasure to pick up" style="left:${xOf(i) - side(i) * 0.6}%; top:${yOf(i) + 104}px">${ns.LettersRoomArt.treasure(find, 52)}<i class="map-find-glint" aria-hidden="true"></i></button>` : ""}
+                  ${i === petI && bud ? `<button type="button" class="map-bud" aria-label="Something is growing for tomorrow" style="left:${xOf(i) - side(i) * 0.6}%; top:${yOf(i) + 104}px">${TOMORROW_BUD}</button>` : ""}
+                  ${visitor && i === visitor.i ? `<button type="button" class="map-visitor" data-c="${visitor.c}" aria-label="${ns.LetterFriends.get(visitor.c).en}" style="left:${xOf(i) - side(i) * (i === petI ? 1.05 : 1)}%; top:${yOf(i) + 6}px">${ns.LetterFriends.art(visitor.c, { size: 66 })}</button>` : ""}
                   ${status === "current" && !this.progress.done.length ? `<span class="map-tap" style="left:${xOf(i)}%; top:${yOf(i) - 96}px; bottom:auto; margin:0;">${Art.icon("arrow", 44)}</span>` : ""}`;
               })
               .join("")}
@@ -2119,7 +3036,15 @@
       );
       // The child-facing map has no external exit. Home elsewhere returns here.
       this.wireTopBar(el);
-      el.querySelector(".map-practice-garden").onclick=()=>this.renderPracticeGarden();
+      // Not open yet is "soon", never a dead button: it hops, and the hand
+      // shows the stop that opens it.
+      el.querySelector(".map-practice-garden").onclick=(e)=>{
+        const btn=e.currentTarget;
+        if(btn.getAttribute("aria-disabled")!=="true")return this.renderPracticeGarden();
+        btn.classList.remove("is-soon");void btn.offsetWidth;btn.classList.add("is-soon");
+        const open=el.querySelector(".map-stop.is-current");
+        if(open)setTimeout(()=>{if(el.isConnected)this.feel?.point?.(open);},650);
+      };
       el.querySelector(".map-decorate").onclick=()=>this.renderDecoratingGarden();
       // The dotted trail needs real pixel coordinates, so it's drawn after
       // layout against the path's actual width.
@@ -2178,10 +3103,12 @@
         const b = pts[i];
         d += ` C ${a[0]} ${a[1] - GAP * 0.45}, ${b[0]} ${b[1] + GAP * 0.45}, ${b[0]} ${b[1]}`;
       }
+      // v65: the trail is the village's sand trail (a mass, no contour) with
+      // pebbles — it was a thin dotted ribbon that read as interface.
       trail.innerHTML = `
-        <path d="${d}" fill="none" stroke="#c9bda4" stroke-width="17" stroke-linecap="round" data-ribbon opacity="0.8"/>
-        <path d="${d}" fill="none" stroke="#fffaf0" stroke-width="13" stroke-linecap="round" data-ribbon/>
-        <path d="${d}" fill="none" stroke="#7fce54" stroke-width="6" stroke-linecap="round" stroke-dasharray="1 22"/>`;
+        <path d="${d}" fill="none" stroke="#e5dcc8" stroke-width="34" stroke-linecap="round" data-ribbon/>
+        <path d="${d}" fill="none" stroke="#fffaf0" stroke-width="18" stroke-linecap="round" data-ribbon opacity=".7"/>
+        <path d="${d}" fill="none" stroke="#c9bda4" stroke-width="6" stroke-linecap="round" stroke-dasharray="2 46" stroke-dashoffset="12"/>`;
       // Bridges carry the trail over each brook; the waterwheel finds a free bank.
       const brooks = ns.LettersMapArt.brooks?.({width:landscapeWidth,pathWidth:w,stops:worlds.map((world,i)=>({y:yOf(i),biome:world.biome,left:i%2===0}))}) || [];
       const line = trail.querySelector("path");
@@ -2225,8 +3152,48 @@
         window.addEventListener('resize',drawTrail);
         this.stopMapResize=()=>window.removeEventListener('resize',drawTrail);
       }
+      // v64: the map is the land beyond the gate. Its header rows live in the
+      // village now; one cottage button leads back.
+      if (ns.VillageArt) {
+        el.classList.add("has-village");
+        el.querySelector(".map-village")?.addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderVillage(); });
+      }
       const walker = el.querySelector(".map-here");
       const mapRig = this.petLife(walker, el);
+      this.wireTodaysFind?.(el, mapRig);
+      // 2026-10-16: now and then (about one map visit in four) a hot-air
+      // balloon drifts across carrying a letter friend the child has met.
+      // Tap it and the friend waves and says its name. Nothing to collect —
+      // just "you never know what you'll see in the garden".
+      try {
+        const met = this.homeFriends?.() || [];
+        if (met.length && !this.prefersReducedMotion() && Math.random() < 0.25 && this.mapBalloonDay !== todayStr() + this.screenRevision) {
+          this.mapBalloonDay = todayStr() + this.screenRevision;
+          const F = ns.LetterFriends, c = met[Math.floor(Math.random() * met.length)];
+          const b = document.createElement("button");
+          b.type = "button"; b.className = "map-balloon"; b.setAttribute("aria-label", F.get(c).en);
+          b.innerHTML = `${BALLOON}<span class="map-balloon-rider">${F.art(c, { size: 54 })}</span>`;
+          setTimeout(() => { if (el.isConnected) el.appendChild(b); }, 3000 + Math.random() * 4000);
+          b.addEventListener("click", () => { if (!el.isConnected || b.dataset.waved) return; b.dataset.waved = "1"; this.sound.play(F.get(c).call); this.confettiAt(b, false); setTimeout(() => el.isConnected && this.say(F.item(c)), 420); });
+          b.addEventListener("animationend", () => b.remove());
+        }
+      } catch {}
+      el.querySelector(".map-bud")?.addEventListener("click", (e) => {
+        const b = e.currentTarget;
+        b.classList.remove("is-soon"); void b.offsetWidth; b.classList.add("is-soon");
+        this.sound.play("seed");
+        mapRig?.inspect?.(b, 1200);
+      });
+      {
+        const v = el.querySelector(".map-visitor");
+        if (v) {
+          const F = ns.LetterFriends, c = v.dataset.c;
+          const dance = () => { const svg = v.querySelector("svg.lf"); if (svg && !this.prefersReducedMotion()) { svg.classList.remove("is-wiggle"); void svg.getBoundingClientRect(); svg.classList.add("is-wiggle"); setTimeout(() => svg.classList.remove("is-wiggle"), 950); } };
+          v.addEventListener("click", () => { if (!el.isConnected) return; dance(); this.sound.play(F.get(c).call); setTimeout(() => el.isConnected && this.say(F.item(c)), 420); });
+          // It says hello once when the map opens.
+          setTimeout(() => { if (el.isConnected && v.isConnected) dance(); }, 2200);
+        }
+      }
       // Travel (update 2): the pet walks the real trail to a tapped chapter, then
       // enters. Tapping where the pet already is, or the same stop again while it
       // walks, enters at once. Reduced motion enters without the walk.
@@ -2287,7 +3254,25 @@
         const btn = el.querySelector(`.map-stop[data-world="${world.id}"]`);
         btn?.addEventListener("click", () => {
           if (!el.isConnected) return;
-          if (this.statusOf(world) === "locked") { mapRig?.inspect(btn, 500, () => mapRig.ponder()); return; }
+          if (this.statusOf(world) === "locked") {
+            mapRig?.inspect(btn, 500, () => mapRig.ponder());
+            // Not yet is never a dead end: the hand shows the way to the stop that's open.
+            const open = el.querySelector(".map-stop.is-current");
+            if (open) setTimeout(() => {
+              if (!el.isConnected) return;
+              open.scrollIntoView?.({ block: "center", behavior: this.prefersReducedMotion() ? "auto" : "smooth" });
+              // Point once the scroll has settled, so the hand lands on the stop.
+              let last = NaN, waited = 0;
+              const settle = () => {
+                if (!el.isConnected) return;
+                const y = open.getBoundingClientRect().top;
+                if (Math.abs(y - last) < 1 || (waited += 120) > 2400) return this.feel?.point?.(open);
+                last = y; setTimeout(settle, 120);
+              };
+              setTimeout(settle, 120);
+            }, 520);
+            return;
+          }
           if (travel?.world === world || (!travel && Number(walker?.dataset.stop) === i)) return enter(world);
           walkTo(world, i);
         });
@@ -2304,6 +3289,72 @@
       if (worldBtn) worldBtn.onclick = () => { if (el.isConnected) { this.sound.play("page"); this.openWorldOverview(el, scroll, yOf); } };
       if (welcome) this.playMapWelcome(el, scroll, { welcome, worlds, yOf, walkTo, rig: mapRig, then: () => this.arriveInLand(el, scroll, mapRig) });
       else this.arriveInLand(el, scroll, mapRig);
+      // Encouragement pass (v57): a child who sits on the map without touching
+      // anything for 10s is shown where to go — the hand points at the next
+      // chapter's stop.
+      if (typeof el.addEventListener === "function" && typeof window.innerHeight === "number" && this.feel?.point) {
+        let touched = false;
+        el.addEventListener("pointerdown", () => { touched = true; }, { once: true });
+        // v58: like the other screens' hand, it shows sooner for a brand-new
+        // child and comes back once if it went unnoticed.
+        const arm = (wait, again) => {
+          const idle = setTimeout(() => {
+            try {
+              const stop = el.querySelector(".map-stop.is-current");
+              const r = stop?.getBoundingClientRect?.();
+              if (!touched && el.isConnected && r && r.bottom > 60 && r.top < window.innerHeight - 60) { this.feel.point(stop); if (again) arm(15000, false); }
+            } catch {}
+          }, wait);
+          idle?.unref?.();
+        };
+        arm(this.progress?.done?.length ? 10000 : 5000, true);
+      }
+      // 2026-10-16: between taps the map pet lives a little — every 12–20s it
+      // sniffs a flower, waves, hops or wonders, so the map never feels like a
+      // menu. Never while walking, dozing or busy; still under reduced motion
+      // (the rig keeps poses calm there).
+      if (mapRig && walker && typeof setTimeout === "function") {
+        const things = () => [...el.querySelectorAll(".map-landmark, .map-boat-landmark, .map-find, .map-stop.is-current")].filter((n) => n.getClientRects().length);
+        const idle = () => {
+          const t = setTimeout(() => {
+            if (!el.isConnected || !mapRig.alive) return;
+            if (!travel && !mapRig.dozing && !walker.classList.contains("is-dozing")) {
+              const near = things(), pick = Math.random();
+              if (pick < 0.4 && near.length) mapRig.inspect(near[Math.floor(Math.random() * near.length)], 1400);
+              else if (pick < 0.6) mapRig.wave();
+              else if (pick < 0.8) mapRig.cheer();
+              else mapRig.ponder();
+            }
+            idle();
+          }, 12000 + Math.random() * 8000);
+          t?.unref?.();
+        };
+        idle();
+      }
+      // 2026-10-13: a map left quiet for a while lets the pet doze off by its
+      // stop (eyes shut, z z). Any touch wakes it — a stretch, then a cheer —
+      // so coming back to the game is greeted, never a frozen screen.
+      if (mapRig?.doze && walker && typeof el.addEventListener === "function" && typeof setTimeout === "function") {
+        let dozeTimer = null;
+        const sleepSoon = () => {
+          clearTimeout(dozeTimer);
+          dozeTimer = setTimeout(() => { if (el.isConnected && mapRig.alive && !travel) { mapRig.doze(); walker.classList.add("is-dozing"); } }, 40000);
+          dozeTimer?.unref?.();
+        };
+        el.addEventListener("pointerdown", () => {
+          if (walker.classList.contains("is-dozing")) { walker.classList.remove("is-dozing"); mapRig.wake(() => mapRig.cheer()); }
+          sleepSoon();
+        }, { capture: true, signal: this.screenListeners?.signal });
+        sleepSoon();
+      }
+      // Encouragement pass (v57): the first visit of the day is greeted — the
+      // pet waves and calls hello, so coming back feels like being missed.
+      const today = todayStr();
+      if (!welcome && this._greetedDay !== today && this.loadJSON(GREET_KEY, "") !== today) {
+        this._greetedDay = today;
+        this.saveJSON(GREET_KEY, today);
+        setTimeout(() => { if (!el.isConnected) return; mapRig?.wave?.(); try { this.sound.voice?.(this.pet?.species); } catch {} }, 900);
+      }
       // The Story of the Garden (v30): the friends' garden, colour returning to
       // finished lands, and one story moment per visit (graduation, a land's
       // homecoming, or the wind story the first time).
@@ -2381,13 +3432,13 @@
           (day === today ? " is-today" : "") +
           (day > today ? " is-future" : "");
         const date=`${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
-        cells += `<span class="${cls}" role="img" aria-label="${date}${stamped.has(day)?', played':''}" ${day===today?'aria-current="date"':''}>${stamped.has(day) ? Art.icon("star", 26) : `<i>${day}</i>`}</span>`;
+        cells += `<span class="${cls}" role="img" aria-label="${date}${stamped.has(day)?', played':''}" ${day===today?'aria-current="date"':''}>${stamped.has(day) ? (Art.artIcon||Art.icon)("flower", 30) : `<i>${day}</i>`}</span>`;
       }
       const el = this.screen(
         "lg-stamps",
         `${this.topBar()}
         <div class="stamps-stage">
-          <div class="stamps-moon">${Art.icon("sun", 44)}</div>
+          <div class="stamps-moon">${(Art.artIcon||Art.icon)("sun", 48)}</div>
           <div class="stamps-grid lg-panel">${cells}</div>
         </div>`,
       );
@@ -2459,7 +3510,10 @@
       return ns.LettersJourney.scene({ completed, interactivePet, items: this.session.items,
         kind: ns.LettersJourney.forWorld(this.session.world)?.kind,
         drawings: this.session.journeyDrawings,
-        pet: this.petSVG(150, completed === 3 ? 'delighted' : 'proud'),
+        // 2026-10-13: every step's reward screen beams (open grin). "Proud"'s
+        // closed crescent read as a neutral face beside a single star — the
+        // moment a child most needs to see the pet happy for them.
+        pet: this.petSVG(150, 'delighted'),
         growth: ns.LettersGardenArt.growth(this.progress, this.bests) });
     }
 
@@ -2512,7 +3566,7 @@
       if (this.isBoatAdventure()) return ns.LettersJourney.route(world, completed);
       if (!this.isReferenceJourney(world) && !this.isGentleDaily()) return '';
       const labels = {pop:'Pond letters',trace:'Draw letters',feed:'Feed a friend',pairs:'Match letters'};
-      return `<div class="journey-route" role="list" aria-label="${this.isGentleDaily()?'Daily activities':'Chapter activities'}">${world.games.map((name,i)=>`<span class="journey-stop ${i < completed ? 'is-done' : ''}" role="listitem" aria-label="${labels[name] || name}${i < completed ? ', completed' : ''}">${journeyPicture(name)}${i < completed ? `<i>${Art.icon('check',12)}</i>` : ''}</span>`).join('')}</div>`;
+      return `<div class="journey-route" role="list" aria-label="${this.isGentleDaily()?'Daily activities':'Chapter activities'}">${world.games.map((name,i)=>`<span class="journey-stop ${i < completed ? 'is-done' : i === completed ? 'is-now' : ''}" role="listitem" ${i === completed ? 'aria-current="step" ' : ''}aria-label="${labels[name] || name}${i < completed ? ', completed' : ''}">${journeyPicture(name)}${i < completed ? `<i>${Art.icon('check',12)}</i>` : ''}</span>`).join('')}</div>`;
     }
 
     startWorld(world) {
@@ -2531,8 +3585,31 @@
         items: world.items(),
         extraItems: world.extraItems ? world.extraItems(this.progress.done) : [],
       };
+      // Encouragement pass (v57): a chapter left half-way (a stray tap on
+      // Home, bedtime) picks up where the child got to, for a few hours —
+      // nobody has to redo games they already finished.
+      const place = this.loadJSON(RESUME_KEY, null);
+      if (place && place.world === world.id && Date.now() - place.at < 6 * 3600000 && place.gameIndex > 0 && place.gameIndex < world.games.length) {
+        this.session.gameIndex = place.gameIndex;
+        this.session.starTotal = place.starTotal || 0;
+        this.session.resumed = true;
+        return this.startGame();
+      }
       if (world.meet.length) this.renderMeet();
       else this.startGame();
+    }
+
+    // How far into a chapter a child got before leaving (0 when not resumable).
+    partwayOf(world) {
+      const place = this.loadJSON(RESUME_KEY, null);
+      if (!place || place.world !== world?.id || Date.now() - place.at >= 6 * 3600000) return 0;
+      const n = world.games?.length || 0;
+      return n && place.gameIndex > 0 && place.gameIndex < n ? place.gameIndex / n : 0;
+    }
+
+    rememberPlace(s, step = 0) {
+      if (!s?.world || s.checkup || s.daily || s.plan || s.chapterBonus) return;
+      try { this.saveJSON(RESUME_KEY, { world: s.world.id, gameIndex: (s.gameIndex || 0) + step, starTotal: s.starTotal || 0, at: Date.now() }); } catch {}
     }
 
     // Make-it-happen intros (locked 2026-07-18): the child CAUSES every
@@ -2677,8 +3754,12 @@
         el.querySelector(".meet-hear").hidden = false;
         el.querySelector(".meet-next").hidden = false;
         sayWithMe();
-        // Letter Friends (v26): after the letter speaks, its friend arrives —
-        // wearing the letter as its body — calls once and says its name.
+        friendArrives(2300);
+      };
+      // Letter Friends (v26): after the letter speaks, its friend arrives —
+      // wearing the letter as its body — calls once and says its name.
+      // v57: on a replayed chapter (no reveal step) the friend still comes.
+      const friendArrives = (delay) => {
         const F = ns.LetterFriends, char = card.display;
         if (F?.FRIENDS?.[char] && typeof el.querySelector(".meet-display")?.insertAdjacentHTML === "function") setTimeout(() => {
           if (!el.isConnected || el.querySelector(".meet-friend")) return;
@@ -2687,8 +3768,9 @@
           const greet = () => { if (!el.isConnected) return; grow(); setTimeout(() => { if (!el.isConnected) return; this.sound.play(F.get(char).call); setTimeout(() => el.isConnected && this.say(F.item(char)), 520); }, 380); };
           btn.addEventListener("click", greet);
           setTimeout(greet, 260);
-        }, 2300);
+        }, delay);
       };
+      if (isReplay) friendArrives(1200);
       const companion = this.sceneRig(el.querySelector('.adventure-companion'));
       cardEl.addEventListener("click", () => companion?.inspect(cardEl, 1200));
       el.querySelector('.meet-hear')?.addEventListener('click', () => companion?.inspect(cardEl, 1200));
@@ -2811,7 +3893,9 @@
 
     renderMissingItems() {
       const session=this.session;
-      const el=this.screen('lg-loading',`${this.topBar()}<div class="loading-flower">${Art.icon('flower',80)}</div><button type="button" class="lg-big-btn retry-words" aria-label="Try loading the letters again">${Art.icon('replay',36)}</button>`);
+      // v91: the pet waits with the child while the letters come back — a lone
+      // flower and a retry button was the coldest screen in the game.
+      const el=this.screen('lg-loading',`${this.topBar()}<div class="loading-wait">${this.petSVG?.(108)||''}<div class="loading-flower">${(Art.artIcon||Art.icon)('flower',80)}</div></div><button type="button" class="lg-big-btn retry-words" aria-label="Try loading the letters again">${Art.icon('replay',36)}</button>`);
       this.wireTopBar(el);
       const retry=el.querySelector('.retry-words');
       retry.onclick=async()=>{
@@ -3034,7 +4118,9 @@
         // Existing word/sequence speech has not been qualified for independent
         // decoding; those activities retain a visible model and explicit help.
         allowRecall: s.world.kind === 'letters' || s.daily || s.checkup,
-        rounds: planStep?.rounds || 4,
+        // Little Sprout: a two-year-old's attention is short, so every chapter
+        // game ends a round sooner and they leave on a win, not on fatigue.
+        rounds: this.sprout ? Math.min(3, planStep?.rounds || 4) : planStep?.rounds || 4,
         hue: s.world.hue,
         level: 0,
         beginner: firstAttempt || gameName === 'pairs' && gameItems.some(item => (ns.LettersStrength?.skillProfile?.(item.id,'matching-memory')?.matching?.r || 0) < 3),
@@ -3072,7 +4158,9 @@
             text.textContent=display;svg.append(text);container.append(svg);
           };
           putGlyph(before,selected.display);putGlyph(after,target.display);
-          arrow.innerHTML=Art.icon('next',24);arrow.setAttribute('aria-hidden','true');
+          // v67: a magnifying glass, not an arrow — "let's look closely at these
+          // two", a spot-the-difference, never "yours → the right one".
+          arrow.className='learning-look';arrow.innerHTML=LOOK_GLASS;arrow.setAttribute('aria-hidden','true');
           hint.append(before,arrow,after);
           hint.setAttribute('aria-label',`Compare ${selected.display} with ${target.display}: ${feature}`);
         },
@@ -3144,7 +4232,11 @@
         },
         onDone: (slips) => { if (el.isConnected) this.finishGame(slips); },
       };
-      this.game = new ns.LettersMiniGames[gameName](ctx);
+      // v58: a game that fails to build never strands a child on a half-made
+      // screen — the chapter simply carries on, as if it had been played.
+      try { this.game = new ns.LettersMiniGames[gameName](ctx); }
+      catch (error) { console.error("Letter Garden: game failed to start", gameName, error); this.game = null; return ctx.onDone(0); }
+      this.rescue = { stage, go: () => ctx.onDone(0) };
       this.unmountActivityArt=ns.LettersActivityArt?.mount(stage,gameName);
     }
 
@@ -3153,6 +4245,8 @@
       const stars = slips === 0 ? 3 : slips <= 2 ? 2 : 1;
       s.starTotal += stars;
       s.lastStars = stars;
+      this.rememberPlace?.(s, 1);
+      s.bestStars = Math.max(s.bestStars || 0, stars);
       // Stars are the spending currency for stickers and pet gear. Pay for
       // PROGRESS, not repetition (2026-07-25): the wallet used to be credited on
       // every finish while replay only rolled back session bookkeeping, so
@@ -3174,7 +4268,8 @@
       // Check-up rounds grade a skill: the LATEST score is the petal size —
       // it's a health check, not a high-score board.
       if (s.checkup && s.plan && s.plan[s.gameIndex] && s.plan[s.gameIndex].skill) {
-        this.skills[s.plan[s.gameIndex].skill] = { score: stars, at: todayStr() };
+        const was = this.skills[s.plan[s.gameIndex].skill];
+        this.skills[s.plan[s.gameIndex].skill] = { score: stars, best: Math.max(stars, was?.best || 0, was?.score || 0), at: todayStr() };
         this.saveJSON("quran-trainer:letters:skills", this.skills);
       }
       this.renderStars(stars);
@@ -3198,7 +4293,7 @@
       const saved=this.loadJSON(WALK_KEY,null);
       if(saved&&saved.date===today&&saved.known===known.length&&Array.isArray(saved.stops)&&saved.stops.length)return saved;
       const plan=ns.gardenBrain.planWalk({known,sprout:!!this.sprout,marks:this.taughtMarks(),date:today,
-        profile:ns.LettersState?.activeProfile?.()||'p1',huntable:known.length>=3});
+        profile:ns.LettersState?.activeProfile?.()||'p1',huntable:known.length>=3,reader:this.shelfWords().length>=3});
       if(!plan)return null;
       const walk={date:today,known:known.length,stops:plan.stops,done:[],stamped:false};
       this.saveJSON(WALK_KEY,walk);
@@ -3207,7 +4302,7 @@
 
     renderWalk() {
       const walk=this.todaysWalk();
-      if(!walk)return this.renderHome();
+      if(!walk)return this.renderVillage();
       this.session=null;
       const n=walk.stops.length, finished=walk.done.length>=n;
       const next=walk.stops.findIndex((_,i)=>!walk.done.includes(i));
@@ -3222,10 +4317,10 @@
       const petAt=finished?nap:pos(next<0?0:next);
       const el=this.screen('lg-walk',`${this.topBar()}<div class="walk-stage">
         <div class="walk-trail${upright?' is-upright':''}">
-          <svg class="walk-path" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="${d}" fill="none" stroke="#e5dcc8" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" data-ribbon/><path d="${d}" fill="none" stroke="#c9bda4" stroke-width="3" stroke-dasharray="2 14" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>
+          <svg class="walk-path" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="${d}" fill="none" stroke="#c9bda4" stroke-width="30" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/><path d="${d}" fill="none" stroke="#e5dcc8" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke" data-ribbon/><path d="${d}" fill="none" stroke="#c9bda4" stroke-width="5" stroke-dasharray="0 26" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>
           ${walk.stops.map((stop,i)=>{const p=pos(i),done=walk.done.includes(i);
             return `<button type="button" class="walk-stone${done?' is-done':''}${i===next?' is-next':''}" data-stop="${i}" style="left:${p.x}%;top:${p.y}%" aria-label="Walk stop ${i+1} of ${n}${done?', done':i===next?', next':''}">${stop.kind==='LetterDelivery'?ns.LetterDelivery.icon(90):ns.LettersGardenArt.practicePicture(stop.kind,{petArt:stop.kind==='Feed'?this.petSVG(100):''})}${done?`<span class="walk-check">${Art.icon('check',20)}</span>`:''}</button>`;}).join('')}
-          <span class="walk-end" style="left:${nap.x}%;top:${nap.y}%" aria-hidden="true">${ns.LettersRoomArt?.cushion?.()||`<svg viewBox="0 0 80 40"><ellipse cx="40" cy="26" rx="36" ry="12" fill="#ffa798" stroke="#4a3620" stroke-width="3"/><ellipse cx="40" cy="22" rx="24" ry="6" fill="#ee806f"/></svg>`}</span>
+          <span class="walk-end" style="left:${nap.x}%;top:${nap.y}%" aria-hidden="true">${NAP_BED}</span>
           <span class="walk-pet${finished?' walk-nap':''}" style="left:${petAt.x}%;top:${petAt.y}%">${this.petSVG(finished?70:64,finished?'sleepy':undefined)}${finished?'<span class="walk-zz" aria-hidden="true">z z</span>':''}</span>
         </div>
       </div>`);
@@ -3293,6 +4388,19 @@
     }
 
     // The Puzzle Tree (v31): four thinking games from Big Brain Academy.
+    // The Costume House (v62, owner-approved positional-forms land).
+    renderCostumeHouse() {
+      const kinds=[['Disguise','Friend in disguise: find the friend inside the word'],['CostumeRail','Costume rail: which shape fits the gap?'],['ShapeTrain','Shape train: start, middle and end shapes']];
+      const tried=(()=>{try{const t=this.loadJSON(TRIED_KEY,[]);return Array.isArray(t)?t:[];}catch{return [];}})();let twinkles=0;
+      const fresh=kind=>!tried.includes(kind)&&twinkles<3&&++twinkles>0;
+      const el=this.screen('lg-meet lg-costume-house',`${this.topBar()}<div class="practice-garden-hub"><div class="practice-garden-choices">${kinds.map(([kind,label])=>`<button type="button" data-kind="${kind}" aria-label="${label}">${ns.LettersGardenArt.practicePicture(kind)}<span class="practice-play" aria-hidden="true">${Art.icon('next',24)}</span>${fresh(kind)?'<span class="pg-new" aria-hidden="true"></span>':''}</button>`).join('')}</div></div>`);
+      this.wireTopBar(el,()=>this.renderPracticeGarden());
+      el.querySelectorAll('[data-kind]').forEach(b=>b.onclick=()=>{
+        this.session={world:this.worlds.worlds.find(w=>w.id==='pack-boat'),items:this.petKnowledge().map(l=>({id:l.char,display:l.char,speak:l.arName}))};
+        this.startPractice(b.dataset.kind,()=>this.renderCostumeHouse());
+      });
+    }
+
     renderPuzzleTree() {
       const n=this.petKnowledge().length;
       const P=ns.PuzzleGames, known=this.petKnowledge().map(l=>l.char);
@@ -3305,7 +4413,10 @@
         ['BuildLetter',2,'Build the letter: a body and its dots'],['FillGap',2,'Fill the gap: which letter starts the word?']]
         .filter(([kind,min])=>n>=min&&(kind!=='DotsLast'||known.some(c=>P?.siblings(c,known).length&&P.dotsOf(c).length)));
       if(!kinds.length)return this.renderPracticeGarden();
-      const el=this.screen('lg-meet lg-puzzle-tree',`${this.topBar()}<div class="practice-garden-hub"><div class="practice-garden-choices">${kinds.map(([kind,,label])=>`<button type="button" data-kind="${kind}" aria-label="${label}">${ns.LettersGardenArt.practicePicture(kind)}<span class="practice-play" aria-hidden="true">${Art.icon('next',24)}</span></button>`).join('')}</div></div>`);
+      // v58: like the practice garden, up to three never-tried puzzles twinkle (and the idle hand prefers them).
+      const tried=(()=>{try{const t=this.loadJSON(TRIED_KEY,[]);return Array.isArray(t)?t:[];}catch{return [];}})();let twinkles=0;
+      const fresh=kind=>!tried.includes(kind)&&twinkles<3&&++twinkles>0;
+      const el=this.screen('lg-meet lg-puzzle-tree',`${this.topBar()}<div class="practice-garden-hub"><div class="practice-garden-choices">${kinds.map(([kind,,label])=>`<button type="button" data-kind="${kind}" aria-label="${label}">${ns.LettersGardenArt.practicePicture(kind)}<span class="practice-play" aria-hidden="true">${Art.icon('next',24)}</span>${fresh(kind)?'<span class="pg-new" aria-hidden="true"></span>':''}</button>`).join('')}</div></div>`);
       this.wireTopBar(el,()=>this.renderPracticeGarden());
       el.querySelectorAll('[data-kind]').forEach(b=>b.onclick=()=>{
         this.session={world:this.worlds.worlds.find(w=>w.id==='pack-boat'),items:this.knownItems()};
@@ -3320,7 +4431,10 @@
       const kinds=[['FriendBook',1,'The Letter Friends book'],['FriendFind',2,'Find my friend'],['PeekFlaps',2,'Peekaboo flaps'],['SoundSort',2,'Sort the pictures'],
         ['FriendShapes',2,'Friend shapes'],['HoopoeTrip',2,"The hoopoe's trip"],['BusyMarket',1,'Busy market'],['LivingBooks',0,'Living books: picture books that read with you']].filter(([,min])=>n>=min);
       if(!kinds.length)return this.renderPracticeGarden();
-      const el=this.screen('lg-meet lg-book-corner',`${this.topBar()}<div class="practice-garden-hub"><div class="practice-garden-choices">${kinds.map(([kind,,label])=>`<button type="button" data-kind="${kind}" aria-label="${label}">${ns.LettersGardenArt.practicePicture(kind)}<span class="practice-play" aria-hidden="true">${Art.icon('next',24)}</span></button>`).join('')}</div></div>`);
+      // v58: untried books twinkle too, at most three (a read Living Book is logged as 'LivingBook').
+      const tried=(()=>{try{const t=this.loadJSON(TRIED_KEY,[]);return Array.isArray(t)?t:[];}catch{return [];}})();let twinkles=0;
+      const fresh=kind=>!tried.includes(kind)&&!tried.includes(kind.replace(/s$/,''))&&twinkles<3&&++twinkles>0;
+      const el=this.screen('lg-meet lg-book-corner',`${this.topBar()}<div class="practice-garden-hub"><div class="practice-garden-choices">${kinds.map(([kind,,label])=>`<button type="button" data-kind="${kind}" aria-label="${label}">${ns.LettersGardenArt.practicePicture(kind)}<span class="practice-play" aria-hidden="true">${Art.icon('next',24)}</span>${fresh(kind)?'<span class="pg-new" aria-hidden="true"></span>':''}</button>`).join('')}</div></div>`);
       this.wireTopBar(el,()=>this.renderPracticeGarden());
       el.querySelectorAll('[data-kind]').forEach(b=>b.onclick=()=>{
         if(b.dataset.kind==='LivingBooks')return this.renderBookShelf();
@@ -3336,12 +4450,25 @@
       this.session={world,items:familiar.length?familiar:world.items()};
       // The Sand Table (v28) sits beside the other writing toys.
       const choices=['Feed','DotGarden','GardenPaths','SandTable','WaterGarden'];
+      // Ears First (v61): listening games need no letters at all.
+      if(ns.EarsGames)choices.push('BeatDrum','SameStart',...(this.sprout?[]:['OddSound']));
       // Letter Balloons (v24): free play for the youngest — first for a little sprout.
       if(this.sprout)choices.unshift('LetterBalloons');else choices.push('LetterBalloons');
       // Letter Friends (v26): find a friend, and read the friends' book.
       // Letter Friends (v26) and the picture-book games (v27) live together in
       // the Book Corner; it sits second, right after feeding a friend.
       if(this.petKnowledge().length)choices.splice(1,0,'BookCorner');
+      // Word-stage games (v36–v37) once there are decodable Quran words.
+      if(this.shelfWords().length>=3)choices.push('ListenFind','WordGap');
+      if((this.progress.done||[]).includes('shaddah'))choices.push('TwinCrown');
+      // The Costume House (v62): letters' start, middle and end shapes, once the joining chapter is done.
+      if(ns.CostumeHouse&&(this.progress.done||[]).includes('join-1')&&this.petKnowledge().length>=3)choices.push('CostumeHouse');
+      // The Toy Box (v42–v47): pairs, nests, jigsaw, bath, fishing, colouring.
+      if(this.petKnowledge().length>=2)choices.push('LetterFishing','BathTime','FriendPairs','FriendJigsaw','ColourFriend');
+      if(new Set(this.petKnowledge().map(l=>(ns.ToyBoxGames?.dotsOf?.(l.char)||[]).length)).size>=2)choices.push('DotNests');
+      // Looking games (v51–v52): spot the change; family buses once a family has two members.
+      if(this.petKnowledge().length>=3)choices.push('SpotChange');
+      if((ns.LookGames?.families?.(this.petKnowledge().map(l=>l.char))||[]).some(f=>f.length>1))choices.push('FamilyBuses');
       // The Puzzle Tree (v31): Big Brain Academy-style thinking games.
       if(this.petKnowledge().length>=2)choices.splice(2,0,'PuzzleTree');
       if(this.petKnowledge().length>=3)choices.push('LetterHunt');
@@ -3357,26 +4484,38 @@
       // look-alike tiles. Now they sit in five wordless, colour-coded groups —
       // play with friends, books, puzzles, writing, explore — each with a
       // picture chip, so a child can find "the writing ones" by colour.
-      const groups=[['play',['LetterBalloons','Feed','LetterDelivery','GardenTogether']],['read',['BookCorner']],['think',['PuzzleTree','Burst']],
-        ['write',['SandTable','GardenPaths','DotGarden']],['explore',['HatShop','WaterGarden','LetterHunt','SoundLab','LetterStudio','Workshop']]]
+      // Encouragement pass (v57): too many choices overwhelm a 2–3-year-old.
+      // A little sprout's garden keeps only the simplest, most physical toys.
+      const SPROUT_TOYS=['LetterBalloons','Feed','BathTime','LetterFishing','FriendPairs','ColourFriend','SandTable','BookCorner','BeatDrum']; // v61: the beat drum (no letters needed) takes Letter Delivery's place — still nine, still one screen
+      if(this.sprout)for(let i=choices.length-1;i>=0;i--)if(!SPROUT_TOYS.includes(choices[i]))choices.splice(i,1);
+      const groups=[['play',['LetterBalloons','Feed','LetterFishing','BathTime','LetterDelivery','GardenTogether']],['listen',['BeatDrum','SameStart','OddSound']],['read',['BookCorner','CostumeHouse','ListenFind','WordGap']],['think',['PuzzleTree','FriendPairs','DotNests','FamilyBuses','SpotChange','FriendJigsaw','Burst']],
+        ['write',['SandTable','ColourFriend','GardenPaths','DotGarden']],['explore',['HatShop','TwinCrown','WaterGarden','LetterHunt','SoundLab','LetterStudio','Workshop']]]
         .map(([g,kinds])=>[g,kinds.filter(k=>choices.includes(k))]).filter(([,kinds])=>kinds.length);
       if(this.sprout)groups.sort((a,b)=>(b[1].includes('LetterBalloons'))-(a[1].includes('LetterBalloons')));
-      const tileOf=kind=>`<button type="button" data-kind="${kind}" aria-label="${({Feed:'Feed a friend',DotGarden:'Dot Garden: place the dots',GardenPaths:'Garden Paths: draw letters',WaterGarden:'Water Garden: open the letter gates',LetterDelivery:'Letter Delivery: familiar letters',Workshop:'Word Workshop: build familiar sounds',Burst:'Optional timed letter challenge',LetterHunt:'Letter Hunt: find the letter in the picture',SoundLab:'Sound Lab: join a letter and a mark',LetterStudio:'Letter Studio: make a picture',GardenTogether:'Garden Together: play with a brother or sister',LetterBalloons:'Letter Balloons: pop and hear the letters',FriendFind:'Find my friend',FriendBook:'The Letter Friends book',BookCorner:'The Book Corner: picture-book games',SandTable:'The Sand Table: write in the sand',PuzzleTree:'The Puzzle Tree: thinking games',HatShop:'The hat shop: dress a friend in its vowel'})[kind]}">${kind==='LetterDelivery'?ns.LetterDelivery.icon(120):ns.LettersGardenArt.practicePicture(kind,{petArt:kind==='Feed'?this.petSVG(100):''})}<span class="practice-play" aria-hidden="true">${Art.icon('next',24)}</span></button>`;
-      const el=this.screen('lg-meet lg-practice-garden',`${this.topBar()}<div class="practice-garden-hub">${groups.map(([g,kinds])=>`<section class="pg-group" data-group="${g}"><span class="pg-chip" aria-hidden="true">${PG_CHIPS[g]}</span><div class="practice-garden-choices">${kinds.map(tileOf).join('')}</div></section>`).join('')}</div>`);
+      // Never-tried toys twinkle (hubs like the Book Corner don't).
+      const triedList=(()=>{try{const t=this.loadJSON(TRIED_KEY,[]);return Array.isArray(t)?t:[];}catch{return [];}})();
+      // At most three twinkle at a time, so it invites rather than shouts;
+      // as each is tried, the next one starts to twinkle.
+      let twinkles=0;
+      const untried=kind=>{if(twinkles>=3||['BookCorner','PuzzleTree','CostumeHouse','Workshop','GardenTogether','Burst'].includes(kind)||triedList.includes(kind))return false;twinkles+=1;return true;};
+      const tileOf=kind=>`<button type="button" data-kind="${kind}" aria-label="${({CostumeHouse:'The costume house: letters change shape in words',BeatDrum:'Beat drum: tap a beat for each part of the word',SameStart:'Same start: which picture begins with the same sound?',OddSound:'Odd sound out: which picture begins differently?',Feed:'Feed a friend',DotGarden:'Dot Garden: place the dots',GardenPaths:'Garden Paths: draw letters',WaterGarden:'Water Garden: open the letter gates',LetterDelivery:'Letter Delivery: familiar letters',Workshop:'Word Workshop: build familiar sounds',Burst:'Optional timed letter challenge',LetterHunt:'Letter Hunt: find the letter in the picture',SoundLab:'Sound Lab: join a letter and a mark',LetterStudio:'Letter Studio: make a picture',GardenTogether:'Garden Together: play with a brother or sister',LetterBalloons:'Letter Balloons: pop and hear the letters',FriendFind:'Find my friend',FriendBook:'The Letter Friends book',BookCorner:'The Book Corner: picture-book games',SandTable:'The Sand Table: write in the sand',PuzzleTree:'The Puzzle Tree: thinking games',HatShop:'The hat shop: dress a friend in its vowel',ListenFind:'Listen and find the Quran word',WordGap:'Fill the gap in a Quran word',TwinCrown:'Twin crown: is the letter said twice?',FriendPairs:'Friend pairs: match each friend to its letter',DotNests:'Dot nests: count the dots',FriendJigsaw:'Friend jigsaw',BathTime:'Bath time: scrub the muddy friend',LetterFishing:'Letter fishing: catch the letter you hear',ColourFriend:'Colour a friend',SpotChange:'Spot the change',FamilyBuses:'Family buses: same shape, different dots'})[kind]}">${kind==='LetterDelivery'?ns.LetterDelivery.icon(120):ns.LettersGardenArt.practicePicture(kind,{petArt:kind==='Feed'?this.petSVG(100):''})}<span class="practice-play" aria-hidden="true">${Art.icon('next',24)}</span>${untried(kind)?'<span class="pg-new" aria-hidden="true"></span>':''}</button>`;
+      const el=this.screen(`lg-meet lg-practice-garden${this.sprout?' is-sprout':''}`,`${this.topBar()}<div class="practice-garden-hub">${groups.map(([g,kinds])=>`<section class="pg-group" data-group="${g}"><span class="pg-chip" aria-hidden="true">${PG_CHIPS[g]}</span><div class="practice-garden-choices">${kinds.map(tileOf).join('')}</div></section>`).join('')}</div>`);
       this.wireTopBar(el);
-      el.querySelectorAll('[data-kind]').forEach(b=>b.onclick=()=>b.dataset.kind==='Burst'?this.startDaily(true):b.dataset.kind==='Workshop'?this.renderWorkshop():b.dataset.kind==='GardenTogether'?this.startTogether():b.dataset.kind==='BookCorner'?this.renderBookCorner():b.dataset.kind==='PuzzleTree'?this.renderPuzzleTree():this.startPractice(b.dataset.kind,()=>this.renderPracticeGarden()));
+      el.querySelectorAll('[data-kind]').forEach(b=>b.onclick=()=>b.dataset.kind==='Burst'?this.startDaily(true):b.dataset.kind==='Workshop'?this.renderWorkshop():b.dataset.kind==='GardenTogether'?this.startTogether():b.dataset.kind==='CostumeHouse'?this.renderCostumeHouse():b.dataset.kind==='BookCorner'?this.renderBookCorner():b.dataset.kind==='PuzzleTree'?this.renderPuzzleTree():this.startPractice(b.dataset.kind,()=>this.renderPracticeGarden()));
     }
 
     renderDecoratingGarden() {
       this.session=null;
       const el=this.screen('lg-my-garden',`${this.topBar()}<div class="my-garden-stage"></div>`);
       this.wireTopBar(el);
+      // The garden grows with the pet: 4 spaces, 6 at stage 2, 8 at stage 3.
+      ns.LettersDecorations.setSize?.(2 + this.petStage() * 2);
       this.game=new ns.DecoratingGarden({
         stage:el.querySelector('.my-garden-stage'),layout:this.gardenLayout,
-        catalog:ns.LettersDecorations.catalog(this),petArt:()=>this.petSVG(112,'proud'),petRig:host=>this.sceneRig(host),
+        catalog:ns.LettersDecorations.catalog({progress:this.progress,bests:this.bests,stickers:this.stickers,savedDrawings:this.savedDrawings,pet:this.pet,eggShell:()=>this.eggShell(),findsOwned:this.findsState().owned}),petArt:()=>this.petSVG(112,'proud'),petRig:host=>this.sceneRig(host),
         reducedMotion:()=>this.prefersReducedMotion(),play:name=>this.sound.play(name),
         onChange:layout=>{if(!el.isConnected)return;this.gardenLayout=layout;this.saveJSON('quran-trainer:letters:garden-layout',layout);},
-        onDone:()=>{if(el.isConnected)this.renderHome();}
+        onDone:()=>{if(el.isConnected)this.renderVillage();}
       });
       this.addGardenVisitors(el);
       if(this.petKnowledge().length){
@@ -3402,7 +4541,7 @@
       const el=this.screen('lg-meet',`${this.topBar()}<div class="workshop-picker">
         <div class="workshop-sign" aria-hidden="true">${ns.LettersGardenArt.practicePicture('Workshop')}</div>
         <div class="workshop-chapters">${entries.map(({world},i)=>`<button type="button" data-workshop="${i}" aria-label="Practice building ${/[؀-ۿ]/.test(world.icon)?world.icon:'familiar words'}">
-          <svg viewBox="0 0 140 110" aria-hidden="true"><rect x="8" y="10" width="124" height="86" rx="20" fill="#c9bda4" stroke="#a89478" stroke-width="3"/><rect x="15" y="16" width="110" height="70" rx="15" fill="#fffaf0"/>${/[؀-ۿ]/.test(world.icon)?`<text x="70" y="50" text-anchor="middle" font-family="Amiri Quran, serif" font-size="40" fill="#4a3620" data-fit-box="70,50,84,46,42">${world.icon}</text>`:`<g transform="translate(43 24)">${Art.icon('book',54)}</g>`}</svg>
+          <svg viewBox="0 0 140 110" aria-hidden="true"><rect x="8" y="10" width="124" height="86" rx="20" fill="#c9bda4" stroke="#a89478" stroke-width="3"/><rect x="15" y="16" width="110" height="70" rx="15" fill="#fffaf0"/>${/[؀-ۿ]/.test(world.icon)?`<text x="70" y="50" text-anchor="middle" font-family="Amiri Quran, serif" font-size="40" fill="#4a3620" data-fit-box="70,50,84,46,42">${world.icon}</text>`:`<g transform="translate(43 22)">${(Art.artIcon||Art.icon)(world.icon==='art:books'?'star':'book',54)}</g>`}</svg>
           <span class="practice-play" aria-hidden="true">${Art.icon('next',24)}</span></button>`).join('')}</div></div>`);
       this.wireTopBar(el,()=>this.renderPracticeGarden());
       el.querySelectorAll('[data-workshop]').forEach(button=>button.onclick=()=>{
@@ -3419,12 +4558,15 @@
       el.querySelectorAll('[data-practice]').forEach(b=>b.onclick=()=>this.startPractice(b.dataset.practice,back));
     }
     startPractice(kind,back,onDone) {
-      if(!['Feed','Workshop','DotGarden','GardenPaths','WaterGarden','LetterDelivery','LetterHunt','SoundLab','LetterStudio','GardenTogether','LetterBalloons','FriendFind','FriendBook','PeekFlaps','SoundSort','HoopoeTrip','FriendShapes','BusyMarket','SandTable','LivingBook','EchoParade','DotsLast','LetterTrain','SameLetter','LanternHunt','LetterShadows','HatShop','BuildLetter','FillGap'].includes(kind))return back?.();
+      // Encouragement pass (v57): remember which toys a child has tried, so the
+      // ones they haven't can twinkle invitingly in the practice garden.
+      try{const tried=this.loadJSON(TRIED_KEY,[]);if(Array.isArray(tried)&&!tried.includes(kind)){tried.push(kind);this.saveJSON(TRIED_KEY,tried.slice(-80));}}catch{}
+      if(!['Feed','Workshop','DotGarden','GardenPaths','WaterGarden','LetterDelivery','LetterHunt','SoundLab','LetterStudio','GardenTogether','LetterBalloons','FriendFind','FriendBook','PeekFlaps','SoundSort','HoopoeTrip','FriendShapes','BusyMarket','SandTable','LivingBook','EchoParade','DotsLast','LetterTrain','SameLetter','LanternHunt','LetterShadows','HatShop','BuildLetter','FillGap','TwinCrown','ListenFind','WordGap',...(ns.ToyBoxGames?.KINDS||[]),...(ns.LookGames?.KINDS||[]),...(ns.EarsGames?.KINDS||[]),...(ns.CostumeHouse?.KINDS||[]),...(ns.WordTree?.KINDS||[])].includes(kind))return back?.();
       if(kind==='LetterDelivery'){const items=this.petKnowledge().map(letter=>({id:letter.char,display:letter.char,speak:letter.arName}));if(!items.length)return back?.();this.session={world:this.worlds.worlds.find(w=>w.id==='pack-boat'),items};}
       const s=this.session;
       if(!s?.world || !(s.items||s.world.items()).length)return back?.();
       const el=this.screen('lg-play',`${this.topBar()}<div class="practice-heading">${kind==='Feed'?'':this.petSVG(76)}<button class="practice-replay" type="button" aria-label="Hear the letter again"></button></div><div class="practice-stage"></div>`);
-      el.dataset.activity=kind==='Feed'?'feed':kind==='Workshop'?'build':kind==='LetterDelivery'?'delivery':kind==='DotGarden'?'dots':kind==='WaterGarden'?'water':kind==='LetterHunt'?'hunt':kind==='SoundLab'?'lab':kind==='LetterStudio'?'studio':kind==='GardenTogether'?'together':kind==='LetterBalloons'?'balloons':kind==='FriendFind'?'friend':kind==='FriendBook'?'friend-book':ns.BookGames?.KINDS?.includes(kind)?`book-${kind.toLowerCase()}`:kind==='SandTable'?'sand':kind==='LivingBook'?'living-book':ns.PuzzleGames?.KINDS?.includes(kind)||ns.ShadowGames?.KINDS?.includes(kind)||ns.WorkshopGames?.KINDS?.includes(kind)?`puzzle-${kind.toLowerCase()}`:kind==='HatShop'?'hats':'practice';
+      el.dataset.activity=kind==='Feed'?'feed':kind==='Workshop'?'build':kind==='LetterDelivery'?'delivery':kind==='DotGarden'?'dots':kind==='WaterGarden'?'water':kind==='LetterHunt'?'hunt':kind==='SoundLab'?'lab':kind==='LetterStudio'?'studio':kind==='GardenTogether'?'together':kind==='LetterBalloons'?'balloons':kind==='FriendFind'?'friend':kind==='FriendBook'?'friend-book':ns.BookGames?.KINDS?.includes(kind)?`book-${kind.toLowerCase()}`:kind==='SandTable'?'sand':kind==='LivingBook'?'living-book':ns.PuzzleGames?.KINDS?.includes(kind)||ns.ShadowGames?.KINDS?.includes(kind)||ns.WorkshopGames?.KINDS?.includes(kind)?`puzzle-${kind.toLowerCase()}`:kind==='HatShop'?'hats':ns.WordGames?.KINDS?.includes(kind)?`word-${kind.toLowerCase()}`:ns.ToyBoxGames?.KINDS?.includes(kind)||ns.LookGames?.KINDS?.includes(kind)?`toy-${kind.toLowerCase()}`:'practice';
       if(kind==='LetterDelivery'||kind==='GardenTogether'||kind==='FriendBook'||kind==='LivingBook')el.querySelector('.practice-heading').hidden=true;
       if(kind==='Feed'||kind==='Workshop')el.querySelector('.practice-stage').classList.add('play-stage');
       this.wireTopBar(el,back);
@@ -3434,7 +4576,7 @@
         ? new ns.LettersLearning.LearningSession(ns.LettersStrength)
         : null;
       let friend=null;
-      const ctx={stage:el.querySelector('.practice-stage'),items:s.items||s.world.items(),
+      const ctx={...(kind==='LeafHome'?{families:this.treeFamilies(),branches:this.treeState().branches}:{}),stage:el.querySelector('.practice-stage'),items:s.items||s.world.items(),
         activity:kind,worldId:s.world.id,completedWorldIds:this.progress?.done || [],
         reducedMotion:()=>this.prefersReducedMotion(),petArt:()=>this.petSVG(140,'open'),
         petHue:this.pet?.hue ?? 200,
@@ -3448,21 +4590,26 @@
         reportOutcome:outcome=>{if(kind!=='Feed'&&kind!=='Burst')friend?.react?.(outcome);return learning?.report(outcome);},
         pet:{watch:t=>friend?.watch(t),reach:t=>friend?.reach(t),settle:()=>friend?.settle(),cheer:n=>friend?.cheer(n),
           inspect:(t,ms,n)=>friend?.inspect(t,ms,n),ponder:n=>friend?.ponder(n),wave:n=>friend?.wave(n)},
+        // A right answer is felt as well as heard: play('correct') carries the
+        // double tick (Android buzz, iPhone switch tick) since v55.
         correct:()=>this.sound.play('correct'),
         sfx:name=>this.sound.play(name),
         // Letter Hunt draws the child's newest land; its finds burst in petals.
         land:kind==='LetterHunt'||kind==='LetterStudio'?([...this.worlds.worlds].reverse().find(w=>this.statusOf(w)!=='locked')?.biome || 'meadow'):undefined,
         confettiAt:target=>this.confettiAt(target),
         marks:kind==='SoundLab'||kind==='HatShop'||kind==='SandTable'?this.taughtMarks():undefined,
+        // Word-stage games (v36–v37) draw on the decodable Quran word shelf.
+        words:ns.WordGames?.KINDS?.includes(kind)?this.shelfWords():undefined,
         petA:kind==='GardenTogether'?this.petSVG(96):undefined,
         starter:kind==='LetterBalloons'?(ns.LETTERS_DATA?.packs?.[0]?.letters||[]).map(l=>({id:l.char,display:l.char,speak:l.arName})):undefined,
         petB:kind==='GardenTogether'&&this.partnerPet?Art.pet({hue:this.partnerPet.hue??200,species:this.partnerPet.species||'blob',stage:1,worn:this.partnerPet.worn||[],size:96}):undefined,
         voice:k=>this.sound.voice?.(k===0?this.pet?.species:this.partnerPet?.species),
         stickers:kind==='LetterStudio'?(this.stickers?.owned||[]).filter(id=>VISITORS[id]):undefined,
         // Letter Studio pictures hang in the garden as signs (the drawings store).
+        // Colour a Friend (v47) hangs its pages in the garden the same way.
         saveDrawing:url=>{const kept={...(this.savedDrawings||{})};const n=1+Object.keys(kept).filter(k=>/^art\d$/.test(k)).length%3;delete kept[`art${n}`];kept[`art${n}`]=url;this.savedDrawings=Object.fromEntries(Object.entries(kept).slice(-8));this.saveJSON('quran-trainer:letters:drawings',this.savedDrawings);},
         // Letter Friends (v26): distractors and book pages come from every letter met.
-        known:kind==='FriendFind'||kind==='FriendBook'||kind==='LivingBook'||ns.BookGames?.KINDS?.includes(kind)||ns.PuzzleGames?.KINDS?.includes(kind)||ns.ShadowGames?.KINDS?.includes(kind)||ns.WorkshopGames?.KINDS?.includes(kind)||kind==='HatShop'?this.knownItems():undefined,
+        known:kind==='FriendFind'||kind==='FriendBook'||kind==='LivingBook'||ns.BookGames?.KINDS?.includes(kind)||ns.PuzzleGames?.KINDS?.includes(kind)||ns.ShadowGames?.KINDS?.includes(kind)||ns.WorkshopGames?.KINDS?.includes(kind)||ns.ToyBoxGames?.KINDS?.includes(kind)||ns.LookGames?.KINDS?.includes(kind)||kind==='HatShop'?this.knownItems():undefined,
         // Living Books (v29): which book, which words this child can decode,
         // and a read count so favourites come first on the shelf.
         bookId:kind==='LivingBook'?s.bookId:undefined,
@@ -3472,14 +4619,142 @@
         // showing the answer on the replay button.
         beginRound:(item,skill='friend')=>learning?.beginPrompt(item,{activity:kind,skill}),
         startAt:kind==='FriendBook'?(s.startAt||0):undefined,
-        beginner:kind==='FriendFind'||kind==='SandTable'||ns.BookGames?.KINDS?.includes(kind)||ns.PuzzleGames?.KINDS?.includes(kind)||ns.ShadowGames?.KINDS?.includes(kind)||ns.WorkshopGames?.KINDS?.includes(kind)||kind==='HatShop'?!!this.sprout:undefined,
-        done:()=>{if(el.isConnected)(onDone||back)();}};
-      if(kind==='Feed')this.game=new ns.LettersMiniGames.feed({...ctx,garden:true,beginner:true,level:0,rounds:4,hue:150,extraItems:[],petArt:()=>this.petSVG(180),setPrompt:ctx.prompt,sfx:name=>this.sound.play(name),confettiAt:target=>this.confettiAt(target),onDone:ctx.done});
+        beginner:kind==='FriendFind'||kind==='SandTable'||ns.BookGames?.KINDS?.includes(kind)||ns.PuzzleGames?.KINDS?.includes(kind)||ns.ShadowGames?.KINDS?.includes(kind)||ns.WorkshopGames?.KINDS?.includes(kind)||ns.ToyBoxGames?.KINDS?.includes(kind)||ns.LookGames?.KINDS?.includes(kind)||kind==='HatShop'?!!(this.sprout||this.easeUp):undefined,
+        // Encouragement pass (v57): finishing is a moment, not a cut back to
+        // the menu — a flower blooms in the garden ("you played, it grew")
+        // and the pet cheers, then the game moves on. Chapter stops go
+        // straight on to their own party.
+        done:()=>{if(!el.isConnected)return;const go=()=>{if(el.isConnected)(onDone||back)();};if(onDone&&this.session?.chapterBonus)return go();this.finishBloom(el,go,friend,this.payPractice(kind));}};
+      // v58: a toy that fails to build sends the child quietly back, never to a
+      // half-made screen with nothing to tap.
+      try{
+      if(kind==='Feed')this.game=new ns.LettersMiniGames.feed({...ctx,garden:true,beginner:true,level:0,rounds:this.sprout?3:4,hue:150,extraItems:[],petArt:()=>this.petSVG(180),setPrompt:ctx.prompt,sfx:name=>this.sound.play(name),confettiAt:target=>this.confettiAt(target),onDone:ctx.done});
       else if(kind==='Workshop')this.game=new ns.LettersMiniGames.build({...ctx,setPrompt:ctx.prompt,sfx:name=>this.sound.play(name),confettiAt:target=>this.confettiAt(target),onDone:ctx.done});
       else if(kind==='LetterDelivery')this.game=new ns.LetterDelivery(ctx);
       else this.game=new ns.GardenPractice[kind](ctx);
+      }catch(error){console.error('Letter Garden: toy failed to start',kind,error);this.game=null;return (onDone||back||(()=>this.renderPracticeGarden()))();}
+      this.rescue={stage:ctx.stage,go:()=>(onDone||back||(()=>this.renderPracticeGarden()))()};
       if(kind==='Workshop'||kind==='Feed')this.unmountActivityArt=ns.LettersActivityArt?.mount(ctx.stage,kind==='Feed'?'feed':'build');
+      // Quality pass (v40): seeing games with no spoken question hide the
+      // replay button rather than show one that does nothing.
+      if(this.game?.noReplay)replay.hidden=true;
+      // v51: a game may give its replay its own picture (Spot the Change: an eye).
+      if(this.game?.replayIcon){replay.innerHTML=this.game.replayIcon;replay.setAttribute('aria-label','Look again');}
+      // Big-screen pass (v53): on tablets and desktops the game grows into the stage.
+      this.fitStage(ctx.stage);
+      this.keepFocus(ctx.stage);
       if(kind!=='LetterDelivery')friend=this.petLife(kind==='Feed'?el.querySelector('.feed-creature'):el.querySelector('.practice-heading'),ctx.stage);
+    }
+
+    // 2026-10-13 (economy): practice used to pay nothing — and chapter stars
+    // run out after the first pass (~198 earnable against ~400 of stickers,
+    // outfits and friends) — so the repetition young children love stopped
+    // feeding the "want it, earn it, get it" loop. Now each toy pays one star
+    // the first time it is finished each day, up to five a day: practice is
+    // rewarded, farming one toy is not.
+    payPractice(kind){
+      try{
+        const today=todayStr(),k='quran-trainer:letters:practice-paid';
+        let log=this.loadJSON(k,null);
+        if(!log||log.day!==today)log={day:today,kinds:[]};
+        if(!Array.isArray(log.kinds)||log.kinds.includes(kind)||log.kinds.length>=5)return false;
+        log.kinds.push(kind);this.saveJSON(k,log);
+        return this.earnStars(1)!==false;
+      }catch{return false;}
+    }
+
+    finishBloom(el,go,friend,paid=false){
+      const stage=el.querySelector?.('.practice-stage');
+      if(!stage||typeof setTimeout!=='function'||typeof document==='undefined'||!stage.appendChild)return go();
+      let still=false;try{still=this.prefersReducedMotion();}catch{}
+      const bloom=document.createElement('div');
+      // Reduced motion still gets the flowers — standing, not growing.
+      bloom.className=still?'pg-bloom is-still':'pg-bloom';bloom.setAttribute('aria-hidden','true');
+      bloom.innerHTML=`<span class="pg-bloom-bed">${ns.LettersGardenArt.flowerBed({size:180,count:3,centered:true,terrain:false})}</span>${paid?`<span class="pg-bloom-star">${(Art.artIcon||Art.icon)('star',56)}</span>`:''}`;
+      if(paid)setTimeout(()=>{try{this.sound.play('star1');}catch{}},450);
+      stage.appendChild(bloom);
+      if(still){setTimeout(go,1400);return;}
+      friend?.cheer?.();
+      setTimeout(()=>{if(el.isConnected)this.confettiAt(bloom.firstElementChild,true);},350);
+      setTimeout(go,1700);
+    }
+
+    // Big-screen pass (v53): the newer games were sized for phones (pixel
+    // caps keep them neat there), so on a tablet or desktop they sat small in
+    // the middle. After each round renders, the game's natural size is
+    // measured and it is zoomed up — never down, at most 1.4× — as far as the
+    // stage allows. Zoom (not transform) so taps and layout scale together.
+    // Keyboard and switch access (v54): when a round re-renders, the button a
+    // keyboard or switch user was on disappears and focus falls back to the
+    // page. If they were using keys, focus lands on the new round's first
+    // choice instead, so nobody has to tab through the whole screen again.
+    keepFocus(stage){
+      if(typeof MutationObserver==='undefined'||typeof window.addEventListener!=='function')return;
+      let keys=false;
+      stage.addEventListener('keydown',()=>{keys=true;});
+      stage.addEventListener('pointerdown',()=>{keys=false;});
+      const watch=new MutationObserver(()=>{
+        if(!keys||!stage.isConnected){if(!stage.isConnected)watch.disconnect();return;}
+        const a=document.activeElement;
+        if(a&&a!==document.body&&a.isConnected)return;
+        const next=[...stage.querySelectorAll('button:not([disabled]):not([hidden]), [role="button"][tabindex="0"]')].find(b=>b.getClientRects().length);
+        next?.focus?.({preventScroll:true});
+      });
+      watch.observe(stage,{childList:true,subtree:true});
+    }
+
+    fitStage(stage){
+      if(typeof MutationObserver==='undefined'||typeof window.addEventListener!=='function')return;
+      const ROOTS='.tb,.pz,.bk,.sh,.vh,.ws,.wd,.ff';
+      let pending=0;
+      const fit=()=>{
+        pending=0;
+        const root=stage.firstElementChild;
+        if(!stage.isConnected||!root?.matches?.(ROOTS))return;
+        if(window.innerWidth<700||window.innerHeight<560){root.style.zoom='';root.style.width='';return;}
+        // Below 1× the root is wider, so its rows reflow shorter; measure the
+        // natural layout instead, or the zoom would flip between 1× and less.
+        if((parseFloat(root.style.zoom)||1)<1){root.style.zoom='';root.style.width='';}
+        const z=parseFloat(root.style.zoom)||1;
+        const top=root.getBoundingClientRect().top;let bottom=top,left=Infinity,right=-Infinity;
+        for(const k of root.children){const r=k.getBoundingClientRect();if(!r.height)continue;bottom=Math.max(bottom,r.bottom);left=Math.min(left,r.left);right=Math.max(right,r.right);}
+        const h=(bottom-top)/z,w=(right-left)/z;
+        if(!(h>0&&w>0))return;
+        // Height decides; the root's width is divided by the zoom, so rows that
+        // span it still fit — real sideways overflow is checked below.
+        // Between 1× and 1.4× — or down to 0.72× when the game itself is taller
+        // than the stage (an iPad in landscape), so no row is cut off out of reach.
+        const next=Math.max(0.72,Math.min(1.4,(stage.clientHeight*0.97)/h)),floor=Math.min(1,next);
+        // v58: engines disagree on whether a zoomed box's % width is scaled
+        // (legacy WebKit) or not (Chromium's standardized zoom). Unscaled, the
+        // 71% root sat pinned left, every board ~109px off centre on an iPad
+        // in landscape. Measure, and fall back to 100% when it didn't fill.
+        const apply=v=>{root.style.zoom=v.toFixed(2);root.style.width=`${(100/v).toFixed(2)}%`;
+          const cs=getComputedStyle(stage),inner=stage.clientWidth-parseFloat(cs.paddingLeft||0)-parseFloat(cs.paddingRight||0);
+          if(inner>0&&Math.abs(root.getBoundingClientRect().width-inner)>4)root.style.width='100%';};
+        if(Math.abs(next-z)>=0.03)apply(next);
+        // Not every size scales in step (vw caps, aspect ratios), so check the
+        // stage really fits and step back down until it does.
+        for(let i=0;i<5;i++){
+          const cur=parseFloat(root.style.zoom)||1;
+          const overY=stage.scrollHeight-stage.clientHeight,overX=stage.scrollWidth-stage.clientWidth;
+          if((overY<=2&&overX<=2)||cur<=floor)break;
+          apply(Math.max(floor,cur*Math.min(stage.clientHeight/stage.scrollHeight,stage.clientWidth/stage.scrollWidth)*0.98));
+        }
+        if(Math.abs((parseFloat(root.style.zoom)||1)-1)<=0.001){root.style.zoom='';root.style.width='';}
+      };
+      const soon=()=>{if(!pending)pending=setTimeout(fit,60);};
+      const watch=new MutationObserver(soon);
+      watch.observe(stage,{childList:true});
+      // Rounds re-render inside the game; a hint row may appear (hidden flips).
+      const root=stage.firstElementChild;if(root)watch.observe(root,{childList:true,subtree:true,attributes:true,attributeFilter:['hidden']});
+      window.addEventListener('resize',soon);
+      const stop=()=>{watch.disconnect();window.removeEventListener('resize',soon);clearTimeout(pending);};
+      const gone=new MutationObserver(()=>{if(!stage.isConnected){stop();gone.disconnect();}});
+      gone.observe(this.root,{childList:true});
+      soon();
+      // Some rounds settle a moment after they render (reveals, drawn paths).
+      setTimeout(soon,700);
     }
 
     gardenReward(finished=false) {
@@ -3493,7 +4768,15 @@
     rewardScene(finished=false,flower=false) {
       return `<div class="reward-scene">${ns.LettersRoomArt.floor()}<div class="reward-ground" aria-hidden="true">${ns.LettersRoomArt.podium()}</div>${this.gardenReward(finished)}
         ${flower?`<div class="party-flower">${Art.skillFlower({scores:this.skills,size:120})}</div>`:''}
-        ${finished?`<div class="party-pair"><div class="party-mascot">${Art.keyMascot({size:120,mood:'open'})}</div><button type="button" class="party-pet" aria-label="Celebrate with your pet"><span class="pet-bubble" hidden></span>${this.petSVG(150,'open')}</button></div>`: `<div class="reward-friend" aria-hidden="true">${this.petSVG(150,'proud')}</div>`}</div>`;
+        ${finished?`<div class="party-pair"><div class="party-mascot">${Art.keyMascot({size:120,mood:'open'})}</div><button type="button" class="party-pet" aria-label="Celebrate with your pet"><span class="pet-bubble" hidden></span>${this.petSVG(150,'open')}</button></div>`: `<div class="reward-friend" aria-hidden="true">${this.petSVG(150,'delighted')}</div>`}</div>`;
+    }
+
+    // Encouragement pass (v57): only the stars a child earned are drawn — no
+    // grey empty slots beside them. One star is drawn bigger and gets extra
+    // sparkle, so a hard round still ends in a proud moment, not a grade.
+    earnedStars(stars, size, gap) {
+      const n = Math.max(1, Math.min(3, stars | 0));
+      return Array.from({ length: n }, (_, i) => `<span class="stars-star is-on${n === 1 ? " is-solo" : ""}" style="animation-delay:${i * gap}ms">${(Art.artIcon||Art.icon)("star", size)}</span>`).join("");
     }
 
     renderStars(stars) {
@@ -3515,8 +4798,8 @@
         <div class="stars-stage lg-panel">
           ${adventure ? this.adventureScene(s.gameIndex+1) : this.rewardScene()}
           ${this.journeyRoute(s.gameIndex+1)}
-          <div class="stars-row" role="img" aria-label="${stars} of 3 stars">
-            ${[0, 1, 2].map((i) => `<span class="stars-star ${i < stars ? "is-on" : ""}" style="animation-delay:${i * 220}ms">${Art.icon("star", 74)}</span>`).join("")}
+          <div class="stars-row" role="img" aria-label="${stars} ${stars === 1 ? "star" : "stars"}">
+            ${this.earnedStars(stars, 74, 220)}
           </div>
           <div class="stars-nav">
             <button type="button" class="lg-round-btn stars-replay" aria-label="Play again">${Art.icon("replay", 34)}</button>
@@ -3586,18 +4869,30 @@
       const letters = (world.meet || []).map(m => m.display).filter(c => F?.FRIENDS?.[c]);
       const items = letters.map(c => ({ id: c, display: c, speak: (ns.LETTERS_DATA?.packs || []).flatMap(p => p.letters).find(l => l.char === c)?.arName || c }));
       const sib = c => ns.PuzzleGames?.siblings?.(c, letters).length > 0;
-      const pick = {
-        "pack-boat": "FriendFind", "pack-smile": "DotsLast", "pack-little": "FriendFind", "pack-wave": "DotsLast",
-        "pack-tall": "FriendFind", "pack-strong": "LetterShadows", "pack-round": "FriendFind",
-        "join-1": "LetterShadows", "join-2": "SameLetter", muqattaat: "EchoParade", sukoon: "LanternHunt",
+      const choice = {
+        // v48: the letter chapters each end with a different toy now —
+        // the first meeting (Find my friend), then pairs, nests, jigsaw,
+        // fishing and the bath, so no two neighbouring chapters repeat.
+        "pack-boat": "FriendFind", "pack-smile": "DotsLast", "pack-little": "FriendPairs", "pack-wave": "DotNests",
+        "pack-tall": "FriendJigsaw", "pack-strong": "LetterFishing", "pack-round": "BathTime",
+        // v51–v52: the joining chapters review every letter by its body and dots.
+        "join-1": ["FamilyBuses", "LetterShadows"], "join-2": ["SpotChange", "SameLetter"], muqattaat: "EchoParade", sukoon: "LanternHunt",
         fatha: "HatShop", "kasra-damma": "HatShop", tanween: "HatShop",
         // v35: the long-vowel chapters sing their syllables in Echo Parade.
         standing: "EchoParade", "long-sounds": "EchoParade", leen: "EchoParade",
+        // v36–v37: the shadda and word chapters.
+        shaddah: "TwinCrown", "shaddah-mix": "TwinCrown", "words-2": "ListenFind", decode: "WordGap", "decode-4": "ListenFind",
       }[world.id];
+      // A chapter may keep several stops: the first run meets the first one;
+      // replays take turns among them, so no stop drops off the journey.
+      const list = [].concat(choice || []);
+      const pick = (this.progress?.done || []).includes(world.id) ? list[Math.floor(Math.random() * list.length)] : list[0];
       if (!pick || !ns.GardenPractice[pick]) return null;
       if (pick === "DotsLast" && !letters.some(sib)) return null;
+      if (pick === "DotNests" && new Set(letters.map(c => (ns.ToyBoxGames?.dotsOf?.(c) || []).length)).size < 2) return null;
       // Joining and later chapters review everything learned; letter chapters
       // use their own new letters.
+      if (ns.WordGames?.KINDS?.includes(pick)) return { kind: pick, items: world.items?.() || [] };
       if (pick === "EchoParade" && world.kind === "syllables") return { kind: pick, items: (world.items?.() || []).filter(i => ns.LetterFriends?.FRIENDS?.[[...String(i.display)][0]] && [...String(i.display)][0] !== "ا") };
       // Vowel chapters dress the friends in their own syllables (v33).
       if (pick === "HatShop") return { kind: pick, items: (world.items?.() || []).filter(i => ns.VowelGames?.baseOf(i.display) && ns.VowelGames?.markOf(i.display)) };
@@ -3607,6 +4902,7 @@
 
     finishWorld() {
       const s = this.session;
+      if (s?.world && this.loadJSON(RESUME_KEY, null)?.world === s.world.id) this.saveJSON(RESUME_KEY, null);
       if (!s.checkup && !s.daily && !s.bonusDone) {
         const bonus = this.chapterBonus(s.world);
         if (bonus && bonus.items.length) {
@@ -3618,10 +4914,14 @@
         }
       }
       const worldStars = Math.max(1, Math.round(s.starTotal / s.world.games.length));
+      // v58: the party celebrates the chapter's BEST moment, not its average —
+      // a stumble in the first game shouldn't shrink the party a child reached
+      // by keeping going. The map plaque keeps the honest average to grow into.
+      const partyStars = Math.max(worldStars, s.bestStars || 0);
       if (s.checkup) {
         // Check-up done: the flower has its new petals. Show it off.
         this.stampToday();
-        this.renderParty(worldStars, false, { flower: true });
+        this.renderParty(partyStars, false, { flower: true });
         return;
       }
       if (s.daily) {
@@ -3630,7 +4930,7 @@
         if (firstToday && this.island) this.island.completeStudyStep();
         // Earn the choice (v5): the day's first bouquet earns a sticker-stand visit.
         if (firstToday && this.stickers) { this.stickers.freeVisits = Math.min(9, (this.stickers.freeVisits || 0) + 1); this.saveJSON("quran-trainer:letters:stickers", this.stickers); }
-        this.renderParty(worldStars, firstToday);
+        this.renderParty(partyStars, firstToday);
         return;
       }
       this.stars[s.world.id] = Math.max(this.stars[s.world.id] || 0, worldStars);
@@ -3643,7 +4943,35 @@
         this.mapWelcome = { world: s.world.id };
         if (this.island) this.island.completeStudyStep();
       }
-      this.renderParty(worldStars, newlyDone);
+      this.renderParty(partyStars, newlyDone);
+    }
+
+    // Encouragement pass (v57): the chapter's letter friends come to the
+    // party — they hop in one by one, each does its own move and calls, and
+    // tapping one makes it dance again. Finishing a chapter should feel like
+    // being cheered on by friends.
+    partyFriends() {
+      const F = ns.LetterFriends;
+      const meet = (this.session?.world?.meet || []).map((m) => [...String(m.display || "")].find((c) => F?.FRIENDS?.[c])).filter(Boolean);
+      const chars = [...new Set(meet)].slice(0, 5);
+      if (!chars.length) return "";
+      return `<div class="party-friends" aria-label="Your new friends">${chars.map((c, i) => `<button type="button" class="party-friend" data-c="${c}" style="--i:${i}" aria-label="${F.get(c).en}">${F.art(c, { size: 72 })}</button>`).join("")}</div>`;
+    }
+
+    cheerFriends(el) {
+      const F = ns.LetterFriends;
+      const list = [...el.querySelectorAll(".party-friend")];
+      const still = this.prefersReducedMotion();
+      list.forEach((b, i) => {
+        const c = b.dataset.c;
+        const dance = () => {
+          const svg = b.querySelector("svg.lf");
+          if (svg && !still) { svg.classList.remove("is-wiggle"); void svg.getBoundingClientRect(); svg.classList.add("is-wiggle"); setTimeout(() => svg.classList.remove("is-wiggle"), 950); }
+          this.sound.play(F.get(c).call);
+        };
+        b.addEventListener("click", () => { dance(); this.say(F.item(c)); });
+        setTimeout(() => { if (el.isConnected) dance(); }, 900 + i * 420);
+      });
     }
 
     renderParty(stars, newlyDone, { flower = false } = {}) {
@@ -3653,7 +4981,7 @@
       // reading real words from the Quran. Mark the moment.
       const isQuranWords = this.session && this.session.world && this.session.world.kind === "words";
       const capstone = isQuranWords && newlyDone
-        ? `<div class="party-capstone"><svg class="party-glint" viewBox="-10 -10 20 20" aria-hidden="true"><path d="M0-9Q0 0 9 0Q0 0 0 9Q0 0-9 0Q0 0 0-9Z" fill="#f3c955" stroke="#70501b" stroke-width="1.6"/></svg>${Art.icon("book", 26)}<svg class="party-glint" viewBox="-10 -10 20 20" aria-hidden="true"><path d="M0-9Q0 0 9 0Q0 0 0 9Q0 0-9 0Q0 0 0-9Z" fill="#f3c955" stroke="#70501b" stroke-width="1.6"/></svg></div>`
+        ? `<div class="party-capstone"><svg class="party-glint" viewBox="-10 -10 20 20" aria-hidden="true"><path d="M0-9Q0 0 9 0Q0 0 0 9Q0 0-9 0Q0 0 0-9Z" fill="#f3c955" stroke="#70501b" stroke-width="1.6"/></svg>${(Art.artIcon||Art.icon)("book", 30)}<svg class="party-glint" viewBox="-10 -10 20 20" aria-hidden="true"><path d="M0-9Q0 0 9 0Q0 0 0 9Q0 0-9 0Q0 0 0-9Z" fill="#f3c955" stroke="#70501b" stroke-width="1.6"/></svg></div>`
         : "";
       const el = this.screen(
         "lg-party",
@@ -3661,14 +4989,16 @@
           ${capstone}
           ${adventure ? this.adventureScene(3,true) : this.rewardScene(true,flower)}
           ${adventure ? this.journeyRoute(3) : ''}
-          <div class="party-stars" role="img" aria-label="${stars} of 3 stars">
-            ${[0, 1, 2].map((i) => `<span class="stars-star ${i < stars ? "is-on" : ""}" style="animation-delay:${i * 240}ms">${Art.icon("star", 64)}</span>`).join("")}
+          <div class="party-stars" role="img" aria-label="${stars} ${stars === 1 ? "star" : "stars"}">
+            ${this.earnedStars(stars, 64, 240)}
           </div>
+          ${this.partyFriends()}
           <div class="party-actions">${adventure ? `<button type="button" class="lg-round-btn party-replay" aria-label="${ns.LettersJourney.REPLAY?.[ns.LettersJourney.forWorld(this.session?.world)?.kind] || 'Play the delivery again'}">${Art.icon('replay',32)}</button>` : ''}<button type="button" class="party-decorate" aria-label="Decorate with your earned rewards">${ns.DecoratingGarden.icon(50)}</button><button type="button" class="lg-big-btn party-next" aria-label="Return to the garden">${Art.icon("home", 44)}</button></div>
         </div>`,
       );
       this.sound.play(newlyDone ? "worldClear" : "perfect");
       this.confettiAt(el.querySelector(".party-mascot"), true);
+      this.cheerFriends(el);
       setTimeout(() => { if (el.isConnected) this.confettiAt(el.querySelector(".party-stars"), true); }, 500);
       if (newlyDone) setTimeout(() => { if (el.isConnected) this.confettiAt(el.querySelector(".party-mascot"), true); }, 900);
       this.wirePractice(el,()=>this.renderParty(stars,false,{flower}));
@@ -3687,8 +5017,52 @@
       el.querySelector(".party-next").addEventListener("click", () => {
         if(!el.isConnected)return;
         this.sound.play("page");
+        // A chapter that grew the pet ends in its growing-up moment.
+        if (this.petStage() > this.stageSeen()) return this.renderGrowUp();
         this.renderHome();
       });
+    }
+
+    // ---------- Growing up (2026-10-16) ----------
+    // The pet grows at 5 and 15 finished chapters (petStage), but it used to
+    // happen silently — the biggest "look what I did" beat in a pet game, never
+    // shown. Now the party's way home goes through a short ceremony first: the
+    // pet as it was, sparkles, a wiggle, a pop, and the pet as it is now.
+    stageSeen() { const n = Number(this.loadJSON(STAGE_SEEN_KEY, 1)); return Number.isFinite(n) ? n : 1; }
+    renderGrowUp() {
+      const to = this.petStage(), from = Math.min(to - 1, Math.max(1, this.stageSeen()));
+      this.saveJSON(STAGE_SEEN_KEY, to);
+      const pet = (stage) => Art.pet({ hue: this.pet?.hue ?? 200, species: this.pet?.species || "blob", stage, worn: this.pet?.worn || [], size: 200, mood: "delighted" });
+      const still = this.prefersReducedMotion();
+      const el = this.screen("lg-grow", `${this.topBar({ home: false })}
+        <div class="grow-stage${still ? " is-still" : ""}" role="img" aria-label="Your pet grew">
+          <div class="grow-ring" aria-hidden="true">${Array.from({ length: 8 }, (_, i) => `<svg class="grow-spark" style="--i:${i}" viewBox="-10 -10 20 20"><path d="M0-9Q0 0 9 0Q0 0 0 9Q0 0-9 0Q0 0 0-9Z" fill="#ffe49a" stroke="#c69434" stroke-width="1.6"/></svg>`).join("")}</div>
+          <div class="grow-podium" aria-hidden="true">${ns.LettersRoomArt.podium()}</div>
+          <span class="grow-pet grow-old" aria-hidden="true">${pet(from)}</span>
+          <button type="button" class="grow-pet grow-new" aria-label="Your pet">${pet(to)}</button>
+        </div>
+        <div class="grow-actions">
+          <button type="button" class="grow-garden" aria-label="Your garden grew: two new spaces" ${still ? "" : "hidden"}>${GROWN_GARDEN(to)}</button>
+          <button type="button" class="lg-big-btn grow-go" aria-label="Back to the garden" ${still ? "" : "hidden"}>${Art.icon("check", 40)}</button>
+        </div>`);
+      this.wireTopBar(el);
+      const go = el.querySelector(".grow-go"), newPet = el.querySelector(".grow-new");
+      const rig = this.sceneRig(newPet);
+      const reveal = () => {
+        if (!el.isConnected) return;
+        this.sound.play("fanfare");
+        this.confettiAt(newPet, true);
+        setTimeout(() => { if (el.isConnected) this.confettiAt(newPet, true); }, 300);
+        rig?.cheer?.();
+        go.hidden = false;
+        // The garden grew too: two new soil spaces pop in, sparkling.
+        setTimeout(() => { if (!el.isConnected) return; const gd = el.querySelector(".grow-garden"); if (gd) { gd.hidden = false; this.sound.play("seed"); } }, still ? 0 : 700);
+      };
+      if (still) reveal();
+      else { setTimeout(() => { if (el.isConnected) this.sound.play("hatch"); }, 1500); setTimeout(reveal, 1900); }
+      newPet.addEventListener("click", () => { rig?.cheer?.(); try { this.sound.voice?.(this.pet?.species); } catch {} });
+      go.addEventListener("click", () => { this.sound.play("page"); this.renderHome(); });
+      el.querySelector(".grow-garden").addEventListener("click", () => { if (!el.isConnected) return; this.sound.play("page"); this.renderDecoratingGarden(); });
     }
   }
 

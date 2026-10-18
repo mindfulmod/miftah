@@ -92,7 +92,9 @@
       this.status=this.ctx.stage.querySelector('.delivery-status');
       this.pet=this.ctx.stage.querySelector('.delivery-pet');
       this.packetButtons=[...this.ctx.stage.querySelectorAll('.delivery-packet')];
-      this.destination.onclick=()=>{if(this.alive&&!this.busy&&this.selected)this.offer(this.selected);};
+      this.destination.onclick=()=>{if(!this.alive||this.busy)return;if(this.selected)return this.offer(this.selected);
+        // Nothing chosen yet: the packets hop — "pick one of us first" — instead of a dead tap.
+        this.packetButtons.filter(b=>!b.disabled).forEach((b,k)=>{b.classList.remove('is-soon');void b.offsetWidth;setTimeout(()=>b.isConnected&&b.classList.add('is-soon'),k*90);});};
       this.packetButtons.forEach(button=>{
         const item=options.find(option=>option.id===button.dataset.item);
         button.onclick=()=>{if(!this.alive||this.busy||button.disabled)return;this.select(item,button);};

@@ -14,6 +14,9 @@
   const T = (at, freq, o = {}) => ["tone", at, freq, o];
   const N = (at, o) => ["noise", at, o];
   const CUES = {
+    // Encouragement pass (v57): a miss sounds like a curious "hm?" — two soft
+    // notes, the second lifting at its end — never a low "wrong" buzz.
+    softwrong: [T(0, 440, {dur: 0.08, gain: 0.042}), T(0.1, 370, {dur: 0.14, gain: 0.038, glideTo: 415})],
     // Sand Table (v28): a fingertip of grain, played while the finger moves.
     sand: [N(0, {dur: 0.06, gain: 0.02, filterType: "bandpass", freq: 2600})],
     rake: [N(0, {dur: 0.32, gain: 0.024, filterType: "bandpass", freq: 1800}), N(0.12, {dur: 0.2, gain: 0.018, filterType: "bandpass", freq: 2400})],
@@ -149,6 +152,8 @@
         return;
       }
       this._unlockBeforeCue();
+      // "wrong" has always meant the soft miss here (v57: the curious "hm?").
+      if (name === "wrong") { this._steps(CUES.softwrong); return; }
       if (CUES[name]) { this._steps(CUES[name]); return; }
       const material = {
         click: ["tone", 1250, {dur: 0.04, gain: 0.04}],
@@ -163,6 +168,21 @@
       } else {
         this.base.play?.(name);
       }
+    }
+
+    // Tactile pass (v55): the sound of pressing something. A soft rubbery
+    // "thock" when a finger lands — a quick falling tone with a breath of
+    // grit — and a light "pop" when it lets go. Bigger things sound deeper,
+    // the way a big drum does; a few percent of wobble keeps fast tapping
+    // from sounding like a machine.
+    press(size = 1, up = false) {
+      if (!this.enabled) return;
+      this._unlockBeforeCue();
+      const wobble = 1 + (Math.random() - 0.5) * 0.08;
+      const base = (size > 1.7 ? 290 : size > 1.1 ? 370 : 460) * wobble;
+      this._steps(up
+        ? [T(0, base * 1.9, {dur: 0.035, gain: 0.018, glideTo: base * 2.4})]
+        : [T(0, base, {dur: 0.065, type: "sine", gain: 0.052, glideTo: base * 0.6}), N(0, {dur: 0.018, gain: 0.012, filterType: "bandpass", freq: 2600})]);
     }
 
     // The pet's own happy call, by species (unknown species fall back to blob).

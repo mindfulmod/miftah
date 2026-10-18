@@ -81,12 +81,23 @@
       parade: `<path d="M5 8V56M59 8V56" stroke="#a89478" stroke-width="4" stroke-linecap="round"/><path d="M5 12Q32 26 59 12" fill="none" stroke="#4a3620" stroke-width="2.4"/><circle cx="32" cy="32" r="16" fill="#ffe49a" opacity=".6"/>${lanternIcon(12, 18, '#ffe49a', 13)}${lanternIcon(26, 21, '#ffe49a', 13)}${lanternIcon(40, 18, '#ffe49a', 13)}`,
     },
     harvest: {
+      // v58: the feed step had the picnic basket in every theme; each theme
+      // now carries its own — fruit to share, a seed jar, a plank bundle, a
+      // parcel — matching the step's own words.
+      feed: '<ellipse cx="32" cy="52" rx="26" ry="5" fill="#2f5c46" opacity=".16"/><path d="M8 32H56Q54 50 32 52Q10 50 8 32Z" fill="#c69434" stroke="#4a3620" stroke-width="3" stroke-linejoin="round"/><path d="M14 40Q32 46 50 40" fill="none" stroke="#70501b" stroke-width="2.4" stroke-linecap="round"/><circle cx="22" cy="26" r="9" fill="#ee806f" stroke="#4a3620" stroke-width="2.4"/><circle cx="40" cy="25" r="9" fill="#f3c955" stroke="#4a3620" stroke-width="2.4"/><circle cx="31" cy="18" r="8" fill="#7fce54" stroke="#4a3620" stroke-width="2.4"/><path d="M31 10Q33 4 38 4" fill="none" stroke="#4e9677" stroke-width="2.4" stroke-linecap="round"/><path d="M18 22Q20 19 23 19" fill="none" stroke="#ffa798" stroke-width="2.4" stroke-linecap="round"/>',
       blend: '<ellipse cx="32" cy="50" rx="24" ry="7" fill="#70501b"/><path d="M32 50Q34 38 32 24" fill="none" stroke="#4e9677" stroke-width="4" stroke-linecap="round"/><path d="M32 36Q16 37 17 24Q30 23 32 36M32 30Q47 30 48 17Q35 17 32 30" fill="#7fce54" stroke="#4a3620" stroke-width="1.6"/>',
       catch: '<circle cx="44" cy="10" r="6" fill="#f3c955" stroke="#4a3620" stroke-width="1.6"/><path d="M8 32H56L50 52Q32 58 14 52Z" fill="#c9bda4" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/><circle cx="24" cy="30" r="7" fill="#f3c955" stroke="#4a3620" stroke-width="1.6"/><circle cx="38" cy="29" r="7" fill="#ee806f" stroke="#4a3620" stroke-width="1.6"/><path d="M12 40Q32 47 52 40" fill="none" stroke="#a89478" stroke-width="2.4"/>',
     },
     raft: {
+      feed: '<ellipse cx="32" cy="52" rx="26" ry="5" fill="#2f5c46" opacity=".16"/>' + [14, 26, 38].map((y) => `<rect x="8" y="${y}" width="48" height="10" rx="5" fill="#c69434" stroke="#4a3620" stroke-width="2.4"/><path d="M14 ${y + 5}H24" stroke="#ffe49a" stroke-width="2.4" stroke-linecap="round"/>`).join('') + '<path d="M20 12V50M44 12V50" stroke="#a89478" stroke-width="4" stroke-linecap="round"/><path d="M17 30Q20 27 23 30M41 30Q44 27 47 30" fill="none" stroke="#4a3620" stroke-width="1.6" stroke-linecap="round"/>',
       build: '<path d="M16 12V54M48 12V54" stroke="#a89478" stroke-width="3" stroke-linecap="round"/><g fill="#c69434" stroke="#4a3620" stroke-width="2.4"><rect x="6" y="16" width="52" height="10" rx="5"/><rect x="6" y="28" width="52" height="10" rx="5"/><rect x="6" y="40" width="52" height="10" rx="5"/></g>',
       pop: '<ellipse cx="32" cy="48" rx="29" ry="8" fill="#96ecff"/><path d="M33 8V38" stroke="#70501b" stroke-width="3" stroke-linecap="round"/><path d="M35 10Q54 21 35 33Z" fill="#fffdf7" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/><rect x="12" y="37" width="40" height="9" rx="4" fill="#c69434" stroke="#4a3620" stroke-width="2.4"/>',
+    },
+    jars: {
+      feed: '<ellipse cx="32" cy="54" rx="20" ry="4" fill="#2f5c46" opacity=".16"/><rect x="14" y="16" width="36" height="38" rx="9" fill="#ccfbef" stroke="#4a3620" stroke-width="3"/><rect x="12" y="8" width="40" height="10" rx="4" fill="#c69434" stroke="#4a3620" stroke-width="3"/><path d="M19 40Q32 32 45 40V48Q32 52 19 48Z" fill="#a89478"/>' + [[24, 42], [32, 39], [40, 43], [28, 47], [37, 48]].map(([x, y]) => `<ellipse cx="${x}" cy="${y}" rx="2.6" ry="3.4" fill="#70501b"/>`).join('') + '<path d="M20 24Q22 20 26 20" fill="none" stroke="#fffdf7" stroke-width="3" stroke-linecap="round"/>',
+    },
+    parcel: {
+      feed: '<ellipse cx="32" cy="54" rx="24" ry="4" fill="#2f5c46" opacity=".16"/><path d="M8 22L32 12L56 22V48L32 56L8 48Z" fill="#c69434" stroke="#4a3620" stroke-width="3" stroke-linejoin="round"/><path d="M8 22L32 32L56 22M32 32V56" fill="none" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/><path d="M20 17L44 27V36" fill="none" stroke="#ee806f" stroke-width="4" stroke-linecap="round"/><rect x="36" y="38" width="14" height="10" rx="2" fill="#fffaf0" stroke="#4a3620" stroke-width="1.6" transform="rotate(-20 43 43)"/>',
     },
   };
   function icon(game, kind = 'picnic') {
@@ -126,14 +137,15 @@
       : phase >= 1 ? `<g class="bed-sprout"><path d="M${x} 186Q${x + 2} 172 ${x} 160" fill="none" stroke="#4e9677" stroke-width="4" stroke-linecap="round"/><path d="M${x} 164Q${x - 15} 166 ${x - 14} 152Q${x - 3} 152 ${x} 164M${x} 162Q${x + 14} 162 ${x + 15} 149Q${x + 3} 150 ${x} 162" fill="#7fce54"/></g>` : '';
     return `<g class="seed-bed">
       <ellipse cx="210" cy="214" rx="118" ry="11" fill="#2f5c46" opacity=".18"/>
-      <path d="M96 182H324L314 212Q210 222 106 212Z" fill="#a89478"/>
-      <path d="M98 184H322" stroke="#c9bda4" stroke-width="4" stroke-linecap="round"/>
-      <path d="M104 198H316" stroke="#c9bda4" stroke-width="2.4" opacity=".7"/>
-      <ellipse cx="210" cy="184" rx="114" ry="12" fill="#70501b"/>
+      <path d="M96 184H324Q324 214 300 216H120Q96 214 96 184Z" fill="#c69434" stroke="#4a3620" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M140 188V212M180 188V214M220 188V214M260 188V214M300 188V212" stroke="#70501b" stroke-width="2.4" stroke-linecap="round"/>
+      <ellipse cx="124" cy="200" rx="9" ry="3" fill="#fffdf7" opacity=".55"/>
+      <rect x="92" y="176" width="236" height="14" rx="7" fill="#a89478" stroke="#4a3620" stroke-width="3"/>
+      <ellipse cx="210" cy="182" rx="108" ry="5" fill="#70501b"/>
       <ellipse cx="200" cy="181" rx="90" ry="6" fill="#c69434" opacity=".35"/>
       ${xs.map(plant).join('')}
       ${phase >= 2 ? letters.map((letter, i) => sign(xs[i] - 2, letter, i)).join('') : ''}
-      ${phase >= 3 && size === 'scene' ? `<g class="bed-can"><path d="M52 184H86L90 206Q70 213 54 206Z" fill="#62cdf4" stroke="#4a3620" stroke-width="2.4"/><path d="M86 188L104 174" stroke="#4a3620" stroke-width="4" stroke-linecap="round"/><path d="M58 184Q70 164 82 184" fill="none" stroke="#4a3620" stroke-width="3"/><circle cx="110" cy="174" r="3" fill="#96ecff"/><circle cx="114" cy="182" r="2.4" fill="#96ecff"/></g>` : ''}
+      ${phase >= 3 && size === 'scene' ? `<g class="bed-can"><rect x="50" y="182" width="40" height="28" rx="12" fill="#62cdf4" stroke="#4a3620" stroke-width="3"/><path d="M58 194H82" stroke="#3a8fc4" stroke-width="2.4" stroke-linecap="round"/><ellipse cx="60" cy="188" rx="5" ry="2.4" fill="#fffdf7" opacity=".6"/><path d="M86 188L104 174" stroke="#4a3620" stroke-width="4" stroke-linecap="round"/><path d="M58 184Q70 164 82 184" fill="none" stroke="#4a3620" stroke-width="3"/><circle cx="110" cy="174" r="3" fill="#96ecff"/><circle cx="114" cy="182" r="2.4" fill="#96ecff"/></g>` : ''}
     </g>`;
   }
   // Later-chapter projects share the seed bed's rule: each phase is the number
@@ -156,7 +168,7 @@
     const hung = phase >= 2;
     const spots = hung ? [[127, 118], [180, 124], [233, 118]] : [[130, 144], [180, 148], [230, 144]];
     return `<g class="craft-garland">
-      <path d="M71 202V104M289 202V104" stroke="#a89478" stroke-width="8" stroke-linecap="round"/>
+      <rect x="64" y="100" width="14" height="104" rx="7" fill="#a89478" stroke="#4a3620" stroke-width="3"/><rect x="282" y="100" width="14" height="104" rx="7" fill="#a89478" stroke="#4a3620" stroke-width="3"/><path d="M69 112V194M287 112V194" stroke="#c9bda4" stroke-width="2.4" stroke-linecap="round"/>
       <path d="M71 202V104M289 202V104" stroke="#c9bda4" stroke-width="3" stroke-linecap="round" opacity=".7"/>
       <g fill="#c69434" stroke="#4a3620" stroke-width="1.6"><circle cx="71" cy="102" r="6"/><circle cx="289" cy="102" r="6"/></g>
       ${hung ? '<path d="M74 112Q180 140 286 112" fill="none" stroke="#4a3620" stroke-width="2.4" stroke-linecap="round"/>'
@@ -170,12 +182,13 @@
     return `<g class="craft-harvest">
       <ellipse cx="180" cy="202" rx="60" ry="10" fill="#70501b"/><ellipse cx="174" cy="199" rx="40" ry="4" fill="#c69434" opacity=".35"/>
       ${phase === 0 ? '<path d="M180 200Q182 184 180 168" fill="none" stroke="#4e9677" stroke-width="4" stroke-linecap="round"/><path d="M180 182Q164 183 165 170Q178 170 180 182M180 176Q196 176 197 163Q184 163 180 176" fill="#7fce54" stroke="#4a3620" stroke-width="1.6"/>'
-      : `<path d="M172 201Q177 166 174 136H188Q185 166 192 201Z" fill="#a89478" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/>
-        <path class="craft-canopy" d="M134 134Q116 110 142 96Q150 66 182 70Q212 64 222 92Q246 104 230 132Q218 150 182 146Q146 152 134 134Z" fill="#7fce54" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/>
-        <path d="M152 96Q166 80 186 82" fill="none" stroke="#b7e779" stroke-width="6" stroke-linecap="round"/>
+      : `<rect x="172" y="132" width="18" height="70" rx="9" fill="#c69434" stroke="#4a3620" stroke-width="3"/><path d="M179 144V170M184 178V194" stroke="#70501b" stroke-width="2.4" stroke-linecap="round"/>
+        <path d="M181 134Q166 124 156 114M181 128Q196 118 206 108" fill="none" stroke="#4a3620" stroke-width="8" stroke-linecap="round"/><path d="M181 134Q166 124 156 114M181 128Q196 118 206 108" fill="none" stroke="#c69434" stroke-width="4" stroke-linecap="round"/>
+        <g class="craft-canopy">${(() => { const C = [[182, 98, 30], [154, 112, 22], [210, 112, 22], [164, 84, 20], [200, 82, 20], [182, 130, 18], [226, 98, 15], [140, 96, 15]];
+          return C.map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r + 3}" fill="#4a3620"/>`).join('') + C.map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="#4e9677"/>`).join('') + C.map(([x, y, r]) => `<circle cx="${x - r * 0.14}" cy="${y - r * 0.16}" r="${r * 0.84}" fill="#7fce54"/>`).join('') + C.filter(([, y]) => y < 100).map(([x, y, r]) => `<circle cx="${x - r * 0.3}" cy="${y - r * 0.32}" r="${r * 0.4}" fill="#b7e779"/>`).join('') + C.map(([x, y, r]) => `<path d="M${x + r * 0.2} ${y + r * 0.25}q3 -4 7 -3" fill="none" stroke="#4e9677" stroke-width="2.4" stroke-linecap="round"/>`).join(''); })()}</g>
         ${phase === 1 ? [[146, 112], [170, 88], [204, 100], [216, 126], [180, 128]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="5" fill="#ffa798" stroke="#4a3620" stroke-width="1.6"/>`).join('') : ''}`}
       ${phase >= 2 ? fruit.map(([x, y], i) => `<g class="craft-fruit"><path d="M${x} ${y - 15}Q${x + 2} ${y - 21} ${x + 6} ${y - 22}" fill="none" stroke="#4a3620" stroke-width="1.6"/><circle cx="${x}" cy="${y}" r="16" fill="${['#f3c955', '#ee806f', '#f3c955'][i]}" stroke="#4a3620" stroke-width="2.4"/>${tag(x, y, 22, 20, letters[i], drawings, 16)}</g>`).join('') : ''}
-      ${phase >= 3 ? `<g class="craft-basket"><g stroke="#4a3620" stroke-width="1.6"><circle cx="98" cy="183" r="9" fill="#f3c955"/><circle cx="114" cy="179" r="9" fill="#ee806f"/><circle cx="128" cy="184" r="9" fill="#f3c955"/></g><path d="M82 186H144L136 208Q113 215 90 208Z" fill="#c9bda4" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/><path d="M86 195Q113 204 140 195" fill="none" stroke="#a89478" stroke-width="2.4"/></g>` : ''}
+      ${phase >= 3 ? `<g class="craft-basket"><g stroke="#4a3620" stroke-width="1.6"><circle cx="98" cy="183" r="9" fill="#f3c955"/><circle cx="114" cy="179" r="9" fill="#ee806f"/><circle cx="128" cy="184" r="9" fill="#f3c955"/></g><path d="M82 188H144Q144 212 128 212H98Q82 212 82 188Z" fill="#c9bda4" stroke="#4a3620" stroke-width="3" stroke-linejoin="round"/><rect x="79" y="183" width="68" height="9" rx="4.5" fill="#f3c955" stroke="#4a3620" stroke-width="2.4"/><path d="M86 195Q113 204 140 195" fill="none" stroke="#a89478" stroke-width="2.4"/></g>` : ''}
     </g>`;
   }
   function jarsArt(phase, letters, drawings) {
@@ -189,7 +202,7 @@
       ${phase >= 3 ? `<rect x="${cx - 19}" y="${base - 73}" width="38" height="10" rx="4" fill="#ee806f" stroke="#4a3620" stroke-width="2.4"/><path d="M${cx} ${base - 73}Q${cx + 1} ${base - 81} ${cx} ${base - 85}M${cx} ${base - 81}Q${cx + 11} ${base - 83} ${cx + 10} ${base - 92}Q${cx + 1} ${base - 90} ${cx} ${base - 81}" fill="#7fce54" stroke="#4e9677" stroke-width="1.6"/>` : ''}
     </g>`;
     return `<g class="craft-jars">
-      ${phase >= 1 ? '<rect x="100" y="168" width="10" height="38" rx="3" fill="#a89478" stroke="#4a3620" stroke-width="2.4"/><rect x="270" y="168" width="10" height="38" rx="3" fill="#a89478" stroke="#4a3620" stroke-width="2.4"/><rect x="84" y="158" width="212" height="12" rx="4" fill="#c69434" stroke="#4a3620" stroke-width="2.4"/>' : ''}
+      ${phase >= 1 ? '<rect x="97" y="166" width="16" height="40" rx="8" fill="#a89478" stroke="#4a3620" stroke-width="3"/><rect x="267" y="166" width="16" height="40" rx="8" fill="#a89478" stroke="#4a3620" stroke-width="3"/><rect x="82" y="156" width="216" height="15" rx="7.5" fill="#c69434" stroke="#4a3620" stroke-width="3"/><path d="M94 160H160" stroke="#ffe49a" stroke-width="2.4" stroke-linecap="round"/>' : ''}
       ${[248, 190, 132].map(jar).join('')}
     </g>`;
   }

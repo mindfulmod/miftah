@@ -19,6 +19,8 @@
 (function (ns) {
   const INK = "#4a3620";
   const shuffle = (list) => { const a = list.slice(); for (let i = a.length - 1; i > 0; i -= 1) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+  // Smart Choices (v50): the Garden Brain picks the wrong answers.
+  const smart = (target, pool, n, skill, beginner) => (ns.gardenBrain?.others ? ns.gardenBrain.others(target, pool, n, { skill, beginner }) : shuffle(pool.filter((c) => c !== target)).slice(0, n));
   const F = () => ns.LetterFriends;
   const S = () => ns.LettersStrokes;
   const nameOf = (c) => (ns.LETTERS_DATA?.packs || []).flatMap((p) => p.letters).find((l) => l.char === c)?.arName || c;
@@ -181,7 +183,7 @@
       while (cut < chars.length && /[ًٌٍَُِّْٰ]/.test(chars[cut])) cut += 1;
       this.rest = chars.slice(cut).join("");
       const n = this.ctx.beginner ? 2 : 3;
-      this.offered = shuffle([card.char, ...shuffle(this.known.filter((c) => c !== card.char)).slice(0, n - 1)]);
+      this.offered = shuffle([card.char, ...smart(card.char, this.known, n - 1, "friend", this.ctx.beginner)]);
       this.root.innerHTML = `
         <div class="ws-card"><span class="ws-pic">${card.art}</span>
           <div class="ws-word" dir="rtl" lang="ar"><span class="ws-hole" aria-label="The missing letter"></span><span class="ws-rest">${this.rest}</span></div>

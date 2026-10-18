@@ -36,15 +36,22 @@
     </svg>`;
   }
 
+  // 2026-10-18 (construction detail): the catch game's framing trees are
+  // built like the DetailKit tree — an inked barked trunk with root flare,
+  // forked branches, a clumped lit canopy with leaf ticks, and apples.
   function orchardTree(side) {
+    const C = [[75, 58, 44], [36, 76, 32], [114, 74, 32], [52, 30, 30], [100, 28, 30], [75, 98, 28], [128, 46, 22], [22, 46, 22]];
+    const canopy = C.map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r + 4}" fill="#4a3620"/>`).join('') + C.map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="#4e9677"/>`).join('') + C.map(([x, y, r]) => `<circle cx="${x - r * 0.14}" cy="${y - r * 0.16}" r="${r * 0.84}" fill="#7fce54"/>`).join('') + C.filter(([, y]) => y < 60).map(([x, y, r]) => `<circle cx="${x - r * 0.3}" cy="${y - r * 0.32}" r="${r * 0.4}" fill="#b7e779"/>`).join('') + C.map(([x, y, r]) => `<path d="M${x + r * 0.2} ${y + r * 0.25}q4 -6 10 -4" fill="none" stroke="#4e9677" stroke-width="3" stroke-linecap="round"/>`).join('');
+    // Blossoms, not apples: decorative fruit would compete with the golden
+    // letter apples the child is meant to tap.
+    const apples = [[50, 70], [96, 52], [80, 100], [118, 86], [34, 44]].map(([x, y]) => `${[0, 72, 144, 216, 288].map((a) => `<circle cx="${x}" cy="${y - 3.5}" r="3.5" fill="#fffaf0" opacity=".9" transform="rotate(${a} ${x} ${y})"/>`).join('')}<circle cx="${x}" cy="${y}" r="2.4" fill="#ffa798"/>`).join('');
     return prop('orchard-tree '+side, `<ellipse cx="70" cy="364" rx="43" ry="10" fill="#2f5c46" opacity=".2"/>
-      <path d="M49 78Q43 218 39 348L28 362Q66 371 94 358L82 346Q71 204 83 80Z" fill="#a89478"/>
-      <path d="M53 79Q50 218 48 347L43 357L61 358Q58 200 68 80Z" fill="#e5dcc8"/>
-      <path d="M79 78Q71 211 82 346L94 358L71 361Q68 207 72 78Z" fill="#4a3620" opacity=".5"/>
-      <path d="M0 40Q-10 1 31 9Q63-16 89 9Q144-5 147 40Q182 62 146 84Q154 122 115 123Q95 150 63 129Q15 153 12 116Q-25 111-11 79Q-25 52 0 40Z" fill="#2f5c46"/>
-      <path d="M0 33Q5 4 33 17Q66-4 90 18Q133 6 139 40Q168 67 137 82Q139 108 112 108Q82 131 60 111Q25 131 19 102Q-15 98-4 74Q-17 50 0 33Z" fill="#4e9677"/>
-      <path d="M5 34Q19 15 35 25Q64 9 86 29Q114 16 131 37Q100 28 87 43Q63 22 37 43Q22 33 5 48Z" fill="#b7e779"/>
-      <path d="M34 354Q14 349 9 330Q36 328 43 347M83 352Q97 330 118 338Q113 356 83 360" fill="#4e9677"/>`, '0 0 150 380');
+      <path d="M48 110Q43 230 40 346Q30 352 24 362H98Q90 352 82 346Q76 230 84 110Z" fill="#c69434" stroke="#4a3620" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M58 140V200M66 230V300M56 320Q52 340 44 352M74 330Q80 344 90 354" fill="none" stroke="#70501b" stroke-width="3" stroke-linecap="round"/>
+      <path d="M54 130L66 128" stroke="#ffe49a" stroke-width="3" stroke-linecap="round" opacity=".7"/>
+      <path d="M62 120Q40 110 28 90M74 116Q100 104 116 86" fill="none" stroke="#4a3620" stroke-width="8" stroke-linecap="round"/><path d="M62 120Q40 110 28 90M74 116Q100 104 116 86" fill="none" stroke="#c69434" stroke-width="4" stroke-linecap="round"/>
+      ${canopy}${apples}
+      <path d="M34 354Q14 349 9 330Q36 328 43 347M83 352Q97 330 118 338Q113 356 83 360" fill="#7fce54" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/>`, '0 0 150 380');
   }
 
   function catchOrchard() {

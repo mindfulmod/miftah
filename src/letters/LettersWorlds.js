@@ -36,6 +36,8 @@
       this.letters = this.data.packs.flatMap((p) => p.letters);
       this.examplePool = []; // real short Quran words, loaded async
       this.worlds = this.buildWorlds();
+      // v58: each chapter's mark by id, so a keepsake can carry its chapter's tag.
+      ns.LettersWorldMarks = Object.fromEntries(this.worlds.map((w) => [w.id, w.icon]));
     }
 
     // Same sources as LetterEngine: the short surahs give the decode world
@@ -57,7 +59,7 @@
         const {n,data}=result.value;
         if (!Array.isArray(data?.ayahs)) continue;
         // Ayah Garden (v15) reads whole surahs, so keep them, not just words.
-        (this.surahs ||= new Map()).set(n, { number: n, name: data.surah?.name || '', ayahs: data.ayahs.filter(a => Array.isArray(a?.words)).map(a => ({ number: a.number, words: a.words.filter(w => typeof w?.arabic === 'string').map(w => ({ arabic: w.arabic, audioPath: w.audio || `wbw/${pad3(n)}_${pad3(a.number)}_${pad3(w.position)}.mp3` })) })) });
+        (this.surahs ||= new Map()).set(n, { number: n, name: data.surah?.name || '', ayahs: data.ayahs.filter(a => Array.isArray(a?.words)).map(a => ({ number: a.number, words: a.words.filter(w => typeof w?.arabic === 'string').map(w => ({ arabic: w.arabic, root: typeof w.root === 'string' ? w.root : '', audioPath: w.audio || `wbw/${pad3(n)}_${pad3(a.number)}_${pad3(w.position)}.mp3` })) })) });
         for (const ayah of data.ayahs) {
           if (!Array.isArray(ayah?.words)) continue;
           for (const w of ayah.words) {
@@ -485,8 +487,8 @@
       // The word ramp: two-letter words, then three, then the long ones —
       // each with the reciter's real audio.
       addWordWorld("words-2", "مِن", 2, 2, ["feed", "build", "pop"]);
-      addWordWorld("decode", "📖", 3, 3, ["feed", "build", "pop"]);
-      addWordWorld("decode-4", "📗", 4, 5, ["feed", "pop", "pairs"]);
+      addWordWorld("decode", "art:book", 3, 3, ["feed", "build", "pop"]);
+      addWordWorld("decode-4", "art:books", 4, 5, ["feed", "pop", "pairs"]);
 
       // Biome chapters (specs/02): each stretch of the qaida ladder lives in
       // its own land, so progress feels like TRAVEL — letters meadow, syllable

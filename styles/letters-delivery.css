@@ -17,7 +17,8 @@
 .delivery-packet-art{display:block;width:90%;height:94%;pointer-events:none}
 .delivery-packet:active,.delivery-packet.is-dragging{transform:translateY(-5px)}
 .delivery-packet.is-selected,.delivery-packet.is-help{border-color:#e8743c;background:#ffe49a}
-.delivery-packet.is-removed{opacity:.22;box-shadow:none}
+.delivery-packet.is-removed{opacity:.3;box-shadow:none;scale:.86;translate:0 6px;transition:opacity 460ms ease-out,scale 520ms ease-out,translate 520ms ease-out} /* v68: rests in its own colours, like .is-scaffolded */
+@media(prefers-reduced-motion:reduce){.delivery-packet.is-removed{scale:none;translate:none}}.lg-reduce-motion .delivery-packet.is-removed{scale:none;translate:none}
 .delivery-packet:focus-visible{outline:4px solid var(--lg-focus);outline-offset:3px}
 .delivery-status{display:grid;place-items:center;min-height:34px;color:#4e9677}
 .delivery-status>svg{width:30px;height:30px}

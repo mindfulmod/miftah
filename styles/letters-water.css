@@ -2,6 +2,9 @@
    buttons over it so the letters stay live, fitted Arabic and big targets. */
 .water-garden { position:relative; width:min(560px,100%); margin:0 auto; aspect-ratio:360/320; max-height:68vh; }
 .water-garden .wg-scene { display:block; width:100%; height:100%; }
+/* v58: framed like every other play panel (a hard-cut green block read as unfinished). The frame is an overlay, so the gates stay aligned to the scene. */
+.water-garden .wg-scene { border-radius:26px; box-shadow:0 6px 0 #4a3620; }
+.water-garden::after { content:""; position:absolute; inset:0; border:3px solid #4a3620; border-radius:26px; pointer-events:none; }
 .wg-gates, .wg-bends { position:absolute; inset:0; pointer-events:none; }
 .wg-gate-tag, .wg-bend { position:absolute; pointer-events:auto; transform:translate(-50%,-50%); touch-action:manipulation; -webkit-tap-highlight-color:transparent; }
 .wg-gate-tag { top:24%; width:max(54px,15%); aspect-ratio:1; display:grid; place-items:center; padding:0; background:#fffdf7; border:3px solid #4a3620; border-radius:14px; box-shadow:0 4px 0 #c9bda4; font:400 clamp(26px,7vw,40px)/1 "Amiri Quran",serif; color:#4a3620; transition:transform 260ms cubic-bezier(.2,.8,.2,1); }

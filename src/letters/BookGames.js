@@ -20,6 +20,8 @@
 (function (ns) {
   const INK = "#4a3620";
   const shuffle = (list) => { const a = list.slice(); for (let i = a.length - 1; i > 0; i -= 1) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+  // Smart Choices (v50): the Garden Brain picks the wrong answers.
+  const smart = (target, pool, n, skill, beginner) => (ns.gardenBrain?.others ? ns.gardenBrain.others(target, pool, n, { skill, beginner }) : shuffle(pool.filter((c) => c !== target)).slice(0, n));
   const F = () => ns.LetterFriends;
   const P = () => ns.PictureWords;
   const letterItems = (ctx) => [...new Map([...(ctx.items || []), ...(ctx.known || [])].filter((i) => i?.display && F()?.FRIENDS?.[i.display]).map((i) => [i.display, i])).values()];
@@ -60,7 +62,10 @@
   }
 
   // ---------- Peekaboo Flaps ----------
-  const FLAP = (i) => `<svg class="bk-flap-door" viewBox="0 0 100 110" aria-hidden="true"><path d="M8 104V30Q8 6 50 6Q92 6 92 30V104Z" fill="${["#7fce54", "#b7e779", "#4e9677", "#7fce54"][i % 4]}" stroke="${INK}" stroke-width="4" stroke-linejoin="round"/><path d="M22 34Q30 22 40 30M58 24Q68 18 76 28M30 62Q38 52 48 60M60 70Q70 62 78 72" fill="none" stroke="#4e9677" stroke-width="3" stroke-linecap="round"/></svg>`;
+  // v58: doors alternate two light greens. The third door was dark #4e9677, the
+  // same colour as the leaf marks, so it looked blank and different: an odd one
+  // out a child could pick by sight when it happened to hide the answer.
+  const FLAP = (i) => `<svg class="bk-flap-door" viewBox="0 0 100 110" aria-hidden="true"><path d="M8 104V30Q8 6 50 6Q92 6 92 30V104Z" fill="${["#7fce54", "#b7e779"][i % 2]}" stroke="${INK}" stroke-width="4" stroke-linejoin="round"/><path d="M22 34Q30 22 40 30M58 24Q68 18 76 28M30 62Q38 52 48 60M60 70Q70 62 78 72" fill="none" stroke="#4e9677" stroke-width="3" stroke-linecap="round"/></svg>`;
 
   class PeekFlaps extends Base {
     constructor(ctx) {
@@ -82,7 +87,8 @@
       const n = Math.min(this.ctx.beginner ? 3 : 4, this.letters.length);
       const pool = this.round < this.letters.length ? this.letters : shuffle(this.letters);
       const target = (this.ctx.items || []).filter((i) => F()?.FRIENDS?.[i.display])[this.round % Math.max(1, (this.ctx.items || []).length)] || pool[this.round % pool.length];
-      this.offered = shuffle([target, ...shuffle(this.letters.filter((l) => l.display !== target.display)).slice(0, n - 1)]);
+      const picked = ns.gardenBrain?.others ? ns.gardenBrain.others(target.display, this.letters.map((l) => l.display), n - 1, { skill: "friend", beginner: this.ctx.beginner }) : null;
+      this.offered = shuffle([target, ...(picked ? picked.map((c) => this.letters.find((l) => l.display === c)).filter(Boolean) : shuffle(this.letters.filter((l) => l.display !== target.display)).slice(0, n - 1))]);
       this.target = target.display;
       this.hidden = this.offered.map((l) => this.hider(l.display));
       this.word = this.hidden[this.offered.indexOf(target)].item;
@@ -199,7 +205,7 @@
       this.busy = false; this.missed = false;
       const target = this.stops[this.page];
       const n = Math.min(this.ctx.beginner ? 2 : 3, this.known.length);
-      this.offered = shuffle([target, ...shuffle(this.known.filter((c) => c !== target && !this.parade.includes(c))).slice(0, n - 1)]);
+      this.offered = shuffle([target, ...smart(target, this.known.filter((c) => !this.parade.includes(c)), n - 1, "friend", this.ctx.beginner)]);
       this.begin(target);
       this.root.innerHTML = `${this.paradeHTML()}
         <div class="bk-sign"><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M56 60V116" stroke="#70501b" stroke-width="8" stroke-linecap="round"/><path d="M14 16H106V64H14Z" fill="#fffaf0" stroke="${INK}" stroke-width="4" stroke-linejoin="round"/></svg><span>${F().art(target, { size: 62, mode: "plain" })}</span></div>
@@ -232,11 +238,16 @@
         if (!this.alive) return;
         const el = [...this.root.querySelectorAll(".bk-walker")][this.parade.indexOf(c)];
         el?.classList.add("is-saying");
-        await this.ctx.say?.(F().item(c));
+        // v58: each name waits at most 2s. A spoken name takes about one;
+        // with no voice (offline, blocked audio) every step used to wait for
+        // the 6.5s speech timeout, freezing a 3-friend refrain for ~20s.
+        await Promise.race([this.ctx.say?.(F().item(c)), new Promise((ok) => this.later(ok, 2000))]);
         el?.classList.remove("is-saying");
       }
       this.later(() => this.show(), 500);
     }
+    // Quality pass (v40): the replay button says the stop's letter again.
+    replayPrompt() { if (!this.busy && this.page < this.stops.length) { const c = this.stops[this.page]; this.say({ id: c, display: c, speak: ns.LETTERS_DATA?.packs?.flatMap((p) => p.letters).find((l) => l.char === c)?.arName || c }); } }
     home() {
       this.root.innerHTML = `${this.paradeHTML()}<div class="bk-home" aria-hidden="true"><svg viewBox="0 0 160 120"><path d="M20 112V58L80 18L140 58V112Z" fill="#ffa798" stroke="${INK}" stroke-width="4" stroke-linejoin="round"/><path d="M64 112V78H96V112" fill="#c25a49" stroke="${INK}" stroke-width="3"/><path d="M8 62L80 10L152 62" fill="none" stroke="#c25a49" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>`;
       this.root.classList.add("is-home");
@@ -260,7 +271,7 @@
       this.busy = false; this.missed = false;
       const target = this.order[this.round];
       const n = Math.min(this.ctx.beginner ? 2 : 3, this.letters.length);
-      this.offered = shuffle([target, ...shuffle(this.letters.filter((c) => c !== target)).slice(0, n - 1)]);
+      this.offered = shuffle([target, ...smart(target, this.letters, n - 1, "shape", this.ctx.beginner)]);
       this.target = target;
       this.begin(target);
       this.root.innerHTML = `<div class="bk-missing"><span class="bk-missing-friend">${F().art(target, { size: 190 }).replace('class="lf"', 'class="lf is-bodiless"')}</span></div>
@@ -285,6 +296,8 @@
       this.round += 1;
       this.later(() => this.next(), 2600);
     }
+    // The missing friend calls again (its sound, not its letter).
+    replayPrompt() { if (!this.busy && this.target) this.ctx.sfx?.(F().get(this.target).call); }
     finish() { this.busy = true; this.ctx.sfx?.("cheer2"); this.later(() => this.ctx.done?.(), 700); }
   }
 
@@ -319,28 +332,48 @@
     }
     showLens() {
       const c = this.lenses[this.lens];
+      this.misses = 0;
+      this.root.querySelectorAll(".bk-good.is-hint").forEach((b) => b.classList.remove("is-hint"));
       this.lensBtn.innerHTML = `<svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="52" cy="52" r="40" fill="#ccfbef" stroke="${INK}" stroke-width="6"/><path d="M82 82L110 110" stroke="#70501b" stroke-width="12" stroke-linecap="round" data-ribbon/></svg><span>${F().art(c, { size: 56, mode: F().look(ns.gardenBrain?.skills(c).friend) })}</span>`;
       this.bag.innerHTML = "";
       this.ctx.say?.({ id: c, display: c, speak: ns.LETTERS_DATA?.packs?.flatMap((p) => p.letters).find((l) => l.char === c)?.arName || c });
     }
+    // Quality pass (v40): finished lenses are remembered as a set, so the
+    // market always moves on to a lens with something left to find — a child
+    // who switched lenses by hand never lands on an empty one.
+    replayPrompt() { const c = this.lenses?.[this.lens]; if (c && !this.finished) this.ctx.say?.({ id: c, display: c, speak: ns.LETTERS_DATA?.packs?.flatMap((p) => p.letters).find((l) => l.char === c)?.arName || c }); }
+    left(c) { return this.goods.filter((g) => g.char === c && !this.found.has(g.id)).length; }
     nextLens(manual) {
-      this.lens = (this.lens + 1) % this.lenses.length;
-      if (!manual) this.done = (this.done || 0) + 1;
+      const n = this.lenses.length;
+      let k = (this.lens + 1) % n;
+      if (!manual) for (let step = 0; step < n && !this.left(this.lenses[k]); step += 1) k = (k + 1) % n;
+      this.lens = k;
       this.ctx.sfx?.("click");
       this.showLens();
     }
     tap(i, btn) {
+      if (this.finished) return;
       const p = this.goods[i], c = this.lenses[this.lens];
       this.ctx.say?.(P().item(p));
-      if (p.char !== c || this.found.has(p.id)) { this.wobble(btn); return; }
+      if (p.char !== c || this.found.has(p.id)) {
+        this.wobble(btn);
+        // A busy page can hide things well: after three misses on this lens,
+        // one thing still to find glows (and the helping hand can point at it).
+        if (p.char !== c && ++this.misses >= 3) {
+          const k = this.goods.findIndex((g) => g.char === c && !this.found.has(g.id));
+          this.root.querySelectorAll(".bk-good").forEach((b, j) => b.classList.toggle("is-hint", j === k));
+        }
+        return;
+      }
+      this.misses = 0;
+      this.root.querySelectorAll(".bk-good.is-hint").forEach((b) => b.classList.remove("is-hint"));
       this.found.add(p.id);
       btn.classList.add("is-found");
       this.bag.insertAdjacentHTML("beforeend", `<i>${P().art(p, 34)}</i>`);
       this.ctx.sfx?.("pop"); this.ctx.confettiAt?.(btn);
-      const left = this.goods.filter((g) => g.char === c && !this.found.has(g.id)).length;
-      if (!left) {
+      if (!this.left(c)) {
         this.ctx.pet?.cheer?.();
-        if ((this.done || 0) + 1 >= this.lenses.length) { this.later(() => { this.ctx.sfx?.("cheer2"); this.ctx.done?.(); }, 1400); return; }
+        if (this.lenses.every((l) => !this.left(l))) { this.finished = true; this.lensBtn.disabled = true; this.later(() => { this.ctx.sfx?.("cheer2"); this.ctx.done?.(); }, 1400); return; }
         this.later(() => this.nextLens(false), 1400);
       }
     }

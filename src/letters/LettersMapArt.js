@@ -124,11 +124,12 @@
       const left=Math.max(8,(w-lane)/2);
       for(let y=y0+gap*.5;y<y1-gap*.3;y+=gap*.5){
         const x=left+lane*(.03+((y/gap)%3)*.02),j=Math.round(y)%3;
-        if(run.biome==='orchard')scenery.push(`<g transform="translate(${x.toFixed(0)} ${y.toFixed(0)})" opacity=".6"><path d="M-10 0H34M-6 9H38M-2 18H42" stroke="#c69434" stroke-width="3" stroke-linecap="round" stroke-dasharray="6 6"/></g>`);
+        // v115: land scenery in the pet language (round, inked, one shine).
+        if(run.biome==='orchard')scenery.push(`<g transform="translate(${x.toFixed(0)} ${y.toFixed(0)})"><ellipse cx="2" cy="13" rx="22" ry="4.5" fill="#2f5c46" opacity=".18"/>${[[-8,-6],[0,-9],[8,-6],[-3,-3],[5,-3]].map(([ax,ay],k)=>`<circle cx="${ax}" cy="${ay}" r="4.5" fill="${k%3===1?'#f3c955':'#ee806f'}" stroke="#4a3620" stroke-width="1.6"/>`).join('')}<rect x="-16" y="-3" width="32" height="15" rx="4" fill="#c69434" stroke="#4a3620" stroke-width="2.4"/><path d="M-12 2H12M-12 7H12" stroke="#70501b" stroke-width="1.6" stroke-linecap="round"/><rect x="-18" y="-5" width="36" height="5" rx="2.5" fill="#ffe49a" stroke="#4a3620" stroke-width="1.6"/>${j?`<circle cx="24" cy="10" r="4" fill="#ee806f" stroke="#4a3620" stroke-width="1.6"/>`:''}</g>`);
         else if(run.biome==='lagoon')scenery.push(`<g transform="translate(${x.toFixed(0)} ${y.toFixed(0)})"><ellipse rx="${22+j*6}" ry="${8+j*2}" fill="#96ecff" opacity=".85"/><path d="M-8 -1q8-4 16 0" stroke="#ccfbef" stroke-width="2.4" fill="none" stroke-linecap="round"/></g>`);
         else if(run.biome==='night')scenery.push(`<g transform="translate(${x.toFixed(0)} ${y.toFixed(0)})"><circle r="10" fill="#ffe49a" opacity=".22"/><circle r="3" fill="#ffe49a"/><circle cx="22" cy="12" r="2.4" fill="#ffe49a" opacity=".8"/></g>`);
-        else if(run.biome==='peaks')scenery.push(`<g transform="translate(${x.toFixed(0)} ${y.toFixed(0)})"><path d="M-14 8Q-16-6-2-10Q14-12 18 2Q18 10 8 10H-8Q-14 10-14 8Z" fill="#c9bda4"/><path d="M-6-6Q2-9 10-6" stroke="#e5dcc8" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M-14 8H18" stroke="#a89478" stroke-width="2.4" stroke-linecap="round"/></g>`);
-        else if(run.biome==='river')scenery.push(`<g transform="translate(${x.toFixed(0)} ${y.toFixed(0)})"><ellipse rx="26" ry="8" fill="#e5dcc8"/><path d="M-12 -2l4-8M2 -3l2-9M12 -2l5-7" stroke="#4e9677" stroke-width="2.4" stroke-linecap="round"/></g>`);
+        else if(run.biome==='peaks')scenery.push(`<g transform="translate(${x.toFixed(0)} ${y.toFixed(0)})"><ellipse cx="4" cy="11" rx="20" ry="4" fill="#2f5c46" opacity=".18"/><path d="M-14 8Q-16-6-2-10Q14-12 18 2Q18 10 8 10H-8Q-14 10-14 8Z" fill="#c9bda4" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/><path d="M-4 2Q2 0 8 3" stroke="#a89478" stroke-width="2.4" fill="none" stroke-linecap="round"/><ellipse cx="-4" cy="-4" rx="5" ry="2" fill="#fffdf7" opacity=".7"/><ellipse cx="22" cy="9" rx="5" ry="3.5" fill="#e5dcc8" stroke="#a89478" stroke-width="1.6"/></g>`);
+        else if(run.biome==='river')scenery.push(`<g transform="translate(${x.toFixed(0)} ${y.toFixed(0)})"><ellipse rx="26" ry="8" fill="#e5dcc8" stroke="#a89478" stroke-width="1.6"/><path d="M-10 0Q-14 -10 -10 -16Q-6 -8 -8 0ZM2 -1Q0 -14 4 -20Q8 -10 6 -1ZM12 0Q16 -9 20 -12Q20 -4 14 0Z" fill="#7fce54" stroke="#4e9677" stroke-width="1.6" stroke-linejoin="round"/></g>`);
       }
     });
     const undergrowth=ordered.map((stop,i)=>{
@@ -136,24 +137,36 @@
       // never enter the central route, a star plaque, or the pet's space.
       const x=Math.max(8,(w-lane)/2)+lane*(.025+(i%3)*.012);
       const y=stop.y+(i%2?-52:62),scale=[.65,.85,1][i%3];
-      return `<g transform="translate(${x} ${y}) scale(${scale})" opacity="${night ? .85 : .8}">
-        <ellipse cx="10" cy="14" rx="25" ry="6" fill="#2f5c46" opacity=".16"/>
-        <path d="M9 13Q-13 9-9-9Q4-10 9 13Q10-17 24-20Q32-3 9 13Q30-4 39 5Q31 16 9 13Z" fill="#4e9677"/>
-        <path d="M8 12Q-5-1-7-6M12 11Q18-6 24-13" fill="none" stroke="#b7e779" stroke-width="1.6" stroke-linecap="round"/>
-        <ellipse cx="-16" cy="20" rx="8" ry="4" fill="#a89478"/><ellipse cx="-17" cy="18" rx="7" ry="3" fill="#e5dcc8"/>
+      // v113: the pet language — a round chunky bush (three soft lobes, ink
+      // edge, one shine, a colour-matched fold), a tiny flower and two pebbles.
+      const fl=['#ffa798','#e6d6f0','#ffe49a'][i%3], fd=['#ee806f','#b49fcf','#c69434'][i%3];
+      return `<g transform="translate(${x} ${y}) scale(${scale})">
+        <ellipse cx="10" cy="15" rx="26" ry="6" fill="#2f5c46" opacity=".18"/>
+        <path d="M-12 14Q-18 2 -8 -4Q-6 -16 8 -16Q20 -20 26 -8Q38 -4 34 8Q34 15 24 15H-6Q-12 15 -12 14Z" fill="#7fce54" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/>
+        <path d="M-2 8Q0 2 4 0M10 10Q12 4 16 2M22 8Q24 2 28 0" fill="none" stroke="#4e9677" stroke-width="2.4" stroke-linecap="round"/>
+        <ellipse cx="2" cy="-8" rx="6" ry="3" fill="#fffdf7" opacity=".55"/>
+        ${[0,72,144,216,288].map(a=>`<circle cx="30" cy="-12" r="3" fill="${fl}" stroke="${fd}" stroke-width="1.6" transform="rotate(${a} 30 -9)"/>`).join('')}<circle cx="30" cy="-9" r="2.4" fill="#f3c955"/>
+        <ellipse cx="-18" cy="18" rx="7" ry="4.5" fill="#e5dcc8" stroke="#a89478" stroke-width="1.6"/><ellipse cx="-8" cy="20" rx="4" ry="3" fill="#c9bda4" stroke="#a89478" stroke-width="1.6"/>
       </g>`;
+    }).join('');
+    // v65 (art system): soft hill terraces between stops — a lighter rise and
+    // a shaded fold — give the long map depth like the village's banded hills,
+    // instead of the left-right grass/soil gradient that read as stripes.
+    const terraces=ordered.map((stop,i)=>{
+      const y=stop.y+(ordered[1]?.y-ordered[0]?.y||220)*0.5*(i%2?1:-1)*0.0+90, a=i%2?-1:1;
+      return `<path d="M-20 ${y}Q${w*0.3} ${y-36*a} ${w*0.62} ${y-6}Q${w*0.85} ${y+18*a} ${w+20} ${y-10}V${y+70}H-20Z" fill="${soil}" opacity="${night ? .14 : .32}"/><path d="M-20 ${y+70}Q${w*0.35} ${y+54} ${w*0.7} ${y+72}Q${w*0.9} ${y+80} ${w+20} ${y+66}V${y+84}H-20Z" fill="#4e9677" opacity="${night ? .1 : .14}"/>`;
     }).join('');
     return `<svg class="map-landscape-art" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true">
       <defs>
-        <linearGradient id="${id}-ground" x1="0" x2="1" y1="0" y2="0"><stop stop-color="${grass}"/><stop offset=".4" stop-color="${soil}"/><stop offset="1" stop-color="${grass}"/></linearGradient>
+        <linearGradient id="${id}-ground" x1="0" x2="1" y1="0" y2="0"><stop stop-color="${grass}"/><stop offset="1" stop-color="${grass}"/></linearGradient>
         <linearGradient id="${id}-water" x1="0" x2="1" y1="0" y2="0"><stop stop-color="${night?'#3a8fc4':'#96ecff'}"/><stop offset=".65" stop-color="${night?'#34375f':'#62cdf4'}"/><stop offset="1" stop-color="${night?'#4a4d84':'#3a8fc4'}"/></linearGradient>
         ${habitatDefs}${bandDefs.join('')}
         <linearGradient id="${id}-light" x1="0" x2="1" y1="0" y2="0"><stop stop-color="${paper}" stop-opacity="0"/><stop offset=".4" stop-color="${paper}" stop-opacity="${night ? .08 : .12}"/><stop offset="1" stop-color="${paper}" stop-opacity="0"/></linearGradient>
       </defs>
       <path class="map-ground-plane" d="M0 0H${w}V${h}H0Z" fill="url(#${id}-ground)"/>
+      ${terraces}
       <path d="M0 0H${w}V${h}H0Z" fill="url(#${id}-light)"/>
-      <path d="${verge(38)}" fill="#4e9677" opacity="${night ? .22 : .12}"/>
-      <path d="${verge()}" fill="#2f5c46" opacity="${night ? .25 : .12}"/>
+      <path d="${verge()}" fill="#2f5c46" opacity="${night ? .14 : .06}"/>
       ${bands.join('')}${patches}${scenery.join('')}${undergrowth}
       ${brooks({width:w,pathWidth,stops}).map(b=>brookArt(b,night)).join('')}
       <path d="${water(-30)}" fill="#4e9677" opacity=".22"/>
@@ -164,13 +177,13 @@
       <g fill="none" stroke="#ccfbef" stroke-width="3" stroke-linecap="round" opacity="${night ? .2 : .5}">${glints.join('')}</g>
     </svg>`;
   }
-  function orchard(){return `<ellipse cx="85" cy="145" rx="67" ry="13" fill="#2f5c46" opacity=".18"/><path d="M20 132Q81 112 149 133Q147 149 86 151Q24 152 20 132Z" fill="#b7e779"/><path d="M75 134L78 64H94L100 134Z" fill="#c9bda4"/><path d="M85 131L87 71H94L100 134Z" fill="#a89478"/><path d="M83 105L60 82M90 100L114 74" fill="none" stroke="#a89478" stroke-width="6" stroke-linecap="round"/><g class="lm-canopy"><path d="M29 78Q12 55 32 41Q31 17 60 20Q79-3 100 19Q134 11 137 39Q164 54 145 81Q119 103 90 88Q54 107 29 78Z" fill="#4e9677"/><path d="M29 64Q18 43 40 35Q43 15 67 27Q81 9 101 28Q127 20 132 44Q148 50 140 66Q117 81 88 68Q58 87 29 64Z" fill="#7fce54"/><path d="M39 42Q55 24 71 37Q83 21 100 37" fill="none" stroke="#b7e779" stroke-width="6" stroke-linecap="round"/></g>${[[48,64,9],[105,74,10],[120,43,7]].map(([x,y,r])=>`<g class="lm-fruit" data-y="${y}"><circle cx="${x}" cy="${y}" r="${r}" fill="#ee806f" stroke="${ink}" stroke-width="1.6"/><circle cx="${x-3}" cy="${y-3}" r="${Math.max(2,r/3)}" fill="#ffa798"/></g>`).join('')}<path d="M23 134Q28 119 40 125L42 140M118 141Q123 123 133 128L136 143" fill="#4e9677"/>`;}
-  function reeds(){return `<ellipse cx="90" cy="145" rx="67" ry="10" fill="#2f5c46" opacity=".18"/><path d="M14 130Q39 118 87 127Q129 113 157 132Q156 149 87 150Q23 150 14 130Z" fill="#96ecff"/><path d="M35 139Q69 130 116 138" fill="none" stroke="#ccfbef" stroke-width="4" stroke-linecap="round"/><g class="lm-reeds"><g fill="none" stroke="#4e9677" stroke-width="4" stroke-linecap="round"><path d="M68 140L49 46M78 140L89 24M89 140L116 56"/></g><g fill="#c9bda4" stroke="${ink}" stroke-width="1.6"><rect x="40" y="29" width="13" height="39" rx="6" transform="rotate(-10 47 46)"/><rect x="85" y="12" width="13" height="40" rx="6" transform="rotate(5 91 32)"/><rect x="113" y="43" width="12" height="32" rx="6" transform="rotate(16 119 59)"/></g></g><g class="lm-bug"><ellipse cx="47" cy="128" rx="9" ry="7" fill="#ee806f" stroke="${ink}" stroke-width="1.6"/><path d="M47 121V135" stroke="${ink}" stroke-width="1.6"/><circle cx="38" cy="126" r="3.5" fill="${ink}"/><circle cx="43" cy="126" r="1.6" fill="${ink}"/><circle cx="51" cy="131" r="1.6" fill="${ink}"/></g><g class="lm-leaf"><path d="M73 140Q20 119 29 80Q55 83 73 140Z" fill="#4e9677"/><path d="M72 136Q50 114 31 85" fill="none" stroke="#b7e779" stroke-width="2.4"/></g><path d="M86 141Q102 87 140 87Q142 122 86 141Z" fill="#4e9677"/><path d="M90 136Q120 113 137 92" fill="none" stroke="#b7e779" stroke-width="2.4"/><ellipse cx="131" cy="140" rx="20" ry="7" fill="#7fce54"/><path d="M129 133Q112 122 126 119Q133 107 138 120Q149 121 139 132Z" fill="#ee806f"/><circle cx="134" cy="128" r="4" fill="#ffe49a"/>`;}
-  function lantern(){return `<ellipse cx="89" cy="147" rx="65" ry="10" fill="#2f5c46" opacity=".25"/><path d="M19 139Q80 118 151 137L139 151H34Z" fill="#4e9677"/><path d="M45 141V48Q44 25 68 24H112" fill="none" stroke="#a89478" stroke-width="6" stroke-linecap="round"/><path d="M103 26V44" stroke="#4a3620" stroke-width="3"/><circle class="lm-glow" cx="103" cy="80" r="44" fill="#ffe49a" opacity="0"/><path d="M84 50L103 38L122 50L119 107Q103 118 87 107Z" fill="#c69434" stroke="${ink}" stroke-width="3" stroke-linejoin="round"/><path d="M91 55H115L112 101H94Z" fill="#ffe49a"/><path d="M98 57H110L108 95H99Z" fill="#fffaf0"/><path d="M86 51H121M88 108H119" stroke="${ink}" stroke-width="3"/><path d="M104 88C83 76 101 63 110 64Q98 78 112 81Z" fill="#f3c955"/><path d="M26 142Q17 121 33 112Q46 119 42 140M127 142Q132 117 146 125Q154 139 127 142Z" fill="#b7e779"/><g fill="#ffe49a">${[[67,104],[143,79],[27,71],[88,124],[124,118]].map(([x,y],i)=>`<circle class="lm-fly" cx="${x}" cy="${y}" r="2" opacity="${i<3?1:0}"/>`).join('')}</g>`;}
-  function peaks(){return `<ellipse cx="87" cy="149" rx="73" ry="9" fill="#2f5c46" opacity=".18"/><path d="M9 145L61 40L107 145Z" fill="#c9bda4"/><path d="M61 40L70 144H107Z" fill="#a89478"/><path d="M45 72L61 40L76 71L61 65Z" fill="#fffaf0"/><path d="M62 145L115 10L165 145Z" fill="#e5dcc8"/><path d="M115 10L118 144H165Z" fill="#c9bda4"/><path d="M95 62L115 10L136 66L119 52L109 65Z" fill="#fffdf7"/><path d="M10 144Q56 129 84 141Q125 132 163 144L153 154H22Z" fill="#b7e779"/><path d="M28 141L41 107L54 141M128 144L141 113L154 144" fill="#4e9677"/><path d="M39 144V132M141 147V136" stroke="#a89478" stroke-width="3"/>`;}
+  function orchardClassic(){return `<ellipse cx="85" cy="145" rx="67" ry="13" fill="#2f5c46" opacity=".18"/><path d="M20 132Q81 112 149 133Q147 149 86 151Q24 152 20 132Z" fill="#b7e779"/><path d="M75 134L78 64H94L100 134Z" fill="#c69434" stroke="${ink}" stroke-width="3" stroke-linejoin="round"/><path d="M88 131L89 71H94L100 134Z" fill="#70501b" opacity=".45"/><path d="M83 105L60 82M90 100L114 74" fill="none" stroke="#a89478" stroke-width="6" stroke-linecap="round"/><g class="lm-canopy"><path d="M29 78Q12 55 32 41Q31 17 60 20Q79-3 100 19Q134 11 137 39Q164 54 145 81Q119 103 90 88Q54 107 29 78Z" fill="#4e9677" stroke="${ink}" stroke-width="3" stroke-linejoin="round"/><path d="M29 64Q18 43 40 35Q43 15 67 27Q81 9 101 28Q127 20 132 44Q148 50 140 66Q117 81 88 68Q58 87 29 64Z" fill="#7fce54"/><path d="M39 42Q55 24 71 37Q83 21 100 37" fill="none" stroke="#b7e779" stroke-width="6" stroke-linecap="round"/></g>${[[48,64,9],[105,74,10],[120,43,7]].map(([x,y,r])=>`<g class="lm-fruit" data-y="${y}"><circle cx="${x}" cy="${y}" r="${r}" fill="#ee806f" stroke="${ink}" stroke-width="1.6"/><circle cx="${x-3}" cy="${y-3}" r="${Math.max(2,r/3)}" fill="#ffa798"/></g>`).join('')}<path d="M23 134Q28 119 40 125L42 140M118 141Q123 123 133 128L136 143" fill="#4e9677"/>`;}
+  function reedsClassic(){return `<ellipse cx="90" cy="145" rx="67" ry="10" fill="#2f5c46" opacity=".18"/><path d="M14 130Q39 118 87 127Q129 113 157 132Q156 149 87 150Q23 150 14 130Z" fill="#96ecff" stroke="${ink}" stroke-width="3" stroke-linejoin="round"/><path d="M35 139Q69 130 116 138" fill="none" stroke="#ccfbef" stroke-width="4" stroke-linecap="round"/><g class="lm-reeds"><g fill="none" stroke="#4e9677" stroke-width="4" stroke-linecap="round"><path d="M68 140L49 46M78 140L89 24M89 140L116 56"/></g><g fill="#c9bda4" stroke="${ink}" stroke-width="1.6"><rect x="40" y="29" width="13" height="39" rx="6" transform="rotate(-10 47 46)"/><rect x="85" y="12" width="13" height="40" rx="6" transform="rotate(5 91 32)"/><rect x="113" y="43" width="12" height="32" rx="6" transform="rotate(16 119 59)"/></g></g><g class="lm-bug"><ellipse cx="47" cy="128" rx="9" ry="7" fill="#ee806f" stroke="${ink}" stroke-width="1.6"/><path d="M47 121V135" stroke="${ink}" stroke-width="1.6"/><circle cx="38" cy="126" r="3.5" fill="${ink}"/><circle cx="43" cy="126" r="1.6" fill="${ink}"/><circle cx="51" cy="131" r="1.6" fill="${ink}"/></g><g class="lm-leaf"><path d="M73 140Q20 119 29 80Q55 83 73 140Z" fill="#4e9677"/><path d="M72 136Q50 114 31 85" fill="none" stroke="#b7e779" stroke-width="2.4"/></g><path d="M86 141Q102 87 140 87Q142 122 86 141Z" fill="#4e9677"/><path d="M90 136Q120 113 137 92" fill="none" stroke="#b7e779" stroke-width="2.4"/><ellipse cx="131" cy="140" rx="20" ry="7" fill="#7fce54"/><path d="M129 133Q112 122 126 119Q133 107 138 120Q149 121 139 132Z" fill="#ee806f"/><circle cx="134" cy="128" r="4" fill="#ffe49a"/>`;}
+  function lanternClassic(){return `<ellipse cx="89" cy="147" rx="65" ry="10" fill="#2f5c46" opacity=".25"/><path d="M19 139Q80 118 151 137L139 151H34Z" fill="#4e9677"/><path d="M45 141V48Q44 25 68 24H112" fill="none" stroke="#a89478" stroke-width="6" stroke-linecap="round"/><path d="M103 26V44" stroke="#4a3620" stroke-width="3"/><circle class="lm-glow" cx="103" cy="80" r="44" fill="#ffe49a" opacity="0"/><path d="M84 50L103 38L122 50L119 107Q103 118 87 107Z" fill="#c69434" stroke="${ink}" stroke-width="3" stroke-linejoin="round"/><path d="M91 55H115L112 101H94Z" fill="#ffe49a"/><path d="M98 57H110L108 95H99Z" fill="#fffaf0"/><path d="M86 51H121M88 108H119" stroke="${ink}" stroke-width="3"/><path d="M104 88C83 76 101 63 110 64Q98 78 112 81Z" fill="#f3c955"/><path d="M26 142Q17 121 33 112Q46 119 42 140M127 142Q132 117 146 125Q154 139 127 142Z" fill="#b7e779"/><g fill="#ffe49a">${[[67,104],[143,79],[27,71],[88,124],[124,118]].map(([x,y],i)=>`<circle class="lm-fly" cx="${x}" cy="${y}" r="2" opacity="${i<3?1:0}"/>`).join('')}</g>`;}
+  function peaksClassic(){return `<ellipse cx="87" cy="149" rx="73" ry="9" fill="#2f5c46" opacity=".18"/><path d="M9 145L61 40L107 145Z" fill="#c9bda4"/><path d="M61 40L70 144H107Z" fill="#a89478"/><path d="M45 72L61 40L76 71L61 65Z" fill="#fffaf0"/><path d="M62 145L115 10L165 145Z" fill="#e5dcc8"/><path d="M115 10L118 144H165Z" fill="#c9bda4"/><path d="M95 62L115 10L136 66L119 52L109 65Z" fill="#fffdf7"/><path d="M10 144Q56 129 84 141Q125 132 163 144L153 154H22Z" fill="#b7e779"/><path d="M28 141L41 107L54 141M128 144L141 113L154 144" fill="#4e9677"/><path d="M39 144V132M141 147V136" stroke="#a89478" stroke-width="3"/>`;}
   // The meadow's own landmark: a wildflower patch with a little skep hive.
-  function wildflowers(){return `<ellipse cx="88" cy="146" rx="70" ry="10" fill="#2f5c46" opacity=".18"/><path d="M16 138Q84 112 158 136Q150 152 86 152Q24 152 16 138Z" fill="#b7e779"/><g class="lm-hive"><path d="M110 132Q108 92 132 88Q156 92 154 132Z" fill="#f3c955" stroke="${ink}" stroke-width="3" stroke-linejoin="round"/><path d="M112 118Q132 112 152 118M111 104Q132 98 153 104" fill="none" stroke="#c69434" stroke-width="2.4"/><path d="M127 132Q127 122 132 122Q137 122 137 132Z" fill="${ink}"/></g>${[[34,96,'#ffa798'],[58,84,'#b49fcf'],[80,100,'#f3c955'],[46,116,'#ee806f'],[96,118,'#ffa798']].map(([x,y,c])=>`<path d="M${x} 138Q${x+2} ${y+20} ${x} ${y+6}" fill="none" stroke="#4e9677" stroke-width="3" stroke-linecap="round"/><g transform="translate(${x} ${y})">${[0,72,144,216,288].map(a=>`<ellipse cy="-6" rx="4.5" ry="7" transform="rotate(${a})" fill="${c}" stroke="${ink}" stroke-width="1.6"/>`).join('')}<circle r="3.5" fill="#ffe49a" stroke="${ink}" stroke-width="1.6"/></g>`).join('')}<path d="M24 138Q30 124 38 132M64 140Q70 126 78 134" fill="#7fce54"/>`;}
-  function landing(){return `<ellipse cx="80" cy="137" rx="66" ry="9" fill="#2f5c46" opacity=".18"/><path d="M8 132Q41 114 72 127L70 145Q31 151 8 132Z" fill="#b7e779"/><path d="M62 125L157 105V124L64 144Z" fill="#a89478"/><path d="M60 111L159 91L166 112L63 135Z" fill="#e5dcc8" stroke="${ink}" stroke-width="2.4" stroke-linejoin="round"/><path d="M74 109L79 128M94 105L99 124M114 101L119 120M135 96L141 115" stroke="#c9bda4" stroke-width="3"/><path d="M65 112V91M154 94V75M66 95L153 78" fill="none" stroke="#a89478" stroke-width="4" stroke-linecap="round"/><path d="M70 135V147M155 116V132" stroke="#a89478" stroke-width="6" stroke-linecap="round"/><path d="M32 135Q12 126 16 109Q32 116 32 135M39 137Q39 111 53 103Q60 121 39 137Z" fill="#4e9677"/><path d="M51 134Q58 119 68 126L70 138Z" fill="#7fce54"/><path d="M146 144L169 139" stroke="#ccfbef" stroke-width="2.4" stroke-linecap="round"/>`;}
+  function wildflowersClassic(){return `<ellipse cx="88" cy="146" rx="70" ry="10" fill="#2f5c46" opacity=".18"/><path d="M16 138Q84 112 158 136Q150 152 86 152Q24 152 16 138Z" fill="#b7e779"/><g class="lm-hive"><path d="M110 132Q108 92 132 88Q156 92 154 132Z" fill="#f3c955" stroke="${ink}" stroke-width="3" stroke-linejoin="round"/><path d="M112 118Q132 112 152 118M111 104Q132 98 153 104" fill="none" stroke="#c69434" stroke-width="2.4"/><path d="M127 132Q127 122 132 122Q137 122 137 132Z" fill="${ink}"/></g>${[[34,96,'#ffa798'],[58,84,'#b49fcf'],[80,100,'#f3c955'],[46,116,'#ee806f'],[96,118,'#ffa798']].map(([x,y,c])=>`<path d="M${x} 138Q${x+2} ${y+20} ${x} ${y+6}" fill="none" stroke="#4e9677" stroke-width="3" stroke-linecap="round"/><g transform="translate(${x} ${y})">${[0,72,144,216,288].map(a=>`<ellipse cy="-6" rx="4.5" ry="7" transform="rotate(${a})" fill="${c}" stroke="${ink}" stroke-width="1.6"/>`).join('')}<circle r="3.5" fill="#ffe49a" stroke="${ink}" stroke-width="1.6"/></g>`).join('')}<path d="M24 138Q30 124 38 132M64 140Q70 126 78 134" fill="#7fce54"/>`;}
+  function landingClassic(){return `<ellipse cx="80" cy="137" rx="66" ry="9" fill="#2f5c46" opacity=".18"/><path d="M8 132Q41 114 72 127L70 145Q31 151 8 132Z" fill="#b7e779"/><path d="M62 125L157 105V124L64 144Z" fill="#a89478"/><path d="M60 111L159 91L166 112L63 135Z" fill="#e5dcc8" stroke="${ink}" stroke-width="2.4" stroke-linejoin="round"/><path d="M74 109L79 128M94 105L99 124M114 101L119 120M135 96L141 115" stroke="#c9bda4" stroke-width="3"/><path d="M65 112V91M154 94V75M66 95L153 78" fill="none" stroke="#a89478" stroke-width="4" stroke-linecap="round"/><path d="M70 135V147M155 116V132" stroke="#a89478" stroke-width="6" stroke-linecap="round"/><path d="M32 135Q12 126 16 109Q32 116 32 135M39 137Q39 111 53 103Q60 121 39 137Z" fill="#4e9677"/><path d="M51 134Q58 119 68 126L70 138Z" fill="#7fce54"/><path d="M146 144L169 139" stroke="#ccfbef" stroke-width="2.4" stroke-linecap="round"/>`;}
   // Which landmark a chapter shows. Orchard trees, pond reeds and lanterns are toys.
   function kind(biome='meadow',variant=0){
     if(biome==='meadow'&&variant===1)return'basket';
@@ -188,7 +201,7 @@
 
   // A footbridge laid along the trail's direction where it crosses a brook.
   // Centered on the crossing; planks run across the path, rails along it.
-  function bridge(){
+  function bridgeClassic(){
     const planks=[-22,-14,-6,2,10,18].map(x=>`<path d="M${x} -11V11"/>`).join('');
     return `<ellipse cx="0" cy="10" rx="38" ry="7" fill="#2f5c46" opacity=".2"/>
       <rect x="-31" y="-14" width="62" height="28" rx="6" fill="#c9bda4" stroke="${ink}" stroke-width="2.4"/>
@@ -199,7 +212,7 @@
   }
 
   // A wooden waterwheel standing in a brook. It turns slowly on its own.
-  function waterwheel(){
+  function waterwheelClassic(){
     const spokes=[0,45,90,135].map(a=>`<path d="M60 18V98" transform="rotate(${a} 60 58)"/>`).join('');
     const paddles=[0,45,90,135,180,225,270,315].map(a=>`<rect x="53" y="10" width="14" height="13" rx="2" transform="rotate(${a} 60 58)"/>`).join('');
     const drops=[[24,96],[36,88],[86,90],[98,98]].map(([x,y])=>`<circle class="lm-drop" cx="${x}" cy="${y}" r="3" fill="#96ecff" opacity="0"/>`).join('');
@@ -221,6 +234,129 @@
     </svg>`;
   }
 
+
+  // ---------- v104: map landmarks in the pet's language (same as the
+  // village, v103): flat colour + one shine, chunky round low-and-wide
+  // shapes, one ink weight (4, small parts 3), fewer bigger parts. Same
+  // colours. Every animated hook (lm-canopy, lm-fruit[data-y], lm-reeds,
+  // lm-leaf, lm-bug, lm-glow, lm-fly, lm-hive, lm-spin/lm-wheel, lm-drop)
+  // and its pivot is kept, so the toys behave as before. Classic versions
+  // above stay for A/B. ----------
+  const K=(w=4)=>`stroke="${ink}" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round"`;
+  const SH=(cx,cy,rx,ry=rx*.5,rot=-20)=>`<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}" transform="rotate(${rot} ${cx} ${cy})" fill="#fffdf7" opacity=".75"/>`;
+  const GR=(cx,cy,rx)=>`<ellipse cx="${cx}" cy="${cy}" rx="${rx}" ry="${(rx*.17).toFixed(1)}" fill="#2f5c46" opacity=".2"/>`;
+  const MOUND=(c='#b7e779')=>`<path d="M14 146Q16 124 88 122Q160 124 162 146Q88 154 14 146Z" fill="${c}"/>`;
+  // v104b (owner: "increase the level of detail"): same round silhouettes,
+  // richer insides — detail strokes are thin (2.4) in a deeper shade of the
+  // object's own colour (colour-matched lines), plus small charming parts.
+  const DL=(c,w=2.4)=>`fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"`;
+  const TUFT=(x,y,c='#4e9677')=>`<path d="M${x-6} ${y}Q${x-6} ${y-8} ${x-2} ${y-10}M${x} ${y}Q${x} ${y-10} ${x+3} ${y-13}M${x+6} ${y}Q${x+7} ${y-7} ${x+10} ${y-8}" ${DL(c,3)}/>`;
+  const PETALS=(x,y,c,d,r=5)=>`${[0,72,144,216,288].map(a=>`<circle cx="${x}" cy="${y-r}" r="${r}" fill="${c}" stroke="${d}" stroke-width="1.6" transform="rotate(${a} ${x} ${y})"/>`).join('')}<circle cx="${x}" cy="${y}" r="${r*.75}" fill="#f3c955" stroke="#c69434" stroke-width="1.6"/>`;
+  function orchard(){const D=ns.DetailKit;if(D)return `${GR(88,150,60)}${MOUND()}${TUFT(30,142)}${TUFT(140,144)}<g transform="translate(88 146) scale(.95)">${D.tree({seed:3,hooks:true})}</g>`;return orchardV104();}
+  function orchardV104(){return `${GR(88,148,66)}${MOUND()}${TUFT(36,140)}${TUFT(136,142)}
+    <path d="M76 140Q70 146 62 146M100 140Q106 146 114 146" ${DL('#70501b',3)}/>
+    <path d="M78 140Q80 116 80 92H96Q96 116 98 140Z" fill="#c69434" ${K()}/>
+    <path d="M84 132Q86 118 84 104M92 124Q90 114 92 102" ${DL('#70501b')}/>
+    <g class="lm-canopy">
+      <path d="M44 84Q32 62 48 46Q50 24 74 22Q88 8 104 20Q128 18 132 42Q148 58 136 80Q134 100 112 102Q98 112 84 104Q66 112 54 100Q40 98 44 84Z" fill="#4e9677" ${K()}/>
+      <path d="M56 50Q66 36 82 38M104 36Q118 38 124 50M58 84Q66 92 78 90M108 88Q120 86 126 76" ${DL('#2f5c46')}/>
+      <path d="M62 44Q70 30 86 30" fill="none" stroke="#7fce54" stroke-width="4" stroke-linecap="round" opacity=".8"/>
+      ${SH(70,40,10,5)}
+    </g>
+    ${[[64,74],[104,58],[100,90]].map(([x,y])=>`<g class="lm-fruit" data-y="${y}"><path d="M${x} ${y-10}Q${x+2} ${y-15} ${x+5} ${y-16}" ${DL('#70501b',2.4)}/><path d="M${x+2} ${y-12}Q${x+10} ${y-16} ${x+12} ${y-10}Q${x+6} ${y-8} ${x+2} ${y-12}Z" fill="#7fce54" stroke="#4e9677" stroke-width="1.6"/><circle cx="${x}" cy="${y}" r="10" fill="#ee806f" ${K(3)}/><circle cx="${x-3}" cy="${y-3}" r="3" fill="#fffdf7" opacity=".75"/></g>`).join('')}
+    <circle cx="44" cy="142" r="4" fill="#ee806f" stroke="#c25a49" stroke-width="1.6"/>`;}
+  function reeds(){return `${GR(90,148,68)}<path d="M12 144Q14 122 90 120Q166 122 168 144Q90 154 12 144Z" fill="#96ecff"/>
+    <path d="M30 134Q44 130 58 134M104 140Q120 136 138 140M120 130Q130 127 140 130" ${DL('#62cdf4')}/>${SH(46,128,14,3,0)}
+    <path d="M14 144Q12 136 22 132M164 144Q168 136 158 132" ${DL('#4e9677',3)}/>
+    <g class="lm-reeds">
+      ${[[110,42],[126,30],[142,48]].map(([x,t])=>`<path d="M${x} 128V${t+20}" ${DL('#2f5c46',4)}/><rect x="${x-7}" y="${t}" width="14" height="30" rx="7" fill="#a89478" ${K(3)}/><path d="M${x-3} ${t+8}V${t+22}" ${DL('#70501b',2.4)}/><path d="M${x} ${t}V${t-6}" ${DL('#2f5c46',2.4)}/>`).join('')}
+      <path d="M104 128Q92 104 96 84Q104 104 110 126Z" fill="#7fce54" stroke="#4e9677" stroke-width="2.4" stroke-linejoin="round"/>
+      <path d="M148 128Q162 108 160 88Q150 106 144 126Z" fill="#7fce54" stroke="#4e9677" stroke-width="2.4" stroke-linejoin="round"/>
+    </g>
+    <g class="lm-bug"><ellipse cx="47" cy="122" rx="7" ry="6" fill="#ee806f" ${K(3)}/><path d="M47 116V128" ${DL('#8a3a2d',1.6)}/><circle cx="44" cy="120" r="1.6" fill="#4a3620"/><circle cx="50" cy="124" r="1.6" fill="#4a3620"/></g>
+    <g class="lm-leaf"><path d="M36 134Q36 124 62 124Q88 124 88 134Q88 144 62 144Q48 144 42 140L62 134Z" fill="#7fce54" ${K(3)}/><path d="M62 134L46 130M62 134L74 128M62 134L80 138" ${DL('#4e9677',1.6)}/>
+      ${PETALS(78,128,'#ffa798','#ee806f',4)}</g>`;}
+  function lantern(){return `${GR(90,148,64)}${MOUND('#4e9677')}${TUFT(40,142,'#2f5c46')}${TUFT(132,144,'#2f5c46')}
+    <circle class="lm-glow" cx="103" cy="80" r="44" fill="#ffe49a" opacity="0"/>
+    <rect x="52" y="132" width="24" height="12" rx="6" fill="#a89478" ${K(3)}/>
+    <rect x="58" y="38" width="12" height="100" rx="6" fill="#a89478" ${K()}/><path d="M62 52V126" ${DL('#c9bda4',2.4)}/>
+    <path d="M64 42Q90 26 104 44" fill="none" ${K()}/><path d="M74 34Q70 26 76 24Q82 26 78 32" ${DL('#4a3620',3)}/>
+    <path d="M103 44V50" ${DL('#4a3620',3)}/>
+    <rect x="86" y="52" width="34" height="44" rx="14" fill="#ffe49a" ${K()}/>
+    <path d="M103 54V94M88 74H118" ${DL('#c69434')}/>
+    <path d="M103 84Q96 78 100 70Q103 66 103 62Q108 70 106 78Q106 82 103 84Z" fill="#ffa06e" stroke="#e8743c" stroke-width="1.6"/>
+    <rect x="88" y="44" width="30" height="12" rx="6" fill="#70501b" ${K(3)}/><rect x="92" y="92" width="22" height="8" rx="4" fill="#70501b" ${K(3)}/>${SH(94,64,3,8,0)}
+    ${[[30,70],[140,60],[150,100],[24,104],[120,30]].map(([x,y],i)=>`<g class="lm-fly" opacity="${i<3?1:0}"><circle cx="${x}" cy="${y}" r="5" fill="#ffe49a" opacity=".35"/><circle cx="${x}" cy="${y}" r="2.4" fill="#ffe49a"/></g>`).join('')}`;}
+  function peaksV104(){const pine=(x,y,s=1)=>`<g transform="translate(${x} ${y}) scale(${s})"><rect x="-3" y="-4" width="6" height="10" rx="3" fill="#70501b"/><path d="M0 -30Q10 -16 12 -6Q0 -2 -12 -6Q-10 -16 0 -30Z" fill="#4e9677" stroke="#2f5c46" stroke-width="2.4" stroke-linejoin="round"/></g>`;
+    return `${GR(88,150,72)}
+    <path d="M12 144Q36 70 60 50Q72 40 84 52Q108 76 126 144Z" fill="#c9bda4" ${K()}/>
+    <path d="M60 50Q72 40 84 52Q92 62 94 70Q88 64 82 72Q76 62 70 70Q62 62 56 70Q52 64 50 66Q54 56 60 50Z" fill="#fffdf7" ${K(3)}/>
+    <path d="M36 112Q48 96 52 84M70 124Q74 104 82 94" ${DL('#a89478')}/>
+    <path d="M90 144Q110 96 126 84Q134 78 142 86Q158 104 170 144Z" fill="#a89478" ${K()}/>
+    <path d="M126 84Q134 78 142 86Q148 94 150 100Q144 96 140 102Q134 94 128 100Q122 94 118 98Q120 90 126 84Z" fill="#fffdf7" ${K(3)}/>
+    <path d="M116 126Q124 114 130 108" ${DL('#70501b')}/>${SH(44,96,8,14,20)}
+    <path d="M6 150Q8 136 88 134Q168 136 170 150Q88 156 6 150Z" fill="#b7e779"/>
+    ${pine(22,146,.9)}${pine(34,148,.7)}${pine(150,148,.85)}${TUFT(96,148)}`;}
+  // v163: the mountain is built like one. Tiered pines, rock ledges, and a
+  // dotted trail that zig-zags up to a little flag on the summit, so the
+  // peak reads as a climb a kid can make, not a wall.
+  function peaks(){const pine=(x,y,s=1)=>`<g transform="translate(${x} ${y}) scale(${s})"><rect x="-3" y="-4" width="6" height="10" rx="3" fill="#70501b" ${K(2.4)}/>${[[0,13],[-9,10],[-18,7]].map(([t,w])=>`<path d="M0 ${t-14}Q${w*.6} ${t-6} ${w} ${t-1}Q0 ${t+2} ${-w} ${t-1}Q${-w*.6} ${t-6} 0 ${t-14}Z" fill="#4e9677" stroke="#2f5c46" stroke-width="2.4" stroke-linejoin="round"/>`).join('')}<path d="M-4 -22Q-2 -26 0 -28" ${DL('#7fce54',1.6)}/></g>`;
+    return `${GR(88,150,72)}
+    <path d="M12 144Q36 70 60 50Q72 40 84 52Q108 76 126 144Z" fill="#c9bda4" ${K()}/>
+    <path d="M60 50Q72 40 84 52Q92 62 94 70Q88 64 82 72Q76 62 70 70Q62 62 56 70Q52 64 50 66Q54 56 60 50Z" fill="#fffdf7" ${K(3)}/>
+    <path d="M28 120Q34 116 40 118M84 104Q92 100 98 104M44 92Q50 88 56 90" ${DL('#a89478',3)}/>
+    <path d="M66 140Q50 130 62 118Q78 108 64 98Q54 88 70 80" fill="none" stroke="#fffaf0" stroke-width="3" stroke-dasharray="1 7" stroke-linecap="round"/>
+    <path d="M71 78V58" ${DL(ink,3)}/><path d="M71 58L86 63L71 68Z" fill="#ee806f" ${K(2.4)}/>
+    <path d="M90 144Q110 96 126 84Q134 78 142 86Q158 104 170 144Z" fill="#a89478" ${K()}/>
+    <path d="M126 84Q134 78 142 86Q148 94 150 100Q144 96 140 102Q134 94 128 100Q122 94 118 98Q120 90 126 84Z" fill="#fffdf7" ${K(3)}/>
+    <path d="M116 126Q124 114 130 108" ${DL('#70501b')}/><path d="M140 120Q148 116 154 120" ${DL('#70501b',3)}/>${SH(44,96,8,14,20)}
+    <path d="M6 150Q8 136 88 134Q168 136 170 150Q88 156 6 150Z" fill="#b7e779"/>
+    <ellipse cx="112" cy="146" rx="9" ry="5" fill="#c9bda4" ${K(2.4)}/><ellipse cx="122" cy="148" rx="6" ry="3.5" fill="#e5dcc8" ${K(2.4)}/>
+    ${pine(22,146,.9)}${pine(36,149,.7)}${pine(150,148,.85)}${pine(162,151,.6)}${TUFT(96,148)}`;}
+  function wildflowers(){const bee=(x,y)=>`<g transform="translate(${x} ${y})"><ellipse cx="-3" cy="-6" rx="4" ry="5" fill="#fffdf7" opacity=".85" stroke="#a89478" stroke-width="1.6"/><ellipse cx="3" cy="-6" rx="4" ry="5" fill="#fffdf7" opacity=".85" stroke="#a89478" stroke-width="1.6"/><ellipse rx="7" ry="5" fill="#f3c955" stroke="#4a3620" stroke-width="2.4"/><path d="M-2 -4V4M2 -4V4" stroke="#4a3620" stroke-width="2.4"/></g>`;
+    return `${GR(88,148,70)}${MOUND()}${TUFT(24,142)}${TUFT(96,144)}
+    <g class="lm-hive"><rect x="98" y="124" width="58" height="8" rx="4" fill="#c69434" stroke="${ink}" stroke-width="2.4"/><rect x="104" y="128" width="8" height="14" rx="4" fill="#70501b"/><rect x="142" y="128" width="8" height="14" rx="4" fill="#70501b"/>
+      ${[[127,120,27,9],[127,108,25,8.5],[127,96,21,8],[127,85,16,7],[127,76,10,6]].map(([cx,cy,rx,ry])=>`<rect x="${cx-rx}" y="${cy-ry}" width="${rx*2}" height="${ry*2}" rx="${ry}" fill="#f3c955" stroke="${ink}" stroke-width="2.4"/><path d="M${cx-rx+5} ${cy}H${cx+rx-5}" fill="none" stroke="#c69434" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="3 4"/>`).join('')}
+      <path d="M118 124V116Q118 108 127 108Q136 108 136 116V124Z" fill="#70501b" stroke="${ink}" stroke-width="2.4"/><rect x="114" y="121" width="26" height="5" rx="2.5" fill="#c69434" stroke="${ink}" stroke-width="1.6"/>
+      <ellipse cx="117" cy="82" rx="5" ry="2.4" fill="#fffdf7" opacity=".7"/></g>
+    ${bee(150,70)}${bee(92,58)}
+    ${[[36,'#ffa798','#ee806f'],[60,'#b49fcf','#8c74b0'],[82,'#ffe49a','#c69434']].map(([x,c,d],i)=>`<path d="M${x} 128V${94-i*6}" ${DL('#4e9677',4)}/><path d="M${x} ${116-i*4}Q${x-12} ${110-i*4} ${x-14} ${102-i*4}Q${x-4} ${104-i*4} ${x} ${114-i*4}Z" fill="#7fce54" stroke="#4e9677" stroke-width="1.6"/>${PETALS(x,88-i*6,c,d,6)}`).join('')}`;}
+  function landing(){return `${GR(84,144,68)}<path d="M8 142Q10 122 50 120Q90 122 92 142Q50 150 8 142Z" fill="#b7e779"/>${TUFT(22,138)}
+    <path d="M86 150Q110 146 130 150M140 146Q154 143 166 146" ${DL('#62cdf4')}/>
+    <rect x="70" y="116" width="12" height="32" rx="6" fill="#70501b" ${K(3)}/><rect x="138" y="116" width="12" height="32" rx="6" fill="#70501b" ${K(3)}/>
+    <rect x="58" y="102" width="104" height="24" rx="12" fill="#c69434" ${K()}/>
+    <path d="M82 104V124M104 104V124M126 104V124M146 104V124" ${DL('#70501b')}/>${SH(78,108,10,3,0)}
+    <path d="M70 128Q76 134 82 128M138 128Q144 134 150 128" ${DL('#ffe49a',2.4)}/>
+    <rect x="98" y="72" width="6" height="32" rx="3" fill="#a89478" ${K(3)}/>
+    <path d="M104 74Q120 78 120 86Q112 90 104 90Z" fill="#ee806f" ${K(3)}/>`;}
+  function bridge(){return `${GR(0,18,44)}
+    <rect x="-36" y="-14" width="72" height="28" rx="12" fill="#c9bda4" ${K()}/>${SH(-18,-6,9,3,0)}
+    ${[-24,-12,0,12,24].map(x=>`<rect x="${x-5}" y="-12" width="10" height="24" rx="4" fill="#e5dcc8" stroke="#a89478" stroke-width="1.6"/><circle cx="${x}" cy="-8" r="1.2" fill="#70501b"/><circle cx="${x}" cy="8" r="1.2" fill="#70501b"/>`).join('')}
+    <path d="M-40 -18Q-20 -10 0 -18Q20 -10 40 -18M-40 18Q-20 26 0 18Q20 26 40 18" fill="none" stroke="#4a3620" stroke-width="6" stroke-linecap="round"/><path d="M-40 -18Q-20 -10 0 -18Q20 -10 40 -18M-40 18Q-20 26 0 18Q20 26 40 18" fill="none" stroke="#c69434" stroke-width="3" stroke-linecap="round"/>
+    ${[[-40,-18],[0,-18],[40,-18],[-40,18],[0,18],[40,18]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="5.5" fill="#a89478" ${K(3)}/><circle cx="${x-1.5}" cy="${y-1.5}" r="1.6" fill="#e5dcc8"/>`).join('')}`;}
+  function waterwheel(){
+    const drops=[[24,96],[36,88],[86,90],[98,98]].map(([x,y])=>`<circle class="lm-drop" cx="${x}" cy="${y}" r="3" fill="#96ecff" opacity="0"/>`).join('');
+    return `<svg viewBox="0 0 120 130" aria-hidden="true">
+      ${GR(60,116,54)}
+      <rect x="16" y="54" width="14" height="58" rx="7" fill="#a89478" ${K()}/><rect x="90" y="54" width="14" height="58" rx="7" fill="#a89478" ${K()}/>
+      <path d="M20 66V104M94 66V104" ${DL('#70501b',2.4)}/>
+      <rect x="6" y="18" width="9" height="94" rx="4.5" fill="#70501b" ${K(3)}/>
+      <g class="lm-spin"><g class="lm-wheel">
+        <circle cx="60" cy="58" r="40" fill="#c9bda4" ${K()}/>
+        <circle cx="60" cy="58" r="32" fill="#e5dcc8" stroke="#a89478" stroke-width="2.4"/>
+        ${[0,45,90,135].map(a=>`<rect x="57" y="28" width="6" height="60" rx="3" fill="#a89478" transform="rotate(${a} 60 58)"/>`).join('')}
+        ${[0,45,90,135,180,225,270,315].map(a=>`<rect x="51" y="11" width="18" height="14" rx="6" fill="#a89478" ${K(3)} transform="rotate(${a} 60 58)"/>`).join('')}
+        <circle cx="60" cy="58" r="10" fill="#c9bda4" ${K(3)}/><circle cx="60" cy="58" r="3.5" fill="#70501b"/>${SH(40,36,8,4)}
+      </g></g>
+      <path d="M44 14Q52 15 54 23Q55 28 52 33" fill="none" stroke="#62cdf4" stroke-width="8" stroke-linecap="round"/><path d="M47 15Q52 17 52 24" ${DL('#ccfbef',2.4)}/>
+      <path d="M0 9H46Q49 9 49 12V17Q49 20 46 20H0Z" fill="#c69434" ${K(3)}/><path d="M4 14H42" ${DL('#70501b',1.6)}/><path d="M2 9H46" fill="none" stroke="#62cdf4" stroke-width="2.4"/>
+      <path d="M4 120Q6 100 60 98Q114 100 116 120Q60 128 4 120Z" fill="#62cdf4"/>
+      <path d="M20 108Q30 102 40 108M78 106Q90 100 100 106" ${DL('#ccfbef',3)}/>
+      <path d="M44 100Q48 92 54 96M66 96Q72 92 76 100" ${DL('#fffdf7',2.4)}/>
+      <ellipse cx="10" cy="114" rx="9" ry="6" fill="#a89478" stroke="#70501b" stroke-width="2.4"/><ellipse cx="110" cy="116" rx="8" ry="5" fill="#c9bda4" stroke="#a89478" stroke-width="2.4"/>
+      ${drops}
+    </svg>`;
+  }
   // Touch toys on the home map. Pure decoration: nothing here is saved,
   // scored or rewarded, and every toy returns to its resting state.
   function play(button,toy,{reduced=false,onLand}={}){
@@ -292,18 +428,19 @@
   function gate(biome='orchard',open=false,dir=1){
     // A banner pole on the bank: narrow enough to stand beside a bridge on a
     // phone map. dir=1 hangs the banner to the right of the pole.
+    // v107: the pet language — a chunky rounded pole with a stone foot and a
+    // gold knob, a soft rounded banner with a scalloped hem, tufts at the base.
     const d=dir<0?-1:1;
     return `<g class="map-gate${open?' is-open':''}" data-land="${biome}">
-      <ellipse cx="${d*8}" cy="3" rx="22" ry="5" fill="#2f5c46" opacity=".2"/>
-      <path d="M0 2V-82" stroke="${ink}" stroke-width="8" stroke-linecap="round"/>
-      <path d="M0 2V-82" stroke="#a89478" stroke-width="4" stroke-linecap="round"/>
-      <circle cy="-86" r="6" fill="#f3c955" stroke="${ink}" stroke-width="2.4"/>
-      <path d="M0-74H${d*40}" stroke="${ink}" stroke-width="6" stroke-linecap="round"/>
-      <path d="M0-74H${d*40}" stroke="#c69434" stroke-width="2.4" stroke-linecap="round"/>
-      <path d="M-6-10Q-14-4-16 2M6-10Q14-4 16 2" fill="none" stroke="#4e9677" stroke-width="2.4" stroke-linecap="round"/>
-      <g class="map-gate-banner" transform="translate(${d*22} 0)"><path d="M-15-72H15V-34L0-27L-15-34Z" fill="#fffaf0" stroke="${ink}" stroke-width="2.4" stroke-linejoin="round"/><g transform="translate(0 -51) scale(.9)">${LAND_SIGNS[biome]||''}</g></g>
-      <g class="map-gate-roll" transform="translate(${d*22} 0)"><rect x="-16" y="-75" width="32" height="9" rx="4.5" fill="#fffaf0" stroke="${ink}" stroke-width="2.4"/><path d="M-12-70.5H12" stroke="#e5dcc8" stroke-width="1.6"/></g>
+      ${GR(d*8,4,24)}
+      <path d="M-14 2Q-14 -6 -8 -10M14 2Q14 -6 8 -10" ${DL('#4e9677',3)}/>
+      <rect x="-6" y="-84" width="12" height="86" rx="6" fill="#a89478" ${K(3)}/><path d="M-1 -76V-6" ${DL('#c9bda4')}/>
+      <rect x="-12" y="-4" width="24" height="10" rx="5" fill="#c9bda4" ${K(3)}/>
+      <rect x="${d>0?-2:-42}" y="-78" width="44" height="9" rx="4.5" fill="#c69434" ${K(3)}/>
+      <circle cy="-88" r="7" fill="#f3c955" ${K(3)}/>${SH(-2,-91,2.4,1.4,0)}
+      <g class="map-gate-banner" transform="translate(${d*22} 0)"><path d="M-16 -70H16V-36Q12 -30 8 -36Q4 -30 0 -36Q-4 -30 -8 -36Q-12 -30 -16 -36Z" fill="#fffaf0" ${K(3)}/><path d="M-11 -64H11" ${DL('#e5dcc8')}/><g transform="translate(0 -51) scale(.9)">${LAND_SIGNS[biome]||''}</g></g>
+      <g class="map-gate-roll" transform="translate(${d*22} 0)"><rect x="-17" y="-76" width="34" height="11" rx="5.5" fill="#fffaf0" ${K(3)}/><path d="M-12 -70.5H12" ${DL('#e5dcc8',1.6)}/></g>
     </g>`;
   }
-  ns.LettersMapArt={gate,LAND_SIGNS,landscape,landmark,kind,TOYS,play,brooks,brookIndices,waterwheel,bridge};
+ns.LettersMapArt={gate,LAND_SIGNS,landscape,landmark,kind,TOYS,play,brooks,brookIndices,waterwheel,bridge,classic:{orchard:orchardClassic,reeds:reedsClassic,lantern:lanternClassic,peaks:peaksClassic,wildflowers:wildflowersClassic,landing:landingClassic,bridge:bridgeClassic,waterwheel:waterwheelClassic}};
 })(window.MiftahGame||(window.MiftahGame={}));

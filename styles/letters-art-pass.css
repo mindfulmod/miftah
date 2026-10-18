@@ -34,7 +34,7 @@
 .lg-stars .stars-stage,.lg-party .party-stage{width:min(580px,100%);max-height:none;min-height:0;flex:0 1 auto;margin:auto;padding:18px 12px;gap:18px;border:0;background:none;box-shadow:none;overflow-y:auto}
 .lg-stars .garden-reward,.lg-party .garden-reward{width:clamp(190px,32vw,310px);flex-shrink:0}
 .lg-stars .stars-row,.lg-party .party-stars{gap:10px;padding:10px 20px;background:#fffaf0;border:2px solid #a89478;border-radius:34px;box-shadow:0 4px 0 #a89478}
-.stars-star.is-on{color:#f3c955}.stars-star.is-on svg path{stroke:#70501b;stroke-width:2;stroke-linejoin:round}
+.stars-star.is-on{color:#f3c955}.stars-star.is-on svg:not(.art-icon) path{stroke:#70501b;stroke-width:2;stroke-linejoin:round}
 .stars-star:not(.is-on){color:#c9bda4}.stars-star:not(.is-on) svg path{stroke:#a89478;stroke-width:2}
 .garden-practice-links{padding:0;gap:12px}
 .lg-party .party-pair{align-items:flex-end;gap:24px}
@@ -248,6 +248,7 @@ body.lg-reward-screen .lg-ambient{display:none}
 
 /* Foreground butterflies must not cross the pet, balance or costume controls. */
 body.lg-wardrobe-screen .lg-ambient{display:none}
+body.lg-night-screen .lg-ambient{display:none}
 
 /* Show the same friend here that receives packets in Feed. */
 .practice-friend-picture{display:block;position:relative;width:100%;aspect-ratio:10/7}
@@ -332,12 +333,14 @@ body.lg-wardrobe-screen .lg-ambient{display:none}
 .decorate-prev>svg{transform:rotate(180deg)}
 .decorate-prev:disabled,.decorate-more:disabled{opacity:.3;cursor:default}
 .decorate-tray::-webkit-scrollbar{display:none}
+/* v58: a few decorations sit centred in the tray, not pinned to one end of an empty bar; auto margins (unlike justify-content:center) keep a full tray's start reachable when it scrolls. */
+.decorate-tray>.decorate-choice:first-child{margin-inline-start:auto}.decorate-tray>.decorate-choice:last-child{margin-inline-end:auto}
 
 .decorate-earn>.practice-picture{width:90px;height:68px}
 
 /* Bounded startup and clearer optional-practice controls. */
 .lg-loading{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px}
-.loading-flower{display:grid;place-items:center;width:124px;height:124px;border:3px solid #a89478;border-radius:50%;background:#fffaf0;box-shadow:0 6px 0 #c9bda4}
+.loading-flower{display:grid;place-items:center;width:124px;height:124px;border:3px solid #a89478;border-radius:50%;background:#fffaf0;box-shadow:0 6px 0 #c9bda4;color:#ffa798} /* v58: petals were currentColor = black */
 .loading-seeds{display:flex;gap:12px}
 .loading-seeds i{width:10px;height:10px;border-radius:50%;background:#4e9677;animation:loading-seed 1.2s ease-in-out infinite}
 .loading-seeds i:nth-child(2){animation-delay:.15s}.loading-seeds i:nth-child(3){animation-delay:.3s}
@@ -353,3 +356,46 @@ body.lg-wardrobe-screen .lg-ambient{display:none}
 .path-reference>svg{width:100%;height:100%}
 .practice-replay>svg{width:32px;height:32px;vertical-align:middle}
 @media(max-height:650px){.path-reference{width:44px;height:44px;border-radius:12px}.garden-paths:has(.path-reference) .path-paper{min-height:100px}}
+/* v58: after two tries the partner glows — the same gold ring as every other hint. */
+.lg-app .lg-play[data-activity="pairs"] .pairs-card.is-hint{box-shadow:0 0 0 5px #f3c955,0 0 0 8px rgba(74,54,32,.18);border-radius:18px;animation:lg-hint-glow 1.2s ease-in-out infinite}
+@keyframes lg-hint-glow{50%{box-shadow:0 0 0 8px #f3c955,0 0 0 11px rgba(74,54,32,.12)}}
+@media (prefers-reduced-motion: reduce){.lg-app .lg-play[data-activity="pairs"] .pairs-card.is-hint{animation:none}}
+.lg-app .burst-tile.is-hint{box-shadow:0 0 0 5px #f3c955,0 0 0 8px rgba(74,54,32,.18);border-radius:18px;animation:lg-hint-glow 1.2s ease-in-out infinite}
+@media (prefers-reduced-motion: reduce){.lg-app .burst-tile.is-hint{animation:none}}
+
+/* v58: a keepsake's chapter tag (a souvenir of THAT chapter, not a copy). It
+   sits beside the art, so the slot/choice ">svg" sizing rules still apply. */
+.decorate-choice{position:relative}
+.keepsake-tag{position:absolute;top:-2px;right:-2px;min-width:24px;height:24px;padding:0 4px;box-sizing:border-box;display:grid;place-items:center;border-radius:9px;background:#fffaf0;border:2px solid #4a3620;box-shadow:0 2px 0 #c9bda4;font-family:'Amiri Quran',serif;font-size:15px;line-height:1;color:#4a3620;direction:rtl;white-space:nowrap;pointer-events:none}
+.keepsake-tag svg{width:18px;height:18px;display:block}
+.decorate-selection-preview{position:relative}
+.decorate-selection-preview .keepsake-tag{transform:scale(.7);transform-origin:top right}
+/* 2026-10-13: the pet sitting in its egg shell — the shell's front is drawn
+   again over the pet (cup only), so it sits inside. */
+.decorate-shell-front{position:absolute;z-index:3;pointer-events:none;display:block}
+.decorate-shell-front>svg{display:block;width:100%;height:100%}
+.decorate-shell-front>svg>path,.decorate-shell-front>svg>ellipse,.decorate-shell-front .shell-cap{display:none}
+/* 2026-10-13: beside a new child's egg shell, the "play to grow more" card is compact so both fit the tray. */
+.decorate-choice~.decorate-earn{gap:6px;padding:0 8px;margin:0;margin-inline-end:auto;flex:none}
+.decorate-choice~.decorate-earn>.practice-picture{width:70px;height:54px}
+/* 2026-10-13: empty garden spaces are soil patches, not dashed "+" boxes; the dashed ring returns only to show where something can go. */
+.decorate-slot:not(.is-filled){border-color:transparent;background:none}
+.decorate-slot:not(.is-filled)>svg.decorate-soil{width:100%;height:100%;opacity:1}
+.decorate-slot:not(.is-filled).is-target{border-color:#4e9677;background:#fffaf055}
+.decorate-slot:not(.is-filled).is-picked{border-color:#70501b;background:#ffe49a55}
+/* 2026-10-16 (focal colour): a keepsake still waiting to be placed is a warm gold tile with a gold edge — the thing to tap; placed ones stay quiet cream with their tick. */
+.decorate-choice:not(.is-placed):not([aria-pressed="true"]){background:#ffe49a88;border-color:#f3c955}
+/* 2026-10-16: a grown garden has 6 or 8 spaces — three or four across, two rows. */
+.decorate-board[data-spaces="6"] .decorate-slot,.decorate-board[data-spaces="8"] .decorate-slot{width:clamp(60px,21%,104px)}
+.decorate-board[data-spaces="6"] .decorate-slot[data-slot="0"],.decorate-board[data-spaces="6"] .decorate-slot[data-slot="3"]{left:20%}
+.decorate-board[data-spaces="6"] .decorate-slot[data-slot="1"],.decorate-board[data-spaces="6"] .decorate-slot[data-slot="4"]{left:50%}
+.decorate-board[data-spaces="6"] .decorate-slot[data-slot="2"],.decorate-board[data-spaces="6"] .decorate-slot[data-slot="5"]{left:80%}
+.decorate-board[data-spaces="6"] .decorate-slot[data-slot="0"],.decorate-board[data-spaces="6"] .decorate-slot[data-slot="1"],.decorate-board[data-spaces="6"] .decorate-slot[data-slot="2"]{top:49%}
+.decorate-board[data-spaces="6"] .decorate-slot[data-slot="3"],.decorate-board[data-spaces="6"] .decorate-slot[data-slot="4"],.decorate-board[data-spaces="6"] .decorate-slot[data-slot="5"]{top:80%}
+.decorate-board[data-spaces="8"] .decorate-slot{width:clamp(56px,18%,96px)}
+.decorate-board[data-spaces="8"] .decorate-slot[data-slot="0"],.decorate-board[data-spaces="8"] .decorate-slot[data-slot="4"]{left:15%}
+.decorate-board[data-spaces="8"] .decorate-slot[data-slot="1"],.decorate-board[data-spaces="8"] .decorate-slot[data-slot="5"]{left:38%}
+.decorate-board[data-spaces="8"] .decorate-slot[data-slot="2"],.decorate-board[data-spaces="8"] .decorate-slot[data-slot="6"]{left:62%}
+.decorate-board[data-spaces="8"] .decorate-slot[data-slot="3"],.decorate-board[data-spaces="8"] .decorate-slot[data-slot="7"]{left:85%}
+.decorate-board[data-spaces="8"] .decorate-slot[data-slot="0"],.decorate-board[data-spaces="8"] .decorate-slot[data-slot="1"],.decorate-board[data-spaces="8"] .decorate-slot[data-slot="2"],.decorate-board[data-spaces="8"] .decorate-slot[data-slot="3"]{top:49%}
+.decorate-board[data-spaces="8"] .decorate-slot[data-slot="4"],.decorate-board[data-spaces="8"] .decorate-slot[data-slot="5"],.decorate-board[data-spaces="8"] .decorate-slot[data-slot="6"],.decorate-board[data-spaces="8"] .decorate-slot[data-slot="7"]{top:80%}

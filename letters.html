@@ -14,28 +14,33 @@
     <meta property="og:description" content="A wordless letters game for kids: hatch a pet, learn every Arabic letter and sound, and read real Quran words." />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link href="vendor/fonts/fonts.css" rel="stylesheet" />
-    <link rel="stylesheet" href="styles/letters.css?v=20261003-v35" />
-    <link rel="stylesheet" href="styles/letters-animals.css?v=20261003-v35" />
-    <link rel="stylesheet" href="styles/letters-art-pass.css?v=20261003-v35" />
-    <link rel="stylesheet" href="styles/letters-map-world.css?v=20261003-v35" />
-    <link rel="stylesheet" href="styles/letters-activities.css?v=20261003-v35" />
-    <link rel="stylesheet" href="styles/letters-rooms.css?v=20261003-v35" />
-    <link rel="stylesheet" href="styles/letters-delivery.css?v=20261003-v35" />
-    <link rel="stylesheet" href="styles/letters-motion.css?v=20261003-v35" />
-    <link rel="stylesheet" href="styles/letters-learning.css?v=20261003-v35" />
-    <link rel="stylesheet" href="styles/letters-drawing.css?v=20261003-v35" />
-    <link rel="stylesheet" href="styles/letters-composition.css?v=20261003-v35" />
-    <link rel="stylesheet" href="styles/letters-journey.css?v=20261003-v35" />
-    <link rel="stylesheet" href="styles/letters-potting.css?v=20261003-v35" />
-    <link rel="stylesheet" href="styles/letters-craft.css?v=20261003-v35" />
-    <link rel="stylesheet" href="styles/letters-picnic.css?v=20261003-v35" />
-    <link rel="stylesheet" href="styles/letters-pond.css?v=20261003-v35" />
-    <link rel="stylesheet" href="styles/letters-water.css?v=20261003-v35" />
-    <link rel="stylesheet" href="styles/letters-friends.css?v=20261003-v35" />
-    <link rel="stylesheet" href="styles/letters-landscape.css?v=20261003-v35" />
+    <link rel="stylesheet" href="styles/letters.css?v=20261009-v58" />
+    <link rel="stylesheet" href="styles/letters-animals.css?v=20261009-v58" />
+    <link rel="stylesheet" href="styles/letters-art-pass.css?v=20261009-v58" />
+    <link rel="stylesheet" href="styles/letters-map-world.css?v=20261009-v58" />
+    <link rel="stylesheet" href="styles/letters-activities.css?v=20261009-v58" />
+    <link rel="stylesheet" href="styles/letters-rooms.css?v=20261009-v58" />
+    <link rel="stylesheet" href="styles/letters-delivery.css?v=20261009-v58" />
+    <link rel="stylesheet" href="styles/letters-motion.css?v=20261009-v58" />
+    <link rel="stylesheet" href="styles/letters-learning.css?v=20261009-v58" />
+    <link rel="stylesheet" href="styles/letters-drawing.css?v=20261009-v58" />
+    <link rel="stylesheet" href="styles/letters-composition.css?v=20261009-v58" />
+    <link rel="stylesheet" href="styles/letters-journey.css?v=20261009-v58" />
+    <link rel="stylesheet" href="styles/letters-potting.css?v=20261009-v58" />
+    <link rel="stylesheet" href="styles/letters-craft.css?v=20261009-v58" />
+    <link rel="stylesheet" href="styles/letters-picnic.css?v=20261009-v58" />
+    <link rel="stylesheet" href="styles/letters-pond.css?v=20261009-v58" />
+    <link rel="stylesheet" href="styles/letters-water.css?v=20261009-v58" />
+    <link rel="stylesheet" href="styles/letters-friends.css?v=20261009-v58" />
+    <link rel="stylesheet" href="styles/letters-toybox.css?v=20261009-v58" />
+    <link rel="stylesheet" href="styles/letters-materials.css?v=20261017-v143" />
+    <link rel="stylesheet" href="styles/letters-landscape.css?v=20261009-v58" />
   </head>
   <body>
-    <div id="letters-app" class="lg-app"></div>
+    <!-- v58: the loading flower is in the page itself, so a slow first visit
+         shows it from the first paint instead of an empty sky; the app
+         replaces it (showLoading) as soon as its scripts run. -->
+    <div id="letters-app" class="lg-app"><div class="lg-screen lg-loading" role="status" aria-label="Preparing your garden"><div class="loading-flower"><svg class="art-icon" viewBox="0 0 64 64" width="80" height="80" aria-hidden="true"><path d="M32 40Q31 52 33 60" fill="none" stroke="#4e9677" stroke-width="4" stroke-linecap="round"/><path d="M33 52Q44 44 50 50Q43 58 33 54Z" fill="#7fce54" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/><g stroke="#4a3620" stroke-width="2.4"><ellipse cx="32" cy="14" rx="8" ry="11" fill="#ffa798" transform="rotate(0 32 27)"/><ellipse cx="32" cy="14" rx="8" ry="11" fill="#ffa798" transform="rotate(72 32 27)"/><ellipse cx="32" cy="14" rx="8" ry="11" fill="#ffa798" transform="rotate(144 32 27)"/><ellipse cx="32" cy="14" rx="8" ry="11" fill="#ffa798" transform="rotate(216 32 27)"/><ellipse cx="32" cy="14" rx="8" ry="11" fill="#ffa798" transform="rotate(288 32 27)"/></g><circle cx="32" cy="27" r="7.5" fill="#f3c955" stroke="#4a3620" stroke-width="2.4"/><circle cx="30" cy="25" r="2" fill="#ffe49a"/></svg></div><div class="loading-seeds" aria-hidden="true"><i></i><i></i><i></i></div></div></div>
 
     <!-- Anonymous usage counts (Plausible: no cookies, no personal data). See src/letters/LettersAnalytics.js. -->
     <script>window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };</script>
@@ -43,52 +48,61 @@
     <script src="src/data/letters.js?v=20260711-warm1"></script>
     <script src="src/data/animals.js"></script>
     <script src="src/core/SoundSystem.js?v=20260718-fable9"></script>
-    <script src="src/core/RecitationAudio.js?v=20261003-v35"></script>
-    <script src="src/letters/LettersSound.js?v=20261003-v35"></script>
-    <script src="src/core/Haptics.js?v=20260724-haptics1"></script>
+    <script src="src/core/RecitationAudio.js?v=20261009-v58"></script>
+    <script src="src/letters/LettersSound.js?v=20261009-v58"></script>
+    <script src="src/core/Haptics.js?v=20261009-v58"></script>
     <script src="src/systems/ProgressionSystem.js"></script>
-    <script src="src/letters/LettersPetRig.js?v=20261003-v35"></script>
-    <script src="src/letters/LettersAnimalArt.js?v=20261003-v35"></script>
-    <script src="src/letters/LettersArt.js?v=20261003-v35"></script>
-    <script src="src/letters/LettersDecorations.js?v=20261003-v35"></script>
-    <script src="src/letters/LettersState.js?v=20261003-v35"></script>
-    <script src="src/letters/LettersBoot.js?v=20261003-v35"></script>
-    <script src="src/letters/LettersAnalytics.js?v=20261003-v35"></script>
-    <script src="src/letters/LettersStrength.js?v=20261003-v35"></script>
-    <script src="src/letters/LettersLearning.js?v=20261003-v35"></script>
-    <script src="src/letters/GardenBrain.js?v=20261003-v35"></script>
-    <script src="src/letters/LettersWorlds.js?v=20261003-v35"></script>
-    <script src="src/letters/GardenPractice.js?v=20261003-v35"></script>
-    <script src="src/letters/LetterHunt.js?v=20261003-v35"></script>
-    <script src="src/letters/SoundLab.js?v=20261003-v35"></script>
-    <script src="src/letters/LetterStudio.js?v=20261003-v35"></script>
-    <script src="src/letters/GardenTogether.js?v=20261003-v35"></script>
-    <script src="src/letters/LetterBalloons.js?v=20261003-v35"></script>
-    <script src="src/letters/FriendFind.js?v=20261003-v35"></script>
-    <script src="src/letters/FriendBook.js?v=20261003-v35"></script>
-    <script src="src/letters/PictureWords.js?v=20261003-v35"></script>
-    <script src="src/letters/BookGames.js?v=20261003-v35"></script>
-    <script src="src/letters/PuzzleGames.js?v=20261003-v35"></script>
-    <script src="src/letters/ShadowGames.js?v=20261003-v35"></script>
-    <script src="src/letters/VowelGames.js?v=20261003-v35"></script>
-    <script src="src/letters/WorkshopGames.js?v=20261003-v35"></script>
-    <script src="src/letters/SandTable.js?v=20261003-v35"></script>
-    <script src="src/letters/LivingBooks.js?v=20261003-v35"></script>
-    <script src="src/letters/WaterGarden.js?v=20261003-v35"></script>
-    <script src="src/letters/LetterDelivery.js?v=20261003-v35"></script>
-    <script src="src/letters/LettersStrokes.js?v=20261003-v35"></script>
-    <script src="src/letters/LetterFriends.js?v=20261003-v35"></script>
-    <script src="src/letters/MiniGames.js?v=20261003-v35"></script>
-    <script src="src/letters/LettersGardenArt.js?v=20261003-v35"></script>
-    <script src="src/letters/LettersJourney.js?v=20261003-v35"></script>
-    <script src="src/letters/LettersRoomArt.js?v=20261003-v35"></script>
-    <script src="src/letters/LettersMapArt.js?v=20261003-v35"></script>
-    <script src="src/letters/LettersActivityArt.js?v=20261003-v35"></script>
-    <script src="src/letters/DecoratingGarden.js?v=20261003-v35"></script>
-    <script src="src/letters/LetterVoiceClips.js?v=20261003-v35"></script>
-    <script src="src/letters/LettersVoice.js?v=20261003-v35"></script>
-    <script src="src/letters/LettersGame.js?v=20261003-v35"></script>
-    <script src="src/letters/StoryGarden.js?v=20261003-v35"></script>
+    <script src="src/letters/LettersPetRig.js?v=20261009-v58"></script>
+    <script src="src/letters/LettersAnimalArt.js?v=20261009-v58"></script>
+    <script src="src/letters/DetailKit.js?v=20261018-v146"></script>
+    <script src="src/letters/LettersArt.js?v=20261009-v58"></script>
+    <script src="src/letters/LettersDecorations.js?v=20261009-v58"></script>
+    <script src="src/letters/LettersState.js?v=20261009-v58"></script>
+    <script src="src/letters/LettersBoot.js?v=20261009-v58"></script>
+    <script src="src/letters/LettersAnalytics.js?v=20261009-v58"></script>
+    <script src="src/letters/LettersStrength.js?v=20261009-v58"></script>
+    <script src="src/letters/LettersLearning.js?v=20261009-v58"></script>
+    <script src="src/letters/GardenBrain.js?v=20261009-v58"></script>
+    <script src="src/letters/LettersWorlds.js?v=20261009-v58"></script>
+    <script src="src/letters/GardenPractice.js?v=20261009-v58"></script>
+    <script src="src/letters/LetterHunt.js?v=20261009-v58"></script>
+    <script src="src/letters/SoundLab.js?v=20261009-v58"></script>
+    <script src="src/letters/LetterStudio.js?v=20261009-v58"></script>
+    <script src="src/letters/GardenTogether.js?v=20261009-v58"></script>
+    <script src="src/letters/LetterBalloons.js?v=20261009-v58"></script>
+    <script src="src/letters/FriendFind.js?v=20261009-v58"></script>
+    <script src="src/letters/FriendBook.js?v=20261009-v58"></script>
+    <script src="src/letters/PictureWords.js?v=20261009-v58"></script>
+    <script src="src/letters/BookGames.js?v=20261009-v58"></script>
+    <script src="src/letters/PuzzleGames.js?v=20261009-v58"></script>
+    <script src="src/letters/ShadowGames.js?v=20261009-v58"></script>
+    <script src="src/letters/VowelGames.js?v=20261009-v58"></script>
+    <script src="src/letters/WorkshopGames.js?v=20261009-v58"></script>
+    <script src="src/letters/WordGames.js?v=20261009-v58"></script>
+    <script src="src/letters/ToyBoxGames.js?v=20261009-v58"></script>
+    <script src="src/letters/LookGames.js?v=20261009-v58"></script>
+    <script src="src/letters/SandTable.js?v=20261009-v58"></script>
+    <script src="src/letters/LivingBooks.js?v=20261009-v58"></script>
+    <script src="src/letters/WaterGarden.js?v=20261009-v58"></script>
+    <script src="src/letters/LetterDelivery.js?v=20261009-v58"></script>
+    <script src="src/letters/LettersStrokes.js?v=20261009-v58"></script>
+    <script src="src/letters/LetterFriends.js?v=20261009-v58"></script>
+    <script src="src/letters/MiniGames.js?v=20261009-v58"></script>
+    <script src="src/letters/LettersGardenArt.js?v=20261018-v162"></script>
+    <script src="src/letters/LettersJourney.js?v=20261009-v58"></script>
+    <script src="src/letters/LettersRoomArt.js?v=20261018-v165"></script>
+    <script src="src/letters/LettersMapArt.js?v=20261018-v164"></script>
+    <script src="src/letters/LettersActivityArt.js?v=20261009-v58"></script>
+    <script src="src/letters/DecoratingGarden.js?v=20261009-v58"></script>
+    <script src="src/letters/LetterVoiceClips.js?v=20261009-v58"></script>
+    <script src="src/letters/LettersVoice.js?v=20261009-v58"></script>
+    <script src="src/letters/LettersGame.js?v=20261009-v58"></script>
+    <script src="src/letters/StoryGarden.js?v=20261009-v58"></script>
+    <script src="src/letters/StickerScenes.js?v=20261016-v59"></script>
+    <script src="src/letters/EarsGames.js?v=20261016-v61"></script>
+    <script src="src/letters/CostumeHouse.js?v=20261016-v62"></script>
+    <script src="src/letters/WordTree.js?v=20261016-v63"></script>
+    <script src="src/letters/VillageArt.js?v=20261018-v161"></script>
     <script>
       new window.MiftahGame.LettersGame(document.getElementById("letters-app"));
       if(location.protocol === "https:" && "serviceWorker" in navigator){

@@ -258,7 +258,7 @@ body {
   transform: translate(-50%, -50%);
 }
 
-.map-stop:disabled { cursor: default; }
+.map-stop:disabled, .map-stop[aria-disabled="true"] { cursor: default; }
 .map-stop-art { width: 100%; aspect-ratio: 1; display: block; transition: transform 140ms var(--lg-spring); }
 .map-stop.is-current .map-stop-art { animation: lg-bounce 2.1s var(--lg-spring) infinite; }
 .map-stop.is-current::before {
@@ -700,14 +700,15 @@ body {
   box-shadow: var(--lg-lift);
 }
 
-.stars-row, .party-stars { display: flex; gap: 14px; }
+/* v58: centred, so a stretched row never shows one star beside empty space (read as "missing stars"). */
+.stars-row, .party-stars { display: flex; gap: 14px; justify-content: center; }
 
 .stars-star { color: rgba(140, 128, 160, 0.3); transform: scale(0.6); }
 .stars-star.is-on {
   color: var(--lg-gold);
   animation: lg-star-land 620ms var(--lg-spring-big) forwards;
 }
-.stars-star.is-on svg path { stroke: var(--lg-gold-edge); stroke-width: 3; }
+.stars-star.is-on svg:not(.art-icon) path { stroke: var(--lg-gold-edge); stroke-width: 3; }
 
 @keyframes lg-star-land {
   0% { transform: scale(0.2) rotate(-40deg); opacity: 0; }
@@ -862,7 +863,9 @@ body {
 }
 
 .stamp-cell.is-stamped { background: #ffe49a; color: var(--lg-gold); }
-.stamp-cell.is-stamped svg path { fill: var(--lg-gold); stroke: var(--lg-gold-edge); stroke-width: 4; }
+.stamp-cell.is-stamped svg:not(.art-icon) path { fill: var(--lg-gold); stroke: var(--lg-gold-edge); stroke-width: 4; }
+/* v58: a played day grows a drawn flower in the calendar (was a tinted star glyph). */
+.stamp-cell.is-stamped { background: #fffaf0; }
 .stamp-cell.is-today { outline: 4px solid #62cdf4; outline-offset: 2px; }
 .stamp-cell.is-future { opacity: 0.45; }
 
@@ -1172,7 +1175,7 @@ body {
 .build-tile.is-used { opacity: 0.18; pointer-events: none; transform: scale(0.85); }
 
 /* ---------- feedback polish ---------- */
-.pop-bubble.is-no svg .tile-face { fill: #e5dcc8; }
+/* v57: no grey face on a refused bubble — it fades in its own colours. */
 
 .pop-cross {
   position: absolute;
@@ -1484,11 +1487,18 @@ body {
    leaves — the child always lands on success within a tap or two. Opacity +
    desaturation only, so positioned elements never jump. */
 .is-scaffolded {
-  opacity: 0.1 !important;
+  /* v68: it used to drop to 10% and grey out, a lifeless husk left on the
+     board. Now it settles down to rest in its own colours: a little smaller,
+     a little lower, softly faded. Independent scale/translate compose with
+     each game's own positioning transform, so nothing jumps. */
+  opacity: 0.3 !important;
   pointer-events: none !important;
-  filter: saturate(0.3);
-  transition: opacity 460ms var(--lg-out), filter 480ms var(--lg-out);
+  scale: 0.86;
+  translate: 0 6px;
+  transition: opacity 460ms var(--lg-out), scale 520ms var(--lg-out), translate 520ms var(--lg-out);
 }
+@media (prefers-reduced-motion: reduce) { .is-scaffolded { scale: none; translate: none; transition: opacity 300ms linear; } }
+.lg-reduce-motion .is-scaffolded { scale: none; translate: none; transition: opacity 300ms linear; }
 
 /* ---------- ambient life (specs/02): the garden breathes even at rest ---------- */
 .lg-ambient {
@@ -2014,7 +2024,7 @@ body.lg-reduce-motion .lg-ambient, body.lg-reduce-motion .lg-spark { display: no
 .lg-home .map-daily-row{position:relative;top:auto;left:auto;transform:none;align-self:center;max-width:100%;margin:12px 0 8px;padding:6px 12px;border:1px solid #e5dcc8;border-radius:26px;box-shadow:0 5px 0 #e5dcc8;gap:12px;flex-shrink:0}
 .lg-home .map-daily-row button{width:58px;height:58px;min-width:48px;border-radius:18px;background:#fffdf7;border:2px solid #c9bda4;box-shadow:0 3px 0 #c9bda4}
 .map-practice-garden{display:flex;align-items:center;justify-content:center;gap:14px;align-self:center;width:min(400px,94%);min-height:52px;margin:8px 0 14px;border:2px solid #4e9677;border-radius:20px;background:#fffaf0;color:#2f5c46;box-shadow:0 4px 0 #c9bda4;font:600 17px system-ui;cursor:pointer;flex-shrink:0}
-.map-practice-garden:disabled{opacity:.45;cursor:default}.map-practice-garden:active:not(:disabled){transform:translateY(2px)}
+.map-practice-garden[aria-disabled="true"]{opacity:.62;cursor:default}.map-practice-garden[aria-disabled="true"]>svg:first-child{filter:saturate(.55)}.map-practice-garden:active:not([aria-disabled="true"]){transform:translateY(2px)}
 .lg-home .map-scroll{mask-image:linear-gradient(transparent,#0a1f1a 22px,#0a1f1a calc(100% - 20px),transparent)}
 .lg-home .map-path{max-width:470px}.lg-home .map-stop{width:clamp(100px,27vw,126px)}
 .lg-home .map-stop.is-current .map-stop-art{animation:none;transform:scale(1.04);transform-origin:center}
@@ -2113,7 +2123,7 @@ body.lg-reduce-motion .lg-ambient, body.lg-reduce-motion .lg-spark { display: no
 .wx-leaf { position: absolute; left: -40px; width: calc(28px * var(--k, 1)); height: calc(18px * var(--k, 1)); animation: wx-leaf 12s linear infinite; }
 @keyframes wx-leaf { 0% { transform: translate(0, 0) rotate(0); } 25% { transform: translate(28vw, 26px) rotate(140deg); } 50% { transform: translate(55vw, -6px) rotate(250deg); } 75% { transform: translate(82vw, 30px) rotate(400deg); } 100% { transform: translate(115vw, 8px) rotate(540deg); } }
 .wx-rainbow { position: absolute; left: -6%; top: 9%; width: min(70%, 460px); opacity: .5; }
-.lg-home > .lg-weather .wx-rainbow { opacity: .35; }
+.lg-home > .lg-weather .wx-rainbow { display: none; } /* v65: the map looks down at the ground — a sky rainbow lay across the grass; it shows in the village, which has a sky */
 .lg-reduce-motion .wx-rain, .lg-reduce-motion .wx-leaf { display: none; }
 @media (prefers-reduced-motion: reduce) { .wx-rain, .wx-leaf { display: none; } }
 
@@ -2151,6 +2161,8 @@ body.lg-reduce-motion .lg-ambient, body.lg-reduce-motion .lg-spark { display: no
 .hunt-spot:focus-visible .hunt-thing { filter: drop-shadow(0 0 0 #e8743c) drop-shadow(0 0 6px #e8743c); }
 .hunt-thing { transform-box: fill-box; transform-origin: 50% 100%; }
 .hunt-spot.is-found .hunt-letter { fill: #4e9677; }
+.hunt-spot.is-hint .hunt-thing { filter: drop-shadow(0 0 0 #f3c955) drop-shadow(0 0 8px #f3c955); animation: hunt-hint 1.2s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 50%; }
+@keyframes hunt-hint { 50% { transform: scale(1.08); } }
 .hunt-spot.is-found .hunt-thing { animation: hunt-found 900ms cubic-bezier(.3,1.5,.5,1) both; }
 .hunt-spot.is-kite.is-found .hunt-thing, .hunt-spot.is-cloud.is-found .hunt-thing, .hunt-spot.is-lantern.is-found .hunt-thing { animation-name: hunt-float; }
 .hunt-spot.is-sail.is-found .hunt-thing, .hunt-spot.is-lily.is-found .hunt-thing { animation-name: hunt-bob; }
@@ -2184,7 +2196,7 @@ body.lg-reduce-motion .lg-ambient, body.lg-reduce-motion .lg-spark { display: no
 /* ---------- v9 Family Garden ---------- */
 .lg-who .who-stage { display: grid; place-items: center; min-height: 100%; }
 .who-pets { display: flex; flex-wrap: wrap; justify-content: center; gap: 18px; max-width: 520px; padding: 20px; }
-.who-pet { width: 140px; height: 150px; padding: 8px; border: 3px solid #4a3620; border-radius: 32px 32px 40px 40px; background: radial-gradient(ellipse at 50% 92%, #c9bda4 0 30%, transparent 31%), #fffaf0; box-shadow: 0 6px 0 #70501b; cursor: pointer; display: grid; place-items: end center; }
+.who-pet { width: 140px; height: 150px; padding: 8px; border: 3px solid #4a3620; border-radius: 32px 32px 40px 40px; background: radial-gradient(ellipse 34% 7% at 50% 90%, #c9bda4 0 96%, transparent 100%), #fffaf0; /* 2026-10-13: a sized floor spot — unsized it painted a big grey block behind every pet and egg */ box-shadow: 0 6px 0 #70501b; cursor: pointer; display: grid; place-items: end center; }
 .who-pet > svg, .who-pet > .lg-animal { width: 100% !important; height: 100% !important; }
 .who-pet.is-picked { transform: translateY(-8px) scale(1.06); transition: transform 260ms cubic-bezier(.3,1.6,.5,1); }
 .who-pet:focus-visible, .gu-family-pet:focus-visible, .gu-family-add:focus-visible { outline: 4px solid var(--lg-focus); outline-offset: 3px; }
@@ -2228,6 +2240,12 @@ body.lg-reduce-motion .lg-ambient, body.lg-reduce-motion .lg-spark { display: no
 .lab-tile.is-mark { background: #ffe49a; font-size: 30px; }
 .lab-tile:focus-visible, .lab-slot:focus-visible, .lab-out:focus-visible, .lab-made:focus-visible { outline: 4px solid var(--lg-focus); outline-offset: 2px; }
 .lg-reduce-motion .lab-press .lab-gear, .lg-reduce-motion .lab-press .lab-machine, .lg-reduce-motion .lab-out { animation: none !important; }
+/* Wide, short screens (an iPad in landscape): four rows of letter tiles ran off the bottom. Let the trays spread wide and the press shrink, so every tile is in reach (v58). */
+@media (min-width: 900px) and (max-height: 900px) { .lab { width: min(100%, 940px); } .lab-press { width: min(100%, 220px); } }
+/* Phones (v58): the page can't scroll, and the letter tray sat below the screen — most of the 28 letters were out of reach. The trays become single swipeable rows and the press shrinks, so everything fits. */
+@media (max-width: 600px) and (max-height: 900px), (max-height: 500px) { .lab-press { width: min(100%, 190px); } .lab-tray { flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity; width: 100%; padding: 4px 6px 8px; -webkit-mask-image: linear-gradient(90deg, transparent, #000 14px, #000 calc(100% - 14px), transparent); mask-image: linear-gradient(90deg, transparent, #000 14px, #000 calc(100% - 14px), transparent); } .lab-tray > * { flex: 0 0 auto; scroll-snap-align: start; } }
+/* Short phones (iPhone SE, 568px tall): a smaller press and bench so the letter row still fits. */
+@media (max-width: 600px) and (max-height: 620px) { .lab-press { width: min(100%, 130px); } .lab-slot { width: 60px; height: 70px; font-size: 32px; } }
 
 /* ---------- v12 Garden Visitors ---------- */
 .decorate-board { position: relative; }
@@ -2246,7 +2264,8 @@ body.lg-reduce-motion .lg-ambient, body.lg-reduce-motion .lg-spark { display: no
 @media (prefers-reduced-motion: reduce) { .garden-visitor .visitor-walk, .garden-visitor.is-hop { animation: none; } }
 
 /* ---------- v13 Letter Studio ---------- */
-.studio { display: grid; justify-items: center; gap: 10px; width: min(100%, 620px); margin: 0 auto; padding-bottom: 8px; }
+/* The 4:3 canvas is sized by width; on a landscape iPad that made it taller than the screen and pushed the inks and stamps out of reach. Cap the width by the height left over (v58). */
+.studio { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; gap: 10px; width: min(100%, 620px, max(220px, calc((100dvh - 400px) * 4 / 3))); margin: 0 auto; padding-bottom: 8px; }
 .studio-canvas { width: 100%; height: auto; border: 3px solid #4a3620; border-radius: 22px; box-shadow: 0 6px 0 #4a3620; cursor: crosshair; touch-action: manipulation; }
 .studio-placed { animation: studio-stamp 260ms cubic-bezier(.3,1.6,.5,1); transform-box: fill-box; transform-origin: 50% 50%; }
 @keyframes studio-stamp { from { opacity: 0; } to { opacity: 1; } }
@@ -2313,7 +2332,8 @@ body.lg-reduce-motion .lg-ambient, body.lg-reduce-motion .lg-spark { display: no
 /* ---------- v24 Letter Balloons ---------- */
 .lg-play[data-activity="balloons"] .practice-stage { position: relative; }
 .balloons { position: relative; width: min(100%, 560px); height: min(72vh, 620px); margin: 0 auto; overflow: hidden; border: 3px solid #4a3620; border-radius: 28px; background: linear-gradient(#96ecff, #ccfbef); box-shadow: 0 6px 0 #4a3620; }
-.balloon { position: absolute; bottom: -150px; width: 96px; height: 134px; padding: 0; border: 0; background: none; cursor: pointer; animation: balloon-rise var(--rise, 15s) linear infinite; }
+.balloons { container-type: size; }
+.balloon { --sw: min(12px, 3cqw); --bw: min(96px, calc(100cqw / 3 - 2 * var(--sw) - 4px)); position: absolute; bottom: -150px; width: var(--bw); height: calc(var(--bw) * 1.4); padding: 0; border: 0; background: none; cursor: pointer; animation: balloon-rise var(--rise, 15s) linear infinite; }
 .balloon svg { display: block; width: 100%; height: 100%; }
 .balloon.is-popped { animation: balloon-pop 380ms ease-out forwards; }
 @keyframes balloon-rise { 0% { transform: translate(0, 0); } 50% { transform: translate(var(--sway, 12px), calc(-0.55 * min(72vh, 620px))); } 100% { transform: translate(0, calc(-1 * min(72vh, 620px) - 160px)); } }

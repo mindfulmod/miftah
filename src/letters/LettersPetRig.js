@@ -135,10 +135,22 @@
         // Eyes open slowly, a stretch, then a look at the child.
         g.sq = t < 500 ? 0.94 : t < 800 ? 1.05 : 1; g.armL = t > 450 && t < 900 ? 30 : 0; g.armR = -g.armL;
         tgt = [ex, ey + 600 * u];
+      } else if (act?.kind === 'yawn') {
+        // v97: a sleepy night yawn — mouth wide, a slow stretch, head back.
+        const k = Math.sin(Math.min(1, t / 1400) * Math.PI);
+        g.o = k; g.sq = 1 + 0.05 * k; g.hy = -4 * u * k; g.armL = cfg.arms ? 40 * k : 0; g.armR = -g.armL;
+        tgt = [ex, ey - 400 * u];
+      } else if (act?.kind === 'doze') {
+        // 2026-10-13: asleep while the child is away — head nods a little to
+        // one side, slow deep breaths, eyes shut. wake() ends it.
+        g.head = cfg.tilt * 0.6; g.hy = 6 * u; g.sq = still ? 1 : 0.975 + 0.025 * Math.sin(now / 900);
+        tgt = [ex, ey + 600 * u];
       } else if (act?.kind === 'inspect') {
         g.hy = 12 * u; g.reachBoth = 0.6; g.reach = tgt; g.brow = -8;
       } else if (act?.kind === 'ponder') {
-        g.head = -cfg.tilt; g.browTilt = 1; g.ear = -10; tgt = [ex - 160 * u, ey - 220 * u];
+        // Curious, never sad (v57): head tilts, ears PERK up (drooping ears
+        // read as sadness in cartoon body language), eyes look up to think.
+        g.head = -cfg.tilt; g.browTilt = 1; g.ear = 6; tgt = [ex - 160 * u, ey - 220 * u];
       } else if (act?.kind === 'wave') {
         const swing = still ? 0 : Math.sin(t / 70);
         if (cfg.style === 'flap') { g.armL = 35 + 25 * swing; g.armR = -g.armL; }
@@ -219,6 +231,8 @@
       set('gaze', `translate(${(lx / dist * k * cfg.gaze[0]).toFixed(2)} ${(ly / dist * k * cfg.gaze[1]).toFixed(2)})`);
       let blink = 1;
       if (act?.kind === 'wake') blink = t < 350 ? 0.08 : Math.min(1, 0.08 + (t - 350) / 220 * 0.92);
+      else if (act?.kind === 'doze') blink = 0.08;
+      else if (act?.kind === 'yawn') blink = Math.max(0.08, 1 - Math.sin(Math.min(1, t / 1400) * Math.PI) * 0.92);
       else if (!still && !act && !cfg.cssBlink) {
         if (!blinkAt || now > blinkAt + 140) blinkAt = now + 2600 + Math.random() * 2600;
         else if (now > blinkAt) blink = Math.max(0.08, Math.abs(now - blinkAt - 70) / 70);
@@ -261,8 +275,12 @@
       // Each action may chain a follow-up once it settles (cheer, then inspect).
       cheer(next) { look = reach = null; start('cheer', null, null, next); },
       wake(next) { look = reach = null; start('wake', 1100, null, next); },
+      // Sleeps until wake() (or any other action) replaces it.
+      doze() { look = reach = null; walking = null; start('doze', Infinity); },
+      get dozing() { return act?.kind === 'doze'; },
       inspect(target, ms = 1500, next) { look = reach = null; start('inspect', ms, target, next); },
       ponder(next) { look = reach = null; start('ponder', 1100, null, next); },
+      yawn(next) { look = reach = null; start('yawn', 1400, null, next); },
       wave(next) { start('wave', 900, null, next); },
       // Walking gait toward dir (-1 left, 1 right); walk(0) stops.
       walk(dir) { walking = dir ? { dir: Math.sign(dir) } : null; kick(); },

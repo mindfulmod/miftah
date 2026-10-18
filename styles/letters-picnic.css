@@ -70,9 +70,12 @@
 .lg-app .lg-play[data-activity="feed"] .lg-activity-art > .is-picnic-flowers { left:0; bottom:14%; width:clamp(42px,12%,70px); }
 @media(max-height:650px) and (orientation:portrait) {
   .lg-app .lg-play[data-activity="feed"] .play-stage { margin-bottom:20px; max-height:none; }
-  .lg-app .lg-play[data-activity="feed"] .feed-scene { grid-template-rows:minmax(72px,1fr) 80px 76px; gap:3px; padding:0 12px 12px; }
+  /* v58: the seed packets carry the word the child must read; at 48px a long
+     Quran word shrank to a 12–16px font. A taller tray row and packets that
+     grow to 100px (shrinking again to fit three or four) put it near 30px. */
+  .lg-app .lg-play[data-activity="feed"] .feed-scene { grid-template-rows:minmax(56px,1fr) 70px 124px; gap:3px; padding:0 12px 12px; }
   .lg-app .lg-play[data-activity="feed"] .feed-basket { width:130px; height:80px; }
-  .lg-app .lg-play[data-activity="feed"] .feed-food { width:48px; flex-basis:48px; }
+  .lg-app .lg-play[data-activity="feed"] .feed-food { width:auto; flex:1 1 66px; max-width:100px; }
   .lg-app .lg-play[data-activity="feed"] .feed-tray { padding:4px 8px 6px; }
   .lg-app .lg-play[data-activity="feed"] .feed-finish { bottom:12px; height:76px; }
   .lg-app .lg-play[data-activity="feed"] .feed-next { height:52px; }

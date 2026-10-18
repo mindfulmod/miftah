@@ -13,8 +13,9 @@ const game = source("LettersGame.js");
 
 test("Chapter friend stops: the newer games are on the main journey, before the party", () => {
   const bonus = game.slice(game.indexOf("    chapterBonus(world) {"), game.indexOf("    finishWorld() {"));
-  for (const [id, kind] of [["pack-boat", "FriendFind"], ["pack-smile", "DotsLast"], ["pack-strong", "LetterShadows"], ["muqattaat", "EchoParade"], ["sukoon", "LanternHunt"]])
+  for (const [id, kind] of [["pack-boat", "FriendFind"], ["pack-smile", "DotsLast"], ["pack-strong", "LetterFishing"], ["muqattaat", "EchoParade"], ["sukoon", "LanternHunt"]])
     assert.match(bonus, new RegExp(`"?${id}"?: "${kind}"`));
+  assert.match(bonus, /"join-1": \["FamilyBuses", "LetterShadows"\], "join-2": \["SpotChange", "SameLetter"\],/, "replays rotate, so older stops stay on the journey");
   assert.match(bonus, /if \(pick === "DotsLast" && !letters\.some\(sib\)\) return null;/, "Dots Last only where the chapter has look-alikes");
   const finish = game.slice(game.indexOf("    finishWorld() {"), game.indexOf("    renderParty("));
   assert.match(finish, /if \(!s\.checkup && !s\.daily && !s\.bonusDone\) \{/, "never in check-ups or the daily bouquet, and once per run");
