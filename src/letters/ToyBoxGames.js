@@ -357,8 +357,9 @@
       // because a fixed every-fifth pattern lined up into stripes.
       for (let y = -2; y <= 100; y += 11) for (let x = -2; x <= 102; x += 11) {
         if (((x - 50) / 66) ** 2 + ((y - 49) / 64) ** 2 > 1) continue;
-        blobs.push([x + Math.random() * 4 - 2, y + Math.random() * 4 - 2, 8.6 + Math.random() * 2.4, FOAM[Math.floor(Math.random() * FOAM.length)]]);
+        blobs.push([x + Math.random() * 4 - 2, y + Math.random() * 4 - 2, 8.6 + Math.random() ** 2 * 5.4, FOAM[Math.floor(Math.random() * FOAM.length)]]);
       }
+      // v257: bubble sizes vary more (mostly small, a few big — the minimum is unchanged so the friend stays covered), so the foam reads as foam, not a grid.
       this.total = blobs.length;
       const friend = F().art(c, { size: 112 }).replace(/^<svg/, '<svg x="-6" y="-6"');
       this.root.innerHTML = `

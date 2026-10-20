@@ -208,8 +208,10 @@
   }
   function raftArt(phase, letters, drawings) {
     const afloat = phase >= 3, x = afloat ? 52 : 150, y = afloat ? 180 : 182;
-    const deck = `<rect x="${x}" y="${y}" width="132" height="26" rx="8" fill="#c69434" stroke="#4a3620" stroke-width="2.4"/><path d="M${x + 44} ${y + 3}V${y + 23}M${x + 88} ${y + 3}V${y + 23}" stroke="#70501b" stroke-width="1.6"/>
-      ${[110, 66, 22].map((dx, i) => tag(x + dx, y + 13, 38, 22, letters[i], drawings, 17)).join('')}`;
+    // v219: the raft is two lashed logs with ringed ends and rope bindings, not one plank.
+    const deck = `<rect x="${x}" y="${y + 16}" width="132" height="12" rx="6" fill="#c69434" stroke="#4a3620" stroke-width="2.4"/><path d="M${x + 14} ${y + 22}H${x + 58}M${x + 74} ${y + 22}H${x + 116}" stroke="#70501b" stroke-width="1.6" stroke-linecap="round"/><circle cx="${x + 126}" cy="${y + 22}" r="5" fill="#ffe49a" stroke="#4a3620" stroke-width="2.4"/>
+      <rect x="${x}" y="${y - 4}" width="132" height="22" rx="10" fill="#c69434" stroke="#4a3620" stroke-width="2.4"/><circle cx="${x + 127}" cy="${y + 7}" r="5.5" fill="#ffe49a" stroke="#4a3620" stroke-width="2.4"/><circle cx="${x + 127}" cy="${y + 7}" r="2.4" fill="none" stroke="#c69434" stroke-width="1.6"/>${[44, 88].map((dx) => `<rect x="${x + dx - 3}" y="${y - 6}" width="6" height="36" rx="3" fill="#e5dcc8" stroke="#4a3620" stroke-width="1.6"/>`).join('')}
+      ${[110, 66, 22].map((dx, i) => tag(x + dx, y + 7, 38, 22, letters[i], drawings, 17)).join('')}`;
     return `<g class="craft-raft">
       <path d="M26 200Q40 178 120 178Q196 178 214 198Q200 218 120 220Q40 220 26 200Z" fill="#62cdf4"/>
       <path d="M48 192Q90 184 130 186M66 210L120 208" fill="none" stroke="#96ecff" stroke-width="4" stroke-linecap="round"/>

@@ -13,6 +13,12 @@
     <path d="M70 70L100 30H140L150 70M250 70L220 30H180L170 70" fill="#f3c955" stroke="${INK}" stroke-width="4" stroke-linejoin="round"/>
     <g class="lab-gear" transform="translate(160 158)"><circle r="20" fill="#c69434" stroke="${INK}" stroke-width="3"/>${[0, 45, 90, 135].map((a) => `<path d="M-4-26H4V26H-4Z" fill="#c69434" stroke="${INK}" stroke-width="2.4" transform="rotate(${a})"/>`).join("")}<circle r="8" fill="#ffe49a" stroke="${INK}" stroke-width="2.4"/></g>
     <path d="M100 196V206M220 196V206" stroke="${INK}" stroke-width="6" stroke-linecap="round"/>
+    ${/* v259: built like a machine — speaker grille, two lights, rivets, a side lever, a top shine. */""}
+    <path d="M52 76H268" stroke="#96ecff" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="90" cy="158" r="22" fill="#3a8fc4" stroke="${INK}" stroke-width="3"/>${[[-8,-8],[0,-8],[8,-8],[-8,0],[0,0],[8,0],[-8,8],[0,8],[8,8]].map(([x, y]) => `<circle cx="${90 + x}" cy="${158 + y}" r="2.4" fill="#ccfbef"/>`).join("")}
+    <circle cx="232" cy="148" r="8" fill="#ffe49a" stroke="${INK}" stroke-width="2.4"/><circle cx="232" cy="172" r="8" fill="#7fce54" stroke="${INK}" stroke-width="2.4"/><circle cx="229" cy="145" r="2.4" fill="#fffdf7"/>
+    ${[[50, 132], [270, 132], [50, 186], [270, 186]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="3" fill="#3a8fc4"/>`).join("")}
+    <path d="M280 150H296V110" fill="none" stroke="${INK}" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><path d="M280 150H296V110" fill="none" stroke="#c9bda4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="296" cy="104" r="9" fill="#ee806f" stroke="${INK}" stroke-width="3"/><circle cx="293" cy="101" r="2.4" fill="#fffdf7"/>
   </svg>`;
 
   class SoundLab {

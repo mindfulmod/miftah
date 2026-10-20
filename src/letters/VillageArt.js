@@ -20,7 +20,7 @@
   // low and warm over the far hills.
   // v121: a puffy cloud in the pet language (soft lumps, one shine, a light
   // belly shade; no outline — the sky is a mass).
-  const puff = (x, y, k, warm = false) => `<g transform="translate(${x.toFixed(0)} ${y.toFixed(0)}) scale(${k})"><path d="M-40 14Q-50 14 -46 2Q-46 -10 -30 -10Q-26 -26 -8 -26Q8 -32 18 -18Q36 -22 40 -6Q52 -4 48 8Q48 16 38 16H-36Q-40 16 -40 14Z" fill="${warm ? "#ffe49a" : "#fffaf0"}"/><path d="M-38 12Q0 20 42 12Q44 16 36 16H-34Q-40 16 -38 12Z" fill="${warm ? "#ffa06e" : "#ccfbef"}"/><ellipse cx="-14" cy="-14" rx="10" ry="4" fill="#fffdf7" opacity=".9"/></g>`;
+  const puff = (x, y, k, warm = false) => `<g class="vg-cloud" style="--d:${(-(x % 7)).toFixed(0)}s"><g transform="translate(${x.toFixed(0)} ${y.toFixed(0)}) scale(${k})"><path d="M-40 14Q-50 14 -46 2Q-46 -10 -30 -10Q-26 -26 -8 -26Q8 -32 18 -18Q36 -22 40 -6Q52 -4 48 8Q48 16 38 16H-36Q-40 16 -40 14Z" fill="${warm ? "#ffe49a" : "#fffaf0"}"/><path d="M-38 12Q0 20 42 12Q44 16 36 16H-34Q-40 16 -38 12Z" fill="${warm ? "#ffa06e" : "#ccfbef"}"/><ellipse cx="-14" cy="-14" rx="10" ry="4" fill="#fffdf7" opacity=".9"/></g></g>`;
   function backdrop(W, H, { night = false, horizon = 0.34, phase = night ? "night" : "day" } = {}) {
     const hz = Math.round(H * horizon);
     const sunset = !night && phase === "sunset", morning = !night && phase === "morning";
@@ -35,9 +35,9 @@
       </defs>
       <rect x="-200" y="-200" width="${W + 400}" height="${H + 400}" fill="url(#vg-sky)"/>
       ${night
-        ? `<path d="M${W * 0.14} ${H * 0.06}A26 26 0 1 0 ${W * 0.14 + 8} ${H * 0.06 + 48}A20 20 0 1 1 ${W * 0.14} ${H * 0.06}Z" fill="#ffe49a" stroke="#f3c955" stroke-width="2.4" stroke-linejoin="round"/><ellipse cx="${W * 0.14 - 24}" cy="${H * 0.06 + 24}" rx="3" ry="7" fill="#fffdf7" opacity=".85"/>${[[0.4, 0.05, 1], [0.62, 0.11, 0.7], [0.84, 0.04, 0.6], [0.28, 0.16, 0.8], [0.74, 0.2, 0.55]].map(([x, y, k]) => `<path transform="translate(${(W * x).toFixed(0)} ${(H * y).toFixed(0)}) scale(${k})" d="M0 -8Q1 -1 8 0Q1 1 0 8Q-1 1 -8 0Q-1 -1 0 -8Z" fill="#fffaf0" opacity=".9"/>`).join("")}`
+        ? `<path d="M${W * 0.14} ${H * 0.06}A26 26 0 1 0 ${W * 0.14 + 8} ${H * 0.06 + 48}A20 20 0 1 1 ${W * 0.14} ${H * 0.06}Z" fill="#ffe49a" stroke="#f3c955" stroke-width="2.4" stroke-linejoin="round"/><ellipse cx="${W * 0.14 - 24}" cy="${H * 0.06 + 24}" rx="3" ry="7" fill="#fffdf7" opacity=".85"/>${[[0.4, 0.05, 1], [0.62, 0.11, 0.7], [0.84, 0.04, 0.6], [0.28, 0.16, 0.8], [0.74, 0.2, 0.55]].map(([x, y, k], i) => `<g transform="translate(${(W * x).toFixed(0)} ${(H * y).toFixed(0)}) scale(${k})"><path class="vg-twinkle" style="--d:${(i * 0.7).toFixed(1)}s" d="M0 -8Q1 -1 8 0Q1 1 0 8Q-1 1 -8 0Q-1 -1 0 -8Z" fill="#fffaf0" opacity=".9"/></g>`).join("")}`
         : sunset ? `<circle cx="${W * 0.2}" cy="${hz - 70}" r="46" fill="#ffa06e" opacity=".35"/><circle cx="${W * 0.2}" cy="${hz - 70}" r="30" fill="#ffa06e"/>
-           ${puff(W * 0.58, H * 0.065, 0.9, true)}`
+           ${puff(W * 0.58, H * 0.065, 0.9, true)}${[[0.3, 0.1, 1.4], [0.4, 0.065, 1.05]].map(([fx, fy, k]) => `<path transform="translate(${(W * fx).toFixed(0)} ${(H * fy).toFixed(0)}) scale(${k})" d="M-10 0Q-5 -6 0 0Q5 -6 10 0" fill="none" stroke="#8a3a2d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>`).join("")}`
         : `<g transform="translate(${(W * 0.14).toFixed(0)} ${(H * 0.09).toFixed(0)})"><circle r="40" fill="#ffe49a" opacity=".3"/>${[0, 45, 90, 135, 180, 225, 270, 315].map((a) => `<ellipse cy="-33" rx="5" ry="8" fill="${morning ? "#f3c955" : "#ffe49a"}" transform="rotate(${a})"/>`).join("")}<circle r="25" fill="${morning ? "#f3c955" : "#ffe49a"}"/><circle r="25" fill="none" stroke="#f3c955" stroke-width="2.4" opacity="${morning ? 0 : 0.8}"/><ellipse cx="-9" cy="-10" rx="8" ry="4" fill="#fffdf7" opacity=".6"/></g>
            ${puff(W * 0.6, H * 0.065, 0.9)}${puff(W * 0.3, H * 0.11, 0.6)}`}
       <path d="M-200 ${hz - 30}Q${W * 0.16} ${hz - 74} ${W * 0.37} ${hz - 48}Q${W * 0.56} ${hz - 96} ${W * 0.77} ${hz - 58}Q${W * 0.9} ${hz - 76} ${W + 200} ${hz - 54}V${H + 200}H-200Z" fill="${far}" opacity=".55"/>
@@ -45,6 +45,9 @@
       <path d="M-200 ${hz + 24}Q${W * 0.32} ${hz + 2} ${W * 0.6} ${hz + 20}Q${W * 0.85} ${hz + 10} ${W + 200} ${hz + 22}V${H + 200}H-200Z" fill="${ground}"/>
       <path d="M-200 ${H * 0.7}Q${W * 0.32} ${H * 0.67} ${W * 0.64} ${H * 0.705}Q${W * 0.86} ${H * 0.725} ${W + 200} ${H * 0.695}V${H + 200}H-200Z" fill="${shade}" opacity=".26"/>
       <path d="M-200 ${H * 0.88}Q${W * 0.37} ${H * 0.855} ${W * 0.69} ${H * 0.89}Q${W * 0.88} ${H * 0.905} ${W + 200} ${H * 0.88}V${H + 200}H-200Z" fill="${shade}" opacity=".36"/>
+      ${/* v214: the open lawn gets low-contrast grass tufts and a few tiny flowers (drawn under everything, never tappable). */""}
+      <g opacity="${night ? 0.4 : 0.6}">${[[0.08, 0.5], [0.3, 0.46], [0.62, 0.48], [0.9, 0.52], [0.18, 0.6], [0.44, 0.58], [0.78, 0.62], [0.06, 0.74], [0.36, 0.72], [0.58, 0.78], [0.94, 0.76], [0.24, 0.86], [0.7, 0.9], [0.48, 0.95]].map(([fx, fy], i) => { const x = (W * fx).toFixed(0), y = (H * fy).toFixed(0);
+        return `<path d="M${x - 6} ${y}Q${x - 6} ${y - 7} ${x - 2} ${y - 9}M${x} ${y}Q${x} ${y - 9} ${x - -3} ${y - 12}M${x - -6} ${y}Q${x - -7} ${y - 6} ${x - -10} ${y - 7}" fill="none" stroke="${shade}" stroke-width="2.4" stroke-linecap="round"/>${morning && i % 3 === 0 ? `<path d="M${x - -2} ${y - 20}l2 4.6l4.6 2l-4.6 2l-2 4.6l-2 -4.6l-4.6 -2l4.6 -2Z" fill="#fffdf7"/>` : ""}${i % 3 === 1 ? `<circle cx="${x - -12}" cy="${y - 4}" r="2.4" fill="${["#fffdf7", "#ffe49a", "#ffa798"][i % 3 === 1 ? Math.floor(i / 3) % 3 : 0]}"/>` : ""}`; }).join("")}</g>
       <rect x="-200" y="-200" width="${W + 400}" height="${H + 400}" fill="url(#vg-sun)"/>`;
   }
   // The trail: a sand mass (no contour) with a lighter crown and pebbles.
@@ -69,7 +72,9 @@
     <path d="M-18 -30Q-12 -36 -4 -34M12 -38Q20 -36 24 -28M-20 -2Q-14 2 -6 0M14 0Q22 -2 26 -8" fill="none" stroke="${c[1]}" stroke-width="2.4" stroke-linecap="round"/>
     <ellipse cx="-14" cy="-36" rx="8" ry="4" fill="#fffdf7" opacity=".6"/>
     ${dark ? "" : `<circle cx="16" cy="-16" r="5" fill="#ee806f" stroke="${INK}" stroke-width="1.6"/><circle cx="-8" cy="-12" r="4.5" fill="#ee806f" stroke="${INK}" stroke-width="1.6"/>`}</g>`; };
-  const bush = (x, y, s) => `<g class="vg-deco" transform="translate(${x} ${y}) scale(${s})">${shadow(2, 13, 26, 5, 0.16)}<path d="M-26 12Q-30-6-14-8Q-10-22 4-18Q20-24 24-6Q34 2 26 12Z" fill="#7fce54" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/><path d="M-14 6Q-12 0 -8 -2M0 8Q2 2 6 0M12 6Q14 0 18 -2" fill="none" stroke="#4e9677" stroke-width="2.4" stroke-linecap="round"/><ellipse cx="-10" cy="-8" rx="5" ry="2.4" fill="#fffdf7" opacity=".6"/>${[0, 72, 144, 216, 288].map((a) => `<circle cx="14" cy="-14" r="3" fill="#ffa798" stroke="#ee806f" stroke-width="1.6" transform="rotate(${a} 14 -11)"/>`).join("")}<circle cx="14" cy="-11" r="2.4" fill="#f3c955"/></g>`;
+  // v232: each bush is its own: flower colour, flower side and a mirror come from its position.
+  const bush = (x, y, s) => { const k = Math.round(x + y) % 3, flip = Math.round(x) % 2 ? -1 : 1, [fc, fd] = [["#ffa798", "#ee806f"], ["#e6d6f0", "#b49fcf"], ["#ffe49a", "#c69434"]][k];
+    return `<g class="vg-deco" transform="translate(${x} ${y}) scale(${s * flip} ${s})">${shadow(2, 13, 26, 5, 0.16)}<path d="M-26 12Q-30-6-14-8Q-10-22 4-18Q20-24 24-6Q34 2 26 12Z" fill="#7fce54" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/><path d="M-14 6Q-12 0 -8 -2M0 8Q2 2 6 0M12 6Q14 0 18 -2" fill="none" stroke="#4e9677" stroke-width="2.4" stroke-linecap="round"/><ellipse cx="-10" cy="-8" rx="5" ry="2.4" fill="#fffdf7" opacity=".6"/>${[0, 72, 144, 216, 288].map((a) => `<circle cx="14" cy="-14" r="3" fill="${fc}" stroke="${fd}" stroke-width="1.6" transform="rotate(${a} 14 -11)"/>`).join("")}<circle cx="14" cy="-11" r="2.4" fill="#f3c955"/></g>`; };
   // ---------- landmarks (touchable: chunky ink, ramped, lit from top-left) ----------
   // The journey gate: a wooden arch with a hanging medallion for the next letter.
   function gateClassic(letter, hue = 268, latin = false) {
@@ -175,6 +180,7 @@
   const DL = (c, w = 2.4) => `fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"`;
   const tuft = (x, y, c = "#4e9677") => `<path d="M${x - 6} ${y}Q${x - 6} ${y - 8} ${x - 2} ${y - 10}M${x} ${y}Q${x} ${y - 10} ${x + 3} ${y - 13}M${x + 6} ${y}Q${x + 7} ${y - 7} ${x + 10} ${y - 8}" ${DL(c, 3)}/>`;
   const bloom = (x, y, c, d, r = 4) => `${[0, 72, 144, 216, 288].map((a) => `<circle cx="${x}" cy="${y - r}" r="${r}" fill="${c}" stroke="${d}" stroke-width="1.6" transform="rotate(${a} ${x} ${y})"/>`).join("")}<circle cx="${x}" cy="${y}" r="${r * 0.75}" fill="#f3c955" stroke="#c69434" stroke-width="1.6"/>`;
+  // v251: with no next letter (journey finished, or an art-icon chapter) the medal shows a drawn gold star, not a black text glyph.
   function gate(letter, hue = 268, latin = false) {
     return `${shadow(0, 94, 70, 9)}${tuft(-70, 94)}${tuft(64, 94)}
       <path d="M-66 92V30Q-66 -30 0 -30Q66 -30 66 30V92H44V32Q44 -8 0 -8Q-44 -8 -44 32V92Z" fill="#c69434" ${ink()}/>
@@ -190,11 +196,11 @@
       <g class="vg-medal"><circle cy="42" r="34" fill="hsl(${hue} 52% 62%)" ${ink()}/>
       <circle cy="42" r="29" fill="none" stroke="hsl(${hue} 60% 46%)" stroke-width="2.4" stroke-dasharray="2 6" stroke-linecap="round"/>${shine(-16, 22, 9, 5)}
       <circle cy="42" r="23" fill="#fffdf7" ${ink(3)}/>
-      <text y="${latin ? 50 : 54}" text-anchor="middle" font-family="${latin ? "ui-rounded, system-ui, sans-serif" : "'Amiri Quran', serif"}" font-size="${latin ? 22 : 30}" fill="${INK}" ${latin ? "" : 'direction="rtl"'}>${letter}</text></g>`;
+      ${letter === "★" ? `<path transform="translate(0 43)" d="M0 -15L4.4 -5.4L15 -4.6L7 2.4L9.4 13L0 7.4L-9.4 13L-7 2.4L-15 -4.6L-4.4 -5.4Z" fill="#f3c955" stroke="${INK}" stroke-width="2.4" stroke-linejoin="round"/><path d="M-4 33L-2 37" ${DL("#fffdf7", 2.4)}/>` : `<text y="${latin ? 50 : 54}" text-anchor="middle" font-family="${latin ? "ui-rounded, system-ui, sans-serif" : "'Amiri Quran', serif"}" font-size="${latin ? 22 : 30}" fill="${INK}" ${latin ? "" : 'direction="rtl"'}>${letter}</text>`}</g>`;
   }
   function cottage() {
     return `${shadow(4, 78, 64, 10)}${tuft(-56, 78)}${tuft(52, 78)}
-      <g fill="#fffaf0" opacity=".85"><circle cx="40" cy="-70" r="6"/><circle cx="46" cy="-84" r="8"/><circle cx="54" cy="-100" r="10"/></g>
+      <g fill="#fffaf0" opacity=".85">${[[40, -70, 6], [46, -84, 8], [54, -100, 10]].map(([x, y, r], i) => `<circle class="vg-smoke" style="--d:${i * 0.9}s" cx="${x}" cy="${y}" r="${r}"/>`).join("")}</g>
       <rect x="30" y="-62" width="20" height="38" rx="5" fill="#e5dcc8" ${ink(3)}/><rect x="27" y="-68" width="26" height="10" rx="4" fill="#c9bda4" ${ink(3)}/><path d="M34 -50H46M34 -40H46" ${DL("#c9bda4")}/>
       <rect x="-50" y="-4" width="100" height="80" rx="34" fill="#fffaf0" ${ink()}/>
       <path d="M-42 20H42M-46 36H-20M20 36H46M-46 52H-20M20 52H46" ${DL("#e5dcc8")}/>
@@ -206,13 +212,14 @@
       <circle cx="-30" cy="-6" r="6" fill="#b7e779" stroke="#4e9677" stroke-width="1.6"/><circle cx="28" cy="-28" r="5" fill="#b7e779" stroke="#4e9677" stroke-width="1.6"/><circle cx="44" cy="-2" r="4" fill="#b7e779" stroke="#4e9677" stroke-width="1.6"/>
       ${shine(-34, -26, 14, 6)}
       <path d="M0 -52Q-2 -64 2 -72" fill="none" ${ink()}/><path d="M2 -70Q-12 -86 -18 -78Q-12 -66 2 -70Z" fill="#b7e779" ${ink(3)}/><path d="M2 -70Q-6 -74 -12 -76" ${DL("#4e9677", 1.6)}/>
+      <g transform="translate(1 12)"><rect x="-9" y="-6" width="18" height="12" rx="4" fill="#c69434" ${ink(2.4)}/><path d="M0 -1Q-2 -4 -4 -2Q-5 0 0 4Q5 0 4 -2Q2 -4 0 -1Z" fill="#ee806f" stroke="#c25a49" stroke-width="1.6" stroke-linejoin="round"/></g>
       <rect x="-19" y="25" width="40" height="52" rx="20" fill="#e5dcc8" ${ink(3)}/>
       <rect x="-14" y="30" width="30" height="46" rx="15" fill="#ee806f" ${ink()}/>
       <path d="M-6 40V70M8 40V70" ${DL("#c25a49")}/><circle cx="10" cy="56" r="3" fill="#f3c955" stroke="#c69434" stroke-width="1.6"/>
       <rect x="-18" y="72" width="38" height="8" rx="4" fill="#c9bda4" ${ink(3)}/>
-      <circle cx="-30" cy="42" r="11" fill="#96ecff" ${ink(3)}/><path d="M-30 32V52M-40 42H-20" ${DL("#4a3620", 2.4)}/>${shine(-34, 37, 3, 2)}
+      <circle class="vg-win" cx="-30" cy="42" r="11" fill="#96ecff" ${ink(3)}/><path d="M-30 32V52M-40 42H-20" ${DL("#4a3620", 2.4)}/>${shine(-34, 37, 3, 2)}
       <path d="M-42 56Q-30 50 -18 56" ${DL("#c69434", 6)}/>${bloom(-38, 52, "#ffa798", "#ee806f", 3)}${bloom(-24, 51, "#ffe49a", "#c69434", 3)}
-      <circle cx="32" cy="34" r="8" fill="#96ecff" ${ink(3)}/><path d="M24 34H40M32 26V42" ${DL("#4a3620", 1.6)}/>
+      <circle class="vg-win" cx="32" cy="34" r="8" fill="#96ecff" ${ink(3)}/><path d="M24 34H40M32 26V42" ${DL("#4a3620", 1.6)}/>
       <g transform="translate(24 50)"><path d="M0 -6V0" ${DL("#4a3620", 2.4)}/><rect x="-4.5" y="0" width="9" height="11" rx="4" fill="#ffe49a" ${ink(2.4)}/></g>
       ${[-44, -30, -16, 16, 30, 44].map((x) => `<ellipse cx="${x}" cy="77" rx="7" ry="4" fill="#c9bda4" ${ink(2.4)}/>`).join("")}`;
   }
@@ -233,11 +240,12 @@
   // real one. Bun feet, a planked box with a lip, gold straps with rivets,
   // rope handles, and a hasp. Open, the lid swings back behind the toys, so
   // they sit inside instead of balancing on top. Closed: a domed lid with a sprout.
+  // v249: the chest's plate carries a star, not a keyhole — a playable chest must never read as locked.
   function toyChest(open = true) {
     const strap = (x, y0, y1) => `<rect x="${x - 6}" y="${y0}" width="12" height="${y1 - y0}" rx="5" fill="#f3c955" ${ink(3)}/>${[y0 + 7, y1 - 7].map((y) => `<circle cx="${x}" cy="${y}" r="2" fill="#c69434"/>`).join("")}`;
     const toys = `<g transform="translate(0 12)"><circle cx="-26" cy="-34" r="16" fill="#62cdf4" ${ink()}/><path d="M-41 -34Q-26 -26 -11 -34M-26 -50Q-18 -34 -26 -18" ${DL("#3a8fc4")}/>${shine(-31, -40, 5, 3)}
       <path d="M0 -22Q8 -54 14 -52Q20 -50 26 -22Z" fill="#ee806f" ${ink(3)}/><path d="M6 -32H22M10 -42H18" ${DL("#fffdf7", 2.4)}/>
-      <path d="M36 -24V-58" fill="none" ${ink(3)}/><ellipse cx="36" cy="-70" rx="15" ry="17" fill="#ffa798" ${ink()}/><path d="M33 -53L36 -50L39 -53Z" fill="#ffa798" stroke="${INK}" stroke-width="1.6"/>${shine(30, -76, 5, 3)}</g>`;
+      <g class="vg-bob"><path d="M36 -24V-58" fill="none" ${ink(3)}/><ellipse cx="36" cy="-70" rx="15" ry="17" fill="#ffa798" ${ink()}/><path d="M33 -53L36 -50L39 -53Z" fill="#ffa798" stroke="${INK}" stroke-width="1.6"/>${shine(30, -76, 5, 3)}</g></g>`;
     const lidOpen = `<path d="M-60 -10L-54 -58Q0 -68 54 -58L60 -10Z" fill="#a89478" ${ink()}/><path d="M-50 -48Q0 -56 50 -48M-52 -32Q0 -38 52 -32" ${DL("#70501b")}/>
       <path d="M-36 -12L-33 -61M36 -12L33 -61" stroke="#c69434" stroke-width="8" stroke-linecap="round"/>`;
     const lidShut = `<path d="M-64 -4V-8Q-64 -40 0 -40Q64 -40 64 -8V-4Q64 4 56 4H-56Q-64 4 -64 -4Z" fill="#c69434" ${ink()}/>
@@ -255,7 +263,7 @@
       ${strap(-36, -8, 54)}${strap(36, -8, 54)}
       ${open ? "" : lidShut}
       <path d="M-9 ${open ? -4 : -6}V12" stroke="${INK}" stroke-width="4" stroke-linecap="round"/><path d="M9 ${open ? -4 : -6}V12" stroke="${INK}" stroke-width="4" stroke-linecap="round"/><path d="M-9 ${open ? -4 : -6}V12M9 ${open ? -4 : -6}V12" stroke="#f3c955" stroke-width="2.4" stroke-linecap="round"/>
-      <rect x="-14" y="10" width="28" height="26" rx="10" fill="#f3c955" ${ink(3)}/><circle cy="20" r="3.5" fill="#70501b"/><path d="M0 22V29" ${DL("#70501b", 2.4)}/>${shine(-7, 15, 3, 1.6, 0)}
+      <rect x="-14" y="10" width="28" height="26" rx="10" fill="#f3c955" ${ink(3)}/><path d="M0 15.5L2.4 20.5L7.8 21L3.8 24.6L5 30L0 27.2L-5 30L-3.8 24.6L-7.8 21L-2.4 20.5Z" fill="#ffe49a" stroke="#c69434" stroke-width="1.6" stroke-linejoin="round"/>${shine(-7, 15, 3, 1.6, 0)}
       ${[-58, 58].map((x) => `<path d="M${x} 44V52Q${x} 56 ${x + (x < 0 ? 4 : -4)} 56H${x + (x < 0 ? 10 : -10)}" fill="none" stroke="#f3c955" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>`).join("")}`;
   }
   function friendsBedV103(chars, friendArt) {
@@ -294,6 +302,7 @@
       <path d="M-64 -34Q-56 -18 -48 -34Q-40 -18 -32 -34Q-24 -18 -16 -34Q-8 -18 0 -34Q8 -18 16 -34Q24 -18 32 -34Q40 -18 48 -34Q56 -18 64 -34" fill="none" stroke="${INK}" stroke-width="4" stroke-linejoin="round"/>
       ${shine(-30, -56, 10, 4)}
       <circle cy="-70" r="7" fill="#f3c955" ${ink(3)}/>
+      <g class="vg-night-only"><circle cx="58" cy="-6" r="16" fill="#ffe49a" opacity=".35"/><path d="M58 -32V-14" ${DL(INK, 1.6)}/><path d="M52 -14H64L62 -11H54Z" fill="#c69434" ${ink(1.6)}/><rect x="52" y="-11" width="12" height="13" rx="4" fill="#ffe49a" ${ink(2.4)}/><path d="M58 -7Q56 -4 58 -1Q60 -4 58 -7Z" fill="#ffa06e"/></g>
       <path d="M-34 -24Q-18 -16 0 -24Q18 -16 34 -24" ${DL("#c69434", 2.4)}/>
       <g transform="translate(0 54)">${[[-80, "#ee806f"], [80, "#62cdf4"]].map(([x, c]) => `<rect x="${x - 15}" y="0" width="30" height="20" rx="5" fill="#c69434" ${ink(2.4)}/><path d="M${x - 11} 7H${x + 11}M${x - 11} 13H${x + 11}" ${DL("#70501b", 1.6)}/><circle cx="${x - 5}" cy="-2" r="4" fill="${c}" ${ink(1.6)}/><circle cx="${x + 5}" cy="-3" r="4" fill="#b7e779" ${ink(1.6)}/>`).join("")}</g>
       <rect x="-66" y="16" width="132" height="44" rx="20" fill="#fffaf0" ${ink()}/>
@@ -322,8 +331,9 @@
         <path d="M-6 -10Q0 -20 6 -10" fill="none" ${ink(3)}/>${shine(-6, -4, 4, 2)}
         <circle cx="38" cy="-6" r="2.4" fill="#96ecff"/><circle cx="42" cy="0" r="2" fill="#96ecff"/></g>`;
   }
+  // v220: each stepping stone gets a crack line and a moss tuft on its edge.
   function stones(done = 0, total = 3) {
-    return `<rect class="vg-hit" x="-56" y="-26" width="112" height="56" rx="20" fill="#fffaf0" fill-opacity="0"/>${[[-34, 10, 15], [0, 0, 17], [34, 12, 15]].map(([x, y, r], i) => `${shadow(x, y + 7, r, r * 0.3, 0.16)}<ellipse cx="${x}" cy="${y}" rx="${r}" ry="${r * 0.62}" fill="${i < done ? "#ffe49a" : "#e5dcc8"}" ${ink(3)}/><path d="M${x - r * 0.5} ${y + r * 0.2}Q${x} ${y + r * 0.4} ${x + r * 0.5} ${y + r * 0.2}" ${DL(i < done ? "#c69434" : "#c9bda4")}/>${shine(x - r * 0.35, y - r * 0.2, r * 0.25, r * 0.12, 0)}`).join("")}
+    return `<rect class="vg-hit" x="-56" y="-26" width="112" height="56" rx="20" fill="#fffaf0" fill-opacity="0"/>${[[-34, 10, 15], [0, 0, 17], [34, 12, 15]].map(([x, y, r], i) => `${shadow(x, y + 7, r, r * 0.3, 0.16)}<ellipse cx="${x}" cy="${y}" rx="${r}" ry="${r * 0.62}" fill="${i < done ? "#ffe49a" : "#e5dcc8"}" ${ink(3)}/><path d="M${x - r * 0.5} ${y + r * 0.2}Q${x} ${y + r * 0.4} ${x + r * 0.5} ${y + r * 0.2}" ${DL(i < done ? "#c69434" : "#c9bda4")}/>${shine(x - r * 0.35, y - r * 0.2, r * 0.25, r * 0.12, 0)}<path d="M${x + r * 0.15} ${y - r * 0.5}l${r * 0.12} ${r * 0.22}l${-r * 0.08} ${r * 0.16}" ${DL(i < done ? "#c69434" : "#c9bda4", 1.6)}/><path d="M${x - r * 0.8} ${y - r * 0.2}Q${x - r * 0.75} ${y - r * 0.78} ${x - r * 0.15} ${y - r * 0.68}Q${x - r * 0.45} ${y - r * 0.38} ${x - r * 0.8} ${y - r * 0.2}Z" fill="#7fce54" stroke="#4e9677" stroke-width="1.6" stroke-linejoin="round"/>`).join("")}
       <g transform="translate(0 -2)"><ellipse cx="-3" cy="0" rx="3" ry="4" fill="#a89478"/><circle cx="-6" cy="-6" r="1.4" fill="#a89478"/><circle cx="-2" cy="-7" r="1.4" fill="#a89478"/><circle cx="2" cy="-6" r="1.4" fill="#a89478"/></g>
       ${done >= total ? `<path d="M36 -10L40 -2L48 -1L42 5L44 13L36 9L28 13L30 5L24 -1L32 -2Z" fill="#f3c955" stroke="${INK}" stroke-width="1.6" stroke-linejoin="round" transform="translate(0 -14) scale(.7)"/>` : ""}`;
   }
@@ -335,10 +345,10 @@
       <rect x="-16" y="6" width="32" height="7" rx="3.5" fill="#e5dcc8" ${ink(2.4)}/>
       <path d="M-26 2Q-26 10 0 10Q26 10 26 2Z" fill="#e5dcc8" ${ink(3)}/>
       <ellipse cy="2" rx="26" ry="8" fill="#fffaf0" ${ink(3)}/><ellipse cy="2" rx="18" ry="4.5" fill="#96ecff" stroke="#62cdf4" stroke-width="1.6"/>
-      ${[0, 45, 90, 135, 180, 225, 270, 315].map((a) => `<ellipse cx="0" cy="-37" rx="4" ry="6" fill="#ffe49a" stroke="#c69434" stroke-width="1.6" transform="rotate(${a} 0 -18)"/>`).join("")}
+      <g class="vg-sway">${[0, 45, 90, 135, 180, 225, 270, 315].map((a) => `<ellipse cx="0" cy="-37" rx="4" ry="6" fill="#ffe49a" stroke="#c69434" stroke-width="1.6" transform="rotate(${a} 0 -18)"/>`).join("")}
       <circle cy="-18" r="15" fill="#f3c955" ${ink(3)}/>${shine(-6, -26, 4, 2)}
-      <circle cx="-5" cy="-19" r="2" fill="${INK}"/><circle cx="5" cy="-19" r="2" fill="${INK}"/><circle cx="-9" cy="-14" r="2.4" fill="#ffa798"/><circle cx="9" cy="-14" r="2.4" fill="#ffa798"/>
-      <path d="M-5 -13Q0 -9 5 -13" fill="none" stroke="${INK}" stroke-width="1.6" stroke-linecap="round"/>
+      <g class="vg-awake"><circle cx="-5" cy="-19" r="2" fill="${INK}"/><circle cx="5" cy="-19" r="2" fill="${INK}"/></g><g class="vg-asleep"><path d="M-7 -19Q-5 -17 -3 -19M3 -19Q5 -17 7 -19" fill="none" stroke="${INK}" stroke-width="1.6" stroke-linecap="round"/><path d="M19 -40H25L19 -34H25" fill="none" stroke="#fffdf7" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></g><circle cx="-9" cy="-14" r="2.4" fill="#ffa798"/><circle cx="9" cy="-14" r="2.4" fill="#ffa798"/>
+      <path d="M-5 -13Q0 -9 5 -13" fill="none" stroke="${INK}" stroke-width="1.6" stroke-linecap="round"/></g>
       ${stamped ? `<circle cx="20" cy="-2" r="9" fill="#7fce54" ${ink(3)}/><path d="M16 -2L19 1L24 -5" fill="none" stroke="#fffaf0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>` : ""}`;
   }
   function flowerBed() {
@@ -348,5 +358,12 @@
       ${bedBox(36, 8, 18)}`;
   }
 
-  ns.VillageArt = { backdrop, trail, tree, bush, gate, cottage, yard, friendsBed, toyChest, stall, stones, sundial, flowerBed, shadow, classic: { gate: gateClassic, cottage: cottageClassic, friendsBed: friendsBedClassic, toyChest: toyChestClassic, yard: yardClassic, stones: stonesClassic, sundial: sundialClassic, flowerBed: flowerBedClassic, friendsBedV103, toyChestV103 } };
+  // v225: ambient life. By day two butterflies drift over the lawn; at night
+  // three fireflies glow. Decoration only: no taps, and still under reduced motion.
+  function ambient(W, H, night = false) {
+    if (night) return [[0.3, 0.56], [0.66, 0.46], [0.84, 0.66]].map(([fx, fy], i) => `<g class="vg-amb vg-firefly" style="--d:${i * 1.3}s" pointer-events="none" transform="translate(${(W * fx).toFixed(0)} ${(H * fy).toFixed(0)})"><circle r="9" fill="#ffe49a" opacity=".25"/><circle r="3" fill="#ffe49a"/></g>`).join("");
+    const fly = (c, d) => `<path d="M0 0Q-8 -10 -11 -3Q-11 4 0 1Z" fill="${c}" stroke="#4a3620" stroke-width="1.6" stroke-linejoin="round"/><path d="M0 0Q8 -10 11 -3Q11 4 0 1Z" fill="${c}" stroke="#4a3620" stroke-width="1.6" stroke-linejoin="round"/><path d="M0 1Q-6 7 -4 9Q0 8 0 2ZM0 1Q6 7 4 9Q0 8 0 2Z" fill="${d}" stroke="#4a3620" stroke-width="1.6" stroke-linejoin="round"/><path d="M0 -3V6" stroke="#4a3620" stroke-width="2.4" stroke-linecap="round"/>`;
+    return [[0.4, 0.6, "#ffa798", "#ee806f"], [0.76, 0.27, "#62cdf4", "#3a8fc4"]].map(([fx, fy, c, d], i) => `<g pointer-events="none" transform="translate(${(W * fx).toFixed(0)} ${(H * fy).toFixed(0)}) scale(1.7)"><g class="vg-amb vg-butterfly" style="--d:${i * 1.7}s">${fly(c, d)}</g></g>`).join("");
+  }
+  ns.VillageArt = { backdrop, ambient, trail, tree, bush, gate, cottage, yard, friendsBed, toyChest, stall, stones, sundial, flowerBed, shadow, classic: { gate: gateClassic, cottage: cottageClassic, friendsBed: friendsBedClassic, toyChest: toyChestClassic, yard: yardClassic, stones: stonesClassic, sundial: sundialClassic, flowerBed: flowerBedClassic, friendsBedV103, toyChestV103 } };
 })(window.MiftahGame || (window.MiftahGame = {}));

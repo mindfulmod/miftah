@@ -35,7 +35,7 @@ test("v59 Sticker Scenes: reached from the album when stickers are owned; tap pl
   const src = read("src/letters/StickerScenes.js");
   assert.match(src, /if \(!d\.moved\) \{\n\s+\/\/ Tap: somewhere in the middle of the picture/);
   assert.match(src, /if \(!p\.inside\) \{ list\.splice\(i, 1\); this\.ctx\.sound\?\.\("pop"\); \}/);
-  assert.match(read("letters.html"), /src\/letters\/StickerScenes\.js\?v=20261016-v59/);
+  assert.match(read("letters.html"), /src\/letters\/StickerScenes\.js\?v=2026[0-9]{4}-v[0-9]+/);
   assert.match(read("sw.js"), /"src\/letters\/StickerScenes\.js",/);
   assert.match(read("styles/letters-rooms.css"), /@media \(prefers-reduced-motion: reduce\)\{\.ss-sticker\.is-new svg\{animation:none\}/);
 });

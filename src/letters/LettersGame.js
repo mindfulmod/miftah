@@ -991,6 +991,7 @@
           ${V.backdrop(L.W, L.H, { night, horizon: L.hz, phase: Art.dayPhase?.() })}
           ${V.trail(L.trail, L.pebbles)}
           ${L.trees.map(([x, y, sc, d]) => V.tree(x, y, sc, !!d)).join("")}${L.bushes.map(([x, y, sc]) => V.bush(x, y, sc)).join("")}
+          ${V.ambient ? V.ambient(L.W, L.H, night) : ""}
           <ellipse cx="${L.gate[0]}" cy="${L.gate[1] + 66}" rx="${130 * L.gate[2]}" ry="${100 * L.gate[2]}" fill="url(#vg-pool)" class="vg-pool"/>
           ${spot("journey", "Go on the letter journey", L.gate, V.gate(glyph, next?.hue ?? 268, latin))}
           ${spot("pet", "Your pet's house and wardrobe", L.cottage, V.cottage())}
@@ -1542,7 +1543,7 @@
           ${this.starBalance() ? `<span class="lg-star-chip">${(Art.artIcon||Art.icon)("star", 22)} <b>${this.starBalance()}</b></span>` : ""}
           ${allOwned
             ? `<div class="album-complete" role="img" aria-label="All stickers collected">${ALBUM_ROSETTE}</div>`
-            : `<button type="button" class="album-pack album-stand${this.stickers.freeVisits ? " is-free" : ""}" aria-label="${this.stickers.freeVisits ? "Visit the sticker stand, free" : "Visit the sticker stand for 5 stars"}">${this.standArt(118)}${this.stickers.freeVisits ? `<span class="stand-gift" aria-hidden="true">${(Art.artIcon||Art.icon)("gift", 44)}</span>` : (this.starBalance() >= 5 ? `<span class="pet-acc-cost">${Art.icon("star", 14)} 5</span>` : `<span class="stand-pips" aria-hidden="true">${Array.from({ length: 5 }, (_, i) => `<i class="${i < this.starBalance() ? "is-on" : ""}">${Art.icon("star", 14)}</i>`).join("")}</span>`)}</button>`}
+            : `<button type="button" class="album-pack album-stand${this.stickers.freeVisits ? " is-free" : ""}" aria-label="${this.stickers.freeVisits ? "Visit the sticker stand, free" : "Visit the sticker stand for 5 stars"}">${this.standArt(118)}${this.stickers.freeVisits ? `<span class="stand-gift" aria-hidden="true">${(Art.artIcon||Art.icon)("gift", 44)}</span>` : (this.starBalance() >= 5 ? `<span class="pet-acc-cost">${Art.icon("star", 14)} 5</span>` : `<span class="stand-pips" aria-hidden="true">${/* v221: only earned stars show, then a sprout while savings grow — never a row of empty slots. */""}${Array.from({ length: Math.min(5, this.starBalance()) }, () => `<i class="is-on">${Art.icon("star", 14)}</i>`).join("")}${this.starBalance() < 5 ? `<i class="is-grow"><svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="M10 18V9" fill="none" stroke="#4e9677" stroke-width="2.4" stroke-linecap="round"/><path d="M10 11Q3 11 3 5Q9 5 10 11Z" fill="#b7e779" stroke="#4e9677" stroke-width="1.6" stroke-linejoin="round"/><path d="M10 9Q17 9 17 3Q11 3 10 9Z" fill="#7fce54" stroke="#4e9677" stroke-width="1.6" stroke-linejoin="round"/></svg></i>` : ""}</span>`)}</button>`}
           ${owned.size && ns.StickerScenes ? `<button type="button" class="album-scenes" aria-label="Play with your stickers in a picture">${SCENES_ICON}</button>` : ""}
           </div><div class="album-grid lg-panel">${grid}</div>
         </div>`,
@@ -2933,7 +2934,8 @@
         // seed peeks out with a tiny two-leaf shoot — clearly "something growing".
         top = `<ellipse cx="25" cy="39" rx="5.5" ry="4" fill="#f3c955" stroke="${ink}" stroke-width="1.6" transform="rotate(-14 25 39)"/><path d="M24 36Q24 30 25 25" fill="none" stroke="#4e9677" stroke-width="2.4" stroke-linecap="round"/><path d="M25 28Q18 27 16 21Q23 20 25 28Z" fill="#b7e779" stroke="${ink}" stroke-width="1.6" stroke-linejoin="round"/><path d="M25 26Q31 22 34 16Q27 16 25 26Z" fill="#7fce54" stroke="${ink}" stroke-width="1.6" stroke-linejoin="round"/>`;
       } else if (m < 0.42) {
-        top = `${stem(26)}${leaf(30, 1)}`;
+        // v256: the sprout shows two full leaves and a curled tip, so it reads as bigger than the seed stage's tiny shoot (one leaf looked like a step back).
+        top = `${stem(22)}${leaf(34, -1)}${leaf(29, 1)}<path d="M24 22Q21 18 24 15Q27 16 26 19" fill="none" stroke="#4e9677" stroke-width="2.4" stroke-linecap="round"/>`;
       } else if (m < 0.72) {
         top = `${stem(18)}${leaf(34, -1)}${leaf(30, 1)}<path d="M24 6C18 10 18 18 24 20C30 18 30 10 24 6Z" fill="#ffa798" stroke="${ink}" stroke-width="1.6" stroke-linejoin="round"/><path d="M19 17Q24 22 29 17" fill="none" stroke="#4e9677" stroke-width="2.4" stroke-linecap="round"/>`;
       } else {
@@ -3432,13 +3434,13 @@
           (day === today ? " is-today" : "") +
           (day > today ? " is-future" : "");
         const date=`${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
-        cells += `<span class="${cls}" role="img" aria-label="${date}${stamped.has(day)?', played':''}" ${day===today?'aria-current="date"':''}>${stamped.has(day) ? (Art.artIcon||Art.icon)("flower", 30) : `<i>${day}</i>`}</span>`;
+        cells += `<span class="${cls}" role="img" aria-label="${date}${stamped.has(day)?', played':''}" ${day===today?'aria-current="date"':''}>${stamped.has(day) ? (Art.artIcon||Art.icon)("flower", 30).replaceAll('fill="#ffa798"', `fill="${["#ffa798", "#ffe49a", "#e6d6f0"][day % 3]}"`) : `<i>${day}</i>`}</span>`;
       }
       const el = this.screen(
         "lg-stamps",
         `${this.topBar()}
         <div class="stamps-stage">
-          <div class="stamps-moon">${(Art.artIcon||Art.icon)("sun", 48)}</div>
+          <div class="stamps-moon">${Art.dayPhase?.() === "night" && Art.stickerMotif ? Art.stickerMotif("moon", 48) : (Art.artIcon||Art.icon)("sun", 48)}</div>
           <div class="stamps-grid lg-panel">${cells}</div>
         </div>`,
       );

@@ -1605,6 +1605,311 @@ as a brand-new child and as a stuck one, looking for any tap that gets no answer
   and every chapter game (22 worlds × 3 games) at 667×375 and 320×568.
 - Release checks after the first-look pass (2026-10-13): lgSweep 193 steps / 0
   failing; lgPlay 66/66 chapter games finished, no errors; 625 tests pass.
+## v262 — Clear table legs (2026-10-19)
+- On phones the decorative paper boat sat on the joinery table's legs and stretcher bar in the build, blend, fuse, unfuse, chain and parade games. On narrow screens it now steps aside in those games. The pond game, where it sits in open space, keeps it.
+
+## v261 — Leaf emblems on the memory cards (2026-10-19)
+- Garden Together's face-down cards were plain dotted green. Each back now carries a leaf on a cream disc, like a real memory-card deck. A turned-up card's face covers it as before.
+
+## v260 — No "undefined" in Garden Together (2026-10-19)
+- Fix: with no second player's pet saved, Garden Together printed the word "undefined" in the second player's seat. A friendly pink buddy pet now sits there instead. `.qa/headless-shot.mjs` gained `JUNK=1`, which scans each screen's visible text for "undefined", "NaN", "null" or "[object Object]"; 58 screens now come back clean.
+
+## v259 — A Sound Lab machine that looks like one (2026-10-19)
+- The Sound Lab game's machine was a blue box with a gear. Like its picker tile (v194), it now has a speaker grille, two lights, rivets, a top shine and a red-knobbed side lever. The turning gear is unchanged.
+
+## v258 — A real tree in Letter Hunt (2026-10-19)
+- Letter Hunt's tree was a lollipop: one green circle on a stick, the shape the owner called out. It is now built like the DetailKit trees: root flare, bark lines, forked limbs, and a clumped canopy with an ink edge, lit tops and leaf curls. The hollow where a letter hides is unchanged.
+
+## v257 — Fluffier bath foam (2026-10-19)
+- The Bath Time foam was a near-uniform grid of same-size circles. Bubble sizes now vary (mostly small, a few big), so it reads as fluffy foam. The smallest size is unchanged, so the hiding friend stays fully covered until scrubbed.
+
+## v256 — Growth that always looks like more (2026-10-19)
+- The map's mastery plant had four stages, but the second (sprout) showed one leaf while the first (seed) already had a two-leaf shoot, so improving could look like shrinking. The sprout now has two full leaves and a curled tip, so each stage reads as bigger than the last: seed, sprout, bud, flower.
+
+## v255 — A moon over the night calendar (2026-10-19)
+- The stamp calendar's header always showed a sun, even at night. After dark it now shows the gold crescent moon (the moon sticker's art).
+
+## v254 — A garden of stamps (2026-10-19)
+- Every stamped day on the calendar showed the same pink flower. Each now blooms in coral, gold or lilac depending on the date (palette colours, swapped in the SVG), so a run of played days looks like a little garden. A first try with a CSS hue filter was dropped: it shrank the flowers and pushed colours off the palette.
+
+## v253 — Die-cut stickers on the island (2026-10-19)
+- Stickers placed on the decorating island get the same die-cut look as in sticker scenes: the motif with a white shape border and a soft shadow, instead of a round disc on the grass. A `garden-stickers` QA scene was added.
+
+## v252 — Die-cut stickers in the scenes (2026-10-19)
+- Stickers placed in a sticker scene sat on the album's round cream discs, so they looked like buttons dropped on the picture. They're now die-cut: the motif with a white border that follows its shape and a soft shadow, like a real sticker stuck onto a page. Dragging, removing and the tray are unchanged.
+
+## v251 — A gold star when the journey's done (2026-10-19)
+- After the last chapter, or for an art-icon chapter, the village gate's medal showed a plain black text star. It now holds a drawn gold star, a proper finish to the whole journey.
+
+## v250 — The map balloon comes down (2026-10-19)
+- Reverted v244's hot-air balloon. The map's landmarks alternate sides and its layout changes with screen width, so no position stayed clear everywhere: it landed behind the waterwheel, behind the hive's flowers, beside the map button, and against the sound button on a tablet. Decoration must never crowd a control, so it's gone. The map keeps its edge butterflies (v226).
+
+## v249 — A treasure chest, not a locked box (2026-10-19)
+- The toy chest's gold plate had a keyhole, so the open, playable chest could read as locked, the kind of "you can't" signal the game avoids. The plate now carries a gold star.
+
+## v248 — Celebrations that never cover the game (2026-10-19)
+- On the map a Ramadan lantern hung over a map stop, and in the games the Eid bunting crossed behind the letter prompt. Everywhere except the village (which has open sky for the full-size string), the season string now runs small along the very top edge, above every control, stop and prompt.
+
+## v247 — Bunting above the controls (2026-10-19)
+- On the friends' garden and decorating island, the Eid bunting and Ramadan lanterns hung across the sound-wave button and close to the pet. The string now runs smaller along the very top edge on those screens, so every control and the pet stand clear.
+
+## v246 — Ramadan lanterns and Eid bunting come home (2026-10-19)
+- Fix: like the weather, the Islamic-calendar decorations (a string of lanterns in Ramadan, coloured bunting on Eid) were hidden behind the village scene, so the home screen never celebrated. The string now hangs across the top of the village sky, above the gate's letter medal, and can't be tapped. The lanterns still sway, and hold still under reduced motion. QA scenes accept `season=`.
+
+## v245 — Weather comes home (2026-10-19)
+- Fix: the day's weather (drizzle, breeze, rainbow) showed on every screen except the village home, where the scene covered the weather layer, although the code intended it to show there. The layer now sits above the village scene and can't be tapped. In the village the rainbow rises on the right, clear of the gate's letter medal. Rain and drifting leaves still hide under reduced motion. QA scenes now accept `weather=`.
+
+## v244 — A hot-air balloon over the map (2026-10-19)
+- By day a coral hot-air balloon drifts slowly over the map's water, between two stops near the start of the journey and clear of every landmark. It can't be tapped and holds still under reduced motion. It's drawn above the water layer, because the first version sat hidden underneath it.
+
+## v243 — A heart over the door (2026-10-19)
+- A small wooden plaque with a coral heart now hangs from the cottage's eave above the door, so the house reads as the pet's own home.
+
+## v242 — Sparkles that say "tap me" (2026-10-19)
+- The very first screen is an egg to tap, but with reduced motion on, its wiggle stops and nothing invited a non-reader to tap. Three gold sparkles now frame the unhatched egg, a "tap me" cue that doesn't rely on motion. They disappear once the pet hatches. A `hatch-egg` QA scene (with `cracks=`) was added.
+
+## v241 — Fireflies, not butterflies, after dark (2026-10-19)
+- The friends' garden and decorating island butterflies kept flying at night. Like the village, they now become a softly glowing firefly after dark. Reduced motion keeps the glow steady.
+
+## v240 — A lantern on the stall at night (2026-10-19)
+- After dark, the sticker stall hangs a small glowing lantern from its awning, so it stays warm and inviting at night. By day it's gone. (New `vg-night-only` class for other night-only touches.)
+
+## v239 — A butterfly over the decorating island (2026-10-19)
+- A lilac butterfly now flutters in the sky beside the decorating island, clear of the home button, the pet and every planting spot. It can't be tapped and holds still under reduced motion. All four home screens (village, map, friends' garden, island) now share the same gentle life.
+
+## v238 — A butterfly in the friends' garden (2026-10-19)
+- A gold butterfly now flutters over the friends' garden fence, like the village and the map. It can't be tapped and holds still under reduced motion.
+
+## v237 — Morning dew (2026-10-19)
+- In the morning a few of the village's lawn tufts carry a small white dew glint, so each time of day now has its own touch: dew in the morning, birds at sunset, and lit windows, a dozing sunflower and twinkling stars at night.
+
+## v236 — Birds flying home at sunset (2026-10-19)
+- At sunset two little birds fly home across the village sky, a calm end-of-day picture. They sit in open sky, clear of the gate and the sound button.
+
+## v235 — Twinkling night stars (2026-10-19)
+- The village's five night stars now twinkle slowly, each in its own time, so the night sky feels magical. Reduced motion keeps them still.
+
+## v234 — A sleepy sunflower (2026-10-19)
+- At night the birdbath sunflower closes its eyes and dozes with a little "z", a gentle "the garden is resting too". By day it is wide awake as before.
+
+## v233 — Lit windows at night (2026-10-19)
+- At night the cottage's two windows now glow warm gold instead of daytime blue, so the pet's house feels cosy and safe after dark.
+
+## v232 — No two village bushes alike (2026-10-19)
+- Every village bush was identical. Each now takes a flower colour (coral, lilac or gold) and a left or right facing from its position, like the seeded trees.
+
+## v231 — Drifting clouds (2026-10-19)
+- The village clouds now drift slowly a little to the left and back over 16 seconds, each at its own offset. They only move leftward, because the big cloud already sits beside the sound button. Reduced motion keeps them still.
+
+## v230 — Twinkling empty spots (2026-10-19)
+- On the decorating island, an empty planting spot was a bare patch of soil. Each now has a small gold twinkle that pulses softly, alternating between spots, so a new kid sees where something can go. Filled spots don't twinkle, and reduced motion keeps the twinkle still.
+
+## v229 — A bobbing balloon (2026-10-19)
+- The balloon peeking out of the open toy chest now bobs gently on its string, a small "come play" for the games inside. Reduced motion keeps it still.
+
+## v228 — A swaying sunflower (2026-10-19)
+- The smiling sunflower in the birdbath now sways gently from its stem, like a wave hello. Reduced motion keeps it still.
+
+## v227 — Smoke from the chimney (2026-10-19)
+- The cottage chimney's three smoke puffs now drift up and fade in turn, so the pet's house feels lived in. Reduced motion keeps them still.
+
+## v226 — Butterflies along the map (2026-10-19)
+- The map's edge margin, never the route, now has a butterfly every third stop (coral, blue or gold) and a firefly there at night. They use the village's animation, can't be tapped, and hold still under reduced motion.
+
+## v225 — Butterflies and fireflies in the village (2026-10-19)
+- The village home now has a little ambient life. By day a coral and a blue butterfly flutter gently over the lawn; at night three fireflies glow softly. They are decoration only: they can't be tapped, sit in open space clear of every landmark, and hold still under reduced motion.
+
+## v224 — A smiling cloud sticker (2026-10-19)
+- The cloud sticker was the plainest in the album: a bare puff. Like the sun sticker, it now has a face: two eyes, a small smile and rosy cheeks.
+
+## v223 — A clear left column on sideways phones (2026-10-19)
+- Held sideways, the games put the prompt, progress seeds and sound button in a left column, and the decorative shore boat landed behind them in every game (behind the pencil pot, under the sound button, behind the prompt). In short landscape it now steps aside on game screens too.
+
+## v222 — Room on the meet screen (2026-10-19)
+- On phones the decorative paper boat crowded the letter-meeting screen. Held sideways it sat on the easel's island, and upright it hid behind the pet's sound button. On phones it now steps aside on that screen. Tablets, which have room, keep it.
+
+## v221 — No empty stars at the sticker stand (2026-10-19)
+- The sticker stand's savings row always showed five star slots, so a kid with no stars saw five dim stars, a row of "nothing yet". It now shows only the stars actually saved, followed by a small green sprout while savings grow toward the five a visit costs. At zero it is just the sprout. The spoken label is unchanged.
+
+## v220 — Mossy stepping stones (2026-10-18)
+- The three stepping stones at the bottom of the village path (the way into the walk) were plain ovals. Each now has a small crack line and a moss tuft on its rim. They keep their gold or grey colour for walked and not-yet-walked.
+
+## v219 — A raft made of logs (2026-10-18)
+- The raft keepsake was one rounded plank. It is now two logs lashed together with rope bindings, with ringed log ends. The letters sit on the taller top log, clear of the seam and the grain.
+
+## v219 — A raft made of logs (2026-10-18)
+- The raft keepsake was one rounded plank. It is now two logs lashed together with rope bindings, with ringed log ends. The letters sit on the taller top log, clear of the seam and the grain.
+
+## v218 — A moon for the night pages (2026-10-18)
+- Living Books night pages had stars but no moon unless the page drew its own. Those pages now show a small gold crescent, with its shine on the body of the crescent (not in the hollow, where it read as grey), like the village sky.
+
+## v217 — Glossy paint for the pet colours (2026-10-18)
+- The pet-colour choices on the hatching screen get a soft wet shine, so they read as glossy paint dollops. A paint drip was tried and dropped because it read as a little handle.
+
+## v216 — A graduation certificate (2026-10-18)
+- The Bismillah graduation card was a plain white panel. It is now dressed as a certificate: a gold inner border on the paper, gold corner dots, and a gold rosette with coral and blue ribbons hanging off its corner. Finishing every letter should feel like being handed something special. The tappable words are unchanged.
+
+## v215 — Pots waiting for sprouts (2026-10-18)
+- In the pairs game each pot grows its sprout only after a pair is matched, so before that it was a plain coral bowl. The waiting pots now have a rolled rim, dark soil in the opening and a dotted band, so they look like pots ready for a sprout.
+
+## v214 — Grass on the village lawn (2026-10-18)
+- On tablets the village lawn showed big flat stretches of green. Fourteen low-contrast grass tufts and a few tiny flowers are now scattered across it, drawn under every landmark and never tappable. They are dimmer at night.
+
+## v213 — The Bath Time tile matches its tub (2026-10-18)
+- The game got a clawfoot tub in v159, but its practice tile still showed the old plain basin. The tile now has the same rolled white rim, a curved tap, a panel line and gold claw feet.
+- Tried and reverted: letting tile pictures keep their proportions on tablets. The drawings barely grew, and the arrows lost their shared row because two tiles use different picture markup.
+
+## v212 — Mirrored mountains (2026-10-18)
+- Every mountain stop on the map was the same picture. Every other one is now mirrored, so the big peak, the trail and the flag swap sides from stop to stop.
+
+## v211 — Varied reed stops (2026-10-18)
+- Every reed stop on the map was identical. Each now picks one of three sets of cattail heights and a lily flower colour (coral, lilac or gold) from its place on the map. The lift-the-leaf toy and the ladybug are unchanged.
+
+## v210 — Varied wildflower stops (2026-10-18)
+- Every hive-and-wildflower stop on the map was the same picture. Each stop now rotates its three flower colours and heights and shifts its bees, so the meadow no longer repeats itself.
+
+## v209 — Every orchard tree its own (2026-10-18)
+- Every orchard stop on the map drew the same tree (one fixed seed). Each now gets its own seed and a slightly different size from its place on the map, so the orchard reads as a group of individual trees. The shake-the-tree toy is unchanged.
+
+## v208 — Vines on the land gates (2026-10-18)
+- The land gates (the banner poles where the path enters a new land) were a bare pole with a rolled banner. A vine now climbs the pole, with four leaves and a small coral flower, the crossbar ends in a gold knob, and the stone foot has a peg. The gate stays narrow enough to stand beside a bridge on a phone.
+
+## v207 — Flowers in the meadow (2026-10-18)
+- The meadow was the only land with no edge scenery, because the scenery loop skipped lands without a tint, and the meadow is the untinted base ground. It now gets grass tufts with small flowers (coral, lilac and gold in turn) between the edge bushes and the path, and still no tint band.
+
+## v206 — A pinecone with scales (2026-10-18)
+- The pinecone find was a brown oval with a few lines. It is now built from overlapping rows of golden scales with lit edges, on a dark cone, with a stem and a small leaf.
+
+## v205 — A built table for the build game (2026-10-18)
+- The build game's table (the joinery art) had bare legs and a plain apron. It now has a stretcher bar between the legs, shaped feet, plank seams across the apron, and a drawer with a gold pull in the middle.
+- QA note: `.qa/headless-shot.mjs` takes `scene:t:params`, so parameters need a double colon (`play::act=build`). Several earlier screenshots silently ignored their parameters.
+
+## v204 — Peek Flaps opens like a door (2026-10-18)
+- The Peek Flaps tile's open flap was drawn as a single teal line that read as a pole through the elephant. It is now a door leaf swung open on its hinge, with panel lines and a gold knob, a stone step under the doorway and a soft shade inside. The elephant moved left so nothing overlaps.
+
+## v203 — Books with covers, and an egg in a nest (2026-10-18)
+- Book Corner and Friend Book: the open books were bare outlines. Each now has a cover showing underneath (coral, and blue), stacked page edges, and a ribbon bookmark hanging from the spine.
+- Fill Gap: the egg floated above the word. It now sits in a woven nest, and the word and its gap moved down so the vowel marks stay clear of the nest.
+
+## v202 — Real books for Living Books (2026-10-18)
+- The Living Books tile's books were plain coloured rectangles on a brown line. Each spine now has two bands in a deeper shade of its own colour and a soft shine. They stand on a wooden shelf plank, with a potted plant as a bookend.
+
+## v201 — A chalk slate and a balloon train (2026-10-18)
+- Dots Last: the tile was a white card. It is now a chalkboard slate in a wooden frame with a chalk tray and a stick of chalk. The letter is drawn in chalk, with one dot placed and a dashed ring where the last one goes.
+- Letter Train: balloons floated over three bare blocks. It is now a train on a track with sleepers: two coral cars and a blue engine with a smokestack, a window and a headlamp, all on wheels, with a balloon tied to each car.
+
+## v200 — A framed picture and a bracketed shelf (2026-10-18)
+- Friend Shapes: the picture sat in a bare square outline. It now hangs in a wooden frame with a lit top edge, on a string from a nail.
+- Hat Shop: the shelf was a brown line. It is now a wooden plank on two brackets.
+
+## v199 — A jewelled crown and a real crayon (2026-10-18)
+- Twin Crown: the crown was a flat yellow zigzag over two floating friends. It now has a gold band set with three gems, pearl tips, a shine and two sparkles, and the twins sit on lilac velvet cushions with gold tassels.
+- Colour Friend: the crayon was a sharp slanted rectangle. It is now a rounded crayon with a striped paper wrapper, a shine and a pointed tip, like the Letter Studio crayon.
+
+## v198 — Build Letter with a real block (2026-10-18)
+- The Build Letter tile was a plain card and a flat square. The letter board now sits in a wooden frame with two coloured pins. The dots ride on a 3D wooden block (top, side and front faces), and a dotted green path shows where they go.
+
+## v197 — A signpost for the Hoopoe Trip (2026-10-18)
+- The Hoopoe Trip tile's sign was a plain square on a stick. It is now an arrow-shaped wooden signboard pointing the way, with the friend picture on a paper panel, nail heads, an inked post and grass tufts at its base.
+
+## v196 — Bunting for the Echo Parade (2026-10-18)
+- The Echo Parade tile was three marchers floating under blue arcs. A string of coloured bunting now hangs overhead, the marchers stand on the grass, and the echo arcs stay above them.
+
+## v195 — A lantern that finds, and a shadow theatre (2026-10-18)
+- Lantern Hunt: the lantern was a small yellow box. It now has a carrying ring, a domed cap, frame bars, a flame and a base, and its warm beam falls on the friend hiding in the dark.
+- Letter Shadows: the tile was an orange card with a silhouette. It is now a little shadow theatre: coral curtains drawn back with gold tie-backs, a scalloped valance, and a wooden stage board under the glowing screen.
+
+## v194 — A real Sound Lab machine (2026-10-18)
+- The Sound Lab tile was a blue box with flaps and one knob, and its letter slipped out of the window onto the knob. It now has a speaker grille, tick marks around the dial, two lights, a lever on the side, and musical notes rising out of the open box. The letter sits back in its window.
+
+## v193 — Garden Together, together (2026-10-18)
+- The Garden Together tile was two round faces with an arc and a blank card. It is now two friends with bodies, feet, cheeks and smiles, each reaching toward a shared clay pot. A two-leaf sprout grows from the pot, with a heart above it.
+
+## v192 — A fishing rod for Letter Fishing (2026-10-18)
+- The Letter Fishing tile's line hung from nowhere. It now comes from a wooden rod with a reel, with a red-and-white float at the water line. The fish has a fin line, and the lily pad has a small pink flower.
+
+## v191 — A finished family bus (2026-10-18)
+- The Family Buses tile's bus had windows and wheels but nothing else. It now has a roof rack on two posts, bumpers front and back, a headlamp and a tail light, and hubcaps with three bolts each.
+
+## v190 — A bench for Spot the Change (2026-10-18)
+- In the Spot the Change tile the three friends sat on nothing. They now sit on a wooden plank bench on two legs, and the watching eye has lashes and a lower lid line.
+
+## v189 — A real jigsaw piece (2026-10-18)
+- The Friend Jigsaw tile's loose piece was a plain gold square. It is now a jigsaw piece with knobs and a slot, and the board shows a dashed gap where it belongs. The friend peeks out of the other three quarters.
+
+## v188 — Balloons tied with a bow (2026-10-18)
+- The Letter Balloons tile's balloons hung on loose strings. Each now has a knot and a shine, and the three strings gather into a coral bow tied to a little stake in the ground.
+
+## v187 — A mailbox for Letter Delivery (2026-10-18)
+- The Letter Delivery icon was a sheet of paper and a dashed arrow into a grass patch. It is now an envelope with a coral heart seal flying on a dotted arc into a coral garden mailbox on its post. The mailbox door is open with a letter peeking out, and the gold flag is up. The garden patch and sprout stay.
+
+## v186 — Garden Paths is a path (2026-10-18)
+- The Garden Paths tile was a white card with a traced line and a pencil. It is now a lawn with the letter laid out as stepping stones. The stones already traced are solid, the rest are dashed, and a ladybug walks where the tracing has reached. A coral flag marks the end, and the letter's dot is a stone too.
+
+## v185 — A Water Garden tile you can read (2026-10-18)
+- The Water Garden tile was a blue disc over a bar and three posts, hard to read. It is now a watering rig: a wooden gutter of water on two posts, a spout over each of three flower pots, and drops falling into the middle pot, whose flower has bloomed bigger. Each pot keeps its blank card.
+
+## v184 — A finished Costume House (2026-10-18)
+- The Costume House tile was a purple dome over a bare wall and a door. The roof now has two rows of scalloped shingles. The door has a panel line, a gold knob and a stone step, and a flower pot stands at each side.
+
+## v183 — Tunics on hangers, and a real magnifying glass (2026-10-18)
+- The Costume Rail tile hung three coloured rectangles. They are now little tunics on wooden hangers (shoulders, sleeves, a collar), each still showing its letter form.
+- The Disguise tile's orange ring now has a wooden handle and a lens shine, so it reads as a magnifying glass. The lens stays clear over the letter it highlights.
+
+## v182 — A real engine for the Shape Train (2026-10-18)
+- The Shape Train tile's engine was a red rectangle. It is now an engine: a cab with a window and a roof, a smokestack with two puffs, a headlamp, a stripe and wheels, coupled to the letter cars. The whole train is nudged in so the engine no longer touches the tile's edge.
+
+## v181 — A mown lawn for the friends' garden (2026-10-18)
+- The friends' garden field was a flat green slab. It now has diagonal mowing stripes and a scatter of grass flecks. The stripes use the dark leaf green, so they show on both the day and night field colours.
+
+## v180 — Pond life on the bank (2026-10-18)
+- The pond games' bank was a plain green band. It now has cattail clumps at both edges, pebbles and grass tufts. They stay on the bank, so the open water is left clear for the answer cards.
+
+## v179 — Leaves on the Word Tree (2026-10-18)
+- Each Word Tree branch now ends in a twig with a small leaf, so the limbs look alive instead of cut off. On phones, where every branch runs the same way, the leaf always sits at the left tip.
+
+## v178 — A jetty with a boat (2026-10-18)
+- The river jetty landmark was one wooden slab on two posts. It is now built from parts: seven planks with nail heads on a beam, two posts standing in a pool with water rings, a mooring post with a coiled rope, and a little coral rowboat tied alongside. The flag stays at the shore end. The old version is kept as `landingV115`.
+
+## v177 — A wall calendar for stamps (2026-10-18)
+- The stamp calendar was a flat grid in a frame. It now hangs like a wall calendar: a row of gold binder rings along its top edge and a string up to a nail. Missed days are still plain numbers, with no marks or crosses.
+
+## v176 — A bound sticker album, and two see-through panels fixed (2026-10-18)
+- The sticker album now has gold binder rings down its spine and a coral ribbon bookmark peeking out above the page, clear of every sticker slot.
+- Fix: the album page and the word bookcase were see-through (sky and hills showed behind the stickers and word cards). The shared paper rule sets `background-image: var(--paper-grain)`, and that variable carries position and size, so it is invalid there and wiped both panels' own gradients. Both are restored with the `background` shorthand. A scan of 34 scenes found no other affected panels (meet, play prompt and party stages are transparent on purpose).
+
+## v175 — A prize ribbon for the stars (2026-10-18)
+- The star plaque on the stars and party screens was a plain wooden pill. It now has nail heads at each end, and coral ribbon tails stick out from behind it, so earning stars feels like being handed a prize ribbon. It still shows only the stars earned, never empty slots.
+
+## v174 — Fresh cache stamps (2026-10-18)
+- 33 scripts and stylesheets in letters.html still carried stamps from before their last edit (most from 2026-10-09). The service worker fetches through the browser's HTTP cache and matches entries ignoring the stamp, so a device could install a new version with a few old files. Every stale stamp is now 20261018-v174.
+- `.qa/stale-stamps.mjs` lists any stamp older than its file. It is a local check, since file times reset on checkout.
+
+## v173 — A gingham picnic blanket (2026-10-18)
+- The Feed and picnic blanket was a thin green grid, like graph paper. Its bands are now wide filled stripes that darken where they cross, so it reads as real gingham. The top-left corner is folded back to show the cloth's underside, with its hem stitching.
+
+## v172 — A friendly stopwatch for Burst (2026-10-18)
+- The Burst tile (the optional timed challenge) was a bare circle with hands and a flat green play triangle. It is now a built stopwatch with a winding crown, a side button, dial ticks on an inner ring, a coral centre cap and a shine. Three gold sparkles replace the triangle, so the tile reads as a fun challenge rather than a deadline.
+
+## v171 — Sand Table on legs (2026-10-18)
+- The Sand Table tile was a tray of grey sand floating in the air. It now stands on legs with a crossbar. The sand is warm gold with combed ripples, a pink scallop and a pebble, and a wooden drawing stick traces the letter.
+
+## v170 — Dot Garden: the dot is a seed (2026-10-18)
+- The Dot Garden tile was a white card with an orange ball. It is now a wooden raised bed with the letter drawn as a furrow in the soil. The dot is a golden seed with a leaf, and a dotted path leads it to a ring where it belongs, so the tile shows the game's idea: plant the dot.
+
+## v169 — Letter Studio on an easel (2026-10-18)
+- The Letter Studio tile was a flat framed picture beside a slanted rectangle. The canvas now stands on a wooden easel (three legs, a tray with a groove, a top clamp). The sun has rays and the grass has tufts. The crayon is a crayon: a paper wrapper with stripes and a pointed tip, leaning on the tray.
+
+## v168 — A real tree for the Puzzle Tree tile (2026-10-18)
+- The Puzzle Tree tile was a lollipop tree (one green circle on a stick) with coloured dots. It now uses the constructed DetailKit tree (clumped canopy, forked trunk, root flare), with four puzzle pieces hanging from it like fruit. The old drawing stays as the fallback if DetailKit isn't loaded.
+
+## v167 — Same Start tile on cards (2026-10-18)
+- The Same Start tile was an elephant and a butterfly floating apart with a thin arc. Both now sit on tilted paper cards, joined by a gold dotted arc with a pin at each end, matching the Odd Sound tile.
+
+## v166 — Fuller Beat Drum and Odd Sound tiles (2026-10-18)
+- The Beat Drum tile was a drum with three dots floating above it. It now has a second drumstick resting on the head (a matched pair), and a dotted thread links the beat dots into a rhythm.
+- The Odd Sound tile was three loose stickers. Each picture now sits on a paper card, so they read as choices. The odd one keeps its tilt and wobble marks.
+
 ## v165 — A proper mushroom (2026-10-18)
 - The mushroom find was a red cap on a white block. It now has gills under the cap, a skirt ring on a tapered stem, a cap shine, moss at its base, and a baby mushroom beside it.
 

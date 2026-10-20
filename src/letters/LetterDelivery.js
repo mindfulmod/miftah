@@ -40,8 +40,13 @@
       <ellipse cx="109" cy="122" rx="79" ry="9" fill="#2f5c46" opacity=".2"/>
       <path d="M75 88Q126 66 180 87L172 118Q128 136 84 119Z" fill="url(#${id}-garden)"/>
       <path d="M126 121V94M126 108Q110 109 112 97Q123 96 126 108M127 103Q140 102 139 91Q129 92 127 103" fill="#7fce54" stroke="#4e9677" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-      <g transform="translate(22 22) rotate(-8 32 43)"><path d="M3 3Q32 -3 61 3V82Q32 91 3 82Z" fill="url(#${id}-paper)" stroke="#4a3620" stroke-width="4" stroke-linejoin="round"/><path d="M3 3L32 21 61 3M9 73Q32 80 55 73" fill="none" stroke="#c9bda4" stroke-width="3"/><path d="M14 31H50M14 43H42" fill="none" stroke="#e8743c" stroke-width="4" stroke-linecap="round"/></g>
-      <path d="M72 46Q104 47 119 68" fill="none" stroke="#4a3620" stroke-width="4" stroke-linecap="round" stroke-dasharray="3 8"/><path d="M111 56L121 70 105 72" fill="none" stroke="#4a3620" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      ${/* v187: delivery looks like delivery: an envelope flying on a dotted arc into a garden mailbox on its post, flag up. */''}
+      <rect x="150" y="66" width="10" height="52" rx="4" fill="#70501b" stroke="#4a3620" stroke-width="3"/>
+      <path d="M118 70V50Q118 32 141 32H164Q186 32 186 50V70Z" fill="#ee806f" stroke="#4a3620" stroke-width="4" stroke-linejoin="round"/><path d="M124 46Q126 38 136 37" fill="none" stroke="#ffa798" stroke-width="3" stroke-linecap="round"/>
+      <path d="M118 70V50Q118 36 130 34Q120 42 120 54V70Z" fill="#c25a49"/><ellipse cx="121" cy="52" rx="6" ry="16" fill="#4a3620"/><path d="M118 48L128 44V58L118 56Z" fill="#fffdf7" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/>
+      <path d="M176 56V16" stroke="#4a3620" stroke-width="4" stroke-linecap="round"/><circle cx="176" cy="56" r="3" fill="#f3c955" stroke="#4a3620" stroke-width="1.6"/><path d="M176 14H190Q193 14 193 17V23Q193 26 190 26H176Z" fill="#f3c955" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/>
+      <path d="M78 52Q98 34 114 46" fill="none" stroke="#4a3620" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 9"/>
+      <g transform="translate(20 46) rotate(-10 30 20)"><rect x="0" y="0" width="60" height="40" rx="7" fill="url(#${id}-paper)" stroke="#4a3620" stroke-width="4"/><path d="M4 5L30 24L56 5" fill="none" stroke="#c9bda4" stroke-width="3" stroke-linejoin="round"/><path d="M30 18Q26 13 23 16Q21 20 30 26Q39 20 37 16Q34 13 30 18Z" fill="#ee806f" stroke="#4a3620" stroke-width="1.6" stroke-linejoin="round"/></g>
     </svg>`;
   };
 

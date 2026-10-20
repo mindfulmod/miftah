@@ -116,16 +116,18 @@
     const gap=ordered.length>1?Math.abs(ordered[1].y-ordered[0].y):220;
     const bandDefs=[],bands=[],scenery=[];
     runs.forEach((run,k)=>{
-      const tint=LAND[run.biome];if(!tint)return;
+      const tint=LAND[run.biome];if(!tint&&run.biome!=='meadow')return;
       const y0=run.top-gap*.75,y1=run.bottom+gap*.75,gid=`${id}-band${k}`;
-      bandDefs.push(`<linearGradient id="${gid}" x1="0" x2="0" y1="0" y2="1"><stop stop-color="${tint[0]}" stop-opacity="0"/><stop offset=".18" stop-color="${tint[0]}" stop-opacity="${tint[1]}"/><stop offset=".82" stop-color="${tint[0]}" stop-opacity="${tint[1]}"/><stop offset="1" stop-color="${tint[0]}" stop-opacity="0"/></linearGradient>`);
-      bands.push(`<rect class="map-land-band" data-land="${run.biome}" x="0" y="${y0.toFixed(0)}" width="${w}" height="${(y1-y0).toFixed(0)}" fill="url(#${gid})"/>`);
+      if(tint)bandDefs.push(`<linearGradient id="${gid}" x1="0" x2="0" y1="0" y2="1"><stop stop-color="${tint[0]}" stop-opacity="0"/><stop offset=".18" stop-color="${tint[0]}" stop-opacity="${tint[1]}"/><stop offset=".82" stop-color="${tint[0]}" stop-opacity="${tint[1]}"/><stop offset="1" stop-color="${tint[0]}" stop-opacity="0"/></linearGradient>`);
+      if(tint)bands.push(`<rect class="map-land-band" data-land="${run.biome}" x="0" y="${y0.toFixed(0)}" width="${w}" height="${(y1-y0).toFixed(0)}" fill="url(#${gid})"/>`);
       // Edge scenery, in the left margin and between stops — never on the route.
       const left=Math.max(8,(w-lane)/2);
       for(let y=y0+gap*.5;y<y1-gap*.3;y+=gap*.5){
         const x=left+lane*(.03+((y/gap)%3)*.02),j=Math.round(y)%3;
         // v115: land scenery in the pet language (round, inked, one shine).
         if(run.biome==='orchard')scenery.push(`<g transform="translate(${x.toFixed(0)} ${y.toFixed(0)})"><ellipse cx="2" cy="13" rx="22" ry="4.5" fill="#2f5c46" opacity=".18"/>${[[-8,-6],[0,-9],[8,-6],[-3,-3],[5,-3]].map(([ax,ay],k)=>`<circle cx="${ax}" cy="${ay}" r="4.5" fill="${k%3===1?'#f3c955':'#ee806f'}" stroke="#4a3620" stroke-width="1.6"/>`).join('')}<rect x="-16" y="-3" width="32" height="15" rx="4" fill="#c69434" stroke="#4a3620" stroke-width="2.4"/><path d="M-12 2H12M-12 7H12" stroke="#70501b" stroke-width="1.6" stroke-linecap="round"/><rect x="-18" y="-5" width="36" height="5" rx="2.5" fill="#ffe49a" stroke="#4a3620" stroke-width="1.6"/>${j?`<circle cx="24" cy="10" r="4" fill="#ee806f" stroke="#4a3620" stroke-width="1.6"/>`:''}</g>`);
+        // v207: the meadow had no edge scenery (empty green between stops); it gets grass tufts with small flowers, same safe margin.
+        else if(run.biome==='meadow')scenery.push(`<g transform="translate(${(x+34).toFixed(0)} ${(y-18).toFixed(0)})"><path d="M-8 6Q-8 -2 -4 -4M0 6Q0 -4 3 -7M8 6Q9 0 12 -1" fill="none" stroke="#4e9677" stroke-width="3" stroke-linecap="round"/>${[0,72,144,216,288].map(a=>`<circle cx="3" cy="${-12}" r="3" fill="${['#ffa798','#e6d6f0','#ffe49a'][j]}" stroke="${['#ee806f','#b49fcf','#c69434'][j]}" stroke-width="1.6" transform="rotate(${a} 3 -9)"/>`).join('')}<circle cx="3" cy="-9" r="2.4" fill="#f3c955" stroke="#c69434" stroke-width="1.6"/></g>`);
         else if(run.biome==='lagoon')scenery.push(`<g transform="translate(${x.toFixed(0)} ${y.toFixed(0)})"><ellipse rx="${22+j*6}" ry="${8+j*2}" fill="#96ecff" opacity=".85"/><path d="M-8 -1q8-4 16 0" stroke="#ccfbef" stroke-width="2.4" fill="none" stroke-linecap="round"/></g>`);
         else if(run.biome==='night')scenery.push(`<g transform="translate(${x.toFixed(0)} ${y.toFixed(0)})"><circle r="10" fill="#ffe49a" opacity=".22"/><circle r="3" fill="#ffe49a"/><circle cx="22" cy="12" r="2.4" fill="#ffe49a" opacity=".8"/></g>`);
         else if(run.biome==='peaks')scenery.push(`<g transform="translate(${x.toFixed(0)} ${y.toFixed(0)})"><ellipse cx="4" cy="11" rx="20" ry="4" fill="#2f5c46" opacity=".18"/><path d="M-14 8Q-16-6-2-10Q14-12 18 2Q18 10 8 10H-8Q-14 10-14 8Z" fill="#c9bda4" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/><path d="M-4 2Q2 0 8 3" stroke="#a89478" stroke-width="2.4" fill="none" stroke-linecap="round"/><ellipse cx="-4" cy="-4" rx="5" ry="2" fill="#fffdf7" opacity=".7"/><ellipse cx="22" cy="9" rx="5" ry="3.5" fill="#e5dcc8" stroke="#a89478" stroke-width="1.6"/></g>`);
@@ -149,6 +151,15 @@
         <ellipse cx="-18" cy="18" rx="7" ry="4.5" fill="#e5dcc8" stroke="#a89478" stroke-width="1.6"/><ellipse cx="-8" cy="20" rx="4" ry="3" fill="#c9bda4" stroke="#a89478" stroke-width="1.6"/>
       </g>`;
     }).join('');
+    // v226: ambient life along the map's edge margin (never on the route): a
+    // butterfly every third stop by day, a firefly at night. Untappable; the
+    // v225 village classes animate them and reduced motion holds them still.
+    const ambient=ordered.filter((_,i)=>i%3===1).map((stop,i)=>{
+      const x=Math.max(8,(w-lane)/2)+lane*(.14+(i%2)*.04),y=stop.y-96;
+      if(night)return `<g class="vg-amb vg-firefly" style="--d:${(i%3)*1.1}s" pointer-events="none" transform="translate(${x.toFixed(0)} ${y.toFixed(0)})"><circle r="9" fill="#ffe49a" opacity=".25"/><circle r="3" fill="#ffe49a"/></g>`;
+      const [c,d]=[['#ffa798','#ee806f'],['#62cdf4','#3a8fc4'],['#ffe49a','#c69434']][i%3];
+      return `<g pointer-events="none" transform="translate(${x.toFixed(0)} ${y.toFixed(0)}) scale(1.6)"><g class="vg-amb vg-butterfly" style="--d:${(i%3)*.9}s"><path d="M0 0Q-8 -10 -11 -3Q-11 4 0 1ZM0 0Q8 -10 11 -3Q11 4 0 1Z" fill="${c}" stroke="#4a3620" stroke-width="1.6" stroke-linejoin="round"/><path d="M0 1Q-6 7 -4 9Q0 8 0 2ZM0 1Q6 7 4 9Q0 8 0 2Z" fill="${d}" stroke="#4a3620" stroke-width="1.6" stroke-linejoin="round"/><path d="M0 -3V6" stroke="#4a3620" stroke-width="2.4" stroke-linecap="round"/></g></g>`;
+    }).join('');
     // v65 (art system): soft hill terraces between stops — a lighter rise and
     // a shaded fold — give the long map depth like the village's banded hills,
     // instead of the left-right grass/soil gradient that read as stripes.
@@ -167,7 +178,7 @@
       ${terraces}
       <path d="M0 0H${w}V${h}H0Z" fill="url(#${id}-light)"/>
       <path d="${verge()}" fill="#2f5c46" opacity="${night ? .14 : .06}"/>
-      ${bands.join('')}${patches}${scenery.join('')}${undergrowth}
+      ${bands.join('')}${patches}${scenery.join('')}${undergrowth}${ambient}
       ${brooks({width:w,pathWidth,stops}).map(b=>brookArt(b,night)).join('')}
       <path d="${water(-30)}" fill="#4e9677" opacity=".22"/>
       <path d="${water(-17)}" fill="${night?'#a89478':'#e5dcc8'}"/>
@@ -252,7 +263,8 @@
   const DL=(c,w=2.4)=>`fill="none" stroke="${c}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"`;
   const TUFT=(x,y,c='#4e9677')=>`<path d="M${x-6} ${y}Q${x-6} ${y-8} ${x-2} ${y-10}M${x} ${y}Q${x} ${y-10} ${x+3} ${y-13}M${x+6} ${y}Q${x+7} ${y-7} ${x+10} ${y-8}" ${DL(c,3)}/>`;
   const PETALS=(x,y,c,d,r=5)=>`${[0,72,144,216,288].map(a=>`<circle cx="${x}" cy="${y-r}" r="${r}" fill="${c}" stroke="${d}" stroke-width="1.6" transform="rotate(${a} ${x} ${y})"/>`).join('')}<circle cx="${x}" cy="${y}" r="${r*.75}" fill="#f3c955" stroke="#c69434" stroke-width="1.6"/>`;
-  function orchard(){const D=ns.DetailKit;if(D)return `${GR(88,150,60)}${MOUND()}${TUFT(30,142)}${TUFT(140,144)}<g transform="translate(88 146) scale(.95)">${D.tree({seed:3,hooks:true})}</g>`;return orchardV104();}
+  // v209: each orchard stop gets its own tree (seed from the landmark variant), per the art rule "variety via seeds".
+  function orchard(variant=0){const D=ns.DetailKit;if(D)return `${GR(88,150,60)}${MOUND()}${TUFT(30,142)}${TUFT(140,144)}<g transform="translate(88 146) scale(${[.95,.86,1.02][variant%3]})">${D.tree({seed:3+(variant%5)*2,hooks:true})}</g>`;return orchardV104();}
   function orchardV104(){return `${GR(88,148,66)}${MOUND()}${TUFT(36,140)}${TUFT(136,142)}
     <path d="M76 140Q70 146 62 146M100 140Q106 146 114 146" ${DL('#70501b',3)}/>
     <path d="M78 140Q80 116 80 92H96Q96 116 98 140Z" fill="#c69434" ${K()}/>
@@ -265,17 +277,18 @@
     </g>
     ${[[64,74],[104,58],[100,90]].map(([x,y])=>`<g class="lm-fruit" data-y="${y}"><path d="M${x} ${y-10}Q${x+2} ${y-15} ${x+5} ${y-16}" ${DL('#70501b',2.4)}/><path d="M${x+2} ${y-12}Q${x+10} ${y-16} ${x+12} ${y-10}Q${x+6} ${y-8} ${x+2} ${y-12}Z" fill="#7fce54" stroke="#4e9677" stroke-width="1.6"/><circle cx="${x}" cy="${y}" r="10" fill="#ee806f" ${K(3)}/><circle cx="${x-3}" cy="${y-3}" r="3" fill="#fffdf7" opacity=".75"/></g>`).join('')}
     <circle cx="44" cy="142" r="4" fill="#ee806f" stroke="#c25a49" stroke-width="1.6"/>`;}
-  function reeds(){return `${GR(90,148,68)}<path d="M12 144Q14 122 90 120Q166 122 168 144Q90 154 12 144Z" fill="#96ecff"/>
+  // v211: reed stops vary (cattail heights and the lily flower's colour); the toy hooks are untouched.
+  function reeds(variant=0){return `${GR(90,148,68)}<path d="M12 144Q14 122 90 120Q166 122 168 144Q90 154 12 144Z" fill="#96ecff"/>
     <path d="M30 134Q44 130 58 134M104 140Q120 136 138 140M120 130Q130 127 140 130" ${DL('#62cdf4')}/>${SH(46,128,14,3,0)}
     <path d="M14 144Q12 136 22 132M164 144Q168 136 158 132" ${DL('#4e9677',3)}/>
     <g class="lm-reeds">
-      ${[[110,42],[126,30],[142,48]].map(([x,t])=>`<path d="M${x} 128V${t+20}" ${DL('#2f5c46',4)}/><rect x="${x-7}" y="${t}" width="14" height="30" rx="7" fill="#a89478" ${K(3)}/><path d="M${x-3} ${t+8}V${t+22}" ${DL('#70501b',2.4)}/><path d="M${x} ${t}V${t-6}" ${DL('#2f5c46',2.4)}/>`).join('')}
+      ${[[[110,42],[126,30],[142,48]],[[110,34],[126,46],[142,30]],[[110,48],[126,36],[142,40]]][variant%3].map(([x,t])=>`<path d="M${x} 128V${t+20}" ${DL('#2f5c46',4)}/><rect x="${x-7}" y="${t}" width="14" height="30" rx="7" fill="#a89478" ${K(3)}/><path d="M${x-3} ${t+8}V${t+22}" ${DL('#70501b',2.4)}/><path d="M${x} ${t}V${t-6}" ${DL('#2f5c46',2.4)}/>`).join('')}
       <path d="M104 128Q92 104 96 84Q104 104 110 126Z" fill="#7fce54" stroke="#4e9677" stroke-width="2.4" stroke-linejoin="round"/>
       <path d="M148 128Q162 108 160 88Q150 106 144 126Z" fill="#7fce54" stroke="#4e9677" stroke-width="2.4" stroke-linejoin="round"/>
     </g>
     <g class="lm-bug"><ellipse cx="47" cy="122" rx="7" ry="6" fill="#ee806f" ${K(3)}/><path d="M47 116V128" ${DL('#8a3a2d',1.6)}/><circle cx="44" cy="120" r="1.6" fill="#4a3620"/><circle cx="50" cy="124" r="1.6" fill="#4a3620"/></g>
     <g class="lm-leaf"><path d="M36 134Q36 124 62 124Q88 124 88 134Q88 144 62 144Q48 144 42 140L62 134Z" fill="#7fce54" ${K(3)}/><path d="M62 134L46 130M62 134L74 128M62 134L80 138" ${DL('#4e9677',1.6)}/>
-      ${PETALS(78,128,'#ffa798','#ee806f',4)}</g>`;}
+      ${PETALS(78,128,...[['#ffa798','#ee806f'],['#e6d6f0','#b49fcf'],['#ffe49a','#c69434']][variant%3],4)}</g>`;}
   function lantern(){return `${GR(90,148,64)}${MOUND('#4e9677')}${TUFT(40,142,'#2f5c46')}${TUFT(132,144,'#2f5c46')}
     <circle class="lm-glow" cx="103" cy="80" r="44" fill="#ffe49a" opacity="0"/>
     <rect x="52" y="132" width="24" height="12" rx="6" fill="#a89478" ${K(3)}/>
@@ -300,6 +313,7 @@
   // v163: the mountain is built like one. Tiered pines, rock ledges, and a
   // dotted trail that zig-zags up to a little flag on the summit, so the
   // peak reads as a climb a kid can make, not a wall.
+  // v212: alternate mountain stops are mirrored in landmark() so the peaks don't repeat one picture.
   function peaks(){const pine=(x,y,s=1)=>`<g transform="translate(${x} ${y}) scale(${s})"><rect x="-3" y="-4" width="6" height="10" rx="3" fill="#70501b" ${K(2.4)}/>${[[0,13],[-9,10],[-18,7]].map(([t,w])=>`<path d="M0 ${t-14}Q${w*.6} ${t-6} ${w} ${t-1}Q0 ${t+2} ${-w} ${t-1}Q${-w*.6} ${t-6} 0 ${t-14}Z" fill="#4e9677" stroke="#2f5c46" stroke-width="2.4" stroke-linejoin="round"/>`).join('')}<path d="M-4 -22Q-2 -26 0 -28" ${DL('#7fce54',1.6)}/></g>`;
     return `${GR(88,150,72)}
     <path d="M12 144Q36 70 60 50Q72 40 84 52Q108 76 126 144Z" fill="#c9bda4" ${K()}/>
@@ -313,15 +327,16 @@
     <path d="M6 150Q8 136 88 134Q168 136 170 150Q88 156 6 150Z" fill="#b7e779"/>
     <ellipse cx="112" cy="146" rx="9" ry="5" fill="#c9bda4" ${K(2.4)}/><ellipse cx="122" cy="148" rx="6" ry="3.5" fill="#e5dcc8" ${K(2.4)}/>
     ${pine(22,146,.9)}${pine(36,149,.7)}${pine(150,148,.85)}${pine(162,151,.6)}${TUFT(96,148)}`;}
-  function wildflowers(){const bee=(x,y)=>`<g transform="translate(${x} ${y})"><ellipse cx="-3" cy="-6" rx="4" ry="5" fill="#fffdf7" opacity=".85" stroke="#a89478" stroke-width="1.6"/><ellipse cx="3" cy="-6" rx="4" ry="5" fill="#fffdf7" opacity=".85" stroke="#a89478" stroke-width="1.6"/><ellipse rx="7" ry="5" fill="#f3c955" stroke="#4a3620" stroke-width="2.4"/><path d="M-2 -4V4M2 -4V4" stroke="#4a3620" stroke-width="2.4"/></g>`;
+  // v210: wildflower stops vary (flower colours and heights rotate, the bees shift) instead of repeating one picture.
+  function wildflowers(variant=0){const bee=(x,y)=>`<g transform="translate(${x} ${y})"><ellipse cx="-3" cy="-6" rx="4" ry="5" fill="#fffdf7" opacity=".85" stroke="#a89478" stroke-width="1.6"/><ellipse cx="3" cy="-6" rx="4" ry="5" fill="#fffdf7" opacity=".85" stroke="#a89478" stroke-width="1.6"/><ellipse rx="7" ry="5" fill="#f3c955" stroke="#4a3620" stroke-width="2.4"/><path d="M-2 -4V4M2 -4V4" stroke="#4a3620" stroke-width="2.4"/></g>`;
     return `${GR(88,148,70)}${MOUND()}${TUFT(24,142)}${TUFT(96,144)}
     <g class="lm-hive"><rect x="98" y="124" width="58" height="8" rx="4" fill="#c69434" stroke="${ink}" stroke-width="2.4"/><rect x="104" y="128" width="8" height="14" rx="4" fill="#70501b"/><rect x="142" y="128" width="8" height="14" rx="4" fill="#70501b"/>
       ${[[127,120,27,9],[127,108,25,8.5],[127,96,21,8],[127,85,16,7],[127,76,10,6]].map(([cx,cy,rx,ry])=>`<rect x="${cx-rx}" y="${cy-ry}" width="${rx*2}" height="${ry*2}" rx="${ry}" fill="#f3c955" stroke="${ink}" stroke-width="2.4"/><path d="M${cx-rx+5} ${cy}H${cx+rx-5}" fill="none" stroke="#c69434" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="3 4"/>`).join('')}
       <path d="M118 124V116Q118 108 127 108Q136 108 136 116V124Z" fill="#70501b" stroke="${ink}" stroke-width="2.4"/><rect x="114" y="121" width="26" height="5" rx="2.5" fill="#c69434" stroke="${ink}" stroke-width="1.6"/>
       <ellipse cx="117" cy="82" rx="5" ry="2.4" fill="#fffdf7" opacity=".7"/></g>
-    ${bee(150,70)}${bee(92,58)}
-    ${[[36,'#ffa798','#ee806f'],[60,'#b49fcf','#8c74b0'],[82,'#ffe49a','#c69434']].map(([x,c,d],i)=>`<path d="M${x} 128V${94-i*6}" ${DL('#4e9677',4)}/><path d="M${x} ${116-i*4}Q${x-12} ${110-i*4} ${x-14} ${102-i*4}Q${x-4} ${104-i*4} ${x} ${114-i*4}Z" fill="#7fce54" stroke="#4e9677" stroke-width="1.6"/>${PETALS(x,88-i*6,c,d,6)}`).join('')}`;}
-  function landing(){return `${GR(84,144,68)}<path d="M8 142Q10 122 50 120Q90 122 92 142Q50 150 8 142Z" fill="#b7e779"/>${TUFT(22,138)}
+    ${[[bee(150,70),bee(92,58)],[bee(146,62),bee(98,72)],[bee(154,76),bee(88,52)]][variant%3].join('')}
+    ${(()=>{const C=[['#ffa798','#ee806f'],['#b49fcf','#8c74b0'],['#ffe49a','#c69434']],v=variant%3;return [36,60,82].map((x,i)=>{const [c,d]=C[(i+v)%3],k=(i+v)%3;return `<path d="M${x} 128V${94-k*6}" ${DL('#4e9677',4)}/><path d="M${x} ${116-k*4}Q${x-12} ${110-k*4} ${x-14} ${102-k*4}Q${x-4} ${104-k*4} ${x} ${114-k*4}Z" fill="#7fce54" stroke="#4e9677" stroke-width="1.6"/>${PETALS(x,88-k*6,c,d,6)}`;}).join('');})()}`;}
+  function landingV115(){return `${GR(84,144,68)}<path d="M8 142Q10 122 50 120Q90 122 92 142Q50 150 8 142Z" fill="#b7e779"/>${TUFT(22,138)}
     <path d="M86 150Q110 146 130 150M140 146Q154 143 166 146" ${DL('#62cdf4')}/>
     <rect x="70" y="116" width="12" height="32" rx="6" fill="#70501b" ${K(3)}/><rect x="138" y="116" width="12" height="32" rx="6" fill="#70501b" ${K(3)}/>
     <rect x="58" y="102" width="104" height="24" rx="12" fill="#c69434" ${K()}/>
@@ -329,6 +344,18 @@
     <path d="M70 128Q76 134 82 128M138 128Q144 134 150 128" ${DL('#ffe49a',2.4)}/>
     <rect x="98" y="72" width="6" height="32" rx="3" fill="#a89478" ${K(3)}/>
     <path d="M104 74Q120 78 120 86Q112 90 104 90Z" fill="#ee806f" ${K(3)}/>`;}
+  // v178: the jetty is built from parts: separate planks with nails on a
+  // beam, posts standing in water with rings, a mooring post with a coiled
+  // rope, and a little rowboat tied alongside.
+  function landing(){const rope=(d)=>`<path d="${d}" fill="none" ${K(6)}/><path d="${d}" ${DL('#e5dcc8',3)}/>`;
+    return `${GR(92,150,76)}<ellipse cx="120" cy="146" rx="54" ry="12" fill="#96ecff"/><path d="M80 150Q90 146 100 150M142 152Q152 148 162 152" ${DL('#fffdf7')}/>
+    <path d="M6 144Q8 120 44 118Q74 120 76 144Q40 152 6 144Z" fill="#b7e779"/>${TUFT(20,140)}${TUFT(66,142)}
+    ${[66,118].map(x=>`<ellipse cx="${x}" cy="146" rx="11" ry="3.5" fill="none" stroke="#62cdf4" stroke-width="2.4"/><rect x="${x-6}" y="108" width="12" height="40" rx="6" fill="#70501b" ${K(3)}/>`).join('')}
+    <rect x="48" y="116" width="116" height="9" rx="4.5" fill="#70501b" ${K(3)}/>
+    ${[0,1,2,3,4,5,6].map(i=>{const x=48+i*16.6;return `<rect x="${x.toFixed(1)}" y="98" width="15" height="21" rx="4" fill="#c69434" ${K(3)}/><circle cx="${(x+7.5).toFixed(1)}" cy="102.5" r="1.6" fill="#70501b"/><circle cx="${(x+7.5).toFixed(1)}" cy="114" r="1.6" fill="#70501b"/>`;}).join('')}${SH(58,104,6,2.4,0)}
+    <path d="M128 140H172Q168 156 150 157H140Q130 154 128 140Z" fill="#ee806f" ${K(3)}/><path d="M132 144H168" ${DL('#ffa798')}/><rect x="144" y="140" width="12" height="5" rx="2.5" fill="#c69434" ${K(2.4)}/>
+    <rect x="146" y="82" width="12" height="18" rx="5" fill="#a89478" ${K(3)}/>${rope('M146 92Q152 96 158 92')}${rope('M146 88Q152 92 158 88')}${rope('M158 94Q172 114 162 140')}
+    <rect x="56" y="64" width="6" height="36" rx="3" fill="#a89478" ${K(3)}/><path d="M62 66Q78 70 78 78Q70 82 62 82Z" fill="#ee806f" ${K(3)}/>`;}
   function bridge(){return `${GR(0,18,44)}
     <rect x="-36" y="-14" width="72" height="28" rx="12" fill="#c9bda4" ${K()}/>${SH(-18,-6,9,3,0)}
     ${[-24,-12,0,12,24].map(x=>`<rect x="${x-5}" y="-12" width="10" height="24" rx="4" fill="#e5dcc8" stroke="#a89478" stroke-width="1.6"/><circle cx="${x}" cy="-8" r="1.2" fill="#70501b"/><circle cx="${x}" cy="8" r="1.2" fill="#70501b"/>`).join('')}
@@ -411,7 +438,7 @@
 
   function landmark(biome='meadow',variant=0){
     if(biome==='meadow'&&variant===1)return ns.LettersGardenArt.seedBasket();
-    const content=biome==='orchard'?orchard():biome==='lagoon'?reeds():biome==='night'?lantern():biome==='peaks'?peaks():biome==='river'?(variant%2?reeds():landing()):variant%2?`<g transform="translate(0 7)">${reeds()}</g>`:wildflowers();
+    const content=biome==='orchard'?orchard(variant):biome==='lagoon'?reeds(variant):biome==='night'?lantern():biome==='peaks'?(variant%2?`<g transform="translate(176 0) scale(-1 1)">${peaks()}</g>`:peaks()):biome==='river'?(variant%2?reeds(variant):landing()):variant%2?`<g transform="translate(0 7)">${reeds(variant)}</g>`:wildflowers(Math.floor(variant/2));
     return `<svg viewBox="0 0 176 166" aria-hidden="true">${content}</svg>`;
   }
   // Land gates (2026-10-01): a wooden arch where the trail crosses into a new
@@ -436,7 +463,8 @@
       <path d="M-14 2Q-14 -6 -8 -10M14 2Q14 -6 8 -10" ${DL('#4e9677',3)}/>
       <rect x="-6" y="-84" width="12" height="86" rx="6" fill="#a89478" ${K(3)}/><path d="M-1 -76V-6" ${DL('#c9bda4')}/>
       <rect x="-12" y="-4" width="24" height="10" rx="5" fill="#c9bda4" ${K(3)}/>
-      <rect x="${d>0?-2:-42}" y="-78" width="44" height="9" rx="4.5" fill="#c69434" ${K(3)}/>
+      ${/* v208: a vine climbs the pole (leaves and a flower), the crossbar gets an end knob, the foot a peg. Still narrow. */''}<path d="M-6 -6Q8 -16 -6 -28Q8 -40 -6 -52Q6 -60 0 -66" ${DL('#4e9677',2.4)}/>${[[6,-16,1],[-7,-30,-1],[6,-42,1],[-6,-54,-1]].map(([x,y,f])=>`<path d="M${x} ${y}Q${x+f*8} ${y-2} ${x+f*9} ${y-8}Q${x+f*2} ${y-7} ${x} ${y}Z" fill="#7fce54" stroke="#4e9677" stroke-width="1.6" stroke-linejoin="round"/>`).join('')}${[0,72,144,216,288].map(a=>`<circle cx="7" cy="-26" r="2.4" fill="#ffa798" stroke="#ee806f" stroke-width="1.6" transform="rotate(${a} 7 -23.5)"/>`).join('')}<circle cx="7" cy="-23.5" r="1.6" fill="#f3c955"/>
+      <rect x="${d>0?-2:-42}" y="-78" width="44" height="9" rx="4.5" fill="#c69434" ${K(3)}/><circle cx="${d*44}" cy="-73.5" r="4" fill="#f3c955" ${K(2.4)}/><circle cy="1" r="2.4" fill="#a89478"/>
       <circle cy="-88" r="7" fill="#f3c955" ${K(3)}/>${SH(-2,-91,2.4,1.4,0)}
       <g class="map-gate-banner" transform="translate(${d*22} 0)"><path d="M-16 -70H16V-36Q12 -30 8 -36Q4 -30 0 -36Q-4 -30 -8 -36Q-12 -30 -16 -36Z" fill="#fffaf0" ${K(3)}/><path d="M-11 -64H11" ${DL('#e5dcc8')}/><g transform="translate(0 -51) scale(.9)">${LAND_SIGNS[biome]||''}</g></g>
       <g class="map-gate-roll" transform="translate(${d*22} 0)"><rect x="-17" y="-76" width="34" height="11" rx="5.5" fill="#fffaf0" ${K(3)}/><path d="M-12 -70.5H12" ${DL('#e5dcc8',1.6)}/></g>

@@ -59,7 +59,7 @@ test("v58 First looks: a waiting sky, free colours first, and the last stop clea
   assert.match(game, /const tab=\['friends','outfits','colors','tricks'\]\.includes\(this\.wardrobeTab\)\?this\.wardrobeTab:canShop\?'outfits':'colors';/);
   assert.match(game, /const height = total \* GAP \+ 240 \+ \(window\.innerWidth < 600 \? 110 : 0\);/);
   assert.match(read("letters.html"), /\?v=20261009-v58/);
-  assert.match(read("sw.js"), /const VERSION = "miftah-v227-letter-garden-v165-20261018";/);
+  assert.match(read("sw.js"), /const VERSION = "miftah-v324-letter-garden-v262-20261019";/);
 });
 
 test("v58 WordGap is winnable: the right piece matches even when NFC reorders shadda and vowel", () => {
@@ -679,7 +679,7 @@ test("v58 Word Workshop: chapters on a wooden workbench; the word chapters show 
 });
 
 test("v58 Stamps: a played day grows a drawn flower in the calendar", () => {
-  assert.match(game, /\$\{stamped\.has\(day\) \? \(Art\.artIcon\|\|Art\.icon\)\("flower", 30\) : `<i>\$\{day\}<\/i>`\}/);
+  assert.match(game, /\$\{stamped\.has\(day\) \? \(Art\.artIcon\|\|Art\.icon\)\("flower", 30\)[^:]*: `<i>\$\{day\}<\/i>`\}/);
   assert.match(read("styles/letters.css"), /\.stamp-cell\.is-stamped svg:not\(\.art-icon\) path \{/);
 });
 

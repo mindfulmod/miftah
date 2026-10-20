@@ -103,8 +103,16 @@
       }));
       stage.querySelectorAll(".ss-pick").forEach((b) => this.wirePick(b));
     }
+    // v252: a sticker placed in a scene is die-cut: the motif with a white
+    // border that follows its shape, not the album's round disc.
+    cutArt(id) {
+      const M = ns.LettersArt?.stickerMotif;
+      if (!M) return this.ctx.stickerArt(id, 96);
+      const art = M(id, 96);
+      return `<span class="ss-cut" aria-hidden="true">${art}</span>${art}`;
+    }
     drawPlaced() {
-      this.layer.innerHTML = this.placed.map((s, i) => `<button type="button" class="ss-sticker" data-i="${i}" aria-label="${s.id} sticker" style="left:${s.x}%;top:${s.y}%">${this.ctx.stickerArt(s.id, 96)}</button>`).join("");
+      this.layer.innerHTML = this.placed.map((s, i) => `<button type="button" class="ss-sticker" data-i="${i}" aria-label="${s.id} sticker" style="left:${s.x}%;top:${s.y}%">${this.cutArt(s.id)}</button>`).join("");
       this.layer.querySelectorAll(".ss-sticker").forEach((b) => this.wirePlaced(b));
     }
     toBoard(e) {

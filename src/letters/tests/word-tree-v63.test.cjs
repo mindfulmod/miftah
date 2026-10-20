@@ -35,5 +35,5 @@ test("v63 Word Tree: opens with the Ayah Garden, grows a branch a day, Leaf Home
   assert.match(read("src/letters/LettersWorlds.js"), /root: typeof w\.root === 'string' \? w\.root : ''/);
   assert.deepEqual(off(read("src/letters/WordTree.js")), []);
   assert.match(read("styles/letters-rooms.css"), /@media \(prefers-reduced-motion: reduce\)\{\.wt-falling,\.wt-branch\.is-new,\.wt-word\.is-glow \.wt-l\.is-root\{animation:none\}\}/);
-  assert.match(read("letters.html"), /src\/letters\/WordTree\.js\?v=20261016-v63/);
+  assert.match(read("letters.html"), /src\/letters\/WordTree\.js\?v=2026[0-9]{4}-v[0-9]+/);
 });

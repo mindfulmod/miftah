@@ -221,10 +221,11 @@
     </svg>`;
   }
 
+  // v215: the waiting pot is a pot (rolled rim, soil, a dotted band), not a flat bowl.
   function matchingSprout() {
     return `<svg viewBox="0 0 72 86" aria-hidden="true"><ellipse cx="36" cy="79" rx="29" ry="5" fill="#4a3620" opacity=".18"/>
       <g class="pairs-sprout"><path d="M36 59V25" stroke="#2f5c46" stroke-width="4" stroke-linecap="round"/><path d="M35 43Q7 41 13 20Q36 19 35 43M37 34Q40 8 63 13Q64 35 37 34" fill="#7fce54"/><path d="M17 23Q26 26 31 36M43 27Q48 19 57 18" fill="none" stroke="#b7e779" stroke-width="3" stroke-linecap="round"/></g>
-      <path d="M14 54H58L53 74Q36 81 19 74Z" fill="#c25a49" stroke="#4a3620" stroke-width="2.4"/><path d="M20 58H52L48 70Q36 75 24 70Z" fill="#ee806f"/><path d="M18 55H54" stroke="#ffa798" stroke-width="4" stroke-linecap="round"/></svg>`;
+      <path d="M16 56H56L52 74Q36 81 20 74Z" fill="#ee806f" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/><path d="M22 66Q36 70 50 66" fill="none" stroke="#c25a49" stroke-width="2.4" stroke-linecap="round"/>${[28,36,44].map(x=>`<circle cx="${x}" cy="${x===36?69:68}" r="1.6" fill="#ffa798"/>`).join('')}<rect x="12" y="50" width="48" height="9" rx="4.5" fill="#ee806f" stroke="#4a3620" stroke-width="2.4"/><ellipse cx="36" cy="51.5" rx="19" ry="2.6" fill="#70501b"/><path d="M17 55.5H30" stroke="#ffa798" stroke-width="2.4" stroke-linecap="round"/></svg>`;
   }
 
   // ---------- Pond: hear it, find it, keep it until ready ----------

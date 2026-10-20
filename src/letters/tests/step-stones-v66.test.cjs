@@ -750,3 +750,737 @@ test("v165 the mushroom find has gills, a skirt ring, moss and a baby mushroom",
   assert.match(m, /<path d="M42 46Q42 38 50 38Q58 38 58 46Q50 44 42 46Z" fill="#ee806f"/);
   assert.deepEqual(off(m), []);
 });
+
+test("v166 Beat Drum tile gets a second stick and a rhythm thread; Odd Sound pictures sit on choice cards", () => {
+  const g = read("src/letters/LettersGardenArt.js");
+  const e = g.match(/else if\(kind==='BeatDrum'\|\|kind==='SameStart'\|\|kind==='OddSound'\)\{[\s\S]*?void ear;/)[0];
+  assert.match(e, /\$\{stick\(36,80,82,60\)\}/);
+  assert.match(e, /stroke-dasharray="1 5"/);
+  assert.match(e, /const card=\(x,y\)=>/);
+  assert.match(e, /rotate\(12 159 66\)/);
+  assert.deepEqual(off(e), []);
+});
+
+test("v167 Same Start tile: both pictures on tilted cards joined by a gold arc", () => {
+  const g = read("src/letters/LettersGardenArt.js");
+  const e = g.match(/else if\(kind==='SameStart'\)\{[\s\S]*?\}\n/)[0];
+  assert.match(e, /<path d="M66 34Q100 6 134 34"/);
+  assert.match(e, /\$\{card\(22,38,-6\)\}/);
+  assert.deepEqual(off(e), []);
+});
+
+test("v168 the Puzzle Tree tile uses the constructed DetailKit tree with hanging puzzle pieces; old tree is the fallback", () => {
+  const g = read("src/letters/LettersGardenArt.js");
+  assert.match(g, /if\(kind==='PuzzleTree'&&ns\.DetailKit\)\{/);
+  assert.match(g, /ns\.DetailKit\.tree\(\{kind:'round',seed:5\}\)/);
+  assert.match(g, /else if\(kind==='PuzzleTree'\)scene=/);
+  const e = g.match(/if\(kind==='PuzzleTree'&&ns\.DetailKit\)\{[\s\S]*?\n      else if/)[0];
+  assert.deepEqual(off(e), []);
+});
+
+test("v169 the Letter Studio tile stands on an easel with a tray and clamp; the crayon has a wrapper and tip", () => {
+  const g = read("src/letters/LettersGardenArt.js");
+  const e = g.match(/else if\(kind==='LetterStudio'\)scene=`[\s\S]*?`;\n/)[0];
+  assert.match(e, /<rect x="34" y="98" width="132" height="10" rx="5" fill="#c69434"/);
+  assert.match(e, /<rect x="88" y="8" width="24" height="14" rx="5" fill="#c69434"/);
+  assert.match(e, /translate\(170 78\) rotate\(32\)/);
+  assert.deepEqual(off(e), []);
+});
+
+test("v170 the Dot Garden tile: a raised bed, the letter as a furrow, the dot as a seed with a path to its ring", () => {
+  const g = read("src/letters/LettersGardenArt.js");
+  const e = g.match(/else if\(kind==='DotGarden'\)scene=`[\s\S]*?`;\n/)[0];
+  assert.match(e, /<rect x="28" y="34" width="124" height="60" rx="12" fill="#70501b"/);
+  assert.match(e, /<circle cx="91" cy="86" r="6.5" fill="none" stroke="#e5dcc8"/);
+  assert.match(e, /translate\(180 56\) rotate\(-18\)/);
+  assert.deepEqual(off(e), []);
+});
+
+test("v171 the Sand Table tile stands on legs with ripples, a scallop, a pebble and a drawing stick", () => {
+  const g = read("src/letters/LettersGardenArt.js");
+  const e = g.match(/else if\(kind==='SandTable'\)scene=`[\s\S]*?`;\n/)[0];
+  assert.match(e, /<path d="M48 90V114M152 90V114" stroke="#4a3620" stroke-width="8"/);
+  assert.match(e, /<path d="M0 6L-9 -3Q-6 -10 0 -10Q6 -10 9 -3Z" fill="#ffa798"/);
+  assert.match(e, /<path d="M156 10L128 48" stroke="#c69434"/);
+  assert.deepEqual(off(e), []);
+});
+
+test("v172 the Burst tile is a built stopwatch with sparkles, not a flat play triangle", () => {
+  const g = read("src/letters/LettersGardenArt.js");
+  const e = g.match(/else if\(kind==='Burst'\)scene=`[\s\S]*?`;\n/)[0];
+  assert.doesNotMatch(e, /<path d="M41 82L62 98 41 114Z"/);
+  assert.match(e, /rotate\(45 134 29\.5\)/);
+  assert.match(e, /Array\.from\(\{length:12\}/);
+  assert.match(e, /d="M0 -12Q2 -2 12 0Q2 2 0 12Q-2 2 -12 0Q-2 -2 0 -12Z" fill="#f3c955"/);
+  assert.deepEqual(off(e), []);
+});
+
+test("v173 the picnic blanket is true gingham (filled bands that darken where they cross) with a folded corner", () => {
+  const a = read("src/letters/LettersActivityArt.js");
+  const p = a.match(/function picnic\(\) \{[\s\S]*?\n  \}\n/)[0];
+  assert.doesNotMatch(p, /stroke-width="24"/);
+  assert.match(p, /H\$\{c-12\}Z" opacity="\.3"/);
+  assert.match(p, /<path d="M101 183L176 178Q150 214 112 244Z" fill="#e5dcc8"/);
+  assert.deepEqual(off(p), []);
+});
+
+test("v174 the stale cache stamps are refreshed", () => {
+  const html = read("letters.html");
+  for (const f of ["styles/letters.css", "src/letters/LettersGame.js", "src/letters/LettersArt.js", "src/letters/ToyBoxGames.js", "src/letters/StickerScenes.js"]) assert.match(html, new RegExp(`${f.replace(/[./]/g, (c) => "\\" + c)}\\?v=(?!20261009)2026[0-9]{4}-v[0-9]+`));
+});
+
+test("v175 the star plaque has nail heads and coral ribbon tails; still only earned stars are shown", () => {
+  const c = read("styles/letters-materials.css");
+  const b = c.slice(c.indexOf("/* v175:"));
+  assert.match(b, /\.lg-stars \.stars-row::before \{ left: -30px; \}/);
+  assert.match(b, /fill='%23ee806f'/);
+  assert.match(b, /radial-gradient\(circle at 13px 50%, #70501b/);
+  assert.deepEqual(off(b.replace(/%23/g, "#")), []);
+  assert.match(read("src/letters/LettersGame.js"), /\$\{this\.earnedStars\(stars, 64, 240\)\}/);
+});
+
+test("v176 the album is bound (rings, bookmark) and its page and the word bookcase are no longer see-through", () => {
+  const c = read("styles/letters-materials.css");
+  assert.match(c, /\.lg-app\.lg-app \.lg-album \.album-grid\.lg-panel\.lg-panel\.lg-panel \{\n  background: var\(--paper-grain\), linear-gradient/);
+  assert.match(c, /\.lg-app\.lg-app \.shelf-case\.lg-panel\.lg-panel\.lg-panel \{ background: linear-gradient\(#a89478, #70501b\); \}/);
+  assert.match(c, /\.lg-album \.album-grid::after \{\n  top: -28px;/);
+  const b = c.slice(c.indexOf("/* v176:"));
+  assert.deepEqual(off(b.replace(/%23/g, "#")), []);
+});
+
+test("v177 the stamp calendar hangs from a nail with binder rings; missed days stay plain numbers", () => {
+  const c = read("styles/letters-materials.css");
+  const b = c.slice(c.indexOf("/* v177:"));
+  assert.match(b, /\.lg-app \.stamps-grid::before \{\n  top: -15px; width: 74%;/);
+  assert.match(b, /\.lg-app \.stamps-grid::after \{\n  top: -40px;/);
+  assert.deepEqual(off(b.replace(/%23/g, "#")), []);
+});
+
+test("v178 the jetty landmark: planks with nails, posts in water, a mooring rope and a tied rowboat; v115 kept", () => {
+  const m = read("src/letters/LettersMapArt.js");
+  assert.match(m, /function landingV115\(\)\{/);
+  const l = m.match(/function landing\(\)\{[\s\S]*?\n  function bridge/)[0];
+  assert.match(l, /\[66,118\]\.map/);
+  assert.match(l, /<path d="M128 140H172Q168 156 150 157H140Q130 154 128 140Z" fill="#ee806f"/);
+  assert.match(l, /rope\('M158 94Q172 114 162 140'\)/);
+  assert.deepEqual(off(l), []);
+});
+
+test("v179 each Word Tree branch ends in a twig and leaf, at the left tip on phones", () => {
+  const c = read("styles/letters-materials.css");
+  const b = c.slice(c.indexOf("/* v179:"));
+  assert.match(b, /\.lg-app \.wt-branch::after \{\n  content: ""; position: absolute;/);
+  assert.match(b, /@media \(max-width: 520px\) \{ \.lg-app \.wt-branch::after, \.lg-app \.wt-branch\.is-left::after \{ left: -2px;/);
+  assert.deepEqual(off(b.replace(/%23/g, "#")), []);
+});
+
+test("v180 the pond bank has cattails, pebbles and tufts, kept to the edges", () => {
+  const g = read("src/letters/LettersGardenArt.js");
+  const p = g.match(/function pond\(\) \{[\s\S]*?\n  \}\n/)[0];
+  assert.match(p, /\[\[34,350,0\],\[52,356,1\],\[566,338,0\],\[548,346,1\]\]/);
+  assert.match(p, /fill="#c9bda4" stroke="#a89478" stroke-width="2.4"/);
+  assert.deepEqual(off(p), []);
+});
+
+test("v181 the friends' garden field has mowing stripes and grass flecks (visible day and night)", () => {
+  const c = read("styles/letters-materials.css");
+  const b = c.slice(c.indexOf("/* v181:"));
+  assert.match(b, /repeating-linear-gradient\(135deg, #4e967726 0 30px, #4e967700 30px 60px\)/);
+  assert.deepEqual(off(b), []);
+});
+
+test("v182 the Shape Train tile has a real engine (cab, roof, stack, puffs, lamp, wheels) and fits its frame", () => {
+  const g = read("src/letters/LettersGardenArt.js");
+  assert.match(g, /else scene=`<g transform="translate\(-6 6\) scale\(\.95\)">/);
+  assert.match(g, /<rect x="169" y="30" width="32" height="9" rx="4" fill="#c25a49"/);
+  assert.doesNotMatch(g, /<rect x="174" y="40" width="22" height="46" rx="6" fill="#ee806f"/);
+  const e = g.slice(g.indexOf("v182: the engine") - 400, g.indexOf("v182: the engine") + 1400);
+  assert.deepEqual(off(e), []);
+});
+
+test("v183 Costume Rail tile hangs tunics on hangers; Disguise tile has a clear-lens magnifying glass", () => {
+  const g = read("src/letters/LettersGardenArt.js");
+  const e = g.match(/else if\(kind==='Disguise'\)scene=`[\s\S]*?\n      else if\(kind==='CostumeRail'\)scene=`[\s\S]*?`;\n/)[0];
+  assert.match(e, /<path d="M115 77L134 98" stroke="#c69434"/);
+  assert.match(e, /<circle cx="104" cy="66" r="15" fill="none" stroke="#4a3620" stroke-width="6"\/>/);
+  assert.match(e, /\$\{T\(x,78,t,20\)\}/);
+  assert.deepEqual(off(e), []);
+});
+
+test("v184 the Costume House tile has shingles, a doorknob, a step and flower pots", () => {
+  const g = read("src/letters/LettersGardenArt.js");
+  const e = g.match(/if\(kind==='CostumeHouse'\)scene=`[\s\S]*?`;\n/)[0];
+  assert.match(e, /stroke="#8c74b0" stroke-width="2\.4"/);
+  assert.match(e, /<rect x="80" y="109" width="40" height="7" rx="3\.5" fill="#c9bda4"/);
+  assert.match(e, /\[\[40,'#ee806f'\],\[160,'#62cdf4'\]\]/);
+  assert.deepEqual(off(e), []);
+});
+
+test("v185 the Water Garden tile is a watering rig: gutter on posts, spouts, drops into the bloomed middle pot", () => {
+  const g = read("src/letters/LettersGardenArt.js");
+  const e = g.match(/else if\(kind==='WaterGarden'\)scene=`[\s\S]*?`;\n/)[0];
+  assert.match(e, /<rect x="16" y="22" width="168" height="16" rx="8" fill="#c69434"/);
+  assert.match(e, /<path d="M100 47Q97 52 100 54Q103 52 100 47Z" fill="#62cdf4"/);
+  assert.doesNotMatch(e, /slice\(0,1\)/);
+  assert.deepEqual(off(e), []);
+});
+
+test("v186 the Garden Paths tile: the letter as stepping stones, a ladybug walking it, a flag at the end", () => {
+  const g = read("src/letters/LettersGardenArt.js");
+  const i = g.indexOf("// v186: Garden Paths"); const e = g.slice(i, g.indexOf("`;", i));
+  assert.match(e, /i<5\?`<ellipse/);
+  assert.match(e, /<path d="M140 30L152 34L140 38Z" fill="#ee806f"/);
+  assert.match(e, /translate\(95 76\) rotate\(4\)/);
+  assert.deepEqual(off(e), []);
+});
+
+test("v187 the Letter Delivery icon is an envelope flying into a garden mailbox with its flag up", () => {
+  const d = read("src/letters/LetterDelivery.js");
+  const icon = d.match(/const icon=\(size=86\)=>\{[\s\S]*?\n  \};/)[0];
+  assert.match(icon, /<path d="M118 70V50Q118 32 141 32H164Q186 32 186 50V70Z" fill="#ee806f"/);
+  assert.match(icon, /<path d="M176 56V16"/);
+  assert.match(icon, /stroke-dasharray="2 9"/);
+  assert.deepEqual(off(icon), []);
+});
+
+test("v188 Letter Balloons tile: knots, shines, strings gathered into a bow on a stake", () => {
+  const g = read("src/letters/LettersGardenArt.js");
+  const e = g.match(/else if\(kind==='LetterBalloons'\)scene=`[\s\S]*?`;\n/)[0];
+  assert.match(e, /<rect x="97" y="96" width="6" height="18" rx="3" fill="#70501b"/);
+  assert.match(e, /<path d="M100 98Q90 92 90 99Q90 104 100 99Q110 104 110 99Q110 92 100 98Z" fill="#ee806f"/);
+  assert.deepEqual(off(e), []);
+});
+
+test("v189 Friend Jigsaw tile: a real jigsaw piece beside the board's gap", () => {
+  const g = read("src/letters/LettersGardenArt.js");
+  const e = g.match(/else if\(kind==='FriendJigsaw'\)\{[\s\S]*?\n    \}/)[0];
+  assert.match(e, /translate\(174 72\) rotate\(12\)/);
+  assert.match(e, /<path d="M101\.5 57\.5H142\.5V90Q142\.5 98\.5 134 98\.5H101\.5Z" fill="#e5dcc8"/);
+  assert.doesNotMatch(e, /<rect x="148" y="54" width="34" height="34"/);
+  assert.deepEqual(off(e), []);
+});
+
+test("v190 Spot the Change tile: friends sit on a plank bench; the eye has lashes and a lid line", () => {
+  const g = read("src/letters/LettersGardenArt.js");
+  const e = g.match(/else if\(kind==='SpotChange'\)\{[\s\S]*?\n    \}/)[0];
+  assert.match(e, /<rect x="14" y="102" width="172" height="10" rx="5" fill="#c69434"/);
+  assert.match(e, /<path d="M76 12L72 6M100 7V1M124 12L128 6"/);
+  assert.deepEqual(off(e), []);
+});
+
+test("v191 Family Buses tile: roof rack, bumpers, headlamp, tail light and bolted hubcaps", () => {
+  const g = read("src/letters/LettersGardenArt.js");
+  const e = g.match(/else if\(kind==='FamilyBuses'\)\{[\s\S]*?\n    \}/)[0];
+  assert.match(e, /<rect x="42" y="18" width="116" height="8" rx="4" fill="#c69434"/);
+  assert.match(e, /<rect x="172" y="84" width="16" height="9" rx="4\.5" fill="#c9bda4"/);
+  assert.match(e, /\[0,120,240\]\.map/);
+  assert.deepEqual(off(e), []);
+});
+
+test("v192 Letter Fishing tile: a rod with a reel, a float at the water line, a fin and a lily flower", () => {
+  const g = read("src/letters/LettersGardenArt.js");
+  const e = g.match(/else if\(kind==='LetterFishing'\)\{[\s\S]*?\n    \}/)[0];
+  assert.match(e, /<path d="M198 40Q172 8 128 5" fill="none" stroke="#c69434"/);
+  assert.match(e, /<path d="M123 38A5 5 0 0 1 133 38Z" fill="#ee806f"/);
+  assert.deepEqual(off(e), []);
+});
+
+test("v193 Garden Together tile: two friends tending one potted sprout with a heart above", () => {
+  const g = read("src/letters/LettersGardenArt.js");
+  const e = g.match(/else if\(kind==='GardenTogether'\)scene=`[\s\S]*?`;\n/)[0];
+  assert.match(e, /<path d="M86 88H114L110 110H90Z" fill="#c69434"/);
+  assert.match(e, /<path d="M100 40Q94 32 90 36Q86 42 100 50Q114 42 110 36Q106 32 100 40Z" fill="#ee806f"/);
+  assert.deepEqual(off(e), []);
+});
+
+test("v194 Sound Lab tile: grille, dial ticks, lights, a lever, notes rising, and the letter back in its window", () => {
+  const g = read("src/letters/LettersGardenArt.js");
+  const e = g.match(/else if\(kind==='SoundLab'\)scene=`[\s\S]*?`;\n/)[0];
+  assert.match(e, /<circle cx="68" cy="98" r="10" fill="#3a8fc4"/);
+  assert.match(e, /<circle cx="167" cy="78" r="5" fill="#ee806f"/);
+  assert.match(e, /<text x="100" y="76" text-anchor="middle"/);
+  assert.deepEqual(off(e), []);
+});
+
+test("v195 Lantern Hunt has a built lantern and beam; Letter Shadows is a shadow theatre", () => {
+  const g = read("src/letters/LettersGardenArt.js");
+  const lh = g.match(/else if\(kind==='LanternHunt'\)scene=`[\s\S]*?`;\n/)[0];
+  assert.match(lh, /<path d="M120 50L72 46L74 86L124 62Z" fill="#ffe49a" opacity="\.45"\/>/);
+  assert.match(lh, /<path d="M136 52Q131 47 136 40Q141 47 136 52Z" fill="#ffa06e"/);
+  const ls = g.match(/else if\(kind==='LetterShadows'\)\{[\s\S]*?\n    \}/)[0];
+  assert.match(ls, /<path d="M32 18Q58 44 46 104H32Z" fill="#ee806f"/);
+  assert.match(ls, /<rect x="24" y="102" width="152" height="12" rx="6" fill="#c69434"/);
+  assert.deepEqual(off(lh + ls), []);
+});
+
+test("v196 Echo Parade tile: bunting overhead, marchers standing on the grass, echo arcs kept", () => {
+  const g = read("src/letters/LettersGardenArt.js");
+  const e = g.match(/else if\(kind==='EchoParade'\)scene=`[\s\S]*?`;\n/)[0];
+  assert.match(e, /<path d="M4 10Q100 34 196 10"/);
+  assert.match(e, /\$\{at\('ت',74,54,52\)\}/);
+  assert.deepEqual(off(e), []);
+});
+
+test("v197 Hoopoe Trip tile: an arrow-shaped wooden signpost with a paper panel, nails and tufts", () => {
+  const g = read("src/letters/LettersGardenArt.js");
+  const e = g.match(/else if\(kind==='HoopoeTrip'\)scene=`[\s\S]*?`;\n/)[0];
+  assert.match(e, /<path d="M8 28H58L70 47L58 66H8Q4 66 4 62V32Q4 28 8 28Z" fill="#c69434"/);
+  assert.match(e, /<rect x="12" y="33" width="42" height="28" rx="5" fill="#fffaf0"/);
+  assert.deepEqual(off(e), []);
+});
+
+test("v198 Build Letter tile: a pinned framed board, a 3D wooden dot block, and a dotted path to the slots", () => {
+  const g = read("src/letters/LettersGardenArt.js");
+  const e = g.match(/else if\(kind==='BuildLetter'\)scene=`[\s\S]*?`;\n/)[0];
+  assert.match(e, /<rect x="54" y="6" width="92" height="92" rx="16" fill="#c69434"/);
+  assert.match(e, /<path d="M182 76L190 68V98L182 106Z" fill="#c69434"/);
+  assert.match(e, /stroke-dasharray="1 6"/);
+  assert.deepEqual(off(e), []);
+});
+
+test("v199 Twin Crown tile: twins on velvet cushions under a jewelled crown; Colour Friend has a real crayon", () => {
+  const g = read("src/letters/LettersGardenArt.js");
+  const tc = g.match(/else if\(kind==='TwinCrown'\)\{[\s\S]*?\n    \}/)[0];
+  assert.match(tc, /<rect x="76" y="30" width="48" height="9" rx="4\.5" fill="#c69434"/);
+  assert.match(tc, /\$\{at\('د',24,44,62\)\}/);
+  const cf = g.match(/else if\(kind==='ColourFriend'\)\{[\s\S]*?\n    \}/)[0];
+  assert.match(cf, /<path d="M151 30Q156 16 160 12Q164 16 169 30Z" fill="#c25a49"/);
+  assert.deepEqual(off(tc + cf), []);
+});
+
+test("v200 Friend Shapes picture hangs in a wooden frame; Hat Shop shelf has brackets", () => {
+  const g = read("src/letters/LettersGardenArt.js");
+  const fs = g.match(/else if\(kind==='FriendShapes'\)scene=`[\s\S]*?`;\n/)[0];
+  assert.match(fs, /<rect x="104" y="28" width="80" height="78" rx="10" fill="#c69434"/);
+  const hs = g.match(/else if\(kind==='HatShop'\)\{[\s\S]*?\n    \}/)[0];
+  assert.match(hs, /<rect x="110" y="66" width="78" height="9" rx="4\.5" fill="#c69434"/);
+  assert.deepEqual(off(fs + hs), []);
+});
+
+test("v201 Dots Last is a chalk slate; Letter Train is a train on a track with balloons tied on", () => {
+  const g = read("src/letters/LettersGardenArt.js");
+  const dl = g.match(/else if\(kind==='DotsLast'\)scene=`[\s\S]*?`;\n/)[0];
+  assert.match(dl, /<rect x="58" y="18" width="84" height="76" rx="8" fill="#2f5c46"/);
+  const lt = g.match(/else if\(kind==='LetterTrain'\)scene=`[\s\S]*?`;\n/)[0];
+  assert.match(lt, /<rect x="120" y="70" width="52" height="26" rx="6" fill="#62cdf4"/);
+  assert.match(lt, /\[16,40,64,88,112,136,160,184\]/);
+  assert.deepEqual(off(dl + lt), []);
+});
+
+test("v202 Living Books tile: banded spines on a wooden shelf with a potted-plant bookend", () => {
+  const g = read("src/letters/LettersGardenArt.js");
+  const e = g.match(/else if\(kind==='LivingBooks'\)\{[\s\S]*?\n    \}/)[0];
+  assert.match(e, /<rect x="12" y="102" width="176" height="10" rx="5" fill="#c69434"/);
+  assert.match(e, /<path d="M166 80H188L185 102H169Z" fill="#ee806f"/);
+  assert.deepEqual(off(e), []);
+});
+
+test("v203 open books get covers, page edges and ribbons; the Fill Gap egg sits in a nest clear of the vowel marks", () => {
+  const g = read("src/letters/LettersGardenArt.js");
+  assert.match(g, /<path d="M16 28Q60 16 100 30Q140 16 184 28V118Q140 108 100 120Q60 108 16 118Z" fill="#ee806f"/);
+  assert.match(g, /<path d="M20 30Q62 18 100 32Q138 18 180 30V116Q138 106 100 118Q62 106 20 116Z" fill="#62cdf4"/);
+  const fg = g.match(/else if\(kind==='FillGap'\)\{[\s\S]*?\n    \}/)[0];
+  assert.match(fg, /<text x="118" y="108"/);
+  assert.match(fg, /<path d="M64 52Q66 70 100 70Q134 70 136 52Z" fill="#c69434"/);
+  assert.deepEqual(off(fg), []);
+});
+
+test("v204 Peek Flaps tile: the flap is a door leaf swung open on its hinge, not a pole through the elephant", () => {
+  const g = read("src/letters/LettersGardenArt.js");
+  const e = g.match(/if\(kind==='PeekFlaps'\)scene=`[\s\S]*?`;\n/)[0];
+  assert.doesNotMatch(e, /M60 112V58Q60 40 84 40/);
+  assert.match(e, /<path d="M100 112V44Q96 30 84 30L76 36V108Z" fill="#b7e779"/);
+  assert.match(e, /pic\('elephant',4,36,66\)/);
+  assert.deepEqual(off(e), []);
+});
+
+test("v205 the build game's joinery table: stretcher bar, shaped feet, apron seams and a drawer with a gold pull", () => {
+  const a = read("src/letters/LettersActivityArt.js");
+  const j = a.match(/function joinery\(\)\{[\s\S]*?\n  \}\n/)[0];
+  assert.match(j, /<path d="M128 504H590" stroke="#a89478"/);
+  assert.match(j, /<rect x="290" y="447" width="140" height="22" rx="6" fill="#c9bda4"/);
+  assert.match(j, /<rect x="346" y="453" width="28" height="10" rx="5" fill="#f3c955"/);
+  assert.deepEqual(off(j), []);
+  assert.doesNotMatch(a, /v205: the bench front is built/);
+});
+
+test("v206 the pinecone find has overlapping rows of golden scales, a stem and a leaf", () => {
+  const r = read("src/letters/LettersRoomArt.js");
+  const m = r.match(/pinecone:`([\s\S]*?)`,\n/)[1];
+  assert.match(m, /\[\[32,16,7\],\[26,26,8\]/);
+  assert.match(m, /fill="#c69434"/);
+  assert.deepEqual(off(m), []);
+});
+
+test("v207 the meadow gets edge scenery (tufts with small flowers) without a tint band", () => {
+  const m = read("src/letters/LettersMapArt.js");
+  assert.match(m, /const tint=LAND\[run\.biome\];if\(!tint&&run\.biome!=='meadow'\)return;/);
+  assert.match(m, /if\(tint\)bands\.push\(/);
+  const b = m.slice(m.indexOf("else if(run.biome==='meadow')scenery.push("), m.indexOf("else if(run.biome==='lagoon')scenery.push("));
+  assert.match(b, /translate\(\$\{\(x\+34\)\.toFixed\(0\)\}/);
+  assert.deepEqual(off(b), []);
+});
+
+test("v208 the land-gate pole has a climbing vine with leaves and a flower, a crossbar knob and a foot peg", () => {
+  const m = read("src/letters/LettersMapArt.js");
+  const g = m.match(/function gate\(biome='orchard',open=false,dir=1\)\{[\s\S]*?\n  \}\n/)[0];
+  assert.match(g, /<path d="M-6 -6Q8 -16 -6 -28Q8 -40 -6 -52Q6 -60 0 -66"/);
+  assert.match(g, /<circle cx="\$\{d\*44\}" cy="-73\.5" r="4" fill="#f3c955"/);
+  assert.deepEqual(off(g), []);
+});
+
+test("v209 each orchard stop grows its own tree (seed and size from the landmark variant)", () => {
+  const m = read("src/letters/LettersMapArt.js");
+  assert.match(m, /function orchard\(variant=0\)\{/);
+  assert.match(m, /seed:3\+\(variant%5\)\*2,hooks:true/);
+  assert.match(m, /const content=biome==='orchard'\?orchard\(variant\):/);
+});
+
+test("v210 wildflower stops vary: flower colours and heights rotate and the bees shift per stop", () => {
+  const m = read("src/letters/LettersMapArt.js");
+  assert.match(m, /function wildflowers\(variant=0\)\{/);
+  assert.match(m, /wildflowers\(Math\.floor\(variant\/2\)\)/);
+  const w = m.slice(m.indexOf("function wildflowers(variant=0)"), m.indexOf("function landingV115"));
+  assert.deepEqual(off(w), []);
+});
+
+test("v211 reed stops vary (cattail heights, lily flower colour); toy hooks kept", () => {
+  const m = read("src/letters/LettersMapArt.js");
+  const r = m.match(/function reeds\(variant=0\)\{[\s\S]*?`;\}/)[0];
+  assert.match(r, /class="lm-reeds"/);
+  assert.match(r, /class="lm-leaf"/);
+  assert.match(r, /\]\[variant%3\]\.map/);
+  assert.match(m, /biome==='lagoon'\?reeds\(variant\)/);
+  assert.deepEqual(off(r), []);
+});
+
+test("v212 alternate mountain stops are mirrored so the peaks vary", () => {
+  const m = read("src/letters/LettersMapArt.js");
+  assert.match(m, /biome==='peaks'\?\(variant%2\?`<g transform="translate\(176 0\) scale\(-1 1\)">\$\{peaks\(\)\}<\/g>`:peaks\(\)\)/);
+});
+
+test("v213 the Bath Time tile matches the game's clawfoot tub (rolled rim, tap, claw feet)", () => {
+  const g = read("src/letters/LettersGardenArt.js");
+  const e = g.match(/else if\(kind==='BathTime'\)\{[\s\S]*?\n    \}/)[0];
+  assert.match(e, /<rect x="32" y="71" width="136" height="9" rx="4\.5" fill="#fffdf7"/);
+  assert.match(e, /\[60,140\]\.map/);
+  assert.deepEqual(off(e), []);
+});
+
+test("v214 the village lawn gets quiet grass tufts and tiny flowers under everything", () => {
+  const v = read("src/letters/VillageArt.js");
+  const b = v.match(/function backdrop\([\s\S]*?\n  \}\n/)[0];
+  assert.match(b, /<g opacity="\$\{night \? 0\.4 : 0\.6\}">/);
+  assert.match(b, /\[0\.08, 0\.5\], \[0\.3, 0\.46\]/);
+  assert.deepEqual(off(b), []);
+});
+
+test("v215 the pairs game's waiting pots have a rolled rim, soil and a dotted band; the sprout hook is kept", () => {
+  const m = read("src/letters/MiniGames.js");
+  const f = m.match(/function matchingSprout\(\) \{[\s\S]*?\n  \}\n/)[0];
+  assert.match(f, /class="pairs-sprout"/);
+  assert.match(f, /<rect x="12" y="50" width="48" height="9" rx="4\.5" fill="#ee806f"/);
+  assert.match(f, /<ellipse cx="36" cy="51\.5" rx="19" ry="2\.6" fill="#70501b"\/>/);
+  assert.deepEqual(off(f), []);
+});
+
+test("v216 the graduation Bismillah card is a certificate with a gold border and a rosette", () => {
+  const c = read("styles/letters-materials.css");
+  const b = c.slice(c.indexOf("/* v216:"));
+  assert.match(b, /inset 0 0 0 11px #f3c955/);
+  assert.match(b, /\.lg-app \.sg-grad \.sg-rehal::after \{/);
+  assert.deepEqual(off(b.replace(/%23/g, "#")), []);
+});
+
+test("v217 the pet-colour choices get a glossy shine; no drip", () => {
+  const c = read("styles/letters-materials.css");
+  assert.match(c, /\.lg-app \.hatch-hue::before \{ content: ""; position: absolute;/);
+  assert.doesNotMatch(c, /\.hatch-hue::after/);
+});
+
+test("v218 Living Books night pages without their own moon get a crescent with its shine on the body", () => {
+  const l = read("src/letters/LivingBooks.js");
+  assert.match(l, /const NIGHT_MOON = `/);
+  assert.match(l, /a\.night \? NIGHT_SKY \+ NIGHT_MOON : SUN_SKY/);
+  assert.match(l, /<ellipse cx="50" cy="30" rx="2" ry="4\.5"/);
+  assert.deepEqual(off(l.match(/const NIGHT_MOON = `[\s\S]*?`;/)[0]), []);
+});
+
+test("v219 the raft keepsake is two lashed logs with ringed ends; letters sit on the top log", () => {
+  const j = read("src/letters/LettersJourney.js");
+  const r = j.match(/function raftArt\([\s\S]*?\n  \}\n/)[0];
+  assert.match(r, /tag\(x \+ dx, y \+ 7, 38, 22/);
+  assert.match(r, /width="6" height="36" rx="3" fill="#e5dcc8"/);
+  assert.deepEqual(off(r), []);
+});
+
+test("v220 the village stepping stones have a crack line and a moss tuft on the rim", () => {
+  const v = read("src/letters/VillageArt.js");
+  const f = v.match(/function stones\(done = 0, total = 3\) \{[\s\S]*?\n  \}\n/)[0];
+  assert.match(f, /fill="#7fce54" stroke="#4e9677" stroke-width="1\.6"/);
+  assert.match(f, /done \? "#c69434" : "#c9bda4", 1\.6/);
+  assert.deepEqual(off(f), []);
+});
+
+test("v221 the sticker stand's savings row shows only earned stars plus a sprout, never empty slots", () => {
+  const g = read("src/letters/LettersGame.js");
+  assert.match(g, /Array\.from\(\{ length: Math\.min\(5, this\.starBalance\(\)\) \}, \(\) => `<i class="is-on">/);
+  assert.match(g, /this\.starBalance\(\) < 5 \? `<i class="is-grow">/);
+  assert.doesNotMatch(g, /i < this\.starBalance\(\) \? "is-on" : ""/);
+  const c = read("styles/letters-materials.css");
+  assert.match(c, /\.lg-app \.stand-pips i\.is-grow \{ color: #7fce54; \}/);
+});
+
+test("v222 on phones the shore boat steps aside on the meet screen (upright and sideways); tablets keep it", () => {
+  const c = read("styles/letters-materials.css");
+  assert.match(c, /@media \(orientation: landscape\) and \(max-height: 500px\), \(max-width: 520px\) \{\n  \.lg-app\.lg-boat-chapter:has\(\.lg-meet\) \.garden-shore-boat \{ visibility: hidden; \}/);
+});
+
+test("v223 sideways phones: the shore boat steps aside on game screens too", () => {
+  const c = read("styles/letters-materials.css");
+  assert.match(c, /\.lg-app\.lg-boat-chapter:has\(\.lg-play\) \.garden-shore-boat \{ visibility: hidden; \}/);
+});
+
+test("v224 the cloud sticker has a happy face (eyes, smile, rosy cheeks) like the sun", () => {
+  const a = read("src/letters/LettersArt.js");
+  const c = a.match(/    cloud: `([\s\S]*?)`,\n/)[1];
+  assert.match(c, /<path d="M-2 5Q1 8 4 5"/);
+  assert.match(c, /fill="#ffa798" opacity="\.7"/);
+  assert.deepEqual(off(c), []);
+});
+
+test("v225 ambient village life: butterflies by day, fireflies at night; untappable and still under reduced motion", () => {
+  const v = read("src/letters/VillageArt.js");
+  assert.match(v, /function ambient\(W, H, night = false\) \{/);
+  assert.match(v, /ns\.VillageArt = \{ backdrop, ambient,/);
+  const a = v.match(/function ambient\([\s\S]*?\n  \}\n/)[0];
+  assert.match(a, /pointer-events="none"/);
+  assert.deepEqual(off(a), []);
+  assert.match(read("src/letters/LettersGame.js"), /\$\{V\.ambient \? V\.ambient\(L\.W, L\.H, night\) : ""\}/);
+  const c = read("styles/letters-materials.css");
+  assert.match(c, /@media \(prefers-reduced-motion: reduce\) \{ \.lg-app \.vg-butterfly, \.lg-app \.vg-firefly \{ animation: none; \} \}/);
+  assert.match(c, /\.lg-reduce-motion \.vg-butterfly, \.lg-reduce-motion \.vg-firefly \{ animation: none; \}/);
+});
+
+test("v226 the map's edge margin gets a butterfly every third stop (firefly at night), untappable", () => {
+  const m = read("src/letters/LettersMapArt.js");
+  assert.match(m, /const ambient=ordered\.filter\(\(_,i\)=>i%3===1\)/);
+  assert.match(m, /\$\{scenery\.join\(''\)\}\$\{undergrowth\}\$\{ambient\}/);
+  const a = m.slice(m.indexOf("const ambient=ordered"), m.indexOf("// v65 (art system)"));
+  assert.match(a, /pointer-events="none"/);
+  assert.deepEqual(off(a), []);
+});
+
+test("v227 the cottage chimney smoke drifts (still under reduced motion)", () => {
+  assert.match(read("src/letters/VillageArt.js"), /<circle class="vg-smoke" style="--d:\$\{i \* 0\.9\}s"/);
+  const c = read("styles/letters-materials.css");
+  assert.match(c, /@media \(prefers-reduced-motion: reduce\) \{ \.lg-app \.vg-smoke \{ animation: none; \} \}/);
+});
+
+test("v228 the birdbath sunflower sways from its stem (still under reduced motion)", () => {
+  assert.match(read("src/letters/VillageArt.js"), /<g class="vg-sway">/);
+  const c = read("styles/letters-materials.css");
+  assert.match(c, /\.lg-app \.vg-sway \{ animation: vg-sway 3\.4s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100%; \}/);
+  assert.match(c, /@media \(prefers-reduced-motion: reduce\) \{ \.lg-app \.vg-sway \{ animation: none; \} \}/);
+});
+
+test("v229 the toy chest balloon bobs on its string (still under reduced motion)", () => {
+  assert.match(read("src/letters/VillageArt.js"), /<g class="vg-bob"><path d="M36 -24V-58"/);
+  assert.match(read("styles/letters-materials.css"), /@media \(prefers-reduced-motion: reduce\) \{ \.lg-app \.vg-bob \{ animation: none; \} \}/);
+});
+
+test("v230 empty decorating spots twinkle softly (still under reduced motion)", () => {
+  const d = read("src/letters/DecoratingGarden.js");
+  assert.match(d, /<path class="decorate-twinkle" d="M50 30Q52 37 59 39/);
+  assert.match(read("styles/letters-materials.css"), /@media \(prefers-reduced-motion: reduce\) \{ \.lg-app \.decorate-twinkle \{ animation: none; \} \}/);
+});
+
+test("v231 village clouds drift left and back only (clear of the sound button); still under reduced motion", () => {
+  assert.match(read("src/letters/VillageArt.js"), /const puff = \(x, y, k, warm = false\) => `<g class="vg-cloud"/);
+  const c = read("styles/letters-materials.css");
+  assert.match(c, /@keyframes vg-cloud \{ 0%, 100% \{ transform: translateX\(0\); \} 50% \{ transform: translateX\(-18px\); \} \}/);
+  assert.match(c, /@media \(prefers-reduced-motion: reduce\) \{ \.lg-app \.vg-cloud \{ animation: none; \} \}/);
+});
+
+test("v232 village bushes vary by position (flower colour and mirror)", () => {
+  const v = read("src/letters/VillageArt.js");
+  assert.match(v, /const bush = \(x, y, s\) => \{ const k = Math\.round\(x \+ y\) % 3, flip = Math\.round\(x\) % 2 \? -1 : 1/);
+  assert.match(v, /scale\(\$\{s \* flip\} \$\{s\}\)/);
+});
+
+test("v233 the cottage windows glow warm at night", () => {
+  const v = read("src/letters/VillageArt.js");
+  assert.equal((v.match(/<circle class="vg-win"/g) || []).length, 2);
+  assert.match(read("styles/letters-materials.css"), /\.lg-app\[data-garden-phase="night"\] \.vg-win \{ fill: #ffe49a; \}/);
+});
+
+test("v234 the birdbath sunflower dozes at night (closed eyes and a z)", () => {
+  assert.match(read("src/letters/VillageArt.js"), /<g class="vg-asleep"><path d="M-7 -19Q-5 -17 -3 -19/);
+  const c = read("styles/letters-materials.css");
+  assert.match(c, /\.lg-app\[data-garden-phase="night"\] \.vg-awake \{ display: none; \}/);
+  assert.match(c, /\.lg-app \.vg-asleep \{ display: none; \}/);
+});
+
+test("v235 village night stars twinkle (still under reduced motion)", () => {
+  assert.match(read("src/letters/VillageArt.js"), /<path class="vg-twinkle" style="--d:/);
+  assert.match(read("styles/letters-materials.css"), /@media \(prefers-reduced-motion: reduce\) \{ \.lg-app \.vg-twinkle \{ animation: none; \} \}/);
+});
+
+test("v236 two birds fly home across the village sunset sky", () => {
+  assert.match(read("src/letters/VillageArt.js"), /\[\[0\.3, 0\.1, 1\.4\], \[0\.4, 0\.065, 1\.05\]\]\.map/);
+});
+
+test("v237 morning dew glints on the village lawn tufts", () => {
+  assert.match(read("src/letters/VillageArt.js"), /\$\{morning && i % 3 === 0 \? `<path d="M\$\{x - -2\} \$\{y - 20\}l2 4\.6/);
+});
+
+test("v238 a butterfly flutters over the friends' garden fence (untappable, still under reduced motion)", () => {
+  const c = read("styles/letters-materials.css");
+  const b = c.slice(c.indexOf("/* v238:"));
+  assert.match(b, /pointer-events: none;/);
+  assert.match(b, /@media \(prefers-reduced-motion: reduce\) \{ \.lg-app \.lg-friends-garden \.sg-fence::after \{ animation: none; \} \}/);
+  assert.deepEqual(off(b.replace(/%23/g, "#")), []);
+});
+
+test("v239 a butterfly flutters over the decorating island, clear of the controls", () => {
+  const c = read("styles/letters-materials.css");
+  const b = c.slice(c.indexOf("/* v239:"));
+  assert.match(b, /left: 6%; top: 7%;/);
+  assert.match(b, /pointer-events: none;/);
+  assert.match(b, /@media \(prefers-reduced-motion: reduce\) \{ \.lg-app \.decorate-board::after \{ animation: none; \} \}/);
+  assert.deepEqual(off(b.replace(/%23/g, "#")), []);
+});
+
+test("v240 the sticker stall hangs a glowing lantern at night only", () => {
+  const v = read("src/letters/VillageArt.js");
+  const st = v.match(/function stall\(\) \{[\s\S]*?\n  \}\n/)[0];
+  assert.match(st, /<g class="vg-night-only">/);
+  assert.match(st, /<path d="M58 -32V-14"/);
+  assert.deepEqual(off(st), []);
+  const c = read("styles/letters-materials.css");
+  assert.match(c, /\.lg-app \.vg-night-only \{ display: none; \}/);
+  assert.match(c, /\.lg-app\[data-garden-phase="night"\] \.vg-night-only \{ display: inline; \}/);
+});
+
+test("v241 at night the friends' garden and island butterflies become fireflies", () => {
+  const c = read("styles/letters-materials.css");
+  assert.match(c, /\.lg-app\[data-garden-phase="night"\] :is\(\.lg-friends-garden \.sg-fence, \.decorate-board\)::after \{\n  width: 22px; height: 22px;/);
+  assert.match(c, /@media \(prefers-reduced-motion: reduce\) \{ \.lg-app\[data-garden-phase="night"\] :is\(\.lg-friends-garden \.sg-fence, \.decorate-board\)::after \{ animation: none; \} \}/);
+});
+
+test("v242 gold sparkles around the unhatched egg cue a tap without motion", () => {
+  const c = read("styles/letters-materials.css");
+  const b = c.slice(c.indexOf("/* v242:"));
+  assert.match(b, /\.lg-app \.hatch-egg::after \{\n  display: block;/);
+  assert.match(b, /width: 230px; height: 150px;/);
+  assert.match(b, /pointer-events: none;/);
+  assert.deepEqual(off(b.replace(/%23/g, "#")), []);
+});
+
+test("v243 a heart plaque hangs above the cottage door", () => {
+  const v = read("src/letters/VillageArt.js");
+  const c = v.match(/function cottage\(\) \{[\s\S]*?\n  \}\n/)[0];
+  assert.match(c, /<g transform="translate\(1 12\)"><rect x="-9" y="-6" width="18" height="12" rx="4" fill="#c69434"/);
+  assert.deepEqual(off(c), []);
+});
+
+test("v250 the map's hot-air balloon is removed (no position stayed clear of landmarks and controls at every width)", () => {
+  assert.doesNotMatch(read("src/letters/LettersMapArt.js"), /const balloon=/);
+  assert.doesNotMatch(read("styles/letters-materials.css"), /\.vg-balloon/);
+});
+
+test("v245 today's weather shows in the village above the scene (untappable); the rainbow stays clear of the gate", () => {
+  const c = read("styles/letters-materials.css");
+  assert.match(c, /\.lg-app \.lg-village > \.lg-weather \{ position: absolute; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; \}/);
+  assert.match(c, /\.lg-app \.lg-village > \.lg-weather \.wx-rainbow \{ left: auto; right: -10%; top: 16%;/);
+});
+
+test("v246 Ramadan lanterns and Eid bunting show in the village sky (above the scene, untappable)", () => {
+  const c = read("styles/letters-materials.css");
+  assert.match(c, /\.lg-app \.lg-village > \.lg-season \{ z-index: 2; top: env\(safe-area-inset-top, 0px\); height: 92px; \}/);
+  assert.match(read("styles/letters.css"), /\.lg-season \{[^}]*pointer-events: none;/);
+});
+
+test("v247 the season string runs along the top edge on the friends' garden and decorating island", () => {
+  assert.match(read("styles/letters-materials.css"), /\.lg-app \.lg-screen:not\(\.lg-village\) > \.lg-season \{ top: env\(safe-area-inset-top, 0px\); height: 64px; \}/);
+});
+
+test("v249 the toy chest plate shows a star, never a keyhole", () => {
+  const v = read("src/letters/VillageArt.js");
+  const f = v.match(/function toyChest\(open = true\) \{[\s\S]*?\n  \}\n/)[0];
+  assert.doesNotMatch(f, /<circle cy="20" r="3\.5" fill="#70501b"\/>/);
+  assert.match(f, /<path d="M0 15\.5L2\.4 20\.5/);
+  assert.deepEqual(off(f), []);
+});
+
+test("v251 the gate medal draws a gold star when there is no next letter", () => {
+  const v = read("src/letters/VillageArt.js");
+  const g = v.match(/  function gate\(letter, hue = 268, latin = false\) \{[\s\S]*?\n  \}\n/)[0];
+  assert.match(g, /letter === "★" \? `<path transform="translate\(0 43\)"/);
+  assert.match(g, /fill="#f3c955"/);
+  assert.deepEqual(off(g), []);
+});
+
+test("v252 stickers placed in a scene are die-cut (white shape border), coloured copy layered on top", () => {
+  const s = read("src/letters/StickerScenes.js");
+  assert.match(s, /cutArt\(id\) \{/);
+  assert.match(s, /<span class="ss-cut" aria-hidden="true">\$\{art\}<\/span>\$\{art\}/);
+  const c = read("styles/letters-materials.css");
+  assert.match(c, /\.lg-app \.ss-sticker > svg \{ filter: none; position: relative; z-index: 1; \}/);
+});
+
+test("v253 stickers on the decorating island are die-cut too", () => {
+  assert.match(read("src/letters/DecoratingGarden.js"), /<svg class="decorate-sticker" viewBox="0 0 100 100"/);
+  assert.match(read("styles/letters-materials.css"), /\.lg-app \.decorate-sticker \.ss-cut-g \* \{ fill: #fffdf7 !important;/);
+});
+
+test("v254 stamped days get flowers in three palette colours by date", () => {
+  assert.match(read("src/letters/LettersGame.js"), /\.replaceAll\('fill="#ffa798"', `fill="\$\{\["#ffa798", "#ffe49a", "#e6d6f0"\]\[day % 3\]\}"`\)/);
+});
+
+test("v255 the stamp calendar header shows a moon at night, the sun by day", () => {
+  assert.match(read("src/letters/LettersGame.js"), /Art\.dayPhase\?\.\(\) === "night" && Art\.stickerMotif \? Art\.stickerMotif\("moon", 48\) : \(Art\.artIcon\|\|Art\.icon\)\("sun", 48\)/);
+});
+
+test("v256 the sprout stage of the mastery plant has two leaves (never fewer than the seed stage)", () => {
+  assert.match(read("src/letters/LettersGame.js"), /top = `\$\{stem\(22\)\}\$\{leaf\(34, -1\)\}\$\{leaf\(29, 1\)\}/);
+});
+
+test("v257 Bath Time foam has varied bubble sizes (minimum unchanged so the friend stays hidden)", () => {
+  assert.match(read("src/letters/ToyBoxGames.js"), /8\.6 \+ Math\.random\(\) \*\* 2 \* 5\.4, FOAM/);
+});
+
+test("v258 Letter Hunt's tree is a built tree (clumped canopy), the letter hollow kept", () => {
+  const h = read("src/letters/LetterHunt.js");
+  assert.match(h, /const CL = \[\[0,-80,40\]/);
+  assert.doesNotMatch(h, /<circle cy="-70" r="58" fill="#4e9677"\/>/);
+  assert.match(h, /<ellipse cy="14" rx="15" ry="20" fill="#e5dcc8"/);
+  const t = h.slice(h.indexOf("trunk: { art:"), h.indexOf("label: [0, 14]"));
+  assert.deepEqual(off(t), []);
+});
+
+test("v259 the Sound Lab machine has a grille, lights, rivets and a lever; gear kept", () => {
+  const s = read("src/letters/SoundLab.js");
+  const m = s.match(/const machine = `[\s\S]*?<\/svg>`;/)[0];
+  assert.match(m, /class="lab-gear"/);
+  assert.match(m, /<circle cx="90" cy="158" r="22" fill="#3a8fc4"/);
+  assert.match(m, /<circle cx="296" cy="104" r="9" fill="#ee806f"/);
+  assert.deepEqual(off(m), []);
+});
+
+test("v260 Garden Together never prints 'undefined': a buddy pet fills the second seat", () => {
+  const t = read("src/letters/GardenTogether.js");
+  assert.match(t, /\$\{ctx\.petB \|\| ns\.LettersArt\?\.pet\?\.\(\{ hue: 320, species: "blob", stage: 1, size: 96 \}\) \|\| ""\}/);
+  assert.match(t, /\$\{ctx\.petA \|\| ""\}/);
+});
+
+test("v261 Garden Together card backs carry a leaf emblem", () => {
+  const c = read("styles/letters-materials.css");
+  const b = c.slice(c.indexOf("/* v261:"));
+  assert.match(b, /\.lg-app \.together-back::after \{/);
+  assert.deepEqual(off(b.replace(/%23/g, "#")), []);
+});
+
+test("v262 on phones the shore boat steps aside on the joinery table games", () => {
+  assert.match(read("styles/letters-materials.css"), /\.lg-app\.lg-boat-chapter:has\(\.lg-play:is\(\[data-activity="build"\]/);
+});

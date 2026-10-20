@@ -581,3 +581,248 @@
   background: var(--paper-grain), #fffaf0;
   box-shadow: 0 0 0 3px var(--ink), inset 0 2px 0 var(--wood-lit), 0 7px 0 3px var(--wood-dark);
 }
+
+/* v175: the star plaque is built like a prize: nail heads hold the plank and
+   coral ribbon tails stick out from behind it, so earning stars feels like
+   being handed a ribbon. */
+.lg-app .lg-party .party-stars, .lg-app .lg-stars .stars-row {
+  background:
+    radial-gradient(circle at 13px 50%, #70501b 0 3px, #c69434 3.5px 5px, transparent 5.5px),
+    radial-gradient(circle at calc(100% - 13px) 50%, #70501b 0 3px, #c69434 3.5px 5px, transparent 5.5px),
+    linear-gradient(180deg, var(--wood-lit) 0 4px, var(--wood) 4px 100%);
+}
+.lg-app .lg-party .party-stars::before, .lg-app .lg-party .party-stars::after,
+.lg-app .lg-stars .stars-row::before, .lg-app .lg-stars .stars-row::after {
+  content: ""; position: absolute; top: 50%; width: 32px; height: 34px; margin-top: -11px; z-index: -1; pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 34'%3E%3Cpath d='M31 3H4L12 17L4 31H31Z' fill='%23ee806f' stroke='%234a3620' stroke-width='3' stroke-linejoin='round'/%3E%3Cpath d='M27 9H14M27 25H14' fill='none' stroke='%23c25a49' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+.lg-app .lg-party .party-stars::before, .lg-app .lg-stars .stars-row::before { left: -30px; }
+.lg-app .lg-party .party-stars::after, .lg-app .lg-stars .stars-row::after { right: -30px; transform: scaleX(-1); }
+
+/* v176: the sticker album is bound like a real one: gold binder rings down
+   the spine and a coral ribbon bookmark hanging from the top edge.
+   Also restores the page itself: the shared .lg-panel rule sets
+   background-image to var(--paper-grain), which carries position/size and so
+   is invalid there, wiping the album's paper gradient (the page showed sky).
+   The shorthand below accepts the grain's sizes. */
+.lg-app.lg-app .lg-album .album-grid.lg-panel.lg-panel.lg-panel {
+  background: var(--paper-grain), linear-gradient(90deg, #e5dcc8 0, #fffaf0 5%, #fffdf7 50%, #fffaf0);
+}
+/* The word bookcase lost its wood the same way; restore it. */
+.lg-app.lg-app .shelf-case.lg-panel.lg-panel.lg-panel { background: linear-gradient(#a89478, #70501b); }
+.lg-app .lg-album .album-grid::before, .lg-app .lg-album .album-grid::after { content: ""; position: absolute; pointer-events: none; }
+.lg-app .lg-album .album-grid::before {
+  left: -19px; top: 18px; bottom: 18px; width: 26px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 56'%3E%3Crect x='3' y='14' width='20' height='12' rx='6' fill='%23f3c955' stroke='%234a3620' stroke-width='3'/%3E%3Cpath d='M8 18H18' stroke='%23fffdf7' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E") top center / 26px 56px repeat-y;
+}
+.lg-app .lg-album .album-grid::after {
+  top: -28px; right: 30px; width: 20px; height: 38px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 38'%3E%3Cpath d='M2 38V2L10 10L18 2V38Z' fill='%23ee806f' stroke='%234a3620' stroke-width='3' stroke-linejoin='round'/%3E%3Cpath d='M6 14V34' stroke='%23ffa798' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* v177: the stamp calendar hangs like a wall calendar: a row of gold binder
+   rings across its top edge, and a string up to a nail. */
+.lg-app .stamps-grid { position: relative; margin-top: 30px; }
+.lg-app .stamps-grid::before, .lg-app .stamps-grid::after { content: ""; position: absolute; pointer-events: none; left: 50%; }
+.lg-app .stamps-grid::before {
+  top: -15px; width: 74%; height: 26px; transform: translateX(-50%);
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 26'%3E%3Crect x='14' y='2' width='12' height='22' rx='6' fill='%23f3c955' stroke='%234a3620' stroke-width='3'/%3E%3Cpath d='M18 7V14' stroke='%23fffdf7' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E") center / 40px 26px repeat-x;
+}
+.lg-app .stamps-grid::after {
+  top: -40px; width: 120px; height: 30px; transform: translateX(-50%);
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 30'%3E%3Cpath d='M8 28L60 6L112 28' fill='none' stroke='%2370501b' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='60' cy='6' r='5' fill='%23a89478' stroke='%234a3620' stroke-width='2.4'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* v179: each Word Tree branch ends in a twig with a leaf, so the
+   limbs look alive instead of cut off. */
+.lg-app .wt-branch::after {
+  content: ""; position: absolute; top: calc(50% - 20px); left: 8px; width: 26px; height: 22px; pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 22'%3E%3Cpath d='M24 18Q16 16 12 10' fill='none' stroke='%234a3620' stroke-width='4' stroke-linecap='round'/%3E%3Cpath d='M12 11Q2 12 2 4Q11 2 12 11Z' fill='%237fce54' stroke='%234a3620' stroke-width='2.4' stroke-linejoin='round'/%3E%3Cpath d='M11 10Q7 7 4 5' fill='none' stroke='%234e9677' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+.lg-app .wt-branch.is-left::after { left: auto; right: 8px; transform: scaleX(-1); }
+/* Phones: every branch runs right-to-left from the trunk, so every leaf sits at the left tip. */
+@media (max-width: 520px) { .lg-app .wt-branch::after, .lg-app .wt-branch.is-left::after { left: -2px; right: auto; transform: none; } }
+
+/* v181: the friends' garden field is a mown lawn, not a flat green slab:
+   diagonal mowing stripes and a scatter of grass flecks. */
+.lg-app .sg-plots {
+  background-image:
+    radial-gradient(circle at 30% 40%, #4e967733 0 1.6px, #4e967700 2.2px),
+    radial-gradient(circle at 75% 70%, #fffdf755 0 1.4px, #fffdf700 2px),
+    repeating-linear-gradient(135deg, #4e967726 0 30px, #4e967700 30px 60px);
+  background-size: 26px 26px, 34px 34px, auto;
+}
+
+/* v216: the graduation Bismillah card is a certificate: a gold inner border,
+   gold corner dots, and a rosette with ribbons on its corner. Finishing every
+   letter should feel like being handed something special. */
+.lg-app .sg-grad .sg-rehal {
+  position: relative;
+  background:
+    radial-gradient(circle at 16px 16px, #f3c955 0 4px, transparent 4.5px),
+    radial-gradient(circle at calc(100% - 16px) 16px, #f3c955 0 4px, transparent 4.5px),
+    radial-gradient(circle at 16px calc(100% - 16px), #f3c955 0 4px, transparent 4.5px),
+    #fffdf7;
+  box-shadow: inset 0 0 0 8px #fffdf7, inset 0 0 0 11px #f3c955, 0 0 0 4px #70501b, 0 8px 0 #c69434;
+}
+.lg-app .sg-grad .sg-rehal::after {
+  content: ""; position: absolute; right: -14px; bottom: -22px; width: 58px; height: 74px; pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 58 74'%3E%3Cpath d='M20 40L12 72L22 64L28 72L30 42Z' fill='%23ee806f' stroke='%234a3620' stroke-width='2.4' stroke-linejoin='round'/%3E%3Cpath d='M38 40L46 72L36 64L30 72L28 42Z' fill='%2362cdf4' stroke='%234a3620' stroke-width='2.4' stroke-linejoin='round'/%3E%3Ccircle cx='29' cy='28' r='22' fill='%23f3c955' stroke='%234a3620' stroke-width='3'/%3E%3Ccircle cx='29' cy='28' r='15' fill='%23ffe49a' stroke='%23c69434' stroke-width='2.4'/%3E%3Cpath d='M29 18L31.5 24.5L38 25L33 29.5L34.5 36L29 32.5L23.5 36L25 29.5L20 25L26.5 24.5Z' fill='%23f3c955' stroke='%234a3620' stroke-width='1.6' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* v217: the pet-colour choices are glossy paint dollops (a soft wet shine).
+   A drip was tried and dropped: it read as a little handle. */
+.lg-app .hatch-hue { position: relative; overflow: visible; }
+.lg-app .hatch-hue::before { content: ""; position: absolute; left: 22%; top: 16%; width: 30%; height: 18%; border-radius: 50%; background: #fffdf7; opacity: .75; transform: rotate(-25deg); pointer-events: none; }
+
+/* v221: the stand's savings row shows only earned stars, then a green sprout
+   while savings grow — never a row of empty slots. */
+.lg-app .stand-pips i.is-grow { color: #7fce54; }
+.lg-app .stand-pips i.is-grow svg path { stroke: #4e9677; }
+
+/* v222: on phones the decorative shore boat crowded the meet screen (on the
+   easel island sideways, behind the pet button upright). On phones it steps
+   aside there; tablets keep it. */
+@media (orientation: landscape) and (max-height: 500px), (max-width: 520px) {
+  .lg-app.lg-boat-chapter:has(.lg-meet) .garden-shore-boat { visibility: hidden; }
+}
+/* v223: sideways phones put the prompt, seeds and sound in a left column; the
+   shore boat landed behind them in every game. In short landscape it steps
+   aside on game screens too. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .lg-app.lg-boat-chapter:has(.lg-play) .garden-shore-boat { visibility: hidden; }
+}
+
+/* v225: ambient village life. Butterflies bob and flutter, fireflies pulse.
+   Decoration only; reduced motion holds them still. */
+.lg-app .vg-butterfly { animation: vg-flutter 2.6s ease-in-out infinite; animation-delay: var(--d, 0s); transform-box: fill-box; transform-origin: 50% 50%; }
+.lg-app .vg-firefly { animation: vg-glow 3.2s ease-in-out infinite; animation-delay: var(--d, 0s); }
+@keyframes vg-flutter { 0%, 100% { transform: translate(0, 0) scaleX(1); } 25% { transform: translate(6px, -6px) scaleX(.7); } 50% { transform: translate(12px, -2px) scaleX(1); } 75% { transform: translate(6px, 4px) scaleX(.7); } }
+@keyframes vg-glow { 0%, 100% { opacity: .35; } 50% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .lg-app .vg-butterfly, .lg-app .vg-firefly { animation: none; } }
+.lg-reduce-motion .vg-butterfly, .lg-reduce-motion .vg-firefly { animation: none; }
+
+/* v227: the cottage chimney smoke drifts up and fades, puff by puff. */
+.lg-app .vg-smoke { animation: vg-smoke 2.7s ease-in-out infinite; animation-delay: var(--d, 0s); transform-box: fill-box; transform-origin: 50% 50%; }
+@keyframes vg-smoke { 0%, 100% { transform: translate(0, 0) scale(1); opacity: 1; } 50% { transform: translate(3px, -6px) scale(1.12); opacity: .6; } }
+@media (prefers-reduced-motion: reduce) { .lg-app .vg-smoke { animation: none; } }
+.lg-reduce-motion .vg-smoke { animation: none; }
+
+/* v228: the birdbath sunflower sways gently from its stem. */
+.lg-app .vg-sway { animation: vg-sway 3.4s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100%; }
+@keyframes vg-sway { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
+@media (prefers-reduced-motion: reduce) { .lg-app .vg-sway { animation: none; } }
+.lg-reduce-motion .vg-sway { animation: none; }
+
+/* v229: the balloon in the open toy chest bobs on its string. */
+.lg-app .vg-bob { animation: vg-bob 2.8s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100%; }
+@keyframes vg-bob { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg) translateY(-2px); } }
+@media (prefers-reduced-motion: reduce) { .lg-app .vg-bob { animation: none; } }
+.lg-reduce-motion .vg-bob { animation: none; }
+
+/* v230: an empty planting spot twinkles softly: "something can go here". */
+.lg-app .decorate-twinkle { animation: decorate-twinkle 2.4s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 50%; }
+.lg-app .decorate-slot:nth-child(2n) .decorate-twinkle { animation-delay: 1.2s; }
+@keyframes decorate-twinkle { 0%, 100% { transform: scale(.75); opacity: .55; } 50% { transform: scale(1); opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .lg-app .decorate-twinkle { animation: none; } }
+.lg-reduce-motion .decorate-twinkle { animation: none; }
+
+/* v231: village clouds drift a little to the left and back (18px). Never
+   rightward: the big cloud already sits beside the sound button. */
+.lg-app .vg-cloud { animation: vg-cloud 16s ease-in-out infinite; animation-delay: var(--d, 0s); }
+@keyframes vg-cloud { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(-18px); } }
+@media (prefers-reduced-motion: reduce) { .lg-app .vg-cloud { animation: none; } }
+.lg-reduce-motion .vg-cloud { animation: none; }
+
+/* v233: at night the cottage windows glow warm, so the pet's house feels cosy. */
+.lg-app[data-garden-phase="night"] .vg-win { fill: #ffe49a; }
+
+/* v234: at night the birdbath sunflower closes its eyes and dozes. */
+.lg-app .vg-asleep { display: none; }
+.lg-app[data-garden-phase="night"] .vg-asleep { display: inline; }
+.lg-app[data-garden-phase="night"] .vg-awake { display: none; }
+
+/* v235: the village night stars twinkle slowly, each in its own time. */
+.lg-app .vg-twinkle { animation: vg-twinkle 3s ease-in-out infinite; animation-delay: var(--d, 0s); transform-box: fill-box; transform-origin: 50% 50%; }
+@keyframes vg-twinkle { 0%, 100% { transform: scale(1); opacity: .9; } 50% { transform: scale(.7); opacity: .5; } }
+@media (prefers-reduced-motion: reduce) { .lg-app .vg-twinkle { animation: none; } }
+.lg-reduce-motion .vg-twinkle { animation: none; }
+
+/* v238: a butterfly flutters over the friends' garden fence. */
+.lg-app .lg-friends-garden .sg-fence::after {
+  content: ""; position: absolute; right: 16%; top: -30px; width: 34px; height: 30px; pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-13 -12 26 23'%3E%3Cpath d='M0 0Q-8 -10 -11 -3Q-11 4 0 1ZM0 0Q8 -10 11 -3Q11 4 0 1Z' fill='%23ffe49a' stroke='%234a3620' stroke-width='1.6' stroke-linejoin='round'/%3E%3Cpath d='M0 1Q-6 7 -4 9Q0 8 0 2ZM0 1Q6 7 4 9Q0 8 0 2Z' fill='%23c69434' stroke='%234a3620' stroke-width='1.6' stroke-linejoin='round'/%3E%3Cpath d='M0 -3V6' stroke='%234a3620' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+  animation: vg-flutter 2.6s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) { .lg-app .lg-friends-garden .sg-fence::after { animation: none; } }
+.lg-reduce-motion .lg-friends-garden .sg-fence::after { animation: none; }
+
+/* v239: a butterfly flutters over the decorating island (top-left sky, clear
+   of the pet and every planting spot). */
+.lg-app .decorate-board::after {
+  content: ""; position: absolute; left: 6%; top: 7%; width: 34px; height: 30px; pointer-events: none; z-index: 3;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-13 -12 26 23'%3E%3Cpath d='M0 0Q-8 -10 -11 -3Q-11 4 0 1ZM0 0Q8 -10 11 -3Q11 4 0 1Z' fill='%23e6d6f0' stroke='%234a3620' stroke-width='1.6' stroke-linejoin='round'/%3E%3Cpath d='M0 1Q-6 7 -4 9Q0 8 0 2ZM0 1Q6 7 4 9Q0 8 0 2Z' fill='%23b49fcf' stroke='%234a3620' stroke-width='1.6' stroke-linejoin='round'/%3E%3Cpath d='M0 -3V6' stroke='%234a3620' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+  animation: vg-flutter 2.6s ease-in-out infinite; animation-delay: .8s;
+}
+@media (prefers-reduced-motion: reduce) { .lg-app .decorate-board::after { animation: none; } }
+.lg-reduce-motion .decorate-board::after { animation: none; }
+
+/* v240: night-only touches (e.g. the stall's lantern) appear after dark. */
+.lg-app .vg-night-only { display: none; }
+.lg-app[data-garden-phase="night"] .vg-night-only { display: inline; }
+
+/* v241: at night the friends' garden and island butterflies become fireflies,
+   like the village. */
+.lg-app[data-garden-phase="night"] :is(.lg-friends-garden .sg-fence, .decorate-board)::after {
+  width: 22px; height: 22px;
+  background: radial-gradient(circle, #ffe49a 0 3px, rgba(255, 228, 154, .3) 3.5px 9px, transparent 10px);
+  animation: vg-glow 3.2s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) { .lg-app[data-garden-phase="night"] :is(.lg-friends-garden .sg-fence, .decorate-board)::after { animation: none; } }
+.lg-reduce-motion[data-garden-phase="night"] :is(.lg-friends-garden .sg-fence, .decorate-board)::after { animation: none; }
+
+/* v242: three gold sparkles around the unhatched egg say "tap me" even when
+   reduced motion stops the egg's wiggle. */
+.lg-app .hatch-egg { position: relative; }
+.lg-app .hatch-egg::after {
+  display: block; content: ""; position: absolute; z-index: 2; left: 50%; top: -6px; width: 230px; height: 150px; transform: translateX(-50%); pointer-events: none; border: 0; border-radius: 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 100'%3E%3Cg fill='%23f3c955' stroke='%234a3620' stroke-width='1.6' stroke-linejoin='round'%3E%3Cpath d='M14 40Q15.5 47 22 48Q15.5 49 14 56Q12.5 49 6 48Q12.5 47 14 40Z'/%3E%3Cpath d='M124 22Q125.5 29 132 30Q125.5 31 124 38Q122.5 31 116 30Q122.5 29 124 22Z'/%3E%3Cpath d='M118 70Q119 74 123 75Q119 76 118 80Q117 76 113 75Q117 74 118 70Z'/%3E%3C/g%3E%3C/svg%3E") center / 100% 100% no-repeat;
+}
+
+
+/* v245: today's weather was meant to show in the village (it has a sky) but
+   the scene covered it. The weather layer now sits above the scene, untappable. */
+.lg-app .lg-village > .lg-weather { position: absolute; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; }
+/* In the village the rainbow sits low on the right, clear of the gate's letter medal. */
+.lg-app .lg-village > .lg-weather .wx-rainbow { left: auto; right: -10%; top: 16%; width: min(46%, 320px); }
+
+/* v246: Ramadan lanterns and Eid bunting were hidden behind the village scene
+   too. The season string now hangs above it, untappable, like on the map. */
+.lg-app .lg-village > .lg-season { z-index: 2; top: env(safe-area-inset-top, 0px); height: 92px; }
+/* The string runs across the top of the sky so the lanterns end above the gate's letter medal. */
+/* v247–v248: everywhere but the village (which has open sky) the season
+   string runs small along the very top edge, above controls, stops and prompts. */
+.lg-app .lg-screen:not(.lg-village) > .lg-season { top: env(safe-area-inset-top, 0px); height: 64px; }
+
+/* v252: die-cut stickers in sticker scenes. The first copy is a white
+   silhouette (fat white strokes), the second the coloured motif on top. */
+.lg-app .ss-sticker { display: grid; }
+.lg-app .ss-sticker > * { grid-area: 1 / 1; }
+.lg-app .ss-sticker .ss-cut svg { filter: drop-shadow(0 3px 0 #4a362033); }
+.lg-app .ss-sticker .ss-cut svg * { fill: #fffdf7 !important; stroke: #fffdf7 !important; stroke-width: 10px !important; stroke-linejoin: round !important; opacity: 1 !important; }
+.lg-app .ss-sticker > svg { filter: none; position: relative; z-index: 1; }
+/* v253: the same die-cut treatment for stickers on the decorating island. */
+.lg-app .decorate-sticker .ss-cut-g { filter: drop-shadow(0 3px 0 #4a362033); }
+.lg-app .decorate-sticker .ss-cut-g * { fill: #fffdf7 !important; stroke: #fffdf7 !important; stroke-width: 10px !important; stroke-linejoin: round !important; opacity: 1 !important; }
+
+
+/* v261: Garden Together card backs carry a leaf emblem on a cream disc, like real memory cards. */
+.lg-app .together-back::after {
+  content: ""; position: absolute; left: 50%; top: 50%; width: 64%; aspect-ratio: 1; transform: translate(-50%, -50%); pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-20 -20 40 40'%3E%3Ccircle r='17' fill='%23fffaf0' stroke='%234a3620' stroke-width='2.4'/%3E%3Cpath d='M-8 8Q-10 -8 8 -9Q9 7 -8 8Z' fill='%237fce54' stroke='%234a3620' stroke-width='1.6' stroke-linejoin='round'/%3E%3Cpath d='M-8 8Q-1 1 4 -4' fill='none' stroke='%234e9677' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* v262: on phones the shore boat sat on the joinery table's legs; the table games let it step aside. */
+@media (max-width: 520px) {
+  .lg-app.lg-boat-chapter:has(.lg-play:is([data-activity="build"], [data-activity="blend"], [data-activity="fuse"], [data-activity="unfuse"], [data-activity="chain"], [data-activity="parade"])) .garden-shore-boat { visibility: hidden; }
+}

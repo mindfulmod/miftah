@@ -17,9 +17,9 @@
       this.pairs = letters.length;
       ctx.stage.innerHTML = `<div class="together">
         <div class="together-pets">
-          <span class="together-pet is-turn" data-player="0" aria-label="First player's turn">${ctx.petA}</span>
+          <span class="together-pet is-turn" data-player="0" aria-label="First player's turn">${ctx.petA || ""}</span>
           <span class="together-basket" aria-label="Pairs found together"></span>
-          <span class="together-pet" data-player="1" aria-label="Second player">${ctx.petB}</span>
+          <span class="together-pet" data-player="1" aria-label="Second player">${ctx.petB || ns.LettersArt?.pet?.({ hue: 320, species: "blob", stage: 1, size: 96 }) || ""}</span>
         </div>
         <div class="together-board" role="group" aria-label="Find the matching letters">${this.cards.map((c, i) => `<button type="button" class="together-card" data-card="${i}" aria-label="Card ${i + 1}"><span class="together-back" aria-hidden="true"></span><span class="together-face" aria-hidden="true">${c.display}</span></button>`).join("")}</div>
       </div>`;
