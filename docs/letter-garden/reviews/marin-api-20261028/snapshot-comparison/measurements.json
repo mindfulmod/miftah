@@ -1,0 +1,56 @@
+{
+  "apiCallsDuringCheck": 0,
+  "file": "snapshot-candidates/lg-aa4d3af3b0c5.wav",
+  "sha256": "8fc8e8c73826120f5babc880c8b1e954c8f655d33478c843cd55b5e21ee318c8",
+  "rawPCMIdentical": true,
+  "hashesMatch": true,
+  "inputVoiceInstructionsMatchPrior": true,
+  "durationSeconds": 2.9,
+  "sampleRate": 24000,
+  "clippedSamples": 0,
+  "peakDbfs": -5.78,
+  "measurements": [
+    {
+      "item": "march-baa",
+      "activeWindowSeconds": [
+        0.025,
+        0.345
+      ],
+      "activeSeconds": 0.32,
+      "pitch": {
+        "1024": {
+          "medianHz": 257.23,
+          "framesUsed": 27
+        },
+        "2048": {
+          "medianHz": 260.21,
+          "framesUsed": 22
+        }
+      }
+    },
+    {
+      "item": "march-meem",
+      "activeWindowSeconds": [
+        1.09,
+        1.6
+      ],
+      "activeSeconds": 0.51,
+      "pitch": {
+        "1024": {
+          "medianHz": 200.65,
+          "framesUsed": 101
+        },
+        "2048": {
+          "medianHz": 202.98,
+          "framesUsed": 103
+        }
+      }
+    }
+  ],
+  "segmentationNote": "5 ms RMS energy windows, max(-45 dBFS, peak RMS minus 30 dB), bridging gaps under 80 ms. Main regions are labelled by requested order, not certified pronunciation. A separate 30 ms low-energy event at 0.50–0.53 seconds needs listening, not automatic rejection.",
+  "limitations": [
+    "Pitch is approximate and cannot certify accent, speaker identity, emotional delivery or absence of audible artifacts.",
+    "Original and December values are from the existing acoustic-comparison/measurements.json, with the same pYIN settings.",
+    "No audio processing, resynthesis or runtime installation. Listening approval is still required."
+  ]
+}

@@ -1,0 +1,806 @@
+{
+  "scope": "Byte equality and estimated energy onset only; owner notes provide the listening evidence.",
+  "pcmPreservedCount": 100,
+  "items": [
+    {
+      "text": "ذَ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 30,
+      "duration": 0.75,
+      "pcmPreserved": true
+    },
+    {
+      "text": "نِ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 20,
+      "duration": 0.75,
+      "pcmPreserved": true
+    },
+    {
+      "text": "هُدْهُد",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 20,
+      "duration": 1.55,
+      "pcmPreserved": true
+    },
+    {
+      "text": "عِنَب",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 10,
+      "duration": 0.75,
+      "pcmPreserved": true
+    },
+    {
+      "text": "قِطَّة",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 15,
+      "duration": 1.05,
+      "pcmPreserved": true
+    },
+    {
+      "text": "جَمَل",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 20,
+      "duration": 0.65,
+      "pcmPreserved": true
+    },
+    {
+      "text": "شَمْس",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 15,
+      "duration": 1.0,
+      "pcmPreserved": true
+    },
+    {
+      "text": "صَدَفَة",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 15,
+      "duration": 1.15,
+      "pcmPreserved": true
+    },
+    {
+      "text": "كُ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 10,
+      "duration": 0.7,
+      "pcmPreserved": true
+    },
+    {
+      "text": "فِيل",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 15,
+      "duration": 1.05,
+      "pcmPreserved": true
+    },
+    {
+      "text": "لِ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 15,
+      "duration": 0.5,
+      "pcmPreserved": true
+    },
+    {
+      "text": "نَحْلَة",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 20,
+      "duration": 1.0,
+      "pcmPreserved": true
+    },
+    {
+      "text": "جَ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 15,
+      "duration": 0.6,
+      "pcmPreserved": true
+    },
+    {
+      "text": "يَمَامَة",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 15,
+      "duration": 1.05,
+      "pcmPreserved": true
+    },
+    {
+      "text": "كِ",
+      "decision": "fix",
+      "note": "sounds like ih",
+      "onsetMs": 15,
+      "duration": 0.8,
+      "pcmPreserved": true
+    },
+    {
+      "text": "تِ",
+      "decision": "fix",
+      "note": "sounds like ih",
+      "onsetMs": 20,
+      "duration": 0.65,
+      "pcmPreserved": true
+    },
+    {
+      "text": "ظَرْف",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 25,
+      "duration": 0.8,
+      "pcmPreserved": true
+    },
+    {
+      "text": "يِ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 25,
+      "duration": 0.55,
+      "pcmPreserved": true
+    },
+    {
+      "text": "حِصَان",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 15,
+      "duration": 0.85,
+      "pcmPreserved": true
+    },
+    {
+      "text": "دُبّ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 60,
+      "duration": 0.95,
+      "pcmPreserved": true
+    },
+    {
+      "text": "غَزَال",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 165,
+      "duration": 1.5,
+      "pcmPreserved": true
+    },
+    {
+      "text": "طَاوُوس",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 15,
+      "duration": 1.6,
+      "pcmPreserved": true
+    },
+    {
+      "text": "خَرُوف",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 15,
+      "duration": 0.85,
+      "pcmPreserved": true
+    },
+    {
+      "text": "لَيْمُون",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 20,
+      "duration": 1.85,
+      "pcmPreserved": true
+    },
+    {
+      "text": "كِتَاب",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 10,
+      "duration": 1.0,
+      "pcmPreserved": true
+    },
+    {
+      "text": "زَرَافَة",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 20,
+      "duration": 1.4,
+      "pcmPreserved": true
+    },
+    {
+      "text": "وَرْدَة",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 15,
+      "duration": 1.1,
+      "pcmPreserved": true
+    },
+    {
+      "text": "رُ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 15,
+      "duration": 0.75,
+      "pcmPreserved": true
+    },
+    {
+      "text": "فِى",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 15,
+      "duration": 0.75,
+      "pcmPreserved": true
+    },
+    {
+      "text": "بَطَّة",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 25,
+      "duration": 0.75,
+      "pcmPreserved": true
+    },
+    {
+      "text": "ذُرَة",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 25,
+      "duration": 0.75,
+      "pcmPreserved": true
+    },
+    {
+      "text": "أَرْنَب",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 10,
+      "duration": 1.05,
+      "pcmPreserved": true
+    },
+    {
+      "text": "تِمْسَاح",
+      "decision": "fix",
+      "note": "sounds like imsah",
+      "onsetMs": 15,
+      "duration": 1.55,
+      "pcmPreserved": true
+    },
+    {
+      "text": "ثَعْلَب",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 35,
+      "duration": 1.0,
+      "pcmPreserved": true
+    },
+    {
+      "text": "بُ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 20,
+      "duration": 0.75,
+      "pcmPreserved": true
+    },
+    {
+      "text": "ذِ",
+      "decision": "fix",
+      "note": "sounds like zeh",
+      "onsetMs": 25,
+      "duration": 0.55,
+      "pcmPreserved": true
+    },
+    {
+      "text": "ٱلنَّاسِ",
+      "decision": "fix",
+      "note": "sounds robotic",
+      "onsetMs": 15,
+      "duration": 1.15,
+      "pcmPreserved": true
+    },
+    {
+      "text": "بٍ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 20,
+      "duration": 0.8,
+      "pcmPreserved": true
+    },
+    {
+      "text": "زُ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 20,
+      "duration": 1.1,
+      "pcmPreserved": true
+    },
+    {
+      "text": "جُ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 40,
+      "duration": 0.6,
+      "pcmPreserved": true
+    },
+    {
+      "text": "يَا",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 25,
+      "duration": 0.7,
+      "pcmPreserved": true
+    },
+    {
+      "text": "أَعْبُدُ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 360,
+      "duration": 1.6,
+      "pcmPreserved": true
+    },
+    {
+      "text": "ذُ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 25,
+      "duration": 0.5,
+      "pcmPreserved": true
+    },
+    {
+      "text": "بً",
+      "decision": "fix",
+      "note": "sounds like beh",
+      "onsetMs": 55,
+      "duration": 1.3,
+      "pcmPreserved": true
+    },
+    {
+      "text": "وَمِن",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 25,
+      "duration": 0.85,
+      "pcmPreserved": true
+    },
+    {
+      "text": "لُ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 20,
+      "duration": 0.7,
+      "pcmPreserved": true
+    },
+    {
+      "text": "هُمْ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 35,
+      "duration": 0.6,
+      "pcmPreserved": true
+    },
+    {
+      "text": "حٌ",
+      "decision": "fix",
+      "note": "sounds like ha hun",
+      "onsetMs": 35,
+      "duration": 1.45,
+      "pcmPreserved": true
+    },
+    {
+      "text": "ذً",
+      "decision": "fix",
+      "note": "sounds like da",
+      "onsetMs": 40,
+      "duration": 0.65,
+      "pcmPreserved": true
+    },
+    {
+      "text": "فً",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 20,
+      "duration": 1.05,
+      "pcmPreserved": true
+    },
+    {
+      "text": "يً",
+      "decision": "fix",
+      "note": "sounds like ya",
+      "onsetMs": 15,
+      "duration": 0.55,
+      "pcmPreserved": true
+    },
+    {
+      "text": "بِسْمِ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 15,
+      "duration": 1.3,
+      "pcmPreserved": true
+    },
+    {
+      "text": "نٍ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 30,
+      "duration": 0.75,
+      "pcmPreserved": true
+    },
+    {
+      "text": "خً",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 535,
+      "duration": 1.7,
+      "pcmPreserved": true
+    },
+    {
+      "text": "قٌ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 30,
+      "duration": 1.7,
+      "pcmPreserved": true
+    },
+    {
+      "text": "ذٍ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 20,
+      "duration": 0.85,
+      "pcmPreserved": true
+    },
+    {
+      "text": "رَبَّ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 25,
+      "duration": 0.8,
+      "pcmPreserved": true
+    },
+    {
+      "text": "عٍ",
+      "decision": "fix",
+      "note": "sounds like ah?",
+      "onsetMs": 15,
+      "duration": 0.6,
+      "pcmPreserved": true
+    },
+    {
+      "text": "غً",
+      "decision": "fix",
+      "note": "sounds like gah",
+      "onsetMs": 20,
+      "duration": 1.0,
+      "pcmPreserved": true
+    },
+    {
+      "text": "جً",
+      "decision": "fix",
+      "note": "sounds like ja",
+      "onsetMs": 25,
+      "duration": 0.7,
+      "pcmPreserved": true
+    },
+    {
+      "text": "يٍ",
+      "decision": "fix",
+      "note": "sounds like yay",
+      "onsetMs": 15,
+      "duration": 0.65,
+      "pcmPreserved": true
+    },
+    {
+      "text": "ظً",
+      "decision": "fix",
+      "note": "sounds like za",
+      "onsetMs": 25,
+      "duration": 0.95,
+      "pcmPreserved": true
+    },
+    {
+      "text": "لً",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 20,
+      "duration": 1.95,
+      "pcmPreserved": true
+    },
+    {
+      "text": "جٌ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 15,
+      "duration": 0.75,
+      "pcmPreserved": true
+    },
+    {
+      "text": "قً",
+      "decision": "correct",
+      "note": "sounds repeated",
+      "onsetMs": 20,
+      "duration": 3.0,
+      "pcmPreserved": true
+    },
+    {
+      "text": "عٌ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 20,
+      "duration": 0.85,
+      "pcmPreserved": true
+    },
+    {
+      "text": "ضٌ",
+      "decision": "fix",
+      "note": "sounds like dan, should be dun",
+      "onsetMs": 25,
+      "duration": 1.1,
+      "pcmPreserved": true
+    },
+    {
+      "text": "مٌ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 20,
+      "duration": 0.8,
+      "pcmPreserved": true
+    },
+    {
+      "text": "فٍ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 20,
+      "duration": 0.75,
+      "pcmPreserved": true
+    },
+    {
+      "text": "طٍ",
+      "decision": "fix",
+      "note": "sounds like un",
+      "onsetMs": 20,
+      "duration": 0.7,
+      "pcmPreserved": true
+    },
+    {
+      "text": "هٍ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 25,
+      "duration": 0.7,
+      "pcmPreserved": true
+    },
+    {
+      "text": "غٍ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 25,
+      "duration": 0.8,
+      "pcmPreserved": true
+    },
+    {
+      "text": "ثً",
+      "decision": "fix",
+      "note": "sounds like sat",
+      "onsetMs": 15,
+      "duration": 0.55,
+      "pcmPreserved": true
+    },
+    {
+      "text": "كٍ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 15,
+      "duration": 0.6,
+      "pcmPreserved": true
+    },
+    {
+      "text": "كً",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 15,
+      "duration": 0.75,
+      "pcmPreserved": true
+    },
+    {
+      "text": "غٌ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 15,
+      "duration": 0.9,
+      "pcmPreserved": true
+    },
+    {
+      "text": "يٌ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 125,
+      "duration": 1.45,
+      "pcmPreserved": true
+    },
+    {
+      "text": "عً",
+      "decision": "fix",
+      "note": "sounds like aeum",
+      "onsetMs": 10,
+      "duration": 1.45,
+      "pcmPreserved": true
+    },
+    {
+      "text": "جٍ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 20,
+      "duration": 1.1,
+      "pcmPreserved": true
+    },
+    {
+      "text": "صٍ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 20,
+      "duration": 0.7,
+      "pcmPreserved": true
+    },
+    {
+      "text": "وٌ",
+      "decision": "fix",
+      "note": "sounds like win",
+      "onsetMs": 20,
+      "duration": 0.9,
+      "pcmPreserved": true
+    },
+    {
+      "text": "تً",
+      "decision": null,
+      "note": "sounds like tannnn",
+      "onsetMs": 15,
+      "duration": 1.05,
+      "pcmPreserved": true
+    },
+    {
+      "text": "ظٍ",
+      "decision": "fix",
+      "note": "sounds like dza",
+      "onsetMs": 25,
+      "duration": 1.4,
+      "pcmPreserved": true
+    },
+    {
+      "text": "ثٍ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 30,
+      "duration": 0.8,
+      "pcmPreserved": true
+    },
+    {
+      "text": "وَلَآ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 25,
+      "duration": 1.3,
+      "pcmPreserved": true
+    },
+    {
+      "text": "مً",
+      "decision": "fix",
+      "note": "sounds like ma",
+      "onsetMs": 20,
+      "duration": 1.0,
+      "pcmPreserved": true
+    },
+    {
+      "text": "أَنتُمْ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 10,
+      "duration": 1.4,
+      "pcmPreserved": true
+    },
+    {
+      "text": "طٌ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 15,
+      "duration": 0.7,
+      "pcmPreserved": true
+    },
+    {
+      "text": "خٍ",
+      "decision": "fix",
+      "note": "sounds like khun",
+      "onsetMs": 20,
+      "duration": 0.95,
+      "pcmPreserved": true
+    },
+    {
+      "text": "زٍ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 15,
+      "duration": 1.2,
+      "pcmPreserved": true
+    },
+    {
+      "text": "زٌ",
+      "decision": "fix",
+      "note": "sounds like zi",
+      "onsetMs": 20,
+      "duration": 1.95,
+      "pcmPreserved": true
+    },
+    {
+      "text": "رٍ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 20,
+      "duration": 0.95,
+      "pcmPreserved": true
+    },
+    {
+      "text": "صً",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 15,
+      "duration": 1.2,
+      "pcmPreserved": true
+    },
+    {
+      "text": "سٍ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 20,
+      "duration": 1.05,
+      "pcmPreserved": true
+    },
+    {
+      "text": "ٱلرَّحْمَـٰنِ",
+      "decision": "fix",
+      "note": "weirdly robotic and overly artificial in the middle letters",
+      "onsetMs": 15,
+      "duration": 1.8,
+      "pcmPreserved": true
+    },
+    {
+      "text": "وً",
+      "decision": "fix",
+      "note": "dragged out",
+      "onsetMs": 20,
+      "duration": 1.0,
+      "pcmPreserved": true
+    },
+    {
+      "text": "سٌ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 25,
+      "duration": 1.1,
+      "pcmPreserved": true
+    },
+    {
+      "text": "تٍ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 15,
+      "duration": 0.8,
+      "pcmPreserved": true
+    },
+    {
+      "text": "طً",
+      "decision": "fix",
+      "note": "sounds like ta",
+      "onsetMs": 15,
+      "duration": 0.85,
+      "pcmPreserved": true
+    },
+    {
+      "text": "عَـٰبِدُونَ",
+      "decision": "correct",
+      "note": "",
+      "onsetMs": 10,
+      "duration": 1.15,
+      "pcmPreserved": true
+    }
+  ]
+}

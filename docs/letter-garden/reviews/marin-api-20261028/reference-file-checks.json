@@ -1,0 +1,18 @@
+{
+  "referenceCandidates": 1,
+  "attempts": 1,
+  "file": "reference-candidates/lg-aa4d3af3b0c5.wav",
+  "input": "بَاءْ.\n\nمِيمْ.",
+  "exactInputMatches": true,
+  "originalDirectionMatches": true,
+  "voice": "marin",
+  "model": "gpt-4o-mini-tts-2025-12-15",
+  "hashesMatch": true,
+  "pcmUnchanged": true,
+  "fullBatchHeld": true,
+  "listeningStatus": "Unreviewed: file checks do not verify voice match, pronunciation, noise or repeats.",
+  "durationSeconds": 2.35,
+  "peakDbfs": -3.29,
+  "flags": [],
+  "streamingLengthHeader": false
+}

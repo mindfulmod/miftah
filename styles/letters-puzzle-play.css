@@ -1,0 +1,186 @@
+/* v272: the Puzzle Tree is a set of real little toys. Fixed-aspect props
+   surround the learning marks; only the station's ground planes stretch. */
+.lg-app .practice-stage:has(>.pz) > .lg-activity-art { display:none; }
+.lg-app .lg-play .practice-stage:has(>.pz) {
+  background:none; padding:14px 10px 18px; box-shadow:none;
+}
+.lg-app .pz { position:relative; gap:18px; padding:18px 12px 16px; align-items:center; }
+.lg-app .pz:not(.pz-train) { max-width:480px; background:#fffaf0; border-radius:32px; box-shadow:0 0 0 3px #4a3620,inset 0 3px 0 #fffdf7,inset 0 -6px 0 #e5dcc8,0 8px 0 #a89478; }
+.lg-app .pz-board { max-width:100%; flex-wrap:nowrap; gap:18px; padding:10px 12px 12px; border-radius:26px; background:#e5dcc8; box-shadow:inset 0 3px 0 #c9bda4,0 3px 0 #fffdf7; }
+.lg-app .pz-tile { flex:0 1 auto; min-width:44px; min-height:44px; padding:8px; background:#fffaf0; border-radius:24px; box-shadow:inset 0 3px 0 #fffdf7,0 5px 0 #a89478,0 0 0 3px #4a3620; touch-action:manipulation; }
+.lg-app .pz-tile svg { display:block; width:clamp(60px,20vw,92px); height:auto; }
+.lg-app .pz-board:has(>:nth-child(3)) { gap:12px; }
+.lg-app .pz-board:has(>:nth-child(3)) .pz-tile svg { width:min(84px,17vw); }
+.lg-app .pz button:focus-visible { outline:4px solid var(--lg-focus); outline-offset:5px; }
+.lg-app .pz-tile:disabled { cursor:default; }
+.lg-app .pz .is-hint { animation-iteration-count:2; }
+.lg-app .pz-progress { justify-content:center; }
+
+/* A miniature stage gives the pictured sequence a shared place to stand. */
+.lg-app .pz-singers { position:relative; width:min(100%,360px); aspect-ratio:320 / 150; min-height:0; padding:0; display:block; overflow:visible; background:none; box-shadow:none; border-radius:0; }
+.lg-app .pz-echo-art { position:absolute; inset:0; pointer-events:none; }
+.lg-app .pz-echo-art > svg { display:block; width:100%; height:100%; }
+.lg-app .pz-singer-line { position:absolute; inset:28% 9% 10%; display:flex; align-items:end; justify-content:center; gap:12px; }
+.lg-app .pz-singer { display:grid; place-items:end center; width:29%; max-width:78px; }
+.lg-app .pz-singer svg { display:block; width:100%; height:auto; }
+.lg-app .pz-singers:not(.is-hidden) .pz-singer { animation:none; }
+.lg-app .pz-singer.is-singing { transform:translateY(-4px); }
+.lg-app .pz-hedge { inset:35% 8% 16%; border-radius:15px; z-index:1; overflow:hidden; }
+.lg-app .pz-slots { padding:8px 12px; border-radius:24px; background:#c9bda4; gap:12px; box-shadow:inset 0 3px 0 #a89478,0 3px 0 #e5dcc8; max-width:100%; box-sizing:border-box; }
+.lg-app .pz-slot { width:clamp(52px,16vw,72px); height:clamp(52px,16vw,72px); background:#e5dcc8; box-shadow:inset 0 3px 0 #a89478; }
+.lg-app .pz-slot svg { display:block; width:90%; height:auto; }
+.lg-app .pz-slot.is-next { background:#fffaf0; box-shadow:inset 0 0 0 3px #c69434,0 0 0 3px #ffe49a; }
+.lg-app .pz-slot.is-full { background:#ccfbef; box-shadow:inset 0 0 0 3px #4e9677; }
+
+/* A finished chorus stays until its conductor is ready for another. */
+.lg-app .pz-echo-actions { display:flex; align-items:center; justify-content:center; gap:24px; min-height:106px; }
+.lg-app .pz-echo-actions[hidden],.lg-app .pz-echo .pz-board[hidden] { display:none; }
+.lg-app .pz-echo-actions button { display:grid; place-items:center; width:74px; height:74px; padding:14px; border:3px solid #4a3620; border-radius:24px; color:#4a3620; background:#fffaf0; box-shadow:inset 0 3px 0 #fffdf7,0 5px 0 #a89478; touch-action:manipulation; }
+.lg-app .pz-echo-actions .pz-echo-next { background:#ffe49a; }
+.lg-app .pz-echo-actions svg { display:block; width:100%; height:100%; }
+.lg-app .pz-echo-actions button:active:not(:disabled) { translate:0 3px; box-shadow:inset 0 3px 0 #fffdf7,0 2px 0 #a89478; }
+.lg-app .pz-echo .pz-singer { position:relative; border-radius:14px; }
+.lg-app .pz-echo .pz-singer.is-accepted { background:#ccfbef; }
+.lg-app .pz-echo .pz-singer.is-current::after { content:""; position:absolute; bottom:-7px; left:25%; width:50%; height:5px; border-radius:5px; background:#c69434; box-shadow:0 0 0 2px #ffe49a; }
+
+/* A stamp bench and an upright reference frame keep glyphs in safe areas. */
+.lg-app .pz-reveal { position:relative; width:min(300px,72vw,39vh); aspect-ratio:260 / 220; background:none; box-shadow:none; padding:0; border-radius:0; }
+.lg-app .pz-bench-art,.lg-app .pz-match-art { position:absolute; inset:0; pointer-events:none; }
+.lg-app .pz-bench-art > svg,.lg-app .pz-match-art > svg { display:block; width:100%; height:100%; }
+.lg-app .pz-reveal .pz-letter-drawing { position:absolute; left:19.23%; top:11.8%; width:61.54%; height:72.73%; overflow:visible; }
+.lg-app .pz-reveal.is-early { box-shadow:none; }
+.lg-app .pz-reveal:is(.is-done,.is-early) .pz-letter-drawing { filter:drop-shadow(0 3px 0 #ffe49a); }
+.lg-app .pz-target { position:relative; width:min(245px,65vw,34vh); aspect-ratio:230 / 220; background:none; box-shadow:none; border-radius:0; }
+.lg-app .pz-reference-letter { position:absolute; left:19.13%; top:15.9%; width:61.74%; height:63.64%; display:grid; place-items:center; }
+.lg-app .pz-target .pz-reference-letter > svg { display:block; width:94%; height:auto; }
+.lg-app .pz-turned { display:block; }
+
+/* Balloon letters board a toy train. The empty cars are real drop targets. */
+.lg-app .lg-play .practice-stage:has(>.pz-train) { background:none; box-shadow:none; padding:8px 10px 14px; }
+.lg-app .pz-train { isolation:isolate; overflow:hidden; width:100%; max-width:680px; padding:20px 16px 16px; gap:14px; border-radius:32px; background:#ccfbef; box-shadow:0 0 0 3px #4e9677,0 7px 0 #e5dcc8,0 12px 0 #4a362020; }
+.lg-app .pz-train > .pz-station-art { position:absolute; inset:0; z-index:-1; pointer-events:none; }
+.lg-app .pz-station-art > svg { display:block; width:100%; height:100%; }
+.lg-app .pz-train > .pz-station-shelter { position:absolute; right:3%; bottom:24%; width:clamp(160px,28%,190px); aspect-ratio:190 / 96; z-index:-1; pointer-events:none; }
+.lg-app .pz-station-shelter > svg { display:block; width:100%; height:100%; }
+.lg-app .pz-sky { width:100%; max-width:none; height:clamp(130px,25vh,190px); background:none; border-radius:0; overflow:visible; }
+.lg-app .pz-train.is-boarded .pz-sky { height:clamp(52px,8vh,80px); }
+.lg-app .pz-balloon { --bw:min(106px,calc(100% / var(--n,2) - 16px)); top:8%; animation:none; touch-action:none; cursor:grab; border-radius:40%; }
+.lg-app .pz-balloon:active { scale:.97; }
+.lg-app .pz-balloon.is-dragging { animation:none; scale:1; cursor:grabbing; }
+.lg-app .pz-balloon-letter { top:39%; width:57%; }
+.lg-app .pz-rails { --car-count:2; position:relative; display:flex; align-items:end; justify-content:center; width:min(100%,calc(112px + var(--car-count) * 96px)); gap:0; min-height:90px; padding:8px 0 0; border-bottom:4px solid #4a3620; box-shadow:0 4px 0 #a89478; border-radius:8px; }
+.lg-app .pz-rails:has(.pz-car:nth-child(3)) { --car-count:3; }
+.lg-app .pz-rails:has(.pz-car:nth-child(4)) { --car-count:4; }
+.lg-app .pz-engine { display:block; width:calc(120% / (var(--car-count) + 1.2)); flex:0 0 calc(120% / (var(--car-count) + 1.2)); transform:translateY(9%); }
+.lg-app .pz-engine svg { width:100%; height:auto; }
+.lg-app .pz-cars { display:flex; align-items:end; flex:1 1 0; min-width:0; justify-content:flex-start; gap:0; padding:6px 0 0; min-height:76px; border-radius:14px; transition:background-color 150ms ease; }
+.lg-app .pz-rails.is-receiving { background:#ffe49a; filter:none; outline:3px solid #c69434; outline-offset:2px; }
+.lg-app .pz-car { flex:0 1 auto; width:calc(100% / var(--car-count,2)); min-width:0; animation:none; transform:translateY(9%); }
+.lg-app .pz-car-art,.lg-app .pz-car-art > svg { display:block; width:100%; height:auto; }
+.lg-app .pz-car-letter { position:absolute; left:24%; top:15%; width:52%; height:61%; display:grid; place-items:center; transform:none; background:#fffaf0; border-radius:12px; }
+.lg-app .pz-car-letter > svg { width:100%; height:auto; }
+.lg-app .pz-car.is-next .pz-car-letter { box-shadow:0 0 0 3px #c69434; }
+.lg-app .pz-car:not(.is-filled) .pz-car-letter > svg { opacity:.3; }
+.lg-app .pz-car.is-filled .pz-car-letter { background:#ccfbef; }
+.lg-app .pz-train .pz-car,.lg-app .pz-train .pz-drive { position:relative; padding:0; border:0; min-width:0; min-height:52px; border-radius:12px; background:transparent; box-shadow:none; opacity:1; filter:none; touch-action:manipulation; }
+.lg-app .pz-train .pz-car:disabled,.lg-app .pz-train .pz-drive:disabled { opacity:1; filter:none; cursor:default; }
+.lg-app .pz-drive-engine { display:block; }
+.lg-app .pz-drive-cue { display:none; position:absolute; top:-12px; right:0; width:34px; height:34px; padding:2px; border:2.4px solid #4a3620; border-radius:50%; background:#ffe49a; color:#4a3620; box-shadow:0 3px 0 #a89478; }
+.lg-app .pz-drive.is-ready { background:#ffe49a; box-shadow:0 0 0 3px #c69434; }
+.lg-app .pz-drive.is-ready .pz-drive-cue { display:grid; place-items:center; }
+.lg-app .pz-drive.is-ready .pz-drive-cue svg { width:26px; height:26px; }
+.lg-app .pz-train .pz-car:focus-visible,.lg-app .pz-train .pz-drive:focus-visible { outline:4px solid var(--lg-focus); outline-offset:4px; }
+.lg-app .pz-train .pz-car:active:not(:disabled),.lg-app .pz-train .pz-drive:active:not(:disabled) { scale:.96; }
+.lg-app .pz-rails.is-leaving .pz-drive-cue { visibility:hidden; }
+.lg-app .pz-rails.is-leaving { animation:puzzle-depart 700ms ease-in both; }
+.lg-app .pz-car.is-filled { animation:puzzle-seat 240ms ease-out both; }
+@keyframes puzzle-seat { from { translate:0 -8px; } to { translate:0 0; } }
+@keyframes puzzle-depart { to { translate:115% 0; opacity:0; } }
+
+@media(max-width:360px) {
+  .lg-app .lg-play .practice-stage:has(>.pz) { padding:10px 6px 12px; }
+  .lg-app .pz { gap:12px; padding-inline:8px; }
+  .lg-app .pz-board { gap:12px; padding:8px 10px 10px; }
+  .lg-app .pz-train { padding:16px 12px 14px; }
+  .lg-app .pz-cars { min-height:58px; }
+  .lg-app .pz-rails { min-height:74px; }
+}
+@media(orientation:landscape) and (max-height:500px) {
+  .lg-app .lg-play .practice-stage:has(>.pz) { padding:8px 12px 12px; }
+  .lg-app .pz { height:100%; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:10px 20px; padding:10px 16px; }
+  .lg-app .pz:not(.pz-train) { max-width:720px; height:auto; }
+  .lg-app .pz-dots .pz-reveal,.lg-app .pz-same .pz-target { grid-column:1; grid-row:1; width:min(100%,50vh); }
+  .lg-app :is(.pz-dots,.pz-same) .pz-board { grid-column:2; grid-row:1; }
+  .lg-app .pz-progress { grid-column:1 / -1; }
+  .lg-app .pz-tile svg { width:min(75px,18vh); }
+  .lg-app .pz-board:has(>:nth-child(3)) .pz-tile svg { width:min(65px,16vh); }
+  .lg-app .pz-echo { grid-template-rows:1fr auto auto; }
+  .lg-app .pz-echo .pz-singers { grid-column:1; grid-row:1 / 3; width:min(100%,66vh); }
+  .lg-app .pz-echo .pz-slots { grid-column:2; grid-row:1; align-self:end; }
+  .lg-app .pz-echo .pz-echo-actions { grid-column:2; grid-row:2; min-height:76px; }
+  .lg-app .pz-echo .pz-echo-actions button { width:60px; height:60px; padding:10px; }
+  .lg-app .pz-echo .pz-board { grid-column:2; grid-row:2; align-self:start; }
+  .lg-app .pz-slot { width:48px; height:48px; }
+  .lg-app .pz-echo .pz-board .pz-tile svg { width:56px; }
+  .lg-app .pz-train { grid-template-columns:1fr; grid-template-rows:1fr auto auto; height:auto; gap:6px; padding:12px 20px 10px; }
+  .lg-app .pz-train .pz-sky { height:95px; }
+  .lg-app .pz-balloon { --bw:min(68px,calc(100% / var(--n,2) - 16px)); top:0; }
+  .lg-app .pz-rails { min-height:64px; width:min(100%,calc(88px + var(--car-count) * 74px)); }
+  .lg-app .pz-cars { min-height:54px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .lg-app .pz * { animation:none!important; transition:none!important; }
+}
+.lg-app.lg-reduce-motion .pz * { animation:none!important; transition:none!important; }
+
+/* A small printing tool makes the distinguishing dots a child's action. */
+.lg-app .pz-dot-workshop { display:flex; align-items:end; justify-content:center; gap:10px; width:100%; max-width:400px; }
+.lg-app .pz-dots .pz-dot-workshop .pz-reveal { flex:1 1 0; min-width:0; width:auto; max-width:300px; }
+.lg-app .pz-stamp { display:grid; place-items:center; flex:0 0 76px; width:76px; height:86px; padding:5px; margin-bottom:12px; background:#ffe49a; border:3px solid #4a3620; border-radius:22px; box-shadow:inset 0 3px 0 #fffdf7,0 5px 0 #a89478; touch-action:manipulation; }
+.lg-app .pz-stamp-art,.lg-app .pz-stamp-art > svg { display:block; width:100%; height:auto; }
+.lg-app .pz-stamp.is-empty { background:#e5dcc8; box-shadow:inset 0 3px 0 #c9bda4; }
+.lg-app .pz-stamp.is-empty .pz-stamp-art { opacity:.5; }
+.lg-app .pz-stamp.is-next > svg { width:44px; height:44px; }
+.lg-app .pz-stamp:active:not(:disabled) { translate:0 3px; box-shadow:inset 0 3px 0 #fffdf7,0 2px 0 #a89478; }
+@media(max-width:360px) { .lg-app .pz-stamp { flex-basis:64px; width:64px; height:76px; } }
+@media(orientation:landscape) and (max-height:500px) {
+  .lg-app .pz-dots .pz-dot-workshop { grid-column:1; grid-row:1 / 3; align-items:end; }
+  .lg-app .pz-stamp { flex-basis:62px; width:62px; height:72px; }
+}
+
+/* Letter turntables: manipulation supports comparison; Next belongs to the child. */
+.lg-app .pz.pz-same { margin-inline:auto; background:none; box-shadow:none; gap:12px; padding:8px 4px; }
+.lg-app .pz-same .pz-turntables { width:100%; justify-content:center; align-items:start; border-radius:32px; background:#fffaf0; box-shadow:inset 0 3px 0 #fffdf7,0 6px 0 #a89478,0 0 0 3px #4a3620; padding:4px 4px 6px; gap:10px; }
+.lg-app .pz-rotor { position:relative; width:min(146px,43%); flex:0 1 146px; display:grid; justify-items:center; align-content:start; padding:0 0 12px; isolation:isolate; }
+.lg-app .pz-rotor-art { position:absolute; z-index:-1; inset:0 0 auto; width:100%; aspect-ratio:140 / 158; pointer-events:none; }
+.lg-app .pz-rotor-art > svg { width:100%; height:100%; display:block; }
+.lg-app .pz-same .pz-tile { display:grid; place-items:center; width:66%; aspect-ratio:1; min-height:44px; margin-top:13%; border-radius:50%; padding:5px; background:none; box-shadow:none; touch-action:manipulation; }
+.lg-app .pz-same .pz-tile .pz-turned { width:100%; transition:transform 220ms ease-out; }
+.lg-app .pz-same .pz-tile svg { width:100%; height:auto; pointer-events:none; }
+.lg-app .pz-same .pz-tile:disabled { opacity:.45; }
+.lg-app .pz-same .pz-turn { width:50px; height:50px; min-width:44px; min-height:44px; padding:5px; margin-top:6px; border:3px solid #4a3620; border-radius:50%; background:#ffe49a; box-shadow:inset 0 3px 0 #fffdf7,0 4px 0 #70501b; touch-action:manipulation; }
+.lg-app .pz-turn > svg { width:100%; height:100%; display:block; pointer-events:none; }
+.lg-app .pz-same-next { width:62px; height:58px; padding:12px; justify-self:center; border:3px solid #4a3620; border-radius:20px; background:#f3c955; color:#4a3620; box-shadow:inset 0 3px 0 #ffe49a,0 5px 0 #70501b; touch-action:manipulation; }
+.lg-app .pz-same-next > svg { display:block; width:100%; height:100%; }
+.lg-app .pz-same :is(.pz-turn,.pz-same-next):active { translate:0 3px; box-shadow:inset 0 2px 0 #fffdf7,0 1px 0 #70501b; }
+.lg-app .pz-same :is(.pz-turn,.pz-same-next)[hidden] { display:none; }
+.lg-app .pz-rotor.is-matched .pz-tile { background:#ccfbef; box-shadow:0 0 0 3px #4e9677; }
+.lg-app .pz-same .pz-progress { padding:6px 14px; border-radius:20px; background:#fffaf0; box-shadow:0 3px 0 #c9bda4; }
+@media(max-width:360px) { .lg-app .pz-same .pz-turntables { gap:6px; } .lg-app .pz-rotor { padding-bottom:10px; } }
+@media(orientation:landscape) and (max-height:500px) {
+  .lg-app .pz.pz-same { grid-template-rows:1fr auto; gap:8px 18px; }
+  .lg-app .pz-same .pz-target { grid-column:1; grid-row:1 / 3; width:min(100%,52vh); }
+  .lg-app .pz-same .pz-turntables { grid-column:2; grid-row:1; }
+  .lg-app .pz-same .pz-rotor { max-width:120px; padding-bottom:10px; }
+  .lg-app .pz-same-next { grid-column:2; grid-row:2; width:54px; height:50px; padding:9px; }
+  .lg-app .pz-same .pz-progress { grid-column:1; grid-row:3; }
+}
+@media(prefers-reduced-motion:reduce) { .lg-app .pz-same .pz-turned { transition:none; } }
+.lg-app.lg-reduce-motion .pz-same .pz-turned { transition:none; }
+
+.lg-app .pz-rotor:has(.pz-turn[hidden])::after { content:""; height:56px; }
+@media(orientation:portrait) and (max-height:650px) {
+  .lg-app .pz-same .pz-target { width:min(200px,50vw,23vh); }
+  .lg-app .pz.pz-same { gap:8px; }
+  .lg-app .pz-same-next { width:56px; height:50px; padding:9px; }
+}

@@ -1,0 +1,241 @@
+{
+  "round": 3,
+  "n": 3,
+  "hits": 3,
+  "awaiting": true,
+  "pattern": [
+    {
+      "x": 0.5,
+      "y": 0.5028571428571429,
+      "gap": 0
+    },
+    {
+      "x": 0.5,
+      "y": 0.5028571428571429,
+      "gap": 120
+    },
+    {
+      "x": 0.5,
+      "y": 0.5028571428571429,
+      "gap": 120
+    }
+  ],
+  "assisted": false,
+  "events": [
+    {
+      "itemId": "pic:fish",
+      "correct": true,
+      "evidence": "motor_assembly_participation",
+      "baseEvidence": "motor_assembly_participation",
+      "assisted": false,
+      "affectsStrength": false,
+      "elapsedMs": 5122.299999952316,
+      "round": 1,
+      "sessionId": "1793294488973-fm362p",
+      "skill": "syllable-beats",
+      "activity": "BeatDrum",
+      "selectedId": null,
+      "choiceIds": []
+    },
+    {
+      "itemId": "pic:butterfly",
+      "correct": true,
+      "evidence": "motor_assembly_participation",
+      "baseEvidence": "motor_assembly_participation",
+      "assisted": false,
+      "affectsStrength": false,
+      "elapsedMs": 11049.699999809265,
+      "round": 2,
+      "sessionId": "1793294488973-fm362p",
+      "skill": "syllable-beats",
+      "activity": "BeatDrum",
+      "selectedId": null,
+      "choiceIds": []
+    },
+    {
+      "itemId": "pic:boat",
+      "correct": true,
+      "evidence": "motor_assembly_participation",
+      "baseEvidence": "motor_assembly_participation",
+      "assisted": false,
+      "affectsStrength": false,
+      "elapsedMs": 4165.399999856949,
+      "round": 3,
+      "sessionId": "1793294488973-fm362p",
+      "skill": "syllable-beats",
+      "activity": "BeatDrum",
+      "selectedId": null,
+      "choiceIds": []
+    }
+  ],
+  "sounds": [
+    {
+      "name": "thud",
+      "time": 15243
+    },
+    {
+      "name": "thud",
+      "time": 15292.5
+    },
+    {
+      "name": "thud",
+      "time": 15309.200000047684
+    },
+    {
+      "name": "thud",
+      "time": 49721.200000047684
+    },
+    {
+      "name": "thud",
+      "time": 49725.200000047684
+    },
+    {
+      "name": "thud",
+      "time": 55749.09999990463
+    },
+    {
+      "name": "thud",
+      "time": 55763.200000047684
+    },
+    {
+      "name": "thud",
+      "time": 104371.29999995232
+    },
+    {
+      "name": "thud",
+      "time": 114907.89999985695
+    },
+    {
+      "name": "thud",
+      "time": 115198
+    },
+    {
+      "name": "thud",
+      "time": 115478
+    },
+    {
+      "name": "thud",
+      "time": 146554.20000004768
+    },
+    {
+      "name": "thud",
+      "time": 151025.09999990463
+    },
+    {
+      "name": "thud",
+      "time": 151041
+    },
+    {
+      "name": "thud",
+      "time": 151057.59999990463
+    }
+  ],
+  "wallet": {
+    "earned": 0,
+    "spent": 0
+  },
+  "learning": {
+    "pic:fish": {
+      "r": 0,
+      "w": 0,
+      "streak": 0,
+      "fast": 0,
+      "slow": 0,
+      "last": 0,
+      "evidence": {
+        "motor_assembly_participation": 1
+      },
+      "evidenceResults": {
+        "motor_assembly_participation": {
+          "r": 1,
+          "w": 0,
+          "participation": 0
+        }
+      },
+      "skills": {
+        "syllable-beats": {
+          "motor": {
+            "r": 1,
+            "w": 0,
+            "streak": 1,
+            "participation": 0,
+            "last": 1793294494098,
+            "sessions": [
+              "1793294488973-fm362p"
+            ]
+          },
+          "lastActivity": "BeatDrum"
+        }
+      },
+      "evidenceLast": 1793294494098
+    },
+    "pic:butterfly": {
+      "r": 0,
+      "w": 0,
+      "streak": 0,
+      "fast": 0,
+      "slow": 0,
+      "last": 0,
+      "evidence": {
+        "motor_assembly_participation": 1
+      },
+      "evidenceResults": {
+        "motor_assembly_participation": {
+          "r": 1,
+          "w": 0,
+          "participation": 0
+        }
+      },
+      "skills": {
+        "syllable-beats": {
+          "motor": {
+            "r": 1,
+            "w": 0,
+            "streak": 1,
+            "participation": 0,
+            "last": 1793294594265,
+            "sessions": [
+              "1793294488973-fm362p"
+            ]
+          },
+          "lastActivity": "BeatDrum"
+        }
+      },
+      "evidenceLast": 1793294594265
+    },
+    "pic:boat": {
+      "r": 0,
+      "w": 0,
+      "streak": 0,
+      "fast": 0,
+      "slow": 0,
+      "last": 0,
+      "evidence": {
+        "motor_assembly_participation": 1
+      },
+      "evidenceResults": {
+        "motor_assembly_participation": {
+          "r": 1,
+          "w": 0,
+          "participation": 0
+        }
+      },
+      "skills": {
+        "syllable-beats": {
+          "motor": {
+            "r": 1,
+            "w": 0,
+            "streak": 1,
+            "participation": 0,
+            "last": 1793294629845,
+            "sessions": [
+              "1793294488973-fm362p"
+            ]
+          },
+          "lastActivity": "BeatDrum"
+        }
+      },
+      "evidenceLast": 1793294629845
+    }
+  }
+}

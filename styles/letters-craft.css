@@ -155,6 +155,12 @@
  outline:3px solid #ffe49a; outline-offset:3px; border-radius:18px; scale:1.04;
 }
 .lg-app .lg-play .chain-scene .chain-base { width:clamp(100px,30vw,148px); left:68%; }
+.lg-app .chain-base { padding:0; border:0; background:none; cursor:pointer; border-radius:16px; }
+.lg-app .chain-base > svg { pointer-events:none; }
+.lg-app .chain-base .build-listen { width:27px; height:27px; right:0; bottom:5px; pointer-events:none; }
+.lg-app .chain-base .build-listen > svg { width:16px; height:16px; }
+.lg-app .chain-base:active { translate:0 2px; }
+.lg-app .chain-base:focus-visible { outline:4px solid var(--lg-focus-on-dark); outline-offset:4px; }
 .lg-app .join-result { position:absolute; inset:10px 8px 12px; display:grid; grid-template-rows:minmax(80px,1fr) auto; justify-items:center; gap:12px; }
 .lg-app .join-result.has-variants { grid-template-rows:minmax(80px,1fr) 50px auto; gap:8px; }
 .lg-app .join-output { width:100%; min-height:0; display:grid; place-items:center; }
@@ -473,6 +479,12 @@
 .lg-app :is(.burst-tile,.burst-pause):focus-visible { outline:4px solid var(--lg-focus-on-dark); outline-offset:3px; border-radius:16px; }
 .lg-app .play-stage.is-paused .burst-grid { opacity:.3; pointer-events:none; }
 .lg-app .play-stage.is-paused .burst-ring-fill { transition:none; }
+.lg-app .play-stage.is-ready .burst-head { top:4%; }
+.lg-app .play-stage.is-ready .burst-pause {
+ width:64px; height:64px; padding:14px; background:#ee806f;
+ box-shadow:0 4px 0 #8a3a2d; color:#fffdf7;
+}
+.lg-app .burst-tile:disabled { opacity:.45; cursor:default; }
 
 /* The cabinet accepts a folder with a forgiving rim. It only lights during a
    deliberate drag; the Arabic display and the existing Next stay primary. */
@@ -491,6 +503,7 @@
 @media(orientation:landscape) and (max-height:450px) {
  .lg-app .lg-play[data-activity="burst"] .play-stage { max-height:none; margin:0 auto; flex:1 1 0; }
  .lg-app .burst-head { left:10%; top:16%; bottom:24%; transform:none; flex-direction:column; justify-content:center; gap:8px; }
+ .lg-app .play-stage.is-ready .burst-head { top:16%; }
  .lg-app .burst-ring,.lg-app .burst-pause { width:44px; height:44px; }
  .lg-app .burst-grid { inset:13% 26% 22%; gap:8px; }
  .lg-app .burst-receipt { left:auto; right:11%; bottom:27%; transform:none; height:auto; flex-direction:column; gap:0; padding:4px; }

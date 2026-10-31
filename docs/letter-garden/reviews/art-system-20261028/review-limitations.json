@@ -1,0 +1,60 @@
+{
+  "scope": "Contact-sheet limitations. World renderers are included in world-recipes.js; helpers and procedural/live layout are documented separately.",
+  "excluded": [
+    {
+      "source": "src/letters/LettersActivityArt.js",
+      "export": "mount(stage, activity)",
+      "reason": "Installs a MutationObserver and inserts/removes scenery in a live game DOM; not a drawable SVG export. The recipe sheet instead extracts each activity's primary SVG plane from scene(activity)."
+    },
+    {
+      "source": "src/letters/LettersActivityArt.js",
+      "export": "familyFor(activity)",
+      "reason": "Metadata lookup only; no art is returned."
+    },
+    {
+      "source": "src/letters/LettersArt.js",
+      "export": "confetti(x, y, golden, material)",
+      "reason": "Creates DOM particles, animations and a timer; cannot be represented as a static SVG draw recipe."
+    },
+    {
+      "source": "src/letters/LettersArt.js",
+      "export": "fitGlyphs, fitInlineGlyphs, watchGlyphs, inkShift, warmInk",
+      "reason": "Canvas/font measurement or live DOM mutation/observation helpers, not standalone drawable assets."
+    },
+    {
+      "source": "src/letters/BalloonPlayArt.js",
+      "export": "clearing()",
+      "reason": "Returns an HTML DIV with separately positioned landscape, cloud and planter SVGs; their composition depends on the game's layout CSS."
+    },
+    {
+      "source": "src/letters/FriendPlayArt.js",
+      "export": "classic(char)",
+      "reason": "Returns an interactive button wrapper with a hidden friend preview, not a standalone SVG."
+    },
+    {
+      "source": "src/letters/GardenAdventurePlayArt.js",
+      "export": "visitorPlacement(project)",
+      "reason": "Returns positioning metadata; the separate visitor(project) drawable is included with the corrected centered viewBox."
+    },
+    {
+      "source": "src/letters/LettersArt.js",
+      "export": "creature, pet, sticker, stickerMotif, skillFlower, keyMascot, blobCard, letterSign, stickerPack, egg",
+      "reason": "Creature/pet, sticker or shared character/hero visuals are covered by the separate cast/sticker review; explicitly requested shared drawable exceptions keyMascot, blobCard, letterSign, stickerPack, egg and skillFlower are included in the game recipes."
+    },
+    {
+      "source": "src/letters/LettersActivityArt.js",
+      "export": "scene(activity) loose prop siblings",
+      "reason": "Activity recipes extract the primary plane SVG from each scene wrapper. Detached props are positioned by the live activity CSS and require actual screen review for placement."
+    },
+    {
+      "source": "src/letters/PracticeFinishArt.js",
+      "export": "scene({petArt, paid}) HTML wrapper",
+      "reason": "The SVG recipe extracts its garden SVG and places the supplied friend at the source wrapper’s approximate CSS bounds. Exact responsive positioning still requires screen review."
+    },
+    {
+      "source": "src/letters/LettersArt.js",
+      "export": "weatherLayer, seasonLayer, yearLayer, confetti",
+      "reason": "Source and partial static output reviewed. Positioned/animated particles and seasonal banners require live seasonal state; static catalogue disables motion and is not full scene verification."
+    }
+  ]
+}

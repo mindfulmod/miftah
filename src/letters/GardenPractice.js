@@ -1,18 +1,33 @@
 // Optional live practice. No currency, mastery or progression writes.
 (function(ns){
   function draggable(el,{enabled=()=>true,drop,onDragStart=()=>{},onDragMove=()=>{},onDragEnd=()=>{}}){
-    let pointer=null,moved=false,start=null,suppressUntil=0;
-    const reset=()=>{const id=pointer;pointer=null;el.style.transform='';el.classList.remove('is-dragging');if(id!==null){onDragEnd();if(el.hasPointerCapture?.(id))el.releasePointerCapture(id);}};
-    el.addEventListener('pointerdown',e=>{if(!enabled()||e.isPrimary===false||(e.pointerType==='mouse'&&e.button!==0)||pointer!==null)return;pointer=e.pointerId;start=[e.clientX,e.clientY];moved=false;el.setPointerCapture?.(pointer);});
-    el.addEventListener('pointermove',e=>{if(e.pointerId!==pointer||e.isPrimary===false)return;if(!enabled()){reset();return;}const dx=e.clientX-start[0],dy=e.clientY-start[1];if(!moved&&Math.hypot(dx,dy)>8){moved=true;onDragStart();}if(moved){el.classList.add('is-dragging');el.style.transform=`translate(${dx}px,${dy}px)`;onDragMove(e.clientX,e.clientY);}});
-    el.addEventListener('pointerup',e=>{if(e.pointerId!==pointer||e.isPrimary===false)return;const dragged=moved;const released=dragged?el.getBoundingClientRect():null;const off=el.style.transform;reset();if(dragged){suppressUntil=performance.now()+500;const took=enabled()&&drop(e.clientX,e.clientY,released);if(!took)glideHome(el,off);}});
-    el.addEventListener('pointercancel',e=>{if(!e||e.pointerId===pointer){if(moved)suppressUntil=performance.now()+500;reset();}});
-    el.addEventListener('lostpointercapture',e=>{if(pointer!==null&&(!e||e.pointerId===undefined||e.pointerId===pointer)){if(moved)suppressUntil=performance.now()+500;reset();}});
+    let pointer=null,moved=false,start=null,offset=[0,0],scale=1,suppressUntil=0,returnFlight=null;
+    const renderedScale=()=>{const rect=el.getBoundingClientRect?.(),width=Number(el.offsetWidth);return rect?.width>0&&width>0?rect.width/width:1;};
+    const cancelReturn=()=>{const flight=returnFlight;returnFlight=null;flight?.cancel();};
+    const release=()=>{const id=pointer;pointer=null;el.style.transform='';el.classList.remove('is-dragging');if(id!==null){onDragEnd();if(el.hasPointerCapture?.(id))el.releasePointerCapture(id);}};
+    const reset=()=>{cancelReturn();release();};
+    const returnHome=off=>{cancelReturn();const flight=returnFlight=glideHome(el,off);if(flight)flight.onfinish=()=>{if(returnFlight===flight)returnFlight=null;};};
+    el.addEventListener('pointerdown',e=>{
+      if(!enabled()||e.isPrimary===false||(e.pointerType==='mouse'&&e.button!==0)||pointer!==null)return;
+      // Re-grabbing a returning toy takes over at its visible position. The
+      // old animation must never keep pulling against the child's finger.
+      scale=renderedScale();
+      const returning=!!returnFlight,from=returning?el.getBoundingClientRect():null;
+      cancelReturn();const home=returning?el.getBoundingClientRect():null;
+      offset=returning?[(from.left-home.left)/scale,(from.top-home.top)/scale]:[0,0];
+      pointer=e.pointerId;start=[e.clientX,e.clientY];moved=returning;el.setPointerCapture?.(pointer);
+      if(returning){el.style.transform=`translate(${offset[0]}px,${offset[1]}px)`;el.classList.add('is-dragging');onDragStart();}
+    });
+    el.addEventListener('pointermove',e=>{if(e.pointerId!==pointer||e.isPrimary===false)return;if(!enabled()){reset();return;}const dx=e.clientX-start[0],dy=e.clientY-start[1];if(!moved&&Math.hypot(dx,dy)>8){moved=true;onDragStart();}if(moved){el.classList.add('is-dragging');el.style.transform=`translate(${dx/scale+offset[0]}px,${dy/scale+offset[1]}px)`;onDragMove(e.clientX,e.clientY);}});
+    el.addEventListener('pointerup',e=>{if(e.pointerId!==pointer||e.isPrimary===false)return;const dragged=moved;const released=dragged?el.getBoundingClientRect():null;const off=el.style.transform;release();if(dragged){suppressUntil=performance.now()+500;const took=enabled()&&drop(e.clientX,e.clientY,released);if(!took)returnHome(off);}});
+    const cancelDrag=()=>{const off=el.style.transform;if(moved)suppressUntil=performance.now()+500;release();returnHome(off);};
+    el.addEventListener('pointercancel',e=>{if(pointer!==null&&(!e||e.pointerId===pointer))cancelDrag();});
+    el.addEventListener('lostpointercapture',e=>{if(pointer!==null&&(!e||e.pointerId===undefined||e.pointerId===pointer))cancelDrag();});
     el.addEventListener('click',e=>{if(performance.now()<suppressUntil){e.preventDefault();e.stopImmediatePropagation();}},true);
     return reset;
   }
   // A missed drop floats back to where it lives instead of jumping there.
-  const glideHome=(el,off)=>{if(!off||!el.isConnected||!el.animate||el.closest?.('.lg-reduce-motion')||window.matchMedia?.('(prefers-reduced-motion: reduce)').matches)return;el.animate([{transform:off},{transform:'none'}],{duration:340,easing:'cubic-bezier(.34,1.45,.64,1)'});};
+  const glideHome=(el,off)=>{if(!off||!el.isConnected||!el.animate||el.closest?.('.lg-reduce-motion')||window.matchMedia?.('(prefers-reduced-motion: reduce)').matches)return null;return el.animate([{transform:off},{transform:'none'}],{duration:340,easing:'ease-in-out'});};
   // Drops count within a 28px margin of the target — toddlers let go early.
   const DROP_SLACK=28;
   const inside=(el,x,y)=>{const r=el.getBoundingClientRect();return r.width>0&&r.height>0&&x>=r.left-DROP_SLACK&&x<=r.right+DROP_SLACK&&y>=r.top-DROP_SLACK&&y<=r.bottom+DROP_SLACK;};
@@ -238,7 +253,7 @@
     constructor(ctx){
       this.ctx=ctx;this.alive=true;this.index=0;this.busy=false;this.drawings=[];this.inkColor=DrawingPalette.startForPet(ctx.petHue);
       const eligible=[...new Map((ctx.items||[]).filter(isolated).map(item=>[key(item),item])).values()],count=Math.min(3,eligible.length),offset=eligible.length?pathCursor%eligible.length:0;
-      this.targets=Array.from({length:count},(_,i)=>eligible[(offset+i)%eligible.length]);this.rounds=this.targets.flatMap(target=>[{target,mode:'guided'},{target,mode:'partial'}]);if(eligible.length)pathCursor=(pathCursor+count)%eligible.length;this.show();
+      this.targets=Array.from({length:count},(_,i)=>eligible[(offset+i)%eligible.length]);this.rounds=this.targets.flatMap(target=>[{target,mode:'guided'},{target,mode:ctx.allowPartial===false||ctx.beginner?'guided':'partial'}]);if(eligible.length)pathCursor=(pathCursor+count)%eligible.length;this.show();
     }
     show(){
       if(!this.alive)return;this.release?.();const view=this.view=(this.view||0)+1,active=()=>this.alive&&this.view===view;
@@ -277,16 +292,17 @@
       const turn=find('.path-continue');if(turn)turn.onclick=()=>{
         if(!active()||!this.reviewing||this.busy)return;this.busy=true;this.release();
         const size=canvas.getBoundingClientRect();
-        this.drawings.push({target,mode,picture:inkPicture(this.strokes,size.width||800,size.height||500)});
+        this.drawings.push({target,mode,strokes:this.strokes.map(s=>({color:s.color,points:s.points.map(p=>p.slice())})),picture:inkPicture(this.strokes,size.width||800,size.height||500)});
+        this.ctx.keepDrawing?.({letter:target.display,strokes:this.strokes});
         this.ctx.reportOutcome?.({item:target,itemId:key(target),correct:undefined,evidence:'motor_assembly_participation',skill:'drawing',activity:'GardenPaths',selectedId:key(target),choiceIds:[key(target)],assisted:true,affectsStrength:false});
         this.ctx.correct?.();this.index++;this.show();
       };
     }
     showGallery(){
       this.release?.();const view=++this.view,active=()=>this.alive&&view===this.view;this.reviewing=true;
-      this.ctx.stage.innerHTML=`<div class="path-gallery"><div class="path-workbook"><div class="path-paper path-gallery-preview" role="img" aria-label="Your drawing"></div></div><div class="path-gallery-pages" role="group" aria-label="Your sketchbook pages">${this.drawings.map((drawing,i)=>`<button type="button" class="path-page" aria-pressed="false" aria-label="See drawing ${i+1}: ${drawing.target.display}">${drawing.picture}</button>`).join('')}</div>${button('Return to practice garden',tool('home'),'path-close')}</div>`;
+      this.ctx.stage.innerHTML=`<div class="path-gallery"><div class="path-workbook"><div class="path-paper path-gallery-preview" role="img" aria-label="Your drawing"></div></div><div class="path-gallery-pages" role="group" aria-label="Your sketchbook pages">${this.drawings.map((drawing,i)=>`<button type="button" class="path-page" aria-pressed="false" aria-label="See drawing ${i+1}: ${drawing.target.display}">${drawing.picture}</button>`).join('')}</div>${button(this.ctx.adventure?'Plant your garden sign':'Return to practice garden',tool(this.ctx.adventure?'next':'home'),'path-close')}</div>`;
       const pages=[...this.ctx.stage.querySelectorAll('.path-page')],preview=this.ctx.stage.querySelector('.path-gallery-preview');
-      const select=(i,speak)=>{if(!active())return;preview.innerHTML=this.drawings[i].picture;preview.setAttribute('aria-label',`Your drawing of ${this.drawings[i].target.display}`);pages.forEach((page,n)=>page.setAttribute('aria-pressed',String(i===n)));this.ctx.prompt?.(this.drawings[i].target);if(speak)this.ctx.say?.(this.drawings[i].target);};
+      const select=(i,speak)=>{if(!active())return;preview.innerHTML=this.drawings[i].picture;this.ctx.keepDrawing?.({letter:this.drawings[i].target.display,strokes:this.drawings[i].strokes});preview.setAttribute('aria-label',`Your drawing of ${this.drawings[i].target.display}`);pages.forEach((page,n)=>page.setAttribute('aria-pressed',String(i===n)));this.ctx.prompt?.(this.drawings[i].target);if(speak)this.ctx.say?.(this.drawings[i].target);};
       pages.forEach((page,i)=>page.onclick=()=>select(i,true));select(this.drawings.length-1,false);
       this.ctx.stage.querySelector('.path-close').onclick=()=>{if(active())this.finish();};
       pages.at(-1)?.focus?.({preventScroll:true});

@@ -10,12 +10,14 @@
   const STAMPS_KEY = "quran-trainer:letters:stamps";
   const Art = ns.LettersArt;
 
-  // Shared, wordless activity signs for the first two chapter journeys.
+  // Shared, wordless activity signs for chapter journeys and gentle daily play.
   const journeyPictures = {
     pop: '<ellipse cx="24" cy="29" rx="19" ry="10" fill="#96ecff"/><path d="M9 30Q24 24 39 30" fill="none"/><circle cx="24" cy="17" r="8" fill="#fffaf0"/><path d="M20 14L24 12" stroke="#fffdf7"/>',
     trace: '<path d="M9 32L13 22 31 5 42 16 23 34Z" fill="#4e9677"/><path d="M9 32L13 22 23 34Z" fill="#e5dcc8"/><path d="M9 32L14 28 16 33Z" fill="#4a3620"/><path d="M9 41H36" fill="none"/>',
     pairs: '<rect x="5" y="8" width="23" height="29" rx="6" fill="#e5dcc8"/><rect x="20" y="15" width="23" height="29" rx="6" fill="#fffaf0"/><path d="M25 32Q25 23 36 24Q36 34 25 32" fill="#4e9677"/>',
-    feed: '<path d="M8 23H40L36 40H12Z" fill="#c9bda4"/><path d="M14 24V18A10 10 0 0 1 34 18V24M10 31H38M20 25V38M29 25V38" fill="none"/><path d="M21 17Q10 6 15 5Q26 5 25 17Q26 7 36 9Q37 18 25 19" fill="#4e9677"/>'
+    feed: '<path d="M8 23H40L36 40H12Z" fill="#c9bda4"/><path d="M14 24V18A10 10 0 0 1 34 18V24M10 31H38M20 25V38M29 25V38" fill="none"/><path d="M21 17Q10 6 15 5Q26 5 25 17Q26 7 36 9Q37 18 25 19" fill="#4e9677"/>',
+    catch: '<g stroke="#4a3620"><path d="M24 17Q18 11 11 16C1 23 11 43 21 41Q24 40 27 41C37 43 47 23 37 16Q30 11 24 17Z" fill="#ee806f"/><path d="M24 17Q21 11 24 5" fill="none"/><path d="M25 12Q26 3 37 6Q34 15 25 12Z" fill="#7fce54"/><path d="M13 24Q12 20 17 20" fill="none" stroke="#fffdf7" stroke-width="3"/></g>',
+    build: '<g stroke="#4a3620"><rect x="5" y="7" width="24" height="25" rx="7" fill="#7fce54"/><rect x="20" y="20" width="23" height="23" rx="7" fill="#f3c955"/><path d="M11 13H21M26 26H35" stroke="#fffdf7"/><path d="M12 23H19M27 35H35" stroke="#70501b"/></g>'
   };
   const journeyPicture = name => `<svg viewBox="0 0 48 48" aria-hidden="true"><g stroke="#70501b" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">${journeyPictures[name] || journeyPictures.pop}</g></svg>`;
 
@@ -88,15 +90,6 @@
   const STAGE_SEEN_KEY = "quran-trainer:letters:pet-stage-seen";
   const GREET_KEY = "quran-trainer:letters:greeted";
   const TRIED_KEY = "quran-trainer:letters:tried";
-  const PG_CHIPS = {
-    // Ears First (v61): a listening ear.
-    listen: `<svg viewBox="0 0 40 40" width="34" height="34"><path d="M24 6Q34 6 34 17Q34 23 28 26Q24 28 24 33Q24 38 18 38Q13 38 12 33" fill="#ffa798" stroke="#4a3620" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 18Q14 8 24 6" fill="none" stroke="#4a3620" stroke-width="2.4" stroke-linecap="round"/><path d="M22 16Q26 16 26 20Q26 23 23 24" fill="none" stroke="#4a3620" stroke-width="2.4" stroke-linecap="round"/><path d="M6 14Q3 20 6 26M9 16Q7 20 9 24" fill="none" stroke="#62cdf4" stroke-width="2.4" stroke-linecap="round"/></svg>`,
-    play: `<svg viewBox="0 0 40 40" width="34" height="34"><path d="M20 34Q4 24 6 14Q8 6 15 7Q19 8 20 12Q21 8 25 7Q32 6 34 14Q36 24 20 34Z" fill="#ee806f" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/></svg>`,
-    read: `<svg viewBox="0 0 40 40" width="34" height="34"><path d="M4 10Q12 6 20 10Q28 6 36 10V32Q28 28 20 32Q12 28 4 32Z" fill="#fffdf7" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/><path d="M20 10V32" stroke="#4a3620" stroke-width="2.4"/></svg>`,
-    think: `<svg viewBox="0 0 40 40" width="34" height="34"><path d="M20 5Q31 5 31 16Q31 22 25 26V30H15V26Q9 22 9 16Q9 5 20 5Z" fill="#ffe49a" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/><path d="M15 34H25" stroke="#4a3620" stroke-width="3" stroke-linecap="round"/></svg>`,
-    write: `<svg viewBox="0 0 40 40" width="34" height="34"><path d="M8 32L10 24L28 6L34 12L16 30Z" fill="#ffa798" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/><path d="M8 32L16 30L10 24Z" fill="#4a3620"/></svg>`,
-    explore: `<svg viewBox="0 0 40 40" width="34" height="34"><circle cx="17" cy="17" r="10" fill="#ccfbef" stroke="#4a3620" stroke-width="3"/><path d="M25 25L34 34" stroke="#70501b" stroke-width="4" stroke-linecap="round"/></svg>`,
-  };
   const WALK_KEY = "quran-trainer:letters:walk";
   const BOOKS_KEY = "quran-trainer:letters:books";
   // Today's Walk (v25): a little trail of footprints on the map header.
@@ -221,6 +214,7 @@
       this.stickers = this.loadJSON("quran-trainer:letters:stickers", { owned: [] });
       this.gardenLayout = this.loadJSON("quran-trainer:letters:garden-layout", {version:1,slots:[null,null,null,null]});
       this.savedDrawings = this.loadJSON("quran-trainer:letters:drawings", {});
+      this.keepsakes = this.loadJSON("quran-trainer:letters:keepsakes", {});
       // Where the pet waits on the map survives reloads; a locked or unknown
       // chapter falls back to the current lesson when the map draws.
       this.mapPetWorld = this.loadJSON("quran-trainer:letters:map-pet", null);
@@ -272,7 +266,7 @@
     // direct touch. Keyboard and scripted clicks are left alone.
     initReach() {
       const AIM = "button:not([disabled]), [role=button], .pop-bubble, .catch-faller, .map-stop, .meet-bud, .meet-piece, [data-tap]";
-      const NEVER = ".lg-topbar, .lg-grownup-dot, canvas, .trace-guided, .studio-canvas, .gu-scroll, input, select, textarea, [aria-disabled=true]";
+      const NEVER = ".lg-topbar, .lg-grownup-dot, canvas, .trace-guided, .studio-canvas, .gu-scroll, input, select, textarea, [aria-disabled=true], .drawing-choice";
       if (typeof this.root?.addEventListener !== "function") return;
       this.root.addEventListener("click", (e) => {
         if (!e.isTrusted || e.detail === 0 || !e.target?.closest) return;
@@ -289,7 +283,10 @@
         if (near.length !== 1) return;
         e.preventDefault();
         e.stopPropagation();
-        near[0].click();
+        // v263: village landmarks are SVG <g role="button"> elements, which have no .click() —
+        // a near-miss tap beside one threw and did nothing. Dispatch a real click instead.
+        if (typeof near[0].click === "function") near[0].click();
+        else near[0].dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true, view: window, clientX: e.clientX, clientY: e.clientY }));
       }, true);
     }
 
@@ -376,17 +373,8 @@
     initTouchFeedback() {
       this.initFriendLife();
       if (!ns.Haptics) return;
-      // Tactile pass (v55): a press should feel like pressing something.
-      // Web apps get no real haptics on most tablets, so touch is carried by
-      // four channels together, all from this one delegated listener:
-      //   1. the thing sinks while the finger is down (is-pressed) and
-      //      springs back with a little overshoot when it lets go;
-      //   2. it makes the sound of what it is — a soft thock down, a pop up,
-      //      deeper for big things;
-      //   3. a ripple blooms where the finger landed (a faint silent one on
-      //      empty ground, so the world answers every touch);
-      //   4. a real tick where the device can do one (Android buzz; iPhone
-      //      via the system switch — see Haptics.js).
+      // Gentle contact: a small depression and smooth return, with the
+      // existing sound/haptics. Learning screens do not add touch ripples.
       const TAPPABLE =
         "button, [role=button], .pop-bubble, .catch-faller, .map-stop, .meet-bud, .meet-piece, [data-tap]";
       let pressed = null;
@@ -396,7 +384,7 @@
       this.root.appendChild(layer);
       const sizeOf = (el) => { const r = el.getBoundingClientRect(); return Math.sqrt(Math.max(1, r.width * r.height)) / 80; };
       const bloom = (x, y, quiet) => {
-        if (this.prefersReducedMotion()) return;
+        if (this.prefersReducedMotion() || this.root.dataset.attention === "learn") return;
         if (!layer.isConnected) this.root.appendChild(layer);
         const b = document.createElement("i");
         b.className = quiet ? "lg-bloom is-quiet" : "lg-bloom";
@@ -411,8 +399,7 @@
         el.classList.remove("is-pressed");
         if (cancelled || !el.isConnected) return;
         try { this.sound.press(sizeOf(el), true); } catch {}
-        // The spring — but never over a thing that is already moving (a
-        // swimming fish, a driving bus): it would jump.
+        // Return to rest without overriding a swimming fish or driving bus.
         if (this.prefersReducedMotion() || getComputedStyle(el).animationName !== "none") return;
         el.classList.remove("is-released"); void el.offsetWidth; el.classList.add("is-released");
         clearTimeout(el._released);
@@ -442,8 +429,7 @@
           if (!(typeof SVGElement !== "undefined" && el instanceof SVGElement && !(el instanceof SVGSVGElement))) {
             pressed = el;
             el.classList.remove("is-released", "is-hit", "is-miss");
-            // Feel pass (v56): friends are soft (they squash wide and stretch
-            // back like rubber); buttons, stones and cards press firm.
+            // Keep material classification for callers; both now settle gently.
             el.classList.toggle("is-soft", !!el.querySelector?.("svg.lf:not(.is-plain)") || el.classList.contains("tb-fish"));
             el.classList.add("is-pressed");
           }
@@ -461,15 +447,9 @@
       const up = () => release(false);
       window.addEventListener("pointerup", up, { passive: true });
       window.addEventListener("pointercancel", () => release(true), { passive: true });
-      // Feel pass (v56) — what an iPad (no haptic hardware at all) gets
-      // instead of a buzz. Built from how games, cartoons and film make an
-      // audience feel contact (see RELEASES v56): a right answer is a HIT —
-      // a held squash (hit-stop), one small flash, a pop past full size,
-      // impact lines from the fingertip, neighbours nudged, a 3px jolt of the
-      // play area — while a miss is a dull thud that doesn't spring. Small
-      // and single by design (WCAG: no flash trains, no big shakes); none of
-      // it under reduced motion. Driven by the sound vocabulary, so every
-      // "correct" and "softwrong" anywhere in the game is felt.
+      // Answers acknowledge the child's action locally. No flash, impact
+      // rays, neighbour displacement or stage jolt. Keep assistance bookkeeping
+      // and the sound vocabulary intact; visual motion never gates progression.
       const recent = () => {
         const t = this._touch;
         return t && t.el?.isConnected && performance.now() - t.at < 1500 ? t : null;
@@ -479,15 +459,11 @@
       const replay = (el, cls, ms) => { el.classList.remove("is-released", "is-hit", "is-miss"); void el.offsetWidth; el.classList.add(cls); clearTimeout(el._feel); el._feel = setTimeout(() => el.classList.remove(cls), ms); };
       this.feel = {
         hit: () => {
-          // Encouragement pass (v57): getting it after missing is the proudest
-          // moment — a bigger, golder burst and a little extra chime. Trying
-          // again is what we most want a child to learn feels good.
+          // Keep encouragement after a retry without escalating visual intensity.
           const comeback = (this._missStreak || 0) > 0;
           this._missStreak = 0;
-          // On a roll (v58): every third win in a row, the burst opens as
-          // petals. Nothing counts it on screen, so losing the run is never seen.
+          // Preserve the internal run counter; it no longer escalates effects.
           this._hitRun = (this._hitRun || 0) + 1;
-          const bloom = !comeback && this._hitRun % 3 === 0;
           if (this.easeUp && (this._easeWins = (this._easeWins || 0) + 1) >= 5) { this.easeUp = false; this._missTimes = []; }
           document.querySelectorAll(".lg-guide-hand").forEach((h) => h.remove());
           const t = recent();
@@ -499,18 +475,9 @@
             return;
           }
           const el = t.el;
-          if (!layer.isConnected) this.root.appendChild(layer);
-          // Impact lines burst from where the finger touched.
-          const burst = document.createElement("i");
-          burst.className = comeback ? "lg-burst is-big" : bloom ? "lg-burst is-bloom" : "lg-burst";
           if (comeback) setTimeout(() => { try { this.sound.play("chime"); } catch {} }, 160);
-          burst.style.left = `${t.x}px`; burst.style.top = `${t.y}px`;
-          if (bloom) burst.innerHTML = `<svg viewBox="-50 -50 100 100" aria-hidden="true">${["#ffa798", "#f3c955", "#b49fcf", "#96ecff", "#7fce54", "#ee806f"].map((fill, k) => `<ellipse cx="0" cy="-30" rx="7" ry="11" fill="${fill}" stroke="#4a3620" stroke-width="1.6" transform="rotate(${k * 60 + 15})"/>`).join("")}</svg>`;
-          else burst.innerHTML = `<svg viewBox="-50 -50 100 100" aria-hidden="true">${Array.from({ length: comeback ? 12 : 8 }, (_, k, all) => { const a = (k / (comeback ? 12 : 8)) * Math.PI * 2 + 0.2; const c = Math.cos(a), s2 = Math.sin(a); return `<path d="M${(c * 22).toFixed(1)} ${(s2 * 22).toFixed(1)}L${(c * 38).toFixed(1)} ${(s2 * 38).toFixed(1)}" stroke="${k % 2 ? "#f3c955" : "#fffdf7"}" stroke-width="6" stroke-linecap="round"/>`; }).join("")}</svg>`;
-          layer.appendChild(burst);
-          setTimeout(() => burst.remove(), bloom ? 640 : 520);
           if (isSvgPart(el) || moving(el)) return;
-          // The held squash, the flash, the pop.
+          // A gentle acknowledgement; the game owns the retained success state.
           replay(el, "is-hit", 520);
           // Encouragement pass (v57): the round is won — the other choices
           // step back softly, so taps during the pause before the next round
@@ -522,24 +489,7 @@
             box.classList.add("lg-solved");
             setTimeout(() => { box.classList.remove("lg-solved"); el.classList.remove("is-won"); }, 2600);
           }
-          const r = el.getBoundingClientRect();
-          if (r.width * r.height < 360 * 360) {
-            const flash = document.createElement("i");
-            flash.className = "lg-hit-flash";
-            Object.assign(flash.style, { left: `${r.left}px`, top: `${r.top}px`, width: `${r.width}px`, height: `${r.height}px`, borderRadius: getComputedStyle(el).borderRadius || "20px" });
-            layer.appendChild(flash);
-            setTimeout(() => flash.remove(), 260);
-          }
-          // Neighbours feel it: they lean away from the hit and come back.
-          const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-          [...(el.parentElement?.children || [])].filter((n) => n !== el && n.matches?.("button") && !moving(n)).slice(0, 6).forEach((n) => {
-            const q = n.getBoundingClientRect();
-            const dx = q.left + q.width / 2 - cx, dy = q.top + q.height / 2 - cy, d = Math.hypot(dx, dy) || 1;
-            n.animate?.([{ translate: "0 0" }, { translate: `${((dx / d) * 5).toFixed(1)}px ${((dy / d) * 5).toFixed(1)}px` }, { translate: "0 0" }], { duration: 300, delay: 70, easing: "cubic-bezier(.3,1.4,.5,1)" });
-          });
-          // The play area takes the blow: a 3px jolt down and back.
-          const stage = el.closest(".practice-stage, .play-stage");
-          stage?.animate?.([{ translate: "0 0" }, { translate: "0 3px" }, { translate: "0 -1px" }, { translate: "0 0" }], { duration: 220, delay: 70, easing: "ease-out" });
+
         },
         miss: () => {
           // Encouragement pass (v57): a second miss in a row brings a helping
@@ -563,20 +513,25 @@
         },
       };
 
-      // `idle`: a still child gets shown WHERE to touch — the game's hint if
-      // there is one, else the first thing that can be pressed (never the
-      // answer), so a first-timer learns how to play without words.
+      // `idle`: use a game's explicit hint or a neutral replay/help action.
+      // DOM order cannot tell us which answer to show a child.
       this.feel.guide = (idle = false) => {
         const stage = this.root.querySelector(".practice-stage, .play-stage");
         const visible = (el) => el.getClientRects().length && !el.disabled && getComputedStyle(el).visibility !== "hidden";
+        // Success belongs to the child: invite the next step, never replay or
+        // point back into a finished question just because it appears first.
+        const next = idle && this.idleControls().next;
+        if (next) return this.feel.point(next);
         // A stray tap muted a wordless game: a still child is shown the
         // speaker first, so the garden can talk again.
         const muted = idle && !this.sound.enabled && [...this.root.querySelectorAll(".lg-sound")].find(visible);
         if (muted) return this.feel.point(muted);
         const target = stage && ([...stage.querySelectorAll(".is-hint")].find(visible)
-          || (idle ? [...stage.querySelectorAll(".tb-sponge, button:not(.practice-replay), [role='button'][tabindex='0']")].find(visible) : null)
+          || (idle ? this.idleControls().replay
+            || [...stage.querySelectorAll(".tb-sponge, .ff-help, .hunt-help, .together-help")].find(visible) : null)
           // The older chapter games mark no hint (they fade wrong options and
           // pulse the question): the hand points at the question — hear it again.
+          || [...this.root.querySelectorAll(".lg-action-help")].find(visible)
           || [...this.root.querySelectorAll(".play-bubble")].find(visible));
         if (target) this.feel.point(target);
       };
@@ -595,8 +550,17 @@
           const follow = () => { if (!hand.isConnected || !target.isConnected) return hand.remove(); place(); requestAnimationFrame(follow); };
           requestAnimationFrame(follow);
         }
-        const gone = () => hand.remove();
+        // A phone rotation changes every target position. Retire this cue
+        // rather than leave a hand pointing at the old screen coordinates.
+        const gone = () => {
+          hand.remove();
+          this.root.removeEventListener("pointerdown", gone);
+          this.root.removeEventListener("keydown", gone);
+          window.removeEventListener("resize", gone);
+        };
         this.root.addEventListener("pointerdown", gone, { once: true });
+        this.root.addEventListener("keydown", gone, { once: true });
+        window.addEventListener("resize", gone, { once: true });
         setTimeout(gone, 5000);
       };
 
@@ -613,7 +577,7 @@
         if (!e.target.closest?.(".practice-replay, .play-bubble, .delivery-listen, [aria-label^='Hear']")) return;
         const speaker = [...this.root.querySelectorAll(".lg-sound")].find((el) => el.getClientRects().length && getComputedStyle(el).visibility !== "hidden");
         if (!speaker) return;
-        if (!this.prefersReducedMotion()) speaker.animate?.([{ scale: "1" }, { scale: "1.25" }, { scale: "1" }], { duration: 360, easing: "cubic-bezier(.3,1.6,.5,1)" });
+        if (!this.prefersReducedMotion()) speaker.animate?.([{ opacity: .65 }, { opacity: 1 }], { duration: 360, easing: "ease-out" });
         this.feel.point(speaker);
       });
     }
@@ -722,6 +686,7 @@
       this.root.addEventListener("pointermove", (e) => {
         if (e.pointerType === "mouse" && e.buttons === 0) return; // drags only, not hover
         if (this.prefersReducedMotion() || this.gentle) return; // the in-app switch, not only the OS setting; calm in gentle mode
+        if (this.root.dataset.attention === "learn") return; // no glitter under drawing or letter manipulation
         const now = performance.now();
         if (now - last < 40 && Math.hypot(e.clientX - lx, e.clientY - ly) < 24) return;
         last = now;
@@ -958,33 +923,19 @@
       const night = Art.dayPhase?.() === "night";
       const daily = this.worlds.dailySession(this.progress.done);
       const stamped = this.stamps.dates.includes(todayStr());
-      const walk = this.todaysWalk?.();
+      const walk = ns.GardenAdventure ? new ns.GardenAdventure(this).status() : this.todaysWalk?.();
+      const projects=ns.GardenAdventureState?.normalize(this.loadJSON('quran-trainer:letters:garden-adventure',null)).projects;
+      const grownProject=projects&&Object.keys(projects).find(id=>projects[id].complete);
       const practiceOpen = this.progress.done.includes("pack-boat") || Object.keys(this.bests).some((k) => k.startsWith("pack-boat:"));
       const friends = this.homeFriends?.() || [];
       const find = this.todaysFind?.();
       const bud = !find && this.pet && (() => { const f = this.findsState(); return f.day === todayStr() && this.treasureIds().some((id) => !f.owned.includes(id)); })();
-      const ratio = window.innerWidth / Math.max(1, window.innerHeight), wide = ratio > 1.15, tablet = wide && ratio < 1.5;
-      // Two compositions: an upright one for phones, a wide one for sideways
-      // phones and tablets. Positions are in the scene's own units.
-      const L = tablet
-        // Tablets (4:3 to 3:2): a squarer stage, so the village fills the screen and its landmarks are big.
-        ? { W: 820, H: 640, hz: 0.33, trail: "M410 680Q380 600 430 540Q480 480 410 430Q340 380 400 320Q430 290 410 250", pebbles: [[400, 610], [438, 540], [400, 470], [380, 400], [412, 330]],
-            gate: [410, 130, 1.05], cottage: [140, 360, 1.0], yard: [150, 480, 0.86], stall: [560, 300, 164], friends: [290, 556, 0.98], toy: [600, 560, 0.94],
-            stones: [410, 612, 0.95], sundial: [62, 280, 0.9], flowers: [760, 300, 0.9], pet: [410, 404, 118], find: [520, 446],
-            trees: [[30, 600, 1.15, 1], [790, 610, 1.05, 0], [250, 268, 0.6, 1], [640, 250, 0.55, 0]], bushes: [[520, 610, 0.9], [110, 610, 0.8]] }
-        : wide
-        ? { W: 900, H: 560, hz: 0.36, trail: "M450 600Q420 520 470 470Q520 420 450 370Q380 320 440 270Q470 240 450 200", pebbles: [[440, 540], [478, 470], [440, 400], [420, 330], [452, 262]],
-            gate: [450, 112, 0.92], cottage: [168, 306, 0.95], yard: [168, 410, 0.82], stall: [640, 236, 150], friends: [300, 446, 0.92], toy: [650, 448, 0.86],
-            stones: [450, 528, 0.9], sundial: [80, 252, 0.85], flowers: [822, 262, 0.85], pet: [450, 330, 104], find: [560, 360], visitor: [250, 330],
-            trees: [[40, 470, 1.1, 1], [860, 480, 1, 0], [260, 230, 0.6, 1], [700, 210, 0.55, 0]], bushes: [[560, 520, 0.9], [130, 520, 0.8]] }
-        : { W: 375, H: 667, hz: 0.34, trail: "M168 700Q150 600 196 540Q250 470 186 410Q120 350 182 300Q220 270 188 236", pebbles: [[176, 640], [190, 560], [214, 500], [190, 430], [158, 370], [176, 312]],
-            gate: [188, 128, 0.98], cottage: [86, 330, 0.84], yard: [80, 438, 0.74], stall: [232, 290, 132], friends: [92, 552, 0.88], toy: [292, 560, 0.82],
-            stones: [196, 642, 0.8], sundial: [40, 246, 0.78], flowers: [336, 250, 0.78], pet: [196, 418, 96], find: [272, 478], visitor: [306, 452],
-            trees: [[14, 640, 1.05, 1], [364, 648, 0.85, 0]], bushes: [[352, 392, 0.7], [18, 400, 0.6]] };
+      const L = V.layout(window.innerWidth, window.innerHeight);
       const at = ([x, y, sc = 1]) => `transform="translate(${x} ${y}) scale(${sc})"`;
       const spot = (go, label, pos, body, extra = "") => `<g class="vg-spot" data-go="${go}" role="button" tabindex="0" aria-label="${label}" ${at(pos)}${extra}><g class="vg-spot-in">${body}</g></g>`;
       const nested = (svg, x, y, w, h) => svg.replace(/<svg /, `<svg x="${x}" y="${y}" width="${w}" height="${h}" `);
-      const [sx, sy, sw] = L.stall;
+      // Landmarks share scene coordinates and a ground-contact anchor.
+      // Artwork size is separate from the measured 52px minimum tap pad.
       const petSize = L.pet[2];
       const el = this.screen("lg-village", `${this.topBar({ home: false })}
         <div class="vg-stage"><svg class="vg-scene" viewBox="0 0 ${L.W} ${L.H}" preserveAspectRatio="xMidYMid meet" aria-label="Your garden village">
@@ -996,16 +947,16 @@
           ${spot("journey", "Go on the letter journey", L.gate, V.gate(glyph, next?.hue ?? 268, latin))}
           ${spot("pet", "Your pet's house and wardrobe", L.cottage, V.cottage())}
           ${spot("decorate", "Decorate your garden", L.yard, V.yard())}
-          ${spot("album", "Stickers and treasures", [sx, sy, 1], `${nested(V.stall ? `<svg viewBox="-72 -74 144 150" overflow="visible">${V.stall()}</svg>` : ns.LettersRoomArt.stand(sw), 0, 0, sw, Math.round(sw * 0.92))}${this.starBalance() ? `<g transform="translate(${sw * 0.62} ${sw * 0.12})"><circle r="17" fill="#ffe49a" stroke="#4a3620" stroke-width="3"/><path d="M0 -9L2.6 -3H9L4 1L6 8L0 4L-6 8L-4 1L-9 -3H-2.6Z" fill="#f3c955" stroke="#4a3620" stroke-width="1.6" stroke-linejoin="round"/></g>` : ""}`)}
+          ${spot("album", "Stickers and treasures", L.stall, `${V.stall()}${this.starBalance() ? `<g transform="translate(32 -52)"><circle r="14" fill="#ffe49a" stroke="#4a3620" stroke-width="3"/><path d="M0 -8L2.4 -2.5H8L3.5 1L5 7L0 3.5L-5 7L-3.5 1L-8 -2.5H-2.4Z" fill="#f3c955" stroke="#4a3620" stroke-width="1.6" stroke-linejoin="round"/></g>` : ""}`)}
           ${spot("friends", "The friends' garden", L.friends, V.friendsBed(friends.slice(-3), (c) => ns.LetterFriends.art(c, { size: 70 })))}
           ${spot("practice", practiceOpen ? "The toy chest: games to play" : "The toy chest opens after the first chapter", L.toy, V.toyChest(practiceOpen), practiceOpen ? "" : ' aria-disabled="true"')}
-          ${walk ? spot("walk", "Today's walk", L.stones, V.stones(walk.done.length, walk.stops.length)) : ""}
+          ${walk ? spot("walk", "Garden adventures", L.stones, V.stones(walk.done.length, walk.stops.length)+(grownProject?`<g transform="translate(0 -34) scale(.55)" aria-hidden="true">${ns.GardenAdventureArt.visitor(grownProject)}</g>`:"")) : ""}
           ${daily ? spot("daily", "Daily letter practice", L.sundial, V.sundial(stamped)) : ""}
           ${daily ? spot("checkup", "Letter check-up", L.flowers, V.flowerBed()) : ""}
           ${find ? `<g class="vg-find" data-find="${find}" role="button" tabindex="0" aria-label="A treasure to pick up" transform="translate(${L.find[0]} ${L.find[1]})"><g class="vg-find-in"><circle class="vg-hit" r="30" fill="#fffaf0" fill-opacity="0"/>${V.shadow(0, 16, 15, 3)}<circle r="21" fill="#ffe49a" opacity=".45"/><circle r="17" fill="none" stroke="#f3c955" stroke-width="2.4" stroke-dasharray="1 7" stroke-linecap="round"/>${[[-20, -14], [19, -16], [22, 10]].map(([x, y]) => `<path transform="translate(${x} ${y}) scale(.5)" d="M0 -9Q1 -1 9 0Q1 1 0 9Q-1 1 -9 0Q-1 -1 0 -9Z" fill="#fffdf7" stroke="#f3c955" stroke-width="2.4"/>`).join("")}${nested(ns.LettersRoomArt.treasure(find, 38), -19, -21, 38, 38)}</g></g>` : ""}
           ${bud ? `<g class="vg-bud" role="button" tabindex="0" aria-label="Something is growing for tomorrow" transform="translate(${L.find[0]} ${L.find[1]})"><g class="vg-find-in">${nested(TOMORROW_BUD, -24, -30, 48, 48)}</g></g>` : ""}
           ${V.shadow(L.pet[0], L.pet[1] + petSize * 0.36, petSize * 0.36, petSize * 0.07, 0.25)}
-          <g class="vg-pet" role="button" tabindex="0" aria-label="Your pet">${nested(this.petSVG(petSize, "delighted"), L.pet[0] - petSize / 2, L.pet[1] - petSize * 0.58, petSize, Math.round(petSize * 1.09))}</g>
+          <g class="vg-pet" role="button" tabindex="0" aria-label="Your pet"><foreignObject x="${L.pet[0] - petSize / 2}" y="${L.pet[1] - petSize * 0.58}" width="${petSize}" height="${Math.ceil(petSize * 1.16)}" overflow="visible"><div xmlns="http://www.w3.org/1999/xhtml" class="vg-pet-art">${this.petSVG(petSize, "delighted")}</div></foreignObject></g>
         </svg></div>`);
       this.wireTopBar(el);
       const rig = this.petLife(el.querySelector(".vg-pet"), el);
@@ -1044,7 +995,14 @@
         });
       };
       requestAnimationFrame(padSpots);
-      const padResize = () => { if (!el.isConnected) return removeEventListener("resize", padResize); padSpots(); };
+      const layoutFamily = L.family;
+      const padResize = () => {
+        if (!el.isConnected) return removeEventListener("resize", padResize);
+        const ratioNow = window.innerWidth / Math.max(1, window.innerHeight);
+        const nextFamily = ratioNow > 1.15 ? (ratioNow < 1.5 ? "tablet" : "wide") : "portrait";
+        if (nextFamily !== layoutFamily) { removeEventListener("resize", padResize); this.renderVillage(); return; }
+        padSpots();
+      };
       addEventListener("resize", padResize);
       el.querySelectorAll(".vg-spot").forEach((g) => {
         const act = () => {
@@ -2038,10 +1996,10 @@
 
     say(item, onEnd) {
       if (!item) return;
-      // Real Recitation (v14): a real Quran word carries its word-by-word clip;
-      // play Mishary Alafasy reciting it rather than a speech engine reading
-      // it. Offline or on any failure the same request falls back to the
-      // garden's voice, so a learning prompt never stalls.
+      // Owner's Marin direction (2026-10-20): an approved exact local reading
+      // wins on every screen, including a Quran word carrying an audioPath.
+      // Keep the existing fallback for gaps until replacements are reviewed.
+      if (this.voice?.has(item.speak || item.display)) return this.speak(item.speak || item.display, onEnd);
       if (item.audioPath && this.sound.enabled && ns.RecitationAudio && navigator.onLine !== false) return this.recite(item, onEnd);
       // Keep names/diacritics from the curriculum, including word displays.
       // The local bank matches the exact teaching request, including diacritics.
@@ -2169,7 +2127,13 @@
           if (this._learningSpeechCancel === cancel) this._learningSpeechCancel = null;
           resolve(heard);
         };
-        const cancel = () => finish(false);
+        const cancel = () => {
+          if (settled) return;
+          finish(false);
+          // Expiring the lesson's promise must also cancel its loading/playing
+          // audio. Otherwise a late download can speak over the next question.
+          if (this.utterance === utterance) this.stopSpeech();
+        };
         const end = utterance.onend, error = utterance.onerror, start = utterance.onstart;
         const timer = setTimeout(cancel, 6500);
         // v58: speech that never STARTS (no voice installed, blocked audio,
@@ -2217,6 +2181,8 @@
     // ---------- chrome ----------
 
     screen(className, inner) {
+      this.cancelDrawingChoice?.(); this.cancelDrawingChoice = null;
+      this.stopPracticeFinish?.();this.stopPracticeFinish=null;
       this.screenListeners?.abort();
       this.screenListeners = typeof AbortController === 'function' ? new AbortController() : null;
       this.stopJourneyPose?.();
@@ -2230,7 +2196,10 @@
       this.cancelMeetPointer=null;
       this.cancelAdultHold?.();
       this.cancelAdultHold = null;
+      this.cancelHomeHold?.();
+      this.cancelHomeHold = null;
       this.stopSpeech();
+      this.actionCue?.destroy(); this.actionCue = null;
       this.unmountActivityArt?.();
       this.unmountActivityArt=null;
       if (this.game && this.game.destroy) this.game.destroy();
@@ -2239,6 +2208,14 @@
       // butterfly/firefly layer is invisible behind the play panel anyway —
       // stop compositing it so game frames get the whole budget.
       document.body.classList.toggle("lg-in-game", className === "lg-play");
+      // Focus follows the current task, not the chapter or the child's ability.
+      const learningScreen = /\blg-(play|meet)\b/.test(className);
+      this.root.dataset.attention = learningScreen ? "learn" : "explore";
+      document.body.classList.toggle("lg-learning-screen", learningScreen);
+      document.body.classList.toggle("lg-village-screen", /\blg-village\b/.test(className));
+      // Decorative feedback belongs to the action that created it.
+      document.querySelectorAll(".lg-confetti-layer").forEach(layer => layer.remove());
+      document.querySelectorAll(".lg-spark").forEach(spark => { spark.style.display = "none"; });
       // v97: the creatures are chosen at boot, so a session that ran past
       // sunset kept daytime butterflies under a starry sky. Re-pick them
       // whenever the phase has crossed day/night.
@@ -2298,6 +2275,12 @@
       return screenEl;
     }
 
+    teachAction(host, options) {
+      this.actionCue?.destroy();
+      this.actionCue = ns.LettersActionCue?.mount({ host, reducedMotion: () => this.prefersReducedMotion(), ...options });
+      return this.actionCue;
+    }
+
     idlePoint(screenEl, ms = 10000, pick = ".meet-bud, .meet-piece:not(.is-set), .stars-next, .meet-next, .party-next") {
       if (typeof screenEl?.addEventListener !== "function" || typeof setTimeout !== "function") return;
       let touched = false;
@@ -2322,25 +2305,46 @@
       arm(ms);
     }
 
-    // Gentle mode: if no finger has touched the screen for 8 seconds, the
-    // prompt says itself again (the same as tapping its replay) — twice at most.
+    idleControls(screenEl = this.root) {
+      const visible = el => el.isConnected !== false && !el.hidden && !el.disabled
+        && el.getAttribute?.("aria-disabled") !== "true"
+        && !el.closest?.('[hidden], [inert], [aria-hidden="true"]')
+        && el.getClientRects().length && getComputedStyle(el).visibility !== "hidden";
+      const first = selectors => [...(screenEl?.querySelectorAll(selectors) || [])].find(visible) || null;
+      // Only completion/continuation actions, not always-available page or
+      // material pickers. Reuse the live controls; do not infer from wording.
+      const next = first(".ea-next, .wd-next, .delivery-next, .ff-next, .hunt-next, .wg-next, .pond-next, .catch-next, .pairs-next, .feed-next, .trace-next, .build-next, .unfuse-next, .unfuse-find, .parade-next, .parade-continue, .path-continue, .together-next, .pz-drive.is-ready, .pz-echo-next, .sh-next, .pz-stamp.is-next, .pz-same-next, .bk-peek-next, .bk-sort-finish, .bk-trip-next, .bk-shape-next, .bk-market-finish");
+      const replay = first(".play-bubble, .practice-replay, .ea-replay-all, .wd-ear");
+      return { next, replay };
+    }
+
+    // A pause invites help at the current step. Completed rounds only point
+    // forward; unanswered prompts may replay. Every cue counts toward the cap.
     watchIdlePrompt(screenEl, wait = 8000, times = 2) {
       if (typeof setTimeout !== "function" || typeof clearTimeout !== "function") return;
       clearTimeout(this._idleTimer);
+      const generation = this._idleGeneration = (this._idleGeneration || 0) + 1;
+      const current = () => generation === this._idleGeneration && screenEl.isConnected && !screenEl.dataset?.practiceFinished;
       let repeats = 0;
       const arm = () => {
+        if (!current()) return;
         clearTimeout(this._idleTimer);
         if (repeats >= times) return;
         this._idleTimer = setTimeout(() => {
-          if (!screenEl.isConnected) return;
-          const replay = screenEl.querySelector(".play-bubble, .practice-replay");
-          if (replay && !replay.disabled) { repeats += 1; replay.click(); }
-          // Encouragement pass (v57): and the helping hand shows where to touch.
-          this.feel?.guide?.(true);
+          if (!current()) return;
+          repeats += 1;
+          const { next, replay } = this.idleControls(screenEl);
+          if (next) this.feel?.point?.(next);
+          else {
+            if (replay && this.sound?.enabled) replay.click();
+            if (current()) this.feel?.guide?.(true);
+          }
           arm();
         }, wait);
       };
-      screenEl.addEventListener("pointerdown", () => { repeats = 0; arm(); });
+      const rearm = () => { repeats = 0; arm(); };
+      screenEl.addEventListener("pointerdown", rearm);
+      screenEl.addEventListener("keydown", rearm);
       arm();
     }
 
@@ -2371,21 +2375,46 @@
     }
 
     wireTopBar(el, onHome) {
+      this.cancelHomeHold?.(); this.cancelHomeHold = null;
       const home = el.querySelector(".lg-home-btn");
       // v64: inside a chapter Home goes back to the journey map; everywhere else, to the village.
       // Only a real chapter session counts (it tracks gameIndex); hubs and toys reuse the same screen styles.
       const inChapter = /\blg-(play|meet|stars|party)\b/.test(el.className) && Number.isInteger(this.session?.gameIndex) && !this.session?.chapterBonus;
-      const leave = () => { this.sound.play("page"); onHome ? onHome() : inChapter ? this.renderHome() : this.renderVillage(); };
+      let left = false;
+      const current = () => el.isConnected && (!this.root?.contains || this.root.contains(el));
+      const leave = () => {
+        if (left || !current()) return;
+        left = true; this.cancelHomeHold?.();
+        this.sound.play("page"); onHome ? onHome() : inChapter ? this.renderHome() : this.renderVillage();
+      };
       // Little Sprout: inside an activity, Home needs a short hold (a ring
       // fills) so a stray tap from a tiny hand doesn't end the game.
       const holdToLeave = this.sprout && /\blg-(play|meet|stars)\b/.test(el.className);
       if (home && holdToLeave) {
         home.classList.add("is-hold");
-        let timer = null;
-        const stop = () => { clearTimeout(timer); timer = null; home.classList.remove("is-holding"); };
-        home.addEventListener("pointerdown", () => { stop(); home.classList.add("is-holding"); timer = setTimeout(() => { stop(); leave(); }, 800); });
-        ["pointerup", "pointercancel", "pointerleave"].forEach(type => home.addEventListener(type, stop));
-        home.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); leave(); } });
+        let timer = null, pointer = null, generation = 0, alive = true;
+        const stop = () => { generation++; clearTimeout(timer); timer = null; pointer = null; home.classList.remove("is-holding"); };
+        const hidden = () => { if (document.hidden) stop(); };
+        home.addEventListener("pointerdown", e => {
+          if (!alive || !current() || left || e.button !== 0 || e.isPrimary === false || pointer !== null) return;
+          pointer = e.pointerId;
+          const turn = ++generation;
+          home.classList.add("is-holding");
+          timer = setTimeout(() => {
+            if (!alive || turn !== generation || pointer !== e.pointerId) return;
+            stop(); leave();
+          }, 800);
+        });
+        ["pointerup", "pointercancel", "pointerleave"].forEach(type => home.addEventListener(type, e => { if (pointer === e.pointerId) stop(); }));
+        home.addEventListener("blur", stop);
+        window.addEventListener?.("blur", stop);
+        if (typeof document !== "undefined") document.addEventListener?.("visibilitychange", hidden);
+        this.cancelHomeHold = () => {
+          alive = false; stop();
+          window.removeEventListener?.("blur", stop);
+          if (typeof document !== "undefined") document.removeEventListener?.("visibilitychange", hidden);
+        };
+        home.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); if (!e.repeat && alive) { stop(); leave(); } } });
       } else if (home) home.addEventListener("click", leave);
       const soundBtn = el.querySelector(".lg-sound");
       const syncSound = () => { soundBtn.classList.toggle("is-off", !this.sound.enabled); soundBtn.setAttribute("aria-pressed", String(this.sound.enabled)); };
@@ -2946,6 +2975,7 @@
     }
 
     renderHome() {
+      if (this.shouldShowWindStory?.()) return this.renderWindStory(() => this.renderHome());
       this.applyPhase();
       this.root.style.setProperty("--lg-hue", "150");
       const worlds = this.worlds.worlds;
@@ -2987,7 +3017,7 @@
         `${this.topBar({ home: false })}
         ${ns.VillageArt ? `<button type="button" class="map-village" aria-label="Back to the village">${VILLAGE_BTN}</button>` : ""}
         <div class="map-daily-row lg-tray" aria-label="Garden activities">
-          ${(() => { const walk = this.todaysWalk(); return walk ? `<button type="button" class="map-walk${walk.done.length >= walk.stops.length ? " is-finished" : ""}" aria-label="Today's walk${walk.done.length >= walk.stops.length ? ", finished" : ""}">${WALK_BTN}<span class="walk-steps" aria-hidden="true">${walk.stops.map((_, i) => `<i class="${walk.done.includes(i) ? "is-done" : ""}"></i>`).join("")}</span></button>` : ""; })()}
+          ${(() => { const walk = ns.GardenAdventure ? new ns.GardenAdventure(this).status() : this.todaysWalk(); return walk ? `<button type="button" class="map-walk${walk.done.length >= walk.stops.length ? " is-finished" : ""}" aria-label="Today's walk${walk.done.length >= walk.stops.length ? ", finished" : ""}">${WALK_BTN}<span class="walk-steps" aria-hidden="true">${walk.stops.map((_, i) => `<i class="${walk.done.includes(i) ? "is-done" : ""}"></i>`).join("")}</span></button>` : ""; })()}
           ${daily ? `<button type="button" aria-label="Daily letter practice" class="map-daily${stampedToday ? " is-stamped" : ""}">${(Art.artIcon||Art.icon)("sun", 38)}${stampedToday ? `<i class="map-daily-check">${Art.icon("check", 16)}</i>` : ""}</button>` : ""}
           ${daily ? `<button type="button" class="map-checkup" aria-label="Letter check-up">${(Art.artIcon||Art.icon)("flower", 38)}</button>` : ""}
           <button type="button" class="map-pet" aria-label="Your pet and wardrobe">${this.petSVG(46)}</button>
@@ -3025,7 +3055,7 @@
                   })()}
                   <div class="map-node" data-node-world="${world.id}" style="${at}"><button type="button" class="map-stop is-${status}" data-world="${world.id}" ${status === "current" ? 'aria-current="step"' : ""} aria-label="${world.id === 'pack-boat' ? 'Boat Letters' : world.icon}${status==='done' ? `, completed, ${this.stars[world.id]||0} of 3 stars` : status==='current' ? ', next chapter' : ', locked'}" ${status === "locked" ? 'aria-disabled="true"' : ""}>
                     ${Art.mapStop({ hue: world.hue, label: world.icon, status, stars: this.stars[world.id] || 0, latin: !/[؀-ۿ]/.test(world.icon), partway: status === "current" ? this.partwayOf(world) : 0 })}
-                  </button>${status === "done" ? (world.id !== "pack-boat" && ns.LettersJourney?.memento?.(this.progress, world)) || `<span class="map-flower-bed" aria-hidden="true">${ns.LettersGardenArt.flowerBed({size:88})}</span>` : ""}</div>
+                  </button>${status === "done" ? (world.id !== "pack-boat" && ns.LettersJourney?.memento?.(this.progress, world, this.keepsakes?.[world.id])) || `<span class="map-flower-bed" aria-hidden="true">${ns.LettersGardenArt.flowerBed({size:88})}</span>` : ""}</div>
                   ${i === petI ? `<span class="map-here" data-stop="${i}" style="left:${xOf(i) + side(i)}%; top:${yOf(i)}px">${this.petSVG(64)}</span>` : ""}
                   ${i === petI && find ? `<button type="button" class="map-find" data-find="${find}" aria-label="A treasure to pick up" style="left:${xOf(i) - side(i) * 0.6}%; top:${yOf(i) + 104}px">${ns.LettersRoomArt.treasure(find, 52)}<i class="map-find-glint" aria-hidden="true"></i></button>` : ""}
                   ${i === petI && bud ? `<button type="button" class="map-bud" aria-label="Something is growing for tomorrow" style="left:${xOf(i) - side(i) * 0.6}%; top:${yOf(i) + 104}px">${TOMORROW_BUD}</button>` : ""}
@@ -3054,6 +3084,8 @@
       const trail = el.querySelector(".map-trail");
       const terrain = el.querySelector(".map-landscape");
       const scroll = el.querySelector(".map-scroll");
+      const mapRain = el.querySelector('.lg-weather[data-weather="drizzle"]');
+      if (mapRain) scroll.prepend?.(mapRain);
       const placeWheel = () => {
         if (!el.isConnected) return;
         const w = pathEl.clientWidth || 430, landscapeWidth = scroll.clientWidth || w;
@@ -3359,7 +3391,7 @@
       }
       // The Story of the Garden (v30): the friends' garden, colour returning to
       // finished lands, and one story moment per visit (graduation, a land's
-      // homecoming, or the wind story the first time).
+      // homecoming). The first wind story opens before the map is built.
       try { this.storyOnMap?.(el, { worlds, yOf, gap: GAP, welcome: !!welcome }); } catch {}
       // Landmark toys: shake a tree, lift a leaf, light a lantern, sail the boat.
       const sailBoat = (button) => {
@@ -3377,6 +3409,7 @@
         const toy = event.target?.closest?.(".map-toy");
         if (!toy || !el.isConnected) return;
         const played = toy.dataset.toy === "boat" ? sailBoat(toy)
+          : toy.dataset.toy === "keepsake" ? ns.LettersJourney?.playMemento(toy, { reduced: this.prefersReducedMotion() })
           : ns.LettersMapArt.play(toy, toy.dataset.toy, { reduced: this.prefersReducedMotion(), onLand: () => this.sound.play("thud") });
         if (!played) return;
         this.sound.play({ orchard: "rustle", reeds: "ripple", lantern: "glow", waterwheel: "splash", boat: "splash", basket: "rustle" }[toy.dataset.toy] || "seed");
@@ -3491,7 +3524,11 @@
 
     isGentleDaily() { return !!this.session?.daily && !this.session.challenge; }
 
-    showsRoundProgress() { return this.isReferenceJourney() || this.isGentleDaily(); }
+    showsRoundProgress() {
+      // The illustrated route already tracks activities. Seeds track the
+      // current activity's rounds, including the later craft adventures.
+      return this.isReferenceJourney() || this.isGentleDaily() || !!ns.LettersJourney?.forWorld(this.session?.world)?.craft;
+    }
 
     // Every chapter with a connected adventure (update 3) shares the reference
     // presentation Boat and ح established: round progress and garden layout.
@@ -3567,8 +3604,35 @@
       const world = this.session?.world;
       if (this.isBoatAdventure()) return ns.LettersJourney.route(world, completed);
       if (!this.isReferenceJourney(world) && !this.isGentleDaily()) return '';
-      const labels = {pop:'Pond letters',trace:'Draw letters',feed:'Feed a friend',pairs:'Match letters'};
+      const labels = {pop:'Pond letters',trace:'Draw letters',feed:'Feed a friend',pairs:'Match letters',catch:'Catch fruit',build:'Build with letters'};
       return `<div class="journey-route" role="list" aria-label="${this.isGentleDaily()?'Daily activities':'Chapter activities'}">${world.games.map((name,i)=>`<span class="journey-stop ${i < completed ? 'is-done' : i === completed ? 'is-now' : ''}" role="listitem" ${i === completed ? 'aria-current="step" ' : ''}aria-label="${labels[name] || name}${i < completed ? ', completed' : ''}">${journeyPicture(name)}${i < completed ? `<i>${Art.icon('check',12)}</i>` : ''}</span>`).join('')}</div>`;
+    }
+
+    introVowelItems(world, items) {
+      if (!['fatha', 'kasra-damma'].includes(world.id) || this.progress.done.includes(world.id)) return items;
+      const catalogue = world.catalogue || items;
+      const examples = (world.meet || []).map(card => catalogue.find(item => item.display === card.display)).filter(Boolean);
+      const seen = new Set();
+      // Each item will be made in Blend before it appears in rehearsal.
+      return [...examples, ...items].filter(item => item?.id && !seen.has(item.id) && seen.add(item.id))
+        .slice(0, this.sprout ? 3 : 4);
+    }
+
+    introWordItems(world, items, savedIds) {
+      if (!['words-2', 'decode', 'decode-4'].includes(world.id) || this.progress.done.includes(world.id)) return items;
+      const limit = this.sprout ? 3 : 4;
+      if (Array.isArray(savedIds)) {
+        const ids = [...new Set(savedIds)].slice(0, limit);
+        const restored = ids.map(id => world.catalogue?.find(item => item.id === id));
+        if (ids.length && restored.every(Boolean)) return restored;
+      }
+      const planned = ns.LettersLearning?.planRounds?.({ items, rounds: limit,
+        activity: 'feed', worldId: world.id, completedWorldIds: this.progress.done, beginner: true }) || [];
+      const seen = new Set();
+      // Gather, build and sail the same small collection. The adaptive planner
+      // still selects its words; this is a visit, not a fixed vocabulary list.
+      const selected = planned.map(round => items.find(item => item.id === round?.target?.id)).filter(Boolean);
+      return [...selected, ...items].filter(item => item?.id && !seen.has(item.id) && seen.add(item.id)).slice(0, limit);
     }
 
     startWorld(world) {
@@ -3579,22 +3643,47 @@
         this.sound.play("biomeArrival");
       }
       this.root.style.setProperty("--lg-hue", String(world.hue));
+      const introLesson = !this.progress.done.includes(world.id) ? world.introLesson : null;
       this.session = {
         world,
         meetIndex: 0,
         gameIndex: 0,
         starTotal: 0,
-        items: world.items(),
-        extraItems: world.extraItems ? world.extraItems(this.progress.done) : [],
+        items: introLesson ? introLesson.items.slice() : this.introWordItems(world, this.introVowelItems(world, world.items())),
+        extraItems: introLesson ? introLesson.extraItems.slice() : world.extraItems ? world.extraItems(this.progress.done) : [],
+        lessonContrasts: introLesson?.contrasts,
+        guidedVowels: ['fatha', 'kasra-damma'].includes(world.id) && !this.progress.done.includes(world.id),
+        guidedWords: ['words-2', 'decode', 'decode-4'].includes(world.id) && !this.progress.done.includes(world.id),
       };
-      // Encouragement pass (v57): a chapter left half-way (a stray tap on
-      // Home, bedtime) picks up where the child got to, for a few hours —
-      // nobody has to redo games they already finished.
-      const place = this.loadJSON(RESUME_KEY, null);
-      if (place && place.world === world.id && Date.now() - place.at < 6 * 3600000 && place.gameIndex > 0 && place.gameIndex < world.games.length) {
+      // A bedtime or longer break must not erase completed activities.
+      // Keep valid saved places until completion; timestamps reject malformed
+      // or future saves, rather than putting a time limit on the child's work.
+      const place = this.chapterPlace(world);
+      const age = Number(place?.at) === place?.at ? Date.now() - place.at : NaN;
+      const resumeIndex = place?.gameIndex;
+      const canResume = place?.world === world.id && Number.isInteger(resumeIndex) && resumeIndex > 0 &&
+        resumeIndex <= world.games.length && Number.isFinite(age) && age >= 0 && place.at > 0;
+      if (canResume) {
+        if (this.session.guidedVowels && Array.isArray(place.vowelItemIds)) {
+          const ids = [...new Set(place.vowelItemIds)].slice(0, 4);
+          const restored = ids.map(id => world.catalogue?.find(item => item.id === id));
+          // Saved IDs select authored content; they cannot supply new speech
+          // or a syllable from a different chapter. Old checkpoints still work.
+          if (ids.length && restored.every(Boolean)) this.session.items = restored;
+        }
+        if (this.session.guidedWords && Array.isArray(place.wordItemIds)) {
+          // Keep only IDs while content is unavailable, so Retry can resolve
+          // them against the loaded catalogue without changing the visit.
+          this.session.resumeWordItemIds = place.wordItemIds.slice(0, 4);
+          this.session.items = this.introWordItems(world, this.session.items, this.session.resumeWordItemIds);
+        }
         this.session.gameIndex = place.gameIndex;
         this.session.starTotal = place.starTotal || 0;
         this.session.resumed = true;
+        // The final game's stars and next-step position are saved before its
+        // stars screen. Finish that already-earned chapter on return; don't
+        // replay the final game or pay its stars a second time.
+        if (resumeIndex === world.games.length) return this.finishWorld();
         return this.startGame();
       }
       if (world.meet.length) this.renderMeet();
@@ -3603,15 +3692,51 @@
 
     // How far into a chapter a child got before leaving (0 when not resumable).
     partwayOf(world) {
-      const place = this.loadJSON(RESUME_KEY, null);
-      if (!place || place.world !== world?.id || Date.now() - place.at >= 6 * 3600000) return 0;
+      const place = this.chapterPlace(world);
       const n = world.games?.length || 0;
-      return n && place.gameIndex > 0 && place.gameIndex < n ? place.gameIndex / n : 0;
+      const age = Number(place?.at) === place?.at ? Date.now() - place.at : NaN;
+      if (!n || place?.world !== world?.id || !Number.isInteger(place.gameIndex) || place.gameIndex <= 0 ||
+          place.gameIndex > n || !Number.isFinite(age) || age < 0 || place.at <= 0) return 0;
+      return place.gameIndex / n;
+    }
+
+    chapterPlace(world) {
+      const saved = this.loadJSON(RESUME_KEY, null);
+      if (saved?.world === world?.id) {
+        const { others, ...place } = saved;
+        return place;
+      }
+      return Object.prototype.hasOwnProperty.call(saved?.others || {}, world?.id) ? saved.others[world.id] : null;
+    }
+
+    saveChapterPlace(place) {
+      const saved = this.loadJSON(RESUME_KEY, null);
+      const { others: previousOthers, ...previous } = saved || {};
+      const others = { ...previousOthers };
+      if (previous.world && previous.world !== place.world) others[previous.world] = previous;
+      delete others[place.world];
+      const next = { ...place, ...(Object.keys(others).length ? { others } : {}) };
+      return this.saveJSON(RESUME_KEY, ns.LettersState?.normalize?.(RESUME_KEY, next) || next);
+    }
+
+    clearChapterPlace(world) {
+      const saved = this.loadJSON(RESUME_KEY, null);
+      if (!saved || (saved.world !== world?.id && !Object.prototype.hasOwnProperty.call(saved.others || {}, world?.id))) return;
+      const { others: previousOthers, ...current } = saved;
+      const others = { ...previousOthers };
+      delete others[world.id];
+      const next = current.world === world.id
+        ? Object.values(others).sort((a, b) => b.at - a.at)[0] : current;
+      if (!next) return this.saveJSON(RESUME_KEY, null);
+      delete others[next.world];
+      return this.saveJSON(RESUME_KEY, { ...next, ...(Object.keys(others).length ? { others } : {}) });
     }
 
     rememberPlace(s, step = 0) {
       if (!s?.world || s.checkup || s.daily || s.plan || s.chapterBonus) return;
-      try { this.saveJSON(RESUME_KEY, { world: s.world.id, gameIndex: (s.gameIndex || 0) + step, starTotal: s.starTotal || 0, at: Date.now() }); } catch {}
+      try { this.saveChapterPlace({ world: s.world.id, gameIndex: (s.gameIndex || 0) + step, starTotal: s.starTotal || 0, at: Date.now(),
+        ...(s.guidedVowels ? { vowelItemIds: s.items.map(item => item.id).slice(0, 4) } : {}),
+        ...(s.guidedWords ? { wordItemIds: s.items.map(item => item.id).slice(0, 4) } : {}) }); } catch {}
     }
 
     // Make-it-happen intros (locked 2026-07-18): the child CAUSES every
@@ -3879,6 +4004,7 @@
         setTimeout(() => { if (el.isConnected) speakCard(); }, 500);
       } else {
         const bud = el.querySelector(".meet-bud");
+        if (s.meetIndex === 0 && !this.progress.done.length) this.teachAction(el, { source: bud, type: "tap", automatic: true });
         bud.addEventListener("click", () => {
           if (bud.disabled || !el.isConnected) return;
           bud.disabled = true;
@@ -3905,7 +4031,7 @@
         retry.disabled=true;
         await this.worlds.loadWords();
         if(!el.isConnected || this.session!==session)return;
-        session.items=session.world.items?.() || [];
+        session.items=this.introWordItems(session.world, session.world.items?.() || [], session.resumeWordItemIds);
         if(session.items.length)this.startGame();else retry.disabled=false;
       };
     }
@@ -3932,9 +4058,10 @@
             <span class="play-bubble-icon">${Art.icon("speaker", 22)}</span>
           </button>
           <button type="button" class="learning-help lg-round-btn" aria-label="Show the letter" hidden><svg width="26" height="26" viewBox="0 0 40 40" aria-hidden="true"><path d="M3 20Q20 1 37 20Q20 39 3 20Z" fill="#fffaf0" stroke="#4a3620" stroke-width="3"/><circle cx="20" cy="20" r="7" fill="#4e9677"/><circle cx="18" cy="17" r="2" fill="#fffdf7"/></svg></button>
+          <button type="button" class="lg-action-help" aria-label="Show me how to play" hidden>${ns.LettersActionCue?.hand || ""}</button>
           <span class="play-dots" ${this.showsRoundProgress() ? 'role="progressbar" aria-label="Activity progress" aria-valuemin="0" aria-valuemax="4" aria-valuenow="0"' : ''}>${s.world.games.map((_, i) => `<i class="${i < s.gameIndex ? "is-done" : i === s.gameIndex ? "is-on" : ""}"></i>`).join("")}</span>
         </div>
-        ${adventure ? this.journeyRoute(s.gameIndex) : ''}
+        ${adventure || this.isGentleDaily() ? this.journeyRoute(s.gameIndex) : ''}
         <div class="learning-hint" role="status" aria-live="polite" hidden></div>
         <div class="play-stage"></div>`,
       );
@@ -3948,7 +4075,15 @@
       let currentTarget = null;
       let presentation = {version:0,hidden:false,heard:false,choiceIds:[]};
       let speechAttempt = 0;
-      bubble.addEventListener("click", () => sayWithPose(currentTarget));
+      const setAnswerWaiting = waiting => {
+        // Burst's Pause/Play control shares the stage with its answers.
+        // Waiting for a prompt must not disable that control, and a late
+        // speech result must not reactivate a paused or unstarted grid.
+        const answers = gameName === 'burst' ? stage.querySelector('.burst-grid') : stage;
+        if (answers) answers.inert = !!waiting || (gameName === 'burst' &&
+          (stage.classList.contains('is-paused') || stage.classList.contains('is-ready')));
+      };
+      bubble.addEventListener("click", () => replayPrompt());
 
       const petEl = el.querySelector(".play-pet");
       let poseTimer = null;
@@ -4038,16 +4173,22 @@
         }
       };
       const sayWithPose = (item) => {
+        if (!el.isConnected || this.session !== s || !item) return Promise.resolve(false);
         if (Date.now() >= poseLockedUntil) setPetPose("listening", 900);
         const version = presentation.version, attempt = ++speechAttempt;
         const answer = currentTarget?.id;
-        return this.sayForLearning(item).then(heard => {
-          if (!el.isConnected || version !== presentation.version || attempt !== speechAttempt || answer !== item?.id) return false;
-          presentation.heard = heard;
-          stage.inert = false;
-          if (!heard && presentation.hidden) revealPrompt(true);
-          return heard;
-        });
+        const settle = heard => {
+          if (!el.isConnected || this.session !== s || version !== presentation.version || attempt !== speechAttempt || answer !== item?.id) return false;
+          presentation.heard = heard === true;
+          setAnswerWaiting(false);
+          if (!presentation.heard && presentation.hidden) revealPrompt(true);
+          return presentation.heard;
+        };
+        // Keep playback inside the initiating gesture, but recover both a
+        // synchronous provider failure and an asynchronously rejected request.
+        let playback;
+        try { playback = this.sayForLearning(item); } catch { playback = false; }
+        return Promise.resolve(playback).then(settle, () => settle(false));
       };
       petEl.addEventListener("click", () => {
         setPetPose("success", 900);
@@ -4059,17 +4200,31 @@
       const learning = ns.LettersLearning?.LearningSession
         ? new ns.LettersLearning.LearningSession(ns.LettersStrength)
         : null;
+      // One chapter visit is one learning session, even when its mini-game
+      // changes. Four games in a row are not four spaced retrieval visits.
+      if(learning){s.learningSessionId ||= learning.sessionId;learning.sessionId=s.learningSessionId;}
+      s.supportedItemIds ||= [];
       const revealPrompt = (assisted = true) => {
-        if (!el.isConnected || !currentTarget) return;
-        if (assisted) learning?.assist();
+        if (!el.isConnected || this.session !== s || !currentTarget) return;
+        if (assisted && !learning?.current?.closed) {
+          learning?.assist();
+          // Asking for help is enough to retain support during this visit;
+          // it must not require an answer or create a synthetic verdict.
+          if (!s.supportedItemIds.includes(currentTarget.id)) s.supportedItemIds.push(currentTarget.id);
+        }
         presentation.hidden = false;
-        stage.inert = false;
+        setAnswerWaiting(false);
         glyph.hidden = false;
         help.hidden = true;
         bubble.classList.remove('is-listening-only');
         Art.fitInlineGlyphs?.(el);
       };
-      help.onclick = () => {revealPrompt(true);sayWithPose(currentTarget);};
+      const replayPrompt = () => {
+        if (!el.isConnected || this.session !== s || !currentTarget) return;
+        revealPrompt(true);
+        return sayWithPose(currentTarget);
+      };
+      help.onclick = replayPrompt;
       this.onLearningSoundChange = () => {if (!this.sound.enabled) revealPrompt(presentation.hidden);};
       const firstAttempt = !(this.bests[`${s.world.id}:${gameName}`] > 0) && !s.daily && !s.checkup;
       const ctx = {
@@ -4089,11 +4244,8 @@
             s.journeyDrawings ||= {};
             s.journeyDrawings[item.display] = picture.toDataURL('image/png');
             // Keep the newest few so they can become garden signs after a reload.
-            const kept = { ...(this.savedDrawings || {}) };
-            delete kept[item.display];
-            kept[item.display] = s.journeyDrawings[item.display];
-            this.savedDrawings = Object.fromEntries(Object.entries(kept).slice(-8));
-            this.saveJSON("quran-trainer:letters:drawings", this.savedDrawings);
+            const kept = ns.LettersState.keepDrawing(this.savedDrawings, item.display, s.journeyDrawings[item.display], this.gardenLayout);
+            if (kept && this.saveJSON("quran-trainer:letters:drawings", kept) === true) this.savedDrawings = kept;
           } catch { /* A thumbnail must never block drawing completion. */ }
         },
         onPetTap: () => {setPetPose('listening', 900); pet?.wave(); if(currentTarget)sayWithPose(currentTarget);},
@@ -4114,9 +4266,15 @@
         items: planStep ? planStep.items : s.items,
         extraItems: s.extraItems,
         activity: gameName,
+        lessonContrasts: s.lessonContrasts,
+        warmupItemIds: s.guidedVowels && gameName === 'blend'
+          ? (s.world.meet || []).map(card => s.items.find(item => item.display === card.display)?.id).filter(Boolean) : [],
+        supportedItemIds: s.supportedItemIds,
+        beginRound: (item,meta={}) => learning?.beginPrompt(item,meta),
         worldId: s.world.id,
         completedWorldIds: this.progress.done,
         challenge: !!s.challenge,
+        cancel: () => { if (el.isConnected && this.session === s) this.renderMissingItems(); },
         // Existing word/sequence speech has not been qualified for independent
         // decoding; those activities retain a visible model and explicit help.
         allowRecall: s.world.kind === 'letters' || s.daily || s.checkup,
@@ -4125,20 +4283,25 @@
         rounds: this.sprout ? Math.min(3, planStep?.rounds || 4) : planStep?.rounds || 4,
         hue: s.world.hue,
         level: 0,
-        beginner: firstAttempt || gameName === 'pairs' && gameItems.some(item => (ns.LettersStrength?.skillProfile?.(item.id,'matching-memory')?.matching?.r || 0) < 3),
+        firstActionDemo: !Object.entries(this.bests || {}).some(([key, value]) => key.endsWith(`:${gameName}`) && Number(value) > 0),
+        setupActionCue: options => this.teachAction(el, { ...options, control: el.querySelector(".lg-action-help"), onShow: options.onShow || (() => revealPrompt(true)) }),
+        beginner: firstAttempt || gameName === 'pairs' && gameItems.some(item => (ns.LettersLearning?.matchingProfile?.(item)?.pairCount || 2) < 3),
         onPauseChange: paused => {if(paused && el.isConnected)this.stopSpeech();},
         say: (item) => sayWithPose(item),
         reportOutcome: (outcome) => {
           reactToOutcome(outcome);
           const active = outcome.itemId === currentTarget?.id;
+          if (active && outcome.correct === true) { this.actionCue?.destroy(); this.actionCue = null; }
           const prompted = active && outcome.evidence === 'supported_visible_matching' && gameName !== 'pairs';
-          return learning?.report({...outcome,
+          const recorded=learning?.report({...outcome,
             skill: active ? presentation.skill : outcome.skill || ns.LettersLearning?.skillFor({id:outcome.itemId,display:outcome.itemId},gameName),
             activity: gameName,
             choiceIds: outcome.choiceIds || (active ? presentation.choiceIds : []),
             ...(prompted ? {evidence:presentation.hidden && presentation.heard && presentation.choiceIds.length>1 ? 'independent_listening' : 'supported_visible_matching',
               assisted:outcome.assisted || presentation.choiceIds.length===1} : {}),
           });
+          if(recorded && (recorded.correct===false||recorded.assisted) && !s.supportedItemIds.includes(recorded.itemId))s.supportedItemIds.push(recorded.itemId);
+          return recorded;
         },
         clearLearningHint: () => {hint.hidden=true;},
         showLearningHint: (target, selected) => {
@@ -4198,12 +4361,13 @@
         },
         confettiAt: (target) => this.confettiAt(target),
         setPrompt: (item, meta = {}) => {
+          this.actionCue?.destroy(); this.actionCue = null;
           currentTarget = item;
           const skill = meta.skill || ns.LettersLearning?.skillFor(item,gameName) || 'recognition';
           if(meta.promptMode!=='explore')learning?.beginPrompt(item,{skill,activity:gameName,choiceIds:meta.choiceIds || []});
           presentation = {version:presentation.version+1,skill,choiceIds:meta.choiceIds || [],heard:false,
             hidden:!!item && meta.promptMode==='listen' && this.canSpeak(item) && (meta.choiceIds || []).length>1};
-          stage.inert=presentation.hidden;
+          setAnswerWaiting(presentation.hidden);
           hint.hidden=true;
           glyph.hidden=presentation.hidden;
           help.hidden=!presentation.hidden;
@@ -4234,11 +4398,11 @@
         },
         onDone: (slips) => { if (el.isConnected) this.finishGame(slips); },
       };
-      // v58: a game that fails to build never strands a child on a half-made
-      // screen — the chapter simply carries on, as if it had been played.
+      // A failed activity is retryable; opening a broken screen cannot earn
+      // stars or skip a learning step.
       try { this.game = new ns.LettersMiniGames[gameName](ctx); }
-      catch (error) { console.error("Letter Garden: game failed to start", gameName, error); this.game = null; return ctx.onDone(0); }
-      this.rescue = { stage, go: () => ctx.onDone(0) };
+      catch (error) { console.error("Letter Garden: game failed to start", gameName, error); this.game = null; return this.renderMissingItems(); }
+      this.rescue = { stage, go: () => this.renderMissingItems() };
       this.unmountActivityArt=ns.LettersActivityArt?.mount(stage,gameName);
     }
 
@@ -4260,18 +4424,28 @@
       // Deliberately NOT a cap or a cooldown: replaying stays free and still gets
       // the full celebration, which keeps the locked "no artificial scarcity"
       // rule intact — you simply don't get paid twice for the same work.
-      const bestKey = `${s.world.id}:${s.plan && !s.daily ? "plan" + s.gameIndex : s.world.games[s.gameIndex]}`;
-      const prevBest = this.bests[bestKey] || 0;
+      const checkupSkill = s.checkup && s.plan?.[s.gameIndex]?.skill;
+      const savedSkill = checkupSkill ? this.skills?.[checkupSkill] : null;
+      // Check-up positions shift when another skill unlocks. Its saved skill
+      // best is the migration source; an old plan index may belong to someone else.
+      const savedSkillBest = Math.max(0, ...[savedSkill?.best, savedSkill?.score]
+        .filter(Number.isFinite).map(value => Math.min(3, value)));
+      const bestKey = checkupSkill ? `checkup:skill:${checkupSkill}`
+        : `${s.world.id}:${s.plan && !s.daily ? "plan" + s.gameIndex : s.world.games[s.gameIndex]}`;
+      const prevBest = Math.max(this.bests[bestKey] || 0, savedSkillBest);
       if (stars > prevBest) {
         this.earnStars(stars - prevBest);
-        this.bests[bestKey] = stars;
+      }
+      // Persist migrated bests even on a supported or equal-score return visit.
+      const nextBest = Math.max(stars, prevBest);
+      if (nextBest > (this.bests[bestKey] || 0)) {
+        this.bests[bestKey] = nextBest;
         this.saveJSON("quran-trainer:letters:bests", this.bests);
       }
       // Check-up rounds grade a skill: the LATEST score is the petal size —
       // it's a health check, not a high-score board.
-      if (s.checkup && s.plan && s.plan[s.gameIndex] && s.plan[s.gameIndex].skill) {
-        const was = this.skills[s.plan[s.gameIndex].skill];
-        this.skills[s.plan[s.gameIndex].skill] = { score: stars, best: Math.max(stars, was?.best || 0, was?.score || 0), at: todayStr() };
+      if (checkupSkill) {
+        this.skills[checkupSkill] = { score: stars, best: nextBest, at: todayStr() };
         this.saveJSON("quran-trainer:letters:skills", this.skills);
       }
       this.renderStars(stars);
@@ -4302,7 +4476,9 @@
       return walk;
     }
 
-    renderWalk() {
+    renderWalk() { return ns.GardenAdventure ? (this.gardenAdventure ||= new ns.GardenAdventure(this)).returnToGarden() : this.renderLegacyWalk(); }
+
+    renderLegacyWalk() {
       const walk=this.todaysWalk();
       if(!walk)return this.renderVillage();
       this.session=null;
@@ -4341,13 +4517,13 @@
 
     startWalkStop(i) {
       const walk=this.todaysWalk(), stop=walk?.stops?.[i];
-      if(!stop)return this.renderWalk();
+      if(!stop)return this.renderLegacyWalk();
       const byChar=new Map(this.knownItems().map(item=>[item.display,item]));
       let items=(stop.letters||[]).map(c=>byChar.get(c)).filter(Boolean);
       // Choice games need at least three letters on the board; borrow
       // familiar ones rather than show the same letter twice.
       if(items.length<3)for(const item of byChar.values()){if(items.length>=3)break;if(!items.includes(item))items.push(item);}
-      if(!items.length)return this.renderWalk();
+      if(!items.length)return this.renderLegacyWalk();
       const world=this.worlds.worlds.find(w=>w.id==='pack-boat');
       this.session={world,items,startAt:0,walkStop:i,bookId:stop.kind==='LivingBook'?'night':undefined};
       const started=Date.now();
@@ -4356,7 +4532,7 @@
       const leave=completed=>{
         const w=this.todaysWalk();
         if(w&&(completed||Date.now()-started>=20000)&&!w.done.includes(i)){w.done=[...w.done,i];this.saveJSON(WALK_KEY,w);}
-        this.renderWalk();
+        this.renderLegacyWalk();
       };
       this.startPractice(stop.kind,()=>leave(false),()=>leave(true));
     }
@@ -4376,9 +4552,10 @@
 
     renderBookShelf() {
       const reads=this.loadJSON(BOOKS_KEY,{});
-      const books=[...(ns.LivingBooks?.BOOKS||[])].sort((a,b)=>(reads[b.id]||0)-(reads[a.id]||0));
+      const books=[...(ns.LivingBooks?.catalog?.({known:this.knownItems()})||[])].sort((a,b)=>(reads[b.id]||0)-(reads[a.id]||0));
+      if(!books.length)return this.renderBookCorner();
       const F=ns.LetterFriends;
-      const el=this.screen('lg-meet lg-book-shelf',`${this.topBar()}<div class="lb-shelf">${books.map(b=>`<button type="button" class="lb-spine" data-book="${b.id}" aria-label="Read ${b.title}"><span class="lb-spine-art">${F?.art(b.cover,{size:110})||''}</span><span class="lb-spine-title" dir="rtl">${b.title}</span>${(reads[b.id]||0)>=3?`<span class="lb-fav" aria-hidden="true">${Art.icon('star',20)}</span>`:''}</button>`).join('')}</div>`);
+      const el=this.screen('lg-meet lg-book-shelf',`${this.topBar()}<div class="lb-shelf">${books.map(b=>`<button type="button" class="lb-spine" data-book="${b.id}" aria-label="Read ${b.title}"><span class="lb-spine-art">${ns.LivingBooks?.coverArt?.(b)||F?.art(b.cover,{size:110})||''}</span><span class="lb-spine-title" dir="rtl">${b.title}</span>${(reads[b.id]||0)>=3?`<span class="lb-fav" aria-hidden="true">${Art.icon('star',20)}</span>`:''}</button>`).join('')}</div>`);
       this.wireTopBar(el,()=>this.renderBookCorner());
       Art.fitGlyphs?.(el);
       el.querySelectorAll('[data-book]').forEach(b=>b.onclick=()=>{
@@ -4422,7 +4599,7 @@
       this.wireTopBar(el,()=>this.renderPracticeGarden());
       el.querySelectorAll('[data-kind]').forEach(b=>b.onclick=()=>{
         this.session={world:this.worlds.worlds.find(w=>w.id==='pack-boat'),items:this.knownItems()};
-        this.startPractice(b.dataset.kind,()=>this.renderPuzzleTree());
+        this.startPractice(b.dataset.kind,this.practiceReturn(el,b.dataset.kind,()=>this.renderPuzzleTree()));
       });
       return el;
     }
@@ -4431,7 +4608,7 @@
     renderBookCorner() {
       const n=this.petKnowledge().length;
       const kinds=[['FriendBook',1,'The Letter Friends book'],['FriendFind',2,'Find my friend'],['PeekFlaps',2,'Peekaboo flaps'],['SoundSort',2,'Sort the pictures'],
-        ['FriendShapes',2,'Friend shapes'],['HoopoeTrip',2,"The hoopoe's trip"],['BusyMarket',1,'Busy market'],['LivingBooks',0,'Living books: picture books that read with you']].filter(([,min])=>n>=min);
+        ['FriendShapes',2,'Friend shapes'],['HoopoeTrip',2,"The hoopoe's trip"],['BusyMarket',1,'Busy market'],['LivingBooks',1,'Living books: picture books that read with you']].filter(([,min])=>n>=min);
       if(!kinds.length)return this.renderPracticeGarden();
       // v58: untried books twinkle too, at most three (a read Living Book is logged as 'LivingBook').
       const tried=(()=>{try{const t=this.loadJSON(TRIED_KEY,[]);return Array.isArray(t)?t:[];}catch{return [];}})();let twinkles=0;
@@ -4441,9 +4618,21 @@
       el.querySelectorAll('[data-kind]').forEach(b=>b.onclick=()=>{
         if(b.dataset.kind==='LivingBooks')return this.renderBookShelf();
         this.session={world:this.worlds.worlds.find(w=>w.id==='pack-boat'),items:this.knownItems()};
-        this.startPractice(b.dataset.kind,()=>this.renderBookCorner());
+        this.startPractice(b.dataset.kind,this.practiceReturn(el,b.dataset.kind,()=>this.renderBookCorner()));
       });
       return el;
+    }
+
+    practiceReturn(el,kind,render) {
+      const position=el.querySelector('.practice-garden-hub')?.scrollTop||0;
+      return ()=>{
+        render();
+        const hub=this.root.querySelector('.practice-garden-hub');
+        if(!hub)return;
+        hub.scrollTop=position;
+        const source=[...hub.querySelectorAll('[data-kind]')].find(button=>button.dataset.kind===kind);
+        source?.focus({preventScroll:true});
+      };
     }
 
     renderPracticeGarden() {
@@ -4482,13 +4671,9 @@
       if(this.petKnowledge().length)choices.push('LetterDelivery');
       if(this.workshopWorlds().length)choices.push('Workshop');
       if(this.worlds.dailySession(this.progress.done)&&!this.gentle)choices.push('Burst');
-      // UI pass (2026-10-03): the garden had grown into one long list of
-      // look-alike tiles. Now they sit in five wordless, colour-coded groups —
-      // play with friends, books, puzzles, writing, explore — each with a
-      // picture chip, so a child can find "the writing ones" by colour.
       // Encouragement pass (v57): too many choices overwhelm a 2–3-year-old.
       // A little sprout's garden keeps only the simplest, most physical toys.
-      const SPROUT_TOYS=['LetterBalloons','Feed','BathTime','LetterFishing','FriendPairs','ColourFriend','SandTable','BookCorner','BeatDrum']; // v61: the beat drum (no letters needed) takes Letter Delivery's place — still nine, still one screen
+      const SPROUT_TOYS=['LetterBalloons','Feed','BathTime','LetterFishing','FriendPairs','ColourFriend','SandTable','BookCorner','BeatDrum']; // v61: the beat drum (no letters needed) takes Letter Delivery's place — still nine, now on pictured shelves
       if(this.sprout)for(let i=choices.length-1;i>=0;i--)if(!SPROUT_TOYS.includes(choices[i]))choices.splice(i,1);
       const groups=[['play',['LetterBalloons','Feed','LetterFishing','BathTime','LetterDelivery','GardenTogether']],['listen',['BeatDrum','SameStart','OddSound']],['read',['BookCorner','CostumeHouse','ListenFind','WordGap']],['think',['PuzzleTree','FriendPairs','DotNests','FamilyBuses','SpotChange','FriendJigsaw','Burst']],
         ['write',['SandTable','ColourFriend','GardenPaths','DotGarden']],['explore',['HatShop','TwinCrown','WaterGarden','LetterHunt','SoundLab','LetterStudio','Workshop']]]
@@ -4498,15 +4683,117 @@
       const triedList=(()=>{try{const t=this.loadJSON(TRIED_KEY,[]);return Array.isArray(t)?t:[];}catch{return [];}})();
       // At most three twinkle at a time, so it invites rather than shouts;
       // as each is tried, the next one starts to twinkle.
-      let twinkles=0;
-      const untried=kind=>{if(twinkles>=3||['BookCorner','PuzzleTree','CostumeHouse','Workshop','GardenTogether','Burst'].includes(kind)||triedList.includes(kind))return false;twinkles+=1;return true;};
-      const tileOf=kind=>`<button type="button" data-kind="${kind}" aria-label="${({CostumeHouse:'The costume house: letters change shape in words',BeatDrum:'Beat drum: tap a beat for each part of the word',SameStart:'Same start: which picture begins with the same sound?',OddSound:'Odd sound out: which picture begins differently?',Feed:'Feed a friend',DotGarden:'Dot Garden: place the dots',GardenPaths:'Garden Paths: draw letters',WaterGarden:'Water Garden: open the letter gates',LetterDelivery:'Letter Delivery: familiar letters',Workshop:'Word Workshop: build familiar sounds',Burst:'Optional timed letter challenge',LetterHunt:'Letter Hunt: find the letter in the picture',SoundLab:'Sound Lab: join a letter and a mark',LetterStudio:'Letter Studio: make a picture',GardenTogether:'Garden Together: play with a brother or sister',LetterBalloons:'Letter Balloons: pop and hear the letters',FriendFind:'Find my friend',FriendBook:'The Letter Friends book',BookCorner:'The Book Corner: picture-book games',SandTable:'The Sand Table: write in the sand',PuzzleTree:'The Puzzle Tree: thinking games',HatShop:'The hat shop: dress a friend in its vowel',ListenFind:'Listen and find the Quran word',WordGap:'Fill the gap in a Quran word',TwinCrown:'Twin crown: is the letter said twice?',FriendPairs:'Friend pairs: match each friend to its letter',DotNests:'Dot nests: count the dots',FriendJigsaw:'Friend jigsaw',BathTime:'Bath time: scrub the muddy friend',LetterFishing:'Letter fishing: catch the letter you hear',ColourFriend:'Colour a friend',SpotChange:'Spot the change',FamilyBuses:'Family buses: same shape, different dots'})[kind]}">${kind==='LetterDelivery'?ns.LetterDelivery.icon(120):ns.LettersGardenArt.practicePicture(kind,{petArt:kind==='Feed'?this.petSVG(100):''})}<span class="practice-play" aria-hidden="true">${Art.icon('next',24)}</span>${untried(kind)?'<span class="pg-new" aria-hidden="true"></span>':''}</button>`;
-      const el=this.screen(`lg-meet lg-practice-garden${this.sprout?' is-sprout':''}`,`${this.topBar()}<div class="practice-garden-hub">${groups.map(([g,kinds])=>`<section class="pg-group" data-group="${g}"><span class="pg-chip" aria-hidden="true">${PG_CHIPS[g]}</span><div class="practice-garden-choices">${kinds.map(tileOf).join('')}</div></section>`).join('')}</div>`);
+      const invitations=new Set(groups.flatMap(([,kinds])=>kinds).filter(kind=>!['BookCorner','PuzzleTree','CostumeHouse','Workshop','GardenTogether','Burst'].includes(kind)&&!triedList.includes(kind)).slice(0,3));
+      const untried=kind=>invitations.has(kind);
+      const tileOf=kind=>`<button type="button" class="tc-toy" data-kind="${kind}" aria-label="${({CostumeHouse:'The costume house: letters change shape in words',BeatDrum:'Beat drum: tap a beat for each part of the word',SameStart:'Same start: which picture begins with the same sound?',OddSound:'Odd sound out: which picture begins differently?',Feed:'Feed a friend',DotGarden:'Dot Garden: place the dots',GardenPaths:'Garden Paths: draw letters',WaterGarden:'Water Garden: open the letter gates',LetterDelivery:'Letter Delivery: familiar letters',Workshop:'Word Workshop: build familiar sounds',Burst:'Optional timed letter challenge',LetterHunt:'Letter Hunt: find the letter in the picture',SoundLab:'Sound Lab: join a letter and a mark',LetterStudio:'Letter Studio: make a picture',GardenTogether:'Garden Together: play with a brother or sister',LetterBalloons:'Letter Balloons: pop and hear the letters',FriendFind:'Find my friend',FriendBook:'The Letter Friends book',BookCorner:'The Book Corner: picture-book games',SandTable:'The Sand Table: write in the sand',PuzzleTree:'The Puzzle Tree: thinking games',HatShop:'The hat shop: dress a friend in its vowel',ListenFind:'Listen and find the Quran word',WordGap:'Fill the gap in a Quran word',TwinCrown:'Twin crown: is the letter said twice?',FriendPairs:'Friend pairs: match each friend to its letter',DotNests:'Dot nests: count the dots',FriendJigsaw:'Friend jigsaw',BathTime:'Bath time: scrub the muddy friend',LetterFishing:'Letter fishing: catch the letter you hear',ColourFriend:'Colour a friend',SpotChange:'Spot the change',FamilyBuses:'Family buses: same shape, different dots'})[kind]}">${kind==='LetterDelivery'?ns.LetterDelivery.icon(120):ns.LettersGardenArt.practicePicture(kind,{petArt:kind==='Feed'?this.petSVG(100):''})}${untried(kind)?'<span class="pg-new" aria-hidden="true"></span>':''}</button>`;
+      const el=this.screen(`lg-meet lg-practice-garden lg-toy-chest${this.sprout?' is-sprout':''}`,`${this.topBar()}<div class="tc-room"></div>`);
       this.wireTopBar(el);
-      el.querySelectorAll('[data-kind]').forEach(b=>b.onclick=()=>b.dataset.kind==='Burst'?this.startDaily(true):b.dataset.kind==='Workshop'?this.renderWorkshop():b.dataset.kind==='GardenTogether'?this.startTogether():b.dataset.kind==='CostumeHouse'?this.renderCostumeHouse():b.dataset.kind==='BookCorner'?this.renderBookCorner():b.dataset.kind==='PuzzleTree'?this.renderPuzzleTree():this.startPractice(b.dataset.kind,()=>this.renderPracticeGarden()));
+      this.practiceShelfState=this.practiceShelfState||{};
+      this.game=ns.ToyChest.mount({host:el.querySelector('.tc-room'),groups,tile:tileOf,
+        familyArt:id=>ns.ToyChestArt.family(id),state:this.practiceShelfState,
+        onFamily:()=>this.sound.play('page'),reducedMotion:()=>this.prefersReducedMotion(),
+        onLaunch:kind=>{
+          if(!el.isConnected)return;
+          if(kind==='Burst')return this.startDaily(true);
+          if(kind==='Workshop')return this.renderWorkshop();
+          if(kind==='GardenTogether')return this.startTogether();
+          if(kind==='CostumeHouse')return this.renderCostumeHouse();
+          if(kind==='BookCorner')return this.renderBookCorner();
+          if(kind==='PuzzleTree')return this.renderPuzzleTree();
+          return this.startPractice(kind,this.practiceReturn(el,kind,()=>this.renderPracticeGarden()));
+        }});
+
     }
 
-    renderDecoratingGarden() {
+    async saveStudioDrawing(url, pageId, pageSlots, el) {
+      if (!el?.isConnected) return null;
+      // Use the same size/format boundary as reload; never celebrate a save
+      // that the next visit would discard.
+      if (!ns.LettersState.keepDrawing({}, 'art1', url)) return false;
+      const original = this.savedDrawings;
+      const kept = ns.LettersState.normalize('drawings', original, {});
+      const sticky = typeof pageId === 'string' && pageId.length > 0 && pageId.length <= 8;
+      const previous = sticky ? pageSlots?.get(pageId) : null;
+      let key = previous && Object.hasOwn(kept, previous) ? previous :
+        ['art1', 'art2', 'art3'].find(name => !Object.hasOwn(kept, name));
+      if (!key) key = await this.chooseDrawingSlot(el, url, kept);
+      if (!key || !el.isConnected) return null;
+      if (!/^art[1-3]$/.test(key) || this.savedDrawings !== original) return false;
+      const next = ns.LettersState.keepDrawing(kept, key, url);
+      try {
+        if (!next || this.saveJSON('quran-trainer:letters:drawings', next) !== true) return false;
+        this.savedDrawings = next;
+        // A page whose place was explicitly reused no longer owns that place.
+        for (const [page, slot] of pageSlots || []) if (slot === key) pageSlots.delete(page);
+        if (sticky) pageSlots?.set(pageId, key);
+        return true;
+      } catch { return false; }
+    }
+
+    chooseDrawingSlot(el, incoming, drawings) {
+      if (!el.isConnected || this.cancelDrawingChoice) return Promise.resolve(null);
+      return new Promise(resolve => {
+        const dialog = document.createElement('dialog');
+        dialog.className = 'drawing-choice';
+        dialog.setAttribute('aria-label', 'Your picture shelf is full. Choose a picture to replace, then confirm.');
+        const placed = new Set(this.gardenLayout?.slots || []);
+        dialog.innerHTML = `<div class="drawing-swap" aria-label="Preview the replacement">
+          <div class="drawing-before" hidden><img alt="Picture to replace"/><span aria-hidden="true">${Art.icon('next', 30)}</span></div>
+          <img class="drawing-incoming" alt="Your new picture" src="${incoming}"/>
+        </div><div class="drawing-shelf" role="group" aria-label="Your three saved pictures">
+          ${['art1','art2','art3'].map((key, i) => `<button type="button" class="drawing-slot" data-slot="${key}" aria-pressed="false" aria-label="Replace picture ${i+1}${placed.has('sign:'+key)?', displayed in your garden':''}">
+            <img alt="Saved picture ${i+1}" src="${drawings[key]}"/>
+            ${placed.has('sign:'+key)?`<span class="drawing-garden-badge" aria-hidden="true">${Art.artIcon('flower',24)}</span>`:''}
+          </button>`).join('')}
+        </div><div class="drawing-choice-actions">
+          <button type="button" class="drawing-cancel" autofocus aria-label="Keep my saved pictures and return to drawing">${Art.icon('undo',32)}</button>
+          <button type="button" class="drawing-confirm" disabled aria-label="Save this replacement">${Art.icon('check',32)}</button>
+        </div>`;
+        let selected = null, settled = false;
+        const returnFocus = document.activeElement;
+        const finish = key => {
+          if (settled) return;
+          settled = true;
+          if (this.cancelDrawingChoice === cancel) this.cancelDrawingChoice = null;
+          if (dialog.open) dialog.close();
+          dialog.remove();
+          resolve(key);
+          // The activity resumes its buttons after the awaiting save settles.
+          setTimeout(() => { if (el.isConnected && returnFocus?.isConnected && !returnFocus.disabled) returnFocus.focus({preventScroll:true}); }, 0);
+        };
+        const cancel = () => finish(null);
+        this.cancelDrawingChoice = cancel;
+        dialog.querySelectorAll('.drawing-slot').forEach(button => {
+          button.onclick = () => {
+            if (settled || !el.isConnected) return;
+            selected = button.dataset.slot;
+            dialog.querySelectorAll('.drawing-slot').forEach(other => other.setAttribute('aria-pressed', String(other === button)));
+            const before = dialog.querySelector('.drawing-before');
+            before.hidden = false;
+            before.querySelector('img').src = drawings[selected];
+            dialog.querySelector('.drawing-confirm').disabled = false;
+          };
+        });
+        dialog.querySelector('.drawing-cancel').onclick = cancel;
+        dialog.querySelector('.drawing-confirm').onclick = () => { if (selected && el.isConnected) finish(selected); };
+        dialog.addEventListener('cancel', e => { e.preventDefault(); cancel(); });
+        dialog.addEventListener('close', cancel);
+        el.appendChild(dialog);
+        try { dialog.showModal(); } catch { cancel(); }
+      });
+    }
+
+    pictureInvitation(key, el) {
+      const picture = this.savedDrawings?.[key];
+      if (!/^art[1-3]$/.test(key) || typeof picture !== 'string' || picture.length > 60000 ||
+          !/^data:image\/png;base64,[A-Za-z0-9+/=]+$/.test(picture)) return null;
+      return { picture, open: () => {
+        if (!el.isConnected) return;
+        this.renderDecoratingGarden(this.savedDrawings?.[key] === picture ? key : null);
+      } };
+    }
+
+    renderDecoratingGarden(pictureId = null) {
       this.session=null;
       const el=this.screen('lg-my-garden',`${this.topBar()}<div class="my-garden-stage"></div>`);
       this.wireTopBar(el);
@@ -4514,12 +4801,17 @@
       ns.LettersDecorations.setSize?.(2 + this.petStage() * 2);
       this.game=new ns.DecoratingGarden({
         stage:el.querySelector('.my-garden-stage'),layout:this.gardenLayout,
+        initialSelection: pictureId ? `sign:${pictureId}` : null,
         catalog:ns.LettersDecorations.catalog({progress:this.progress,bests:this.bests,stickers:this.stickers,savedDrawings:this.savedDrawings,pet:this.pet,eggShell:()=>this.eggShell(),findsOwned:this.findsState().owned}),petArt:()=>this.petSVG(112,'proud'),petRig:host=>this.sceneRig(host),
         reducedMotion:()=>this.prefersReducedMotion(),play:name=>this.sound.play(name),
         onChange:layout=>{if(!el.isConnected)return;this.gardenLayout=layout;this.saveJSON('quran-trainer:letters:garden-layout',layout);},
         onDone:()=>{if(el.isConnected)this.renderVillage();}
       });
       this.addGardenVisitors(el);
+      if(ns.GardenAdventure&&this.knownItems().length){
+        const adventure=document.createElement('button');adventure.type='button';adventure.className='decorate-delivery practice-button';adventure.setAttribute('aria-label','Your garden adventures');adventure.innerHTML=ns.LettersGardenArt.practicePicture('WaterGarden');
+        el.querySelector('.decorate-tools')?.append(adventure);adventure.onclick=()=>{if(el.isConnected)this.renderWalk();};
+      }
       if(this.petKnowledge().length){
         const launch=document.createElement('button');launch.type='button';launch.className='decorate-delivery practice-button';
         launch.setAttribute('aria-label','Play Letter Delivery');launch.innerHTML=ns.LetterDelivery.icon(44);
@@ -4559,37 +4851,66 @@
     wirePractice(el,back) {
       el.querySelectorAll('[data-practice]').forEach(b=>b.onclick=()=>this.startPractice(b.dataset.practice,back));
     }
-    startPractice(kind,back,onDone) {
-      // Encouragement pass (v57): remember which toys a child has tried, so the
-      // ones they haven't can twinkle invitingly in the practice garden.
-      try{const tried=this.loadJSON(TRIED_KEY,[]);if(Array.isArray(tried)&&!tried.includes(kind)){tried.push(kind);this.saveJSON(TRIED_KEY,tried.slice(-80));}}catch{}
+    startPractice(kind,back,onDone,options={}) {
       if(!['Feed','Workshop','DotGarden','GardenPaths','WaterGarden','LetterDelivery','LetterHunt','SoundLab','LetterStudio','GardenTogether','LetterBalloons','FriendFind','FriendBook','PeekFlaps','SoundSort','HoopoeTrip','FriendShapes','BusyMarket','SandTable','LivingBook','EchoParade','DotsLast','LetterTrain','SameLetter','LanternHunt','LetterShadows','HatShop','BuildLetter','FillGap','TwinCrown','ListenFind','WordGap',...(ns.ToyBoxGames?.KINDS||[]),...(ns.LookGames?.KINDS||[]),...(ns.EarsGames?.KINDS||[]),...(ns.CostumeHouse?.KINDS||[]),...(ns.WordTree?.KINDS||[])].includes(kind))return back?.();
-      if(kind==='LetterDelivery'){const items=this.petKnowledge().map(letter=>({id:letter.char,display:letter.char,speak:letter.arName}));if(!items.length)return back?.();this.session={world:this.worlds.worlds.find(w=>w.id==='pack-boat'),items};}
+      if(kind==='LetterDelivery'&&!options.context?.adventure){const items=this.petKnowledge().map(letter=>({id:letter.char,display:letter.char,speak:letter.arName}));if(!items.length)return back?.();this.session={world:this.worlds.worlds.find(w=>w.id==='pack-boat'),items};}
       const s=this.session;
       if(!s?.world || !(s.items||s.world.items()).length)return back?.();
-      const el=this.screen('lg-play',`${this.topBar()}<div class="practice-heading">${kind==='Feed'?'':this.petSVG(76)}<button class="practice-replay" type="button" aria-label="Hear the letter again"></button></div><div class="practice-stage"></div>`);
+      const actionHelpLabel = { LetterFishing: 'Show me how to catch a fish', DotNests: 'Show me how to find a nest',
+        Feed: 'Show me how to feed my friend', Workshop: 'Show me how to build this', LetterTrain: 'Show me how to board the train', DotsLast: 'Show me how to print a dot', SameLetter: 'Show me how to turn a letter', PeekFlaps: 'Show me how to open a door', SoundSort: 'Show me how to carry a picture', HoopoeTrip: 'Show me how to bring a friend', FriendShapes: 'Show me how to fit the letter', BusyMarket: 'Show me how to play in the market', WordGap: 'Show me how to fit the missing letter', WaterGarden: 'Show me how to lift a water gate' }[kind];
+      const practiceHelp = actionHelpLabel ? `<button class="lg-action-help" type="button" aria-label="${actionHelpLabel}" hidden>${ns.LettersActionCue?.hand || ''}</button>` : '';
+      const firstActionVisit = !!actionHelpLabel && (() => {
+        const tried = this.loadJSON(TRIED_KEY, []);
+        return !Array.isArray(tried) || !tried.includes(kind);
+      })();
+      const el=this.screen('lg-play',`${this.topBar()}${options.chrome||''}<div class="practice-heading">${kind==='Feed'?'':this.petSVG(76)}<button class="practice-replay" type="button" aria-label="Hear the letter again"></button>${practiceHelp}</div><div class="practice-stage"></div>`);
+      if(options.chrome)el.classList.add('ga-playing');
       el.dataset.activity=kind==='Feed'?'feed':kind==='Workshop'?'build':kind==='LetterDelivery'?'delivery':kind==='DotGarden'?'dots':kind==='WaterGarden'?'water':kind==='LetterHunt'?'hunt':kind==='SoundLab'?'lab':kind==='LetterStudio'?'studio':kind==='GardenTogether'?'together':kind==='LetterBalloons'?'balloons':kind==='FriendFind'?'friend':kind==='FriendBook'?'friend-book':ns.BookGames?.KINDS?.includes(kind)?`book-${kind.toLowerCase()}`:kind==='SandTable'?'sand':kind==='LivingBook'?'living-book':ns.PuzzleGames?.KINDS?.includes(kind)||ns.ShadowGames?.KINDS?.includes(kind)||ns.WorkshopGames?.KINDS?.includes(kind)?`puzzle-${kind.toLowerCase()}`:kind==='HatShop'?'hats':ns.WordGames?.KINDS?.includes(kind)?`word-${kind.toLowerCase()}`:ns.ToyBoxGames?.KINDS?.includes(kind)||ns.LookGames?.KINDS?.includes(kind)?`toy-${kind.toLowerCase()}`:'practice';
       if(kind==='LetterDelivery'||kind==='GardenTogether'||kind==='FriendBook'||kind==='LivingBook')el.querySelector('.practice-heading').hidden=true;
       if(kind==='Feed'||kind==='Workshop')el.querySelector('.practice-stage').classList.add('play-stage');
       this.wireTopBar(el,back);
-      const replay=el.querySelector('.practice-replay');let current=null;
-      replay.onclick=()=>{if(this.game?.replayPrompt)this.game.replayPrompt();else if(current)this.sayForLearning(current);};
+      const replay=el.querySelector('.practice-replay');let current=null,practiceGame=null;
+      replay.onclick=()=>{
+        if(!el.isConnected||practiceFinished||practiceCancelled||this.game!==practiceGame)return;
+        if(practiceGame?.replayPrompt)practiceGame.replayPrompt();
+        else if(current){try{Promise.resolve(this.sayForLearning(current)).catch(()=>{});}catch{}}
+      };
       const learning=ns.LettersLearning?.LearningSession
         ? new ns.LettersLearning.LearningSession(ns.LettersStrength)
         : null;
-      let friend=null;
+      if(learning&&options.learningSessionId)learning.sessionId=options.learningSessionId;
+      let friend=null,practiceFinished=false,practiceCancelled=false,lastSavedPicture=null;
+      const drawingSlots=new Map(); // Colour-studio page identities last only for this visit.
       const ctx={...(kind==='LeafHome'?{families:this.treeFamilies(),branches:this.treeState().branches}:{}),stage:el.querySelector('.practice-stage'),items:s.items||s.world.items(),
         activity:kind,worldId:s.world.id,completedWorldIds:this.progress?.done || [],
+        choosePairMode:kind==='FriendPairs'&&!onDone&&!options.context?.adventure,
+        chooseJigsawPicture:kind==='FriendJigsaw'&&!onDone&&!options.context?.adventure,
+        chooseColourStudio:kind==='ColourFriend'&&!onDone&&!options.context?.adventure,
+        chooseBalloonPlay:kind==='LetterBalloons'&&!onDone&&!options.context?.adventure,
+        sharePicnic:kind==='Feed'&&!onDone&&!options.context?.adventure,
+        ...(actionHelpLabel ? {
+          firstVisit: firstActionVisit,
+          firstActionDemo: firstActionVisit,
+          setupActionCue: options => this.teachAction(el, { ...options, control: el.querySelector('.lg-action-help'),
+            onShow: () => {
+              if (!el.isConnected || practiceFinished || practiceCancelled) return;
+              if (options.onShow) options.onShow(); else learning?.assist();
+            },
+          }),
+        } : {}),
+        strength:ns.LettersStrength,supportedItemIds:[],
         reducedMotion:()=>this.prefersReducedMotion(),petArt:()=>this.petSVG(140,'open'),
         petHue:this.pet?.hue ?? 200,
         canListen:()=>this.canSpeak(),
+        onFreePlay:()=>{replay.hidden=true;},
         prompt:item=>{current=item;
+          if(kind==='LetterStudio')replay.hidden=!item;
           learning?.beginPrompt(item,{activity:kind,skill:ns.LettersLearning?.skillFor(item,kind==='Workshop'?'build':kind)});
           if(kind==='Workshop' && item)replay.innerHTML=`<svg viewBox="0 0 120 80" aria-hidden="true"><text x="60" y="40" text-anchor="middle" font-family="Amiri Quran, serif" font-size="42" fill="#4a3620" data-fit-box="60,40,94,52,42">${item.display}</text></svg>`;
           else if(item)replay.textContent=item.display;else replay.innerHTML=Art.icon('speaker',32);
         },
         say:item=>{if(kind!=='Workshop')current=item;return this.sayForLearning(item);},
-        reportOutcome:outcome=>{if(kind!=='Feed'&&kind!=='Burst')friend?.react?.(outcome);return learning?.report(outcome);},
+        reportOutcome:outcome=>{if(!el.isConnected||practiceFinished||practiceCancelled)return null;if((kind==='Feed'||kind==='Workshop')&&outcome.correct===true){this.actionCue?.destroy();this.actionCue=null;}if(kind!=='Feed'&&kind!=='Burst')friend?.react?.(outcome);const accepted=learning?.report(outcome);if(accepted){if((accepted.correct===false||accepted.assisted)&&!ctx.supportedItemIds.includes(accepted.itemId))ctx.supportedItemIds.push(accepted.itemId);options.onOutcome?.(accepted);}return accepted;},
         pet:{watch:t=>friend?.watch(t),reach:t=>friend?.reach(t),settle:()=>friend?.settle(),cheer:n=>friend?.cheer(n),
           inspect:(t,ms,n)=>friend?.inspect(t,ms,n),ponder:n=>friend?.ponder(n),wave:n=>friend?.wave(n)},
         // A right answer is felt as well as heard: play('correct') carries the
@@ -4609,34 +4930,48 @@
         stickers:kind==='LetterStudio'?(this.stickers?.owned||[]).filter(id=>VISITORS[id]):undefined,
         // Letter Studio pictures hang in the garden as signs (the drawings store).
         // Colour a Friend (v47) hangs its pages in the garden the same way.
-        saveDrawing:url=>{const kept={...(this.savedDrawings||{})};const n=1+Object.keys(kept).filter(k=>/^art\d$/.test(k)).length%3;delete kept[`art${n}`];kept[`art${n}`]=url;this.savedDrawings=Object.fromEntries(Object.entries(kept).slice(-8));this.saveJSON('quran-trainer:letters:drawings',this.savedDrawings);},
+        saveDrawing:async(url,pageId)=>{
+          const saved = await this.saveStudioDrawing(url,pageId,drawingSlots,el);
+          if (saved === true && el.isConnected) {
+            // The save appends its committed slot. Keep the exact creation
+            // from this visit, even if another saved picture looks identical.
+            lastSavedPicture = Object.entries(this.savedDrawings).reverse()
+              .find(([key,picture]) => /^art[1-3]$/.test(key) && picture === url)?.[0] || null;
+          }
+          return saved;
+        },
         // Letter Friends (v26): distractors and book pages come from every letter met.
         known:kind==='FriendFind'||kind==='FriendBook'||kind==='LivingBook'||ns.BookGames?.KINDS?.includes(kind)||ns.PuzzleGames?.KINDS?.includes(kind)||ns.ShadowGames?.KINDS?.includes(kind)||ns.WorkshopGames?.KINDS?.includes(kind)||ns.ToyBoxGames?.KINDS?.includes(kind)||ns.LookGames?.KINDS?.includes(kind)||kind==='HatShop'?this.knownItems():undefined,
         // Living Books (v29): which book, which words this child can decode,
         // and a read count so favourites come first on the shelf.
         bookId:kind==='LivingBook'?s.bookId:undefined,
+        stopSpeech:kind==='LivingBook'||kind==='LetterDelivery'||kind==='HoopoeTrip'||kind==='BeatDrum'?()=>this.stopSpeech():undefined,
         decodable:kind==='LivingBook'?word=>this.canDecode(word):undefined,
         onRead:kind==='LivingBook'?id=>{const reads={...this.loadJSON(BOOKS_KEY,{})};reads[id]=(reads[id]||0)+1;this.saveJSON(BOOKS_KEY,reads);}:undefined,
         // Picture-book games (v27) start a learning round per question without
         // showing the answer on the replay button.
         beginRound:(item,skill='friend')=>learning?.beginPrompt(item,{activity:kind,skill}),
         startAt:kind==='FriendBook'?(s.startAt||0):undefined,
-        beginner:kind==='FriendFind'||kind==='SandTable'||ns.BookGames?.KINDS?.includes(kind)||ns.PuzzleGames?.KINDS?.includes(kind)||ns.ShadowGames?.KINDS?.includes(kind)||ns.WorkshopGames?.KINDS?.includes(kind)||ns.ToyBoxGames?.KINDS?.includes(kind)||ns.LookGames?.KINDS?.includes(kind)||kind==='HatShop'?!!(this.sprout||this.easeUp):undefined,
-        // Encouragement pass (v57): finishing is a moment, not a cut back to
-        // the menu — a flower blooms in the garden ("you played, it grew")
-        // and the pet cheers, then the game moves on. Chapter stops go
-        // straight on to their own party.
-        done:()=>{if(!el.isConnected)return;const go=()=>{if(el.isConnected)(onDone||back)();};if(onDone&&this.session?.chapterBonus)return go();this.finishBloom(el,go,friend,this.payPractice(kind));}};
+        beginner:!!(this.sprout||this.easeUp),
+        // Finishing is a child-led stopping point. Connected adventures keep
+        // their own transition; standalone toys also offer another visit.
+        ...options.context,
+        cancel:()=>{if(practiceFinished||practiceCancelled||!el.isConnected)return;practiceCancelled=true;(back||(()=>this.renderPracticeGarden()))();},
+        done:()=>{if(!el.isConnected||practiceFinished||practiceCancelled)return;practiceFinished=true;const go=()=>{if(el.isConnected)(onDone||back||(()=>this.renderPracticeGarden()))();};if(options.directDone)return go();if(onDone&&this.session?.chapterBonus)return go();const again=!onDone?()=>{if(!el.isConnected)return;this.session=s;this.startPractice(kind,back,null,options);}:null;const creation=!onDone?this.pictureInvitation(lastSavedPicture,el):null;this.finishBloom(el,go,friend,this.payPractice(kind),again,creation);}};
       // v58: a toy that fails to build sends the child quietly back, never to a
       // half-made screen with nothing to tap.
+      if(kind==='HatShop')ctx.items=ns.PracticeLearning?.hatItems(ctx,this.worlds.worlds)||ctx.items;
+      if(kind==='SandTable')ctx.syllables=ns.PracticeLearning?.hatItems(ctx,this.worlds.worlds)||[];
       try{
       if(kind==='Feed')this.game=new ns.LettersMiniGames.feed({...ctx,garden:true,beginner:true,level:0,rounds:this.sprout?3:4,hue:150,extraItems:[],petArt:()=>this.petSVG(180),setPrompt:ctx.prompt,sfx:name=>this.sound.play(name),confettiAt:target=>this.confettiAt(target),onDone:ctx.done});
       else if(kind==='Workshop')this.game=new ns.LettersMiniGames.build({...ctx,setPrompt:ctx.prompt,sfx:name=>this.sound.play(name),confettiAt:target=>this.confettiAt(target),onDone:ctx.done});
       else if(kind==='LetterDelivery')this.game=new ns.LetterDelivery(ctx);
       else this.game=new ns.GardenPractice[kind](ctx);
-      }catch(error){console.error('Letter Garden: toy failed to start',kind,error);this.game=null;return (onDone||back||(()=>this.renderPracticeGarden()))();}
-      this.rescue={stage:ctx.stage,go:()=>(onDone||back||(()=>this.renderPracticeGarden()))()};
+      }catch(error){console.error('Letter Garden: toy failed to start',kind,error);this.game=null;return (back||(()=>this.renderPracticeGarden()))();}
+      practiceGame=this.game;
+      this.rescue={stage:ctx.stage,go:()=>ctx.cancel()};
       if(kind==='Workshop'||kind==='Feed')this.unmountActivityArt=ns.LettersActivityArt?.mount(ctx.stage,kind==='Feed'?'feed':'build');
+      else if(['toytable','storybook','naturetable','tailor'].includes(ns.LettersActivityArt?.familyFor(kind))){ctx.stage.dataset.toyFamily=ns.LettersActivityArt.familyFor(kind);this.unmountActivityArt=ns.LettersActivityArt.mount(ctx.stage,kind);}
       // Quality pass (v40): seeing games with no spoken question hide the
       // replay button rather than show one that does nothing.
       if(this.game?.noReplay)replay.hidden=true;
@@ -4646,6 +4981,15 @@
       this.fitStage(ctx.stage);
       this.keepFocus(ctx.stage);
       if(kind!=='LetterDelivery')friend=this.petLife(kind==='Feed'?el.querySelector('.feed-creature'):el.querySelector('.practice-heading'),ctx.stage);
+      // A few games discover an empty plan just after construction and cancel
+      // on their first timer tick. Wait through that startup check before
+      // retiring the garden's "new" invitation. Screen/game identity checks
+      // also make this harmless if the child leaves during that short window.
+      const launchedGame=this.game;
+      setTimeout(()=>{
+        if(practiceCancelled||practiceFinished||!el.isConnected||this.game!==launchedGame)return;
+        try{const tried=this.loadJSON(TRIED_KEY,[]);if(Array.isArray(tried)&&!tried.includes(kind)){tried.push(kind);this.saveJSON(TRIED_KEY,tried.slice(-80));}}catch{}
+      },350);
     }
 
     // 2026-10-13 (economy): practice used to pay nothing — and chapter stars
@@ -4657,28 +5001,36 @@
     payPractice(kind){
       try{
         const today=todayStr(),k='quran-trainer:letters:practice-paid';
-        let log=this.loadJSON(k,null);
-        if(!log||log.day!==today)log={day:today,kinds:[]};
-        if(!Array.isArray(log.kinds)||log.kinds.includes(kind)||log.kinds.length>=5)return false;
-        log.kinds.push(kind);this.saveJSON(k,log);
-        return this.earnStars(1)!==false;
+        if(typeof kind!=='string'||!kind)return false;
+        const legacy=this.loadJSON(k,null),ledger=this.wallet?.practicePaid;
+        const kinds=[...new Set([legacy,ledger].flatMap(log=>log?.day===today&&Array.isArray(log.kinds)?log.kinds.filter(value=>typeof value==='string'):[]))];
+        if(kinds.includes(kind)||kinds.length>=5)return false;
+        const earned=Number(this.wallet?.earned??0);
+        if(!Number.isFinite(earned)||earned<0||earned>=Number.MAX_SAFE_INTEGER)return false;
+        const log={day:today,kinds:[...kinds,kind]};
+        // One saved record owns both the star and its daily receipt. A failed
+        // write leaves both untouched, so a later visit can safely try again.
+        const wallet={...this.wallet,earned:earned+1,practicePaid:log};
+        if(this.saveJSON('quran-trainer:letters:wallet',wallet)!==true)return false;
+        this.wallet=wallet;
+        // Compatibility mirror for older builds; the wallet receipt remains
+        // authoritative even when this secondary write is unavailable.
+        try{this.saveJSON(k,log);}catch{}
+        return true;
       }catch{return false;}
     }
 
-    finishBloom(el,go,friend,paid=false){
+    finishBloom(el,go,friend,paid=false,replay=null,creation=null){
       const stage=el.querySelector?.('.practice-stage');
-      if(!stage||typeof setTimeout!=='function'||typeof document==='undefined'||!stage.appendChild)return go();
-      let still=false;try{still=this.prefersReducedMotion();}catch{}
-      const bloom=document.createElement('div');
-      // Reduced motion still gets the flowers — standing, not growing.
-      bloom.className=still?'pg-bloom is-still':'pg-bloom';bloom.setAttribute('aria-hidden','true');
-      bloom.innerHTML=`<span class="pg-bloom-bed">${ns.LettersGardenArt.flowerBed({size:180,count:3,centered:true,terrain:false})}</span>${paid?`<span class="pg-bloom-star">${(Art.artIcon||Art.icon)('star',56)}</span>`:''}`;
-      if(paid)setTimeout(()=>{try{this.sound.play('star1');}catch{}},450);
-      stage.appendChild(bloom);
-      if(still){setTimeout(go,1400);return;}
-      friend?.cheer?.();
-      setTimeout(()=>{if(el.isConnected)this.confettiAt(bloom.firstElementChild,true);},350);
-      setTimeout(go,1700);
+      if(!stage||!ns.PracticeFinish?.mount)return go();
+      this.stopPracticeFinish?.();
+      clearTimeout(this._idleTimer);
+      this.stopSpeech();
+      this.unmountActivityArt?.();this.unmountActivityArt=null;
+      this.game?.destroy?.();this.game=null;this.rescue=null;
+      this.stopPracticeFinish=ns.PracticeFinish.mount({screen:el,stage,paid,
+        petArt:this.petSVG(180,'proud'),reducedMotion:this.prefersReducedMotion(),
+        go,replay,creation,sound:name=>this.sound.play(name)});
     }
 
     // Big-screen pass (v53): the newer games were sized for phones (pixel
@@ -4769,7 +5121,17 @@
 
     rewardScene(finished=false,flower=false) {
       return `<div class="reward-scene">${ns.LettersRoomArt.floor()}<div class="reward-ground" aria-hidden="true">${ns.LettersRoomArt.podium()}</div>${this.gardenReward(finished)}
-        ${flower?`<div class="party-flower">${Art.skillFlower({scores:this.skills,size:120})}</div>`:''}
+        ${flower?`<div class="party-flower" role="img" aria-label="Your learning flower">
+          <svg viewBox="0 0 200 260" aria-hidden="true">
+            <g stroke="#4a3620" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M99 253Q111 176 100 78" fill="none" stroke="#2f5c46" stroke-width="9"/>
+              <path d="M103 202Q52 202 48 168Q94 162 103 202Z" fill="#7fce54"/>
+              <path d="M105 175Q143 177 154 145Q117 134 105 175Z" fill="#4e9677"/>
+              <path d="M63 176Q75 175 84 182" fill="none" stroke="#b7e779" stroke-width="3"/>
+            </g>
+            ${Art.skillFlower({scores:this.skills,size:160}).replace('<svg ', '<svg x="20" y="0" ')}
+          </svg>
+        </div>`:''}
         ${finished?`<div class="party-pair"><div class="party-mascot">${Art.keyMascot({size:120,mood:'open'})}</div><button type="button" class="party-pet" aria-label="Celebrate with your pet"><span class="pet-bubble" hidden></span>${this.petSVG(150,'open')}</button></div>`: `<div class="reward-friend" aria-hidden="true">${this.petSVG(150,'delighted')}</div>`}</div>`;
     }
 
@@ -4902,19 +5264,29 @@
       return { kind: pick, items: review || !items.length ? this.knownItems() : items };
     }
 
+    rememberKeepsake() {
+      if (!this.isBoatAdventure()) return;
+      const s = this.session, journey = ns.LettersJourney;
+      const next = journey.normalizeKeepsakes({ ...this.keepsakes,
+        [s.world.id]: journey.snapshot(s.items, s.journeyDrawings) });
+      if (!next[s.world.id]) return;
+      // Keep the current creation visible even when the browser cannot save;
+      // saveJSON exposes that failure and leaves the last stored copy intact.
+      this.keepsakes = next;
+      this.saveJSON('quran-trainer:letters:keepsakes', next);
+    }
+
     finishWorld() {
       const s = this.session;
-      if (s?.world && this.loadJSON(RESUME_KEY, null)?.world === s.world.id) this.saveJSON(RESUME_KEY, null);
-      if (!s.checkup && !s.daily && !s.bonusDone) {
-        const bonus = this.chapterBonus(s.world);
-        if (bonus && bonus.items.length) {
-          s.bonusDone = true;
-          const chapter = s;
-          this.session = { world: s.world, items: bonus.items, startAt: 0, chapterBonus: true };
-          const resume = () => { this.session = chapter; this.finishWorld(); };
-          return this.startPractice(bonus.kind, resume, resume);
-        }
+      if (!s.checkup && !s.daily && !s.friendStopPrepared) {
+        // The route is finished. Keep its extra toy as an invitation on the
+        // celebration, selected before first-completion changes replay rotation.
+        s.friendStopPrepared = true;
+        s.friendStop = this.chapterBonus(s.world);
       }
+      // Old final-step checkpoints also arrive here and commit their already
+      // earned chapter directly, without replaying an activity or extra stop.
+      if (s?.world) this.clearChapterPlace(s.world);
       const worldStars = Math.max(1, Math.round(s.starTotal / s.world.games.length));
       // v58: the party celebrates the chapter's BEST moment, not its average —
       // a stumble in the first game shouldn't shrink the party a child reached
@@ -4945,7 +5317,26 @@
         this.mapWelcome = { world: s.world.id };
         if (this.island) this.island.completeStudyStep();
       }
+      this.rememberKeepsake();
       this.renderParty(partyStars, newlyDone);
+    }
+
+    playChapterFriend(screenEl, chapter, bonus, stars) {
+      if (!screenEl?.isConnected || this.session !== chapter || !bonus?.items?.length) return;
+      const visit = { world: chapter.world, items: bonus.items, startAt: 0, chapterBonus: true };
+      this.session = visit;
+      let returned = false, revision;
+      const back = () => {
+        if (returned || this.session !== visit || (revision !== undefined && this.screenRevision !== revision)) return;
+        returned = true;
+        this.session = chapter;
+        // Completion was saved before this detour. Returning only restores
+        // its celebration; it cannot unlock, stamp or award the chapter again.
+        this.renderParty(stars, false);
+        this.root.querySelector('.party-bonus')?.focus?.({ preventScroll: true });
+      };
+      this.startPractice(bonus.kind, back, back);
+      revision = this.screenRevision;
     }
 
     // Encouragement pass (v57): the chapter's letter friends come to the
@@ -4978,6 +5369,8 @@
 
     renderParty(stars, newlyDone, { flower = false } = {}) {
       const adventure = this.isBoatAdventure();
+      const chapter = this.session;
+      const bonus = !chapter?.daily && !chapter?.checkup && chapter?.friendStop?.items?.length ? chapter.friendStop : null;
       // The Quran-word capstone (spec: specs/02 summit): finishing a
       // word-decoding world isn't just another world — it's the child
       // reading real words from the Quran. Mark the moment.
@@ -4987,7 +5380,7 @@
         : "";
       const el = this.screen(
         "lg-party",
-        `<div class="party-stage lg-panel">
+        `<div class="party-stage lg-panel${bonus ? ' has-friend-stop' : ''}">
           ${capstone}
           ${adventure ? this.adventureScene(3,true) : this.rewardScene(true,flower)}
           ${adventure ? this.journeyRoute(3) : ''}
@@ -4995,7 +5388,7 @@
             ${this.earnedStars(stars, 64, 240)}
           </div>
           ${this.partyFriends()}
-          <div class="party-actions">${adventure ? `<button type="button" class="lg-round-btn party-replay" aria-label="${ns.LettersJourney.REPLAY?.[ns.LettersJourney.forWorld(this.session?.world)?.kind] || 'Play the delivery again'}">${Art.icon('replay',32)}</button>` : ''}<button type="button" class="party-decorate" aria-label="Decorate with your earned rewards">${ns.DecoratingGarden.icon(50)}</button><button type="button" class="lg-big-btn party-next" aria-label="Return to the garden">${Art.icon("home", 44)}</button></div>
+          <div class="party-actions${bonus ? ' has-friend-stop' : ''}">${adventure ? `<button type="button" class="lg-round-btn party-replay" aria-label="${ns.LettersJourney.REPLAY?.[ns.LettersJourney.forWorld(this.session?.world)?.kind] || 'Play the delivery again'}">${Art.icon('replay',32)}</button>` : ''}${bonus ? `<button type="button" class="party-bonus" aria-label="Play an extra friend game">${ns.LettersGardenArt.practicePicture(bonus.kind)}</button>` : ''}<button type="button" class="party-decorate" aria-label="Decorate with your earned rewards">${ns.DecoratingGarden.icon(50)}</button><button type="button" class="lg-big-btn party-next" aria-label="Return to the garden">${Art.icon("home", 44)}</button></div>
         </div>`,
       );
       this.sound.play(newlyDone ? "worldClear" : "perfect");
@@ -5006,6 +5399,8 @@
       this.wirePractice(el,()=>this.renderParty(stars,false,{flower}));
       const replay = el.querySelector('.party-replay');
       if(replay)replay.onclick=()=>this.replayActivity(el,true);
+      const friendStop = el.querySelector('.party-bonus');
+      if (friendStop) friendStop.onclick = () => this.playChapterFriend(el, chapter, bonus, stars);
       const partyPet = el.querySelector(".party-pet");
       const partyRig = this.sceneRig(partyPet);
       partyRig?.cheer(() => partyRig.inspect(el.querySelector('.adventure-basket, .adventure-cargo, .party-flower, .party-mascot'), 1600));

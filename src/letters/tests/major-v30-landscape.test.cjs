@@ -2,6 +2,7 @@ const { test } = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
+const vm = require("node:vm");
 const root = path.join(__dirname, "..", "..", "..");
 const source = file => fs.readFileSync(path.join(__dirname, "..", file), "utf8");
 const palette = (() => {
@@ -42,7 +43,17 @@ test("Landscape phones: a side rail for controls, every activity gets the full h
   // Loaded after every other Letter Garden stylesheet so it wins.
   const links = [...html.matchAll(/href="(styles\/letters[^"?]+)/g)].map(m => m[1]);
   assert.equal(links[links.length - 1], "styles/letters-landscape.css");
-  assert.match(source("LetterHunt.js"), /preserveAspectRatio", "xMidYMid meet"/, "a wide stage never crops a letter");
+  const window = { MiftahGame: {} };
+  const context = vm.createContext({ window, Math });
+  for (const file of ["HuntPlayArt.js", "LetterHunt.js"]) vm.runInContext(source(file), context);
+  const Hunt = window.MiftahGame.GardenPractice.LetterHunt;
+  const liveLetters = [{ id: "a", display: "ا" }, null, { id: "b", display: "ب" }, null, null, null];
+  const landscape = Hunt.scene("lagoon", liveLetters, false);
+  const portrait = Hunt.scene("lagoon", liveLetters, true);
+  for (const [orientation, markup, viewBox] of [["landscape", landscape, "0 0 800 600"], ["portrait", portrait, "0 0 600 860"]]) {
+    assert.match(markup, new RegExp(`<svg class="hunt-scene${orientation === "portrait" ? " is-portrait" : ""}" viewBox="${viewBox}" preserveAspectRatio="xMidYMid meet"`), `${orientation} scene fits the entire picture`);
+    assert.equal((markup.match(/class="hunt-label"/g) || []).length, 2, `${orientation} keeps each active glyph in a fitted label`);
+  }
 });
 
 test("Audio: book words are spoken without punctuation so recordings match; supplement prepared", () => {

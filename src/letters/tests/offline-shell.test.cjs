@@ -186,7 +186,8 @@ test('every mapped Marin clip is bundled and available offline without an AI ser
   vm.runInNewContext(fs.readFileSync(path.join(root, 'src/letters/LetterVoiceClips.js'), 'utf8'), { window });
   const clips = window.MiftahGame.LETTER_VOICE_CLIPS;
   const imported = curriculumManifest().items.filter(item => item.status === 'imported');
-  assert.equal(Object.keys(clips).length, 25 + imported.length);
+  const teacher = JSON.parse(fs.readFileSync(path.join(root, 'assets/audio/letters/marin-teacher-v1/manifest.json'))).items;
+  assert.equal(Object.keys(clips).length, 25 + imported.length + teacher.length);
   const app = runtime();
   await app.install();
   app.setNetwork(async () => { throw Error('offline'); });

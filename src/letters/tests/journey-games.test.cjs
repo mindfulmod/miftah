@@ -24,6 +24,7 @@ test('journey games report one-based progress with their actual totals', () => {
     alive: true, roundIndex: 1, rounds: [{ target: items[0], options: [] }, { target: items[1], options: [] }],
     dragResets: [], selected: null, ctx: { setRoundProgress: (...args) => calls.push(args), setPrompt() {}, say() {} },
     tray: { innerHTML: '', appendChild() {}, querySelectorAll: () => [] },
+    creatureEl: { classList: { remove() {}, toggle() {} } },
     scene: { classList: { remove() {} } }, finishEl: { hidden: false }, nextBtn: { disabled: false }, replayBtn: { disabled: false },
     basket: { classList: { remove() {}, toggle() {} }, setAttribute() {}, disabled: false }, delivered: { innerHTML: 'old delivery' },
   });

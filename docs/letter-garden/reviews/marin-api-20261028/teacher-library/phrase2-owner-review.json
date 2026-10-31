@@ -1,0 +1,25 @@
+{
+  "stage": "teacher-phrase2-v1",
+  "reviews": [
+    {
+      "id": "lg-29468e72afeb",
+      "input": "نَقُولُ: أَذِّ، ثُمَّ نَسْتَمِعُ.",
+      "targetInput": "أَذِّ",
+      "file": "phrase2-candidates/lg-29468e72afeb.wav",
+      "sha256": "263365573e1906ced2531dec7b23c3c1608785b1f47ecc8617fc039b90f42809",
+      "decision": "fix",
+      "note": "Owner hears naqulu azz thuma nastamiu",
+      "source": "Explicit user message"
+    },
+    {
+      "id": "lg-0a1626f96256",
+      "input": "نَقُولُ: أَفِّ، ثُمَّ نَسْتَمِعُ.",
+      "targetInput": "أَفِّ",
+      "file": "phrase2-candidates/lg-0a1626f96256.wav",
+      "sha256": "54b339d36cdf372e802b4ed0edfe52bd4e159d276fa3162638b297a20796ed51",
+      "decision": "correct",
+      "note": "Owner: second one fine; full phrase only, extraction not reviewed.",
+      "source": "Explicit user message"
+    }
+  ]
+}

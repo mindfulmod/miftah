@@ -39,14 +39,17 @@ test('chapter entry passes only actual completed IDs into its distractor supplie
   const item={id:'ج',display:'ج'},world={id:'pack-smile',hue:20,meet:[item],items:()=>[item],extraItems:ids=>{assert.equal(ids,done);return [{id:'ب',display:'ب'}];}};
   game.startWorld(world);assert.equal(game.session.items[0],item);assert.deepEqual(calls,['meet']);assert.equal(game.session.extraItems[0].id,'ب');
 });
-test('long assembly tasks add manual pieces gradually without reading old stars as mastery',()=>{
+test('long assembly tasks stay gentle until successful motor construction spans visits',()=>{
   const window={MiftahGame:{}};
   vm.runInNewContext(fs.readFileSync(path.join(__dirname,'../LettersLearning.js'),'utf8'),{window});
   const api=window.MiftahGame.LettersLearning,item={id:'long'};
-  let correct=0;const ctx={strength:{skillProfile:()=>({motor:{r:correct}})},level:999};
+  let evidence={};const ctx={strength:{skillProfile:()=>evidence},level:999};
   assert.equal(api.assemblyProfile(item,ctx).pieceBudget,2);
-  correct=4;assert.equal(api.assemblyProfile(item,ctx).pieceBudget,3);
-  correct=8;assert.equal(api.assemblyProfile(item,ctx).pieceBudget,4);
-  correct=12;assert.equal(api.assemblyProfile(item,ctx).pieceBudget,5);
+  evidence={motor:{participation:12}};assert.equal(api.assemblyProfile(item,ctx).pieceBudget,2);
+  evidence={motor:{r:3,streak:2,sessions:['visit-a']}};assert.equal(api.assemblyProfile(item,ctx).pieceBudget,2);
+  evidence={motor:{r:3,streak:2,sessions:['visit-a','visit-b']}};assert.equal(api.assemblyProfile(item,ctx).pieceBudget,3);
+  evidence={motor:{r:12,streak:8,last:10,sessions:['visit-a','visit-b','visit-c']},assisted:{r:1,last:11}};assert.equal(api.assemblyProfile(item,ctx).pieceBudget,2);
+  evidence={motor:{r:6,streak:3,sessions:['visit-a','visit-b','visit-c']}};assert.equal(api.assemblyProfile(item,ctx).pieceBudget,4);
+  evidence={motor:{r:10,streak:4,sessions:['visit-a','visit-b','visit-c','visit-d']}};assert.equal(api.assemblyProfile(item,ctx).pieceBudget,5);
   assert.equal(api.assemblyProfile(item,{...ctx,beginner:true}).pieceBudget,2);
 });

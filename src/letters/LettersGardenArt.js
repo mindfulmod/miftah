@@ -23,22 +23,20 @@
       <path d="M23 146Q118 122 237 148L218 171Q130 192 43 169Z" fill="#b7e779"/>
       <path d="M24 149Q124 174 234 151L218 172Q127 192 43 170Z" fill="#4e9677"/>
       <path d="M38 147Q125 129 222 148" fill="none" stroke="#e5dcc8" stroke-width="4" stroke-linecap="round"/>` : ''}
-      ${!stage ? seedlings() : ''}
       ${biome==='meadow'||!habitat?`<svg x="40" y="25" width="180" height="144" viewBox="0 0 100 80">${flowers}</svg>`:
         `<svg x="28" y="5" width="190" height="143" viewBox="0 0 64 48">${habitat.replace('<svg ','<svg width="64" height="48" ')}</svg><svg x="139" y="103" width="90" height="72" viewBox="0 0 100 80">${flowers}</svg>`}
+      ${!stage ? seedlings() : ''}
     </svg>`;
   }
   function boat({ stage = 0, terrain = true } = {}) {
-    const id = `garden-boat-${serial++}`;
     const flowers = [[55, 130, .86], [166, 139, 1.1], [205, 124, .72]];
     return `<svg class="garden-boat" viewBox="0 0 260 200" aria-hidden="true">
-      <defs><linearGradient id="${id}" x2="0" y2="1"><stop stop-color="#fffdf7"/><stop offset=".55" stop-color="#fffaf0"/><stop offset="1" stop-color="#e5dcc8"/></linearGradient></defs>
       ${terrain ? `<ellipse cx="130" cy="174" rx="110" ry="15" fill="#4e9677" opacity=".22"/>
       <path d="M24 147Q130 119 236 147L220 165Q128 185 40 165Z" fill="#b7e779"/>
       <path d="M30 152Q126 173 231 151L220 166Q128 185 40 165Z" fill="#4e9677" opacity=".45"/>
       <ellipse cx="122" cy="148" rx="78" ry="13" fill="#96ecff" stroke="#62cdf4" stroke-width="2.4"/><path d="M58 150Q66 146 74 150M168 151Q176 147 184 151M150 158Q158 155 166 158" fill="none" stroke="#fffdf7" stroke-width="2.4" stroke-linecap="round"/>` : '<ellipse cx="130" cy="160" rx="86" ry="11" fill="#2f5c46" opacity=".13"/>'}
       <g stroke="#4a3620" stroke-width="3" stroke-linejoin="round">
-        <path d="M62 110L178 107L153 147L90 146Z" fill="url(#${id})"/>
+        <path d="M62 110L178 107L153 147L90 146Z" fill="#fffaf0"/>
         <path d="M62 110L111 122L153 147L90 146Z" fill="#e5dcc8"/>
         <path d="M111 122L131 46L131 109L178 107Z" fill="#fffdf7"/>
         <path d="M131 46L75 108L111 122Z" fill="#fffaf0"/>

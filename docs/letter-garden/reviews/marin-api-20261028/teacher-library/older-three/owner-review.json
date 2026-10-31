@@ -1,0 +1,39 @@
+{
+  "stage": "teacher-older-three-v1",
+  "reviews": [
+    {
+      "id": "lg-fd9537adfffb",
+      "input": "ذِ",
+      "targetInput": "ذِ",
+      "targetId": "lg-fd9537adfffb",
+      "sha256": "989bb4b1614e0befaf4299e1e26abec2df672a579fc9d5d0bfc2482b90ff84ff",
+      "file": "tanwin-repair-candidates/lg-fd9537adfffb.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-30T23:53:28.600Z"
+    },
+    {
+      "id": "lg-0b315cfbef5c",
+      "input": "ٱلنَّاسِ",
+      "targetInput": "ٱلنَّاسِ",
+      "targetId": "lg-0b315cfbef5c",
+      "sha256": "d4848884d5ef63560b2e027c1baedd7c9fed0f02f5a40ad4ce5ed9d8c4f4dfd1",
+      "file": "tanwin-repair-candidates/lg-0b315cfbef5c.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-30T23:53:34.391Z"
+    },
+    {
+      "id": "lg-a50385d06881",
+      "input": "ٱلرَّحْمَـٰنِ",
+      "targetInput": "ٱلرَّحْمَـٰنِ",
+      "targetId": "lg-a50385d06881",
+      "sha256": "eb57b40f0f45bd69183f54cbd8b33770085df48e3ad36626d1bf0e3e60091be2",
+      "file": "tanwin-repair-candidates/lg-a50385d06881.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-30T23:53:41.799Z"
+    }
+  ],
+  "exported": "2026-10-30T23:54:13.383Z"
+}

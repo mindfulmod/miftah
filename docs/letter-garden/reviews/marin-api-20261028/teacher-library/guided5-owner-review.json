@@ -1,0 +1,61 @@
+{
+  "stage": "teacher-guided5-v1",
+  "reviews": [
+    {
+      "id": "lg-6287e1911430",
+      "input": "أَهِّ",
+      "targetInput": "أَهِّ",
+      "targetId": "lg-6287e1911430",
+      "sha256": "5361d11f781bc7a9daef8f33ad847d9b8e01213bf68d0ef1c85726ad52d48827",
+      "file": "guided5-candidates/lg-6287e1911430.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T21:24:54.804Z"
+    },
+    {
+      "id": "lg-bb2d966387ef",
+      "input": "أَذِّ",
+      "targetInput": "أَذِّ",
+      "targetId": "lg-bb2d966387ef",
+      "sha256": "c67b9b79aecc316cde0ba9fb9a1119c6e0d646afebbf556aa39a1f1b9192fa99",
+      "file": "guided5-candidates/lg-bb2d966387ef.wav",
+      "decision": "fix",
+      "note": "adhziz",
+      "updated": "2026-10-31T21:25:11.031Z"
+    },
+    {
+      "id": "lg-bfb39dc4a149",
+      "input": "أَفِّ",
+      "targetInput": "أَفِّ",
+      "targetId": "lg-bfb39dc4a149",
+      "sha256": "34cc463ace35f8f4ff33c5b4ca90e43d152c28f5778ff3025c6987f913b4e1d1",
+      "file": "guided5-candidates/lg-bfb39dc4a149.wav",
+      "decision": "fix",
+      "note": "aff and its repeated",
+      "updated": "2026-10-31T21:25:19.291Z"
+    },
+    {
+      "id": "lg-c309be8fcad4",
+      "input": "أَظِّ",
+      "targetInput": "أَظِّ",
+      "targetId": "lg-c309be8fcad4",
+      "sha256": "9d89ac6263c5c6d78e2345f50dd89c0356c554f356d2db98d539e6ec4fcb8fb2",
+      "file": "guided5-candidates/lg-c309be8fcad4.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T21:25:22.865Z"
+    },
+    {
+      "id": "lg-e52617263b32",
+      "input": "أَزِّ",
+      "targetInput": "أَزِّ",
+      "targetId": "lg-e52617263b32",
+      "sha256": "d249266be8a198d0aa406fd410ce9645c071eccf999cb853c995c8c4b348ee02",
+      "file": "guided5-candidates/lg-e52617263b32.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T21:25:25.367Z"
+    }
+  ],
+  "exported": "2026-10-31T21:25:46.584Z"
+}

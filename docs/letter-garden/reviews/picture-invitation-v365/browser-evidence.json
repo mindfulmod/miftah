@@ -1,0 +1,329 @@
+{
+  "before": {
+    "keys": [
+      "art1",
+      "art2"
+    ],
+    "persistedMatch": true,
+    "layout": {
+      "version": 1,
+      "slots": [
+        "sign:art1",
+        null,
+        null,
+        null
+      ]
+    },
+    "exits": 0,
+    "decision": null,
+    "failSave": false,
+    "wallet": {
+      "earned": 1,
+      "spent": 0,
+      "practicePaid": {
+        "day": "2026-10-29",
+        "kinds": [
+          "LetterStudio"
+        ]
+      }
+    },
+    "dialog": false,
+    "busy": false,
+    "changes": {
+      "art1": 6042,
+      "art2": 6818
+    }
+  },
+  "opened": {
+    "keys": [
+      "art1",
+      "art2"
+    ],
+    "persistedMatch": true,
+    "layout": {
+      "version": 1,
+      "slots": [
+        "sign:art1",
+        null,
+        null,
+        null
+      ]
+    },
+    "exits": 0,
+    "decision": null,
+    "failSave": false,
+    "wallet": {
+      "earned": 1,
+      "spent": 0,
+      "practicePaid": {
+        "day": "2026-10-29",
+        "kinds": [
+          "LetterStudio"
+        ]
+      }
+    },
+    "selected": "sign:art2",
+    "selectedSlot": null,
+    "dialog": false,
+    "busy": false,
+    "changes": {
+      "art1": 6042,
+      "art2": 6818
+    }
+  },
+  "placed": {
+    "keys": [
+      "art1",
+      "art2"
+    ],
+    "persistedMatch": true,
+    "layout": {
+      "version": 1,
+      "slots": [
+        "sign:art1",
+        "sign:art2",
+        null,
+        null
+      ]
+    },
+    "exits": 0,
+    "decision": null,
+    "failSave": false,
+    "wallet": {
+      "earned": 1,
+      "spent": 0,
+      "practicePaid": {
+        "day": "2026-10-29",
+        "kinds": [
+          "LetterStudio"
+        ]
+      }
+    },
+    "selected": null,
+    "selectedSlot": null,
+    "dialog": false,
+    "busy": false,
+    "changes": {
+      "art1": 6042,
+      "art2": 6818
+    }
+  },
+  "undo": {
+    "keys": [
+      "art1",
+      "art2"
+    ],
+    "persistedMatch": true,
+    "layout": {
+      "version": 1,
+      "slots": [
+        "sign:art1",
+        null,
+        null,
+        null
+      ]
+    },
+    "exits": 0,
+    "decision": null,
+    "failSave": false,
+    "wallet": {
+      "earned": 1,
+      "spent": 0,
+      "practicePaid": {
+        "day": "2026-10-29",
+        "kinds": [
+          "LetterStudio"
+        ]
+      }
+    },
+    "selected": null,
+    "selectedSlot": null,
+    "dialog": false,
+    "busy": false,
+    "changes": {
+      "art1": 6042,
+      "art2": 6818
+    }
+  },
+  "layouts": [
+    {
+      "buttons": [
+        {
+          "bottom": 509.328125,
+          "h": 230.6640625,
+          "label": "Put your picture in the garden",
+          "left": 22,
+          "right": 368,
+          "top": 278.6640625,
+          "w": 346
+        },
+        {
+          "bottom": 585.328125,
+          "h": 64,
+          "label": "Play this game again",
+          "left": 100,
+          "right": 164,
+          "top": 521.328125,
+          "w": 64
+        },
+        {
+          "bottom": 589.328125,
+          "h": 72,
+          "label": "Continue",
+          "left": 194,
+          "right": 290,
+          "top": 517.328125,
+          "w": 96
+        }
+      ],
+      "height": 844,
+      "width": 390
+    },
+    {
+      "buttons": [
+        {
+          "bottom": 359.6640625,
+          "h": 197.328125,
+          "label": "Put your picture in the garden",
+          "left": 12,
+          "right": 308,
+          "top": 162.3359375,
+          "w": 296
+        },
+        {
+          "bottom": 435.6640625,
+          "h": 64,
+          "label": "Play this game again",
+          "left": 68,
+          "right": 132,
+          "top": 371.6640625,
+          "w": 64
+        },
+        {
+          "bottom": 439.6640625,
+          "h": 72,
+          "label": "Continue",
+          "left": 156,
+          "right": 252,
+          "top": 367.6640625,
+          "w": 96
+        }
+      ],
+      "height": 568,
+      "width": 320
+    },
+    {
+      "buttons": [
+        {
+          "bottom": 301.5,
+          "h": 240,
+          "label": "Put your picture in the garden",
+          "left": 124,
+          "right": 484,
+          "top": 61.5,
+          "w": 360
+        },
+        {
+          "bottom": 254.5,
+          "h": 64,
+          "label": "Play this game again",
+          "left": 541.5,
+          "right": 605.5,
+          "top": 190.5,
+          "w": 64
+        },
+        {
+          "bottom": 172.5,
+          "h": 72,
+          "label": "Continue",
+          "left": 525.5,
+          "right": 621.5,
+          "top": 100.5,
+          "w": 96
+        }
+      ],
+      "height": 375,
+      "width": 667
+    },
+    {
+      "buttons": [
+        {
+          "bottom": 558.6640625,
+          "h": 373.328125,
+          "label": "Put your picture in the garden",
+          "left": 360,
+          "right": 920,
+          "top": 185.3359375,
+          "w": 560
+        },
+        {
+          "bottom": 634.6640625,
+          "h": 64,
+          "label": "Play this game again",
+          "left": 545,
+          "right": 609,
+          "top": 570.6640625,
+          "w": 64
+        },
+        {
+          "bottom": 638.6640625,
+          "h": 72,
+          "label": "Continue",
+          "left": 639,
+          "right": 735,
+          "top": 566.6640625,
+          "w": 96
+        }
+      ],
+      "height": 800,
+      "width": 1280
+    }
+  ],
+  "reducedMotion": {
+    "active": true,
+    "animation": "none",
+    "buttons": [
+      "0s",
+      "0s",
+      "0s"
+    ]
+  },
+  "continued": {
+    "keys": [
+      "art1",
+      "art2",
+      "art3"
+    ],
+    "persistedMatch": true,
+    "layout": {
+      "version": 1,
+      "slots": [
+        "sign:art1",
+        null,
+        null,
+        null
+      ]
+    },
+    "exits": 1,
+    "decision": null,
+    "failSave": false,
+    "wallet": {
+      "earned": 2,
+      "spent": 0,
+      "practicePaid": {
+        "day": "2026-10-29",
+        "kinds": [
+          "LetterStudio",
+          "ColourFriend"
+        ]
+      }
+    },
+    "dialog": false,
+    "busy": false,
+    "changes": {
+      "art1": 6042,
+      "art2": 6818,
+      "art3": 7826
+    }
+  }
+}

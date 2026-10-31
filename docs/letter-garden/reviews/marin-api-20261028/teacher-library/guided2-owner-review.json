@@ -1,0 +1,28 @@
+{
+  "stage": "teacher-guided2-v1",
+  "reviews": [
+    {
+      "id": "lg-bb2d966387ef",
+      "input": "أَذِّ",
+      "targetInput": "أَذِّ",
+      "targetId": "lg-bb2d966387ef",
+      "sha256": "21206120932950145cdf156b415742a8a5a939b014f7ea0cfadcf5f41f21f4ec",
+      "file": "guided2-candidates/lg-bb2d966387ef.wav",
+      "decision": "fix",
+      "note": "super robotic ",
+      "updated": "2026-10-31T21:32:25.531Z"
+    },
+    {
+      "id": "lg-bfb39dc4a149",
+      "input": "أَفِّ",
+      "targetInput": "أَفِّ",
+      "targetId": "lg-bfb39dc4a149",
+      "sha256": "b8971a3f8e26cfdc6aff33a2934738f82ff676e81a7a2c4385133209fd36a331",
+      "file": "guided2-candidates/lg-bfb39dc4a149.wav",
+      "decision": "fix",
+      "note": "afff",
+      "updated": "2026-10-31T21:32:31.975Z"
+    }
+  ],
+  "exported": "2026-10-31T21:32:51.301Z"
+}

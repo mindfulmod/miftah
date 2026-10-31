@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Marin — ten recovered recordings</title>
+<style>
+body{margin:0;background:#fffaf0;color:#4a3620;font:17px/1.55 system-ui,sans-serif}main{max-width:850px;margin:auto;padding:28px 20px 70px}h1{line-height:1.15}p{max-width:68ch}a{color:#7a3512}header{position:sticky;top:0;background:#fffaf0;padding:12px 0;border-bottom:2px solid #c9bda4;z-index:1}button,select,textarea{font:inherit;color:inherit}button,select{min-height:48px;padding:8px 16px;border:2px solid #4a3620;border-radius:12px;background:#fffdf7;cursor:pointer}button:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #b0501f;outline-offset:3px}article{padding:24px;margin:24px 0;background:#fffdf7;border:2px solid #c9bda4;border-radius:20px}h2{font-family:serif;font-size:54px;margin:0 0 16px;line-height:1.8}audio{display:block;width:100%;margin:12px 0 20px}label{display:block;margin:14px 0 6px}textarea{box-sizing:border-box;width:100%;padding:10px;border:1px solid #a89478;border-radius:8px}#notice{font-weight:600}small{display:block}.meta{font-size:14px}select{width:100%}
+</style>
+<main>
+<h1>Ten recovered Marin recordings</h1>
+<p>These were generated individually on October 3. Their files are intact, but their pronunciation has not been approved. They are not yet used by the game.</p>
+<p>Listen for the exact sound shown, the correct short or long vowel, and any added speech. Choose a result and leave notes where needed. Your decisions stay in this browser; use <strong>Download my review</strong> and attach that file in the chat.</p>
+<header><button id="export" type="button">Download my review</button> <span id="count" role="status"></span><small id="notice"></small></header>
+<div id="cards"></div>
+<p>Next: send Hank the <a href="HANK-REQUEST.txt">generation request</a> and <a href="remaining-generation-requests.jsonl" download>remaining prompt queue</a>. All approved game recordings are preserved.</p>
+</main>
+<script type="module">
+const rows = await fetch('./recovered-candidates.json').then(r => {if(!r.ok)throw Error('Unable to load recordings');return r.json();});
+const key='letter-garden:marin-recovered:20261020'; let saved={};
+try { saved=JSON.parse(localStorage.getItem(key)||'{}'); } catch {}
+const state = Object.fromEntries(rows.map(r => [r.id, saved[r.id]?.sha256===r.sha256 ? saved[r.id] : {id:r.id,text:r.text,sha256:r.sha256,decision:'unreviewed',notes:''}]));
+const count = () => document.querySelector('#count').textContent=`${Object.values(state).filter(r=>r.decision!=='unreviewed').length} of ${rows.length} reviewed`;
+const save = () => {count();try{localStorage.setItem(key,JSON.stringify(state));document.querySelector('#notice').textContent='Saved in this browser.';}catch{document.querySelector('#notice').textContent='Browser storage is unavailable. Download your review before closing.';}};
+for(const [i,row] of rows.entries()){
+ const article=document.createElement('article'), heading=document.createElement('h2'), meta=document.createElement('small');
+ heading.textContent=row.text;heading.lang='ar';heading.dir='rtl';meta.textContent=`${i+1} of ${rows.length} · ${row.durationSeconds.toFixed(2)} seconds`;meta.className='meta';
+ const player=document.createElement('audio');player.controls=true;player.preload='none';player.src=row.file;player.setAttribute('aria-label',`Recording ${row.text}`);
+ player.addEventListener('play',()=>document.querySelectorAll('audio').forEach(other=>{if(other!==player)other.pause();}));
+ const label=document.createElement('label');label.textContent='Your decision';label.htmlFor=`decision-${row.id}`;
+ const select=document.createElement('select');select.id=label.htmlFor;
+ for(const [value,text] of [['unreviewed','Not reviewed'],['approved','Correct — use this recording'],['rejected','Incorrect — regenerate'],['unsure','Unsure — needs another listen']]){const option=document.createElement('option');option.value=value;option.textContent=text;select.append(option);}
+ select.value=state[row.id].decision;select.onchange=()=>{state[row.id].decision=select.value;save();};
+ const notesLabel=document.createElement('label');notesLabel.textContent='What you heard / notes';notesLabel.htmlFor=`notes-${row.id}`;
+ const notes=document.createElement('textarea');notes.id=notesLabel.htmlFor;notes.rows=2;notes.value=state[row.id].notes;notes.oninput=()=>{state[row.id].notes=notes.value;save();};
+ article.append(meta,heading,player,label,select,notesLabel,notes);document.querySelector('#cards').append(article);
+}
+document.querySelector('#export').onclick=()=>{
+ const blob=new Blob([JSON.stringify({schemaVersion:1,batch:'marin-recovered-20261020',reviews:Object.values(state)},null,2)],{type:'application/json'});
+ const url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download='letter-garden-marin-review-20261020.json';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+};count();
+</script></html>

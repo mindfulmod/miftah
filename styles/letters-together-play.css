@@ -1,0 +1,76 @@
+/* A shared, child-paced picnic. Card hit areas never move during a turn. */
+.lg-app .lg-play[data-activity="together"] .practice-stage { display: grid; place-items: center; min-height: 0; position: relative; }
+.lg-app .together-picnic {
+  display: grid; grid-template-rows: 116px minmax(0, 1fr) 64px;
+  grid-template-columns: minmax(0, 1fr); grid-template-areas: "pets" "board" "tools";
+  gap: 8px; width: min(100%, 680px); height: 100%; max-height: 660px;
+  min-height: 0; padding: 4px 2px 8px; box-sizing: border-box;
+}
+.lg-app .together-picnic .together-pets { grid-area: pets; display: grid; grid-template-columns: 1fr minmax(104px, 160px) 1fr; gap: 4px; align-items: end; height: 100%; }
+.lg-app .together-picnic .together-seat { display: grid; justify-items: center; align-content: end; align-items: end; position: relative; height: 100%; padding-bottom: 8px; }
+.lg-app .together-picnic .together-seat::before { content: ""; position: absolute; bottom: 5px; left: 50%; width: min(78%, 84px); height: 18px; transform: translateX(-50%); border-radius: 50%; background: #e5dcc8; }
+.lg-app .together-picnic .together-seat.is-turn::before { background: #ffe49a; box-shadow: 0 0 0 3px #c69434; }
+.lg-app .together-picnic .together-pet { position: relative; display: block; width: min(100%, 96px); opacity: 1; transform: none; filter: none; transition: none; }
+.lg-app .together-picnic .together-pet > svg, .lg-app .together-picnic .together-pet > .lg-animal { display: block; height: 96px !important; width: 100% !important; object-fit: contain; }
+.lg-app .together-picnic .together-turn-chip { position: absolute; bottom: -3px; width: 24px; height: 24px; padding: 2px; display: none; border: 2.4px solid #4a3620; border-radius: 50%; background: #ffe49a; }
+.lg-app .together-picnic .together-seat.is-turn .together-turn-chip { display: block; }
+.lg-app .together-picnic .together-turn-chip svg { display: block; width: 100%; height: 100%; }
+.lg-app .together-picnic .together-basket { position: relative; width: 100%; height: auto; aspect-ratio: 180 / 110; min-height: 0; min-width: 0; padding: 0; border: 0; border-radius: 0; background: none; align-self: end; }
+.lg-app .together-picnic .together-basket > svg { display: block; width: 100%; height: 100%; }
+.lg-app .together-picnic .together-found { position: absolute; left: 14%; right: 14%; top: 31%; height: 36%; display: flex; justify-content: center; align-items: end; gap: 3px; }
+.lg-app .together-picnic .together-token { display: block; flex: 0 1 35px; height: 100%; aspect-ratio: 1; border: 2.4px solid #4a3620; border-radius: 8px; background: #fffaf0; rotate: -4deg; }
+.lg-app .together-picnic .together-token:nth-child(even) { rotate: 4deg; }
+.lg-app .together-picnic .together-token svg { display: block; width: 100%; height: 100%; }
+.lg-app .together-picnic .together-playmat { grid-area: board; position: relative; width: 100%; height: 100%; min-height: 0; container-type: size; }
+.lg-app .together-picnic .together-playmat > svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.lg-app .together-picnic .together-board { position: absolute; inset: 18px 24px 24px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 12px; align-items: center; justify-items: center; }
+.lg-app .together-picnic[data-pairs="3"] .together-board { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.lg-app .together-picnic .together-card {
+  position: relative; width: min(100%, calc((100cqh - 54px) * .4), 136px); height: auto; aspect-ratio: 4 / 5;
+  min-width: 48px; min-height: 60px; padding: 0; border: 3px solid #4a3620; border-radius: 22px;
+  background: #fffaf0; box-shadow: 0 5px 0 #c9bda4; overflow: visible;
+  cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+  transition: box-shadow 130ms ease-out, border-color 130ms ease-out;
+}
+.lg-app .together-picnic .together-card:disabled { opacity: 1; cursor: default; }
+.lg-app .together-picnic .together-back { position: absolute; inset: 0; border-radius: 18px; background: none; opacity: 1; }
+.lg-app .together-picnic .together-back::after { display: none; }
+.lg-app .together-picnic .together-back svg { width: 100%; height: 100%; display: block; }
+.lg-app .together-picnic .together-face { position: absolute; inset: 5px; border-radius: 14px; background: #fffaf0; opacity: 0; transition: opacity 140ms ease-out; }
+.lg-app .together-picnic .together-face svg { display: block; width: 100%; height: 100%; }
+.lg-app .together-picnic .together-card.is-up .together-back { opacity: 0; }
+.lg-app .together-picnic .together-card.is-up .together-face { opacity: 1; }
+.lg-app .together-picnic .together-card.is-picked { border-color: #7a3512; box-shadow: 0 5px 0 #b0501f, 0 0 0 3px #ffa06e; }
+.lg-app .together-picnic .together-card.is-matched { border-color: #2f5c46; box-shadow: 0 5px 0 #4e9677; }
+.lg-app .together-picnic .together-match { position: absolute; right: -8px; bottom: -8px; width: 28px; height: 28px; display: none; place-items: center; border: 3px solid #4a3620; border-radius: 50%; background: #b7e779; pointer-events: none; }
+.lg-app .together-picnic .together-card.is-matched .together-match { display: grid; }
+.lg-app .together-picnic .together-match svg { width: 20px; height: 20px; }
+.lg-app .together-picnic .together-tools { grid-area: tools; display: flex; justify-content: center; align-items: center; gap: 18px; }
+.lg-app .together-picnic .together-tools button { width: 60px; height: 56px; padding: 8px; border: 3px solid #4a3620; border-radius: 22px; background: #fffaf0; box-shadow: 0 4px 0 #c9bda4; cursor: pointer; touch-action: manipulation; }
+.lg-app .together-picnic .together-tools button svg { width: 100%; height: 100%; display: block; }
+.lg-app .together-picnic .together-next:not(:disabled) { background: #ffa06e; box-shadow: 0 4px 0 #b0501f; }
+.lg-app .together-picnic .together-tools button:disabled { opacity: .4; cursor: default; }
+.lg-app .together-picnic .together-help[aria-pressed="true"] { background: #ffe49a; box-shadow: 0 4px 0 #c69434; }
+.lg-app .together-picnic .together-tools button:active:not(:disabled) { translate: 0 2px; }
+.lg-app .together-picnic button:focus-visible { outline: 4px solid var(--lg-focus); outline-offset: 4px; }
+.lg-app .together-picnic .together-picks { display: flex; gap: 8px; }
+.lg-app .together-picnic .together-picks i { width: 14px; height: 14px; border: 3px solid #4a3620; border-radius: 50%; background: #fffaf0; }
+.lg-app .together-picnic .together-picks i.is-on { background: #f3c955; }
+.lg-app .together-picnic .together-status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@media (max-height: 640px) and (orientation: portrait) {
+  .lg-app .together-picnic { grid-template-rows: 92px minmax(0, 1fr) 60px; gap: 6px; }
+  .lg-app .together-picnic .together-pet > svg, .lg-app .together-picnic .together-pet > .lg-animal { height: 78px !important; }
+  .lg-app .together-picnic .together-board { inset: 14px 18px 20px; gap: 10px; }
+  .lg-app .together-picnic .together-card { width: min(100%, calc((100cqh - 44px) * .4), 136px); }
+}
+@media (orientation: landscape) and (max-height: 500px) {
+  .lg-app .together-picnic { grid-template-columns: 124px minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) 58px; grid-template-areas: "pets board" "tools tools"; gap: 8px; }
+  .lg-app .together-picnic .together-pets { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
+  .lg-app .together-picnic .together-seat { width: 96px; height: 80px; padding-bottom: 5px; }
+  .lg-app .together-picnic .together-pet > svg, .lg-app .together-picnic .together-pet > .lg-animal { height: 76px !important; }
+  .lg-app .together-picnic .together-basket { width: 120px; height: 74px; align-self: center; }
+  .lg-app .together-picnic .together-board { inset: 14px 18px 20px; gap: 10px; }
+  .lg-app .together-picnic .together-card { width: min(100%, calc((100cqh - 44px) * .4), 136px); }
+}
+@media (prefers-reduced-motion: reduce) { .lg-app .together-picnic * { animation: none !important; transition: none !important; } }
+.lg-app.lg-reduce-motion .together-picnic * { animation: none !important; transition: none !important; }

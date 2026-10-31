@@ -4,7 +4,7 @@ const vm = require('node:vm');
 const fs = require('node:fs');
 const path = require('node:path');
 
-function burstRuntime() {
+function burstRuntime(learning) {
   let now = 0;
   let intervalId = 0;
   const frames = [];
@@ -63,6 +63,7 @@ function burstRuntime() {
     icon: name => `<svg data-icon="${name}"></svg>`,
     inkShift: () => ({ dx: 0, dy: 0 }),
   } } };
+  if (learning) window.MiftahGame.LettersLearning = learning;
   const context = {
     window, document, performance: { now: () => now },
     requestAnimationFrame: fn => { frames.push(fn); return frames.length; },
@@ -80,13 +81,123 @@ function createBurst(runtime, overrides = {}) {
   const items = ['a', 'b', 'c', 'd'].map(id => ({ id, display: id }));
   const done = [];
   const pauses = [];
+  const { autoStart = true, ...ctxOverrides } = overrides;
   const game = new runtime.Burst({
     stage: runtime.stage, items, setPrompt() {}, say() {}, sfx() {},
     onDone: value => done.push(value), onPauseChange: value => pauses.push(value),
-    ...overrides,
+    ...ctxOverrides,
   });
+  if (autoStart) game.start();
   return { game, done, pauses };
 }
+
+test('Burst renders ready without starting its clock or accepting scores, then starts once on Play', () => {
+  const runtime = burstRuntime();
+  const { game, done } = createBurst(runtime, { autoStart: false });
+  assert.equal(game.started, false);
+  assert.match(runtime.stage.markup, /aria-label="Start challenge"/);
+  assert.equal(runtime.frames.length, 0);
+  assert.equal(runtime.intervals.size, 0);
+  const choice = lowTargetButton(runtime, game);
+  game.tap(game.target, choice);
+  assert.equal(game.count, 0);
+  assert.equal(game.remaining, 30000);
+  assert.deepEqual(done, []);
+
+  runtime.setNow(5000);
+  game.start();
+  const firstDeadline = game.endsAt;
+  assert.equal(game.started, true);
+  assert.equal(firstDeadline, 35000);
+  assert.equal(runtime.frames.length, 1);
+  assert.equal(runtime.intervals.size, 1);
+  runtime.setNow(7000);
+  game.start();
+  assert.equal(game.endsAt, firstDeadline, 'repeated Play does not reset the deadline');
+  assert.equal(game.count, 0);
+});
+
+test('Burst follows the prepared, ordered learning plan and keeps every round at three choices or fewer', () => {
+  const calls = [];
+  const plan = [];
+  const learning = { planRounds(ctx) {
+    calls.push({ ...ctx, items: ctx.items.slice() });
+    return plan;
+  } };
+  const runtime = burstRuntime(learning);
+  const items = ['a', 'b', 'c', 'd', 'e'].map(id => ({ id, display: id }));
+  plan.push(...items.slice(0, 3).map(target => ({ target, options: items.slice(0, 4), activity: 'burst' })));
+  const { game } = createBurst(runtime, { items, autoStart: false, rounds: 50, challenge: true, extraItems: [{ id: 'extra', display: 'x' }] });
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0].challenge, false);
+  assert.deepEqual(Array.from(calls[0].items, item => item.id), ['a', 'b', 'c', 'd', 'e']);
+  assert.deepEqual(Array.from(calls[0].extraItems || [], item => item.id), []);
+  assert.equal(calls[0].rounds, 5);
+  assert.equal(game.target.id, 'a');
+  assert.ok(runtime.stage.grid.children.length <= 3);
+
+  // A planner change after preparation cannot add choices or replace the visit's targets.
+  plan.splice(0, plan.length, { target: items[4], options: items });
+  game.start();
+  game.tap(game.target, lowTargetButton(runtime, game));
+  assert.equal(game.target.id, 'b', 'prepared target order survives planner mutation');
+  assert.ok(runtime.stage.grid.children.length <= 3);
+});
+
+test('Burst wrong answers teach once, disable that choice, and keep support for the visit', () => {
+  const targets = ['a', 'b', 'a'].map(id => ({ id, display: id }));
+  const choices = ['a', 'b', 'c', 'd'].map(id => ({ id, display: id }));
+  const learning = { planRounds: () => targets.map(target => ({ target, options: choices, activity: 'burst' })) };
+  const runtime = burstRuntime(learning);
+  const outcomes = [], hints = [];
+  const { game } = createBurst(runtime, {
+    autoStart: false,
+    reportOutcome: outcome => outcomes.push(outcome),
+    showLearningHint: (...args) => hints.push(args),
+  });
+  game.start();
+  const wrong = runtime.stage.grid.children.find(el => el.attributes['aria-label'] !== game.target.display);
+  wrong.click();
+  assert.equal(wrong.disabled, true);
+  assert.equal(hints.length, 1);
+  assert.equal(outcomes.length, 1);
+  assert.equal(outcomes[0].correct, false);
+  assert.equal(outcomes[0].assisted, false, 'the missed answer is recorded before support is given');
+  assert.equal(outcomes[0].selectedId, wrong.attributes['aria-label']);
+  assert.ok(Array.isArray(outcomes[0].choiceIds));
+  assert.equal(outcomes[0].activity, 'burst');
+  assert.ok(runtime.stage.grid.children.length <= 2, 'the retried round is supported');
+  const countAfterWrong = outcomes.length;
+  wrong.click();
+  assert.equal(outcomes.length, countAfterWrong, 'a disabled wrong choice cannot report twice');
+
+  game.tap(game.target, lowTargetButton(runtime, game));
+  assert.equal(outcomes[1].assisted, true, 'the retry is recorded with the support now active');
+  assert.equal(game.target.id, 'b');
+  game.tap(game.target, lowTargetButton(runtime, game));
+  assert.equal(game.target.id, 'a');
+  assert.ok(runtime.stage.grid.children.length <= 2, 'support remains in effect later in the visit');
+});
+
+test('Burst filters unusable and duplicate items and cancels when no distinct choices remain', () => {
+  const runtime = burstRuntime();
+  const unusable = [null, {}, { id: 'a', display: '' }, { id: 'a', display: 'A' }, { id: 'a', display: 'duplicate' }, { id: 'b', display: 'B' }, { id: 'c', display: 'A' }];
+  const { game } = createBurst(runtime, { autoStart: false, items: unusable });
+  assert.ok(['a', 'b'].includes(game.target.id));
+  assert.equal(runtime.stage.grid.children.length, 2);
+  assert.deepEqual(runtime.stage.grid.children.map(el => el.attributes['aria-label']).sort(), ['A', 'B']);
+  game.destroy();
+
+  const emptyRuntime = burstRuntime();
+  const cancelled = [];
+  const empty = createBurst(emptyRuntime, {
+    autoStart: false, items: [{ id: 'locked', display: '' }], cancel: reason => cancelled.push(reason),
+  });
+  assert.equal(empty.game.alive, false);
+  assert.deepEqual(empty.done, []);
+  assert.equal(cancelled.length, 1);
+  assert.equal(emptyRuntime.intervals.size, 0);
+});
 
 test('Burst freezes its budget while hidden and waits for an explicit resume', () => {
   const runtime = burstRuntime();
@@ -184,8 +295,8 @@ test('Burst immediately records a correct tap while the receipt animates and old
  game.tap(found,button);
  assert.equal(game.count,1);
  assert.equal(outcomes.filter(outcome=>outcome.correct===true).length,1);
- assert.equal(runtime.stage.grid.children.length,4,'next choices appear without waiting for the flight');
- assert.equal(runtime.stage.grid.attributes['data-count'],'4');
+  assert.ok(runtime.stage.grid.children.length <= 3,'next choices appear without waiting for the flight');
+  assert.equal(runtime.stage.grid.attributes['data-count'],String(runtime.stage.grid.children.length));
  assert.equal(runtime.stage.caught.classList.contains('is-filled'),true);
  assert.ok(runtime.stage.caught.innerHTML.length>0,'receipt keeps the found glyph');
  assert.equal(runtime.animations.length,1);
@@ -249,4 +360,16 @@ test('daily sessions use only taught pools and separate gentle from timed play',
   assert.ok(weakestPool.every(entry => entry.id !== 'untaught'));
   assert.ok([...gentle.items(), ...gentle.extraItems()].every(entry => entry.id !== 'untaught'));
   assert.equal(new Set([...gentle.items(), ...gentle.extraItems()].map(entry => entry.id)).size, 7);
+});
+
+
+test('Burst preview is exploration and learning starts at explicit Play', () => {
+  const runtime = burstRuntime(), prompts = [];
+  const { game } = createBurst(runtime, { autoStart:false, setPrompt:(_item,meta)=>prompts.push(meta) });
+  assert.equal(prompts.length,1);
+  assert.equal(prompts[0].promptMode,'explore');
+  game.start();
+  assert.equal(prompts.length,2);
+  assert.equal(prompts[1].promptMode,'match');
+  assert.equal(prompts[1].choiceIds.length,2);
 });

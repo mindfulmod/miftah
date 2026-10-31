@@ -1,0 +1,298 @@
+/* Toy studio: small places in the existing garden, with clear receiving spaces. */
+.lg-app .lg-play .practice-stage:has(> :is(.tb-pairs,.tb-nests,.tb-jigsaw,.tb-colour)) {
+  position:relative; display:flex; align-items:center; justify-content:center;
+  width:min(100%,900px); padding:6px 10px 12px; box-sizing:border-box;
+  border:0; border-radius:0; background:transparent; box-shadow:none;
+  overflow-x:hidden; overflow-y:auto;
+}
+.lg-app .lg-play .practice-stage:has(> :is(.tb-pairs,.tb-nests,.tb-jigsaw,.tb-colour)) > .lg-activity-art { display:none; }
+.lg-app .lg-play :is(.tb-pairs,.tb-nests,.tb-jigsaw,.tb-colour) {
+  position:relative; z-index:1; display:grid; grid-template-columns:minmax(0,1fr);
+  align-content:center; justify-items:center; gap:clamp(8px,1.4vh,14px);
+  width:100%; min-width:0; margin:auto; padding:4px 6px 6px; box-sizing:border-box; flex-shrink:0;
+}
+.lg-app :is(.tb-pairs,.tb-nests,.tb-jigsaw,.tb-colour) [hidden] { display:none!important; }
+.lg-app :is(.tb-pairs,.tb-nests,.tb-jigsaw,.tb-colour) :focus-visible { outline:4px solid var(--lg-focus); outline-offset:3px; }
+
+/* Memory cards rest on a stitched picnic mat rather than a full-screen panel. */
+.lg-app .tb-pairs .tb-cards {
+  width:min(100%,calc(var(--cols,2)*128px + 36px)); padding:16px;
+  gap:clamp(8px,2vw,14px); box-sizing:border-box; border:2.4px solid #a89478; border-radius:26px;
+  background:#e5dcc8; box-shadow:inset 0 0 0 5px #fffaf0,inset 0 0 0 8px #c9bda4,0 7px 0 #a89478;
+}
+.lg-app .tb-pairs .tb-card { width:100%; max-width:100%; box-sizing:border-box; aspect-ratio:4/5; min-height:84px; min-width:44px; border-radius:17px; }
+.lg-app .tb-pairs .tb-card-back,
+.lg-app .tb-pairs .tb-card-face {
+  border:3px solid #4a3620; border-radius:17px;
+  box-shadow:inset 0 3px 0 #fffdf7,0 4px 0 #c9bda4;
+  transition:transform 280ms cubic-bezier(.2,.8,.2,1);
+}
+.lg-app .tb-pairs .tb-card-back { background:#b7e779; }
+.lg-app .tb-pairs .tb-card-back svg { width:70%; height:70%; }
+.lg-app .tb-pairs .tb-card-face { background:#fffaf0; }
+.lg-app .tb-pairs .tb-card-face.is-letter { background:#ccfbef; }
+.lg-app .tb-pairs .tb-card-face svg { width:90%; height:90%; max-height:90%; }
+.lg-app .tb-pairs .tb-card.is-matched { opacity:1; }
+.lg-app .tb-pairs .tb-card.is-matched .tb-card-face { box-shadow:inset 0 0 0 4px #b7e779,0 4px 0 #4e9677; }
+
+/* The plain letter stays readable while the nests provide a physical destination. */
+.lg-app .tb-nests .tb-branch {
+  position:relative; width:min(100%,360px,46vh); aspect-ratio:3/2;
+  border:0; border-radius:0; background:none; box-shadow:none;
+}
+.ts-perch-art { position:absolute; inset:0; pointer-events:none; }
+.ts-perch-art > svg { display:block; width:100%; height:100%; }
+.lg-app .tb-nests .tb-branch > .tb-letter {
+  position:absolute; left:27.78%; top:14.58%; width:44.44%; height:64.58%;
+}
+.lg-app .tb-nests .tb-letter { display:grid; place-items:center; cursor:grab; touch-action:none; }
+.lg-app .tb-nests .tb-letter svg { display:block; width:100%; height:100%; pointer-events:none; }
+.lg-app .tb-nests .tb-nest-row { gap:12px; width:min(100%,460px); align-items:center; }
+.lg-app .tb-nests .tb-nest {
+  flex:1 1 0; min-width:48px; min-height:76px; max-width:145px; padding:6px;
+  border:3px solid #4a3620; border-radius:23px; background:#fffaf0;
+  box-shadow:inset 0 3px 0 #fffdf7,0 5px 0 #c9bda4;
+}
+.lg-app .tb-nests .tb-nest > svg { display:block; width:100%; height:auto; aspect-ratio:5/4; }
+.lg-app .tb-nests .tb-nest.is-near { background:#ffe49a; outline:4px solid #c69434; outline-offset:2px; }
+.lg-app .tb-nests .tb-nest.is-home { box-shadow:inset 0 0 0 3px #7fce54,0 5px 0 #4e9677; }
+.lg-app .tb-nests .tb-nest-friend { bottom:61%; width:70px; max-width:75%; }
+.lg-app .tb-nests .tb-nest-friend svg { width:100%; height:auto; }
+.lg-app .tb-nests .tb-where { position:relative; width:min(100%,400px,54vh); aspect-ratio:6/5; }
+.lg-app .tb-nests .tb-where > svg { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+.lg-app .tb-nests .tb-where .tb-nest { width:27.78%; min-height:48px; padding:3px; }
+.lg-app .tb-nests .tb-where .is-high { left:63.89%; right:auto; top:28.33%; }
+.lg-app .tb-nests .tb-where .is-low { left:5.56%; top:72.67%; bottom:auto; }
+.lg-app .tb-nests .tb-where .tb-letter { left:31.94%; top:41.67%; width:27.78%; height:33.33%; translate:none; }
+.lg-app .tb-nests .tb-letter.is-dragging { z-index:10; filter:drop-shadow(0 7px 3px #4a362033); cursor:grabbing; }
+
+/* Frames have a fixed aspect; their clear square is the exact puzzle coordinate space. */
+.lg-app .tb-jigsaw .ts-puzzle { position:relative; width:min(100%,330px,41vh); aspect-ratio:1; }
+.ts-puzzle-art,.ts-easel-art { position:absolute; inset:0; pointer-events:none; }
+.ts-puzzle-art > svg,.ts-easel-art > svg { display:block; width:100%; height:100%; }
+.lg-app .tb-jigsaw .ts-puzzle .tb-board {
+  position:absolute; left:5.882%; top:5.882%; width:88.236%; height:88.236%;
+  box-sizing:border-box; border:0; border-radius:8px; background:#fffaf0; box-shadow:none;
+}
+.lg-app .tb-jigsaw .tb-board .tb-slot { min-width:0; min-height:0; }
+/* Match the three cropped SVG regions so the picture joins without seams. */
+.lg-app .tb-jigsaw .tb-board.is-3 { grid-template-columns:39fr 40fr 33fr; }
+.lg-app .tb-jigsaw .tb-slot.is-wanted { background:#ffe49a; animation-iteration-count:2; }
+.lg-app .tb-jigsaw .tb-slot.is-near { background:#b7e779; outline:4px solid #4e9677; outline-offset:-4px; }
+.lg-app .tb-jigsaw .tb-tray {
+  display:flex; flex-wrap:nowrap; align-items:center; gap:8px;
+  max-width:100%; min-height:80px; padding:10px; box-sizing:border-box;
+  background:#c9bda4; border:2.4px solid #a89478; border-radius:22px;
+  box-shadow:inset 0 3px 0 #e5dcc8,0 5px 0 #70501b;
+}
+.lg-app .tb-jigsaw .tb-piece {
+  display:grid; place-items:center; flex:0 1 auto; min-width:52px; min-height:64px;
+  padding:4px; border:3px solid #4a3620; border-radius:13px;
+  background:#fffaf0; box-shadow:0 4px 0 #a89478; rotate:0deg; touch-action:none;
+}
+.lg-app .tb-jigsaw .tb-piece svg { display:block; width:auto; height:auto; max-width:min(15vw,80px); max-height:min(28vh,130px); }
+.lg-app .tb-jigsaw .tb-piece.is-dragging { scale:1.03; }
+
+/* Make a picture, then take the very same picture apart. */
+.jp-modes { display:flex; justify-content:center; gap:20px; width:min(100%,560px); }
+.lg-app .jp-mode { position:relative; display:grid; grid-template:minmax(0,1fr)/minmax(0,1fr); place-items:center; width:48%; max-width:240px; aspect-ratio:1; padding:12px; background:#fffaf0; border:4px solid #4a3620; border-radius:24px; box-shadow:0 7px 0 #a89478; cursor:pointer; }
+.jp-mode > span:first-child { display:block; width:100%; }
+.jp-mode svg { display:block; width:100%; height:auto; }
+.jp-cuts { position:absolute; inset:12px; pointer-events:none; background:linear-gradient(90deg,transparent 49%,#fffaf0 49% 51%,transparent 51%); }
+.jp-make-icon { position:absolute; right:-6px; bottom:-6px; width:44px; height:44px; display:grid; place-items:center; padding:6px; border:3px solid #4a3620; border-radius:50%; background:#ffe49a; }
+.jp-editor { display:grid; grid-template-columns:minmax(0,1fr); justify-items:center; gap:14px; width:min(100%,420px); }
+.jp-picture { position:relative; width:min(100%,310px,39vh); aspect-ratio:1; border:5px solid #4a3620; border-radius:22px; background:#ccfbef; box-shadow:0 7px 0 #a89478; overflow:hidden; }
+.jp-land { position:absolute; inset:0; pointer-events:none; }
+.jp-land > svg { width:100%; height:100%; display:block; }
+.lg-app .jp-place { position:absolute; top:28%; width:47%; height:47%; display:grid; grid-template:minmax(0,1fr)/minmax(0,1fr); place-items:center; min-width:44px; min-height:44px; padding:0; border:3px dashed #4e9677; border-radius:18px; background:#fffaf0; cursor:pointer; }
+.jp-place[data-place="0"] { left:2%; }.jp-place[data-place="1"] { right:2%; }
+.lg-app .jp-place.is-filled { background:none; border-color:transparent; }
+.lg-app .jp-place.is-ready { border-style:solid; border-color:#c69434; background:#ffe49a; }
+.jp-place > svg { width:100%; height:100%; display:block; min-height:0; min-width:0; pointer-events:none; }
+.jp-empty { font:48px/1 sans-serif; color:#4e9677; }
+.jp-friends { display:flex; justify-content:center; gap:8px; flex-wrap:wrap; }
+.lg-app .jp-friend { width:clamp(52px,17vw,80px); height:clamp(56px,18vw,84px); padding:4px; border:3px solid #4a3620; border-radius:16px; background:#fffaf0; box-shadow:0 4px 0 #a89478; touch-action:none; cursor:grab; }
+.jp-friend > svg { display:block; width:100%; height:100%; pointer-events:none; }
+.lg-app .jp-friend[aria-pressed="true"] { background:#ffe49a; outline:3px solid #c69434; outline-offset:3px; }
+.jp-friend.is-dragging { z-index:5; }
+.lg-app .jp-remove { position:absolute; bottom:3%; min-width:44px; height:44px; display:grid; place-items:center; border:2.4px solid #4a3620; border-radius:50%; background:#fffaf0; cursor:pointer; }
+.jp-remove[data-remove="0"] { left:17%; }.jp-remove[data-remove="1"] { right:17%; }
+.jp-actions { display:flex; justify-content:center; align-items:center; gap:22px; }
+.lg-app .jp-actions > button { display:grid; place-items:center; width:68px; height:60px; padding:6px; border:3px solid #4a3620; border-radius:18px; box-shadow:0 5px 0 #a89478; background:#fffaf0; cursor:pointer; }
+.lg-app .jp-actions > :is(.jp-build,.jp-done) { width:84px; background:#ffe49a; box-shadow:0 5px 0 #c69434; }
+.jp-build > svg { width:100%; height:100%; }.lg-app .jp-build:disabled { opacity:.45; cursor:default; }
+.lg-app .tb-jigsaw.is-picture-puzzle .tb-tray:has(.jp-actions) { border:0; background:none; box-shadow:none; }
+.lg-app .jp-mode:active,.lg-app .jp-actions > button:active { translate:0 3px; box-shadow:0 2px 0 #a89478; }
+@media(max-height:650px) { .jp-editor { gap:10px; }.jp-picture { width:min(100%,230px,35vh); }.lg-app .jp-friend { height:54px; width:54px; }.lg-app .jp-actions > button { height:52px; } }
+@media(max-height:540px) and (orientation:landscape) { .lg-app .lg-play .tb-jigsaw:has(>.jp-editor),.lg-app .lg-play .tb-jigsaw:has(>.jp-modes) { grid-template-columns:minmax(0,1fr); }.jp-editor { width:min(100%,620px); grid-template-columns:minmax(0,1fr) minmax(0,1fr); }.jp-picture { grid-row:1/3; width:min(100%,62vh); }.jp-friends { grid-column:2; }.jp-actions { grid-column:2; }.jp-mode { max-height:65vh; } }
+
+/* A child's drawings sit on an easel, with eight large and clearly selected crayons. */
+.lg-app .tb-colour .ts-easel { position:relative; width:min(100%,320px,40vh); aspect-ratio:36/41; }
+.lg-app .tb-colour .ts-easel .tb-paper {
+  position:absolute; left:8.333%; top:8.5366%; width:83.333%; height:73.1707%;
+  aspect-ratio:1; border:2.4px solid #a89478; border-radius:7px;
+  box-shadow:inset 0 3px 0 #fffdf7,0 3px 0 #c9bda4; background:#fffaf0;
+}
+.lg-app .tb-colour .tb-paper > svg { width:94%; height:94%; touch-action:manipulation; }
+.lg-app .tb-colour .tb-crayons {
+  display:grid; grid-template-columns:repeat(8,minmax(0,1fr)); gap:7px;
+  width:min(100%,550px); padding:8px; box-sizing:border-box;
+  background:#e5dcc8; border:2.4px solid #a89478; border-radius:21px;
+  box-shadow:inset 0 -5px 0 #c9bda4,0 3px 0 #70501b;
+}
+.lg-app .tb-colour .tb-crayon {
+  min-width:44px; min-height:60px; padding:4px!important; box-sizing:border-box;
+  border:2.4px solid transparent; border-radius:13px; align-items:center;
+  transform:none; transition:background-color 140ms ease-out,border-color 140ms ease-out;
+}
+.lg-app .tb-colour .tb-crayon > svg { width:27px; max-width:100%; height:54px; }
+.lg-app .tb-colour .tb-crayon.is-on { background:#fffaf0; border-color:#4a3620; box-shadow:0 3px 0 #a89478; transform:none; }
+.lg-app .tb-colour .tb-crayon.is-on > svg { filter:none; }
+.lg-app .tb-colour .tb-colour-tools { display:flex; gap:16px; justify-content:center; min-height:56px; }
+.lg-app .tb-colour :is(.tb-next-page,.tb-hang) { width:56px; height:56px; border:3px solid #4a3620; border-radius:18px; box-shadow:0 4px 0 #c9bda4; background:#fffaf0; }
+.lg-app .tb-colour :is(.tb-next-page,.tb-hang) > svg { width:44px; height:44px; }
+.lg-app .tb-colour :is(.tb-next-page,.tb-hang):disabled { opacity:.6; cursor:default; }
+
+/* A small studio: visible page choices, reversible ink and a child's finish. */
+.cf-pages { display:flex; justify-content:center; align-items:center; gap:18px; padding:8px 12px; border-radius:20px; background:#e5dcc8; box-shadow:inset 0 3px 0 #fffaf0,0 4px 0 #a89478; }
+.lg-app .cf-page { position:relative; display:grid; place-items:center; width:62px; height:62px; padding:3px; border:3px solid #a89478; border-radius:12px; background:#fffdf7; box-shadow:0 3px 0 #c9bda4; cursor:pointer; }
+.cf-page > span { display:block; width:100%; height:100%; pointer-events:none; }
+.cf-page svg { width:100%; height:100%; }
+.lg-app .cf-page[aria-pressed=true] { border-color:#4a3620; background:#ffe49a; }
+.cf-page i { position:absolute; right:-7px; bottom:-7px; display:grid; place-items:center; width:23px; height:23px; padding:2px; box-sizing:border-box; border:2px solid #4a3620; border-radius:50%; background:#b7e779; }
+.cf-page i svg { width:17px; height:17px; }
+.lg-app .tb-colour :is(.cf-undo,.cf-finish) { display:grid; place-items:center; width:56px; height:56px; padding:5px; border:3px solid #4a3620; border-radius:18px; box-shadow:0 4px 0 #c9bda4; background:#fffaf0; }
+.lg-app .tb-colour .cf-finish { background:#ffe49a; box-shadow:0 4px 0 #c69434; }
+.lg-app .tb-colour :is(.cf-undo,.cf-finish):disabled { opacity:.5; cursor:default; }
+.lg-app .tb-colour.is-studio .ts-easel { width:min(100%,300px,34vh); }
+.lg-app .tb-colour.is-studio { gap:12px; }
+@media(max-height:680px) and (orientation:portrait) {
+  .lg-app .tb-colour.is-studio .ts-easel { width:min(100%,180px,25vh); }
+  .lg-app .cf-page { width:52px; height:52px; }
+  .cf-pages { padding:5px 10px; }
+  .lg-app .lg-play:has(.tb-colour.is-studio) .practice-heading > :first-child:not(button) { max-height:44px; width:auto; }
+}
+
+@media(max-width:600px) {
+  .lg-app .tb-colour .tb-crayons { grid-template-columns:repeat(4,minmax(0,1fr)); width:min(100%,300px); gap:6px; padding:7px; }
+  .lg-app .tb-colour .tb-crayon { min-height:48px; }
+  .lg-app .tb-colour .tb-crayon > svg { width:22px; height:44px; }
+}
+@media(max-height:680px) and (orientation:portrait) {
+  .lg-app .tb-jigsaw .ts-puzzle { width:min(100%,240px,35vh); }
+  .lg-app .tb-colour .ts-easel { width:min(100%,210px,29.5vh); }
+  .lg-app .tb-jigsaw .tb-piece svg { max-height:100px; }
+  .lg-app .tb-colour .tb-crayon > svg { width:18px; height:36px; }
+}
+@media(orientation:landscape) and (max-height:500px) {
+  .lg-app .lg-play :is(.tb-pairs,.tb-nests,.tb-jigsaw,.tb-colour) { gap:8px; padding:2px 8px 5px; }
+  .lg-app .tb-pairs .tb-cards { width:min(100%,calc(var(--cols,2)*114px + 32px)); padding:12px; gap:10px; }
+  .lg-app .tb-pairs .tb-card { aspect-ratio:1.1; min-height:70px; }
+  .lg-app .tb-nests .tb-branch { width:min(100%,290px,52vh); }
+  .lg-app .tb-nests .tb-nest-row { width:min(100%,330px); }
+  .lg-app .tb-nests .tb-nest { min-height:60px; }
+  .lg-app .tb-nests .tb-nest > svg { max-height:82px; }
+  .lg-app .tb-nests .tb-where { width:min(100%,360px,76vh); }
+  .lg-app .lg-play .tb-jigsaw,
+  .lg-app .lg-play .tb-colour { grid-template-columns:minmax(0,1fr) minmax(0,1fr); grid-template-rows:minmax(0,1fr) auto; align-items:center; height:100%; }
+  .lg-app .tb-jigsaw .ts-puzzle { width:min(100%,65vh,270px); grid-column:1; grid-row:1; }
+  .lg-app .lg-play .tb-jigsaw .ts-puzzle .tb-board { width:88.236%; }
+  .lg-app .lg-play .tb-jigsaw .tb-tray { grid-column:2; grid-row:1; flex-wrap:wrap; padding:8px; }
+  .lg-app .lg-play .tb-jigsaw .tb-piece { min-width:52px; min-height:52px; }
+  .lg-app .lg-play .tb-jigsaw .tb-piece svg { max-width:64px; max-height:120px; }
+  .lg-app .tb-jigsaw .tb-progress { grid-column:1/-1; grid-row:2; }
+  .lg-app .tb-colour .ts-easel { width:min(100%,66vh,280px); grid-column:1; grid-row:1/3; }
+  .lg-app .tb-colour .tb-crayons { width:min(100%,300px); grid-template-columns:repeat(4,minmax(0,1fr)); grid-column:2; grid-row:1; }
+  .lg-app .tb-colour .tb-colour-tools { grid-column:2; grid-row:2; }
+  .lg-app .lg-play .tb-colour.is-studio { grid-template-rows:auto minmax(0,1fr) auto; }
+  .lg-app .tb-colour.is-studio .ts-easel { grid-row:1/4; width:min(100%,66vh,280px); }
+  .lg-app .tb-colour.is-studio .cf-pages { grid-column:2; grid-row:1; padding:4px 8px; gap:14px; }
+  .lg-app .tb-colour.is-studio .cf-page { width:48px; height:48px; }
+  .lg-app .tb-colour.is-studio .tb-crayons { grid-row:2; }
+  .lg-app .tb-colour.is-studio .tb-colour-tools { grid-row:3; }
+}
+.lg-reduce-motion :is(.tb-pairs,.tb-nests,.tb-jigsaw,.tb-colour) *,
+.lg-reduce-motion :is(.tb-pairs,.tb-nests,.tb-jigsaw,.tb-colour) *::before,
+.lg-reduce-motion :is(.tb-pairs,.tb-nests,.tb-jigsaw,.tb-colour) *::after { animation:none!important; transition:none!important; }
+@media(prefers-reduced-motion:reduce) {
+  :is(.tb-pairs,.tb-nests,.tb-jigsaw,.tb-colour) *,
+  :is(.tb-pairs,.tb-nests,.tb-jigsaw,.tb-colour) *::before,
+  :is(.tb-pairs,.tb-nests,.tb-jigsaw,.tb-colour) *::after { animation:none!important; transition:none!important; }
+}
+
+/* Plain ink needs a paper face even when the garden is at night. */
+.lg-app .tb-nests .tb-letter {
+  box-sizing:border-box; padding:6px; border:3px solid #4a3620;
+  border-radius:20px; background:#fffaf0;
+  box-shadow:inset 0 3px 0 #fffdf7,0 4px 0 #c9bda4;
+}
+
+/* Point out the relationship before offering another try. The dotless case
+   uses the same outlined empty nest, with no invented counting symbol. */
+.lg-app .tb-nests .tb-nest.is-dot-guide {
+  outline:3px solid #c69434; outline-offset:3px;
+  background:#fffaf0;
+}
+.lg-app .tb-nests :is(.tb-letter.is-dot-guide .lf-fill-dot,.tb-nest.is-dot-guide .ts-nest-dot) {
+  transform-box:fill-box; transform-origin:center;
+  animation:nest-dot-compare 680ms calc(var(--dot-step,0) * 230ms) ease-in-out 1;
+}
+@keyframes nest-dot-compare {
+  0%,100% { transform:scale(1); }
+  45% { transform:scale(1.25); filter:drop-shadow(0 0 2px #f3c955); }
+}
+.lg-app .lg-play[data-activity="toy-dotnests"] .practice-heading { gap:18px; }
+.lg-app .lg-play[data-activity="toy-dotnests"] .lg-action-help { flex:none; }
+
+/* Standalone pairs offers two genuinely different ways to play. */
+.lg-app .tb-pair-modes { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:clamp(14px,3vw,28px); width:min(650px,100%); }
+.lg-app .tb-pair-mode { padding:14px; border:3px solid #4a3620; border-radius:24px; background:#fffaf0; box-shadow:0 7px 0 #a89478; cursor:pointer; touch-action:manipulation; min-width:0; }
+.tb-mode-sample { display:grid; position:relative; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+.tb-mode-sample.is-match { row-gap:32px; }
+.tb-mode-tile { display:grid; place-items:center; min-width:0; aspect-ratio:1; border-radius:12px; background:#ccfbef; }
+.tb-mode-tile.is-letter { background:#ccfbef; }
+.tb-mode-tile.is-back { background:#b7e779; border:2px solid #4e9677; box-sizing:border-box; }
+.tb-mode-tile > svg { width:100%; height:100%; max-height:100%; }
+.tb-mode-tile.is-back > svg { width:70%; height:70%; }
+.tb-mode-arrow { position:absolute; display:grid; place-items:center; top:50%; left:50%; translate:-50% -50%; rotate:-90deg; }
+.tb-mode-arrow > svg { width:26px; height:26px; }
+.lg-app .tb-visible-pairs { width:min(640px,100%); padding:18px; box-sizing:border-box; border:3px solid #a89478; border-radius:28px; background:#e5dcc8; box-shadow:inset 0 0 0 5px #fffaf0,0 7px 0 #a89478; }
+.tb-pair-homes { display:grid; grid-template-columns:repeat(var(--pair-cols),minmax(0,1fr)); gap:14px; }
+.lg-app .tb-pair-home { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; padding:10px 4px; border:3px solid #4a3620; border-radius:22px; background:#fffaf0; box-shadow:0 4px 0 #a89478; min-width:0; min-height:120px; cursor:pointer; touch-action:manipulation; }
+.tb-pair-friend { display:grid; place-items:center; width:100%; }
+.tb-pair-friend > svg { display:block; width:100%; max-width:138px; height:auto; }
+.tb-pair-slot { display:grid; grid-template:minmax(0,1fr) / minmax(0,1fr); place-items:center; width:56px; height:48px; max-width:80%; border:2px dashed #a89478; border-radius:12px; background:#e5dcc8; }
+.tb-pair-slot > svg { width:100%; height:100%; min-width:0; min-height:0; }
+.lg-app .tb-pair-home.is-ready { border-color:#c69434; background:#fffaf0; }
+.lg-app .tb-pair-home.is-paired { opacity:1; background:#ccfbef; border-color:#4e9677; }
+.tb-pair-home.is-paired .tb-pair-slot { border-style:solid; border-color:#4e9677; background:#ccfbef; }
+.tb-pair-direction { display:grid; place-items:center; height:44px; }
+.tb-pair-direction > svg { rotate:-90deg; width:28px; height:28px; }
+.tb-pair-letters { display:flex; justify-content:center; gap:12px; flex-wrap:wrap; }
+.lg-app .tb-pair-letter { display:grid; place-items:center; width:clamp(64px,18vw,100px); aspect-ratio:1; padding:6px; box-sizing:border-box; border:3px solid #4a3620; border-radius:18px; background:#ccfbef; box-shadow:0 5px 0 #4e9677; cursor:grab; touch-action:none; }
+.tb-pair-letter > svg { display:block; width:100%; height:100%; pointer-events:none; }
+.lg-app .tb-pair-letter[aria-pressed="true"] { background:#ffe49a; outline:3px solid #c69434; outline-offset:3px; }
+.lg-app .tb-pair-letter.is-dragging { z-index:5; cursor:grabbing; }
+.lg-app .tb-pair-letter.is-placed { visibility:hidden; pointer-events:none; }
+.lg-app .tb-pair-next { display:grid; place-items:center; width:72px; height:62px; border:3px solid #4a3620; border-radius:20px; background:#ffe49a; box-shadow:0 5px 0 #c69434; cursor:pointer; touch-action:manipulation; }
+.lg-app :is(.tb-pair-mode,.tb-pair-next):active { translate:0 3px; box-shadow:0 2px 0 #a89478; }
+@media(max-width:540px) { .lg-app .tb-pair-mode { padding:9px; border-radius:20px; } .tb-mode-sample { gap:5px; } .lg-app .tb-visible-pairs { padding:14px; } .tb-pair-homes { gap:10px; } }
+@media(max-height:650px) { .lg-app .tb-pair-home { min-height:94px; padding:6px 3px; gap:3px; } .tb-pair-friend > svg { max-width:92px; } .tb-pair-slot { height:38px; width:48px; } .tb-pair-direction { height:34px; } .lg-app .tb-pair-letter { max-width:70px; } }
+@media(max-height:540px) and (orientation:landscape) { .lg-app .tb-visible-pairs { display:flex; align-items:center; gap:18px; width:min(720px,100%); } .tb-pair-homes { flex:1; } .tb-pair-letters { width:160px; } .tb-pair-direction { display:none; } }
+
+/* Four familiar pairs still keep every friend and loose letter in view. */
+@media(max-width:540px) {
+  .lg-app .tb-visible-pairs[data-pairs="4"] .tb-pair-home { min-height:100px; padding:4px 3px; gap:3px; }
+  .tb-visible-pairs[data-pairs="4"] .tb-pair-friend > svg { max-width:68px; }
+  .tb-visible-pairs[data-pairs="4"] .tb-pair-slot { width:40px; height:28px; }
+  .tb-visible-pairs[data-pairs="4"] .tb-pair-letters { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; }
+  .lg-app .tb-visible-pairs[data-pairs="4"] .tb-pair-letter { width:100%; max-width:none; min-width:44px; padding:3px; border-radius:14px; }
+}
+@media(max-height:540px) and (orientation:landscape) {
+  .tb-visible-pairs[data-pairs="4"] .tb-pair-homes { grid-template-columns:repeat(4,minmax(0,1fr)); }
+  .tb-visible-pairs[data-pairs="4"] .tb-pair-friend > svg { max-width:58px; }
+  .lg-app .tb-visible-pairs[data-pairs="4"] .tb-pair-home { min-height:90px; padding:4px 2px; gap:3px; }
+  .tb-visible-pairs[data-pairs="4"] .tb-pair-slot { height:26px; width:38px; }
+}
+
+.tb-visible-pairs.is-complete :is(.tb-pair-direction,.tb-pair-letters) { display:none; }

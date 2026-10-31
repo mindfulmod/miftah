@@ -1,0 +1,21 @@
+(()=>{const ns=window.MiftahGame,A=ns.LettersArt,V=ns.VillageArt,M=ns.LettersMapArt,R=ns.LettersRoomArt,G=ns.LettersGardenArt,rows=[];const add=(id,family,draw)=>rows.push({id,family,draw});
+for(const n of ['cottage','stall','yard','flowerBed','sundial','stones'])add('village-'+n,'Village',()=>V[n]());
+add('village-gate','Village',()=>V.gate('ب',140));for(const open of [false,true])add('village-chest-'+open,'Village',()=>V.toyChest(open));add('village-bench-empty','Village',()=>V.friendsBed([],c=>ns.LetterFriends.art(c,{size:70})));add('village-bench-full','Village',()=>V.friendsBed(['ب','ت','ث'],c=>ns.LetterFriends.art(c,{size:70})));add('village-tree','Village',()=>V.tree(0,0,1,false));add('village-bush','Village',()=>V.bush(0,0,1));
+for(const biome of ['meadow','orchard','lagoon','night','peaks','river'])for(const variant of [0,1])add('map-'+biome+'-'+variant,'Map landmarks',()=>M.landmark(biome,variant));for(const b of ['orchard','lagoon','night','peaks','river'])for(const open of [false,true])add('gate-'+b+'-'+open,'Map landmarks',()=>M.gate(b,open));for(const n of ['bridge','waterwheel'])add('map-'+n,'Map landmarks',()=>M[n]());
+for(const species of ['blob','bunny','chick','cat','dragon','lumi','mina','rafi'])add('pet-'+species,'Pets',()=>A.pet({species,hue:200,size:160}));for(const species of ['blob','lumi','mina','rafi'])for(const mood of ['curious','delighted','sleepy','proud','thinking'])add(species+'-'+mood,'Pet expressions',()=>A.pet({species,hue:200,mood,size:160}));for(const item of ns.LettersAnimalArt.catalog)for(const species of ['lumi','mina','rafi'])add(species+'-'+item.id,'Wardrobe',()=>A.pet({species,size:160,worn:[item.id]}));
+for(const c of ns.LetterFriends.CHARS)add('friend-'+c,'Letter friends',()=>ns.LetterFriends.art(c,{size:160}));for(const {id} of ns.LETTERS_STICKERS)add('sticker-'+id,'Stickers',()=>A.stickerMotif(id,120));for(const id of [...R.TREASURE_IDS,...R.SPECIAL_IDS])add('treasure-'+id,'Treasures',()=>R.treasure(id,120));
+for(const name of Object.keys(A.ICONS))add('icon-'+name,'Controls',()=>A.icon(name,64));
+for(const name of ['alcove','nest','lesson','podium','pack','stand','floor'])add('room-'+name,'Rooms',()=>R[name]());for(const kind of ['colors','friends','clothes','tricks'])add('room-tab-'+kind,'Controls',()=>R.tab(kind));
+for(const stage of [0,1,2,3])add('garden-boat-'+stage,'Garden rewards',()=>G.boat({stage}));for(const biome of ['meadow','orchard','lagoon','night','peaks','river'])for(const stage of [0,3])add('habitat-'+biome+'-'+stage,'Garden rewards',()=>G.habitatReward({biome,stage,habitat:M.landmark(biome,0)}));for(const k of ['pond','pondFloat','seedBasket','seedPacket'])add('garden-'+k,'Garden rewards',()=>G[k]());
+for(const k of ['tree','palm','house','barn','boat'])add('detail-'+k,'Environment kit',()=>ns.DetailKit[k]());for(const seed of [1,2,3])add('tree-seed-'+seed,'Environment kit',()=>ns.DetailKit.tree({seed}));
+
+for(const phase of ['morning','day','sunset','night']) for(const biome of ['meadow','orchard','lagoon','night','peaks','river'])add('backdrop-'+phase+'-'+biome,'Landscapes',()=>A.backdrop(phase,biome));
+for(const phase of ['morning','day','sunset','night'])add('village-backdrop-'+phase,'Landscapes',()=>`<svg viewBox="0 0 375 667">${V.backdrop(375,667,{phase,night:phase==='night'})}</svg>`);
+for(const status of ['next','done','locked'])for(const stars of [0,1,3])add('map-stop-'+status+'-'+stars,'Map nodes',()=>A.mapStop({hue:150,label:'خ',status,stars}));
+for(const scene of ns.StickerScenes.SCENE_IDS)add('sticker-scene-'+scene,'Sticker scenes',()=>ns.StickerScenes.sceneArt(scene));
+for(const species of ['blob','lumi','mina','rafi'])add('creature-'+species,'Shared cast',()=>species==='blob'?A.creature({size:160}):A.pet({species,size:160}));
+for(const key of ['sun','moon','shell','cat','snake','egg','dove','rainbow'])for(const size of [52,84])add('sticker-paper-'+key+'-'+size,'Sticker backings',()=>A.sticker({id:key,size,owned:true}));
+for(const weather of ['drizzle','rainbow','breezy'])add('weather-'+weather,'Weather',()=>A.weatherLayer(weather,'day'));
+for(const season of ['ramadan','eid'])add('season-'+season,'Weather',()=>A.seasonLayer(season,'night'));
+for(const season of ['spring','autumn','winter'])add('year-'+season,'Weather',()=>A.yearLayer(season));
+window.artWorldRecipes=rows;})();

@@ -1,0 +1,24 @@
+Hank — generate Letter Garden's missing Marin speech.
+
+Work from the source checkout at:
+/Users/main/Documents/GitHub/miftah/.local-work/letter-garden-next-major
+Branch: codex/letter-garden-next-major. Do not publish or edit production.
+
+The package is in docs/letter-garden/reviews/marin-complete-20261020/.
+Use remaining-generation-requests.jsonl as the generation queue. Each line specifies its exact Arabic input, Marin voice, directions, output filename and where it is used. This queue currently has 408 items. inventory.json contains the complete catalogue and source fingerprints; generation-requests.jsonl includes the ten already recovered candidates, so do not regenerate those ten automatically.
+
+Owner decisions:
+- Marin for all spoken content, including Quran reading screens, syllables, words, books and teaching prompts.
+- Names-first for alphabet activities; pronounce the written syllable in vowel exercises.
+- Sukoon and shadda in Sound Lab use a visible short practice chunk with the focus letter highlighted. The examples are phonetic exercises, not vocabulary words. Do not omit the written final exercise vowel.
+- Free generation was the prior preference. Verify what Marin generation you can actually access and report capacity/cost before using a paid route. Do not buy credits or subscribe.
+
+Generate one prompt per file. Never concatenate the whole list into one recording; previous batches contained omissions and overlapping cut boundaries. Preserve short/long vowels, consonants and diacritics. Do not substitute another voice, add translations, labels, music or explanatory words. For Quran words, flag unclear standalone/pausal readings for Arabic review rather than guessing or claiming qualified recitation.
+
+First inspect recovered-candidates.json: ten files were generated individually on October 3 and recovered intact. They are unreviewed and must stay separate from the approved game bank. Original records remain at /Users/main/Documents/Codex/2026-10-03/task/audio-batch/ and /Users/main/Documents/Codex/2026-10-03/task/prepared/. The old FM task stopped at the website's stated weekly download limit. Respect any current limit and pause if blocked; do not circumvent it.
+
+Save raw outputs and an append-only generation manifest with id, exact input, voice, instructions, source, status, raw path, prepared path and SHA-256. Prefer PCM16 mono 24 kHz WAV. Do not change speed or pitch. Preserve speech boundaries; trim only confirmed silence and never cut a quiet consonant. Mark every new file unreviewed. Put prepared outputs under this package's candidates/ using the requested filenames. Resume completed IDs instead of regenerating them.
+
+pronunciation-decisions.json contains 66 unresolved requests (bare assembly letters, isolated curriculum consonants, Sand Table/Hat Shop combinations and alif/mark combinations). Sound Lab now uses context, but the other games still need their presentation adjusted before their isolated requests can be replaced safely. Do not generate guesses for these. Return the exact blocker so we can fix the teaching request first.
+
+Deliver the files and manifest to this local package, or return a downloadable archive if you cannot access this computer. Do not alter LetterVoiceClips.js, mark pronunciation approved, overwrite existing approved audio, change saved progress, install a runtime voice service, push to GitHub or deploy. Codex will validate, review and integrate the returned files. Report any missing capability directly; do not claim that generation succeeded without usable audio files.

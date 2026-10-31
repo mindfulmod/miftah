@@ -1,0 +1,524 @@
+id,family,source,disposition,review_basis,notes
+village-cottage,Village,src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Cottage redraw; three compositions rescaled and anchored together. Other constructed landmarks retained.
+village-stall,Village,src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Cottage redraw; three compositions rescaled and anchored together. Other constructed landmarks retained.
+village-yard,Village,src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Cottage redraw; three compositions rescaled and anchored together. Other constructed landmarks retained.
+village-flowerBed,Village,src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Cottage redraw; three compositions rescaled and anchored together. Other constructed landmarks retained.
+village-sundial,Village,src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Cottage redraw; three compositions rescaled and anchored together. Other constructed landmarks retained.
+village-stones,Village,src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Cottage redraw; three compositions rescaled and anchored together. Other constructed landmarks retained.
+village-gate,Village,src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Cottage redraw; three compositions rescaled and anchored together. Other constructed landmarks retained.
+village-chest-false,Village,src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Cottage redraw; three compositions rescaled and anchored together. Other constructed landmarks retained.
+village-chest-true,Village,src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Cottage redraw; three compositions rescaled and anchored together. Other constructed landmarks retained.
+village-bench-empty,Village,src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Cottage redraw; three compositions rescaled and anchored together. Other constructed landmarks retained.
+village-bench-full,Village,src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Cottage redraw; three compositions rescaled and anchored together. Other constructed landmarks retained.
+village-tree,Village,src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Cottage redraw; three compositions rescaled and anchored together. Other constructed landmarks retained.
+village-bush,Village,src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Cottage redraw; three compositions rescaled and anchored together. Other constructed landmarks retained.
+map-meadow-0,Map landmarks,src/letters/LettersMapArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+map-meadow-1,Map landmarks,src/letters/LettersMapArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+map-orchard-0,Map landmarks,src/letters/LettersMapArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+map-orchard-1,Map landmarks,src/letters/LettersMapArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+map-lagoon-0,Map landmarks,src/letters/LettersMapArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+map-lagoon-1,Map landmarks,src/letters/LettersMapArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+map-night-0,Map landmarks,src/letters/LettersMapArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+map-night-1,Map landmarks,src/letters/LettersMapArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+map-peaks-0,Map landmarks,src/letters/LettersMapArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+map-peaks-1,Map landmarks,src/letters/LettersMapArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+map-river-0,Map landmarks,src/letters/LettersMapArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+map-river-1,Map landmarks,src/letters/LettersMapArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+gate-orchard-false,Map landmarks,src/letters/LettersMapArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+gate-orchard-true,Map landmarks,src/letters/LettersMapArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+gate-lagoon-false,Map landmarks,src/letters/LettersMapArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+gate-lagoon-true,Map landmarks,src/letters/LettersMapArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+gate-night-false,Map landmarks,src/letters/LettersMapArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+gate-night-true,Map landmarks,src/letters/LettersMapArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+gate-peaks-false,Map landmarks,src/letters/LettersMapArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+gate-peaks-true,Map landmarks,src/letters/LettersMapArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+gate-river-false,Map landmarks,src/letters/LettersMapArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+gate-river-true,Map landmarks,src/letters/LettersMapArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+map-bridge,Map landmarks,src/letters/LettersMapArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+map-waterwheel,Map landmarks,src/letters/LettersMapArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+pet-blob,Pets,src/letters/LettersArt.js; src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Selected hue and anatomy retained; shared palette and flat-material corrections.
+pet-bunny,Pets,src/letters/LettersArt.js; src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Selected hue and anatomy retained; shared palette and flat-material corrections.
+pet-chick,Pets,src/letters/LettersArt.js; src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Selected hue and anatomy retained; shared palette and flat-material corrections.
+pet-cat,Pets,src/letters/LettersArt.js; src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Selected hue and anatomy retained; shared palette and flat-material corrections.
+pet-dragon,Pets,src/letters/LettersArt.js; src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Selected hue and anatomy retained; shared palette and flat-material corrections.
+pet-lumi,Pets,src/letters/LettersArt.js; src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Selected hue and anatomy retained; shared palette and flat-material corrections.
+pet-mina,Pets,src/letters/LettersArt.js; src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Selected hue and anatomy retained; shared palette and flat-material corrections.
+pet-rafi,Pets,src/letters/LettersArt.js; src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Selected hue and anatomy retained; shared palette and flat-material corrections.
+blob-curious,Pet expressions,src/letters/LettersArt.js; src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Expressions retained; shared palette corrected.
+blob-delighted,Pet expressions,src/letters/LettersArt.js; src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Expressions retained; shared palette corrected.
+blob-sleepy,Pet expressions,src/letters/LettersArt.js; src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Expressions retained; shared palette corrected.
+blob-proud,Pet expressions,src/letters/LettersArt.js; src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Expressions retained; shared palette corrected.
+blob-thinking,Pet expressions,src/letters/LettersArt.js; src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Expressions retained; shared palette corrected.
+lumi-curious,Pet expressions,src/letters/LettersArt.js; src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Expressions retained; shared palette corrected.
+lumi-delighted,Pet expressions,src/letters/LettersArt.js; src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Expressions retained; shared palette corrected.
+lumi-sleepy,Pet expressions,src/letters/LettersArt.js; src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Expressions retained; shared palette corrected.
+lumi-proud,Pet expressions,src/letters/LettersArt.js; src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Expressions retained; shared palette corrected.
+lumi-thinking,Pet expressions,src/letters/LettersArt.js; src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Expressions retained; shared palette corrected.
+mina-curious,Pet expressions,src/letters/LettersArt.js; src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Expressions retained; shared palette corrected.
+mina-delighted,Pet expressions,src/letters/LettersArt.js; src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Expressions retained; shared palette corrected.
+mina-sleepy,Pet expressions,src/letters/LettersArt.js; src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Expressions retained; shared palette corrected.
+mina-proud,Pet expressions,src/letters/LettersArt.js; src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Expressions retained; shared palette corrected.
+mina-thinking,Pet expressions,src/letters/LettersArt.js; src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Expressions retained; shared palette corrected.
+rafi-curious,Pet expressions,src/letters/LettersArt.js; src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Expressions retained; shared palette corrected.
+rafi-delighted,Pet expressions,src/letters/LettersArt.js; src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Expressions retained; shared palette corrected.
+rafi-sleepy,Pet expressions,src/letters/LettersArt.js; src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Expressions retained; shared palette corrected.
+rafi-proud,Pet expressions,src/letters/LettersArt.js; src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Expressions retained; shared palette corrected.
+rafi-thinking,Pet expressions,src/letters/LettersArt.js; src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Expressions retained; shared palette corrected.
+lumi-cap,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+mina-cap,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+rafi-cap,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+lumi-taqiyah,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+mina-taqiyah,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+rafi-taqiyah,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+lumi-crown,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+mina-crown,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+rafi-crown,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+lumi-sprout,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+mina-sprout,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+rafi-sprout,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+lumi-bow,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+mina-bow,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+rafi-bow,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+lumi-flower,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+mina-flower,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+rafi-flower,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+lumi-glasses,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+mina-glasses,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+rafi-glasses,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+lumi-scarf,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+mina-scarf,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+rafi-scarf,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+lumi-cape,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+mina-cape,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+rafi-cape,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+lumi-medal,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+mina-medal,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+rafi-medal,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+lumi-moonpin,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+mina-moonpin,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+rafi-moonpin,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+lumi-balloon,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+mina-balloon,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+rafi-balloon,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+lumi-kite,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+mina-kite,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+rafi-kite,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+lumi-wand,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+mina-wand,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+rafi-wand,Wardrobe,src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Approved palette; connected glasses temples; species-specific anchors retained.
+friend-ا,Letter friends,src/letters/LetterFriends.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+friend-ب,Letter friends,src/letters/LetterFriends.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+friend-ت,Letter friends,src/letters/LetterFriends.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+friend-ث,Letter friends,src/letters/LetterFriends.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+friend-ج,Letter friends,src/letters/LetterFriends.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+friend-ح,Letter friends,src/letters/LetterFriends.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+friend-خ,Letter friends,src/letters/LetterFriends.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+friend-د,Letter friends,src/letters/LetterFriends.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+friend-ذ,Letter friends,src/letters/LetterFriends.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+friend-ر,Letter friends,src/letters/LetterFriends.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+friend-ز,Letter friends,src/letters/LetterFriends.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+friend-س,Letter friends,src/letters/LetterFriends.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+friend-ش,Letter friends,src/letters/LetterFriends.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+friend-ص,Letter friends,src/letters/LetterFriends.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+friend-ض,Letter friends,src/letters/LetterFriends.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+friend-ط,Letter friends,src/letters/LetterFriends.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+friend-ظ,Letter friends,src/letters/LetterFriends.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+friend-ع,Letter friends,src/letters/LetterFriends.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+friend-غ,Letter friends,src/letters/LetterFriends.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+friend-ف,Letter friends,src/letters/LetterFriends.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+friend-ق,Letter friends,src/letters/LetterFriends.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+friend-ك,Letter friends,src/letters/LetterFriends.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+friend-ل,Letter friends,src/letters/LetterFriends.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+friend-م,Letter friends,src/letters/LetterFriends.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+friend-ن,Letter friends,src/letters/LetterFriends.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+friend-ه,Letter friends,src/letters/LetterFriends.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+friend-و,Letter friends,src/letters/LetterFriends.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+friend-ي,Letter friends,src/letters/LetterFriends.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+sticker-sun,Stickers,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Shared warm contour reconciliation; motif identity retained.
+sticker-moon,Stickers,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Shared warm contour reconciliation; motif identity retained.
+sticker-star,Stickers,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Shared warm contour reconciliation; motif identity retained.
+sticker-rainbow,Stickers,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Shared warm contour reconciliation; motif identity retained.
+sticker-palm,Stickers,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Shared warm contour reconciliation; motif identity retained.
+sticker-flower,Stickers,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Shared warm contour reconciliation; motif identity retained.
+sticker-butterfly,Stickers,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Shared warm contour reconciliation; motif identity retained.
+sticker-bee,Stickers,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Shared warm contour reconciliation; motif identity retained.
+sticker-dove,Stickers,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Shared warm contour reconciliation; motif identity retained.
+sticker-fish,Stickers,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Shared warm contour reconciliation; motif identity retained.
+sticker-boat,Stickers,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Shared warm contour reconciliation; motif identity retained.
+sticker-lantern,Stickers,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Shared warm contour reconciliation; motif identity retained.
+sticker-key,Stickers,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Shared warm contour reconciliation; motif identity retained.
+sticker-egg,Stickers,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Shared warm contour reconciliation; motif identity retained.
+sticker-cat,Stickers,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Shared warm contour reconciliation; motif identity retained.
+sticker-cloud,Stickers,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Shared warm contour reconciliation; motif identity retained.
+sticker-camel,Stickers,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Shared warm contour reconciliation; motif identity retained.
+sticker-elephant,Stickers,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Shared warm contour reconciliation; motif identity retained.
+sticker-ant,Stickers,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Shared warm contour reconciliation; motif identity retained.
+sticker-spider,Stickers,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Shared warm contour reconciliation; motif identity retained.
+sticker-crow,Stickers,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Shared warm contour reconciliation; motif identity retained.
+sticker-hoopoe,Stickers,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Shared warm contour reconciliation; motif identity retained.
+sticker-whale,Stickers,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Shared warm contour reconciliation; motif identity retained.
+sticker-fig,Stickers,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Shared warm contour reconciliation; motif identity retained.
+sticker-olive,Stickers,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Shared warm contour reconciliation; motif identity retained.
+sticker-dates,Stickers,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Shared warm contour reconciliation; motif identity retained.
+sticker-pomegranate,Stickers,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Shared warm contour reconciliation; motif identity retained.
+sticker-grapes,Stickers,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Shared warm contour reconciliation; motif identity retained.
+sticker-honeycomb,Stickers,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Shared warm contour reconciliation; motif identity retained.
+sticker-waterdrop,Stickers,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Shared warm contour reconciliation; motif identity retained.
+sticker-mountain,Stickers,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Shared warm contour reconciliation; motif identity retained.
+sticker-nest,Stickers,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Shared warm contour reconciliation; motif identity retained.
+sticker-feather,Stickers,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Shared warm contour reconciliation; motif identity retained.
+sticker-shell,Stickers,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Shared warm contour reconciliation; motif identity retained.
+sticker-turtle,Stickers,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Shared warm contour reconciliation; motif identity retained.
+sticker-snake,Stickers,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Shared warm contour reconciliation; motif identity retained.
+treasure-shell,Treasures,src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+treasure-feather,Treasures,src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+treasure-acorn,Treasures,src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+treasure-leaf,Treasures,src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+treasure-pinecone,Treasures,src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+treasure-ladybug,Treasures,src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+treasure-snail,Treasures,src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+treasure-pebble,Treasures,src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+treasure-daisy,Treasures,src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+treasure-egg,Treasures,src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+treasure-starfish,Treasures,src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+treasure-clover,Treasures,src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+treasure-berries,Treasures,src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+treasure-butterfly,Treasures,src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+treasure-crystal,Treasures,src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+treasure-mushroom,Treasures,src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+treasure-fanous,Treasures,src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+treasure-crescent,Treasures,src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+icon-speaker,Controls,src/letters/LettersArt.js; src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+icon-play,Controls,src/letters/LettersArt.js; src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+icon-next,Controls,src/letters/LettersArt.js; src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+icon-replay,Controls,src/letters/LettersArt.js; src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+icon-undo,Controls,src/letters/LettersArt.js; src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+icon-home,Controls,src/letters/LettersArt.js; src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+icon-star,Controls,src/letters/LettersArt.js; src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+icon-lock,Controls,src/letters/LettersArt.js; src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+icon-check,Controls,src/letters/LettersArt.js; src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+icon-arrow,Controls,src/letters/LettersArt.js; src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+icon-sun,Controls,src/letters/LettersArt.js; src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+icon-flower,Controls,src/letters/LettersArt.js; src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+icon-calendar,Controls,src/letters/LettersArt.js; src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+icon-paw,Controls,src/letters/LettersArt.js; src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+icon-book,Controls,src/letters/LettersArt.js; src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+room-alcove,Rooms,src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+room-nest,Rooms,src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+room-lesson,Rooms,src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+room-podium,Rooms,src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+room-pack,Rooms,src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+room-stand,Rooms,src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+room-floor,Rooms,src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+room-tab-colors,Controls,src/letters/LettersArt.js; src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+room-tab-friends,Controls,src/letters/LettersArt.js; src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+room-tab-clothes,Controls,src/letters/LettersArt.js; src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+room-tab-tricks,Controls,src/letters/LettersArt.js; src/letters/LettersRoomArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+garden-boat-0,Garden rewards,src/letters/LettersGardenArt.js,Shared art pass,Source + rendered contact sheet,Flat paper boat; meadow seedlings moved above terrain. Other geometry retained.
+garden-boat-1,Garden rewards,src/letters/LettersGardenArt.js,Shared art pass,Source + rendered contact sheet,Flat paper boat; meadow seedlings moved above terrain. Other geometry retained.
+garden-boat-2,Garden rewards,src/letters/LettersGardenArt.js,Shared art pass,Source + rendered contact sheet,Flat paper boat; meadow seedlings moved above terrain. Other geometry retained.
+garden-boat-3,Garden rewards,src/letters/LettersGardenArt.js,Shared art pass,Source + rendered contact sheet,Flat paper boat; meadow seedlings moved above terrain. Other geometry retained.
+habitat-meadow-0,Garden rewards,src/letters/LettersGardenArt.js,Shared art pass,Source + rendered contact sheet,Flat paper boat; meadow seedlings moved above terrain. Other geometry retained.
+habitat-meadow-3,Garden rewards,src/letters/LettersGardenArt.js,Shared art pass,Source + rendered contact sheet,Flat paper boat; meadow seedlings moved above terrain. Other geometry retained.
+habitat-orchard-0,Garden rewards,src/letters/LettersGardenArt.js,Shared art pass,Source + rendered contact sheet,Flat paper boat; meadow seedlings moved above terrain. Other geometry retained.
+habitat-orchard-3,Garden rewards,src/letters/LettersGardenArt.js,Shared art pass,Source + rendered contact sheet,Flat paper boat; meadow seedlings moved above terrain. Other geometry retained.
+habitat-lagoon-0,Garden rewards,src/letters/LettersGardenArt.js,Shared art pass,Source + rendered contact sheet,Flat paper boat; meadow seedlings moved above terrain. Other geometry retained.
+habitat-lagoon-3,Garden rewards,src/letters/LettersGardenArt.js,Shared art pass,Source + rendered contact sheet,Flat paper boat; meadow seedlings moved above terrain. Other geometry retained.
+habitat-night-0,Garden rewards,src/letters/LettersGardenArt.js,Shared art pass,Source + rendered contact sheet,Flat paper boat; meadow seedlings moved above terrain. Other geometry retained.
+habitat-night-3,Garden rewards,src/letters/LettersGardenArt.js,Shared art pass,Source + rendered contact sheet,Flat paper boat; meadow seedlings moved above terrain. Other geometry retained.
+habitat-peaks-0,Garden rewards,src/letters/LettersGardenArt.js,Shared art pass,Source + rendered contact sheet,Flat paper boat; meadow seedlings moved above terrain. Other geometry retained.
+habitat-peaks-3,Garden rewards,src/letters/LettersGardenArt.js,Shared art pass,Source + rendered contact sheet,Flat paper boat; meadow seedlings moved above terrain. Other geometry retained.
+habitat-river-0,Garden rewards,src/letters/LettersGardenArt.js,Shared art pass,Source + rendered contact sheet,Flat paper boat; meadow seedlings moved above terrain. Other geometry retained.
+habitat-river-3,Garden rewards,src/letters/LettersGardenArt.js,Shared art pass,Source + rendered contact sheet,Flat paper boat; meadow seedlings moved above terrain. Other geometry retained.
+garden-pond,Garden rewards,src/letters/LettersGardenArt.js,Shared art pass,Source + rendered contact sheet,Flat paper boat; meadow seedlings moved above terrain. Other geometry retained.
+garden-pondFloat,Garden rewards,src/letters/LettersGardenArt.js,Shared art pass,Source + rendered contact sheet,Flat paper boat; meadow seedlings moved above terrain. Other geometry retained.
+garden-seedBasket,Garden rewards,src/letters/LettersGardenArt.js,Shared art pass,Source + rendered contact sheet,Flat paper boat; meadow seedlings moved above terrain. Other geometry retained.
+garden-seedPacket,Garden rewards,src/letters/LettersGardenArt.js,Shared art pass,Source + rendered contact sheet,Flat paper boat; meadow seedlings moved above terrain. Other geometry retained.
+detail-tree,Environment kit,src/letters/DetailKit.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+detail-palm,Environment kit,src/letters/DetailKit.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+detail-house,Environment kit,src/letters/DetailKit.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+detail-barn,Environment kit,src/letters/DetailKit.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+detail-boat,Environment kit,src/letters/DetailKit.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+tree-seed-1,Environment kit,src/letters/DetailKit.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+tree-seed-2,Environment kit,src/letters/DetailKit.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+tree-seed-3,Environment kit,src/letters/DetailKit.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+backdrop-morning-meadow,Landscapes,src/letters/LettersArt.js; src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Only village night ground/shadow corrected; other time/biome landscapes retained.
+backdrop-morning-orchard,Landscapes,src/letters/LettersArt.js; src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Only village night ground/shadow corrected; other time/biome landscapes retained.
+backdrop-morning-lagoon,Landscapes,src/letters/LettersArt.js; src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Only village night ground/shadow corrected; other time/biome landscapes retained.
+backdrop-morning-night,Landscapes,src/letters/LettersArt.js; src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Only village night ground/shadow corrected; other time/biome landscapes retained.
+backdrop-morning-peaks,Landscapes,src/letters/LettersArt.js; src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Only village night ground/shadow corrected; other time/biome landscapes retained.
+backdrop-morning-river,Landscapes,src/letters/LettersArt.js; src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Only village night ground/shadow corrected; other time/biome landscapes retained.
+backdrop-day-meadow,Landscapes,src/letters/LettersArt.js; src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Only village night ground/shadow corrected; other time/biome landscapes retained.
+backdrop-day-orchard,Landscapes,src/letters/LettersArt.js; src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Only village night ground/shadow corrected; other time/biome landscapes retained.
+backdrop-day-lagoon,Landscapes,src/letters/LettersArt.js; src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Only village night ground/shadow corrected; other time/biome landscapes retained.
+backdrop-day-night,Landscapes,src/letters/LettersArt.js; src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Only village night ground/shadow corrected; other time/biome landscapes retained.
+backdrop-day-peaks,Landscapes,src/letters/LettersArt.js; src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Only village night ground/shadow corrected; other time/biome landscapes retained.
+backdrop-day-river,Landscapes,src/letters/LettersArt.js; src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Only village night ground/shadow corrected; other time/biome landscapes retained.
+backdrop-sunset-meadow,Landscapes,src/letters/LettersArt.js; src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Only village night ground/shadow corrected; other time/biome landscapes retained.
+backdrop-sunset-orchard,Landscapes,src/letters/LettersArt.js; src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Only village night ground/shadow corrected; other time/biome landscapes retained.
+backdrop-sunset-lagoon,Landscapes,src/letters/LettersArt.js; src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Only village night ground/shadow corrected; other time/biome landscapes retained.
+backdrop-sunset-night,Landscapes,src/letters/LettersArt.js; src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Only village night ground/shadow corrected; other time/biome landscapes retained.
+backdrop-sunset-peaks,Landscapes,src/letters/LettersArt.js; src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Only village night ground/shadow corrected; other time/biome landscapes retained.
+backdrop-sunset-river,Landscapes,src/letters/LettersArt.js; src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Only village night ground/shadow corrected; other time/biome landscapes retained.
+backdrop-night-meadow,Landscapes,src/letters/LettersArt.js; src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Only village night ground/shadow corrected; other time/biome landscapes retained.
+backdrop-night-orchard,Landscapes,src/letters/LettersArt.js; src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Only village night ground/shadow corrected; other time/biome landscapes retained.
+backdrop-night-lagoon,Landscapes,src/letters/LettersArt.js; src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Only village night ground/shadow corrected; other time/biome landscapes retained.
+backdrop-night-night,Landscapes,src/letters/LettersArt.js; src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Only village night ground/shadow corrected; other time/biome landscapes retained.
+backdrop-night-peaks,Landscapes,src/letters/LettersArt.js; src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Only village night ground/shadow corrected; other time/biome landscapes retained.
+backdrop-night-river,Landscapes,src/letters/LettersArt.js; src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Only village night ground/shadow corrected; other time/biome landscapes retained.
+village-backdrop-morning,Landscapes,src/letters/LettersArt.js; src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Only village night ground/shadow corrected; other time/biome landscapes retained.
+village-backdrop-day,Landscapes,src/letters/LettersArt.js; src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Only village night ground/shadow corrected; other time/biome landscapes retained.
+village-backdrop-sunset,Landscapes,src/letters/LettersArt.js; src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Only village night ground/shadow corrected; other time/biome landscapes retained.
+village-backdrop-night,Landscapes,src/letters/LettersArt.js; src/letters/VillageArt.js,Shared art pass,Source + rendered contact sheet,Only village night ground/shadow corrected; other time/biome landscapes retained.
+map-stop-next-0,Map nodes,src/letters/LettersArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+map-stop-next-1,Map nodes,src/letters/LettersArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+map-stop-next-3,Map nodes,src/letters/LettersArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+map-stop-done-0,Map nodes,src/letters/LettersArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+map-stop-done-1,Map nodes,src/letters/LettersArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+map-stop-done-3,Map nodes,src/letters/LettersArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+map-stop-locked-0,Map nodes,src/letters/LettersArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+map-stop-locked-1,Map nodes,src/letters/LettersArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+map-stop-locked-3,Map nodes,src/letters/LettersArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+sticker-scene-meadow,Sticker scenes,src/letters/StickerScenes.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+sticker-scene-sea,Sticker scenes,src/letters/StickerScenes.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+sticker-scene-night,Sticker scenes,src/letters/StickerScenes.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+sticker-scene-oasis,Sticker scenes,src/letters/StickerScenes.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+creature-blob,Shared cast,src/letters/LettersArt.js; src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Flat body and warm contour; fallback feeding friend has larger eyes and one friendly mouth.
+creature-lumi,Shared cast,src/letters/LettersArt.js; src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Flat body and warm contour; fallback feeding friend has larger eyes and one friendly mouth.
+creature-mina,Shared cast,src/letters/LettersArt.js; src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Flat body and warm contour; fallback feeding friend has larger eyes and one friendly mouth.
+creature-rafi,Shared cast,src/letters/LettersArt.js; src/letters/LettersAnimalArt.js,Shared art pass,Source + rendered contact sheet,Flat body and warm contour; fallback feeding friend has larger eyes and one friendly mouth.
+sticker-paper-sun-52,Sticker backings,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Motif contour updates inherited; die-cut backing and IDs retained.
+sticker-paper-sun-84,Sticker backings,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Motif contour updates inherited; die-cut backing and IDs retained.
+sticker-paper-moon-52,Sticker backings,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Motif contour updates inherited; die-cut backing and IDs retained.
+sticker-paper-moon-84,Sticker backings,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Motif contour updates inherited; die-cut backing and IDs retained.
+sticker-paper-shell-52,Sticker backings,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Motif contour updates inherited; die-cut backing and IDs retained.
+sticker-paper-shell-84,Sticker backings,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Motif contour updates inherited; die-cut backing and IDs retained.
+sticker-paper-cat-52,Sticker backings,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Motif contour updates inherited; die-cut backing and IDs retained.
+sticker-paper-cat-84,Sticker backings,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Motif contour updates inherited; die-cut backing and IDs retained.
+sticker-paper-snake-52,Sticker backings,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Motif contour updates inherited; die-cut backing and IDs retained.
+sticker-paper-snake-84,Sticker backings,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Motif contour updates inherited; die-cut backing and IDs retained.
+sticker-paper-egg-52,Sticker backings,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Motif contour updates inherited; die-cut backing and IDs retained.
+sticker-paper-egg-84,Sticker backings,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Motif contour updates inherited; die-cut backing and IDs retained.
+sticker-paper-dove-52,Sticker backings,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Motif contour updates inherited; die-cut backing and IDs retained.
+sticker-paper-dove-84,Sticker backings,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Motif contour updates inherited; die-cut backing and IDs retained.
+sticker-paper-rainbow-52,Sticker backings,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Motif contour updates inherited; die-cut backing and IDs retained.
+sticker-paper-rainbow-84,Sticker backings,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Motif contour updates inherited; die-cut backing and IDs retained.
+weather-drizzle,Weather,src/letters/LettersArt.js,Retained after review,Source + partial static output,Current silhouette and material treatment retained; see report for composition review limits.
+weather-rainbow,Weather,src/letters/LettersArt.js,Retained after review,Source + partial static output,Current silhouette and material treatment retained; see report for composition review limits.
+weather-breezy,Weather,src/letters/LettersArt.js,Retained after review,Source + partial static output,Current silhouette and material treatment retained; see report for composition review limits.
+season-ramadan,Weather,src/letters/LettersArt.js,Retained after review,Source + partial static output,Current silhouette and material treatment retained; see report for composition review limits.
+season-eid,Weather,src/letters/LettersArt.js,Retained after review,Source + partial static output,Current silhouette and material treatment retained; see report for composition review limits.
+year-spring,Weather,src/letters/LettersArt.js,Retained after review,Source + partial static output,Current silhouette and material treatment retained; see report for composition review limits.
+year-autumn,Weather,src/letters/LettersArt.js,Retained after review,Source + partial static output,Current silhouette and material treatment retained; see report for composition review limits.
+year-winter,Weather,src/letters/LettersArt.js,Retained after review,Source + partial static output,Current silhouette and material treatment retained; see report for composition review limits.
+balloon-coral-ba,BalloonPlayArt,src/letters/BalloonPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+balloon-sky-ba,BalloonPlayArt,src/letters/BalloonPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+balloon-pump-full,BalloonPlayArt,src/letters/BalloonPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+balloon-mode-pump,BalloonPlayArt,src/letters/BalloonPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+balloon-mode-pop,BalloonPlayArt,src/letters/BalloonPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+book-door-leaf-a,BookPlayArt,src/letters/BookPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+book-door-leaf-b,BookPlayArt,src/letters/BookPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+book-close-doors,BookPlayArt,src/letters/BookPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+book-basket,BookPlayArt,src/letters/BookPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+book-trip-backdrop,BookPlayArt,src/letters/BookPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+book-sign,BookPlayArt,src/letters/BookPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+book-home,BookPlayArt,src/letters/BookPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+book-market-stall-a,BookPlayArt,src/letters/BookPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+book-market-stall-b,BookPlayArt,src/letters/BookPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+delivery-packet-letter,DeliveryPlayArt,src/letters/DeliveryPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+delivery-garden-seed,DeliveryPlayArt,src/letters/DeliveryPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+delivery-garden-growing,DeliveryPlayArt,src/letters/DeliveryPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+delivery-garden-grown,DeliveryPlayArt,src/letters/DeliveryPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+delivery-icon,DeliveryPlayArt,src/letters/DeliveryPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+ears-drum,EarsPlayArt,src/letters/EarsPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+ears-listening-stand,EarsPlayArt,src/letters/EarsPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+ears-sound-pod,EarsPlayArt,src/letters/EarsPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+ears-speaker,EarsPlayArt,src/letters/EarsPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+ears-replay-all,EarsPlayArt,src/letters/EarsPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+ears-beat-seed,EarsPlayArt,src/letters/EarsPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+form-word-stand,FormPlayArt,src/letters/FormPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+form-costume-rail,FormPlayArt,src/letters/FormPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+form-train-engine,FormPlayArt,src/letters/FormPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+form-train-car,FormPlayArt,src/letters/FormPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+form-train-end-car,FormPlayArt,src/letters/FormPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+form-leaf,FormPlayArt,src/letters/FormPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+form-branch,FormPlayArt,src/letters/FormPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+friend-book-page,FriendBookArt,src/letters/FriendBookArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+friend-book-habitat,FriendBookArt,src/letters/FriendBookArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+friend-finder-booth,FriendPlayArt,src/letters/FriendPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+friend-finder-perch,FriendPlayArt,src/letters/FriendPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+friend-finder-eye,FriendPlayArt,src/letters/FriendPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+garden-adventure-butterfly-seed,GardenAdventurePlayArt,src/letters/GardenAdventurePlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+garden-adventure-butterfly-sprout,GardenAdventurePlayArt,src/letters/GardenAdventurePlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+garden-adventure-butterfly-grown,GardenAdventurePlayArt,src/letters/GardenAdventurePlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+garden-adventure-bird-seed,GardenAdventurePlayArt,src/letters/GardenAdventurePlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+garden-adventure-bird-sprout,GardenAdventurePlayArt,src/letters/GardenAdventurePlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+garden-adventure-bird-grown,GardenAdventurePlayArt,src/letters/GardenAdventurePlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+garden-adventure-bird-visitor,GardenAdventurePlayArt,src/letters/GardenAdventurePlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+garden-adventure-butterfly-visitor,GardenAdventurePlayArt,src/letters/GardenAdventurePlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+hunt-background-meadow,HuntPlayArt,src/letters/HuntPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+hunt-background-orchard,HuntPlayArt,src/letters/HuntPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+hunt-background-lagoon,HuntPlayArt,src/letters/HuntPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+hunt-background-peaks,HuntPlayArt,src/letters/HuntPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+hunt-background-night,HuntPlayArt,src/letters/HuntPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+hunt-background-portrait,HuntPlayArt,src/letters/HuntPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+hunt-basket,HuntPlayArt,src/letters/HuntPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+hunt-thing-cloud,HuntPlayArt,src/letters/HuntPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+hunt-reaction-cloud,HuntPlayArt,src/letters/HuntPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+hunt-thing-kite,HuntPlayArt,src/letters/HuntPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+hunt-reaction-kite,HuntPlayArt,src/letters/HuntPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+hunt-thing-trunk,HuntPlayArt,src/letters/HuntPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+hunt-reaction-trunk,HuntPlayArt,src/letters/HuntPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+hunt-thing-rock,HuntPlayArt,src/letters/HuntPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+hunt-reaction-rock,HuntPlayArt,src/letters/HuntPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+hunt-thing-crate,HuntPlayArt,src/letters/HuntPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+hunt-reaction-crate,HuntPlayArt,src/letters/HuntPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+hunt-thing-lily,HuntPlayArt,src/letters/HuntPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+hunt-reaction-lily,HuntPlayArt,src/letters/HuntPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+hunt-thing-sail,HuntPlayArt,src/letters/HuntPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+hunt-reaction-sail,HuntPlayArt,src/letters/HuntPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+hunt-thing-lantern,HuntPlayArt,src/letters/HuntPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+hunt-reaction-lantern,HuntPlayArt,src/letters/HuntPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+hunt-thing-flag,HuntPlayArt,src/letters/HuntPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+hunt-reaction-flag,HuntPlayArt,src/letters/HuntPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+hunt-thing-shell,HuntPlayArt,src/letters/HuntPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+hunt-reaction-shell,HuntPlayArt,src/letters/HuntPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+hunt-thing-pot,HuntPlayArt,src/letters/HuntPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+hunt-reaction-pot,HuntPlayArt,src/letters/HuntPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+studio-scene-meadow,LetterStudioArt,src/letters/LetterStudioArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+studio-scene-orchard,LetterStudioArt,src/letters/LetterStudioArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+studio-scene-lagoon,LetterStudioArt,src/letters/LetterStudioArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+studio-scene-river,LetterStudioArt,src/letters/LetterStudioArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+studio-scene-peaks,LetterStudioArt,src/letters/LetterStudioArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+studio-scene-night,LetterStudioArt,src/letters/LetterStudioArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+studio-stamp,LetterStudioArt,src/letters/LetterStudioArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+studio-hanger,LetterStudioArt,src/letters/LetterStudioArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+activity-plane-pairs,LettersActivityArt,src/letters/LettersActivityArt.js,Shared art pass,Source + rendered contact sheet,Pairs timber/felt and parade lining flattened; other board props retained.
+activity-plane-burst,LettersActivityArt,src/letters/LettersActivityArt.js,Shared art pass,Source + rendered contact sheet,Pairs timber/felt and parade lining flattened; other board props retained.
+activity-plane-DotGarden,LettersActivityArt,src/letters/LettersActivityArt.js,Shared art pass,Source + rendered contact sheet,Pairs timber/felt and parade lining flattened; other board props retained.
+activity-plane-feed,LettersActivityArt,src/letters/LettersActivityArt.js,Shared art pass,Source + rendered contact sheet,Pairs timber/felt and parade lining flattened; other board props retained.
+activity-plane-catch,LettersActivityArt,src/letters/LettersActivityArt.js,Shared art pass,Source + rendered contact sheet,Pairs timber/felt and parade lining flattened; other board props retained.
+activity-plane-build,LettersActivityArt,src/letters/LettersActivityArt.js,Shared art pass,Source + rendered contact sheet,Pairs timber/felt and parade lining flattened; other board props retained.
+activity-plane-blend,LettersActivityArt,src/letters/LettersActivityArt.js,Shared art pass,Source + rendered contact sheet,Pairs timber/felt and parade lining flattened; other board props retained.
+activity-plane-fuse,LettersActivityArt,src/letters/LettersActivityArt.js,Shared art pass,Source + rendered contact sheet,Pairs timber/felt and parade lining flattened; other board props retained.
+activity-plane-unfuse,LettersActivityArt,src/letters/LettersActivityArt.js,Shared art pass,Source + rendered contact sheet,Pairs timber/felt and parade lining flattened; other board props retained.
+activity-plane-chain,LettersActivityArt,src/letters/LettersActivityArt.js,Shared art pass,Source + rendered contact sheet,Pairs timber/felt and parade lining flattened; other board props retained.
+activity-plane-parade,LettersActivityArt,src/letters/LettersActivityArt.js,Shared art pass,Source + rendered contact sheet,Pairs timber/felt and parade lining flattened; other board props retained.
+activity-plane-FriendPairs,LettersActivityArt,src/letters/LettersActivityArt.js,Shared art pass,Source + rendered contact sheet,Pairs timber/felt and parade lining flattened; other board props retained.
+activity-plane-FriendJigsaw,LettersActivityArt,src/letters/LettersActivityArt.js,Shared art pass,Source + rendered contact sheet,Pairs timber/felt and parade lining flattened; other board props retained.
+activity-plane-ColourFriend,LettersActivityArt,src/letters/LettersActivityArt.js,Shared art pass,Source + rendered contact sheet,Pairs timber/felt and parade lining flattened; other board props retained.
+activity-plane-BuildLetter,LettersActivityArt,src/letters/LettersActivityArt.js,Shared art pass,Source + rendered contact sheet,Pairs timber/felt and parade lining flattened; other board props retained.
+activity-plane-FillGap,LettersActivityArt,src/letters/LettersActivityArt.js,Shared art pass,Source + rendered contact sheet,Pairs timber/felt and parade lining flattened; other board props retained.
+activity-plane-DotsLast,LettersActivityArt,src/letters/LettersActivityArt.js,Shared art pass,Source + rendered contact sheet,Pairs timber/felt and parade lining flattened; other board props retained.
+activity-plane-SameLetter,LettersActivityArt,src/letters/LettersActivityArt.js,Shared art pass,Source + rendered contact sheet,Pairs timber/felt and parade lining flattened; other board props retained.
+activity-plane-PeekFlaps,LettersActivityArt,src/letters/LettersActivityArt.js,Shared art pass,Source + rendered contact sheet,Pairs timber/felt and parade lining flattened; other board props retained.
+activity-plane-SoundSort,LettersActivityArt,src/letters/LettersActivityArt.js,Shared art pass,Source + rendered contact sheet,Pairs timber/felt and parade lining flattened; other board props retained.
+activity-plane-HoopoeTrip,LettersActivityArt,src/letters/LettersActivityArt.js,Shared art pass,Source + rendered contact sheet,Pairs timber/felt and parade lining flattened; other board props retained.
+activity-plane-FriendShapes,LettersActivityArt,src/letters/LettersActivityArt.js,Shared art pass,Source + rendered contact sheet,Pairs timber/felt and parade lining flattened; other board props retained.
+activity-plane-BusyMarket,LettersActivityArt,src/letters/LettersActivityArt.js,Shared art pass,Source + rendered contact sheet,Pairs timber/felt and parade lining flattened; other board props retained.
+activity-plane-TwinCrown,LettersActivityArt,src/letters/LettersActivityArt.js,Shared art pass,Source + rendered contact sheet,Pairs timber/felt and parade lining flattened; other board props retained.
+activity-plane-ListenFind,LettersActivityArt,src/letters/LettersActivityArt.js,Shared art pass,Source + rendered contact sheet,Pairs timber/felt and parade lining flattened; other board props retained.
+activity-plane-WordGap,LettersActivityArt,src/letters/LettersActivityArt.js,Shared art pass,Source + rendered contact sheet,Pairs timber/felt and parade lining flattened; other board props retained.
+activity-plane-EchoParade,LettersActivityArt,src/letters/LettersActivityArt.js,Shared art pass,Source + rendered contact sheet,Pairs timber/felt and parade lining flattened; other board props retained.
+activity-plane-DotNests,LettersActivityArt,src/letters/LettersActivityArt.js,Shared art pass,Source + rendered contact sheet,Pairs timber/felt and parade lining flattened; other board props retained.
+activity-plane-BathTime,LettersActivityArt,src/letters/LettersActivityArt.js,Shared art pass,Source + rendered contact sheet,Pairs timber/felt and parade lining flattened; other board props retained.
+activity-plane-LetterFishing,LettersActivityArt,src/letters/LettersActivityArt.js,Shared art pass,Source + rendered contact sheet,Pairs timber/felt and parade lining flattened; other board props retained.
+activity-plane-LetterTrain,LettersActivityArt,src/letters/LettersActivityArt.js,Shared art pass,Source + rendered contact sheet,Pairs timber/felt and parade lining flattened; other board props retained.
+activity-plane-SpotChange,LettersActivityArt,src/letters/LettersActivityArt.js,Shared art pass,Source + rendered contact sheet,Pairs timber/felt and parade lining flattened; other board props retained.
+activity-plane-FamilyBuses,LettersActivityArt,src/letters/LettersActivityArt.js,Shared art pass,Source + rendered contact sheet,Pairs timber/felt and parade lining flattened; other board props retained.
+activity-plane-LanternHunt,LettersActivityArt,src/letters/LettersActivityArt.js,Shared art pass,Source + rendered contact sheet,Pairs timber/felt and parade lining flattened; other board props retained.
+activity-plane-LetterShadows,LettersActivityArt,src/letters/LettersActivityArt.js,Shared art pass,Source + rendered contact sheet,Pairs timber/felt and parade lining flattened; other board props retained.
+activity-plane-HatShop,LettersActivityArt,src/letters/LettersActivityArt.js,Shared art pass,Source + rendered contact sheet,Pairs timber/felt and parade lining flattened; other board props retained.
+living-book-day,LivingBookArt,src/letters/LivingBookArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+living-book-night,LivingBookArt,src/letters/LivingBookArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+living-book-props-day,LivingBookArt,src/letters/LivingBookArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+living-book-props-night,LivingBookArt,src/letters/LivingBookArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+living-book-bush,LivingBookArt,src/letters/LivingBookArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+look-bus-coral,LookPlayArt,src/letters/LookPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+look-bus-sky,LookPlayArt,src/letters/LookPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+look-bus-stop,LookPlayArt,src/letters/LookPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+look-stone,LookPlayArt,src/letters/LookPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+look-observe-find,LookPlayArt,src/letters/LookPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+look-observe-compare,LookPlayArt,src/letters/LookPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+practice-finish-free,PracticeFinishArt,src/letters/PracticeFinishArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+practice-finish-paid,PracticeFinishArt,src/letters/PracticeFinishArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+puzzle-echoStage,PuzzlePlayArt,src/letters/PuzzlePlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+puzzle-dotBench,PuzzlePlayArt,src/letters/PuzzlePlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+puzzle-dotStamp,PuzzlePlayArt,src/letters/PuzzlePlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+puzzle-turntable,PuzzlePlayArt,src/letters/PuzzlePlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+puzzle-turnHandle,PuzzlePlayArt,src/letters/PuzzlePlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+puzzle-matchFrame,PuzzlePlayArt,src/letters/PuzzlePlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+puzzle-station,PuzzlePlayArt,src/letters/PuzzlePlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+puzzle-stationShelter,PuzzlePlayArt,src/letters/PuzzlePlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+puzzle-engine,PuzzlePlayArt,src/letters/PuzzlePlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+puzzle-carriage,PuzzlePlayArt,src/letters/PuzzlePlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+puzzle-balloon-ffa798,PuzzlePlayArt,src/letters/PuzzlePlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+puzzle-balloon-96ecff,PuzzlePlayArt,src/letters/PuzzlePlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+puzzle-balloon-b7e779,PuzzlePlayArt,src/letters/PuzzlePlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+puzzle-balloon-ffe49a,PuzzlePlayArt,src/letters/PuzzlePlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+puzzle-balloon-b49fcf,PuzzlePlayArt,src/letters/PuzzlePlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+sand-rake,SandPlayArt,src/letters/SandPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+sand-setting,SandPlayArt,src/letters/SandPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+sound-lab-machine,SoundLabArt,src/letters/SoundLabArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+together-basket,TogetherPlayArt,src/letters/TogetherPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+together-mat,TogetherPlayArt,src/letters/TogetherPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+together-card-back,TogetherPlayArt,src/letters/TogetherPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+toy-chest-play,ToyChestArt,src/letters/ToyChestArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+toy-chest-listen,ToyChestArt,src/letters/ToyChestArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+toy-chest-read,ToyChestArt,src/letters/ToyChestArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+toy-chest-think,ToyChestArt,src/letters/ToyChestArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+toy-chest-write,ToyChestArt,src/letters/ToyChestArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+toy-chest-explore,ToyChestArt,src/letters/ToyChestArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+toy-studio-pair-leaf,ToyStudioArt,src/letters/ToyStudioArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+toy-studio-nest-0,ToyStudioArt,src/letters/ToyStudioArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+toy-studio-nest-1,ToyStudioArt,src/letters/ToyStudioArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+toy-studio-nest-2,ToyStudioArt,src/letters/ToyStudioArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+toy-studio-nest-3,ToyStudioArt,src/letters/ToyStudioArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+toy-studio-dot-tree,ToyStudioArt,src/letters/ToyStudioArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+toy-studio-count-perch,ToyStudioArt,src/letters/ToyStudioArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+toy-studio-puzzle-frame,ToyStudioArt,src/letters/ToyStudioArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+toy-studio-drawing-easel,ToyStudioArt,src/letters/ToyStudioArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+toy-studio-crayon-ee806f,ToyStudioArt,src/letters/ToyStudioArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+toy-studio-crayon-f3c955,ToyStudioArt,src/letters/ToyStudioArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+toy-studio-crayon-7fce54,ToyStudioArt,src/letters/ToyStudioArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+water-garden-scene,WaterPlayArt,src/letters/WaterPlayArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+waterside-fish-a,WatersideArt,src/letters/WatersideArt.js,Shared art pass,Source + rendered contact sheet,"Stone/reed silhouettes clarified; pond, dock and bath proportions retained."
+waterside-fish-b,WatersideArt,src/letters/WatersideArt.js,Shared art pass,Source + rendered contact sheet,"Stone/reed silhouettes clarified; pond, dock and bath proportions retained."
+waterside-pond,WatersideArt,src/letters/WatersideArt.js,Shared art pass,Source + rendered contact sheet,"Stone/reed silhouettes clarified; pond, dock and bath proportions retained."
+waterside-reeds,WatersideArt,src/letters/WatersideArt.js,Shared art pass,Source + rendered contact sheet,"Stone/reed silhouettes clarified; pond, dock and bath proportions retained."
+waterside-stones,WatersideArt,src/letters/WatersideArt.js,Shared art pass,Source + rendered contact sheet,"Stone/reed silhouettes clarified; pond, dock and bath proportions retained."
+waterside-dock,WatersideArt,src/letters/WatersideArt.js,Shared art pass,Source + rendered contact sheet,"Stone/reed silhouettes clarified; pond, dock and bath proportions retained."
+waterside-bathBackdrop,WatersideArt,src/letters/WatersideArt.js,Shared art pass,Source + rendered contact sheet,"Stone/reed silhouettes clarified; pond, dock and bath proportions retained."
+waterside-bathPlant,WatersideArt,src/letters/WatersideArt.js,Shared art pass,Source + rendered contact sheet,"Stone/reed silhouettes clarified; pond, dock and bath proportions retained."
+waterside-bathTowels,WatersideArt,src/letters/WatersideArt.js,Shared art pass,Source + rendered contact sheet,"Stone/reed silhouettes clarified; pond, dock and bath proportions retained."
+waterside-sponge,WatersideArt,src/letters/WatersideArt.js,Shared art pass,Source + rendered contact sheet,"Stone/reed silhouettes clarified; pond, dock and bath proportions retained."
+waterside-shower,WatersideArt,src/letters/WatersideArt.js,Shared art pass,Source + rendered contact sheet,"Stone/reed silhouettes clarified; pond, dock and bath proportions retained."
+word-wardrobe-dressingNook,WordWardrobeArt,src/letters/WordWardrobeArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+word-wardrobe-crownStage,WordWardrobeArt,src/letters/WordWardrobeArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+word-wardrobe-readingNook,WordWardrobeArt,src/letters/WordWardrobeArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+word-wardrobe-bookCradle,WordWardrobeArt,src/letters/WordWardrobeArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+workshop-shadow-assemblyBoard,WorkshopShadowArt,src/letters/WorkshopShadowArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+workshop-shadow-pictureFrame,WorkshopShadowArt,src/letters/WorkshopShadowArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+workshop-shadow-theatreFrame,WorkshopShadowArt,src/letters/WorkshopShadowArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+workshop-shadow-nightGarden,WorkshopShadowArt,src/letters/WorkshopShadowArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+workshop-shadow-nightTree,WorkshopShadowArt,src/letters/WorkshopShadowArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+workshop-shadow-lantern,WorkshopShadowArt,src/letters/WorkshopShadowArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+workshop-shadow-jar,WorkshopShadowArt,src/letters/WorkshopShadowArt.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+shared-key-mascot,LettersArt,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Key/blob flat materials; rounded sticker packet and feeding-face proportions. Other shared symbols retained.
+shared-blob-card-ba,LettersArt,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Key/blob flat materials; rounded sticker packet and feeding-face proportions. Other shared symbols retained.
+shared-letter-sign-ba,LettersArt,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Key/blob flat materials; rounded sticker packet and feeding-face proportions. Other shared symbols retained.
+shared-sticker-pack,LettersArt,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Key/blob flat materials; rounded sticker packet and feeding-face proportions. Other shared symbols retained.
+shared-egg-closed,LettersArt,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Key/blob flat materials; rounded sticker packet and feeding-face proportions. Other shared symbols retained.
+shared-egg-cracked,LettersArt,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Key/blob flat materials; rounded sticker packet and feeding-face proportions. Other shared symbols retained.
+shared-egg-shells,LettersArt,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Key/blob flat materials; rounded sticker packet and feeding-face proportions. Other shared symbols retained.
+shared-skill-flower,LettersArt,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Key/blob flat materials; rounded sticker packet and feeding-face proportions. Other shared symbols retained.
+shared-art-icon-sprout,LettersArt,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Key/blob flat materials; rounded sticker packet and feeding-face proportions. Other shared symbols retained.
+shared-art-icon-flower,LettersArt,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Key/blob flat materials; rounded sticker packet and feeding-face proportions. Other shared symbols retained.
+letter-friends-example,shared-friend-art,src/letters/LetterFriends.js,Retained after review,Source + rendered contact sheet,Current silhouette and material treatment retained; see report for composition review limits.
+shared-icon-speaker,LettersArt,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Key/blob flat materials; rounded sticker packet and feeding-face proportions. Other shared symbols retained.
+shared-icon-play,LettersArt,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Key/blob flat materials; rounded sticker packet and feeding-face proportions. Other shared symbols retained.
+shared-icon-next,LettersArt,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Key/blob flat materials; rounded sticker packet and feeding-face proportions. Other shared symbols retained.
+shared-icon-replay,LettersArt,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Key/blob flat materials; rounded sticker packet and feeding-face proportions. Other shared symbols retained.
+shared-icon-undo,LettersArt,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Key/blob flat materials; rounded sticker packet and feeding-face proportions. Other shared symbols retained.
+shared-icon-check,LettersArt,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Key/blob flat materials; rounded sticker packet and feeding-face proportions. Other shared symbols retained.
+shared-icon-book,LettersArt,src/letters/LettersArt.js,Shared art pass,Source + rendered contact sheet,Key/blob flat materials; rounded sticker packet and feeding-face proportions. Other shared symbols retained.

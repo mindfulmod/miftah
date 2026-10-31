@@ -1,0 +1,41 @@
+{
+  "stage": "teacher-consonants-v1",
+  "model": "gpt-4o-mini-tts-2025-03-20",
+  "voice": "marin",
+  "speed": 1,
+  "response_format": "wav",
+  "jobs": [
+    {
+      "id": "lg-fc64a7da85e6",
+      "input": "كِ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Pronunciation guidance only: كاف مكسورة, phonemes /k/ then short /i/, one syllable /ki/. Articulate the initial ك clearly, then the short vowel, once. These directions are not spoken text. Say only the Arabic input; no explanation or letter names.",
+      "replacesSha256": "ae090f427d47c9b71329603b87182f0f9c3f6ec82eb3c0ee95d482c3ef5ab1ee",
+      "originalFile": "teacher-library-candidates/lg-fc64a7da85e6.wav",
+      "variant": "explicit-consonant-guidance"
+    },
+    {
+      "id": "lg-0ee7bf085410",
+      "input": "تِ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Pronunciation guidance only: تاء مكسورة, phonemes /t/ then short /i/, one syllable /ti/. Articulate the initial ت clearly, then the short vowel, once. These directions are not spoken text. Say only the Arabic input; no explanation or letter names.",
+      "replacesSha256": "23ffdfc8487ea301a09f829aad3eb21612bb521ce86bb85aabc06b51149ef14a",
+      "originalFile": "teacher-library-candidates/lg-0ee7bf085410.wav",
+      "variant": "explicit-consonant-guidance"
+    },
+    {
+      "id": "lg-de1e5cba8529",
+      "input": "تِمْسَاح",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Pronunciation guidance only: /tim.saːħ/. The first consonant is ت /t/, immediately followed by short /i/ and /m/. Continue into /saːħ/ as one smoothly spoken Arabic word. Preserve the long /aː/ and final ح /ħ/. These directions are not spoken text. Say only the Arabic input; no explanation or letter names.",
+      "replacesSha256": "d65510b33e32c04a228509ecfa39e6401ad94986da697d58019ac99fbbed2677",
+      "originalFile": "teacher-library-candidates/lg-de1e5cba8529.wav",
+      "variant": "explicit-consonant-guidance"
+    }
+  ],
+  "planningReservationUSD": 0.15,
+  "changed": "Replace the ambiguous phrase direct vowel onsets with clear word beginnings; append item-specific pronunciation guidance. Keep model, voice, speed, input text, and remaining delivery direction unchanged.",
+  "limitation": "Unproven targeted generation test, not phoneme-level API control. Does not address the other tanwin or robotic-artifact cases. No automatic installation or retries.",
+  "ownerFinding": "The single-letter items have wrong letters; the word starts with the wrong letter. Silence-only comparison did not establish a repair.",
+  "docs": "https://developers.openai.com/api/docs/guides/text-to-speech"
+}

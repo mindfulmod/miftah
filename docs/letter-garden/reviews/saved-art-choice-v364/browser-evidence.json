@@ -1,0 +1,396 @@
+{
+  "cancel": {
+    "keys": [
+      "art1",
+      "art2",
+      "art3"
+    ],
+    "persistedMatch": true,
+    "layout": {
+      "version": 1,
+      "slots": [
+        "sign:art1",
+        null,
+        null,
+        null
+      ]
+    },
+    "exits": 0,
+    "decision": null,
+    "failSave": false,
+    "dialog": false,
+    "busy": false,
+    "marks": 1,
+    "changes": {
+      "art1": 6042,
+      "art2": 7030,
+      "art3": 7846
+    }
+  },
+  "failure": {
+    "keys": [
+      "art1",
+      "art2",
+      "art3"
+    ],
+    "persistedMatch": true,
+    "layout": {
+      "version": 1,
+      "slots": [
+        "sign:art1",
+        null,
+        null,
+        null
+      ]
+    },
+    "exits": 0,
+    "decision": null,
+    "failSave": true,
+    "dialog": false,
+    "busy": false,
+    "marks": 1,
+    "changes": {
+      "art1": 6042,
+      "art2": 7030,
+      "art3": 7846
+    }
+  },
+  "phone": {
+    "controls": [
+      {
+        "bottom": 348.65625,
+        "h": 75.328125,
+        "label": "Replace picture 1, displayed in your garden",
+        "left": 35,
+        "right": 110.328125,
+        "top": 273.328125,
+        "w": 75.328125
+      },
+      {
+        "bottom": 348.66424560546875,
+        "h": 75.33544921875,
+        "label": "Replace picture 2",
+        "left": 122.328369140625,
+        "right": 197.663818359375,
+        "top": 273.32879638671875,
+        "w": 75.33544921875
+      },
+      {
+        "bottom": 348.6640625,
+        "h": 75.3359375,
+        "label": "Replace picture 3",
+        "left": 209.6640625,
+        "right": 285,
+        "top": 273.328125,
+        "w": 75.3359375
+      },
+      {
+        "bottom": 450.6640625,
+        "h": 56,
+        "label": "Keep my saved pictures and return to drawing",
+        "left": 78,
+        "right": 142,
+        "top": 394.6640625,
+        "w": 64
+      },
+      {
+        "bottom": 450.6640625,
+        "h": 56,
+        "label": "Save this replacement",
+        "left": 178,
+        "right": 242,
+        "top": 394.6640625,
+        "w": 64
+      }
+    ],
+    "dialog": {
+      "bottom": 470.6640625,
+      "client": 365,
+      "left": 19,
+      "right": 301,
+      "scroll": 365,
+      "top": 97.328125
+    },
+    "height": 568,
+    "width": 320
+  },
+  "landscape": {
+    "bottom": 305.5,
+    "client": 228,
+    "height": 375,
+    "left": 28.5,
+    "right": 638.5,
+    "scroll": 228,
+    "top": 69.5,
+    "width": 667
+  },
+  "saved": {
+    "keys": [
+      "art1",
+      "art3",
+      "art2"
+    ],
+    "persistedMatch": true,
+    "layout": {
+      "version": 1,
+      "slots": [
+        "sign:art1",
+        null,
+        null,
+        null
+      ]
+    },
+    "exits": 1,
+    "decision": null,
+    "failSave": false,
+    "dialog": false,
+    "busy": false,
+    "changes": {
+      "art1": 6042,
+      "art3": 7846,
+      "art2": 6818
+    }
+  },
+  "afterTracing": {
+    "keys": [
+      "art1",
+      "art3",
+      "art2",
+      "l12",
+      "l13",
+      "l14",
+      "l15",
+      "l16",
+      "l17",
+      "l18",
+      "l19"
+    ],
+    "persistedMatch": true,
+    "layout": {
+      "version": 1,
+      "slots": [
+        "sign:art1",
+        null,
+        null,
+        null
+      ]
+    },
+    "exits": 1,
+    "decision": null,
+    "failSave": false,
+    "dialog": false,
+    "busy": false,
+    "changes": {
+      "art1": 6042,
+      "art3": 7846,
+      "art2": 6818,
+      "l12": 5694,
+      "l13": 5694,
+      "l14": 5694,
+      "l15": 5694,
+      "l16": 5694,
+      "l17": 5694,
+      "l18": 5694,
+      "l19": 5694
+    }
+  },
+  "reload": {
+    "keys": [
+      "art1",
+      "art3",
+      "art2",
+      "l12",
+      "l13",
+      "l14",
+      "l15",
+      "l16",
+      "l17",
+      "l18",
+      "l19"
+    ],
+    "persistedMatch": true,
+    "layout": {
+      "version": 1,
+      "slots": [
+        "sign:art1",
+        null,
+        null,
+        null
+      ]
+    },
+    "exits": 0,
+    "decision": null,
+    "failSave": false,
+    "dialog": false,
+    "busy": false,
+    "changes": {
+      "art1": 6042,
+      "art3": 7846,
+      "art2": 6818,
+      "l12": 5694,
+      "l13": 5694,
+      "l14": 5694,
+      "l15": 5694,
+      "l16": 5694,
+      "l17": 5694,
+      "l18": 5694,
+      "l19": 5694
+    }
+  },
+  "garden": {
+    "savedPictureCount": 11,
+    "sign": "Garden space 1, art1 sign"
+  },
+  "colourCancel": {
+    "keys": [
+      "art1",
+      "art3",
+      "art2",
+      "l12",
+      "l13",
+      "l14",
+      "l15",
+      "l16",
+      "l17",
+      "l18",
+      "l19"
+    ],
+    "persistedMatch": true,
+    "layout": {
+      "version": 1,
+      "slots": [
+        "sign:art1",
+        null,
+        null,
+        null
+      ]
+    },
+    "exits": 0,
+    "decision": null,
+    "failSave": false,
+    "dialog": false,
+    "busy": false,
+    "ink": 3,
+    "changes": {
+      "art1": 6042,
+      "art3": 7846,
+      "art2": 6818,
+      "l12": 5694,
+      "l13": 5694,
+      "l14": 5694,
+      "l15": 5694,
+      "l16": 5694,
+      "l17": 5694,
+      "l18": 5694,
+      "l19": 5694
+    }
+  },
+  "reducedMotion": {
+    "animations": [],
+    "enabled": true,
+    "images": [
+      {
+        "loaded": true
+      },
+      {
+        "loaded": true
+      },
+      {
+        "loaded": true
+      },
+      {
+        "loaded": true
+      },
+      {
+        "loaded": true
+      }
+    ]
+  },
+  "colourSaved": {
+    "keys": [
+      "art3",
+      "art2",
+      "l12",
+      "l13",
+      "l14",
+      "l15",
+      "l16",
+      "l17",
+      "l18",
+      "l19",
+      "art1"
+    ],
+    "persistedMatch": true,
+    "layout": {
+      "version": 1,
+      "slots": [
+        "sign:art1",
+        null,
+        null,
+        null
+      ]
+    },
+    "exits": 0,
+    "decision": null,
+    "failSave": false,
+    "dialog": false,
+    "busy": false,
+    "ink": 3,
+    "changes": {
+      "art3": 7846,
+      "art2": 6818,
+      "l12": 5694,
+      "l13": 5694,
+      "l14": 5694,
+      "l15": 5694,
+      "l16": 5694,
+      "l17": 5694,
+      "l18": 5694,
+      "l19": 5694,
+      "art1": 7902
+    }
+  },
+  "screenChange": {
+    "keys": [
+      "art3",
+      "art2",
+      "l12",
+      "l13",
+      "l14",
+      "l15",
+      "l16",
+      "l17",
+      "l18",
+      "l19",
+      "art1"
+    ],
+    "persistedMatch": true,
+    "layout": {
+      "version": 1,
+      "slots": [
+        "sign:art1",
+        null,
+        null,
+        null
+      ]
+    },
+    "exits": 0,
+    "decision": null,
+    "failSave": false,
+    "dialog": false,
+    "busy": false,
+    "changes": {
+      "art3": 7846,
+      "art2": 6818,
+      "l12": 5694,
+      "l13": 5694,
+      "l14": 5694,
+      "l15": 5694,
+      "l16": 5694,
+      "l17": 5694,
+      "l18": 5694,
+      "l19": 5694,
+      "art1": 7902
+    }
+  }
+}

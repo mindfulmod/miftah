@@ -67,9 +67,9 @@ test("v55 Press feel: sink while held, lip squashes, spring on release, ripple a
   assert.match(touch, /bloom\(e\.clientX, e\.clientY, true\); return;/, "empty ground answers with a quiet ripple");
   assert.match(touch, /this\._lastTapSound = performance\.now\(\);\n\s+try \{ this\.sound\.press\(sizeOf\(el\)\); \} catch \{\}\n\s+ns\.Haptics\.pulse\("press"\);/);
   const css = read("styles/letters-friends.css");
-  assert.match(css, /\.lg-app \.is-pressed \{ translate: 0 3px; scale: \.95;/, "separate properties never clobber a game's own transform");
-  assert.match(css, /@keyframes lg-spring \{ 0% \{ translate: 0 3px; scale: \.95; \} 40% \{ translate: 0 -2px; scale: 1\.04; \}/, "springs past level, then settles");
-  assert.match(css, /\.pz-tile, \.vh-choice, \.ws-piece, \.wd-card, \.wd-piece\)\.is-pressed \{ translate: 0 4px; box-shadow: 0 1px 0 #c9bda4/);
+  assert.match(css, /\.lg-app \.is-pressed \{ translate: 0 1px; scale: \.985;/, "separate properties never clobber a game's own transform");
+  assert.match(css, /@keyframes lg-spring \{ from \{ translate: 0 1px; scale: \.985; \} to \{ translate: 0 0; scale: 1; \} \}/, "smooth return without overshoot");
+  assert.match(css, /\.pz-tile, \.vh-choice, \.ws-piece, \.wd-card, \.wd-piece\)\.is-pressed \{ translate: 0 1px; box-shadow: 0 1px 0 #c9bda4/);
   assert.match(css, /@media \(prefers-reduced-motion: reduce\) \{\n\s+\.lg-app \.is-pressed \{ translate: none; scale: none; transition: none; filter: brightness\(\.92\); \}/, "reduced motion: a darken, no movement");
   assert.doesNotMatch(css, /\.pz-tile:active/, "the old per-game :active presses are gone (no double press)");
   assert.deepEqual(off(css), []);

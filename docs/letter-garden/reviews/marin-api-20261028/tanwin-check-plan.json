@@ -1,0 +1,51 @@
+{
+  "stage": "teacher-tanwin-v1",
+  "model": "gpt-4o-mini-tts-2025-03-20",
+  "voice": "marin",
+  "speed": 1,
+  "reason": "22 of the 25 held reviewed items are tanwin. Test one example of each ending with explicit final noon in generation input only. Keep displayed game text and lookup keys unchanged. Owner listening required; no automatic installation.",
+  "scope": "Isolated teaching sounds only; not Quran recitation or pausal-reading rules.",
+  "jobs": [
+    {
+      "id": "lg-f379784096ab",
+      "input": "بَنْ",
+      "targetInput": "بً",
+      "targetId": "lg-aff5a3784268",
+      "replacesSha256": "c072e1a2701fc86b3f06f07544a763bb07af48001e5d433660c1fefb71efa062",
+      "sourceFile": "teacher-library-candidates/lg-aff5a3784268.wav",
+      "expectedSound": "ban",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. This is one isolated teaching syllable, not a letter name or a recitation. Pronounce the short vowel followed by the final noon once, as a single connected syllable. Keep the vowel short and the final n brief; no extra vowel after n.",
+      "variant": "explicit-final-noon-teaching-syllable",
+      "ownerNote": "sounds like beh"
+    },
+    {
+      "id": "lg-f43f7fe0a534",
+      "input": "طِنْ",
+      "targetInput": "طٍ",
+      "targetId": "lg-5fd45680f580",
+      "replacesSha256": "27a1c155d8509b9edc86cfc25bbce5db5b1d98ebd805373894cc77d26e313ad0",
+      "sourceFile": "teacher-library-candidates/lg-5fd45680f580.wav",
+      "expectedSound": "ṭin",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. This is one isolated teaching syllable, not a letter name or a recitation. Pronounce the short vowel followed by the final noon once, as a single connected syllable. Keep the vowel short and the final n brief; no extra vowel after n.",
+      "variant": "explicit-final-noon-teaching-syllable",
+      "ownerNote": "sounds like un"
+    },
+    {
+      "id": "lg-4add5a512525",
+      "input": "ضُنْ",
+      "targetInput": "ضٌ",
+      "targetId": "lg-55c1cc57ce2e",
+      "replacesSha256": "4215f0d8965ec8246db8ad91c912172b85df0b95ef983299fcff2a50a09e025d",
+      "sourceFile": "teacher-library-candidates/lg-55c1cc57ce2e.wav",
+      "expectedSound": "ḍun",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. This is one isolated teaching syllable, not a letter name or a recitation. Pronounce the short vowel followed by the final noon once, as a single connected syllable. Keep the vowel short and the final n brief; no extra vowel after n.",
+      "variant": "explicit-final-noon-teaching-syllable",
+      "ownerNote": "sounds like dan, should be dun"
+    }
+  ],
+  "planningReservationUSD": 0.15,
+  "newPaidRequestsMade": 0
+}

@@ -41,8 +41,8 @@ test('fresh review candidates are excluded from runtime and offline shell', () =
   const shell = read('sw.js').toString();
   for (const id of queue.itemIds) {
     const approved = completed.decisions[id].verdict === 'correct';
-    assert.equal(runtime.includes(id), approved);
-    assert.equal(shell.includes(id), approved);
+    assert.equal(runtime.includes(byId.get(id).file), approved);
+    assert.equal(shell.includes(byId.get(id).file), approved);
   }
   const selected = queue.itemIds.map(id => byId.get(id));
   for (let i = 0; i < selected.length; i++) for (let j = i + 1; j < selected.length; j++) {

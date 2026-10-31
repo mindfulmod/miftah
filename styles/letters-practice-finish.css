@@ -1,0 +1,70 @@
+/* One quiet ending shared by toys. The child decides when to leave. */
+.lg-app .lg-play[data-practice-finished] .practice-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1 0 auto;
+  width: 100%;
+  min-height: 0;
+  padding: 12px 10px 24px;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+  overflow: visible;
+}
+.lg-app .lg-play[data-practice-finished] .practice-heading { display: none; }
+.practice-finish {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  width: min(100%, 560px);
+  margin: auto;
+  animation: practice-finish-arrive 300ms ease-out both;
+}
+.practice-finish-scene { width: 100%; aspect-ratio: 3 / 2; }
+.practice-finish-scene > svg { display: block; width: 100%; height: 100%; }
+.practice-finish-scene .pf-pet > .lg-animal { width: 100% !important; height: 100% !important; }
+.practice-finish-scene .pf-pet > .lg-animal svg { object-fit: contain; }
+.lg-app .practice-finish-picture { display: block; padding: 0; border: 0; border-radius: 28px; background: transparent; box-shadow: none; color: #4a3620; cursor: pointer; touch-action: manipulation; }
+.practice-finish-picture > * { pointer-events: none; }
+.practice-finish-picture:focus-visible { outline: 4px solid var(--lg-focus); outline-offset: 3px; }
+.practice-finish-picture:active:not(:disabled) { translate: 0 2px; }
+.practice-finish-picture:disabled { cursor: default; }
+.practice-finish-actions { display: flex; align-items: center; justify-content: center; gap: 30px; padding: 0 6px 8px; }
+.practice-finish-actions button {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  padding: 10px;
+  border: 4px solid #4a3620;
+  border-radius: 26px;
+  background: #fffaf0;
+  box-shadow: 0 5px 0 #c9bda4;
+  color: #4a3620;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform 120ms ease-out, box-shadow 120ms ease-out;
+}
+.practice-finish-actions .practice-finish-next { width: 96px; height: 72px; background: #b7e779; box-shadow: 0 5px 0 #4e9677; }
+.practice-finish-actions button svg { display: block; width: 40px; height: 40px; pointer-events: none; }
+.practice-finish-actions button:active { transform: translateY(3px); box-shadow: 0 2px 0 #c9bda4; }
+.practice-finish-actions button:focus-visible { outline: 4px solid var(--lg-focus); outline-offset: 5px; }
+.practice-finish-actions button:disabled { cursor: default; }
+@keyframes practice-finish-arrive { from { opacity: 0; transform: translateY(8px); } }
+@media (max-width: 359px) {
+  .lg-app .lg-play[data-practice-finished] .practice-stage { padding-inline: 0; }
+  .practice-finish-actions { gap: 24px; }
+}
+@media (max-height: 500px) and (orientation: landscape) {
+  .lg-app .lg-play[data-practice-finished] .practice-stage { padding: 0 12px 12px; }
+  .practice-finish { width: min(100%, 600px); grid-template-columns: minmax(0, 360px) auto; gap: 18px; }
+  .practice-finish-actions { flex-direction: column-reverse; gap: 18px; padding: 0 8px 8px; }
+}
+.practice-finish.is-still, .lg-reduce-motion .practice-finish { animation: none; }
+.practice-finish.is-still button, .lg-reduce-motion .practice-finish button { transition: none; }
+@media (prefers-reduced-motion: reduce) {
+  .practice-finish { animation: none; }
+  .practice-finish button { transition: none; }
+}

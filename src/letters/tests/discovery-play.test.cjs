@@ -32,13 +32,13 @@ function stage(){let nodes=[],html='';const all=()=>{const out=[];const visit=a=
 function runtime(){const timers=[],ns={LettersArt:{icon:()=>'<svg/>',inkShift:()=>({dx:0,dy:0})}},box={window:{MiftahGame:ns,addEventListener(){},removeEventListener(){}},document:{createElement:()=>node()},setTimeout:(f,ms)=>{timers.push({f,ms});return timers.length},clearTimeout(){},setInterval:()=>1,clearInterval(){},performance:{now:()=>0}};for(const f of ['GardenPractice','MiniGames'])vm.runInNewContext(fs.readFileSync(path.join(__dirname,'..',f+'.js'),'utf8'),box);return {ns,timers}}
 const item=(id,display,speak,parts)=>({id,display,speak,parts});
 function harness(kind,{rounds=2}={}){
- const {ns,timers}=runtime(),s=stage(),outcomes=[],spoken=[],prompts=[];let done=0;
+ const {ns,timers}=runtime(),s=stage(),outcomes=[],spoken=[],prompts=[],progress=[];let done=0;
  const parts=[{id:'b',display:'ب',speak:'بَاءْ'},{id:'t',display:'ت',speak:'تَاءْ'}];
  const target=item('bt','بت','بَاءْ، تَاءْ',parts),other=item('jm','جم','جِيمْ، مِيمْ',[{id:'j',display:'ج',speak:'جِيمْ'},{id:'m',display:'م',speak:'مِيمْ'}]);
  const letters=[{id:'b',display:'ب',speak:'بَاءْ',joins:true},{id:'t',display:'ت',speak:'تَاءْ',joins:true},{id:'m',display:'م',speak:'مِيمْ',joins:true}];
- const ctx={items:[target,other],extraItems:letters,rounds,stage:s,setPrompt:(...x)=>prompts.push(x),say:x=>spoken.push(x),reportOutcome:e=>outcomes.push(e),sfx(){},confettiAt(){},onDone(){done++},reducedMotion:()=>true};
+ const ctx={setRoundProgress:(...values)=>progress.push(values),items:[target,other],extraItems:letters,rounds,stage:s,setPrompt:(...x)=>prompts.push(x),say:x=>spoken.push(x),reportOutcome:e=>outcomes.push(e),sfx(){},confettiAt(){},onDone(){done++},reducedMotion:()=>true};
  const game=kind==='unfuse'?new ns.LettersMiniGames.unfuse(ctx):new ns.LettersMiniGames.parade(ctx);
- return {game,ctx,s,timers,outcomes,spoken,prompts,get done(){return done},target,other,letters};
+ return {game,ctx,s,timers,outcomes,spoken,prompts,progress,get done(){return done},target,other,letters};
 }
 
 test('Unfuse separates into unscored exploration, then requires the explicit find action before its quiz',()=>{
@@ -109,6 +109,7 @@ test('Parade requires all three reveals and completes the three-round recall exa
  const t=harness('parade');
  assert.equal(t.game.letters.length,3);
  for(let round=0;round<3;round++){
+  assert.deepEqual(t.progress,Array.from({length:round+1},(_,i)=>[i+1,3]));
   const staleSpots=t.s.querySelectorAll('.parade-spot');
   const nextExplore=t.s.querySelector('.parade-continue');
   assert.equal(nextExplore.hidden,true);
@@ -128,11 +129,13 @@ test('Parade requires all three reveals and completes the three-round recall exa
   correct.click();
   assert.equal(t.outcomes.filter(outcome=>outcome.correct===true).length,round+1);
   const nextRecall=t.s.querySelector('.parade-next');
+  assert.equal(t.progress.length,round+1,'reveals and recall hold the current seed until Next');
   nextRecall.click();nextRecall.click();
   assert.equal(t.game.roundIndex,round+1);
   staleSpots[0].click();
  }
  assert.equal(t.game.alive,false);
+ assert.deepEqual(t.progress,[[1,3],[2,3],[3,3]],'completion never creates a fourth round');
  assert.equal(t.done,1);
  assert.equal(t.outcomes.filter(outcome=>outcome.correct===true).length,3);
 });

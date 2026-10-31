@@ -1,0 +1,33 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Letter Garden — three pronunciation corrections</title>
+<style>body{font:17px/1.5 system-ui;max-width:780px;margin:28px auto;padding:0 18px;background:#fffaf0;color:#342d25}article,section{background:white;border:1px solid #c9bda4;border-radius:16px;padding:18px;margin:18px 0}h1{font-size:28px}h2{font-size:32px;margin:0}audio{display:block;width:100%;margin:8px 0 16px}a{color:#145e76}code{display:block;background:#f5f1e8;border-radius:10px;padding:14px;font-size:14px;overflow-wrap:anywhere}button{font:inherit;min-height:44px;padding:8px 18px}small{display:block}[hidden]{display:none!important}</style>
+<h1>Three pronunciation corrections</h1>
+<p>Review recorded: كِ and تِ are approved. تِمْسَاح still sounds like “imsah” and remains held. The written word correctly begins with ت. No repeat review of the first two is needed.</p>
+<section><p>This three-item test is complete. Two corrections were accepted; the word needs a different approach. The larger batch remains paused.</p>
+<code id="command">env -u OPENAI_API_KEY python3 "/Users/main/Documents/GitHub/miftah/.local-work/letter-garden-next-major/scripts/letter-garden-marin-api.py" --generate --pronunciation-check</code>
+<p>Enter your key privately in Terminal. Three requests use a $0.15 planning allowance; actual billing may differ. No automatic retries or game installation.</p>
+<button id="refresh">Refresh recordings</button><p id="status" role="status">Loading…</p></section><div id="rows"></div>
+<p>Your decisions are saved against these exact recordings. The rejected word has not been installed.</p>
+<script>
+'use strict';
+const node=(tag,text)=>{const e=document.createElement(tag);if(text)e.textContent=text;return e};
+function player(label,file){const wrap=node('label',label),a=node('audio');a.controls=true;a.preload='none';a.src='../../'+file;a.setAttribute('aria-label',label);a.onplay=()=>document.querySelectorAll('audio').forEach(other=>{if(a!==other)other.pause()});wrap.append(a);return wrap;}
+async function load(){try{
+ const [plan,text,owner]=await Promise.all([fetch('../../pronunciation-check-plan.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error();return r.json()}),fetch('../../api-events.jsonl',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error();return r.text()}),fetch('owner-review.json',{cache:'no-store'}).then(r=>r.ok?r.json():null)]);
+ if(plan.stage!=='teacher-consonants-v1'||plan.jobs.length!==3)throw Error();
+ const events=text.split('\n').filter(Boolean).map(JSON.parse).filter(e=>e.stage===plan.stage);let ready=0;
+ document.querySelector('#rows').replaceChildren();
+ for(const job of plan.jobs){
+  const card=node('article'),h=node('h2',job.input);h.lang='ar';h.dir='rtl';card.append(h);
+  if(job.originalFile!==`teacher-library-candidates/${job.id}.wav`)throw Error();
+  card.append(player('Previous rejected recording: '+job.input,job.originalFile));
+  const c=events.filter(e=>e.id===job.id&&e.event==='candidate').at(-1);
+  if(c&&c.file===`pronunciation-candidates/${job.id}.wav`&&/^[a-f0-9]{64}$/.test(c.sha256)){card.append(player('New pronunciation test: '+job.input,c.file+'?v='+c.sha256));ready++;const r=owner?.reviews?.find(r=>r.id===job.id&&r.sha256===c.sha256);if(r)card.append(node('p',r.decision==='correct'?'Approved — no repeat review needed.':'Held — still missing the initial ت sound according to your review.'));if(c.flags?.length)card.append(node('small','File check needs attention: '+c.flags.join(', ')));}
+  else card.append(node('p','New recording not available yet.'));
+  document.querySelector('#rows').append(card);
+ }
+ document.querySelector('#command').hidden=Boolean(owner)||events.some(e=>e.event==='attempt');
+ document.querySelector('#status').textContent=`${ready} of 3 new recordings ready. `+(events.some(e=>e.event==='stopped')?'The run stopped. Tell Codex what Terminal reports before another attempt.':ready===3?'Ready for your listening review.':events.length?'Check Terminal for completion, then refresh.':'Run the command above.');
+if(owner?.reviews?.length===3)document.querySelector('#status').textContent='Review saved: 2 approved, 1 held. No new generation enabled.';
+}catch{document.querySelector('#status').textContent='Could not read the test status. Tell Codex before generating.';document.querySelector('#command').hidden=true;}}
+document.querySelector('#refresh').onclick=load;load();
+</script></html>

@@ -1,0 +1,42 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Letter Garden — three tanwīn sounds</title>
+<style>body{font:18px/1.55 system-ui;max-width:780px;margin:32px auto;padding:0 20px;background:#fffaf0;color:#342d25}section{padding:20px;margin:20px 0;background:white;border:1px solid #c9bda4;border-radius:16px}audio{display:block;width:100%;margin:12px 0}button{font:inherit;min-height:44px;padding:8px 16px;margin:5px}button[aria-pressed=true]{background:#d5eee0}textarea{box-sizing:border-box;width:100%;min-height:76px;font:inherit;padding:10px}code{display:block;white-space:pre-wrap;overflow-wrap:anywhere;background:#eee9dc;padding:16px}.arabic{font-size:38px}a{color:#145e76}</style>
+<h1 id="title">Tanwīn repairs</h1><p>Eight repairs from your latest review. The three contextual shadda examples remain on hold.</p>
+<p>Previously approved clips stay unchanged. Review these new recordings before installation.</p>
+<p id="next-batch" hidden><a href="?batch=repair">Repair only wun and tan</a></p><section><h2>Your next step</h2><p id="generate-help">Run this in Terminal. It asks privately for your API key and makes at most 8 requests. Planning allowance: $0.40, not measured billing. It never retries a completed or stopped attempt.</p><code id="command">env -u OPENAI_API_KEY python3 "/Users/main/Documents/GitHub/miftah/.local-work/letter-garden-next-major/scripts/letter-garden-combined64-repair8.py" --generate</code><button id="refresh">Refresh recordings</button><button id="export">Download my review</button><p id="summary" role="status">Loading…</p><p id="warning" role="status"></p></section>
+<div id="rows"></div><p>Listen for the correct starting consonant and vowel. No extra syllables, repetition or robotic sounds. Mark each new recording and leave notes, then tell Codex you’re done. New recordings remain outside the game until approved.</p><p><a href="../?batch=issues">Other held items and saved notes</a></p>
+<script>
+'use strict';
+const batch=new URLSearchParams(location.search).get('batch'),repair=true,remaining=batch==='remaining',STAGE=repair?'teacher-combined64-repair8-v1':remaining?'teacher-tanwin-remaining-v1':'teacher-tanwin-v1',PREFIX=repair?'combined64-repair8':remaining?'tanwin-remaining':'tanwin',PLAN=repair?'combined64-repair8-plan.json':remaining?'tanwin-remaining-plan.json':'tanwin-check-plan.json';
+const STORE=repair?'letter-garden:combined64-repair8-review:v1':remaining?'letter-garden:teacher-tanwin-remaining-review:v1':'letter-garden:teacher-tanwin-review:v1';let reviews={},jobs=[],available=new Map();
+try{reviews=JSON.parse(localStorage.getItem(STORE)||'{}');if(!reviews||Array.isArray(reviews)||typeof reviews!=='object')reviews={};}catch{}
+const el=(tag,text)=>{const n=document.createElement(tag);if(text!=null)n.textContent=text;return n};
+function decision(job){const c=available.get(job.id),r=reviews[job.id];return c&&r?.sha256===c.sha256?r:null;}
+function summary(){document.querySelector('#summary').textContent=`${available.size} / ${jobs.length} recordings ready · ${jobs.filter(j=>decision(j)?.decision==='correct').length} marked correct · ${jobs.filter(j=>decision(j)?.decision==='fix').length} need a fix`;}
+function save(){try{localStorage.setItem(STORE,JSON.stringify(reviews));document.querySelector('#warning').textContent='';}catch{document.querySelector('#warning').textContent='Browser storage unavailable. Download your review before leaving.';}summary();}
+async function load(){try{
+ const [plan,ledger,approved,remainingReview]=await Promise.all([fetch('../../'+PLAN,{cache:'no-store'}).then(r=>{if(!r.ok)throw Error();return r.json()}),fetch('../../api-events.jsonl',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error();return r.text()}),fetch('../install-approval-tanwin3-20261029.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error();return r.json()}),fetch('../tanwin-remaining-owner-review.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error();return r.json()})]);
+ if(plan.stage!==STAGE||plan.jobs.length!==(repair?8:remaining?19:3))throw Error();jobs=plan.jobs;
+ document.querySelector('#title').textContent=repair?'Eight audio repairs':remaining?'Latest batch — 17 installed, two held':'Three tanwīn tests — approved and installed';document.title=document.querySelector('#title').textContent;
+ document.querySelector('#command').hidden=document.querySelector('#generate-help').hidden=!repair;document.querySelector('#next-batch').hidden=repair;document.querySelector('#export').hidden=!repair;
+ if(!repair)for(const r of (remaining?remainingReview:approved).reviews)reviews[r.generatedId]={...r,id:r.generatedId};available=new Map();document.querySelector('#rows').replaceChildren();
+ const events=ledger.split('\n').filter(Boolean).map(JSON.parse).filter(e=>e.stage===plan.stage);
+ for(const job of jobs){
+  const section=el('section'),heading=el('h2',job.display||job.targetInput);heading.className='arabic';heading.lang='ar';section.append(heading,el('p',`Target: ${job.targetInput} · generator spelling: ${job.input}`));
+  const details=el('details');details.append(el('summary','Previous rejected recording and your note'));
+  const old=el('audio');old.controls=true;old.preload='none';old.src='../../'+job.sourceFile+'?v='+job.replacesSha256;old.setAttribute('aria-label',`Previous rejected ${job.targetInput}`);details.append(old,el('p',job.ownerNote||'Rejected by owner'));if(job.sourceFile)section.append(details);
+  const itemEvents=events.filter(e=>e.id===job.id),candidate=itemEvents.filter(e=>e.event==='candidate').at(-1),valid=candidate&&candidate.file===`${PREFIX}-candidates/${job.id}.wav`&&/^[a-f0-9]{64}$/.test(candidate.sha256);
+  const status=el('p');status.setAttribute('role','status');section.append(status);
+  if(valid){available.set(job.id,candidate);const audio=el('audio');audio.controls=true;audio.preload='none';audio.src='../../'+candidate.file+'?v='+candidate.sha256;audio.setAttribute('aria-label',`New ${job.targetInput}`);section.append(audio);if(candidate.flags?.length)section.append(el('p','Technical flags: '+candidate.flags.join(', ')));
+   if(!repair&&decision(job)){status.textContent=decision(job).decision==='correct'?'Approved and installed locally. No repeat review needed.':'Held out: '+decision(job).note+' Use the two-sound repair test above.';document.querySelector('#rows').append(section);continue;}
+   const good=el('button','Sounds correct'),bad=el('button','Needs a fix'),notes=el('textarea');good.disabled=bad.disabled=true;notes.setAttribute('aria-label',`Notes for ${job.targetInput}`);notes.placeholder='What did you hear?';notes.value=decision(job)?.note||'';section.append(good,bad,notes);
+   const paint=()=>{const r=decision(job);good.setAttribute('aria-pressed',String(r?.decision==='correct'));bad.setAttribute('aria-pressed',String(r?.decision==='fix'));status.textContent=r?.decision==='correct'?'Marked correct':r?.decision==='fix'?'Needs a fix':'Listen to the new recording, then choose';};
+   const write=value=>{reviews[job.id]={id:job.id,input:job.input,targetInput:job.targetInput,targetId:job.targetId,sha256:candidate.sha256,file:candidate.file,decision:value||decision(job)?.decision||null,note:notes.value,updated:new Date().toISOString()};save();paint();};
+   audio.onplay=()=>{good.disabled=bad.disabled=false;};good.onclick=()=>write('correct');bad.onclick=()=>write('fix');notes.oninput=()=>write(null);paint();
+  }else status.textContent=itemEvents.length?'An attempt was started. Tell Codex if it stopped; do not retry automatically.':'Not generated yet. Run the command above, then refresh.';
+  document.querySelector('#rows').append(section);
+ }summary();
+}catch{document.querySelector('#summary').textContent='Unable to load the test status. Tell Codex before generating.';}}
+document.addEventListener('play',e=>{if(e.target.tagName==='AUDIO')document.querySelectorAll('audio').forEach(a=>{if(a!==e.target)a.pause()})},true);
+document.querySelector('#refresh').onclick=load;
+document.querySelector('#export').onclick=()=>{const data={stage:STAGE,reviews:jobs.map(decision).filter(Boolean),exported:new Date().toISOString()},a=el('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));a.download=repair?'letter-garden-combined64-repair8-review.json':remaining?'letter-garden-tanwin-remaining-review.json':'letter-garden-tanwin-review.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);};load();
+</script></html>

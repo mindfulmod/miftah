@@ -1,0 +1,416 @@
+{
+  "scope": "Letter Garden only; letters.html runtime and its explicit classic exports. Catalogue, not visual assessment.",
+  "entryPoint": "letters.html -> window.MiftahGame.LettersGame; src/letters/LettersGame.js; art files are script-loaded from letters.html. SVG is drawn procedurally; no static raster illustration URLs are referenced by the inspected art chain.",
+  "rows": [
+    {
+      "family": "map",
+      "id": "journey-landscape",
+      "source": "src/letters/LettersMapArt.js",
+      "entryPoint": "LettersGame renderJourneyMap",
+      "uses": "continuous landscape, river shore, path, habitat tint runs, terrain patches and brook crossings behind all journey stops",
+      "geometry": "SVG generated in responsive map coordinates; defaults 800x4000, pathWidth 780; procedural y from stop list",
+      "variants": [
+        "day",
+        "night",
+        "meadow",
+        "orchard",
+        "lagoon",
+        "night",
+        "peaks",
+        "river"
+      ],
+      "status": "current procedural SVG",
+      "concern": "responsive width and stop spacing are code-driven; review scaling in narrow map layouts visually"
+    },
+    {
+      "family": "map",
+      "id": "biome-landmarks",
+      "source": "src/letters/LettersMapArt.js; src/letters/LettersGardenArt.js",
+      "entryPoint": "LettersGame map landmark loop",
+      "uses": "landmark beside journey stops",
+      "geometry": "SVG viewBox 0 0 176 166; map CSS positions and widths",
+      "variants": [
+        "meadow wildflowers (procedural seed variant)",
+        "meadow seed basket (variant 1)",
+        "orchard tree/fruit variants",
+        "lagoon reeds variants",
+        "night lantern",
+        "peaks mirrored variants",
+        "river landing/reeds alternating"
+      ],
+      "status": "current SVG; variants procedural"
+    },
+    {
+      "family": "map",
+      "id": "brook-bridges-gates",
+      "source": "src/letters/LettersMapArt.js",
+      "entryPoint": "LettersGame map path overlay",
+      "uses": "bridge at brook crossings; gates at biome boundaries; animated waterwheel toy",
+      "geometry": "bridge/group around crossing; gate centered upright, pole to y=-88; direction mirrored",
+      "variants": [
+        "bridge current",
+        "bridge classic",
+        "gate signs orchard/lagoon/night/peaks/river × open/closed × direction",
+        "waterwheel",
+        "brook indices from biome changes and rhythmic intervals"
+      ],
+      "status": "current plus explicit classic bridge export",
+      "concern": "bridge, gate and map-stop scale share responsive coordinates; visual check needed"
+    },
+    {
+      "family": "map",
+      "id": "map-play-props",
+      "source": "src/letters/LettersMapArt.js",
+      "entryPoint": "LettersGame map toy wiring",
+      "uses": "tap-to-play landmarks and map interactions",
+      "geometry": "SVG art grouped around local origins",
+      "variants": [
+        "orchard shake tree",
+        "reeds lift leaf",
+        "lantern glow/fly",
+        "waterwheel spin/drops"
+      ],
+      "status": "current procedural motion art"
+    },
+    {
+      "family": "village",
+      "id": "village-background-and-ambient",
+      "source": "src/letters/VillageArt.js",
+      "entryPoint": "LettersGame/StoryGarden village views",
+      "uses": "village backdrop, horizon, ambient sky and scenery",
+      "geometry": "backdrop(W,H), scalable SVG scene",
+      "variants": [
+        "day",
+        "night",
+        "phase/horizon options",
+        "ambient day/night"
+      ],
+      "status": "current procedural SVG"
+    },
+    {
+      "family": "village",
+      "id": "village-fixtures",
+      "source": "src/letters/VillageArt.js",
+      "entryPoint": "LettersGame village render",
+      "uses": "home, friend collection, play activities and reward entry points",
+      "geometry": "each SVG fixture drawn around local origin; hit areas are fixture-specific",
+      "variants": [
+        "gate",
+        "cottage",
+        "toyChest open/closed",
+        "friendsBed",
+        "stall",
+        "yard",
+        "stones 0..done/total",
+        "sundial stamped/unstamped",
+        "flowerBed",
+        "tree",
+        "bush",
+        "trail",
+        "shadow"
+      ],
+      "status": "current; explicit classic exports: gateClassic,cottageClassic,friendsBedClassic,toyChestClassic,yardClassic,stonesClassic,sundialClassic,flowerBedClassic,friendsBedV103,toyChestV103",
+      "concern": "classic and current fixture geometries coexist; only screenshot comparison can establish visible scale differences"
+    },
+    {
+      "family": "garden",
+      "id": "pet-garden-and-practice-scenes",
+      "source": "src/letters/LettersGardenArt.js",
+      "entryPoint": "GardenAdventure/LettersGame",
+      "uses": "garden habitat, chapter rewards, practice/action scenes and planted growth",
+      "geometry": "backdrop viewBox 1200x900; garden-life 800x600; flowerBed size/count options",
+      "variants": [
+        "boat stage 0..growth stages; terrain true/false",
+        "backdrop by stage and day/night",
+        "flowerBed count 0..3, centered/terrain options",
+        "pond",
+        "pondFloat",
+        "seedBasket",
+        "seedPacket",
+        "practicePicture kinds"
+      ],
+      "status": "current procedural SVG and HTML"
+    },
+    {
+      "family": "pets",
+      "id": "letter-pet-bodies",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "LettersArt.pet -> LettersAnimalArt.render for named animal characters",
+      "uses": "pet profile, play, lesson, map, wardrobe, celebration and reward displays",
+      "geometry": "legacy illustration SVG viewBox -70 -74 140x152; live rig is 420x470 with ground at y=423",
+      "variants": [
+        "blob",
+        "lumi",
+        "mina",
+        "rafi",
+        "bunny",
+        "chick",
+        "cat",
+        "dragon"
+      ],
+      "status": "current body catalog; blob/bunny/chick/cat/dragon drawn by LettersArt species parts; Lumi/Mina/Rafi resolved to rig characters",
+      "concern": "legacy 140x152 pet and 420x470 rig are different render systems; confirm CSS rendered-size parity"
+    },
+    {
+      "family": "pets",
+      "id": "rigged-character-characters",
+      "source": "src/letters/LettersAnimalArt.js; src/letters/LettersPetRig.js",
+      "entryPoint": "LettersArt.pet dispatch and PetRig.attach",
+      "uses": "selected pet character art and interactive animation",
+      "geometry": "shared 420x470 SVG; ground ellipse center (210,423), rx=118, ry=20; rigs define pivots per species",
+      "variants": [
+        "Lumi bird",
+        "Mina rabbit",
+        "Rafi bear",
+        "five colorways: sky, berry, honey, leaf, ... (see colorways array)",
+        "idle, inspect, ponder, yawn, wave, cheer, wake, doze, walk and reach motion states"
+      ],
+      "status": "current; colorways and rig variants procedural",
+      "concern": "per-species pivots differ by design; code indicates distinct head/arm/ear anchors, not a visual defect"
+    },
+    {
+      "family": "pets",
+      "id": "pet-wardrobe-accessories",
+      "source": "src/letters/LettersArt.js; src/letters/LettersAnimalArt.js",
+      "entryPoint": "LettersGame wardrobe and LettersArt.pet",
+      "uses": "wearable pet props across pet views",
+      "geometry": "legacy shared body viewBox -70 -74 140x152; rig overlays in 420x470 coordinates and species-specific anchors",
+      "variants": [
+        "cap",
+        "crown",
+        "bow",
+        "glasses",
+        "scarf",
+        "flower",
+        "balloon",
+        "wand",
+        "taqiyah",
+        "cape",
+        "medal",
+        "kite",
+        "sprout",
+        "moonpin",
+        "sun",
+        "moon",
+        "star"
+      ],
+      "status": "current; SVG; rig subset supported by LettersAnimalArt wardrobe catalog"
+    },
+    {
+      "family": "letter-friends",
+      "id": "letter-friend-drawings",
+      "source": "src/letters/LetterFriends.js",
+      "entryPoint": "LettersArt and friend games (LettersGame, SandTable, ToyBoxGames)",
+      "uses": "per-letter friend illustration, speakable friend item, letter dress overlays in trace/sand/coloring and story scenes",
+      "geometry": "friend art uses normalized SVG letter/body coordinates; SVG size option, not a shared native pixel size",
+      "variants": [
+        "FRIENDS map: every Arabic character entry in LetterFriends.js (CHARS); named animal/object id, back layer, front layer, face/color/dot variation per entry"
+      ],
+      "status": "current procedural SVG catalog",
+      "concern": "shared normalized friend frame across animal/object silhouettes; per-entry extent variation is source-visible, apparent scale needs visual validation"
+    },
+    {
+      "family": "rewards",
+      "id": "sticker-motifs",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "LettersArt.sticker, stickerMotif, stickerPack; StickerScenes; LettersDecorations",
+      "uses": "earned sticker album, reward sheets, sticker scenes and garden placements",
+      "geometry": "motif native viewBox -38 -38 76x76; sticker default 84px; motif default 56px; die-cut rim",
+      "variants": [
+        "sun",
+        "moon",
+        "star",
+        "rainbow",
+        "palm",
+        "flower",
+        "butterfly",
+        "bee",
+        "dove",
+        "fish",
+        "boat",
+        "lantern",
+        "key",
+        "egg",
+        "cat",
+        "cloud",
+        "camel",
+        "elephant",
+        "ant",
+        "spider",
+        "crow",
+        "hoopoe",
+        "whale",
+        "fig",
+        "olive",
+        "dates",
+        "pomegranate",
+        "grapes",
+        "honeycomb",
+        "waterdrop",
+        "mountain",
+        "nest",
+        "feather",
+        "shell",
+        "turtle",
+        "snake"
+      ],
+      "status": "current; each exported as LETTERS_STICKERS id; some inventory docs mark local/deployed revision state"
+    },
+    {
+      "family": "rewards",
+      "id": "decoration-placement-catalog",
+      "source": "src/letters/LettersDecorations.js",
+      "entryPoint": "DecoratingGarden",
+      "uses": "earned garden decoration palette and placeable slots",
+      "geometry": "4 slots initially; grows to 6/8; data/layout controls placement",
+      "variants": [
+        "shell",
+        "flower:1",
+        "flower:2",
+        "flower:3",
+        "boat",
+        "blanket",
+        "can",
+        "sticker:star",
+        "sticker:palm",
+        "sticker:dove",
+        "sticker:fish",
+        "sticker:boat",
+        "sticker:lantern",
+        "keepsake:<chapter id>",
+        "find:<treasure id> including gold: forms",
+        "sign:<Arabic letter>"
+      ],
+      "status": "current procedural/collected reward IDs; runtime catalog filters by progress and ownership"
+    },
+    {
+      "family": "rewards",
+      "id": "room-treasures",
+      "source": "src/letters/LettersRoomArt.js",
+      "entryPoint": "LettersGame room/nest/reward views",
+      "uses": "collectible treasure shelf, nest, lesson podium and play room props",
+      "geometry": "treasure SVG viewBox 0 0 64 64, size default 64; gold variant medallion",
+      "variants": [
+        "shell",
+        "feather",
+        "acorn",
+        "leaf",
+        "pinecone",
+        "ladybug",
+        "snail",
+        "pebble",
+        "daisy",
+        "egg",
+        "starfish",
+        "clover",
+        "berries",
+        "butterfly",
+        "crystal",
+        "mushroom",
+        "special fanous",
+        "special crescent",
+        "gold:<base treasure id>"
+      ],
+      "status": "current; TREASURE_IDS excludes fanous/crescent, SPECIAL_IDS lists both"
+    },
+    {
+      "family": "rewards",
+      "id": "chapter-keepsakes",
+      "source": "src/letters/LettersDecorations.js; src/letters/LettersJourney.js; src/letters/LettersRoomArt.js",
+      "entryPoint": "journey completion, room shelf and decoration palette",
+      "uses": "earned object keepsake per completed chapter/story; story props and collectible finds",
+      "geometry": "SVG local units per art module; no single shared viewBox",
+      "variants": [
+        "bed seed bed",
+        "picnic picnic basket",
+        "parcel parcel stack",
+        "garland lantern string",
+        "harvest fruit tree",
+        "jars seed jars",
+        "raft little raft",
+        "chapter-specific keepsake:<worldId> excluding pack-boat"
+      ],
+      "status": "current, procedurally rendered chapter rewards"
+    },
+    {
+      "family": "sticker-scenes",
+      "id": "scene-backgrounds",
+      "source": "src/letters/StickerScenes.js",
+      "entryPoint": "StickerScene in Letter Garden sticker activity",
+      "uses": "child-arranged stickers on themed backgrounds",
+      "geometry": "SVG 800x500, preserveAspectRatio xMidYMid slice",
+      "variants": [
+        "meadow",
+        "sea",
+        "night",
+        "oasis"
+      ],
+      "status": "current procedural; D.DetailKit objects are composed into scenes"
+    },
+    {
+      "family": "detail-kit",
+      "id": "shared-environment-drawings",
+      "source": "src/letters/DetailKit.js",
+      "entryPoint": "LettersGardenArt, StickerScenes, LettersMapArt, LetterFriends and related scenes",
+      "uses": "reusable environment detail drawings",
+      "geometry": "local-origin SVG groups, drawn at call-site transforms",
+      "variants": [
+        "tree: kind apple/round/etc, seed, leaf palette, hooks",
+        "palm: lean and height",
+        "house: wall/roof/door palettes and night/smoke",
+        "barn: wall/trim/roof palettes",
+        "boat: hull/sail/flag palettes"
+      ],
+      "status": "current procedural SVG utilities"
+    },
+    {
+      "family": "static-raster",
+      "id": "letter-garden-art-rasters",
+      "source": "letters.html script/style chain; docs/art/ASSET_MANIFEST.csv; docs/art/LETTER_GARDEN_VISUAL_INVENTORY.csv",
+      "entryPoint": "letters.html",
+      "uses": "No static raster illustration asset URL found in inspected Letter Garden art source chain; runtime world, characters, stickers and scenes are SVG/CSS-generated. Fonts/audio/favicon are outside requested illustration families.",
+      "geometry": "not applicable",
+      "variants": [
+        "prototype manifest rows: Lumi/Mina/Rafi 420x470, pet colorways/accessories, live garden props; documentary inventory entries may describe prototype or prior state rather than raster files"
+      ],
+      "status": "raster prototype leftovers not proven live by current art chain; manifests are planning/review documents, not runtime asset imports",
+      "concern": null
+    }
+  ],
+  "sourceFilesChecked": [
+    "letters.html",
+    "src/letters/LettersGame.js",
+    "src/letters/LettersArt.js",
+    "src/letters/LettersAnimalArt.js",
+    "src/letters/LettersPetRig.js",
+    "src/letters/LettersMapArt.js",
+    "src/letters/VillageArt.js",
+    "src/letters/LettersGardenArt.js",
+    "src/letters/LettersDecorations.js",
+    "src/letters/LettersRoomArt.js",
+    "src/letters/LetterFriends.js",
+    "src/letters/DetailKit.js",
+    "src/letters/StickerScenes.js",
+    "src/letters/GardenAdventurePlayArt.js",
+    "src/letters/LettersJourney.js",
+    "src/letters/DecoratingGarden.js",
+    "docs/art/ASSET_MANIFEST.csv",
+    "docs/art/LETTER_GARDEN_VISUAL_INVENTORY.csv"
+  ],
+  "coverage": {
+    "rows": 18,
+    "named_sticker_motifs": 36,
+    "named_treasures": 16,
+    "scene_ids": 4,
+    "map_toy_ids": 4,
+    "villa_fixture_groups": 10,
+    "friend_ids": "all FRIENDS keys / CHARS in LetterFriends.js",
+    "native_geometry_notes": true
+  },
+  "notes": [
+    "Only Letter Garden runtime and explicitly exported classic APIs are included. No island canvas Game.js, index.html, or src/world material.",
+    "Classic exports remain available in source; this catalog flags them as classic rather than implying they're current screen assets.",
+    "Some variants are procedural or data-derived, so they are listed as IDs/rules where the source defines them rather than as raster files.",
+    "Scale/anchor concerns are code hypotheses only; no visual mismatch is asserted."
+  ]
+}

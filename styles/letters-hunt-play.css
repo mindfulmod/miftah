@@ -1,0 +1,57 @@
+/* One complete picture, fitted without cropping its hiding places. */
+.lg-app .lg-play[data-activity="hunt"] .practice-stage { display: block; container-type: size; position: relative; overflow: hidden; }
+.lg-app .hunt-play { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; width: 100%; height: 100%; padding: 8px 12px 12px; }
+.lg-app .hunt-play .hunt-picture { flex: none; width: min(calc(100cqw - 28px), calc((100cqh - 94px) * 1.33333), 800px); aspect-ratio: 4 / 3; }
+.lg-app .hunt-play.is-portrait .hunt-picture { width: min(calc(100cqw - 28px), calc((100cqh - 94px) * .69767), 480px); aspect-ratio: 600 / 860; }
+.lg-app .hunt-play .hunt-scene { display: block; width: 100%; height: 100%; min-height: 0; max-height: none; border: 4px solid #4a3620; border-radius: 28px; box-shadow: 0 6px 0 #70501b; background: #96ecff; overflow: hidden; }
+.lg-app .hunt-play .hunt-spot:not(.has-letter) .hunt-face { display: none; }
+.lg-app .hunt-play .hunt-letter { scale: none; stroke: none; stroke-width: 0; }
+.lg-app .hunt-play .hunt-thing { transform-box: fill-box; transform-origin: center; }
+.lg-app .hunt-play .hunt-spot.is-found .hunt-thing { animation: none; transform: none; }
+.lg-app .hunt-play .hunt-spot[aria-disabled="true"] { cursor: default; }
+.lg-app .hunt-play .hunt-spot:focus-visible .hunt-thing { filter: drop-shadow(0 0 4px #e8743c); }
+.lg-app .hunt-play .hunt-spot.is-hint .hunt-thing { filter: drop-shadow(0 0 6px #f3c955); animation: none; }
+.lg-app .hunt-play .hunt-tools { flex: none; display: flex; align-items: center; justify-content: center; gap: 8px; max-width: 100%; min-height: 58px; }
+.lg-app .hunt-play .hunt-tools > button { display: grid; place-items: center; width: 56px; height: 56px; flex: none; padding: 7px; border: 3px solid #4a3620; border-radius: 19px; background: #fffaf0; box-shadow: 0 4px 0 #a89478; touch-action: manipulation; cursor: pointer; transition: transform 120ms ease-out; }
+.lg-app .hunt-play .hunt-tools > button > svg { width: 100%; height: 100%; display: block; pointer-events: none; }
+.lg-app .hunt-play .hunt-tools > .hunt-next { background: #b7e779; box-shadow: 0 4px 0 #4e9677; }
+.lg-app .hunt-play .hunt-next[hidden] { display: grid!important; visibility: hidden; pointer-events: none; }
+.lg-app .hunt-play .hunt-tools > button:disabled { background: #e5dcc8; cursor: default; }
+.lg-app .hunt-play .hunt-tools > button:not(:disabled):active { transform: translateY(2px) scale(.98); }
+.lg-app .hunt-play .hunt-tools > button:focus-visible { outline: 4px solid var(--lg-focus); outline-offset: 3px; }
+.lg-app .hunt-play .hunt-basket { position: relative; display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 4px; min-width: 0; width: auto; height: 56px; min-height: 56px; padding: 6px 8px; border: 3px solid #4a3620; border-radius: 16px 16px 22px 22px; box-shadow: 0 4px 0 #70501b; background: #c69434; }
+.lg-app .hunt-play .hunt-basket-weave { position: absolute; inset: 6px 3px; border-block: 3px solid #ffe49a; border-radius: 8px; pointer-events: none; }
+.lg-app .hunt-play .hunt-found { position: relative; width: 28px; height: 32px; flex: none; padding: 0; border: 2.4px solid #70501b; border-radius: 50%; background: #e5dcc8; opacity: .65; animation: none; }
+.lg-app .hunt-play .hunt-found.is-filled { background: #fffaf0; opacity: 1; border-color: #4a3620; }
+.lg-app .hunt-play .hunt-found svg { width: 100%; height: 100%; display: block; }
+@media (orientation: landscape) and (max-height: 500px) {
+  .lg-app .hunt-play { flex-direction: row; padding: 10px; gap: 20px; }
+  .lg-app .hunt-play .hunt-picture { width: min(calc(100cqw - 106px), calc((100cqh - 28px) * 1.33333), 800px); }
+  .lg-app .hunt-play .hunt-tools { flex-direction: column; width: 58px; gap: 12px; }
+  .lg-app .hunt-play .hunt-basket { flex-direction: column; width: 56px; height: auto; padding: 8px 6px; }
+}
+@media (prefers-reduced-motion: reduce) { .lg-app .hunt-play * { animation: none!important; transition: none!important; } }
+.lg-app.lg-reduce-motion .hunt-play * { animation: none!important; transition: none!important; }
+
+.lg-app .hunt-play .hunt-flying-letter { position: absolute; z-index: 4; width: 44px; height: 44px; border: 3px solid #4a3620; border-radius: 50%; background: #fffaf0; box-shadow: 0 3px 0 #a89478; pointer-events: none; }
+.lg-app .hunt-play .hunt-flying-letter svg { display: block; width: 100%; height: 100%; }
+
+/* Touch brings one object to life. Letter-bearing choices stay still. */
+.lg-app .hunt-play .hunt-reaction { display: none; pointer-events: none; }
+.lg-app .hunt-play .hunt-spot[data-playing] .hunt-reaction { display: block; }
+.lg-app .hunt-play .hunt-spot[data-playing="motion"] .hunt-reaction { animation: hunt-discovery 1.1s ease-out both; transform-box: fill-box; transform-origin: center; }
+.lg-app .hunt-play .hunt-spot[data-playing="motion"][data-kind="cloud"] .hunt-raindrop { animation: hunt-rain 800ms ease-in both; animation-delay: var(--drop-delay); }
+.lg-app .hunt-play .hunt-spot[data-playing="motion"] .hunt-thing { animation: hunt-soft-bounce 650ms ease-out; }
+.lg-app .hunt-play .hunt-spot[data-playing="motion"][data-kind="kite"] .hunt-thing { animation: hunt-kite 1s ease-in-out; }
+.lg-app .hunt-play .hunt-spot[data-playing="motion"][data-kind="flag"] .hunt-thing { transform-origin: left bottom; animation: hunt-breeze 800ms ease-in-out; }
+.lg-app .hunt-play .hunt-spot[data-playing="motion"][data-kind="sail"] .hunt-thing,
+.lg-app .hunt-play .hunt-spot[data-playing="motion"][data-kind="lily"] .hunt-thing { animation: hunt-bob 900ms ease-in-out; }
+.lg-app .hunt-play .hunt-spot[data-playing="motion"][data-kind="lantern"] .hunt-thing,
+.lg-app .hunt-play .hunt-spot[data-playing="motion"][data-kind="trunk"] .hunt-thing,
+.lg-app .hunt-play .hunt-spot[data-playing="motion"][data-kind="rock"] .hunt-thing { animation: none; }
+@keyframes hunt-discovery { 0% { opacity: 0; transform: scale(.94); } 22%,82% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(1); } }
+@keyframes hunt-rain { 0% { opacity: 0; transform: translateY(-10px); } 28% { opacity: 1; } 100% { opacity: 0; transform: translateY(30px); } }
+@keyframes hunt-soft-bounce { 0%,100% { transform: none; } 50% { transform: translateY(-3px); } }
+@keyframes hunt-kite { 0%,100% { transform: none; } 38% { transform: translate(3px,-8px) rotate(4deg); } 72% { transform: translate(-2px,-3px) rotate(-2deg); } }
+@keyframes hunt-breeze { 0%,100% { transform: none; } 30%,70% { transform: skewX(-3deg); } 50% { transform: skewX(2deg); } }
+@keyframes hunt-bob { 0%,100% { transform: none; } 30% { transform: translateY(4px) rotate(3deg); } 65% { transform: translateY(-2px) rotate(-2deg); } }

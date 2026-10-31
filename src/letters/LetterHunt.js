@@ -1,14 +1,7 @@
-// Letter Hunt (v6, 2026-10-01): an I-spy scene for the practice garden. The
-// child's own land is drawn as a big picture with six letters they know living
-// on things in it — a cloud, a kite, a tree trunk, a rock, a crate, a lily
-// pad… The pet asks for one by name; the child finds it, and that thing comes
-// alive (the kite flies, the crate opens) while the letter drops into the
-// basket. Five finds and the hunt is done.
-//
-// Honesty matches the Water Garden: with sound on, the prompt is heard, not
-// shown (independent listening); with sound off, or after a miss, the letter
-// appears in the bubble (supported matching). Every letter tap is reported
-// once; taps on plain scenery are play and report nothing.
+// Letter Hunt: familiar letters live on playful objects in the child's land.
+// Each visit fixes its support at entry, confirms speech before independent
+// listening, and lets the child collect each find before choosing the next.
+// The original six-land scene remains available as LetterHunt.classic.
 (function (ns) {
   const INK = "#4a3620";
   const key = (item) => item?.id ?? item?.display;
@@ -47,7 +40,7 @@
   // a small phone. An invisible pad round each letter widens the tap target
   // without changing the picture.
   const pad = (t) => `<circle class="hunt-pad" cx="${t.label[0]}" cy="${t.label[1]}" r="60" fill="#fffaf0" fill-opacity="0"/>`;
-  function scene(land, letters, portrait = false) {
+  function sceneClassic(land, letters, portrait = false) {
     const L = LANDS[land] || LANDS.meadow;
     if (portrait) {
       const order = L.spots.map((s, i) => [s, i]).sort((a, b) => a[0][1] - b[0][1]);
@@ -82,102 +75,181 @@
       ${spots}</svg>`;
   }
 
+  const esc = value => String(value || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const eligible = (item, ctx) => item?.id && item.display && item.taught !== false && item.isTaught !== false && item.locked !== true && item.unlocked !== false
+    && (!ctx.completedWorldIds || !(item.prerequisiteWorldIds || []).some(id => id !== ctx.worldId && !ctx.completedWorldIds.includes(id)));
+  function taughtItems(rows, ctx) {
+    const items = (rows || []).filter(Boolean), blocked = new Set(items.filter(item => !eligible(item, ctx)).map(item => item.display));
+    const ids = new Set(), glyphs = new Set();
+    return items.filter(item => { if (!eligible(item, ctx) || blocked.has(item.display) || ids.has(item.id) || glyphs.has(item.display)) return false; ids.add(item.id); glyphs.add(item.display); return true; });
+  }
+  const eye = '<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M7 32Q32 7 57 32Q32 57 7 32Z" fill="#fffaf0" stroke="#4a3620" stroke-width="4"/><circle cx="32" cy="32" r="12" fill="#7fce54" stroke="#4a3620" stroke-width="3"/><circle cx="28" cy="27" r="3" fill="#fffdf7"/></svg>';
+  const LIVE_PORTRAIT = [[160,120],[440,140],[150,420],[450,440],[160,690],[440,700]];
+  // Water objects live on water; dry props stay on the bank in either orientation.
+  const WATER_POSITIONS = {
+    lagoon: { portrait:[[160,100],[440,350],[440,560],[440,740],[150,350],[150,700]], landscape:[[160,110],[620,340],[450,500],[650,510],[160,300],[160,510]] },
+    river: { portrait:[[160,100],[440,350],[150,330],[150,740],[440,740],[150,540]], landscape:[[160,110],[620,330],[150,360],[170,520],[610,510],[390,280]] }
+  };
+  function scene(land, letters, portrait = false) {
+    const art = ns.HuntPlayArt;
+    if (!art) return sceneClassic(land, letters, portrait);
+    const L = LANDS[land] || LANDS.meadow;
+    const order = portrait ? L.spots.map((s,i)=>[s,i]).sort((a,b)=>a[0][1]-b[0][1]) : L.spots.map((s,i)=>[s,i]);
+    const objects = order.map(([[sx,sy,kind],i],k) => {
+      const [x,y] = WATER_POSITIONS[land]?.[portrait?'portrait':'landscape']?.[i] || (portrait ? LIVE_PORTRAIT[k] : [sx,sy]), t = art.things[kind], letter = letters[i];
+      const [w,h] = t.box;
+      const glyph = letter ? `<g class="hunt-label" transform="translate(${t.label.join(' ')})"><text class="hunt-letter" text-anchor="middle" font-family="'Amiri Quran',serif" font-size="64" fill="${INK}" direction="rtl" data-fit-box="0,0,${w},${h},64">${esc(letter.display)}</text></g>` : '';
+      const hanging = kind === 'lantern' && y < 300 ? `<path d="M${x} 0V${y-70*(portrait?1.3:1)}" fill="none" stroke="${INK}" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"/>` : '';
+      return `${hanging}<g class="hunt-spot${letter?' has-letter':''}" data-spot="${i}" data-kind="${kind}" transform="translate(${x} ${y})${portrait?' scale(1.3)':''}" role="button" tabindex="0" aria-label="${letter?`Letter ${esc(letter.display)}`:`Play with the ${kind}`}">${pad(t)}<g class="hunt-thing">${t.art}${glyph}</g><g class="hunt-reaction" aria-hidden="true" pointer-events="none">${art.reaction?.(kind)||''}</g></g>`;
+    }).join('');
+    return `<svg class="hunt-scene${portrait?' is-portrait':''}" viewBox="0 0 ${portrait?'600 860':'800 600'}" preserveAspectRatio="xMidYMid meet" role="group" aria-label="Find the letter in the picture">${art.background(land,portrait)}${objects}</svg>`;
+  }
+
   class LetterHunt {
     constructor(ctx) {
-      this.ctx = ctx;
-      this.alive = true;
-      this.land = ctx.land || "meadow";
-      const pool = shuffle((ctx.items || []).filter((i) => i && i.display));
-      this.letters = pool.slice(0, 6);
-      this.targets = shuffle(this.letters).slice(0, Math.min(5, this.letters.length));
-      this.index = 0;
-      this.found = new Set();
-      const portrait = (ctx.stage.clientHeight || 0) > (ctx.stage.clientWidth || 1) * 1.05;
-      ctx.stage.innerHTML = `<div class="hunt">${scene(this.land, this.letters, portrait)}<div class="hunt-basket" aria-label="Letters found"></div></div>`;
-      this.svg = ctx.stage.querySelector(".hunt-scene");
-      this.basket = ctx.stage.querySelector(".hunt-basket");
-      // A wide, short stage (a phone on its side) would crop the 4:3 scene top
-      // and bottom with "slice" — a kite's letter could vanish. Fit it whole.
-      const wide = (ctx.stage.clientWidth || 0) > (ctx.stage.clientHeight || 1) * 1.55;
-      if (wide && !portrait) { this.svg.setAttribute("preserveAspectRatio", "xMidYMid meet"); this.svg.classList.add("is-fitted"); }
-      this.svg.querySelectorAll(".hunt-spot").forEach((spot) => {
-        const go = () => this.tap(Number(spot.dataset.spot));
-        spot.addEventListener("click", go);
-        spot.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
-      });
-      setTimeout(() => this.alive && this.ask(), 500);
+      this.ctx = ctx; this.alive = true; this.finished = false; this.busy = false; this.waiting = false;
+      this.land = ctx.land || 'meadow'; this.items = taughtItems(ctx.items, ctx);
+      this.index = 0; this.helped = new Set(); this.found = new Set(); this.collected = []; this.letters = Array(6).fill(null);
+      this.flight = null; this.roundToken = 0; this.renderToken = 0; this.speechAttempt = 0; this.missedSpots = new Set();
+      const count = ctx.beginner ? 3 : 4;
+      const declared = Array.isArray(ctx.targets);
+      const plan = declared ? ctx.targets.map(id=>this.items.find(item=>String(item.id)===String(id))).filter(Boolean)
+        : ns.PracticeLearning?.plan?.(ctx,this.items,'letter-name',count) || this.items;
+      const valid = plan.filter(item=>this.items.some(known=>known.id===item?.id && known.display===item.display));
+      this.targets = valid.length ? Array.from({length:count},(_,i)=>valid[i%valid.length]) : [];
+      const profiles = valid.map(item=>ns.PracticeLearning?.profile?.(ctx,item,'letter-name') || {choiceCount:2,promptMode:'match'});
+      this.choiceCount = Math.min(this.items.length, ctx.choiceCount===2?2:3, ...profiles.map(p=>p.choiceCount===3?3:2));
+      this.allowRecall = ctx.allowRecall!==false && !ctx.beginner && profiles.length>0 && profiles.every(p=>p.promptMode==='listen');
+      if (this.items.length<2 || !this.targets.length) { this.destroy(); Promise.resolve().then(()=>ctx.cancel?.()); return; }
+      this.ask();
+      if (typeof ResizeObserver!=='undefined') { this.observer=new ResizeObserver(()=>this.resize());this.observer.observe(ctx.stage); }
     }
-
     get target() { return this.targets[this.index]; }
-
-    ask() {
+    portraitNow() { return (this.ctx.stage.clientHeight||0)>(this.ctx.stage.clientWidth||1)*1.05; }
+    resize() { if (!this.alive) return; this.clearScenery();this.clearFlight();if(this.portrait!==this.portraitNow())this.render();else ns.LettersArt?.fitGlyphs?.(this.svg); }
+    render() {
       if (!this.alive) return;
-      this.missed = false; this.misses = 0;
-      this.svg?.querySelectorAll?.(".hunt-spot.is-hint").forEach((s) => s.classList?.remove?.("is-hint"));
-      this.heard = this.ctx.canListen?.() !== false;
-      this.assisted = !this.heard;
-      // Heard, not shown — unless sound is off.
-      this.ctx.prompt?.(this.assisted ? this.target : null);
-      if (this.heard) this.ctx.say?.(this.target);
-      this.ctx.setRoundProgress?.(this.index + 1, this.targets.length);
+      this.clearScenery();this.clearFlight();
+      const previousFocus = this.svg?.querySelector?.('.hunt-spot:focus')?.dataset?.spot;
+      const previousTool = this.root?.querySelector?.('.hunt-next:focus') ? 'next' : this.root?.querySelector?.('.hunt-help:focus') ? 'helpButton' : null;
+      const version = ++this.renderToken; this.portrait=this.portraitNow();
+      this.ctx.stage.innerHTML=`<div class="hunt hunt-play${this.portrait?' is-portrait':''}"><div class="hunt-picture">${scene(this.land,this.letters,this.portrait)}</div><div class="hunt-tools"><button class="hunt-help" type="button" aria-label="Show the matching letter">${eye}</button><div class="hunt-basket" role="progressbar" aria-label="Letters found" aria-valuemin="0" aria-valuemax="${this.targets.length}" aria-valuenow="${this.collected.length}"><span class="hunt-basket-weave" aria-hidden="true"></span>${this.targets.map((_,i)=>`<span class="hunt-found${this.collected[i]?' is-filled':''}" aria-hidden="true">${this.collected[i]?`<svg viewBox="-30 -30 60 60"><text text-anchor="middle" font-family="'Amiri Quran',serif" font-size="48" direction="rtl" fill="${INK}" data-fit-box="0,0,38,38,48">${esc(this.collected[i].display)}</text></svg>`:''}</span>`).join('')}</div><button class="hunt-next" type="button" aria-label="${this.index===this.targets.length-1?'Finish finding letters':'Find another letter'}" ${this.busy?'':'hidden'}>${ns.LettersArt?.icon?.(this.index===this.targets.length-1?'check':'next',36)||''}</button></div></div>`;
+      this.root=this.ctx.stage.querySelector('.hunt-play'); this.svg=this.root.querySelector('.hunt-scene');this.basket=this.root.querySelector('.hunt-basket');
+      this.helpButton=this.root.querySelector('.hunt-help');this.next=this.root.querySelector('.hunt-next');
+      this.helpButton.disabled=this.busy;
+      this.helpButton.onclick=()=>{if(this.alive&&version===this.renderToken&&!this.busy)this.help(true);};
+      this.next.onclick=()=>{if(version===this.renderToken)this.continue();};
+      this.svg.querySelectorAll('.hunt-spot').forEach(spot=>{
+        const i=Number(spot.dataset.spot);
+        spot.classList.toggle('is-found',this.found.has(i));
+        spot.classList.toggle('is-hint',this.hint===i);
+        const disabled=!!this.letters[i]&&(this.busy||this.waiting||this.missedSpots.has(i));
+        spot.setAttribute('aria-disabled',String(disabled));spot.setAttribute('tabindex',disabled?'-1':'0');
+        const go=e=>{if(version!==this.renderToken)return;this.keyboard=e?.detail===0||e?.type==='keydown';this.tap(i);};
+        spot.addEventListener('click',go);
+        spot.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go(e);}});
+      });
+      ns.LettersArt?.fitGlyphs?.(this.root);
+      if(previousTool && !this[previousTool].disabled && !this[previousTool].hidden)this[previousTool].focus?.({preventScroll:true});
+      else if(previousFocus!=null)this.svg.querySelector(`.hunt-spot[data-spot="${previousFocus}"]`)?.focus?.();
     }
-
-    replayPrompt() { if (this.alive && this.target) this.ctx.say?.(this.target); }
-
-    wiggle(spot) {
-      if (this.ctx.reducedMotion?.()) return;
-      spot.querySelector(".hunt-thing")?.animate?.([{ transform: "none" }, { transform: "rotate(-6deg)" }, { transform: "rotate(5deg)" }, { transform: "none" }], { duration: 420 });
+    ask() {
+      if (!this.alive || !this.target) return;
+      this.roundToken++;this.cancelSpeech();this.busy=false;this.waiting=false;this.misses=0;this.missedSpots.clear();this.hint=null;
+      const supported=this.helped.has(this.target.id)||this.ctx.supportedItemIds?.includes(this.target.id);
+      this.heard=false;this.assisted=!!supported;this.modelVisible=!!supported||!this.allowRecall||this.ctx.canListen?.()===false;
+      const choices=supported?2:this.choiceCount;
+      const available=shuffle([0,1,2,3,4,5].filter(i=>!this.found.has(i)));
+      const options=shuffle([this.target,...shuffle(this.items.filter(i=>i.id!==this.target.id)).slice(0,choices-1)]);
+      this.letters=Array(6).fill(null);options.forEach((item,k)=>{this.letters[available[k]]=item;});
+      this.ctx.prompt?.(this.modelVisible?this.target:null);this.ctx.beginRound?.(this.target,'letter-name');
+      this.ctx.setRoundProgress?.(this.index+1,this.targets.length);
+      this.render();this.speak();
+      if(this.keyboard)this.svg.querySelector('.hunt-spot[tabindex="0"]')?.focus?.();
     }
-
+    setWaiting(value) { const changed=this.waiting!==value;this.waiting=value;if(this.alive&&changed)this.render(); }
+    cancelSpeech() { this.speechAttempt++;if(this.speechTimer){clearTimeout(this.speechTimer);this.speechTimer=null;} }
+    speak() {
+      if(!this.alive||this.busy||!this.target)return;
+      this.cancelSpeech();const attempt=this.speechAttempt,round=this.roundToken,confirmed=this.heard,needs=!confirmed&&!this.modelVisible;
+      if(needs)this.setWaiting(true);
+      let result;try{result=this.ctx.say?.(this.target);}catch{result=false;}
+      const settle=heard=>{
+        if(!this.alive||this.busy||attempt!==this.speechAttempt||round!==this.roundToken)return;
+        this.cancelSpeech();this.heard=confirmed||heard===true;
+        if(!this.heard&&!this.modelVisible)this.help(true);else this.setWaiting(false);
+      };
+      if(result?.then){if(needs)this.speechTimer=setTimeout(()=>settle(false),6000);Promise.resolve(result).then(settle,()=>settle(false));}else settle(result===true);
+    }
+    replayPrompt() { if(!this.alive||!this.target)return;if(this.busy){try{Promise.resolve(this.ctx.say?.(this.target)).catch(()=>{});}catch{}return;}this.help(false);this.speak(); }
+    onSoundChange() { if(this.alive&&!this.busy&&this.ctx.canListen?.()===false)this.help(false); }
+    help(point=false) {
+      if(!this.alive||this.busy)return;
+      this.cancelSpeech();this.waiting=false;this.assisted=true;this.modelVisible=true;this.helped.add(this.target.id);this.ctx.prompt?.(this.target);
+      if(point)this.hint=this.letters.findIndex(i=>i?.id===this.target.id);
+      this.render();
+    }
+    clearScenery() {
+      const play=this.scenery;if(!play)return;
+      this.scenery=null;clearTimeout(play.timer);play.spot.removeAttribute?.('data-playing');
+    }
+    playScenery(spot) {
+      if(!this.alive||!spot)return;
+      this.clearScenery();
+      if(!ns.HuntPlayArt?.reaction?.(spot.dataset.kind)){this.wiggle(spot);return;}
+      spot.setAttribute('data-playing',this.ctx.reducedMotion?.()?'still':'motion');
+      const play={spot,timer:null};this.scenery=play;
+      play.timer=setTimeout(()=>{if(this.scenery===play)this.clearScenery();},1100);
+    }
+    wiggle(spot, retry = false) {
+      if(!spot||this.ctx.reducedMotion?.())return;
+      const thing=spot.querySelector('.hunt-thing');thing?.getAnimations?.().forEach(a=>a.cancel());
+      const frames = retry ? [{opacity:1},{opacity:.84},{opacity:1}] : [{transform:'none'},{transform:'translateY(-2px)'},{transform:'none'}];
+      thing?.animate?.(frames,{duration:420,easing:'ease-in-out'});
+    }
     tap(i) {
-      if (!this.alive || this.busy) return;
-      const spot = this.svg.querySelector(`.hunt-spot[data-spot="${i}"]`);
-      const letter = this.letters[i];
-      if (!letter || this.found.has(i)) { this.wiggle(spot); this.ctx.sfx?.("rustle"); return; }
-      const correct = key(letter) === key(this.target);
-      const independent = this.heard && !this.assisted;
-      this.ctx.reportOutcome?.({ item: this.target, itemId: key(this.target), activity: "LetterHunt", correct,
-        evidence: independent ? "independent_listening" : "supported_visible_matching", skill: "letter-name",
-        selectedId: key(letter), choiceIds: this.letters.filter((_, k) => !this.found.has(k)).map(key), assisted: !independent, affectsStrength: true });
-      if (!correct) {
-        // A miss shows the letter it is looking for; nothing is lost.
-        this.assisted = true;
-        this.ctx.prompt?.(this.target);
-        this.wiggle(spot);
-        this.ctx.sfx?.("softwrong");
-        // A second miss makes the right spot glow — the picture never hides it for long.
-        if (++this.misses >= 2) {
-          const k = this.letters.findIndex((l, j) => l && !this.found.has(j) && key(l) === key(this.target));
-          this.svg.querySelector(`.hunt-spot[data-spot="${k}"]`)?.classList?.add?.("is-hint");
-        }
-        return;
-      }
-      this.busy = true;
-      spot.classList?.remove?.("is-hint");
-      this.found.add(i);
-      spot.classList.add("is-found", `is-${spot.dataset.kind}`);
-      this.ctx.correct?.();
-      this.ctx.confettiAt?.(spot);
-      this.ctx.pet?.cheer?.();
-      const tag = document.createElement("span");
-      tag.className = "hunt-found";
-      tag.textContent = letter.display;
-      this.basket.appendChild(tag);
-      setTimeout(() => {
-        if (!this.alive) return;
-        this.busy = false;
-        this.index += 1;
-        if (this.index >= this.targets.length) { this.ctx.pet?.cheer?.(); setTimeout(() => this.alive && this.ctx.done?.(), 900); }
-        else this.ask();
-      }, 1100);
+      if(!this.alive||!Number.isInteger(i)||i<0||i>5)return;
+      const spot=this.svg.querySelector(`.hunt-spot[data-spot="${i}"]`),letter=this.letters[i];
+      if(!letter||this.found.has(i)){this.playScenery(spot);this.ctx.sfx?.('rustle');return;}
+      if(this.busy||this.waiting||this.missedSpots.has(i))return;
+      const correct=letter.id===this.target.id,independent=this.heard&&!this.assisted&&this.allowRecall&&!this.modelVisible;
+      this.ctx.reportOutcome?.({item:this.target,itemId:this.target.id,activity:'LetterHunt',correct,evidence:independent?'independent_listening':'supported_visible_matching',skill:'letter-name',selectedId:letter.id,choiceIds:this.letters.filter(Boolean).map(key),assisted:this.assisted,independent,round:this.index+1,affectsStrength:true});
+      if(!correct){this.missedSpots.add(i);this.misses++;this.help(this.misses>=2||this.choiceCount===2);this.wiggle(this.svg.querySelector(`.hunt-spot[data-spot="${i}"]`),true);this.ctx.sfx?.('softwrong');return;}
+      const origin=spot.querySelector('.hunt-face')?.getBoundingClientRect?.();
+      this.busy=true;this.waiting=false;this.cancelSpeech();this.hint=null;this.found.add(i);this.collected.push(letter);
+      this.letters[i]=null;this.ctx.correct?.();this.ctx.pet?.cheer?.();this.render();
+      const found=this.svg.querySelector(`.hunt-spot[data-spot="${i}"]`);this.playScenery(found);this.ctx.confettiAt?.(found);
+      this.collectFlight(origin,letter);
+      if(this.keyboard)this.next.focus?.({preventScroll:true});
     }
-
-    destroy() { this.alive = false; }
+    clearFlight() { const flight=this.flight;if(!flight)return;this.flight=null;flight.animation?.cancel();flight.element.remove();flight.target.style.visibility=''; }
+    collectFlight(origin,item) {
+      if(this.ctx.reducedMotion?.()||!origin||!this.root?.getBoundingClientRect)return;
+      const tags=[...this.basket.querySelectorAll('.hunt-found.is-filled')],target=tags.at(-1);if(!target)return;
+      const box=this.root.getBoundingClientRect(),end=target.getBoundingClientRect(),element=document.createElement('span');
+      element.className='hunt-flying-letter';element.setAttribute('aria-hidden','true');
+      element.innerHTML=`<svg viewBox="-30 -30 60 60"><text text-anchor="middle" font-family="'Amiri Quran',serif" font-size="48" direction="rtl" fill="${INK}" data-fit-box="0,0,38,38,48">${esc(item.display)}</text></svg>`;
+      const x=origin.left+origin.width/2,y=origin.top+origin.height/2;
+      element.style.left=`${x-box.left-22}px`;element.style.top=`${y-box.top-22}px`;this.root.appendChild(element);ns.LettersArt?.fitGlyphs?.(element);
+      target.style.visibility='hidden';
+      const dx=end.left+end.width/2-x,dy=end.top+end.height/2-y;
+      const animation=element.animate?.([{transform:'translate(0,0) scale(1)',opacity:1},{transform:`translate(${dx*.45}px,${dy*.45-8}px) scale(.84)`,opacity:1},{transform:`translate(${dx}px,${dy}px) scale(.65)`,opacity:1}],{duration:540,easing:'cubic-bezier(.3,.7,.3,1)'});
+      this.flight={element,target,animation};const current=this.flight;
+      const finish=()=>{if(this.flight===current)this.clearFlight();};
+      if(animation?.finished)animation.finished.then(finish,finish);else finish();
+    }
+    continue() {
+      if(!this.alive||!this.busy)return;
+      this.busy=false;this.index++;
+      if(this.index>=this.targets.length){if(this.finished)return;this.finished=true;this.destroy();this.ctx.done?.();}else this.ask();
+    }
+    destroy() { if(!this.alive)return;this.alive=false;this.roundToken++;this.renderToken++;this.cancelSpeech();this.observer?.disconnect();this.clearScenery();this.clearFlight();this.root?.querySelectorAll('*').forEach(e=>e.getAnimations?.().forEach(a=>a.cancel())); }
   }
 
   LetterHunt.LANDS = LANDS;
   LetterHunt.THINGS = THINGS;
   LetterHunt.scene = scene;
+  LetterHunt.classic = sceneClassic;
   ns.GardenPractice = ns.GardenPractice || {};
   ns.GardenPractice.LetterHunt = LetterHunt;
 })(window.MiftahGame || (window.MiftahGame = {}));

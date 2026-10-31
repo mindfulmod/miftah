@@ -1,0 +1,37 @@
+{
+  "status": "teacher-flow-test-prepared",
+  "approvedReferences": {
+    "baa": "assets/audio/letters/marin-v1/ba.wav",
+    "meem": "assets/audio/letters/marin-v1/meem.wav"
+  },
+  "ownerListeningNotes": {
+    "baa": "Older sounds like baa; newer sounds like bah and gives a different-accent impression.",
+    "meem": "Newer stretches the middle and sounds subdued; older sounds more excited.",
+    "overall": "Softer, more feminine, teacher-like, brighter and more engaged; not deep or neutral.",
+    "march": "March sounds better, but slightly too high pitched; owner describes its delivery as lacking modesty and sounding like someone trying to sound attractive. It is closer, not approved.",
+    "composedTeacher": "Getting better, but feels slightly dragged out and less smooth. Closer, not yet approved."
+  },
+  "interpretation": {
+    "baa": "Reported vowel/articulation mismatch, not a confirmed regional-accent identification. The input remains بَاءْ in both recordings.",
+    "meem": "Reported timing and expression mismatch. The measured longer active region and narrower pitch variation support timing/prosody differences, but do not independently certify the vowel pronunciation.",
+    "limits": "No specific accent, human identity or emotional/mental state is inferred. The synthetic delivery is being described perceptually.",
+    "march": "A subjective report about the synthetic performance, not an inference of intent or personality. Breathiness or pitch glides are possible style features to reduce, not a diagnosed acoustic cause."
+  },
+  "desiredDirection": "Warm, composed and gently encouraging classroom teacher. Natural feminine middle register, clear steady tone, understated expression, small pitch variation. Preserve accurate Arabic articulation and long vowels.",
+  "acceptanceChecks": [
+    "Match the approved reference pronunciation and vowel quality, not just the approximate pitch.",
+    "Preserve letter-name spelling and correct vowel-length distinctions; do not shorten a long vowel merely to make a clip quicker.",
+    "Warm, attentive and composed classroom delivery, with understated expression; no exaggerated high register, breathy or sing-song performance, and no deep or flat delivery.",
+    "Natural vowel duration without drawn-out holds, artificial stretching or a heavy falling ending.",
+    "Stable vocal character across letters, syllables and words; compare against actual approved references.",
+    "No repetition, additional sounds, static or low-frequency artifacts.",
+    "Smooth continuous letter-name delivery at a natural pace; preserve correct long vowels without extra holds or pauses inside a name."
+  ],
+  "notASolution": [
+    "Global pitch shifting",
+    "Blanket bass removal",
+    "Speeding up every clip",
+    "Respelling Arabic to force an English-sounding baa/bah reading"
+  ],
+  "nextStep": "One --flow-check sample, retaining March Marin and composed teacher direction with natural continuous phrasing. Owner reviews audio; no further acoustic analysis requested. Full batch remains held."
+}

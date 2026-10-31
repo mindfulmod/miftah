@@ -1,0 +1,25 @@
+✔ pointerdown records immediately and its follow-up click cannot duplicate the strike (9.161334ms)
+✔ keyboard click remains a valid strike and initial heard evidence stays distinct from free rhythm (1.952167ms)
+✔ captures bounded beat positions and clamped gaps, then replays exactly the captured rhythm (2.006708ms)
+✔ a new free-play strike interrupts playback and remains usable (1.295916ms)
+✔ actual Next cancels old playback, old controls and pending callbacks (1.437916ms)
+✔ word replay cancels beats, and repeated exploration stays bounded without new evidence (2.548042ms)
+✔ reduced motion skips animation while preserving sound and learning outcome (1.180042ms)
+✔ empty and unusable picture plans cancel after construction, never award a completion (11.532584ms)
+✔ SameStart hears the target AND each answer before selection, then clears speech cues (2.451666ms)
+✔ replaced answer and replay controls cannot act for the current round (1.56325ms)
+✔ the target picture replays only its own name without submitting an answer (1.272417ms)
+✔ one hung word bounds the whole sequence and gives supported play without a false heard result (0.960834ms)
+✔ BeatDrum ignores replaced controls, reports once, and cancels pending completion on exit (1.307459ms)
+✔ all listening games hold each result for the child, then start a fresh unassisted prompt and finish once (4.403791ms)
+✔ completed picture replay changes no learning result and an old speech completion cannot affect the next round (3.105833ms)
+✔ the next picture interrupts pending success playback without accepting its stale completion (1.777542ms)
+✔ teardown cancels outstanding speech and completion waiters for every listening game (2.354292ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 84.9625

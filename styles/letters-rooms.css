@@ -58,8 +58,9 @@
 .lg-app .reward-scene .party-pet .pet-bubble{right:0;top:-20px}
 .lg-app:not(.lg-boat-adventure) :is(.lg-stars .stars-stage,.lg-party .party-stage){width:min(600px,100%);gap:12px;padding:12px 6px;flex-shrink:1;overflow:visible}
 .lg-app .lg-party .party-stars,.lg-app .lg-stars .stars-row{position:relative;z-index:2;flex-shrink:0;margin:0;background:linear-gradient(#fffdf7,#fffaf0 65%,#e5dcc8);border:3px solid #4a3620;box-shadow:0 5px 0 #a89478}
-.lg-app .lg-party .party-flower{position:absolute;left:50%;top:12%;transform:translateX(-50%);pointer-events:none;z-index:2}
-.lg-app .lg-party .party-flower svg{width:80px;height:80px}
+/* Center by layout so the shared arrival animation cannot shift it sideways. */
+.lg-app .lg-party .party-flower{position:absolute;left:29%;bottom:20%;width:42%;aspect-ratio:200 / 260;transform:none;pointer-events:none;z-index:2}
+.lg-app .lg-party .party-flower>svg{display:block;width:100%;height:100%}
 .lg-app .lg-party .garden-practice-links,.lg-app .lg-stars .garden-practice-links{gap:12px}
 .lg-app .lg-party .garden-practice-links button,.lg-app .lg-stars .garden-practice-links button{width:64px;height:52px;border-width:2px;border-radius:18px}
 .lg-app .lg-party .garden-practice-links svg,.lg-app .lg-stars .garden-practice-links svg{width:48px;height:42px}

@@ -28,13 +28,17 @@ test("v59 Sticker Scenes: saved arrangements keep only owned stickers, inside th
   assert.equal(clean(Array.from({ length: 40 }, () => ({ id: "sun", x: 50, y: 50 })), ["sun"]).length, MAX);
 });
 
-test("v59 Sticker Scenes: reached from the album when stickers are owned; tap places, drag moves, drag off removes", () => {
+test("v59 Sticker Scenes: reached from the album when stickers are owned; the bin removes placements explicitly", () => {
   const game = read("src/letters/LettersGame.js");
   assert.match(game, /\$\{owned\.size && ns\.StickerScenes \? `<button type="button" class="album-scenes"/);
   assert.match(game, /const SCENES_KEY = "quran-trainer:letters:sticker-scenes";/);
   const src = read("src/letters/StickerScenes.js");
-  assert.match(src, /if \(!d\.moved\) \{\n\s+\/\/ Tap: somewhere in the middle of the picture/);
-  assert.match(src, /if \(!p\.inside\) \{ list\.splice\(i, 1\); this\.ctx\.sound\?\.\("pop"\); \}/);
+  assert.match(src, /if \(!d\.moved\) \{\n\s+\/\/ Tap: somewhere in the middle of the picture/, "tray taps still place a sticker");
+  assert.match(src, /class="ss-bin"/, "a visible wordless bin sits in the scene");
+  assert.match(src, /this\.removeAt\(this\.selectedIndex\)/, "a selected sticker can be removed by tapping the bin");
+  assert.match(src, /if \(p\.inside && this\.overBin\(e\)\) \{ this\.removeAt\(i\); return; \}/, "dragging onto the bin removes a placement");
+  assert.match(src, /if \(!p\.inside\) \{ this\.drawPlaced\(\); return; \}/, "outside drops return to their saved location");
+  assert.doesNotMatch(src, /if \(!p\.inside\) \{ list\.splice\(i, 1\);/, "leaving the board no longer deletes by accident");
   assert.match(read("letters.html"), /src\/letters\/StickerScenes\.js\?v=2026[0-9]{4}-v[0-9]+/);
   assert.match(read("sw.js"), /"src\/letters\/StickerScenes\.js",/);
   assert.match(read("styles/letters-rooms.css"), /@media \(prefers-reduced-motion: reduce\)\{\.ss-sticker\.is-new svg\{animation:none\}/);

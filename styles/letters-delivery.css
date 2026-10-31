@@ -54,3 +54,47 @@
 @media(max-height:650px){.delivery-scene{min-height:235px;max-height:260px}.delivery-status{min-height:26px}.letter-delivery{gap:8px}}
 
 .delivery-route{display:grid;place-items:center;transform:rotate(180deg)}.delivery-route svg{width:28px;height:28px}
+
+/* v291: the child keeps the finished bed until choosing the next packet.
+   Touch targets stay fixed; only their drawings respond. */
+.lg-app .lg-play[data-activity=delivery] .practice-stage { min-height:0; padding-top:6px; }
+.lg-app .lg-play[data-activity=delivery] .letter-delivery { gap:8px; }
+.lg-app .lg-play[data-activity=delivery] .delivery-scene { flex:1 1 auto; min-height:180px; max-height:330px; }
+.lg-app .lg-play[data-activity=delivery] .delivery-destination { width:min(82%,390px); animation:none; }
+.lg-app .delivery-garden-art { filter:none; }
+.lg-app .delivery-destination:disabled { opacity:1; cursor:default; }
+.lg-app .delivery-destination.is-near .delivery-garden-art { filter:drop-shadow(0 0 4px #ffe49a); }
+.lg-app .delivery-destination.is-ready .delivery-destination-mark,
+.lg-app .delivery-destination.is-help .delivery-destination-mark { filter:none; }
+.lg-app .delivery-pet.is-delighted { animation:none; }
+.lg-app .delivery-pet.is-delighted > svg { animation:delivery-pet-delight 580ms ease-out; }
+.lg-app .delivery-destination.is-delivered .delivery-new-plant { transform-box:fill-box; transform-origin:50% 100%; animation:delivery-unfurl 520ms cubic-bezier(.2,.85,.3,1); }
+.lg-app .delivery-packet { transition:background 140ms ease,border-color 140ms ease; }
+.lg-app .delivery-packet.is-dragging { z-index:6; transition:none; }
+.lg-app .delivery-packet.is-planted .delivery-packet-art { opacity:.45; }
+.lg-app .delivery-packet.is-soon .delivery-packet-art { animation:delivery-invitation 380ms ease-out; }
+.lg-app .delivery-route { transform:rotate(-90deg); }
+.lg-app .delivery-footer { display:flex; justify-content:center; align-items:center; gap:16px; min-height:56px; width:100%; flex:0 0 56px; }
+.lg-app .delivery-next { display:grid; place-items:center; width:64px; height:52px; border:3px solid #4a3620; border-radius:20px; background:#e8743c; color:#fffaf0; box-shadow:0 4px 0 #7a3512; cursor:pointer; touch-action:manipulation; }
+.lg-app .delivery-next[hidden] { display:none; }
+.lg-app .delivery-next svg { width:32px; height:32px; }
+.lg-app .delivery-next:active { translate:0 2px; box-shadow:0 2px 0 #7a3512; }
+.lg-app .delivery-next:focus-visible { outline:4px solid var(--lg-focus); outline-offset:4px; }
+@keyframes delivery-unfurl { from { scale:.35 .12; opacity:.3; } 70% { scale:1.06 1.08; opacity:1; } to { scale:1; opacity:1; } }
+@keyframes delivery-invitation { 50% { transform:translateY(-7px) rotate(-3deg); } }
+@media(max-height:650px) and (orientation:portrait) {
+  .lg-app .lg-play[data-activity=delivery] .delivery-scene { min-height:150px; max-height:230px; }
+  .lg-app .lg-play[data-activity=delivery] .delivery-destination { width:min(80%,285px); }
+  .lg-app .lg-play[data-activity=delivery] .delivery-packets { min-height:96px; }
+  .lg-app .lg-play[data-activity=delivery] .delivery-packet { width:90px; height:100px; }
+}
+@media(max-height:450px) and (orientation:landscape) {
+  .lg-app .lg-play[data-activity=delivery] .delivery-scene { min-height:0; max-height:none; }
+  .lg-app .lg-play[data-activity=delivery] .delivery-destination { width:min(100%,350px,calc((100dvh - 195px)*1.24)); }
+  .lg-app .delivery-footer { grid-column:1/-1; grid-row:3; min-height:52px; }
+  .lg-app .lg-play[data-activity=delivery] .delivery-packet { width:min(100px,22vh); height:calc(min(100px,22vh)*1.05); }
+}
+@media(prefers-reduced-motion:reduce) {
+  .lg-app .delivery-destination.is-delivered .delivery-new-plant,.lg-app .delivery-pet.is-delighted > svg,.lg-app .delivery-packet.is-soon .delivery-packet-art { animation:none; }
+}
+.lg-app.lg-reduce-motion .delivery-destination.is-delivered .delivery-new-plant,.lg-app.lg-reduce-motion .delivery-pet.is-delighted > svg,.lg-app.lg-reduce-motion .delivery-packet.is-soon .delivery-packet-art { animation:none; }

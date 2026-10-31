@@ -1,129 +1,114 @@
-// The Letter Friends book (v26, 2026-10-02): an alphabet book, one spread per
-// letter, told the way a grown-up reads "B is for ball" — slowly, in order,
-// and the same every time (children ask for the same page again and again;
-// that repetition is the point).
-//
-// A spread: the plain letter, which grows into its friend → the letter's
-// name → the friend's call → the friend's name, with its first letter lit.
-// Tap the friend to hear it all again; turn pages through every friend met.
-// The walk ends on one of these pages, like a bedtime book.
-//
-// Nothing is reported or scored: reading is presentation, not evidence.
+// A child-operated field guide. Reading and picture exploration are presentation,
+// never evidence of independent recall. Familiar letters keep their curriculum order.
 (function (ns) {
-  const wait = (ms) => new Promise((ok) => setTimeout(ok, ms));
-
+  const esc = value => String(value || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  function pagesFor(ctx) {
+    const rows = [...(ctx.items || []), ...(ctx.known || [])].filter(Boolean);
+    const eligible = i => i.id != null && ns.LetterFriends?.FRIENDS?.[i.display]
+      && i.taught !== false && i.isTaught !== false && i.locked !== true && i.unlocked !== false
+      && (!ctx.completedWorldIds || !(i.prerequisiteWorldIds || []).some(id => id !== ctx.worldId && !ctx.completedWorldIds.includes(id)));
+    const blocked = new Set(rows.filter(i => !eligible(i)).map(i => i.display)), ids = new Set(), glyphs = new Set();
+    return rows.filter(i => { if(!eligible(i)||blocked.has(i.display)||ids.has(String(i.id))||glyphs.has(i.display))return false;ids.add(String(i.id));glyphs.add(i.display);return true; });
+  }
+  const ink = (char, word = false) => `<svg viewBox="0 0 ${word?'180 112':'100 112'}" aria-hidden="true">${word?'<rect class="fb-word-mark" rx="12" fill="#ffe49a" visibility="hidden"/>':''}<text class="${word?'fb-word-text':'fb-letter-ink'}" x="${word?90:50}" y="74" text-anchor="middle" direction="rtl" font-family="'Amiri Quran',serif" font-size="68" fill="#4a3620" data-fit-box="${word?'90,56,156,82,68':'50,56,72,82,68'}">${esc(char)}</text></svg>`;
   class FriendBook {
     constructor(ctx) {
-      this.ctx = ctx;
-      this.alive = true;
-      const F = ns.LetterFriends;
-      const seen = new Map();
-      for (const i of [...(ctx.items || []), ...(ctx.known || [])]) if (i?.display && F?.FRIENDS?.[i.display] && !seen.has(i.display)) seen.set(i.display, i);
-      this.pages = [...seen.values()];
-      this.at = Math.max(0, Math.min(this.pages.length - 1, ctx.startAt || 0));
-      this.turns = 0;
-      ctx.stage.innerHTML = `<div class="fb" dir="rtl">
-        <div class="fb-spread">
-          <button type="button" class="fb-friend" aria-label="Hear it again"></button>
-          <div class="fb-caption"><span class="fb-letter"></span><span class="fb-word-wrap"><i class="fb-mark" aria-hidden="true"></i><span class="fb-word"></span></span></div>
-        </div>
-        <div class="fb-nav">
-          <button type="button" class="lg-round-btn fb-next" aria-label="Next page">${ns.LettersArt?.icon?.("next", 28) || "‹"}</button>
-          <button type="button" class="lg-big-btn fb-close" aria-label="Close the book">${ns.LettersArt?.icon?.("check", 32) || "✓"}</button>
-          <button type="button" class="lg-round-btn fb-prev" aria-label="Previous page">${ns.LettersArt?.icon?.("next", 28) || "›"}</button>
-        </div>
+      this.ctx=ctx;this.alive=true;this.noReplay=true;this.token=0;this.pending=new Set();this.turns=0;this.claimed=false;
+      this.pages=pagesFor(ctx);
+      if(!this.pages.length){this.alive=false;Promise.resolve().then(()=>ctx.cancel?.());return;}
+      const start=Number.isFinite(ctx.startAt)?Math.trunc(ctx.startAt):0;
+      this.at=Math.max(0,Math.min(this.pages.length-1,start));
+      const icon=(name,size=32)=>ns.LettersArt?.icon?.(name,size)||'';
+      ctx.stage.innerHTML=`<div class="fb fb-book" dir="rtl" role="group" aria-label="The Letter Friends book">
+        <div class="fb-spread">${ns.FriendBookArt?.page?.()||''}<div class="fb-page-content">
+          <button type="button" class="fb-friend" aria-label="Read this page"><span class="fb-habitat" aria-hidden="true">${ns.FriendBookArt?.habitat?.()||''}</span><span class="fb-character"></span><span class="fb-listen is-hint" aria-hidden="true">${icon('speaker',24)}</span></button>
+          <div class="fb-caption"><button type="button" class="fb-letter-button" aria-label="Hear the letter and see its shape"></button><button type="button" class="fb-word-button" aria-label="Hear the friend's name"><span class="fb-word-ink"></span><span class="fb-name-speaker" aria-hidden="true">${icon('speaker',20)}</span></button></div>
+        </div></div>
+        <div class="fb-nav"><button type="button" class="fb-next" aria-label="Next page">${icon('next')}</button><button type="button" class="fb-close" aria-label="Close the book">${icon('check')}</button><button type="button" class="fb-prev" aria-label="Previous page">${icon('next')}</button></div>
+        <span class="fb-status" role="status" aria-live="polite"></span>
       </div>`;
-      const $ = (s) => ctx.stage.querySelector(s);
-      this.friendBtn = $(".fb-friend");
-      this.letterEl = $(".fb-letter");
-      this.wordEl = $(".fb-word");
-      this.mark = $(".fb-mark");
-      this.friendBtn.onclick = () => this.tell();
-      // RTL book: "next" sits on the left, like turning an Arabic page.
-      $(".fb-next").onclick = () => this.turn(1);
-      $(".fb-prev").onclick = () => this.turn(-1);
-      $(".fb-close").onclick = () => { this.ctx.sfx?.("page"); this.ctx.done?.(); };
-      ctx.prompt?.(null);
-      if (this.pages.length) this.show(); else ctx.done?.();
+      this.root=ctx.stage.querySelector('.fb-book');const $=s=>this.root.querySelector(s);
+      this.spread=$('.fb-spread');this.friendBtn=$('.fb-friend');this.character=$('.fb-character');this.letterBtn=$('.fb-letter-button');this.wordBtn=$('.fb-word-button');this.wordInk=$('.fb-word-ink');
+      this.next=$('.fb-next');this.prev=$('.fb-prev');this.close=$('.fb-close');this.status=$('.fb-status');
+      this.friendBtn.onclick=()=>this.tell();this.letterBtn.onclick=()=>this.narrate('letter');this.wordBtn.onclick=()=>this.narrate('word');
+      this.next.onclick=e=>this.turn(1,e.detail===0);this.prev.onclick=e=>this.turn(-1,e.detail===0);
+      this.close.onclick=()=>{if(!this.alive||this.claimed)return;this.claimed=true;this.stop();this.close.disabled=true;ctx.sfx?.('page');ctx.done?.();};
+      ctx.prompt?.(null);this.show();
+      this.observer=typeof ResizeObserver==='undefined'?null:new ResizeObserver(()=>this.fit());this.observer?.observe(ctx.stage);
+      if(typeof document!=='undefined')document.fonts?.ready?.then(()=>{if(this.alive)this.fit();});
     }
-
-    show() {
-      const F = ns.LetterFriends;
-      const page = this.pages[this.at];
-      const char = page.display, friend = F.get(char);
-      this.friendBtn.innerHTML = F.art(char, { size: 220, mode: "plain" });
-      this.friendBtn.setAttribute("aria-label", `${char}: ${friend.en}. Hear it again`);
-      this.letterEl.textContent = char;
-      this.wordEl.textContent = friend.word;
-      this.mark.style.opacity = "0";
-      this.ctx.stage.querySelector(".fb-next").disabled = this.at >= this.pages.length - 1;
-      this.ctx.stage.querySelector(".fb-prev").disabled = this.at <= 0;
-      this.tell();
+    show(){
+      if(!this.alive)return;
+      const page=this.pages[this.at],F=ns.LetterFriends,friend=F.get(page.display);
+      this.character.innerHTML=F.art(page.display,{size:300,mode:'full'});
+      this.friendBtn.setAttribute('aria-label',`${page.display}: ${friend.en}. Read this page`);
+      this.letterBtn.innerHTML=ink(page.display);this.letterBtn.setAttribute('aria-label',`${page.display}: hear the letter and see its shape`);
+      this.wordInk.innerHTML=ink(friend.word,true);this.wordBtn.setAttribute('aria-label',`${friend.word}: hear the friend's name`);
+      this.wordEl=this.wordInk.querySelector('.fb-word-text');this.mark=this.wordInk.querySelector('.fb-word-mark');this.markOn=false;
+      this.next.disabled=this.at>=this.pages.length-1;this.prev.disabled=this.at<=0;
+      this.root.setAttribute('data-last',String(this.next.disabled));
+      this.status.textContent=`Page ${this.at+1} of ${this.pages.length}: ${friend.en}`;
+      this.fit();this.tell();
     }
-
-    // Light the first letter of the friend's name. Arabic shaping means the
-    // first letter can't be its own coloured span (that would break the join),
-    // and range rects are unreliable inside shaped text, so the first letter's
-    // width is measured as (whole word − word without it) on a canvas, then
-    // scaled to the laid-out word. The word reads right to left, so the
-    // first letter is at its right edge.
-    markFirst() {
-      try {
-        const word = this.wordEl.textContent;
-        let end = 1;
-        while (end < word.length && /[ًٌٍَُِّْٰ]/.test(word[end])) end += 1;
-        const g = (this.canvas ||= document.createElement("canvas")).getContext("2d");
-        g.font = getComputedStyle(this.wordEl).font; g.direction = "rtl";
-        const full = g.measureText(word).width, rest = g.measureText(word.slice(end)).width;
-        const r = this.wordEl.getBoundingClientRect(), box = this.wordEl.parentElement.getBoundingClientRect();
-        if (!full || !r.width) return;
-        const w = Math.max(full - rest, full * 0.18) * (r.width / full);
-        Object.assign(this.mark.style, { left: `${r.right - box.left - w - 4}px`, width: `${w + 8}px`, opacity: "1" });
-      } catch {}
+    fit(){if(!this.alive)return;ns.LettersArt?.fitGlyphs?.(this.root);if(this.markOn)this.markFirst();}
+    // Keep the word joined. The first-letter marker is measured in the same
+    // SVG coordinate system as the fitted ink, so rotation cannot offset it.
+    markFirst(){
+      this.markOn=true;
+      try{
+        const word=this.wordEl.textContent;let end=1;while(end<word.length&&/[ًٌٍَُِّْٰ]/.test(word[end]))end++;
+        const g=(this.canvas||=document.createElement('canvas')).getContext('2d');
+        g.font=`${this.wordEl.getAttribute('font-size')}px ${this.wordEl.getAttribute('font-family')}`;g.direction='rtl';g.textAlign='center';g.textBaseline='alphabetic';
+        const full=g.measureText(word),rest=g.measureText(word.slice(end));
+        const width=full.actualBoundingBoxLeft+full.actualBoundingBoxRight;if(!width)return;
+        const w=Math.min(width,Math.max(full.width-rest.width,width*.18));
+        const right=Number(this.wordEl.getAttribute('x'))+full.actualBoundingBoxRight;
+        const y=Number(this.wordEl.getAttribute('y'));
+        for(const [key,value] of Object.entries({x:right-w-3,y:y-full.actualBoundingBoxAscent-3,width:w+6,height:full.actualBoundingBoxAscent+full.actualBoundingBoxDescent+6,visibility:'visible'}))this.mark.setAttribute(key,String(value));
+      }catch{/* The joined word remains readable if font metrics are unavailable. */}
     }
-
-    async tell() {
-      if (!this.alive || this.telling) return;
-      this.telling = true;
-      const token = (this.token = (this.token || 0) + 1);
-      const F = ns.LetterFriends;
-      const page = this.pages[this.at];
-      const svg = this.friendBtn.querySelector("svg.lf");
-      const live = () => this.alive && this.token === token;
-      try {
-        await this.ctx.say?.(page);
-        if (!live()) return;
-        svg?.classList.remove("is-plain");
-        svg?.classList.add("is-growing");
-        await wait(this.ctx.reducedMotion?.() ? 100 : 650);
-        if (!live()) return;
-        this.ctx.sfx?.(F.get(page.display).call);
-        await wait(600);
-        if (!live()) return;
-        this.markFirst();
-        await this.ctx.say?.(F.item(page.display));
-      } finally {
-        if (this.token === token) this.telling = false;
-      }
+    setPlain(plain){
+      const svg=this.character.querySelector('svg.lf');svg?.classList.toggle('is-plain',!!plain);
+      this.letterBtn.setAttribute('aria-pressed',String(!!plain));
     }
-
-    turn(dir) {
-      const to = this.at + dir;
-      if (!this.alive || to < 0 || to >= this.pages.length) return;
-      this.at = to;
-      this.turns += 1;
-      this.token = (this.token || 0) + 1;
-      this.telling = false;
-      this.ctx.sfx?.("page");
-      const spread = this.ctx.stage.querySelector(".fb-spread");
-      if (!this.ctx.reducedMotion?.()) spread?.animate?.([{ transform: `translateX(${dir * -24}px)`, opacity: 0.2 }, { transform: "none", opacity: 1 }], { duration: 320, easing: "ease-out" });
-      this.show();
+    stop(){
+      this.token++;for(const cancel of [...this.pending])cancel();this.pending.clear();this.telling=false;
+      this.friendBtn?.setAttribute('aria-busy','false');this.letterBtn?.classList.remove('is-speaking');this.wordBtn?.classList.remove('is-speaking');
     }
-
-    replayPrompt() { this.tell(); }
-    destroy() { this.alive = false; this.token = (this.token || 0) + 1; }
+    pause(ms){return new Promise(resolve=>{let timer;const finish=ok=>{clearTimeout(timer);this.pending.delete(cancel);resolve(ok);};const cancel=()=>finish(false);this.pending.add(cancel);timer=setTimeout(()=>finish(true),ms);});}
+    speak(item){
+      return new Promise(resolve=>{
+        let settled=false,timer;const finish=ok=>{if(settled)return;settled=true;clearTimeout(timer);this.pending.delete(cancel);resolve(ok);};const cancel=()=>finish(false);this.pending.add(cancel);
+        timer=setTimeout(()=>finish(false),6000);
+        try{if(typeof this.ctx.say!=='function')return finish(false);Promise.resolve(this.ctx.say(item)).then(ok=>finish(ok!==false),()=>finish(false));}catch{finish(false);}
+      });
+    }
+    async narrate(part='story'){
+      if(!this.alive||this.claimed||(part==='story'&&this.telling))return;
+      this.stop();const token=this.token,live=()=>this.alive&&!this.claimed&&this.token===token;
+      const page=this.pages[this.at],F=ns.LetterFriends;this.telling=true;this.friendBtn.setAttribute('aria-busy','true');
+      this.markOn=false;this.mark?.setAttribute('visibility','hidden');this.setPlain(part==='letter');
+      try{
+        if(part!=='word'){
+          this.letterBtn.classList.add('is-speaking');const heard=await this.speak(page);if(!live())return;
+          this.letterBtn.classList.remove('is-speaking');if(part==='letter'||!heard)return;
+          if(!await this.pause(180)||!live())return;
+          this.ctx.sfx?.(F.get(page.display).call);if(!await this.pause(420)||!live())return;
+        }
+        this.markFirst();this.wordBtn.classList.add('is-speaking');await this.speak(F.item(page.display));
+      }finally{if(live()){this.telling=false;this.friendBtn.setAttribute('aria-busy','false');this.letterBtn.classList.remove('is-speaking');this.wordBtn.classList.remove('is-speaking');}}
+    }
+    tell(){return this.narrate('story');}
+    turn(dir,keyboard=false){
+      const to=this.at+dir;if(!this.alive||this.claimed||!Number.isInteger(to)||to<0||to>=this.pages.length)return;
+      this.stop();this.pageMotion?.cancel?.();this.at=to;this.turns++;this.ctx.sfx?.('page');this.show();
+      // Animate the illustration, never the child's tappable page regions.
+      if(!this.ctx.reducedMotion?.())this.pageMotion=this.character.animate?.([{transform:`translateX(${dir*-12}px)`,opacity:.6},{transform:'none',opacity:1}],{duration:240,easing:'ease-out'});
+      if(keyboard&&(dir>0?this.next:this.prev).disabled)this.friendBtn.focus?.({preventScroll:true});
+    }
+    replayPrompt(){return this.tell();}
+    destroy(){if(!this.alive)return;this.alive=false;this.stop();this.observer?.disconnect();this.pageMotion?.cancel?.();this.root?.querySelectorAll('*').forEach(el=>el.getAnimations?.().forEach(a=>a.cancel()));}
   }
-
-  ns.GardenPractice = ns.GardenPractice || {};
-  ns.GardenPractice.FriendBook = FriendBook;
-})(window.MiftahGame || (window.MiftahGame = {}));
+  FriendBook.pagesFor=pagesFor;
+  ns.GardenPractice=ns.GardenPractice||{};ns.GardenPractice.FriendBook=FriendBook;
+})(window.MiftahGame||(window.MiftahGame={}));

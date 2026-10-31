@@ -14,12 +14,11 @@ test("v28 Sand Table: the Writing Garden engine, a fading guide, honest motor ev
   const src = source("SandTable.js");
   assert.match(src, /ns\.LettersStrokes\.guide\(this\.paper, ns\.LettersStrokes\.forItem\(item\)/, "same engine: order, direction, tolerance");
   assert.match(src, /const LEVELS = \["show", "dotted", "start", "memory"\];/);
-  assert.match(src, /const lv = w >= 0\.75 \? 3 : w >= 0\.5 \? 2 : w >= 0\.25 \? 1 : 0;/, "the Brain's write skill picks the help");
-  assert.match(src, /return this\.ctx\.beginner \? Math\.min\(lv, 1\) : lv;/, "a sprout always sees the path");
-  // Shown letters only participate; bare-sand letters finished without wandering count.
-  assert.match(src, /correct: bare && this\.snaps <= 1 \? true : undefined, affectsStrength: bare/);
-  assert.match(src, /if \(this\.lv >= 3\) \{ this\.ctx\.prompt\?\.\(null\); this\.ctx\.beginRound\?\.\(item, "drawing"\); \}/, "memory never prints the letter");
-  assert.match(src, /replace\('class="lf"', 'class="lf is-bodiless"'\)/, "the reminder friend has no body to copy");
+  assert.match(src, /PracticeLearning\?\.level\?\.\(this\.ctx, \[item\], 'drawing'\)/, "the drawing profile selects guidance");
+  assert.match(src, /if \(this\.ctx\.beginner\) return 0;/, "beginners always see the full path");
+  assert.match(src, /evidence: 'motor_assembly_participation'/, "finishing reports motor participation only");
+  assert.match(src, /if \(this\.lv >= 3\) \{ this\.ctx\.prompt\?\.\(null\); this\.ctx\.beginRound\?\.\(this\.item, 'drawing'\); \}/, "memory hides the prompt while starting the drawing round");
+  assert.match(src, /ns\.LetterFriends\?\.FRIENDS\?\.\[char\]/, "the finished drawing may celebrate with a known friend");
   assert.doesNotMatch(src, /spendStars|earnStars|saveJSON/);
   assert.deepEqual(off(src), []);
   const css = fs.readFileSync(path.join(root, "styles", "letters-friends.css"), "utf8");

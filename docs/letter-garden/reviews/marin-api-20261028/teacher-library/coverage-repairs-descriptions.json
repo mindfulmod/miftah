@@ -1,0 +1,35 @@
+[
+  {
+    "id": "lg-dda8288023fc",
+    "input": "دَالْ سَاكِنَة",
+    "targetInput": "دْ",
+    "targetId": "lg-0a698f01afe3",
+    "sha256": "7b9656a68e2762477ca93a2bc85b30c9b7eabebb1c3d43c4c5cc77ce951d0c38",
+    "file": "coverage-repairs-candidates/lg-dda8288023fc.wav",
+    "decision": "correct",
+    "note": "",
+    "updated": "2026-10-31T01:47:58.970Z"
+  },
+  {
+    "id": "lg-d2d540801050",
+    "input": "بَاءْ مُشَدَّدَة بِالضَّمَّتَيْنِ",
+    "targetInput": "بٌّ",
+    "targetId": "lg-0a91908310e7",
+    "sha256": "31e4944f99b5f576ef7f380f4b76e290e6918ff96c48bdff1a13d375f8d0789a",
+    "file": "coverage-repairs-candidates/lg-d2d540801050.wav",
+    "decision": "correct",
+    "note": "",
+    "updated": "2026-10-31T01:48:02.801Z"
+  },
+  {
+    "id": "lg-c29a82f5436b",
+    "input": "تَاءْ سَاكِنَة",
+    "targetInput": "تْ",
+    "targetId": "lg-a408f28bfbf3",
+    "sha256": "7429a079c2bef60486545a10ef716b3b535595aede41d91e9dc6f8797640ed90",
+    "file": "coverage-repairs-candidates/lg-c29a82f5436b.wav",
+    "decision": "correct",
+    "note": "",
+    "updated": "2026-10-31T01:49:15.413Z"
+  }
+]

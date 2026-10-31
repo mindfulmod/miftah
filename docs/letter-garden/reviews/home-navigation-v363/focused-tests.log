@@ -1,0 +1,21 @@
+✔ a detached screen cannot navigate when its old Home hold expires (11.108583ms)
+✔ Home hold cancellation makes old callbacks inert, including after a new press (4.081667ms)
+✔ only the owning primary pointer can start or end a Home hold (1.710292ms)
+✔ blur, pointer cancellation and a hidden tab stop an in-progress Home hold (11.340459ms)
+✔ intentional hold, tap navigation and keyboard activation each leave once (4.8995ms)
+✔ v22 Little Sprout: per child, includes gentle, glows the right answer after a miss, hold to leave (1.783584ms)
+✔ v23 World Overview: the whole world on one page; unreached lands are mist; tapping travels (1.083625ms)
+✔ v24 Letter Balloons: free play for the youngest, every letter takes a turn, nothing reported (3.496917ms)
+✔ mute cancels speech once and synchronizes the control state (13.639625ms)
+✔ adult hold rejects key repeat, early release and stale timer callbacks (2.460167ms)
+✔ adult hold cancels on blur and cannot navigate from an old screen (3.768708ms)
+✔ Trace only paints and completes for the owning pointer (4.642708ms)
+✔ Trace drawing thumbnail callback fires once after completion, never on cancel (2.228833ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 91.542375

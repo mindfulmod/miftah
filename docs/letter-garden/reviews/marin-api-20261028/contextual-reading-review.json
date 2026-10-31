@@ -1,0 +1,162 @@
+[
+  {
+    "id": "lg-0763e4361447",
+    "input": "إِنَّهُۥ",
+    "uses": [
+      "ayah:110:3"
+    ],
+    "proposedStatus": "blocked_pronunciation",
+    "reviewStatus": "unreviewed",
+    "reasons": [
+      "Final small waw marks a context-sensitive pronoun ending. The prompt does not resolve standalone/pausal versus connected realization; Arabic review must specify the intended ending."
+    ]
+  },
+  {
+    "id": "lg-278d280eb1bc",
+    "input": "مَّأْكُولٍۭ",
+    "uses": [
+      "ayah:105:5"
+    ],
+    "proposedStatus": "blocked_pronunciation",
+    "reviewStatus": "unreviewed",
+    "reasons": [
+      "Initial shadda may encode assimilation from a preceding word, but this request is an isolated file. Arabic review must specify whether that contextual onset is intended; do not silently remove or rewrite it."
+    ]
+  },
+  {
+    "id": "lg-34177df45f9b",
+    "input": "مِّنْ",
+    "uses": [
+      "ayah:106:4"
+    ],
+    "proposedStatus": "blocked_pronunciation",
+    "reviewStatus": "unreviewed",
+    "reasons": [
+      "Initial shadda may encode assimilation from a preceding word, but this request is an isolated file. Arabic review must specify whether that contextual onset is intended; do not silently remove or rewrite it."
+    ]
+  },
+  {
+    "id": "lg-4d3b3a8139ac",
+    "input": "مَالُهُۥ",
+    "uses": [
+      "ayah:111:2"
+    ],
+    "proposedStatus": "blocked_pronunciation",
+    "reviewStatus": "unreviewed",
+    "reasons": [
+      "Final small waw marks a context-sensitive pronoun ending. The prompt does not resolve standalone/pausal versus connected realization; Arabic review must specify the intended ending."
+    ]
+  },
+  {
+    "id": "lg-50ff0d8b4be1",
+    "input": "مِصْبَاحٌ ۖ",
+    "uses": [
+      "treasury:lantern"
+    ],
+    "proposedStatus": "blocked_pronunciation",
+    "reviewStatus": "unreviewed",
+    "reasons": [
+      "The isolated item retains a Quranic pause annotation, while the queue does not specify which permissible pause/continuation realization to target. Arabic review must choose without changing the source text automatically."
+    ]
+  },
+  {
+    "id": "lg-5cf5d1a48eec",
+    "input": "أَنَا۠",
+    "uses": [
+      "ayah:109:4"
+    ],
+    "proposedStatus": "blocked_pronunciation",
+    "reviewStatus": "unreviewed",
+    "reasons": [
+      "Contains U+06E0, a pause-sensitive Quranic orthographic mark. Arabic review must specify the isolated/connected realization rather than allowing a generation system to choose implicitly."
+    ]
+  },
+  {
+    "id": "lg-5df29168c337",
+    "input": "لِّلْمُصَلِّينَ",
+    "uses": [
+      "ayah:107:4"
+    ],
+    "proposedStatus": "blocked_pronunciation",
+    "reviewStatus": "unreviewed",
+    "reasons": [
+      "Initial shadda may encode assimilation from a preceding word, but this request is an isolated file. Arabic review must specify whether that contextual onset is intended; do not silently remove or rewrite it."
+    ]
+  },
+  {
+    "id": "lg-8170ddb85546",
+    "input": "مَّسَدٍۭ",
+    "uses": [
+      "ayah:111:5"
+    ],
+    "proposedStatus": "blocked_pronunciation",
+    "reviewStatus": "unreviewed",
+    "reasons": [
+      "Initial shadda may encode assimilation from a preceding word, but this request is an isolated file. Arabic review must specify whether that contextual onset is intended; do not silently remove or rewrite it."
+    ]
+  },
+  {
+    "id": "lg-9963a09a494c",
+    "input": "مِّن",
+    "uses": [
+      "chapter:words-2:target",
+      "ayah:105:4",
+      "ayah:106:4",
+      "ayah:111:5"
+    ],
+    "proposedStatus": "blocked_pronunciation",
+    "reviewStatus": "unreviewed",
+    "reasons": [
+      "Initial shadda may encode assimilation from a preceding word, but this request is an isolated file. Arabic review must specify whether that contextual onset is intended; do not silently remove or rewrite it."
+    ]
+  },
+  {
+    "id": "lg-b103a8b6f965",
+    "input": "لَّهُۥ",
+    "uses": [
+      "ayah:112:4"
+    ],
+    "proposedStatus": "blocked_pronunciation",
+    "reviewStatus": "unreviewed",
+    "reasons": [
+      "Initial shadda may encode assimilation from a preceding word, but this request is an isolated file. Arabic review must specify whether that contextual onset is intended; do not silently remove or rewrite it.",
+      "Final small waw marks a context-sensitive pronoun ending. The prompt does not resolve standalone/pausal versus connected realization; Arabic review must specify the intended ending."
+    ]
+  },
+  {
+    "id": "lg-d258aeae32cb",
+    "input": "وَٱسْتَغْفِرْهُ ۚ",
+    "uses": [
+      "ayah:110:3"
+    ],
+    "proposedStatus": "blocked_pronunciation",
+    "reviewStatus": "unreviewed",
+    "reasons": [
+      "The isolated item retains a Quranic pause annotation, while the queue does not specify which permissible pause/continuation realization to target. Arabic review must choose without changing the source text automatically."
+    ]
+  },
+  {
+    "id": "lg-f6b1632e8afa",
+    "input": "مَّا",
+    "uses": [
+      "ayah:109:4"
+    ],
+    "proposedStatus": "blocked_pronunciation",
+    "reviewStatus": "unreviewed",
+    "reasons": [
+      "Initial shadda may encode assimilation from a preceding word, but this request is an isolated file. Arabic review must specify whether that contextual onset is intended; do not silently remove or rewrite it."
+    ]
+  },
+  {
+    "id": "lg-f6bbd52a0c83",
+    "input": "وَٱمْرَأَتُهُۥ",
+    "uses": [
+      "ayah:111:4"
+    ],
+    "proposedStatus": "blocked_pronunciation",
+    "reviewStatus": "unreviewed",
+    "reasons": [
+      "Final small waw marks a context-sensitive pronoun ending. The prompt does not resolve standalone/pausal versus connected realization; Arabic review must specify the intended ending."
+    ]
+  }
+]

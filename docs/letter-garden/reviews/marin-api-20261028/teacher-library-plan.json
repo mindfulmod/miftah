@@ -1,0 +1,1983 @@
+{
+  "stage": "composed-teacher-library-v1",
+  "selectedByUser": "Use the composed teacher we had before; start building.",
+  "model": "gpt-4o-mini-tts-2025-03-20",
+  "voice": "marin",
+  "speed": 1.0,
+  "response_format": "wav",
+  "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with direct vowel onsets and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+  "instructionChange": "Selected delivery sentences retained verbatim. The final task instruction now requests one exact curriculum item, instead of two letter names and a two-second gap.",
+  "sourceSample": "teacher-candidates/lg-aa4d3af3b0c5.wav",
+  "sourceSHA256": "adb155cd54f4a72c01164ab2d80fb71477cf7d2ce82bc548a6c84c358b203616",
+  "readyQueueCount": 389,
+  "batchLimit": 312,
+  "firstBatchIds": [
+    "lg-9357023bebc2",
+    "lg-b2e2e85d51f4",
+    "lg-e006f0b8074f",
+    "lg-2d6a557df5ca",
+    "lg-ba418754028b",
+    "lg-133bb4576b44",
+    "lg-1d35b258f38f",
+    "lg-365206ee50f1",
+    "lg-36b3714f9b0b",
+    "lg-07f25640a2b9",
+    "lg-95da19a9c3af",
+    "lg-08208c74a20d"
+  ],
+  "firstBatchPlanningReservationUSD": 0.6,
+  "budgetNote": "Planning reservation, not measured billing. All prior attempts remain counted; no automatic retries or model fallback.",
+  "queue": [
+    {
+      "id": "lg-9357023bebc2",
+      "input": "شَدَّة",
+      "direction": "names"
+    },
+    {
+      "id": "lg-b2e2e85d51f4",
+      "input": "سُكُونْ",
+      "direction": "names"
+    },
+    {
+      "id": "lg-e006f0b8074f",
+      "input": "بَ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-2d6a557df5ca",
+      "input": "تَ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-ba418754028b",
+      "input": "لَ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-133bb4576b44",
+      "input": "سَمَكَة",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-1d35b258f38f",
+      "input": "رُمَّان",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-365206ee50f1",
+      "input": "مِفْتَاح",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-36b3714f9b0b",
+      "input": "مَا",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-07f25640a2b9",
+      "input": "ٱللَّهِ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-95da19a9c3af",
+      "input": "قُلْ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-08208c74a20d",
+      "input": "يَ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-a2b1661793d8",
+      "input": "ذَ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-2c61c719a264",
+      "input": "نِ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-421b5b4a01bb",
+      "input": "هُدْهُد",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-48db0e51e1a1",
+      "input": "عِنَب",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-4f0f1d80f36c",
+      "input": "قِطَّة",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-5123f218b937",
+      "input": "جَمَل",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-516b994b0329",
+      "input": "شَمْس",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-62d2cdf47082",
+      "input": "صَدَفَة",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-6bf3f9e02464",
+      "input": "كُ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-b82cc7ec784e",
+      "input": "فِيل",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-c09f1ab2e58c",
+      "input": "لِ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-caca208b7816",
+      "input": "نَحْلَة",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-d4221add8206",
+      "input": "جَ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-d6ec75c3b597",
+      "input": "يَمَامَة",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-fc64a7da85e6",
+      "input": "كِ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-0ee7bf085410",
+      "input": "تِ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-11e478ddafc9",
+      "input": "ظَرْف",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-209639ac36ba",
+      "input": "يِ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-260c870c6e0a",
+      "input": "حِصَان",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-2af2c2f78e37",
+      "input": "دُبّ",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-342ef931382a",
+      "input": "غَزَال",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-49a21f37826a",
+      "input": "طَاوُوس",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-4aacd22ab343",
+      "input": "خَرُوف",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-84f8270e5d52",
+      "input": "لَيْمُون",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-85fcb04d12e3",
+      "input": "كِتَاب",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-8b407e5768a4",
+      "input": "زَرَافَة",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-8cdd45621eb0",
+      "input": "وَرْدَة",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-ba536aa2ea00",
+      "input": "رُ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-c73e1b945fef",
+      "input": "فِى",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-d3d2cda1d205",
+      "input": "بَطَّة",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-d3daf255952c",
+      "input": "ذُرَة",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-dc733dde2277",
+      "input": "أَرْنَب",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-de1e5cba8529",
+      "input": "تِمْسَاح",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-e04a5dacfad1",
+      "input": "ثَعْلَب",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-f2768d97d70e",
+      "input": "بُ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-fd9537adfffb",
+      "input": "ذِ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-0b315cfbef5c",
+      "input": "ٱلنَّاسِ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-1469680daf37",
+      "input": "بٍ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-224b9bc0b043",
+      "input": "زُ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-45fc1490399d",
+      "input": "جُ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-56263c67be0e",
+      "input": "يَا",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-8e63d53ecde5",
+      "input": "أَعْبُدُ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-ab7f40914177",
+      "input": "ذُ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-aff5a3784268",
+      "input": "بً",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-cd1effff8877",
+      "input": "وَمِن",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-f9e63fd121fb",
+      "input": "لُ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-0596b897010e",
+      "input": "هُمْ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-0cc0508c264a",
+      "input": "حٌ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-11491c9dc768",
+      "input": "ذً",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-1183814c6599",
+      "input": "فً",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-1a441a88e3f7",
+      "input": "يً",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-1c562fd4a795",
+      "input": "بِسْمِ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-1c6267a36c4a",
+      "input": "نٍ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-218fec838167",
+      "input": "خً",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-223af94ba4de",
+      "input": "قٌ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-264f2d6a2749",
+      "input": "ذٍ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-30abc74690ba",
+      "input": "رَبَّ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-3443cd8315b6",
+      "input": "عٍ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-395c6270be02",
+      "input": "غً",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-442c25fddbac",
+      "input": "جً",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-481b1df1cd2f",
+      "input": "يٍ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-4aaa2b9d1e51",
+      "input": "ظً",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-4cc52666fb5e",
+      "input": "لً",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-4d0b72756b81",
+      "input": "جٌ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-507849af67a2",
+      "input": "قً",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-50c7f9dc9c4b",
+      "input": "عٌ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-55c1cc57ce2e",
+      "input": "ضٌ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-56801fde24ec",
+      "input": "مٌ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-56b2436828a2",
+      "input": "فٍ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-5fd45680f580",
+      "input": "طٍ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-60ed6c4db8ce",
+      "input": "هٍ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-611a0fc75a47",
+      "input": "غٍ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-6180327bb4fe",
+      "input": "ثً",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-636598d5032b",
+      "input": "كٍ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-64ce0a47ccf0",
+      "input": "كً",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-65250ff7dc22",
+      "input": "غٌ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-6b2ef95b890d",
+      "input": "يٌ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-6b60a2cc44b1",
+      "input": "عً",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-6c2ac6c045aa",
+      "input": "جٍ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-70023d59c807",
+      "input": "صٍ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-783cbd303008",
+      "input": "وٌ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-825223ba5e41",
+      "input": "تً",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-86b9fd2810fc",
+      "input": "ظٍ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-88cf7f28e5a5",
+      "input": "ثٍ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-89c7c0a53353",
+      "input": "وَلَآ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-8bd6107cd397",
+      "input": "مً",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-8cc9ede801c1",
+      "input": "أَنتُمْ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-8d03f21eacd2",
+      "input": "طٌ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-94475bdb6e1c",
+      "input": "خٍ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-95512a1dac68",
+      "input": "زٍ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-9622112d0c46",
+      "input": "زٌ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-97644250cb3f",
+      "input": "رٍ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-9975aa5a1d03",
+      "input": "صً",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-a4d878f2ddde",
+      "input": "سٍ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-a50385d06881",
+      "input": "ٱلرَّحْمَـٰنِ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-a70af41f7756",
+      "input": "وً",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-aa5c8483384a",
+      "input": "سٌ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-aaa90ea0f2e4",
+      "input": "تٍ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-ab3a5a24da20",
+      "input": "طً",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-aec921530fa5",
+      "input": "عَـٰبِدُونَ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-b5ef522130f7",
+      "input": "ٱلرَّحِيمِ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-bb56c2b6e15e",
+      "input": "ٱلَّذِى",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-d8b0badcd773",
+      "input": "مَآ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-0488280621ca",
+      "input": "ٱلصَّمَدُ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-05eb551f8219",
+      "input": "إِنَّ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-0825396f62b3",
+      "input": "هُو",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-0f8a24138157",
+      "input": "كِي",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-1928a403f70f",
+      "input": "بِّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-24a289e02af7",
+      "input": "نِي",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-24d41584f68c",
+      "input": "عَن",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-2a7d9d0b5f72",
+      "input": "لِي",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-2b226200cffc",
+      "input": "مِي",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-2f1492ac8f9d",
+      "input": "نُو",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-32bb49a4f06b",
+      "input": "يَجْعَلْ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-346f9d232ce3",
+      "input": "شَدَّا",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-3b5a6bae2e2f",
+      "input": "مِن",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-4042899104ea",
+      "input": "ٱلْبَيْتِ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-448c21ba5b29",
+      "input": "يُو",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-477e069132a4",
+      "input": "ٱلْفَلَقِ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-4c2f786c3e8d",
+      "input": "لَكُمْ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-4e00650f0b18",
+      "input": "هٰذَا",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-4e4f47bf6d27",
+      "input": "قَمَر",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-513e420f5593",
+      "input": "يَدَآ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-5940b322496a",
+      "input": "وَٱنْحَرْ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-5b6517e3c3f4",
+      "input": "هَا",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-60de38416841",
+      "input": "يُكَذِّبُ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-64157ceae112",
+      "input": "عَبَدتُّمْ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-6cd4010780cd",
+      "input": "ٱلْعُقَدِ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-6f0e9d907af1",
+      "input": "إِ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-826565e1e4fd",
+      "input": "خَلَقَ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-84dc4a445ec8",
+      "input": "بَّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-8bd6f3ee1768",
+      "input": "هِي",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-9165baec42cb",
+      "input": "نَا",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-92b449692318",
+      "input": "وَا",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-97eed4f499be",
+      "input": "مُو",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-9d47cc35d146",
+      "input": "وِي",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-9f9e9e354c42",
+      "input": "مِنْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-a4e8ac8696fd",
+      "input": "لَا",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-a5051b288b63",
+      "input": "ٱللَّهُ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-a92c18c9f482",
+      "input": "ٱلْحَمْدُ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-ae9cda2207e9",
+      "input": "يِي",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-b702f2d63993",
+      "input": "طُو",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-c7332315d337",
+      "input": "ٱلدِّينِ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-c73dc068845c",
+      "input": "لِإِيلَـٰفِ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-c960de019d09",
+      "input": "لَآ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-cae8bcdf693c",
+      "input": "صُدُورِ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-ccd65ecf3ee7",
+      "input": "ذَاتَ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-d3e526870d87",
+      "input": "وُو",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-d58b2a481c68",
+      "input": "نَّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-e19a67213fda",
+      "input": "كُمْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-e2e8512af7aa",
+      "input": "رَبِّ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-e5dfc52647f5",
+      "input": "إِلَـٰهِ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-e70d18ecbedd",
+      "input": "كُو",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-e8865a8cf848",
+      "input": "وَقَبَ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-ee4afc8b7d3e",
+      "input": "لُو",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-fee6694be3d0",
+      "input": "هٰذِهِ",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-ff2f1e4fdf07",
+      "input": "بَدَّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-002183d4fd08",
+      "input": "سَيَصْلَىٰ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-00c749f786e5",
+      "input": "يَـٰٓأَيُّهَا",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-0222d52cb755",
+      "input": "ٱلسَّفِينَةِ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-026d4d96bc80",
+      "input": "ٱلْيَتِيمَ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-08586c5c92e8",
+      "input": "أَثْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-09cab31db93d",
+      "input": "وَٱلنَّاسِ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-0e4ac39bae36",
+      "input": "أَضَّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-0ead245057bd",
+      "input": "أَبِى",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-111e2d687c0a",
+      "input": "أَخَّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-1262fea41d6a",
+      "input": "أَثَّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-12f6530741d3",
+      "input": "حَمَّالَةَ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-138ac79f97ce",
+      "input": "ذَيْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-18379e5c37a5",
+      "input": "أَقَّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-1b0a3c64aa4a",
+      "input": "وَٱلْجِبَالَ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-1b8f6a4c9b36",
+      "input": "أَغْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-1c28268d8a53",
+      "input": "لَٰ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-1dc9c72a6341",
+      "input": "بُّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-1e1e1d5b152e",
+      "input": "أَوْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-208fb201ade0",
+      "input": "جَآءَ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-21053ea34ac3",
+      "input": "أَنْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-272d26944340",
+      "input": "ٱلنَّخْلَةِ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-2758e6f7c41d",
+      "input": "ٱلْجِنَّةِ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-283193a2e9b6",
+      "input": "ٱلنَّمْلِ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-29c89e06ed2b",
+      "input": "عُشّ",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-29d2b840f621",
+      "input": "سُلَحْفَاة",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-29d632397764",
+      "input": "أَذْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-2c6bfc7baed6",
+      "input": "ٱلْأَبْتَرُ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-2e3434a800f8",
+      "input": "أَلْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-2f8d0df7ac64",
+      "input": "ٱلْإِبِلِ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-319af700deea",
+      "input": "يَدْخُلُونَ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-326539a90460",
+      "input": "أَغْنَىٰ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-33d9a6f6b773",
+      "input": "أَبْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-3547dfd7ec91",
+      "input": "نَخْلَة",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-35a19affbd59",
+      "input": "أَغَّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-37c3c71d79ca",
+      "input": "بِٱلدِّينِ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-3856341cceac",
+      "input": "رَيْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-39f4044efed4",
+      "input": "أَفَّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-3a65e50b8ddb",
+      "input": "فَانُوس",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-3b893751d857",
+      "input": "أَ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-3ba71961810c",
+      "input": "فَلْيَعْبُدُوا۟",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-3baa31d86505",
+      "input": "كَٱلْفَرَاشِ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-3c8fecb9dad4",
+      "input": "أَبَابِيلَ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-3ef5b4e16603",
+      "input": "أَصَّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-405d46327c76",
+      "input": "عَلَىٰ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-417e57d76bd5",
+      "input": "مِنَ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-43e96dae370c",
+      "input": "خَيْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-443429f92a4f",
+      "input": "بَيْضَة",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-4800c31a15bc",
+      "input": "رِّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-495278a3b264",
+      "input": "زَيْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-4a2ae2645fa9",
+      "input": "دَّا",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-4ce5a3ea3dc1",
+      "input": "وَيَمْنَعُونَ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-4d124a2d8b97",
+      "input": "أَشَّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-4d7cd9e68907",
+      "input": "أَهَّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-4ec6e5c6752e",
+      "input": "خَوْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-4f11396dddb5",
+      "input": "ٱلْهُدْهُدَ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-50f20133065a",
+      "input": "مَلِكِ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-539af4324707",
+      "input": "أَقْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-561603a43468",
+      "input": "ٱلنَّفَّـٰثَـٰتِ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-573be8e756a8",
+      "input": "عُّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-5907e260e1c7",
+      "input": "ٱلْعَنكَبُوتِ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-5c1e445e3d3a",
+      "input": "ثُعْبَان",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-5e2ab5971ba1",
+      "input": "وَوْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-60432b4556ac",
+      "input": "صَبَاحُ",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-61541f7f2590",
+      "input": "ٱلْوَسْوَاسِ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-61cdbfd8dfd2",
+      "input": "ٱلضَّآلِّينَ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-623b38ff8a92",
+      "input": "وَٱلنَّخْلُ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-628665cc34f8",
+      "input": "أَيَّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-639933f32782",
+      "input": "أَسْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-63ffa816e92b",
+      "input": "وَلِىَ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-6636229aeb19",
+      "input": "ٱلْمِسْكِينِ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-6684f0d7036a",
+      "input": "تَمْر",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-66abf8abd751",
+      "input": "تَعْبُدُونَ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-69d166bf4c47",
+      "input": "سَفِينَة",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-69e912df79f3",
+      "input": "غَيْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-6c1c2c5b4861",
+      "input": "مَفَاتِحُ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-6da171aad477",
+      "input": "حُوتَهُمَا",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-7041ff4feb31",
+      "input": "سَعِيدَة",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-7233c7edf466",
+      "input": "أَيْنَ",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-73a5fdd77c33",
+      "input": "أَصْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-73df5e7cafcd",
+      "input": "وَٱلسَّحَابِ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-75ac319337e2",
+      "input": "الْخَيْرِ",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-7b74bdccec55",
+      "input": "هَيْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-7b9833b47adb",
+      "input": "أَمَّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-7c8c179a254f",
+      "input": "هَوْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-7d8397005d2e",
+      "input": "رِحْلَةَ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-84557e261f8c",
+      "input": "هَٰ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-86cfe810864c",
+      "input": "لَّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-878cf2f808e0",
+      "input": "أَجَّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-87b63e990306",
+      "input": "ٱلْكَـٰفِرُونَ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-88645ab31121",
+      "input": "سَوْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-8c421c6a16e6",
+      "input": "أَزَّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-8c90a8972bb8",
+      "input": "طَيْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-8d0dc448aeaa",
+      "input": "ٱلنَّحْلِ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-8d3d621eb6b5",
+      "input": "نَمْلَة",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-8d72a7b8cb5e",
+      "input": "وَٱلْفَتْحُ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-8e1ba1fb2936",
+      "input": "أَضْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-8f6fac61c73c",
+      "input": "قَطْرَة",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-920b51f40306",
+      "input": "أَدَّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-928c8d6e181c",
+      "input": "أَمْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-934e0e0be0bf",
+      "input": "لِّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-960241d6ca8c",
+      "input": "أَجْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-96207f76a6ca",
+      "input": "وَٱلتِّينِ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-964fe3d883ca",
+      "input": "إِۦلَـٰفِهِمْ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-96d6f26c8b5e",
+      "input": "ٱلْحُوتِ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-972345e0c8be",
+      "input": "أَطْعَمَهُم",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-9769c8f93eac",
+      "input": "ٱلْمَاعُونَ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-988205a0083b",
+      "input": "أَعْطَيْنَـٰكَ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-98967370df3f",
+      "input": "فَجَعَلَهُمْ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-98e56f7b4076",
+      "input": "أَحْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-9a62b4c00e4e",
+      "input": "أَرَّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-9c3c7c771614",
+      "input": "أَطَّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-9e9faf1327e8",
+      "input": "زَوْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-9ff97ca006c2",
+      "input": "أَهْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-a08e0189ebdd",
+      "input": "كَيْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-a0aa8b416e67",
+      "input": "رَبِّكَ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-a25481f377bf",
+      "input": "أَوَّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-a32b5b50477d",
+      "input": "ٱلْعَـٰلَمِينَ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-a332e85d40fd",
+      "input": "نَسْتَعِينُ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-a66ac343d8ff",
+      "input": "زَهْرَة",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-a7c65a80c0fe",
+      "input": "أَشْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-a86406fcf1f4",
+      "input": "مَٰ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-a898e3443be3",
+      "input": "نَجْمَة",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-aae7258a102a",
+      "input": "أَحَّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-adf12736993f",
+      "input": "أَذَّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-ae9398cc337d",
+      "input": "أَطْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-af1758f221c0",
+      "input": "شَانِئَكَ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-b33aeac2d6d9",
+      "input": "وَٱلزَّيْتُونِ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-b91341e311c8",
+      "input": "يُرَآءُونَ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-bba49429a857",
+      "input": "ٱلشِّتَآءِ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-bbcc3bf22bc3",
+      "input": "مِّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-bbd32b60f63b",
+      "input": "لَيْلَة",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-be9d5f4d2ab8",
+      "input": "جَبَل",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-bed89cc05ab8",
+      "input": "أَخْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-bf84d57f278a",
+      "input": "وَٱلصَّيْفِ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-c080eae8e2d0",
+      "input": "ٱلْخَنَّاسِ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-c25a9b791641",
+      "input": "أَتْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-c2f58f6cf5dc",
+      "input": "تَرْمِيهِم",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-c355d80d4e76",
+      "input": "ظَوْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-cf6ed2a2b1c8",
+      "input": "ظَيْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-d066957055f5",
+      "input": "يَيْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-d212844a5b4d",
+      "input": "يَوْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-d238b358add8",
+      "input": "أَدْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-d3c99a2c78ea",
+      "input": "ٱلْقَمَرُ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-b64caf45e1bf",
+      "input": "رً",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-bebdc49b4b33",
+      "input": "ضً",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-c248216c0092",
+      "input": "ثٌ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-c25f41474423",
+      "input": "رٌ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-c607adb54612",
+      "input": "هً",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-c8a726adb4ba",
+      "input": "حً",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-c8fff66159b3",
+      "input": "صٌ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-c962e57e792b",
+      "input": "كٌ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-caf6f392b2fd",
+      "input": "حٍ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-cc8e1e55f2aa",
+      "input": "مٍ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-d5dc38bd4c15",
+      "input": "شٍ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-de4bb33a3f35",
+      "input": "ضٍ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-e241de6189c2",
+      "input": "قٍ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-e41669b75828",
+      "input": "دً",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-e5d1cc0cd142",
+      "input": "فٌ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-e6360442efcf",
+      "input": "وٍ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-e6efccc0cf43",
+      "input": "شٌ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-e772c79105d2",
+      "input": "نً",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-eac418a09e83",
+      "input": "نٌ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-ed4048714f66",
+      "input": "لٌ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-f820bb01fafc",
+      "input": "لٍ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-f9bf2271ebfc",
+      "input": "سً",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-ffeba4e4f785",
+      "input": "ظٌ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-098c3e64cce6",
+      "input": "غَاسِقٍ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-0cb3e6dd5b00",
+      "input": "حَبٌّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-5ef57aec13de",
+      "input": "حَاسِدٍ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-c9bc1bf4e8c5",
+      "input": "لَهَبٍۢ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-0a91908310e7",
+      "input": "بٌّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-1dff1c7fd620",
+      "input": "أَفْوَاجًۭا",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-45c9d3eb506b",
+      "input": "سِجِّيلٍۢ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-5895904160a9",
+      "input": "وَرُمَّانٌۭ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-59eaba12c4de",
+      "input": "عَابِدٌۭ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-5bec3a69b94f",
+      "input": "كَعَصْفٍۢ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-5f83fe3a22bd",
+      "input": "حَبْلٌۭ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-7390e78d5bdb",
+      "input": "حَيَّةٌۭ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-792dcb8a0796",
+      "input": "بِحِجَارَةٍۢ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-830db3028d04",
+      "input": "تَضْلِيلٍۢ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-9c28ee76f949",
+      "input": "أَحَدٌۢ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-d167d16fbabe",
+      "input": "تَوَّابًۢا",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-d545ff78ef4b",
+      "input": "فَوَيْلٌۭ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-d653510e19f8",
+      "input": "ضُّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-d9411520b12e",
+      "input": "أَكْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-db4a956c9af3",
+      "input": "أَسَّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-dc01f9fca5e5",
+      "input": "أَرَءَيْتَ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-dd149a00e256",
+      "input": "رِيشَة",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-e03ee26da857",
+      "input": "أَنَّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-e0ff8f4e4790",
+      "input": "وَٱلشَّمْسِ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-e1c77ec6638b",
+      "input": "حُوت",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-e42909e20d9b",
+      "input": "خَوْفٍۭ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-e4c3b997a436",
+      "input": "ٱلْكَوْثَرَ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-e56bcc9171ce",
+      "input": "أَلَّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-e579296597d3",
+      "input": "دَّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-e589a2fb72a1",
+      "input": "أَفْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-e650fd055850",
+      "input": "أَظَّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-e6f4bc2f7a5f",
+      "input": "ٱلْمُسْتَقِيمَ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-e7ec41c7e8d8",
+      "input": "نَارًۭا",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-e82603d67dfe",
+      "input": "وَءَامَنَهُم",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-eae74ade3a8d",
+      "input": "أَكَّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-eb7d80deadbe",
+      "input": "غُرَابًۭا",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-ec727b68a342",
+      "input": "جُوعٍۢ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-ef0b99452119",
+      "input": "صَلَاتِهِمْ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-ef3d683a64d7",
+      "input": "وَٱلنَّجْمِ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-f0860ff43b91",
+      "input": "ٱلْمَغْضُوبِ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-f0b6339c189b",
+      "input": "ٱلَّذِىٓ",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-f1327d2d3ed8",
+      "input": "الْخَيْر",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-f1e21e5ddb42",
+      "input": "أَزْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-f3c5bf144b92",
+      "input": "أَعْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-f5be903ac037",
+      "input": "غُرَاب",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-f60b8ca89702",
+      "input": "زَيْتُون",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-f63514e65d9b",
+      "input": "سَيْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-f7a493ddfa27",
+      "input": "عَنْكَبُوت",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-f886b389fdcf",
+      "input": "أَيْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-f89432b76df4",
+      "input": "وَعِنَبًۭا",
+      "direction": "quran-reading"
+    },
+    {
+      "id": "lg-fc6e5d76d6a2",
+      "input": "فَرَاشَة",
+      "direction": "story-words"
+    },
+    {
+      "id": "lg-fcb6de9fdc13",
+      "input": "أَبَّ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-fdd4fbf6328f",
+      "input": "أَرْ",
+      "direction": "syllables"
+    },
+    {
+      "id": "lg-ffb111e6ea09",
+      "input": "كَوْ",
+      "direction": "syllables"
+    }
+  ],
+  "review": "teacher-library/index.html",
+  "docs": "https://developers.openai.com/api/docs/guides/text-to-speech",
+  "reviewStart": 212,
+  "batchLabel": "Next 100 missing recordings — batch 3",
+  "currentBatchPlanningReservationUSD": 5,
+  "previousBatchApproved": 12
+}

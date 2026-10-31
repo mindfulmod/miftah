@@ -1,0 +1,48 @@
+/* A small puppet show, with an uncluttered learning stage and separate tools. */
+.lg-app .lg-play[data-activity="friend"] .practice-stage { display:block; position:relative; container-type:size; overflow:hidden; background:none; border:0; box-shadow:none; padding:0; }
+.lg-app .ff-play { display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%; height:100%; gap:clamp(8px,2cqh,18px); padding:8px 10px 14px; }
+.lg-app .ff-play .ff-top { flex:none; }
+.lg-app .ff-play .ff-theatre { display:block; position:relative; width:min(300px,70cqw,42cqh); aspect-ratio:6/5; padding:0; border:0; border-radius:24px; background:none; box-shadow:none; cursor:pointer; touch-action:manipulation; }
+.lg-app .ff-play .ff-booth { display:block; width:100%; height:100%; overflow:visible; }
+.lg-app .ff-play .ff-performer { position:absolute; left:27.5%; top:24.5%; width:45%; height:54%; opacity:0; transform:translateY(8px); transition:opacity 180ms ease-out,transform 360ms cubic-bezier(.3,1.3,.5,1); pointer-events:none; }
+.lg-app .ff-play .ff-performer > svg { width:100%; height:100%; }
+.lg-app .ff-play .ff-theatre.is-open .ff-performer { opacity:1; transform:none; }
+.lg-app .ff-play .ff-curtain-left,.lg-app .ff-play .ff-curtain-right { transition:transform 420ms cubic-bezier(.3,1.2,.5,1); transform-box:fill-box; }
+.lg-app .ff-play .ff-curtain-left { transform-origin:left center; }
+.lg-app .ff-play .ff-curtain-right { transform-origin:right center; }
+.lg-app .ff-play .is-open .ff-curtain-left { transform:translateX(-38px) scaleX(.3); }
+.lg-app .ff-play .is-open .ff-curtain-right { transform:translateX(38px) scaleX(.3); }
+.lg-app .ff-play .ff-listen-symbol { position:absolute; left:41%; top:41%; width:18%; height:22%; display:grid; place-items:center; border-radius:50%; background:#fffaf0; pointer-events:none; }
+.lg-app .ff-play .ff-listen-symbol svg { width:75%; height:75%; }
+.lg-app .ff-play .is-open .ff-listen-symbol { display:none; }
+.lg-app .ff-play .ff-choices { display:flex; align-items:center; justify-content:center; flex-wrap:nowrap; gap:clamp(8px,3cqw,20px); width:min(100%,640px); flex:none; }
+.lg-app .ff-play .ff-card { display:block; position:relative; flex:none; width:min(180px,26cqw,27cqh); aspect-ratio:9/7; min-width:54px; padding:0; border:0; border-radius:24px; background:none; box-shadow:none; transition:transform 200ms ease-out,opacity 180ms ease-out; cursor:pointer; touch-action:manipulation; }
+.lg-app .ff-play .ff-choices[data-count="2"] .ff-card { width:min(200px,40cqw,30cqh); }
+.lg-app .ff-play .ff-perch { display:block; width:100%; height:100%; }
+.lg-app .ff-play .ff-choice-friend { position:absolute; left:20%; top:0; width:60%; height:72%; pointer-events:none; }
+.lg-app .ff-play .ff-choice-friend svg { width:100%; height:100%; }
+.lg-app .ff-play .ff-card:active:not(:disabled) { transform:translateY(3px) scale(.97); }
+.lg-app .ff-play .ff-card.is-right { transform:translateY(-5px) scale(1.05); background:none; }
+.lg-app .ff-play .ff-card.is-away { opacity:.55; transform:scale(.97); }
+.lg-app .ff-play .ff-card.is-hint { animation:none; filter:drop-shadow(0 0 6px #f3c955); }
+.lg-app .ff-play .ff-card:disabled { cursor:default; }
+.lg-app .ff-play .ff-tools { display:flex; justify-content:center; align-items:center; gap:14px; flex:none; height:58px; }
+.lg-app .ff-play .ff-tools > button { display:grid; place-items:center; width:56px; height:56px; padding:7px; border:3px solid #4a3620; border-radius:19px; box-shadow:0 4px 0 #a89478; background:#fffaf0; cursor:pointer; touch-action:manipulation; }
+.lg-app .ff-play .ff-tools > button > svg { width:100%; height:100%; }
+.lg-app .ff-play .ff-tools > .ff-next { background:#b7e779; box-shadow:0 4px 0 #4e9677; }
+.lg-app .ff-play .ff-tools > .ff-next[hidden] { display:grid!important; visibility:hidden; pointer-events:none; }
+.lg-app .ff-play .ff-tools > button:active:not(:disabled) { transform:translateY(2px); }
+.lg-app .ff-play .ff-tools > button:disabled { cursor:default; background:#e5dcc8; }
+.lg-app .ff-play .ff-progress { display:flex; flex-direction:row; gap:7px; padding:9px; border-radius:20px; background:#fffaf0; }
+.lg-app .ff-play .ff-progress i { width:15px; height:19px; border-radius:50%; }
+.lg-app .ff-play button:focus-visible { outline:4px solid var(--lg-focus); outline-offset:4px; }
+@media (orientation:landscape) and (max-height:500px) {
+  .lg-app .ff-play { display:grid; grid-template-columns:minmax(130px,.8fr) minmax(220px,1.3fr); grid-template-rows:minmax(0,1fr) 60px; align-items:center; justify-items:center; gap:6px 12px; padding:12px; }
+  .lg-app .ff-play .ff-top { grid-row:1/3; grid-column:1; }
+  .lg-app .ff-play .ff-theatre { width:min(260px,35cqw,72cqh); }
+  .lg-app .ff-play .ff-choices { grid-row:1; grid-column:2; width:100%; gap:8px; }
+  .lg-app .ff-play .ff-card { width:min(138px,18cqw,34cqh); }
+  .lg-app .ff-play .ff-tools { grid-row:2; grid-column:2; }
+}
+@media (prefers-reduced-motion:reduce) { .lg-app .ff-play * { transition:none!important; animation:none!important; } }
+.lg-app.lg-reduce-motion .ff-play * { transition:none!important; animation:none!important; }

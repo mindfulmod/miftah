@@ -1,0 +1,28 @@
+✔ rapid feedback stays local and cannot stack particle showers (9.449125ms)
+✔ small trees simplify fine marks without losing roots, branches or fruit (3.636ms)
+✔ shadow pools reject untaught, locked, prerequisite-blocked, and conflicting duplicate letters even without the helper (6.153542ms)
+✔ beginner Lantern offers two unique taught choices even when choice helpers return extras (2.021208ms)
+✔ empty learning plans fall back to eligible letters instead of producing a blank visit (1.502542ms)
+✔ Lantern playback failure and timeout reveal the prompt; an eager answer stays assisted and old speech is ignored (5.241792ms)
+✔ Lantern pointer ownership makes a dark tap reveal, a second tap select, and duplicate awards impossible (1.789833ms)
+✔ Letter Shadows holds visit difficulty and adds choices before another shadow and plain forms (1.733083ms)
+✔ Letter Shadows keeps tap matching and accepts only drops near a shadow (1.360417ms)
+✔ Lantern hiding centers include the full minimum card inside a narrow scene (0.632375ms)
+✔ Lantern lost capture and obsolete buttons cannot leave a stuck sweep or answer another round (0.69925ms)
+✔ failed answer feedback is contained while its caller still receives the failed promise (1.706667ms)
+✔ an unavailable same-body construction pool returns without a completion reward (7.142083ms)
+✔ Workshop filters ineligible and conflicting duplicate letters before practice ordering (1.745625ms)
+✔ BuildLetter separates construction steps from choice count and guides the current step (3.335084ms)
+✔ Body-only letters remain playable as one guided construction step (0.642ms)
+✔ BuildLetter skips same-shape targets when no distinct answer can be offered (1.037125ms)
+✔ FillGap shows the complete joined reference, offers a receiving hole, and ignores old drags (1.686084ms)
+✔ a delayed initial FillGap prompt cannot speak for the next card (1.182959ms)
+✔ a late failed speech result cannot change the next workshop round (0.927417ms)
+ℹ tests 20
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 89.104458

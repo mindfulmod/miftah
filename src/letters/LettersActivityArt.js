@@ -14,6 +14,14 @@
     unfuse: "joinery",
     chain: "joinery",
     parade: "parade",
+    FriendPairs: "toytable", FriendJigsaw: "toytable", ColourFriend: "toytable",
+    BuildLetter: "toytable", FillGap: "toytable", DotsLast: "toytable", SameLetter: "toytable",
+    PeekFlaps: "storybook", SoundSort: "storybook", HoopoeTrip: "storybook",
+    FriendShapes: "storybook", BusyMarket: "storybook", TwinCrown: "storybook",
+    ListenFind: "storybook", WordGap: "storybook", EchoParade: "storybook",
+    DotNests: "naturetable", BathTime: "naturetable", LetterFishing: "naturetable",
+    LetterTrain: "naturetable", SpotChange: "naturetable", FamilyBuses: "naturetable",
+    LanternHunt: "naturetable", LetterShadows: "naturetable", HatShop: "tailor",
   };
 
   const shadow = (cx, cy, rx, ry, opacity = ".16") =>
@@ -23,16 +31,23 @@
     // A low seed tray: only the timber/mat planes stretch. Live cards and pots
     // retain fixed proportions in the game layer above the recessed surface.
     return `<svg class="activity-plane" viewBox="0 0 720 540" preserveAspectRatio="none" aria-hidden="true">
-      <defs><linearGradient id="pairs-felt" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7fce54"/><stop offset=".42" stop-color="#4e9677"/><stop offset=".85" stop-color="#2f5c46"/></linearGradient></defs>
+      <defs>
+
+
+
+      </defs>
       <ellipse cx="360" cy="509" rx="320" ry="23" fill="#2f5c46" opacity=".22"/>
       <path d="M21 58Q21 25 57 25H663Q699 25 699 58V471Q699 516 663 519H57Q21 516 21 471Z" fill="#4a3620"/>
-      <rect x="24" y="22" width="672" height="466" rx="35" fill="#a89478"/>
+      <rect x="24" y="22" width="672" height="466" rx="35" fill="#c9bda4"/>
       <rect x="25" y="20" width="670" height="449" rx="35" fill="#e5dcc8"/>
       <path d="M57 23H663Q691 23 692 55V70Q684 41 658 41H62Q36 41 28 70V56Q28 23 57 23Z" fill="#fffaf0"/>
       <rect x="51" y="53" width="618" height="377" rx="29" fill="#2f5c46"/>
-      <rect x="59" y="65" width="602" height="355" rx="24" fill="url(#pairs-felt)"/>
-      <path d="M84 77H636M79 88V389M641 88V389" fill="none" stroke="#b7e779" stroke-width="2.4" opacity=".45" stroke-dasharray="5 10"/>
-      <path d="M60 447Q227 455 305 447M416 447Q505 456 659 447" fill="none" stroke="#c9bda4" stroke-width="2.4"/>
+      <rect x="59" y="65" width="602" height="355" rx="24" fill="#4e9677"/>
+      <path d="M84 77H636M79 88V389M641 88V389" fill="none" stroke="#b7e779" stroke-width="2.4" opacity=".3" stroke-dasharray="5 10"/>
+      <path d="M60 447Q227 455 305 447M416 447Q505 456 659 447" fill="none" stroke="#70501b" stroke-width="2.4" opacity=".7"/>
+      <path d="M60 441Q227 449 305 441M416 441Q505 450 659 441" fill="none" stroke="#fffaf0" stroke-width="2.4" opacity=".8"/>
+      <g fill="#f3c955" stroke="#70501b" stroke-width="1.6"><circle cx="43" cy="44" r="5"/><circle cx="677" cy="44" r="5"/><circle cx="43" cy="464" r="5"/><circle cx="677" cy="464" r="5"/></g>
+      <path d="M70 34Q120 30 168 34M552 34Q600 30 650 34" fill="none" stroke="#fffaf0" stroke-width="2.4" opacity=".62" stroke-linecap="round"/>
     </svg>`;
   }
 
@@ -66,7 +81,18 @@
       <path d="M18 482Q90 435 172 459Q341 439 520 459Q630 432 702 483L681 518Q356 542 40 518Z" fill="#4a3620"/>
       <path d="M18 465Q90 418 172 442Q341 422 520 442Q630 415 702 466L681 506Q356 529 40 506Z" fill="#e5dcc8"/>
       <path d="M36 467Q104 427 174 449Q337 431 519 449Q628 427 684 466Q565 446 515 460Q348 447 175 460Q100 441 36 467Z" fill="#fffaf0"/>
-    </svg>${orchardTree('is-left')}${orchardTree('is-right')}`;
+    </svg>${orchardTree('is-left')}${orchardTree('is-right')}${orchardArch()}`;
+  }
+
+  // A light, open crown frames the orchard while leaving its center clear for
+  // falling fruit and the child's letter choices. Fruit itself remains owned
+  // by CatchGame so it can move and respond as a real choice.
+  function orchardArch() {
+    return prop('orchard-arch', `<path d="M8 100Q92 13 205 24Q295 30 357 58Q431 87 507 49Q620 -7 712 69L712 88Q623 27 516 69Q430 108 349 79Q286 57 205 51Q99 40 8 119Z" fill="#70501b"/>
+      <path d="M10 99Q96 20 204 31Q292 36 352 64Q429 93 509 57Q617 8 708 74L708 81Q619 20 512 63Q431 101 350 73Q288 51 205 45Q99 34 10 108Z" fill="#c69434"/>
+      <path d="M16 96Q59 55 103 46Q85 75 56 100Q37 115 18 121ZM617 30Q658 35 701 70Q683 67 660 59Q637 49 617 30Z" fill="#4e9677"/>
+      <path d="M27 91Q48 62 80 55Q68 81 41 101ZM641 37Q674 46 697 68Q668 62 641 37Z" fill="#7fce54"/>
+      <path d="M176 36Q194 23 218 27Q204 43 181 45ZM472 69Q495 50 520 47Q508 68 481 76Z" fill="#7fce54"/>`, '0 0 720 140');
   }
 
   // Only large planes stretch. Props have their own viewBox and ground anchor.
@@ -128,7 +154,7 @@
     // The upright cabinet shares the joinery desk's warm timber. Only these
     // broad planes resize; paper doors and live teaching tiles keep their ratio.
     return `<svg class="activity-plane" viewBox="0 0 720 540" preserveAspectRatio="none" aria-hidden="true">
-      <defs><linearGradient id="parade-lining" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7fce54"/><stop offset=".4" stop-color="#4e9677"/><stop offset=".76" stop-color="#2f5c46"/></linearGradient></defs>
+      <defs></defs>
       <ellipse cx="360" cy="526" rx="310" ry="12" fill="#2f5c46" opacity=".16"/>
       <path d="M75 428H145L135 519Q111 532 86 519ZM575 428H645L634 519Q609 532 585 519Z" fill="#4a3620"/>
       <path d="M88 439H131L124 516L98 516ZM589 439H632L622 516L598 516Z" fill="#a89478"/>
@@ -137,7 +163,7 @@
       <path d="M38 40Q38 25 58 24Q360 8 662 24Q682 25 682 40V443Q682 463 662 464H58Q38 463 38 443Z" fill="#e5dcc8"/>
       <path d="M42 29Q360 12 678 29V42Q360 26 42 42Z" fill="#fffaf0"/>
       <path d="M63 55Q360 43 657 55V425Q360 445 63 425Z" fill="#2f5c46"/>
-      <path d="M73 63Q360 52 647 63V409Q360 428 73 409Z" fill="url(#parade-lining)"/>
+      <path d="M73 63Q360 52 647 63V409Q360 428 73 409Z" fill="#4e9677"/>
       <path d="M75 63Q360 53 645 63V75Q360 63 75 75Z" fill="#b7e779" opacity=".48"/>
       <path d="M52 440Q360 457 668 440V456Q360 475 52 456Z" fill="#fffaf0"/>
       <path d="M52 457Q360 476 668 457V472Q360 491 52 472Z" fill="#a89478"/>
@@ -185,9 +211,41 @@
       <path d="M35 55L33 377M683 55L686 377M48 397Q146 411 223 406M497 406Q584 411 673 397" fill="none" stroke="#a89478" stroke-width="2.4"/>
       ${/* apron: plank seams and a drawer with a gold pull */''}<g stroke="#70501b" stroke-width="2.4" stroke-linecap="round">${[170,560].map(x=>`<path d="M${x} 446V466"/>`).join('')}</g><rect x="290" y="447" width="140" height="22" rx="6" fill="#c9bda4" stroke="#4a3620" stroke-width="3"/><rect x="346" y="453" width="28" height="10" rx="5" fill="#f3c955" stroke="#4a3620" stroke-width="2.4"/>
       ${[[108,526],[610,526]].map(([x,y])=>`<ellipse cx="${x}" cy="${y}" rx="26" ry="7" fill="#70501b" stroke="#4a3620" stroke-width="3"/>`).join('')}
-    </svg>${pencilPot()}${paperRoll()}`;
+    </svg>${pencilPot()}${paperRoll()}${joineryMallet()}${joineryBlocks()}`;
   }
-  const DRAW = { pairs, catch: catchOrchard, workbench, joinery, parade, picnic, potting };
+
+  function joineryMallet() {
+    return prop('mallet', `<ellipse cx="60" cy="130" rx="44" ry="7" fill="#2f5c46" opacity=".18"/>
+      <path d="M53 55Q60 49 67 55L71 113Q61 127 49 113Z" fill="#a89478" stroke="#4a3620" stroke-width="2.4"/>
+      <path d="M57 63L61 111" fill="none" stroke="#e5dcc8" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M23 36Q23 25 34 24L86 24Q98 26 98 38V52Q97 62 86 63H34Q22 61 22 51Z" fill="#c69434" stroke="#4a3620" stroke-width="2.4"/>
+      <path d="M28 32Q60 27 92 32V39Q60 35 28 40Z" fill="#ffe49a"/>
+      <path d="M31 53Q60 58 89 53" fill="none" stroke="#70501b" stroke-width="2.4" stroke-linecap="round"/>`);
+  }
+
+  function joineryBlocks() {
+    return prop('joint-blocks', `<ellipse cx="60" cy="130" rx="45" ry="7" fill="#2f5c46" opacity=".16"/>
+      <path d="M13 88L40 77L65 88L38 102Z" fill="#e5dcc8" stroke="#4a3620" stroke-width="2.4"/>
+      <path d="M13 88V113L38 126V102Z" fill="#a89478" stroke="#4a3620" stroke-width="2.4"/>
+      <path d="M38 102L65 88V112L38 126Z" fill="#c9bda4" stroke="#4a3620" stroke-width="2.4"/>
+      <path d="M61 62L83 53L108 64L84 77Z" fill="#c9bda4" stroke="#4a3620" stroke-width="2.4"/>
+      <path d="M61 62V86L84 99V77Z" fill="#a89478" stroke="#4a3620" stroke-width="2.4"/>
+      <path d="M84 77L108 64V88L84 99Z" fill="#e5dcc8" stroke="#4a3620" stroke-width="2.4"/>
+      <path d="M24 92L38 99M72 66L84 73" fill="none" stroke="#fffaf0" stroke-width="1.6" stroke-linecap="round"/>`);
+  }
+  // The toys keep their own live illustration. Small edge kits identify the
+  // place they belong to, without stretching a character or covering its ink.
+  function toyKit(kind) {
+    const leaf = `<path d="M51 108Q35 83 44 54M46 80Q15 81 18 55Q43 49 46 80M44 66Q74 65 78 38Q46 37 44 66Z" fill="#93ab6c"/><path d="M45 70L43 104" stroke="#647d4e" stroke-width="2.4"/><path d="M27 100H69L63 129H33Z" fill="#c69434" stroke="#4a3620" stroke-width="2.4"/><path d="M32 105H64" stroke="#ffe49a" stroke-width="3"/>`;
+    const books = `<path d="M16 112H99V129H16Q8 121 16 112Z" fill="#4e9677" stroke="#4a3620" stroke-width="2.4"/><path d="M20 116H94V124H20" fill="#fffaf0"/><path d="M24 88H89V111H24Q17 100 24 88Z" fill="#ee806f" stroke="#4a3620" stroke-width="2.4"/><path d="M29 93H86V105H29" fill="#fffaf0"/><path d="M37 68H99V87H37Q30 77 37 68Z" fill="#b49fcf" stroke="#4a3620" stroke-width="2.4"/><path d="M42 72H95V82H42" fill="#e6d6f0"/>`;
+    const thread = `<path d="M30 56H78V120H30Z" fill="#b49fcf" stroke="#4a3620" stroke-width="2.4"/><path d="M34 62H74M34 73H74M34 84H74M34 95H74M34 106H74" stroke="#e6d6f0" stroke-width="3"/><ellipse cx="54" cy="56" rx="29" ry="8" fill="#e5dcc8" stroke="#4a3620" stroke-width="2.4"/><ellipse cx="54" cy="120" rx="29" ry="8" fill="#c9bda4" stroke="#4a3620" stroke-width="2.4"/><path d="M78 104Q112 102 104 126" fill="none" stroke="#8c74b0" stroke-width="2.4"/>`;
+    const kit = kind === 'storybook' ? books : kind === 'tailor' ? thread : leaf;
+    return prop('toy-kit', `<ellipse cx="57" cy="132" rx="48" ry="6" fill="#4a3620" opacity=".16"/>${kit}`)
+      + (kind === 'toytable' ? joineryMallet() : prop('toy-leaves', `<ellipse cx="61" cy="132" rx="45" ry="6" fill="#4a3620" opacity=".12"/>${leaf}`));
+  }
+  const DRAW = { pairs, catch: catchOrchard, workbench, joinery, parade, picnic, potting,
+    toytable: () => toyKit('toytable'), storybook: () => toyKit('storybook'),
+    naturetable: () => toyKit('naturetable'), tailor: () => toyKit('tailor') };
 
   function fixedProps(markup) {
     const bounds = { 'pairs-leaves':'0 30 720 90', 'orchard-fruit':'20 35 680 110', 'parade-hangers':'48 88 625 78' };
@@ -212,7 +270,8 @@
     let stopped = false;
     const ensure = () => {
       if (stopped || !stage.isConnected || stage.querySelector(":scope > .lg-activity-art")) return;
-      stage.insertAdjacentHTML("afterbegin", scene(activity));
+      // Keep a toy's root first: fitStage measures that root, never the scenery.
+      stage.insertAdjacentHTML(['toytable','storybook','naturetable','tailor'].includes(FAMILY[activity]) ? "beforeend" : "afterbegin", scene(activity));
     };
     ensure();
     const observer = new MutationObserver(ensure);

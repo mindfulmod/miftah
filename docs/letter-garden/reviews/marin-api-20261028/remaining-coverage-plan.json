@@ -1,0 +1,1944 @@
+{
+  "stage": "teacher-remaining-coverage-v1",
+  "model": "gpt-4o-mini-tts-2025-03-20",
+  "voice": "marin",
+  "planningReservationUSD": 6.3,
+  "jobs": [
+    {
+      "id": "lg-0152a46fabbd",
+      "input": "أَتَّ",
+      "targetInput": "أَتَّ",
+      "targetId": "lg-0152a46fabbd",
+      "display": "أَتَّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-016ff9893423",
+      "input": "أَكِّ",
+      "targetInput": "أَكِّ",
+      "targetId": "lg-016ff9893423",
+      "display": "أَكِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-01b390cd2794",
+      "input": "أَضِّ",
+      "targetInput": "أَضِّ",
+      "targetId": "lg-01b390cd2794",
+      "display": "أَضِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-021c4b782e91",
+      "input": "أَمِّ",
+      "targetInput": "أَمِّ",
+      "targetId": "lg-021c4b782e91",
+      "display": "أَمِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-02c90719dde5",
+      "input": "أَكُّ",
+      "targetInput": "أَكُّ",
+      "targetId": "lg-02c90719dde5",
+      "display": "أَكُّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-04b5c6435127",
+      "input": "رَوْ",
+      "targetInput": "رَوْ",
+      "targetId": "lg-04b5c6435127",
+      "display": "رَوْ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "chapter:leen:target"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-0512f62a1a38",
+      "input": "فَيْ",
+      "targetInput": "فَيْ",
+      "targetId": "lg-0512f62a1a38",
+      "display": "فَيْ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "chapter:leen:target"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-05161e8bf75d",
+      "input": "أَظْ",
+      "targetInput": "أَظْ",
+      "targetId": "lg-05161e8bf75d",
+      "display": "أَظْ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-05364b31a94f",
+      "input": "هٌ",
+      "targetInput": "هٌ",
+      "targetId": "lg-05364b31a94f",
+      "display": "هٌ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "chapter:tanween:target",
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-05668cf884cc",
+      "input": "أَعَّ",
+      "targetInput": "أَعَّ",
+      "targetId": "lg-05668cf884cc",
+      "display": "أَعَّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-056d58b69633",
+      "input": "ضِفْدَع",
+      "targetInput": "ضِفْدَع",
+      "targetId": "lg-056d58b69633",
+      "display": "ضِفْدَع",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "letter-friends",
+        "book:where",
+        "book:what",
+        "book:morning",
+        "book:night"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-06e342632aea",
+      "input": "غَيْمَة",
+      "targetInput": "غَيْمَة",
+      "targetId": "lg-06e342632aea",
+      "display": "غَيْمَة",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "picture-words-and-ears-games"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-0763e4361447",
+      "input": "إِنَّهُۥ",
+      "targetInput": "إِنَّهُۥ",
+      "targetId": "lg-0763e4361447",
+      "display": "إِنَّهُۥ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "ayah:110:3"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-076daabc0e31",
+      "input": "رَٰ",
+      "targetInput": "رَٰ",
+      "targetId": "lg-076daabc0e31",
+      "display": "رَٰ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "chapter:decode:target:part"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-09c187a3d2e6",
+      "input": "أَدُّ",
+      "targetInput": "أَدُّ",
+      "targetId": "lg-09c187a3d2e6",
+      "display": "أَدُّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-dda8288023fc",
+      "input": "دَالْ سَاكِنَة",
+      "targetInput": "دْ",
+      "targetId": "lg-0a698f01afe3",
+      "display": "دْ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read the supplied letter description naturally, exactly as written. This identifies the letter and its mark; it is not an isolated phonetic sound.",
+      "contextExample": false,
+      "description": true,
+      "uses": [
+        "chapter:decode:target:part"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-aff4824d4d04",
+      "input": "بَاءْ مُشَدَّدَة بِالْفَتْحَة",
+      "targetInput": "بٌّ",
+      "targetId": "lg-0a91908310e7",
+      "display": "بٌّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read the supplied letter description naturally, exactly as written. This identifies the letter and its mark; it is not an isolated phonetic sound.",
+      "contextExample": false,
+      "description": true,
+      "uses": [
+        "chapter:shaddah-mix:target:part"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-0bcea8612016",
+      "input": "أَرِّ",
+      "targetInput": "أَرِّ",
+      "targetId": "lg-0bcea8612016",
+      "display": "أَرِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-124a36990422",
+      "input": "أَغُّ",
+      "targetInput": "أَغُّ",
+      "targetId": "lg-124a36990422",
+      "display": "أَغُّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-139a6ba5cae1",
+      "input": "فَ",
+      "targetInput": "فَ",
+      "targetId": "lg-139a6ba5cae1",
+      "display": "فَ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "chapter:fatha:target",
+        "chapter:tanween:target",
+        "chapter:long-sounds:target:part",
+        "chapter:leen:target:part",
+        "chapter:decode:target:part",
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-bba867de39b3",
+      "input": "بَاءْ مُشَدَّدَة بِالْكَسْرَة",
+      "targetInput": "بِّ",
+      "targetId": "lg-1928a403f70f",
+      "display": "بِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read the supplied letter description naturally, exactly as written. This identifies the letter and its mark; it is not an isolated phonetic sound.",
+      "contextExample": false,
+      "description": true,
+      "uses": [
+        "chapter:words-2:target:part",
+        "chapter:decode:target:part"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-193d8e04eebe",
+      "input": "تِين",
+      "targetInput": "تِين",
+      "targetId": "lg-193d8e04eebe",
+      "display": "تِين",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "picture-words-and-ears-games"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-80fc666a653e",
+      "input": "وَاوْ سَاكِنَة",
+      "targetInput": "وْ",
+      "targetId": "lg-1b495636af95",
+      "display": "وْ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read the supplied letter description naturally, exactly as written. This identifies the letter and its mark; it is not an isolated phonetic sound.",
+      "contextExample": false,
+      "description": true,
+      "uses": [
+        "chapter:leen:target:part",
+        "chapter:decode:target:part"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-172e4eba8298",
+      "input": "بَاءْ مُشَدَّدَة بِالضَّمَّة",
+      "targetInput": "بُّ",
+      "targetId": "lg-1dc9c72a6341",
+      "display": "بُّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read the supplied letter description naturally, exactly as written. This identifies the letter and its mark; it is not an isolated phonetic sound.",
+      "contextExample": false,
+      "description": true,
+      "uses": [
+        "chapter:decode:target:part"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-1e52d2f0df32",
+      "input": "أَثُّ",
+      "targetInput": "أَثُّ",
+      "targetId": "lg-1e52d2f0df32",
+      "display": "أَثُّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-2155dba94601",
+      "input": "قِ",
+      "targetInput": "قِ",
+      "targetId": "lg-2155dba94601",
+      "display": "قِ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "chapter:kasra-damma:target",
+        "chapter:tanween:target",
+        "chapter:long-sounds:target:part",
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-2620d852f44e",
+      "input": "أَنِّ",
+      "targetInput": "أَنِّ",
+      "targetId": "lg-2620d852f44e",
+      "display": "أَنِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-278d280eb1bc",
+      "input": "مَّأْكُولٍۭ",
+      "targetInput": "مَّأْكُولٍۭ",
+      "targetId": "lg-278d280eb1bc",
+      "display": "مَّأْكُولٍۭ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "ayah:105:5"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-2cd7e725da12",
+      "input": "أَفُّ",
+      "targetInput": "أَفُّ",
+      "targetId": "lg-2cd7e725da12",
+      "display": "أَفُّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-31d16c7f5df3",
+      "input": "وُ",
+      "targetInput": "وُ",
+      "targetId": "lg-31d16c7f5df3",
+      "display": "وُ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "chapter:kasra-damma:target",
+        "chapter:long-sounds:target:part",
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-33fae2c3fa92",
+      "input": "هُ",
+      "targetInput": "هُ",
+      "targetId": "lg-33fae2c3fa92",
+      "display": "هُ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "chapter:kasra-damma:target",
+        "chapter:long-sounds:target:part",
+        "chapter:words-2:target:part",
+        "chapter:decode:target:part",
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-34177df45f9b",
+      "input": "مِّنْ",
+      "targetInput": "مِّنْ",
+      "targetId": "lg-34177df45f9b",
+      "display": "مِّنْ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "ayah:106:4"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-37e5da5b14aa",
+      "input": "أَوِّ",
+      "targetInput": "أَوِّ",
+      "targetId": "lg-37e5da5b14aa",
+      "display": "أَوِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-94e7351921f4",
+      "input": "صَادْ سَاكِنَة",
+      "targetInput": "صْ",
+      "targetId": "lg-40ec7e34c947",
+      "display": "صْ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read the supplied letter description naturally, exactly as written. This identifies the letter and its mark; it is not an isolated phonetic sound.",
+      "contextExample": false,
+      "description": true,
+      "uses": [
+        "chapter:decode:target:part"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-43401d7c8e1d",
+      "input": "أَبُّ",
+      "targetInput": "أَبُّ",
+      "targetId": "lg-43401d7c8e1d",
+      "display": "أَبُّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-9b23016caa50",
+      "input": "رَاءْ مُشَدَّدَة بِالْكَسْرَة",
+      "targetInput": "رِّ",
+      "targetId": "lg-4800c31a15bc",
+      "display": "رِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read the supplied letter description naturally, exactly as written. This identifies the letter and its mark; it is not an isolated phonetic sound.",
+      "contextExample": false,
+      "description": true,
+      "uses": [
+        "chapter:words-2:target:part"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-48e5a0b16a3a",
+      "input": "أَهُّ",
+      "targetInput": "أَهُّ",
+      "targetId": "lg-48e5a0b16a3a",
+      "display": "أَهُّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-4d3b3a8139ac",
+      "input": "مَالُهُۥ",
+      "targetInput": "مَالُهُۥ",
+      "targetId": "lg-4d3b3a8139ac",
+      "display": "مَالُهُۥ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "ayah:111:2"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-4d7b22beb5c4",
+      "input": "أَلُّ",
+      "targetInput": "أَلُّ",
+      "targetId": "lg-4d7b22beb5c4",
+      "display": "أَلُّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-50ff0d8b4be1",
+      "input": "مِصْبَاحٌ ۖ",
+      "targetInput": "مِصْبَاحٌ ۖ",
+      "targetId": "lg-50ff0d8b4be1",
+      "display": "مِصْبَاحٌ ۖ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "treasury:lantern"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-596979e53296",
+      "input": "أَحِّ",
+      "targetInput": "أَحِّ",
+      "targetId": "lg-596979e53296",
+      "display": "أَحِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-5976b0dd204d",
+      "input": "أَغِّ",
+      "targetInput": "أَغِّ",
+      "targetId": "lg-5976b0dd204d",
+      "display": "أَغِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-5c1b0232a0c6",
+      "input": "أَطُّ",
+      "targetInput": "أَطُّ",
+      "targetId": "lg-5c1b0232a0c6",
+      "display": "أَطُّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-5c7c776a70b4",
+      "input": "أَتِّ",
+      "targetInput": "أَتِّ",
+      "targetId": "lg-5c7c776a70b4",
+      "display": "أَتِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-5cf5d1a48eec",
+      "input": "أَنَا۠",
+      "targetInput": "أَنَا۠",
+      "targetId": "lg-5cf5d1a48eec",
+      "display": "أَنَا۠",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "ayah:109:4"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-5df29168c337",
+      "input": "لِّلْمُصَلِّينَ",
+      "targetInput": "لِّلْمُصَلِّينَ",
+      "targetId": "lg-5df29168c337",
+      "display": "لِّلْمُصَلِّينَ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "ayah:107:4"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-6287e1911430",
+      "input": "أَهِّ",
+      "targetInput": "أَهِّ",
+      "targetId": "lg-6287e1911430",
+      "display": "أَهِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-6680d2ac601d",
+      "input": "أَعِّ",
+      "targetInput": "أَعِّ",
+      "targetId": "lg-6680d2ac601d",
+      "display": "أَعِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-6779e7446dda",
+      "input": "أَيُّ",
+      "targetInput": "أَيُّ",
+      "targetId": "lg-6779e7446dda",
+      "display": "أَيُّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-cf74c943ec31",
+      "input": "يَاءْ",
+      "targetInput": "ي",
+      "targetId": "lg-68a74b816924",
+      "display": "ي",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read the supplied letter description naturally, exactly as written. This identifies the letter and its mark; it is not an isolated phonetic sound.",
+      "contextExample": false,
+      "description": true,
+      "uses": [
+        "chapter:decode:target:part"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-8170ddb85546",
+      "input": "مَّسَدٍۭ",
+      "targetInput": "مَّسَدٍۭ",
+      "targetId": "lg-8170ddb85546",
+      "display": "مَّسَدٍۭ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "ayah:111:5"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-83e4b87e11d3",
+      "input": "أَذُّ",
+      "targetInput": "أَذُّ",
+      "targetId": "lg-83e4b87e11d3",
+      "display": "أَذُّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-437c1bcc3086",
+      "input": "سِينْ سَاكِنَة",
+      "targetInput": "سْ",
+      "targetId": "lg-8419a1f000f5",
+      "display": "سْ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read the supplied letter description naturally, exactly as written. This identifies the letter and its mark; it is not an isolated phonetic sound.",
+      "contextExample": false,
+      "description": true,
+      "uses": [
+        "chapter:decode:target:part"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-89ea5667929c",
+      "input": "أَجُّ",
+      "targetInput": "أَجُّ",
+      "targetId": "lg-89ea5667929c",
+      "display": "أَجُّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-89fbe36986ba",
+      "input": "طَا",
+      "targetInput": "طَا",
+      "targetId": "lg-89fbe36986ba",
+      "display": "طَا",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "chapter:standing:target",
+        "chapter:long-sounds:target"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-8a3e6e88dd21",
+      "input": "أَصُّ",
+      "targetInput": "أَصُّ",
+      "targetId": "lg-8a3e6e88dd21",
+      "display": "أَصُّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-8beb0c212290",
+      "input": "أَزُّ",
+      "targetInput": "أَزُّ",
+      "targetId": "lg-8beb0c212290",
+      "display": "أَزُّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-8dfa6403f719",
+      "input": "أَشُّ",
+      "targetInput": "أَشُّ",
+      "targetId": "lg-8dfa6403f719",
+      "display": "أَشُّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-8efda15fa5f5",
+      "input": "أَسِّ",
+      "targetInput": "أَسِّ",
+      "targetId": "lg-8efda15fa5f5",
+      "display": "أَسِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-757d9a72c2de",
+      "input": "لَامْ مُشَدَّدَة بِالْكَسْرَة",
+      "targetInput": "لِّ",
+      "targetId": "lg-934e0e0be0bf",
+      "display": "لِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read the supplied letter description naturally, exactly as written. This identifies the letter and its mark; it is not an isolated phonetic sound.",
+      "contextExample": false,
+      "description": true,
+      "uses": [
+        "chapter:decode:target:part"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-93597c9e332d",
+      "input": "أَقُّ",
+      "targetInput": "أَقُّ",
+      "targetId": "lg-93597c9e332d",
+      "display": "أَقُّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-9963a09a494c",
+      "input": "مِّن",
+      "targetInput": "مِّن",
+      "targetId": "lg-9963a09a494c",
+      "display": "مِّن",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "chapter:words-2:target",
+        "ayah:105:4",
+        "ayah:106:4",
+        "ayah:111:5"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-9d34621d847e",
+      "input": "هِ",
+      "targetInput": "هِ",
+      "targetId": "lg-9d34621d847e",
+      "display": "هِ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "chapter:kasra-damma:target",
+        "chapter:tanween:target",
+        "chapter:long-sounds:target:part",
+        "chapter:decode:target:part",
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-c600a2422f76",
+      "input": "يَاءْ سَاكِنَة",
+      "targetInput": "يْ",
+      "targetId": "lg-a05e95241148",
+      "display": "يْ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read the supplied letter description naturally, exactly as written. This identifies the letter and its mark; it is not an isolated phonetic sound.",
+      "contextExample": false,
+      "description": true,
+      "uses": [
+        "chapter:leen:target:part",
+        "chapter:decode:target:part"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-a344a9551ac9",
+      "input": "أَسُّ",
+      "targetInput": "أَسُّ",
+      "targetId": "lg-a344a9551ac9",
+      "display": "أَسُّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-c29a82f5436b",
+      "input": "تَاءْ سَاكِنَة",
+      "targetInput": "تْ",
+      "targetId": "lg-a408f28bfbf3",
+      "display": "تْ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read the supplied letter description naturally, exactly as written. This identifies the letter and its mark; it is not an isolated phonetic sound.",
+      "contextExample": false,
+      "description": true,
+      "uses": [
+        "chapter:decode:target:part"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-a7848e9292c0",
+      "input": "أَشِّ",
+      "targetInput": "أَشِّ",
+      "targetId": "lg-a7848e9292c0",
+      "display": "أَشِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-a7a61713aabc",
+      "input": "أَخُّ",
+      "targetInput": "أَخُّ",
+      "targetId": "lg-a7a61713aabc",
+      "display": "أَخُّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-a96a78fb1d7e",
+      "input": "أَثِّ",
+      "targetInput": "أَثِّ",
+      "targetId": "lg-a96a78fb1d7e",
+      "display": "أَثِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-ae3d5e62275f",
+      "input": "أَيِّ",
+      "targetInput": "أَيِّ",
+      "targetId": "lg-ae3d5e62275f",
+      "display": "أَيِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-b03e507decd7",
+      "input": "غُ",
+      "targetInput": "غُ",
+      "targetId": "lg-b03e507decd7",
+      "display": "غُ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "chapter:kasra-damma:target",
+        "chapter:long-sounds:target:part",
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-b103a8b6f965",
+      "input": "لَّهُۥ",
+      "targetInput": "لَّهُۥ",
+      "targetId": "lg-b103a8b6f965",
+      "display": "لَّهُۥ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "ayah:112:4"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-2417f5a49d80",
+      "input": "أَلِفْ مَمْدُودَة",
+      "targetInput": "آ",
+      "targetId": "lg-b3d1e2abe09a",
+      "display": "آ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read the supplied letter description naturally, exactly as written. This identifies the letter and its mark; it is not an isolated phonetic sound.",
+      "contextExample": false,
+      "description": true,
+      "uses": [
+        "chapter:words-2:target:part",
+        "chapter:decode:target:part"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-b474faac09b4",
+      "input": "أَجِّ",
+      "targetInput": "أَجِّ",
+      "targetId": "lg-b474faac09b4",
+      "display": "أَجِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-bb2d966387ef",
+      "input": "أَذِّ",
+      "targetInput": "أَذِّ",
+      "targetId": "lg-bb2d966387ef",
+      "display": "أَذِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-3ccb51abf0e1",
+      "input": "مِيمْ مُشَدَّدَة بِالْكَسْرَة",
+      "targetInput": "مِّ",
+      "targetId": "lg-bbcc3bf22bc3",
+      "display": "مِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read the supplied letter description naturally, exactly as written. This identifies the letter and its mark; it is not an isolated phonetic sound.",
+      "contextExample": false,
+      "description": true,
+      "uses": [
+        "chapter:words-2:target:part"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-7b409f99ba65",
+      "input": "أَلِفْ",
+      "targetInput": "ا",
+      "targetId": "lg-be0fa08bb8f1",
+      "display": "ا",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read the supplied letter description naturally, exactly as written. This identifies the letter and its mark; it is not an isolated phonetic sound.",
+      "contextExample": false,
+      "description": true,
+      "uses": [
+        "chapter:words-2:target:part",
+        "chapter:decode:target:part"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-bfb39dc4a149",
+      "input": "أَفِّ",
+      "targetInput": "أَفِّ",
+      "targetId": "lg-bfb39dc4a149",
+      "display": "أَفِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-c309be8fcad4",
+      "input": "أَظِّ",
+      "targetInput": "أَظِّ",
+      "targetId": "lg-c309be8fcad4",
+      "display": "أَظِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-c4b13814a194",
+      "input": "أَقِّ",
+      "targetInput": "أَقِّ",
+      "targetId": "lg-c4b13814a194",
+      "display": "أَقِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-c8b091e7b2ae",
+      "input": "أَحُّ",
+      "targetInput": "أَحُّ",
+      "targetId": "lg-c8b091e7b2ae",
+      "display": "أَحُّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-26386f9541b6",
+      "input": "نُونْ",
+      "targetInput": "ن",
+      "targetId": "lg-cb92a8b00c69",
+      "display": "ن",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read the supplied letter description naturally, exactly as written. This identifies the letter and its mark; it is not an isolated phonetic sound.",
+      "contextExample": false,
+      "description": true,
+      "uses": [
+        "chapter:words-2:target:part",
+        "chapter:decode:target:part"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-09f0a0b2cfa1",
+      "input": "مِيمْ سَاكِنَة",
+      "targetInput": "مْ",
+      "targetId": "lg-cc81ca269fff",
+      "display": "مْ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read the supplied letter description naturally, exactly as written. This identifies the letter and its mark; it is not an isolated phonetic sound.",
+      "contextExample": false,
+      "description": true,
+      "uses": [
+        "chapter:words-2:target:part",
+        "chapter:decode:target:part"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-cc8e1e55f2aa",
+      "input": "مٍ",
+      "targetInput": "مٍ",
+      "targetId": "lg-cc8e1e55f2aa",
+      "display": "مٍ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "chapter:tanween:target",
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-d1f45bb9f953",
+      "input": "أَطِّ",
+      "targetInput": "أَطِّ",
+      "targetId": "lg-d1f45bb9f953",
+      "display": "أَطِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-d258aeae32cb",
+      "input": "وَٱسْتَغْفِرْهُ ۚ",
+      "targetInput": "وَٱسْتَغْفِرْهُ ۚ",
+      "targetId": "lg-d258aeae32cb",
+      "display": "وَٱسْتَغْفِرْهُ ۚ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "ayah:110:3"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-d5c97e6e3942",
+      "input": "أَرُّ",
+      "targetInput": "أَرُّ",
+      "targetId": "lg-d5c97e6e3942",
+      "display": "أَرُّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-701935cc56f1",
+      "input": "ضَادْ مُشَدَّدَة بِالضَّمَّة",
+      "targetInput": "ضُّ",
+      "targetId": "lg-d653510e19f8",
+      "display": "ضُّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read the supplied letter description naturally, exactly as written. This identifies the letter and its mark; it is not an isolated phonetic sound.",
+      "contextExample": false,
+      "description": true,
+      "uses": [
+        "chapter:decode:target:part"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-d6ae0079cc9d",
+      "input": "أَصِّ",
+      "targetInput": "أَصِّ",
+      "targetId": "lg-d6ae0079cc9d",
+      "display": "أَصِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-da79ab62d00b",
+      "input": "أَوُّ",
+      "targetInput": "أَوُّ",
+      "targetId": "lg-da79ab62d00b",
+      "display": "أَوُّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-db7c5fd8e4d8",
+      "input": "أَدِّ",
+      "targetInput": "أَدِّ",
+      "targetId": "lg-db7c5fd8e4d8",
+      "display": "أَدِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-dd78eea22dcb",
+      "input": "أَنُّ",
+      "targetInput": "أَنُّ",
+      "targetId": "lg-dd78eea22dcb",
+      "display": "أَنُّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-e1f845e128e0",
+      "input": "أَتُّ",
+      "targetInput": "أَتُّ",
+      "targetId": "lg-e1f845e128e0",
+      "display": "أَتُّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-e264bcf86158",
+      "input": "طِي",
+      "targetInput": "طِي",
+      "targetId": "lg-e264bcf86158",
+      "display": "طِي",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "chapter:standing:target",
+        "chapter:long-sounds:target"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-e52617263b32",
+      "input": "أَزِّ",
+      "targetInput": "أَزِّ",
+      "targetId": "lg-e52617263b32",
+      "display": "أَزِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-bc62fa84d968",
+      "input": "دَالْ مُشَدَّدَة بِالْفَتْحَة",
+      "targetInput": "دَّ",
+      "targetId": "lg-e579296597d3",
+      "display": "دَّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read the supplied letter description naturally, exactly as written. This identifies the letter and its mark; it is not an isolated phonetic sound.",
+      "contextExample": false,
+      "description": true,
+      "uses": [
+        "chapter:shaddah:target:part"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-43f72326e856",
+      "input": "لَامْ سَاكِنَة",
+      "targetInput": "لْ",
+      "targetId": "lg-e686d089e785",
+      "display": "لْ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read the supplied letter description naturally, exactly as written. This identifies the letter and its mark; it is not an isolated phonetic sound.",
+      "contextExample": false,
+      "description": true,
+      "uses": [
+        "chapter:words-2:target:part"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-e6c82e92f4cb",
+      "input": "أَظُّ",
+      "targetInput": "أَظُّ",
+      "targetId": "lg-e6c82e92f4cb",
+      "display": "أَظُّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-e6dc8c86416c",
+      "input": "أَعُّ",
+      "targetInput": "أَعُّ",
+      "targetId": "lg-e6dc8c86416c",
+      "display": "أَعُّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-5d142b36e596",
+      "input": "نُونْ سَاكِنَة",
+      "targetInput": "نْ",
+      "targetId": "lg-e7217df2947b",
+      "display": "نْ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read the supplied letter description naturally, exactly as written. This identifies the letter and its mark; it is not an isolated phonetic sound.",
+      "contextExample": false,
+      "description": true,
+      "uses": [
+        "chapter:decode:target:part"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-eb7d80deadbe",
+      "input": "غُرَابًۭا",
+      "targetInput": "غُرَابًۭا",
+      "targetId": "lg-eb7d80deadbe",
+      "display": "غُرَابًۭا",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "treasury:crow"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-ec020e5d2341",
+      "input": "أَمُّ",
+      "targetInput": "أَمُّ",
+      "targetId": "lg-ec020e5d2341",
+      "display": "أَمُّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-ec727b68a342",
+      "input": "جُوعٍۢ",
+      "targetInput": "جُوعٍۢ",
+      "targetId": "lg-ec727b68a342",
+      "display": "جُوعٍۢ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "ayah:106:4"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-ef0b99452119",
+      "input": "صَلَاتِهِمْ",
+      "targetInput": "صَلَاتِهِمْ",
+      "targetId": "lg-ef0b99452119",
+      "display": "صَلَاتِهِمْ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "ayah:107:5"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-ef3d683a64d7",
+      "input": "وَٱلنَّجْمِ",
+      "targetInput": "وَٱلنَّجْمِ",
+      "targetId": "lg-ef3d683a64d7",
+      "display": "وَٱلنَّجْمِ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "treasury:star"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-ef5addaf6829",
+      "input": "أَلِّ",
+      "targetInput": "أَلِّ",
+      "targetId": "lg-ef5addaf6829",
+      "display": "أَلِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-f0860ff43b91",
+      "input": "ٱلْمَغْضُوبِ",
+      "targetInput": "ٱلْمَغْضُوبِ",
+      "targetId": "lg-f0860ff43b91",
+      "display": "ٱلْمَغْضُوبِ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "ayah:1:7"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-f0b6339c189b",
+      "input": "ٱلَّذِىٓ",
+      "targetInput": "ٱلَّذِىٓ",
+      "targetId": "lg-f0b6339c189b",
+      "display": "ٱلَّذِىٓ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "ayah:106:4"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-f1327d2d3ed8",
+      "input": "الْخَيْر",
+      "targetInput": "الْخَيْر",
+      "targetId": "lg-f1327d2d3ed8",
+      "display": "الْخَيْر",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "book:morning"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-f1e21e5ddb42",
+      "input": "أَزْ",
+      "targetInput": "أَزْ",
+      "targetId": "lg-f1e21e5ddb42",
+      "display": "أَزْ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-f3c5bf144b92",
+      "input": "أَعْ",
+      "targetInput": "أَعْ",
+      "targetId": "lg-f3c5bf144b92",
+      "display": "أَعْ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-f5be903ac037",
+      "input": "غُرَاب",
+      "targetInput": "غُرَاب",
+      "targetId": "lg-f5be903ac037",
+      "display": "غُرَاب",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "picture-words-and-ears-games"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-f60b8ca89702",
+      "input": "زَيْتُون",
+      "targetInput": "زَيْتُون",
+      "targetId": "lg-f60b8ca89702",
+      "display": "زَيْتُون",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "picture-words-and-ears-games"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-f63514e65d9b",
+      "input": "سَيْ",
+      "targetInput": "سَيْ",
+      "targetId": "lg-f63514e65d9b",
+      "display": "سَيْ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "chapter:leen:target"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-f6b1632e8afa",
+      "input": "مَّا",
+      "targetInput": "مَّا",
+      "targetId": "lg-f6b1632e8afa",
+      "display": "مَّا",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "ayah:109:4"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-f6bbd52a0c83",
+      "input": "وَٱمْرَأَتُهُۥ",
+      "targetInput": "وَٱمْرَأَتُهُۥ",
+      "targetId": "lg-f6bbd52a0c83",
+      "display": "وَٱمْرَأَتُهُۥ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "ayah:111:4"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-f7a493ddfa27",
+      "input": "عَنْكَبُوت",
+      "targetInput": "عَنْكَبُوت",
+      "targetId": "lg-f7a493ddfa27",
+      "display": "عَنْكَبُوت",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "picture-words-and-ears-games"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-f886b389fdcf",
+      "input": "أَيْ",
+      "targetInput": "أَيْ",
+      "targetId": "lg-f886b389fdcf",
+      "display": "أَيْ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-f89432b76df4",
+      "input": "وَعِنَبًۭا",
+      "targetInput": "وَعِنَبًۭا",
+      "targetId": "lg-f89432b76df4",
+      "display": "وَعِنَبًۭا",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "treasury:grapes"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-fb7f27c5dfca",
+      "input": "أَخِّ",
+      "targetInput": "أَخِّ",
+      "targetId": "lg-fb7f27c5dfca",
+      "display": "أَخِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-fc6e5d76d6a2",
+      "input": "فَرَاشَة",
+      "targetInput": "فَرَاشَة",
+      "targetId": "lg-fc6e5d76d6a2",
+      "display": "فَرَاشَة",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "picture-words-and-ears-games"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-fcb6de9fdc13",
+      "input": "أَبَّ",
+      "targetInput": "أَبَّ",
+      "targetId": "lg-fcb6de9fdc13",
+      "display": "أَبَّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-fd7e18857948",
+      "input": "أَبِّ",
+      "targetInput": "أَبِّ",
+      "targetId": "lg-fd7e18857948",
+      "display": "أَبِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-fdd4fbf6328f",
+      "input": "أَرْ",
+      "targetInput": "أَرْ",
+      "targetId": "lg-fdd4fbf6328f",
+      "display": "أَرْ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-ffafb835b249",
+      "input": "كَا",
+      "targetInput": "كَا",
+      "targetId": "lg-ffafb835b249",
+      "display": "كَا",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "chapter:standing:target",
+        "chapter:long-sounds:target"
+      ],
+      "variant": "remaining-coverage-v1"
+    },
+    {
+      "id": "lg-ffb111e6ea09",
+      "input": "كَوْ",
+      "targetInput": "كَوْ",
+      "targetId": "lg-ffb111e6ea09",
+      "display": "كَوْ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "chapter:leen:target"
+      ],
+      "variant": "remaining-coverage-v1"
+    }
+  ],
+  "reuse": [],
+  "budgetCheckpoint": {
+    "priorLedgerLines": 914,
+    "ownerReportedSpentUSD": 0.16,
+    "remainingUSD": 22.84
+  },
+  "note": "Descriptions must be integrated as descriptions, not silently substituted for phonetic sounds. Reusable candidates still require review."
+}

@@ -1,0 +1,2270 @@
+[
+  {
+    "text": "تِي",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-00ad57f4c686.wav",
+    "duration": 0.255,
+    "peakDb": -13.52,
+    "rmsDb": -22.84,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "عُو",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-00fc50872e5a.wav",
+    "duration": 0.24,
+    "peakDb": -11.98,
+    "rmsDb": -20.93,
+    "leadingSilence": 0.004,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "رَاءْ",
+    "file": "assets/audio/letters/marin-v1/ra.wav",
+    "duration": 0.655,
+    "peakDb": -4.3,
+    "rmsDb": -17.57,
+    "leadingSilence": 0.101,
+    "trailingSilence": 0.163
+  },
+  {
+    "text": "حِي",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-02f7085adb89.wav",
+    "duration": 0.285,
+    "peakDb": -12.16,
+    "rmsDb": -20.93,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "عَيْنْ",
+    "file": "assets/audio/letters/marin-v1/ayn.wav",
+    "duration": 0.71,
+    "peakDb": -4.17,
+    "rmsDb": -20.02,
+    "leadingSilence": 0.103,
+    "trailingSilence": 0.132
+  },
+  {
+    "text": "ضُ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-040d0fff887a.wav",
+    "duration": 0.26,
+    "peakDb": -11.88,
+    "rmsDb": -23.01,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "جَيْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-049b7c17697e.wav",
+    "duration": 0.255,
+    "peakDb": -10.36,
+    "rmsDb": -21.51,
+    "leadingSilence": 0.0,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "هَاءْ",
+    "file": "assets/audio/letters/marin-v1/ha.wav",
+    "duration": 0.59,
+    "peakDb": -9.91,
+    "rmsDb": -26.28,
+    "leadingSilence": 0.082,
+    "trailingSilence": 0.138
+  },
+  {
+    "text": "طِ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-05d7abc3e058.wav",
+    "duration": 0.25,
+    "peakDb": -14.66,
+    "rmsDb": -22.98,
+    "leadingSilence": 0.003,
+    "trailingSilence": 0.036
+  },
+  {
+    "text": "قُو",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-05d82cf0f520.wav",
+    "duration": 0.38,
+    "peakDb": -6.62,
+    "rmsDb": -21.39,
+    "leadingSilence": 0.004,
+    "trailingSilence": 0.087
+  },
+  {
+    "text": "قَافْ",
+    "file": "assets/audio/letters/marin-v1/qaf.wav",
+    "duration": 0.645,
+    "peakDb": -4.75,
+    "rmsDb": -20.27,
+    "leadingSilence": 0.1,
+    "trailingSilence": 0.137
+  },
+  {
+    "text": "سَا",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-06df41524ddd.wav",
+    "duration": 0.355,
+    "peakDb": -7.74,
+    "rmsDb": -18.37,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "كَيْدَهُمْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-07324b4a3020.wav",
+    "duration": 0.6,
+    "peakDb": -9.22,
+    "rmsDb": -19.38,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.006
+  },
+  {
+    "text": "سُو",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-07848031d3b5.wav",
+    "duration": 0.33,
+    "peakDb": -11.1,
+    "rmsDb": -22.01,
+    "leadingSilence": 0.0,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "جِ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-07b43bc69877.wav",
+    "duration": 0.285,
+    "peakDb": -12.49,
+    "rmsDb": -20.72,
+    "leadingSilence": 0.0,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "غَيْرِ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-09c6b807ef8d.wav",
+    "duration": 0.44,
+    "peakDb": -9.76,
+    "rmsDb": -23.57,
+    "leadingSilence": 0.0,
+    "trailingSilence": 0.043
+  },
+  {
+    "text": "تَاءْ",
+    "file": "assets/audio/letters/marin-v1/ta.wav",
+    "duration": 0.62,
+    "peakDb": -5.36,
+    "rmsDb": -20.14,
+    "leadingSilence": 0.104,
+    "trailingSilence": 0.157
+  },
+  {
+    "text": "زُو",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-0bc47ef6eebc.wav",
+    "duration": 0.29,
+    "peakDb": -10.1,
+    "rmsDb": -20.84,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.002
+  },
+  {
+    "text": "طَاءْ",
+    "file": "assets/audio/letters/marin-v1/taa.wav",
+    "duration": 0.615,
+    "peakDb": -5.95,
+    "rmsDb": -20.38,
+    "leadingSilence": 0.103,
+    "trailingSilence": 0.159
+  },
+  {
+    "text": "سَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-0c204c583369-r1.wav",
+    "duration": 0.37,
+    "peakDb": -6.5,
+    "rmsDb": -18.82,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "يُوَسْوِسُ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-0e63f0f59473.wav",
+    "duration": 0.845,
+    "peakDb": -7.97,
+    "rmsDb": -22.21,
+    "leadingSilence": 0.31,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "سِينْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-0f4c7785aba9.wav",
+    "duration": 0.44,
+    "peakDb": -12.34,
+    "rmsDb": -22.44,
+    "leadingSilence": 0.06,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "صِي",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-0fca749ce8c2-r1.wav",
+    "duration": 0.5,
+    "peakDb": -10.09,
+    "rmsDb": -19.48,
+    "leadingSilence": 0.048,
+    "trailingSilence": 0.08
+  },
+  {
+    "text": "صُو",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-11ba12301e3f-r1.wav",
+    "duration": 0.475,
+    "peakDb": -8.67,
+    "rmsDb": -20.89,
+    "leadingSilence": 0.056,
+    "trailingSilence": 0.08
+  },
+  {
+    "text": "حَوْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-1267bbed040f.wav",
+    "duration": 0.205,
+    "peakDb": -9.67,
+    "rmsDb": -21.04,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "خَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-147954761063.wav",
+    "duration": 0.465,
+    "peakDb": -6.52,
+    "rmsDb": -20.77,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.003
+  },
+  {
+    "text": "ظِي",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-14a79786ec2d.wav",
+    "duration": 0.25,
+    "peakDb": -10.4,
+    "rmsDb": -19.19,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "حَا",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-150434feb214.wav",
+    "duration": 0.3,
+    "peakDb": -8.4,
+    "rmsDb": -20.35,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "غَيْنْ",
+    "file": "assets/audio/letters/marin-v1/ghayn.wav",
+    "duration": 0.71,
+    "peakDb": -5.92,
+    "rmsDb": -20.21,
+    "leadingSilence": 0.101,
+    "trailingSilence": 0.16
+  },
+  {
+    "text": "فَسَبِّحْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-1b42fe0a2f60.wav",
+    "duration": 0.865,
+    "peakDb": -8.76,
+    "rmsDb": -23.74,
+    "leadingSilence": 0.294,
+    "trailingSilence": 0.05
+  },
+  {
+    "text": "ضَيْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-1bbac20141b3.wav",
+    "duration": 0.37,
+    "peakDb": -5.85,
+    "rmsDb": -18.96,
+    "leadingSilence": 0.007,
+    "trailingSilence": 0.005
+  },
+  {
+    "text": "ذُو",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-1cee009449b6.wav",
+    "duration": 0.19,
+    "peakDb": -9.75,
+    "rmsDb": -18.34,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.002
+  },
+  {
+    "text": "ضَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-1ebb7dbf1c58.wav",
+    "duration": 0.325,
+    "peakDb": -6.32,
+    "rmsDb": -16.71,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "قَوْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-1ef3ddb0017b.wav",
+    "duration": 0.26,
+    "peakDb": -6.46,
+    "rmsDb": -16.28,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.004
+  },
+  {
+    "text": "رَا",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-1f16e40d6192.wav",
+    "duration": 0.36,
+    "peakDb": -6.76,
+    "rmsDb": -16.36,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "صَا",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-2401c0433020-r1.wav",
+    "duration": 0.5,
+    "peakDb": -7.55,
+    "rmsDb": -22.95,
+    "leadingSilence": 0.056,
+    "trailingSilence": 0.08
+  },
+  {
+    "text": "غُو",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-24dad8c7f05a.wav",
+    "duration": 0.2,
+    "peakDb": -10.7,
+    "rmsDb": -19.58,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "نَعْبُدُ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-2578ff399d5d.wav",
+    "duration": 0.56,
+    "peakDb": -12.32,
+    "rmsDb": -21.22,
+    "leadingSilence": 0.0,
+    "trailingSilence": 0.002
+  },
+  {
+    "text": "نُونْ",
+    "file": "assets/audio/letters/marin-v1/noon.wav",
+    "duration": 0.7,
+    "peakDb": -6.84,
+    "rmsDb": -18.57,
+    "leadingSilence": 0.101,
+    "trailingSilence": 0.163
+  },
+  {
+    "text": "جَوْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-2700319fe52a.wav",
+    "duration": 0.345,
+    "peakDb": -10.45,
+    "rmsDb": -20.28,
+    "leadingSilence": 0.0,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "بِ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-2701f008f06f.wav",
+    "duration": 0.27,
+    "peakDb": -9.49,
+    "rmsDb": -15.14,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.002
+  },
+  {
+    "text": "رَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-291b92e492fb.wav",
+    "duration": 0.39,
+    "peakDb": -5.1,
+    "rmsDb": -15.26,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "دِ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-2b8af86d7225.wav",
+    "duration": 0.325,
+    "peakDb": -11.0,
+    "rmsDb": -19.26,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "طَوْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-2d7c57749b54.wav",
+    "duration": 0.33,
+    "peakDb": -5.73,
+    "rmsDb": -18.04,
+    "leadingSilence": 0.003,
+    "trailingSilence": 0.004
+  },
+  {
+    "text": "جِيمْ",
+    "file": "assets/audio/letters/marin-v1/jeem.wav",
+    "duration": 0.8,
+    "peakDb": -8.69,
+    "rmsDb": -21.24,
+    "leadingSilence": 0.1,
+    "trailingSilence": 0.163
+  },
+  {
+    "text": "وَتَبَّ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-2f846091a5f9.wav",
+    "duration": 0.73,
+    "peakDb": -10.87,
+    "rmsDb": -24.37,
+    "leadingSilence": 0.003,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "هَـٰذَا",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-3062586698e2.wav",
+    "duration": 0.74,
+    "peakDb": -8.4,
+    "rmsDb": -21.78,
+    "leadingSilence": 0.004,
+    "trailingSilence": 0.003
+  },
+  {
+    "text": "مَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-31fc2e8f811d.wav",
+    "duration": 0.365,
+    "peakDb": -9.29,
+    "rmsDb": -17.83,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "تَوْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-340740d00ba1-r1.wav",
+    "duration": 0.26,
+    "peakDb": -10.8,
+    "rmsDb": -20.72,
+    "leadingSilence": 0.003,
+    "trailingSilence": 0.003
+  },
+  {
+    "text": "نَصْرُ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-3468a09a4e0b.wav",
+    "duration": 0.46,
+    "peakDb": -8.91,
+    "rmsDb": -22.52,
+    "leadingSilence": 0.0,
+    "trailingSilence": 0.046
+  },
+  {
+    "text": "سِ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-34fa019fc0cf.wav",
+    "duration": 0.345,
+    "peakDb": -13.16,
+    "rmsDb": -22.26,
+    "leadingSilence": 0.0,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "فَوْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-353bf3f68337.wav",
+    "duration": 0.34,
+    "peakDb": -7.21,
+    "rmsDb": -19.0,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "عِ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-36a1e7188648.wav",
+    "duration": 0.33,
+    "peakDb": -7.79,
+    "rmsDb": -21.21,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "ضِي",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-38534123f710-r1.wav",
+    "duration": 0.475,
+    "peakDb": -10.76,
+    "rmsDb": -19.66,
+    "leadingSilence": 0.064,
+    "trailingSilence": 0.079
+  },
+  {
+    "text": "ذَوْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-38f6528617ad.wav",
+    "duration": 0.235,
+    "peakDb": -10.99,
+    "rmsDb": -19.74,
+    "leadingSilence": 0.0,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "فِ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-390d2843328d-r1.wav",
+    "duration": 0.52,
+    "peakDb": -8.89,
+    "rmsDb": -19.89,
+    "leadingSilence": 0.052,
+    "trailingSilence": 0.083
+  },
+  {
+    "text": "ضِ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-3942d76b714f.wav",
+    "duration": 0.34,
+    "peakDb": -13.03,
+    "rmsDb": -22.5,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "دُ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-3b719e0537b9.wav",
+    "duration": 0.14,
+    "peakDb": -10.64,
+    "rmsDb": -20.33,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "غِ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-3b8732d73847-r1.wav",
+    "duration": 0.495,
+    "peakDb": -6.6,
+    "rmsDb": -17.87,
+    "leadingSilence": 0.062,
+    "trailingSilence": 0.084
+  },
+  {
+    "text": "بَوْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-3b8e1495833d-r1.wav",
+    "duration": 0.405,
+    "peakDb": -8.86,
+    "rmsDb": -19.34,
+    "leadingSilence": 0.004,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "ذٌ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-3bbe8da7a5b1.wav",
+    "duration": 0.22,
+    "peakDb": -11.51,
+    "rmsDb": -20.82,
+    "leadingSilence": 0.0,
+    "trailingSilence": 0.002
+  },
+  {
+    "text": "تَا",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-3bc5f0ae9739.wav",
+    "duration": 0.255,
+    "peakDb": -6.5,
+    "rmsDb": -17.47,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "ضُو",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-3cc6e720f8c3-r1.wav",
+    "duration": 0.425,
+    "peakDb": -8.1,
+    "rmsDb": -19.6,
+    "leadingSilence": 0.063,
+    "trailingSilence": 0.079
+  },
+  {
+    "text": "فَاءْ",
+    "file": "assets/audio/letters/marin-v1/fa.wav",
+    "duration": 0.68,
+    "peakDb": -5.22,
+    "rmsDb": -20.96,
+    "leadingSilence": 0.091,
+    "trailingSilence": 0.162
+  },
+  {
+    "text": "دٌ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-3d0a28c28b20.wav",
+    "duration": 0.23,
+    "peakDb": -11.46,
+    "rmsDb": -20.66,
+    "leadingSilence": 0.0,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "زِي",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-3d827a5a43cd.wav",
+    "duration": 0.27,
+    "peakDb": -10.2,
+    "rmsDb": -18.15,
+    "leadingSilence": 0.0,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "حَاءْ",
+    "file": "assets/audio/letters/marin-v1/haa.wav",
+    "duration": 0.685,
+    "peakDb": -5.92,
+    "rmsDb": -20.88,
+    "leadingSilence": 0.098,
+    "trailingSilence": 0.153
+  },
+  {
+    "text": "خَا",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-408f1c4dddea.wav",
+    "duration": 0.325,
+    "peakDb": -7.04,
+    "rmsDb": -18.79,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "زِ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-413cd9ef9615-r1.wav",
+    "duration": 0.305,
+    "peakDb": -11.31,
+    "rmsDb": -18.28,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "بِحَمْدِ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-4148486ef90f-r1.wav",
+    "duration": 0.39,
+    "peakDb": -11.64,
+    "rmsDb": -20.48,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "إِذَا",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-41a5ef4bf942.wav",
+    "duration": 0.84,
+    "peakDb": -6.91,
+    "rmsDb": -22.29,
+    "leadingSilence": 0.601,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "تَيْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-427032b8a68b-r1.wav",
+    "duration": 0.29,
+    "peakDb": -11.1,
+    "rmsDb": -22.64,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.003
+  },
+  {
+    "text": "لِلَّهِ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-43ac82f76e3c.wav",
+    "duration": 0.56,
+    "peakDb": -10.24,
+    "rmsDb": -21.66,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.079
+  },
+  {
+    "text": "عَوْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-43cc227f4e90.wav",
+    "duration": 0.33,
+    "peakDb": -5.48,
+    "rmsDb": -17.41,
+    "leadingSilence": 0.004,
+    "trailingSilence": 0.003
+  },
+  {
+    "text": "بِي",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-45d4256ab31e.wav",
+    "duration": 0.245,
+    "peakDb": -10.57,
+    "rmsDb": -18.3,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "عَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-470dbb77d4df.wav",
+    "duration": 0.328,
+    "peakDb": -6.09,
+    "rmsDb": -16.98,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "شَرِّ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-474f763a4173.wav",
+    "duration": 0.58,
+    "peakDb": -11.38,
+    "rmsDb": -23.03,
+    "leadingSilence": 0.209,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "كُفُوًا",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-47b825034366.wav",
+    "duration": 0.385,
+    "peakDb": -8.27,
+    "rmsDb": -19.88,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "عَيْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-47f506e11b63.wav",
+    "duration": 0.34,
+    "peakDb": -6.82,
+    "rmsDb": -20.96,
+    "leadingSilence": 0.005,
+    "trailingSilence": 0.004
+  },
+  {
+    "text": "شُ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-4866a45a046c.wav",
+    "duration": 0.265,
+    "peakDb": -12.25,
+    "rmsDb": -22.81,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.002
+  },
+  {
+    "text": "يَلِدْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-4c9adc018513.wav",
+    "duration": 0.58,
+    "peakDb": -14.87,
+    "rmsDb": -23.87,
+    "leadingSilence": 0.0,
+    "trailingSilence": 0.07
+  },
+  {
+    "text": "لَامْ",
+    "file": "assets/audio/letters/marin-v1/lam.wav",
+    "duration": 0.728,
+    "peakDb": -5.98,
+    "rmsDb": -19.09,
+    "leadingSilence": 0.103,
+    "trailingSilence": 0.133
+  },
+  {
+    "text": "فُو",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-4d86b5e40014.wav",
+    "duration": 0.29,
+    "peakDb": -9.77,
+    "rmsDb": -20.73,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "نَوْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-4e89a5b4afe4.wav",
+    "duration": 0.38,
+    "peakDb": -9.92,
+    "rmsDb": -17.18,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.002
+  },
+  {
+    "text": "فَتْحَتَانْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-4f057689d289.wav",
+    "duration": 0.82,
+    "peakDb": -9.82,
+    "rmsDb": -23.27,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.006
+  },
+  {
+    "text": "حَسَدَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-509b1b7cc314.wav",
+    "duration": 0.48,
+    "peakDb": -10.71,
+    "rmsDb": -23.91,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.005
+  },
+  {
+    "text": "حُ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-50e6cddd272b.wav",
+    "duration": 0.185,
+    "peakDb": -9.21,
+    "rmsDb": -16.43,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "بِأَصْحَـٰبِ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-50fede0b75aa.wav",
+    "duration": 0.88,
+    "peakDb": -7.95,
+    "rmsDb": -22.17,
+    "leadingSilence": 0.23,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "ذَا",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-54d4a8b5461c.wav",
+    "duration": 0.32,
+    "peakDb": -7.28,
+    "rmsDb": -17.22,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "دِي",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-55cfa486d155.wav",
+    "duration": 0.235,
+    "peakDb": -13.13,
+    "rmsDb": -21.66,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "شَا",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-563436b5f189.wav",
+    "duration": 0.335,
+    "peakDb": -8.41,
+    "rmsDb": -20.11,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "ظُو",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-56bd2764fabd.wav",
+    "duration": 0.19,
+    "peakDb": -12.2,
+    "rmsDb": -19.97,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.002
+  },
+  {
+    "text": "دَا",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-57bf496ca1ac.wav",
+    "duration": 0.335,
+    "peakDb": -7.91,
+    "rmsDb": -18.19,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.002
+  },
+  {
+    "text": "بُو",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-5a23f168330e.wav",
+    "duration": 0.22,
+    "peakDb": -10.04,
+    "rmsDb": -19.4,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "ضَوْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-5c54409fd37a.wav",
+    "duration": 0.39,
+    "peakDb": -6.43,
+    "rmsDb": -18.91,
+    "leadingSilence": 0.005,
+    "trailingSilence": 0.003
+  },
+  {
+    "text": "ٱهْدِنَا",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-5d2d48da3857.wav",
+    "duration": 0.36,
+    "peakDb": -11.38,
+    "rmsDb": -20.53,
+    "leadingSilence": 0.0,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "فَصَلِّ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-5daa6e6fadf0.wav",
+    "duration": 0.695,
+    "peakDb": -9.09,
+    "rmsDb": -20.97,
+    "leadingSilence": 0.095,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "أَحَدٌ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-5e79a2002dd0.wav",
+    "duration": 0.4,
+    "peakDb": -13.23,
+    "rmsDb": -26.25,
+    "leadingSilence": 0.0,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "ضَمَّة",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-60e3b82e5a3e.wav",
+    "duration": 0.52,
+    "peakDb": -5.13,
+    "rmsDb": -21.65,
+    "leadingSilence": 0.041,
+    "trailingSilence": 0.011
+  },
+  {
+    "text": "ٱلَّذِينَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-628d855112ee.wav",
+    "duration": 0.52,
+    "peakDb": -13.02,
+    "rmsDb": -20.89,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.002
+  },
+  {
+    "text": "زَا",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-63a493773b8a.wav",
+    "duration": 0.335,
+    "peakDb": -6.85,
+    "rmsDb": -17.29,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "صِرَٰطَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-642b2eea6723.wav",
+    "duration": 0.52,
+    "peakDb": -9.41,
+    "rmsDb": -21.71,
+    "leadingSilence": 0.0,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "زَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-64cbd95c7cd8-r1.wav",
+    "duration": 0.39,
+    "peakDb": -6.36,
+    "rmsDb": -16.62,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "فَا",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-6512126eea52.wav",
+    "duration": 0.215,
+    "peakDb": -7.07,
+    "rmsDb": -15.64,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "دَيْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-6552de8f1eb2.wav",
+    "duration": 0.24,
+    "peakDb": -10.75,
+    "rmsDb": -19.72,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "دَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-65ebd28d0327-r1.wav",
+    "duration": 0.32,
+    "peakDb": -6.58,
+    "rmsDb": -16.61,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "كَافْ",
+    "file": "assets/audio/letters/marin-v1/kaf.wav",
+    "duration": 0.625,
+    "peakDb": -4.43,
+    "rmsDb": -20.47,
+    "leadingSilence": 0.099,
+    "trailingSilence": 0.157
+  },
+  {
+    "text": "يَدُعُّ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-66a8d70cd9ef-r1.wav",
+    "duration": 0.425,
+    "peakDb": -8.62,
+    "rmsDb": -18.05,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "شُو",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-697fef431da6.wav",
+    "duration": 0.28,
+    "peakDb": -13.06,
+    "rmsDb": -23.57,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "دَالْ",
+    "file": "assets/audio/letters/marin-v1/dal.wav",
+    "duration": 0.705,
+    "peakDb": -6.84,
+    "rmsDb": -20.57,
+    "leadingSilence": 0.099,
+    "trailingSilence": 0.099
+  },
+  {
+    "text": "تَبَّتْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-6a7ad426ba6c.wav",
+    "duration": 0.455,
+    "peakDb": -10.5,
+    "rmsDb": -24.38,
+    "leadingSilence": 0.004,
+    "trailingSilence": 0.002
+  },
+  {
+    "text": "كَسَبَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-6d8b0837aad0-r1.wav",
+    "duration": 0.35,
+    "peakDb": -11.51,
+    "rmsDb": -23.42,
+    "leadingSilence": 0.031,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "كَيْفَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-6e9485c46650.wav",
+    "duration": 0.655,
+    "peakDb": -7.31,
+    "rmsDb": -20.74,
+    "leadingSilence": 0.315,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "ضَمَّتَانْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-6f7ddec18d79.wav",
+    "duration": 1.15,
+    "peakDb": -5.8,
+    "rmsDb": -22.29,
+    "leadingSilence": 0.186,
+    "trailingSilence": 0.24
+  },
+  {
+    "text": "عَنْهُ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-7242f6a466e3.wav",
+    "duration": 0.505,
+    "peakDb": -11.02,
+    "rmsDb": -21.67,
+    "leadingSilence": 0.0,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "ثَيْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-7339da8be97f.wav",
+    "duration": 0.285,
+    "peakDb": -11.41,
+    "rmsDb": -20.74,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.002
+  },
+  {
+    "text": "وَلَا",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-73d38b2d5bed.wav",
+    "duration": 0.975,
+    "peakDb": -4.45,
+    "rmsDb": -20.5,
+    "leadingSilence": 0.683,
+    "trailingSilence": 0.003
+  },
+  {
+    "text": "يَحُضُّ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-74d733b4d22c-r1.wav",
+    "duration": 0.67,
+    "peakDb": -10.34,
+    "rmsDb": -21.58,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.011
+  },
+  {
+    "text": "ضَادْ",
+    "file": "assets/audio/letters/marin-v1/daad.wav",
+    "duration": 0.7,
+    "peakDb": -7.45,
+    "rmsDb": -22.07,
+    "leadingSilence": 0.1,
+    "trailingSilence": 0.155
+  },
+  {
+    "text": "عُ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-76bad5b506e7.wav",
+    "duration": 0.225,
+    "peakDb": -12.39,
+    "rmsDb": -22.18,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "مِيمْ",
+    "file": "assets/audio/letters/marin-v1/meem.wav",
+    "duration": 0.65,
+    "peakDb": -10.07,
+    "rmsDb": -21.48,
+    "leadingSilence": 0.1,
+    "trailingSilence": 0.158
+  },
+  {
+    "text": "حَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-780f94e60087.wav",
+    "duration": 0.455,
+    "peakDb": -6.62,
+    "rmsDb": -20.92,
+    "leadingSilence": 0.003,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "جَا",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-794864096e4f.wav",
+    "duration": 0.385,
+    "peakDb": -6.89,
+    "rmsDb": -18.03,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "ثَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-79a5e4461bac-r1.wav",
+    "duration": 0.395,
+    "peakDb": -3.52,
+    "rmsDb": -18.39,
+    "leadingSilence": 0.072,
+    "trailingSilence": 0.085
+  },
+  {
+    "text": "هُوَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-7af96a47a4b6.wav",
+    "duration": 0.435,
+    "peakDb": -8.65,
+    "rmsDb": -19.9,
+    "leadingSilence": 0.0,
+    "trailingSilence": 0.003
+  },
+  {
+    "text": "حَيْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-7b0b8febe4a8.wav",
+    "duration": 0.185,
+    "peakDb": -12.79,
+    "rmsDb": -22.51,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "أَلِفْ",
+    "file": "assets/audio/letters/marin-v1/alif.wav",
+    "duration": 0.685,
+    "peakDb": -8.45,
+    "rmsDb": -23.15,
+    "leadingSilence": 0.1,
+    "trailingSilence": 0.112
+  },
+  {
+    "text": "ٱلْفِيلِ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-7c3fe273aa51.wav",
+    "duration": 0.48,
+    "peakDb": -11.98,
+    "rmsDb": -23.18,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.03
+  },
+  {
+    "text": "بَا",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-7c7afb90ab10.wav",
+    "duration": 0.365,
+    "peakDb": -5.17,
+    "rmsDb": -16.05,
+    "leadingSilence": 0.003,
+    "trailingSilence": 0.002
+  },
+  {
+    "text": "قَيْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-7d2fe98d3fcf.wav",
+    "duration": 0.3,
+    "peakDb": -11.19,
+    "rmsDb": -19.91,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.003
+  },
+  {
+    "text": "ثَاءْ",
+    "file": "assets/audio/letters/marin-v1/tha.wav",
+    "duration": 0.66,
+    "peakDb": -6.28,
+    "rmsDb": -20.63,
+    "leadingSilence": 0.086,
+    "trailingSilence": 0.162
+  },
+  {
+    "text": "سِي",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-7dc1cb03c870.wav",
+    "duration": 0.28,
+    "peakDb": -12.1,
+    "rmsDb": -20.73,
+    "leadingSilence": 0.0,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "خَاءْ",
+    "file": "assets/audio/letters/marin-v1/khaa.wav",
+    "duration": 0.7,
+    "peakDb": -8.74,
+    "rmsDb": -22.16,
+    "leadingSilence": 0.097,
+    "trailingSilence": 0.158
+  },
+  {
+    "text": "شِي",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-7e330ac82db4.wav",
+    "duration": 0.29,
+    "peakDb": -13.04,
+    "rmsDb": -22.25,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "مُ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-7e363b4b23fc.wav",
+    "duration": 0.232,
+    "peakDb": -11.75,
+    "rmsDb": -17.81,
+    "leadingSilence": 0.0,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "ثَا",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-80cdd720e239-r1.wav",
+    "duration": 0.47,
+    "peakDb": -6.65,
+    "rmsDb": -21.39,
+    "leadingSilence": 0.056,
+    "trailingSilence": 0.083
+  },
+  {
+    "text": "أَنْعَمْتَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-810b404e2d29.wav",
+    "duration": 0.54,
+    "peakDb": -8.39,
+    "rmsDb": -21.75,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "ثِ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-81a333ca8e19-r1.wav",
+    "duration": 0.48,
+    "peakDb": -8.15,
+    "rmsDb": -20.32,
+    "leadingSilence": 0.049,
+    "trailingSilence": 0.082
+  },
+  {
+    "text": "لِرَبِّكَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-81d4f87ac87d.wav",
+    "duration": 0.88,
+    "peakDb": -8.38,
+    "rmsDb": -22.42,
+    "leadingSilence": 0.245,
+    "trailingSilence": 0.019
+  },
+  {
+    "text": "خٌ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-8258de63d74e-r1.wav",
+    "duration": 0.24,
+    "peakDb": -11.56,
+    "rmsDb": -22.09,
+    "leadingSilence": 0.004,
+    "trailingSilence": 0.003
+  },
+  {
+    "text": "تَرَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-82b658e5075c.wav",
+    "duration": 0.54,
+    "peakDb": -8.89,
+    "rmsDb": -22.3,
+    "leadingSilence": 0.006,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "ظَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-84e9e184b660.wav",
+    "duration": 0.37,
+    "peakDb": -6.0,
+    "rmsDb": -16.39,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "ٱلْحَطَبِ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-85ea5b820c79.wav",
+    "duration": 0.49,
+    "peakDb": -10.22,
+    "rmsDb": -22.53,
+    "leadingSilence": 0.0,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "زً",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-8679f2dad70d-r1.wav",
+    "duration": 0.41,
+    "peakDb": -5.71,
+    "rmsDb": -17.41,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "نَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-875ff90371bc.wav",
+    "duration": 0.358,
+    "peakDb": -7.86,
+    "rmsDb": -16.2,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "طَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-8845ef789954.wav",
+    "duration": 0.32,
+    "peakDb": -5.24,
+    "rmsDb": -16.52,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.04
+  },
+  {
+    "text": "رِي",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-899917db1c13.wav",
+    "duration": 0.245,
+    "peakDb": -11.29,
+    "rmsDb": -18.58,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "عَا",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-89c5c6f454a0.wav",
+    "duration": 0.315,
+    "peakDb": -6.28,
+    "rmsDb": -17.68,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "جُو",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-8a12dca934bb.wav",
+    "duration": 0.255,
+    "peakDb": -10.17,
+    "rmsDb": -19.87,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "يُولَدْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-8a6ad95fff8d.wav",
+    "duration": 0.495,
+    "peakDb": -10.15,
+    "rmsDb": -19.38,
+    "leadingSilence": 0.0,
+    "trailingSilence": 0.003
+  },
+  {
+    "text": "ثَوْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-8aa63c060c0b.wav",
+    "duration": 0.245,
+    "peakDb": -9.48,
+    "rmsDb": -19.05,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "صَيْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-8bc549d74bec.wav",
+    "duration": 0.4,
+    "peakDb": -9.46,
+    "rmsDb": -22.39,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.002
+  },
+  {
+    "text": "ظَا",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-8bd19f151c78.wav",
+    "duration": 0.4,
+    "peakDb": -5.84,
+    "rmsDb": -16.21,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.002
+  },
+  {
+    "text": "غَا",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-8cb8de042947.wav",
+    "duration": 0.275,
+    "peakDb": -6.12,
+    "rmsDb": -15.63,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "وَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-8ce960a3420a-r1.wav",
+    "duration": 0.535,
+    "peakDb": -6.46,
+    "rmsDb": -19.77,
+    "leadingSilence": 0.063,
+    "trailingSilence": 0.081
+  },
+  {
+    "text": "ظُ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-8f13db9909e5.wav",
+    "duration": 0.23,
+    "peakDb": -11.88,
+    "rmsDb": -22.24,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "وَيْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-8f627810c512.wav",
+    "duration": 0.32,
+    "peakDb": -9.42,
+    "rmsDb": -18.84,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.004
+  },
+  {
+    "text": "خِي",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-913b0f56f2c5.wav",
+    "duration": 0.265,
+    "peakDb": -12.91,
+    "rmsDb": -22.72,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "شَوْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-91fd914ee86c.wav",
+    "duration": 0.45,
+    "peakDb": -9.33,
+    "rmsDb": -22.03,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.003
+  },
+  {
+    "text": "رِ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-924bb86de5f8.wav",
+    "duration": 0.285,
+    "peakDb": -6.76,
+    "rmsDb": -15.22,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "جِي",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-932469a7bdb8.wav",
+    "duration": 0.29,
+    "peakDb": -14.08,
+    "rmsDb": -21.06,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "وَاوْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-9398dd2463eb.wav",
+    "duration": 0.64,
+    "peakDb": -8.61,
+    "rmsDb": -23.45,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.147
+  },
+  {
+    "text": "طَعَامِ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-94d3b4fa6e7f.wav",
+    "duration": 0.42,
+    "peakDb": -8.17,
+    "rmsDb": -19.71,
+    "leadingSilence": 0.006,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "فَتْحَة",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-94eee3c61cac.wav",
+    "duration": 1.025,
+    "peakDb": -9.48,
+    "rmsDb": -25.21,
+    "leadingSilence": 0.02,
+    "trailingSilence": 0.154
+  },
+  {
+    "text": "قُ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-96d6e5707674.wav",
+    "duration": 0.275,
+    "peakDb": -7.78,
+    "rmsDb": -20.17,
+    "leadingSilence": 0.015,
+    "trailingSilence": 0.004
+  },
+  {
+    "text": "رَبُّكَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-98c207c85669.wav",
+    "duration": 0.67,
+    "peakDb": -7.73,
+    "rmsDb": -19.2,
+    "leadingSilence": 0.0,
+    "trailingSilence": 0.002
+  },
+  {
+    "text": "قَا",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-9cd952ad821d.wav",
+    "duration": 0.245,
+    "peakDb": -5.88,
+    "rmsDb": -16.29,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.002
+  },
+  {
+    "text": "مِ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-9e1d5e7f2d91.wav",
+    "duration": 0.283,
+    "peakDb": -10.34,
+    "rmsDb": -15.91,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "كَسْرَتَانْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-9e233c3067bd.wav",
+    "duration": 1.21,
+    "peakDb": -8.42,
+    "rmsDb": -23.33,
+    "leadingSilence": 0.231,
+    "trailingSilence": 0.206
+  },
+  {
+    "text": "دِينِ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-9e3de7854832.wav",
+    "duration": 0.4,
+    "peakDb": -11.96,
+    "rmsDb": -20.48,
+    "leadingSilence": 0.0,
+    "trailingSilence": 0.002
+  },
+  {
+    "text": "شً",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-9ed6a9c073f8-r1.wav",
+    "duration": 0.375,
+    "peakDb": -6.83,
+    "rmsDb": -18.14,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "زَايْ",
+    "file": "assets/audio/letters/marin-v1/zay.wav",
+    "duration": 0.71,
+    "peakDb": -5.42,
+    "rmsDb": -19.04,
+    "leadingSilence": 0.1,
+    "trailingSilence": 0.164
+  },
+  {
+    "text": "ثِي",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-a1abac806544.wav",
+    "duration": 0.28,
+    "peakDb": -12.97,
+    "rmsDb": -21.86,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "صَوْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-a5756baa80ee.wav",
+    "duration": 0.43,
+    "peakDb": -9.52,
+    "rmsDb": -22.94,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.002
+  },
+  {
+    "text": "وَمَا",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-a61229b543f7.wav",
+    "duration": 0.615,
+    "peakDb": -8.79,
+    "rmsDb": -22.01,
+    "leadingSilence": 0.003,
+    "trailingSilence": 0.021
+  },
+  {
+    "text": "صُ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-a8429e61a006.wav",
+    "duration": 0.29,
+    "peakDb": -15.38,
+    "rmsDb": -26.32,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.002
+  },
+  {
+    "text": "بَتْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-a8549d663ab9-r1.wav",
+    "duration": 0.235,
+    "peakDb": -7.05,
+    "rmsDb": -18.88,
+    "leadingSilence": 0.004,
+    "trailingSilence": 0.003
+  },
+  {
+    "text": "دٍ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-aa8811b378b0.wav",
+    "duration": 0.35,
+    "peakDb": -7.93,
+    "rmsDb": -18.5,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "ظَاءْ",
+    "file": "assets/audio/letters/marin-v1/zaa.wav",
+    "duration": 0.71,
+    "peakDb": -5.33,
+    "rmsDb": -20.25,
+    "leadingSilence": 0.101,
+    "trailingSilence": 0.161
+  },
+  {
+    "text": "دِينُكُمْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-ae6c4c49d483.wav",
+    "duration": 0.695,
+    "peakDb": -9.83,
+    "rmsDb": -19.6,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "عِي",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-af930182cb0f.wav",
+    "duration": 0.3,
+    "peakDb": -11.71,
+    "rmsDb": -21.62,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.005
+  },
+  {
+    "text": "وَأَرْسَلَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-b1b97c29972a.wav",
+    "duration": 0.92,
+    "peakDb": -7.38,
+    "rmsDb": -21.96,
+    "leadingSilence": 0.273,
+    "trailingSilence": 0.036
+  },
+  {
+    "text": "شِ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-b395574965f1.wav",
+    "duration": 0.315,
+    "peakDb": -13.37,
+    "rmsDb": -21.93,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "لَيْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-b39cbc7e3269.wav",
+    "duration": 0.38,
+    "peakDb": -9.78,
+    "rmsDb": -18.99,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.004
+  },
+  {
+    "text": "تٌ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-b428ea1f6041.wav",
+    "duration": 0.27,
+    "peakDb": -11.84,
+    "rmsDb": -21.51,
+    "leadingSilence": 0.008,
+    "trailingSilence": 0.003
+  },
+  {
+    "text": "نُ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-b49450735a14.wav",
+    "duration": 0.16,
+    "peakDb": -11.94,
+    "rmsDb": -20.23,
+    "leadingSilence": 0.0,
+    "trailingSilence": 0.003
+  },
+  {
+    "text": "ذِي",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-b68c9d45eea8.wav",
+    "duration": 0.32,
+    "peakDb": -11.73,
+    "rmsDb": -20.6,
+    "leadingSilence": 0.0,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "رُو",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-b7865f1b44f7.wav",
+    "duration": 0.225,
+    "peakDb": -11.54,
+    "rmsDb": -19.59,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "تُ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-ba861d96a2da.wav",
+    "duration": 0.155,
+    "peakDb": -11.66,
+    "rmsDb": -21.64,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.002
+  },
+  {
+    "text": "طَيْرًا",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-bfcddfe94739.wav",
+    "duration": 0.4,
+    "peakDb": -8.7,
+    "rmsDb": -19.6,
+    "leadingSilence": 0.022,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "دَوْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-bfcf70752bf3.wav",
+    "duration": 0.315,
+    "peakDb": -8.19,
+    "rmsDb": -18.4,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "ضَا",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-c03effb5dffc-r1.wav",
+    "duration": 0.485,
+    "peakDb": -6.4,
+    "rmsDb": -18.85,
+    "leadingSilence": 0.065,
+    "trailingSilence": 0.086
+  },
+  {
+    "text": "شَيْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-c3b5afe7cc08.wav",
+    "duration": 0.48,
+    "peakDb": -10.28,
+    "rmsDb": -23.44,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.002
+  },
+  {
+    "text": "قُرَيْشٍ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-c3ebf3ec2afa.wav",
+    "duration": 0.52,
+    "peakDb": -9.98,
+    "rmsDb": -22.91,
+    "leadingSilence": 0.01,
+    "trailingSilence": 0.047
+  },
+  {
+    "text": "مَيْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-c445e7a21765.wav",
+    "duration": 0.36,
+    "peakDb": -11.23,
+    "rmsDb": -19.28,
+    "leadingSilence": 0.006,
+    "trailingSilence": 0.004
+  },
+  {
+    "text": "غَوْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-c4b11b1faa10.wav",
+    "duration": 0.4,
+    "peakDb": -6.47,
+    "rmsDb": -17.82,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.003
+  },
+  {
+    "text": "شَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-c70774f9ecbf-r1.wav",
+    "duration": 0.365,
+    "peakDb": -10.32,
+    "rmsDb": -20.91,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "كَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-c73467ff1741.wav",
+    "duration": 0.355,
+    "peakDb": -8.12,
+    "rmsDb": -16.71,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.004
+  },
+  {
+    "text": "حِ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-c781688bdfdc-r1.wav",
+    "duration": 0.15,
+    "peakDb": -10.81,
+    "rmsDb": -18.56,
+    "leadingSilence": 0.0,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "إِنَّآ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-c7841a362473.wav",
+    "duration": 0.62,
+    "peakDb": -7.19,
+    "rmsDb": -18.98,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.002
+  },
+  {
+    "text": "وَإِيَّاكَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-c7d727cb3393.wav",
+    "duration": 1.2,
+    "peakDb": -7.76,
+    "rmsDb": -22.14,
+    "leadingSilence": 0.551,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "عَلَيْهِمْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-c8846e99d100.wav",
+    "duration": 0.62,
+    "peakDb": -8.39,
+    "rmsDb": -21.24,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.067
+  },
+  {
+    "text": "يَوْمِ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-c8b4a821d5b9.wav",
+    "duration": 0.605,
+    "peakDb": -8.64,
+    "rmsDb": -20.5,
+    "leadingSilence": 0.003,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "يَكُن",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-c8f6af9ae470-r1.wav",
+    "duration": 0.33,
+    "peakDb": -9.95,
+    "rmsDb": -20.48,
+    "leadingSilence": 0.0,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "بَيْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-ca3af558ba11-r1.wav",
+    "duration": 0.31,
+    "peakDb": -11.31,
+    "rmsDb": -21.22,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.01
+  },
+  {
+    "text": "كَسْرَة",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-cb624b7d0ef4.wav",
+    "duration": 1.1,
+    "peakDb": -9.2,
+    "rmsDb": -24.27,
+    "leadingSilence": 0.231,
+    "trailingSilence": 0.196
+  },
+  {
+    "text": "ثُ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-cc4c2e4dbfda-r1.wav",
+    "duration": 0.52,
+    "peakDb": -8.71,
+    "rmsDb": -19.79,
+    "leadingSilence": 0.052,
+    "trailingSilence": 0.081
+  },
+  {
+    "text": "حُو",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-cc7d73f1885c.wav",
+    "duration": 0.29,
+    "peakDb": -8.65,
+    "rmsDb": -19.47,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "جِيدِهَا",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-ce78ac63493c.wav",
+    "duration": 0.58,
+    "peakDb": -8.95,
+    "rmsDb": -21.42,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.012
+  },
+  {
+    "text": "غِي",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-ce78b75fbf7c.wav",
+    "duration": 0.245,
+    "peakDb": -10.3,
+    "rmsDb": -19.41,
+    "leadingSilence": 0.0,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "يَاءْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-cf74c943ec31.wav",
+    "duration": 0.475,
+    "peakDb": -9.22,
+    "rmsDb": -22.53,
+    "leadingSilence": 0.176,
+    "trailingSilence": 0.021
+  },
+  {
+    "text": "قِي",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-cfabc85d40c4.wav",
+    "duration": 0.275,
+    "peakDb": -10.49,
+    "rmsDb": -20.76,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "وَرَأَيْتَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-cfc53afaefe5.wav",
+    "duration": 0.845,
+    "peakDb": -7.2,
+    "rmsDb": -23.03,
+    "leadingSilence": 0.132,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "دُو",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-d10d0df617af.wav",
+    "duration": 0.24,
+    "peakDb": -9.55,
+    "rmsDb": -19.35,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "لَمْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-d4ed5209d00e.wav",
+    "duration": 0.505,
+    "peakDb": -11.23,
+    "rmsDb": -20.79,
+    "leadingSilence": 0.003,
+    "trailingSilence": 0.035
+  },
+  {
+    "text": "خُو",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-d5fb917d9db6.wav",
+    "duration": 0.3,
+    "peakDb": -11.63,
+    "rmsDb": -23.38,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.002
+  },
+  {
+    "text": "قَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-d73b8f256e66.wav",
+    "duration": 0.305,
+    "peakDb": -4.71,
+    "rmsDb": -16.26,
+    "leadingSilence": 0.005,
+    "trailingSilence": 0.003
+  },
+  {
+    "text": "ٱلنَّاسَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-d8738fe07ca3.wav",
+    "duration": 0.555,
+    "peakDb": -10.56,
+    "rmsDb": -20.8,
+    "leadingSilence": 0.0,
+    "trailingSilence": 0.003
+  },
+  {
+    "text": "فِي",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-db7696accf25.wav",
+    "duration": 0.26,
+    "peakDb": -12.34,
+    "rmsDb": -21.83,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "وَلَمْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-db9d001d07f5-r1.wav",
+    "duration": 0.83,
+    "peakDb": -8.47,
+    "rmsDb": -23.24,
+    "leadingSilence": 0.546,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "ٱلصِّرَٰطَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-dda0619e94e4.wav",
+    "duration": 0.5,
+    "peakDb": -9.32,
+    "rmsDb": -21.85,
+    "leadingSilence": 0.0,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "ذَالْ",
+    "file": "assets/audio/letters/marin-v1/dhal.wav",
+    "duration": 0.745,
+    "peakDb": -5.9,
+    "rmsDb": -21.52,
+    "leadingSilence": 0.101,
+    "trailingSilence": 0.16
+  },
+  {
+    "text": "سَاهُونَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-de88736412f6.wav",
+    "duration": 0.66,
+    "peakDb": -9.81,
+    "rmsDb": -20.4,
+    "leadingSilence": 0.0,
+    "trailingSilence": 0.057
+  },
+  {
+    "text": "ثُو",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-e163d245aa74.wav",
+    "duration": 0.3,
+    "peakDb": -11.93,
+    "rmsDb": -21.83,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.003
+  },
+  {
+    "text": "هَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-e2fece36d71a.wav",
+    "duration": 0.35,
+    "peakDb": -5.54,
+    "rmsDb": -17.48,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.003
+  },
+  {
+    "text": "تُو",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-e455bbaee2ef.wav",
+    "duration": 0.285,
+    "peakDb": -12.15,
+    "rmsDb": -22.85,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "طُ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-e49934a2356f.wav",
+    "duration": 0.18,
+    "peakDb": -14.43,
+    "rmsDb": -23.89,
+    "leadingSilence": 0.003,
+    "trailingSilence": 0.002
+  },
+  {
+    "text": "نَيْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-e66d423a3dd9.wav",
+    "duration": 0.36,
+    "peakDb": -10.56,
+    "rmsDb": -18.37,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.002
+  },
+  {
+    "text": "فَذَٰلِكَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-e732a36fd0d0.wav",
+    "duration": 0.6,
+    "peakDb": -8.63,
+    "rmsDb": -19.86,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.005
+  },
+  {
+    "text": "خُ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-e7757adcd376.wav",
+    "duration": 0.185,
+    "peakDb": -15.19,
+    "rmsDb": -26.99,
+    "leadingSilence": 0.004,
+    "trailingSilence": 0.002
+  },
+  {
+    "text": "وِ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-e7bebb428fb2-r1.wav",
+    "duration": 0.485,
+    "peakDb": -9.52,
+    "rmsDb": -20.37,
+    "leadingSilence": 0.064,
+    "trailingSilence": 0.08
+  },
+  {
+    "text": "شِينْ",
+    "file": "assets/audio/letters/marin-v1/sheen.wav",
+    "duration": 0.78,
+    "peakDb": -9.47,
+    "rmsDb": -21.46,
+    "leadingSilence": 0.099,
+    "trailingSilence": 0.162
+  },
+  {
+    "text": "مَوْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-e9437b0a3e81.wav",
+    "duration": 0.36,
+    "peakDb": -7.91,
+    "rmsDb": -17.12,
+    "leadingSilence": 0.007,
+    "trailingSilence": 0.003
+  },
+  {
+    "text": "فُ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-ea02a7a1f92e.wav",
+    "duration": 0.2,
+    "peakDb": -11.33,
+    "rmsDb": -21.11,
+    "leadingSilence": 0.003,
+    "trailingSilence": 0.003
+  },
+  {
+    "text": "صِ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-ea38bdb8dbab.wav",
+    "duration": 0.325,
+    "peakDb": -14.84,
+    "rmsDb": -24.98,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "بٌ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-ec9450ee268e-r1.wav",
+    "duration": 0.225,
+    "peakDb": -10.54,
+    "rmsDb": -21.07,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.002
+  },
+  {
+    "text": "صَادْ",
+    "file": "assets/audio/letters/marin-v1/saad.wav",
+    "duration": 0.75,
+    "peakDb": -8.09,
+    "rmsDb": -22.38,
+    "leadingSilence": 0.1,
+    "trailingSilence": 0.14
+  },
+  {
+    "text": "يُ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-ed132d80ef2e.wav",
+    "duration": 0.25,
+    "peakDb": -10.17,
+    "rmsDb": -20.63,
+    "leadingSilence": 0.0,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "مَـٰلِكِ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-f01edb5de2d9.wav",
+    "duration": 0.855,
+    "peakDb": -10.23,
+    "rmsDb": -20.43,
+    "leadingSilence": 0.184,
+    "trailingSilence": 0.002
+  },
+  {
+    "text": "سُ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-f106b520337d.wav",
+    "duration": 0.25,
+    "peakDb": -14.47,
+    "rmsDb": -25.38,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "كَانَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-f14ab1770a44.wav",
+    "duration": 0.325,
+    "peakDb": -11.36,
+    "rmsDb": -21.73,
+    "leadingSilence": 0.008,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "بِرَبِّ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-f26ead2a68a3.wav",
+    "duration": 0.38,
+    "peakDb": -12.44,
+    "rmsDb": -22.6,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "صَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-f33099a288ef.wav",
+    "duration": 0.347,
+    "peakDb": -5.5,
+    "rmsDb": -18.14,
+    "leadingSilence": 0.002,
+    "trailingSilence": 0.002
+  },
+  {
+    "text": "خِ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-f3d5f289598a.wav",
+    "duration": 0.21,
+    "peakDb": -17.62,
+    "rmsDb": -25.41,
+    "leadingSilence": 0.004,
+    "trailingSilence": 0.003
+  },
+  {
+    "text": "فَعَلَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-f65ba0692d34.wav",
+    "duration": 0.42,
+    "peakDb": -7.64,
+    "rmsDb": -19.02,
+    "leadingSilence": 0.001,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "إِيَّاكَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-f663e61203ed.wav",
+    "duration": 0.76,
+    "peakDb": -8.66,
+    "rmsDb": -20.72,
+    "leadingSilence": 0.27,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "غَ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-f6bfae64253c-r1.wav",
+    "duration": 0.495,
+    "peakDb": -7.64,
+    "rmsDb": -20.09,
+    "leadingSilence": 0.06,
+    "trailingSilence": 0.083
+  },
+  {
+    "text": "لَوْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-f86274109079.wav",
+    "duration": 0.39,
+    "peakDb": -6.8,
+    "rmsDb": -17.09,
+    "leadingSilence": 0.004,
+    "trailingSilence": 0.002
+  },
+  {
+    "text": "ظِ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-f8b192cd3a04.wav",
+    "duration": 0.3,
+    "peakDb": -11.75,
+    "rmsDb": -18.95,
+    "leadingSilence": 0.0,
+    "trailingSilence": 0.001
+  },
+  {
+    "text": "أَلَمْ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-f9b77a966b34.wav",
+    "duration": 0.41,
+    "peakDb": -9.23,
+    "rmsDb": -17.84,
+    "leadingSilence": 0.003,
+    "trailingSilence": 0.002
+  },
+  {
+    "text": "أَعُوذُ",
+    "file": "assets/audio/letters/marin-curriculum-v1/lg-fa3853f6a7be.wav",
+    "duration": 1.92,
+    "peakDb": -9.98,
+    "rmsDb": -25.63,
+    "leadingSilence": 1.522,
+    "trailingSilence": 0.0
+  },
+  {
+    "text": "بَاءْ",
+    "file": "assets/audio/letters/marin-v1/ba.wav",
+    "duration": 0.695,
+    "peakDb": -4.37,
+    "rmsDb": -19.46,
+    "leadingSilence": 0.1,
+    "trailingSilence": 0.16
+  }
+]

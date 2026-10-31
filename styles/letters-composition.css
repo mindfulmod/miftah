@@ -68,6 +68,8 @@
   .lg-app .lg-play .play-bubble { min-height:48px; min-width:88px; padding:2px 10px; border-radius:18px; }
   .lg-app .lg-play .play-bubble-glyph { font-size:30px; }
   .lg-app .lg-play .play-dots i { width:8px; height:8px; }
+  /* Leave room for the current daily sign's raised gold rim. */
+  .lg-app .lg-play > .journey-route { margin-top:4px; }
 }
 
 /* Feed has one friend at the picnic. Keep its prompt alignment in this owner. */
@@ -78,3 +80,13 @@
 .lg-app .lg-play[data-activity="feed"] .play-bubble::before { display:none; }
 .lg-app .lg-play[data-activity="feed"] .play-dots { grid-column:1 / -1; }
 .lg-app .lg-play[data-activity="feed"] .learning-help { grid-column:2; }
+
+/* Action demonstrations share the presenter row with its existing controls. */
+.lg-app .lg-play .play-prompt:has(.lg-action-help:not([hidden])) { grid-template-columns:auto minmax(0,max-content) auto auto; }
+.lg-app .lg-play .lg-action-help { grid-column:4; grid-row:1; align-self:center; }
+.lg-app .lg-play .play-prompt:has(.lg-action-help:not([hidden])):not(:has(.learning-help:not([hidden]))) { grid-template-columns:auto minmax(0,max-content) auto; }
+.lg-app .lg-play .play-prompt:not(:has(.learning-help:not([hidden]))) .lg-action-help { grid-column:3; }
+.lg-app .lg-play[data-activity="feed"] .play-prompt:has(.lg-action-help:not([hidden])) { grid-template-columns:minmax(0,max-content) auto auto; }
+.lg-app .lg-play[data-activity="feed"] .lg-action-help { grid-column:3; }
+.lg-app .lg-play[data-activity="feed"] .play-prompt:has(.lg-action-help:not([hidden])):not(:has(.learning-help:not([hidden]))) { grid-template-columns:minmax(0,max-content) auto; }
+.lg-app .lg-play[data-activity="feed"] .play-prompt:not(:has(.learning-help:not([hidden]))) .lg-action-help { grid-column:2; }

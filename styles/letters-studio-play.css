@@ -1,0 +1,81 @@
+/* Letter Studio: a small stamp table with a framed picture and reachable trays. */
+.lg-app .lg-play[data-activity="studio"] .practice-stage { container-type: size; overflow: hidden; position: relative; }
+.lg-app .studio { width: 100%; height: 100%; min-height: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 12px; padding: 8px 8px 12px; }
+.studio-easel { position: relative; flex: none; width: min(calc(100cqw - 28px), calc((100cqh - 218px) * 4 / 3), 600px); aspect-ratio: 4 / 3; border: 4px solid #4a3620; border-radius: 26px; background: #c69434; padding: 12px; box-shadow: 0 6px 0 #70501b, inset 0 5px 0 #ffe49a; }
+.studio-easel::after { content: ''; position: absolute; pointer-events: none; height: 9px; left: -10px; right: -10px; bottom: -8px; border: 3px solid #4a3620; border-radius: 7px; background: #c69434; box-shadow: inset 0 3px 0 #ffe49a; }
+.studio-clip { position: absolute; z-index: 2; top: -9px; left: calc(50% - 18px); width: 36px; height: 20px; border: 3px solid #4a3620; border-radius: 8px; background: #ee806f; box-shadow: inset 0 4px 0 #ffa798; pointer-events: none; }
+.lg-app .studio .studio-canvas { display: block; width: 100%; height: 100%; border: 0; border-radius: 12px; box-shadow: none; overflow: hidden; cursor: crosshair; touch-action: manipulation; }
+.studio-invitation { position: absolute; width: 76px; height: 76px; top: calc(50% - 38px); left: calc(50% - 38px); display: grid; place-items: center; pointer-events: none; border: 3px dashed #a89478; border-radius: 50%; background: #fffaf0cc; }
+.studio.has-stamps .studio-invitation { display: none; }
+.studio-invitation > svg { width: 60px; height: 60px; }
+.studio-cursor { display: none; fill: none; stroke: #4a3620; stroke-width: 2.4; stroke-dasharray: 4 5; pointer-events: none; }
+.studio-canvas:focus-visible .studio-cursor { display: block; }
+.lg-app .studio .studio-placed { animation: none; }
+.studio-mark { transform-box: fill-box; transform-origin: center; animation: studio-mark-in 180ms ease-out; }
+@keyframes studio-mark-in { from { opacity: .45; scale: 1.08; } to { opacity: 1; scale: 1; } }
+.studio-controls { display: flex; flex-direction: column; align-items: stretch; width: min(100%, 540px); gap: 8px; }
+.studio-rail { display: flex; align-items: center; gap: 6px; min-width: 0; width: 100%; }
+.lg-app .studio .studio-inks, .lg-app .studio .studio-tray { display: flex; flex-wrap: nowrap; flex: 1 1 auto; min-width: 0; max-width: 100%; gap: 7px; overflow-x: auto; overflow-y: hidden; margin: 0; padding: 6px 5px 9px; direction: ltr; scrollbar-width: none; border-radius: 15px; background: #c9bda4; box-shadow: inset 0 3px 0 #a89478; }
+.studio-inks::-webkit-scrollbar, .studio-tray::-webkit-scrollbar { display: none; }
+.lg-app .studio .studio-ink { flex: 0 0 46px; width: 46px; height: 46px; padding: 7px; border: 3px solid #4a3620; border-radius: 13px; background: #fffaf0; box-shadow: 0 3px 0 #a89478; }
+.studio-ink span { display: block; width: 100%; height: 100%; border: 2.4px solid #4a3620; border-radius: 8px; background: var(--ink); box-shadow: inset 0 3px 0 #fffaf066; pointer-events: none; }
+.lg-app .studio .studio-stamp { display: grid; place-items: center; flex: 0 0 54px; width: 54px; height: 54px; padding: 3px; border: 3px solid #4a3620; border-radius: 15px; background: #fffaf0; box-shadow: 0 4px 0 #a89478; touch-action: manipulation; transition: transform 120ms ease, background 120ms ease; }
+.studio-stamp > svg { width: 100%; height: 100%; display: block; pointer-events: none; }
+.lg-app .studio :is(.studio-ink,.studio-stamp)[aria-pressed="true"] { background: #ffe49a; box-shadow: 0 4px 0 #70501b; }
+.studio-more, .studio-tools button { display: grid; place-items: center; flex: none; width: 48px; height: 48px; padding: 5px; border: 3px solid #4a3620; border-radius: 16px; background: #fffaf0; box-shadow: 0 4px 0 #a89478; cursor: pointer; touch-action: manipulation; transition: transform 120ms ease; }
+.studio-more[hidden] { display: none; }
+.studio-more svg, .studio-tools button svg { display: block; width: 100%; height: 100%; pointer-events: none; }
+.studio-more.is-back svg { rotate: 180deg; }
+.lg-app .studio .studio-tools { display: flex; justify-content: center; gap: 16px; min-height: 52px; }
+.studio-tools .studio-hang { background: #b7e779; width: 66px; height: 52px; box-shadow: 0 4px 0 #4e9677; }
+.studio-tools button:disabled { background: #e5dcc8; box-shadow: 0 4px 0 #a89478; cursor: default; }
+.studio-tools button:disabled > svg { opacity: .45; }
+.studio.is-full .studio-hang, .studio.save-failed .studio-hang { outline: 4px solid #f3c955; outline-offset: 3px; }
+.studio button:not(:disabled):active { transform: translateY(2px) scale(.98); }
+.studio :is(button,.studio-canvas):focus-visible { outline: 4px solid var(--lg-focus); outline-offset: 3px; }
+@media (orientation: landscape) and (max-height: 500px) {
+  .lg-app .studio { flex-direction: row; gap: 18px; padding: 12px; }
+  .lg-app .studio .studio-easel { width: min(calc(100cqw - 252px), calc((100cqh - 30px) * 4 / 3)); }
+  .lg-app .studio .studio-controls { flex: 0 0 206px; width: 206px; gap: 12px; }
+  .lg-app .studio .studio-canvas { grid-row: auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .studio-mark { animation: none; }
+  .lg-app .studio button { transition: none; }
+}
+.lg-reduce-motion .studio-mark { animation: none; }
+.lg-app.lg-reduce-motion .studio button { transition: none; }
+
+/* A full shelf asks with pictures. Selection is a preview, never a write. */
+.lg-app .drawing-choice { box-sizing: border-box; width: min(520px, calc(100vw - 24px)); max-height: calc(100dvh - 24px); overflow: auto; margin: auto; padding: 22px 18px; border: 4px solid #4a3620; border-radius: 28px; color: #4a3620; background: #fffaf0; box-shadow: 0 7px 0 #a89478; }
+.drawing-choice::backdrop { background: #4a362066; }
+.drawing-swap { display: flex; align-items: center; justify-content: center; gap: 16px; min-height: 128px; direction: ltr; }
+.drawing-swap img { display: block; box-sizing: border-box; width: 116px; height: 116px; object-fit: contain; border: 3px solid #a89478; border-radius: 14px; background: #fffdf7; }
+.drawing-swap .drawing-incoming { border-color: #4e9677; }
+.drawing-before { display: flex; align-items: center; gap: 16px; }
+.drawing-before[hidden] { display: none; }
+.drawing-before > span { display: grid; place-items: center; }
+.drawing-shelf { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; padding: 20px 0; margin: 8px 0 18px; border-bottom: 8px solid #c69434; }
+.lg-app .drawing-slot { position: relative; display: block; min-width: 0; padding: 5px; aspect-ratio: 1; border: 3px solid #a89478; border-radius: 16px; background: #fffdf7; box-shadow: 0 3px 0 #a89478; touch-action: manipulation; cursor: pointer; }
+.drawing-slot > img { display: block; width: 100%; height: 100%; object-fit: contain; border-radius: 9px; pointer-events: none; }
+.lg-app .drawing-slot[aria-pressed="true"] { border-color: #4e9677; background: #b7e779; outline: 3px solid #4e9677; outline-offset: 3px; }
+.drawing-garden-badge { position: absolute; bottom: -12px; right: -6px; display: grid; place-items: center; width: 30px; height: 30px; border: 2px solid #4e9677; border-radius: 50%; background: #fffaf0; pointer-events: none; }
+.drawing-choice-actions { display: flex; justify-content: center; gap: 36px; }
+.lg-app .drawing-choice-actions button { display: grid; place-items: center; width: 64px; height: 56px; padding: 8px; color: #4a3620; border: 3px solid #4a3620; border-radius: 18px; background: #ffe49a; box-shadow: 0 4px 0 #a89478; touch-action: manipulation; cursor: pointer; }
+.lg-app .drawing-choice-actions .drawing-confirm { background: #b7e779; }
+.lg-app .drawing-confirm:disabled { opacity: .4; cursor: default; }
+.drawing-choice button:not(:disabled):active { translate: 0 2px; }
+.drawing-choice button:focus-visible { outline: 4px solid var(--lg-focus); outline-offset: 4px; }
+@media (max-width: 360px) {
+  .lg-app .drawing-choice { padding: 16px 12px; }
+  .drawing-swap, .drawing-before { gap: 10px; }
+  .drawing-swap img { width: 96px; height: 96px; }
+}
+@media (max-height: 480px) and (orientation: landscape) {
+  .lg-app .drawing-choice { width: min(610px, calc(100vw - 24px)); padding: 14px 18px; }
+  .drawing-choice[open] { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: center; }
+  .drawing-shelf { gap: 10px; margin: 0; padding: 10px 0 16px; }
+  .drawing-swap, .drawing-before { gap: 8px; }
+  .drawing-swap img { width: 92px; height: 92px; }
+  .drawing-choice-actions { grid-column: 1 / -1; }
+}

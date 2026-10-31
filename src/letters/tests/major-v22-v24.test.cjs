@@ -19,7 +19,7 @@ test("v22 Little Sprout: per child, includes gentle, glows the right answer afte
   assert.match(glow, /\.play-bubble, \.practice-replay, \.learning-hint/, "never glows the prompt itself");
   assert.doesNotMatch(glow, /reportOutcome/);
   assert.match(game, /const holdToLeave = this\.sprout && \/\\blg-\(play\|meet\|stars\)\\b\/\.test\(el\.className\);/);
-  assert.match(game, /timer = setTimeout\(\(\) => \{ stop\(\); leave\(\); \}, 800\);/);
+  // The 800ms hold and cancellation behaviour are exercised in home-navigation-v363.test.cjs.
 });
 
 test("v23 World Overview: the whole world on one page; unreached lands are mist; tapping travels", () => {
@@ -34,8 +34,15 @@ test("v23 World Overview: the whole world on one page; unreached lands are mist;
 test("v24 Letter Balloons: free play for the youngest, every letter takes a turn, nothing reported", () => {
   const src = source("LetterBalloons.js");
   assert.doesNotMatch(src, /reportOutcome|spendStars|saveJSON/);
-  assert.match(src, /const item = this\.letters\[this\.n\+\+ % this\.letters\.length\];/);
-  assert.match(src, /width="?96|96px/);
+  assert.match(src, /this\.letters\[this\.index\+\+ % this\.letters\.length\]/, "new letters cycle through the taught set");
+  assert.match(src, /for \(let slot = 0; slot < 3; slot \+= 1\) this\.add\(slot\);/);
+  assert.match(src, /button\.style\.gridColumn = String\(slot \+ 1\);/);
+  assert.match(src, /this\.add\(slot\);/, "a pop replaces only its own fixed slot");
+  assert.match(src, /ns\.BalloonPlayArt\?\.balloon\?\./, "the live toy uses its native balloon illustration");
+  assert.match(src, /ns\.LettersArt\?\.fitGlyphs\?\./, "the actual live glyph is fitted after rendering");
+  const art = source("BalloonPlayArt.js");
+  assert.match(art, /class="balloon-art"/);
+  assert.match(art, /class="balloon-letter" data-fit-box=/);
   assert.deepEqual(off(src), []);
   assert.match(game, /if\(this\.sprout\)choices\.unshift\('LetterBalloons'\);else choices\.push\('LetterBalloons'\);/);
   const notes = fs.readFileSync(path.join(root, "docs", "letter-garden", "RELEASES.md"), "utf8");

@@ -1,0 +1,20 @@
+{
+  "stage": "teacher-rahman-voice-v1",
+  "jobs": [
+    {
+      "id": "lg-a50385d06881",
+      "targetId": "lg-a50385d06881",
+      "input": "ٱلرَّحْمَـٰنِ",
+      "targetInput": "ٱلرَّحْمَـٰنِ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read ar-rahmaani naturally and smoothly, with no robotic buzz, echo or artificial breaks. Keep the same natural feminine teacher voice as the other classroom items. Use relaxed, easy speech in your natural register. Do not deliberately lower or darken the voice, add chest resonance, or use a solemn announcer or recitation style. Keep the delivery composed and understated, without breathiness or exaggerated pitch.",
+      "sourceFile": "tanwin-repair-candidates/lg-a50385d06881.wav",
+      "replacesSha256": "eb57b40f0f45bd69183f54cbd8b33770085df48e3ad36626d1bf0e3e60091be2",
+      "ownerNote": "Pronunciation accepted; owner reports voice sounds like a girl trying to sound more masculine. Hold for voice consistency.",
+      "contextExample": false
+    }
+  ],
+  "model": "gpt-4o-mini-tts-2025-03-20",
+  "voice": "marin",
+  "planningReservationUSD": 0.05
+}

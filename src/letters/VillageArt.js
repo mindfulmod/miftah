@@ -7,11 +7,32 @@
 //     shadows to the lower right;
 //   - touchable landmarks get chunky warm ink (3/4), small parts 1.6/2.4;
 //     scenery masses (sky, hills, ground, path) get NO contour;
-//   - every filled shape wider than ~24px has a light band and a shade band;
+//   - flat object fills, one quiet highlight; layered tones belong to terrain;
 //   - one warm light pool, behind the journey gate (the next adventure).
 (function (ns) {
   const INK = "#4a3620";
   const shadow = (cx, cy, rx, ry = rx * 0.2, o = 0.22) => `<ellipse cx="${(cx + rx * 0.12).toFixed(1)}" cy="${cy}" rx="${rx}" ry="${ry.toFixed(1)}" fill="#2f5c46" opacity="${o}"/>`;
+
+  function layout(width, height) {
+      const ratio = width / Math.max(1, height), wide = ratio > 1.15, tablet = wide && ratio < 1.5;
+      // Three calibrated compositions. Positions are scene units, not CSS pixels.
+      const L = tablet
+        // Tablets (4:3 to 3:2): a squarer stage, so the village fills the screen and its landmarks are big.
+        ? { W: 820, H: 640, hz: 0.33, trail: "M410 680Q380 600 430 540Q480 480 410 430Q340 380 400 320Q430 290 410 250", pebbles: [[400, 610], [438, 540], [400, 470], [380, 400], [412, 330]],
+            gate: [410, 130, 1.05], cottage: [150, 350, 1.30], yard: [150, 490, 0.80], stall: [650, 390, 0.94], friends: [280, 556, 0.78], toy: [620, 560, 0.72],
+            stones: [410, 612, 0.95], sundial: [48, 242, 0.76], flowers: [760, 300, 0.9], pet: [410, 430, 100], find: [520, 446],
+            trees: [[30, 600, 1.15, 1], [790, 610, 1.05, 0], [250, 268, 0.6, 1], [640, 250, 0.55, 0]], bushes: [[520, 610, 0.9], [110, 610, 0.8]] }
+        : wide
+        ? { W: 900, H: 560, hz: 0.36, trail: "M450 600Q420 520 470 470Q520 420 450 370Q380 320 440 270Q470 240 450 200", pebbles: [[440, 540], [478, 470], [440, 400], [420, 330], [452, 262]],
+            gate: [450, 112, 0.92], cottage: [178, 284, 1.24], yard: [172, 422, 0.76], stall: [722, 320, 0.88], friends: [312, 458, 0.74], toy: [680, 453, 0.68],
+            stones: [450, 528, 0.9], sundial: [52, 232, 0.76], flowers: [822, 262, 0.85], pet: [450, 355, 92], find: [560, 360], visitor: [250, 330],
+            trees: [[40, 470, 1.1, 1], [860, 480, 1, 0], [260, 230, 0.6, 1], [700, 210, 0.55, 0]], bushes: [[560, 520, 0.9], [130, 520, 0.8]] }
+        : { W: 375, H: 667, hz: 0.34, trail: "M168 700Q150 600 196 540Q250 470 186 410Q120 350 182 300Q220 270 188 236", pebbles: [[176, 640], [190, 560], [214, 500], [190, 430], [158, 370], [176, 312]],
+            gate: [188, 128, 0.98], cottage: [84, 320, 1.02], yard: [80, 442, 0.70], stall: [300, 350, 0.75], friends: [82, 560, 0.66], toy: [293, 565, 0.60],
+            stones: [196, 642, 0.8], sundial: [34, 208, 0.68], flowers: [336, 250, 0.78], pet: [198, 466, 74], find: [272, 478], visitor: [306, 452],
+            trees: [[14, 640, 1.05, 1], [364, 648, 0.85, 0]], bushes: [[352, 392, 0.7], [18, 400, 0.6]] };
+      return { ...L, family: tablet ? "tablet" : wide ? "wide" : "portrait" };
+  }
 
   // ---------- scenery (no contour) ----------
   // v88: the village follows the same four phases as the game screens (a
@@ -26,8 +47,8 @@
     const sunset = !night && phase === "sunset", morning = !night && phase === "morning";
     const sky = night ? ["#23253f", "#4a4d84"] : sunset ? ["#ffa798", "#ffe49a"] : morning ? ["#ffe49a", "#ccfbef"] : ["#96ecff", "#ccfbef"];
     const far = night ? "#4a4d84" : "#b7e779";
-    const ground = night ? "#2f5c46" : "#7fce54";
-    const shade = night ? "#23253f" : "#4e9677";
+    const ground = night ? "#4e9677" : "#7fce54";
+    const shade = night ? "#2f5c46" : "#4e9677";
     return `<defs>
         <linearGradient id="vg-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${sky[0]}"/><stop offset="1" stop-color="${sky[1]}"/></linearGradient>
         <linearGradient id="vg-sun" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fffdf7" stop-opacity="${night ? 0 : 0.5}"/><stop offset=".55" stop-color="#fffdf7" stop-opacity="0"/></linearGradient>
@@ -64,7 +85,7 @@
   // trunk, clumped canopy, leaf ticks, fruit); seeded by position so no two
   // match. Falls back to the simpler v119 tree if the kit is absent.
   let treeN = 0;
-  const tree = (x, y, s, dark = false) => ns.DetailKit ? `<g class="vg-deco" transform="translate(${x} ${y + 44 * s}) scale(${(s * 0.78).toFixed(2)})">${ns.DetailKit.tree({ kind: dark ? "round" : "apple", seed: Math.round(x + y) + (treeN++), leaf: dark ? ["#7fce54", "#4e9677", "#2f5c46"] : ["#b7e779", "#7fce54", "#4e9677"] })}</g>` : treeV119(x, y, s, dark);
+  const tree = (x, y, s, dark = false) => ns.DetailKit ? `<g class="vg-deco" transform="translate(${x} ${y + 44 * s}) scale(${(s * 0.78).toFixed(2)})">${ns.DetailKit.tree({ kind: dark ? "round" : "apple", seed: Math.round(x + y) + (treeN++), detail: s < .8 ? "small" : "full", leaf: dark ? ["#7fce54", "#4e9677", "#2f5c46"] : ["#b7e779", "#7fce54", "#4e9677"] })}</g>` : treeV119(x, y, s, dark);
   const treeV119 = (x, y, s, dark = false) => { const c = dark ? ["#4e9677", "#2f5c46", "#7fce54"] : ["#7fce54", "#4e9677", "#b7e779"];
     return `<g class="vg-deco" transform="translate(${x} ${y}) scale(${s})">${shadow(2, 44, 34, 6, 0.18)}
     <rect x="-7" y="0" width="14" height="44" rx="7" fill="#c69434" stroke="${INK}" stroke-width="3"/><path d="M-1 10V36M3 18V30" stroke="#70501b" stroke-width="2.4" stroke-linecap="round"/>
@@ -198,30 +219,24 @@
       <circle cy="42" r="23" fill="#fffdf7" ${ink(3)}/>
       ${letter === "★" ? `<path transform="translate(0 43)" d="M0 -15L4.4 -5.4L15 -4.6L7 2.4L9.4 13L0 7.4L-9.4 13L-7 2.4L-15 -4.6L-4.4 -5.4Z" fill="#f3c955" stroke="${INK}" stroke-width="2.4" stroke-linejoin="round"/><path d="M-4 33L-2 37" ${DL("#fffdf7", 2.4)}/>` : `<text y="${latin ? 50 : 54}" text-anchor="middle" font-family="${latin ? "ui-rounded, system-ui, sans-serif" : "'Amiri Quran', serif"}" font-size="${latin ? 22 : 30}" fill="${INK}" ${latin ? "" : 'direction="rtl"'}>${letter}</text>`}</g>`;
   }
+  // A real little home: the facade has room for a pet-sized doorway beneath
+  // the leaf roof. Ground contact stays at y=84 for scene composition.
   function cottage() {
-    return `${shadow(4, 78, 64, 10)}${tuft(-56, 78)}${tuft(52, 78)}
-      <g fill="#fffaf0" opacity=".85">${[[40, -70, 6], [46, -84, 8], [54, -100, 10]].map(([x, y, r], i) => `<circle class="vg-smoke" style="--d:${i * 0.9}s" cx="${x}" cy="${y}" r="${r}"/>`).join("")}</g>
-      <rect x="30" y="-62" width="20" height="38" rx="5" fill="#e5dcc8" ${ink(3)}/><rect x="27" y="-68" width="26" height="10" rx="4" fill="#c9bda4" ${ink(3)}/><path d="M34 -50H46M34 -40H46" ${DL("#c9bda4")}/>
-      <rect x="-50" y="-4" width="100" height="80" rx="34" fill="#fffaf0" ${ink()}/>
-      <path d="M-42 20H42M-46 36H-20M20 36H46M-46 52H-20M20 52H46" ${DL("#e5dcc8")}/>
-      <path d="M36 4Q46 16 46 40V62" ${DL("#e5dcc8", 4)}/>
-      <path d="M-40 56Q-34 52 -28 56M30 50Q36 46 42 50" ${DL("#c9bda4")}/>
-      <path d="M-68 20Q-68 -52 0 -52Q68 -52 68 20Q68 30 56 28Q0 18 -56 28Q-68 30 -68 20Z" fill="#7fce54" ${ink()}/>
-      <path d="M-58 16Q-40 6 -22 12Q-4 4 14 12Q32 4 50 12Q58 10 62 16" ${DL("#4e9677")}/><path d="M-60 2Q-44 -8 -28 -2Q-12 -10 4 -2Q20 -10 36 -2Q50 -8 62 0" ${DL("#4e9677")}/>
-      <path d="M-46 -16Q-30 -24 -16 -18Q2 -28 20 -18M-20 -38Q0 -44 18 -36" ${DL("#4e9677")}/>
-      <circle cx="-30" cy="-6" r="6" fill="#b7e779" stroke="#4e9677" stroke-width="1.6"/><circle cx="28" cy="-28" r="5" fill="#b7e779" stroke="#4e9677" stroke-width="1.6"/><circle cx="44" cy="-2" r="4" fill="#b7e779" stroke="#4e9677" stroke-width="1.6"/>
-      ${shine(-34, -26, 14, 6)}
-      <path d="M0 -52Q-2 -64 2 -72" fill="none" ${ink()}/><path d="M2 -70Q-12 -86 -18 -78Q-12 -66 2 -70Z" fill="#b7e779" ${ink(3)}/><path d="M2 -70Q-6 -74 -12 -76" ${DL("#4e9677", 1.6)}/>
-      <g transform="translate(1 12)"><rect x="-9" y="-6" width="18" height="12" rx="4" fill="#c69434" ${ink(2.4)}/><path d="M0 -1Q-2 -4 -4 -2Q-5 0 0 4Q5 0 4 -2Q2 -4 0 -1Z" fill="#ee806f" stroke="#c25a49" stroke-width="1.6" stroke-linejoin="round"/></g>
-      <rect x="-19" y="25" width="40" height="52" rx="20" fill="#e5dcc8" ${ink(3)}/>
-      <rect x="-14" y="30" width="30" height="46" rx="15" fill="#ee806f" ${ink()}/>
-      <path d="M-6 40V70M8 40V70" ${DL("#c25a49")}/><circle cx="10" cy="56" r="3" fill="#f3c955" stroke="#c69434" stroke-width="1.6"/>
-      <rect x="-18" y="72" width="38" height="8" rx="4" fill="#c9bda4" ${ink(3)}/>
-      <circle class="vg-win" cx="-30" cy="42" r="11" fill="#96ecff" ${ink(3)}/><path d="M-30 32V52M-40 42H-20" ${DL("#4a3620", 2.4)}/>${shine(-34, 37, 3, 2)}
-      <path d="M-42 56Q-30 50 -18 56" ${DL("#c69434", 6)}/>${bloom(-38, 52, "#ffa798", "#ee806f", 3)}${bloom(-24, 51, "#ffe49a", "#c69434", 3)}
-      <circle class="vg-win" cx="32" cy="34" r="8" fill="#96ecff" ${ink(3)}/><path d="M24 34H40M32 26V42" ${DL("#4a3620", 1.6)}/>
-      <g transform="translate(24 50)"><path d="M0 -6V0" ${DL("#4a3620", 2.4)}/><rect x="-4.5" y="0" width="9" height="11" rx="4" fill="#ffe49a" ${ink(2.4)}/></g>
-      ${[-44, -30, -16, 16, 30, 44].map((x) => `<ellipse cx="${x}" cy="77" rx="7" ry="4" fill="#c9bda4" ${ink(2.4)}/>`).join("")}`;
+    return `${shadow(4, 85, 77, 10)}${tuft(-70, 84)}${tuft(68, 84)}
+      <g fill="#fffaf0" opacity=".85">${[[43,-83,5],[48,-96,7],[54,-112,9]].map(([x,y,r],i)=>`<circle class="vg-smoke" style="--d:${i * 0.9}s" cx="${x}" cy="${y}" r="${r}"/>`).join("")}</g>
+      <rect x="34" y="-76" width="20" height="47" rx="5" fill="#e5dcc8" ${ink(3)}/><rect x="31" y="-80" width="26" height="10" rx="4" fill="#c9bda4" ${ink(3)}/><path d="M38 -62H50M38 -49H50" ${DL("#a89478",1.6)}/>
+      <rect x="-61" y="-18" width="122" height="99" rx="26" fill="#fffaf0" ${ink()}/>
+      <path d="M-51 7H51M-55 27H-27M27 27H55M-55 48H-27M27 48H55M-53 67H-28M28 67H53" ${DL("#e5dcc8",2.4)}/><path d="M53 7V65" ${DL("#e5dcc8",4)}/>
+      <path d="M-78 -6Q-76 -67 0 -67Q76 -67 78 -6Q78 4 67 3Q0 -7 -67 3Q-78 4 -78 -6Z" fill="#7fce54" ${ink()}/>
+      <path d="M-67 -12Q-48 -25 -28 -18Q-8 -28 12 -20Q34 -29 56 -18M-57 -32Q-40 -43 -22 -37Q-2 -48 18 -39Q37 -46 53 -35M-21 -54Q0 -61 20 -53" ${DL("#4e9677",2.4)}/>${shine(-37,-46,16,5)}
+      <path d="M0 -67Q-3 -80 2 -87" ${DL("#70501b",3)}/><path d="M2 -85Q-14 -101 -23 -92Q-15 -79 2 -85Z" fill="#b7e779" ${ink(2.4)}/><path d="M-17 -91L0 -85" ${DL("#4e9677",1.6)}/>
+      <g class="vg-home-heart" transform="translate(0 5)"><rect x="-9" y="-6" width="18" height="12" rx="4" fill="#c69434" ${ink(2.4)}/><path d="M0 -1Q-2 -4 -4 -2Q-5 0 0 4Q5 0 4 -2Q2 -4 0 -1Z" fill="#ee806f" stroke="#c25a49" stroke-width="1.6" stroke-linejoin="round"/></g>
+      <rect x="-27" y="13" width="54" height="69" rx="26" fill="#e5dcc8" ${ink(3)}/><rect x="-22" y="18" width="44" height="61" rx="22" fill="#ee806f" ${ink(3)}/>
+      <path d="M-12 31V73M1 24V73M13 31V73" ${DL("#c25a49",1.6)}/>${shine(-13,29,3,7,0)}<circle cx="15" cy="53" r="3.4" fill="#f3c955" stroke="#70501b" stroke-width="1.6"/>
+      ${[-42,42].map(x=>`<circle class="vg-win" cx="${x}" cy="25" r="12" fill="#96ecff" ${ink(3)}/><path d="M${x} 15V35M${x-10} 25H${x+10}" ${DL(INK,1.6)}/>${shine(x-5,19,3,2)}<path d="M${x-13} 40H${x+13}" ${DL("#c69434",4)}/>`).join("")}
+      <path d="M-56 49Q-42 44 -28 49L-31 58H-53Z" fill="#c69434" ${ink(2.4)}/>${bloom(-49,44,"#ffa798","#ee806f",3)}${bloom(-36,43,"#ffe49a","#c69434",3)}
+      <g transform="translate(43 48)"><path d="M0 -4V2" ${DL(INK,2.4)}/><rect x="-5" y="2" width="10" height="14" rx="4" fill="#ffe49a" ${ink(2.4)}/></g>
+      <path d="M-57 74Q-62 82 -52 84H52Q62 82 57 74" fill="#c9bda4" ${ink(3)}/><rect x="-28" y="77" width="56" height="9" rx="4" fill="#e5dcc8" ${ink(3)}/><path d="M-21 80H21" ${DL("#fffdf7",2.4)}/>`;
   }
   function toyChestV103(open = true) {
     return `${shadow(4, 64, 66, 10)}${tuft(-66, 62)}${tuft(64, 62)}
@@ -365,5 +380,5 @@
     const fly = (c, d) => `<path d="M0 0Q-8 -10 -11 -3Q-11 4 0 1Z" fill="${c}" stroke="#4a3620" stroke-width="1.6" stroke-linejoin="round"/><path d="M0 0Q8 -10 11 -3Q11 4 0 1Z" fill="${c}" stroke="#4a3620" stroke-width="1.6" stroke-linejoin="round"/><path d="M0 1Q-6 7 -4 9Q0 8 0 2ZM0 1Q6 7 4 9Q0 8 0 2Z" fill="${d}" stroke="#4a3620" stroke-width="1.6" stroke-linejoin="round"/><path d="M0 -3V6" stroke="#4a3620" stroke-width="2.4" stroke-linecap="round"/>`;
     return [[0.4, 0.6, "#ffa798", "#ee806f"], [0.76, 0.27, "#62cdf4", "#3a8fc4"]].map(([fx, fy, c, d], i) => `<g pointer-events="none" transform="translate(${(W * fx).toFixed(0)} ${(H * fy).toFixed(0)}) scale(1.7)"><g class="vg-amb vg-butterfly" style="--d:${i * 1.7}s">${fly(c, d)}</g></g>`).join("");
   }
-  ns.VillageArt = { backdrop, ambient, trail, tree, bush, gate, cottage, yard, friendsBed, toyChest, stall, stones, sundial, flowerBed, shadow, classic: { gate: gateClassic, cottage: cottageClassic, friendsBed: friendsBedClassic, toyChest: toyChestClassic, yard: yardClassic, stones: stonesClassic, sundial: sundialClassic, flowerBed: flowerBedClassic, friendsBedV103, toyChestV103 } };
+  ns.VillageArt = { layout, backdrop, ambient, trail, tree, bush, gate, cottage, yard, friendsBed, toyChest, stall, stones, sundial, flowerBed, shadow, classic: { gate: gateClassic, cottage: cottageClassic, friendsBed: friendsBedClassic, toyChest: toyChestClassic, yard: yardClassic, stones: stonesClassic, sundial: sundialClassic, flowerBed: flowerBedClassic, friendsBedV103, toyChestV103 } };
 })(window.MiftahGame || (window.MiftahGame = {}));

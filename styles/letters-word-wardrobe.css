@@ -1,0 +1,432 @@
+/* The word and wardrobe games keep the garden visible and bring their own small places. */
+.lg-app .lg-play .practice-stage:has(> :is(.vh, .wd)) {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: min(100%, 900px);
+  padding: 4px 8px 10px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.lg-app .lg-play .practice-stage:has(> :is(.vh, .wd)) > .lg-activity-art { display: none; }
+.lg-app .lg-play .practice-stage:has(> :is(.vh, .wd)) > :is(.vh, .wd) {
+  position: relative;
+  z-index: 1;
+  margin: auto;
+  flex-shrink: 0;
+}
+
+.vh,
+.wd {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  align-content: center;
+  gap: clamp(6px, 1.25vh, 12px);
+  width: 100%;
+  min-width: 0;
+  padding: 2px 8px 8px;
+  box-sizing: border-box;
+}
+.vh button,
+.wd button { font: inherit; -webkit-tap-highlight-color: transparent; }
+.vh [hidden],
+.wd [hidden] { display: none !important; }
+.vh :is(.vh-reference, .vh-nook, .vh-shelf, .vh-progress),
+.wd :is(.wd-reference, .wd-crown-stage, .wd-listen-scene, .wd-book, .wd-cards, .wd-pieces, .wd-progress) { min-width: 0; }
+
+/* Hat Shop: the arch is timber, while the pet owns the clear paper mirror. */
+.vh .vh-reference {
+  display: grid;
+  place-items: center;
+  width: min(100%, 260px);
+  min-height: 48px;
+  padding: 0 12px;
+  box-sizing: border-box;
+  border: 2.4px solid #a89478;
+  border-radius: 16px;
+  background: #fffaf0;
+  box-shadow: inset 0 3px 0 #fffdf7, 0 3px 0 #c9bda4;
+  color: #4a3620;
+  font: clamp(30px, 7vmin, 44px)/1.6 "Amiri Quran", serif;
+}
+.vh .vh-nook {
+  position: relative;
+  width: min(100%, 320px, 48vh);
+  aspect-ratio: 8 / 7;
+  flex: none;
+}
+.vh .vh-nook-art { position: absolute; inset: 0; pointer-events: none; }
+.vh .vh-nook-art > svg { display: block; width: 100%; height: 100%; }
+.vh .vh-nook > :is(.vh-stage, .vh-target-slot) {
+  position: absolute;
+  left: 18.75%;
+  top: 14.28%;
+  display: grid;
+  place-items: center;
+  width: 62.5%;
+  height: 67.14%;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.vh .vh-friend,
+.vh .vh-target-slot { display: grid; place-items: center; width: 100%; height: 100%; min-width: 48px; min-height: 48px; }
+.vh .vh-friend svg,
+.vh .vh-target-slot > svg { display: block; width: min(100%, 170px); max-height: 100%; height: auto; overflow: visible; }
+.vh .vh-shelf {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(10px, 3vw, 18px);
+  width: min(100%, 390px);
+  padding: 10px 12px;
+  box-sizing: border-box;
+  border-radius: 22px;
+  background: #c69434;
+  box-shadow: inset 0 3px 0 #f3c955, inset 0 -6px 0 #70501b, 0 4px 0 #a89478;
+}
+.vh .vh-choice {
+  display: grid;
+  place-items: center;
+  min-width: 64px;
+  min-height: 64px;
+  padding: 6px;
+  border: 3px solid #4a3620;
+  border-radius: 20px;
+  background: #fffaf0;
+  box-shadow: inset 0 3px 0 #fffdf7, 0 4px 0 #c9bda4;
+  touch-action: none;
+}
+.vh .vh-choice svg { display: block; max-width: min(100%, 94px); max-height: 70px; }
+.vh .vh-choice.is-taken { opacity: .48; }
+.vh .vh-choice.is-right { background: #b7e779; }
+.vh .vh-progress { min-height: 14px; }
+
+/* Twin Crown: a fixed stage keeps the twins and the quiet feedback space still. */
+.wd .wd-crown-stage {
+  position: relative;
+  width: min(100%, 360px, 58vh);
+  aspect-ratio: 36 / 17;
+  flex: none;
+}
+.wd .wd-crown-stage-art { position: absolute; inset: 0; pointer-events: none; }
+.wd .wd-crown-stage-art > svg { display: block; width: 100%; height: 100%; }
+.wd .wd-crown-stage .wd-twins {
+  position: absolute;
+  left: 13.89%;
+  top: 11.76%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-evenly;
+  width: 72.22%;
+  height: 73.52%;
+  max-width: none;
+  overflow: visible;
+  transition: none;
+}
+.wd .wd-crown-stage .wd-twins.is-on { height: 73.52%; }
+.wd .wd-crown-stage .wd-twins.is-preview { justify-content: center; }
+.wd .wd-crown-stage .wd-preview {
+  position: relative;
+  display: grid;
+  place-items: end center;
+  width: 52%;
+  height: 100%;
+  min-width: 48px;
+  animation: none;
+}
+.wd .wd-crown-stage .wd-preview > svg { display: block; width: min(100%, 100px); max-height: 100%; height: auto; overflow: visible; }
+.wd .wd-crown-stage .wd-twins:not(.is-preview) .wd-one {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  z-index: 2;
+  width: 42%;
+  height: 100%;
+  transform: translateX(-50%);
+}
+.wd .wd-crown-stage .wd-twin,
+.wd .wd-crown-stage .wd-one {
+  position: relative;
+  inset: auto;
+  display: grid;
+  place-items: end center;
+  width: 46%;
+  height: 100%;
+  min-width: 48px;
+  opacity: 1;
+  transform: none;
+}
+.wd .wd-crown-stage .wd-twin svg,
+.wd .wd-crown-stage .wd-one svg { display: block; max-width: 100%; max-height: 100%; }
+.wd .wd-crown-feedback,
+.wd .wd-feedback,
+.wd .wd-status { display: grid; place-items: center; min-height: 36px; }
+.wd .wd-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  gap: clamp(10px, 3vw, 18px);
+  width: min(100%, 620px);
+}
+.wd .wd-card {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: 1 1 120px;
+  min-width: min(120px, 42vw);
+  min-height: 72px;
+  padding: 8px 18px;
+  box-sizing: border-box;
+  border: 3px solid #4a3620;
+  border-radius: 22px;
+  background: #fffaf0;
+  box-shadow: inset 0 3px 0 #fffdf7, 0 5px 0 #c9bda4;
+}
+.wd .wd-card.has-crown { background: #fffaf0; }
+.wd .wd-word { font: clamp(34px, 8vmin, 54px)/1.55 "Amiri Quran", serif; color: #4a3620; }
+.wd .wd-crown-badge { position: absolute; top: -8px; inset-inline-start: 50%; display: grid; place-items: center; width: 24px; height: 16px; transform: translateX(-50%); line-height: 0; }
+.wd .wd-crown-badge svg { display: block; width: 24px; height: 16px; }
+.wd .wd-card.is-right { background: #b7e779; }
+
+/* Listen and Find: the shell holds a broad label; its upper right stays open for an ear. */
+.wd .wd-listen-scene {
+  position: relative;
+  width: min(100%, 320px, 48vh);
+  aspect-ratio: 32 / 21;
+  flex: none;
+}
+.wd .wd-listen-art { position: absolute; inset: 0; pointer-events: none; }
+.wd .wd-listen-art > svg { display: block; width: 100%; height: 100%; }
+.wd > .wd-reference {
+  display: grid;
+  place-items: center;
+  width: min(100%, 420px);
+  min-height: 48px;
+  padding: 0 14px;
+  box-sizing: border-box;
+  border: 2.4px solid #a89478;
+  border-radius: 16px;
+  background: #fffaf0;
+  box-shadow: inset 0 3px 0 #fffdf7, 0 3px 0 #c9bda4;
+  color: #4a3620;
+  font: clamp(30px, 7vmin, 46px)/1.6 "Amiri Quran", serif;
+}
+.wd .wd-listen-scene .wd-reference {
+  position: absolute;
+  left: 18.75%;
+  top: 28.57%;
+  display: grid;
+  place-items: center;
+  width: 62.5%;
+  height: 40.48%;
+  min-height: 48px;
+  padding: 0 7px;
+  box-sizing: border-box;
+  overflow: visible;
+  border: 2.4px solid #a89478;
+  border-radius: 15px;
+  background: #fffaf0;
+  box-shadow: inset 0 3px 0 #fffdf7, 0 3px 0 #c9bda4;
+  color: #4a3620;
+  font: clamp(24px, 6.3vw, 38px)/1.55 "Amiri Quran", serif;
+}
+.wd .wd-ear {
+  position: absolute;
+  top: 1%;
+  right: 2%;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: clamp(48px, 15%, 64px);
+  min-width: 48px;
+  min-height: 48px;
+  aspect-ratio: 1;
+  border: 3px solid #4a3620;
+  border-radius: 50%;
+  background: #ccfbef;
+  box-shadow: inset 0 3px 0 #fffdf7, 0 4px 0 #62cdf4;
+}
+.wd .wd-ear > svg { display: block; width: 70%; height: 70%; }
+.lg-app .lg-play:has(.wd-listen-scene) .wd-listen-scene .wd-ear { display: grid; }
+
+/* Word Gap: one open page keeps the complete Arabic word on a continuous surface. */
+.wd .wd-book {
+  position: relative;
+  width: min(100%, 520px, 72vh);
+  aspect-ratio: 13 / 7;
+  flex: none;
+}
+.wd .wd-book-art { position: absolute; inset: 0; pointer-events: none; }
+.wd .wd-book-art > svg { display: block; width: 100%; height: 100%; }
+.wd .wd-gapword {
+  position: absolute;
+  left: 9.62%;
+  top: 18%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .08em;
+  width: 80.76%;
+  height: 53%;
+  min-height: 48px;
+  padding: 0 4px;
+  box-sizing: border-box;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: #4a3620;
+  font: clamp(38px, 9vw, 64px)/1.55 "Amiri Quran", serif;
+}
+.wd .wd-hole { display: inline-grid; place-items: center; min-width: .9em; min-height: 1em; border-radius: 12px; background: #ccfbef; box-shadow: inset 0 0 0 3px #62cdf4; }
+.wd .wd-pieces { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(10px, 3vw, 20px); width: min(100%, 620px); }
+.wd .wd-piece {
+  display: grid;
+  place-items: center;
+  min-width: 64px;
+  min-height: 64px;
+  padding: 4px 12px;
+  border: 3px solid #4a3620;
+  border-radius: 20px;
+  background: #fffaf0;
+  box-shadow: inset 0 3px 0 #fffdf7, 0 5px 0 #c9bda4;
+  color: #4a3620;
+  font: clamp(30px, 7.5vmin, 48px)/1.6 "Amiri Quran", serif;
+  touch-action: none;
+}
+.wd .wd-progress,
+.vh .vh-progress { display: flex; justify-content: center; gap: 8px; min-height: 14px; }
+
+/* Keep hints finite and give every keyboard target a clear four pixel ring. */
+.vh :focus-visible,
+.wd :focus-visible { outline: 4px solid var(--lg-focus); outline-offset: 3px; }
+.vh :is(.vh-choice, .vh-target-slot),
+.wd :is(.wd-card, .wd-piece, .wd-ear) { min-width: 48px; min-height: 48px; }
+.vh .is-hint,
+.wd .is-hint,
+.wd .wd-hole { animation-iteration-count: 2; }
+.wd .wd-twin:nth-child(1),
+.wd .wd-twin:nth-child(2),
+.wd .wd-one { animation-iteration-count: 1; }
+.lg-reduce-motion :is(.vh, .wd) *,
+.lg-reduce-motion :is(.vh, .wd) *::before,
+.lg-reduce-motion :is(.vh, .wd) *::after { animation: none !important; transition: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  .vh *, .vh *::before, .vh *::after,
+  .wd *, .wd *::before, .wd *::after { animation: none !important; transition: none !important; }
+  .wd .wd-one { opacity: 1; }
+}
+
+@media (max-width: 360px) {
+  .vh, .wd { gap: 6px; padding-inline: 4px; }
+  .vh .vh-shelf { gap: 8px; padding: 8px; }
+  .vh .vh-choice { min-width: 56px; min-height: 56px; }
+  .wd .wd-card { flex-basis: 112px; padding-inline: 10px; }
+  .wd .wd-word { font-size: clamp(30px, 8vmin, 42px); }
+}
+@media (orientation: landscape) and (max-height: 500px) {
+  .vh, .wd { gap: 4px; padding-block: 0 4px; }
+  .vh .vh-reference { min-height: 42px; font-size: 30px; }
+  .vh .vh-nook { width: min(280px, 54vh); }
+  .wd .wd-crown-stage { width: min(320px, 70vh); }
+  .wd .wd-listen-scene { width: min(280px, 68vh); }
+  .wd .wd-book { width: min(440px, 75vh); }
+  .wd .wd-card { min-height: 56px; padding-block: 4px; }
+  .wd .wd-piece { min-height: 52px; }
+}
+
+/* Amiri's vowel marks extend below its line box; reserve ink space, not just baseline space. */
+.lg-app .vh .vh-reference,
+.lg-app .wd > .wd-reference { padding-block: 0 .35em; line-height: 1.8; }
+.wd .wd-listen-scene .wd-reference { padding-bottom: .3em; }
+.wd .wd-ear { height: auto; padding: 7px; box-sizing: border-box; }
+.wd .wd-ear-note { display: none; }
+.wd .wd-crown-stage .wd-preview > svg { display: block; width: 125px; max-width: 100%; height: 125px; max-height: 100%; }
+.wd .wd-gapword { padding-bottom: .2em; }
+.vh .vh-choice { flex: 1 1 0; max-width: 120px; }
+.vh .vh-target-slot:not(.is-arrived)::after {
+  content: "";
+  position: absolute;
+  bottom: 4%;
+  width: 72%;
+  height: 20%;
+  box-sizing: border-box;
+  border: 3px dashed #a89478;
+  border-radius: 50%;
+  background: #fffaf0;
+  pointer-events: none;
+}
+.vh .vh-target-slot.is-near::after { background: #ffe49a; border-color: #4a3620; }
+@media (max-width: 360px) {
+  .vh .vh-nook { width: min(100%, 220px, 36vh); }
+}
+@media (orientation: landscape) and (max-height: 500px) {
+  .vh .vh-nook { width: min(240px, 44vh); }
+  .lg-app .lg-play .vh .vh-reference,
+  .lg-app .lg-play .wd > .wd-reference { font-size: 28px; }
+}
+/* Center visible Arabic ink (including low marks) within the touchable tile. */
+.wd .wd-card .wd-word,
+.wd .wd-piece > span { transform: translateY(-.16em); }
+
+/* The child keeps their successful word until choosing the next page. */
+.wd .wd-tools { display: grid; grid-template-columns: 56px minmax(0, 1fr) 56px; align-items: center; gap: 8px; width: min(100%, 300px); min-height: 60px; }
+.wd .wd-tools .pz-progress { grid-column: 2; margin: 0; }
+.wd .wd-next { grid-column: 3; display: grid; place-items: center; width: 56px; height: 56px; padding: 8px; box-sizing: border-box; border: 4px solid #4a3620; border-radius: 20px; background: #ee806f; box-shadow: inset 0 3px 0 #ffa798, 0 4px 0 #8a3a2d; cursor: pointer; touch-action: manipulation; transition: transform 120ms ease-out, box-shadow 120ms ease-out; }
+.wd .wd-next > svg { display: block; width: 100%; height: 100%; }
+.wd .wd-next:active { transform: translateY(2px); box-shadow: inset 0 3px 0 #ffa798, 0 2px 0 #8a3a2d; }
+.wd.is-complete :is(.wd-card, .wd-piece):disabled { opacity: 1; cursor: default; }
+/* A tried choice rests in place while the remaining choice keeps its invitation. */
+.wd :is(.wd-card, .wd-piece).is-tried:disabled { opacity: 1; cursor: default; background: #e5dcc8; border-color: #a89478; box-shadow: none; }
+
+/* v356 — readable letter blocks that visibly settle into the word. */
+.lg-app .wd-gap [data-fit-ink] { display:block; max-width:100%; min-width:0; }
+.lg-app .wd-gap [data-fit-ink] > svg { display:block; width:100%; height:100%; }
+.lg-app .wd-gap > .wd-reference { display:grid; place-items:center; width:min(100%,350px); min-height:76px; padding:5px 14px; }
+.lg-app .wd-gap > .wd-reference [data-fit-ink] { font-size:44px; }
+.lg-app .wd-gap .wd-gapword { padding:0 6px; gap:6px; background:none; box-shadow:none; }
+.lg-app .wd-gap .wd-fragment { flex:0 1 auto; font-size:44px; }
+.lg-app .wd-gap .wd-hole { flex:0 0 64px; width:64px; min-width:64px; height:68px; min-height:68px; border-radius:16px; animation:none; }
+.lg-app .wd-gap .wd-hole.is-drop-target { background:#b7e779; outline:4px solid #4e9677; outline-offset:4px; }
+.lg-app .wd-gap .wd-pieces { width:min(100%,340px); min-height:106px; box-sizing:border-box; align-items:center; padding:10px 12px 14px; gap:16px; border-radius:26px; background:linear-gradient(#e5dcc8,#c9bda4); box-shadow:inset 0 4px 0 #fffaf0,0 5px 0 #a89478; }
+.lg-app .wd-gap .wd-piece { flex:0 0 76px; width:76px; min-width:76px; height:82px; min-height:82px; padding:4px; font-size:42px; }
+.lg-app .wd-gap .wd-piece > span { font-size:42px; max-height:100%; transform:none; }
+.lg-app .wd-gap .wd-piece.is-fitting { position:relative; z-index:30; pointer-events:none; transition:none; animation:none; }
+.lg-app .wd-gap.is-complete .wd-piece.is-seated { border-color:#4e9677; background:#ccfbef; }
+.lg-app .wd-gap .wd-whole { display:grid; grid-template-columns:minmax(0,1fr); grid-template-rows:minmax(0,1fr); min-height:0; place-items:center; width:100%; height:100%; padding:0; border:0; background:transparent; color:#4a3620; border-radius:16px; cursor:pointer; }
+.lg-app .wd-gap .wd-whole [data-fit-ink] { font-size:52px; min-height:0; max-height:100%; }
+.lg-app .wd-gap .wd-whole:focus-visible { outline:4px solid var(--lg-focus); outline-offset:4px; }
+@media(max-width:370px) {
+ .lg-app .wd-gap .wd-pieces { gap:10px; padding-inline:8px; }
+ .lg-app .wd-gap .wd-piece { flex-basis:68px; width:68px; min-width:68px; }
+ .lg-app .wd-gap .wd-fragment { font-size:38px; }
+ .lg-app .wd-gap .wd-hole { flex-basis:56px; width:56px; min-width:56px; height:62px; min-height:62px; }
+}
+@media(orientation:landscape) and (max-height:500px) {
+ .lg-app .wd-gap { grid-template-columns:minmax(0,1.2fr) minmax(0,1fr); gap:10px 20px; max-width:720px; }
+ .lg-app .wd-gap > .wd-reference { grid-column:1; grid-row:1; min-height:64px; }
+ .lg-app .wd-gap .wd-book { grid-column:1; grid-row:2 / 4; width:100%; }
+ .lg-app .wd-gap .wd-pieces { grid-column:2; grid-row:1 / 3; }
+ .lg-app .wd-gap .wd-tools { grid-column:2; grid-row:3; }
+}
+@media(orientation:landscape) and (max-height:500px) {
+ .lg-app .wd-gap .wd-pieces { align-self:center; }
+}
+@media(max-height:650px) and (orientation:portrait) {
+ .lg-app .wd-gap > .wd-reference { min-height:60px; padding:4px 12px; }
+ .lg-app .wd-gap > .wd-reference [data-fit-ink] { font-size:32px; }
+ .lg-app .wd-gap .wd-book { width:min(100%,250px); }
+ .lg-app .wd-gap .wd-pieces { min-height:98px; padding-block:6px 10px; }
+}

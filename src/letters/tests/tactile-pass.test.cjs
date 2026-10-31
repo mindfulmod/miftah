@@ -12,12 +12,12 @@ function runtime() {
   for (const file of ['GardenPractice.js', 'MiniGames.js']) {
     vm.runInNewContext(fs.readFileSync(path.join(__dirname, '..', file), 'utf8'), context);
   }
-  return { ns: window.MiftahGame, timers };
+  return { ns: window.MiftahGame, timers, window, document };
 }
 
 function classes() {
   const values = new Set();
-  return { add: value => values.add(value), remove: value => values.delete(value), contains: value => values.has(value), toggle: (value, on) => on ? values.add(value) : values.delete(value) };
+  return { add: (...items) => items.forEach(value => values.add(value)), remove: (...items) => items.forEach(value => values.delete(value)), contains: value => values.has(value), toggle: (value, on) => on ? values.add(value) : values.delete(value) };
 }
 
 function traceFixture(ns, calls) {
@@ -209,4 +209,152 @@ test('Trace maps pointer coordinates through an object-fit letterbox', () => {
   trace.canvas = { width: 200, height: 200, getBoundingClientRect: () => ({ left: 0, top: 0, width: 400, height: 200 }) };
   assert.deepEqual(Array.from(trace.pos({ clientX: 200, clientY: 100 })), [100, 100]);
   assert.equal(trace.pos({ clientX: 49, clientY: 100 }), null);
+});
+
+function dragFixture(ns, options = {}) {
+  const handlers = {}, flights = []; let capture = null, active = null;
+  const el = { style: {}, classList: classes(), isConnected: true,
+    addEventListener: (name, fn) => { handlers[name] = fn; },
+    setPointerCapture: id => { capture = id; }, hasPointerCapture: id => id === capture,
+    releasePointerCapture: () => { capture = null; },
+    getBoundingClientRect: () => ({ left: active ? 40 : 0, top: active ? 60 : 0, width: 30, height: 30 }),
+    animate: (frames) => { const flight = { frames, cancel() { this.canceled = true; active = null; } }; flights.push(flight); active = flight; return flight; },
+  };
+  const reset = ns.GardenPractice.draggable(el, { drop: () => false, ...options });
+  const point = (x, y) => ({ pointerId: 1, isPrimary: true, pointerType: 'touch', clientX: x, clientY: y });
+  return { el, handlers, flights, reset, point, capture: () => capture };
+}
+
+test('A returning toy can be picked up at its visible position without the old animation fighting input', () => {
+  const { ns } = runtime(); const f = dragFixture(ns);
+  f.handlers.pointerdown(f.point(0, 0)); f.handlers.pointermove(f.point(80, 120)); f.handlers.pointerup(f.point(80, 120));
+  assert.equal(f.flights.length, 1);
+  f.handlers.pointerdown(f.point(45, 65));
+  assert.equal(f.flights[0].canceled, true);
+  assert.equal(f.el.style.transform, 'translate(40px,60px)', 'pickup preserves the visible position');
+  f.handlers.pointermove(f.point(55, 85));
+  assert.equal(f.el.style.transform, 'translate(50px,80px)', 'the new drag follows the finger from that position');
+  f.handlers.pointerup(f.point(55, 85));
+  assert.equal(f.flights.length, 2);
+  f.reset(); assert.equal(f.flights[1].canceled, true); assert.equal(f.capture(), null);
+});
+
+test('draggable normalizes zoomed pointer movement and return re-grabs to local CSS pixels', () => {
+  const { ns } = runtime(); const handlers = {}; let capture = null, active = null;
+  const el = { style: {}, classList: classes(), isConnected: true, offsetWidth: 30,
+    addEventListener: (name, fn) => { handlers[name] = fn; },
+    setPointerCapture: id => { capture = id; }, hasPointerCapture: id => id === capture,
+    releasePointerCapture: () => { capture = null; },
+    getBoundingClientRect: () => ({ left: active ? 80 : 0, top: active ? 120 : 0, width: 60, height: 60 }),
+    animate: frames => { const flight = { frames, cancel() { this.canceled = true; active = null; } }; active = flight; return flight; },
+  };
+  const point = (x, y) => ({ pointerId: 1, isPrimary: true, pointerType: 'touch', clientX: x, clientY: y });
+  ns.GardenPractice.draggable(el, { drop: () => false });
+  handlers.pointerdown(point(0, 0)); handlers.pointermove(point(80, 120));
+  assert.equal(el.style.transform, 'translate(40px,60px)', '2x rendered movement maps to half as many local CSS pixels');
+  handlers.pointerup(point(80, 120));
+  assert.equal(active.frames[0].transform, 'translate(40px,60px)');
+  handlers.pointerdown(point(90, 130));
+  assert.equal(active, null, 'same-frame pickup cancels the return flight');
+  assert.equal(el.style.transform, 'translate(40px,60px)', 'the visible return offset is converted back to local pixels');
+  handlers.pointermove(point(100, 150));
+  assert.equal(el.style.transform, 'translate(45px,70px)', 'the re-grab offset and new screen delta share local coordinates');
+  handlers.pointerup(point(100, 150));
+  assert.equal(capture, null);
+});
+
+test('An accepted feeding drag owns its flight and never starts a return animation', () => {
+  const { ns } = runtime(), feed = feedFixture(ns); feed.game.later = () => {};
+  const f = dragFixture(ns, { drop: (x, y, rect) => feed.game.offer({ id: 'ba' }, feed.a, rect) });
+  f.handlers.pointerdown(f.point(0, 0)); f.handlers.pointermove(f.point(100, 100)); f.handlers.pointerup(f.point(100, 100));
+  assert.equal(feed.outcomes.length, 1); assert.equal(feed.a.classList.contains('is-flying'), true);
+  assert.equal(f.flights.length, 0, 'successful delivery is not pulled back into the tray');
+});
+
+test('Canceled drags glide home without answering; teardown stops their animation and stale releases', () => {
+  const { ns } = runtime(); let drops = 0;
+  const f = dragFixture(ns, { drop: () => { drops++; } });
+  f.handlers.pointerdown(f.point(0, 0)); f.handlers.pointermove(f.point(60, 70)); f.handlers.pointercancel(f.point(60, 70));
+  assert.equal(drops, 0); assert.equal(f.flights.length, 1); assert.equal(f.capture(), null);
+  f.reset(); f.handlers.pointerup(f.point(60, 70));
+  assert.equal(drops, 0); assert.equal(f.flights[0].canceled, true);
+});
+
+test('Reduced motion returns a missed toy immediately for both app and system preferences', () => {
+  for (const source of ['app', 'system']) {
+    const { ns, window } = runtime(); const f = dragFixture(ns);
+    if (source === 'app') f.el.closest = () => ({});
+    else window.matchMedia = () => ({ matches: true });
+    f.handlers.pointerdown(f.point(0, 0)); f.handlers.pointermove(f.point(60, 70)); f.handlers.pointerup(f.point(60, 70));
+    assert.equal(f.flights.length, 0); assert.equal(f.el.style.transform, '');
+  }
+});
+
+test('Feeding approaches highlight only the intended receiver and retain forgiving edges', () => {
+  const { ns } = runtime(); const f = feedFixture(ns);
+  const bounds = (left, top, width, height) => ({ left, top, width, height });
+  const friend = { getBoundingClientRect: () => bounds(100, 80, 100, 120) };
+  f.game.creatureEl.querySelector = () => friend;
+  f.game.basket = { classList: classes(), getBoundingClientRect: () => bounds(100, 212, 100, 70) };
+  assert.equal(f.game.deliveryTarget(75, 140), 'friend');
+  assert.equal(f.game.deliveryTarget(150, 215), 'basket', 'visible basket wins over overlapping friend padding');
+  f.game.setDeliveryNear('friend');
+  assert.equal(f.game.creatureEl.classList.contains('is-near'), true);
+  assert.equal(f.game.basket.classList.contains('is-near'), false);
+  f.game.setDeliveryNear('basket');
+  assert.equal(f.game.creatureEl.classList.contains('is-near'), false);
+  assert.equal(f.game.basket.classList.contains('is-near'), true);
+});
+
+test('Feeding lands on the chosen receiver without placing a second packet in the other receiver', () => {
+  for (const destination of ['friend', 'basket']) {
+    const { ns } = runtime(); const f = feedFixture(ns); f.game.later = fn => f.later(fn);
+    f.game.basket = { classList: classes(), setAttribute() {}, getBoundingClientRect: () => ({ left: 200, top: 240, width: 100, height: 60 }) };
+    const accepted = f.game.offer({ id: 'ba' }, f.a, null, destination);
+    assert.equal(accepted, true); assert.equal(f.game.offer({ id: 'ba' }, f.a), false);
+    assert.equal(f.a.style['--fly-x'], destination === 'friend' ? '110px' : '240px');
+    f.runTimers();
+    assert.equal(f.delivered.innerHTML, destination === 'basket' ? 'ba' : '');
+    assert.equal(f.game.basket.classList.contains('is-filled'), destination === 'basket');
+    assert.equal(f.outcomes.length, 1);
+  }
+});
+
+function dockingFixture({ reduced = false, animation = true } = {}) {
+  const { ns, document, timers } = runtime(); let paid = 0, removed = false, flight;
+  const slot = { classList: classes(), innerHTML: '', getBoundingClientRect: () => ({ left: 50, top: 10, width: 32, height: 32 }) };
+  document.body = { appendChild() {} };
+  document.createElement = () => ({ className: '', style: {}, setAttribute() {}, remove() { removed = true; },
+    animate: animation ? () => (flight = { cancel() { this.canceled = true; } }) : undefined });
+  const game = Object.create(ns.LettersMiniGames.pop.prototype);
+  Object.assign(game, { alive: true, completionReady: true, roundIndex: 0, rounds: [{}], slips: 0,
+    nextBtn: {}, replayBtn: {}, timers: new Set(), docked: [], dockSlots: { children: [slot] }, renderDock() {},
+    found: { el: { classList: classes(), querySelector: () => ({ outerHTML: '<svg/>', getBoundingClientRect: () => ({ left: 100, top: 200, width: 100, height: 100 }) }) } },
+    ctx: { reducedMotion: () => reduced, onDone() { paid++; } },
+  });
+  return { game, timers, slot, flight: () => flight, paid: () => paid, removed: () => removed };
+}
+
+test('Pond final Continue waits for the packet to land and finishes once despite repeated taps or callbacks', () => {
+  const f = dockingFixture(); f.game.advance(); f.game.advance();
+  assert.equal(f.paid(), 0); assert.equal(f.game.roundIndex, 1); assert.equal(f.slot.classList.contains('is-waiting'), true);
+  const land = f.flight().onfinish; land(); land(); f.timers.forEach(fn => fn());
+  assert.equal(f.paid(), 1); assert.equal(f.slot.classList.contains('is-waiting'), false);
+  assert.equal(f.removed(), true); assert.equal(f.game.alive, false);
+});
+
+test('Pond completes if the animation is canceled, unavailable or never reports finishing', () => {
+  for (const mode of ['canceled', 'missing-event', 'unavailable', 'reduced']) {
+    const f = dockingFixture({ reduced: mode === 'reduced', animation: mode !== 'unavailable' }); f.game.advance();
+    if (mode === 'canceled') f.flight().oncancel();
+    if (mode === 'missing-event') f.timers.forEach(fn => fn());
+    assert.equal(f.paid(), 1, mode);
+    if (mode === 'reduced') assert.equal(f.flight(), undefined);
+  }
+});
+
+test('Leaving the pond during final collection cancels flight and cannot grant completion later', () => {
+  const f = dockingFixture(); f.game.advance(); const stale = f.flight().onfinish;
+  f.game.destroy(); stale(); f.timers.forEach(fn => fn());
+  assert.equal(f.flight().canceled, true); assert.equal(f.removed(), true); assert.equal(f.paid(), 0);
 });

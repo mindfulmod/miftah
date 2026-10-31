@@ -260,21 +260,28 @@
 /* The wind story: four wordless pages. */
 .sg-story { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; justify-items: center; padding: 8px 12px 18px; width: 100%; box-sizing: border-box; }
 .sg-scene { position: relative; width: 100%; max-width: 640px; aspect-ratio: 3 / 2; border-radius: 28px; overflow: hidden; box-shadow: 0 0 0 4px #4a3620, 0 6px 0 #c9bda4; }
-.sg-sky { position: absolute; inset: 0; background: linear-gradient(#96ecff, #ccfbef 55%, #b7e779 55%, #7fce54); transition: filter 1.4s ease; }
-.sg-wind { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity .6s ease; }
-.sg-friends { position: absolute; inset: 8% 4% 6%; display: flex; flex-wrap: wrap; justify-content: center; align-content: flex-end; gap: 2px; }
-.sg-friend { transition: transform 1.4s cubic-bezier(.5, -.3, .7, 1), opacity 1.2s ease; transition-delay: calc(var(--i) * .08s); }
-.sg-pet { position: absolute; left: 50%; bottom: 6%; transform: translateX(-50%); opacity: 0; transition: opacity .8s ease; }
-.sg-scene.is-page-1 .sg-wind { opacity: 1; animation: sg-gust 1.6s ease-in-out infinite; }
-.sg-scene.is-page-1 .sg-friend, .sg-scene.is-page-2 .sg-friend { transform: translate(calc((var(--i) - 3.5) * 40vw), -70vh) rotate(calc(var(--i) * 90deg)); opacity: 0; }
-.sg-scene.is-page-1 .sg-sky, .sg-scene.is-page-2 .sg-sky { filter: saturate(.45) brightness(1.06); }
-/* v58: the pet watches the gust too, so the frame is never empty when the friends blow away — the child always has someone to follow. */
+/* Characters share a responsive ground line instead of independent flex rows. */
+.sg-sky { position: absolute; inset: 0; background: linear-gradient(#96ecff, #ccfbef 70%, #fffaf0); transition: filter var(--lg-t-beat) ease; }
+.sg-glade { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.sg-wind { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity var(--lg-t-move) var(--lg-out); pointer-events: none; }
+.sg-friends { position: absolute; inset: 0; pointer-events: none; }
+.sg-friend { position: absolute; left: 50%; bottom: 14%; width: min(22cqw, 168px); transform: translateX(-50%); transition: transform var(--lg-t-beat) var(--lg-out), opacity var(--lg-t-beat) var(--lg-out); transition-delay: calc(var(--i) * 60ms); }
+.sg-friend:nth-child(3n + 1) { left: 22%; }
+.sg-friend:nth-child(3n) { left: 78%; }
+.sg-friend:nth-child(n + 4) { bottom: 42%; }
+.sg-friend::before { content: ""; position: absolute; left: 12%; right: 12%; bottom: 8%; height: 6%; border-radius: 50%; background: #4a3620; opacity: .13; }
+.sg-friend:first-child::before { bottom: 19%; }
+.sg-pet { position: absolute; left: 50%; bottom: 14%; width: min(38cqw, 320px); transform: translateX(-50%); opacity: 0; transition: opacity var(--lg-t-arrive) var(--lg-out), left var(--lg-t-arrive) var(--lg-out); }
+.sg-pet svg { display: block; width: 100%; height: auto; }
+.sg-scene.is-page-1 .sg-wind { opacity: 1; animation: sg-gust 1.6s ease-in-out 2; }
+.sg-scene.is-page-1 .sg-friend, .sg-scene.is-page-2 .sg-friend { transform: translate(calc(-50% + (var(--i) - 2.5) * 18cqw), -90cqw) rotate(calc((var(--i) - 2.5) * 12deg)); opacity: 0; }
+.sg-scene.is-page-1 .sg-sky, .sg-scene.is-page-2 .sg-sky { filter: saturate(.7) brightness(1.03); }
+/* The child always has a companion to follow, including in the still panels. */
 .sg-scene.is-page-1 .sg-pet, .sg-scene.is-page-2 .sg-pet, .sg-scene.is-page-3 .sg-pet { opacity: 1; }
-.sg-scene.is-page-3 .sg-friends { align-content: center; justify-content: flex-end; padding-right: 12%; }
 .sg-scene.is-page-3 .sg-friend { display: none; }
-.sg-scene.is-page-3 .sg-friend:first-child { display: block; opacity: 1; transform: scale(1.7); animation: sg-home .9s cubic-bezier(.3, 1.5, .5, 1) both; }
-@keyframes sg-home { from { transform: scale(.3); opacity: 0; } to { transform: scale(1.7); opacity: 1; } }
-.sg-scene.is-page-3 .sg-pet { left: 30%; }
+.sg-scene.is-page-3 .sg-friend:first-child { display: block; left: 68%; bottom: calc(14% - 4cqw); width: min(32cqw, 270px); opacity: 1; transform: translateX(-50%); animation: sg-home var(--lg-t-arrive) var(--lg-out) both; }
+.sg-scene.is-page-3 .sg-pet { left: 32%; }
+@keyframes sg-home { from { transform: translate(calc(-50% + 10cqw), 0) scale(.94); opacity: 0; } to { transform: translateX(-50%); opacity: 1; } }
 @keyframes sg-gust { 50% { transform: translateX(14px); } }
 
 /* The Friends' Garden. */
@@ -306,15 +313,13 @@
 .sg-grad.is-celebrating .sg-grad-friends span { animation: bk-bob .6s ease-in-out infinite; animation-delay: calc(var(--i) * -.07s); }
 @media (prefers-reduced-motion: reduce) {
   .sg-parade span, .sg-scene.is-page-1 .sg-wind, .sg-grad.is-celebrating .sg-grad-friends span { animation: none; }
-  .sg-friend, .sg-sky, .sg-wash { transition: none; }
+  .sg-friend, .sg-pet, .sg-wind, .sg-sky, .sg-wash { transition: none; }
+  .sg-scene.is-page-3 .sg-friend:first-child { animation: none; }
 }
-/* v58: on an upright screen the 3:2 story card filled only the top third and
-   left the rest of the first screen a child ever sees empty, with 60px friends
-   lost in it (worst on an upright iPad). The card is a container, so friends
-   and pet are sized from the card itself; upright, it grows to 4:5 and sits
-   in the middle, so the friends are big enough to meet. */
+/* Frame and cast scale together. Upright screens use a taller clearing;
+   the reunion widens to keep both characters expressive on a small phone. */
 .sg-scene { container-type: inline-size; }
-.sg-friend svg { width: clamp(56px, 13cqw, 116px); height: auto; }
+.sg-friend svg { display: block; width: 100%; height: auto; }
 @media (orientation: landscape) and (min-height: 501px) {
   .lg-story .sg-story { margin-block: auto; }
   .lg-story .sg-scene { max-width: none; width: min(100%, calc((100dvh - 200px) * 3 / 2)); }
@@ -322,9 +327,10 @@
 @media (orientation: portrait) {
   .lg-story .sg-story { margin-block: auto; }
   .lg-story .sg-scene { aspect-ratio: 4 / 5; width: min(100%, calc((100dvh - 200px) * 4 / 5)); }
-  .lg-story .sg-friends { inset: 14% 4% 8%; gap: 6px 2px; }
-  .lg-story .sg-friend svg { width: 27cqw; }
-  .lg-story .sg-pet svg { width: min(48cqw, 260px); height: auto; }
+  .lg-story .sg-friend { width: 27cqw; }
+  .lg-story .sg-pet { width: min(48cqw, 320px); }
+  .lg-story .sg-scene.is-page-3 .sg-pet { left: 26%; }
+  .lg-story .sg-scene.is-page-3 .sg-friend:first-child { left: 74%; width: min(42cqw, 270px); }
 }
 @media (orientation: landscape) and (max-height: 500px) {
   /* v58: was 100vh - 30px, which ignored the 76px top bar — the friends stood below the screen. */
@@ -447,35 +453,6 @@
 
 
 /* ---------- UI pass (2026-10-03): kid-sized, grouped, consistent ---------- */
-/* The practice garden in five colour-coded groups, each with a picture chip. */
-.lg-practice-garden .practice-garden-hub { display: grid; gap: 14px; }
-/* Wide, short screens (iPad landscape): the groups sit two by two, so a little sprout sees every toy without scrolling (v58). */
-@media (min-width: 900px) and (max-height: 900px) { .lg-practice-garden .practice-garden-hub { width: min(1000px, 100%); grid-template-columns: 1fr 1fr; align-items: start; } }
-.pg-group { position: relative; border-radius: 30px; padding: 30px 10px 12px; }
-.pg-group[data-group="play"] { background: #ffa798; box-shadow: inset 0 -6px 0 #ee806f; }
-.pg-group[data-group="read"] { background: #ccfbef; box-shadow: inset 0 -6px 0 #96ecff; }
-.pg-group[data-group="think"] { background: #ffe49a; box-shadow: inset 0 -6px 0 #f3c955; }
-.pg-group[data-group="write"] { background: #e6d6f0; box-shadow: inset 0 -6px 0 #b49fcf; }
-.pg-group[data-group="explore"] { background: #b7e779; box-shadow: inset 0 -6px 0 #7fce54; }
-.pg-chip { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); width: 48px; height: 48px; border-radius: 50%; background: #fffdf7; box-shadow: 0 0 0 3px #4a3620, 0 3px 0 #c9bda4; display: grid; place-items: center; }
-.pg-group .practice-garden-choices { margin: 0; }
-/* v58: a little sprout's nine toys all fit one phone screen — a 2–3-year-old
-   won't scroll, so four of the nine (books, pairs, sand, colouring) sat
-   unseen below the fold. Three smaller tiles a row, single-toy groups side by
-   side, colour groups kept. Tiles stay ≥100px. */
-@media (max-width: 480px) {
-  .lg-app .lg-practice-garden.is-sprout .practice-garden-hub { grid-template-columns: 1fr 1fr; gap: 10px; }
-  .lg-app .lg-practice-garden.is-sprout .pg-group { grid-column: 1 / -1; padding: 26px 8px 10px; }
-  .lg-app .lg-practice-garden.is-sprout .pg-group:has(.practice-garden-choices > button:only-child) { grid-column: auto; }
-  .lg-app .lg-practice-garden.is-sprout .pg-group .practice-garden-choices { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
-  .lg-app .lg-practice-garden.is-sprout .pg-group:has(.practice-garden-choices > button:only-child) .practice-garden-choices { grid-template-columns: 1fr; }
-  .lg-app .lg-practice-garden.is-sprout .practice-garden-choices > button { padding: 6px 5px; min-height: 0 !important; }
-  .lg-app .lg-practice-garden.is-sprout .practice-garden-choices > button:last-child:nth-child(odd) { grid-column: auto; width: auto; justify-self: stretch; }
-  .lg-app .lg-practice-garden.is-sprout .practice-garden-choices > button > svg:first-child { height: 56px !important; width: auto; max-width: 100%; flex: 0 0 56px; }
-  .lg-app .lg-practice-garden.is-sprout :is(.practice-picture, .practice-friend-picture) { height: 56px !important; flex: 0 0 56px !important; }
-  .lg-app .lg-practice-garden.is-sprout :is(.practice-picture, .practice-friend-picture) svg { height: 56px !important; width: auto; max-width: 100%; }
-  .lg-app .lg-practice-garden.is-sprout .practice-play svg { width: 24px; height: 24px; }
-}
 /* v58: the Book Corner and the Puzzle Tree hold eight games each; in two
    columns the last two (Busy Market + the Living Books shelf; Build a Letter
    + Fill the Gap) sat below the fold on a phone. Three a row keeps all eight
@@ -488,15 +465,6 @@
   .lg-app :is(.lg-book-corner, .lg-puzzle-tree) :is(.practice-picture, .practice-friend-picture),
   .lg-app :is(.lg-book-corner, .lg-puzzle-tree) :is(.practice-picture, .practice-friend-picture) svg { height: 56px !important; flex: 0 0 56px !important; width: auto; max-width: 100%; }
   .lg-app :is(.lg-book-corner, .lg-puzzle-tree) .practice-play svg { width: 24px; height: 24px; }
-}
-@media (max-width: 480px) and (max-height: 620px) {
-  .lg-app .lg-practice-garden.is-sprout .practice-garden-choices > button > svg:first-child,
-  .lg-app .lg-practice-garden.is-sprout :is(.practice-picture, .practice-friend-picture),
-  .lg-app .lg-practice-garden.is-sprout :is(.practice-picture, .practice-friend-picture) svg { height: 40px !important; flex-basis: 40px !important; }
-  .lg-app .lg-practice-garden.is-sprout .practice-play svg { width: 20px; height: 20px; }
-  .lg-app .lg-practice-garden.is-sprout .pg-group { padding: 22px 6px 8px; }
-  .lg-app .lg-practice-garden.is-sprout .practice-garden-hub { gap: 6px; }
-  .lg-app .lg-practice-garden.is-sprout .practice-garden-choices > button { padding: 4px; }
 }
 /* Every control a small hand might reach is at least 56px. */
 .lg-screen.lg-home .map-daily-row button { width: 56px !important; height: 56px !important; min-width: 56px !important; }
@@ -628,12 +596,6 @@
 .lg-app .dot-garden .practice-tools .practice-button.is-hint { box-shadow: 0 4px 0 #b0501f, 0 0 0 5px #f3c955, 0 0 0 8px rgba(74, 54, 32, .18) !important; animation: bk-hint 1.2s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) { .lg-app .dot-garden .practice-tools .practice-button.is-hint { animation: none; } }
 .lg-app.lg-reduce-motion .dot-garden .practice-tools .practice-button.is-hint { animation: none; }
-/* A lonely last tile sits in the middle of its row, not stranded at the side. */
-.lg-app .pg-group .practice-garden-choices > button:last-child:nth-child(3n+1) { grid-column: 2; }
-@media (max-width: 600px) {
-  .lg-app .pg-group .practice-garden-choices > button:last-child:nth-child(3n+1) { grid-column: auto; }
-  .lg-app .pg-group .practice-garden-choices > button:last-child:nth-child(odd) { grid-column: 1 / -1; justify-self: center; width: calc(50% - 5px); }
-}
 /* Each new round fades in rather than snapping (zero specificity, opacity
    only, so it never overrides a game's own motion or placement). */
 @keyframes lg-round-in { from { opacity: 0; } to { opacity: 1; } }
@@ -682,22 +644,17 @@
 @keyframes lf-m-turn { 0%, 100% { transform: none; } 30% { transform: rotate(-16deg); } 60% { transform: rotate(10deg); } 85% { transform: rotate(-3deg); } }
 @keyframes lf-m-flutter { 0%, 100% { transform: none; } 15% { transform: translateY(-6%) scale(1.04, .94); } 30% { transform: translateY(-10%) scale(.97, 1.04); } 45% { transform: translateY(-12%) scale(1.04, .94); } 70% { transform: translateY(-4%); } }
 
-/* Tactile pass (v55) ------------------------------------------------------
-   A press should feel like pressing something. While a finger is down the
-   thing sinks (translate/scale — separate properties, so they never clobber
-   a game's own transform) and a raised lip squashes flat; on release it
-   springs back past level and settles, like a rubber key. Paired with a
-   thock-and-pop sound, a ripple at the fingertip and a real tick where the
-   device has one (LettersGame.initTouchFeedback, Haptics.js). */
-.lg-app .is-pressed { translate: 0 3px; scale: .95; filter: brightness(.97); transition: translate 70ms ease-out, scale 70ms ease-out, filter 70ms ease-out, box-shadow 70ms ease-out; }
-.lg-app .practice-garden-choices button.is-pressed, .lg-app .walk-stone.is-pressed, .lg-app .map-stop.is-pressed { scale: .97; }
-.lg-app .is-released { animation: lg-spring .42s cubic-bezier(.25, 1.7, .45, 1); }
-@keyframes lg-spring { 0% { translate: 0 3px; scale: .95; } 40% { translate: 0 -2px; scale: 1.04; } 70% { translate: 0 .5px; scale: .99; } 100% { translate: 0 0; scale: 1; } }
+/* Gentle contact (v361): immediate small compression, then one smooth
+   return. Independent scale/translate preserve the game's own transforms. */
+.lg-app .is-pressed { translate: 0 1px; scale: .985; filter: brightness(.98); transition: translate 70ms ease-out, scale 70ms ease-out, filter 70ms ease-out, box-shadow 70ms ease-out; }
+.lg-app .practice-garden-choices button.is-pressed, .lg-app .walk-stone.is-pressed, .lg-app .map-stop.is-pressed { scale: .985; }
+.lg-app .is-released { animation: lg-spring .22s ease-out; }
+@keyframes lg-spring { from { translate: 0 1px; scale: .985; } to { translate: 0 0; scale: 1; } }
 /* Lips squash flat as the button goes down. */
-.lg-app :is(.ff-card, .ff-top button, .walk-stone, .bk-ear, .bk-pic, .bk-friend, .bk-piece, .pz-tile, .vh-choice, .ws-piece, .wd-card, .wd-piece).is-pressed { translate: 0 4px; box-shadow: 0 1px 0 #c9bda4, 0 0 0 4px #4a3620; }
-.lg-app :is(.practice-replay, .practice-button, .delivery-listen, .wg-gate-tag, .garden-practice-links button, .practice-garden-choices button).is-pressed { translate: 0 3px; box-shadow: 0 1px 0 #c9bda4; }
-.lg-app .dot-answers button.is-pressed { translate: 0 4px; box-shadow: 0 1px 0 #c9bda4; }
-.lg-home .map-play-places button.is-pressed, .lg-screen.lg-home .map-daily-row button.is-pressed { translate: 0 4px; box-shadow: 0 1px 0 #c9bda4, inset 0 3px 0 #fffdf7; }
+.lg-app :is(.ff-card, .ff-top button, .walk-stone, .bk-ear, .bk-pic, .bk-friend, .bk-piece, .pz-tile, .vh-choice, .ws-piece, .wd-card, .wd-piece).is-pressed { translate: 0 1px; box-shadow: 0 1px 0 #c9bda4, 0 0 0 4px #4a3620; }
+.lg-app :is(.practice-replay, .practice-button, .delivery-listen, .wg-gate-tag, .garden-practice-links button, .practice-garden-choices button).is-pressed { translate: 0 1px; box-shadow: 0 1px 0 #c9bda4; }
+.lg-app .dot-answers button.is-pressed { translate: 0 1px; box-shadow: 0 1px 0 #c9bda4; }
+.lg-home .map-play-places button.is-pressed, .lg-screen.lg-home .map-daily-row button.is-pressed { translate: 0 1px; box-shadow: 0 1px 0 #c9bda4, inset 0 3px 0 #fffdf7; }
 /* The ripple where a fingertip lands; empty ground gets a fainter one. */
 .lg-touch-layer { position: fixed; inset: 0; pointer-events: none; z-index: 9000; overflow: hidden; }
 .lg-bloom { position: absolute; width: 64px; height: 64px; margin: -32px 0 0 -32px; border-radius: 50%; box-shadow: inset 0 0 0 4px rgba(255, 253, 247, .95), 0 0 0 2px rgba(74, 54, 32, .22); animation: lg-bloom .48s cubic-bezier(.2, .7, .3, 1) forwards; }
@@ -714,51 +671,26 @@
 .lg-app.lg-reduce-motion .is-pressed { translate: none; scale: none; transition: none; filter: brightness(.92); }
 .lg-app.lg-reduce-motion .is-released { animation: none; }
 
-/* Feel pass (v56) ---------------------------------------------------------
-   The visual "touch" an iPad gets instead of haptics (it has no haptic
-   hardware). Right answers HIT: a held squash for ~70ms (fighting games'
-   hit-stop), then a pop past full size that settles. Misses THUD: a dull
-   squash with no bounce, a little grey, a damped "no" shake. Soft things
-   (friends, fish) squash wide and stretch back; firm things press flat. */
-.lg-app .is-pressed.is-soft { scale: 1.05 .9; }
-.lg-app .is-released.is-soft { animation-name: lg-spring-soft; }
-@keyframes lg-spring-soft { 0% { translate: 0 3px; scale: 1.05 .9; } 35% { translate: 0 -3px; scale: .95 1.08; } 65% { translate: 0 .5px; scale: 1.02 .98; } 100% { translate: 0 0; scale: 1; } }
-.lg-app .is-hit { animation: lg-hit .5s linear; }
+/* Quiet answer acknowledgement (v361). Keep the public class names because
+   activity-specific transitions also use them; there is no impact/recoil. */
+.lg-app .is-pressed.is-soft { scale: .985; }
+.lg-app .is-released.is-soft { animation-name: lg-spring; }
+.lg-app .is-hit { animation: lg-hit .5s ease-in-out; }
+.lg-app .is-hit.is-soft { animation-name: lg-hit; }
 @keyframes lg-hit {
-  0%, 14% { scale: .9; translate: 0 3px; animation-timing-function: cubic-bezier(.2, 1.8, .4, 1); }
-  42% { scale: 1.12; translate: 0 -3px; }
-  68% { scale: .98; translate: 0 0; }
-  100% { scale: 1; translate: 0 0; }
+  0%, 100% { scale: 1; translate: 0 0; }
+  45% { scale: 1; translate: 0 -1px; }
 }
-.lg-app .is-hit.is-soft { animation-name: lg-hit-soft; }
-@keyframes lg-hit-soft {
-  0%, 14% { scale: 1.08 .86; translate: 0 4px; animation-timing-function: cubic-bezier(.2, 1.8, .4, 1); }
-  42% { scale: .94 1.14; translate: 0 -5px; }
-  68% { scale: 1.02 .98; translate: 0 0; }
-  100% { scale: 1; translate: 0 0; }
-}
-.lg-app .is-miss { animation: lg-miss .44s ease-out; }
-/* Encouragement pass (v57): no grey — grey reads as sad. A miss is a soft
-   "not that one" shrug: a small squash and a gentle, shrinking sway. */
+.lg-app .is-miss { animation: lg-miss .44s ease-in-out; }
 @keyframes lg-miss {
-  0% { scale: .96 .98; translate: 0 2px; }
-  25% { translate: -4px 1px; }
-  50% { translate: 3px 0; }
-  75% { translate: -1.5px 0; }
-  100% { scale: 1; translate: 0 0; }
+  0%, 100% { opacity: 1; }
+  45% { opacity: .84; }
 }
-/* One small flash on the tile that was right (a single flash, never a
-   train — WCAG 2.3.1), and cartoon impact lines from the fingertip. */
-.lg-hit-flash { position: absolute; background: #fffdf7; opacity: 0; animation: lg-hit-flash .24s ease-out; mix-blend-mode: screen; }
-@keyframes lg-hit-flash { 0% { opacity: 0; } 12% { opacity: .85; } 100% { opacity: 0; } }
-.lg-burst { position: absolute; width: 120px; height: 120px; margin: -60px 0 0 -60px; }
-.lg-burst svg { width: 100%; height: 100%; overflow: visible; animation: lg-burst .46s cubic-bezier(.15, .8, .3, 1) forwards; }
-.lg-burst svg path { filter: drop-shadow(0 0 1.6px rgba(74, 54, 32, .55)); }
-@keyframes lg-burst { 0% { scale: .45; opacity: 1; } 60% { opacity: 1; } 100% { scale: 1.35; opacity: 0; } }
+/* Legacy effect names stay inert if an old cached caller is still present. */
+.lg-hit-flash, .lg-burst { display: none; }
 @media (prefers-reduced-motion: reduce) {
   .lg-app .is-hit, .lg-app .is-miss, .lg-app .is-released.is-soft { animation: none; }
   .lg-app .is-pressed.is-soft { scale: none; }
-  .lg-hit-flash, .lg-burst { display: none; }
 }
 .lg-app.lg-reduce-motion .is-hit, .lg-app.lg-reduce-motion .is-miss { animation: none; }
 
@@ -801,26 +733,15 @@
 /* v58: a short game sat in the top half of an iPad with the rest empty; it is centred now. Auto margins, not justify-content, so a tall game never loses its top out of reach. */
 .lg-app .practice-stage:has(> :is(.tb, .pz, .bk, .sh, .vh, .ws, .wd, .ff)) { display: flex; flex-direction: column; }
 .lg-app .practice-stage > :is(.tb, .pz, .bk, .sh, .vh, .ws, .wd, .ff) { margin-block: auto; flex-shrink: 0; }
-.pg-bloom { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(255, 253, 247, .72); animation: pg-bloom-in .3s ease-out; z-index: 5; pointer-events: none; }
-.pg-bloom-bed { width: min(60vw, 240px); animation: pg-bloom-grow .7s cubic-bezier(.3, 1.6, .5, 1) .1s both; transform-origin: 50% 90%; }
-.pg-bloom-bed svg { width: 100%; height: auto; display: block; }
-@keyframes pg-bloom-in { from { opacity: 0; } }
-@keyframes pg-bloom-grow { from { scale: .2 .05; opacity: 0; } 60% { scale: 1.08 1.12; opacity: 1; } }
 /* Encouragement pass (v57): the daily strip grew to 56px buttons in the UI
    pass and its bottom edge sat over the play buttons; they clear it now. */
 @media (min-width: 360px) and (max-width: 600px) and (min-height: 501px) {
   .lg-app .lg-screen.lg-home .map-play-places { margin-top: 22px; }
 }
-/* A comeback (right after a miss) bursts bigger and golder. */
-.lg-burst.is-big { width: 170px; height: 170px; margin: -85px 0 0 -85px; }
-.lg-burst.is-big svg path { stroke: #f3c955; }
-.lg-burst.is-bloom { width: 150px; height: 150px; margin: -75px 0 0 -75px; }
-.lg-burst.is-bloom svg { animation: lg-bloom .6s cubic-bezier(.2, 1.4, .4, 1) forwards; }
-@keyframes lg-bloom { 0% { scale: .3; rotate: -30deg; opacity: 1; } 55% { scale: 1.1; rotate: 0deg; opacity: 1; } 100% { scale: 1.25; rotate: 10deg; opacity: 0; } }
 /* After a right answer the other choices rest until the next round. */
 .lg-solved > :is(button, [role="button"]):not(.is-won):not(.is-hit):not(.is-right):not(.is-found):not(.is-going) { opacity: .45; scale: .96; transition: opacity .35s ease, scale .35s ease; pointer-events: none; }
 /* Reduced motion: the right answer glows gold, still. */
-.lg-app .is-won-still { box-shadow: 0 0 0 5px #f3c955, 0 0 18px 6px rgba(243, 201, 85, .55) !important; border-radius: 22px; }
+.lg-app .is-won-still { box-shadow: 0 0 0 3px #f3c955 !important; border-radius: 22px; }
 
 /* Playtest report (v57, ?playtest=report): a plain grown-up table. */
 .lg-playtest-report { position: fixed; inset: 16px; z-index: 99999; overflow: auto; padding: 16px; border-radius: 16px; background: #fffaf0; color: #4a3620; font: 14px/1.4 system-ui, sans-serif; box-shadow: 0 0 0 3px #4a3620; }
@@ -831,8 +752,6 @@
 .lg-playtest-report th:first-child, .lg-playtest-report td:first-child { text-align: left; }
 .lg-playtest-close { margin-top: 12px; min-height: 44px; padding: 0 18px; border-radius: 12px; border: 2px solid #4a3620; background: #fffdf7; font: inherit; }
 .lg-playtest-close:focus-visible { outline: 4px solid var(--lg-focus); outline-offset: 3px; }
-.pg-bloom.is-still, .pg-bloom.is-still .pg-bloom-bed { animation: none; }
-@media (prefers-reduced-motion: reduce) { .pg-bloom, .pg-bloom-bed { animation: none; } }
 /* Encouragement pass (v57): a refused bubble in the older pop game fades in
    its own colours ("not this one"), never to a sad grey face. */
 .lg-app .lg-play .pop-bubble.is-no { opacity: .4; transition: opacity .45s ease; }
@@ -875,27 +794,13 @@
    groups side by side, every toy on one screen. (Older children's long garden
    still scrolls — they can.) */
 @media (orientation: landscape) and (max-height: 500px) {
-  .lg-app :is(.lg-book-corner, .lg-puzzle-tree, .lg-practice-garden.is-sprout) .practice-garden-choices > button { min-height: 0 !important; padding: 5px 4px; width: auto; }
-  .lg-app :is(.lg-book-corner, .lg-puzzle-tree, .lg-practice-garden.is-sprout) .practice-garden-choices > button > svg:first-child,
-  .lg-app :is(.lg-book-corner, .lg-puzzle-tree, .lg-practice-garden.is-sprout) :is(.practice-picture, .practice-friend-picture),
-  .lg-app :is(.lg-book-corner, .lg-puzzle-tree, .lg-practice-garden.is-sprout) :is(.practice-picture, .practice-friend-picture) svg { height: 48px !important; flex: 0 0 48px !important; width: auto; max-width: 100%; }
-  .lg-app :is(.lg-book-corner, .lg-puzzle-tree, .lg-practice-garden.is-sprout) .practice-play svg { width: 22px; height: 22px; }
-  .lg-app :is(.lg-book-corner, .lg-puzzle-tree, .lg-practice-garden.is-sprout) .practice-garden-choices > button:last-child:nth-child(odd) { grid-column: auto; width: auto; justify-self: stretch; }
+  .lg-app :is(.lg-book-corner, .lg-puzzle-tree) .practice-garden-choices > button { min-height: 0 !important; padding: 5px 4px; width: auto; }
+  .lg-app :is(.lg-book-corner, .lg-puzzle-tree) .practice-garden-choices > button > svg:first-child,
+  .lg-app :is(.lg-book-corner, .lg-puzzle-tree) :is(.practice-picture, .practice-friend-picture),
+  .lg-app :is(.lg-book-corner, .lg-puzzle-tree) :is(.practice-picture, .practice-friend-picture) svg { height: 48px !important; flex: 0 0 48px !important; width: auto; max-width: 100%; }
+  .lg-app :is(.lg-book-corner, .lg-puzzle-tree) .practice-play svg { width: 22px; height: 22px; }
+  .lg-app :is(.lg-book-corner, .lg-puzzle-tree) .practice-garden-choices > button:last-child:nth-child(odd) { grid-column: auto; width: auto; justify-self: stretch; }
   .lg-app :is(.lg-book-corner, .lg-puzzle-tree) .practice-garden-choices { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; width: min(100%, 520px); margin-inline: auto; }
-  .lg-app .lg-practice-garden.is-sprout .practice-garden-hub { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 8px; width: 100%; }
-  .lg-app .lg-practice-garden.is-sprout .pg-group { flex: 0 0 auto; padding: 22px 6px 8px; }
-  .lg-app .lg-practice-garden.is-sprout .pg-group .practice-garden-choices { display: grid; grid-auto-flow: column; grid-auto-columns: 84px; grid-template-columns: none; gap: 6px; }
-}
-
-/* v58: an upright iPad left a little sprout's Sand Table and Colour a Friend
-   just below the fold. Same arrangement as on phones, full-size tiles. */
-@media (min-width: 481px) and (orientation: portrait) {
-  .lg-app .lg-practice-garden.is-sprout .practice-garden-hub { grid-template-columns: 1fr 1fr; gap: 12px; }
-  .lg-app .lg-practice-garden.is-sprout .pg-group { grid-column: 1 / -1; }
-  .lg-app .lg-practice-garden.is-sprout .pg-group:has(.practice-garden-choices > button:only-child) { grid-column: auto; }
-  .lg-app .lg-practice-garden.is-sprout .pg-group .practice-garden-choices { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .lg-app .lg-practice-garden.is-sprout .pg-group:has(.practice-garden-choices > button:only-child) .practice-garden-choices { grid-template-columns: minmax(0, 220px); justify-content: center; }
-  .lg-app .lg-practice-garden.is-sprout .practice-garden-choices > button:last-child:is(:nth-child(odd), :nth-child(3n+1)) { grid-column: auto; width: auto; justify-self: stretch; }
 }
 
 /* v58: the Friends' Garden as a garden — a picket fence along the top, grass
@@ -951,12 +856,6 @@
   .workshop-chapters svg { max-height: 70px; }
 }
 
-/* v58: the practice garden's toy groups are raised wooden garden beds —
-   a wooden rim with an ink line and a strip of soil along the bottom —
-   each keeping its own colour so a child still finds "the writing ones". */
-.lg-practice-garden .pg-group { border-radius: 22px; padding-bottom: 26px; box-shadow: inset 0 0 0 4px #c69434, inset 0 0 0 7px #4a3620, 0 6px 0 #70501b !important; }
-.lg-practice-garden .pg-group::after { content: ""; position: absolute; left: 7px; right: 7px; bottom: 7px; height: 12px; border-radius: 0 0 16px 16px; background: radial-gradient(circle at 10px 6px, #70501b 2px, transparent 3px) 0 0 / 22px 12px, #a89478; pointer-events: none; }
-
 /* 2026-10-13: each plot still waiting carries a little wooden garden label
    with its friend's letter — a spot saved for a friend, not one of 28 blank
    sprouts. Decoration only; the plot still rustles when tapped. */
@@ -976,11 +875,6 @@
 }
 @media (max-width: 340px) { .sg-grad .sg-grad-friends svg { width: 36px !important; height: auto; } }
 /* 2026-10-13: a practice star rises out of the finishing bloom (the day's first finish of a toy). */
-.pg-bloom-star { position: absolute; left: 50%; top: 50%; width: 56px; height: 56px; margin: -110px 0 0 -28px; filter: drop-shadow(0 3px 0 #c69434); animation: pg-star-rise .8s cubic-bezier(.3, 1.6, .5, 1) .35s both; }
-.pg-bloom-star svg { display: block; width: 100%; height: 100%; }
-@keyframes pg-star-rise { from { transform: translateY(60px) scale(.2); opacity: 0; } to { transform: none; opacity: 1; } }
-.pg-bloom.is-still .pg-bloom-star { animation: none; }
-@media (prefers-reduced-motion: reduce) { .pg-bloom-star { animation: none; } }
 /* ---------- v60 the living meadow (2026-10-16) ---------- */
 .lg-friends-garden .sg-meadow { position: relative; width: 100%; max-width: 760px; height: 128px; flex: none; border-radius: 28px 28px 0 0; background: linear-gradient(180deg, #ccfbef 0 48%, #b7e779 48%); box-shadow: inset 0 -6px 0 #7fce54; overflow: hidden; }
 .lg-friends-garden .sg-meadow::before { content: ""; position: absolute; left: 0; right: 0; top: 42%; height: 18px; background: radial-gradient(ellipse at 20% 100%, #7fce54 0 40%, transparent 41%) 0 0/120px 18px repeat-x; opacity: .7; }
@@ -998,7 +892,6 @@
 @media (max-height: 450px) and (orientation: landscape) { .lg-friends-garden .sg-meadow { height: 104px; } .lg-friends-garden .sg-roamer svg { width: 58px; } }
 @media (max-width: 500px) { .lg-friends-garden .sg-roamer:nth-child(n+5) { display: none; } }
 /* ---------- v61 Ears First (2026-10-16) ---------- */
-.pg-group[data-group="listen"] { background: #c4d39b; }
 .ea { display: grid; justify-items: center; align-content: center; gap: 16px; width: 100%; min-height: 100%; padding: 8px 10px 14px; box-sizing: border-box; }
 .ea-card { width: 150px; height: 150px; padding: 10px; border: 3px solid #4a3620; border-radius: 28px; background: #fffaf0; box-shadow: 0 6px 0 #c9bda4; cursor: pointer; display: grid; place-items: center; }
 .ea-card svg, .ea-choice svg { display: block; width: 100%; height: 100%; }
@@ -1048,3 +941,25 @@
 .ch-car.is-hint .ch-car-body svg { filter: drop-shadow(0 0 0 #f3c955) drop-shadow(0 0 8px #f3c955); }
 @media (max-width: 380px) { .ch-car { width: 84px; height: 60px; } .ch-engine svg { width: 52px; height: 60px; } .ch-car-seat { font-size: 28px; } .ch-word { font-size: 54px; } .ch-costume { min-width: 72px; height: 72px; font-size: 40px; } }
 @media (max-height: 450px) and (orientation: landscape) { .ch { gap: 8px; } .ch-friend, .ch-pic { width: 84px; height: 84px; } .ch-word { font-size: 50px; } .ch-costume { height: 66px; font-size: 38px; } }
+
+/* v304: a finished chapter offers an optional toy, with Home still primary. */
+.party-actions.has-friend-stop { max-width:100%; gap:12px; }
+.party-bonus { display:grid; place-items:center; flex:0 0 64px; width:64px; height:64px; padding:4px; border:3px solid #4a3620; border-radius:20px; background:#fffaf0; box-shadow:0 4px 0 #c9bda4,inset 0 2px 0 #fffdf7; cursor:pointer; touch-action:manipulation; transition:transform 120ms ease-out,background-color 120ms ease-out; }
+.party-bonus > svg { display:block; width:52px; height:52px; pointer-events:none; }
+.party-bonus:active { transform:scale(.97); background:#e5dcc8; }
+.party-bonus:focus-visible { outline:4px solid var(--lg-focus); outline-offset:4px; }
+.lg-reduce-motion .party-bonus { transition:none; }
+.lg-reduce-motion .party-bonus:active { transform:none; }
+@media (prefers-reduced-motion:reduce) {
+  .party-bonus { transition:none; }
+  .party-bonus:active { transform:none; }
+}
+@media (max-width:360px), (max-height:450px) and (orientation:landscape) {
+  .lg-app .party-actions.has-friend-stop { display:grid; grid-template-columns:repeat(3,64px); gap:10px; justify-items:center; }
+  .lg-app .party-actions.has-friend-stop .party-next { grid-column:1 / -1; justify-self:center; min-width:140px; }
+  .lg-app .party-actions.has-friend-stop .party-decorate { width:56px; min-width:56px; height:56px; padding:5px; }
+}
+@media (max-height:450px) and (orientation:landscape) {
+  .lg-app.lg-boat-adventure .party-stage.has-friend-stop { grid-template-columns:minmax(0,1fr) 220px; grid-template-rows:44px 48px 142px; }
+  .lg-app:not(.lg-boat-adventure) .lg-party .party-stage.has-friend-stop { grid-template-columns:minmax(0,1fr) 220px; grid-template-rows:32px 48px 142px; }
+}

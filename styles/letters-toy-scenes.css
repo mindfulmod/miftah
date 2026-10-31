@@ -1,0 +1,113 @@
+/* Optional games belong to the same garden: tactile, bounded stages with a
+   quiet centre. The existing pond, stalls, shadow theatre and cast stay live. */
+.lg-app .lg-play .practice-stage[data-toy-family] {
+  position:relative; isolation:isolate; box-sizing:border-box;
+  padding:14px 18px 18px; border:0; border-radius:32px 32px 38px 38px;
+  background:linear-gradient(120deg,#fffdf7,#fffaf0 70%,#e5dcc8);
+  box-shadow:0 0 0 3px #4a3620,inset 0 0 0 5px #c9bda4,inset 0 0 0 8px #fffaf0,0 8px 0 3px #a89478,0 16px 0 #4a362020;
+}
+.lg-app .lg-play .practice-stage[data-toy-family="toytable"] {
+  background:linear-gradient(105deg,#c9bda4,#e5dcc8 35%,#c9bda4);
+  box-shadow:0 0 0 3px #4a3620,inset 0 5px 0 #fffaf0,inset 0 -12px 0 #a89478,0 8px 0 3px #70501b,0 16px 0 #4a362020;
+}
+.lg-app .lg-play .practice-stage[data-toy-family="storybook"] {
+  background:linear-gradient(90deg,#e5dcc8 0 3%,#fffaf0 4%,#c9bda4 5%,#e5dcc8 6%,#fffdf7 8%,#fffaf0 95%,#e5dcc8);
+  box-shadow:0 0 0 5px #4e9677,0 5px 0 5px #e5dcc8,0 9px 0 5px #2f5c46,0 17px 0 #4a362020;
+}
+.lg-app .lg-play .practice-stage[data-toy-family="naturetable"] {
+  background:radial-gradient(ellipse at 50% 10%,#fffdf7 15%,#fffaf0 55%,#c4d39b);
+  box-shadow:0 0 0 3px #4a3620,inset 0 0 0 5px #93ab6c,inset 0 0 0 8px #c4d39b,0 8px 0 3px #647d4e,0 16px 0 #4a362020;
+}
+.lg-app .lg-play .practice-stage[data-toy-family="tailor"] {
+  background:linear-gradient(120deg,#e6d6f0,#fffaf0 35% 70%,#e6d6f0);
+  box-shadow:0 0 0 3px #4a3620,inset 0 0 0 5px #b49fcf,inset 0 0 0 8px #e6d6f0,0 8px 0 3px #8c74b0,0 16px 0 #4a362020;
+}
+.practice-stage[data-toy-family] > :first-child { position:relative; z-index:1; }
+.practice-stage[data-toy-family] > .lg-activity-art { z-index:0; border-radius:inherit; overflow:visible; pointer-events:none; }
+.practice-stage[data-toy-family] .activity-prop.is-toy-kit { width:70px; left:2%; bottom:5%; }
+.practice-stage[data-toy-family] .activity-prop:is(.is-toy-leaves,.is-mallet) { width:62px; right:2%; left:auto; bottom:5%; }
+
+/* Card faces keep ink upright and centred. Resting depth and finger pressure
+   use separate properties, so dragging owns its transform without a fight. */
+.lg-app :is(.ws-piece,.pz-tile,.tb-piece,.bk-friend,.bk-piece,.wd-card,.wd-piece,.vh-choice,.tb-nest) {
+  background:linear-gradient(145deg,#fffdf7,#fffaf0 76%,#e5dcc8);
+  box-shadow:inset 0 3px 0 #fffdf7,0 5px 0 #a89478,0 0 0 3px #4a3620;
+  transition:box-shadow 130ms ease-out,scale 130ms ease-out,background-color 130ms ease-out;
+}
+.lg-app :is(.ws-piece,.pz-tile,.tb-piece,.bk-friend,.bk-piece,.wd-card,.wd-piece,.vh-choice,.tb-nest):active {
+  scale:.97; box-shadow:inset 0 2px 0 #fffdf7,0 2px 0 #a89478,0 0 0 3px #4a3620;
+}
+.lg-app :is(.ws-piece,.tb-piece,.wd-piece,.vh-choice,.lk-rider,.pz-tile).is-dragging {
+  position:relative; z-index:20; cursor:grabbing; scale:1.035;
+  filter:drop-shadow(0 12px 5px #4a362025); transition:none;
+}
+.lg-app :is(.ws-piece,.tb-piece,.wd-piece,.vh-choice,.lk-rider,.pz-train .pz-tile) { touch-action:none; }
+.lg-app :is(.ws-frame,.tb-board,.tb-paper,.pz-reveal) {
+  background:linear-gradient(135deg,#fffdf7,#fffaf0);
+  box-shadow:0 0 0 3px #4a3620,0 0 0 8px #a89478,inset 0 3px 0 #e5dcc8,0 9px 0 7px #70501b;
+}
+.lg-app :is(.ws-tray,.tb-tray,.vh-shelf) {
+  padding:14px 18px; border-radius:20px 20px 26px 26px;
+  background:linear-gradient(135deg,#c4d39b,#93ab6c 70%,#647d4e);
+  box-shadow:inset 0 3px 0 #647d4e,inset 0 -3px 0 #c4d39b,0 4px 0 #a89478;
+}
+.lg-app .vh-shelf { background:linear-gradient(135deg,#e6d6f0,#b49fcf 70%,#8c74b0); box-shadow:inset 0 3px 0 #8c74b0,inset 0 -3px 0 #e6d6f0,0 4px 0 #a89478; }
+.lg-app .vh-stage { background:radial-gradient(ellipse at 48% 25%,#fffdf7 20%,#e6d6f0 75%); box-shadow:0 0 0 3px #8c74b0,0 7px 0 #b49fcf; }
+.lg-app .tb-cards { padding:14px; border-radius:24px; background:linear-gradient(120deg,#c4d39b,#93ab6c); box-shadow:inset 0 3px 0 #647d4e,0 3px 0 #fffaf0; box-sizing:border-box; }
+.lg-app .tb-card-back { background:linear-gradient(145deg,#c4d39b,#93ab6c 70%,#647d4e); }
+.lg-app .tb-card-face { background:linear-gradient(145deg,#fffdf7,#fffaf0 75%,#e5dcc8); }
+.lg-app .tb-card-face.is-letter { background:linear-gradient(145deg,#ccfbef,#96ecff); }
+.lg-app .tb-card-face svg { max-height:90%; }
+.lg-app .tb-piece { rotate:0deg; }
+.lg-app .tb-slot.is-next { box-shadow:inset 0 0 0 3px #c69434; background:#ffe49a44; }
+.lg-app :is(.ws-frame.is-near,.tb-slot.is-near,.wd-hole.is-drop-ready,.vh-friend.is-drop-target) { outline:4px solid #c69434; outline-offset:4px; background-color:#ffe49a; }
+.lg-app :is(.lk-bus.is-receiving,.pz-cars.is-receiving) { filter:drop-shadow(0 0 5px #c69434); }
+.lg-app .ws-frame.is-next:not(.is-built) { outline:3px dashed #c69434; outline-offset:7px; }
+.lg-app :is(.wd-reference,.ws-reference,.vh-reference) { box-sizing:border-box; max-width:100%; padding:2px 20px; border-radius:18px; background:#fffaf0; border:2.4px solid #a89478; font:clamp(28px,6vmin,44px)/1.8 'Amiri Quran',serif; color:#4a3620; }
+.lg-app .tb-board.is-3 { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.lg-app .tb-pond.is-still :is(.tb-fish,.tb-fish-body) { animation:none; }
+.lg-app .wd-gapword { padding:6px 18px; background:linear-gradient(#fffdf7,#fffaf0); border-radius:20px; box-shadow:0 4px 0 #c9bda4; }
+.lg-app .wd-hole { min-width:52px; min-height:64px; }
+.lg-app .bk-hedge { background:linear-gradient(120deg,#b7e779,#93ab6c); box-shadow:inset 0 -8px 0 #647d4e,0 5px 0 #e5dcc8; }
+.lg-app .bk-basket-label { background:linear-gradient(120deg,#fffdf7,#fffaf0 80%,#e5dcc8); }
+.lg-app .lk-road { border-radius:28px; background:linear-gradient(#fffaf0,#e5dcc8); box-shadow:inset 0 -5px 0 #c9bda4; }
+.lg-app .lk-stone-art { filter:drop-shadow(0 4px 0 #a89478); }
+.lg-app .pz-rails { border-bottom-color:#70501b; box-shadow:0 3px 0 #c9bda4; }
+.lg-app .tb-pond { background:linear-gradient(#ccfbef,#96ecff 70%,#62cdf4); box-shadow:0 0 0 4px #93ab6c,0 7px 0 #647d4e; }
+.lg-app .tb-pond .tb-water { opacity:.8; }
+.lg-app .practice-stage[data-toy-family] :is(.pz-progress,.tb-progress,.bk-progress) { position:relative; z-index:2; padding:4px 12px; border-radius:20px; background:#fffaf0; box-shadow:0 2px 0 #c9bda4; }
+
+/* A cue invites twice, then rests. The illustration itself is the lasting cue. */
+.lg-app .practice-stage[data-toy-family] :is(.is-hint,.tb-slot.is-wanted,.ws-hole) { animation-iteration-count:2; }
+@media(prefers-reduced-motion:no-preference) {
+  .lg-app:not(.lg-reduce-motion) :is(.tb-slot.is-placed,.ws-in,.vh-friend.is-dressed .vh-on) { animation-duration:280ms; }
+  .lg-app:not(.lg-reduce-motion) .practice-stage[data-toy-family] :is(.wd-card.is-right,.tb-nest.is-home) { animation:toy-settle 280ms ease-out; }
+}
+@keyframes toy-settle { 0% { scale:.96; } 55% { scale:1.025; } 100% { scale:1; } }
+.lg-reduce-motion .practice-stage[data-toy-family] *,
+.lg-reduce-motion .practice-stage[data-toy-family] *::before,
+.lg-reduce-motion .practice-stage[data-toy-family] *::after { animation:none!important; transition:none!important; }
+@media(prefers-reduced-motion:reduce) {
+  .practice-stage[data-toy-family] *,.practice-stage[data-toy-family] *::before,.practice-stage[data-toy-family] *::after { animation:none!important; transition:none!important; }
+}
+@media(max-width:600px),(max-height:500px) {
+  .lg-app .lg-play .practice-stage[data-toy-family] { padding:10px 8px 12px; }
+  .practice-stage[data-toy-family] .activity-prop { display:none; }
+  .lg-app :is(.ws-tray,.tb-tray,.vh-shelf) { padding:10px 12px; }
+  .lg-app .tb-cards { padding:10px; }
+}
+
+.lg-app .vh-friend { display:grid; place-items:center; border-radius:40%; }
+.lg-app .lg-play:has(.wd) .wd-ear { display:none; }
+.lg-app .lg-play:has(.vh) .vh-reference { font-size:clamp(34px,8vmin,48px); }
+.lg-app .pz-balloon.is-dragging { animation:none; z-index:20; filter:drop-shadow(0 10px 4px #4a362025); }
+@media(orientation:landscape) and (max-height:500px) {
+  .lg-app .lg-play .tb-jigsaw { grid-template-columns:minmax(160px,1fr) minmax(180px,1fr); grid-template-rows:minmax(0,1fr) auto; align-items:center; height:100%; gap:12px; padding:12px 18px; }
+  .lg-app .lg-play .tb-jigsaw .tb-board { grid-column:1; grid-row:1; width:min(57vh,240px); }
+  .lg-app .lg-play .tb-jigsaw .tb-tray { grid-column:2; grid-row:1; max-width:100%; box-sizing:border-box; align-items:center; }
+  .lg-app .lg-play .tb-jigsaw .tb-piece { min-height:52px; min-width:44px; }
+  .lg-app .lg-play .tb-jigsaw .tb-piece svg { max-height:min(43vh,160px); max-width:90px; }
+  .lg-app .lg-play .tb-jigsaw .tb-progress { grid-column:1 / -1; grid-row:2; }
+}
+
+.lg-app .tb-tray:empty { visibility:hidden; }

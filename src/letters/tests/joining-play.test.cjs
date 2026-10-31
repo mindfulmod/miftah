@@ -13,7 +13,7 @@ function runtime(reduced=false){
  const doc={createElement:()=>el()};
  const box={window:{MiftahGame:ns,addEventListener(){},removeEventListener(){}},document:doc,setTimeout:(f,ms)=>{timers.push({f,ms});return timers.length},setInterval:()=>1,clearTimeout(){},clearInterval(){},performance:{now:()=>0}};
  for(const file of ['GardenPractice','MiniGames'])vm.runInNewContext(fs.readFileSync(path.join(__dirname,'..',file+'.js'),'utf8'),box);
- return {ns,timers};
+ return {ns,timers,box};
 }
 function stage(){
  let nodes=[],html='';
@@ -73,8 +73,12 @@ test('Blend constructor excludes decoys that duplicate either visible target pie
 test('Chain startRound builds three names and result replay preserves names for whole and parts',()=>{
  const t=fixture({kind:'chain'});t.game.rounds[0].third={id:'m',display:'م',speak:'مِيمْ'};t.game.thirds[0].l=t.game.rounds[0].third;
  t.game.startRound();assert.equal(t.game.chain.speak,'بَاءْ، تَاءْ، مِيمْ');assert.deepEqual(Array.from(t.game.chain.parts,p=>p.display),['بت','م']);
- t.game.scene=t.s;t.game.base=t.s.querySelector('.chain-base');t.timers.length=0;t.game.tryChain(t.choices[0]);assert.equal(t.timers.length,1);advanceTimers(t);
+ const base=t.s.querySelector('.chain-base'),before=t.spoken.length,prompts=t.prompts.length;
+ base.click();assert.equal(t.spoken.length,before+1);assert.equal(t.spoken.at(-1).speak,'بَاءْ، تَاءْ');assert.equal(t.outcomes.length,0);assert.equal(t.prompts.length,prompts);
+ t.game.scene=t.s;t.game.base=base;t.timers.length=0;t.game.tryChain(t.choices[0]);assert.equal(t.timers.length,1);advanceTimers(t);
  assert.equal(t.outcomes.length,1);assert.equal(t.game.ready,true);
+ const after=t.spoken.length;base.click();assert.equal(t.spoken.length,after,'retired base cannot interrupt result replay');
+ assert.equal(t.outcomes[0].evidence,'motor_assembly_participation');
  t.s.querySelector('.join-whole').click();t.s.querySelector('.join-toggle').click();t.s.querySelectorAll('.join-piece').forEach(b=>b.click());
  assert.ok(t.spoken.some(x=>x?.speak==='بَاءْ، تَاءْ، مِيمْ'));
  assert.ok(t.spoken.some(x=>x?.speak==='بَاءْ، تَاءْ'));
@@ -133,4 +137,67 @@ test('Blend and Chain hit-test pointer drops before entry animation can reclaim 
   assert.equal(tile.classList.contains('is-held'),true);tile.dispatch('pointerup',{...pointer,clientX:70,clientY:75});
   assert.equal(attempts,inside?1:0,`${kind} inside=${inside}`);assert.equal(tile.hasPointerCapture(7),false);assert.equal(tile.releaseCount,1);
  }
+});
+
+function chainLearningHarness() {
+ const {ns,box,timers}=runtime();let now=100000;
+ box.Date=class extends Date {static now(){return now;}};
+ for(const file of ['LettersStrength','LettersLearning'])vm.runInNewContext(fs.readFileSync(path.join(__dirname,'..',file+'.js'),'utf8'),box);
+ const letters=['ب','ت','م','ن'].map(display=>({id:display,display,speak:`name ${display}`}));
+ const pair={id:'بت',display:'بت',speak:'name ب، name ت',parts:letters.slice(0,2),join2:true};
+ const create=(rounds=1)=>{
+  now+=1000;
+  const s=stage(),session=new ns.LettersLearning.LearningSession(ns.LettersStrength,()=>now);
+  const ctx={items:[pair],extraItems:letters,stage:s,rounds,activity:'chain',reducedMotion:()=>true,
+   setPrompt:(item,meta)=>session.beginPrompt(item,meta),reportOutcome:outcome=>session.report(outcome),
+   say(){},sfx(){},confettiAt(){},onDone(){},showLearningHint(){session.assist();}};
+  const game=new ns.LettersMiniGames.chain(ctx);
+  return {game,s,session,solve:()=>{game.scene=s;game.tryChain(s.querySelectorAll('.chain-third')[0]);}};
+ };
+ return {ns,create,letters,pair,timers};
+}
+
+test('Chain practises stable triples from the existing lesson order, including wraparound',()=>{
+ const h=chainLearningHarness(),map=new Map();
+ const pairs=[h.pair,{id:'من',display:'من',speak:'name م، name ن',parts:h.letters.slice(2),join2:true}];
+ for(let visit=0;visit<6;visit++){
+  const {game}=h.create();game.destroy();
+  const s=stage(),g=new h.ns.LettersMiniGames.chain({items:visit%2?pairs:[...pairs].reverse(),extraItems:h.letters,rounds:2,stage:s,setPrompt(){},say(){}});
+  for(const r of g.rounds){map.set(r.pair.display,r.third.display);assert.equal(r.third.display,r.pair.display==='بت'?'م':'ب');assert.equal(r.decoy,null);}
+  g.destroy();
+ }
+ assert.deepEqual([...map].sort(),[['بت','م'],['من','ب']]);
+});
+
+test('Chain builds construction evidence across visits before adding one familiar alternative',()=>{
+ const h=chainLearningHarness();h.ns.LettersStrength.map.legacy={r:7};
+ for(let visit=0;visit<4;visit++){
+  const t=h.create();assert.equal(t.game.chain.id,'بتم');assert.equal(t.game.thirds.length,1);
+  t.solve();assert.equal(t.game.ready,true);
+  const skill=h.ns.LettersStrength.skillProfile('بتم','joining');
+  assert.equal(skill.motor.r,visit+1);assert.equal(skill.matching,undefined);assert.equal(skill.listening,undefined);
+  t.game.destroy();
+ }
+ const advanced=h.create();assert.equal(advanced.game.thirds.length,2);
+ assert.equal(advanced.s.querySelectorAll('.chain-third')[0].classList.contains('is-demo'),false,'a two-choice round never highlights the answer on entry');
+ assert.equal(advanced.game.thirds[1].l.display,'ن');
+ assert.deepEqual(h.ns.LettersStrength.map.legacy,{r:7});
+ advanced.game.destroy();
+});
+
+test('Chain does not raise difficulty from repeated rounds in one visit; a helped retry restores support',()=>{
+ const h=chainLearningHarness(),first=h.create(4);
+ for(let round=0;round<4;round++){
+  assert.equal(first.game.thirds.length,1);first.solve();first.s.querySelector('.join-next').click();
+ }
+ const second=h.create();assert.equal(second.game.thirds.length,1);second.solve();second.game.destroy();
+ const challenge=h.create();assert.equal(challenge.game.thirds.length,2);
+ challenge.game.tryChain(challenge.s.querySelectorAll('.chain-third')[1]);
+ assert.equal(challenge.game.slips,1);
+ while(h.timers.length)h.timers.shift().f();
+ challenge.solve();assert.equal(challenge.game.ready,true);
+ const skill=h.ns.LettersStrength.skillProfile('بتم','joining');
+ assert.equal(skill.motor.w,1);assert.equal(skill.assisted.r,1);assert.equal(skill.matching,undefined);
+ challenge.game.destroy();
+ const retry=h.create();assert.equal(retry.game.thirds.length,1);retry.game.destroy();
 });

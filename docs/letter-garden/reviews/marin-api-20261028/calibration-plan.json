@@ -1,0 +1,58 @@
+{
+  "stage": "calibration-v1",
+  "model": "gpt-4o-mini-tts-2025-12-15",
+  "voice": "marin",
+  "candidateCount": 6,
+  "planningReservationUSD": 0.3,
+  "billingNote": "Planning allowance only, not a measured API price. No calls made when preparing this plan.",
+  "jobs": [
+    {
+      "id": "lg-b2e2e85d51f4",
+      "input": "سُكُونْ",
+      "targetInput": "سُكُونْ",
+      "variant": "direct",
+      "voice": "marin",
+      "instructions": "Read the supplied Arabic text exactly once in clear Modern Standard Arabic. Use your natural Marin speaking voice, an even conversational pitch and pace, and a gentle, matter-of-fact delivery."
+    },
+    {
+      "id": "lg-82708484d53f",
+      "input": "اِسْتَمِعْ جَيِّدًا. سُكُونْ.",
+      "targetInput": "سُكُونْ",
+      "variant": "context",
+      "voice": "marin",
+      "instructions": "Read the supplied Arabic text exactly once in clear Modern Standard Arabic. Use your natural Marin speaking voice, an even conversational pitch and pace, and a gentle, matter-of-fact delivery."
+    },
+    {
+      "id": "lg-36b3714f9b0b",
+      "input": "مَا",
+      "targetInput": "مَا",
+      "variant": "direct",
+      "voice": "marin",
+      "instructions": "Read the supplied Arabic text exactly once in clear Modern Standard Arabic. Use your natural Marin speaking voice, an even conversational pitch and pace, and a gentle, matter-of-fact delivery."
+    },
+    {
+      "id": "lg-68866e4ff5f9",
+      "input": "اِسْتَمِعْ جَيِّدًا. مَا.",
+      "targetInput": "مَا",
+      "variant": "context",
+      "voice": "marin",
+      "instructions": "Read the supplied Arabic text exactly once in clear Modern Standard Arabic. Use your natural Marin speaking voice, an even conversational pitch and pace, and a gentle, matter-of-fact delivery."
+    },
+    {
+      "id": "lg-95da19a9c3af",
+      "input": "قُلْ",
+      "targetInput": "قُلْ",
+      "variant": "direct",
+      "voice": "marin",
+      "instructions": "Read the supplied Arabic text exactly once in clear Modern Standard Arabic. Use your natural Marin speaking voice, an even conversational pitch and pace, and a gentle, matter-of-fact delivery."
+    },
+    {
+      "id": "lg-4a6c040f4d47",
+      "input": "اِسْتَمِعْ جَيِّدًا. قُلْ.",
+      "targetInput": "قُلْ",
+      "variant": "context",
+      "voice": "marin",
+      "instructions": "Read the supplied Arabic text exactly once in clear Modern Standard Arabic. Use your natural Marin speaking voice, an even conversational pitch and pace, and a gentle, matter-of-fact delivery."
+    }
+  ]
+}

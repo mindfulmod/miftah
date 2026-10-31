@@ -1,0 +1,32 @@
+[
+  {
+    "text": "كِ",
+    "original": "../../teacher-library-candidates/lg-fc64a7da85e6.wav",
+    "padded": "lg-fc64a7da85e6-pad200.wav",
+    "originalSHA256": "ae090f427d47c9b71329603b87182f0f9c3f6ec82eb3c0ee95d482c3ef5ab1ee",
+    "paddedSHA256": "ba1dd04702154d9767ca04def0f22bf2a080a7d0c1633832ee9fabbbc7aa56b8",
+    "note": "sounds like ih",
+    "leadingSilenceMs": 200,
+    "speechPCMUnchanged": true
+  },
+  {
+    "text": "تِ",
+    "original": "../../teacher-library-candidates/lg-0ee7bf085410.wav",
+    "padded": "lg-0ee7bf085410-pad200.wav",
+    "originalSHA256": "23ffdfc8487ea301a09f829aad3eb21612bb521ce86bb85aabc06b51149ef14a",
+    "paddedSHA256": "653cd7437f8ef6de753384ddb22f4faad14246083801f8660fe63b83b9056ba6",
+    "note": "sounds like ih",
+    "leadingSilenceMs": 200,
+    "speechPCMUnchanged": true
+  },
+  {
+    "text": "تِمْسَاح",
+    "original": "../../teacher-library-candidates/lg-de1e5cba8529.wav",
+    "padded": "lg-de1e5cba8529-pad200.wav",
+    "originalSHA256": "d65510b33e32c04a228509ecfa39e6401ad94986da697d58019ac99fbbed2677",
+    "paddedSHA256": "9033cf1d422f194d1c90d41533d59536f6dfdb3c97d1c2d656cdf418a48247d9",
+    "note": "sounds like imsah",
+    "leadingSilenceMs": 200,
+    "speechPCMUnchanged": true
+  }
+]

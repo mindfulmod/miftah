@@ -1,0 +1,27 @@
+{
+  "newlyInstalled": 17,
+  "totalTeacherClips": 107,
+  "totalRuntimeClips": 359,
+  "heldReviewed": 5,
+  "excluded": [
+    "وٌ",
+    "تً"
+  ],
+  "published": false,
+  "newPaidRequests": 0,
+  "checks": {
+    "audioVoiceOfflineTests": 88,
+    "generatorTests": 30,
+    "failedTests": 0,
+    "browserDecoded": 17,
+    "browserDecodeFailures": 0,
+    "browserPlayed": 0
+  },
+  "nextBatch": {
+    "stage": "teacher-tanwin-repair-v1",
+    "items": 2,
+    "planningReservationUSD": 0.1,
+    "generated": 0
+  },
+  "recovery": ".qa/baselines/marin-tanwin17-20261029/RESTORE.md"
+}

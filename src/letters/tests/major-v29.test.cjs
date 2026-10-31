@@ -45,8 +45,8 @@ test("v29 Living Books: four books from the child's own friends, grammar-checked
 test("v29 reading is presentation: no evidence, a decodability gate, completion that never fails", () => {
   const src = source("LivingBooks.js");
   assert.doesNotMatch(src, /reportOutcome|spendStars|earnStars/);
-  assert.match(src, /this\.later\(ok, 6000\)/, "the book carries on by itself");
-  assert.match(src, /if \(b\.classList\.contains\("is-decodable"\)\) \{/);
+  assert.match(src, /this\.waiting=\{button:b,remaining:buttons\.slice\(i\)\}/, "a completion prompt waits for the child without ending the book");
+  assert.match(src, /if\(b\.classList\.contains\('is-decodable'\)\)/);
   assert.match(src, /lb-book-\$\{this\.book\.kind\}/, "container class never collides with .lb-flap");
   assert.deepEqual(off(src), []);
   const game = source("LettersGame.js");

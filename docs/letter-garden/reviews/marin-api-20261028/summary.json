@@ -1,0 +1,65 @@
+{
+  "counts": {
+    "requests": 888,
+    "approvedBankClips": 252,
+    "approved-local": 252,
+    "local-name-sequence": 149,
+    "needs-generation": 421,
+    "pronunciation-decision": 66,
+    "missing-file": 0
+  },
+  "uncovered": 487,
+  "allAlphabetNamesCovered": true,
+  "generationByType": {
+    "names": 2,
+    "syllables": 203,
+    "story-words": 56,
+    "quran-reading": 128
+  },
+  "recovered": 20,
+  "reusableUnreviewed": 19,
+  "flaggedCandidates": [
+    {
+      "id": "lg-b702f2d63993",
+      "text": "طُو",
+      "file": "candidates/lg-b702f2d63993.wav",
+      "sha256": "cc5e7492916821b970772398c27e4324f4da44f156dcaf3ba27660ec54cda1f6",
+      "voice": "marin",
+      "reviewStatus": "unreviewed",
+      "source": "Hank supplied archive",
+      "durationSeconds": 0.334,
+      "peakDbfs": -58.05,
+      "flags": [
+        "very-short",
+        "near-silent"
+      ]
+    }
+  ],
+  "contextualReadingReview": 13,
+  "readyForAPI": 389,
+  "pilotIds": [
+    "lg-9357023bebc2",
+    "lg-b2e2e85d51f4",
+    "lg-e006f0b8074f",
+    "lg-2d6a557df5ca",
+    "lg-ba418754028b",
+    "lg-133bb4576b44",
+    "lg-1d35b258f38f",
+    "lg-365206ee50f1",
+    "lg-36b3714f9b0b",
+    "lg-07f25640a2b9",
+    "lg-95da19a9c3af",
+    "lg-08208c74a20d"
+  ],
+  "pricing": {
+    "textInputPerMillionUSD": 0.6,
+    "audioOutputPerMillionUSD": 12,
+    "source": "https://developers.openai.com/api/docs/pricing",
+    "checked": "2026-10-28"
+  },
+  "planningReservationPerAttemptUSD": 0.05,
+  "planningReservationForQueueUSD": 19.45,
+  "budgetNote": "Reservation is not actual billing or an account-level hard cap. Check pilot usage in the API dashboard before the full run.",
+  "model": "gpt-4o-mini-tts-2025-12-15",
+  "modelShutdown": "2027-01-06"
+}

@@ -1,0 +1,134 @@
+/* Letter forms live on a reading stand, a costume rail and a little toy train. */
+.lg-app .lg-play .practice-stage:has(> :is(.ch,.wt-game)) {
+  display:flex; align-items:center; justify-content:center; position:relative;
+  width:min(100%,900px); padding:10px 8px 16px; box-sizing:border-box;
+  border:0; border-radius:0; background:none; box-shadow:none;
+  overflow-x:hidden; overflow-y:auto;
+}
+.lg-app .lg-play .practice-stage:has(> :is(.ch,.wt-game)) > .lg-activity-art { display:none; }
+.lg-app .lg-play :is(.ch,.wt-game) {
+  position:relative; display:grid; grid-template-columns:minmax(0,1fr); justify-items:center;
+  align-content:center; width:100%; min-width:0; min-height:0; flex-shrink:0;
+  padding:6px 6px 12px; gap:18px; margin:auto; box-sizing:border-box;
+}
+.lg-app :is(.ch,.wt-game) :focus-visible { outline:4px solid var(--lg-focus); outline-offset:3px; }
+.lg-app :is(.ch,.wt-game) button { -webkit-tap-highlight-color:transparent; }
+.lg-app .ch :is(.ch-friend,.ch-pic) {
+  width:100px; height:100px; border:3px solid #4a3620; border-radius:28px;
+  background:#fffaf0; box-shadow:inset 0 4px 0 #fffdf7,inset 0 -5px 0 #e5dcc8,0 6px 0 #a89478;
+}
+.lg-app .ch .ch-top { gap:20px; }
+.lg-app .ch .ch-lesson-prop { position:relative; width:min(100%,420px); aspect-ratio:21/8; display:grid; place-items:center; }
+.lg-app .ch .ch-lesson-prop > svg { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+.lg-app .ch .ch-lesson-prop .ch-word {
+  position:relative; width:85%; max-width:100%; min-width:0; padding:0 3px 12px;
+  border:0; border-radius:0; box-shadow:none; background:none;
+  font-size:clamp(38px,9vw,60px); line-height:1.55; box-sizing:border-box;
+}
+.lg-app .ch .ch-word .ch-piece { border:0; border-radius:8px; background:none; box-shadow:none; padding:0; }
+.lg-app .ch .ch-word .ch-piece.is-found { color:#b0501f; background:#ffe49a88; }
+.lg-app .ch .ch-word .ch-gap {
+  min-width:44px; border:2.4px dashed #c69434; border-radius:12px;
+  background:#ffe49a44; box-sizing:border-box;
+}
+.lg-app .ch .ch-word .ch-gap.is-filled { min-width:0; border:0; background:#b7e77966; }
+.lg-app .ch :is(.ch-choice-tray,.ch-costumes) {
+  position:relative; display:flex; justify-content:center; align-items:center; flex-wrap:wrap;
+  max-width:100%; gap:12px; padding:14px 14px 18px; border-radius:24px;
+  background:#e5dcc8; border:2.4px solid #a89478;
+  box-shadow:inset 0 4px 0 #fffaf0,inset 0 -4px 0 #c9bda4,0 5px 0 #a89478; box-sizing:border-box;
+}
+.lg-app .ch .ch-choice-tray .ch-costumes { padding:0; background:none; border:0; box-shadow:none; }
+.lg-app .ch-rail .ch-choice-tray { width:min(100%,360px); min-height:150px; padding:36px 30px 20px; border:0; background:none; box-shadow:none; }
+.lg-app .ch .ch-rail-art { position:absolute; inset:0; pointer-events:none; }
+.lg-app .ch .ch-rail-art svg { display:block; width:100%; height:100%; }
+.lg-app .ch :is(.ch-costume,button.ch-piece) {
+  display:grid; place-items:center; position:relative; flex:none;
+  width:88px; height:94px; min-width:44px; min-height:44px; margin:0; padding:0 7px 10px;
+  border:3px solid #4a3620; border-radius:22px; background:#fffaf0;
+  color:#4a3620; box-shadow:inset 0 4px 0 #fffdf7,inset 0 -5px 0 #e5dcc8,0 5px 0 #a89478;
+  font-family:'Amiri Quran',serif; font-size:46px; line-height:1.6; cursor:pointer;
+  touch-action:none; box-sizing:border-box; transition:transform 160ms ease,background 160ms ease;
+}
+.lg-app .ch :is(.ch-costume,button.ch-piece):active { transform:translateY(3px); }
+.lg-app .ch :is(.ch-costume,button.ch-piece).is-picked { background:#ffe49a; transform:translateY(-3px); }
+.lg-app .ch :is(.ch-costume,button.ch-piece):is(.is-right,.is-found) { background:#b7e779; }
+.lg-app .ch .ch-costume.is-used { opacity:.35; transform:none; pointer-events:none; }
+.lg-app .ch-rail button.ch-costume { width:80px; }
+.lg-app .ch :is(.ch-gap,.ch-car):is(.is-target,.is-near) { filter:drop-shadow(0 0 5px #f3c955); }
+.lg-app .ch .ch-train-prop {
+  width:min(100%,560px); padding:16px 4px 12px; box-sizing:border-box; position:relative;
+  background:none; isolation:isolate;
+}
+.lg-app .ch .ch-train-prop::before { content:""; position:absolute; z-index:-1; inset:51% 0 0; border-radius:50%; background:#e5dcc8; box-shadow:0 5px 0 #c9bda4; }
+.lg-app .ch .ch-cars { display:flex; justify-content:center; align-items:flex-end; gap:0; width:100%; min-width:0; }
+.lg-app .ch .ch-engine { flex:0 0 25%; max-width:90px; aspect-ratio:9/10; }
+.lg-app .ch .ch-engine svg { display:block; width:100%; height:100%; }
+.lg-app .ch .ch-car { flex:1 1 0; max-width:140px; width:auto; min-width:44px; height:auto; aspect-ratio:6/5; border-radius:18px; touch-action:none; }
+.lg-app .ch .ch-car-body { position:absolute; inset:0; }
+.lg-app .ch .ch-car-body svg { width:100%; height:100%; }
+.lg-app .ch .ch-car-seat { inset:12% 14% 35%; display:grid; place-items:center; font-size:clamp(25px,5.6vw,43px); line-height:1.35; }
+.lg-app .ch .ch-car-guide { color:#a89478; }
+.lg-app .ch .ch-car.is-full { animation:form-seat-arrive 280ms ease-out; }
+.lg-app .ch .bk-progress, .lg-app .wt-game .bk-progress { margin-top:2px; }
+
+/* Leaves settle in clear root nests; all written material is live Arabic. */
+.lg-app .wt-game .wt-workshop { display:grid; justify-items:center; width:100%; min-width:0; gap:24px; }
+.lg-app .wt-game .wt-leaf-prompt { display:flex; justify-content:center; width:100%; min-width:0; }
+.lg-app .wt-game .wt-falling {
+  position:relative; width:min(84%,280px); aspect-ratio:28/15; padding:0; border:0;
+  background:none; animation:none; cursor:grab; touch-action:none; flex:none;
+}
+.lg-app .wt-game .wt-falling > svg { display:block; width:100%; height:100%; }
+.lg-app .wt-game .wt-falling.is-landed { opacity:.4; }
+.lg-app .wt-game .wt-falling-word { position:absolute; inset:22% 11% 24%; display:grid; place-items:center; }
+.lg-app .wt-game .wt-falling .wt-word { font-size:clamp(27px,7vw,38px); line-height:1.55; white-space:nowrap; }
+.lg-app .wt-game .wt-falling .wt-word .wt-l.is-root { color:#b0501f; }
+.lg-app .wt-game .wt-homes { display:flex; align-items:flex-end; justify-content:center; gap:8px; width:min(100%,580px); flex-wrap:nowrap; }
+.lg-app .wt-game .wt-home {
+  position:relative; flex:1 1 0; max-width:180px; min-width:44px; width:auto; height:auto; aspect-ratio:9/7;
+  border:0; border-radius:24px; padding:0; background:none; box-shadow:none; touch-action:manipulation;
+}
+.lg-app .wt-game .wt-home > svg { position:absolute; inset:0; width:100%; height:100%; }
+.lg-app .wt-game .wt-home .wt-seed-letters { inset:49% 12% 8%; align-items:center; justify-content:center; font-size:clamp(23px,5.8vw,34px); line-height:1.5; color:#4a3620; }
+.lg-app .wt-game .wt-home .wt-seed-letters > svg { display:block; width:100%; height:100%; overflow:visible; }
+.lg-app .wt-game .wt-home.is-target { filter:drop-shadow(0 0 5px #f3c955); }
+.lg-app .wt-game .wt-home.is-right { background:none; box-shadow:none; }
+.lg-app .wt-game .wt-home.is-right .wt-seed-letters { color:#2f5c46; }
+.lg-app .wt-game .wt-leaf-arrived { position:absolute; top:4%; left:26%; width:48%; aspect-ratio:28/15; animation:form-seat-arrive 320ms ease-out; pointer-events:none; }
+.lg-app .wt-game .wt-leaf-arrived svg { display:block; width:100%; height:100%; }
+@keyframes form-seat-arrive { from { transform:translateY(-10px) scale(.94); } to { transform:none; } }
+@media(max-width:600px) {
+  .lg-app .wt-game .wt-homes:has(.wt-home:nth-child(3)) { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); justify-items:center; gap:4px 12px; }
+  .lg-app .wt-game .wt-homes:has(.wt-home:nth-child(3)) .wt-home { width:100%; }
+  .lg-app .wt-game .wt-home:nth-child(3) { grid-column:1 / -1; width:calc(50% - 6px)!important; }
+}
+@media(max-width:380px) {
+  .lg-app .lg-play :is(.ch,.wt-game) { gap:14px; padding-inline:2px; }
+  .lg-app .ch :is(.ch-costume,button.ch-piece) { width:70px; height:80px; font-size:39px; }
+  .lg-app .ch :is(.ch-choice-tray,.ch-costumes) { gap:8px; padding:12px 9px 16px; }
+  .lg-app .ch-rail .ch-choice-tray { padding:32px 24px 18px; min-height:132px; }
+  .lg-app .ch :is(.ch-friend,.ch-pic) { width:84px; height:84px; }
+  .lg-app .ch .ch-lesson-prop .ch-word { font-size:38px; }
+  .lg-app .wt-game .wt-homes { gap:4px; }
+  .lg-app .wt-game .wt-home .wt-seed-letters { font-size:22px; }
+  .lg-app .wt-game .wt-workshop { gap:14px; }
+  .lg-app .wt-game .wt-falling { width:240px; }
+}
+@media(max-height:500px) and (orientation:landscape) {
+  .lg-app .lg-play :is(.ch,.wt-game) { gap:10px; padding:4px 4px 12px; }
+  .lg-app .ch :is(.ch-friend,.ch-pic) { width:64px; height:64px; }
+  .lg-app .ch .ch-lesson-prop { width:300px; }
+  .lg-app .ch .ch-lesson-prop .ch-word { font-size:40px; }
+  .lg-app .ch :is(.ch-costume,button.ch-piece) { width:74px; height:74px; font-size:36px; }
+  .lg-app .ch-rail .ch-choice-tray { width:300px; min-height:125px; padding:28px 22px 16px; }
+  .lg-app .ch .ch-train-prop { width:440px; padding-block:4px; }
+  .lg-app .ch .ch-car { max-width:100px; }
+  .lg-app .ch .ch-engine { max-width:66px; }
+  .lg-app .wt-game .wt-falling { width:210px; }
+  .lg-app .wt-game .wt-home { max-width:140px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .lg-app :is(.ch,.wt-game) *, .lg-app :is(.ch,.wt-game) *::before { animation:none!important; transition:none!important; }
+}
+.lg-app.lg-reduce-motion :is(.ch,.wt-game) *, .lg-app.lg-reduce-motion :is(.ch,.wt-game) *::before { animation:none!important; transition:none!important; }

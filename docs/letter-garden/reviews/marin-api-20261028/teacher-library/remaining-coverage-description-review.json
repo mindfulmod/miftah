@@ -1,0 +1,203 @@
+{
+  "approvedForListening": [
+    {
+      "id": "lg-aff4824d4d04",
+      "input": "بَاءْ مُشَدَّدَة بِالْفَتْحَة",
+      "targetInput": "بٌّ",
+      "targetId": "lg-0a91908310e7",
+      "sha256": "651e8e6e882393c91306328521fb6968f77c37aeb19ccf71e4e576efd98067d9",
+      "file": "remaining-coverage-candidates/lg-aff4824d4d04.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:36:13.913Z"
+    },
+    {
+      "id": "lg-bba867de39b3",
+      "input": "بَاءْ مُشَدَّدَة بِالْكَسْرَة",
+      "targetInput": "بِّ",
+      "targetId": "lg-1928a403f70f",
+      "sha256": "6fbfe3efb9fae7dd0d93dfe3a659347461ff7e5acf0d5d082e82d30190720fe6",
+      "file": "remaining-coverage-candidates/lg-bba867de39b3.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:36:47.534Z"
+    },
+    {
+      "id": "lg-80fc666a653e",
+      "input": "وَاوْ سَاكِنَة",
+      "targetInput": "وْ",
+      "targetId": "lg-1b495636af95",
+      "sha256": "06a6dce5b121cbc7237dc6b6fe41b7c25950830d11bcd144544c04b9ae7366be",
+      "file": "remaining-coverage-candidates/lg-80fc666a653e.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:36:55.200Z"
+    },
+    {
+      "id": "lg-172e4eba8298",
+      "input": "بَاءْ مُشَدَّدَة بِالضَّمَّة",
+      "targetInput": "بُّ",
+      "targetId": "lg-1dc9c72a6341",
+      "sha256": "31cf098f91b2e0020f27d54261ad506bbc9d9c80435c697a34f959a6b11bdb2a",
+      "file": "remaining-coverage-candidates/lg-172e4eba8298.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:37:02.078Z"
+    },
+    {
+      "id": "lg-94e7351921f4",
+      "input": "صَادْ سَاكِنَة",
+      "targetInput": "صْ",
+      "targetId": "lg-40ec7e34c947",
+      "sha256": "18de228936a88c9d86280184b90dfa72d3691f427b674c37f4670878949b5f72",
+      "file": "remaining-coverage-candidates/lg-94e7351921f4.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:42:48.985Z"
+    },
+    {
+      "id": "lg-9b23016caa50",
+      "input": "رَاءْ مُشَدَّدَة بِالْكَسْرَة",
+      "targetInput": "رِّ",
+      "targetId": "lg-4800c31a15bc",
+      "sha256": "7c585081ae19d32519f07b13bfed8cd933229bfd8868f93f8a891b6bf7d0ce9f",
+      "file": "remaining-coverage-candidates/lg-9b23016caa50.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:42:58.651Z"
+    },
+    {
+      "id": "lg-cf74c943ec31",
+      "input": "يَاءْ",
+      "targetInput": "ي",
+      "targetId": "lg-68a74b816924",
+      "sha256": "499042bb5b6d58af53ae62b4f7337fb3a1620208f0f64207542ac46bc876b63d",
+      "file": "remaining-coverage-candidates/lg-cf74c943ec31.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:44:07.731Z"
+    },
+    {
+      "id": "lg-437c1bcc3086",
+      "input": "سِينْ سَاكِنَة",
+      "targetInput": "سْ",
+      "targetId": "lg-8419a1f000f5",
+      "sha256": "817a95ce4d5cf3a56fbd51f4cb398dcd8661d7a30479a5b558bdd7e6dae0fd46",
+      "file": "remaining-coverage-candidates/lg-437c1bcc3086.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:44:14.823Z"
+    },
+    {
+      "id": "lg-757d9a72c2de",
+      "input": "لَامْ مُشَدَّدَة بِالْكَسْرَة",
+      "targetInput": "لِّ",
+      "targetId": "lg-934e0e0be0bf",
+      "sha256": "1b065146bd88e672ae6e68f2798bfd777326a22f2d4e509a931a070187b81a89",
+      "file": "remaining-coverage-candidates/lg-757d9a72c2de.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:44:40.733Z"
+    },
+    {
+      "id": "lg-c600a2422f76",
+      "input": "يَاءْ سَاكِنَة",
+      "targetInput": "يْ",
+      "targetId": "lg-a05e95241148",
+      "sha256": "07837dac5c92dd212c6ed4c4ddb67cde2b199207892d2293acf362344ca43e82",
+      "file": "remaining-coverage-candidates/lg-c600a2422f76.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:44:49.573Z"
+    },
+    {
+      "id": "lg-2417f5a49d80",
+      "input": "أَلِفْ مَمْدُودَة",
+      "targetInput": "آ",
+      "targetId": "lg-b3d1e2abe09a",
+      "sha256": "3074826bc682b8241ef0bd48a5f845457880ade5e9809ddccbc98577ea2f0867",
+      "file": "remaining-coverage-candidates/lg-2417f5a49d80.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:45:38.016Z"
+    },
+    {
+      "id": "lg-3ccb51abf0e1",
+      "input": "مِيمْ مُشَدَّدَة بِالْكَسْرَة",
+      "targetInput": "مِّ",
+      "targetId": "lg-bbcc3bf22bc3",
+      "sha256": "e8038426e5b951e9ba5c1a34a0f47ce8029f15d40fe7f0f82ed683740a9a3610",
+      "file": "remaining-coverage-candidates/lg-3ccb51abf0e1.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:45:52.878Z"
+    },
+    {
+      "id": "lg-26386f9541b6",
+      "input": "نُونْ",
+      "targetInput": "ن",
+      "targetId": "lg-cb92a8b00c69",
+      "sha256": "a2f73bccdbdeca0bb1cb2657cd5c7503742c343ad78d10ab081b47cbd5507c5b",
+      "file": "remaining-coverage-candidates/lg-26386f9541b6.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:46:25.873Z"
+    },
+    {
+      "id": "lg-09f0a0b2cfa1",
+      "input": "مِيمْ سَاكِنَة",
+      "targetInput": "مْ",
+      "targetId": "lg-cc81ca269fff",
+      "sha256": "a68ba07ebdecd3c33f14b2c28a28e737079b78d118f414802b8d4424cd5219f7",
+      "file": "remaining-coverage-candidates/lg-09f0a0b2cfa1.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:46:27.407Z"
+    },
+    {
+      "id": "lg-701935cc56f1",
+      "input": "ضَادْ مُشَدَّدَة بِالضَّمَّة",
+      "targetInput": "ضُّ",
+      "targetId": "lg-d653510e19f8",
+      "sha256": "94d749df8a00e208410f8e8cf75ec2371f6cd7f4a18e4b00723208f788c6dc25",
+      "file": "remaining-coverage-candidates/lg-701935cc56f1.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:46:47.548Z"
+    },
+    {
+      "id": "lg-bc62fa84d968",
+      "input": "دَالْ مُشَدَّدَة بِالْفَتْحَة",
+      "targetInput": "دَّ",
+      "targetId": "lg-e579296597d3",
+      "sha256": "c41fe663211aa393cbfe569ff830e5fbec0372adac3b9a4c438eaa44c430a3fc",
+      "file": "remaining-coverage-candidates/lg-bc62fa84d968.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:47:20.663Z"
+    },
+    {
+      "id": "lg-43f72326e856",
+      "input": "لَامْ سَاكِنَة",
+      "targetInput": "لْ",
+      "targetId": "lg-e686d089e785",
+      "sha256": "97e4456b49e5c8ad83a04d0412c38f1e8a1ba479a69351d03c90feeae70f8ea9",
+      "file": "remaining-coverage-candidates/lg-43f72326e856.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:47:24.972Z"
+    },
+    {
+      "id": "lg-5d142b36e596",
+      "input": "نُونْ سَاكِنَة",
+      "targetInput": "نْ",
+      "targetId": "lg-e7217df2947b",
+      "sha256": "9fec82978d7e379349e7917a9a6d5a797917041469e916b348e684374b7677e8",
+      "file": "remaining-coverage-candidates/lg-5d142b36e596.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:47:32.066Z"
+    }
+  ],
+  "note": "Not mapped to symbols. Description for بٌّ incorrectly says fatha; must be corrected to dammatan. Other descriptions await explicit game integration."
+}

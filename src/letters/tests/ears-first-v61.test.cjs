@@ -25,11 +25,13 @@ test("v61 Ears First: first-sound groups exist for SameStart / OddSound (at leas
 test("v61 Ears First: three listening games, no letters shown, in the practice garden's listen group", () => {
   const src = read("src/letters/EarsGames.js");
   assert.deepEqual(off(src), []);
-  assert.doesNotMatch(src.replace(/\/\/[^\n]*/g, ""), /Amiri|reportOutcome/, "no letters drawn, nothing reported to the letter model");
+  assert.doesNotMatch(src.replace(/\/\/[^\n]*/g, ""), /Amiri/, "the listening games do not draw written letters");
+  assert.match(src, /"independent_listening"/);
+  assert.match(src, /"motor_assembly_participation", this\.assisted, \[\], false/);
   const game = read("src/letters/LettersGame.js");
   assert.match(game, /\['listen',\['BeatDrum','SameStart','OddSound'\]\]/);
   assert.match(game, /\.\.\.\(ns\.EarsGames\?\.KINDS\|\|\[\]\),/);
   assert.match(game, /if\(ns\.EarsGames\)choices\.push\('BeatDrum','SameStart',\.\.\.\(this\.sprout\?\[\]:\['OddSound'\]\)\);/);
-  assert.match(read("letters.html"), /src\/letters\/EarsGames\.js\?v=20261016-v61/);
+  assert.match(read("letters.html"), /src\/letters\/EarsGames\.js\?v=20261028-v362/);
   assert.match(read("styles/letters-friends.css"), /@media \(prefers-reduced-motion: reduce\) \{ \.ea-beats i\.is-pulse \{ animation: none; \}/);
 });

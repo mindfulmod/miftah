@@ -1,0 +1,92 @@
+{
+  "candidateCount": 6,
+  "expected": 6,
+  "fullGenerationHeld": true,
+  "files": [
+    {
+      "target": "سُكُونْ",
+      "variant": "direct",
+      "file": "calibration-candidates/lg-b2e2e85d51f4.wav",
+      "inputMatches": true,
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "hashesMatch": true,
+      "pcmUnchanged": true,
+      "durationSeconds": 2.55,
+      "peakDbfs": -9.56,
+      "flags": [],
+      "streamingLengthHeader": false
+    },
+    {
+      "target": "سُكُونْ",
+      "variant": "context",
+      "file": "calibration-candidates/lg-82708484d53f.wav",
+      "inputMatches": true,
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "hashesMatch": true,
+      "pcmUnchanged": true,
+      "durationSeconds": 4.05,
+      "peakDbfs": -7.61,
+      "flags": [],
+      "streamingLengthHeader": false
+    },
+    {
+      "target": "مَا",
+      "variant": "direct",
+      "file": "calibration-candidates/lg-36b3714f9b0b.wav",
+      "inputMatches": true,
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "hashesMatch": true,
+      "pcmUnchanged": true,
+      "durationSeconds": 3.55,
+      "peakDbfs": -6.0,
+      "flags": [],
+      "streamingLengthHeader": false
+    },
+    {
+      "target": "مَا",
+      "variant": "context",
+      "file": "calibration-candidates/lg-68866e4ff5f9.wav",
+      "inputMatches": true,
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "hashesMatch": true,
+      "pcmUnchanged": true,
+      "durationSeconds": 2.45,
+      "peakDbfs": -8.32,
+      "flags": [],
+      "streamingLengthHeader": false
+    },
+    {
+      "target": "قُلْ",
+      "variant": "direct",
+      "file": "calibration-candidates/lg-95da19a9c3af.wav",
+      "inputMatches": true,
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "hashesMatch": true,
+      "pcmUnchanged": true,
+      "durationSeconds": 1.85,
+      "peakDbfs": -3.64,
+      "flags": [],
+      "streamingLengthHeader": false
+    },
+    {
+      "target": "قُلْ",
+      "variant": "context",
+      "file": "calibration-candidates/lg-4a6c040f4d47.wav",
+      "inputMatches": true,
+      "voice": "marin",
+      "model": "gpt-4o-mini-tts-2025-12-15",
+      "hashesMatch": true,
+      "pcmUnchanged": true,
+      "durationSeconds": 2.4,
+      "peakDbfs": -8.1,
+      "flags": [],
+      "streamingLengthHeader": false
+    }
+  ],
+  "listeningStatus": "Unreviewed; file checks cannot confirm pronunciation, voice consistency, noise or repetition."
+}

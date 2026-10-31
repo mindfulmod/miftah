@@ -37,11 +37,11 @@
     } else if (style === 'stomp') {
       if (t < 200) Object.assign(g, { sq: 1.03, lean: 4 });
       else if (t < 320) Object.assign(g, { sq: 0.86, lean: -2, arms: 20 });
-      else if (t < 580) Object.assign(g, { sq: 1.04, hop: 0.45, arms: still ? 30 : 30 + 14 * Math.sin(t / 50) });
+      else if (t < 580) Object.assign(g, { sq: 1.04, hop: 0.45, arms: still ? 30 : 30 + 8 * Math.sin(t / 130) });
       else g.sq = 0.92;
     } else if (style === 'flap') {
       if (t < 150) g.sq = 0.9;
-      else if (t < 650) Object.assign(g, { sq: 1.05, hop: 1.1, arms: still ? 40 : 30 + 28 * Math.sin(t / 45) });
+      else if (t < 650) Object.assign(g, { sq: 1.05, hop: 0.65, arms: still ? 40 : 30 + 14 * Math.sin(t / 135) });
       else g.sq = 0.94;
     } else {
       if (t < 200) g.sq = 0.82;
@@ -105,6 +105,7 @@
       // A pet that is scrolled away, hidden or zero-sized naps instead of animating.
       if (!onScreen()) { last = 0; nap = setTimeout(() => { nap = null; kick(); }, 400); return; }
       const still = !!reducedMotion();
+      const focused = !!host.closest?.('[data-attention="learn"]');
       const dt = Math.min(0.033, Math.max(0, (now - (last || now)) / 1000)); last = now;
       const u = cfg.unit, [ex, ey] = cfg.eye;
       if (act && act.ms == null) act.ms = CHEER_MS[cfg.style] || 700;
@@ -116,11 +117,12 @@
       let tgt = null;
       if (act?.at) tgt = resolve(act.at);
       if (!tgt && look) { tgt = resolve(look); if (tgt) { g.o = 1; g.brow = -6; } }
+      if (!tgt && focused) tgt = [ex, ey + 600 * u];
       if (!tgt) {
         if (!wander || now > wanderAt) {
           const r = Math.random();
-          wander = r < 0.7 ? [ex, ey + 600 * u] : [ex + (r < 0.85 ? -1 : 1) * 260 * u, ey - 40 * u];
-          wanderAt = now + 2200 + Math.random() * 1800;
+          wander = r < 0.7 ? [ex, ey + 600 * u] : [ex + (r < 0.85 ? -1 : 1) * 140 * u, ey - 20 * u];
+          wanderAt = now + 5500 + Math.random() * 3000;
         }
         tgt = wander;
       }
@@ -152,7 +154,7 @@
         // read as sadness in cartoon body language), eyes look up to think.
         g.head = -cfg.tilt; g.browTilt = 1; g.ear = 6; tgt = [ex - 160 * u, ey - 220 * u];
       } else if (act?.kind === 'wave') {
-        const swing = still ? 0 : Math.sin(t / 70);
+        const swing = still ? 0 : Math.sin(t / 150);
         if (cfg.style === 'flap') { g.armL = 35 + 25 * swing; g.armR = -g.armL; }
         else if (!cfg.arms) g.lean = cfg.lean * 1.4 * swing;
         else g.armR = -105 + 20 * swing;
@@ -167,11 +169,11 @@
           else if (cfg.style === 'squish') { g.sq = 0.92 + 0.12 * s; g.hop = -s * 0.2 * cfg.hop; g.lean = walking.dir * 2; }
           else { g.hop = -s * 0.35 * cfg.hop; g.sq = 1 + (s - 0.5) * 0.06; g.lean = walking.dir * 2; }
         }
-      } else if (!act && !look && !still) {
+      } else if (!act && !look && !still && !focused) {
         // Idle fidgets every few seconds keep the pet alive between moments.
-        if (!fidgetAt) fidgetAt = now + 5000 + Math.random() * 4000;
+        if (!fidgetAt) fidgetAt = now + 9000 + Math.random() * 5000;
         const f = now - fidgetAt;
-        if (f > 600) fidgetAt = now + 6000 + Math.random() * 4000;
+        if (f > 600) fidgetAt = now + 10000 + Math.random() * 5000;
         else if (f > 0) {
           const pulse = Math.sin(f / 600 * Math.PI);
           if (cfg.style === 'bounce') g.ear = 12 * pulse;
@@ -212,7 +214,7 @@
 
       // Apply. Every target is a dedicated wrapper, so existing CSS poses still work.
       const [gx, gy] = cfg.ground, sy = S.sq.x, sx = 1 + (1 - sy) * 0.8;
-      const breathe = still || cfg === SPECIES.blob ? 1 : 1 + Math.sin(now / 600) * 0.01;
+      const breathe = still || cfg === SPECIES.blob ? 1 : 1 + Math.sin(now / 950) * (focused ? 0.004 : 0.008);
       set('root', `translate(0 ${S.hop.x.toFixed(2)}) rotate(${S.lean.x.toFixed(2)} ${gx} ${gy}) translate(${gx} ${gy}) scale(${(sx * (2 - breathe)).toFixed(4)} ${(sy * breathe).toFixed(4)}) translate(${-gx} ${-gy})`);
       const [px, py] = cfg.head;
       set('head', `translate(${S.hx.x.toFixed(2)} ${S.hy.x.toFixed(2)}) rotate(${S.head.x.toFixed(2)} ${px} ${py})`);

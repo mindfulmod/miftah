@@ -40,8 +40,8 @@
   };
   const reportAssembly = (ctx, item, correct) =>
     reportOutcome(ctx, item, correct, "motor_assembly_participation");
-  const reportVisibleMatch = (ctx, item, correct) =>
-    reportOutcome(ctx, item, correct, "supported_visible_matching", false);
+  const reportVisibleMatch = (ctx, item, correct, details = {}) =>
+    reportOutcome(ctx, item, correct, "supported_visible_matching", false, details);
 
   function shuffle(arr) {
     const a = arr.slice();
@@ -83,6 +83,14 @@
   }
 
   function presentRound(ctx, round, activity) {
+    // Support carries between activities in this visit. Only ease a prepared
+    // round; a correct tap never increases the next round's demand mid-game.
+    if (ctx.supportedItemIds?.includes(round.target.id)) {
+      round.promptMode = "match";
+      round.movement = "still";
+      const other = round.options.find(item => item.id !== round.target.id);
+      round.options = round.options.filter(item => item.id === round.target.id || item === other);
+    }
     ctx.setPrompt(round.target, {
       promptMode: round.promptMode || "match",
       skill: round.skill || "letter_recognition",
@@ -94,6 +102,11 @@
 
   function helpAfterWrong(ctx, round, selected) {
     ctx.showLearningHint?.(round.target, selected);
+  }
+
+  function learningTargets(ctx, items, count) {
+    const planned=ns.LettersLearning?.planRounds?.({...ctx,items,rounds:count});
+    return planned?.length ? planned.map(round=>round.target) : shuffle(items).slice(0,count);
   }
 
   // Keep constructor preconditions in one place so the shell can route an
@@ -290,6 +303,7 @@
       this.sky.dataset.rows = this.laneCount > 2 && !this.widePond ? '2' : '1';
       const lanes = shuffle([...Array(this.laneCount).keys()]);
       round.options.forEach((item, i) => this.spawn(item, lanes[i]));
+      this.ctx.setupActionCue?.({ source: this.bubbles.find(b => b.item.id === round.target.id)?.el, type: "tap", automatic: !!this.ctx.firstActionDemo && this.roundIndex === 0 });
     }
 
     spawn(item, lane) {
@@ -403,9 +417,11 @@
       if (!this.alive || !this.completionReady) return;
       this.completionReady = false;
       this.nextBtn.disabled = true; this.replayBtn.disabled = true;
-      this.dock(this.found);
       this.roundIndex += 1;
-      if (this.roundIndex >= this.rounds.length) return this.finish();
+      // The last packet deserves the same landing as the earlier finds.
+      // Consume Continue first, so repeated taps cannot finish or reward twice.
+      if (this.roundIndex >= this.rounds.length) return this.dock(this.found, () => this.finish());
+      this.dock(this.found);
       this.startRound();
       this.bubbles[0]?.el.focus?.({preventScroll:true});
       this.lastTime=performance.now();
@@ -424,21 +440,22 @@
       }).join('');
     }
 
-    // The found packet sails to its jetty slot. The next round starts at once;
-    // the flight is a page-level ghost so it never delays or blocks play.
-    dock(found) {
+    // Intermediate finds travel while play continues. The final find hands
+    // control back only after landing (immediately with reduced motion).
+    dock(found, onLand = () => {}) {
       const art = found?.el?.querySelector?.('svg')?.outerHTML;
-      if (!art || !this.dockSlots || this.docked.length >= Math.min(6, this.rounds.length)) return;
+      if (!art || !this.dockSlots || this.docked.length >= Math.min(6, this.rounds.length)) { onLand(); return; }
       const index = this.docked.length;
       const from = found.el.querySelector('svg').getBoundingClientRect?.();
       this.docked.push(art);
       this.ctx.sfx?.('dock');
       const reduced = !!this.ctx.reducedMotion?.();
-      if (reduced || !from?.width || typeof document === 'undefined' || !document.body?.appendChild) { this.renderDock(index); return; }
+      if (reduced || !from?.width || typeof document === 'undefined' || !document.body?.appendChild) { this.renderDock(index); onLand(); return; }
       this.renderDock();
       const slot = this.dockSlots.children?.[index], to = slot?.getBoundingClientRect?.();
-      if (!slot || !to?.width) { this.renderDock(index); return; }
+      if (!slot || !to?.width) { this.renderDock(index); onLand(); return; }
       slot.classList.add('is-waiting');
+      found.el.classList.add('is-docking');
       const ghost = document.createElement('div');
       ghost.className = 'pond-dock-ghost';
       ghost.setAttribute('aria-hidden', 'true');
@@ -450,18 +467,29 @@
       const scale = Math.min(to.width / from.width, to.height / from.height) * .92;
       const flight = ghost.animate?.([
         { transform: 'none' },
-        { transform: `translate(${dx * .5}px, ${dy * .5 - 18}px) rotate(-6deg) scale(${(1 + scale) / 2})`, offset: .55 },
+        { transform: `translate(${dx * .5}px, ${dy * .5 - 6}px) scale(${(1 + scale) / 2})`, offset: .55 },
         { transform: `translate(${dx}px, ${dy}px) scale(${scale})` },
       ], { duration: 560, easing: 'cubic-bezier(.3,.7,.3,1)' });
+      let landed = false;
       const land = () => {
+        if (landed) return;
+        landed = true;
+        if (flight) { flight.onfinish = null; flight.oncancel = null; this.dockFlights?.delete(flight); flight.cancel(); }
         ghost.remove(); this.ghosts?.delete(ghost);
         if (!this.alive) return;
         slot.classList.remove('is-waiting');
         slot.classList.add('is-full', 'is-new');
         slot.innerHTML = art;
         this.ctx.pet?.inspect?.(slot, 600);
+        onLand();
       };
-      if (flight) flight.onfinish = land; else land();
+      if (flight) {
+        this.dockFlights = (this.dockFlights || new Set()).add(flight);
+        flight.onfinish = land; flight.oncancel = land;
+        // Animation completion is not a progression dependency: a browser
+        // that drops its finish event still settles the packet once.
+        this.later(land, 680);
+      } else land();
     }
 
     keepFoundVisible() {
@@ -520,6 +548,7 @@
       if(this.frame!=null)cancelAnimationFrame(this.frame);
       this.frame=null;
       this.timers?.forEach(clearTimeout); this.timers?.clear();
+      this.dockFlights?.forEach(flight => { flight.onfinish = null; flight.oncancel = null; flight.cancel(); }); this.dockFlights?.clear();
       this.ghosts?.forEach(ghost => ghost.remove()); this.ghosts?.clear();
       window.removeEventListener("resize", this.onResize);
     }
@@ -546,6 +575,7 @@
       // A short collection project (update 4): the basket shows a slot for each
       // fruit to gather and fills as the child catches them.
       this.harvest = [];
+      this.timers = new Set();
       // Fruit sits inside the basket's own drawing, between its interior and rim.
       const back = this.basket?.querySelector?.("svg"), interior = back?.querySelector?.('ellipse[rx="74"]');
       if (interior) interior.insertAdjacentHTML("afterend", '<g class="catch-pile" aria-hidden="true"></g>');
@@ -619,6 +649,7 @@
       this.spawnTimer = 0;
       this.spawnFlip = false;
       const round = this.rounds[this.roundIndex];
+      presentRound(this.ctx, round, "catch");
       this.still = !!this.ctx.reducedMotion?.() || round.movement !== "gentle";
       this.ctx.stage.classList.toggle("catch-still", this.still);
       this.clearFallers();
@@ -632,7 +663,6 @@
         this.basket.removeAttribute("aria-hidden");
       }
       this.ctx.setRoundProgress?.(this.roundIndex + 1, this.rounds.length);
-      presentRound(this.ctx, round, "catch");
       if(this.still)this.stationaryChoices(round);
       else this.requestTick();
       if (focus) (this.fallers[0]?.el || this.basket).focus?.({preventScroll:true});
@@ -645,17 +675,30 @@
         const el=document.createElement('button');
         el.type='button';el.className='catch-faller catch-choice';
         el.setAttribute('aria-label',item.display);
-        el.innerHTML=orchardFruit(item.display);
+        el.innerHTML=`<span class="catch-stem" aria-hidden="true"></span>${orchardFruit(item.display)}`;
         const x=.18+(round.options.length>1?i*.64/(round.options.length-1):.32);
         el.style.left=`${x*100}%`;el.style.top='25%';
         const f={el,item,x};this.fallers.push(f);this.field.appendChild(el);
         el.addEventListener('click',()=>this.catchStationary(f));
         f.resetDrag=ns.GardenPractice?.draggable(el,{
-          enabled:()=>this.alive&&!this.settling&&this.fallers.includes(f),
+          enabled:()=>this.alive&&!this.settling&&!f.el.disabled&&this.fallers.includes(f),
+          onDragStart:()=>el.classList.add('is-picked'),
           onDragMove:(x,y)=>this.basket.classList.toggle('is-near',this.basketContains(x,y)),
-          onDragEnd:()=>this.basket.classList.remove('is-near'),
-          drop:(x,y,released)=>{if(this.basketContains(x,y))this.catchStationary(f,released);}
+          onDragEnd:()=>{this.basket.classList.remove('is-near');el.classList.remove('is-picked');},
+          drop:(x,y,released)=>this.basketContains(x,y)?this.catchStationary(f,released):false
         });
+      });
+      this.setupCatchCue();
+    }
+
+    setupCatchCue() {
+      this.actionCue?.destroy(); this.actionCue = null;
+      if (!this.alive || this.settling || !this.still) return;
+      const target = this.rounds[this.roundIndex]?.target;
+      const fruit = this.fallers.find(f => f.item.id === target?.id && !f.el.disabled);
+      if (fruit) this.actionCue = this.ctx.setupActionCue?.({
+        source: fruit.el, destination: this.basket, destinationY: 52 / 112, type: 'drag',
+        automatic: !!this.ctx.firstActionDemo && this.roundIndex === 0,
       });
     }
 
@@ -678,16 +721,26 @@
     }
 
     catchStationary(f,releaseRect=null) {
-      if(!this.alive || this.settling || !this.fallers.includes(f))return;
+      if(!this.alive || this.settling || f.el.disabled || !this.fallers.includes(f))return false;
       const round=this.rounds[this.roundIndex];
       // Keep the stationary basket in place during a retry; the destination
       // should not move away from a child who is learning to drag.
       if(f.item.id!==round.target.id){
         this.slips++;this.heat.down();reportPromptMatch(this.ctx,round,false,f.item,"catch");helpAfterWrong(this.ctx,round,f.item);this.ctx.sfx('wrong');
         round.options=round.options.filter(o=>o.id!==f.item.id);
-        this.remove(f);this.ctx.say(round.target);return;
+        // A calm, visible retry keeps the picked fruit in context before it
+        // settles away. Repeated touches cannot count the same slip twice.
+        f.el.disabled=true;
+        if(this.ctx.reducedMotion?.())this.remove(f);
+        else {
+          f.el.classList.add('is-resting');
+          const timer=setTimeout(()=>{this.timers.delete(timer);if(this.alive&&this.fallers.includes(f))this.remove(f);},360);
+          (this.timers ||= new Set()).add(timer);
+        }
+        this.ctx.say(round.target);return false;
       }
       this.success(f,releaseRect);
+      return true;
     }
 
     success(f,releaseRect=null) {
@@ -762,8 +815,9 @@
       const x = 0.12 + Math.random() * 0.76;
       el.style.left = `${x * 100}%`;
       this.field.appendChild(el);
-      const pace = 1 + 0.2 * (this.ctx.level || 0);
-      const f = { el, item, x, y: -0.15, speed: (0.16 + Math.random() * 0.05) * pace };
+      // Reaching moving play is already a new demand. Stars and a streak of
+      // correct letters must not secretly accelerate a young child's basket.
+      const f = { el, item, x, y: -0.15, speed: 0.14 + Math.random() * 0.02 };
       el.style.transform = `translate3d(-50%, ${f.y * this.fieldH}px, 0)`;
       this.fallers.push(f);
       el.addEventListener("click",()=>this.catchStationary(f));
@@ -781,7 +835,7 @@
       const round = this.rounds[this.roundIndex];
       for (const f of this.fallers.slice()) {
         const previousY=f.y;
-        f.y += f.speed * this.heat.factor() * dt;
+        f.y += f.speed * dt;
         f.el.style.transform = `translate3d(-50%, ${f.y * this.fieldH}px, 0)`;
         if (this.catchesFruit(f,previousY)) {
           if (f.item.id === round.target.id) return this.success(f);
@@ -824,6 +878,7 @@
     }
 
     clearFallers() {
+      this.actionCue?.destroy(); this.actionCue = null;
       for (const f of (this.fallers || [])) {f.resetDrag?.();f.el.remove();}
       this.fallers = [];
     }
@@ -840,6 +895,7 @@
       if (this.frame != null) cancelAnimationFrame(this.frame);
       this.frame = null;
       this.landing?.cancel();
+      this.timers?.forEach(clearTimeout);this.timers?.clear();
       window.removeEventListener("resize", this.onResize);
       this.ctx.stage?.removeEventListener?.("pointermove",this.moveBasket);
       this.ctx.stage?.removeEventListener?.("pointerdown",this.moveBasket);
@@ -856,10 +912,11 @@
       this.slips = 0;
       this.boards = ctx.rounds === 2 ? 1 : 2;
       this.boardIndex = 0;
+      this.coachedPairs = new Set();
       if (ctx.beginner) {
         const seen = new Set();
         this.beginnerPairs = [];
-        for (const item of shuffle(ctx.items)) {
+        for (const item of learningTargets({...ctx,activity:'pairs'},ctx.items,ctx.items.length)) {
           if (seen.has(item.id)) continue;
           seen.add(item.id);
           this.beginnerPairs.push(item);
@@ -896,7 +953,7 @@
           picks.push(item);
         }
       } else {
-        for (const item of shuffle(ctx.items)) {
+        for (const item of learningTargets({...ctx,activity:'pairs'},ctx.items,ctx.items.length)) {
           if (picks.length >= this.pairCount) break;
           if (seen.has(item.id)) continue;
           seen.add(item.id);
@@ -939,17 +996,26 @@
         const reset=this.wireDrag(card);
         if(reset)this.dragResets.push(reset);
       }
-      // Wordless instruction: one matching pair glows in sync for a moment —
-      // "see? these two belong together" — then the child takes over.
       if (!this.cards.length) {this.alive = false;ctx.onDone(this.slips);return;}
       if (focus) this.cards[0].el.focus?.({preventScroll:true});
-      const demoId = this.cards[0].id;
-      const demoEls = this.cards.filter((c) => c.id === demoId).map((c) => c.el);
-      for (const el of demoEls) el.classList.add("is-demo");
-      this.demoTimer=setTimeout(() => {
-        if (!this.alive || this.boardIndex!==board) return;
-        for (const el of demoEls) el.classList.remove("is-demo");
-      }, 1500);
+      this.setupPairCue(!!ctx.firstActionDemo && this.boardIndex === 0);
+    }
+
+    setupPairCue(automatic = false) {
+      this.actionCue?.destroy(); this.actionCue = null;
+      if (!this.alive || this.complete || !this.ctx.setupActionCue) return;
+      const first = this.selected?.card || this.cards.find(c => !c.el.classList.contains('is-matched'));
+      const mate = first && this.cards.find(c => c !== first && c.id === first.id && !c.el.classList.contains('is-matched'));
+      if (!mate) return;
+      this.actionCue = this.ctx.setupActionCue({
+        source: this.selected ? mate.el : first.el,
+        destination: mate.el,
+        type: this.selected ? 'tap' : 'pair', automatic,
+        onShow: () => {
+          if (!this.alive || !this.cards.includes(first) || first.el.classList.contains('is-matched')) return;
+          (this.coachedPairs ||= new Set()).add(first.id);
+        },
+      });
     }
 
     wireDrag(card) {
@@ -990,9 +1056,10 @@
 
     dropPair(card,x,y) {
       const partner=this.dropPartner(card,x,y);
-      if(!partner||card.el.classList.contains('is-matched'))return;
+      if(!partner||card.el.classList.contains('is-matched'))return false;
       this.beginDrag(card);
       this.pick(partner,partner.el);
+      return card.el.classList.contains('is-matched');
     }
 
     pick(card, el) {
@@ -1001,16 +1068,19 @@
       if (this.complete) return;
       this.cards.forEach(c=>c.el.classList.remove("is-demo"));
       if (!this.selected) {
+        this.ctx.beginRound?.(card,{skill:'matching-memory',activity:'pairs',choiceIds:this.cards.filter(c=>!c.el.classList.contains('is-matched')).map(c=>c.id)});
         this.ctx.say(card);
         this.selected = { card, el };
         el.classList.add("is-selected");
         el.setAttribute("aria-pressed","true");
+        this.setupPairCue();
         return;
       }
       if (this.selected.el === el) {
         el.classList.remove("is-selected");
         el.setAttribute("aria-pressed","false");
         this.selected = null;
+        this.setupPairCue();
         return;
       }
       const first = this.selected;
@@ -1026,8 +1096,12 @@
           node.setAttribute('aria-label', `Hear ${item.display}`);
           node.insertAdjacentHTML('beforeend', `<span class="orchard-listen" aria-hidden="true">${Art.icon('speaker',18)}</span>`);
         }
-        this.pots[this.matched]?.classList.add('is-grown');
-        reportVisibleMatch(this.ctx, first.card, true);
+        const pot=this.pots[this.matched];
+        pot?.classList.add('is-grown');
+        // The pair makes a labelled sprout: its two matching leaves become
+        // something the child can see growing, rather than just faded cards.
+        pot?.insertAdjacentHTML?.('beforeend',`<span class="pairs-plant-label">${workshopTile(card.display,'leaf',38)}</span>`);
+        reportVisibleMatch(this.ctx, first.card, true, { assisted: !!this.coachedPairs?.has(first.card.id) });
         this.ctx.sfx("correct");
         this.ctx.confettiAt(el);
         this.matched += 1;
@@ -1045,7 +1119,7 @@
         first.el.setAttribute("aria-pressed","true");
         this.ctx.say(first.card);
         this.slips += 1;
-        reportVisibleMatch(this.ctx, first.card, false);
+        reportVisibleMatch(this.ctx, first.card, false, { assisted: !!this.coachedPairs?.has(first.card.id) });
         this.ctx.sfx("wrong");
         for (const e of [el]) {
           e.classList.remove("is-shake");
@@ -1059,6 +1133,7 @@
           mate?.el.classList.add("is-hint");
         }
       }
+      this.setupPairCue();
     }
 
     nextBoard(focus = false) {
@@ -1069,7 +1144,7 @@
       this.buildBoard(focus);
     }
 
-    destroy() { this.alive = false; this.dragResets?.forEach(reset=>reset()); clearTimeout(this.demoTimer); this.stopHint?.(); }
+    destroy() { this.alive = false; this.actionCue?.destroy(); this.dragResets?.forEach(reset=>reset()); clearTimeout(this.demoTimer); this.stopHint?.(); }
   }
 
   // ---------- Feed: deliver a packet and enjoy the picnic together ----------
@@ -1081,18 +1156,19 @@
       this.roundIndex = 0;
       this.slips = 0;
       this.timers = new Set();
+      this.deliveries=[];
       if (!this.rounds.length) { this.alive = false; ctx.onDone(0); return; }
       ctx.stage.innerHTML = `
         <div class="feed-scene">
           <button type="button" aria-label="Feed your pet or hear the letter again" class="feed-creature">${ctx.petArt ? ctx.petArt() : Art.creature({ hue: (ctx.hue + 140) % 360 })}</button>
-          <button type="button" class="feed-basket" aria-label="Deliver the selected seed packet" aria-disabled="true" disabled>${orchardBasket()}<span class="feed-delivered" aria-hidden="true"></span><span class="feed-basket-front" aria-hidden="true">${orchardBasket(true)}</span></button>
+          <button type="button" class="feed-basket" aria-label="Deliver the selected seed packet" aria-disabled="true" disabled>${orchardBasket()}<span class="feed-delivered" aria-hidden="true"></span><span class="feed-basket-front" aria-hidden="true">${orchardBasket(true)}</span>${ctx.sharePicnic?'<span class="feed-pantry" aria-hidden="true" hidden></span>':''}</button>
           <div class="feed-tray"></div>
           <div class="feed-finish" hidden><button type="button" class="feed-replay lg-round-btn" aria-label="Hear the delivered letter again">${Art.icon("speaker", 30)}</button><button type="button" class="feed-next lg-big-btn" aria-label="Continue">${Art.icon("next", 36)}</button></div>
         </div>`;
       this.creatureEl = ctx.stage.querySelector(".feed-creature");
       this.creatureEl.onclick=()=>{
         if(!this.alive)return;
-        if(this.selected&&!this.feeding)this.offer(this.selected.item,this.selected.el);
+        if(this.selected&&!this.feeding)this.offer(this.selected.item,this.selected.el,null,'friend');
         else if(ctx.onPetTap)ctx.onPetTap();else ctx.say(this.rounds[this.roundIndex].target);
       };
       this.scene = ctx.stage.querySelector('.feed-scene');
@@ -1116,15 +1192,19 @@
       this.dragResets.forEach(reset=>reset());this.dragResets=[];this.selected=null;
       this.feeding = false; this.completionReady = false;
       this.setDeliveryNear(false);
+      this.creatureEl.classList.remove('is-chomp');
       this.scene.classList.remove('is-delivered');
       this.finishEl.hidden = true;
       this.nextBtn.disabled = true; this.replayBtn.disabled = true;
       if(this.basket){this.basket.classList.remove("is-ready","is-near","is-filled");this.basket.setAttribute("aria-disabled","true");this.basket.disabled=true;}
       if(this.delivered)this.delivered.innerHTML='';
+      this.renderPantry();
+      if(this.ctx.sharePicnic)this.nextBtn.setAttribute('aria-label',this.roundIndex===this.rounds.length-1?'Visit your picnic':'Continue');
       const round = this.rounds[this.roundIndex];
       this.ctx.setRoundProgress?.(this.roundIndex + 1, this.rounds.length);
       presentRound(this.ctx, round, "feed");
       this.tray.innerHTML = "";
+      let actionSource = null;
       for (const item of round.options) {
         const el = document.createElement("button");
         el.type = "button";
@@ -1136,9 +1216,9 @@
           this.dragResets.push(ns.GardenPractice.draggable(el,{
             enabled:()=>this.alive&&!this.feeding&&!el.disabled,
             onDragStart:()=>{this.ctx.petReact?.('thinking');this.ctx.pet?.watch(el);this.ctx.pet?.reach(el);},
-            onDragMove:(x,y)=>this.setDeliveryNear(this.deliveryContains(x,y)),
+            onDragMove:(x,y)=>this.setDeliveryNear(this.deliveryTarget(x,y)),
             onDragEnd:()=>{this.setDeliveryNear(false);this.ctx.petReact?.('presenting');this.ctx.pet?.settle();},
-            drop:(x,y,released)=>{if(this.deliveryContains(x,y))this.offer(item,el,released);}
+            drop:(x,y,released)=>{const destination=this.deliveryTarget(x,y);return destination?this.offer(item,el,released,destination):false;}
           }));
           el.addEventListener('click',()=>{
             if(!this.alive||this.feeding||el.disabled)return;
@@ -1151,10 +1231,34 @@
           });
         }else el.addEventListener("click", () => this.offer(item, el));
         this.tray.appendChild(el);
+        if (item.id === round.target.id) actionSource = el;
       }
+      this.ctx.setupActionCue?.({ source: actionSource, destination: () => this.creatureEl.querySelector?.(":scope > svg, :scope > .lg-animal") || this.creatureEl, type: this.ctx.garden ? "drag" : "tap", automatic: !!this.ctx.firstActionDemo && this.roundIndex === 0 });
+    }
+
+    renderPantry() {
+      if(!this.ctx.sharePicnic)return;
+      const kept=this.deliveries.filter(d=>d.destination==='basket');
+      const latest=kept.at(-1)?.item;
+      this.delivered.innerHTML=latest?ns.LettersGardenArt.seedPacket(glyphText(latest.display,{maxSize:44,fill:'#4a3620'})):'';
+      this.basket.classList.toggle('is-filled',kept.length>0);
+      const count=this.basket.querySelector('.feed-pantry');
+      if(count){count.hidden=!kept.length;count.innerHTML=kept.map(()=>'<i></i>').join('');}
+    }
+
+    openPicnic() {
+      this.dragResets.forEach(reset=>reset());this.dragResets=[];
+      this.timers.forEach(clearTimeout);this.timers.clear();
+      this.picnic=new ns.FeedPicnic(this.ctx,this.deliveries,()=>{
+        if(!this.alive)return;this.destroy();this.ctx.onDone(this.slips);
+      });
     }
 
     deliveryContains(x,y) {
+      return !!this.deliveryTarget(x,y);
+    }
+
+    deliveryTarget(x,y) {
       const contains=(el,padding=0)=>{
         const r=el?.getBoundingClientRect?.();
         return r&&r.width>0&&r.height>0&&x>=r.left-padding&&x<=r.left+r.width+padding&&y>=r.top-padding&&y<=r.top+r.height+padding;
@@ -1164,12 +1268,19 @@
       // Children aim for the whole friend. Use the art bounds, not its full-width
       // layout wrapper, and allow a finger-width of room around both destinations.
       const friend=this.creatureEl?.querySelector?.(':scope > svg, :scope > .lg-animal');
-      return !!(contains(friend,32)||contains(this.basket,32));
+      if(contains(friend))return 'friend';
+      if(contains(this.basket))return 'basket';
+      if(contains(friend,32)&&contains(this.basket,32)){
+        const distance=el=>{const r=el.getBoundingClientRect();return Math.hypot(x-r.left-r.width/2,y-r.top-r.height/2);};
+        return distance(friend)<distance(this.basket)?'friend':'basket';
+      }
+      return contains(friend,32)?'friend':contains(this.basket,32)?'basket':false;
     }
 
     setDeliveryNear(near) {
-      this.basket?.classList.toggle('is-near',near);
-      this.creatureEl?.classList.toggle('is-near',near);
+      this.basket?.classList.toggle('is-near',near==='basket');
+      this.basket?.classList.toggle('is-other-target',near==='friend');
+      this.creatureEl?.classList.toggle('is-near',near==='friend');
     }
 
     later(fn, delay) {
@@ -1177,9 +1288,9 @@
       this.timers.add(timer);
     }
 
-    offer(item, el, releaseRect = null) {
+    offer(item, el, releaseRect = null, destination = 'basket') {
       const round = this.rounds[this.roundIndex];
-      if (!this.alive || this.feeding || el.disabled || this.tray?.contains?.(el) === false || el.classList.contains("is-scaffolded")) return;
+      if (!this.alive || this.feeding || el.disabled || this.tray?.contains?.(el) === false || el.classList.contains("is-scaffolded")) return false;
       if (item.id !== round.target.id) {
         el.disabled=true; this.selected=null;
         el.setAttribute("aria-pressed","false");
@@ -1196,20 +1307,25 @@
         // Scaffolded retry: the refused food quietly leaves the tray.
         const retryRound=this.roundIndex;
         this.later(() => {if(this.roundIndex===retryRound)el.classList.add("is-scaffolded");}, 650);
-        return;
+        return false;
       }
       this.feeding = true;
+      this.setDeliveryNear(false);
       this.ctx.clearLearningHint?.();
       this.tray?.querySelectorAll("button").forEach(b=>b.disabled=true);
       // Delivery geometry starts at the actual pointer release, not the old tray slot.
       if(this.basket){this.basket.classList.remove("is-ready");this.basket.setAttribute("aria-disabled","true");this.basket.disabled=true;}
       const base = el.getBoundingClientRect();
       const from = releaseRect || base;
-      const mouth = (this.basket || this.creatureEl).getBoundingClientRect();
+      const feedingFriend=destination==='friend'||!this.basket;
+      this.deliveryDestination=feedingFriend?'friend':'basket';
+      if(this.ctx.sharePicnic)this.deliveries.push({item:round.target,destination:this.deliveryDestination});
+      const receiver=feedingFriend?(this.creatureEl.querySelector?.(':scope > svg, :scope > .lg-animal')||this.creatureEl):this.basket;
+      const mouth = receiver.getBoundingClientRect();
       el.style.setProperty("--fly-start-x", `${from.left+from.width/2-(base.left+base.width/2)}px`);
       el.style.setProperty("--fly-start-y", `${from.top+from.height/2-(base.top+base.height/2)}px`);
       el.style.setProperty("--fly-x", `${mouth.left + mouth.width / 2 - (base.left + base.width / 2)}px`);
-      el.style.setProperty("--fly-y", `${mouth.top + mouth.height * (this.basket ? 0.48 : 0.68) - (base.top + base.height / 2)}px`);
+      el.style.setProperty("--fly-y", `${mouth.top + mouth.height * (feedingFriend ? 0.68 : 0.48) - (base.top + base.height / 2)}px`);
       el.classList.add("is-flying");
       reportPromptMatch(this.ctx, round, true, item, "feed");
       this.ctx.sfx("correct");
@@ -1222,22 +1338,29 @@
       this.nextBtn.focus?.({preventScroll:true});
       this.later(() => {
         if (!this.completionReady || this.roundIndex !== deliveryRound) return;
-        if(this.delivered)this.delivered.innerHTML=el.innerHTML;
-        if(this.basket)this.basket.classList.add("is-filled");
+        if(!feedingFriend&&this.delivered)this.delivered.innerHTML=el.innerHTML;
+        if(!feedingFriend&&this.basket)this.basket.classList.add("is-filled");
+        this.renderPantry();
         this.ctx.petReact?.("proud");
-        this.ctx.pet?.cheer(() => this.ctx.pet?.inspect(this.delivered || this.basket, 1600));
+        this.ctx.pet?.cheer(() => {
+          if(!this.alive||!this.completionReady||this.roundIndex!==deliveryRound)return;
+          if(feedingFriend)this.ctx.pet?.settle();
+          else this.ctx.pet?.inspect(this.delivered || this.basket, 1600);
+        });
         this.creatureEl.classList.remove("is-chomp");
         void this.creatureEl.offsetWidth;
         this.creatureEl.classList.add("is-chomp");
         this.ctx.confettiAt(this.creatureEl);
       }, this.ctx.reducedMotion?.() ? 0 : 320);
+      return true;
     }
 
     replayDelivered() {
       if (!this.alive || !this.completionReady) return;
       this.ctx.say(this.rounds[this.roundIndex].target);
       this.ctx.petReact?.('listening');
-      this.ctx.pet?.inspect(this.delivered || this.basket, 900);
+      if(this.deliveryDestination==='friend')this.ctx.pet?.settle();
+      else this.ctx.pet?.inspect(this.delivered || this.basket, 900);
     }
 
     continueDelivery() {
@@ -1246,6 +1369,7 @@
       this.nextBtn.disabled = true; this.replayBtn.disabled = true;
       this.roundIndex += 1;
       if (this.roundIndex >= this.rounds.length) {
+        if(this.ctx.sharePicnic&&ns.FeedPicnic)return this.openPicnic();
         this.destroy();
         return this.ctx.onDone(this.slips);
       }
@@ -1255,6 +1379,7 @@
 
     destroy() {
       this.alive = false; this.completionReady = false;
+      this.picnic?.destroy();
       this.dragResets?.forEach(reset=>reset());this.timers?.forEach(clearTimeout);this.timers?.clear();
     }
   }
@@ -1268,8 +1393,9 @@
     constructor(ctx) {
       this.ctx = ctx;
       this.inkColor = DrawingPalette.startForPet(ctx.petHue);
-      const pool = shuffle(ctx.items).filter((i) => (i.display || "").length <= 3);
-      this.targets = (pool.length ? pool : shuffle(ctx.items)).slice(0, Math.min(3, ctx.rounds || 3));
+      const pool = ctx.items.filter((i) => (i.display || "").length <= 3);
+      const candidates=pool.length?pool:ctx.items;
+      this.targets = learningTargets({...ctx,activity:'trace'},candidates,Math.min(candidates.length,3,ctx.rounds||3));
       this.roundIndex = 0;
       this.slips = 0;
       this.alive = true;
@@ -1655,9 +1781,13 @@
       this.count = 0;
       this.alive = true;
       this.paused = false;
+      this.started = false;
+      this.supported = false;
+      this.roundIndex = 0;
+      this.prepareRounds();
       this.duration = 30000;
       this.remaining = this.duration;
-      this.endsAt = performance.now() + this.remaining;
+      this.endsAt = null;
       this.frameSequence = 0;
       this.pendingFrame = null;
       ctx.stage.innerHTML = `
@@ -1667,7 +1797,7 @@
             <circle class="burst-ring-fill" cx="30" cy="30" r="25" fill="none" stroke="#e8743c" stroke-width="6"
               stroke-linecap="round" stroke-dasharray="157" transform="rotate(-90 30 30)"/>
           </svg>
-          <button type="button" class="burst-pause" aria-label="Pause challenge">
+          <button type="button" class="burst-pause" aria-label="Start challenge">
             <svg viewBox="0 0 64 64" aria-hidden="true"><rect x="17" y="12" width="10" height="40" rx="4" fill="currentColor"/><rect x="37" y="12" width="10" height="40" rx="4" fill="currentColor"/></svg>
           </button>
         </div>
@@ -1681,7 +1811,7 @@
       this.caughtEl = ctx.stage.querySelector(".burst-caught");
       this.pauseButton = ctx.stage.querySelector(".burst-pause");
       this.grid = ctx.stage.querySelector(".burst-grid");
-      this.onPauseClick = () => (this.paused ? this.resume() : this.pause());
+      this.onPauseClick = () => !this.started ? this.start() : this.paused ? this.resume() : this.pause();
       this.pauseButton?.addEventListener?.("click", this.onPauseClick);
       this.onVisibilityChange = () => {
         if (document.hidden) this.pause();
@@ -1689,16 +1819,54 @@
       if (typeof document !== "undefined" && document.addEventListener) {
         document.addEventListener("visibilitychange", this.onVisibilityChange);
       }
-      this.heat = makeHeat();
-      this.nextTarget();
       this.tick = this.tick.bind(this);
+      this.ctx.stage?.classList?.add?.("is-ready");
+      this.pauseButton.innerHTML = Art.icon("next", 30);
+      this.pauseButton.setAttribute("aria-label", "Start challenge");
+      this.pauseButton.classList.add("is-hint");
+      this.nextTarget();
+      if (this.alive) this.grid.inert = true;
+    }
+
+    prepareRounds() {
+      const ids = new Set(), marks = new Set(), ctx = this.ctx;
+      const items = (ctx.items || []).filter(item => {
+        if (!item?.id || !item.display || item.taught === false || item.isTaught === false || item.locked === true || item.unlocked === false) return false;
+        if ((item.prerequisiteWorldIds || []).some(id => id !== ctx.worldId && !(ctx.completedWorldIds || []).includes(id))) return false;
+        const mark = String(item.display).normalize('NFC');
+        if (ids.has(item.id) || marks.has(mark)) return false;
+        ids.add(item.id); marks.add(mark); return true;
+      });
+      const known = new Map(items.map(item => [item.id, item]));
+      // The clock is the optional challenge. Choice demand still comes from
+      // prior learning, and is frozen before the first timed answer.
+      const planned = ns.LettersLearning?.planRounds?.({...ctx, challenge:false, items, extraItems:[], rounds:Math.min(12,items.length)})
+        ?? shuffle(items).map(target => ({target, options:[target,...items.filter(item => item !== target).slice(0,1)], promptMode:'match', choiceCount:2, skill:'letter-name'}));
+      this.rounds = planned.filter(round => known.has(round?.target?.id)).map(round => {
+        const target = known.get(round.target.id), seen = new Set([target.id]);
+        const options = [target];
+        for (const option of round.options || []) {
+          if (!known.has(option.id) || seen.has(option.id)) continue;
+          seen.add(option.id); options.push(known.get(option.id));
+        }
+        return {...round, target, options};
+      });
+      this.choiceLimit = Math.min(3,...this.rounds.map(round => Math.max(1,Math.min(round.options.length,Number(round.choiceCount)||2))));
+    }
+
+    start() {
+      if (!this.alive || this.started || (typeof document !== "undefined" && document.hidden)) return;
+      this.started = true;
+      this.endsAt = performance.now() + this.remaining;
+      this.ctx.stage?.classList?.remove?.("is-ready");
+      this.setPausedUI(false);
+      this.announceRound();
       this.scheduleFrame();
       this.startEndTimer();
-      if (typeof document !== "undefined" && document.hidden) this.pause();
     }
 
     scheduleFrame() {
-      if (!this.alive || this.paused || this.pendingFrame != null) return;
+      if (!this.alive || !this.started || this.paused || this.pendingFrame != null) return;
       const token = ++this.frameSequence;
       this.pendingFrame = token;
       requestAnimationFrame((now) => {
@@ -1710,7 +1878,7 @@
 
     startEndTimer() {
       clearInterval(this.endTimer);
-      if (!this.alive || this.paused) return;
+      if (!this.alive || !this.started || this.paused) return;
       this.endTimer = setInterval(() => this.tick(performance.now(), false), 500);
     }
 
@@ -1718,6 +1886,7 @@
       this.ctx.stage?.classList?.toggle?.("is-paused", paused);
       if (this.grid) this.grid.inert = paused;
       if (!this.pauseButton) return;
+      this.pauseButton.classList.toggle("is-hint", paused);
       this.pauseButton.setAttribute("aria-label", paused ? "Resume challenge" : "Pause challenge");
       this.pauseButton.innerHTML = paused
         ? Art.icon("next", 30)
@@ -1725,7 +1894,7 @@
     }
 
     pause() {
-      if (!this.alive || this.paused) return;
+      if (!this.alive || !this.started || this.paused) return;
       const now = performance.now();
       // Settle a deadline that elapsed before the pause/visibility event.
       this.tick(now, false);
@@ -1749,26 +1918,26 @@
       this.ctx.onPauseChange?.(false);
       // This is a fresh auditory prompt after pause cancelled the old one;
       // announce it again so the shell also restarts response-time evidence.
-      this.ctx.setPrompt(this.target);
-      this.ctx.say(this.target);
+      this.announceRound();
       this.scheduleFrame();
       this.startEndTimer();
     }
 
     nextTarget() {
-      const pool = shuffle(this.ctx.items);
-      this.target = pool[0];
-      // Rubber band: the grid grows from 4 tiles toward 6 as the streak
-      // heats up, and shrinks back after misses.
-      const tileCount = Math.min(4 + Math.floor((this.heat ? this.heat.value() : 0) / 2), 6, pool.length);
-      const tiles = pool.slice(0, tileCount);
-      if (!tiles.includes(this.target)) tiles[0] = this.target;
-      this.ctx.setPrompt(this.target);
-      this.ctx.say(this.target);
+      if (!this.alive) return;
+      const planned = this.rounds[this.roundIndex++ % this.rounds.length];
+      if (!planned) { this.alive=false; this.teardown(); this.ctx.cancel?.(); return; }
+      this.ctx.clearLearningHint?.();
+      this.target = planned.target;
+      const supported = this.supported || this.ctx.supportedItemIds?.includes(this.target.id);
+      if (supported) this.supported = true;
+      const count = Math.min(this.choiceLimit, supported ? 2 : 3);
+      this.round = {...planned, options:shuffle(planned.options.slice(0,count)),
+        promptMode:supported || count < 2 ? 'match' : planned.promptMode || 'match'};
       this.misses = 0;
       this.grid.innerHTML = "";
-      this.grid.setAttribute("data-count",String(tiles.length));
-      for (const item of shuffle(tiles)) {
+      this.grid.setAttribute("data-count",String(this.round.options.length));
+      for (const item of this.round.options) {
         const el = document.createElement("button");
         el.type = "button";
         el.className = "burst-tile";
@@ -1777,25 +1946,39 @@
         el.addEventListener("click", () => this.tap(item, el));
         this.grid.appendChild(el);
       }
+      if (this.started) this.announceRound();
+      // Preview is exploration: response-time evidence begins only at Play.
+      else this.ctx.setPrompt(this.target,{promptMode:'explore',skill:this.round.skill,choiceIds:this.round.options.map(item=>item.id),activity:'burst'});
+      Art.fitGlyphs?.(this.grid);
+    }
+
+    announceRound() {
+      this.ctx.setPrompt(this.target,{promptMode:this.round.promptMode,skill:this.round.skill,
+        choiceIds:this.round.options.map(item=>item.id),activity:'burst'});
+      this.ctx.say(this.target);
     }
 
     tap(item, el) {
-      if (!this.alive || this.paused) return;
+      if (!this.alive || !this.started || this.paused || el?.disabled) return;
       // Input and timer callbacks can arrive in either order at the deadline.
       // Settle the round before accepting a final tap, using the same clock.
       this.tick(performance.now(), false);
       if (!this.alive || !this.grid.contains(el)) return;
       if (item.id === this.target.id) {
         this.count += 1;
-        this.heat.up();
         this.countEl.textContent = String(this.count);
-        reportPromptMatch(this.ctx, this.target, true);
+        reportOutcome(this.ctx, this.target, true, 'supported_visible_matching', true,
+          {activity:'burst',skill:this.round.skill,selectedId:item.id,choiceIds:this.round.options.map(option=>option.id),assisted:this.supported || this.round.options.length===1});
         this.ctx.sfx("correct");
         this.showHarvest(item,el);
         this.nextTarget();
       } else {
-        this.heat.down();
-        reportPromptMatch(this.ctx, this.target, false);
+        reportOutcome(this.ctx, this.target, false, 'supported_visible_matching', true,
+          {activity:'burst',skill:this.round.skill,selectedId:item.id,choiceIds:this.round.options.map(option=>option.id),assisted:this.supported});
+        this.supported = true;
+        this.round.promptMode = 'match';
+        el.disabled = true;
+        helpAfterWrong(this.ctx, this.round, item);
         this.ctx.sfx("wrong");
         el.classList.remove("is-shake");
         void el.offsetWidth;
@@ -1827,7 +2010,7 @@
     }
 
     tick(now, schedule = true) {
-      if (!this.alive || this.paused) return;
+      if (!this.alive || !this.started || this.paused) return;
       const left = Math.max(0, this.endsAt - now);
       this.remaining = left;
       this.ringEl.style.strokeDashoffset = String(157 * (1 - left / this.duration));
@@ -1853,6 +2036,7 @@
       if (this.paused) this.ctx.onPauseChange?.(false);
       this.paused = false;
       this.setPausedUI(false);
+      this.ctx.stage?.classList?.remove?.("is-ready");
       this.pauseButton?.remove?.();
       this.pauseButton = null;
     }
@@ -1873,7 +2057,7 @@
       this.ctx = ctx;
       this.alive = true;
       const pool = ctx.items.filter((i) => i.parts && i.parts.length >= 2);
-      this.targets = shuffle(pool).slice(0, ctx.rounds || 4);
+      this.targets = learningTargets({...ctx,activity:'build'},pool,Math.min(pool.length,ctx.rounds||4));
       if(ctx.beginner)this.targets.sort((a,b)=>a.parts.length-b.parts.length);
       this.roundIndex = 0;
       this.slips = 0;
@@ -1896,7 +2080,7 @@
       queueMicrotask(()=>{
         const to=this.ctx.stage?.querySelector?.('.build-shelf .build-parcel:last-child')?.getBoundingClientRect?.();
         const dx=to?.width?to.left+to.width/2-(from.left+from.width/2):window.innerWidth,dy=to?.width?to.top+to.height/2-(from.top+from.height/2):-60;
-        const flight=ghost.animate?.([{transform:'none',opacity:1},{transform:`translate(${dx*.5}px,${dy*.5-30}px) rotate(6deg) scale(.7)`,opacity:1,offset:.6},{transform:`translate(${dx}px,${dy}px) scale(.25)`,opacity:0}],{duration:520,easing:'cubic-bezier(.3,.7,.3,1)'});
+        const flight=ghost.animate?.([{transform:'none',opacity:1},{transform:`translate(${dx*.5}px,${dy*.5-10}px) scale(.7)`,opacity:1,offset:.6},{transform:`translate(${dx}px,${dy}px) scale(.25)`,opacity:0}],{duration:520,easing:'cubic-bezier(.3,.7,.3,1)'});
         if(flight)flight.onfinish=()=>ghost.remove();else ghost.remove();
       });
     }
@@ -1912,8 +2096,10 @@
     startRound() {
       if (!this.alive) return;
       const ctx = this.ctx;
+      this.dragResets?.forEach(reset=>reset());this.dragResets=[];
       this.ready=false;
       const target = this.targets[this.roundIndex];
+      ctx.setRoundProgress?.(this.roundIndex+1,this.targets.length);
       ctx.setPrompt(target, {
         promptMode: "match", skill: "construction",
         choiceIds: target.parts.map((part) => part.id || part.display), activity: "build",
@@ -1957,12 +2143,50 @@
       this.slots.forEach((slot,i)=>slot.addEventListener('click',()=>this.returnFrom(i)));
       for (const btn of ctx.stage.querySelectorAll(".build-tile")) {
         btn.addEventListener("click", () => this.place(btn));
+        const reset=ns.GardenPractice?.draggable(btn,{
+          enabled:()=>this.alive&&!this.ready&&!btn.disabled&&!btn.classList.contains('is-used'),
+          onDragMove:(x,y)=>this.showReceivingSlot(this.receivingSlot(x,y)),
+          onDragEnd:()=>this.showReceivingSlot(null),
+          drop:(x,y)=>this.receivingSlot(x,y)?this.place(btn):false,
+        });
+        if(reset)this.dragResets.push(reset);
       }
+      this.markNextSlot(!!ctx.firstActionDemo && this.roundIndex === 0);
+    }
+
+    receivingSlot(x,y) {
+      if(!this.alive||this.ready)return null;
+      const slot=this.slots?.[this.placed.length],r=slot?.getBoundingClientRect?.();
+      return r?.width&&r?.height&&x>=r.left-24&&x<=r.left+r.width+24&&y>=r.top-24&&y<=r.top+r.height+24?slot:null;
+    }
+
+    showReceivingSlot(slot) {
+      this.slots?.forEach(node=>node.classList.toggle?.('is-near',node===slot));
+    }
+
+    markNextSlot(automatic = false) {
+      this.slots?.forEach((slot,i)=>slot.classList.toggle?.('is-next',i===this.placed.length));
+      this.setupBuildCue(automatic);
+    }
+
+    setupBuildCue(automatic = false) {
+      this.actionCue?.destroy(); this.actionCue = null;
+      const target = this.targets[this.roundIndex];
+      if (!this.alive || this.ready || !this.ctx.setupActionCue || this.placed.length >= target.parts.length) return;
+      const wrong = this.placed.findIndex((p, i) => !p.fixed && p.part.display !== target.parts[i].display);
+      if (wrong >= 0) {
+        this.actionCue = this.ctx.setupActionCue({ source: this.placed[wrong].slot, type: 'tap', automatic: false });
+        return;
+      }
+      const wanted = target.parts[this.placed.length];
+      const source = [...this.ctx.stage.querySelectorAll('.build-tile')].find(btn =>
+        !btn.disabled && !btn.classList.contains('is-used') && !btn.classList.contains('is-scaffolded') && this.tray[Number(btn.dataset.i)]?.display === wanted.display);
+      if (source) this.actionCue = this.ctx.setupActionCue({ source, destination: this.slots[this.placed.length], destinationY: .5, type: 'drag', automatic });
     }
 
     place(btn) {
       const target = this.targets[this.roundIndex];
-      if (!this.alive || this.ready || btn.disabled || (this.ctx.stage&&!this.ctx.stage.contains(btn)) || btn.classList.contains("is-scaffolded") || btn.classList.contains("is-used") || this.placed.length >= target.parts.length) return;
+      if (!this.alive || this.ready || btn.disabled || (this.ctx.stage&&!this.ctx.stage.contains(btn)) || btn.classList.contains("is-scaffolded") || btn.classList.contains("is-used") || this.placed.length >= target.parts.length) return false;
       const part = this.tray[Number(btn.dataset.i)];
       const slot = this.slots[this.placed.length];
       slot.innerHTML = workshopTile(part.display)+`<span class="build-undo-cue" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M5 7H11A5 5 0 1 1 10 17M5 7L8 3M5 7L9 10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`;
@@ -1972,9 +2196,10 @@
       slot.classList.remove("is-hint");
       btn.classList.add("is-used");btn.disabled=true;
       this.placed.push({ part, btn, slot });
+      this.markNextSlot();
       this.ctx.say({ display: part.display, speak: part.speak || part.display });
 
-      if (this.placed.length < target.parts.length) return;
+      if (this.placed.length < target.parts.length) return true;
       this.slots.forEach(slot=>{slot.disabled=true;});
       this.ctx.stage.querySelectorAll(".build-tile").forEach(b=>b.disabled=true);
       const built = this.placed.every((p, i) => p.part.display === target.parts[i].display);
@@ -2008,6 +2233,7 @@
         this.slips += 1;
         const firstWrong = this.placed.findIndex((p, i) => p.part.display !== target.parts[i].display);
         this.slots?.[firstWrong]?.classList.add('is-hint');
+        this.placed.slice(firstWrong).forEach(p=>p.slot.classList.add('is-returning'));
         const selected = this.placed[firstWrong]?.part;
         reportOutcome(this.ctx, target, false, "motor_assembly_participation", true, {
           selectedId: selected?.id || selected?.display,
@@ -2027,15 +2253,17 @@
             p.slot.innerHTML = "";
             p.slot.disabled=true;
             p.slot.setAttribute('aria-label','Empty building space');
-            p.slot.classList.remove("is-filled");
+            p.slot.classList.remove("is-filled","is-returning");
             p.btn.classList.remove("is-used");p.btn.disabled=false;
           }
           this.ctx.stage.querySelectorAll(".build-tile").forEach(b=>b.disabled=b.classList.contains("is-scaffolded"));
           this.placed.forEach(p=>{p.slot.disabled=!!p.fixed;if(p.btn)p.btn.disabled=true;});
           if (strayed) {strayed.btn.classList.add("is-scaffolded");strayed.btn.disabled=true;}
+          this.markNextSlot();
           this.ctx.say(target);
         }, 800);
       }
+      return true;
     }
 
     returnFrom(index) {
@@ -2050,10 +2278,11 @@
       // Keep the order of the surviving prefix. A motor correction is not a
       // completed answer, so it neither adds a slip nor triggers reward logic.
       removed[0].btn.focus({preventScroll:true});
+      this.markNextSlot();
       this.ctx.say(this.targets[this.roundIndex]);
     }
 
-    destroy() { this.alive = false; this.stopHint?.(); }
+    destroy() { this.alive = false; this.actionCue?.destroy(); this.dragResets?.forEach(reset=>reset());this.stopHint?.(); }
   }
 
   // Completed creations are toys as well as answers. This desk never emits
@@ -2121,11 +2350,17 @@
       this.ctx = ctx;
       this.alive = true;
       const pool = ctx.items.filter((i) => i.parts && i.parts.length === 2);
-      const targets = shuffle(pool).slice(0, ctx.rounds || 4);
+      const targets = learningTargets({...ctx,activity:ctx.activity||'blend',skill:'joining'},pool,ctx.rounds||4);
       while (targets.length < (ctx.rounds || 4) && pool.length) targets.push(pool[targets.length % pool.length]);
+      // On a first short-vowel visit, begin with the examples the child just
+      // revealed. Preserve adaptive ordering for the remaining authored items.
+      const warmups = ctx.warmupItemIds || [];
+      const rank = item => warmups.includes(item.id) ? warmups.indexOf(item.id) : warmups.length;
+      if (warmups.length) targets.sort((a, b) => rank(a) - rank(b));
       this.rounds = targets.map((target, r) => {
         let decoy = null;
-        if (r >= 2) {
+        const support=ns.LettersLearning?.assemblyProfile(target,{...ctx,skill:'joining'});
+        if (support ? support.decoyCount>0 : r >= 2) {
           const other = shuffle(pool).find(
             (i) => i.parts[1].display !== target.parts[1].display &&
               i.parts[1].display !== target.parts[0].display,
@@ -2144,7 +2379,9 @@
       this.releaseActiveDrag();
       this.ready=false;
       const ctx = this.ctx;
-      const { target, decoy } = this.rounds[this.roundIndex];
+      const { target } = this.rounds[this.roundIndex];
+      const decoy=ctx.supportedItemIds?.includes(target.id)?null:this.rounds[this.roundIndex].decoy;
+      ctx.setRoundProgress?.(this.roundIndex+1,this.rounds.length);
       ctx.setPrompt(target, {
         promptMode: "match", skill: "joining",
         choiceIds: [target.parts[0], target.parts[1], ...(decoy ? [decoy] : [])]
@@ -2304,6 +2541,11 @@
       const pb = this.parts[Number(b.dataset.i)];
       if (pa.kind === pb.kind) {
         this.springBack(a);
+        this.springBack(b);
+        for(const piece of [a,b]){
+          piece.classList.remove('is-separate');void piece.offsetWidth;piece.classList.add('is-separate');
+        }
+        this.ctx.say(target);
         return; // two vowels can't fuse — just drift home, no penalty
       }
       const displays = new Set([pa.part.display, pb.part.display]);
@@ -2388,6 +2630,7 @@
   function dragHint(tiles, target) {
     if (!tiles.length || !target) return () => {};
     let timer = null;
+    let demonstrations = 0;
     const pulse = () => {
       const t = target.getBoundingClientRect();
       const tx = t.left + t.width / 2;
@@ -2409,6 +2652,9 @@
       target.classList.remove("is-drop-target");
       void target.offsetWidth;
       target.classList.add("is-drop-target");
+      // Show the gesture twice, then let the child think. Constant nudging
+      // competes with inspecting the letters and is not an instruction.
+      if(++demonstrations>=2){clearInterval(timer);timer=null;}
       if (!live) stop();
     };
     const stop = () => {
@@ -2428,7 +2674,7 @@
       this.alive = true;
       const pool = ctx.items.filter((i) => i.parts && i.parts.length === 2);
       const count=ctx.rounds || 4;
-      this.targets = shuffle(pool).slice(0, count);
+      this.targets = learningTargets({...ctx,activity:'unfuse'},pool,count);
       while (this.targets.length < count && pool.length)
         this.targets.push(pool[this.targets.length % pool.length]);
       this.roundIndex = 0;
@@ -2445,6 +2691,7 @@
       const round=this.roundIndex;
       const ctx = this.ctx;
       const target = this.targets[this.roundIndex];
+      ctx.setRoundProgress?.(this.roundIndex+1,this.targets.length);
       ctx.setPrompt(target);
       ctx.say(target);
       // The seam, outward arrows and gentle tug demonstrate pulling. The
@@ -2477,11 +2724,13 @@
       this.whole = whole;
       // Demonstrate the pull on a loop until the child manages one themselves.
       clearInterval(this.hintTimer);
+      let demonstrations=0;
       const tug = () => {
         if (!this.alive || this.phase!=="pull" || this.roundIndex!==round || pulled || !whole.isConnected) return clearInterval(this.hintTimer);
         whole.classList.remove("is-tugging");
         void whole.offsetWidth;
         whole.classList.add("is-tugging");
+        if(++demonstrations>=2)clearInterval(this.hintTimer);
       };
       if(!ctx.reducedMotion?.()){setTimeout(tug,1200);this.hintTimer=setInterval(tug,3200);}
       const stopHint = this.stopHint = () => {
@@ -2600,10 +2849,11 @@
       const decoyPool = (ctx.extraItems || []).filter(
         (l) => l.display !== target.parts[0].display && l.display !== target.parts[1].display,
       );
-      const decoy = shuffle(decoyPool)[0];
-      const options = shuffle([
-        { display: target.parts[0].display, speak: target.parts[0].speak },
-        { display: target.parts[1].display, speak: target.parts[1].speak },
+      const support=ns.LettersLearning?.profile?.({...wanted,id:wanted.id||wanted.display},{...ctx,skill:'segmenting'});
+      const decoy = (!support||support.choiceCount>2)?shuffle(decoyPool)[0]:null;
+      let options = shuffle([
+        { id:target.parts[0].id||target.parts[0].display, display: target.parts[0].display, speak: target.parts[0].speak },
+        { id:target.parts[1].id||target.parts[1].display, display: target.parts[1].display, speak: target.parts[1].speak },
         ...(decoy ? [{ display: decoy.display, speak: decoy.speak }] : []),
       ]);
       const promptTarget = { id: wanted.id || wanted.display, display: wanted.display, speak: wanted.speak };
@@ -2612,6 +2862,7 @@
         promptMode: "match", skill: "segmenting",
       };
       presentRound(ctx, quizRound, "unfuse");
+      options=quizRound.options;
       const quizEl = ctx.stage.querySelector(".unfuse-quiz");
       ctx.stage.querySelector(".unfuse-discovery").hidden = true;
       quizEl.hidden = false;
@@ -2670,16 +2921,24 @@
       this.alive = true;
       const pool = ctx.items.filter((i) => i.parts && i.parts.length === 2 && i.join2);
       const singles = (ctx.extraItems || []).slice();
-      this.rounds = shuffle(pool).slice(0, ctx.rounds || 4).map((pair, r) => {
-        const candidates = shuffle(
-          singles.filter(
-            (l) => l.display !== pair.parts[0].display && l.display !== pair.parts[1].display,
-          ),
-        );
-        const third = candidates[0];
-        const decoy = r >= 1 ? candidates[1] : null;
+      // Grow each authored pair with the next distinct lesson letter. A
+      // random third created a new skill on every visit, so children rarely
+      // practised the same construction and its readiness could not grow.
+      const catalogue = pool.map(pair => {
+        const after = singles.findIndex(l => l.display === pair.parts[1].display);
+        const ordered = [...singles.slice(after + 1), ...singles.slice(0, after + 1)];
+        const third = ordered.find(l => !pair.parts.some(p => p.display === l.display));
+        if (!third) return null;
+        return { id:pair.display+third.display, display:pair.display+third.display,
+          speak:`${pair.speak}، ${third.speak}`, parts:[pair,third] };
+      }).filter(Boolean);
+      this.rounds = learningTargets({...ctx,activity:'chain',skill:'joining'},catalogue,Math.min(catalogue.length,ctx.rounds||4)).map((chain, r) => {
+        const [pair, third] = chain.parts;
+        const candidates = singles.filter(l => l.display !== third.display && !pair.parts.some(p => p.display === l.display));
+        const support=ns.LettersLearning?.assemblyProfile(chain,{...ctx,skill:'joining'});
+        const decoy = (support?support.decoyCount>0:r>=1) ? shuffle(candidates)[0] : null;
         return { pair, third, decoy };
-      }).filter((r) => r.third);
+      });
       const unique = this.rounds.length;
       while (this.rounds.length < (ctx.rounds || 4) && unique) {
         this.rounds.push(this.rounds[this.rounds.length % unique]);
@@ -2695,7 +2954,9 @@
       this.busy=false;
       this.ready=false;
       const ctx = this.ctx;
-      const { pair, third, decoy } = this.rounds[this.roundIndex];
+      const { pair, third } = this.rounds[this.roundIndex];
+      const decoy=ctx.supportedItemIds?.includes(pair.display+third.display)?null:this.rounds[this.roundIndex].decoy;
+      ctx.setRoundProgress?.(this.roundIndex+1,this.rounds.length);
       const chain = {
         id: pair.display + third.display,
         display: pair.display + third.display,
@@ -2713,7 +2974,7 @@
       ctx.stage.innerHTML = `
         <div class="blend-scene chain-scene chain-bridge" data-skill="joining">
           <div class="blend-glow"></div>
-          <span class="chain-base">${workshopTile(pair.display)}</span>
+          <button type="button" class="chain-base" aria-label="Hear ${pair.display}">${workshopTile(pair.display)}<span class="build-listen" aria-hidden="true">${Art.icon('speaker',24)}</span></button>
           ${thirds
             .map(
               (t, i) => `<button type="button" class="blend-part chain-third" data-i="${i}" aria-label="${t.l.display}"
@@ -2724,9 +2985,13 @@
       this.thirds = thirds;
       this.scene = ctx.stage.querySelector(".blend-scene");
       this.base = ctx.stage.querySelector(".chain-base");
+      const round=this.roundIndex;
+      this.base.onclick=()=>{
+        if(this.alive && !this.busy && !this.ready && this.roundIndex===round)ctx.say(pair);
+      };
       const thirdEls = [...ctx.stage.querySelectorAll(".chain-third")];
       for (const el of thirdEls) this.wireDrag(el);
-      if (this.roundIndex === 0 && thirdEls[0]) {
+      if (this.roundIndex === 0 && thirdEls.length === 1) {
         this.base.classList.add("is-demo");
         thirdEls[0].classList.add("is-demo");
         setTimeout(() => {
@@ -2818,7 +3083,7 @@
       const picked = this.thirds[Number(el.dataset.i)].l;
       if (picked.display !== third.display) {
         this.slips += 1;
-        reportOutcome(ctx, this.chain, false, "supported_visible_matching", true, {
+        reportOutcome(ctx, this.chain, false, "motor_assembly_participation", true, {
           selectedId: picked.id || picked.display,
           choiceIds: this.thirds.map(({ l }) => l.id || l.display),
           skill: "joining", activity: "chain",
@@ -2843,7 +3108,7 @@
       el.style.left='50%';el.style.top='46%';
       const reveal=()=>{
         if(!this.alive || this.roundIndex!==round || this.ready)return;
-        reportOutcome(ctx,this.chain,true,'supported_visible_matching',true,{
+        reportOutcome(ctx,this.chain,true,'motor_assembly_participation',true,{
           selectedId:picked.id || picked.display,
           choiceIds:this.thirds.map(({l})=>l.id || l.display),
           skill:'joining',activity:'chain',
@@ -2890,6 +3155,7 @@
       if(!this.alive)return;
       this.cleanupGestures();
       const ctx=this.ctx,round=this.roundIndex,letter=this.letters[round],forms=this.formsOf(letter.display);
+      ctx.setRoundProgress?.(round+1,this.letters.length);
       this.phase='explore';this.busy=false;this.dressed=0;
       ctx.setPrompt?.(null,{promptMode:'explore',skill:'contextual_forms',activity:'parade'});
       ctx.say(letter);
@@ -2917,7 +3183,7 @@
       const accepts=(x,y)=>{const r=display?.getBoundingClientRect();return r?.width>0&&r.height>0&&x>=r.left-18&&x<=r.left+r.width+18&&y>=r.top-18&&y<=r.top+r.height+18;};
       spots.forEach((spot,i)=>{
         const choose=(released)=>{
-          if(!active())return;
+          if(!active())return false;
           this.formFlight?.cancel();this.formFlight=null;
           const from=released||spot.getBoundingClientRect?.();
           const form=spot.querySelector('.parade-form');
@@ -2941,12 +3207,13 @@
               {transform:'translate(0,0) scale(1)',opacity:1}
             ],{duration:240,easing:'cubic-bezier(.2,.75,.25,1)'});
           }
+          return true;
         };
         if(ns.GardenPractice?.draggable)this.dragResets.push(ns.GardenPractice.draggable(spot,{
           enabled:active,
           onDragMove:(x,y)=>display.classList.toggle('is-near',accepts(x,y)),
           onDragEnd:()=>display.classList.remove('is-near'),
-          drop:(x,y,released)=>{if(accepts(x,y))choose(released);}
+          drop:(x,y,released)=>accepts(x,y)?choose(released):false
         }));
         spot.addEventListener('click',()=>choose());
       });

@@ -1,0 +1,151 @@
+{
+  "generationHold": true,
+  "status": "teacher-next100-quality-hold",
+  "reason": "Owner reports robotic/static noise in Sukoon, deep voice in Maa, duplicated Qul with bass noise, and inconsistent speaker sound across the pilot.",
+  "rejected": {
+    "lg-b2e2e85d51f4": {
+      "text": "سُكُونْ",
+      "note": "Static / robotic noises"
+    },
+    "lg-36b3714f9b0b": {
+      "text": "مَا",
+      "note": "Unnaturally deep voice"
+    },
+    "lg-95da19a9c3af": {
+      "text": "قُلْ",
+      "note": "Says Qul twice, with deep bass noise"
+    }
+  },
+  "otherPilotStatus": "Held for consistency review, not approved",
+  "nextStep": "Both guided2 clips rejected: adh-dhi super robotic, af-fi ends as afff. Next test should use a carrier phrase, preserve full recording, review target and any extraction separately; no further isolated retries.",
+  "checks": {
+    "allTwelveRequestedMarin": true,
+    "allTwelveSameModel": "gpt-4o-mini-tts-2025-12-15",
+    "allTwelvePCMUnchanged": true,
+    "allTwelveMono24000Hz": true
+  },
+  "uncertainty": "The generation cause is not established. Different category directions and very short standalone inputs are hypotheses to test, not confirmed causes.",
+  "allGenerationHold": true,
+  "calibrationStatus": "rejected-voice-mismatch",
+  "calibrationNote": "Owner reports the spoken lead-in sounds deeper, and the new sound still does not match the voice used previously.",
+  "referenceStatus": "rejected-voice-too-deep",
+  "referenceNote": "Owner reports deeper delivery, baa versus bah vowel/accent impression, a stretched Meem middle and a subdued/neutral sound compared with the brighter original.",
+  "voiceProfile": "voice-acceptance-profile.json",
+  "snapshotStatus": "reviewed-closer-not-approved",
+  "snapshotNote": "March sounds better, but slightly too high pitched; owner describes its delivery as lacking modesty and sounding like someone trying to sound attractive. It is closer, not approved.",
+  "teacherStatus": "selected-for-library",
+  "teacherNote": "Owner chooses the earlier composed teacher after finding the natural-flow test no better. Use this voice direction for missing content.",
+  "flowStatus": "rejected-no-improvement",
+  "flowNote": "Owner: this is not any better; use composed teacher from before.",
+  "teacherLibraryAllowed": null,
+  "teacherLibraryInstructionHash": "3941808ce40ba7d1e36708d364a5fb88c51eb0b38eb652eb5cca9031799bd7cf",
+  "teacherLibraryFirstReview": {
+    "approved": 12,
+    "rejected": [],
+    "note": "First 11 approved; Rumman replacement separately approved by owner. Original rejected file retained in review history."
+  },
+  "teacherLibraryBatch100Review": {
+    "status": "owner-reports-many-issues",
+    "statement": "done, there are a ton of issues",
+    "range": [
+      13,
+      112
+    ],
+    "generationPaused": true,
+    "installed": false,
+    "correctMarks": 73,
+    "fixMarks": 26,
+    "undecided": 1,
+    "clearApprovals": 72,
+    "heldIncludingConflicts": 28,
+    "reviewExport": "teacher-library/batch100-owner-review.json",
+    "latestResult": {
+      "approvedInstalled": 95,
+      "held": 5,
+      "originalCountsPreserved": true
+    }
+  },
+  "pronunciationCheckAllowed": null,
+  "pronunciationPlanHash": "847692bfdfae42104b0843d37e2267ff3caf8f1c61d674ca4d221237cdff8d15",
+  "onsetComparison": {
+    "status": "closed-not-a-repair",
+    "ownerStatement": "the single letter items have wrong letters, the word starts with the wrong letter",
+    "interpretation": "Owner reports wrong consonants, not a repaired playback onset. Do not retry padding or alter accepted files."
+  },
+  "pronunciationCheckResult": {
+    "approved": [
+      "كِ",
+      "تِ"
+    ],
+    "rejected": [
+      "تِمْسَاح"
+    ],
+    "finding": "Input starts with Arabic taa U+062A and kasra U+0650. Owner reports output missing /t/. Keep both rejected word files out; spelling must not be altered to match the mistake."
+  },
+  "timsahContextAllowed": null,
+  "timsahContextPlanHash": "e8fbef8e86562f7fdeae8ac68c46b1453bc9688f36c7c3151c9743bddfa183da",
+  "timsahContextResult": {
+    "status": "isolated-cut-approved-installed",
+    "ownerStatement": "its fine, install it with the other approved clips and lets work on the remaining audio issues",
+    "cutManifest": "teacher-library/timsah-context/cut-manifest.json",
+    "newPaidCalls": 0
+  },
+  "tanwinCheckAllowed": null,
+  "tanwinCheckPlanHash": "0611516cdf76cd615fa27766ea89c9e1798a51f5c2e1a421c7d0b6af172192a0",
+  "teacherLibraryInstallation": {
+    "approvedInstalled": 109,
+    "held": 3,
+    "existingPreserved": 252,
+    "runtimeTotal": 361,
+    "manifest": "assets/audio/letters/marin-teacher-v1/manifest.json",
+    "approval": "teacher-library/install-approval-20261029.json",
+    "published": false,
+    "latestApproval": "teacher-library/install-approval-tanwin17-20261029.json"
+  },
+  "tanwinCheckResult": {
+    "status": "approved-installed",
+    "statement": "all 3 are fine",
+    "targets": [
+      "بً",
+      "طٍ",
+      "ضٌ"
+    ]
+  },
+  "tanwinRemainingAllowed": null,
+  "tanwinRemainingPlanHash": "0b6eb9388cdacc165421c905b523d2c27edd403183831847935cd0543aa40617",
+  "tanwinRemainingResult": {
+    "approved": 17,
+    "held": 2,
+    "statement": "wun sounded like wan, tan had a weird noise at the start otherwise it was fine, the rest are okay"
+  },
+  "tanwinRepairAllowed": null,
+  "tanwinRepairPlanHash": "5b577433b817eeedcc6f1e77198b97f2040bafb86f33f2864acb48d28ea14572",
+  "teacherBatchMaximum": 312,
+  "teacherNextQueueHash": "3506d3cb8b288dcf332e78fb61e53120732316adfc8a60edd8f0ec31e261b101",
+  "reviewEightAllowed": null,
+  "reviewEightPlanHash": "58f8380b4ddbd8a68e1085cb2b06cb0af17a38dc00ff8004d5480b8e04c2db95",
+  "olderThreeAllowed": null,
+  "olderThreePlanHash": "8985d173a57c121af795462a9ef8311f721f4de30934615e71523618b4cf80fa",
+  "rahmanVoiceAllowed": null,
+  "rahmanVoicePlanHash": "8df7adea98b7388975a55d3376690287b8b5bcd4dd7420545e70535ebe36ad65",
+  "combined64Allowed": false,
+  "combined64PlanHash": "55b45b79cb9447facb96f6262c79622afa2977477515422c1efa0a80577d402e",
+  "combined64Repair8Allowed": false,
+  "combined64Repair8PlanHash": "5cead7c4acb84c71a6aab97262776e386df53326b8739bd89e30b65be842dbb0",
+  "runRepairAllowed": false,
+  "runRepairPlanHash": "af7b8b8580881619b42da3f5a88de120811b6224318e9d15f1efb3e9fafa4a61",
+  "remainingCoverageAllowed": false,
+  "remainingCoveragePlanHash": "66bc052b8a48bfa0c71925fb7b22d630b5bc9dd40f83c73e7fb5036996b25b31",
+  "coverageRepairsAllowed": false,
+  "coverageRepairsPlanHash": "36e258f5cb8a9c106808eab35cb075e66e8e04a5ba157c1b84932f1a3a6b6c3b",
+  "guided14Allowed": false,
+  "guided14PlanHash": "ecc7fade9e5b52141c8b300b06115fb2d27e4619c1def3b9d2d00f359f4d1a92",
+  "guided5Allowed": false,
+  "guided5PlanHash": "133f9c93058917a455effb8d6fc4a00608755bfe778772a38196794846474d89",
+  "guided2Allowed": false,
+  "guided2PlanHash": "38ceac361043cf7341b09abc18e47bb230813674d4ed6510446dee558b58170c",
+  "phrase2Allowed": false,
+  "phrase2PlanHash": "d2d5791709674f6da3e624978603228b47d8fc9b1a588c5b62b4493e57f279f1",
+  "phraseDhalAllowed": false,
+  "phraseDhalPlanHash": "05ec40150c43307cc2356d09b39e3c4d07e23ce27a983f8eed659bc2703e9126"
+}

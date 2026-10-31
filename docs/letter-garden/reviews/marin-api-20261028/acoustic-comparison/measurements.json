@@ -1,0 +1,1358 @@
+{
+  "method": {
+    "runtime": "existing local voice runtime; no packages installed",
+    "librosaVersion": "0.11.0",
+    "sampleRate": 24000,
+    "format": "mono PCM16",
+    "primaryPitch": "librosa pYIN, 2048-sample windows, 120-sample hop; 60–600 Hz; voiced frames with probability >=0.1 inside speech-energy regions",
+    "sensitivity": "1024-sample windows with identical other settings",
+    "crossCheck": "Normalized time-domain autocorrelation, 40 ms frames, earliest peak within 95% of best correlation, correlation >=0.65",
+    "segmentation": "Energy-based regions of two ordered utterances; labels follow requested Baa, Meem order and are not independent Arabic pronunciation certification. Threshold: max(-45 dBFS, 30 dB below maximum 5 ms RMS); bridge gaps under 80 ms.",
+    "spectrum": "Welch power spectrum over active speech region; energy fractions normalized within 60–8000 Hz",
+    "limitations": [
+      "Pitch estimates depend on frame settings and voicing selection, especially the short changing Baa vowel. These are approximate acoustic comparisons, not speaker identity or gender classification.",
+      "Energy balance also changes with articulation and phonetic timing; one band metric is not a full timbre measurement.",
+      "Original backend model snapshot is unknown. Original source contains 25 detected spoken items from a full alphabet prompt; new input contains two names. Model/version, input context and generation variability cannot be separated with these recordings.",
+      "Matching an instruction is not proof of matching a voice. No causal A/B API experiment was performed in this analysis."
+    ]
+  },
+  "originalPCMChecks": [
+    {
+      "item": "ba",
+      "correlation": 0.9999999957146012,
+      "maxAbsoluteDifference": 3.051733848488669e-05,
+      "withinOnePCM16Step": true
+    },
+    {
+      "item": "meem",
+      "correlation": 0.9999999942621768,
+      "maxAbsoluteDifference": 3.0513144956501037e-05,
+      "withinOnePCM16Step": true
+    }
+  ],
+  "newRawPCMPreserved": true,
+  "apiCallsDuringAnalysis": 0,
+  "measurements": [
+    {
+      "item": "old-baa",
+      "source": "assets/audio/letters/marin-v1/ba.wav",
+      "sourceSha256": "dfa0283408058d46cfd39f814774dc743893a3b99d50fde75c294b1a46ad1a37",
+      "activeWindowSeconds": [
+        0.1,
+        0.42
+      ],
+      "activeSeconds": 0.32,
+      "activeRMSdBFS": -16.1,
+      "peakDbFS": -4.37,
+      "energyBandsPercent": {
+        "60–300 Hz": 40.76,
+        "300–1000 Hz": 46.77,
+        "1000–3000 Hz": 11.84,
+        "3000–8000 Hz": 0.63
+      },
+      "energyCentroidHz": 615.3,
+      "pitch": {
+        "1024": {
+          "medianHz": 212.58,
+          "framesUsed": 37,
+          "p10p90Hz": [
+            169.55,
+            224.45
+          ],
+          "meanVoicingProbability": 0.455
+        },
+        "2048": {
+          "medianHz": 220.08,
+          "framesUsed": 29,
+          "p10p90Hz": [
+            180.84,
+            225.23
+          ],
+          "meanVoicingProbability": 0.44
+        }
+      },
+      "pitchTrack": [
+        {
+          "seconds": 0.1,
+          "hz": 181.89,
+          "voicingProbability": 0.426
+        },
+        {
+          "seconds": 0.105,
+          "hz": 180.84,
+          "voicingProbability": 0.549
+        },
+        {
+          "seconds": 0.11,
+          "hz": 180.84,
+          "voicingProbability": 0.686
+        },
+        {
+          "seconds": 0.115,
+          "hz": 180.84,
+          "voicingProbability": 0.757
+        },
+        {
+          "seconds": 0.12,
+          "hz": 180.84,
+          "voicingProbability": 0.757
+        },
+        {
+          "seconds": 0.125,
+          "hz": 180.84,
+          "voicingProbability": 0.757
+        },
+        {
+          "seconds": 0.13,
+          "hz": 180.84,
+          "voicingProbability": 0.549
+        },
+        {
+          "seconds": 0.165,
+          "hz": 226.53,
+          "voicingProbability": 0.15
+        },
+        {
+          "seconds": 0.17,
+          "hz": 226.53,
+          "voicingProbability": 0.207
+        },
+        {
+          "seconds": 0.175,
+          "hz": 225.23,
+          "voicingProbability": 0.241
+        },
+        {
+          "seconds": 0.18,
+          "hz": 225.23,
+          "voicingProbability": 0.28
+        },
+        {
+          "seconds": 0.185,
+          "hz": 223.93,
+          "voicingProbability": 0.323
+        },
+        {
+          "seconds": 0.19,
+          "hz": 223.93,
+          "voicingProbability": 0.323
+        },
+        {
+          "seconds": 0.195,
+          "hz": 223.93,
+          "voicingProbability": 0.323
+        },
+        {
+          "seconds": 0.2,
+          "hz": 222.64,
+          "voicingProbability": 0.372
+        },
+        {
+          "seconds": 0.205,
+          "hz": 222.64,
+          "voicingProbability": 0.372
+        },
+        {
+          "seconds": 0.21,
+          "hz": 222.64,
+          "voicingProbability": 0.426
+        },
+        {
+          "seconds": 0.215,
+          "hz": 222.64,
+          "voicingProbability": 0.485
+        },
+        {
+          "seconds": 0.22,
+          "hz": 222.64,
+          "voicingProbability": 0.549
+        },
+        {
+          "seconds": 0.225,
+          "hz": 221.36,
+          "voicingProbability": 0.549
+        },
+        {
+          "seconds": 0.23,
+          "hz": 221.36,
+          "voicingProbability": 0.549
+        },
+        {
+          "seconds": 0.235,
+          "hz": 220.08,
+          "voicingProbability": 0.616
+        },
+        {
+          "seconds": 0.24,
+          "hz": 218.81,
+          "voicingProbability": 0.549
+        },
+        {
+          "seconds": 0.245,
+          "hz": 218.81,
+          "voicingProbability": 0.549
+        },
+        {
+          "seconds": 0.25,
+          "hz": 217.55,
+          "voicingProbability": 0.426
+        },
+        {
+          "seconds": 0.255,
+          "hz": 217.55,
+          "voicingProbability": 0.372
+        },
+        {
+          "seconds": 0.26,
+          "hz": 217.55,
+          "voicingProbability": 0.28
+        },
+        {
+          "seconds": 0.265,
+          "hz": 216.3,
+          "voicingProbability": 0.207
+        },
+        {
+          "seconds": 0.27,
+          "hz": 216.3,
+          "voicingProbability": 0.128
+        }
+      ],
+      "autocorrelationCrossCheck": {
+        "medianHz": 204.26,
+        "framesUsed": 54
+      },
+      "listeningCopy": {
+        "file": "old-baa-level-matched.wav",
+        "gainDb": -5.9,
+        "processing": "Gain only to -22 dBFS active-window RMS; original pitch and sample rate preserved. Not a replacement asset."
+      }
+    },
+    {
+      "item": "new-baa",
+      "source": "docs/letter-garden/reviews/marin-api-20261028/reference-candidates/lg-aa4d3af3b0c5.wav",
+      "sourceSha256": "10830a59510fe1919bf57429e58d23cd6b867de1744ba345859e217b3e9d7945",
+      "activeWindowSeconds": [
+        0.04,
+        0.31
+      ],
+      "activeSeconds": 0.27,
+      "activeRMSdBFS": -17.05,
+      "peakDbFS": -3.29,
+      "energyBandsPercent": {
+        "60–300 Hz": 20.91,
+        "300–1000 Hz": 62.85,
+        "1000–3000 Hz": 15.23,
+        "3000–8000 Hz": 1.02
+      },
+      "energyCentroidHz": 761.1,
+      "pitch": {
+        "1024": {
+          "medianHz": 199.5,
+          "framesUsed": 23,
+          "p10p90Hz": [
+            165.83,
+            207.49
+          ],
+          "meanVoicingProbability": 0.402
+        },
+        "2048": {
+          "medianHz": 204.16,
+          "framesUsed": 16,
+          "p10p90Hz": [
+            166.79,
+            207.13
+          ],
+          "meanVoicingProbability": 0.273
+        }
+      },
+      "pitchTrack": [
+        {
+          "seconds": 0.04,
+          "hz": 166.79,
+          "voicingProbability": 0.616
+        },
+        {
+          "seconds": 0.045,
+          "hz": 166.79,
+          "voicingProbability": 0.616
+        },
+        {
+          "seconds": 0.05,
+          "hz": 166.79,
+          "voicingProbability": 0.686
+        },
+        {
+          "seconds": 0.055,
+          "hz": 167.76,
+          "voicingProbability": 0.686
+        },
+        {
+          "seconds": 0.095,
+          "hz": 207.73,
+          "voicingProbability": 0.109
+        },
+        {
+          "seconds": 0.1,
+          "hz": 207.73,
+          "voicingProbability": 0.15
+        },
+        {
+          "seconds": 0.105,
+          "hz": 206.53,
+          "voicingProbability": 0.15
+        },
+        {
+          "seconds": 0.11,
+          "hz": 206.53,
+          "voicingProbability": 0.177
+        },
+        {
+          "seconds": 0.115,
+          "hz": 205.34,
+          "voicingProbability": 0.177
+        },
+        {
+          "seconds": 0.12,
+          "hz": 205.34,
+          "voicingProbability": 0.177
+        },
+        {
+          "seconds": 0.125,
+          "hz": 205.34,
+          "voicingProbability": 0.177
+        },
+        {
+          "seconds": 0.13,
+          "hz": 204.16,
+          "voicingProbability": 0.15
+        },
+        {
+          "seconds": 0.135,
+          "hz": 204.16,
+          "voicingProbability": 0.128
+        },
+        {
+          "seconds": 0.14,
+          "hz": 204.16,
+          "voicingProbability": 0.128
+        },
+        {
+          "seconds": 0.145,
+          "hz": 202.98,
+          "voicingProbability": 0.128
+        },
+        {
+          "seconds": 0.15,
+          "hz": 202.98,
+          "voicingProbability": 0.109
+        }
+      ],
+      "autocorrelationCrossCheck": {
+        "medianHz": 195.92,
+        "framesUsed": 36
+      },
+      "listeningCopy": {
+        "file": "new-baa-level-matched.wav",
+        "gainDb": -4.95,
+        "processing": "Gain only to -22 dBFS active-window RMS; original pitch and sample rate preserved. Not a replacement asset."
+      }
+    },
+    {
+      "item": "old-meem",
+      "source": "assets/audio/letters/marin-v1/meem.wav",
+      "sourceSha256": "4c756b5af09366e73c85e98f68d8b48a970c5aa270f885c573a34975e1c3ba98",
+      "activeWindowSeconds": [
+        0.1,
+        0.49
+      ],
+      "activeSeconds": 0.39,
+      "activeRMSdBFS": -19.26,
+      "peakDbFS": -10.07,
+      "energyBandsPercent": {
+        "60–300 Hz": 89.72,
+        "300–1000 Hz": 9.53,
+        "1000–3000 Hz": 0.21,
+        "3000–8000 Hz": 0.54
+      },
+      "energyCentroidHz": 265.2,
+      "pitch": {
+        "1024": {
+          "medianHz": 193.82,
+          "framesUsed": 77,
+          "p10p90Hz": [
+            158.34,
+            236.42
+          ],
+          "meanVoicingProbability": 0.587
+        },
+        "2048": {
+          "medianHz": 201.27,
+          "framesUsed": 78,
+          "p10p90Hz": [
+            158.34,
+            234.52
+          ],
+          "meanVoicingProbability": 0.592
+        }
+      },
+      "pitchTrack": [
+        {
+          "seconds": 0.1,
+          "hz": 205.34,
+          "voicingProbability": 0.323
+        },
+        {
+          "seconds": 0.105,
+          "hz": 206.53,
+          "voicingProbability": 0.372
+        },
+        {
+          "seconds": 0.11,
+          "hz": 207.73,
+          "voicingProbability": 0.485
+        },
+        {
+          "seconds": 0.115,
+          "hz": 208.93,
+          "voicingProbability": 0.485
+        },
+        {
+          "seconds": 0.12,
+          "hz": 212.58,
+          "voicingProbability": 0.485
+        },
+        {
+          "seconds": 0.125,
+          "hz": 213.82,
+          "voicingProbability": 0.549
+        },
+        {
+          "seconds": 0.13,
+          "hz": 215.05,
+          "voicingProbability": 0.549
+        },
+        {
+          "seconds": 0.135,
+          "hz": 217.55,
+          "voicingProbability": 0.485
+        },
+        {
+          "seconds": 0.14,
+          "hz": 218.81,
+          "voicingProbability": 0.485
+        },
+        {
+          "seconds": 0.145,
+          "hz": 220.08,
+          "voicingProbability": 0.485
+        },
+        {
+          "seconds": 0.15,
+          "hz": 221.36,
+          "voicingProbability": 0.485
+        },
+        {
+          "seconds": 0.155,
+          "hz": 222.64,
+          "voicingProbability": 0.485
+        },
+        {
+          "seconds": 0.16,
+          "hz": 225.23,
+          "voicingProbability": 0.485
+        },
+        {
+          "seconds": 0.165,
+          "hz": 226.53,
+          "voicingProbability": 0.549
+        },
+        {
+          "seconds": 0.17,
+          "hz": 227.84,
+          "voicingProbability": 0.549
+        },
+        {
+          "seconds": 0.175,
+          "hz": 229.16,
+          "voicingProbability": 0.616
+        },
+        {
+          "seconds": 0.18,
+          "hz": 230.49,
+          "voicingProbability": 0.686
+        },
+        {
+          "seconds": 0.185,
+          "hz": 233.17,
+          "voicingProbability": 0.686
+        },
+        {
+          "seconds": 0.19,
+          "hz": 234.52,
+          "voicingProbability": 0.757
+        },
+        {
+          "seconds": 0.195,
+          "hz": 235.88,
+          "voicingProbability": 0.827
+        },
+        {
+          "seconds": 0.2,
+          "hz": 235.88,
+          "voicingProbability": 0.891
+        },
+        {
+          "seconds": 0.205,
+          "hz": 235.88,
+          "voicingProbability": 0.891
+        },
+        {
+          "seconds": 0.21,
+          "hz": 235.88,
+          "voicingProbability": 0.891
+        },
+        {
+          "seconds": 0.215,
+          "hz": 237.24,
+          "voicingProbability": 0.891
+        },
+        {
+          "seconds": 0.22,
+          "hz": 235.88,
+          "voicingProbability": 0.827
+        },
+        {
+          "seconds": 0.225,
+          "hz": 235.88,
+          "voicingProbability": 0.757
+        },
+        {
+          "seconds": 0.23,
+          "hz": 234.52,
+          "voicingProbability": 0.686
+        },
+        {
+          "seconds": 0.235,
+          "hz": 233.17,
+          "voicingProbability": 0.616
+        },
+        {
+          "seconds": 0.24,
+          "hz": 230.49,
+          "voicingProbability": 0.549
+        },
+        {
+          "seconds": 0.245,
+          "hz": 227.84,
+          "voicingProbability": 0.426
+        },
+        {
+          "seconds": 0.25,
+          "hz": 226.53,
+          "voicingProbability": 0.372
+        },
+        {
+          "seconds": 0.255,
+          "hz": 223.93,
+          "voicingProbability": 0.28
+        },
+        {
+          "seconds": 0.26,
+          "hz": 221.36,
+          "voicingProbability": 0.207
+        },
+        {
+          "seconds": 0.265,
+          "hz": 218.81,
+          "voicingProbability": 0.177
+        },
+        {
+          "seconds": 0.27,
+          "hz": 216.3,
+          "voicingProbability": 0.15
+        },
+        {
+          "seconds": 0.275,
+          "hz": 213.82,
+          "voicingProbability": 0.128
+        },
+        {
+          "seconds": 0.28,
+          "hz": 211.36,
+          "voicingProbability": 0.109
+        },
+        {
+          "seconds": 0.285,
+          "hz": 208.93,
+          "voicingProbability": 0.109
+        },
+        {
+          "seconds": 0.29,
+          "hz": 205.34,
+          "voicingProbability": 0.109
+        },
+        {
+          "seconds": 0.3,
+          "hz": 197.21,
+          "voicingProbability": 0.109
+        },
+        {
+          "seconds": 0.305,
+          "hz": 193.82,
+          "voicingProbability": 0.128
+        },
+        {
+          "seconds": 0.31,
+          "hz": 189.39,
+          "voicingProbability": 0.128
+        },
+        {
+          "seconds": 0.315,
+          "hz": 186.14,
+          "voicingProbability": 0.15
+        },
+        {
+          "seconds": 0.32,
+          "hz": 184.0,
+          "voicingProbability": 0.241
+        },
+        {
+          "seconds": 0.325,
+          "hz": 180.84,
+          "voicingProbability": 0.241
+        },
+        {
+          "seconds": 0.33,
+          "hz": 178.76,
+          "voicingProbability": 0.28
+        },
+        {
+          "seconds": 0.335,
+          "hz": 176.71,
+          "voicingProbability": 0.323
+        },
+        {
+          "seconds": 0.34,
+          "hz": 174.68,
+          "voicingProbability": 0.372
+        },
+        {
+          "seconds": 0.345,
+          "hz": 172.67,
+          "voicingProbability": 0.426
+        },
+        {
+          "seconds": 0.35,
+          "hz": 171.68,
+          "voicingProbability": 0.485
+        },
+        {
+          "seconds": 0.355,
+          "hz": 169.71,
+          "voicingProbability": 0.485
+        },
+        {
+          "seconds": 0.36,
+          "hz": 168.73,
+          "voicingProbability": 0.549
+        },
+        {
+          "seconds": 0.365,
+          "hz": 167.76,
+          "voicingProbability": 0.549
+        },
+        {
+          "seconds": 0.37,
+          "hz": 166.79,
+          "voicingProbability": 0.549
+        },
+        {
+          "seconds": 0.375,
+          "hz": 165.83,
+          "voicingProbability": 0.549
+        },
+        {
+          "seconds": 0.38,
+          "hz": 163.92,
+          "voicingProbability": 0.616
+        },
+        {
+          "seconds": 0.385,
+          "hz": 162.98,
+          "voicingProbability": 0.686
+        },
+        {
+          "seconds": 0.39,
+          "hz": 162.04,
+          "voicingProbability": 0.686
+        },
+        {
+          "seconds": 0.395,
+          "hz": 160.18,
+          "voicingProbability": 0.757
+        },
+        {
+          "seconds": 0.4,
+          "hz": 159.26,
+          "voicingProbability": 0.827
+        },
+        {
+          "seconds": 0.405,
+          "hz": 159.26,
+          "voicingProbability": 0.891
+        },
+        {
+          "seconds": 0.41,
+          "hz": 159.26,
+          "voicingProbability": 0.891
+        },
+        {
+          "seconds": 0.415,
+          "hz": 159.26,
+          "voicingProbability": 0.891
+        },
+        {
+          "seconds": 0.42,
+          "hz": 158.34,
+          "voicingProbability": 0.946
+        },
+        {
+          "seconds": 0.425,
+          "hz": 158.34,
+          "voicingProbability": 0.946
+        },
+        {
+          "seconds": 0.43,
+          "hz": 158.34,
+          "voicingProbability": 0.946
+        },
+        {
+          "seconds": 0.435,
+          "hz": 158.34,
+          "voicingProbability": 0.985
+        },
+        {
+          "seconds": 0.44,
+          "hz": 158.34,
+          "voicingProbability": 0.985
+        },
+        {
+          "seconds": 0.445,
+          "hz": 158.34,
+          "voicingProbability": 0.985
+        },
+        {
+          "seconds": 0.45,
+          "hz": 158.34,
+          "voicingProbability": 0.985
+        },
+        {
+          "seconds": 0.455,
+          "hz": 158.34,
+          "voicingProbability": 0.985
+        },
+        {
+          "seconds": 0.46,
+          "hz": 158.34,
+          "voicingProbability": 0.985
+        },
+        {
+          "seconds": 0.465,
+          "hz": 158.34,
+          "voicingProbability": 0.985
+        },
+        {
+          "seconds": 0.47,
+          "hz": 158.34,
+          "voicingProbability": 0.985
+        },
+        {
+          "seconds": 0.475,
+          "hz": 157.43,
+          "voicingProbability": 0.985
+        },
+        {
+          "seconds": 0.48,
+          "hz": 157.43,
+          "voicingProbability": 0.946
+        },
+        {
+          "seconds": 0.485,
+          "hz": 157.43,
+          "voicingProbability": 0.946
+        },
+        {
+          "seconds": 0.49,
+          "hz": 157.43,
+          "voicingProbability": 0.891
+        }
+      ],
+      "autocorrelationCrossCheck": {
+        "medianHz": 196.73,
+        "framesUsed": 70
+      },
+      "listeningCopy": {
+        "file": "old-meem-level-matched.wav",
+        "gainDb": -2.74,
+        "processing": "Gain only to -22 dBFS active-window RMS; original pitch and sample rate preserved. Not a replacement asset."
+      }
+    },
+    {
+      "item": "new-meem",
+      "source": "docs/letter-garden/reviews/marin-api-20261028/reference-candidates/lg-aa4d3af3b0c5.wav",
+      "sourceSha256": "10830a59510fe1919bf57429e58d23cd6b867de1744ba345859e217b3e9d7945",
+      "activeWindowSeconds": [
+        0.96,
+        1.46
+      ],
+      "activeSeconds": 0.5,
+      "activeRMSdBFS": -16.22,
+      "peakDbFS": -8.51,
+      "energyBandsPercent": {
+        "60–300 Hz": 96.03,
+        "300–1000 Hz": 3.74,
+        "1000–3000 Hz": 0.04,
+        "3000–8000 Hz": 0.18
+      },
+      "energyCentroidHz": 210.8,
+      "pitch": {
+        "1024": {
+          "medianHz": 184.53,
+          "framesUsed": 98,
+          "p10p90Hz": [
+            145.79,
+            202.98
+          ],
+          "meanVoicingProbability": 0.637
+        },
+        "2048": {
+          "medianHz": 186.14,
+          "framesUsed": 101,
+          "p10p90Hz": [
+            145.2,
+            201.82
+          ],
+          "meanVoicingProbability": 0.79
+        }
+      },
+      "pitchTrack": [
+        {
+          "seconds": 0.96,
+          "hz": 190.49,
+          "voicingProbability": 0.241
+        },
+        {
+          "seconds": 0.965,
+          "hz": 190.49,
+          "voicingProbability": 0.28
+        },
+        {
+          "seconds": 0.97,
+          "hz": 189.39,
+          "voicingProbability": 0.372
+        },
+        {
+          "seconds": 0.975,
+          "hz": 189.39,
+          "voicingProbability": 0.426
+        },
+        {
+          "seconds": 0.98,
+          "hz": 189.39,
+          "voicingProbability": 0.485
+        },
+        {
+          "seconds": 0.985,
+          "hz": 189.39,
+          "voicingProbability": 0.549
+        },
+        {
+          "seconds": 0.99,
+          "hz": 189.39,
+          "voicingProbability": 0.616
+        },
+        {
+          "seconds": 0.995,
+          "hz": 190.49,
+          "voicingProbability": 0.616
+        },
+        {
+          "seconds": 1.0,
+          "hz": 190.49,
+          "voicingProbability": 0.686
+        },
+        {
+          "seconds": 1.005,
+          "hz": 191.59,
+          "voicingProbability": 0.686
+        },
+        {
+          "seconds": 1.01,
+          "hz": 191.59,
+          "voicingProbability": 0.686
+        },
+        {
+          "seconds": 1.015,
+          "hz": 192.7,
+          "voicingProbability": 0.686
+        },
+        {
+          "seconds": 1.02,
+          "hz": 193.82,
+          "voicingProbability": 0.686
+        },
+        {
+          "seconds": 1.025,
+          "hz": 194.94,
+          "voicingProbability": 0.686
+        },
+        {
+          "seconds": 1.03,
+          "hz": 194.94,
+          "voicingProbability": 0.686
+        },
+        {
+          "seconds": 1.035,
+          "hz": 196.07,
+          "voicingProbability": 0.757
+        },
+        {
+          "seconds": 1.04,
+          "hz": 197.21,
+          "voicingProbability": 0.757
+        },
+        {
+          "seconds": 1.045,
+          "hz": 198.35,
+          "voicingProbability": 0.757
+        },
+        {
+          "seconds": 1.05,
+          "hz": 199.5,
+          "voicingProbability": 0.757
+        },
+        {
+          "seconds": 1.055,
+          "hz": 199.5,
+          "voicingProbability": 0.827
+        },
+        {
+          "seconds": 1.06,
+          "hz": 200.65,
+          "voicingProbability": 0.827
+        },
+        {
+          "seconds": 1.065,
+          "hz": 200.65,
+          "voicingProbability": 0.827
+        },
+        {
+          "seconds": 1.07,
+          "hz": 200.65,
+          "voicingProbability": 0.891
+        },
+        {
+          "seconds": 1.075,
+          "hz": 201.82,
+          "voicingProbability": 0.891
+        },
+        {
+          "seconds": 1.08,
+          "hz": 201.82,
+          "voicingProbability": 0.891
+        },
+        {
+          "seconds": 1.085,
+          "hz": 201.82,
+          "voicingProbability": 0.891
+        },
+        {
+          "seconds": 1.09,
+          "hz": 201.82,
+          "voicingProbability": 0.891
+        },
+        {
+          "seconds": 1.095,
+          "hz": 202.98,
+          "voicingProbability": 0.891
+        },
+        {
+          "seconds": 1.1,
+          "hz": 202.98,
+          "voicingProbability": 0.891
+        },
+        {
+          "seconds": 1.105,
+          "hz": 202.98,
+          "voicingProbability": 0.891
+        },
+        {
+          "seconds": 1.11,
+          "hz": 202.98,
+          "voicingProbability": 0.891
+        },
+        {
+          "seconds": 1.115,
+          "hz": 201.82,
+          "voicingProbability": 0.891
+        },
+        {
+          "seconds": 1.12,
+          "hz": 201.82,
+          "voicingProbability": 0.891
+        },
+        {
+          "seconds": 1.125,
+          "hz": 201.82,
+          "voicingProbability": 0.891
+        },
+        {
+          "seconds": 1.13,
+          "hz": 201.82,
+          "voicingProbability": 0.891
+        },
+        {
+          "seconds": 1.135,
+          "hz": 200.65,
+          "voicingProbability": 0.891
+        },
+        {
+          "seconds": 1.14,
+          "hz": 200.65,
+          "voicingProbability": 0.891
+        },
+        {
+          "seconds": 1.145,
+          "hz": 199.5,
+          "voicingProbability": 0.891
+        },
+        {
+          "seconds": 1.15,
+          "hz": 199.5,
+          "voicingProbability": 0.891
+        },
+        {
+          "seconds": 1.155,
+          "hz": 198.35,
+          "voicingProbability": 0.891
+        },
+        {
+          "seconds": 1.16,
+          "hz": 197.21,
+          "voicingProbability": 0.891
+        },
+        {
+          "seconds": 1.165,
+          "hz": 196.07,
+          "voicingProbability": 0.891
+        },
+        {
+          "seconds": 1.17,
+          "hz": 196.07,
+          "voicingProbability": 0.827
+        },
+        {
+          "seconds": 1.175,
+          "hz": 194.94,
+          "voicingProbability": 0.827
+        },
+        {
+          "seconds": 1.18,
+          "hz": 193.82,
+          "voicingProbability": 0.827
+        },
+        {
+          "seconds": 1.185,
+          "hz": 192.7,
+          "voicingProbability": 0.827
+        },
+        {
+          "seconds": 1.19,
+          "hz": 191.59,
+          "voicingProbability": 0.827
+        },
+        {
+          "seconds": 1.195,
+          "hz": 190.49,
+          "voicingProbability": 0.827
+        },
+        {
+          "seconds": 1.2,
+          "hz": 189.39,
+          "voicingProbability": 0.827
+        },
+        {
+          "seconds": 1.205,
+          "hz": 187.22,
+          "voicingProbability": 0.827
+        },
+        {
+          "seconds": 1.21,
+          "hz": 186.14,
+          "voicingProbability": 0.757
+        },
+        {
+          "seconds": 1.215,
+          "hz": 185.07,
+          "voicingProbability": 0.757
+        },
+        {
+          "seconds": 1.22,
+          "hz": 184.0,
+          "voicingProbability": 0.757
+        },
+        {
+          "seconds": 1.225,
+          "hz": 182.94,
+          "voicingProbability": 0.757
+        },
+        {
+          "seconds": 1.23,
+          "hz": 181.89,
+          "voicingProbability": 0.757
+        },
+        {
+          "seconds": 1.235,
+          "hz": 179.8,
+          "voicingProbability": 0.757
+        },
+        {
+          "seconds": 1.24,
+          "hz": 178.76,
+          "voicingProbability": 0.757
+        },
+        {
+          "seconds": 1.245,
+          "hz": 177.73,
+          "voicingProbability": 0.757
+        },
+        {
+          "seconds": 1.25,
+          "hz": 176.71,
+          "voicingProbability": 0.757
+        },
+        {
+          "seconds": 1.255,
+          "hz": 174.68,
+          "voicingProbability": 0.757
+        },
+        {
+          "seconds": 1.26,
+          "hz": 173.67,
+          "voicingProbability": 0.757
+        },
+        {
+          "seconds": 1.265,
+          "hz": 172.67,
+          "voicingProbability": 0.757
+        },
+        {
+          "seconds": 1.27,
+          "hz": 170.69,
+          "voicingProbability": 0.757
+        },
+        {
+          "seconds": 1.275,
+          "hz": 169.71,
+          "voicingProbability": 0.757
+        },
+        {
+          "seconds": 1.28,
+          "hz": 168.73,
+          "voicingProbability": 0.757
+        },
+        {
+          "seconds": 1.285,
+          "hz": 167.76,
+          "voicingProbability": 0.686
+        },
+        {
+          "seconds": 1.29,
+          "hz": 166.79,
+          "voicingProbability": 0.686
+        },
+        {
+          "seconds": 1.295,
+          "hz": 164.87,
+          "voicingProbability": 0.686
+        },
+        {
+          "seconds": 1.3,
+          "hz": 163.92,
+          "voicingProbability": 0.686
+        },
+        {
+          "seconds": 1.305,
+          "hz": 162.04,
+          "voicingProbability": 0.686
+        },
+        {
+          "seconds": 1.31,
+          "hz": 161.11,
+          "voicingProbability": 0.686
+        },
+        {
+          "seconds": 1.315,
+          "hz": 159.26,
+          "voicingProbability": 0.757
+        },
+        {
+          "seconds": 1.32,
+          "hz": 157.43,
+          "voicingProbability": 0.757
+        },
+        {
+          "seconds": 1.325,
+          "hz": 156.52,
+          "voicingProbability": 0.757
+        },
+        {
+          "seconds": 1.33,
+          "hz": 154.72,
+          "voicingProbability": 0.827
+        },
+        {
+          "seconds": 1.335,
+          "hz": 153.83,
+          "voicingProbability": 0.757
+        },
+        {
+          "seconds": 1.34,
+          "hz": 152.07,
+          "voicingProbability": 0.757
+        },
+        {
+          "seconds": 1.345,
+          "hz": 151.19,
+          "voicingProbability": 0.757
+        },
+        {
+          "seconds": 1.35,
+          "hz": 150.32,
+          "voicingProbability": 0.827
+        },
+        {
+          "seconds": 1.355,
+          "hz": 148.59,
+          "voicingProbability": 0.827
+        },
+        {
+          "seconds": 1.36,
+          "hz": 147.74,
+          "voicingProbability": 0.827
+        },
+        {
+          "seconds": 1.365,
+          "hz": 146.89,
+          "voicingProbability": 0.827
+        },
+        {
+          "seconds": 1.37,
+          "hz": 146.04,
+          "voicingProbability": 0.827
+        },
+        {
+          "seconds": 1.375,
+          "hz": 146.04,
+          "voicingProbability": 0.891
+        },
+        {
+          "seconds": 1.38,
+          "hz": 145.2,
+          "voicingProbability": 0.891
+        },
+        {
+          "seconds": 1.385,
+          "hz": 144.36,
+          "voicingProbability": 0.891
+        },
+        {
+          "seconds": 1.39,
+          "hz": 144.36,
+          "voicingProbability": 0.891
+        },
+        {
+          "seconds": 1.395,
+          "hz": 144.36,
+          "voicingProbability": 0.891
+        },
+        {
+          "seconds": 1.4,
+          "hz": 144.36,
+          "voicingProbability": 0.946
+        },
+        {
+          "seconds": 1.405,
+          "hz": 144.36,
+          "voicingProbability": 0.946
+        },
+        {
+          "seconds": 1.41,
+          "hz": 144.36,
+          "voicingProbability": 0.946
+        },
+        {
+          "seconds": 1.415,
+          "hz": 144.36,
+          "voicingProbability": 0.946
+        },
+        {
+          "seconds": 1.42,
+          "hz": 144.36,
+          "voicingProbability": 0.946
+        },
+        {
+          "seconds": 1.425,
+          "hz": 145.2,
+          "voicingProbability": 0.946
+        },
+        {
+          "seconds": 1.43,
+          "hz": 145.2,
+          "voicingProbability": 0.946
+        },
+        {
+          "seconds": 1.435,
+          "hz": 145.2,
+          "voicingProbability": 0.946
+        },
+        {
+          "seconds": 1.44,
+          "hz": 146.04,
+          "voicingProbability": 0.891
+        },
+        {
+          "seconds": 1.445,
+          "hz": 146.89,
+          "voicingProbability": 0.891
+        },
+        {
+          "seconds": 1.45,
+          "hz": 147.74,
+          "voicingProbability": 0.891
+        },
+        {
+          "seconds": 1.455,
+          "hz": 149.45,
+          "voicingProbability": 0.891
+        },
+        {
+          "seconds": 1.46,
+          "hz": 151.19,
+          "voicingProbability": 0.891
+        }
+      ],
+      "autocorrelationCrossCheck": {
+        "medianHz": 186.77,
+        "framesUsed": 92
+      },
+      "listeningCopy": {
+        "file": "new-meem-level-matched.wav",
+        "gainDb": -5.78,
+        "processing": "Gain only to -22 dBFS active-window RMS; original pitch and sample rate preserved. Not a replacement asset."
+      }
+    }
+  ],
+  "conclusion": "The audible mismatch is present in generated speech, not a sample-rate, WAV-header or old-import pitch change. Both new items have lower estimated pitch; new Meem is longer, louder and more low-frequency concentrated. New Baa has lower pitch but a brighter spectral balance, ruling out a single uniform bass-boost explanation. The exact generation-side cause cannot be established without original backend provenance."
+}

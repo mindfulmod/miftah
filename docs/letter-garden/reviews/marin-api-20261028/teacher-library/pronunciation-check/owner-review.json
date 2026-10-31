@@ -1,0 +1,37 @@
+{
+  "stage": "teacher-consonants-v1",
+  "source": "Explicit owner message in this chat",
+  "statement": "first 2 items are fine, the last word still reads imsah, it should be timsah? unless the arabic you are writing is wrong",
+  "reviews": [
+    {
+      "id": "lg-fc64a7da85e6",
+      "input": "كِ",
+      "file": "pronunciation-candidates/lg-fc64a7da85e6.wav",
+      "sha256": "20803280599d1a17ac7262fc2edde2ff2990f7696960f5da5d533ba705000319",
+      "decision": "correct",
+      "note": "Owner: first two items are fine.",
+      "source": "explicit user message",
+      "updated": "2026-10-30T02:11:35.036012+00:00"
+    },
+    {
+      "id": "lg-0ee7bf085410",
+      "input": "تِ",
+      "file": "pronunciation-candidates/lg-0ee7bf085410.wav",
+      "sha256": "1339ad3c73cda144b0efa63905ff81276fe95dc1a1633cce57416cf74a403000",
+      "decision": "correct",
+      "note": "Owner: first two items are fine.",
+      "source": "explicit user message",
+      "updated": "2026-10-30T02:11:35.036343+00:00"
+    },
+    {
+      "id": "lg-de1e5cba8529",
+      "input": "تِمْسَاح",
+      "file": "pronunciation-candidates/lg-de1e5cba8529.wav",
+      "sha256": "4aca37f698ad5b7dd326fc1dd47b4d9a0a91e8d3896d728ad734173e3ce057a9",
+      "decision": "fix",
+      "note": "Owner hears imsah; expected initial ت /t/ is missing.",
+      "source": "explicit user message",
+      "updated": "2026-10-30T02:11:35.036611+00:00"
+    }
+  ]
+}

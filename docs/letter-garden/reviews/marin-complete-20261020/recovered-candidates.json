@@ -1,0 +1,112 @@
+[
+  {
+    "text": "فَ",
+    "source": "/Users/main/Documents/Codex/2026-10-03/task/audio-batch/prepared/lg-139a6ba5cae1.wav",
+    "durationSeconds": 1.1881666666666666,
+    "sampleRate": 24000,
+    "id": "lg-139a6ba5cae1",
+    "sha256": "87a700a60d85f4aa322c74f4bf9f7b5a3259f21430e604020f45f3457ecb6891",
+    "voice": "marin",
+    "reviewStatus": "unreviewed",
+    "file": "candidates/lg-139a6ba5cae1.wav"
+  },
+  {
+    "text": "قِ",
+    "source": "/Users/main/Documents/Codex/2026-10-03/task/audio-batch/prepared/lg-2155dba94601.wav",
+    "durationSeconds": 1.1235416666666667,
+    "sampleRate": 24000,
+    "id": "lg-2155dba94601",
+    "sha256": "0e0f0dd07f2b932b87418ad990a0dc8ea4fca68a248c63f8ef8620fdd6cfa884",
+    "voice": "marin",
+    "reviewStatus": "unreviewed",
+    "file": "candidates/lg-2155dba94601.wav"
+  },
+  {
+    "text": "هِ",
+    "source": "/Users/main/Documents/Codex/2026-10-03/task/audio-batch/prepared/lg-9d34621d847e.wav",
+    "durationSeconds": 0.7077916666666667,
+    "sampleRate": 24000,
+    "id": "lg-9d34621d847e",
+    "sha256": "57a7d19853bd0f1b7fcbb025b970c86632ebb9b24c1d18a93d93dfef1346aa4c",
+    "voice": "marin",
+    "reviewStatus": "unreviewed",
+    "file": "candidates/lg-9d34621d847e.wav"
+  },
+  {
+    "text": "هُ",
+    "source": "/Users/main/Documents/Codex/2026-10-03/task/audio-batch/prepared/lg-33fae2c3fa92.wav",
+    "durationSeconds": 1.0657916666666667,
+    "sampleRate": 24000,
+    "id": "lg-33fae2c3fa92",
+    "sha256": "05adbe4a0103723b9ff59120c2aac3ce42de3f60b8390730534d4d364b71529e",
+    "voice": "marin",
+    "reviewStatus": "unreviewed",
+    "file": "candidates/lg-33fae2c3fa92.wav"
+  },
+  {
+    "text": "وُ",
+    "source": "/Users/main/Documents/Codex/2026-10-03/task/audio-batch/prepared/lg-31d16c7f5df3.wav",
+    "durationSeconds": 0.9339583333333333,
+    "sampleRate": 24000,
+    "id": "lg-31d16c7f5df3",
+    "sha256": "1a86e25a11532a8f77dbb8f8a4b85e8d42ed2eb9cc9c699b8df354f92befef19",
+    "voice": "marin",
+    "reviewStatus": "unreviewed",
+    "file": "candidates/lg-31d16c7f5df3.wav"
+  },
+  {
+    "text": "طَا",
+    "source": "/Users/main/Documents/Codex/2026-10-03/task/audio-batch/prepared/lg-89fbe36986ba.wav",
+    "durationSeconds": 0.7899583333333333,
+    "sampleRate": 24000,
+    "id": "lg-89fbe36986ba",
+    "sha256": "7858463dee8592ad5faeee23ec5a41ed503f7ac845a211dfc10e24e8aab63d73",
+    "voice": "marin",
+    "reviewStatus": "unreviewed",
+    "file": "candidates/lg-89fbe36986ba.wav"
+  },
+  {
+    "text": "طِي",
+    "source": "/Users/main/Documents/Codex/2026-10-03/task/audio-batch/prepared/lg-e264bcf86158.wav",
+    "durationSeconds": 0.5798333333333333,
+    "sampleRate": 24000,
+    "id": "lg-e264bcf86158",
+    "sha256": "84a68439da63d91cad1bc5717a4d1976029a10ca9088ac10fdc123e90d2f73cf",
+    "voice": "marin",
+    "reviewStatus": "unreviewed",
+    "file": "candidates/lg-e264bcf86158.wav"
+  },
+  {
+    "text": "طُو",
+    "source": "/Users/main/Documents/Codex/2026-10-03/task/audio-batch/prepared/lg-b702f2d63993.wav",
+    "durationSeconds": 0.33395833333333336,
+    "sampleRate": 24000,
+    "id": "lg-b702f2d63993",
+    "sha256": "cc5e7492916821b970772398c27e4324f4da44f156dcaf3ba27660ec54cda1f6",
+    "voice": "marin",
+    "reviewStatus": "unreviewed",
+    "file": "candidates/lg-b702f2d63993.wav"
+  },
+  {
+    "text": "كَا",
+    "source": "/Users/main/Documents/Codex/2026-10-03/task/audio-batch/prepared/lg-ffafb835b249.wav",
+    "durationSeconds": 0.8245,
+    "sampleRate": 24000,
+    "id": "lg-ffafb835b249",
+    "sha256": "59efaf3b476597b4ef570b72c8049e015a5a73a32ea4a345ca7331370963603c",
+    "voice": "marin",
+    "reviewStatus": "unreviewed",
+    "file": "candidates/lg-ffafb835b249.wav"
+  },
+  {
+    "text": "غُ",
+    "source": "/Users/main/Documents/Codex/2026-10-03/task/prepared/letter-garden-marin-ghu.wav",
+    "durationSeconds": 1.34,
+    "sampleRate": 24000,
+    "id": "lg-b03e507decd7",
+    "sha256": "b86b811e0562bb7f150208ddd57f0ea895b8794172fa3422c9dbbd55fcdfb119",
+    "voice": "marin",
+    "reviewStatus": "unreviewed",
+    "file": "candidates/lg-b03e507decd7.wav"
+  }
+]

@@ -41,22 +41,21 @@ test("v40 Game quality: replay buttons always do something, Busy Market never st
   const book = source("BookGames.js"), puzzle = source("PuzzleGames.js");
   assert.match(book, /left\(c\) \{ return this\.goods\.filter/, "finished lenses are tracked by what is left");
   assert.match(book, /if \(this\.lenses\.every\(\(l\) => !this\.left\(l\)\)\)/, "the market ends when every lens is finished");
-  assert.match(book, /if \(!manual\) for \(let step = 0; step < n && !this\.left\(this\.lenses\[k\]\); step \+= 1\)/, "auto-advance skips empty lenses");
+  assert.match(book, /if \(this\.left\(this\.lenses\[candidate\]\)\) \{ k = candidate; break; \}/, "manual and automatic changes skip empty lenses");
   for (const cls of ["HoopoeTrip", "FriendShapes", "BusyMarket"]) {
     const body = book.slice(book.indexOf(`class ${cls}`), book.indexOf("class ", book.indexOf(`class ${cls}`) + 6) > 0 ? book.indexOf("class ", book.indexOf(`class ${cls}`) + 6) : undefined);
-    assert.match(body, /replayPrompt\(\) \{ [^}]/, `${cls} replays its question`);
+    assert.match(body, /replayPrompt\(\) \{\s+[^}]/, `${cls} replays its question`);
   }
-  assert.match(puzzle, /replayPrompt\(\) \{ if \(!this\.busy && this\.order\?\.\[this\.at\]\) \{ this\.missed = true;/, "the train's hint marks the ride as helped");
+  assert.match(puzzle, /replayPrompt\(\) \{ if \(this\.alive && !this\.busy && this\.order\?\.\[this\.at\]\) \{ this\.missed = true;/, "the train's hint marks the ride as helped");
   assert.match(puzzle, /super\(ctx, "pz-dots", "Dots last"\);\n\s+this\.noReplay = true;/);
   assert.match(puzzle, /super\(ctx, "pz-same", "Same letter"\);\n\s+this\.noReplay = true;/);
   assert.match(game, /if\(this\.game\?\.noReplay\)replay\.hidden=true;/, "seeing games hide the replay button");
 });
 
 test("v41 Polish: still hints, centred lone tiles, gentle round fades, a buzz on right answers", () => {
-  const css = read("styles/letters-friends.css");
+  const css = read("styles/letters-friends.css") + read("styles/letters-toy-chest.css");
   assert.match(css, /:is\(\.ff, \.bk, \.pz, \.vh, \.ws, \.wd, \.sh, \.tb\) \.is-hint \{ box-shadow: 0 0 0 5px #f3c955/, "a hint shows even with motion reduced");
-  assert.match(css, /button:last-child:nth-child\(3n\+1\) \{ grid-column: 2; \}/);
-  assert.match(css, /button:last-child:nth-child\(odd\) \{ grid-column: 1 \/ -1; justify-self: center;/);
+  assert.match(css, /\.tc-toys\s*\{[^}]*display:\s*flex;[^}]*justify-content:\s*center;/, "a small family row stays centred when it has one toy");
   assert.match(css, /:where\(\.lg-app :is\(\.ff, \.bk, \.pz, \.vh, \.ws, \.wd, \.sh, \.tb\) > \*\) \{ animation: lg-round-in \.28s ease-out backwards; \}/, "zero-specificity, opacity-only fade");
   assert.match(css, /@keyframes lg-round-in \{ from \{ opacity: 0; \} to \{ opacity: 1; \} \}/);
   assert.match(game, /correct:\(\)=>this\.sound\.play\('correct'\),/, "a right answer is felt through the correct cue's haptic");
@@ -83,11 +82,16 @@ test("v42–v47 Toy Box: honest evidence, no timers, sprout-gentle, in the palet
     const body = toy.slice(toy.indexOf(`class ${cls}`), toy.indexOf("\n  }\n", toy.indexOf(`class ${cls}`)));
     assert.doesNotMatch(body, /this\.report\(/, `${cls} only records participation`);
   }
-  assert.match(toy, /const right = this\.report\(this\.target, c, \[\.\.\.new Set\(this\.fish\)\], \{ listening: true \}\);/, "fishing is a listening question");
+  assert.match(toy, /const right = this\.report\(this\.target, c, \[\.\.\.new Set\(this\.fish\)\], \{ listening: this\.listenPrompt \}\);/, "fishing only earns listening evidence in its current listening round");
+  assert.match(toy, /this\.ctx\.prompt\?\.\(this\.listenPrompt \? null : item\(target\)\)/, "a listening round clears the visible answer");
+  assert.match(toy, /this\.promptVersion === version && this\.listenPrompt/, "only a completed current-round prompt earns listening credit");
+  assert.match(toy, /this\.n = this\.level === 0 \? 2 : this\.level === 1 \? 3 : 4;/, "jigsaw grows by one piece at a time");
+  assert.doesNotMatch(toy.slice(toy.indexOf("class FriendJigsaw"), toy.indexOf("class BathTime")), /const decoy|pieces\.push\(\{ c: decoy/, "jigsaw adds no distractor while its piece count grows");
   assert.match(toy, /if \(1 - this\.mud\.children\.length \/ this\.total > 0\.8\) this\.missed = true;/, "a guess from a nearly clean friend is assisted");
-  assert.match(toy, /this\.boards = ctx\.beginner \? 1 : 2;/);
-  assert.match(toy, /this\.n = ctx\.beginner \? 2 : 4;/, "a little sprout's jigsaw has two halves");
-  assert.match(toy, /this\.ask = !ctx\.beginner && this\.known\.length >= 2;/, "a little sprout just scrubs and hears");
+  assert.match(toy, /this\.boards = this\.level >= 2 \? 2 : 1;/, "memory grows from cross-visit matching evidence");
+  assert.match(toy, /this\.n = this\.level === 0 \? 2 : this\.level === 1 \? 3 : 4;/, "jigsaw moves from halves to thirds and then quarters");
+  assert.match(toy, /this\.ask = this\.level >= 1 && this\.known\.length >= 2;/, "the optional recognition round waits for matching evidence");
+  assert.match(toy, /this\.played\(A\.c, "matching-memory"\)/, "memory success stays in its own matching skill");
   assert.doesNotMatch(toy, /countdown|timer\s*=|timeLeft/i);
   assert.deepEqual(off(toy), []);
   assert.deepEqual(widths(toy), []);
@@ -117,5 +121,5 @@ test("v48 World integration: the toys are on the journey, the walk, the garden a
   assert.match(html, /styles\/letters-toybox\.css\?v=2026\d{4}-v\d+[\s\S]*styles\/letters-landscape\.css/, "landscape stays last");
   assert.match(sw, /"src\/letters\/ToyBoxGames\.js",/);
   assert.match(sw, /"styles\/letters-toybox\.css",/);
-  assert.match(sw, /const VERSION = "miftah-v[1-9]\d\d-letter-garden-v\d+-2026\d{4}";/);
+  assert.match(sw, /const VERSION = "miftah-v[0-9]+-letter-garden-[a-z0-9-]+";/);
 });

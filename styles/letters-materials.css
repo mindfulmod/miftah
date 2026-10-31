@@ -826,3 +826,11 @@
 @media (max-width: 520px) {
   .lg-app.lg-boat-chapter:has(.lg-play:is([data-activity="build"], [data-activity="blend"], [data-activity="fuse"], [data-activity="unfuse"], [data-activity="chain"], [data-activity="parade"])) .garden-shore-boat { visibility: hidden; }
 }
+
+/* v264: the page-wide ambient butterflies fly above the interface (they live outside .lg-app, so
+   they can't slip between scenery and controls) and crossed the hatch screen's confirm button. Like
+   the reward, wardrobe and night screens, the hatch screen now hides them so the first moment stays
+   on the egg and the big button. */
+/* Letter dots and marks must stay clear while a child meets a new form.
+   Authored scenery and room life remain behind the teaching surface. */
+body:has(.lg-hatch, .lg-meet) .lg-ambient { display: none; }

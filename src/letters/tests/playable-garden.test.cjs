@@ -29,7 +29,7 @@ test("saved drawings are validated and capped", () => {
   assert.match(state, /url\.length <= 60000/);
   assert.match(state, /\.slice\(-8\)/);
   const game = source("LettersGame.js");
-  assert.match(game, /this\.savedDrawings = Object\.fromEntries\(Object\.entries\(kept\)\.slice\(-8\)\);/);
+  assert.match(game, /ns\.LettersState\.keepDrawing\(this\.savedDrawings/);
 });
 
 test("playing with a placed toy never changes the layout or ownership", () => {

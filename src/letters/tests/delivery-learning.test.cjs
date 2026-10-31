@@ -61,7 +61,9 @@ test('beginner matching profile keeps all Delivery rounds at two visible choices
     assert.equal(r.packets.length, 2);
     assert.equal(r.calls.prompts.at(-1)[0], r.game.target.id);
     const target = r.packets.find(button => button.dataset.item === r.game.target.id);
-    target.onclick(); r.nodes.destination.onclick(); r.flushAdvance();
+    const before = r.game.index;
+    target.onclick(); r.nodes.destination.onclick(); assert.equal(r.game.continue(), true); r.flushAdvance();
+    assert.equal(r.game.index, before + 1);
   }
   assert.ok(r.calls.outcomes.every(outcome => outcome.independent === false));
 });
@@ -77,7 +79,7 @@ test('unconfirmed adapters never count as heard, and pending prompts reject deli
 test('visible matching records its own evidence without revealing the correct packet',()=>{
   const r=runtime({profile:()=>({promptMode:'match',choiceCount:2,skill:'letter-name'})});
   assert.equal(r.packets.some(packet=>packet.classList.contains('is-help')),false);
-  r.game.offer(r.game.target);
+  assert.equal(r.game.offer(r.game.target),true,'an accepted delivery consumes the drag');
   assert.equal(r.calls.outcomes[0].evidence,'supported_visible_matching');
   assert.equal(r.calls.outcomes[0].independent,false);
 });

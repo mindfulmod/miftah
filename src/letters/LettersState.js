@@ -26,6 +26,15 @@
     return date.getUTCFullYear() === year && date.getUTCMonth() === month - 1 && date.getUTCDate() === day;
   };
 
+  function resumeRecord(value) {
+    if (!isObject(value) || typeof value.world !== "string" || !/^[a-z0-9-]{2,32}$/.test(value.world)) return null;
+    const n = (v, max) => (Number.isFinite(v) ? Math.max(0, Math.min(max, Math.floor(v))) : 0);
+    const vowelItemIds = strings(value.vowelItemIds, []).filter(id => id.length > 0 && id.length <= 32).slice(0, 4);
+    const wordItemIds = strings(value.wordItemIds, []).filter(id => id.length > 0 && id.length <= 32).slice(0, 4);
+    return { world: value.world, gameIndex: n(value.gameIndex, 12), starTotal: n(value.starTotal, 60), at: Number.isFinite(value.at) ? value.at : 0,
+      ...(vowelItemIds.length ? { vowelItemIds } : {}), ...(wordItemIds.length ? { wordItemIds } : {}) };
+  }
+
   function objectMap(value, fallback, normalizeValue) {
     if (!isObject(value)) return fallbackObject(fallback);
     const result = {};
@@ -44,6 +53,8 @@
   function normalize(key, value, fallback) {
     const name = key.startsWith(PREFIX) ? key.slice(PREFIX.length) : key;
 
+    if (name === "keepsakes") return ns.LettersJourney?.normalizeKeepsakes(value) || {};
+    if (name === "garden-adventure" && ns.GardenAdventureState) return ns.GardenAdventureState.normalize(value);
     if (name === "garden-layout") return ns.LettersDecorations.normalize(value);
     // Family Garden: up to six children, each just an id (pets tell them apart).
     if (name === "profiles") return Array.isArray(value) ? value.filter((p) => p && /^p\d{1,3}$/.test(p.id)).map((p) => ({ id: p.id })).slice(0, 6) : [];
@@ -65,9 +76,15 @@
     // Today's Walk (v25): one day's plan and which stops were walked.
     // Encouragement pass (v57): where a half-played chapter was left.
     if (name === "resume") {
-      if (!isObject(value) || typeof value.world !== "string" || !/^[a-z0-9-]{2,32}$/.test(value.world)) return null;
-      const n = (v, max) => (Number.isFinite(v) ? Math.max(0, Math.min(max, Math.floor(v))) : 0);
-      return { world: value.world, gameIndex: n(value.gameIndex, 12), starTotal: n(value.starTotal, 60), at: Number.isFinite(value.at) ? value.at : 0 };
+      const current = resumeRecord(value);
+      if (!current) return null;
+      // Keep the old root shape, with flat bookmarks for other chapters.
+      // One storage write updates all places; records can never nest.
+      const others = isObject(value.others) ? Object.entries(value.others)
+        .map(([id, record]) => [id, resumeRecord(record)])
+        .filter(([id, record]) => record && record.world === id && id !== current.world)
+        .sort((a, b) => b[1].at - a[1].at).slice(0, 63) : [];
+      return { ...current, ...(others.length ? { others: Object.fromEntries(others) } : {}) };
     }
     if (name === "walk") {
       const KINDS = /^(Feed|WaterGarden|LetterHunt|LetterDelivery|GardenPaths|DotGarden|SoundLab|LetterStudio|LetterBalloons|FriendFind|FriendBook|PeekFlaps|SoundSort|HoopoeTrip|FriendShapes|BusyMarket|SandTable|LivingBook|EchoParade|DotsLast|LetterTrain|SameLetter|LanternHunt|LetterShadows|HatShop|BuildLetter|FillGap|TwinCrown|ListenFind|WordGap|FriendPairs|DotNests|FriendJigsaw|BathTime|LetterFishing|ColourFriend|SpotChange|FamilyBuses)$/;
@@ -85,12 +102,14 @@
     if (name === "tricks-seen") return Array.isArray(value) ? [...new Set(value.filter(v => typeof v === "string" && /^(spin|hop|sway|sing|stretch|juggle|roll)$/.test(v)))] : [];
     // Lands whose gate has already unfurled on the map (the arrival plays once).
     if (name === "lands-seen") return Array.isArray(value) ? [...new Set(value.filter(v => typeof v === "string" && /^(orchard|lagoon|night|peaks|river)$/.test(v)))] : [];
-    // Up to eight of the child's own drawing thumbnails (update 5 garden signs).
+    // Three art pictures have their own places; tracing never pushes them out.
+    // Eight tracing keepsakes cover even a fully planted, eight-space garden.
     if (name === "drawings") {
       if (!isObject(value)) return {};
       const keep = Object.entries(value).filter(([letter, url]) => typeof letter === "string" && letter.length <= 8 &&
-        typeof url === "string" && url.length <= 60000 && /^data:image\/png;base64,[A-Za-z0-9+/=]+$/.test(url)).slice(-8);
-      return Object.fromEntries(keep);
+        typeof url === "string" && url.length <= 60000 && /^data:image\/png;base64,[A-Za-z0-9+/=]+$/.test(url));
+      const tracing = new Set(keep.filter(([key]) => !/^art[1-3]$/.test(key)).slice(-8).map(([key]) => key));
+      return Object.fromEntries(keep.filter(([key]) => /^art[1-3]$/.test(key) || tracing.has(key)));
     }
     if (name === "progress") {
       if (!isObject(value)) return fallbackObject(fallback);
@@ -248,5 +267,28 @@
     return id;
   }
 
-  ns.LettersState = { read, write, readAs, normalize, hasWriteFailure: () => writeFailed, profiles, activeProfile, setActive, addProfile, scoped };
+  // Return a candidate only. The caller commits memory after storage succeeds.
+  // A displayed tracing is the child's chosen picture, even after another trace
+  // of the same letter. Explicit studio replacements may update their own sign.
+  function keepDrawing(value, key, url, layout = {}) {
+    if (typeof key !== 'string' || !key.length || key.length > 8 ||
+        typeof url !== 'string' || url.length > 60000 || !/^data:image\/png;base64,iVBORw0KGgoAAAANSUhEUg[A-Za-z0-9+/]*={0,2}$/.test(url)) return null;
+    const kept = normalize('drawings', value, {});
+    const protectedKeys = new Set((Array.isArray(layout?.slots) ? layout.slots.slice(0, 8) : [])
+      .filter(id => typeof id === 'string' && id.startsWith('sign:')).map(id => id.slice(5)));
+    if (!/^art[1-3]$/.test(key)) {
+      if (protectedKeys.has(key) && Object.hasOwn(kept, key)) return null;
+      delete kept[key];
+      const tracing = Object.keys(kept).filter(name => !/^art[1-3]$/.test(name));
+      if (tracing.length >= 8) {
+        const oldest = tracing.find(name => !protectedKeys.has(name));
+        if (!oldest) return null;
+        delete kept[oldest];
+      }
+    }
+    delete kept[key];
+    return { ...kept, [key]: url };
+  }
+
+  ns.LettersState = { read, write, readAs, normalize, keepDrawing, hasWriteFailure: () => writeFailed, profiles, activeProfile, setActive, addProfile, scoped };
 })(window.MiftahGame || (window.MiftahGame = {}));

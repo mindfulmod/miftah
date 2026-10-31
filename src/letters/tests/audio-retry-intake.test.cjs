@@ -179,7 +179,8 @@ test('batch four installs 15 unique exact approvals and preserves the rejected F
   // The release keeps the full 237-key bank and adds exactly these 15 labels.
   const previousInstalled = catalogue.items.filter(item => item.status === 'installed' && !approvedIds.has(item.id));
   assert.equal(previousInstalled.length, 237);
-  assert.deepEqual(Object.keys(bank).sort(), [...new Set([...previousInstalled.map(item => item.text), ...approvedTexts])].sort());
+  const teacherTexts = JSON.parse(read('assets/audio/letters/marin-teacher-v1/manifest.json')).items.map(item => item.text);
+  assert.deepEqual(Object.keys(bank).sort(), [...new Set([...previousInstalled.map(item => item.text), ...approvedTexts, ...teacherTexts])].sort());
   for (const item of previousInstalled) {
     assert.equal(bank[item.text], item.file, `Previous runtime mapping changed: ${item.text}`);
     assert.equal(hash(read(item.file)), item.sha256, `Previous approved bytes changed: ${item.text}`);
@@ -206,7 +207,7 @@ test('batch four installs 15 unique exact approvals and preserves the rejected F
   assert.equal(applied.remaining.length, 12);
   for (const item of applied.remaining) {
     assert.notEqual(byText.get(item.text)?.status, 'installed', `${item.text} should retain device-speech fallback`);
-    assert.equal(bank[item.text], undefined, `${item.text} should not have a bundled mapping`);
+    if (bank[item.text]) assert.ok(JSON.parse(read('assets/audio/letters/marin-teacher-v1/manifest.json')).items.some(i => i.text === item.text && i.file === bank[item.text]), 'Only a later reviewed replacement may cover this text');
   }
 
   const fi = sheet.cuts.find(item => item.text === 'فِ');

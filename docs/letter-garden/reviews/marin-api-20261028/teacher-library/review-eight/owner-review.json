@@ -1,0 +1,94 @@
+{
+  "stage": "teacher-review-eight-v1",
+  "reviews": [
+    {
+      "id": "lg-a814b4eeafc9",
+      "input": "الرَّحِيمِ",
+      "targetInput": "ٱلرَّحِيمِ",
+      "targetId": "lg-b5ef522130f7",
+      "sha256": "202b27d38cbf42d9914f3a01dda7a677d019f8bfbd3da6b657e2214f26d4a17f",
+      "file": "tanwin-repair-candidates/lg-a814b4eeafc9.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-30T23:48:24.344Z"
+    },
+    {
+      "id": "lg-fd7e18857948",
+      "input": "أَبِّ",
+      "targetInput": "بِّ",
+      "targetId": "lg-1928a403f70f",
+      "sha256": "02268d8b9117d6bc81ec48ad85632f06cc413911670c11eddcba66b89ceead9e",
+      "file": "tanwin-repair-candidates/lg-fd7e18857948.wav",
+      "decision": "fix",
+      "note": "abbi",
+      "updated": "2026-10-30T23:48:34.393Z"
+    },
+    {
+      "id": "lg-6384e9fd6666",
+      "input": "هِيْ",
+      "targetInput": "هِي",
+      "targetId": "lg-8bd6f3ee1768",
+      "sha256": "379cf86ddd122590e35249a2001b9d32d98598dd2e79045ba9bb78eadb977b5a",
+      "file": "tanwin-repair-candidates/lg-6384e9fd6666.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-30T23:48:36.630Z"
+    },
+    {
+      "id": "lg-e2e8512af7aa",
+      "input": "رَبِّ",
+      "targetInput": "رَبِّ",
+      "targetId": "lg-e2e8512af7aa",
+      "sha256": "4ca72674c516fe7dc8e0d4b76cadd6ab0d29d52d7cfe5bfaa6ce113b71599b4e",
+      "file": "tanwin-repair-candidates/lg-e2e8512af7aa.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-30T23:48:39.776Z"
+    },
+    {
+      "id": "lg-69b9bdd43755",
+      "input": "هَذِهِ",
+      "targetInput": "هٰذِهِ",
+      "targetId": "lg-fee6694be3d0",
+      "sha256": "01b2d34dca321fa96a8ab9c3acbd2a3cddcc2060b3b0672da4c45c40b24aae69",
+      "file": "tanwin-repair-candidates/lg-69b9bdd43755.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-30T23:48:42.370Z"
+    },
+    {
+      "id": "lg-43401d7c8e1d",
+      "input": "أَبُّ",
+      "targetInput": "بُّ",
+      "targetId": "lg-1dc9c72a6341",
+      "sha256": "0976b7265537be9a74a83228af902bfc9dce3c37f482f82ad207d6623ec4b9d5",
+      "file": "tanwin-repair-candidates/lg-43401d7c8e1d.wav",
+      "decision": "fix",
+      "note": "abu",
+      "updated": "2026-10-30T23:48:47.358Z"
+    },
+    {
+      "id": "lg-29d632397764",
+      "input": "أَذْ",
+      "targetInput": "أَذْ",
+      "targetId": "lg-29d632397764",
+      "sha256": "d7f13efd21e3df56f90491a43d0ed11783b9298c0447d20af2e736104c4b279e",
+      "file": "tanwin-repair-candidates/lg-29d632397764.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-30T23:48:52.164Z"
+    },
+    {
+      "id": "lg-39f4044efed4",
+      "input": "أَفَّ",
+      "targetInput": "أَفَّ",
+      "targetId": "lg-39f4044efed4",
+      "sha256": "e860a761cc81085167a02cba335624583cc277f20dea5546e8c095d50d0c30cd",
+      "file": "tanwin-repair-candidates/lg-39f4044efed4.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-30T23:48:55.459Z"
+    }
+  ],
+  "exported": "2026-10-30T23:49:09.372Z"
+}

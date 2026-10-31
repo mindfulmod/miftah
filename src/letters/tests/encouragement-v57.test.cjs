@@ -25,14 +25,14 @@ test("v57 Encouragement: stuck never lasts — a helping hand after two misses, 
   assert.match(game, /this\._missStreak = \(this\._missStreak \|\| 0\) \+ 1;/);
   assert.match(game, /if \(this\._missStreak >= \(this\.sprout \|\| this\.easeUp \? 1 : 2\)\) setTimeout\(\(\) => this\.feel\.guide\(\), 30\);/, "sooner for a little sprout");
   assert.match(game, /const target = stage && \(\[\.\.\.stage\.querySelectorAll\("\.is-hint"\)\]\.find\(visible\)/, "the hand points at what the game is hinting");
-  assert.match(game, /\|\| \(idle \? \[\.\.\.stage\.querySelectorAll\("\.tb-sponge, button:not\(\.practice-replay\)/, "a still child is shown where to touch (never the answer)");
+  assert.match(game, /idle \? this\.idleControls\(\)\.replay/, "idle help offers replay instead of guessing an answer");
   assert.match(game, /this\.feel\?\.guide\?\.\(true\);/);
   assert.match(game, /this\._missStreak = 0;/, "a right answer clears it");
   assert.match(css, /\.lg-guide-hand \{ position: absolute;/);
   assert.match(read("src/letters/ShadowGames.js"), /if \(this\.misses >= 2\) \{/, "Lantern Hunt lights a letter after two misses");
   const toy = read("src/letters/ToyBoxGames.js");
   assert.match(toy, /\.tb-guess-letter"\)\.forEach\(\(b, k\) => b\.classList\.toggle\("is-hint", this\.offered\[k\] === this\.c\)\)/, "Bath Time");
-  assert.match(toy, /\.tb-piece"\)\.forEach\(\(b, k\) => b\.classList\.toggle\("is-hint", this\.pieces\[k\]\.c === this\.c && this\.pieces\[k\]\.r === slot\)\)/, "Jigsaw");
+  assert.match(toy, /\.tb-piece"\)\.forEach\(\(b, k\) => b\.classList\.toggle\("is-hint", this\.pieces\[k\]\.c === this\.c && this\.todo\.includes\(this\.pieces\[k\]\.r\)\)\)/, "Jigsaw");
   assert.match(toy, /const peek = this\.mismatches >= 3;/, "Friend Pairs peeks again after three mismatches");
   assert.match(game, /this\.watchIdlePrompt\(screenEl, this\.gentle \|\| this\.sprout \? 8000 : 14000, this\.gentle \|\| this\.sprout \? 2 : 1\);/, "every child gets idle help");
 });
@@ -52,15 +52,15 @@ test("v57 Encouragement: 'not enough stars yet' is soon, never wrong; finishing 
   assert.doesNotMatch(game, /this\.sound\.play\("wrong"\)/, "no wrong sound for anything that isn't an answer");
   assert.match(game, /class="stand-pips"/, "the stand fills up toward a visit");
   assert.doesNotMatch(game, /this\.starBalance\(\) >= 5 \? "" : "disabled"/, "the stand is never a dead button");
-  assert.match(game, /if\(onDone&&this\.session\?\.chapterBonus\)return go\(\);this\.finishBloom\(el,go,friend,this\.payPractice\(kind\)\);/);
-  assert.match(css, /@keyframes pg-bloom-grow/);
+  assert.match(game, /this\.finishBloom\(el,go,friend,this\.payPractice\(kind\),again,creation\);/);
+  assert.match(read('styles/letters-practice-finish.css'), /@keyframes practice-finish-arrive/);
   assert.deepEqual(off(css), []);
 });
 
 test("v57 Encouragement: persistence is the proudest moment; friends greet on replays; the map header is tidy", () => {
   assert.match(game, /const comeback = \(this\._missStreak \|\| 0\) > 0;/);
-  assert.match(game, /burst\.className = comeback \? "lg-burst is-big" : bloom \? "lg-burst is-bloom" : "lg-burst";/);
-  assert.match(css, /\.lg-burst\.is-big \{ width: 170px;/);
+  assert.doesNotMatch(game, /burst\.className = comeback/, "persistence no longer escalates visual intensity");
+  assert.match(css, /\.lg-hit-flash, \.lg-burst \{ display: none; \}/);
   assert.match(game, /if \(isReplay\) friendArrives\(1200\);/, "a replayed chapter's friend still comes to say hello");
   assert.match(css, /\.lg-app \.lg-screen\.lg-home \.map-play-places \{ margin-top: 22px; \}/, "the play buttons clear the 56px daily strip");
 });
@@ -80,15 +80,17 @@ test("v57 Encouragement: a little sprout's garden offers a handful of simple toy
 
 test("v57 Encouragement: reduced motion still gets its moment — a still golden ring", () => {
   assert.match(game, /if \(this\.prefersReducedMotion\(\)\) \{\n\s+if \(!isSvgPart\(t\.el\)\) \{ t\.el\.classList\.add\("is-won-still"\);/);
-  assert.match(css, /\.lg-app \.is-won-still \{ box-shadow: 0 0 0 5px #f3c955/);
+  assert.match(css, /\.lg-app \.is-won-still \{ box-shadow: 0 0 0 3px #f3c955/);
 });
 
 test("v57 Encouragement: a chapter left half-way picks up where the child got to", () => {
   assert.match(game, /const RESUME_KEY = "quran-trainer:letters:resume";/);
-  assert.match(game, /Date\.now\(\) - place\.at < 6 \* 3600000 && place\.gameIndex > 0 && place\.gameIndex < world\.games\.length/, "for a few hours, never past the end");
+  assert.match(game, /Number\.isInteger\(resumeIndex\) && resumeIndex > 0 &&\s+resumeIndex <= world\.games\.length/, "valid next-step indices include the final stars handoff");
+  assert.match(game, /Number\.isFinite\(age\) && age >= 0 && place\.at > 0/, "future and malformed timestamps are rejected without expiring a child's work");
+  assert.match(game, /if \(resumeIndex === world\.games\.length\) return this\.finishWorld\(\);/, "the completed last activity proceeds to chapter completion");
   assert.match(game, /if \(!s\?\.world \|\| s\.checkup \|\| s\.daily \|\| s\.plan \|\| s\.chapterBonus\) return;/, "only real chapters");
   assert.match(game, /s\.lastStars = stars;\n\s+this\.rememberPlace\?\.\(s, 1\);/, "saved after the stars are counted");
-  assert.match(game, /if \(s\?\.world && this\.loadJSON\(RESUME_KEY, null\)\?\.world === s\.world\.id\) this\.saveJSON\(RESUME_KEY, null\);/, "cleared when the chapter is finished");
+  assert.match(game, /if \(s\?\.world\) this\.clearChapterPlace\(s\.world\);/, "only the finished chapter's place is cleared");
   assert.match(fs.readFileSync(path.join(root, "src/letters/LettersState.js"), "utf8"), /if \(name === "resume"\) \{/, "the saved place is normalised");
 });
 
@@ -112,14 +114,14 @@ test("v57 Encouragement: a memory mismatch is play, not a mistake", () => {
 test("v57 Encouragement: a hard patch quietly eases the next games until the wins come back", () => {
   assert.match(game, /if \(this\._missTimes\.length >= 6 && !this\.easeUp\) \{ this\.easeUp = true;/, "six misses in three minutes");
   assert.match(game, /if \(this\.easeUp && \(this\._easeWins = \(this\._easeWins \|\| 0\) \+ 1\) >= 5\) \{ this\.easeUp = false;/, "five right in a row lifts it");
-  assert.match(game, /\?!!\(this\.sprout\|\|this\.easeUp\):undefined,/, "games get Little Sprout settings meanwhile");
+  assert.match(game, /beginner:!!\(this\.sprout\|\|this\.easeUp\),/, "games get Little Sprout settings meanwhile");
 });
 
 test("v57 Encouragement: eager taps are answered — Dots Last shows the next dot, Spot the Change's eye bounces", () => {
   const puzzle = fs.readFileSync(path.join(root, "src/letters/PuzzleGames.js"), "utf8");
-  assert.match(puzzle, /if \(this\.revealed < this\.dotList\.length\) this\.showDot\(this\.revealed\);/);
+  assert.match(puzzle, /if \(this\.revealed < this\.dotList\.length\) this\.showDot\(this\.revealed, this\.roundToken\);/);
   const look = fs.readFileSync(path.join(root, "src/letters/LookGames.js"), "utf8");
-  assert.match(look, /if \(this\.phase !== "look"\) return;\n\s+const eye = this\.root\.querySelector\("\.lk-eye"\);/);
+  assert.match(look, /if \(!this\.current\(token, root\) \|\| this\.phase !== "look"\) return;\n\s+const eye = this\.root\.querySelector\("\.lk-eye"\);/, "eager taps remain round-guarded while the explicit eye button waits for the child");
 });
 
 test("v57 Playtest mode: opt-in, on-device frustration log and report for a grown-up watching", () => {
@@ -131,8 +133,8 @@ test("v57 Playtest mode: opt-in, on-device frustration log and report for a grow
 });
 
 test("v57 Encouragement: reduced motion still sees the finishing flowers, standing still", () => {
-  assert.match(game, /bloom\.className=still\?'pg-bloom is-still':'pg-bloom';/);
-  assert.match(css, /\.pg-bloom\.is-still, \.pg-bloom\.is-still \.pg-bloom-bed \{ animation: none; \}/);
+  assert.match(read('src/letters/PracticeFinish.js'), /reducedMotion \? ' is-still'/);
+  assert.match(read('styles/letters-practice-finish.css'), /\.practice-finish\.is-still.*animation: none/);
 });
 
 test("v57 Encouragement: an empty album greets a newcomer with one free sticker visit", () => {
@@ -163,9 +165,10 @@ test("v57 Encouragement: the map always shows where to go — a breathing invite
   assert.match(game, /this\.feel\.point = \(target\) => \{/);
 });
 
-test("v57 Encouragement: up to three never-tried toys twinkle in the practice garden", () => {
+test("v57 Encouragement: the same first three never-tried toys twinkle after family changes", () => {
   assert.match(game, /const TRIED_KEY = "quran-trainer:letters:tried";/);
-  assert.match(game, /if\(twinkles>=3\|\|/);
+  assert.match(game, /const invitations=new Set\(groups\.flatMap\(\(\[,kinds\]\)=>kinds\)\.filter\(kind=>!\['BookCorner','PuzzleTree','CostumeHouse','Workshop','GardenTogether','Burst'\]\.includes\(kind\)&&!triedList\.includes\(kind\)\)\.slice\(0,3\)\);/);
+  assert.match(game, /const untried=kind=>invitations\.has\(kind\);/, "redrawing a family does not spend an invitation");
   assert.match(css, /\.pg-new \{ position: absolute;/);
 });
 

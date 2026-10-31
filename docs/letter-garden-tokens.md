@@ -59,16 +59,36 @@ hand-tuned periods and easings — a 74s cloud drift is not a UI transition.
 | `--lg-t-arrive` | 620ms | A screen or card lands |
 | `--lg-t-beat` | 900ms | A deliberate pause for effect |
 
-Easings stay as they were: `--lg-out` for UI moves, `--lg-spring` and
-`--lg-spring-big` for anything that should feel physical. Raw `ease-in-out` and
-`linear` are acceptable **only** on ambient loops, where they are correct.
+As of v361, the legacy `--lg-spring` and `--lg-spring-big` names resolve to
+monotonic easing inside Letter Garden. Use smooth ease-out or ease-in-out for
+placement and returns, with immediate finger tracking. A physical object does
+not need elastic overshoot. Linear timing remains appropriate for constant
+progress. Do not use hit-stop, impact flashes, stage jolts or neighbouring-card
+recoil for answer feedback. See ART.md “Playful contact, not impact.”
 
 ## Reduced motion
 
-Handled by one rule rather than a guard per selector, because 30 loops had
-outrun 9 hand-written guards. Every looping animation stops after a single pass;
-one-shot feedback is untouched, since a child still needs to see a tile answer a
-tap. New animations are covered automatically.
+As of v360, both the system preference and the in-game setting stop CSS motion,
+including one-shot entry effects. Selected, matched and earned states remain
+visible. The pet rig and hand demonstrations use their existing still poses and
+static routes. Direct finger tracking stays responsive; no completion depends
+on waiting for a decorative animation.
+
+## Attention and readable action (v360)
+
+Learning screens keep terrain and physical props, with clear paper behind the
+letter. Secondary ambient creatures, falling particles and idle fidgets rest.
+The companion can still follow an object the child touched and react to an
+answer. Village motion has small excursions and resting periods; its own life
+replaces the duplicate page-wide layer.
+
+Action cues start after 1.1 seconds, are cancelled by real input, and can be
+replayed. Drag demonstrations take 2.6 seconds with a destination hold; separate
+pair taps are spaced 1.75 seconds apart. Particle feedback is limited to one
+local burst: 8 pieces ordinarily, 14 for a celebration. Main celebrations play
+once and settle. These are adult-review tuning values, not child-tested limits.
+Do not scale every animation duration: direct manipulation and learning timers
+have distinct jobs.
 
 ## What this pass deliberately did NOT change
 

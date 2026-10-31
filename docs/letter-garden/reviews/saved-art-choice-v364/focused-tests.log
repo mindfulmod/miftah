@@ -1,0 +1,43 @@
+✔ painting, undo, and repaint record one motor participation report (3.187834ms)
+✔ studio remembers each page draft and its undo history independently (0.582209ms)
+✔ successful hang remains in studio until explicit finish, which can happen only once (0.655ms)
+✔ same paint is deduplicated, while changed paint can be saved again (0.551833ms)
+✔ failed save clears the pending state so the child can retry (0.512709ms)
+✔ export completion from a stale page is ignored (3.07225ms)
+✔ cancelling a full shelf retains paint and does not mark it saved or finish (0.670917ms)
+✔ page slots are committed only after a write and editing one of three pages preserves the others (0.751ms)
+✔ guided colour game retains the 1400ms finish and stale input cannot paint (0.88025ms)
+✔ finished chapters and saved drawings become garden decorations; nothing else is granted (4.011542ms)
+✔ saved drawings are validated and capped (1.433042ms)
+✔ playing with a placed toy never changes the layout or ownership (0.731041ms)
+✔ tapping one toy after another plays them and never swaps them (0.123084ms)
+✔ the picnic blanket and watering can come from finished stories, not a new currency (0.934375ms)
+✔ the pet's map spot is saved as a plain chapter id and read back safely (1.886917ms)
+✔ the boat ride is decoration: the pet hops in, both sail by the same pixels, then it walks home (0.138959ms)
+✔ eligibility removes untaught, locked, prerequisite-blocked, and ambiguous duplicate displays (3.007625ms)
+✔ pointer placement clamps every edge and ignores points in SVG letterboxing (0.761042ms)
+✔ chosen ink is stored on each letter stamp, undo removes only the last mark, and the canvas caps at 24 (1.372458ms)
+✔ arrow keys move the cursor and Enter places a stamp without creating a learning outcome (0.516666ms)
+✔ hang snapshots the art, locks editing during the save, and ignores stale interactions (0.621417ms)
+✔ failed storage preserves marks and unlocks a retry; successful duplicate hang finishes once (0.676625ms)
+✔ cancelling a full picture shelf keeps the drawing editable without failure or reward (0.520375ms)
+✔ destroying while thumbnail work is pending prevents storage and completion (0.502083ms)
+✔ the real thumbnail rejection path retains the picture and restores controls for retry (0.632167ms)
+✔ Colour a Friend treats a false drawing save as failure and retains art without reward or completion (1.842459ms)
+✔ a fourth picture waits for a choice; cancellation never writes (1.557583ms)
+✔ only the explicitly chosen picture changes, with one persisted write (0.220916ms)
+✔ uses a missing art place and preserves eight tracing keepsakes (0.192875ms)
+✔ invalid or reload-oversized pictures never reach storage (0.259833ms)
+✔ storage refusal and exceptions preserve memory and page ownership (0.559917ms)
+✔ leaving or a concurrent save during selection cannot overwrite newer state (0.18375ms)
+✔ reusing a place revokes its previous page ownership (0.129667ms)
+✔ repeated tracing protects art and displayed signs, including repeat traces (0.480625ms)
+✔ all saved pictures survive normalization and remain available as garden signs (0.384667ms)
+ℹ tests 35
+ℹ suites 0
+ℹ pass 35
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 61.499959

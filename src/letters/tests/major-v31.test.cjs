@@ -39,12 +39,16 @@ test("v31 Puzzle Tree: dot-siblings, alphabet order, perceptual certainty", () =
 test("v31 Puzzle Tree: honest, untimed, unscored; fair puzzles", () => {
   const src = source("PuzzleGames.js");
   assert.doesNotMatch(src, /spendStars|earnStars|saveJSON|setInterval/);
-  assert.match(src, /if \(chosen !== this\.target && !certain\) \{/, "a guess before the dots is 'not yet', never a miss");
+  assert.match(src, /if \(!certain\) \{/, "any guess before certainty is 'not yet', never a miss or a lucky completion");
   assert.match(src, /if \(certain\) this\.report\(/);
-  assert.match(src, /this\.len = Math\.max\(2, Math\.min\(this\.max, this\.len \+ \(this\.missed \? -1 : 1\)\)\);/, "Echo grows and shrinks");
-  assert.match(src, /this\.max = ctx\.beginner \? 2 : 4;/, "a sprout never holds more than two");
+  assert.match(src, /this\.len = this\.pool\.length \? Math\.min\(3, this\.pool\.length, \.\.\.this\.pool\.map\(\(c\) => profile\(ctx, c, skill\)\.choiceCount \|\| 2\)\) : 2;/, "Echo uses the least-supported saved profile for sequence length");
+  assert.doesNotMatch(src, /this\.len\s*=\s*Math\.max\([^\n]*this\.missed/, "a local answer streak cannot raise or lower memory difficulty");
+  assert.match(src, /const profiles = this\.seq\.map\(\(c\) => profile\(this\.ctx, c, this\.baseSkill\)\);/, "every sequence target contributes its support profile");
+  assert.match(src, /const count = Math\.max\(2, Math\.min\(\.\.\.profiles\.map\(\(p\) => p\.choiceCount \|\| 2\), this\.pool\.length\)\);/, "the board honors the least-supported sequence target");
+  assert.match(src, /this\.promptReady = true;[\s\S]*?if \(!this\.alive \|\| this\.busy \|\| !this\.promptReady/, "the response opens only after the full prompt finishes");
   assert.match(src, /const SYMMETRIC = new Set\(\["ا", "ب", "ت", "ث", "ن"\]\);/, "no mirror trap on symmetric letters");
-  assert.match(src, /class="pz-singers is-hidden"/, "the singers are heard, not seen, until the line is done");
+  assert.match(src, /class="pz-singers\$\{this\.promptMode === "listen" \? " is-hidden" : ""\}"/, "only a profile ready for recall hides the singers");
+  assert.match(src, /this\.promptSkill = this\.promptMode === "listen" \? this\.baseSkill : "matching-memory";/, "visible sequences use a separate matching-memory skill");
   assert.match(src, /skill: "alphabet-order", evidence: "motor_assembly_participation",\n?\s*correct: this\.missed \? undefined : true, affectsStrength: false/);
   assert.deepEqual(off(src), []);
   const game = source("LettersGame.js");

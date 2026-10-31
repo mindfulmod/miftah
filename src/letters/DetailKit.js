@@ -31,7 +31,7 @@
   // ---------- tree ----------
   // kind: 'apple' (fruit), 'round' (plain), 'blossom' (pink flowers).
   // seed varies the clump layout so neighbouring trees are never twins.
-  function tree({ kind = "apple", seed = 1, leaf = ["#b7e779", "#7fce54", "#4e9677"], hooks = false } = {}) {
+  function tree({ kind = "apple", seed = 1, leaf = ["#b7e779", "#7fce54", "#4e9677"], hooks = false, detail = "full" } = {}) {
     const r = (n) => { const v = Math.sin(seed * 91.7 + n * 47.3) * 43758.5; return v - Math.floor(v); };
     const clumps = [[0, -86, 30], [-26, -70, 23], [26, -68, 23], [-15, -104, 21], [16, -106, 21], [-4, -62, 20], [32, -90, 16], [-33, -92, 16]]
       .map(([x, y, s], i) => [x + (r(i) - 0.5) * 6, y + (r(i + 9) - 0.5) * 6, s * (0.9 + r(i + 4) * 0.2)]);
@@ -40,9 +40,9 @@
     const base = clumps.map(([x, y, s]) => circle(x, y, s, leaf[2])).join("");
     const lit = clumps.map(([x, y, s]) => circle(x - s * 0.14, y - s * 0.16, s * 0.84, leaf[1])).join("");
     const top = clumps.filter(([, y]) => y < -80).map(([x, y, s]) => circle(x - s * 0.3, y - s * 0.32, s * 0.4, leaf[0])).join("");
-    const ticks = clumps.map(([x, y, s], i) => `<path d="M${f(x + s * 0.2)} ${f(y + s * 0.25)}q3 -4 7 -3" ${L(leaf[2], 2.4)}/>${i % 2 ? `<path d="M${f(x - s * 0.4)} ${f(y + s * 0.1)}q3 -4 7 -3" ${L(leaf[2], 2.4)}/>` : ""}`).join("");
+    const ticks = detail === "small" ? "" : clumps.map(([x, y, s], i) => `<path d="M${f(x + s * 0.2)} ${f(y + s * 0.25)}q3 -4 7 -3" ${L(leaf[2], 2.4)}/>${i % 2 ? `<path d="M${f(x - s * 0.4)} ${f(y + s * 0.1)}q3 -4 7 -3" ${L(leaf[2], 2.4)}/>` : ""}`).join("");
     const fruit = kind === "apple"
-      ? [[-14, -78], [18, -88], [4, -66], [-26, -96], [26, -70]].slice(0, hooks ? 3 : 3 + (seed % 3)).map(([x, y]) => `${hooks ? `<g class="lm-fruit" data-y="${138 + y}">` : ""}<path d="M${x} ${y - 7}q1 -4 4 -5" ${L("#70501b", 1.6)}/>${circle(x, y, 6.5, "#ee806f", ` ${K(2.4)}`)}<circle cx="${x - 2}" cy="${y - 2}" r="2" fill="#fffdf7" opacity=".7"/>${hooks ? "</g>" : ""}`).join("")
+      ? [[-14, -78], [18, -88], [4, -66], [-26, -96], [26, -70]].slice(0, (hooks || detail === "small") ? 3 : 3 + (seed % 3)).map(([x, y]) => `${hooks ? `<g class="lm-fruit" data-y="${138 + y}">` : ""}<path d="M${x} ${y - 7}q1 -4 4 -5" ${L("#70501b", 1.6)}/>${circle(x, y, 6.5, "#ee806f", ` ${K(2.4)}`)}<circle cx="${x - 2}" cy="${y - 2}" r="2" fill="#fffdf7" opacity=".7"/>${hooks ? "</g>" : ""}`).join("")
       : kind === "blossom"
         ? [[-16, -80], [14, -92], [2, -66], [-24, -98], [24, -74], [8, -104]].map(([x, y]) => `${[0, 72, 144, 216, 288].map((a) => `<circle cx="${x}" cy="${y - 3}" r="3" fill="#ffa798" stroke="#ee806f" stroke-width="1.6" transform="rotate(${a} ${x} ${y})"/>`).join("")}<circle cx="${x}" cy="${y}" r="2" fill="#f3c955"/>`).join("")
         : "";
@@ -50,7 +50,7 @@
       <path d="M-18 0Q-10 -3 -9 -14L-7 -44Q-14 -52 -22 -60M7 -44Q14 -54 20 -62M-9 -14L-7 -44H7L9 -14Q10 -3 18 0Z" fill="none" stroke="${INK}" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
       <path d="M-18 0Q-10 -3 -9 -14L-7 -44H7L9 -14Q10 -3 18 0Z" fill="#c69434" ${K(3)}/>
       <path d="M-7 -44Q-14 -52 -22 -60M7 -44Q14 -54 20 -62" fill="none" stroke="#c69434" stroke-width="4" stroke-linecap="round"/>
-      <path d="M-2 -38V-20M3 -30V-10M-5 -12Q-3 -6 -8 -2M5 -8Q8 -3 12 -1" ${L("#70501b")}/>
+      <path d="${detail === "small" ? "M-2 -34V-16M4 -12L9 -4" : "M-2 -38V-20M3 -30V-10M-5 -12Q-3 -6 -8 -2M5 -8Q8 -3 12 -1"}" ${L("#70501b")}/>
       ${hooks ? `<g class="lm-canopy">${ink}${base}${lit}${top}${ticks}</g>` : `${ink}${base}${lit}${top}${ticks}`}${fruit}</g>`;
   }
 

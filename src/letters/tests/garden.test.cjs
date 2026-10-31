@@ -100,7 +100,8 @@ test('Pop pond follows the activity across chapters and clears when leaving it',
   const classes=new Map();
   const art={dayPhase:()=> 'day',backdrop:()=>'<world-sky>'};
   const window={MiftahGame:{LettersArt:art,LettersGardenArt:{growth:()=>1,backdrop:()=>'<riverbank>'}}};
-  const document={body:{classList:{toggle(){}}}};
+  let removed=0;const spark={style:{display:'block'}};
+  const document={body:{classList:{toggle(){}}},querySelectorAll:selector=>selector==='.lg-confetti-layer'?[{remove(){removed++}}]:selector==='.lg-spark'?[spark]:[]};
   vm.runInNewContext(fs.readFileSync(path.join(__dirname,'..','LettersGame.js'),'utf8'),{window,document});
   const game=Object.create(window.MiftahGame.LettersGame.prototype);
   game.stopSpeech=()=>{};game.root={classList:{toggle:(k,v)=>classes.set(k,v)},dataset:{},querySelector:()=>({})};
@@ -110,9 +111,10 @@ test('Pop pond follows the activity across chapters and clears when leaving it',
     game.screen('lg-play','');
     assert.equal(classes.get('lg-pond-activity'),true);
     assert.ok(game.root.innerHTML.includes('<riverbank>'));
+    assert.equal(game.root.dataset.attention,'learn');assert.ok(removed>0);assert.equal(spark.style.display,'none');
     game.screen('lg-stars','');assert.equal(classes.get('lg-pond-activity'),true);
     game.session.gameIndex=1;game.screen('lg-play','');assert.equal(classes.get('lg-pond-activity'),false);
-    game.screen('lg-home','');assert.equal(classes.get('lg-pond-activity'),false);
+    game.screen('lg-home','');assert.equal(classes.get('lg-pond-activity'),false);assert.equal(game.root.dataset.attention,'explore');
   }
 });
 
@@ -199,7 +201,7 @@ test('Parade holds all revealed forms and ignores the continuation after exit',(
 
 test('Burst fallback timer does not multiply animation loops and completes once',()=>{
  const {ns,frames}=runtime();let paid=0;const game=Object.create(ns.LettersMiniGames.burst.prototype);
- Object.assign(game,{alive:true,endsAt:30000,duration:30000,count:6,ringEl:{style:{}},ctx:{onDone(){paid++}}});
+ Object.assign(game,{alive:true,started:true,endsAt:30000,duration:30000,count:6,ringEl:{style:{}},ctx:{onDone(){paid++}}});
  game.tick(500,false);game.tick(1000,false);assert.equal(frames.length,0);
  game.tick(1500);assert.equal(frames.length,1);
  game.tick(30000,false);game.tick(30500,false);assert.equal(paid,1);
@@ -210,9 +212,9 @@ test('Burst settles an expired round before accepting input at the scoring bound
  let now=29999;const {ns}=runtime(()=>now);let result=null,targets=0;
  const game=Object.create(ns.LettersMiniGames.burst.prototype);
  const target={id:'ba'},tile={classList:{add(){}}};
- Object.assign(game,{alive:true,endsAt:30000,duration:30000,count:8,target,
+ Object.assign(game,{alive:true,started:true,endsAt:30000,duration:30000,count:8,target,
   ringEl:{style:{}},countEl:{textContent:''},grid:{contains:el=>el===tile},
-  heat:{up(){},down(){}},nextTarget(){targets++},ctx:{sfx(){},onDone:value=>{result=value}}});
+  round:{skill:'letter-name',options:[target]},nextTarget(){targets++},ctx:{sfx(){},onDone:value=>{result=value}}});
  game.tap(target,tile);assert.equal(game.count,9);assert.equal(targets,1);
  now=30000;game.tap(target,tile);
  assert.equal(game.count,9);assert.equal(result,2);assert.equal(targets,1);
@@ -221,7 +223,7 @@ test('Burst settles an expired round before accepting input at the scoring bound
 
 test('Burst ignores events from a tile removed by the previous answer',()=>{
  const {ns}=runtime();let effects=0;const game=Object.create(ns.LettersMiniGames.burst.prototype);
- Object.assign(game,{alive:true,endsAt:30000,duration:30000,count:0,target:{id:'ba'},ringEl:{style:{}},
+ Object.assign(game,{alive:true,started:true,endsAt:30000,duration:30000,count:0,target:{id:'ba'},ringEl:{style:{}},
   grid:{contains:()=>false},ctx:{sfx(){effects++}}});
  game.tap({id:'ba'},{});assert.equal(game.count,0);assert.equal(effects,0);
 });
@@ -244,7 +246,7 @@ test('Workshop exposes completed Build chapters only and keeps their item pools 
 test('Workshop completion returns without reward writes and replay keeps the whole target',()=>{
  let context,returns=0;const spoken=[];
  const window={MiftahGame:{LettersArt:{},LettersMiniGames:{build:class{constructor(ctx){context=ctx}}}}};
- vm.runInNewContext(fs.readFileSync(path.join(__dirname,'..','LettersGame.js'),'utf8'),{window});
+ vm.runInNewContext(fs.readFileSync(path.join(__dirname,'..','LettersGame.js'),'utf8'),{window,setTimeout:()=>1});
  const game=Object.create(window.MiftahGame.LettersGame.prototype);
  const replay={},stage={classList:{add(){}}},el={isConnected:true,dataset:{},querySelector:s=>s==='.practice-replay'?replay:stage};
  Object.assign(game,{session:{items:[{id:'whole'}],world:{}},screen:()=>el,topBar:()=>'',petSVG:()=>'',wireTopBar(){},say:item=>spoken.push(item),sound:{play(){}},confettiAt(){},saveJSON(){throw Error('practice must not write rewards')}});
@@ -485,7 +487,7 @@ test('Calm Catch keeps mistakes and holds each successful result for child-led N
  controls['.catch-next']={onclick:null};
  game.catchStationary(wrong);assert.equal(game.slips,1);assert.equal(game.fallers.length,1);assert.equal(cleared,0);assert.equal(moves,0,"a wrong stationary choice keeps the delivery target still");
  game.catchStationary(wrong);assert.equal(game.slips,1);
- game.catchStationary(right);game.catchStationary(right);assert.equal(timers.length,0);assert.equal(right.el.disabled,false);
+ assert.equal(game.catchStationary(right),true,'accepted fruit consumes its drag');assert.equal(game.catchStationary(right),false);assert.equal(timers.length,0);assert.equal(right.el.disabled,false);
  assert.equal(game.settling,true);assert.equal(game.roundIndex,0);assert.equal(scored,1);assert.equal(cleared,1);assert.equal(done,0);assert.equal(game.fallers.length,0);
  controls['.catch-replay'].onclick();assert.equal(scored,1);
  game.success(right);assert.equal(scored,1);assert.equal(cleared,1);

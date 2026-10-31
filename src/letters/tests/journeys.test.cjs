@@ -45,7 +45,7 @@ test("keepsakes come only from saved completion and stay at the chapter", () => 
   assert.match(J.memento({ done: ["pack-little"] }, { id: "pack-little" }), /picnic basket/);
   assert.match(J.memento({ done: ["pack-boat"] }), /map-picnic-memento/, "Boat keeps its basket in the boat");
   const game = source("LettersGame.js");
-  assert.match(game, /world\.id !== "pack-boat" && ns\.LettersJourney\?\.memento\?\.\(this\.progress, world\)/);
+  assert.match(game, /world\.id !== "pack-boat" && ns\.LettersJourney\?\.memento\?\.\(this\.progress, world, this\.keepsakes\?\.\[world\.id\]\)/);
   assert.match(game, /if \(s\.boatCelebrationShown\) return;/, "a replayed ending cannot duplicate the celebration");
 });
 
@@ -95,7 +95,7 @@ test("later-chapter projects grow with each completed step and only embed real d
     assert.match(J.keepsakeArt(kind), /<svg viewBox=/);
   }
   assert.match(J.scene({ kind: "harvest", completed: 3, items, drawings: { "تُ": drawing } }), new RegExp(`href="${drawing}"`), "a traced label shows on the fruit");
-  assert.match(J.memento({ done: ["join-2"] }, { id: "join-2", items: () => [{ display: "عم" }] }), /lanterns are glowing/);
+  assert.match(J.memento({ done: ["join-2"] }, { id: "join-2", items: () => [{ display: "عم" }] }), /Play with your lanterns/);
 });
 
 test("later-chapter projects are presentation only and never change how games play", () => {

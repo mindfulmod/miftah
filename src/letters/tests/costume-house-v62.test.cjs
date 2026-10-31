@@ -41,5 +41,5 @@ test("v62 the Costume House: three games, opened after the joining chapter, word
   assert.match(game, /\.\.\.\(ns\.CostumeHouse\?\.KINDS\|\|\[\]\),/);
   const css = read("styles/letters-friends.css");
   assert.match(css, /\.ch-word \{ display: flex; flex-direction: row; justify-content: center;/, "dir=rtl does the ordering; row-reverse would flip words backwards");
-  assert.match(read("letters.html"), /src\/letters\/CostumeHouse\.js\?v=20261016-v62/);
+  assert.match(read("letters.html"), /src\/letters\/CostumeHouse\.js\?v=20261028-v361/);
 });

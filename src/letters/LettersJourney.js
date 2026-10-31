@@ -157,7 +157,7 @@
     : text ? word(x, y + size * .35, text, size, w - 4) : '';
   function lantern(cx, top, text, i, { lit = false, drawings = {} } = {}) {
     const fill = lit ? '#ffe49a' : ['#ffa798', '#fffdf7', '#ccfbef'][i % 3];
-    return `<g class="craft-lantern" style="--swing:${[-4, 3, -2][i % 3]}deg">${lit ? `<circle cx="${cx}" cy="${top + 30}" r="27" fill="#ffe49a" opacity=".45"/>` : ''}
+    return `<g class="craft-lantern" style="--swing:${[-4, 3, -2][i % 3]}deg;--keepsake-i:${i}">${lit ? `<circle cx="${cx}" cy="${top + 30}" r="27" fill="#ffe49a" opacity=".45"/>` : ''}
       <rect x="${cx - 9}" y="${top + 4}" width="18" height="7" rx="2" fill="#c25a49" stroke="#4a3620" stroke-width="1.6"/>
       <rect x="${cx - 18}" y="${top + 10}" width="36" height="38" rx="13" fill="${fill}" stroke="#4a3620" stroke-width="2.4"/>
       <rect x="${cx - 7}" y="${top + 47}" width="14" height="6" rx="2" fill="#c25a49" stroke="#4a3620" stroke-width="1.6"/>
@@ -187,13 +187,13 @@
         <g class="craft-canopy">${(() => { const C = [[182, 98, 30], [154, 112, 22], [210, 112, 22], [164, 84, 20], [200, 82, 20], [182, 130, 18], [226, 98, 15], [140, 96, 15]];
           return C.map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r + 3}" fill="#4a3620"/>`).join('') + C.map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="#4e9677"/>`).join('') + C.map(([x, y, r]) => `<circle cx="${x - r * 0.14}" cy="${y - r * 0.16}" r="${r * 0.84}" fill="#7fce54"/>`).join('') + C.filter(([, y]) => y < 100).map(([x, y, r]) => `<circle cx="${x - r * 0.3}" cy="${y - r * 0.32}" r="${r * 0.4}" fill="#b7e779"/>`).join('') + C.map(([x, y, r]) => `<path d="M${x + r * 0.2} ${y + r * 0.25}q3 -4 7 -3" fill="none" stroke="#4e9677" stroke-width="2.4" stroke-linecap="round"/>`).join(''); })()}</g>
         ${phase === 1 ? [[146, 112], [170, 88], [204, 100], [216, 126], [180, 128]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="5" fill="#ffa798" stroke="#4a3620" stroke-width="1.6"/>`).join('') : ''}`}
-      ${phase >= 2 ? fruit.map(([x, y], i) => `<g class="craft-fruit"><path d="M${x} ${y - 15}Q${x + 2} ${y - 21} ${x + 6} ${y - 22}" fill="none" stroke="#4a3620" stroke-width="1.6"/><circle cx="${x}" cy="${y}" r="16" fill="${['#f3c955', '#ee806f', '#f3c955'][i]}" stroke="#4a3620" stroke-width="2.4"/>${tag(x, y, 22, 20, letters[i], drawings, 16)}</g>`).join('') : ''}
+      ${phase >= 2 ? fruit.map(([x, y], i) => `<g class="craft-fruit" style="--keepsake-i:${i}"><path d="M${x} ${y - 15}Q${x + 2} ${y - 21} ${x + 6} ${y - 22}" fill="none" stroke="#4a3620" stroke-width="1.6"/><circle cx="${x}" cy="${y}" r="16" fill="${['#f3c955', '#ee806f', '#f3c955'][i]}" stroke="#4a3620" stroke-width="2.4"/>${tag(x, y, 22, 20, letters[i], drawings, 16)}</g>`).join('') : ''}
       ${phase >= 3 ? `<g class="craft-basket"><g stroke="#4a3620" stroke-width="1.6"><circle cx="98" cy="183" r="9" fill="#f3c955"/><circle cx="114" cy="179" r="9" fill="#ee806f"/><circle cx="128" cy="184" r="9" fill="#f3c955"/></g><path d="M82 188H144Q144 212 128 212H98Q82 212 82 188Z" fill="#c9bda4" stroke="#4a3620" stroke-width="3" stroke-linejoin="round"/><rect x="79" y="183" width="68" height="9" rx="4.5" fill="#f3c955" stroke="#4a3620" stroke-width="2.4"/><path d="M86 195Q113 204 140 195" fill="none" stroke="#a89478" stroke-width="2.4"/></g>` : ''}
     </g>`;
   }
   function jarsArt(phase, letters, drawings) {
     const base = phase >= 1 ? 160 : 206, seeds = ['#c69434', '#e8743c', '#4e9677'];
-    const jar = (cx, i) => `<g class="craft-jar">
+    const jar = (cx, i) => `<g class="craft-jar" style="--keepsake-i:${i}">
       <rect x="${cx - 16}" y="${base - 66}" width="32" height="10" rx="3" fill="#ccfbef" stroke="#4a3620" stroke-width="2.4"/>
       <rect x="${cx - 24}" y="${base - 58}" width="48" height="58" rx="12" fill="#ccfbef" stroke="#4a3620" stroke-width="2.4"/>
       ${phase >= 2 ? `<rect x="${cx - 21}" y="${base - (phase >= 3 ? 48 : 24)}" width="42" height="${phase >= 3 ? 45 : 21}" rx="9" fill="${seeds[i]}"/>` : ''}
@@ -225,9 +225,9 @@
   function craftArt(kind, { phase = 0, letters = [], drawings = {} } = {}) {
     return CRAFT_ART[kind]?.(Math.max(0, Math.min(3, phase)), letters, drawings || {}) || '';
   }
-  function keepsakeArt(kind, letters = []) {
-    if (kind === 'bed') return `<svg viewBox="${CROP.bed}" aria-hidden="true">${bedArt({ phase: 3, letters, size: 'map' })}</svg>`;
-    return CRAFT_ART[kind] ? `<svg viewBox="${CROP[kind]}" aria-hidden="true">${craftArt(kind, { phase: 3, letters })}</svg>` : '';
+  function keepsakeArt(kind, letters = [], drawings = {}) {
+    if (kind === 'bed') return `<svg viewBox="${CROP.bed}" aria-hidden="true">${bedArt({ phase: 3, letters, drawings, size: 'map' })}</svg>`;
+    return CRAFT_ART[kind] ? `<svg viewBox="${CROP[kind]}" aria-hidden="true">${craftArt(kind, { phase: 3, letters, drawings })}</svg>` : '';
   }
   const GROUND = '<ellipse cx="210" cy="231" rx="185" ry="19" fill="#2f5c46" opacity=".16"/><path d="M10 190Q120 160 216 168Q330 160 410 195L385 227Q215 255 31 224Z" fill="#b7e779"/><path d="M31 224Q212 248 385 227L395 213Q212 234 22 209Z" fill="#4e9677"/>';
   function craftScene({ kind, phase, letters, drawings, pet, interactivePet }) {
@@ -243,18 +243,10 @@
     </div>`;
   }
   function scene({ completed = 0, items = [], drawings = {}, pet = '', growth = 0, interactivePet = false, kind = 'picnic' } = {}) {
-    if (CRAFT_ART[kind]) {
-      const letters = [...new Set(items.map(item => item.display).filter(Boolean))].sort((a,b) => Number(!!drawings[b])-Number(!!drawings[a])).slice(0, 3);
-      return craftScene({ kind, phase: Math.max(0, Math.min(3, completed)), letters, drawings, pet, interactivePet });
-    }
-    if (kind === 'bed') {
-      const phase = Math.max(0, Math.min(3, completed));
-      const letters = [...new Set(items.map(item => item.display).filter(Boolean))].sort((a,b) => Number(!!drawings[b])-Number(!!drawings[a])).slice(0, 3);
-      return bedScene({ phase, letters, drawings, pet, interactivePet });
-    }
+    const { letters } = snapshot(items, drawings);
     const phase = Math.max(0, Math.min(3, completed));
-    const letters = [...new Set(items.map(item => item.display).filter(Boolean))]
-      .sort((a,b) => Number(!!drawings[b])-Number(!!drawings[a])).slice(0, 3);
+    if (CRAFT_ART[kind]) return craftScene({ kind, phase, letters, drawings, pet, interactivePet });
+    if (kind === 'bed') return bedScene({ phase, letters, drawings, pet, interactivePet });
     const labels = phase >= 2;
     return `<div class="adventure-scene" data-journey-phase="${phase}">
       <svg class="adventure-ground" viewBox="0 0 420 260" aria-hidden="true"><ellipse cx="210" cy="231" rx="185" ry="19" fill="#2f5c46" opacity=".16"/><path d="M10 190Q123 151 216 178Q329 152 410 195L385 227Q215 255 31 224Z" fill="#b7e779"/><path d="M31 224Q212 248 385 227L395 213Q212 234 22 209Z" fill="#4e9677"/><path d="M19 189Q103 169 152 183L139 215Q61 225 21 209Z" fill="#96ecff"/><path d="M27 196Q65 186 100 195M38 210L81 207" fill="none" stroke="#ccfbef" stroke-width="4" stroke-linecap="round"/><path d="M208 192L321 182 356 222 228 232Z" fill="#fffaf0"/><path d="M212 200L333 194M223 218L347 211" stroke="#e5dcc8" stroke-width="6"/></svg>
@@ -265,17 +257,67 @@
       ${interactivePet ? `<button type="button" class="adventure-friend party-pet" aria-label="Celebrate with your pet"><span class="pet-bubble" hidden></span>${pet}</button>` : `<div class="adventure-friend" aria-hidden="true">${pet}</div>`}
     </div>`;
   }
+  // Use the same selection for the party and its saved garden object. Drawing
+  // labels come first so a child's own mark survives the return home.
+  function snapshot(items = [], drawings = {}) {
+    const letters = [...new Set((Array.isArray(items) ? items : []).map(item =>
+      typeof item === 'string' ? item : item?.display || item?.char).filter(label =>
+        typeof label === 'string' && label.length > 0 && label.length <= 40))]
+      .sort((a, b) => Number(drawn(drawings[b])) - Number(drawn(drawings[a]))).slice(0, 3);
+    return { letters, drawings: Object.fromEntries(letters.filter(letter =>
+      drawn(drawings[letter]) && drawings[letter].length <= 60000).map(letter => [letter, drawings[letter]])) };
+  }
+  function normalizeKeepsakes(value) {
+    if (!value || typeof value !== 'object' || Array.isArray(value)) return {};
+    const result = {};
+    // Known map projects only, three labels each. Only the four chapters with
+    // drawing signs retain thumbnails (at most 720 KB across the whole garden).
+    for (const [id, journey] of Object.entries(journeys)) {
+      if (journey.kind !== 'bed' && !journey.craft) continue;
+      const record = value[id];
+      if (!record || !Array.isArray(record.letters)) continue;
+      const drawings = journey.steps.some(step => step.game === 'trace') && record.drawings &&
+        typeof record.drawings === 'object' ? record.drawings : {};
+      const kept = snapshot(record.letters, drawings);
+      if (kept.letters.length) result[id] = kept;
+    }
+    return result;
+  }
+  function legacyKeepsake(world) {
+    // Catalogue/meet order is authored; items() can shuffle or pick a subset.
+    // Existing completed chapters have no historical creation to recover.
+    const fixed = [world.catalogue, world.meet, world.letters].find(items => items?.length);
+    if (fixed) return snapshot(fixed);
+    const items = world.items?.() || [];
+    const labels = items.map(item => typeof item === 'string' ? item : item?.display || item?.char)
+      .filter(label => typeof label === 'string').sort();
+    return snapshot(labels);
+  }
   // Keepsakes come from chapter completion, so returning/reloading cannot lose
   // them. Boat's basket rides in its boat; other chapters keep theirs at the stop.
-  const MEMENTO_LABELS = { garland: 'Your lanterns are glowing', harvest: 'Your fruit tree is ready to pick', jars: 'Your seed jars are full', raft: 'Your raft is sailing' };
-  function memento(progress, world = { id: boat.id }) {
+  const MEMENTO_PLAY = { garland: 'Play with your lanterns', harvest: 'Bounce your fruit', jars: 'Shake your seed jars', raft: 'Rock your raft' };
+  function playMemento(button, { reduced = false } = {}) {
+    if (!button?.isConnected || !MEMENTO_PLAY[button.dataset?.craft]) return false;
+    // The earned object stays a toy. No timers, awards, or learning reports;
+    // another tap immediately restarts the gesture instead of queuing it.
+    const awake = button.getAttribute('aria-pressed') !== 'true';
+    button.setAttribute('aria-pressed', String(awake));
+    button.classList.toggle('is-awake', awake);
+    button.classList.remove('is-playing');
+    if (!reduced) {
+      void button.offsetWidth;
+      button.classList.add('is-playing');
+    }
+    return true;
+  }
+  function memento(progress, world = { id: boat.id }, saved) {
     const journey = journeys[world?.id];
     if (!journey || !progress?.done?.includes(journey.id)) return '';
     if (journey.id === boat.id) return `<span class="map-picnic-memento" role="img" aria-label="Your Boat picnic is ready">${ns.LettersGardenArt.seedBasket()}</span>`;
-    const letters = () => [...new Set((world.items?.() || world.letters || []).map?.(item => item.display || item.char || item) || [])].slice(0, 3);
-    if (journey.kind === 'bed') return `<span class="map-journey-memento" role="img" aria-label="Your seed bed is in bloom">${keepsakeArt('bed', letters())}</span>`;
-    if (CRAFT_ART[journey.kind]) return `<span class="map-journey-memento" data-craft="${journey.kind}" role="img" aria-label="${MEMENTO_LABELS[journey.kind]}">${keepsakeArt(journey.kind, letters())}</span>`;
+    const { letters, drawings } = normalizeKeepsakes({ [world.id]: saved })[world.id] || legacyKeepsake(world);
+    if (journey.kind === 'bed') return `<span class="map-journey-memento" role="img" aria-label="Your seed bed is in bloom">${keepsakeArt('bed', letters, drawings)}</span>`;
+    if (CRAFT_ART[journey.kind]) return `<button type="button" class="map-journey-memento map-memento-toy map-toy" data-toy="keepsake" data-craft="${journey.kind}" aria-label="${MEMENTO_PLAY[journey.kind]}" aria-pressed="false">${keepsakeArt(journey.kind, letters, drawings)}</button>`;
     return `<span class="map-journey-memento" role="img" aria-label="${journey.kind === 'parcel' ? 'Your parcels are delivered' : 'Your picnic basket is packed'}">${ns.LettersGardenArt.seedBasket()}</span>`;
   }
-  ns.LettersJourney = { forWorld, packet, icon, route, scene, memento, bedArt, craftArt, keepsakeArt, CHAPTERS, NAMES, REPLAY };
+  ns.LettersJourney = { forWorld, packet, icon, route, scene, snapshot, normalizeKeepsakes, memento, playMemento, bedArt, craftArt, keepsakeArt, CHAPTERS, NAMES, REPLAY };
 })(window.MiftahGame || (window.MiftahGame = {}));

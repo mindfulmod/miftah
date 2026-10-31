@@ -8,6 +8,8 @@ const read = (f) => fs.readFileSync(path.join(root, f), "utf8");
 const palette = (() => { const art = read("ART.md"); return new Set((art.slice(art.indexOf("## 2."), art.indexOf("## 3.")).match(/#[0-9a-fA-F]{6}/g) || []).map((h) => h.toLowerCase())); })();
 const off = (t) => (t.match(/#[0-9a-fA-F]{6}/g) || []).map((h) => h.toLowerCase()).filter((h) => !palette.has(h));
 
+const village = () => { const window = { MiftahGame: {} }; vm.runInNewContext(read("src/letters/VillageArt.js"), { window, Math }); return window.MiftahGame.VillageArt; };
+
 const art = () => { const window = { MiftahGame: {} }; const ctx = vm.createContext({ window, document: { createElement: () => ({ getContext: () => null }) }, Math, String, Number, Array, Object, JSON, Set, Map }); vm.runInContext(read("src/letters/LettersArt.js"), ctx); return window.MiftahGame.LettersArt; };
 
 test("v66 step tiles: paper in wood, gold when done, the current step lifted, a dotted sand trail — palette only", () => {
@@ -338,7 +340,7 @@ test("v103 village landmarks in the pet's language; the classic art stays for A/
   const block = v.slice(v.indexOf("// ---------- v103"), v.indexOf("ns.VillageArt ="));
   assert.doesNotMatch(block, /linearGradient|radialGradient/, "flat colour + one shine, no gradients");
   assert.doesNotMatch(block, /<rect (?![^>]*rx=)/, "every rectangle is rounded");
-  assert.match(read("src/letters/LettersGame.js"), /V\.stall \? `<svg viewBox="-72 -74 144 150" overflow="visible">\$\{V\.stall\(\)\}<\/svg>` : ns\.LettersRoomArt\.stand\(sw\)/);
+  assert.match(read("src/letters/LettersGame.js"), /spot\("album", "Stickers and treasures", L\.stall, `\$\{V\.stall\(\)\}/, "stall uses its scene anchor without a nested top-left viewport");
 });
 
 test("v104 map landmarks in the pet's language with rich detail; toy hooks kept; classic kept", () => {
@@ -593,7 +595,7 @@ test("v144 DetailKit: constructed trees, palms, houses, barn and boat — palett
 test("v145 village trees come from the DetailKit; the cottage gains chimney, frame, window, lantern, stones", () => {
   const v = read("src/letters/VillageArt.js");
   assert.match(v, /ns\.DetailKit \? `<g class="vg-deco"/);
-  assert.match(v, /<rect x="30" y="-62" width="20" height="38" rx="5" fill="#e5dcc8"/);
+  assert.match(v, /<rect x="34" y="-76" width="20" height="47" rx="5" fill="#e5dcc8"/);
   assert.deepEqual(off(v), []);
 });
 
@@ -934,9 +936,9 @@ test("v186 the Garden Paths tile: the letter as stepping stones, a ladybug walki
   assert.deepEqual(off(e), []);
 });
 
-test("v187 the Letter Delivery icon is an envelope flying into a garden mailbox with its flag up", () => {
+test("v187 the retained classic Letter Delivery icon is an envelope flying into a garden mailbox with its flag up", () => {
   const d = read("src/letters/LetterDelivery.js");
-  const icon = d.match(/const icon=\(size=86\)=>\{[\s\S]*?\n  \};/)[0];
+  const icon = d.match(/const classicIcon=\(size=86\)=>\{[\s\S]*?\n  \};/)[0];
   assert.match(icon, /<path d="M118 70V50Q118 32 141 32H164Q186 32 186 50V70Z" fill="#ee806f"/);
   assert.match(icon, /<path d="M176 56V16"/);
   assert.match(icon, /stroke-dasharray="2 9"/);
@@ -1252,7 +1254,7 @@ test("v224 the cloud sticker has a happy face (eyes, smile, rosy cheeks) like th
 test("v225 ambient village life: butterflies by day, fireflies at night; untappable and still under reduced motion", () => {
   const v = read("src/letters/VillageArt.js");
   assert.match(v, /function ambient\(W, H, night = false\) \{/);
-  assert.match(v, /ns\.VillageArt = \{ backdrop, ambient,/);
+  assert.equal(typeof village().ambient, "function");
   const a = v.match(/function ambient\([\s\S]*?\n  \}\n/)[0];
   assert.match(a, /pointer-events="none"/);
   assert.deepEqual(off(a), []);
@@ -1310,7 +1312,7 @@ test("v232 village bushes vary by position (flower colour and mirror)", () => {
 
 test("v233 the cottage windows glow warm at night", () => {
   const v = read("src/letters/VillageArt.js");
-  assert.equal((v.match(/<circle class="vg-win"/g) || []).length, 2);
+  assert.equal((village().cottage().match(/<circle class="vg-win"/g) || []).length, 2);
   assert.match(read("styles/letters-materials.css"), /\.lg-app\[data-garden-phase="night"\] \.vg-win \{ fill: #ffe49a; \}/);
 });
 
@@ -1380,7 +1382,7 @@ test("v242 gold sparkles around the unhatched egg cue a tap without motion", () 
 test("v243 a heart plaque hangs above the cottage door", () => {
   const v = read("src/letters/VillageArt.js");
   const c = v.match(/function cottage\(\) \{[\s\S]*?\n  \}\n/)[0];
-  assert.match(c, /<g transform="translate\(1 12\)"><rect x="-9" y="-6" width="18" height="12" rx="4" fill="#c69434"/);
+  assert.match(c, /<g class="vg-home-heart" transform="translate\(0 5\)"><rect x="-9" y="-6" width="18" height="12" rx="4" fill="#c69434"/);
   assert.deepEqual(off(c), []);
 });
 
@@ -1446,8 +1448,8 @@ test("v256 the sprout stage of the mastery plant has two leaves (never fewer tha
   assert.match(read("src/letters/LettersGame.js"), /top = `\$\{stem\(22\)\}\$\{leaf\(34, -1\)\}\$\{leaf\(29, 1\)\}/);
 });
 
-test("v257 Bath Time foam has varied bubble sizes (minimum unchanged so the friend stays hidden)", () => {
-  assert.match(read("src/letters/ToyBoxGames.js"), /8\.6 \+ Math\.random\(\) \*\* 2 \* 5\.4, FOAM/);
+test("v270 Bath Time keeps varied overlapping bubbles in its smaller foam cloud", () => {
+  assert.match(read("src/letters/ToyBoxGames.js"), /10 \+ Math\.random\(\) \*\* 2 \* 4, FOAM/);
 });
 
 test("v258 Letter Hunt's tree is a built tree (clumped canopy), the letter hollow kept", () => {
@@ -1460,18 +1462,22 @@ test("v258 Letter Hunt's tree is a built tree (clumped canopy), the letter hollo
 });
 
 test("v259 the Sound Lab machine has a grille, lights, rivets and a lever; gear kept", () => {
-  const s = read("src/letters/SoundLab.js");
-  const m = s.match(/const machine = `[\s\S]*?<\/svg>`;/)[0];
+  const s = read("src/letters/SoundLabArt.js");
+  const m = s.slice(s.indexOf("function machine()"), s.indexOf("function classic()"));
   assert.match(m, /class="lab-gear"/);
-  assert.match(m, /<circle cx="90" cy="158" r="22" fill="#3a8fc4"/);
-  assert.match(m, /<circle cx="296" cy="104" r="9" fill="#ee806f"/);
+  assert.match(m, /Small quiet speaker grille/);
+  assert.match(m, /M68 199Q68 194 74 194H95/);
+  assert.match(m, /cx="316" cy="185" r="10" fill="\$\{CORAL\}"/);
+  assert.match(m, /cx="68" cy="226" r="3"/);
   assert.deepEqual(off(m), []);
+  assert.match(s, /function classic\(\)/, "the original machine style remains available");
 });
 
 test("v260 Garden Together never prints 'undefined': a buddy pet fills the second seat", () => {
   const t = read("src/letters/GardenTogether.js");
-  assert.match(t, /\$\{ctx\.petB \|\| ns\.LettersArt\?\.pet\?\.\(\{ hue: 320, species: "blob", stage: 1, size: 96 \}\) \|\| ""\}/);
-  assert.match(t, /\$\{ctx\.petA \|\| ""\}/);
+  assert.match(t, /\$\{ctx\.petB \|\| ns\.LettersArt\?\.pet\?\.\(\{ hue: 320, species: "blob", stage: 1, size: 96 \}\) \|\| ''\}/);
+  assert.match(t, /\$\{ctx\.petA \|\| ns\.LettersArt\?\.pet\?\.\(\{hue:200,species:'blob',stage:1,size:96\}\) \|\| ''\}/);
+  assert.doesNotMatch(t, /\$\{ctx\.pet[AB]\s*\}/);
 });
 
 test("v261 Garden Together card backs carry a leaf emblem", () => {
@@ -1483,4 +1489,13 @@ test("v261 Garden Together card backs carry a leaf emblem", () => {
 
 test("v262 on phones the shore boat steps aside on the joinery table games", () => {
   assert.match(read("styles/letters-materials.css"), /\.lg-app\.lg-boat-chapter:has\(\.lg-play:is\(\[data-activity="build"\]/);
+});
+
+test("v263 the forgiving-tap helper works on SVG landmarks (no .click() on SVG)", () => {
+  const g = read("src/letters/LettersGame.js");
+  assert.match(g, /if \(typeof near\[0\]\.click === "function"\) near\[0\]\.click\(\);\n\s*else near\[0\]\.dispatchEvent\(new MouseEvent\("click"/);
+});
+
+test("page-wide ambient butterflies are hidden on hatch and letter introductions", () => {
+  assert.match(read("styles/letters-materials.css"), /body:has\(\.lg-hatch,\s*\.lg-meet\) \.lg-ambient \{ display: none; \}/);
 });

@@ -1,0 +1,488 @@
+id,Arabic,Current fallback,Next action,Used by
+lg-002183d4fd08,سَيَصْلَىٰ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:111:3
+lg-00c749f786e5,يَـٰٓأَيُّهَا,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:109:1
+lg-0152a46fabbd,أَتَّ,Device Arabic speech,Review existing candidate,sound-lab
+lg-0222d52cb755,ٱلسَّفِينَةِ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,treasury:boat
+lg-026d4d96bc80,ٱلْيَتِيمَ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:107:2
+lg-0488280621ca,ٱلصَّمَدُ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,chapter:decode-4:target; ayah:112:2
+lg-04b5c6435127,رَوْ,Device Arabic speech,Review existing candidate,chapter:leen:target
+lg-0512f62a1a38,فَيْ,Device Arabic speech,Review existing candidate,chapter:leen:target
+lg-05161e8bf75d,أَظْ,Device Arabic speech,Review existing candidate,sound-lab
+lg-05364b31a94f,هٌ,Device Arabic speech,Review existing candidate,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-05668cf884cc,أَعَّ,Device Arabic speech,Review existing candidate,sound-lab
+lg-056d58b69633,ضِفْدَع,Device Arabic speech,Review existing candidate,letter-friends; book:where; book:what; book:morning; book:night
+lg-0596b897010e,هُمْ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,chapter:words-2:target; ayah:107:5; ayah:107:6
+lg-05eb551f8219,إِنَّ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,chapter:words-2:target; ayah:108:3
+lg-06e342632aea,غَيْمَة,Device Arabic speech,Review existing candidate,picture-words-and-ears-games
+lg-0763e4361447,إِنَّهُۥ,Remote recitation where audioPath exists; device speech otherwise,Reading context to confirm,ayah:110:3
+lg-076daabc0e31,رَٰ,Device Arabic speech,Review existing candidate,chapter:decode:target:part
+lg-07f25640a2b9,ٱللَّهِ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,chapter:decode-4:target; story-bismillah; ayah:1:1; ayah:110:1; ayah:110:2
+lg-08208c74a20d,يَ,Device Arabic speech,Generate one Marin file,chapter:fatha:target; chapter:tanween:target; chapter:long-sounds:target:part; chapter:leen:target:part; chapter:decode:target:part; sound-lab; sand-table-and-hat-shop
+lg-0825396f62b3,هُو,Device Arabic speech,Generate one Marin file,chapter:standing:target; chapter:long-sounds:target
+lg-08586c5c92e8,أَثْ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-09022991a381,جْ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-098c3e64cce6,غَاسِقٍ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,chapter:decode-4:target; ayah:113:3
+lg-09cab31db93d,وَٱلنَّاسِ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:114:6
+lg-0a698f01afe3,دْ,Device Arabic speech,Teaching example needed,chapter:decode:target:part; sand-table-and-hat-shop
+lg-0a91908310e7,بٌّ,Device Arabic speech,Generate one Marin file,chapter:shaddah-mix:target:part
+lg-0b315cfbef5c,ٱلنَّاسِ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:114:1; ayah:114:2; ayah:114:3; ayah:114:5
+lg-0cb3e6dd5b00,حَبٌّ,Device Arabic speech,Generate one Marin file,chapter:shaddah-mix:target; chapter:shaddah-mix:meet
+lg-0cc0508c264a,حٌ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-0d7546e2580a,اَ,Device Arabic speech,Teaching example needed,sound-lab
+lg-0e4ac39bae36,أَضَّ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-0ead245057bd,أَبِى,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:111:1
+lg-0ee7bf085410,تِ,Device Arabic speech,Generate one Marin file,chapter:kasra-damma:target; chapter:tanween:target; chapter:long-sounds:target:part; sound-lab; sand-table-and-hat-shop
+lg-0f8a24138157,كِي,Device Arabic speech,Generate one Marin file,chapter:standing:target; chapter:long-sounds:target
+lg-10d7083974c3,غْ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-111e2d687c0a,أَخَّ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-11491c9dc768,ذً,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-1183814c6599,فً,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-11e478ddafc9,ظَرْف,Device Arabic speech,Generate one Marin file,letter-friends; book:where; book:what; book:morning; book:night
+lg-1262fea41d6a,أَثَّ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-12708006eda2,مّ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-12f6530741d3,حَمَّالَةَ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:111:4
+lg-133bb4576b44,سَمَكَة,Device Arabic speech,Generate one Marin file,letter-friends; picture-words-and-ears-games; book:where; book:what; book:morning; book:night
+lg-138ac79f97ce,ذَيْ,Device Arabic speech,Generate one Marin file,chapter:leen:target
+lg-139a6ba5cae1,فَ,Device Arabic speech,Review existing candidate,chapter:fatha:target; chapter:tanween:target; chapter:long-sounds:target:part; chapter:leen:target:part; chapter:decode:target:part; sound-lab; sand-table-and-hat-shop
+lg-1469680daf37,بٍ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; chapter:tanween:meet; sound-lab; sand-table-and-hat-shop
+lg-14ea79174f94,كْ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-167bb8f0d9d5,حّ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-18379e5c37a5,أَقَّ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-1928a403f70f,بِّ,Device Arabic speech,Generate one Marin file,chapter:words-2:target:part; chapter:decode:target:part
+lg-193d8e04eebe,تِين,Device Arabic speech,Review existing candidate,picture-words-and-ears-games
+lg-1a441a88e3f7,يً,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-1b0a3c64aa4a,وَٱلْجِبَالَ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,treasury:mountain
+lg-1b495636af95,وْ,Device Arabic speech,Teaching example needed,chapter:leen:target:part; chapter:decode:target:part; sand-table-and-hat-shop
+lg-1b8f6a4c9b36,أَغْ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-1c28268d8a53,لَٰ,Device Arabic speech,Generate one Marin file,chapter:decode:target:part
+lg-1c4242f17130,بّ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-1c562fd4a795,بِسْمِ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,chapter:decode:target; story-bismillah; ayah:1:1
+lg-1c6267a36c4a,نٍ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-1d35b258f38f,رُمَّان,Device Arabic speech,Generate one Marin file,letter-friends; picture-words-and-ears-games; book:where; book:what; book:morning; book:night
+lg-1dc9c72a6341,بُّ,Device Arabic speech,Generate one Marin file,chapter:decode:target:part
+lg-1dff1c7fd620,أَفْوَاجًۭا,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:110:2
+lg-1e1e1d5b152e,أَوْ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-1ec89dc4cf74,فْ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-1f51e8b9ea70,نّ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-208fb201ade0,جَآءَ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:110:1
+lg-209639ac36ba,يِ,Device Arabic speech,Generate one Marin file,chapter:kasra-damma:target; chapter:tanween:target; chapter:long-sounds:target:part; sound-lab; sand-table-and-hat-shop
+lg-21053ea34ac3,أَنْ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-2155dba94601,قِ,Device Arabic speech,Review existing candidate,chapter:kasra-damma:target; chapter:tanween:target; chapter:long-sounds:target:part; sound-lab; sand-table-and-hat-shop
+lg-218fec838167,خً,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-223af94ba4de,قٌ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-224b9bc0b043,زُ,Device Arabic speech,Generate one Marin file,chapter:kasra-damma:target; chapter:long-sounds:target:part; sound-lab; sand-table-and-hat-shop
+lg-2476b03531d7,بْ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-24a289e02af7,نِي,Device Arabic speech,Generate one Marin file,chapter:standing:target; chapter:long-sounds:target
+lg-24d41584f68c,عَن,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,chapter:words-2:target; ayah:107:5
+lg-25952451ecd7,وّ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-260c870c6e0a,حِصَان,Device Arabic speech,Generate one Marin file,letter-friends; book:where; book:what; book:morning; book:night
+lg-264f2d6a2749,ذٍ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-272d26944340,ٱلنَّخْلَةِ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,treasury:dates
+lg-2758e6f7c41d,ٱلْجِنَّةِ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:114:6
+lg-278d280eb1bc,مَّأْكُولٍۭ,Remote recitation where audioPath exists; device speech otherwise,Reading context to confirm,ayah:105:5
+lg-283193a2e9b6,ٱلنَّمْلِ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,treasury:ant
+lg-29c89e06ed2b,عُشّ,Device Arabic speech,Generate one Marin file,picture-words-and-ears-games
+lg-29d2b840f621,سُلَحْفَاة,Device Arabic speech,Generate one Marin file,picture-words-and-ears-games
+lg-29d632397764,أَذْ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-2a7d9d0b5f72,لِي,Device Arabic speech,Generate one Marin file,chapter:standing:target; chapter:long-sounds:target
+lg-2af2c2f78e37,دُبّ,Device Arabic speech,Generate one Marin file,letter-friends; book:where; book:what; book:morning; book:night
+lg-2b226200cffc,مِي,Device Arabic speech,Generate one Marin file,chapter:standing:target; chapter:long-sounds:target
+lg-2c61c719a264,نِ,Device Arabic speech,Generate one Marin file,chapter:kasra-damma:target; chapter:tanween:target; chapter:long-sounds:target:part; chapter:decode:target:part; sound-lab; sand-table-and-hat-shop
+lg-2c6bfc7baed6,ٱلْأَبْتَرُ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:108:3
+lg-2d6a557df5ca,تَ,Device Arabic speech,Generate one Marin file,chapter:fatha:target; chapter:tanween:target; chapter:long-sounds:target:part; chapter:leen:target:part; chapter:words-2:target:part; chapter:decode:target:part; sound-lab; sand-table-and-hat-shop
+lg-2e3434a800f8,أَلْ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-2e72c3c10381,عّ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-2f1492ac8f9d,نُو,Device Arabic speech,Generate one Marin file,chapter:standing:target; chapter:long-sounds:target
+lg-2f8d0df7ac64,ٱلْإِبِلِ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,treasury:camel
+lg-30abc74690ba,رَبَّ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,chapter:shaddah:target; chapter:shaddah:meet; ayah:106:3
+lg-319af700deea,يَدْخُلُونَ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:110:2
+lg-31d16c7f5df3,وُ,Device Arabic speech,Review existing candidate,chapter:kasra-damma:target; chapter:long-sounds:target:part; sound-lab; sand-table-and-hat-shop
+lg-326539a90460,أَغْنَىٰ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:111:2
+lg-32bb49a4f06b,يَجْعَلْ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,chapter:decode-4:target; ayah:105:2
+lg-33d9a6f6b773,أَبْ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-33fae2c3fa92,هُ,Device Arabic speech,Review existing candidate,chapter:kasra-damma:target; chapter:long-sounds:target:part; chapter:words-2:target:part; chapter:decode:target:part; sound-lab; sand-table-and-hat-shop
+lg-34177df45f9b,مِّنْ,Remote recitation where audioPath exists; device speech otherwise,Reading context to confirm,ayah:106:4
+lg-342ef931382a,غَزَال,Device Arabic speech,Generate one Marin file,letter-friends; book:where; book:what; book:morning; book:night
+lg-3443cd8315b6,عٍ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-346f9d232ce3,شَدَّا,Device Arabic speech,Generate one Marin file,chapter:shaddah-mix:target; chapter:shaddah-mix:meet
+lg-3547dfd7ec91,نَخْلَة,Device Arabic speech,Generate one Marin file,picture-words-and-ears-games
+lg-35a19affbd59,أَغَّ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-365206ee50f1,مِفْتَاح,Device Arabic speech,Generate one Marin file,letter-friends; picture-words-and-ears-games; book:where; book:what; book:morning; book:night
+lg-36b3714f9b0b,مَا,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,chapter:standing:target; chapter:long-sounds:target; chapter:words-2:target; book:what; ayah:109:2; ayah:113:2
+lg-371d85452a80,هّ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-37c3c71d79ca,بِٱلدِّينِ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:107:1
+lg-3856341cceac,رَيْ,Device Arabic speech,Generate one Marin file,chapter:leen:target
+lg-395c6270be02,غً,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-39f4044efed4,أَفَّ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-3a65e50b8ddb,فَانُوس,Device Arabic speech,Generate one Marin file,picture-words-and-ears-games
+lg-3aa220a860fd,رّ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-3b5a6bae2e2f,مِن,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:113:2; ayah:114:4
+lg-3b893751d857,أَ,Device Arabic speech,Generate one Marin file,chapter:decode:target:part
+lg-3ba71961810c,فَلْيَعْبُدُوا۟,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:106:3
+lg-3baa31d86505,كَٱلْفَرَاشِ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,treasury:butterfly
+lg-3c8fecb9dad4,أَبَابِيلَ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:105:3
+lg-3e1cd58669a4,زّ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-3ef5b4e16603,أَصَّ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-402cf151d883,صّ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-4042899104ea,ٱلْبَيْتِ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,chapter:decode-4:target; ayah:106:3
+lg-405d46327c76,عَلَىٰ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:107:3
+lg-40ec7e34c947,صْ,Device Arabic speech,Teaching example needed,chapter:decode:target:part; sand-table-and-hat-shop
+lg-417e57d76bd5,مِنَ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:114:6
+lg-421b5b4a01bb,هُدْهُد,Device Arabic speech,Generate one Marin file,letter-friends; picture-words-and-ears-games; book:where; book:what; book:morning; book:night
+lg-42d2bdd3e2b7,ضْ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-43e96dae370c,خَيْ,Device Arabic speech,Generate one Marin file,chapter:leen:target
+lg-442c25fddbac,جً,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-443429f92a4f,بَيْضَة,Device Arabic speech,Generate one Marin file,picture-words-and-ears-games
+lg-448c21ba5b29,يُو,Device Arabic speech,Generate one Marin file,chapter:standing:target; chapter:long-sounds:target
+lg-45c9d3eb506b,سِجِّيلٍۢ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:105:4
+lg-45fc1490399d,جُ,Device Arabic speech,Generate one Marin file,chapter:kasra-damma:target; chapter:long-sounds:target:part; sound-lab; sand-table-and-hat-shop
+lg-477e069132a4,ٱلْفَلَقِ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,chapter:decode-4:target; ayah:113:1
+lg-4800c31a15bc,رِّ,Device Arabic speech,Generate one Marin file,chapter:words-2:target:part
+lg-481b1df1cd2f,يٍ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-48db0e51e1a1,عِنَب,Device Arabic speech,Generate one Marin file,letter-friends; picture-words-and-ears-games; book:where; book:what; book:morning; book:night
+lg-495278a3b264,زَيْ,Device Arabic speech,Generate one Marin file,chapter:leen:target
+lg-49a21f37826a,طَاوُوس,Device Arabic speech,Generate one Marin file,letter-friends; book:where; book:what; book:morning; book:night
+lg-4a2ae2645fa9,دَّا,Device Arabic speech,Generate one Marin file,chapter:shaddah-mix:target:part
+lg-4aaa2b9d1e51,ظً,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-4aacd22ab343,خَرُوف,Device Arabic speech,Generate one Marin file,letter-friends; book:where; book:what; book:morning; book:night
+lg-4c2f786c3e8d,لَكُمْ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,chapter:decode:target; ayah:109:6
+lg-4cbb44e28ba0,كّ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-4cc52666fb5e,لً,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-4ce5a3ea3dc1,وَيَمْنَعُونَ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:107:7
+lg-4d0b72756b81,جٌ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-4d124a2d8b97,أَشَّ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-4d3b3a8139ac,مَالُهُۥ,Remote recitation where audioPath exists; device speech otherwise,Reading context to confirm,ayah:111:2
+lg-4d7cd9e68907,أَهَّ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-4e00650f0b18,هٰذَا,Device Arabic speech,Generate one Marin file,book:where; book:what
+lg-4e4f47bf6d27,قَمَر,Device Arabic speech,Generate one Marin file,picture-words-and-ears-games; book:night
+lg-4ec6e5c6752e,خَوْ,Device Arabic speech,Generate one Marin file,chapter:leen:target
+lg-4f0f1d80f36c,قِطَّة,Device Arabic speech,Generate one Marin file,letter-friends; picture-words-and-ears-games; book:where; book:what; book:morning; book:night
+lg-4f11396dddb5,ٱلْهُدْهُدَ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,treasury:hoopoe
+lg-507849af67a2,قً,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-50c7f9dc9c4b,عٌ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-50f20133065a,مَلِكِ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:114:2
+lg-50ff0d8b4be1,مِصْبَاحٌ ۖ,Remote recitation where audioPath exists; device speech otherwise,Reading context to confirm,treasury:lantern
+lg-5123f218b937,جَمَل,Device Arabic speech,Generate one Marin file,letter-friends; picture-words-and-ears-games; book:where; book:what; book:morning; book:night
+lg-513e420f5593,يَدَآ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,chapter:decode:target; ayah:111:1
+lg-514f3a8ec18a,دّ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-516b994b0329,شَمْس,Device Arabic speech,Generate one Marin file,letter-friends; picture-words-and-ears-games; book:where; book:what; book:morning; book:night
+lg-539af4324707,أَقْ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-55c1cc57ce2e,ضٌ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-561603a43468,ٱلنَّفَّـٰثَـٰتِ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:113:4
+lg-56263c67be0e,يَا,Device Arabic speech,Generate one Marin file,chapter:standing:target; chapter:long-sounds:target; book:morning; book:night
+lg-56801fde24ec,مٌ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-56b2436828a2,فٍ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-573be8e756a8,عُّ,Device Arabic speech,Generate one Marin file,chapter:decode:target:part
+lg-5895904160a9,وَرُمَّانٌۭ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,treasury:pomegranate
+lg-5907e260e1c7,ٱلْعَنكَبُوتِ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,treasury:spider
+lg-5940b322496a,وَٱنْحَرْ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,chapter:decode-4:target; ayah:108:2
+lg-59eaba12c4de,عَابِدٌۭ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:109:4
+lg-5b6517e3c3f4,هَا,Device Arabic speech,Generate one Marin file,chapter:standing:target; chapter:long-sounds:target
+lg-5bec3a69b94f,كَعَصْفٍۢ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:105:5
+lg-5c1e445e3d3a,ثُعْبَان,Device Arabic speech,Generate one Marin file,picture-words-and-ears-games
+lg-5cf5d1a48eec,أَنَا۠,Remote recitation where audioPath exists; device speech otherwise,Reading context to confirm,ayah:109:4
+lg-5df29168c337,لِّلْمُصَلِّينَ,Remote recitation where audioPath exists; device speech otherwise,Reading context to confirm,ayah:107:4
+lg-5e2ab5971ba1,وَوْ,Device Arabic speech,Generate one Marin file,chapter:leen:target
+lg-5ef57aec13de,حَاسِدٍ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,chapter:decode-4:target; ayah:113:5
+lg-5f83fe3a22bd,حَبْلٌۭ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:111:5
+lg-5fd40f34e564,غّ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-5fd45680f580,طٍ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-60432b4556ac,صَبَاحُ,Device Arabic speech,Generate one Marin file,book:morning
+lg-60de38416841,يُكَذِّبُ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,chapter:decode-4:target; ayah:107:1
+lg-60ed6c4db8ce,هٍ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-611a0fc75a47,غٍ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-61541f7f2590,ٱلْوَسْوَاسِ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:114:4
+lg-6180327bb4fe,ثً,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-61cdbfd8dfd2,ٱلضَّآلِّينَ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:1:7
+lg-623b38ff8a92,وَٱلنَّخْلُ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,treasury:palm
+lg-628665cc34f8,أَيَّ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-62d2cdf47082,صَدَفَة,Device Arabic speech,Generate one Marin file,letter-friends; picture-words-and-ears-games; book:where; book:what; book:morning; book:night
+lg-636598d5032b,كٍ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-639933f32782,أَسْ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-63ffa816e92b,وَلِىَ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:109:6
+lg-64157ceae112,عَبَدتُّمْ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,chapter:decode-4:target; ayah:109:4
+lg-649749a23153,ذْ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-64ce0a47ccf0,كً,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-65250ff7dc22,غٌ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-6636229aeb19,ٱلْمِسْكِينِ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:107:3
+lg-6684f0d7036a,تَمْر,Device Arabic speech,Generate one Marin file,picture-words-and-ears-games
+lg-66abf8abd751,تَعْبُدُونَ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:109:2
+lg-68a74b816924,ي,Device Arabic speech,Teaching example needed,chapter:decode:target:part
+lg-69d166bf4c47,سَفِينَة,Device Arabic speech,Generate one Marin file,picture-words-and-ears-games
+lg-69e912df79f3,غَيْ,Device Arabic speech,Generate one Marin file,chapter:leen:target
+lg-6a9bad02e65a,سّ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-6b2ef95b890d,يٌ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-6b60a2cc44b1,عً,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-6bf3f9e02464,كُ,Device Arabic speech,Generate one Marin file,chapter:kasra-damma:target; chapter:long-sounds:target:part; chapter:sukoon:target:part; chapter:decode:target:part; sound-lab; sand-table-and-hat-shop
+lg-6c1c2c5b4861,مَفَاتِحُ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,treasury:key
+lg-6c2ac6c045aa,جٍ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-6cd4010780cd,ٱلْعُقَدِ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,chapter:decode-4:target; ayah:113:4
+lg-6cd5aad6dd96,يّ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-6da171aad477,حُوتَهُمَا,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,treasury:fish
+lg-6f0e9d907af1,إِ,Device Arabic speech,Generate one Marin file,chapter:words-2:target:part; chapter:decode:target:part
+lg-6f184c33aca6,اّ,Device Arabic speech,Teaching example needed,sound-lab
+lg-70023d59c807,صٍ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-7041ff4feb31,سَعِيدَة,Device Arabic speech,Generate one Marin file,book:night
+lg-7233c7edf466,أَيْنَ,Device Arabic speech,Generate one Marin file,book:where
+lg-727773c02a85,اً,Device Arabic speech,Teaching example needed,sound-lab
+lg-7390e78d5bdb,حَيَّةٌۭ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,treasury:snake
+lg-73a5fdd77c33,أَصْ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-73df5e7cafcd,وَٱلسَّحَابِ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,treasury:cloud
+lg-74a862bb88a1,طّ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-7547b08d2d4a,حْ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-75ac319337e2,الْخَيْرِ,Device Arabic speech,Generate one Marin file,book:morning
+lg-783cbd303008,وٌ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-792dcb8a0796,بِحِجَارَةٍۢ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:105:4
+lg-798b7b4ea984,زْ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-79a63769c512,عْ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-7b74bdccec55,هَيْ,Device Arabic speech,Generate one Marin file,chapter:leen:target
+lg-7b9833b47adb,أَمَّ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-7c8c179a254f,هَوْ,Device Arabic speech,Generate one Marin file,chapter:leen:target
+lg-7d8397005d2e,رِحْلَةَ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:106:2
+lg-81214424f9d7,ظّ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-8170ddb85546,مَّسَدٍۭ,Remote recitation where audioPath exists; device speech otherwise,Reading context to confirm,ayah:111:5
+lg-825223ba5e41,تً,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-826565e1e4fd,خَلَقَ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,chapter:decode:target; ayah:113:2
+lg-82d51413f1bc,هْ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-830db3028d04,تَضْلِيلٍۢ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:105:2
+lg-8419a1f000f5,سْ,Device Arabic speech,Teaching example needed,chapter:decode:target:part; sand-table-and-hat-shop
+lg-84557e261f8c,هَٰ,Device Arabic speech,Generate one Marin file,chapter:decode:target:part
+lg-84dc4a445ec8,بَّ,Device Arabic speech,Generate one Marin file,chapter:shaddah:target:part; chapter:decode:target:part
+lg-84f8270e5d52,لَيْمُون,Device Arabic speech,Generate one Marin file,letter-friends; book:where; book:what; book:morning; book:night
+lg-85fcb04d12e3,كِتَاب,Device Arabic speech,Generate one Marin file,letter-friends; book:where; book:what; book:morning; book:night
+lg-86b9fd2810fc,ظٍ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-86cfe810864c,لَّ,Device Arabic speech,Generate one Marin file,chapter:decode:target:part
+lg-878cf2f808e0,أَجَّ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-87b63e990306,ٱلْكَـٰفِرُونَ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:109:1
+lg-88645ab31121,سَوْ,Device Arabic speech,Generate one Marin file,chapter:leen:target
+lg-88cf7f28e5a5,ثٍ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-89c7c0a53353,وَلَآ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:109:3; ayah:109:4; ayah:109:5
+lg-89fbe36986ba,طَا,Device Arabic speech,Review existing candidate,chapter:standing:target; chapter:long-sounds:target
+lg-8b407e5768a4,زَرَافَة,Device Arabic speech,Generate one Marin file,letter-friends; book:where; book:what; book:morning; book:night
+lg-8bd6107cd397,مً,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-8bd6f3ee1768,هِي,Device Arabic speech,Generate one Marin file,chapter:standing:target; chapter:long-sounds:target
+lg-8c421c6a16e6,أَزَّ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-8c90a8972bb8,طَيْ,Device Arabic speech,Generate one Marin file,chapter:leen:target
+lg-8cc9ede801c1,أَنتُمْ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,chapter:decode-4:target; ayah:109:3; ayah:109:5
+lg-8cdd45621eb0,وَرْدَة,Device Arabic speech,Generate one Marin file,letter-friends; book:where; book:what; book:morning; book:night
+lg-8d03f21eacd2,طٌ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-8d0dc448aeaa,ٱلنَّحْلِ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,treasury:bee
+lg-8d3d621eb6b5,نَمْلَة,Device Arabic speech,Generate one Marin file,picture-words-and-ears-games
+lg-8d72a7b8cb5e,وَٱلْفَتْحُ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:110:1
+lg-8e1ba1fb2936,أَضْ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-8e63d53ecde5,أَعْبُدُ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,chapter:decode-4:target; ayah:109:2; ayah:109:3; ayah:109:5
+lg-8f6fac61c73c,قَطْرَة,Device Arabic speech,Generate one Marin file,picture-words-and-ears-games
+lg-9165baec42cb,نَا,Device Arabic speech,Generate one Marin file,chapter:standing:target; chapter:long-sounds:target
+lg-920b51f40306,أَدَّ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-928c8d6e181c,أَمْ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-92b449692318,وَا,Device Arabic speech,Generate one Marin file,chapter:standing:target; chapter:long-sounds:target
+lg-934e0e0be0bf,لِّ,Device Arabic speech,Generate one Marin file,chapter:decode:target:part
+lg-9357023bebc2,شَدَّة,Device Arabic speech,Generate one Marin file,mark-names
+lg-94475bdb6e1c,خٍ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-95512a1dac68,زٍ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-95da19a9c3af,قُلْ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,chapter:words-2:target; ayah:109:1; ayah:112:1; ayah:113:1; ayah:114:1
+lg-960241d6ca8c,أَجْ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-96207f76a6ca,وَٱلتِّينِ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,treasury:fig
+lg-9622112d0c46,زٌ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-96432475c834,قْ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-964fe3d883ca,إِۦلَـٰفِهِمْ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:106:2
+lg-96d6f26c8b5e,ٱلْحُوتِ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,treasury:whale
+lg-972345e0c8be,أَطْعَمَهُم,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:106:4
+lg-97644250cb3f,رٍ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-9769c8f93eac,ٱلْمَاعُونَ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:107:7
+lg-97eed4f499be,مُو,Device Arabic speech,Generate one Marin file,chapter:standing:target; chapter:long-sounds:target
+lg-988205a0083b,أَعْطَيْنَـٰكَ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:108:1
+lg-98967370df3f,فَجَعَلَهُمْ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:105:5
+lg-98e56f7b4076,أَحْ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-9963a09a494c,مِّن,Remote recitation where audioPath exists; device speech otherwise,Reading context to confirm,chapter:words-2:target; ayah:105:4; ayah:106:4; ayah:111:5
+lg-9975aa5a1d03,صً,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-9a62b4c00e4e,أَرَّ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-9acfee183979,تّ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-9c28ee76f949,أَحَدٌۢ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:112:4
+lg-9c3c7c771614,أَطَّ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-9d34621d847e,هِ,Device Arabic speech,Review existing candidate,chapter:kasra-damma:target; chapter:tanween:target; chapter:long-sounds:target:part; chapter:decode:target:part; sound-lab; sand-table-and-hat-shop
+lg-9d47cc35d146,وِي,Device Arabic speech,Generate one Marin file,chapter:standing:target; chapter:long-sounds:target
+lg-9e9faf1327e8,زَوْ,Device Arabic speech,Generate one Marin file,chapter:leen:target
+lg-9f9e9e354c42,مِنْ,Device Arabic speech,Generate one Marin file,chapter:sukoon:target; chapter:sukoon:meet
+lg-9ff97ca006c2,أَهْ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-a05e95241148,يْ,Device Arabic speech,Teaching example needed,chapter:leen:target:part; chapter:decode:target:part; sand-table-and-hat-shop
+lg-a08e0189ebdd,كَيْ,Device Arabic speech,Generate one Marin file,chapter:leen:target
+lg-a0aa8b416e67,رَبِّكَ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:110:3
+lg-a25481f377bf,أَوَّ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-a2b1661793d8,ذَ,Device Arabic speech,Generate one Marin file,chapter:fatha:target; chapter:tanween:target; chapter:long-sounds:target:part; chapter:leen:target:part; chapter:decode:target:part; sound-lab; sand-table-and-hat-shop
+lg-a32b5b50477d,ٱلْعَـٰلَمِينَ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:1:2
+lg-a332e85d40fd,نَسْتَعِينُ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:1:5
+lg-a408f28bfbf3,تْ,Device Arabic speech,Teaching example needed,chapter:decode:target:part; sand-table-and-hat-shop
+lg-a4d878f2ddde,سٍ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-a4e8ac8696fd,لَا,Device Arabic speech,Generate one Marin file,chapter:standing:target; chapter:long-sounds:target
+lg-a50385d06881,ٱلرَّحْمَـٰنِ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,story-bismillah; ayah:1:1; ayah:1:3
+lg-a5051b288b63,ٱللَّهُ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:112:1; ayah:112:2
+lg-a5180afa70c7,جّ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-a5c4cf37a9bb,فّ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-a66ac343d8ff,زَهْرَة,Device Arabic speech,Generate one Marin file,picture-words-and-ears-games
+lg-a70af41f7756,وً,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-a7c65a80c0fe,أَشْ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-a7e9ce06a045,خْ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-a86406fcf1f4,مَٰ,Device Arabic speech,Generate one Marin file,chapter:decode:target:part
+lg-a898e3443be3,نَجْمَة,Device Arabic speech,Generate one Marin file,picture-words-and-ears-games
+lg-a92c18c9f482,ٱلْحَمْدُ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,chapter:decode-4:target; ayah:1:2
+lg-aa5c8483384a,سٌ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-aaa90ea0f2e4,تٍ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-aae7258a102a,أَحَّ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-ab3a5a24da20,طً,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-ab7f40914177,ذُ,Device Arabic speech,Generate one Marin file,chapter:kasra-damma:target; chapter:long-sounds:target:part; sound-lab; sand-table-and-hat-shop
+lg-adf12736993f,أَذَّ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-ae9398cc337d,أَطْ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-ae9cda2207e9,يِي,Device Arabic speech,Generate one Marin file,chapter:standing:target; chapter:long-sounds:target
+lg-aec921530fa5,عَـٰبِدُونَ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,chapter:decode-4:target; ayah:109:3; ayah:109:5
+lg-af1758f221c0,شَانِئَكَ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:108:3
+lg-aff5a3784268,بً,Device Arabic speech,Generate one Marin file,chapter:tanween:target; chapter:tanween:meet; sound-lab; sand-table-and-hat-shop
+lg-b03e507decd7,غُ,Device Arabic speech,Review existing candidate,chapter:kasra-damma:target; chapter:long-sounds:target:part; sound-lab; sand-table-and-hat-shop
+lg-b103a8b6f965,لَّهُۥ,Remote recitation where audioPath exists; device speech otherwise,Reading context to confirm,ayah:112:4
+lg-b2e2e85d51f4,سُكُونْ,Device Arabic speech,Generate one Marin file,mark-names
+lg-b33aeac2d6d9,وَٱلزَّيْتُونِ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,treasury:olive
+lg-b3d1e2abe09a,آ,Device Arabic speech,Teaching example needed,chapter:words-2:target:part; chapter:decode:target:part
+lg-b5ef522130f7,ٱلرَّحِيمِ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,story-bismillah; ayah:1:1; ayah:1:3
+lg-b64caf45e1bf,رً,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-b702f2d63993,طُو,Device Arabic speech,Generate one Marin file,chapter:standing:target; chapter:long-sounds:target
+lg-b82cc7ec784e,فِيل,Device Arabic speech,Generate one Marin file,letter-friends; picture-words-and-ears-games; book:where; book:what; book:morning; book:night
+lg-b91341e311c8,يُرَآءُونَ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:107:6
+lg-ba418754028b,لَ,Device Arabic speech,Generate one Marin file,chapter:fatha:target; chapter:tanween:target; chapter:long-sounds:target:part; chapter:leen:target:part; chapter:words-2:target:part; chapter:decode:target:part; sound-lab; sand-table-and-hat-shop
+lg-ba536aa2ea00,رُ,Device Arabic speech,Generate one Marin file,chapter:kasra-damma:target; chapter:long-sounds:target:part; chapter:decode:target:part; sound-lab; sand-table-and-hat-shop
+lg-bb56c2b6e15e,ٱلَّذِى,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:107:1; ayah:107:2; ayah:114:5
+lg-bba49429a857,ٱلشِّتَآءِ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:106:2
+lg-bbcc3bf22bc3,مِّ,Device Arabic speech,Generate one Marin file,chapter:words-2:target:part
+lg-bbd32b60f63b,لَيْلَة,Device Arabic speech,Generate one Marin file,book:night
+lg-be0fa08bb8f1,ا,Device Arabic speech,Teaching example needed,chapter:words-2:target:part; chapter:decode:target:part
+lg-be9d5f4d2ab8,جَبَل,Device Arabic speech,Generate one Marin file,picture-words-and-ears-games
+lg-bebdc49b4b33,ضً,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-bed89cc05ab8,أَخْ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-bf84d57f278a,وَٱلصَّيْفِ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:106:2
+lg-c080eae8e2d0,ٱلْخَنَّاسِ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:114:4
+lg-c09f1ab2e58c,لِ,Device Arabic speech,Generate one Marin file,chapter:kasra-damma:target; chapter:tanween:target; chapter:long-sounds:target:part; chapter:decode:target:part; sound-lab; sand-table-and-hat-shop
+lg-c1a38b92586e,ذّ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-c248216c0092,ثٌ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-c25a9b791641,أَتْ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-c25f41474423,رٌ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-c2f0b096189b,شّ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-c2f58f6cf5dc,تَرْمِيهِم,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:105:4
+lg-c355d80d4e76,ظَوْ,Device Arabic speech,Generate one Marin file,chapter:leen:target
+lg-c607adb54612,هً,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-c7332315d337,ٱلدِّينِ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,chapter:decode-4:target; ayah:1:4
+lg-c73dc068845c,لِإِيلَـٰفِ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,chapter:decode-4:target; ayah:106:1
+lg-c73e1b945fef,فِى,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:105:2; ayah:110:2; ayah:111:5; ayah:113:4; ayah:114:5
+lg-c8a726adb4ba,حً,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-c8fff66159b3,صٌ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-c960de019d09,لَآ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,chapter:words-2:target; ayah:109:2
+lg-c962e57e792b,كٌ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-c9bc1bf4e8c5,لَهَبٍۢ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:111:1; ayah:111:3
+lg-caca208b7816,نَحْلَة,Device Arabic speech,Generate one Marin file,letter-friends; picture-words-and-ears-games; book:where; book:what; book:morning; book:night
+lg-cae8bcdf693c,صُدُورِ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,chapter:decode-4:target; ayah:114:5
+lg-caf6f392b2fd,حٍ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-cb92a8b00c69,ن,Device Arabic speech,Teaching example needed,chapter:words-2:target:part; chapter:decode:target:part
+lg-cc81ca269fff,مْ,Device Arabic speech,Teaching example needed,chapter:words-2:target:part; chapter:decode:target:part; sand-table-and-hat-shop
+lg-cc8e1e55f2aa,مٍ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-ccd65ecf3ee7,ذَاتَ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,chapter:decode:target; ayah:111:3
+lg-cd1effff8877,وَمِن,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,chapter:decode:target; ayah:113:3; ayah:113:4; ayah:113:5
+lg-ce0ed6ebbf02,اٌ,Device Arabic speech,Teaching example needed,sound-lab
+lg-cf6ed2a2b1c8,ظَيْ,Device Arabic speech,Generate one Marin file,chapter:leen:target
+lg-d066957055f5,يَيْ,Device Arabic speech,Generate one Marin file,chapter:leen:target
+lg-d167d16fbabe,تَوَّابًۢا,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:110:3
+lg-d212844a5b4d,يَوْ,Device Arabic speech,Generate one Marin file,chapter:leen:target
+lg-d238b358add8,أَدْ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-d258aeae32cb,وَٱسْتَغْفِرْهُ ۚ,Remote recitation where audioPath exists; device speech otherwise,Reading context to confirm,ayah:110:3
+lg-d3c99a2c78ea,ٱلْقَمَرُ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,treasury:moon
+lg-d3d2cda1d205,بَطَّة,Device Arabic speech,Generate one Marin file,letter-friends; book:where; book:what; book:morning; book:night
+lg-d3daf255952c,ذُرَة,Device Arabic speech,Generate one Marin file,letter-friends; book:where; book:what; book:morning; book:night
+lg-d3e526870d87,وُو,Device Arabic speech,Generate one Marin file,chapter:standing:target; chapter:long-sounds:target
+lg-d4221add8206,جَ,Device Arabic speech,Generate one Marin file,chapter:fatha:target; chapter:tanween:target; chapter:long-sounds:target:part; chapter:leen:target:part; sound-lab; sand-table-and-hat-shop
+lg-d545ff78ef4b,فَوَيْلٌۭ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:107:4
+lg-d58b2a481c68,نَّ,Device Arabic speech,Generate one Marin file,chapter:words-2:target:part; chapter:decode:target:part
+lg-d5dc38bd4c15,شٍ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-d653510e19f8,ضُّ,Device Arabic speech,Generate one Marin file,chapter:decode:target:part
+lg-d6581c975d49,طْ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-d6ec75c3b597,يَمَامَة,Device Arabic speech,Generate one Marin file,letter-friends; picture-words-and-ears-games; book:where; book:what; book:morning; book:night
+lg-d829a20a9852,ضّ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-d8b0badcd773,مَآ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:109:3; ayah:109:5; ayah:111:2
+lg-d940002ea4c2,خّ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-d9411520b12e,أَكْ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-db4a956c9af3,أَسَّ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-dc01f9fca5e5,أَرَءَيْتَ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:107:1
+lg-dc733dde2277,أَرْنَب,Device Arabic speech,Generate one Marin file,letter-friends; book:where; book:what; book:morning; book:night
+lg-dd149a00e256,رِيشَة,Device Arabic speech,Generate one Marin file,picture-words-and-ears-games
+lg-de1e5cba8529,تِمْسَاح,Device Arabic speech,Generate one Marin file,letter-friends; book:where; book:what; book:morning; book:night
+lg-de4bb33a3f35,ضٍ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-e006f0b8074f,بَ,Device Arabic speech,Generate one Marin file,chapter:fatha:target; chapter:fatha:meet; chapter:tanween:target; chapter:long-sounds:target:part; chapter:leen:target:part; chapter:sukoon:target:part; chapter:shaddah:target:part; chapter:decode:target:part; sound-lab; sand-table-and-hat-shop
+lg-e03ee26da857,أَنَّ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-e04a5dacfad1,ثَعْلَب,Device Arabic speech,Generate one Marin file,letter-friends; book:where; book:what; book:morning; book:night
+lg-e0ff8f4e4790,وَٱلشَّمْسِ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,treasury:sun
+lg-e19a67213fda,كُمْ,Device Arabic speech,Generate one Marin file,chapter:sukoon:target; chapter:sukoon:meet
+lg-e1c77ec6638b,حُوت,Device Arabic speech,Generate one Marin file,picture-words-and-ears-games
+lg-e241de6189c2,قٍ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-e264bcf86158,طِي,Device Arabic speech,Review existing candidate,chapter:standing:target; chapter:long-sounds:target
+lg-e2e8512af7aa,رَبِّ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,chapter:words-2:target; ayah:1:2
+lg-e41669b75828,دً,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-e42909e20d9b,خَوْفٍۭ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:106:4
+lg-e4c3b997a436,ٱلْكَوْثَرَ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:108:1
+lg-e56bcc9171ce,أَلَّ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-e579296597d3,دَّ,Device Arabic speech,Generate one Marin file,chapter:shaddah:target:part
+lg-e589a2fb72a1,أَفْ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-e5d1cc0cd142,فٌ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-e5dfc52647f5,إِلَـٰهِ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,chapter:decode:target; ayah:114:3
+lg-e6360442efcf,وٍ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-e650fd055850,أَظَّ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-e686d089e785,لْ,Device Arabic speech,Teaching example needed,chapter:words-2:target:part; sand-table-and-hat-shop
+lg-e6efccc0cf43,شٌ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-e6f4bc2f7a5f,ٱلْمُسْتَقِيمَ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:1:6
+lg-e70d18ecbedd,كُو,Device Arabic speech,Generate one Marin file,chapter:standing:target; chapter:long-sounds:target
+lg-e7217df2947b,نْ,Device Arabic speech,Teaching example needed,chapter:decode:target:part; sand-table-and-hat-shop
+lg-e772c79105d2,نً,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-e7ec41c7e8d8,نَارًۭا,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:111:3
+lg-e82603d67dfe,وَءَامَنَهُم,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:106:4
+lg-e8865a8cf848,وَقَبَ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,chapter:decode:target; ayah:113:3
+lg-e8992004d15d,رْ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-eac418a09e83,نٌ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-eae74ade3a8d,أَكَّ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-eb7d80deadbe,غُرَابًۭا,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,treasury:crow
+lg-ec727b68a342,جُوعٍۢ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:106:4
+lg-ed4048714f66,لٌ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-ee4afc8b7d3e,لُو,Device Arabic speech,Generate one Marin file,chapter:standing:target; chapter:long-sounds:target
+lg-ef0b99452119,صَلَاتِهِمْ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:107:5
+lg-ef3d683a64d7,وَٱلنَّجْمِ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,treasury:star
+lg-ef6b5e05a33b,ثّ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-f0860ff43b91,ٱلْمَغْضُوبِ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:1:7
+lg-f0b6339c189b,ٱلَّذِىٓ,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,ayah:106:4
+lg-f0fcb1df5a26,اٍ,Device Arabic speech,Teaching example needed,sound-lab
+lg-f1327d2d3ed8,الْخَيْر,Device Arabic speech,Generate one Marin file,book:morning
+lg-f1e21e5ddb42,أَزْ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-f2768d97d70e,بُ,Device Arabic speech,Generate one Marin file,chapter:kasra-damma:target; chapter:kasra-damma:meet; chapter:long-sounds:target:part; sound-lab; sand-table-and-hat-shop
+lg-f36dd8de0128,لّ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-f3c5bf144b92,أَعْ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-f431c664175e,قّ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-f46487ed90f2,اْ,Device Arabic speech,Teaching example needed,sound-lab
+lg-f5be903ac037,غُرَاب,Device Arabic speech,Generate one Marin file,picture-words-and-ears-games
+lg-f60b8ca89702,زَيْتُون,Device Arabic speech,Generate one Marin file,picture-words-and-ears-games
+lg-f63514e65d9b,سَيْ,Device Arabic speech,Generate one Marin file,chapter:leen:target
+lg-f6b1632e8afa,مَّا,Remote recitation where audioPath exists; device speech otherwise,Reading context to confirm,ayah:109:4
+lg-f6bbd52a0c83,وَٱمْرَأَتُهُۥ,Remote recitation where audioPath exists; device speech otherwise,Reading context to confirm,ayah:111:4
+lg-f710a3675701,شْ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-f7a493ddfa27,عَنْكَبُوت,Device Arabic speech,Generate one Marin file,picture-words-and-ears-games
+lg-f820bb01fafc,لٍ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-f886b389fdcf,أَيْ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-f89432b76df4,وَعِنَبًۭا,Remote recitation where audioPath exists; device speech otherwise,Generate one Marin file,treasury:grapes
+lg-f8f7bce12a7c,اُ,Device Arabic speech,Teaching example needed,sound-lab
+lg-f95b0996b87c,ظْ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-f9bf2271ebfc,سً,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop
+lg-f9e06530526b,ثْ,Device Arabic speech,Teaching example needed,sand-table-and-hat-shop
+lg-f9e63fd121fb,لُ,Device Arabic speech,Generate one Marin file,chapter:kasra-damma:target; chapter:long-sounds:target:part; sound-lab; sand-table-and-hat-shop
+lg-fc64a7da85e6,كِ,Device Arabic speech,Generate one Marin file,chapter:kasra-damma:target; chapter:tanween:target; chapter:long-sounds:target:part; chapter:decode:target:part; sound-lab; sand-table-and-hat-shop
+lg-fc6e5d76d6a2,فَرَاشَة,Device Arabic speech,Generate one Marin file,picture-words-and-ears-games
+lg-fcb6de9fdc13,أَبَّ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-fd9537adfffb,ذِ,Device Arabic speech,Generate one Marin file,chapter:kasra-damma:target; chapter:tanween:target; chapter:long-sounds:target:part; sound-lab; sand-table-and-hat-shop
+lg-fdd4fbf6328f,أَرْ,Device Arabic speech,Generate one Marin file,sound-lab
+lg-fee2b201b5e5,اِ,Device Arabic speech,Teaching example needed,sound-lab
+lg-fee6694be3d0,هٰذِهِ,Device Arabic speech,Generate one Marin file,book:where; book:what
+lg-ff2f1e4fdf07,بَدَّ,Device Arabic speech,Generate one Marin file,chapter:shaddah:target; chapter:shaddah:meet
+lg-ffafb835b249,كَا,Device Arabic speech,Review existing candidate,chapter:standing:target; chapter:long-sounds:target
+lg-ffb111e6ea09,كَوْ,Device Arabic speech,Generate one Marin file,chapter:leen:target
+lg-ffeba4e4f785,ظٌ,Device Arabic speech,Generate one Marin file,chapter:tanween:target; sound-lab; sand-table-and-hat-shop

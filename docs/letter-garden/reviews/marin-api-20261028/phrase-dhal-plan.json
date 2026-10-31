@@ -1,0 +1,34 @@
+{
+  "stage": "teacher-phrase-dhal-v1",
+  "model": "gpt-4o-mini-tts-2025-03-20",
+  "voice": "marin",
+  "planningReservationUSD": 0.05,
+  "budgetCheckpoint": {
+    "priorLedgerLines": 914,
+    "ownerReportedSpentUSD": 0.16,
+    "remainingUSD": 22.84
+  },
+  "jobs": [
+    {
+      "id": "lg-29468e72afeb",
+      "input": "نَقُولُ: أَذِّ، ثُمَّ نَسْتَمِعُ.",
+      "targetInput": "أَذِّ",
+      "targetId": "lg-bb2d966387ef",
+      "display": "نَقُولُ: أَذِّ، ثُمَّ نَسْتَمِعُ.",
+      "voice": "marin",
+      "instructions": "Read the supplied Arabic sentence once as a warm, composed female preschool teacher in Modern Standard Arabic. Use smooth, ordinary classroom speech, a comfortable middle register, and understated expression. The middle example أَذِّ is /ʔaðːi/: short a, doubled voiced dental fricative ذ, then an audible short i. For ذ, place the tongue lightly between the front teeth and keep the voice on, like the th in English this. Keep this dental contact for the doubled consonant, then release directly into i. It is not ز, not a z buzzing sound. Keep the final kasra audible before the comma pause. Read the whole phrase naturally without stretching the vowel, adding commentary, or repeating the example. Speak only the supplied Arabic text.",
+      "contextExample": true,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "phrase-dhal-v1",
+      "sourceFile": "phrase2-candidates/lg-29468e72afeb.wav",
+      "replacesSha256": "263365573e1906ced2531dec7b23c3c1608785b1f47ecc8617fc039b90f42809",
+      "ownerNote": "Owner hears naqulu azz thuma nastamiu",
+      "pronunciationGuide": "Listen for naquulu, adh-dhi, thumma nastamiʿu. The middle sound must use voiced dental dh as in “this”, doubled, then a short i. “Azz” is incorrect. Review the full phrase; extraction remains separate.",
+      "requiresExtractionReview": true
+    }
+  ],
+  "note": "First phrase only. The second phrase is approved for extraction review, not regeneration."
+}

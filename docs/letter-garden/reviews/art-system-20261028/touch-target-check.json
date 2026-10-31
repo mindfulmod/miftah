@@ -1,0 +1,107 @@
+{
+  "phone": [
+    {
+      "height": 143.91346740722656,
+      "label": "Go on the letter journey",
+      "width": 184.22967529296875
+    },
+    {
+      "height": 229.461669921875,
+      "label": "Your pet's house and wardrobe",
+      "width": 178.68267822265625
+    },
+    {
+      "height": 55.39849853515625,
+      "label": "Decorate your garden",
+      "width": 86.0273208618164
+    },
+    {
+      "height": 122.63577270507812,
+      "label": "Stickers and treasures",
+      "width": 148.41273498535156
+    },
+    {
+      "height": 74.91937255859375,
+      "label": "The friends' garden",
+      "width": 137.88949584960938
+    },
+    {
+      "height": 95.04486083984376,
+      "label": "The toy chest: games to play",
+      "width": 96.35891723632812
+    },
+    {
+      "height": 55.3985595703125,
+      "label": "Garden adventures",
+      "width": 93.31776428222656
+    },
+    {
+      "height": 60.638885498046875,
+      "label": "Daily letter practice",
+      "width": 55.39855194091797
+    },
+    {
+      "height": 60.114990234375,
+      "label": "Letter check-up",
+      "width": 69.86337280273438
+    }
+  ],
+  "small": [
+    {
+      "height": 117.7,
+      "label": "Go on the letter journey",
+      "width": 150.6
+    },
+    {
+      "height": 188.4,
+      "label": "Your pet's house and wardrobe",
+      "width": 146.1
+    },
+    {
+      "height": 55.3,
+      "label": "Decorate your garden",
+      "width": 70.3
+    },
+    {
+      "height": 100.3,
+      "label": "Stickers and treasures",
+      "width": 121.3
+    },
+    {
+      "height": 61.3,
+      "label": "The friends' garden",
+      "width": 112.7
+    },
+    {
+      "height": 78.6,
+      "label": "The toy chest: games to play",
+      "width": 78.8
+    },
+    {
+      "height": 55.3,
+      "label": "Garden adventures",
+      "width": 76.3
+    },
+    {
+      "height": 55.3,
+      "label": "Daily letter practice",
+      "width": 55.3
+    },
+    {
+      "height": 55.3,
+      "label": "Letter check-up",
+      "width": 57.1
+    }
+  ],
+  "pet_phone": {
+    "htmlPet": true,
+    "width": 76.96,
+    "height": 89.44
+  },
+  "reduced_motion_smoke": [
+    "none",
+    "none",
+    "none"
+  ],
+  "final_live_warning_errors": []
+}

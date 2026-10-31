@@ -114,8 +114,20 @@
       path.style.strokeDashoffset = String(len);
       return { dot: false, path, len, samples, at: 0, mark: 0, done: false };
     });
-    let current = 0, alive = true, pointer = null, timers = [];
-    const later = (fn, ms) => { const t = setTimeout(() => alive && fn(), ms); timers.push(t); };
+    let current = 0, alive = true, pointer = null, timers = [], timerGeneration = 0;
+    const clearTimers = () => {
+      timerGeneration += 1;
+      timers.forEach(clearTimeout);
+      timers = [];
+    };
+    const later = (fn, ms) => {
+      const generation = timerGeneration;
+      const t = setTimeout(() => {
+        timers = timers.filter((id) => id !== t);
+        if (alive && generation === timerGeneration) fn();
+      }, ms);
+      timers.push(t);
+    };
     const showProgress = (part) => { part.path.style.strokeDashoffset = String(part.len * (1 - part.at / (part.samples.length - 1))); };
     // The start dot and a direction chevron for the stroke the child is on.
     const drawCue = () => {
@@ -123,8 +135,8 @@
       const part = parts[current];
       if (!part) return;
       if (part.dot) { make("circle", { cx: part.x, cy: part.y, r: 8, class: "tg-start is-dot" }, cue); return; }
-      const [sx, sy] = part.samples[0];
-      const k = Math.min(part.samples.length - 1, 7), [ax, ay] = part.samples[k];
+      const [sx, sy] = part.samples[part.at];
+      const k = Math.min(part.samples.length - 1, part.at + 7), [ax, ay] = part.samples[k];
       const ang = Math.atan2(ay - sy, ax - sx) * 180 / Math.PI;
       make("path", { d: "M-4-4L2 0L-4 4", class: "tg-arrow", transform: `translate(${ax} ${ay}) rotate(${ang})` }, cue);
       make("circle", { cx: sx, cy: sy, r: 5.5, class: "tg-start" }, cue);
@@ -164,6 +176,16 @@
         parts.forEach((part) => { if (part.dot) return; part.path.style.strokeDashoffset = String(part.len); });
         drawCue();
       }, t + 300);
+    };
+    const interruptDemo = () => {
+      if (!svg.classList.contains("is-demo")) return;
+      clearTimers();
+      svg.classList.remove("is-demo");
+      parts.forEach(part => {
+        if (part.dot) part.fill.classList.remove("is-demo");
+        else showProgress(part);
+      });
+      drawCue();
     };
     const toBox = (e) => {
       const m = svg.getScreenCTM?.();
@@ -216,20 +238,37 @@
     };
     svg.addEventListener("pointerdown", (e) => {
       if (!alive || pointer !== null || e.button > 0 || e.isPrimary === false) return;
+      interruptDemo();
       pointer = e.pointerId;
       try { svg.setPointerCapture?.(pointer); } catch {}
       press.moved = false; press.part = parts[current];
       const pt = toBox(e); if (pt) { follow(pt); onMove?.(e); }
     });
     svg.addEventListener("pointermove", (e) => { if (e.pointerId !== pointer || !alive) return; const pt = toBox(e); if (pt) { follow(pt); onMove?.(e); } });
+    const releasePointer = (id) => {
+      if (id === null) return;
+      try {
+        if (!svg.hasPointerCapture || svg.hasPointerCapture(id)) svg.releasePointerCapture?.(id);
+      } catch {}
+    };
     const up = (e) => {
-      if (e.pointerId !== pointer) return; pointer = null; onMove?.(null);
+      if (e.pointerId !== pointer) return;
+      const id = pointer;
+      pointer = null;
+      onMove?.(null);
+      releasePointer(id);
       // A press that got nowhere on the current stroke is a try too.
       const part = parts[current];
       if (part && part === press.part && !press.moved && !part.done && !svg.classList.contains("is-demo")) struggled(part);
     };
+    const cancel = (e) => {
+      if (e.pointerId !== pointer) return;
+      pointer = null;
+      onMove?.(null);
+    };
     svg.addEventListener("pointerup", up);
-    svg.addEventListener("pointercancel", up);
+    svg.addEventListener("pointercancel", cancel);
+    svg.addEventListener("lostpointercapture", cancel);
     // Keyboard and switch access (v54): the letter can be written a stroke at
     // a time with Enter or Space. Each stroke written this way counts as a
     // snap, so it is never recorded as unaided handwriting.
@@ -241,7 +280,8 @@
       if (e.key !== "Enter" && e.key !== " ") return;
       e.preventDefault();
       const part = parts[current];
-      if (!alive || !part || svg.classList.contains("is-demo")) return;
+      if (!alive || !part) return;
+      interruptDemo();
       onSnap?.();
       if (part.dot) { part.fill.setAttribute("fill", ink()); part.fill.classList.add("is-on"); finishPart(); return; }
       part.at = part.samples.length - 1; part.mark = 1; showProgress(part); finishPart();
@@ -249,8 +289,51 @@
     demo();
     return {
       svg,
+      // Help belongs beside the child's work. Only the cue pen moves; the
+      // ink, completed strokes and current progress remain theirs.
+      demonstrate({ reduced: still = false } = {}) {
+        if (!alive || !parts[current]) return false;
+        interruptDemo(); clearTimers();
+        const captured = pointer; pointer = null;
+        if (captured !== null) { onMove?.(null); releasePointer(captured); }
+        parts.forEach(part => part.path?.classList.remove("is-snap"));
+        if (still) { drawCue(); return true; }
+        const part = parts[current];
+        svg.classList.add("is-demo"); cue.replaceChildren();
+        const pen = make("circle", { r: 3.6, class: "tg-pen" }, cue);
+        let duration = 600;
+        if (part.dot) {
+          make("circle", { cx: part.x, cy: part.y, r: 8, class: "tg-start is-dot" }, cue);
+          pen.setAttribute("cx", part.x); pen.setAttribute("cy", part.y);
+        } else {
+          const from = part.at / (part.samples.length - 1);
+          duration = Math.max(360, Math.min(1400, part.len * (1 - from) * 9));
+          const place = fraction => {
+            const point = part.path.getPointAtLength(part.len * (from + (1 - from) * fraction));
+            pen.setAttribute("cx", point.x); pen.setAttribute("cy", point.y);
+          };
+          place(0);
+          for (let f = 1; f <= 12; f++) later(() => place(f / 12), duration * f / 12);
+        }
+        later(() => { svg.classList.remove("is-demo"); drawCue(); }, duration + 200);
+        return true;
+      },
       setInk(color) { parts.forEach((p) => (p.dot ? p.fill.classList.contains("is-on") && p.fill.setAttribute("fill", color) : p.path.setAttribute("stroke", color))); },
-      reset() { parts.forEach((p) => { p.done = false; if (p.dot) p.fill.classList.remove("is-on"); else { p.at = 0; p.mark = 0; showProgress(p); } }); current = 0; svg.classList.remove("is-done"); drawCue(); },
+      reset() {
+        if (!alive) return;
+        clearTimers();
+        const captured = pointer;
+        pointer = null;
+        if (captured !== null) { onMove?.(null); releasePointer(captured); }
+        svg.classList.remove("is-demo", "is-done");
+        parts.forEach((p) => {
+          p.done = false;
+          if (p.dot) { p.fill.classList.remove("is-on", "is-demo"); }
+          else { p.at = 0; p.mark = 0; p.path.classList.remove("is-snap"); showProgress(p); }
+        });
+        current = 0;
+        drawCue();
+      },
       // Paint the finished letter onto a canvas so drawings can be kept.
       paint(canvas, color) {
         const g = canvas?.getContext?.("2d");
@@ -261,7 +344,14 @@
         strokes.forEach((st) => { if (st.dot) { g.beginPath(); g.arc(st.dot[0], st.dot[1], 4.6, 0, Math.PI * 2); g.fill(); } else g.stroke(new Path2D(st.d)); });
         g.restore();
       },
-      destroy() { alive = false; timers.forEach(clearTimeout); svg.remove(); },
+      destroy() {
+        alive = false;
+        clearTimers();
+        const captured = pointer;
+        pointer = null;
+        if (captured !== null) { onMove?.(null); releasePointer(captured); }
+        svg.remove();
+      },
     };
   }
 

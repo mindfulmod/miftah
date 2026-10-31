@@ -1,0 +1,70 @@
+/* Child-operated story books: a bound page, a clear picture and joined Arabic. */
+.lg-app .lg-play[data-activity="living-book"] .practice-stage { display:grid; place-items:center; min-height:0; }
+.lg-app .lb.lb-bound { width:min(100%,620px); height:100%; max-height:600px; padding:4px 4px 8px; display:grid; grid-template-columns:minmax(0,1fr); grid-template-rows:minmax(0,1fr) 12px 62px; gap:8px; min-height:0; box-sizing:border-box; }
+.lg-app .lb-bound .lb-page { position:relative; display:block; width:100%; max-width:none; height:100%; min-height:0; padding:0; border:0; background:none; box-shadow:none; border-radius:0; }
+.lg-app .lb-bound .lb-page > svg { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+.lg-app .lb-bound .lb-page-content { position:absolute; inset:7% 13% 9% 8%; display:grid; grid-template-rows:minmax(110px,1fr) auto; gap:12px; min-width:0; min-height:0; }
+.lg-app .lb-bound .lb-art { position:relative; width:100%; height:100%; min-height:0; aspect-ratio:auto; border-radius:24px; background:#ccfbef; overflow:hidden; container-type:size; box-shadow:0 3px 0 #e5dcc8; }
+.lg-app .lb-bound .lb-scene, .lg-app .lb-bound .lb-props, .lg-app .lb-bound .lb-sky { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+.lg-app .lb-bound .lb-hero { position:absolute; inset:8% 12% 2%; display:grid; place-items:end center; pointer-events:none; }
+.lg-app .lb-bound .lb-moon { place-items:center; }
+.lg-app .lb-bound .lb-hero > svg { display:block; width:min(100%,85cqh,290px); height:auto; max-height:100%; }
+.lg-app .lb-bound .lb-friend .lf-front { opacity:1; }
+.lg-app .lb-bound .lb-flap, .lg-app .lb-bound .lb-guess { position:absolute; inset:8% 8% 4%; width:84%; height:88%; padding:0; margin:0; aspect-ratio:auto; display:grid; place-items:end center; border:0; background:none; box-shadow:none; border-radius:24px; cursor:pointer; touch-action:manipulation; }
+.lg-app .lb-bound .lb-behind { position:absolute; inset:0; display:grid; place-items:end center; pointer-events:none; }
+.lg-app .lb-bound .lb-behind svg, .lg-app .lb-bound .lb-guess > svg { width:min(100%,80cqh,260px); height:auto; max-height:100%; pointer-events:none; }
+.lg-app .lb-bound .lb-bush { position:absolute; inset:0; display:grid; place-items:end center; transform-origin:90% 100%; animation:none; transition:transform 340ms cubic-bezier(.2,.8,.3,1); pointer-events:none; }
+.lg-app .lb-bound .lb-bush svg { width:min(100%,95cqh,300px); height:auto; max-height:100%; }
+.lg-app .lb-bound .lb-flap.is-open .lb-bush { transform:translate(85%,20%) rotate(16deg); }
+.lg-app .lb-bound .lb-sun { inset:5% auto auto 5%; width:clamp(30px,14%,62px); height:auto; animation:none; pointer-events:none; }
+.lg-app .lb-bound .lb-sun svg { display:block; width:100%; height:auto; }
+.lg-app .lb-bound .lb-sun.is-hero { position:absolute; inset:15% 20% 10%; width:auto; display:grid; place-items:center; }
+.lg-app .lb-bound .lb-sun.is-hero svg { width:min(100%,65cqh,220px); max-height:100%; }
+.lg-app .lb-bound .lb-text { display:grid; align-content:center; justify-items:center; gap:4px; min-width:0; min-height:112px; margin:0; color:#4a3620; font:clamp(27px,4.5vmin,36px)/1.85 "Amiri Quran",serif; }
+.lg-app .lb-bound .lb-line { display:flex; flex-wrap:wrap; justify-content:center; align-items:center; direction:rtl; gap:0 3px; width:100%; min-width:0; }
+.lg-app .lb-bound .lb-word { min-width:44px; min-height:48px; max-width:100%; padding:0 4px; box-sizing:border-box; line-height:inherit; background:none; border:0; border-radius:12px; transform:none; transition:background 150ms ease; touch-action:manipulation; }
+.lg-app .lb-bound .lb-word.is-said { background:#ffe49a; transform:none; }
+.lg-app .lb-bound .lb-word.is-trying { background:#ccfbef; box-shadow:inset 0 0 0 3px #62cdf4; }
+.lg-app .lb-bound .lb-word.is-decodable { text-underline-offset:.22em; }
+.lg-app .lb-bound .lb-blank:not(.is-filled) { width:58px; height:58px; display:grid; place-items:center; background:#ccfbef; box-shadow:inset 0 0 0 3px #4e9677; }
+.lg-app .lb-bound .lb-blank svg { width:52px; height:52px; }
+.lg-app .lb-bound .lb-blank.is-waiting { animation:none; outline:3px solid #f3c955; outline-offset:1px; }
+.lg-app .lb-bound .lb-blank.is-filled { width:auto; height:auto; background:none; box-shadow:none; }
+.lg-app .lb-bound .lb-reveal { display:flex; border-top:2px dashed #e5dcc8; }
+.lg-app .lb-bound .lb-reveal .lb-word { color:#4a3620; }
+.lg-app .lb-bound .lb-progress { display:flex; align-items:center; justify-content:center; gap:7px; direction:rtl; }
+.lg-app .lb-bound .lb-progress i { width:8px; height:8px; border:2px solid #4a3620; border-radius:50%; background:#fffaf0; box-sizing:border-box; }
+.lg-app .lb-bound .lb-progress i.is-current { background:#f3c955; width:12px; height:12px; }
+.lg-app .lb-bound .lb-nav { display:flex; flex-direction:row; justify-content:center; align-items:center; gap:20px; direction:ltr; }
+.lg-app .lb-bound .lb-nav button { appearance:none; width:60px; height:56px; padding:9px; border:3px solid #4a3620; border-radius:22px; background:#fffaf0; box-shadow:0 4px 0 #c9bda4; cursor:pointer; touch-action:manipulation; }
+.lg-app .lb-bound .lb-next, .lg-app .lb-bound .lb-finish:not(:disabled) { background:#ffa06e; box-shadow:0 4px 0 #b0501f; }
+.lg-app .lb-bound .lb-nav button[hidden] { display:none; }
+.lg-app .lb-bound .lb-nav button:disabled { opacity:.4; cursor:default; }
+.lg-app .lb-bound .lb-nav svg { display:block; width:100%; height:100%; }
+.lg-app .lb-bound button:focus-visible { outline:4px solid var(--lg-focus); outline-offset:3px; }
+.lg-app .lb-bound .lb-nav button:active:not(:disabled) { translate:0 2px; }
+.lg-app .lb-bound .lb-status { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+@media (max-height:640px) and (orientation:portrait) {
+ .lg-app .lb.lb-bound { gap:4px; grid-template-rows:minmax(0,1fr) 12px 60px; }
+ .lg-app .lb-bound .lb-page-content { gap:5px; }
+ .lg-app .lb-bound .lb-text { font-size:27px; line-height:1.8; min-height:100px; }
+}
+@media (orientation:landscape) and (max-height:500px) {
+ .lg-app .lb.lb-bound { width:100%; max-width:1000px; max-height:none; grid-template-columns:minmax(0,1fr) 68px; grid-template-rows:minmax(0,1fr) 12px; column-gap:12px; }
+ .lg-app .lb-bound .lb-page { grid-row:1; grid-column:1; }
+ .lg-app .lb-bound .lb-page-content { inset:9% 13% 10% 7%; grid-template-columns:minmax(0,1.1fr) minmax(0,1fr); grid-template-rows:minmax(0,1fr); gap:12px; }
+ .lg-app .lb-bound .lb-text { min-height:0; font-size:27px; line-height:1.8; align-content:center; }
+ .lg-app .lb-bound .lb-progress { grid-row:2; grid-column:1; }
+ .lg-app .lb-bound .lb-nav { grid-column:2; grid-row:1 / 3; flex-direction:column; gap:18px; }
+}
+@media (prefers-reduced-motion:reduce) { .lg-app .lb-bound * { animation:none !important; transition:none !important; } }
+.lg-app.lg-reduce-motion .lb-bound * { animation:none !important; transition:none !important; }
+
+/* The shelf can be read by pictures before the child can read its titles. */
+.lg-app .lg-book-shelf .lb-spine { width:min(100%,210px); padding:14px 12px 18px; }
+.lg-app .lg-book-shelf .lb-spine-art { display:grid; place-items:center; width:100%; overflow:hidden; border:3px solid #4a3620; border-radius:18px; background:#ccfbef; }
+.lg-app .lg-book-shelf .lb-cover-picture { display:block; width:100%; height:auto; }
+.lg-app .lg-book-shelf .lb-spine-title { font-size:clamp(20px,4vmin,27px); line-height:1.8; }
+/* Keep travelling foreground insects off the selectable covers and reading ink.
+   The garden backdrop and its edge scenery remain visible. */
+body:has(.lg-book-shelf, .lb-bound) .lg-ambient { display:none; }

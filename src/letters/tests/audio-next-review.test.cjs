@@ -52,8 +52,8 @@ test('reviewed words enter the bank only when approved; 94 name prompts use appr
     assert.ok(item.source);
     const approved = completed.decisions[item.id].verdict === 'correct';
     assert.equal(item.status === 'installed', approved);
-    assert.equal(runtime.includes(item.id), approved);
-    assert.equal(shell.includes(item.id), approved);
+    assert.equal(runtime.includes(item.file), approved);
+    assert.equal(shell.includes(item.file), approved);
   }
   const names = new Set(catalogue.items.filter(item => item.status === 'installed' && item.family === 'Letter names').map(item => item.file));
   const sequences = items.filter(item => item.status === 'sequence');

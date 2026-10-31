@@ -11,26 +11,20 @@ const palette = (() => {
 const off = text => (text.match(/#[0-9a-fA-F]{6}/g) || []).map(h => h.toLowerCase()).filter(h => !palette.has(h));
 const game = source("LettersGame.js");
 
-test("Chapter friend stops: the newer games are on the main journey, before the party", () => {
-  const bonus = game.slice(game.indexOf("    chapterBonus(world) {"), game.indexOf("    finishWorld() {"));
-  for (const [id, kind] of [["pack-boat", "FriendFind"], ["pack-smile", "DotsLast"], ["pack-strong", "LetterFishing"], ["muqattaat", "EchoParade"], ["sukoon", "LanternHunt"]])
-    assert.match(bonus, new RegExp(`"?${id}"?: "${kind}"`));
-  assert.match(bonus, /"join-1": \["FamilyBuses", "LetterShadows"\], "join-2": \["SpotChange", "SameLetter"\],/, "replays rotate, so older stops stay on the journey");
-  assert.match(bonus, /if \(pick === "DotsLast" && !letters\.some\(sib\)\) return null;/, "Dots Last only where the chapter has look-alikes");
-  const finish = game.slice(game.indexOf("    finishWorld() {"), game.indexOf("    renderParty("));
-  assert.match(finish, /if \(!s\.checkup && !s\.daily && !s\.bonusDone\) \{/, "never in check-ups or the daily bouquet, and once per run");
-  assert.match(finish, /const resume = \(\) => \{ this\.session = chapter; this\.finishWorld\(\); \};/, "leaving early still finishes the chapter");
-  assert.match(finish, /return this\.startPractice\(bonus\.kind, resume, resume\);/);
+test("Chapter friend game is an optional, wordless party action", () => {
+  const party = game.slice(game.indexOf("    renderParty(stars"), game.indexOf("    renderGrowUp()"));
+  assert.match(party, /class="party-bonus" aria-label="Play an extra friend game"/);
+  assert.match(party, /practicePicture\(bonus\.kind\)/);
+  assert.match(party, /friendStop\.onclick = \(\) => this\.playChapterFriend\(el, chapter, bonus, stars\)/);
+  const finish = game.slice(game.indexOf("    finishWorld() {"), game.indexOf("    playChapterFriend("));
+  assert.match(finish, /this\.renderParty\(partyStars, newlyDone\);/);
+  assert.doesNotMatch(finish, /startPractice\(/, "chapter completion does not launch the optional game");
 });
 
-test("UI pass: grouped practice garden, 56px controls, one press feel and focus ring", () => {
-  assert.match(game, /const groups=\[\['play',/);
-  for (const g of ["play", "read", "think", "write", "explore"]) assert.match(game, new RegExp(`${g}: \`<svg`));
-  assert.deepEqual(off(game.slice(game.indexOf("const PG_CHIPS"), game.indexOf("const WALK_KEY"))), []);
+test("UI pass: 56px controls, one press feel and focus ring", () => {
   const css = fs.readFileSync(path.join(root, "styles", "letters-friends.css"), "utf8");
   assert.match(css, /\.lg-screen\.lg-home \.map-daily-row button \{ width: 56px !important; height: 56px !important;/);
   for (const rule of [/\.album-tab \{ width: 62px; height: 56px; \}/, /\.lb-word \{ min-width: 52px; min-height: 56px; \}/, /\.lab-tile \{ width: 56px; height: 62px; \}/, /\.studio-ink \{ width: 52px; height: 52px; \}/]) assert.match(css, rule);
-  assert.match(css, /\.pg-group\[data-group="write"\]/);
   assert.match(source("PuzzleGames.js"), /const HEDGE = `<svg/, "a real hedge, not a stripe pattern");
   assert.deepEqual(off(css), []);
 });

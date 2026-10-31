@@ -179,7 +179,7 @@
 .lg-app .lg-village > .lg-topbar { position: absolute; left: 0; right: 0; top: 0; z-index: 5; padding: max(10px, env(safe-area-inset-top)) 12px 0; pointer-events: none; }
 .lg-app .lg-village > .lg-topbar > * { pointer-events: auto; }
 .lg-app .vg-stage { position: absolute; inset: 0; background: linear-gradient(180deg, #96ecff 0 34%, #7fce54 34%); }
-.lg-app[data-garden-phase="night"] .vg-stage { background: linear-gradient(180deg, #23253f 0 34%, #2f5c46 34%); }
+.lg-app[data-garden-phase="night"] .vg-stage { background: linear-gradient(180deg, #23253f 0 34%, #4e9677 34%); }
 .lg-app .vg-scene { display: block; width: 100%; height: 100%; }
 .lg-app .vg-spot, .lg-app .vg-pet, .lg-app .vg-find, .lg-app .vg-bud { cursor: pointer; outline: none; }
 .lg-app .vg-spot-in, .lg-app .vg-find-in { transform-box: fill-box; transform-origin: 50% 100%; }
@@ -197,3 +197,8 @@
 .lg-home .map-village svg { display: block; width: 44px; height: 44px; }
 /* v65: repeated landmarks vary in size and facing (set per stop). */
 .lg-home .map-landmark > svg { transform: scale(calc(var(--lm-s, 1) * var(--lm-f, 1)), var(--lm-s, 1)); transform-origin: 50% 90%; }
+
+/* Native animal pets need an HTML island inside the SVG village. */
+.lg-app .vg-pet-art { width:100%; height:100%; display:grid; place-items:center; }
+.lg-app .vg-pet-art > :is(svg,.lg-animal) { max-width:100%; }
+.lg-app .vg-pet:focus-visible { filter:drop-shadow(0 0 3px #ffe49a); }

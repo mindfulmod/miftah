@@ -1,0 +1,99 @@
+.lg-app .balloons {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: center;
+  justify-items: center;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  padding: 10px 4px 18px;
+  box-sizing: border-box;
+  isolation: isolate;
+  background: linear-gradient(#96ecff, #ccfbef 76%);
+}
+.lg-app .balloons .balloon-clearing { position:absolute; inset:0; pointer-events:none; overflow:hidden; border-radius:24px; }
+.lg-app .balloons .balloon-land { position:absolute; inset:0; width:100%; height:100%; }
+.lg-app .balloons .balloon-cloud { position:absolute; top:8%; left:9%; width:clamp(64px,22%,160px); height:auto; }
+.lg-app .balloons .balloon-planter { position:absolute; bottom:1%; width:clamp(60px,20%,140px); height:auto; }
+.lg-app .balloons .balloon-planter-left { left:1%; }
+.lg-app .balloons .balloon-planter-right { right:1%; }
+.lg-app .balloons .balloon {
+  position: relative;
+  inset: auto;
+  bottom: auto;
+  left: auto;
+  right: auto;
+  top: auto;
+  display: grid;
+  place-items: center;
+  width: min(100%, 150px);
+  height: min(100%, 210px);
+  min-width: 52px;
+  min-height: 82px;
+  padding: 0;
+  border: 0;
+  border-radius: 28px;
+  background: transparent;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  animation: none;
+  transition: none;
+}
+.lg-app .balloons .balloon-art { display: block; width: 100%; height: 100%; overflow: visible; pointer-events: none; transform-origin: center; animation: lg-balloon-bob 3.8s ease-in-out infinite; transition: transform 130ms ease-out, scale 130ms ease-out, opacity 150ms ease-out; }
+.lg-app .balloons .balloon[data-slot="1"] .balloon-art { animation-delay: -1.2s; }
+.lg-app .balloons .balloon[data-slot="2"] .balloon-art { animation-delay: -2.4s; }
+.lg-app .balloons .balloon-letter { stroke: none; stroke-width: 0; scale: none; }
+.lg-app .balloons .balloon:focus-visible { outline: 4px solid var(--lg-focus); outline-offset: 2px; }
+.lg-app .balloons .balloon:active:not(.is-popped) .balloon-art { scale: .98; animation-play-state: paused; }
+.lg-app .balloons .balloon.is-popped { pointer-events: none; }
+.lg-app .balloons .balloon.is-popped .balloon-art { animation: none; transform: scale(.82); opacity: 0; }
+.lg-app .balloons .balloon.is-popped::after { content:""; position:absolute; width:8px; height:8px; top:38%; left:calc(50% - 4px); border-radius:50%; background:#fffaf0; box-shadow:-22px -16px 0 #ffe49a,22px -18px 0 #ffa798,26px 15px 0 #fffaf0,-22px 18px 0 #b7e779; pointer-events:none; animation:lg-balloon-petals 300ms ease-out both; }
+.lg-app .balloons.is-still .balloon-art { animation: none; }
+@keyframes lg-balloon-petals { from { transform:scale(.8); opacity:.65; } to { transform:scale(1.15); opacity:0; } }
+@keyframes lg-balloon-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+@media (orientation: landscape) and (max-height: 500px) {
+  .lg-app .balloons { padding: 4px 22px 8px; }
+  .lg-app .balloons .balloon { width: min(25vw, calc(100cqh - 18px), 154px); height: min(100%, 240px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lg-app .balloons .balloon, .lg-app .balloons .balloon-art { animation: none !important; transition: none !important; }
+  .lg-app .balloons .balloon.is-popped::after { display:none; }
+}
+.lg-app.lg-reduce-motion .balloons .balloon, .lg-app.lg-reduce-motion .balloons .balloon-art { animation: none !important; transition: none !important; }
+.lg-app.lg-reduce-motion .balloons .balloon.is-popped::after,.lg-app .balloons.is-still .balloon.is-popped::after { display:none; }
+
+/* The same three letters can be popped or inflated at the child's pace. */
+.lg-app .balloons.has-play-choices { grid-template-rows:64px minmax(0,1fr); gap:8px; }
+.lg-app .balloon-modes { grid-column:1 / -1; grid-row:1; display:flex; gap:10px; padding:4px 10px; background:#fffaf0; border:2px solid #a89478; border-radius:22px; box-shadow:0 4px 0 #a89478; z-index:2; }
+.lg-app .balloon-modes .balloon-mode { display:grid; place-items:center; width:62px; height:52px; min-width:52px; min-height:52px; padding:3px; border:2.4px solid #a89478; border-radius:15px; background:#fffdf7; cursor:pointer; touch-action:manipulation; }
+.lg-app .balloon-mode svg { width:100%; height:100%; pointer-events:none; }
+.lg-app .balloon-mode[aria-pressed="true"] { background:#ffe49a; border-color:#4a3620; box-shadow:0 3px 0 #70501b; }
+.lg-app .balloon-mode:focus-visible { outline:4px solid var(--lg-focus); outline-offset:2px; }
+.lg-app .balloons.is-pump-play .balloon { height:min(100%,330px); max-height:none; }
+.lg-app .balloons.is-pump-play .balloon-planter { width:clamp(44px,12%,80px); bottom:0; }
+.lg-app .balloon-pump-art { width:100%; height:100%; overflow:visible; pointer-events:none; }
+.lg-app .balloon-pump-handle { transform-origin:60px 180px; }
+.lg-app .balloon-skin { transform-origin:60px 65px; animation:lg-balloon-inflate 220ms ease-out; }
+.lg-app .balloon[data-air="1"] .balloon-pump-handle,.lg-app .balloon[data-air="2"] .balloon-pump-handle,.lg-app .balloon[data-air="3"] .balloon-pump-handle { animation:lg-balloon-pump 200ms ease-out; }
+.lg-app .balloon[data-air="3"] .balloon-release-cue { animation:lg-balloon-invite 2.4s ease-in-out 2; }
+.lg-app .balloon.is-released { pointer-events:none; }
+.lg-app .balloon.is-released .balloon-inflatable { animation:lg-balloon-release 650ms ease-in both; transform-origin:60px 65px; }
+.lg-app .balloon.is-released .balloon-hose,.lg-app .balloon.is-released .balloon-release-cue { visibility:hidden; }
+@keyframes lg-balloon-pump { 0%,100%{transform:translateY(0)} 35%{transform:translateY(12px)} }
+@keyframes lg-balloon-inflate { from{transform:scale(var(--grow-from,1))} to{transform:scale(1)} }
+@keyframes lg-balloon-invite { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-2px)} }
+@keyframes lg-balloon-release { to {transform:translateY(-145px) scale(.82);opacity:0} }
+@media (orientation:landscape) and (max-height:500px) {
+  .lg-app .balloons.has-play-choices { padding-top:4px; grid-template-rows:56px minmax(0,1fr); gap:4px; }
+  .lg-app .balloon-modes { padding:0 8px; }
+  .lg-app .balloons.is-pump-play .balloon { height:100%; width:min(100%,130px); }
+}
+@media (prefers-reduced-motion:reduce) {
+  .lg-app .balloon-pump-art * { animation:none !important; }
+  .lg-app .balloon.is-released .balloon-inflatable { opacity:0; }
+}
+.lg-app.lg-reduce-motion .balloon-pump-art *,.lg-app .balloons.is-still .balloon-pump-art * { animation:none !important; }
+.lg-app.lg-reduce-motion .balloon.is-released .balloon-inflatable,.lg-app .balloons.is-still .balloon.is-released .balloon-inflatable { opacity:0; }

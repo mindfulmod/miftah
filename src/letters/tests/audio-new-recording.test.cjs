@@ -74,8 +74,8 @@ test('new approvals install the exact heard bytes, rejected clips stay excluded 
         assert.ok(shell.includes(item.file));
       } else {
         assert.equal(item.status, 'candidate');
-        assert.equal(bank[item.text], undefined);
-        assert.ok(!shell.includes(item.id));
+        assert.notEqual(bank[item.text], item.file);
+        assert.ok(!shell.includes(item.file));
       }
     }
     assert.ok(!assessment.baseline.playableSignatures[item.id]);
@@ -97,7 +97,8 @@ test('new approvals preserve every prior playable signature and add only reviewe
   assert.equal(previousInstalled.length, 164);
   const additions = queue.itemIds.filter(id => owner.decisions[id].verdict === 'correct').map(id => byId.get(id).text);
   const laterApprovals = retryApplication.approved.map(item => item.text);
-  assert.deepEqual(Object.keys(bank).sort(), [...new Set([...previousInstalled.map(item => item.text), ...additions, ...laterApprovals])].sort());
+  const teacherTexts = JSON.parse(read('assets/audio/letters/marin-teacher-v1/manifest.json')).items.map(item => item.text);
+  assert.deepEqual(Object.keys(bank).sort(), [...new Set([...previousInstalled.map(item => item.text), ...additions, ...laterApprovals, ...teacherTexts])].sort());
   const shell = read('sw.js').toString();
   for (const item of catalogue.items.filter(item => item.status === 'installed')) {
     for (const part of item.parts) assert.ok(shell.includes(part.file));
@@ -123,7 +124,8 @@ test('the focused recording retry contains only the three rejections and 24 unre
   const laterApprovals = new Map(retryApplication.approved.map(item => [item.text, item]));
   for (const item of retry.items) {
     const approval = laterApprovals.get(item.text);
-    assert.equal(bank[item.text], approval?.file);
+    if (approval) assert.equal(bank[item.text], approval.file);
+    else if (bank[item.text]) assert.ok(json('assets/audio/letters/marin-teacher-v1/manifest.json').items.some(i => i.text === item.text && i.file === bank[item.text]));
   }
 });
 

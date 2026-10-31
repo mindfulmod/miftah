@@ -1,0 +1,505 @@
+/* The workshop and shadow games use their own paper props and open stages. */
+.lg-app .lg-play .practice-stage:has(> .ws, > .sh) {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: min(100%, 900px);
+  padding: 4px 8px 10px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.lg-app .lg-play .practice-stage:has(> .ws, > .sh) > .lg-activity-art { display: none; }
+.lg-app .lg-play .practice-stage:has(> .ws, > .sh) > :is(.ws, .sh) {
+  position: relative;
+  z-index: 1;
+  margin: auto;
+  flex-shrink: 0;
+}
+
+/* Build Letter: one fixed-aspect joinery board with an open paper field. */
+.lg-app .ws {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  align-content: center;
+  gap: clamp(8px, 1.5vh, 14px);
+  width: 100%;
+  padding: 2px 0 6px;
+  box-sizing: border-box;
+}
+.lg-app .ws button { touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+.lg-app .ws :is(.ws-piece, .pz-tile), .lg-app .sh-shadows .pz-tile { touch-action: none; }
+.lg-app .ws-build .ws-frame {
+  position: relative;
+  width: min(100%, 340px, 43vh);
+  height: auto;
+  aspect-ratio: 28 / 25;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.lg-app .ws-board-art { position: absolute; inset: 0; pointer-events: none; }
+.lg-app .ws-build .ws-frame.is-next:not(.is-built) { outline: none; }
+.lg-app .ws-build .ws-frame.is-near { outline: none; background: transparent; filter: drop-shadow(0 0 6px #f3c955); }
+.lg-app .ws-board-art > svg { display: block; width: 100%; height: 100%; }
+.lg-app .ws-build .ws-target,
+.lg-app .ws-build .ws-friend {
+  position: absolute;
+  left: 17.857%;
+  top: 11.2%;
+  width: 64.286%;
+  height: 72%;
+  padding: 0;
+  box-sizing: border-box;
+}
+.lg-app .ws-build .ws-target { overflow: visible; }
+.lg-app .ws-build .ws-friend { display: grid; place-items: center; }
+.lg-app .ws-build .ws-friend svg { display: block; width: 90%; height: auto; }
+.lg-app .ws-build .ws-step-guide {
+  position: absolute;
+  left: 18%;
+  right: 18%;
+  bottom: 4%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 30px;
+  pointer-events: none;
+}
+.lg-app .ws-build .ws-step {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 32px;
+  border: 1.6px solid #4a3620;
+  border-radius: 9px;
+  background: #fffaf0;
+  opacity: .82;
+}
+.lg-app .ws-build .ws-step svg { display: block; width: 30px; height: 30px; }
+.lg-app .ws-build .ws-step.is-active { opacity: 1; box-shadow: 0 0 0 2.4px #f3c955; }
+.lg-app .ws-build .ws-step.is-done { opacity: .7; }
+.lg-app .ws-build .ws-step + .ws-step::before {
+  content: "";
+  position: absolute;
+  width: 7px;
+  height: 3px;
+  margin-left: -8px;
+  border-radius: 3px;
+  background: #c69434;
+}
+.lg-app .ws-build .ws-tray {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(12px, 4vw, 22px);
+  width: min(100%, 400px);
+  min-height: 0;
+  padding: 10px 14px 14px;
+  box-sizing: border-box;
+  border: 3px solid #4a3620;
+  border-radius: 24px 24px 30px 30px;
+  background: #c69434;
+  box-shadow: inset 0 3px 0 #ffe49a, inset 0 -5px 0 #70501b, 0 4px 0 #a89478;
+}
+.lg-app .ws-build .ws-piece {
+  display: grid;
+  place-items: center;
+  min-width: 64px;
+  min-height: 64px;
+  padding: 4px;
+  border: 3px solid #4a3620;
+  border-radius: 20px;
+  background: #fffaf0;
+  box-shadow: inset 0 3px 0 #fffdf7, 0 4px 0 #70501b;
+  cursor: pointer;
+}
+.lg-app .ws-build .ws-piece svg { display: block; width: min(66px, 18vw); height: auto; }
+.lg-app .ws.ws-build .ws-piece.is-hint { animation: ws-shadow-hint 700ms ease-in-out 1; outline: 3px solid #f3c955; outline-offset: 3px; }
+.lg-app .ws-build .ws-piece:focus-visible,
+.lg-app .ws-gap .pz-tile:focus-visible { outline: 4px solid var(--lg-focus); outline-offset: 4px; }
+.lg-app .ws-build > .pz-progress,
+.lg-app .ws-gap > .pz-progress {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  min-height: 14px;
+  margin: 0;
+}
+
+/* Fill the Gap: the picture stays on the easel; the word sits below it. */
+.lg-app .ws-gap { gap: clamp(6px, 1.2vh, 10px); }
+.lg-app .ws-gap .ws-card {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: 0;
+  width: min(100%, 280px, 37vh);
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.lg-app .ws-easel { position: relative; display: block; width: 100%; aspect-ratio: 8 / 7; }
+.lg-app .ws-picture-frame { position: absolute; inset: 0; display: block; }
+.lg-app .ws-picture-frame > svg { display: block; width: 100%; height: 100%; }
+.lg-app .ws-gap .ws-pic {
+  position: absolute;
+  left: 17.5%;
+  top: 11.43%;
+  display: grid;
+  place-items: center;
+  width: 65%;
+  height: 70%;
+  pointer-events: none;
+}
+.lg-app .ws-gap .ws-pic svg { display: block; width: min(100%, 130px); max-height: 100%; height: auto; }
+.lg-app .ws-reference {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  margin-top: 4px;
+  padding: 1px 14px;
+  border: 2.4px solid #4a3620;
+  border-radius: 16px;
+  background: #fffaf0;
+  box-shadow: inset 0 3px 0 #fffdf7, 0 3px 0 #c9bda4;
+  color: #4a3620;
+  font: 27px/1.4 "Amiri Quran", serif;
+}
+.lg-app .ws-reference-word { white-space: nowrap; }
+.lg-app .ws-reference-initial { display: grid; place-items: center; min-width: 36px; min-height: 40px; }
+.lg-app .ws-reference-initial i { font-style: normal; }
+.lg-app .ws-reference-initial i.is-highlighted { color: #c25a49; }
+.lg-app .ws-gap .ws-word {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 54px;
+  margin-top: 4px;
+  padding: 4px 12px;
+  border: 2.4px solid #4a3620;
+  border-radius: 16px;
+  background: #fffaf0;
+  box-shadow: 0 3px 0 #c9bda4;
+  color: #4a3620;
+  font: clamp(34px, 8vmin, 46px)/1.4 "Amiri Quran", serif;
+}
+.lg-app .ws-gap .ws-hole {
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 48px;
+  width: 48px;
+  height: 50px;
+  border: 3px solid #4a3620;
+  border-radius: 14px;
+  background: #ccfbef;
+  box-shadow: inset 0 3px 0 #fffdf7, 0 3px 0 #62cdf4;
+  /* The empty space stays still; Help gently cues the matching piece. */
+  animation: none;
+}
+.lg-app .ws-gap .ws-hole-cue { display: none; }
+.lg-app .ws-gap .ws-whole { display: inline-block; }
+.lg-app .ws-gap .pz-board {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  max-width: 100%;
+  padding: 8px 12px 12px;
+  border-radius: 22px 22px 28px 28px;
+  background: #c69434;
+  box-shadow: inset 0 3px 0 #ffe49a, inset 0 -4px 0 #70501b, 0 4px 0 #a89478;
+}
+.lg-app .ws-gap .pz-tile {
+  display: grid;
+  place-items: center;
+  min-width: 56px;
+  min-height: 56px;
+  padding: 3px;
+  border: 3px solid #4a3620;
+  border-radius: 19px;
+  background: #fffaf0;
+  box-shadow: inset 0 3px 0 #fffdf7, 0 4px 0 #70501b;
+}
+.lg-app .ws-gap .pz-tile svg { display: block; width: min(64px, 17vw); height: auto; }
+.lg-app .ws.ws-gap .pz-tile.is-hint { animation: ws-shadow-hint 700ms ease-in-out 1; outline: 3px solid #f3c955; outline-offset: 3px; }
+.lg-app .ws-gap .ws-hole.is-near { background: #ffe49a; box-shadow: inset 0 0 0 3px #c69434, 0 3px 0 #70501b; }
+.lg-app .ws-gap .ws-word.is-whole .ws-whole { animation: ws-shadow-settle 420ms ease-out 1; }
+
+/* Lantern Hunt: muted night layers, a broad beam, and a separate jar footer. */
+.lg-app .sh {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  align-content: center;
+  gap: clamp(8px, 1.5vh, 14px);
+  width: 100%;
+  padding: 2px 0 6px;
+  box-sizing: border-box;
+}
+.lg-app .sh-lantern .sh-night {
+  position: relative;
+  width: min(100%, 680px, 72vh);
+  max-width: 680px;
+  aspect-ratio: 17 / 11;
+  border: 0;
+  border-radius: 24px;
+  overflow: hidden;
+  isolation: isolate;
+  background: #4a4d84;
+  box-shadow: 0 0 0 4px #4a3620, 0 7px 0 #70501b;
+  touch-action: none;
+}
+.lg-app .sh-lantern .sh-night.is-tall { width: min(100%, 460px, 48vh, calc((100dvh - 285px) * .75)); aspect-ratio: 3 / 4; }
+.lg-app .sh-garden-art { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.lg-app .sh-garden-art > svg { display: block; width: 100%; height: 100%; }
+.lg-app .sh-garden-tree { position: absolute; left: 1.5%; bottom: 3%; z-index: 0; width: min(140px, 24%, 25vh); pointer-events: none; }
+.lg-app .sh-garden-tree > svg { display: block; width: 100%; height: auto; }
+.lg-app .sh-lantern .sh-thing {
+  position: absolute;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 15%;
+  min-width: 56px;
+  min-height: 56px;
+  padding: 4px;
+  transform: translate(-50%, -50%);
+  border: 0;
+  border-radius: 18px;
+  background: transparent;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.lg-app .sh-lantern .sh-night.is-tall .sh-thing { width: 22%; }
+.lg-app .sh-glow {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 1;
+  border: 3px solid #4a3620;
+  border-radius: 17px;
+  background: #fffaf0;
+  box-shadow: inset 0 3px 0 #fffdf7, 0 4px 0 #c9bda4;
+  transition: box-shadow 180ms ease-out, transform 180ms ease-out, background-color 180ms ease-out;
+}
+.lg-app .sh-glow svg { display: block; width: 76%; height: auto; }
+.lg-app .sh-thing.is-lit { z-index: 4; }
+.lg-app .sh-thing.is-lit .sh-glow { box-shadow: inset 0 3px 0 #fffdf7, 0 0 0 3px #c69434, 0 0 16px #ffe49a; }
+.lg-app .sh-thing.is-found .sh-glow { background: #ffe49a; box-shadow: inset 0 3px 0 #fffdf7, 0 0 0 3px #c69434, 0 4px 0 #70501b; transform: scale(.93); }
+.lg-app .sh-dark {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(circle at var(--lx, 50%) var(--ly, 50%), transparent 0, transparent var(--lr, 30%), rgb(35 37 63 / .62) calc(var(--lr, 30%) + 26px));
+  transition: background 180ms ease-out;
+}
+.lg-app .sh-night.is-dawn .sh-dark { background: transparent; transition: background 700ms ease-out; }
+.lg-app .sh-lantern-icon {
+  position: absolute;
+  left: var(--lx, 50%);
+  top: var(--ly, 50%);
+  z-index: 3;
+  width: clamp(32px, 6vw, 44px);
+  transform: translate(-50%, -145%);
+  pointer-events: none;
+  filter: drop-shadow(0 0 6px #ffe49a);
+  transition: left 150ms ease-out, top 150ms ease-out;
+}
+.lg-app .sh-lantern-icon > svg { display: block; width: 100%; height: auto; }
+.lg-app .sh-firefly { display: none; }
+.lg-app .sh-lantern .sh-footer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: min(100%, 680px);
+  min-height: 52px;
+  padding: 2px 10px;
+  box-sizing: border-box;
+}
+.lg-app .sh-lantern .sh-jar {
+  position: relative;
+  right: auto;
+  bottom: auto;
+  display: block;
+  flex: 0 0 auto;
+  width: min(72px, 10vh);
+  z-index: 1;
+}
+.lg-app .sh-lantern .sh-jar > svg { display: block; width: 100%; height: auto; }
+.lg-app .sh-jar-in { position: absolute; inset: 30% 20% 12%; display: flex; flex-wrap: wrap; align-content: flex-end; justify-content: center; gap: 0; overflow: hidden; pointer-events: none; }
+.lg-app .sh-jar-in i { display: block; width: 50%; filter: drop-shadow(0 0 2px #ffe49a); }
+.lg-app .sh-jar-in i svg { display: block; width: 100%; height: auto; }
+.lg-app .sh-lantern > .pz-progress { display: flex; justify-content: center; gap: 8px; margin: 0; }
+.lg-app .sh-thing:focus-visible { outline: 4px solid var(--lg-focus-on-dark); outline-offset: 3px; z-index: 5; }
+
+/* Letter Shadows: timber proscenium, clear paper opening and warm silhouettes. */
+.lg-app .sh-shadows .sh-screen {
+  position: relative;
+  width: min(100%, 640px, 80vh);
+  max-width: 640px;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #70501b;
+  box-shadow: none;
+}
+.lg-app .sh-theatre-art { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.lg-app .sh-theatre-art > svg { display: block; width: 100%; height: 100%; }
+.lg-app .sh-shadow {
+  position: absolute;
+  top: 50%;
+  left: calc(50% + (var(--i) - (var(--n) - 1) / 2) * 34%);
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  height: 70%;
+  width: min(24%, 150px);
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 3px 0 #c69434);
+  transition: opacity 220ms ease-out, filter 220ms ease-out;
+}
+.lg-app .sh-shadow > svg {
+  display: block;
+  width: min(150px, 23vw, 25vh);
+  max-width: 100%;
+  max-height: 100%;
+  height: auto;
+  filter: sepia(.42) saturate(.8) brightness(.48);
+  transition: filter 220ms ease-out;
+}
+.lg-app .sh-shadow.is-lit { z-index: 2; filter: drop-shadow(0 0 8px #ffe49a); }
+.lg-app .sh-shadow.is-lit > svg { filter: none; }
+.lg-app .sh-shadow.is-arriving > svg { animation: sh-shadow-arrive 520ms cubic-bezier(.2,.7,.2,1) 1; }
+.lg-app .sh-shadows > .pz-board {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  max-width: 100%;
+  padding: 8px 12px 12px;
+  border-radius: 22px 22px 28px 28px;
+  background: #c69434;
+  box-shadow: inset 0 3px 0 #ffe49a, inset 0 -4px 0 #70501b, 0 4px 0 #a89478;
+}
+.lg-app .sh-shadows .pz-tile {
+  display: grid;
+  place-items: center;
+  min-width: 56px;
+  min-height: 56px;
+  padding: 3px;
+  border: 3px solid #4a3620;
+  border-radius: 19px;
+  background: #fffaf0;
+  box-shadow: inset 0 3px 0 #fffdf7, 0 4px 0 #70501b;
+}
+.lg-app .sh-shadows .pz-tile svg { display: block; width: min(64px, 17vw); height: auto; }
+.lg-app .sh-shadows .pz-tile.is-used { opacity: .45; }
+.lg-app .sh.sh-shadows .pz-tile.is-hint { animation: ws-shadow-hint 700ms ease-in-out 1; outline: 3px solid #f3c955; outline-offset: 3px; }
+.lg-app .sh-shadows .pz-tile:focus-visible { outline: 4px solid var(--lg-focus); outline-offset: 4px; }
+.lg-app .sh-shadows > .pz-progress { display: flex; justify-content: center; gap: 8px; margin: 0; }
+
+@keyframes ws-shadow-hint { 50% { transform: translateY(-1px); } }
+@keyframes ws-shadow-settle { from { transform: scale(.98); opacity: .8; } to { transform: scale(1); opacity: 1; } }
+@keyframes sh-shadow-arrive { from { scale: .98; opacity: .65; } to { scale: 1; opacity: 1; } }
+
+/* Small phones keep the board and its choices inside the available height. */
+@media (max-width: 380px) and (orientation: portrait) {
+  .lg-app .ws-build .ws-frame { width: min(100%, 300px, 42vh); }
+  .lg-app .ws-build .ws-tray { padding: 8px 10px 12px; }
+  .lg-app .ws-build .ws-piece { min-width: 56px; min-height: 56px; }
+  .lg-app .ws-build .ws-piece svg { width: min(58px, 17vw); }
+  .lg-app .ws-gap .ws-card { width: min(100%, 252px, 32vh); }
+  .lg-app .ws-gap .ws-reference { min-height: 42px; font-size: 24px; }
+  .lg-app .ws-gap .ws-word { min-height: 46px; font-size: 35px; }
+  .lg-app .ws-gap .pz-board { gap: 10px; padding: 7px 9px 10px; }
+  .lg-app .ws-gap .pz-tile { min-width: 48px; min-height: 48px; }
+  .lg-app .ws-gap .pz-tile svg { width: min(56px, 16vw); }
+  .lg-app .sh-lantern .sh-night { width: min(100%, 68vh); }
+  .lg-app .sh-lantern .sh-thing { min-width: 48px; min-height: 48px; padding: 3px; }
+  .lg-app .sh-glow { border-width: 2.4px; border-radius: 14px; }
+  .lg-app .sh-shadows .pz-board { gap: 8px; padding: 6px 8px 10px; }
+  .lg-app .sh-shadows .pz-tile { min-width: 48px; min-height: 48px; }
+  .lg-app .sh-shadows .pz-tile svg { width: min(56px, 16vw); }
+}
+
+/* A phone on its side uses the wide screen and a narrow choice rail. */
+@media (orientation: landscape) and (max-height: 500px) {
+  .lg-app .lg-play .practice-stage:has(> .ws, > .sh) { padding: 4px 8px; }
+  .lg-app .ws { height: 100%; grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: minmax(0, 1fr) auto; column-gap: 14px; row-gap: 4px; align-items: center; }
+  .lg-app .ws-build .ws-frame { grid-column: 1; grid-row: 1 / 3; width: min(300px, 58vh); }
+  .lg-app .ws-build .ws-tray { grid-column: 2; grid-row: 1; width: min(170px, 24vw); flex-direction: column; align-content: center; gap: 8px; }
+  .lg-app .ws-build .ws-piece { min-width: 58px; min-height: 58px; }
+  .lg-app .ws-build .ws-piece svg { width: min(60px, 14vh); }
+  .lg-app .ws-build > .pz-progress { grid-column: 2; grid-row: 2; }
+  .lg-app .ws-gap { grid-template-columns: minmax(0, 1fr) auto; }
+  .lg-app .ws-gap .ws-card { grid-column: 1; grid-row: 1 / 3; width: min(250px, 52vh); }
+  .lg-app .ws-gap .pz-board { grid-column: 2; grid-row: 1; flex-direction: column; gap: 8px; }
+  .lg-app .ws-gap > .pz-progress { grid-column: 2; grid-row: 2; }
+  .lg-app .sh { height: 100%; grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: minmax(0, 1fr) auto; column-gap: 12px; row-gap: 4px; align-items: center; }
+  .lg-app .sh-lantern .sh-night { grid-column: 1; grid-row: 1 / 3; width: auto; height: min(82vh, 340px); }
+  .lg-app .sh-lantern .sh-footer { grid-column: 2; grid-row: 1 / 3; flex-direction: column; width: 58px; min-height: 0; padding: 4px; }
+  .lg-app .sh-lantern .sh-thing { width: 15%; min-width: 48px; min-height: 48px; }
+  .lg-app .sh-lantern .sh-night.is-tall .sh-thing { width: 22%; }
+  .lg-app .sh-shadows { height: 100%; grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: minmax(0, 1fr) auto; column-gap: 12px; row-gap: 4px; align-items: center; }
+  .lg-app .sh-shadows .sh-screen { grid-column: 1; grid-row: 1 / 3; width: min(640px, calc(80vh * 16 / 9)); }
+  .lg-app .sh-shadows > .pz-board { grid-column: 2; grid-row: 1; flex-direction: column; gap: 8px; }
+  .lg-app .sh-shadows > .pz-progress { grid-column: 2; grid-row: 2; }
+  .lg-app .sh-shadows .pz-tile { min-width: 48px; min-height: 48px; }
+  .lg-app .sh-shadows .pz-tile svg { width: min(54px, 14vh); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lg-app .ws *, .lg-app .sh *,
+  .lg-app.lg-reduce-motion .ws *, .lg-app.lg-reduce-motion .sh * { animation: none !important; transition: none !important; }
+}
+.lg-app.lg-reduce-motion .ws *, .lg-app.lg-reduce-motion .sh * { animation: none !important; transition: none !important; }
+
+/* The solved scene becomes a tiny puppet theatre, with the same familiar cast. */
+.lg-app .sh-shadows .sh-screen { background:transparent; }
+.lg-app .sh-puppet-field { position:absolute; inset:0; clip-path:inset(18% 14% 21% 14%); pointer-events:none; }
+.lg-app .sh-puppet { position:absolute; z-index:2; display:grid; place-items:center; width:24%; aspect-ratio:1; min-width:48px; min-height:48px; margin:0; padding:0; translate:-50% -50%; border:0; border-radius:18px; background:none; box-shadow:none; touch-action:none; pointer-events:auto; cursor:grab; }
+.lg-app .sh-puppet::before { content:""; position:absolute; z-index:-1; width:6px; height:70%; bottom:-27%; border:2px solid #4a3620; border-radius:8px; background:#c69434; }
+.lg-app .sh-puppet-art,.lg-app .sh-puppet-art > svg { display:block; width:100%; height:auto; }
+.lg-app .sh-puppet.is-held { z-index:4; cursor:grabbing; }
+.lg-app .sh-puppet.is-waving { background:#ffe49a; }
+.lg-app .sh-puppet:focus-visible { outline:4px solid var(--lg-focus); outline-offset:-2px; z-index:5; }
+.lg-app .sh-screen.is-shadow-play .sh-puppet-art { filter:brightness(0) opacity(.75); }
+.lg-app .sh-play-controls { display:flex; gap:22px; align-items:center; justify-content:center; min-height:90px; }
+.lg-app .sh-play-controls[hidden],.lg-app .sh-shadows > .pz-board[hidden] { display:none; }
+.lg-app .sh-play-controls button { position:relative; display:grid; place-items:center; width:76px; height:76px; border:3px solid #4a3620; border-radius:24px; color:#4a3620; background:#fffaf0; padding:9px; box-shadow:inset 0 3px 0 #fffdf7,0 5px 0 #a89478; touch-action:manipulation; }
+.lg-app .sh-play-controls .sh-next { background:#ffe49a; }
+.lg-app .sh-play-controls button > svg { display:block; width:100%; height:100%; }
+.lg-app .sh-play-controls .sh-light-switch > svg { width:35px; height:48px; justify-self:start; }
+.lg-app .sh-switch-track { position:absolute; right:9px; top:20px; width:13px; height:29px; border:2px solid #4a3620; border-radius:9px; background:#ffe49a; }
+.lg-app .sh-switch-track i { display:block; width:9px; height:9px; border:1px solid #4a3620; border-radius:50%; background:#fffdf7; margin:2px auto; }
+.lg-app .sh-light-switch[aria-pressed="true"] .sh-switch-track { background:#a89478; }
+.lg-app .sh-light-switch[aria-pressed="true"] .sh-switch-track i { translate:0 13px; }
+.lg-app .sh-play-controls button:focus-visible { outline:4px solid var(--lg-focus); outline-offset:4px; }
+.lg-app .sh-play-controls button:active { translate:0 3px; box-shadow:inset 0 3px 0 #fffdf7,0 2px 0 #a89478; }
+@media(orientation:landscape) and (max-height:500px) {
+  .lg-app .sh-shadows > .sh-play-controls { grid-column:2; grid-row:1; flex-direction:column; gap:14px; }
+  .lg-app .sh-play-controls button { width:62px; height:62px; padding:7px; }
+  .lg-app .sh-play-controls .sh-light-switch > svg { width:28px; height:40px; }
+  .lg-app .sh-switch-track { top:12px; right:7px; }
+}

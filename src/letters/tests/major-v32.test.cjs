@@ -12,11 +12,15 @@ const off = text => (text.match(/#[0-9a-fA-F]{6}/g) || []).map(h => h.toLowerCas
 
 test("v32 Lantern Hunt and Letter Shadows: fair search, any-order shadows, honest evidence", () => {
   const src = source("ShadowGames.js");
-  assert.match(src, /if \(this\.justLit === b\) \{ this\.justLit = null; return; \}/, "lighting something is its own tap");
-  assert.match(src, /if \(!this\.isLit\(b\)\) \{ const h = this\.hidden\[i\]; this\.moveTo\(h\.x, h\.y\);/, "a tap in the dark moves the lantern (no dragging needed)");
-  assert.match(src, /this\.radius = ctx\.beginner \? 30 : 21;/, "a sprout's lantern is bigger");
-  assert.match(src, /const right = this\.left\.includes\(c\);/, "shadows can be named in any order");
-  assert.match(src, /this\.max = ctx\.beginner \? 0 : 2;/, "a sprout keeps one still friend's shadow");
+  assert.match(src, /if \(this\.suppressClickTarget === b\) \{ this\.suppressClickTarget = null; return; \}/, "lighting something is its own tap, never an answer");
+  assert.match(src, /if \(!this\.isLit\(b\)\) \{ this\.reveal\(b\);/, "a tap in the dark moves the lantern (no dragging needed)");
+  assert.match(src, /this\.radius = 30;/, "the forgiving beam does not shrink while choice count increases");
+  assert.match(src, /const right = expected \? c === expected && this\.left\.includes\(expected\) : this\.left\.includes\(c\);/, "shadows can be named in any order");
+  assert.match(src, /this\.level = level\(ctx, this\.known, "letter-form"\);/, "shadow complexity uses the saved visual-learning level");
+  assert.match(src, /const count = this\.level >= 2 && this\.known\.length >= 3 \? 2 : 1;/, "a later milestone adds the second shadow after choice count increases");
+  assert.match(src, /const plain = this\.level >= 3;/, "the later level removes friend details after the count increase");
+  assert.match(src, /const moving = false;/, "motion is never a required difficulty step");
+  assert.doesNotMatch(src, /this\.level\s*=\s*Math\.max\([^\n]*this\.missed/, "one clean local round cannot raise shadow complexity");
   assert.doesNotMatch(src, /spendStars|earnStars|saveJSON|setInterval/);
   assert.deepEqual(off(src), []);
   const css = fs.readFileSync(path.join(root, "styles", "letters-friends.css"), "utf8");

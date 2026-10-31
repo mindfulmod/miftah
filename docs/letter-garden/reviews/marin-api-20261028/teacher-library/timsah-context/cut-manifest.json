@@ -1,0 +1,20 @@
+{
+  "id": "lg-de1e5cba8529",
+  "text": "تِمْسَاح",
+  "status": "owner-approved",
+  "file": "teacher-library/timsah-context/candidates/lg-de1e5cba8529-context-cut-v1.wav",
+  "sha256": "c051b5dc7bafc6741d5d2b40911a77330be39d53483905fbd94eb09053706979",
+  "sourceFile": "timsah-context-candidates/lg-5797d8e34326.wav",
+  "sourceSHA256": "4afdbb460c88051691841a2cf5cdc0f380e38f216a1234b30032a13ae1b38241",
+  "startFrame": 20400,
+  "endFrame": 55200,
+  "sampleRate": 24000,
+  "startSeconds": 0.85,
+  "endSeconds": 2.3,
+  "durationSeconds": 1.45,
+  "processing": "Exact PCM slice only. No time stretch, pitch shift, normalization, fades, regeneration or synthetic audio.",
+  "boundaryEvidence": "Cut begins in quiet interval after lead-in and before the next speech onset; retains the small transient near 1.02 s and full high-energy onset around 1.15 s. Ends in quiet tail after final consonant. Energy boundaries are not independent pronunciation certification.",
+  "ownerPhraseApproval": "teacher-library/timsah-context/owner-review.json",
+  "nextStep": "Owner checks the isolated initial t and ending once before runtime installation.",
+  "ownerCutStatement": "its fine, install it with the other approved clips and lets work on the remaining audio issues"
+}

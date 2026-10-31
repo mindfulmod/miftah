@@ -48,7 +48,7 @@ test('22 recuts preserve originals and only exact new approvals enter the game',
   assert.equal(Core.current(item,owner).stale,true);
   assert.equal(Core.current(item,owner).note,owner.decisions[id].note);
   assert.equal(Core.current(item,owner).heardSignature,'');
-  assert.equal(bank.includes(id),approved);assert.equal(shell.includes(id),approved);
+  assert.equal(bank.includes(item.file),approved);assert.equal(shell.includes(item.file),approved);
  }
 });
 

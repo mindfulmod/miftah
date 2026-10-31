@@ -1,73 +1,235 @@
-// Letter Balloons (v24, 2026-10-02): free play for the very youngest. Big
-// balloons drift slowly up the sky, each carrying a letter; touch one and it
-// pops and says its letter, and a new one floats up from below. Nothing is
-// scored or reported and nothing can go wrong — it is about hearing letters
-// and the joy of popping. Balloons are 96px and slow, for two-year-old hands.
+// Letter Balloons is an open-ended toy. Popping a balloon has no score,
+// completion state, reward, or learning outcome attached to it.
 (function (ns) {
   const COLORS = ["#ffa798", "#96ecff", "#b7e779", "#ffe49a", "#b49fcf", "#ee806f"];
-  // v58: the letter was small in its balloon (34 on a r28 disc) — the first toy a
-  // little sprout meets. It is bigger now, auto-fitted to its disc so tall
-  // letters (ط ل ك) never spill.
-  const balloonArt = (c, letter) => `<svg viewBox="0 0 100 140" aria-hidden="true">
-    <path d="M50 104Q44 120 52 138" fill="none" stroke="#a89478" stroke-width="2.4" stroke-linecap="round"/>
-    <path d="M50 6C24 6 10 28 10 50C10 76 30 98 50 104C70 98 90 76 90 50C90 28 76 6 50 6Z" fill="${c}" stroke="#4a3620" stroke-width="3"/>
-    <path d="M44 104L50 112L56 104Z" fill="${c}" stroke="#4a3620" stroke-width="2.4" stroke-linejoin="round"/>
-    <path d="M28 30Q34 18 46 16" fill="none" stroke="#fffdf7" stroke-width="6" stroke-linecap="round" opacity=".8"/>
-    <circle cx="50" cy="54" r="33" fill="#fffaf0" opacity=".9"/>
-    <text data-fit-box="50,54,46,46,48" x="50" y="68" text-anchor="middle" font-family="'Amiri Quran', serif" font-size="48" fill="#4a3620" direction="rtl">${letter}</text>
-  </svg>`;
+  const ARABIC_LETTER = /^[\u0621-\u064a]$/u;
+  const eligible = (item, ctx) => !!item?.id && typeof item.display === "string" && ARABIC_LETTER.test(item.display)
+    && item.taught !== false && item.isTaught !== false && item.locked !== true && item.unlocked !== false
+    && (!ctx.completedWorldIds || !(item.prerequisiteWorldIds || []).some(id => id !== ctx.worldId && !ctx.completedWorldIds.includes(id)));
+
+  function taughtItems(rows, ctx) {
+    const items = (Array.isArray(rows) ? rows : []).filter(Boolean);
+    // If a glyph has any explicitly blocked alias, do not let another alias
+    // smuggle the same visible letter into this free-play toy.
+    const blocked = new Set(items.filter(item => !eligible(item, ctx)).map(item => item.display));
+    const ids = new Set(), glyphs = new Set();
+    return items.filter(item => {
+      if (!eligible(item, ctx) || blocked.has(item.display) || ids.has(String(item.id)) || glyphs.has(item.display)) return false;
+      ids.add(String(item.id)); glyphs.add(item.display); return true;
+    });
+  }
 
   class LetterBalloons {
     constructor(ctx) {
       this.ctx = ctx;
       this.alive = true;
-      const known = (ctx.items || []).filter((i) => i?.display && [...i.display].length === 1);
-      this.letters = known.length ? known : (ctx.starter || []);
       this.reduced = !!ctx.reducedMotion?.();
-      this.n = 0;
-      ctx.stage.innerHTML = `<div class="balloons${this.reduced ? " is-still" : ""}" role="group" aria-label="Letter balloons"></div>`;
-      this.sky = ctx.stage.querySelector(".balloons");
-      for (let i = 0; i < 6; i += 1) this.add(i, true);
-      ctx.prompt?.(null);
+      this.index = 0;
+      this.slots = [];
+      this.timers = new Set();
+      this.speechBusy = false;
+      this.speechTimer = null;
+      this.speechToken = 0;
+      this.queuedItem = null;
+      this.latestSelectedItem = null;
+      this.mode = 'pop';
+      this.chooseMode = ctx.chooseBalloonPlay === true;
+      this.inflation = [0, 0, 0];
+      this.slotItems = [];
+      this.slotColors = [];
+
+      const declared = Array.isArray(ctx.items);
+      this.letters = taughtItems(ctx.items, ctx);
+      const hasDeclaredMaterial = declared && ctx.items.length > 0;
+      if (!this.letters.length && !hasDeclaredMaterial) {
+        this.letters = taughtItems(ctx.starter, ctx);
+      }
+
+      ctx.stage.innerHTML = `<div class="balloons${this.reduced ? " is-still" : ""}" role="group" aria-label="Letter balloons">${ns.BalloonPlayArt?.clearing?.() || ''}</div>`;
+      this.root = ctx.stage.querySelector(".balloons");
+      if (!this.letters.length) {
+        this.alive = false;
+        Promise.resolve().then(() => ctx.cancel?.());
+        return;
+      }
+      this.latestSelectedItem = this.letters[0];
+      ctx.prompt?.(this.latestSelectedItem);
+      if (this.chooseMode) this.addModeChoices();
+      for (let slot = 0; slot < 3; slot += 1) this.add(slot);
+      this.observer = typeof ResizeObserver !== "undefined"
+        ? new ResizeObserver(() => this.fitGlyphs()) : null;
+      this.observer?.observe(ctx.stage);
+      this.fitGlyphs();
     }
 
-    add(slot, first = false) {
-      if (!this.alive || !this.letters.length) return;
-      // Every letter takes its turn: a simple rotation through the set.
-      const item = this.letters[this.n++ % this.letters.length];
-      const b = document.createElement("button");
-      b.type = "button";
-      b.className = "balloon";
-      b.setAttribute("aria-label", `Pop the ${item.display} balloon`);
-      // Three lanes that always fit the sky; the second balloon in a lane
-      // rides half a cycle behind the first, so they never overlap. v58: lanes
-      // are centred in thirds and balloons sized to them (CSS --bw), so
-      // neighbours never cover each other's letters on a narrow phone.
-      const lane = slot % 3, rise = 15 + lane * 2;
-      b.style.left = `calc(${[16.667, 50, 83.333][lane]}% - var(--bw) / 2)`;
-      b.style.setProperty("--rise", `${rise}s`);
-      b.style.setProperty("--sway", lane % 2 ? "var(--sw)" : "calc(-1 * var(--sw))");
-      if (first && !this.reduced) b.style.animationDelay = `${-(slot > 2 ? rise / 2 : 0) - lane * 1.6}s`;
-      if (this.reduced) { b.style.top = `${slot > 2 ? 52 : 10}%`; }
-      b.innerHTML = balloonArt(COLORS[(this.n + slot) % COLORS.length], item.display);
-      b.addEventListener("click", () => this.pop(b, item, slot));
-      this.sky.appendChild(b);
+    addModeChoices() {
+      this.root.classList.add('has-play-choices');
+      const choices = document.createElement('div');
+      choices.className = 'balloon-modes';
+      choices.setAttribute('role', 'group');
+      choices.setAttribute('aria-label', 'Choose how to play with balloons');
+      this.modeButtons = ['pop', 'pump'].map(mode => {
+        const button = document.createElement('button');
+        button.type = 'button'; button.className = 'balloon-mode';
+        button.setAttribute('aria-label', mode === 'pop' ? 'Pop balloons' : 'Pump and release balloons');
+        button.setAttribute('aria-pressed', String(mode === this.mode));
+        button.innerHTML = ns.BalloonPlayArt?.modeIcon?.(mode) || '';
+        button.addEventListener('click', () => this.setMode(mode));
+        choices.appendChild(button); return button;
+      });
+      this.root.appendChild(choices);
     }
 
-    pop(b, item, slot) {
-      if (!this.alive || b.classList.contains("is-popped")) return;
-      b.classList.add("is-popped");
+    setMode(mode) {
+      if (!this.alive || !this.chooseMode || !['pop', 'pump'].includes(mode) || mode === this.mode) return false;
+      this.pumpCue?.destroy(); this.pumpCue = null;
+      for (const timer of this.timers) clearTimeout(timer);
+      this.timers.clear();
+      this.mode = mode;
+      this.root.classList.toggle('is-pump-play', mode === 'pump');
+      this.modeButtons.forEach((button, i) => button.setAttribute('aria-pressed', String(['pop', 'pump'][i] === mode)));
+      // Change the action, not the child's three familiar letters.
+      for (let slot = 0; slot < 3; slot += 1) this.add(slot, this.slotItems[slot]);
+      if (mode === 'pump' && !this.pumpShown) {
+        this.pumpShown = true;
+        this.pumpCue = ns.LettersActionCue?.mount?.({ host:this.root, source:this.slots[0].querySelector('.balloon-pump-handle'), type:'tap', automatic:true, reducedMotion:()=>this.reduced });
+      }
+      this.ctx.sfx?.('page');
+      return true;
+    }
+
+    add(slot, retainedItem) {
+      if (!this.alive || !this.letters.length || !this.root) return;
+      const previous = this.slots[slot];
+      previous?.remove?.();
+      const item = retainedItem || this.letters[this.index++ % this.letters.length];
+      this.slotItems[slot] = item;
+      this.inflation[slot] = 0;
+      const color = retainedItem ? this.slotColors[slot] : COLORS[(this.index + slot - 1) % COLORS.length];
+      this.slotColors[slot] = color;
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "balloon";
+      button.setAttribute("aria-label", `Pop the ${item.display} balloon`);
+      button.setAttribute("data-slot", String(slot));
+      button.style.gridColumn = String(slot + 1);
+      button.style.gridRow = this.chooseMode ? "2" : "1";
+      button.innerHTML = ns.BalloonPlayArt?.balloon?.(color, item.display)
+        || ns.BalloonPlayArt?.classic?.(color, item.display) || "";
+      button.addEventListener("click", () => this.mode === 'pump' ? this.pump(button, item, slot) : this.pop(button, item, slot));
+      this.slots[slot] = button;
+      if (this.mode === 'pump') this.drawPump(button, item, slot);
+      this.root.appendChild(button);
+      this.fitGlyphs();
+    }
+
+    drawPump(button, item, slot) {
+      const air = this.inflation[slot];
+      button.setAttribute('aria-label', air < 3 ? `Pump the ${item.display} balloon, ${air} of 3 pumps` : `Release the ${item.display} balloon`);
+      button.setAttribute('data-air', String(air));
+      button.innerHTML = ns.BalloonPlayArt?.pump?.(this.slotColors[slot], item.display, air) || '';
+      this.fitGlyphs();
+    }
+
+    pump(button, item, slot) {
+      if (!this.alive || this.mode !== 'pump' || this.slots[slot] !== button || button.disabled) return false;
+      this.pumpCue?.destroy(); this.pumpCue = null;
+      if (this.inflation[slot] === 3) {
+        button.classList.add('is-released');
+        this.ctx.sfx?.('page'); this.ctx.pet?.cheer?.();
+        this.replaceAfter(button, slot, this.reduced ? 180 : 650);
+        return true;
+      }
+      this.inflation[slot] += 1;
+      const changedLetter = this.latestSelectedItem !== item;
+      this.latestSelectedItem = item;
+      this.drawPump(button, item, slot);
+      this.ctx.sfx?.('blob');
+      // One name at the first pump, with the same replay control as pop play.
+      if (this.inflation[slot] === 1 || changedLetter) this.requestSpeech(item);
+      return true;
+    }
+
+    fitGlyphs() {
+      if (!this.alive) return;
+      ns.LettersArt?.fitGlyphs?.(this.root || this.ctx.stage);
+    }
+
+    pop(button, item, slot) {
+      if (!this.alive || this.slots[slot] !== button || button.classList.contains("is-popped")) return;
+      button.classList.add("is-popped");
+      this.latestSelectedItem = item;
       this.ctx.sfx?.("pop");
-      this.ctx.say?.(item);
-      this.ctx.confettiAt?.(b);
       this.ctx.pet?.cheer?.();
-      setTimeout(() => { b.remove(); this.add(slot); }, this.reduced ? 200 : 420);
+      this.requestSpeech(item);
+      this.replaceAfter(button, slot, this.reduced ? 180 : 360);
     }
 
-    replayPrompt() {}
-    destroy() { this.alive = false; }
+    replaceAfter(button, slot, delay) {
+      const restoreFocus = typeof document !== "undefined" && document.activeElement === button
+        && !!button.matches?.(":focus-visible");
+      button.disabled = true;
+      const timer = setTimeout(() => {
+        this.timers.delete(timer);
+        if (!this.alive || this.slots[slot] !== button) return;
+        button.remove();
+        this.add(slot);
+        const active = typeof document !== "undefined" ? document.activeElement : null;
+        if (restoreFocus && (active === button || active === document.body || active == null)) this.slots[slot]?.focus?.();
+      }, delay);
+      this.timers.add(timer);
+    }
+
+    requestSpeech(item) {
+      if (!this.alive || !item) return;
+      if (this.speechBusy) { this.queuedItem = item; return; }
+      this.speechBusy = true;
+      this.latestSelectedItem = item;
+      this.ctx.prompt?.(item);
+      const token = ++this.speechToken;
+      let result;
+      try { result = this.ctx.say?.(item); } catch { result = false; }
+      if (!result || typeof result.then !== "function") {
+        this.settleSpeech(token);
+        return;
+      }
+      this.speechTimer = setTimeout(() => this.settleSpeech(token), 6000);
+      Promise.resolve(result).then(() => this.settleSpeech(token), () => this.settleSpeech(token));
+    }
+
+    settleSpeech(token) {
+      if (!this.alive || !this.speechBusy || token !== this.speechToken) return;
+      if (this.speechTimer !== null) clearTimeout(this.speechTimer);
+      this.speechTimer = null;
+      this.speechBusy = false;
+      const next = this.queuedItem;
+      this.queuedItem = null;
+      if (next) this.requestSpeech(next);
+    }
+
+    replayPrompt() {
+      if (this.alive && this.latestSelectedItem) this.requestSpeech(this.latestSelectedItem);
+    }
+
+    destroy() {
+      if (!this.alive) return;
+      this.alive = false;
+      this.pumpCue?.destroy(); this.pumpCue = null;
+      this.observer?.disconnect?.();
+      this.observer = null;
+      for (const timer of this.timers) clearTimeout(timer);
+      this.timers.clear();
+      if (this.speechTimer !== null) clearTimeout(this.speechTimer);
+      this.speechTimer = null;
+      this.queuedItem = null;
+      this.speechBusy = false;
+      this.speechToken += 1;
+      this.slots.forEach(button => button?.remove?.());
+      this.slots = [];
+    }
   }
 
+  LetterBalloons.taughtItems = taughtItems;
   ns.GardenPractice = ns.GardenPractice || {};
   ns.GardenPractice.LetterBalloons = LetterBalloons;
 })(window.MiftahGame || (window.MiftahGame = {}));

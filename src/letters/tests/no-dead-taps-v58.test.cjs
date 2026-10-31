@@ -31,8 +31,8 @@ test("v58 Empty garden plots and missed drops: something always answers", () => 
   assert.doesNotMatch(deco, /button\.disabled=!this\.catalog\.length;/);
   assert.match(deco, /if\(ghost&&i<0&&!cancel&&button\.isConnected&&ghost\.animate/, "a decoration dropped on bare ground floats back to its shelf");
   const practice = read("src/letters/GardenPractice.js");
-  assert.match(practice, /const took=enabled\(\)&&drop\(e\.clientX,e\.clientY,released\);if\(!took\)glideHome\(el,off\);/);
-  assert.match(practice, /prefers-reduced-motion: reduce\)'\)\.matches\)return;el\.animate\(\[\{transform:off\},\{transform:'none'\}\]/, "reduced motion: no glide");
+  assert.match(practice, /const took=enabled\(\)&&drop\(e\.clientX,e\.clientY,released\);if\(!took\)returnHome\(off\);/);
+  assert.match(practice, /prefers-reduced-motion: reduce\)'\)\.matches\)return null;return el\.animate\(\[\{transform:off\},\{transform:'none'\}\]/, "reduced motion: no glide");
   assert.match(practice, /drop:\(x,y\)=>\{if\(!inside\(card,x,y\)\)return false;choose\(i\);return true;\}/, "a drop says whether it was taken");
 });
 
@@ -59,7 +59,7 @@ test("v58 First looks: a waiting sky, free colours first, and the last stop clea
   assert.match(game, /const tab=\['friends','outfits','colors','tricks'\]\.includes\(this\.wardrobeTab\)\?this\.wardrobeTab:canShop\?'outfits':'colors';/);
   assert.match(game, /const height = total \* GAP \+ 240 \+ \(window\.innerWidth < 600 \? 110 : 0\);/);
   assert.match(read("letters.html"), /\?v=20261009-v58/);
-  assert.match(read("sw.js"), /const VERSION = "miftah-v324-letter-garden-v262-20261019";/);
+  assert.match(read("sw.js"), /const VERSION = "miftah-v[0-9]+-letter-garden-[a-z0-9-]+";/);
 });
 
 test("v58 WordGap is winnable: the right piece matches even when NFC reorders shadda and vowel", () => {
@@ -87,13 +87,12 @@ test("v58 iPad: nothing in reach is pushed off the screen", () => {
   assert.match(css, /\.studio \{ display: grid; grid-template-columns: minmax\(0, 1fr\); justify-items: center; gap: 10px; width: min\(100%, 620px, max\(220px, calc\(\(100dvh - 400px\) \* 4 \/ 3\)\)\);/, "the 4:3 studio canvas is capped by the height left over (and the grid column can shrink below the SVG's 300px default)");
   assert.ok(css.indexOf("@media (min-width: 900px) and (max-height: 900px) { .lab {") > css.indexOf(".lab-press { position: relative;"), "the landscape Sound Lab rule comes after the base rules it overrides");
   assert.deepEqual(off(world), []);
-  assert.match(read("styles/letters-friends.css"), /@media \(min-width: 900px\) and \(max-height: 900px\) \{ \.lg-practice-garden \.practice-garden-hub \{ width: min\(1000px, 100%\); grid-template-columns: 1fr 1fr; align-items: start; \} \}/, "toy groups two by two on a landscape iPad");
 });
 
 test("v58 Lantern Hunt: a long search in the dark is helped; new glides honour the app's reduce-motion switch", () => {
   const sh = read("src/letters/ShadowGames.js");
   assert.match(sh, /this\.sweeps = found \? 0 : \(this\.sweeps \|\| 0\) \+ 1;\n\s+if \(this\.sweeps >= 6\) \{/);
-  assert.match(sh, /if \(k >= 0\) \{ this\.missed = true; this\.later\(\(\) => \{ this\.moveTo\(this\.hidden\[k\]\.x, this\.hidden\[k\]\.y\);/, "the helped find is recorded as helped");
+  assert.match(sh, /if \(k >= 0\) \{ this\.missed = true; this\.assisted = true; const token = this\.roundToken; this\.later\(\(\) => \{ if \(!this\.isCurrent\(token\)\) return; this\.moveTo\(this\.hidden\[k\]\.x, this\.hidden\[k\]\.y\);/, "the helped find is recorded as helped");
   assert.match(read("src/letters/GardenPractice.js"), /el\.closest\?\.\('\.lg-reduce-motion'\)\|\|window\.matchMedia/);
   assert.match(read("src/letters/DecoratingGarden.js"), /!this\.ctx\.reducedMotion\?\.\(\)&&!window\.matchMedia/);
   assert.match(read("styles/letters-friends.css"), /\.lg-app\.lg-reduce-motion \.is-soon, \.lg-app\.lg-reduce-motion \.is-soon \.pet-acc-cost \{ animation: none; \}/);
@@ -102,9 +101,10 @@ test("v58 Lantern Hunt: a long search in the dark is helped; new glides honour t
 test("v58 Every guessing game ends in a hint: Busy Market and Letter Hunt now glow the answer after misses", () => {
   const bk = read("src/letters/BookGames.js");
   assert.match(bk, /if \(p\.char !== c && \+\+this\.misses >= 3\) \{/);
-  assert.match(bk, /showLens\(\) \{\n\s+const c = this\.lenses\[this\.lens\];\n\s+this\.misses = 0;/, "a new lens starts fresh");
+  assert.match(bk, /showLens\(\) \{\n\s+this\.lensToken \+= 1;\n\s+const c = this\.lenses\[this\.lens\];\n\s+this\.misses = 0;/, "a new lens starts fresh");
   const hunt = read("src/letters/LetterHunt.js");
-  assert.match(hunt, /if \(\+\+this\.misses >= 2\) \{\n\s+const k = this\.letters\.findIndex/);
+  assert.match(hunt, /if\(!correct\)\{this\.missedSpots\.add\(i\);this\.misses\+\+;this\.help\(this\.misses>=2\|\|this\.choiceCount===2\);/,
+    "a miss reveals matching help, and a second miss points to the answer");
   const css = read("styles/letters.css");
   assert.match(css, /\.hunt-spot\.is-hint \.hunt-thing \{ filter: drop-shadow\(0 0 0 #f3c955\) drop-shadow\(0 0 8px #f3c955\); animation: hunt-hint/);
   assert.match(css, /@media \(prefers-reduced-motion: reduce\) \{ \.hunt-spot \.hunt-thing, \.hunt-found \{ animation: none !important; \} \}/, "the glow stays; the pulse stops");
@@ -122,24 +122,21 @@ test("v58 Chapter games too: Pairs glows the partner after two tries, Burst the 
 
 test("v58 Letter Delivery: tapping the destination before choosing a packet makes the packets hop", () => {
   const d = read("src/letters/LetterDelivery.js");
-  assert.match(d, /this\.destination\.onclick=\(\)=>\{if\(!this\.alive\|\|this\.busy\)return;if\(this\.selected\)return this\.offer\(this\.selected\);/);
+  assert.match(d, /this\.destination\.onclick=\(\)=>\{\s*if\(!current\(\)\|\|this\.busy\|\|this\.waitingForSpeech\)return;\s*if\(this\.selected\)return this\.offer\(this\.selected\);/);
   assert.match(d, /this\.packetButtons\.filter\(b=>!b\.disabled\)\.forEach\(\(b,k\)=>\{b\.classList\.remove\('is-soon'\);/);
   assert.match(read(".qa/autoplay.js"), /maxDry/, "the auto-player reports the longest run of taps without a success");
 });
 
-test("v58 On a roll: every third win in a row blooms into petals; nothing counts it on screen", () => {
-  assert.match(game, /this\._hitRun = \(this\._hitRun \|\| 0\) \+ 1;\n\s+const bloom = !comeback && this\._hitRun % 3 === 0;/);
-  assert.match(game, /this\._missStreak = \(this\._missStreak \|\| 0\) \+ 1;\n\s+this\._hitRun = 0;/, "a miss quietly starts the run again");
-  const css = read("styles/letters-friends.css");
-  assert.match(css, /@keyframes lg-bloom \{/);
-  assert.match(css, /\.lg-hit-flash, \.lg-burst \{ display: none; \}/, "reduced motion: no burst of any kind");
-  const petals = game.slice(game.indexOf('if (bloom) burst.innerHTML'), game.indexOf('else burst.innerHTML'));
-  assert.deepEqual(off(petals), []);
+test("success streaks preserve bookkeeping without escalating visual effects", () => {
+  assert.match(game, /this\._hitRun = \(this\._hitRun \|\| 0\) \+ 1;/);
+  assert.match(game, /this\._missStreak = \(this\._missStreak \|\| 0\) \+ 1;\n\s+this\._hitRun = 0;/);
+  assert.doesNotMatch(game, /const bloom = !comeback|burst\.className = comeback/);
+  assert.match(read("styles/letters-friends.css"), /\.lg-hit-flash, \.lg-burst \{ display: none; \}/);
 });
 
 test("v58 The skill flower never shrinks in front of a child: petals show the best check-up", () => {
   const vm = require("node:vm");
-  assert.match(game, /best: Math\.max\(stars, was\?\.best \|\| 0, was\?\.score \|\| 0\)/, "the best is kept alongside the latest");
+  assert.match(game, /score: stars, best: nextBest/, "the protected best is kept alongside the latest; migration behavior is covered by checkup-rewards-v314");
   const art = read("src/letters/LettersArt.js");
   assert.match(art, /const score = scores\[skill\.id\] \? Math\.max\(Number\(scores\[skill\.id\]\.score\) \|\| 0, Number\(scores\[skill\.id\]\.best\) \|\| 0\) : 0;/);
 });
@@ -229,12 +226,12 @@ test("v58 Little Sprout: chapter games end a round sooner, never longer than the
 test("v58 First screens on a phone: the story card fills the middle; the place buttons fit a 300px screen", () => {
   const friends = read("styles/letters-friends.css");
   assert.match(friends, /@media \(orientation: portrait\) \{\n  \.lg-story \.sg-story \{ margin-block: auto; \}\n  \.lg-story \.sg-scene \{ aspect-ratio: 4 \/ 5; width: min\(100%, calc\(\(100dvh - 200px\) \* 4 \/ 5\)\); \}/, "every upright screen, phone or iPad");
-  assert.match(friends, /\.sg-scene \{ container-type: inline-size; \}\n\.sg-friend svg \{ width: clamp\(56px, 13cqw, 116px\); height: auto; \}/, "friends are sized from the card");
+  assert.match(friends, /\.sg-friend svg \{ display: block; width: 100%; height: auto; \}/, "friends fit their responsive stage positions");
   assert.match(friends, /@media \(orientation: landscape\) and \(min-height: 501px\) \{\n  \.lg-story \.sg-story \{ margin-block: auto; \}/, "a sideways iPad centres and grows the card");
   assert.match(friends, /\.sg-scene \{ max-width: none; width: auto; height: calc\(100dvh - 96px\); \}/, "a sideways phone keeps the card below the top bar");
   const map = read("styles/letters-map-world.css");
   assert.match(map, /@media\(max-width:340px\)\{\.lg-app \.lg-home \.map-play-places\{gap:8px\}/);
-  assert.deepEqual(off(friends.slice(friends.indexOf("v58: on an upright screen"))), []);
+  assert.deepEqual(off(friends.slice(friends.indexOf("Frame and cast scale together"))), []);
 });
 
 test("v58 The proud pet smiles visibly: a filled beam and lifted brows, readable at phone size", () => {
@@ -357,15 +354,15 @@ test("v58 A few decorations sit centred in the tray (auto margins keep a full tr
   assert.match(read("styles/letters-art-pass.css"), /\.decorate-tray>\.decorate-choice:first-child\{margin-inline-start:auto\}\.decorate-tray>\.decorate-choice:last-child\{margin-inline-end:auto\}/);
 });
 
-test("v58 The practice garden's group chips are never cropped by the scroll box", () => {
+test("v58 The practice shelf keeps its scrolling area clear of the header", () => {
   assert.match(read("styles/letters-rooms.css"), /\.lg-app \.practice-garden-hub\{min-height:0;overflow-y:auto;padding:20px 4px 14px\}/);
 });
 
 test("v58 Bath Time's cover is a rounded cloud (bubble foam since 2026-10-13, was mud), not a striped square block", () => {
   const tb = read("src/letters/ToyBoxGames.js");
-  assert.match(tb, /if \(\(\(x - 50\) \/ 66\) \*\* 2 \+ \(\(y - 49\) \/ 64\) \*\* 2 > 1\) continue;/);
+  assert.match(tb, /if \(\(\(x - 50\) \/ 56\) \*\* 2 \+ \(\(y - 51\) \/ 56\) \*\* 2 > 1\) continue;/);
   assert.match(tb, /fill="\$\{tint\}" stroke="#96ecff" stroke-width="1\.6"/);
-  assert.match(tb, /const FOAM = \["#fffaf0", "#fffaf0", "#ccfbef", "#e6d6f0"\];/);
+  assert.match(tb, /const FOAM = \["#fffdf7", "#fffaf0", "#ccfbef", "#fffaf0"\];/);
   assert.doesNotMatch(tb, /"#70501b" : "#a89478"/, "no brown mud");
   assert.match(tb, /aria-label="A friend hiding in the bubbles"/);
   assert.doesNotMatch(tb, /i % 5 \? "#a89478"/);
@@ -393,11 +390,13 @@ test("v58 Water Garden's three flowers are clearly different colours (no odd one
   assert.doesNotMatch(wg, /'#ffa798'\]\[i\]/);
 });
 
-test("v58 Letter Hunt letters are 15% bigger on a landscape screen, except in snug hiding places", () => {
+test("v58 Letter Hunt fits live glyphs to the prop medallions", () => {
   const lh = read("src/letters/LetterHunt.js");
-  assert.match(lh, /font-size="\$\{Math\.round\(t\.size \* \(t\.snug \? 1 : 1\.15\)\)\}"/);
-  assert.match(lh, /label: \[0, 14\], size: 30, snug: true \}/, "the tree hollow");
-  assert.match(lh, /label: \[0, 7\], size: 28, snug: true \}/, "the shell plate");
+  assert.match(lh, /class="hunt-label" transform="translate\(\$\{t\.label\.join\(' '\)\}\)"><text class="hunt-letter"[^>]*data-fit-box=/);
+  assert.match(lh, /fitGlyphs\?\.\(this\.root\)/, "glyphs are fitted after each picture render");
+  const art = read("src/letters/HuntPlayArt.js");
+  assert.match(art, /label: \[0, 17\], size: 30, box: \[44, 44\]/, "the tree hollow");
+  assert.match(art, /label: \[0, 3\], size: 28, box: \[44, 44\]/, "the shell medallion");
 });
 
 test("v58 The hatching egg is bigger on large screens", () => {
@@ -455,11 +454,15 @@ test("v58 Friend shapes on a sideways phone: choices stay square and all three f
   assert.match(css, /\.bk-shapes \.bk-piece svg \{ width: min\(104px, 24vh, 10vw\); \}/);
 });
 
-test("v58 Letter Balloons: the letter is big in its balloon and auto-fitted to the disc", () => {
+test("v58 Letter Balloons: native balloon art carries the live letter and fitting metadata", () => {
   const src = read("src/letters/LetterBalloons.js");
-  assert.match(src, /<circle cx="50" cy="54" r="33" fill="#fffaf0" opacity="\.9"\/>/);
-  assert.match(src, /<text data-fit-box="50,54,46,46,48" x="50" y="68" text-anchor="middle" font-family="'Amiri Quran', serif" font-size="48"/);
-  assert.doesNotMatch(src, /font-size="34" fill="#4a3620"/);
+  const art = read("src/letters/BalloonPlayArt.js");
+  assert.match(src, /ns\.BalloonPlayArt\?\.balloon\?\./);
+  assert.match(src, /ns\.LettersArt\?\.fitGlyphs\?\./);
+  assert.match(art, /class="balloon-art"/);
+  assert.match(art, /class="balloon-letter" data-fit-box="60,63,43,43,48"/);
+  assert.match(art, /font-size="48"/);
+  assert.doesNotMatch(src, /font-size=/, "the game delegates lettering to its native art and glyph fitter");
 });
 
 test("v58 Letter Fishing: each fish owns a row no taller than itself, so fish never collide", () => {
@@ -468,16 +471,21 @@ test("v58 Letter Fishing: each fish owns a row no taller than itself, so fish ne
   assert.match(css, /\.tb-fish \{ --fh: min\(clamp\(64px, 17vw, 80px\), calc\(87cqh \/ var\(--n, 5\)\)\); --fw: calc\(var\(--fh\) \* 1\.65\);[^}]*top: calc\(11cqh \+ var\(--row, 0\) \* 87cqh \/ var\(--n, 5\)\);/);
   assert.match(css, /50% \{ left: calc\(98% - var\(--fw\)\); \}/);
   const toy = read("src/letters/ToyBoxGames.js");
-  assert.match(toy, /<div class="tb-pond" style="--n:\$\{n\}">/);
+  assert.match(toy, /<div class="tb-pond[^\n]*style="--n:\$\{this\.fish\.length\}">/);
   assert.match(toy, /style="--row:\$\{i\};--dur:/);
 });
 
-test("v58 Letter Balloons: lanes centred in thirds and balloons sized to them, so neighbours never overlap", () => {
-  const css = read("styles/letters.css");
-  assert.match(css, /\.balloons \{ container-type: size; \}\n\.balloon \{ --sw: min\(12px, 3cqw\); --bw: min\(96px, calc\(100cqw \/ 3 - 2 \* var\(--sw\) - 4px\)\);[^}]*width: var\(--bw\); height: calc\(var\(--bw\) \* 1\.4\);/);
+test("v58 Letter Balloons: three fitted balloons stay in stable grid slots", () => {
+  const css = read("styles/letters-balloon-play.css");
+  assert.match(css, /\.lg-app \.balloons \{[^}]*display: grid;[^}]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\);/s);
+  assert.match(css, /\.lg-app \.balloons \.balloon \{[^}]*position: relative;[^}]*inset: auto;[^}]*animation: none;/s,
+    "the tap targets stay anchored while the illustration moves");
   const src = read("src/letters/LetterBalloons.js");
-  assert.match(src, /b\.style\.left = `calc\(\$\{\[16\.667, 50, 83\.333\]\[lane\]\}% - var\(--bw\) \/ 2\)`;/);
-  assert.match(src, /"--sway", lane % 2 \? "var\(--sw\)" : "calc\(-1 \* var\(--sw\)\)"/);
+  assert.match(src, /button\.style\.gridColumn = String\(slot \+ 1\);/);
+  assert.match(src, /button\.style\.gridRow = this\.chooseMode \? "2" : "1";/);
+  assert.match(src, /button\.innerHTML = ns\.BalloonPlayArt\?\.balloon\?\./);
+  assert.match(src, /this\.add\(slot\);/, "popping replaces only that slot");
+  assert.match(src, /ns\.LettersArt\?\.fitGlyphs\?\./);
 });
 
 test("v58 Letter Train balloons each own a share of the sky; Busy Market goods stay square", () => {
@@ -517,7 +525,7 @@ test("v58 Busy Market goes square on narrow portrait phones so shelf rows fit th
 
 test("v58 Spot the Change always keeps a spare letter off the board, so it never ends at once", () => {
   const src = read("src/letters/LookGames.js");
-  assert.match(src, /const n = Math\.min\(this\.ctx\.beginner \? 3 : this\.round < 2 \? 4 : 5, this\.known\.length - 1\);/);
+  assert.match(src, /this\.boardSize = Math\.min\(this\.visitLevel > 0 \? 3 : 2, this\.known\.length - 1\);/);
 });
 
 test("v58 Asking to hear it again while muted points at the speaker at once", () => {
@@ -532,17 +540,17 @@ test("v58 A slow first visit shows the loading flower from the first paint, in p
   assert.match(read("styles/letters-art-pass.css"), /\.loading-flower\{[^}]*color:#ffa798\}/);
 });
 
-test("v58 A game that fails to build never strands a child on a half-made screen", () => {
-  assert.match(game, /try \{ this\.game = new ns\.LettersMiniGames\[gameName\]\(ctx\); \}\n      catch \(error\) \{ console\.error\("Letter Garden: game failed to start", gameName, error\); this\.game = null; return ctx\.onDone\(0\); \}/);
-  assert.match(game, /\}catch\(error\)\{console\.error\('Letter Garden: toy failed to start',kind,error\);this\.game=null;return \(onDone\|\|back\|\|\(\(\)=>this\.renderPracticeGarden\(\)\)\)\(\);\}/);
+test("v268 A game that fails to build returns to a retry without awarding progress", () => {
+  assert.match(game, /try \{ this\.game = new ns\.LettersMiniGames\[gameName\]\(ctx\); \}\n      catch \(error\) \{ console\.error\("Letter Garden: game failed to start", gameName, error\); this\.game = null; return this\.renderMissingItems\(\); \}/);
+  assert.match(game, /\}catch\(error\)\{console\.error\('Letter Garden: toy failed to start',kind,error\);this\.game=null;return \(back\|\|\(\(\)=>this\.renderPracticeGarden\(\)\)\)\(\);\}/);
 });
 
-test("v58 Mid-game error safety net: two looks for a live touch, then carry the child on", () => {
+test("v268 Mid-game error safety net: two looks for a live touch, then offer retry", () => {
   assert.match(game, /this\.initPlaytest\(\);\n      this\.initRescue\(\);/);
   assert.match(game, /if \(!second\) \{ pending = setTimeout\(\(\) => check\(true\), 3000\); return; \}/);
   assert.match(game, /window\.addEventListener\?\.\("unhandledrejection", onError\);/);
-  assert.match(game, /this\.rescue = \{ stage, go: \(\) => ctx\.onDone\(0\) \};/);
-  assert.match(game, /this\.rescue=\{stage:ctx\.stage,go:\(\)=>\(onDone\|\|back\|\|\(\(\)=>this\.renderPracticeGarden\(\)\)\)\(\)\};/);
+  assert.match(game, /this\.rescue = \{ stage, go: \(\) => this\.renderMissingItems\(\) \};/);
+  assert.match(game, /this\.rescue=\{stage:ctx\.stage,go:\(\)=>ctx\.cancel\(\)\};/);
 });
 
 test("v58 The wind story never shows an empty frame: the pet watches the gust", () => {
@@ -561,25 +569,13 @@ test("v58 A finished chapter on the map always shows at least one earned star", 
   assert.match(read("src/letters/LettersArt.js"), /if \(status === "done" && !\(stars > 0\)\) stars = 1;\n    const shown = stars > 0 \? Math\.min\(3, stars\) : 3;/);
 });
 
-test("v58 A little sprout's nine toys fit one phone screen (no scroll for a toddler)", () => {
-  assert.match(game, /this\.screen\(`lg-meet lg-practice-garden\$\{this\.sprout\?' is-sprout':''\}`/);
-  const css = read("styles/letters-friends.css");
-  assert.match(css, /\.lg-practice-garden\.is-sprout \.pg-group \.practice-garden-choices \{ grid-template-columns: repeat\(3, minmax\(0, 1fr\)\); gap: 8px; \}/);
-  assert.match(css, /\.lg-practice-garden\.is-sprout \.pg-group:has\(\.practice-garden-choices > button:only-child\) \{ grid-column: auto; \}/);
-});
-
 test("v58 The Book Corner and Puzzle Tree keep all eight games on a phone screen", () => {
   assert.match(read("styles/letters-friends.css"), /\.lg-app :is\(\.lg-book-corner, \.lg-puzzle-tree\) \.practice-garden-choices \{ grid-template-columns: repeat\(3, minmax\(0, 1fr\)\); gap: 8px; \}/);
 });
 
-test("v58 Sideways phone: a sprout's toys and each hub's games all fit one screen", () => {
+test("v58 Sideways phone: Book Corner and Puzzle Tree keep four columns", () => {
   const css = read("styles/letters-friends.css");
   assert.match(css, /\.lg-app :is\(\.lg-book-corner, \.lg-puzzle-tree\) \.practice-garden-choices \{ grid-template-columns: repeat\(4, minmax\(0, 1fr\)\); gap: 8px; width: min\(100%, 520px\); margin-inline: auto; \}/);
-  assert.match(css, /\.lg-app \.lg-practice-garden\.is-sprout \.pg-group \.practice-garden-choices \{ display: grid; grid-auto-flow: column; grid-auto-columns: 84px;/);
-});
-
-test("v58 Upright iPad: a little sprout's nine toys fit one screen", () => {
-  assert.match(read("styles/letters-friends.css"), /@media \(min-width: 481px\) and \(orientation: portrait\) \{\n  \.lg-app \.lg-practice-garden\.is-sprout \.practice-garden-hub \{ grid-template-columns: 1fr 1fr; gap: 12px; \}/);
 });
 
 test("v58 Siblings' unhatched eggs differ, and the egg a child picks is the one that hatches", () => {
@@ -687,12 +683,6 @@ test("v58 The ayah rests on a drawn wooden rehal", () => {
   assert.match(read("styles/letters-rooms.css"), /\.lg-ayah-garden \.ayah-words::after \{ content: ""; position: absolute; left: 50%; bottom: -60px;[^}]*background: url\("data:image\/svg\+xml,/);
 });
 
-test("v58 The practice garden's toy groups are raised wooden beds with soil", () => {
-  const css = read("styles/letters-friends.css");
-  assert.match(css, /\.lg-practice-garden \.pg-group \{ border-radius: 22px; padding-bottom: 26px; box-shadow: inset 0 0 0 4px #c69434, inset 0 0 0 7px #4a3620/);
-  assert.match(css, /\.lg-practice-garden \.pg-group::after \{ content: ""; position: absolute;[^}]*#a89478; pointer-events: none; \}/);
-});
-
 test("2026-10-13 first look: the hatched pet sits in its own shell", () => {
   const art = read("src/letters/LettersArt.js");
   assert.match(art, /function eggShells\(\{ shell = \["#fffdf7", "#e5dcc8"\] \} = \{\}\)/);
@@ -793,7 +783,7 @@ test("2026-10-13 a chapter left half-way shows a gold arc of how far the child g
   assert.match(art, /function mapStop\(\{ hue, label, status, stars = 0, latin = false, partway = 0 \}\)/);
   assert.match(art, /!locked && partway > 0 && partway < 1/);
   assert.match(game, /partway: status === "current" \? this\.partwayOf\(world\) : 0/);
-  assert.match(game, /return n && place\.gameIndex > 0 && place\.gameIndex < n \? place\.gameIndex \/ n : 0;/);
+  assert.match(game, /return place\.gameIndex \/ n;/, "validated chapter checkpoints drive the map fraction");
   const vm = require("node:vm");
   const window = { MiftahGame: {} };
   const ctx = vm.createContext({ window, document: { createElement: () => ({ getContext: () => null }) }, Math, String, Number, Array, Object, JSON, Set, Map });
@@ -861,7 +851,7 @@ test("2026-10-13 graduation: the ending (keepsake + way back) appears on screen 
 test("2026-10-13 bigger tap targets: Letter Hunt spots get an invisible pad; the pet-room toys a wider tap ring", () => {
   const hunt = read("src/letters/LetterHunt.js");
   assert.match(hunt, /const pad = \(t\) => `<circle class="hunt-pad" cx="\$\{t\.label\[0\]\}" cy="\$\{t\.label\[1\]\}" r="60" fill="#fffaf0" fill-opacity="0"\/>`;/);
-  assert.equal((hunt.match(/\$\{pad\(t\)\}<g class="hunt-thing">/g) || []).length, 2, "portrait and landscape pictures");
+  assert.equal((hunt.match(/\$\{pad\(t\)\}<g class="hunt-thing">/g) || []).length, 3, "classic and active portrait/landscape pictures");
   // No two pads may overlap in any land: centres at least 120 units apart.
   const lands = [...hunt.matchAll(/spots: (\[\[[^\n]*?\]\]) \}/g)].map(m => JSON.parse(m[1].replace(/"/g, '"')));
   assert.ok(lands.length >= 6);
@@ -869,21 +859,10 @@ test("2026-10-13 bigger tap targets: Letter Hunt spots get an invisible pad; the
   assert.match(read("styles/letters-rooms.css"), /\.lg-app \.pet-room \.room-toy::before\{content:"";position:absolute;inset:-8px;/);
 });
 
-test("2026-10-16 practice pays: each toy's first finish of the day earns one star, five a day at most", () => {
-  assert.match(game, /if\(!Array\.isArray\(log\.kinds\)\|\|log\.kinds\.includes\(kind\)\|\|log\.kinds\.length>=5\)return false;/);
-  assert.match(game, /this\.finishBloom\(el,go,friend,this\.payPractice\(kind\)\);/);
-  assert.match(game, /\$\{paid\?`<span class="pg-bloom-star">/);
-  // Behaviour, with a tiny fake game:
-  const body = game.slice(game.indexOf("    payPractice(kind){"), game.indexOf("    finishBloom(el,go,friend,paid=false){"));
-  const store = {}; let earned = 0;
-  const fake = { loadJSON: (k, d) => store[k] ?? d, saveJSON: (k, v) => { store[k] = JSON.parse(JSON.stringify(v)); }, earnStars: (n) => { earned += n; } };
-  const todayStr = () => "2026-10-16";
-  const pay = new Function("todayStr", `return function(kind){${body.replace(/^ *payPractice\(kind\)\{/, "").replace(/\}\s*$/, "")}}`)(todayStr);
-  assert.equal(pay.call(fake, "Feed"), true);
-  assert.equal(pay.call(fake, "Feed"), false, "the same toy again today pays nothing");
-  for (const k of ["A", "B", "C", "D"]) pay.call(fake, k);
-  assert.equal(pay.call(fake, "E"), false, "five a day");
-  assert.equal(earned, 5);
+test("practice rewards use the shared child-led ending", () => {
+  assert.match(game, /this\.finishBloom\(el,go,friend,this\.payPractice\(kind\),again,creation\);/);
+  assert.match(read("src/letters/PracticeFinishArt.js"), /paid \? earnedStar\(\)/);
+  // Reward limits and failed/retried saves are exercised in practice-finish-v279.
 });
 
 test("2026-10-16 daily treasures: one find waits on the map each new play day; tapping it fills the album's nature shelf", () => {

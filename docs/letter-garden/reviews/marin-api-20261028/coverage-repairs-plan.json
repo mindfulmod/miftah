@@ -1,0 +1,717 @@
+{
+  "stage": "teacher-coverage-repairs-v1",
+  "model": "gpt-4o-mini-tts-2025-03-20",
+  "voice": "marin",
+  "planningReservationUSD": 1.9,
+  "budgetCheckpoint": {
+    "priorLedgerLines": 914,
+    "ownerReportedSpentUSD": 0.16,
+    "remainingUSD": 22.84
+  },
+  "jobs": [
+    {
+      "id": "lg-016ff9893423",
+      "input": "أَكِّ",
+      "targetInput": "أَكِّ",
+      "targetId": "lg-016ff9893423",
+      "display": "أَكِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read once in a smooth, composed classroom voice. End cleanly, without repetition or an expressive trailing sound. This is a complete teaching example beginning with short a, followed by a doubled consonant. Preserve the consonant closure and then release into the written short final vowel; do not replace the final vowel with eh or ay, lengthen it, or add another consonant.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "coverage-repairs-v1",
+      "sourceFile": "remaining-coverage-candidates/lg-016ff9893423.wav",
+      "replacesSha256": "f4604fb7428cb0c0eb8a19cfc7f54ec5ed4e6d15a4d9ab9111848084fdba2c73",
+      "ownerNote": "akeh"
+    },
+    {
+      "id": "lg-021c4b782e91",
+      "input": "أَمِّ",
+      "targetInput": "أَمِّ",
+      "targetId": "lg-021c4b782e91",
+      "display": "أَمِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read once in a smooth, composed classroom voice. End cleanly, without repetition or an expressive trailing sound. This is a complete teaching example beginning with short a, followed by a doubled consonant. Preserve the consonant closure and then release into the written short final vowel; do not replace the final vowel with eh or ay, lengthen it, or add another consonant.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "coverage-repairs-v1",
+      "sourceFile": "remaining-coverage-candidates/lg-021c4b782e91.wav",
+      "replacesSha256": "5c47d6101cef1edff703aa8e1d1981c91096228c0fd3a746a17e67fb5e12ea53",
+      "ownerNote": "ammi"
+    },
+    {
+      "id": "lg-bf49e4a1d48f",
+      "input": "هُنْ",
+      "targetInput": "هٌ",
+      "targetId": "lg-05364b31a94f",
+      "display": "هٌ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read once in a smooth, composed classroom voice. End cleanly, without repetition or an expressive trailing sound. Preserve short u followed by final noon, not ha.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "chapter:tanween:target",
+        "sound-lab"
+      ],
+      "variant": "coverage-repairs-v1",
+      "sourceFile": "remaining-coverage-candidates/lg-05364b31a94f.wav",
+      "replacesSha256": "f5bc09b921b5888fba66bc942221f25b1765094db1004d1852d793901decb640",
+      "ownerNote": "ha"
+    },
+    {
+      "id": "lg-056d58b69633",
+      "input": "ضِفْدَع",
+      "targetInput": "ضِفْدَع",
+      "targetId": "lg-056d58b69633",
+      "display": "ضِفْدَع",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read once in a smooth, composed classroom voice. End cleanly, without repetition or an expressive trailing sound. Preserve daad, faa, daal and final ayn in difdaʿ; do not omit the f or replace it with s.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "letter-friends",
+        "book:where",
+        "book:what",
+        "book:morning",
+        "book:night"
+      ],
+      "variant": "coverage-repairs-v1",
+      "sourceFile": "remaining-coverage-candidates/lg-056d58b69633.wav",
+      "replacesSha256": "c9f7204f40a7a6b345e06d26e74a6088d980ca0bfebf09cc9b2e8f251be43af0",
+      "ownerNote": "disdah"
+    },
+    {
+      "id": "lg-0763e4361447",
+      "input": "إِنَّهُۥ",
+      "targetInput": "إِنَّهُۥ",
+      "targetId": "lg-0763e4361447",
+      "display": "إِنَّهُۥ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read once in a smooth, composed classroom voice. End cleanly, without repetition or an expressive trailing sound.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "ayah:110:3"
+      ],
+      "variant": "coverage-repairs-v1",
+      "sourceFile": "remaining-coverage-candidates/lg-0763e4361447.wav",
+      "replacesSha256": "41c3f50296df9b0458df749848b49e4331fc55a3d5aba87a997de61b6aabdb31",
+      "ownerNote": "innahu"
+    },
+    {
+      "id": "lg-dda8288023fc",
+      "input": "دَالْ سَاكِنَة",
+      "targetInput": "دْ",
+      "targetId": "lg-0a698f01afe3",
+      "display": "دْ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read once in a smooth, composed classroom voice. End cleanly, without repetition or an expressive trailing sound.",
+      "contextExample": false,
+      "description": true,
+      "uses": [
+        "chapter:decode:target:part"
+      ],
+      "variant": "coverage-repairs-v1",
+      "sourceFile": "remaining-coverage-candidates/lg-dda8288023fc.wav",
+      "replacesSha256": "26797fddb953d0a33957f5f136ee3f70a590382bdef1a2b76fafd344f5b37757",
+      "ownerNote": "robotic"
+    },
+    {
+      "id": "lg-d2d540801050",
+      "input": "بَاءْ مُشَدَّدَة بِالضَّمَّتَيْنِ",
+      "targetInput": "بٌّ",
+      "targetId": "lg-0a91908310e7",
+      "display": "بٌّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read once in a smooth, composed classroom voice. End cleanly, without repetition or an expressive trailing sound.",
+      "contextExample": false,
+      "description": true,
+      "uses": [
+        "chapter:shaddah-mix:target:part"
+      ],
+      "variant": "coverage-repairs-v1",
+      "sourceFile": "remaining-coverage-candidates/lg-aff4824d4d04.wav",
+      "replacesSha256": "651e8e6e882393c91306328521fb6968f77c37aeb19ccf71e4e576efd98067d9",
+      "ownerNote": "Generation text incorrectly named fatha instead of dammatan."
+    },
+    {
+      "id": "lg-0bcea8612016",
+      "input": "أَرِّ",
+      "targetInput": "أَرِّ",
+      "targetId": "lg-0bcea8612016",
+      "display": "أَرِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read once in a smooth, composed classroom voice. End cleanly, without repetition or an expressive trailing sound. This is a complete teaching example beginning with short a, followed by a doubled consonant. Preserve the consonant closure and then release into the written short final vowel; do not replace the final vowel with eh or ay, lengthen it, or add another consonant.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "coverage-repairs-v1",
+      "sourceFile": "remaining-coverage-candidates/lg-0bcea8612016.wav",
+      "replacesSha256": "0b7d0dbc2f75bf98263e66b62d9465e3938aa11fc67684bd0cf82f7d4c4bb082",
+      "ownerNote": "areh"
+    },
+    {
+      "id": "lg-124a36990422",
+      "input": "أَغُّ",
+      "targetInput": "أَغُّ",
+      "targetId": "lg-124a36990422",
+      "display": "أَغُّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read once in a smooth, composed classroom voice. End cleanly, without repetition or an expressive trailing sound. This is a complete teaching example beginning with short a, followed by a doubled consonant. Preserve the consonant closure and then release into the written short final vowel; do not replace the final vowel with eh or ay, lengthen it, or add another consonant.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "coverage-repairs-v1",
+      "sourceFile": "remaining-coverage-candidates/lg-124a36990422.wav",
+      "replacesSha256": "b7b58b98f5d78eae34a810d85a9c257d77085eafff116135d9d17fb8c9f6be8f",
+      "ownerNote": "a ou"
+    },
+    {
+      "id": "lg-1e52d2f0df32",
+      "input": "أَثُّ",
+      "targetInput": "أَثُّ",
+      "targetId": "lg-1e52d2f0df32",
+      "display": "أَثُّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read once in a smooth, composed classroom voice. End cleanly, without repetition or an expressive trailing sound. This is a complete teaching example beginning with short a, followed by a doubled consonant. Preserve the consonant closure and then release into the written short final vowel; do not replace the final vowel with eh or ay, lengthen it, or add another consonant.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "coverage-repairs-v1",
+      "sourceFile": "remaining-coverage-candidates/lg-1e52d2f0df32.wav",
+      "replacesSha256": "b5219091889ca08666b7cd74ddbb9ae9467904849e150c424cfd20ea78c38e50",
+      "ownerNote": "atsss"
+    },
+    {
+      "id": "lg-2620d852f44e",
+      "input": "أَنِّ",
+      "targetInput": "أَنِّ",
+      "targetId": "lg-2620d852f44e",
+      "display": "أَنِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read once in a smooth, composed classroom voice. End cleanly, without repetition or an expressive trailing sound. This is a complete teaching example beginning with short a, followed by a doubled consonant. Preserve the consonant closure and then release into the written short final vowel; do not replace the final vowel with eh or ay, lengthen it, or add another consonant.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "coverage-repairs-v1",
+      "sourceFile": "remaining-coverage-candidates/lg-2620d852f44e.wav",
+      "replacesSha256": "6162f8077c0c06ad38c3a0472cce75c6b0f4cb5e25d0ea78c2f3beaf0f583e22",
+      "ownerNote": "anni"
+    },
+    {
+      "id": "lg-31d16c7f5df3",
+      "input": "وُ",
+      "targetInput": "وُ",
+      "targetId": "lg-31d16c7f5df3",
+      "display": "وُ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read once in a smooth, composed classroom voice. End cleanly, without repetition or an expressive trailing sound. Say wu with a short u vowel, not wa.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "chapter:kasra-damma:target",
+        "chapter:long-sounds:target:part",
+        "sound-lab"
+      ],
+      "variant": "coverage-repairs-v1",
+      "sourceFile": "remaining-coverage-candidates/lg-31d16c7f5df3.wav",
+      "replacesSha256": "c243aaa5f9d52f0ebfc39363536859a05bdc7473532e6659a99e5ee4aa1c9e17",
+      "ownerNote": "wah"
+    },
+    {
+      "id": "lg-33fae2c3fa92",
+      "input": "هُ",
+      "targetInput": "هُ",
+      "targetId": "lg-33fae2c3fa92",
+      "display": "هُ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read once in a smooth, composed classroom voice. End cleanly, without repetition or an expressive trailing sound.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "chapter:kasra-damma:target",
+        "chapter:long-sounds:target:part",
+        "chapter:words-2:target:part",
+        "chapter:decode:target:part",
+        "sound-lab"
+      ],
+      "variant": "coverage-repairs-v1",
+      "sourceFile": "remaining-coverage-candidates/lg-33fae2c3fa92.wav",
+      "replacesSha256": "31cdc734f58cd9f1dfc5edd2744947ad39422a52bc16f8042388e420c219a0ff",
+      "ownerNote": "flapping noise at the end"
+    },
+    {
+      "id": "lg-37e5da5b14aa",
+      "input": "أَوِّ",
+      "targetInput": "أَوِّ",
+      "targetId": "lg-37e5da5b14aa",
+      "display": "أَوِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read once in a smooth, composed classroom voice. End cleanly, without repetition or an expressive trailing sound. This is a complete teaching example beginning with short a, followed by a doubled consonant. Preserve the consonant closure and then release into the written short final vowel; do not replace the final vowel with eh or ay, lengthen it, or add another consonant.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "coverage-repairs-v1",
+      "sourceFile": "remaining-coverage-candidates/lg-37e5da5b14aa.wav",
+      "replacesSha256": "fbc9566b9484a0f09ead561fe4574e184168c9f6dd1b4430ebf20e72b635c33e",
+      "ownerNote": "awi"
+    },
+    {
+      "id": "lg-4d7b22beb5c4",
+      "input": "أَلُّ",
+      "targetInput": "أَلُّ",
+      "targetId": "lg-4d7b22beb5c4",
+      "display": "أَلُّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read once in a smooth, composed classroom voice. End cleanly, without repetition or an expressive trailing sound. This is a complete teaching example beginning with short a, followed by a doubled consonant. Preserve the consonant closure and then release into the written short final vowel; do not replace the final vowel with eh or ay, lengthen it, or add another consonant.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "coverage-repairs-v1",
+      "sourceFile": "remaining-coverage-candidates/lg-4d7b22beb5c4.wav",
+      "replacesSha256": "5a08554b42d57bfa7b0555ba492c86ab6037e8cd827c333f10eee19c315cff40",
+      "ownerNote": "robotic"
+    },
+    {
+      "id": "lg-6e81d6ad8031",
+      "input": "مِصْبَاحٌ",
+      "targetInput": "مِصْبَاحٌ ۖ",
+      "targetId": "lg-50ff0d8b4be1",
+      "display": "مِصْبَاحٌ ۖ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read once in a smooth, composed classroom voice. End cleanly, without repetition or an expressive trailing sound. Say misbaahun once, ending on n; no extra syllable.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "treasury:lantern"
+      ],
+      "variant": "coverage-repairs-v1",
+      "sourceFile": "remaining-coverage-candidates/lg-50ff0d8b4be1.wav",
+      "replacesSha256": "06d5c0debeb63243ef003784c09fc91d9ee809af51cf7b466a551e0a2018996d",
+      "ownerNote": "misbahunwin"
+    },
+    {
+      "id": "lg-596979e53296",
+      "input": "أَحِّ",
+      "targetInput": "أَحِّ",
+      "targetId": "lg-596979e53296",
+      "display": "أَحِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read once in a smooth, composed classroom voice. End cleanly, without repetition or an expressive trailing sound. This is a complete teaching example beginning with short a, followed by a doubled consonant. Preserve the consonant closure and then release into the written short final vowel; do not replace the final vowel with eh or ay, lengthen it, or add another consonant.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "coverage-repairs-v1",
+      "sourceFile": "remaining-coverage-candidates/lg-596979e53296.wav",
+      "replacesSha256": "ae98c4fd0019a0f3f47f8060f094465b4e62b2bb16bf504ed39c78d530e65a87",
+      "ownerNote": "ahii"
+    },
+    {
+      "id": "lg-5c7c776a70b4",
+      "input": "أَتِّ",
+      "targetInput": "أَتِّ",
+      "targetId": "lg-5c7c776a70b4",
+      "display": "أَتِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read once in a smooth, composed classroom voice. End cleanly, without repetition or an expressive trailing sound. This is a complete teaching example beginning with short a, followed by a doubled consonant. Preserve the consonant closure and then release into the written short final vowel; do not replace the final vowel with eh or ay, lengthen it, or add another consonant.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "coverage-repairs-v1",
+      "sourceFile": "remaining-coverage-candidates/lg-5c7c776a70b4.wav",
+      "replacesSha256": "07d90fd5081092d5577a91d4642ca5d211e66a8ee0afb08500f939923a836549",
+      "ownerNote": "atti"
+    },
+    {
+      "id": "lg-6287e1911430",
+      "input": "أَهِّ",
+      "targetInput": "أَهِّ",
+      "targetId": "lg-6287e1911430",
+      "display": "أَهِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read once in a smooth, composed classroom voice. End cleanly, without repetition or an expressive trailing sound. This is a complete teaching example beginning with short a, followed by a doubled consonant. Preserve the consonant closure and then release into the written short final vowel; do not replace the final vowel with eh or ay, lengthen it, or add another consonant.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "coverage-repairs-v1",
+      "sourceFile": "remaining-coverage-candidates/lg-6287e1911430.wav",
+      "replacesSha256": "24684fbdabc56b0711084d84b513aa5578ee2cb38e38176a53874dc843fddaa2",
+      "ownerNote": "ahey"
+    },
+    {
+      "id": "lg-6680d2ac601d",
+      "input": "أَعِّ",
+      "targetInput": "أَعِّ",
+      "targetId": "lg-6680d2ac601d",
+      "display": "أَعِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read once in a smooth, composed classroom voice. End cleanly, without repetition or an expressive trailing sound. This is a complete teaching example beginning with short a, followed by a doubled consonant. Preserve the consonant closure and then release into the written short final vowel; do not replace the final vowel with eh or ay, lengthen it, or add another consonant.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "coverage-repairs-v1",
+      "sourceFile": "remaining-coverage-candidates/lg-6680d2ac601d.wav",
+      "replacesSha256": "4db0c0a46fc4e6c5f93daf8e806263471948196f179a0b5852bfd3fadfce7df8",
+      "ownerNote": "a id"
+    },
+    {
+      "id": "lg-8beb0c212290",
+      "input": "أَزُّ",
+      "targetInput": "أَزُّ",
+      "targetId": "lg-8beb0c212290",
+      "display": "أَزُّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read once in a smooth, composed classroom voice. End cleanly, without repetition or an expressive trailing sound. This is a complete teaching example beginning with short a, followed by a doubled consonant. Preserve the consonant closure and then release into the written short final vowel; do not replace the final vowel with eh or ay, lengthen it, or add another consonant.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "coverage-repairs-v1",
+      "sourceFile": "remaining-coverage-candidates/lg-8beb0c212290.wav",
+      "replacesSha256": "35b71c2fc99a350dee3607c628a12cbf4cc830faed91a9a9976af409d70f6212",
+      "ownerNote": "repeats and says azah "
+    },
+    {
+      "id": "lg-c29a82f5436b",
+      "input": "تَاءْ سَاكِنَة",
+      "targetInput": "تْ",
+      "targetId": "lg-a408f28bfbf3",
+      "display": "تْ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read once in a smooth, composed classroom voice. End cleanly, without repetition or an expressive trailing sound.",
+      "contextExample": false,
+      "description": true,
+      "uses": [
+        "chapter:decode:target:part"
+      ],
+      "variant": "coverage-repairs-v1",
+      "sourceFile": "remaining-coverage-candidates/lg-c29a82f5436b.wav",
+      "replacesSha256": "943940cb11c38601d6c098683f9c3c21d56c63dd2b0d497320ee21aea524e39c",
+      "ownerNote": "ah un sakinah"
+    },
+    {
+      "id": "lg-a96a78fb1d7e",
+      "input": "أَثِّ",
+      "targetInput": "أَثِّ",
+      "targetId": "lg-a96a78fb1d7e",
+      "display": "أَثِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read once in a smooth, composed classroom voice. End cleanly, without repetition or an expressive trailing sound. This is a complete teaching example beginning with short a, followed by a doubled consonant. Preserve the consonant closure and then release into the written short final vowel; do not replace the final vowel with eh or ay, lengthen it, or add another consonant.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "coverage-repairs-v1",
+      "sourceFile": "remaining-coverage-candidates/lg-a96a78fb1d7e.wav",
+      "replacesSha256": "006192ab5e2af6316cb19c49c267ac519f98e658098d2aa4a54271f8711cf0c9",
+      "ownerNote": "athi"
+    },
+    {
+      "id": "lg-ae3d5e62275f",
+      "input": "أَيِّ",
+      "targetInput": "أَيِّ",
+      "targetId": "lg-ae3d5e62275f",
+      "display": "أَيِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read once in a smooth, composed classroom voice. End cleanly, without repetition or an expressive trailing sound. This is a complete teaching example beginning with short a, followed by a doubled consonant. Preserve the consonant closure and then release into the written short final vowel; do not replace the final vowel with eh or ay, lengthen it, or add another consonant.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "coverage-repairs-v1",
+      "sourceFile": "remaining-coverage-candidates/lg-ae3d5e62275f.wav",
+      "replacesSha256": "dc4de2a40742ffa1f336fd4592a763a6a2f521b6c7a5d83f3083ab428003b573",
+      "ownerNote": "ayi"
+    },
+    {
+      "id": "lg-bb2d966387ef",
+      "input": "أَذِّ",
+      "targetInput": "أَذِّ",
+      "targetId": "lg-bb2d966387ef",
+      "display": "أَذِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read once in a smooth, composed classroom voice. End cleanly, without repetition or an expressive trailing sound. This is a complete teaching example beginning with short a, followed by a doubled consonant. Preserve the consonant closure and then release into the written short final vowel; do not replace the final vowel with eh or ay, lengthen it, or add another consonant.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "coverage-repairs-v1",
+      "sourceFile": "remaining-coverage-candidates/lg-bb2d966387ef.wav",
+      "replacesSha256": "cd7b274a2ddbebd7381b2a907ea8b6c6e633f704e6ba701a21c8551b52c4a87b",
+      "ownerNote": "azat"
+    },
+    {
+      "id": "lg-bfb39dc4a149",
+      "input": "أَفِّ",
+      "targetInput": "أَفِّ",
+      "targetId": "lg-bfb39dc4a149",
+      "display": "أَفِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read once in a smooth, composed classroom voice. End cleanly, without repetition or an expressive trailing sound. This is a complete teaching example beginning with short a, followed by a doubled consonant. Preserve the consonant closure and then release into the written short final vowel; do not replace the final vowel with eh or ay, lengthen it, or add another consonant.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "coverage-repairs-v1",
+      "sourceFile": "remaining-coverage-candidates/lg-bfb39dc4a149.wav",
+      "replacesSha256": "b5197c39342dd70f1ef3a9097dc1bd765e72d314b822df3b6510166f71d874b3",
+      "ownerNote": "ahfff"
+    },
+    {
+      "id": "lg-c309be8fcad4",
+      "input": "أَظِّ",
+      "targetInput": "أَظِّ",
+      "targetId": "lg-c309be8fcad4",
+      "display": "أَظِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read once in a smooth, composed classroom voice. End cleanly, without repetition or an expressive trailing sound. This is a complete teaching example beginning with short a, followed by a doubled consonant. Preserve the consonant closure and then release into the written short final vowel; do not replace the final vowel with eh or ay, lengthen it, or add another consonant.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "coverage-repairs-v1",
+      "sourceFile": "remaining-coverage-candidates/lg-c309be8fcad4.wav",
+      "replacesSha256": "37422dc0ace31f4e4a15e8f093cefe21ace76ad210e73a79a89c3cb2e367689b",
+      "ownerNote": "ahzzz"
+    },
+    {
+      "id": "lg-c4b13814a194",
+      "input": "أَقِّ",
+      "targetInput": "أَقِّ",
+      "targetId": "lg-c4b13814a194",
+      "display": "أَقِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read once in a smooth, composed classroom voice. End cleanly, without repetition or an expressive trailing sound. This is a complete teaching example beginning with short a, followed by a doubled consonant. Preserve the consonant closure and then release into the written short final vowel; do not replace the final vowel with eh or ay, lengthen it, or add another consonant.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "coverage-repairs-v1",
+      "sourceFile": "remaining-coverage-candidates/lg-c4b13814a194.wav",
+      "replacesSha256": "b760ba71097473d25ca5b737f7a6951d205db81288aa1710000ac4ed26a9ef32",
+      "ownerNote": "aqil"
+    },
+    {
+      "id": "lg-d1f45bb9f953",
+      "input": "أَطِّ",
+      "targetInput": "أَطِّ",
+      "targetId": "lg-d1f45bb9f953",
+      "display": "أَطِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read once in a smooth, composed classroom voice. End cleanly, without repetition or an expressive trailing sound. This is a complete teaching example beginning with short a, followed by a doubled consonant. Preserve the consonant closure and then release into the written short final vowel; do not replace the final vowel with eh or ay, lengthen it, or add another consonant.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "coverage-repairs-v1",
+      "sourceFile": "remaining-coverage-candidates/lg-d1f45bb9f953.wav",
+      "replacesSha256": "aa0cee634ad63b13127aee86d671969bd23e0b045cce88498f2a122b11e5ace6",
+      "ownerNote": "atti"
+    },
+    {
+      "id": "lg-d6ae0079cc9d",
+      "input": "أَصِّ",
+      "targetInput": "أَصِّ",
+      "targetId": "lg-d6ae0079cc9d",
+      "display": "أَصِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read once in a smooth, composed classroom voice. End cleanly, without repetition or an expressive trailing sound. This is a complete teaching example beginning with short a, followed by a doubled consonant. Preserve the consonant closure and then release into the written short final vowel; do not replace the final vowel with eh or ay, lengthen it, or add another consonant.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "coverage-repairs-v1",
+      "sourceFile": "remaining-coverage-candidates/lg-d6ae0079cc9d.wav",
+      "replacesSha256": "4139ec287584354c032c9f5f6a70753adf849944ba1da1eb25382f4de9d96ae8",
+      "ownerNote": "asid"
+    },
+    {
+      "id": "lg-da79ab62d00b",
+      "input": "أَوُّ",
+      "targetInput": "أَوُّ",
+      "targetId": "lg-da79ab62d00b",
+      "display": "أَوُّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read once in a smooth, composed classroom voice. End cleanly, without repetition or an expressive trailing sound. This is a complete teaching example beginning with short a, followed by a doubled consonant. Preserve the consonant closure and then release into the written short final vowel; do not replace the final vowel with eh or ay, lengthen it, or add another consonant.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "coverage-repairs-v1",
+      "sourceFile": "remaining-coverage-candidates/lg-da79ab62d00b.wav",
+      "replacesSha256": "001185b4b39001988ad7286dc7ae5b95b428197bb556b0b559ef7efd8e62ee07",
+      "ownerNote": "awu"
+    },
+    {
+      "id": "lg-db7c5fd8e4d8",
+      "input": "أَدِّ",
+      "targetInput": "أَدِّ",
+      "targetId": "lg-db7c5fd8e4d8",
+      "display": "أَدِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read once in a smooth, composed classroom voice. End cleanly, without repetition or an expressive trailing sound. This is a complete teaching example beginning with short a, followed by a doubled consonant. Preserve the consonant closure and then release into the written short final vowel; do not replace the final vowel with eh or ay, lengthen it, or add another consonant.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "coverage-repairs-v1",
+      "sourceFile": "remaining-coverage-candidates/lg-db7c5fd8e4d8.wav",
+      "replacesSha256": "8b671103288aeba48d3f28e437aa0ae125ff6d2cd755c01d127534d49bff9475",
+      "ownerNote": "add"
+    },
+    {
+      "id": "lg-e52617263b32",
+      "input": "أَزِّ",
+      "targetInput": "أَزِّ",
+      "targetId": "lg-e52617263b32",
+      "display": "أَزِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read once in a smooth, composed classroom voice. End cleanly, without repetition or an expressive trailing sound. This is a complete teaching example beginning with short a, followed by a doubled consonant. Preserve the consonant closure and then release into the written short final vowel; do not replace the final vowel with eh or ay, lengthen it, or add another consonant.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "coverage-repairs-v1",
+      "sourceFile": "remaining-coverage-candidates/lg-e52617263b32.wav",
+      "replacesSha256": "a84d307553555cd739d33e685813eff52af7c65a9acdcde562063ab648d92a1f",
+      "ownerNote": "azzz"
+    },
+    {
+      "id": "lg-ec020e5d2341",
+      "input": "أَمُّ",
+      "targetInput": "أَمُّ",
+      "targetId": "lg-ec020e5d2341",
+      "display": "أَمُّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read once in a smooth, composed classroom voice. End cleanly, without repetition or an expressive trailing sound. This is a complete teaching example beginning with short a, followed by a doubled consonant. Preserve the consonant closure and then release into the written short final vowel; do not replace the final vowel with eh or ay, lengthen it, or add another consonant.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "coverage-repairs-v1",
+      "sourceFile": "remaining-coverage-candidates/lg-ec020e5d2341.wav",
+      "replacesSha256": "6f353103570673e0aeba64e3f12e910bb60c7934edc6462e5c26f992d3cef81f",
+      "ownerNote": "ahmmm"
+    },
+    {
+      "id": "lg-ef5addaf6829",
+      "input": "أَلِّ",
+      "targetInput": "أَلِّ",
+      "targetId": "lg-ef5addaf6829",
+      "display": "أَلِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read once in a smooth, composed classroom voice. End cleanly, without repetition or an expressive trailing sound. This is a complete teaching example beginning with short a, followed by a doubled consonant. Preserve the consonant closure and then release into the written short final vowel; do not replace the final vowel with eh or ay, lengthen it, or add another consonant.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "coverage-repairs-v1",
+      "sourceFile": "remaining-coverage-candidates/lg-ef5addaf6829.wav",
+      "replacesSha256": "006f2b4c4cb680af1a1dfe6358dfd7b3feb97743f63b95126e637726ce91fe1b",
+      "ownerNote": "alee"
+    },
+    {
+      "id": "lg-f3c5bf144b92",
+      "input": "أَعْ",
+      "targetInput": "أَعْ",
+      "targetId": "lg-f3c5bf144b92",
+      "display": "أَعْ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read once in a smooth, composed classroom voice. End cleanly, without repetition or an expressive trailing sound.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "coverage-repairs-v1",
+      "sourceFile": "remaining-coverage-candidates/lg-f3c5bf144b92.wav",
+      "replacesSha256": "cd26e26d4888b6c29d97566f9434d736a61e3dd323d99caf929033cfdae86734",
+      "ownerNote": "robotic static"
+    },
+    {
+      "id": "lg-fb7f27c5dfca",
+      "input": "أَخِّ",
+      "targetInput": "أَخِّ",
+      "targetId": "lg-fb7f27c5dfca",
+      "display": "أَخِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read once in a smooth, composed classroom voice. End cleanly, without repetition or an expressive trailing sound. This is a complete teaching example beginning with short a, followed by a doubled consonant. Preserve the consonant closure and then release into the written short final vowel; do not replace the final vowel with eh or ay, lengthen it, or add another consonant.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "coverage-repairs-v1",
+      "sourceFile": "remaining-coverage-candidates/lg-fb7f27c5dfca.wav",
+      "replacesSha256": "c4f1f8967252e68dafd1fa6dde762042f0db45af2263bbb9ed35652493979e98",
+      "ownerNote": "aghey"
+    },
+    {
+      "id": "lg-fd7e18857948",
+      "input": "أَبِّ",
+      "targetInput": "أَبِّ",
+      "targetId": "lg-fd7e18857948",
+      "display": "أَبِّ",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher addressing a small class. Use a natural feminine speaking voice in a comfortable middle register, with a clear steady tone and small pitch variations. Sound attentive and gently encouraging, with understated expression. Use ordinary classroom speech with clear word beginnings and clean endings. Keep consonants clear and long vowels accurate and evenly timed, without stretching them for expression. Avoid breathiness, whispering, vocal fry and sing-song pitch glides. Read only the supplied Arabic item exactly once, as teaching speech. Preserve its written short and long vowels. Do not add a letter name or a lead-in. No introduction, numbers, commentary, music or additional sounds. Read once in a smooth, composed classroom voice. End cleanly, without repetition or an expressive trailing sound. This is a complete teaching example beginning with short a, followed by a doubled consonant. Preserve the consonant closure and then release into the written short final vowel; do not replace the final vowel with eh or ay, lengthen it, or add another consonant.",
+      "contextExample": false,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "coverage-repairs-v1",
+      "sourceFile": "remaining-coverage-candidates/lg-fd7e18857948.wav",
+      "replacesSha256": "b409bfaa75679df7f7c6f78375ed42cea2658bf73a9c7691af7976d51ad4e6bb",
+      "ownerNote": "abbi"
+    }
+  ],
+  "reuse": [
+    {
+      "target": "ا",
+      "spoken": "أَلِفْ",
+      "file": "assets/audio/letters/marin-v1/alif.wav",
+      "reason": "Existing approved exact name; rejected duplicate is excluded."
+    }
+  ],
+  "note": "All rejected clips except reusable approved alif; plus corrected baa/shadda/dammatan description. Approved descriptions await integration, not regeneration. Notes resembling intended examples are preserved for explicit listening review."
+}

@@ -1,0 +1,17 @@
+Palette check — 133 art files, 41 bible colours
+
+OFF-SCALE STROKE WIDTHS: 12 distinct, 36 uses
+  9           3x  e.g. src/letters/BalloonPlayArt.js:78
+  7           6x  e.g. src/letters/BalloonPlayArt.js:80
+  2           2x  e.g. src/letters/BalloonPlayArt.js:81
+  5           9x  e.g. src/letters/BalloonPlayArt.js:88
+  12          4x  e.g. src/letters/DecoratingGarden.js:21
+  11          1x  e.g. src/letters/LettersAnimalArt.js:56
+  16          2x  e.g. src/letters/LettersArt.js:476
+  10          5x  e.g. src/letters/LettersArt.js:476
+  30          1x  e.g. src/letters/LettersGame.js:4520
+  34          1x  e.g. src/letters/VillageArt.js:76
+  18          1x  e.g. src/letters/VillageArt.js:77
+  14          1x  e.g. src/letters/WordTree.js:295
+
+Reported only. Run with --strict in CI once ART.md §9 debt is cleared.

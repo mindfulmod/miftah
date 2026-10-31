@@ -13,7 +13,7 @@
 .lg-app .lg-play[data-activity="feed"] .feed-creature {
   position:relative; width:100%; height:100%; max-height:228px; min-height:0; z-index:1;
   display:flex; justify-content:center; align-self:end;
-  padding:0; margin:0; border:0; background:none; cursor:pointer;
+  padding:0; margin:0; border:0; background:none; cursor:pointer; pointer-events:auto;
 }
 .lg-app .lg-play[data-activity="feed"] .feed-creature > :is(svg,.lg-animal) {
   height:100%!important; width:auto!important; max-width:100%; max-height:none;
@@ -26,12 +26,13 @@
 .lg-app .lg-play[data-activity="feed"] .feed-basket > svg,
 .feed-basket-front > svg { display:block; width:100%; height:100%; }
 .feed-basket-front { position:absolute; inset:0; pointer-events:none; }
-.lg-app .lg-play[data-activity="feed"] .feed-basket.is-ready,
+.lg-app .lg-play[data-activity="feed"] .feed-basket.is-ready:not(.is-other-target),
 .lg-app .lg-play[data-activity="feed"] .feed-basket.is-near {
   outline:3px solid #4e9677; outline-offset:4px;
   filter:drop-shadow(0 3px 2px rgb(74 54 32 / .16));
 }
 .lg-app .lg-play[data-activity="feed"] .feed-basket.is-filled { filter:none; }
+.lg-app .lg-play[data-activity="feed"] .feed-basket.is-other-target { outline:none; filter:none; }
 .lg-app .lg-play[data-activity="feed"] .feed-creature.is-near > :is(svg,.lg-animal) {
   outline:3px solid #4e9677; outline-offset:4px; border-radius:45%;
 }
@@ -51,10 +52,22 @@
   width:clamp(48px,18vw,76px); max-width:none; flex:0 1 76px;
   min-width:44px; max-height:100%; animation:none; transition:none;
   border-radius:12px; filter:drop-shadow(0 3px 1px rgb(74 54 32 / .16));
+  touch-action:none;
 }
 .lg-app .lg-play[data-activity="feed"] .feed-food[aria-pressed="true"] { outline:3px solid #4e9677; outline-offset:3px; }
 .lg-app .lg-play[data-activity="feed"] .feed-food.is-flying { z-index:5; }
 .lg-app .lg-play[data-activity="feed"] .feed-food.is-dragging { z-index:6; }
+/* Apply motion to the illustration, keeping the forgiving drop area still. */
+@media(prefers-reduced-motion:no-preference) {
+  .lg-app:not(.lg-reduce-motion) .lg-play[data-activity="feed"] .feed-creature > :is(svg,.lg-animal) {
+    transition:scale 140ms var(--lg-out); transform-origin:50% 85%;
+  }
+  .lg-app:not(.lg-reduce-motion) .lg-play[data-activity="feed"] .feed-creature.is-near > :is(svg,.lg-animal) { scale:1.025; }
+  /* The tray's resting animation:none must not suppress accepted delivery. */
+  .lg-app:not(.lg-reduce-motion) .lg-play[data-activity="feed"] .feed-food.is-flying {
+    animation:lg-seed-deliver var(--lg-t-move) var(--lg-out) both;
+  }
+}
 .lg-app .lg-play[data-activity="feed"] .feed-finish {
   position:absolute; bottom:24px; height:112px; left:16px; right:16px;
   display:flex; justify-content:center; align-items:center; gap:24px; z-index:4;
@@ -91,3 +104,41 @@
   .lg-app .lg-play[data-activity="feed"] .feed-next { height:52px; }
   .lg-app .lg-play[data-activity="feed"] .lg-activity-art > .is-picnic-flowers { width:38px; bottom:0; }
 }
+
+/* Basket deliveries remain visible until the child shares their picnic. */
+.feed-pantry { position:absolute; z-index:3; left:50%; bottom:-7px; translate:-50% 0; display:flex; gap:5px; padding:4px 7px; border:2px solid #4a3620; border-radius:14px; background:#fffaf0; }
+.feed-pantry[hidden] { display:none; }
+.feed-pantry i,.fp-portions i { width:7px; height:9px; border-radius:60% 40%; background:#f3c955; border:1.5px solid #4a3620; }
+.lg-app .lg-play[data-activity="feed"]:has(.feed-picnic) .practice-heading { display:none; }
+.lg-app .lg-play[data-activity="feed"] .play-stage:has(.feed-picnic) { height:auto!important; min-height:0; max-height:none; width:min(800px,100%); margin:0 auto 20px; display:flex; align-items:center; justify-content:center; overflow:auto; }
+.feed-picnic { width:100%; padding:12px 16px 22px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; gap:24px; }
+.feed-picnic [hidden] { display:none!important; }
+.fp-table { width:100%; border:4px solid #4a3620; border-radius:32px; padding:18px 12px; box-sizing:border-box; background:linear-gradient(90deg,transparent 46%,#e5dcc8 46% 54%,transparent 54%),#fffaf0; box-shadow:0 9px 0 #a89478,inset 0 0 0 5px #e5dcc8; }
+.fp-friends { display:grid; grid-template-columns:repeat(var(--fp-friends),minmax(0,1fr)); align-items:end; gap:12px; }
+.lg-app .fp-friend { display:flex; flex-direction:column; align-items:center; gap:8px; padding:6px 2px; min-width:0; min-height:44px; border:2px solid transparent; border-radius:24px; background:none; cursor:pointer; touch-action:manipulation; }
+.fp-portrait { display:grid; grid-template:minmax(0,1fr)/minmax(0,1fr); place-items:center; width:100%; height:clamp(88px,17vh,152px); transform-origin:50% 90%; }
+.fp-portrait > :is(svg,.lg-animal) { display:block; width:100%!important; height:100%!important; max-width:160px; min-width:0; min-height:0; }
+.fp-plate { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; width:100%; max-width:120px; height:80px; padding:5px; box-sizing:border-box; border:3px solid #c9bda4; border-radius:24px 24px 40% 40%; background:#e5dcc8; box-shadow:inset 0 0 0 3px #fffaf0,0 3px 0 #a89478; }
+.fp-portion { display:grid; grid-template:minmax(0,1fr)/minmax(0,1fr); place-items:center; width:42px; height:50px; }
+.fp-portion > svg { display:block; width:100%; height:100%; min-width:0; min-height:0; }
+.fp-portions { display:flex; justify-content:center; gap:3px; }
+.fp-portions i { width:5px; height:6px; border-width:1px; }
+.fp-empty-plate { width:55%; height:26px; border:2px dashed #a89478; border-radius:50%; }
+.lg-app .fp-friend.is-ready { border-color:#c69434; background:#fffaf0; }
+.lg-app .fp-friend.has-snack .fp-plate { background:#ccfbef; border-color:#4e9677; }
+.fp-snacks { display:flex; justify-content:center; flex-wrap:wrap; gap:10px; margin:24px auto 0; padding:14px 8px 8px; border-top:3px solid #c9bda4; min-height:76px; }
+.lg-app .fp-snack { position:relative; width:clamp(48px,14vw,76px); min-width:44px; height:84px; padding:0; border:0; border-radius:12px; background:none; cursor:grab; touch-action:none; filter:drop-shadow(0 4px 0 #c9bda4); }
+.fp-snack > svg { width:100%; height:100%; display:block; pointer-events:none; }
+.lg-app .fp-snack[aria-pressed="true"] { outline:3px solid #c69434; outline-offset:4px; }
+.fp-snack.is-dragging { z-index:4; cursor:grabbing; }
+.fp-snack.is-shared { visibility:hidden; pointer-events:none; }
+.feed-picnic.is-shared-all .fp-snacks { display:none; }
+.lg-app .fp-finish { display:grid; place-items:center; min-width:80px; height:70px; padding:8px 18px; border:3px solid #4a3620; border-radius:22px; background:#ffe49a; box-shadow:0 6px 0 #c69434; cursor:pointer; touch-action:manipulation; }
+.lg-app .fp-finish:active { translate:0 3px; box-shadow:0 3px 0 #c69434; }
+.lg-app .feed-picnic :focus-visible { outline:4px solid var(--lg-focus); outline-offset:4px; }
+@media(max-width:540px) { .fp-friends { gap:6px; } .fp-table { padding:12px 7px; border-radius:26px; } .fp-plate { height:74px; } .feed-picnic { padding:10px 12px 16px; gap:20px; } }
+@media(max-height:650px) { .fp-portrait { height:82px; } .fp-snacks { margin-top:14px; min-height:64px; padding-top:10px; } .lg-app .fp-snack { height:68px; } .lg-app .fp-finish { height:58px; } .fp-plate { height:66px; } .fp-portion { width:32px; height:40px; } }
+@media(max-height:540px) and (orientation:landscape) { .feed-picnic { flex-direction:row; gap:18px; } .fp-table { display:flex; align-items:center; gap:14px; } .fp-friends { flex:1; } .fp-snacks { width:150px; min-width:120px; margin:0; border-top:0; border-left:3px solid #c9bda4; padding:6px 0 6px 12px; gap:6px; } .lg-app .fp-snack { width:54px; height:60px; } .fp-plate { height:58px; } .fp-portrait { height:76px; } }
+/* The picnic supplies its own cloth; retire the feeding-stage scenery layer. */
+.lg-app .play-stage:has(.feed-picnic) > .lg-activity-art { display:none; }
+.feed-picnic { position:relative; z-index:1; }

@@ -14,6 +14,7 @@ function runtime(seed={}){
   const window={MiftahGame:{}};
   const localStorage={getItem:key=>storage.has(key)?storage.get(key):null,setItem:(key,value)=>storage.set(key,String(value))};
   const context={window,localStorage,performance:{now:()=>0}};
+  vm.runInNewContext(source('GardenLearning.js'),context);
   vm.runInNewContext(source('LettersLearning.js'),context);
   vm.runInNewContext(source('LettersStrength.js'),context);
   return {ns:window.MiftahGame,storage,reload(){return runtime(Object.fromEntries(storage));}};
@@ -75,6 +76,57 @@ test('future-prerequisite extras are filtered from otherwise eligible choices',(
   assert.ok(rounds.some(round=>round.options.some(option=>option.id==='ت'||option.id==='ث')));
 });
 
+test('rounds open with familiar material, then cover lesson targets before due and weak repeats',()=>{
+  const profiles={
+    'ب':{'letter-name':{listening:{r:3,w:0,streak:2,last:Date.now(),sessions:['a','b']}}},
+    'ت':{'letter-name':{listening:{r:2,w:1,streak:0,last:Date.now()-1000,sessions:['a']}}},
+    'ث':{'letter-name':{listening:{r:1,w:0,streak:1,last:Date.now(),sessions:['a']}}},
+  };
+  const r=runtime(),strength={skillProfile:(id,skill)=>profiles[id]?.[skill]||{}};
+  const rounds=r.ns.LettersLearning.planRounds({items:[letter('ث'),letter('ت'),letter('ب')],rounds:5,activity:'pop',strength,random:fixed});
+  assert.deepEqual(plain(rounds.slice(0,3).map(row=>row.target.id)),['ب','ت','ث']);
+  assert.equal(rounds[3].target.id,'ب');
+  assert.equal(rounds[4].target.id,'ت');
+});
+
+test('extras with future or unknown prerequisites stay out of taught-world choices',()=>{
+  const r=runtime(),items=[letter('ب')];
+  const rounds=r.ns.LettersLearning.planRounds({items,extraItems:[
+    letter('ت',{prerequisiteWorldIds:['future']}),
+    letter('ث'),
+    letter('ج',{prerequisiteWorldIds:['done']}),
+    letter('ح',{worldId:'done'}),
+  ],rounds:3,activity:'pop',worldId:'current',completedWorldIds:['done'],strength:r.ns.LettersStrength,random:fixed});
+  assert.ok(rounds.every(round=>round.options.every(option=>!['ت','ث'].includes(option.id))));
+  assert.ok(rounds.some(round=>round.options.some(option=>['ج','ح'].includes(option.id))));
+});
+
+test('activity-specific skills use GardenLearning support for the same evidence bucket',()=>{
+  const r=runtime(),target=letter('ب');
+  const strength={skillProfile:(id,skill)=>skill==='friend'?{matching:{r:3,streak:2}}:{}};
+  const profile=r.ns.LettersLearning.profile(target,{activity:'FriendFind',strength});
+  assert.equal(profile.skill,'friend');
+  assert.equal(profile.promptMode,'listen');
+});
+
+test('successful Build motor evidence can add assembly pieces without changing listening readiness',()=>{
+  const r=runtime(),target=letter('بت'),strength=r.ns.LettersStrength;
+  for(const visit of ['visit-a','visit-b']){
+    const session=new r.ns.LettersLearning.LearningSession(strength,()=>10);
+    session.sessionId=visit;
+    for(let round=0;round<2;round++){
+      session.beginPrompt(target,{activity:'build',skill:'construction'});
+      session.report({itemId:target.id,correct:true,evidence:'motor_assembly_participation',activity:'build',skill:'construction'});
+    }
+  }
+  assert.equal(r.ns.LettersLearning.assemblyProfile(target,{strength}).pieceBudget,3);
+  const construction=strength.skillProfile(target.id,'construction');
+  const recognition=strength.skillProfile(target.id,'letter-name');
+  assert.equal(construction.motor.r,4);
+  assert.equal(recognition.listening?.r || 0,0);
+  assert.equal(r.ns.LettersLearning.profile(target,{strength,skill:'letter-name'}).tier,0);
+});
+
 test('skill-specific evidence survives reload and drawing does not postpone letter listening',()=>{
   const r=runtime(),strength=r.ns.LettersStrength;
   strength.recordOutcome({itemId:'ب',correct:true,evidence:'independent_listening',skill:'letter-name',activity:'pop',sessionId:'listen-a',affectsStrength:true});
@@ -115,4 +167,46 @@ test('review planning is read-only while beginReview rotates and persists its cu
   const reloaded=r.reload();assert.equal(reloaded.ns.LettersStrength.review.cursor,1);assert.deepEqual(plain(reloaded.ns.LettersStrength.review.recent),firstIds);
   const second=reloaded.ns.LettersStrength.reviewItems(pool,2);assert.ok(second.every(item=>!first.some(previous=>previous.id===item.id)));
   const snapshot=reloaded.storage.get(REVIEW_KEY);reloaded.ns.LettersStrength.reviewItems(pool,2);assert.equal(reloaded.storage.get(REVIEW_KEY),snapshot);
+});
+
+test('construction grows by one piece across visits before adding a decoy',()=>{
+  const {ns}=runtime(),item={id:'long',parts:[1,2,3,4,5]};let motor={r:3,streak:3,sessions:['a','b']};
+  const ctx={strength:{skillProfile:()=>({motor})}};
+  assert.deepEqual(plain(ns.LettersLearning.assemblyProfile(item,ctx)),{pieceBudget:3,decoyCount:0});
+  motor={r:16,streak:16,sessions:['a','b','c']};
+  assert.deepEqual(plain(ns.LettersLearning.assemblyProfile(item,ctx)),{pieceBudget:4,decoyCount:0});
+  motor={r:10,streak:4,sessions:['a','b','c','d']};
+  assert.deepEqual(plain(ns.LettersLearning.assemblyProfile(item,ctx)),{pieceBudget:5,decoyCount:0});
+  motor={r:12,streak:4,sessions:['a','b','c','d']};
+  assert.equal(ns.LettersLearning.assemblyProfile(item,ctx).decoyCount,1);
+});
+
+test('joining reads its own successful practice and a recent miss removes the decoy',()=>{
+  const {ns}=runtime();let motor={r:4,streak:2,sessions:['a','b']};
+  const ctx={skill:'joining',strength:{skillProfile:(id,skill)=>skill==='joining'?{motor}:{}}};
+  assert.equal(ns.LettersLearning.assemblyProfile({id:'ba',parts:[1,2]},ctx).decoyCount,1);
+  motor.streak=0;assert.equal(ns.LettersLearning.assemblyProfile({id:'ba',parts:[1,2]},ctx).decoyCount,0);
+});
+
+test('motor and matching practice open with familiar work without creating listening readiness',()=>{
+  for(const [activity,skill,bucket] of [['trace','drawing','motor'],['build','construction','motor'],['pairs','matching-memory','matching']]){
+    const {ns}=runtime(),items=[letter('new'),letter('familiar'),letter('due')];
+    const strength={skillProfile:(id,s)=>s===skill&&id!=='new'?{[bucket]:{r:id==='familiar'?5:2,last:id==='familiar'?Date.now():1,streak:2},attempts:5}:{}};
+    const rounds=ns.LettersLearning.planRounds({items,activity,strength,rounds:3,random:fixed});
+    assert.equal(rounds[0].target.id,'familiar');
+    assert.equal(new Set(rounds.map(r=>r.target.id)).size,3);
+    assert.equal(ns.LettersLearning.profile(items[1],{activity:'pop',strength}).tier,0);
+  }
+});
+
+test('participation cannot refresh construction evidence or undo newer help',()=>{
+  const {ns}=runtime(),id='pair';
+  ns.LettersStrength.map[id]={r:0,w:0,streak:0,last:1,skills:{construction:{
+    motor:{r:8,w:0,streak:5,participation:0,last:1,sessions:['a','b','c']},
+    assisted:{r:1,w:0,streak:1,last:2,sessions:['help']}
+  }}};
+  ns.LettersStrength.recordOutcome({itemId:id,skill:'construction',activity:'unfuse',evidence:'motor_assembly_participation',affectsStrength:false});
+  const evidence=ns.LettersStrength.skillProfile(id,'construction');
+  assert.equal(evidence.motor.last,1);assert.equal(evidence.motor.participation,1);
+  assert.deepEqual(plain(ns.LettersLearning.assemblyProfile({id,parts:[1,2,3,4]}, {strength:ns.LettersStrength})),{pieceBudget:2,decoyCount:0});
 });

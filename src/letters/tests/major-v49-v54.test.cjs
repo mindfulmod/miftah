@@ -51,10 +51,11 @@ test("v51–v52 Looking games: families from the handwriting model; honest, gent
   assert.ok(fams.some(f => f.length === 2 && f.includes("ج") && f.includes("ح")));
   assert.ok(fams.includes("ا"));
   const src = source("LookGames.js");
-  assert.match(src, /const right = this\.report\(`\$\{this\.at\}:\$\{this\.into\}`, ids\[i\], ids, \{ affects: false \}\);/, "spotting a change leans on memory: recorded, never moves strength");
-  assert.match(src, /replayPrompt\(\) \{\n\s+if \(this\.phase !== "find" \|\| this\.busy\) return;\n\s+this\.missed = true;/, "look again counts as help");
-  assert.match(src, /const into = \(!this\.ctx\.beginner && shuffle\(sibsOf\(was\)\)\[0\]\)/, "older children see a dot change");
-  assert.match(src, /this\.rounds = ctx\.beginner \? 3 : 4;/);
+  assert.match(src, /this\.report\(this\.changedChoice, ids\[i\], ids, \{ affects: false, itemId: this\.intoItem\.id \}\)/, "spotting a change uses visual evidence and cannot move letter strength");
+  assert.match(src, /replayPrompt\(token = this\.roundToken, root = this\.root\) \{\n\s+if \(!this\.current\(token, root\) \|\| this\.phase !== "find" \|\| this\.busy\) return false;\n\s+this\.missed = true;/, "look again counts as help and stale rounds ignore it");
+  assert.match(src, /const candidates = this\.level && sibling\.length \? sibling : !this\.level && differentBody\.length \? differentBody : unused;/, "dot changes follow the frozen visual-learning level and novices prefer unlike shapes");
+  assert.match(src, /this\.rounds = this\.visitLevel \? 4 : 3; this\.round = 0;/, "round count is frozen from the visit level");
+  assert.match(src, /this\.choiceCount = this\.level \? 3 : 2;/, "buses use the frozen beginner/later choice ceiling");
   assert.deepEqual(off(src), []);
   assert.deepEqual(widths(src), []);
   const bonus = game.slice(game.indexOf("    chapterBonus(world) {"), game.indexOf("    finishWorld() {"));
@@ -77,7 +78,7 @@ test("v53 Big screens: games grow into the stage, never shrink, never overflow",
 test("v54 Keyboard and switch access: tracing, colouring and focus", () => {
   const strokes = source("LettersStrokes.js");
   assert.match(strokes, /svg\.setAttribute\("tabindex", "0"\);\n\s+svg\.setAttribute\("role", "button"\);/);
-  assert.match(strokes, /if \(!alive \|\| !part \|\| svg\.classList\.contains\("is-demo"\)\) return;\n\s+onSnap\?\.\(\);/, "a keyboard stroke is a helped stroke");
+  assert.match(strokes, /if \(!alive \|\| !part\) return;\n\s+interruptDemo\(\);\n\s+onSnap\?\.\(\);/, "a keyboard stroke is a helped stroke");
   assert.match(source("ToyBoxGames.js"), /el\.setAttribute\("tabindex", "0"\); el\.setAttribute\("role", "button"\);/, "every colouring part is reachable");
   assert.match(game, /if\(a&&a!==document\.body&&a\.isConnected\)return;/, "focus is only moved when it was lost");
   const css = read("styles/letters-toybox.css");

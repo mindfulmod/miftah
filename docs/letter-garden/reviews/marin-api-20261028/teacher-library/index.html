@@ -1,0 +1,68 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Letter Garden — composed-teacher audio library</title>
+<style>body{font:17px/1.5 system-ui;margin:28px auto;max-width:1020px;padding:0 20px;background:#fffaf0;color:#342d25}h1{font-size:29px}section,article{background:#fff;border:1px solid #c9bda4;border-radius:16px;padding:20px;margin:18px 0}h2{font-size:21px}code{display:block;overflow-wrap:anywhere;font-size:14px;background:#f5f1e8;padding:14px;border-radius:10px}button{font:inherit;min-height:44px;padding:8px 15px;border:1px solid #8b7a64;border-radius:10px;background:#fffaf0;color:inherit;cursor:pointer}button:disabled{opacity:.45;cursor:default}button[aria-pressed=true]{background:#b7e779;border:2px solid #4e9677}button:focus-visible,textarea:focus-visible{outline:3px solid #145e76;outline-offset:3px}.actions{display:flex;flex-wrap:wrap;gap:10px}audio{display:block;width:min(100%,440px);margin:12px 0}.arabic{font:34px/1.7 serif;direction:rtl;display:inline-block}small{display:block;color:#63594e}.row-title{display:flex;gap:20px;align-items:center;justify-content:space-between}.state{font-weight:600}textarea{box-sizing:border-box;width:100%;min-height:72px;font:inherit;margin-top:12px;padding:10px;border:1px solid #8b7a64;border-radius:9px}a{color:#145e76}.notice{background:#fff0da}#summary{font-weight:600}[hidden]{display:none!important}@media(max-width:550px){body{padding:0 12px;margin:18px auto}section,article{padding:16px}.row-title{display:block}}</style>
+<h1>Composed-teacher audio library</h1>
+<p>You selected the earlier composed-teacher voice. We are now making the missing game recordings with that direction.</p>
+<section><h2>Selected voice reference</h2><audio controls preload="none" aria-label="Selected composed teacher Baa then Meem" src="../teacher-candidates/lg-aa4d3af3b0c5.wav"></audio><small>March Marin · original composed-teacher direction · speed 1.0. The rejected natural-flow adjustment is excluded.</small></section>
+<section class="notice"><h2 id="batch-title">Next 100 curriculum recordings</h2><p><a href="?batch=next100">Next 100</a> · <a href="?batch=first12">Approved first 12</a></p><p id="next">Loading saved progress…</p><code id="command">env -u OPENAI_API_KEY python3 "/Users/main/Documents/GitHub/miftah/.local-work/letter-garden-next-major/scripts/letter-garden-marin-api.py" --generate --teacher-batch --limit 312</code><p id="batch-cost">Run in Terminal. Paste your key at the hidden prompt, then press Enter. The next 100 use a $5 planning allowance; actual billing may differ. All previously attempted recordings are skipped.</p><p>Each item gets its own file. Listen for correct pronunciation, a complete clean ending, a consistent voice, and no extra sounds or repetitions. Reviews stay on this browser until you export them. 210 approved recordings are now installed locally, including the corrected Timsah. Only the 2 held teaching examples need further work.</p><div class="actions"><button id="refresh">Refresh recordings</button><button id="export">Download my review</button></div><p id="summary" aria-live="polite"></p><p id="save-warning" role="status"></p></section>
+<section id="repair" class="notice" hidden><h2>Replace رُمَّان only</h2><p id="repair-status">Your other 11 recordings are approved. The robotic opening in رُمَّان is held out.</p><code id="repair-command">env -u OPENAI_API_KEY python3 "/Users/main/Documents/GitHub/miftah/.local-work/letter-garden-next-major/scripts/letter-garden-marin-api.py" --generate --teacher-repair</code><p>The replacement keeps the same voice settings. It makes one request, preserves the original file, and needs your review. Planning allowance: $0.05; actual billing may differ.</p></section><section id="quality-hold" class="notice" hidden><h2>Generation paused</h2><p>Your notes are saved: 95 clear approvals and 5 items held for attention. One “correct” mark also reports repetition, and one item has a note but no decision; both stay out pending resolution.</p><p><a href="tanwin-check/index.html?batch=repair">Repair wun and tan</a> · <a href="?batch=issues">View only the held items</a></p></section><div id="rows"></div><p>Request format follows <a href="https://developers.openai.com/api/docs/guides/text-to-speech">official OpenAI documentation</a>. <a href="../teacher-library-plan.json">Saved voice settings and queue</a>.</p>
+<script>
+'use strict';
+const STAGE='composed-teacher-library-v1',STORE='letter-garden:teacher-library-review:v1';
+let reviews={};try{reviews=JSON.parse(localStorage.getItem(STORE)||'{}');if(!reviews||Array.isArray(reviews)||typeof reviews!=='object')reviews={};}catch{}
+const batchView=new URLSearchParams(location.search).get('batch'),completedBatch=batchView==='first12',issuesOnly=batchView==='issues';
+let items=[],available=new Map(),ownerReviews=new Map();
+const node=(tag,text)=>{const e=document.createElement(tag);if(text!=null)e.textContent=text;return e};
+function save(){try{localStorage.setItem(STORE,JSON.stringify(reviews));document.querySelector('#save-warning').textContent='';}catch{document.querySelector('#save-warning').textContent='Your notes could not be saved in this browser. Download your review before leaving.';}summary();}
+function currentReview(id){const candidate=available.get(id);return [reviews[id],ownerReviews.get(id)].find(r=>candidate&&r?.sha256===candidate.sha256)||null;}
+function summary(){let correct=0,fix=0;for(const item of items){const r=currentReview(item.id);if(r?.decision==='correct')correct++;if(r?.decision==='fix')fix++;}document.querySelector('#summary').textContent=`${available.size} / ${items.length} recordings ready · ${correct} marked correct · ${fix} need a fix`}
+async function load(){
+ try{
+ const [plan,ledger,owner,quality,diagnosis,installedBank]=await Promise.all([fetch('../teacher-library-plan.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error();return r.json()}),fetch('../api-events.jsonl',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error();return r.text()}),fetch('owner-review.json',{cache:'no-store'}).then(r=>r.ok?r.json():null),fetch('../quality-control.json',{cache:'no-store'}).then(r=>r.ok?r.json():null),fetch('batch100-diagnosis.json',{cache:'no-store'}).then(r=>r.ok?r.json():null),fetch('../../../../../assets/audio/letters/marin-teacher-v1/manifest.json',{cache:'no-store'}).then(r=>r.ok?r.json():null)]);
+ if(plan.stage!==STAGE)throw Error();
+ const start=completedBatch?0:(plan.reviewStart||0),end=completedBatch?plan.firstBatchIds.length:plan.batchLimit;
+ items=plan.queue.slice(start,end);
+ const heldIds=new Set(diagnosis?.held?.map(i=>i.id)||[]);if(issuesOnly)items=items.filter(i=>heldIds.has(i.id));
+ const paused=quality?.status==='teacher-next100-quality-hold';document.querySelector('#quality-hold').hidden=!paused;
+ document.querySelector('#batch-title').textContent=completedBatch?'Approved first 12':issuesOnly?`${items.length} items held for attention`:plan.batchLabel||'Curriculum recordings';
+ document.querySelector('#batch-cost').hidden=completedBatch||paused;available=new Map();ownerReviews=new Map(owner?.stage===STAGE?owner.reviews.map(r=>[r.id,r]):[]);const allEvents=ledger.split('\n').filter(Boolean).map(JSON.parse),events=allEvents.filter(e=>e.stage===STAGE),repairs=allEvents.filter(e=>e.stage==='composed-teacher-repair-v1'),latest=new Map();
+ for(const e of events)latest.set(e.id,e);
+ document.querySelector('#rows').replaceChildren();
+ for(const [index,item]of items.entries()){
+  const repair=repairs.filter(e=>e.id===item.id&&e.event==='candidate').at(-1);
+  const reviewed=ownerReviews.get(item.id);
+  const pronunciation=allEvents.filter(e=>e.stage==='teacher-consonants-v1'&&e.id===item.id&&e.event==='candidate'&&e.sha256===reviewed?.sha256&&e.file===reviewed?.file).at(-1);
+  const installed=installedBank?.items.find(i=>i.id===item.id&&i.text===item.input&&i.sha256===reviewed?.sha256&&i.file===`assets/audio/letters/marin-teacher-v1/${item.id}-${i.sha256.slice(0,12)}.wav`);
+  const reviewedCandidate=allEvents.filter(e=>e.event==='candidate'&&e.file===reviewed?.file&&e.sha256===reviewed?.sha256&&/^(?:teacher-library|teacher-repair|pronunciation|tanwin|tanwin-remaining|tanwin-repair)-candidates\/lg-[a-f0-9]{12}\.wav$/.test(e.file)).at(-1);
+  const candidate=(installed?reviewed:null)||reviewedCandidate||pronunciation||repair||events.filter(e=>e.id===item.id&&e.event==='candidate').at(-1);
+  const valid=candidate&&(installed||reviewedCandidate||candidate.file===`${pronunciation?'pronunciation':repair?'teacher-repair':'teacher-library'}-candidates/${item.id}.wav`)&&/^[a-f0-9]{64}$/.test(candidate.sha256);
+  if(valid)available.set(item.id,candidate);
+  const card=node('article'),head=node('div');head.className='row-title';head.append(node('h2',`${plan.queue.findIndex(j=>j.id===item.id)+1}. ${({'names':'Name','syllables':'Syllable','story-words':'Story word','quran-reading':'Reading word'})[item.direction]||'Recording'}`));const word=node('span',item.input);word.className='arabic';word.lang='ar';head.append(word);card.append(head);
+  const status=node('p');status.className='state';card.append(status);
+  if(valid){
+   const audio=node('audio');audio.controls=true;audio.preload='none';audio.src=(installed?'../../../../../'+installed.file:'../'+candidate.file)+'?v='+candidate.sha256;audio.setAttribute('aria-label',`Listen to ${item.input}`);card.append(audio);
+   if(installed){status.textContent='Approved and installed locally — no repeat review needed';document.querySelector('#rows').append(card);continue;}
+   if(heldIds.has(item.id))card.append(node('small','Held out of installation pending resolution of your note.'));
+   if(repair)card.append(node('small',currentReview(item.id)?.decision==='correct'?'Replacement approved. Original rejected recording is preserved in review history.':'Replacement recording — please check the opening. Earlier rejection does not approve this new file.'));
+   if(candidate.flags?.length)card.append(node('small','File needs attention: '+candidate.flags.join(', ')));
+   const actions=node('div');actions.className='actions';const good=node('button','Sounds correct'),bad=node('button','Needs a fix');good.type=bad.type='button';good.disabled=bad.disabled=true;actions.append(good,bad);card.append(actions);
+   const notes=node('textarea');notes.placeholder='What did you hear?';notes.setAttribute('aria-label',`Notes for ${item.input}`);notes.value=currentReview(item.id)?.note||'';card.append(notes);
+   const paint=()=>{const r=currentReview(item.id);good.setAttribute('aria-pressed',String(r?.decision==='correct'));bad.setAttribute('aria-pressed',String(r?.decision==='fix'));status.textContent=r?.decision==='correct'?'Marked correct':r?.decision==='fix'?'Needs a fix':'Listen, then choose';};
+   const write=decision=>{reviews[item.id]={id:item.id,input:item.input,sha256:candidate.sha256,decision:decision||currentReview(item.id)?.decision||null,note:notes.value,updated:new Date().toISOString()};save();paint();};
+   audio.addEventListener('play',()=>{document.querySelectorAll('audio').forEach(other=>{if(other!==audio)other.pause()});good.disabled=bad.disabled=false;});
+   good.onclick=()=>write('correct');bad.onclick=()=>write('fix');notes.oninput=()=>write(null);paint();
+  }else status.textContent=latest.get(item.id)?.event==='stopped'?'Attempt stopped — tell Codex before retrying':latest.get(item.id)?.event==='attempt'?'An attempt was started — check Terminal':'Not generated yet';
+  document.querySelector('#rows').append(card);
+ }
+ const attempted=events.filter(e=>e.event==='attempt'&&items.some(item=>item.id===e.id)).length;
+ document.querySelector('#next').textContent=completedBatch?'All 12 are approved, including the replacement رُمَّان. No repeat review needed.':available.size===items.length?'The next 100 are ready. Review each new recording below.':available.size?`${available.size} of ${items.length} new recordings are available. Check Terminal for the rest, then refresh.`:'The first 12 are approved. Generate the next 100 with the command below.';
+ document.querySelector('#command').hidden=paused||completedBatch||attempted>=items.length;
+ if(paused&&!completedBatch)document.querySelector('#next').textContent=issuesOnly?'Only the affected items are shown. Your original decisions and notes are preserved.':'107 approved clips are installed locally. The 5 held items remain excluded. Use the two-sound repair test above next.';
+ document.querySelector('#repair').hidden=true;
+ summary();
+ }catch{document.querySelector('#next').textContent='Could not read the saved batch status. Tell Codex before generating.';document.querySelector('#command').hidden=true;}
+}
+document.querySelector('#refresh').onclick=load;
+document.querySelector('#export').onclick=()=>{const data={stage:STAGE,exported:new Date().toISOString(),reviews:items.map(item=>currentReview(item.id)).filter(Boolean)};const a=node('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));a.download='letter-garden-composed-teacher-review.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
+document.querySelector('audio').addEventListener('play',()=>{document.querySelectorAll('#rows audio').forEach(a=>a.pause())});
+load();
+</script></html>

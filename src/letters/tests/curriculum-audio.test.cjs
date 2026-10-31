@@ -97,11 +97,12 @@ test('Marin curriculum manifest maps the complete reviewed request snapshot with
   const window = { MiftahGame: {} };
   vm.runInNewContext(fs.readFileSync(path.join(root, 'src/letters/LetterVoiceClips.js'), 'utf8'), { window });
   const clips = window.MiftahGame.LETTER_VOICE_CLIPS;
+  const teacher = JSON.parse(fs.readFileSync(path.join(root, 'assets/audio/letters/marin-teacher-v1/manifest.json'))).items;
   for (const [key] of Object.entries(clips)) assert.equal(key, key.normalize('NFC'), `runtime key ${key} is not NFC`);
 
   for (const item of manifest.items) {
     if (item.status !== 'imported') {
-      assert.equal(clips[item.text], undefined, `${item.id} is unresolved but runtime mapped`);
+      assert.equal(clips[item.text], teacher.find(approved => approved.text === item.text)?.file, `${item.id} has no approved replacement`);
       continue;
     }
     assert.ok(item.file && item.source && item.sha256 && item.evidence, `${item.id} lacks import provenance`);

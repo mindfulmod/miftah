@@ -1,0 +1,15 @@
+{
+  "kind": "letter-garden-teacher-install-approval",
+  "statement": "Owner explicitly approved: its fine now (2026-10-30).",
+  "reviews": [
+    {
+      "id": "lg-c25f41474423",
+      "input": "رٌ",
+      "file": "run-repair-candidates/lg-8479f1932759.wav",
+      "sha256": "42c81be1f91bd08be7d1d53b84893972028bf0610c6f1be7176fc81bbc13f57f",
+      "decision": "correct",
+      "note": "Explicit chat approval"
+    }
+  ],
+  "held": []
+}

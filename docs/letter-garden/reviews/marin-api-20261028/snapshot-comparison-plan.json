@@ -1,0 +1,48 @@
+{
+  "stage": "snapshot-20250320-v1",
+  "status": "prepared-not-generated",
+  "purpose": "Test whether the documented earlier TTS snapshot more closely matches the approved FM voice. Not a guaranteed identity match or proof that this was the original FM backend.",
+  "singleChangedRequestField": "model",
+  "previousModel": "gpt-4o-mini-tts-2025-12-15",
+  "candidateModel": "gpt-4o-mini-tts-2025-03-20",
+  "request": {
+    "model": "gpt-4o-mini-tts-2025-03-20",
+    "voice": "marin",
+    "input": "بَاءْ.\n\nمِيمْ.",
+    "instructions": "Speak as a gentle, welcoming Modern Standard Arabic teacher for children aged four to six. Use a soft, warm, natural voice with clear consonants and accurate long vowels. Read only each Arabic letter name written in the script, in order. Say each name once. Leave a clear two-second silent pause between names so they can be separated into individual audio clips. No introduction, numbers, commentary, music, whispering, or exaggerated excitement.",
+    "response_format": "wav",
+    "speed": 1.0
+  },
+  "numberOfRequests": 1,
+  "planningReservationUSD": 0.05,
+  "reservationIsActualBilling": false,
+  "evidence": [
+    {
+      "url": "https://developers.openai.com/api/docs/models/gpt-4o-mini-tts",
+      "finding": "Official model page lists 2025-03-20 and 2025-12-15 snapshots; current undated alias is 2025-12-15."
+    },
+    {
+      "url": "https://github.com/openai/openai-fm/blob/434b7f7622900c7341bfe9f9737858fcfc310e8f/src/app/api/generate/route.ts",
+      "finding": "Public FM code sends the undated model alias. It does not establish the backend revision used by the historical live recording."
+    },
+    {
+      "url": "https://developers.openai.com/api/docs/guides/custom-voices#prepare-and-upload-the-recordings",
+      "finding": "Custom voice creation from recordings requires a matching actor consent recording. The existing synthetic Marin clip is not automatically a custom voice credential; this test creates no voice clone."
+    }
+  ],
+  "acceptance": [
+    "Baa vowel/articulation matches the approved reference.",
+    "Meem keeps correct pronunciation with natural vowel duration and lively teacher expression.",
+    "Voice is light, warm, feminine and gently animated, consistent with approved samples.",
+    "No repeats, robotic/static artifacts or bass noises."
+  ],
+  "afterPass": "Freeze the exact passing model and settings before preparing missing recordings; review generated content before installation.",
+  "afterFail": "Stop; do not buy retries or silently switch voice, model, spelling or pitch.",
+  "guardrails": [
+    "No key in chat, files or browser.",
+    "One request maximum; failed or uncertain outcomes are held.",
+    "All other modes remain blocked.",
+    "Raw and playable candidate preserved separately; no game asset replaced.",
+    "Existing budget reservations are shared across all experiments."
+  ]
+}

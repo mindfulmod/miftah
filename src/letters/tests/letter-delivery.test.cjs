@@ -13,7 +13,7 @@ function element(dataset={}){
     getBoundingClientRect(){return {left:100,right:240,top:50,bottom:190,width:140,height:140};},focus(){this.focused=true;}
   };
 }
-function runtime({reduced=false,canListen=true,items=[{id:'alif',display:'ا'},{id:'ba',display:'ب'},{id:'ta',display:'ت'}]}={}){
+function runtime({reduced=false,canListen=true,profile=null,items=[{id:'alif',display:'ا'},{id:'ba',display:'ب'},{id:'ta',display:'ت'}]}={}){
   const timers=[];let html='';let packets=[];const removed=[];
   const nodes={};
   const stage={events:{},
@@ -24,6 +24,7 @@ function runtime({reduced=false,canListen=true,items=[{id:'alif',display:'ا'},{
     addEventListener(k,fn){this.events[k]=fn;},removeEventListener(k,fn){if(this.events[k]===fn)delete this.events[k];}
   };
   const window={MiftahGame:{LettersArt:{inkShift:()=>({dx:0,dy:0}),icon:name=>`<${name}>`}}};
+  if(profile)window.MiftahGame.LettersLearning={profile};
   const context={window,performance:{now:()=>100},setTimeout(fn,delay){const timer={fn,delay,cleared:false};timers.push(timer);return timer;},clearTimeout(timer){timer.cleared=true;}};
   vm.runInNewContext(fs.readFileSync(path.join(__dirname,'..','GardenPractice.js'),'utf8'),context);
   vm.runInNewContext(fs.readFileSync(path.join(__dirname,'..','LetterDelivery.js'),'utf8'),context);
@@ -35,31 +36,32 @@ function runtime({reduced=false,canListen=true,items=[{id:'alif',display:'ا'},{
 }
 
 test('tap delivery supports replay and reports four independent untimed rounds',()=>{
-  const r=runtime({reduced:true});
+  const r=runtime({reduced:true,profile:()=>({promptMode:'listen',choiceCount:3,skill:'letter-name'})});
   assert.deepEqual(r.calls.prompted,[null]);assert.deepEqual(r.calls.said,['alif']);
   r.nodes.listen.onclick();assert.deepEqual(r.calls.said,['alif','alif']);
   for(let round=0;round<4;round++){
+    const before=r.game.index;
     const target=r.game.target.id,choice=r.packets.find(button=>button.dataset.item===target);
     choice.onclick();assert.equal(choice.attrs['aria-pressed'],'true');r.nodes.destination.onclick();
     const outcomes=r.calls.outcomes.length;r.nodes.destination.onclick();assert.equal(r.calls.outcomes.length,outcomes);
-    assert.equal(r.timers.at(-1).delay,0);r.flush();
+    assert.equal(r.game.continue(),true);r.flush();assert.equal(r.game.index,before+1);
   }
   assert.equal(r.calls.correct,4);assert.equal(r.calls.done,1);assert.equal(r.calls.outcomes.length,4);
   assert.ok(r.calls.outcomes.every(outcome=>outcome.independent&&!outcome.assisted));assert.equal(r.game.alive,false);
   assert.deepEqual(r.stage.events,{});
 });
 
-test('choice pools stay distinct and expand gently after the first success',()=>{
+test('the no-profile default stays a distinct two-choice match throughout all four rounds',()=>{
   for(const size of [1,2,3,5]){
     const items=Array.from({length:size},(_,i)=>({id:`letter-${i}`,display:String(i)})),r=runtime({reduced:true,items});
     const counts=[];
     for(let round=0;round<4;round++){
       const ids=r.packets.map(button=>button.dataset.item);counts.push(ids.length);
       assert.equal(new Set(ids).size,ids.length,`pool ${size}, round ${round+1} should not duplicate choices`);
-      assert.ok(ids.includes(r.game.target.id));
-      const correct=r.packets.find(button=>button.dataset.item===r.game.target.id);correct.onclick();r.nodes.destination.onclick();r.flush();
+      assert.ok(ids.includes(r.game.target.id));assert.equal(ids.length,Math.min(size,2));
+      const before=r.game.index,correct=r.packets.find(button=>button.dataset.item===r.game.target.id);correct.onclick();r.nodes.destination.onclick();assert.equal(r.game.continue(),true);r.flush();assert.equal(r.game.index,before+1);
     }
-    assert.deepEqual(counts,[Math.min(size,2),Math.min(size,3),Math.min(size,3),Math.min(size,3)]);
+    assert.deepEqual(counts,Array(4).fill(Math.min(size,2)));
     assert.equal(r.calls.done,1);assert.equal(r.calls.outcomes.length,4);
   }
 });
@@ -80,7 +82,7 @@ test('hub icon is native SVG and gives each rendered gradient unique ids',()=>{
 });
 
 test('wrong packet reveals help, reduces choices, and records assisted success',()=>{
-  const r=runtime();const wrong=r.packets.find(button=>button.dataset.item!==r.game.target.id),target=r.packets.find(button=>button.dataset.item===r.game.target.id);
+  const r=runtime({profile:()=>({promptMode:'listen',choiceCount:3,skill:'letter-name'})});const wrong=r.packets.find(button=>button.dataset.item!==r.game.target.id),target=r.packets.find(button=>button.dataset.item===r.game.target.id);
   wrong.onclick();r.nodes.destination.onclick();
   assert.equal(wrong.disabled,true);assert.equal(wrong.classList.contains('is-removed'),true);assert.equal(target.classList.contains('is-help'),true);
   assert.equal(r.calls.prompted.at(-1),'alif');assert.equal(r.calls.correct,0);
@@ -90,7 +92,7 @@ test('wrong packet reveals help, reduces choices, and records assisted success',
 });
 
 test('explicit help reveals the answer without requiring a wrong response',()=>{
-  const r=runtime();r.nodes.help.onclick();
+  const r=runtime({profile:()=>({promptMode:'listen',choiceCount:3,skill:'letter-name'})});r.nodes.help.onclick();
   assert.equal(r.game.assisted,true);assert.equal(r.calls.prompted.at(-1),'alif');assert.deepEqual(r.calls.said,['alif','alif']);
   const target=r.packets.find(button=>button.dataset.item===r.game.target.id);assert.equal(target.classList.contains('is-help'),true);
   target.onclick();r.nodes.destination.onclick();assert.equal(r.calls.outcomes[0].assisted,true);

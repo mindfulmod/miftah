@@ -2,11 +2,13 @@
 // grid of collected things and become toys. Four picture scenes — a meadow
 // farm, the seaside, a night sky, a desert oasis — where any owned sticker can
 // be placed (tap it in the tray, or drag it in), moved, wiggled, and taken off
-// again (drag it off the picture). Each scene remembers its own arrangement.
+// again (drag it to the bin, or select it and tap the bin). Each scene
+// remembers its own arrangement; removing a placement keeps the owned sticker.
 // Wordless; nothing is scored; it never runs out.
 (function (ns) {
   const INK = "#4a3620";
   const MAX = 24;
+  const BIN_ART = `<svg viewBox="0 0 100 90" aria-hidden="true"><path d="M28 28H72L68 78Q67 84 61 84H39Q33 84 32 78Z" fill="#ee806f" stroke="${INK}" stroke-width="4" stroke-linejoin="round"/><path d="M24 24H76Q79 24 79 28V32H21V28Q21 24 24 24Z" fill="#ffa798" stroke="${INK}" stroke-width="4" stroke-linejoin="round"/><path d="M39 19Q40 10 50 10Q60 10 61 19M42 43V68M58 43V68" fill="none" stroke="${INK}" stroke-width="4" stroke-linecap="round"/><circle cx="44" cy="54" r="2.4" fill="#fffdf7"/><circle cx="56" cy="54" r="2.4" fill="#fffdf7"/><path d="M45 61Q50 66 55 61" fill="none" stroke="#fffdf7" stroke-width="2.4" stroke-linecap="round"/><path d="M12 18L15 12L18 18L24 20L18 22L15 28L12 22L6 20Z" fill="#f3c955" stroke="${INK}" stroke-width="1.6"/><circle cx="83" cy="17" r="5" fill="#7fce54" stroke="${INK}" stroke-width="1.6"/></svg>`;
 
   // ---------- the four scenes (800×500, flat + ink, palette only) ----------
   // v140: the village sun's soft rounded rays and shine.
@@ -78,6 +80,10 @@
     constructor(ctx) {
       this.ctx = ctx;
       this.alive = true;
+      this.ghosts = new Set();
+      this.activeGesture = null;
+      this.selectedIndex = null;
+      this.removals = {};
       this.scene = SCENE_IDS.includes(ctx.scene) ? ctx.scene : SCENE_IDS[0];
       this.all = ctx.layouts && typeof ctx.layouts === "object" ? ctx.layouts : {};
       this.render();
@@ -85,23 +91,43 @@
     get placed() { return (this.all[this.scene] = clean(this.all[this.scene], this.ctx.owned)); }
     save() { this.ctx.save?.(this.all); }
     render() {
+      this.cancelGesture();
+      this.renderVersion = (this.renderVersion || 0) + 1;
       const stage = this.ctx.stage;
       stage.innerHTML = `<div class="ss-wrap">
         <div class="ss-scenes" role="tablist" aria-label="Pictures">${SCENE_IDS.map((id) => `<button type="button" role="tab" class="ss-scene-tab${id === this.scene ? " is-on" : ""}" data-scene="${id}" aria-selected="${id === this.scene}" aria-label="${id} picture">${sceneArt(id)}</button>`).join("")}</div>
-        <div class="ss-board" data-scene="${this.scene}" aria-label="Your sticker picture">${sceneArt(this.scene)}<div class="ss-layer"></div></div>
+        <div class="ss-board" data-scene="${this.scene}" aria-label="Your sticker picture">${sceneArt(this.scene)}<div class="ss-layer"></div><button type="button" class="ss-undo" aria-label="Put back the last removed sticker" disabled>${ns.LettersArt.icon('undo', 32)}</button><button type="button" class="ss-bin" aria-label="Sticker bin" title="Sticker bin">${BIN_ART}</button></div>
         <div class="ss-tray" role="group" aria-label="Your stickers">${this.ctx.owned.map((id) => `<button type="button" class="ss-pick" data-sticker="${id}" aria-label="Place the ${id} sticker">${this.ctx.stickerArt(id, 64)}</button>`).join("")}</div>
       </div>`;
       this.board = stage.querySelector(".ss-board");
       this.layer = stage.querySelector(".ss-layer");
+      this.bin = stage.querySelector(".ss-bin");
+      this.undoButton = stage.querySelector(".ss-undo");
       this.tray = stage.querySelector(".ss-tray");
       this.drawPlaced();
+      const generation = this.renderVersion;
+      this.wireBin(generation);
+      this.undoButton.addEventListener("click", (e) => {
+        if (!this.alive || generation !== this.renderVersion) return;
+        const restored = this.undoRemoval();
+        if (restored && e.detail === 0) this.layer.querySelector('.is-new')?.focus();
+      });
       stage.querySelectorAll(".ss-scene-tab").forEach((b) => b.addEventListener("click", () => {
-        if (!this.alive || b.dataset.scene === this.scene) return;
+        if (!this.alive || generation !== this.renderVersion || b.dataset.scene === this.scene) return;
+        this.cancelGesture();
+        this.selectedIndex = null;
         this.scene = b.dataset.scene;
         this.ctx.sound?.("page");
         this.render();
       }));
-      stage.querySelectorAll(".ss-pick").forEach((b) => this.wirePick(b));
+      stage.querySelectorAll(".ss-pick").forEach((b) => this.wirePick(b, generation));
+    }
+    wireBin(generation = this.renderVersion) {
+      const bin = this.bin;
+      this.bin?.addEventListener("click", () => {
+        if (!this.alive || generation !== this.renderVersion || this.bin !== bin || this.selectedIndex == null) return;
+        this.removeAt(this.selectedIndex);
+      });
     }
     // v252: a sticker placed in a scene is die-cut: the motif with a white
     // border that follows its shape, not the album's round disc.
@@ -112,14 +138,85 @@
       return `<span class="ss-cut" aria-hidden="true">${art}</span>${art}`;
     }
     drawPlaced() {
-      this.layer.innerHTML = this.placed.map((s, i) => `<button type="button" class="ss-sticker" data-i="${i}" aria-label="${s.id} sticker" style="left:${s.x}%;top:${s.y}%">${this.cutArt(s.id)}</button>`).join("");
+      this.layer.innerHTML = this.placed.map((s, i) => `<button type="button" class="ss-sticker${i === this.selectedIndex ? " is-selected" : ""}" data-i="${i}" aria-label="${s.id} sticker${i === this.selectedIndex ? ", selected" : ""}" aria-pressed="${i === this.selectedIndex}" style="left:${s.x}%;top:${s.y}%">${this.cutArt(s.id)}</button>`).join("");
       this.layer.querySelectorAll(".ss-sticker").forEach((b) => this.wirePlaced(b));
+      this.updateBin();
+    }
+    updateBin() {
+      const selected = this.selectedIndex == null ? null : this.placed[this.selectedIndex];
+      this.bin?.classList.toggle("has-selection", !!selected);
+      this.bin?.setAttribute("aria-label", selected ? `Remove selected ${selected.id} sticker` : "Sticker bin");
+      if (this.undoButton) this.undoButton.disabled = !this.removals?.[this.scene]?.length || this.placed.length >= MAX;
+    }
+    select(index) {
+      if (!this.alive || !this.placed[index]) return;
+      this.selectedIndex = this.selectedIndex === index ? null : index;
+      this.layer.querySelectorAll(".ss-sticker").forEach((b) => {
+        const selected = Number(b.dataset.i) === this.selectedIndex;
+        b.classList.toggle("is-selected", selected);
+        b.setAttribute("aria-pressed", String(selected));
+        const sticker = this.placed[Number(b.dataset.i)];
+        b.setAttribute("aria-label", `${sticker?.id || "Sticker"} sticker${selected ? ", selected" : ""}`);
+      });
+      this.updateBin();
+    }
+    removeAt(index) {
+      if (!this.alive) return false;
+      const list = this.placed;
+      if (!Number.isInteger(index) || index < 0 || index >= list.length) return false;
+      this.cancelGesture();
+      const history = (this.removals ||= {})[this.scene] ||= [];
+      history.push({ index, sticker: { ...list[index] } });
+      if (history.length > MAX) history.shift();
+      list.splice(index, 1);
+      this.selectedIndex = null;
+      this.all[this.scene] = clean(list, this.ctx.owned);
+      this.save();
+      this.drawPlaced();
+      this.ctx.sound?.("pop");
+      return true;
+    }
+    undoRemoval() {
+      if (!this.alive) return false;
+      const history = this.removals?.[this.scene], list = this.placed;
+      if (!history?.length || list.length >= MAX) return false;
+      this.cancelGesture();
+      const entry = history.pop();
+      if (!this.ctx.owned.includes(entry.sticker.id)) { this.updateBin(); return false; }
+      const index = Math.min(entry.index, list.length);
+      list.splice(index, 0, { ...entry.sticker });
+      this.all[this.scene] = clean(list, this.ctx.owned);
+      this.selectedIndex = null;
+      this.save();
+      this.drawPlaced();
+      this.layer.querySelector(`[data-i="${index}"]`)?.classList.add("is-new");
+      this.ctx.sound?.("sticker");
+      return true;
+    }
+    overBin(e, slack = 24) {
+      const r = this.bin?.getBoundingClientRect?.();
+      if (!r?.width || !r?.height) return false;
+      const right = r.right ?? r.left + r.width, bottom = r.bottom ?? r.top + r.height;
+      return e.clientX >= r.left - slack && e.clientX <= right + slack && e.clientY >= r.top - slack && e.clientY <= bottom + slack;
+    }
+    cancelGesture() {
+      const gesture = this.activeGesture;
+      this.activeGesture = null;
+      if (!gesture) return;
+      gesture.cancel?.();
+      if (gesture.pointerId != null && gesture.element?.releasePointerCapture) {
+        try {
+          if (!gesture.element.hasPointerCapture || gesture.element.hasPointerCapture(gesture.pointerId)) gesture.element.releasePointerCapture(gesture.pointerId);
+        } catch { /* capture may already have ended */ }
+      }
+      this.bin?.classList.remove("is-target");
     }
     toBoard(e) {
       const r = this.board.getBoundingClientRect();
       return { x: ((e.clientX - r.left) / r.width) * 100, y: ((e.clientY - r.top) / r.height) * 100, inside: e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom };
     }
     add(id, x, y) {
+      if (!this.alive || !this.ctx.owned?.includes(id) || !Number.isFinite(x) || !Number.isFinite(y)) return false;
       const list = this.placed;
       if (list.length >= MAX) list.shift();
       list.push({ id, x, y });
@@ -129,31 +226,42 @@
       const last = this.layer.lastElementChild;
       last?.classList.add("is-new");
       this.ctx.sound?.("sticker");
+      return true;
     }
     // A sticker in the tray: tap to place it somewhere free, or drag it in.
-    wirePick(btn) {
+    wirePick(btn, generation = this.renderVersion) {
       const id = btn.dataset.sticker;
+      const current = () => this.alive && generation === this.renderVersion;
       let drag = null;
+      const cancelOwn = (e) => {
+        if (drag && this.activeGesture?.element === btn && (e.pointerId === undefined || drag.pointerId === undefined || e.pointerId === drag.pointerId)) this.cancelGesture();
+      };
       btn.addEventListener("pointerdown", (e) => {
-        if (!this.alive) return;
-        drag = { x0: e.clientX, y0: e.clientY, moved: false, ghost: null };
+        if (!current() || this.activeGesture || (e.button != null && e.button !== 0)) return;
+        drag = { x0: e.clientX, y0: e.clientY, moved: false, ghost: null, pointerId: e.pointerId };
+        this.activeGesture = { element: btn, pointerId: e.pointerId, cancel: () => { drag?.ghost?.remove(); if (drag?.ghost) this.ghosts.delete(drag.ghost); drag = null; } };
         btn.setPointerCapture?.(e.pointerId);
       });
       btn.addEventListener("pointermove", (e) => {
-        if (!drag) return;
+        if (!current()) { cancelOwn(e); return; }
+        if (!drag || (drag.pointerId !== undefined && e.pointerId !== drag.pointerId)) return;
         if (!drag.moved && Math.hypot(e.clientX - drag.x0, e.clientY - drag.y0) > 8) {
           drag.moved = true;
           drag.ghost = document.createElement("div");
           drag.ghost.className = "ss-ghost";
           drag.ghost.innerHTML = this.ctx.stickerArt(id, 96);
           document.body.appendChild(drag.ghost);
+          this.ghosts.add(drag.ghost);
         }
         if (drag.ghost) Object.assign(drag.ghost.style, { left: `${e.clientX}px`, top: `${e.clientY}px` });
       });
       const end = (e) => {
-        if (!drag) return;
+        if (!current()) { cancelOwn(e); return; }
+        if (!drag || (drag.pointerId !== undefined && e.pointerId !== drag.pointerId)) return;
         const d = drag; drag = null;
         d.ghost?.remove();
+        if (d.ghost) this.ghosts.delete(d.ghost);
+        if (this.activeGesture?.pointerId === d.pointerId) this.activeGesture = null;
         if (!this.alive) return;
         if (!d.moved) {
           // Tap: somewhere in the middle of the picture, a little different each time.
@@ -161,53 +269,80 @@
           return this.add(id, 30 + ((n * 37) % 40) + Math.random() * 6, 40 + ((n * 23) % 34) + Math.random() * 6);
         }
         const p = this.toBoard(e);
-        if (p.inside) this.add(id, p.x, p.y);
+        if (p.inside && !this.overBin(e)) this.add(id, p.x, p.y);
       };
       btn.addEventListener("pointerup", end);
-      btn.addEventListener("pointercancel", () => { drag?.ghost?.remove(); drag = null; });
+      const cancel = (e) => { if (drag && (e.pointerId === undefined || drag.pointerId === undefined || e.pointerId === drag.pointerId)) this.cancelGesture(); };
+      btn.addEventListener("pointercancel", cancel);
+      btn.addEventListener("lostpointercapture", cancel);
       // Keyboard / switch: Enter or Space places it.
-      btn.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); const n = this.placed.length; this.add(id, 30 + ((n * 37) % 40), 40 + ((n * 23) % 34)); } });
+      btn.addEventListener("keydown", (e) => { if (current() && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); const n = this.placed.length; this.add(id, 30 + ((n * 37) % 40), 40 + ((n * 23) % 34)); } });
     }
-    // A placed sticker: tap to make it wiggle, drag to move, drag off to take it away.
-    wirePlaced(btn) {
+    // A placed sticker: tap to select and wiggle, drag to move, or take it to the bin.
+    wirePlaced(btn, generation = this.renderVersion) {
+      const sceneId = this.scene, layer = this.layer;
+      const current = () => this.alive && generation === this.renderVersion && sceneId === this.scene && layer === this.layer;
       let drag = null;
+      const cancelOwn = (e) => {
+        if (drag && this.activeGesture?.element === btn && (e.pointerId === undefined || drag.pointerId === undefined || e.pointerId === drag.pointerId)) this.cancelGesture();
+      };
       btn.addEventListener("pointerdown", (e) => {
-        if (!this.alive) return;
-        drag = { x0: e.clientX, y0: e.clientY, moved: false };
+        if (!current() || this.activeGesture || (e.button != null && e.button !== 0)) return;
+        drag = { x0: e.clientX, y0: e.clientY, moved: false, pointerId: e.pointerId, originalLeft: btn.style.left, originalTop: btn.style.top };
+        this.activeGesture = { element: btn, pointerId: e.pointerId, cancel: () => { drag = null; btn.classList.remove("is-held", "is-leaving", "is-over-bin"); this.bin?.classList.remove("is-target"); if (this.alive) this.drawPlaced(); } };
         btn.setPointerCapture?.(e.pointerId);
         btn.classList.add("is-held");
       });
       btn.addEventListener("pointermove", (e) => {
-        if (!drag) return;
+        if (!current()) { cancelOwn(e); return; }
+        if (!drag || (drag.pointerId !== undefined && e.pointerId !== drag.pointerId)) return;
         if (!drag.moved && Math.hypot(e.clientX - drag.x0, e.clientY - drag.y0) > 8) drag.moved = true;
         if (!drag.moved) return;
         const p = this.toBoard(e);
         btn.style.left = `${p.x}%`; btn.style.top = `${p.y}%`;
         btn.classList.toggle("is-leaving", !p.inside);
+        btn.classList.toggle("is-over-bin", p.inside && this.overBin(e));
+        this.bin?.classList.toggle("is-target", p.inside && this.overBin(e));
       });
       const end = (e) => {
-        if (!drag) return;
+        if (!current()) { cancelOwn(e); return; }
+        if (!drag || (drag.pointerId !== undefined && e.pointerId !== drag.pointerId)) return;
         const d = drag; drag = null;
-        btn.classList.remove("is-held", "is-leaving");
+        btn.classList.remove("is-held", "is-leaving", "is-over-bin");
+        this.bin?.classList.remove("is-target");
+        if (this.activeGesture?.pointerId === d.pointerId) this.activeGesture = null;
         if (!this.alive) return;
         const i = Number(btn.dataset.i), list = this.placed;
         if (!d.moved) {
+          this.select(i);
           const art = btn.querySelector("svg");
           if (art && !this.ctx.reducedMotion?.()) art.animate?.([{ transform: "none" }, { transform: "rotate(-12deg) scale(1.12)" }, { transform: "rotate(9deg)" }, { transform: "none" }], { duration: 520, easing: "ease-in-out" });
           this.ctx.sound?.("boing");
           return;
         }
         const p = this.toBoard(e);
-        if (!p.inside) { list.splice(i, 1); this.ctx.sound?.("pop"); }
-        else { list[i] = { ...list[i], x: p.x, y: p.y }; list.push(list.splice(i, 1)[0]); }
+        if (p.inside && this.overBin(e)) { this.removeAt(i); return; }
+        if (!p.inside) { this.drawPlaced(); return; }
+        this.selectedIndex = null;
+        list[i] = { ...list[i], x: p.x, y: p.y }; list.push(list.splice(i, 1)[0]);
         this.all[this.scene] = clean(list, this.ctx.owned);
         this.save();
         this.drawPlaced();
       };
       btn.addEventListener("pointerup", end);
-      btn.addEventListener("pointercancel", () => { drag = null; btn.classList.remove("is-held", "is-leaving"); this.drawPlaced(); });
+      const cancel = (e) => { if (drag && (e.pointerId === undefined || drag.pointerId === undefined || e.pointerId === drag.pointerId)) this.cancelGesture(); };
+      btn.addEventListener("pointercancel", cancel);
+      btn.addEventListener("lostpointercapture", cancel);
+      btn.addEventListener("keydown", (e) => {
+        if (!current() || (e.key !== "Enter" && e.key !== " ")) return;
+        e.preventDefault(); this.select(Number(btn.dataset.i));
+      });
     }
-    destroy() { this.alive = false; document.querySelectorAll(".ss-ghost").forEach((g) => g.remove()); }
+    destroy() {
+      this.alive = false;
+      this.cancelGesture();
+      this.ghosts.forEach((ghost) => ghost.remove()); this.ghosts.clear();
+    }
   }
 
   ns.StickerScenes = { SCENE_IDS, sceneArt, clean, StickerScene, MAX };

@@ -2,45 +2,45 @@
 .lg-animal svg{display:block;width:100%;height:100%;overflow:visible}
 
 .lg-animal[data-stage="1"] .rig{transform:scale(.90)}
-.lg-animal .ground{fill:#31594222}
+.lg-animal .ground{fill:rgba(47,92,70,.13)}
 .lg-animal .rig{transform-origin:210px 420px;}
 .lg-animal .body{fill:var(--body)}
 .lg-animal .overlay,.lg-animal .limb,.lg-animal .species-fore{fill:var(--overlay)}
 .lg-animal .ear-inner{fill:var(--inner)}
 .lg-animal .foot{fill:var(--accent-dark)}
 .lg-animal .face-patch{fill:var(--overlay)}
-.lg-animal .eye-white{fill:#fff}
-.lg-animal .pupil{fill:#29282e}
-.lg-animal .eye-shine{fill:#fff}
+.lg-animal .eye-white{fill:#fffdf7}
+.lg-animal .pupil{fill:#4a3620}
+.lg-animal .eye-shine{fill:#fffdf7}
 .lg-animal .brow{fill:none;stroke:var(--highlight);stroke-width:13;stroke-linecap:round}
 .lg-animal .muzzle{fill:var(--muzzle)}
 .lg-animal .nose{fill:var(--accent)}
 .lg-animal .mouth-fill{fill:var(--accent-dark)}
-.lg-animal .tongue{fill:#ffaaa9}
+.lg-animal .tongue{fill:#ffa798}
 .lg-animal .belly-mark{fill:none;stroke:var(--highlight);stroke-width:12;stroke-linecap:round}
 .lg-animal .limb{transform-box:fill-box;transition:transform 430ms var(--spring)}
 .lg-animal .limb-left{transform-origin:85% 20%}
 .lg-animal .limb-right{transform-origin:15% 20%}
 .lg-animal .pupils{transform-box:fill-box;transition:transform 400ms var(--spring);}
 .lg-animal .eyes-open{transform-box:fill-box;transform-origin:50% 54%;}
-.lg-animal .eyes-happy{display:none;fill:none;stroke:#29282e;stroke-width:13;stroke-linecap:round}
-.lg-animal .attention,.lg-animal .success-stars{opacity:0;fill:#ffc54a;transform-box:fill-box}
+.lg-animal .eyes-happy{display:none;fill:none;stroke:#4a3620;stroke-width:13;stroke-linecap:round}
+.lg-animal .attention,.lg-animal .success-stars{opacity:0;fill:#f3c955;transform-box:fill-box}
 .lg-animal .beak-bottom,.lg-animal .tongue,.lg-animal .brow,.lg-animal .mouth-fill{transform-box:fill-box;transform-origin:50% 0;transition:transform 300ms var(--spring),opacity 180ms ease}
 .lg-animal .accessory{display:block;pointer-events:none}
 .lg-animal .prod-acc{stroke:#4a3620;stroke-width:7;stroke-linejoin:round;stroke-linecap:round}
 .lg-animal .species-head,.lg-animal .species-torso{fill:var(--body)}
-.lg-animal .rabbit-belly{fill:#f8cddd}
+.lg-animal .rabbit-belly{fill:#e5dcc8}
 .lg-animal .rabbit-foot{fill:var(--overlay)}
 .lg-animal .rabbit-tail{stroke:var(--overlay);stroke-width:9}
 .lg-animal .rabbit-paw-pad{fill:var(--inner)}
 .lg-animal .paw-line,.lg-animal .toe-line{fill:none;stroke:var(--highlight);stroke-width:7;stroke-linecap:round}
-.lg-animal .bear-belly{fill:#efbd89}
+.lg-animal .bear-belly{fill:#e5dcc8}
 .lg-animal .bear-foot{fill:var(--overlay)}
-.lg-animal .bear-paw-pad{fill:#efbd89}
+.lg-animal .bear-paw-pad{fill:#e5dcc8}
 .lg-animal .rabbit-forepaw{fill:var(--overlay)}
 .lg-animal .bear-arm{fill:var(--body)}
-.lg-animal .cheek-glow{fill:#f6a5b8;opacity:.72}
-.lg-animal.pet-rafi .cheek-glow{fill:#efb377;opacity:.65}
+.lg-animal .cheek-glow{fill:#ffa798;opacity:.72}
+.lg-animal.pet-rafi .cheek-glow{fill:#ffa06e;opacity:.65}
 .lg-animal .fitted-cap .cap-visor{stroke-width:6}
 .lg-animal .rabbit-ear,.lg-animal .bear-ear{transform-box:fill-box;transition:transform 430ms var(--spring)}
 .lg-animal .rabbit-ear-left,.lg-animal .bear-ear-left{transform-origin:75% 90%}

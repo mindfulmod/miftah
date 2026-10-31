@@ -22,11 +22,45 @@
   const F = () => ns.LetterFriends;
   const S = () => ns.LettersStrokes;
   const nameOf = (c) => (ns.LETTERS_DATA?.packs || []).flatMap((p) => p.letters).find((l) => l.char === c)?.arName || c;
+  const norm = (value) => typeof value === "string" ? value.normalize("NFC") : "";
   const item = (c) => ({ id: c, display: c, speak: nameOf(c) });
-  const knownChars = (ctx) => [...new Set([...(ctx.items || []), ...(ctx.known || [])].map((i) => i?.display).filter((c) => F()?.FRIENDS?.[c]))];
-  const firstsOf = (ctx, pool) => (ctx.items || []).map((i) => i?.display).filter((c) => pool.includes(c));
+  const eligible = (i, ctx) => i && i.id != null && norm(i.display) && i.taught !== false && i.isTaught !== false
+    && i.locked !== true && i.unlocked !== false
+    && (!ctx.completedWorldIds || !(i.prerequisiteWorldIds || []).some((id) => id !== ctx.worldId && !ctx.completedWorldIds.includes(id)));
+  const knownItems = (ctx) => {
+    const all = [...(ctx.items || []), ...(ctx.known || []), ...(ctx.extraItems || [])].map((v) => typeof v === "string" ? { id: v, display: v } : v).filter(Boolean);
+    const blocked = new Set(all.filter((i) => !eligible(i, ctx)).map((i) => norm(i.display)).filter(Boolean));
+    const seen = new Set(), result = [];
+    for (const i of all) {
+      const display = norm(i.display);
+      if (!eligible(i, ctx) || blocked.has(display) || seen.has(display) || !F()?.FRIENDS?.[display]) continue;
+      seen.add(display); result.push({ ...i, display });
+    }
+    return result;
+  };
+  const planItems = (ctx, candidates, count, skill = "letter-form") => {
+    const pool = knownItems(ctx).filter((i) => candidates.some((c) => c.display === i.display));
+    const planned = ns.PracticeLearning?.plan?.(ctx, pool.slice(), skill, count);
+    const valid = new Map(pool.map((i) => [String(i.id), i]));
+    const byDisplay = new Map(pool.map((i) => [i.display, i]));
+    if (Array.isArray(planned)) return [...new Set(planned.map((v) => v && typeof v === "object"
+      ? (v.id != null ? valid.get(String(v.id)) : byDisplay.get(norm(v.display)))
+      : valid.get(String(v)) || byDisplay.get(norm(v))).filter(Boolean))].slice(0, count);
+    const ordered = ns.PracticeLearning?.orderChars?.(ctx, pool.map((i) => i.display), skill, count);
+    if (Array.isArray(ordered)) return [...new Set(ordered.map((v) => v && typeof v === "object"
+      ? (v.id != null ? valid.get(String(v.id)) : byDisplay.get(norm(v.display)))
+      : byDisplay.get(norm(v))).filter(Boolean))].slice(0, count);
+    return shuffle(pool).slice(0, count);
+  };
+  const practiceItem = (ctx, c) => knownItems(ctx).find((i) => i.display === norm(c)) || item(c);
+  const level = (ctx, chars, skill) => Math.max(0, Math.min(2, Number(ns.PracticeLearning?.level?.(ctx, chars.map((c) => practiceItem(ctx, c)), skill)) || 0));
   const bodyKey = (c) => (S()?.LETTERS?.[c] || []).filter((s) => typeof s === "string").join("|");
-  const smart = (target, pool, n, skill, beginner) => (ns.gardenBrain?.others ? ns.gardenBrain.others(target, pool, n, { skill, beginner }) : shuffle(pool.filter((c) => c !== target)).slice(0, n));
+  const smart = (target, pool, n, skill, beginner) => {
+    const safe = [...new Set(pool.filter((c) => c !== target))];
+    const raw = ns.gardenBrain?.others ? ns.gardenBrain.others(target, safe.slice(), n, { skill, beginner }) : shuffle(safe);
+    const valid = [...new Set((Array.isArray(raw) ? raw : []).filter((c) => safe.includes(c)))].slice(0, n);
+    return [...valid, ...shuffle(safe.filter((c) => !valid.includes(c)))].slice(0, n);
+  };
   // Families among the given letters: same body, any dots, in alphabet order.
   function families(chars) {
     const order = (ns.LETTERS_DATA?.packs || []).flatMap((p) => p.letters.map((l) => l.char));
@@ -38,26 +72,30 @@
 
   class Base {
     constructor(ctx, cls, label) {
-      this.ctx = ctx; this.alive = true; this.timers = [];
+      this.ctx = ctx; this.alive = true; this.timers = []; this.dragResets = []; this.roundToken = 0;
       ctx.stage.innerHTML = `<div class="tb lk ${cls}" role="group" aria-label="${label}"></div>`;
       this.root = ctx.stage.firstElementChild;
       ctx.prompt?.(null);
     }
-    later(fn, ms) { const t = setTimeout(() => { if (this.alive) fn(); }, ms); this.timers.push(t); return t; }
+    later(fn, ms, token = this.roundToken, root = this.root) { const t = setTimeout(() => { if (this.current(token, root)) fn(); }, ms); this.timers.push(t); return t; }
+    current(token = this.roundToken, root = this.root) { return this.alive && token === this.roundToken && this.root === root && root?.isConnected !== false && (!this.ctx.stage?.contains || this.ctx.stage.contains(root)); }
     dots(n, at) { return `<div class="tb-progress" aria-hidden="true">${Array.from({ length: n }, (_, i) => `<i class="${i < at ? "is-done" : i === at ? "is-on" : ""}"></i>`).join("")}</div>`; }
     still() { return !!this.ctx.reducedMotion?.(); }
-    wobble(el) { if (!this.still()) el?.animate?.([{ rotate: "0deg" }, { rotate: "-7deg" }, { rotate: "7deg" }, { rotate: "0deg" }], { duration: 360 }); }
+    wobble(el) { if (!this.still()) el?.animate?.([{ opacity: 1 }, { opacity: .84 }, { opacity: 1 }], { duration: 360 }); }
     cheer(el) { this.ctx.correct?.(); this.ctx.confettiAt?.(el); this.ctx.pet?.cheer?.(); }
-    say(it) { try { return this.ctx.say?.(it); } catch { return false; } }
-    report(target, chosen, offered, { skill = "letter-form", affects = true } = {}) {
+    say(it) { try { const result = this.ctx.say?.(it); return result?.then ? result.catch(() => false) : result; } catch { return false; } }
+    report(target, chosen, offered, { skill = "letter-form", affects = true, itemId = target } = {}) {
+      if (!this.alive) return false;
       const correct = chosen === target;
-      this.ctx.reportOutcome?.({ item: item(target), itemId: target, activity: this.constructor.name, skill, correct,
+      const targetItem = knownItems(this.ctx).find((i) => String(i.id) === String(itemId)) || practiceItem(this.ctx, target);
+      this.ctx.reportOutcome?.({ item: targetItem, itemId: targetItem.id, activity: this.constructor.name, skill, correct,
         evidence: "supported_visible_matching", assisted: !!this.missed, selectedId: chosen, choiceIds: offered, affectsStrength: affects });
       return correct;
     }
     finish(ms = 800) { this.busy = true; this.ctx.sfx?.("cheer2"); this.later(() => this.ctx.done?.(), ms); }
     replayPrompt() {}
-    destroy() { this.alive = false; this.timers.forEach(clearTimeout); }
+    cancel() { if (typeof this.ctx.cancel === "function") this.ctx.cancel(); else this.ctx.done?.(); }
+    destroy() { this.alive = false; this.timers.forEach(clearTimeout); this.dragResets.forEach((reset) => reset()); }
   }
 
   // ---------- v51 Spot the Change ----------
@@ -67,66 +105,83 @@
   class SpotChange extends Base {
     constructor(ctx) {
       super(ctx, "lk-spot", "Spot the change");
-      // Its replay button means "look again", so it shows an eye.
-      this.replayIcon = `<svg viewBox="0 0 100 60" width="56" height="34" aria-hidden="true"><path d="M6 30Q50 -10 94 30Q50 70 6 30Z" fill="#fffdf7" stroke="${INK}" stroke-width="6"/><circle cx="50" cy="30" r="14" fill="#3a8fc4"/><circle cx="50" cy="30" r="7" fill="${INK}"/></svg>`;
-      this.known = knownChars(ctx);
-      this.rounds = ctx.beginner ? 3 : 4; this.round = 0;
-      if (this.known.length < 3) { this.later(() => ctx.done?.(), 300); return; }
-      this.firsts = firstsOf(ctx, this.known);
+      this.noReplay = true;
+      this.known = knownItems(ctx);
+      this.visitLevel = level(ctx, this.known.map((i) => i.display), "letter-form");
+      this.level = this.visitLevel;
+      this.rounds = this.visitLevel ? 4 : 3; this.round = 0;
+      this.planned = planItems(ctx, this.known, this.known.length, "letter-form");
+      this.known = this.planned;
+      this.boardSize = Math.min(this.visitLevel > 0 ? 3 : 2, this.known.length - 1);
+      this.choiceCount = this.boardSize;
+      if (this.known.length < 3 || this.choiceCount < 2) { this.later(() => this.cancel(), 300); return; }
       this.next();
     }
     next() {
       if (this.round >= this.rounds) return this.finish();
-      this.missed = false; this.busy = true; this.phase = "look";
-      // v58: always leave one known letter off the board to change into — with
-      // exactly 4 known, every round was skipped and the game ended at once.
-      const n = Math.min(this.ctx.beginner ? 3 : this.round < 2 ? 4 : 5, this.known.length - 1);
-      // Older children: put a letter with dot-siblings on the board, so the
-      // change can be just a dot.
-      const fams = families(this.known).filter((f) => f.length > 1);
-      const lead = this.firsts[this.round] || (!this.ctx.beginner && fams.length ? shuffle(shuffle(fams)[0])[0] : null);
-      const board = [...new Set([...(lead ? [lead] : []), ...shuffle(this.known)])].slice(0, n);
-      this.before = shuffle(board);
-      // Which stone changes, and into what.
-      const sibsOf = (c) => this.known.filter((o) => o !== c && bodyKey(o) === bodyKey(c) && !this.before.includes(o));
-      let at = this.ctx.beginner ? Math.floor(Math.random() * n) : this.before.findIndex((c) => sibsOf(c).length);
-      if (at < 0) at = Math.floor(Math.random() * n);
-      const was = this.before[at];
-      const into = (!this.ctx.beginner && shuffle(sibsOf(was))[0])
-        || smart(was, this.known.filter((o) => !this.before.includes(o)), 1, "shape", this.ctx.beginner)[0];
-      if (!into) { this.round += 1; return this.next(); }
-      this.at = at; this.was = was; this.into = into;
-      this.after = this.before.slice(); this.after[at] = into;
+      const token = ++this.roundToken, root = this.root;
+      this.missed = false; this.busy = false; this.phase = "look";
+      const n = this.boardSize;
+      const chosen = this.known[this.round % this.known.length];
+      const boardPool = this.known.filter((i) => i.display !== chosen.display);
+      const board = [chosen, ...shuffle(boardPool).slice(0, n - 1)];
+      this.beforeItems = shuffle(board);
+      const unused = this.known.filter((i) => !this.beforeItems.includes(i));
+      // Choose the position as well as the replacement for the intended
+      // difficulty. A random beginner position could force a dot-only swap
+      // even when another stone has an obvious body-shape change available.
+      const positions = this.beforeItems.map((item, at) => ({ item, at })).filter(({ item }) =>
+        unused.some(other => this.level ? bodyKey(other.display) === bodyKey(item.display) : bodyKey(other.display) !== bodyKey(item.display)));
+      this.at = positions.length ? shuffle(positions)[0].at : Math.floor(Math.random() * n);
+      this.wasItem = this.beforeItems[this.at];
+      const sibling = unused.filter((o) => bodyKey(o.display) === bodyKey(this.wasItem.display));
+      const differentBody = unused.filter((o) => bodyKey(o.display) !== bodyKey(this.wasItem.display));
+      const candidates = this.level && sibling.length ? sibling : !this.level && differentBody.length ? differentBody : unused;
+      const intoItem = shuffle(candidates)[0];
+      if (!intoItem) { this.roundToken += 1; this.round = this.rounds; return this.next(); }
+      this.intoItem = intoItem; this.was = this.wasItem.display; this.into = intoItem.display;
+      this.before = this.beforeItems.map((i) => i.display);
+      this.after = this.before.slice(); this.after[this.at] = this.into;
+      this.afterItems = this.beforeItems.slice(); this.afterItems[this.at] = this.intoItem;
+      this.offered = this.beforeItems.map((i) => i.id);
+      this.changedChoice = `${this.wasItem.id}->${this.intoItem.id}`;
       this.root.innerHTML = `
-        <div class="lk-eye${this.still() ? "" : " is-looking"}" aria-hidden="true">${EYE}</div>
-        <div class="lk-row" style="--n:${n};--cols:${n <= 3 ? n : n === 4 ? 2 : 3}">${this.before.map((c, i) => `<button type="button" class="lk-stone" data-i="${i}" aria-label="${c}" disabled>${STONE}<span class="lk-letter">${F().art(c, { size: 110, mode: "plain" })}</span></button>`).join("")}<span class="lk-curtain" aria-hidden="true"></span></div>
+        <button type="button" class="lk-eye is-looking" aria-label="Ready to spot the change">${ns.LookPlayArt?.observe?.("look") || EYE}</button>
+        <div class="lk-row" data-count="${n}" style="--n:${n};--cols:${n}">${this.before.map((c, i) => `<button type="button" class="lk-stone" data-i="${i}" aria-label="${c}" disabled>${ns.LookPlayArt?.stone?.() || STONE}<span class="lk-letter">${F().art(c, { size: 110, mode: "plain" })}</span></button>`).join("")}<span class="lk-curtain" aria-hidden="true"></span></div>
+        <div class="lk-change-pair" data-change="${bodyKey(this.was) === bodyKey(this.into) ? 'dots' : 'body'}" role="group" aria-label="What changed" hidden><span class="lk-change-card" role="img" aria-label="Before: ${this.was}">${F().art(this.was, { size: 140, mode: "plain" })}</span><svg class="lk-change-arrow" viewBox="0 0 40 40" aria-hidden="true"><path d="M32 20H9M17 11L8 20L17 29" fill="none" stroke="${INK}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="lk-change-card" role="img" aria-label="After: ${this.into}">${F().art(this.into, { size: 140, mode: "plain" })}</span></div>
         ${this.dots(this.rounds, this.round)}`;
-      this.root.querySelectorAll(".lk-stone").forEach((b) => b.addEventListener("click", () => this.pick(Number(b.dataset.i), b)));
+      const eye = this.root.querySelector(".lk-eye");
+      eye?.addEventListener("click", () => { if (!this.current(token, root) || this.busy) return; if (this.phase === "look") this.blink(token, root); else if (this.phase === "find") this.replayPrompt(token, root); else if (this.phase === "compare") this.continue(token, root); });
+      this.root.querySelectorAll(".lk-stone").forEach((b) => b.addEventListener("click", () => this.pick(Number(b.dataset.i), b, token, root)));
       // Tapping while it's still "look" time: the eye bounces — keep looking
       // (v57), so an eager tap is answered, not ignored.
       this.root.querySelector(".lk-row").addEventListener("pointerdown", () => {
-        if (this.phase !== "look") return;
+        if (!this.current(token, root) || this.phase !== "look") return;
         const eye = this.root.querySelector(".lk-eye");
-        if (eye && !this.still()) eye.animate?.([{ scale: "1" }, { scale: "1.25" }, { scale: "1" }], { duration: 320, easing: "cubic-bezier(.3,1.6,.5,1)" });
+        if (eye && !this.still()) eye.animate?.([{ scale: "1" }, { scale: "1.03" }, { scale: "1" }], { duration: 320, easing: "ease-in-out" });
         this.ctx.sfx?.("glow");
       });
-      this.ctx.beginRound?.(item(into), "letter-form");
+      this.ctx.beginRound?.(intoItem, "letter-form");
       this.ctx.pet?.watch?.(this.root.querySelector(".lk-row"));
-      // Look… then the lights blink and one letter changes.
-      const look = this.ctx.beginner ? 3200 : 2600;
-      this.later(() => this.blink(), look);
     }
-    blink() {
+    blink(token = this.roundToken, root = this.root) {
+      if (!this.current(token, root) || this.phase !== "look" || this.busy) return false;
+      this.busy = true; this.phase = "blink";
+      const eye = this.root.querySelector(".lk-eye"); if (eye) eye.disabled = true;
       const row = this.root.querySelector(".lk-row");
-      row.classList.add("is-dark");
+      row?.classList.add("is-dark");
       this.ctx.sfx?.("glow");
       this.later(() => {
+        if (!this.current(token, root)) return;
         this.paint(this.after);
-        row.classList.remove("is-dark");
-        this.root.querySelector(".lk-eye")?.classList.add("is-asking");
+        this.root.querySelectorAll(".lk-stone").forEach(stone => stone.classList.remove("is-was"));
+        row?.classList.remove("is-dark");
+        const button = this.root.querySelector(".lk-eye");
+        if (button) { button.disabled = false; button.classList.remove("is-looking"); button.classList.add("is-asking"); button.setAttribute("aria-label", "Look again"); button.innerHTML = ns.LookPlayArt?.observe?.("find") || EYE; }
         this.phase = "find"; this.busy = false;
         this.root.querySelectorAll(".lk-stone").forEach((b) => { b.disabled = false; });
       }, 900);
+      return true;
     }
     paint(list) {
       this.root.querySelectorAll(".lk-stone").forEach((b, i) => {
@@ -134,34 +189,51 @@
         b.querySelector(".lk-letter").innerHTML = F().art(list[i], { size: 110, mode: "plain" });
       });
     }
-    // "Look again": the stones show how they were for a moment (that's help).
-    replayPrompt() {
-      if (this.phase !== "find" || this.busy) return;
-      this.missed = true; this.busy = true;
+    // Review is another child-led look, not a second memory deadline.
+    replayPrompt(token = this.roundToken, root = this.root) {
+      if (!this.current(token, root) || this.phase !== "find" || this.busy) return false;
+      this.missed = true; this.busy = false; this.phase = "look";
+      const eye = this.root.querySelector(".lk-eye");
+      if (eye) { eye.disabled = false; eye.classList.remove("is-asking"); eye.classList.add("is-looking"); eye.setAttribute("aria-label", "Ready to spot the change"); eye.innerHTML = ns.LookPlayArt?.observe?.("look") || EYE; }
+      this.root.querySelectorAll(".lk-stone").forEach((stone) => { stone.disabled = true; });
       this.paint(this.before);
       this.root.querySelector(`.lk-stone[data-i="${this.at}"]`)?.classList.add("is-was");
-      this.later(() => { this.paint(this.after); this.root.querySelector(".lk-stone.is-was")?.classList.remove("is-was"); this.busy = false; }, 1500);
+      return true;
     }
-    pick(i, btn) {
-      if (this.busy || this.phase !== "find") return;
-      const ids = this.after.map((c, k) => `${k}:${c}`);
+    continue(token = this.roundToken, root = this.root) {
+      if (!this.current(token, root) || this.phase !== "compare" || this.busy) return false;
+      this.busy = true; this.round += 1; this.next();
+      return true;
+    }
+    pick(i, btn, token = this.roundToken, root = this.root) {
+      if (!this.current(token, root) || btn !== this.root.querySelectorAll(".lk-stone")[i] || this.busy || this.phase !== "find" || !Number.isInteger(i) || i < 0 || i >= this.after.length) return false;
+      const ids = this.beforeItems.map((before, k) => `${before.id}->${this.afterItems[k].id}`);
       // Noticing a change leans on memory as well as on seeing the letter, so
       // it is recorded honestly but never moves a letter's strength.
-      const right = this.report(`${this.at}:${this.into}`, ids[i], ids, { affects: false });
+      const right = this.report(this.changedChoice, ids[i], ids, { affects: false, itemId: this.intoItem.id });
       if (!right) {
         this.missed = true;
+        this.busy = true;
+        const eye = this.root.querySelector(".lk-eye"); if (eye) eye.disabled = true;
+        this.root.querySelectorAll(".lk-stone").forEach((stone) => { stone.disabled = true; });
         this.ctx.sfx?.("softwrong"); this.wobble(btn);
         if (this.missed) this.root.querySelectorAll(".lk-stone").forEach((b, k) => b.classList.toggle("is-hint", k === this.at));
-        return;
+        this.later(() => { if (!this.current(token, root) || this.phase !== "find") return; this.busy = false; if (eye) eye.disabled = false; this.root.querySelectorAll(".lk-stone").forEach((stone) => { stone.disabled = false; }); }, 650, token, root);
+        return true;
       }
-      this.busy = true;
+      this.busy = true; this.phase = "compare";
+      const eye = this.root.querySelector(".lk-eye"); if (eye) eye.disabled = true;
+      this.root.querySelectorAll(".lk-stone").forEach((stone) => { stone.disabled = true; });
       btn.classList.add("is-found");
-      btn.insertAdjacentHTML("beforeend", `<span class="lk-was" aria-hidden="true">${F().art(this.was, { size: 40, mode: "plain" })}</span><span class="lk-pop" aria-hidden="true">${F().art(this.into, { size: 70 })}</span>`);
-      this.cheer(btn);
+      this.root.querySelector(".lk-row").hidden = true;
+      const pair = this.root.querySelector(".lk-change-pair");
+      if (pair) pair.hidden = false;
+      this.cheer(pair || btn);
       this.ctx.sfx?.(F().get(this.into).call);
-      this.later(() => this.say(item(this.into)), 500);
-      this.round += 1;
-      this.later(() => this.next(), 2800);
+      this.later(() => this.say(this.intoItem), 500, token, root);
+      if (eye) { eye.classList.remove("is-asking", "is-looking"); eye.classList.add("is-next"); eye.setAttribute("aria-label", this.round === this.rounds - 1 ? "Finish finding changes" : "Next letter change"); eye.innerHTML = ns.LettersArt?.icon?.(this.round === this.rounds - 1 ? "check" : "next", 48) || `<svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 20H31M23 11L32 20L23 29" fill="none" stroke="${INK}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>`; }
+      this.later(() => { this.busy = false; if (eye) eye.disabled = false; }, 320, token, root);
+      return true;
     }
   }
 
@@ -186,60 +258,138 @@
     constructor(ctx) {
       super(ctx, "lk-buses", "Family buses");
       this.noReplay = true;
-      this.known = knownChars(ctx);
+      this.items = knownItems(ctx);
+      this.level = level(ctx, this.items.map((i) => i.display), "letter-form");
+      this.choiceCount = this.level ? 3 : 2;
+      this.rounds = this.level ? 4 : 3;
+      this.known = this.items.map((i) => i.display);
       this.fams = families(this.known);
       this.big = this.fams.filter((f) => f.length > 1);
-      if (!this.big.length || this.fams.length < 2) { this.later(() => ctx.done?.(), 300); return; }
-      // Passengers: family members who are not their family's driver, the
-      // chapter's own letters first.
-      const firsts = firstsOf(ctx, this.known);
-      const riders = this.big.flatMap((f) => f.slice(1));
-      this.queue = [...new Set([...firsts.filter((c) => riders.includes(c)), ...shuffle(riders)])].slice(0, ctx.beginner ? 3 : 4);
+      if (!this.big.length || this.fams.length < 2) { this.later(() => this.cancel(), 300); return; }
+      this.planned = planItems(ctx, this.items, this.items.length, "letter-form");
+      this.items = this.planned;
+      this.fams = families(this.planned.map((i) => i.display)); this.big = this.fams.filter((f) => f.length > 1);
+      this.choiceCount = Math.min(this.choiceCount, this.fams.length);
+      this.riderItems = this.planned.filter((i) => this.famOf(i.display)?.length > 1);
+      if (this.fams.length < 2 || !this.riderItems.length) { this.later(() => this.cancel(), 300); return; }
+      this.queue = this.riderItems.slice(0, this.rounds);
+      if (!this.queue.length) { this.later(() => this.cancel(), 300); return; }
       this.round = 0;
       this.next();
     }
     famOf(c) { return this.fams.find((f) => f.includes(c)); }
     next() {
       if (this.round >= this.queue.length) return this.finish();
-      const c = this.queue[this.round];
-      this.c = c; this.missed = false; this.busy = false;
+      const token = ++this.roundToken, root = this.root;
+      this.readyToLeave = false; this.boardedBus = null;
+      this.root.classList.remove("is-comparing");
+      this.dragResets.forEach((reset) => reset());
+      this.dragResets.length = 0;
+      const riderItem = this.queue[this.round], c = riderItem.display;
+      this.c = c; this.riderItem = riderItem; this.missed = false; this.busy = false;
       const home = this.famOf(c);
-      const n = Math.min(this.ctx.beginner ? 2 : 3, this.fams.length);
+      const n = Math.min(this.choiceCount, this.fams.length);
       // The other buses: families whose bodies look least alike for a little
       // sprout (and while the shape is new), more alike once it is known.
-      const drivers = this.fams.filter((f) => f !== home).map((f) => f[0]);
-      const others = smart(home[0], drivers, n - 1, "shape", this.ctx.beginner);
-      this.buses = shuffle([home[0], ...others]);
-      this.want = home[0];
+      const targetDriver = home.find((letter) => letter !== c);
+      const decoys = this.fams.filter((f) => f !== home).map((f) => f[0]);
+      const others = smart(targetDriver, decoys, n - 1, "shape", n === 2);
+      this.buses = shuffle([targetDriver, ...others]).slice(0, n);
+      if (this.buses.length < n || this.buses.includes(c)) { this.busy = true; this.round += 1; return this.next(); }
+      this.driverItems = this.buses.map((d) => this.items.find((it) => it.display === d) || practiceItem(this.ctx, d));
+      this.want = targetDriver;
+      this.offered = this.driverItems.map((i) => i.id);
+      this.wantItem = this.items.find((i) => i.display === targetDriver) || practiceItem(this.ctx, targetDriver);
+      const offeredSnapshot = this.buses.slice();
       this.root.innerHTML = `
-        <div class="lk-stop"><span class="lk-rider">${F().art(c, { size: 92, mode: "plain" })}</span></div>
-        <div class="lk-road">${this.buses.map((d, i) => `<button type="button" class="lk-bus" data-i="${i}" aria-label="The bus driven by ${d}">${BUS(BUS_COLORS[i % BUS_COLORS.length])}<span class="lk-driver">${F().art(d, { size: 40, mode: "plain" })}</span><span class="lk-seats"></span></button>`).join("")}</div>
+        <div class="lk-stop"><span class="lk-stop-art" aria-hidden="true">${ns.LookPlayArt?.busStop?.() || ""}</span><button class="lk-family-help" type="button" aria-label="Show the shared letter shape">${EYE}</button><span class="lk-rider" role="img" aria-label="Waiting letter ${c}">${F().art(c, { size: 92, mode: "plain" })}</span><span class="lk-family-peer" role="img" aria-label="Same body, different letter ${targetDriver}" hidden>${F().art(targetDriver, { size: 92, mode: "plain" })}</span></div>
+        <div class="lk-road" data-count="${n}" style="--n:${this.buses.length}">${offeredSnapshot.map((d, i) => `<button type="button" class="lk-bus" data-i="${i}" aria-label="The bus driven by ${d}">${ns.LookPlayArt?.bus?.(BUS_COLORS[i % BUS_COLORS.length]) || BUS(BUS_COLORS[i % BUS_COLORS.length])}<span class="lk-driver">${F().art(d, { size: 40, mode: "plain" })}</span><span class="lk-seats"></span></button>`).join("")}</div>
         ${this.dots(this.queue.length, this.round)}`;
-      this.root.querySelectorAll(".lk-bus").forEach((b) => b.addEventListener("click", () => this.pick(Number(b.dataset.i), b)));
-      this.ctx.beginRound?.(item(c), "letter-form");
-      this.later(() => this.say(item(c)), 300);
+      const buses = Array.from(this.root.querySelectorAll(".lk-bus"));
+      buses.forEach((b, i) => b.addEventListener("click", () => {
+        if (b === this.boardedBus && this.readyToLeave) this.depart(token, root);
+        else this.pick(i, b, token, root, offeredSnapshot);
+      }));
+      this.root.querySelector(".lk-family-help")?.addEventListener("click", () => this.showFamily(token, root));
+      const rider = this.root.querySelector(".lk-rider");
+      if (rider && ns.GardenPractice?.draggable) {
+        const reset = ns.GardenPractice.draggable(rider, {
+          enabled: () => this.current(token, root) && !this.busy && !rider.classList.contains("is-boarded"),
+          onDragMove: (x, y) => { if (this.current(token, root) && !this.busy) { const receiving = this.receivingBus(buses, x, y); buses.forEach((bus) => bus.classList.toggle("is-receiving", bus === receiving)); } },
+          onDragEnd: () => { if (this.current(token, root)) buses.forEach((bus) => bus.classList.remove("is-receiving")); },
+          drop: (x, y) => {
+            const currentBuses = Array.from(this.root.querySelectorAll(".lk-bus"));
+            if (!this.current(token, root) || currentBuses.length !== buses.length || currentBuses.some((bus, i) => bus !== buses[i])) return false;
+            const receiving = this.receivingBus(buses, x, y), index = receiving ? buses.indexOf(receiving) : -1;
+            return index >= 0 ? this.pick(index, buses[index], token, root, offeredSnapshot) === true : false;
+          },
+        });
+        if (typeof reset === "function") this.dragResets.push(reset);
+      }
+      this.ctx.beginRound?.(riderItem, "letter-form");
+      this.later(() => this.say(riderItem), 300, token, root);
     }
-    pick(i, btn) {
-      if (this.busy) return;
-      const ids = this.buses.map((d) => `${this.c}:${d}`);
-      const right = this.report(`${this.c}:${this.want}`, ids[i], ids);
+    showFamily(token = this.roundToken, root = this.root, assist = true) {
+      if (!this.current(token, root) || (assist && this.busy)) return false;
+      if (assist) this.missed = true;
+      this.root.classList.add("is-comparing");
+      const peer = this.root.querySelector(".lk-family-peer"), help = this.root.querySelector(".lk-family-help");
+      if (peer) peer.hidden = false;
+      if (help) help.hidden = true;
+      this.root.querySelectorAll(".lk-bus").forEach((bus, i) => bus.classList.toggle("is-family", this.buses[i] === this.want));
+      return true;
+    }
+    depart(token = this.roundToken, root = this.root) {
+      if (!this.current(token, root) || !this.readyToLeave || !this.boardedBus) return false;
+      this.readyToLeave = false;
+      const bus = this.boardedBus;
+      bus.disabled = true; bus.classList.remove("is-ready"); bus.classList.add("is-going");
+      this.ctx.sfx?.("chime");
+      this.round += 1;
+      this.later(() => this.next(), this.still() ? 220 : 2200, token, root);
+      return true;
+    }
+    insideRect(el, x, y) { const r = el?.getBoundingClientRect?.(); return !!r && x >= r.left && x <= r.right && y >= r.top && y <= r.bottom; }
+    centerDistance(el, x, y) { const r = el?.getBoundingClientRect?.(); return r ? Math.hypot(x - (r.left + r.right) / 2, y - (r.top + r.bottom) / 2) : Infinity; }
+    edgeDistance(el, x, y) { const r = el?.getBoundingClientRect?.(); if (!r) return Infinity; const dx = Math.max(r.left - x, 0, x - r.right), dy = Math.max(r.top - y, 0, y - r.bottom); return Math.hypot(dx, dy); }
+    near(el, x, y) { return this.insideRect(el, x, y) || this.edgeDistance(el, x, y) <= 28; }
+    receivingBus(buses, x, y) {
+      const actual = buses.filter((bus) => this.insideRect(bus, x, y)).sort((a, b) => this.centerDistance(a, x, y) - this.centerDistance(b, x, y));
+      if (actual.length) return actual[0];
+      return buses.filter((bus) => this.edgeDistance(bus, x, y) <= 28).sort((a, b) => this.centerDistance(a, x, y) - this.centerDistance(b, x, y))[0] || null;
+    }
+    pick(i, btn, token = this.roundToken, root = this.root, offeredSnapshot = this.buses) {
+      const buses = this.root.querySelectorAll(".lk-bus");
+      if (!this.current(token, root) || !Number.isInteger(i) || i < 0 || i >= this.buses.length || buses[i] !== btn
+        || offeredSnapshot?.length !== this.buses.length || offeredSnapshot.some((d, k) => d !== this.buses[k]) || this.busy) return false;
+      const selected = this.driverItems[i];
+      const right = this.report(this.wantItem.id, selected.id, this.offered, { affects: false, itemId: this.riderItem.id });
       if (!right) {
         this.missed = true;
+        this.showFamily(token, root);
+        this.busy = true;
+        this.root.querySelectorAll(".lk-bus").forEach((bus) => { bus.disabled = true; });
         this.ctx.sfx?.("softwrong"); this.wobble(btn);
         this.root.querySelectorAll(".lk-bus").forEach((b, k) => b.classList.toggle("is-hint", this.buses[k] === this.want));
-        return;
+        this.later(() => { if (!this.current(token, root)) return; this.busy = false; this.root.querySelectorAll(".lk-bus").forEach((bus) => { bus.disabled = false; }); }, 650, token, root);
+        return true;
       }
       this.busy = true;
+      this.showFamily(token, root, false);
+      this.boardedBus = btn; this.readyToLeave = false;
       // The rider hops on beside the driver: same body, different dots.
-      btn.querySelector(".lk-seats").insertAdjacentHTML("beforeend", `<i>${F().art(this.c, { size: 34, mode: "plain" })}</i>`);
+      this.root.querySelectorAll(".lk-bus").forEach((bus) => { bus.disabled = true; });
+      btn.querySelector(".lk-seats").insertAdjacentHTML("beforeend", `<i class="lk-passenger" aria-label="${this.riderItem.speak}">${F().art(this.c, { size: 68, mode: "plain" })}</i>`);
       this.root.querySelector(".lk-rider")?.classList.add("is-boarded");
-      btn.classList.add("is-going");
       this.cheer(btn);
-      this.ctx.sfx?.("chime");
-      this.later(() => this.say(item(this.want)), 500);
-      this.later(() => this.say(item(this.c)), 1500);
-      this.round += 1;
-      this.later(() => this.next(), 3000);
+      btn.insertAdjacentHTML("beforeend", `<span class="lk-depart-sign" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M8 20H31M23 11L32 20L23 29" fill="none" stroke="${INK}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`);
+      this.later(() => {
+        this.readyToLeave = true; btn.disabled = false; btn.classList.add("is-ready");
+        btn.setAttribute?.("aria-label", "Send this bus on its way");
+      }, 320, token, root);
+      this.later(() => this.say(this.wantItem), 500, token, root);
+      this.later(() => this.say(this.riderItem), 1500, token, root);
+      return true;
     }
   }
 

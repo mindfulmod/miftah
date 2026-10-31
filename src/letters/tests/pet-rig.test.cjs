@@ -28,7 +28,7 @@ function fakePet(species, parts = ["root", "head", "gaze", "blink", "armL", "arm
   return { host, part };
 }
 
-function rigRuntime() {
+function rigRuntime(random = .1) {
   const frames = new Map(), timers = [];
   let id = 0, now = 0;
   const window = { MiftahGame: {} };
@@ -38,7 +38,7 @@ function rigRuntime() {
     requestAnimationFrame: cb => { frames.set(++id, cb); return id; },
     cancelAnimationFrame: key => frames.delete(key),
     DOMPoint: class { constructor(x, y) { this.x = x; this.y = y; } matrixTransform() { return { x: this.x, y: this.y }; } },
-    Math: Object.assign(Object.create(Math), { random: () => 0.1 }),
+    Math: Object.assign(Object.create(Math), { random: () => random }),
     setTimeout: (fn, ms) => { timers.push(fn); return timers.length; },
     clearTimeout: () => {},
     innerWidth: 400, innerHeight: 800,
@@ -236,4 +236,20 @@ test("brooks link the habitats, each with a bridge, and the waterwheel is a rese
   const game = source("LettersGame.js");
   assert.match(game, /class="map-bridge"/, "every brook gets a bridge on the trail");
   assert.match(game, /pathEl\.addEventListener\("click", \(event\) => \{\s*const toy = event\.target\?\.closest\?\.\("\.map-toy"\);/, "re-placed toys stay wired");
+});
+
+
+test('learning idle rests, but the pet still follows the child and cheers', () => {
+  const {Rig,advance}=rigRuntime(.95), {host,part}=fakePet('lumi');
+  let focused=true; host.closest=()=>focused?{}:null;
+  const rig=Rig.attach(host); advance(12000);
+  const gaze=()=>Number(part('gaze').attrs.transform.match(/-?\d+\.\d+/)[0]);
+  assert.ok(Math.abs(gaze())<.1,'no independent side glances during learning');
+  rig.watch(element(600,186)); advance(800);
+  assert.ok(gaze()>5,'the child held an object; eyes follow it');
+  rig.settle(); advance(1200); assert.ok(Math.abs(gaze())<.1);
+  rig.cheer(); advance(200);
+  assert.ok(!part('armL').attrs.transform.includes('rotate(0.00 '),'answer feedback remains expressive');
+  advance(1200); focused=false; advance(9000);
+  assert.ok(gaze()>1,'exploration still has occasional side glances'); rig.destroy();
 });

@@ -1,0 +1,806 @@
+{
+  "stage": "composed-teacher-library-v1",
+  "exported": "2026-10-31T00:07:42.246Z",
+  "reviews": [
+    {
+      "id": "lg-405d46327c76",
+      "input": "عَلَىٰ",
+      "sha256": "5a98238b99fb2743dc20a972cf59aa5676d0e0f2f03d1f84530c96e50b948fb1",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:02:23.059Z"
+    },
+    {
+      "id": "lg-417e57d76bd5",
+      "input": "مِنَ",
+      "sha256": "65d819f524b4b473af7d730ed42162999f9497565fb7cac99d28c59d2d62f687",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:02:26.676Z"
+    },
+    {
+      "id": "lg-43e96dae370c",
+      "input": "خَيْ",
+      "sha256": "c493ee0fe9a763d3efe362fc71ce1a2c377a4ed966c09369f76ff6edffe55b40",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:02:30.908Z"
+    },
+    {
+      "id": "lg-443429f92a4f",
+      "input": "بَيْضَة",
+      "sha256": "39eff4824eeeb4f97889234e9ddcde187c76a439b1a67be552d5a09ab1db2189",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:02:33.631Z"
+    },
+    {
+      "id": "lg-4800c31a15bc",
+      "input": "رِّ",
+      "sha256": "673c4bb151cbf46cf7f7d94df9a55adc3bde6d8ffdd36af2c0fff4e40f846921",
+      "decision": "fix",
+      "note": "ray",
+      "updated": "2026-10-31T00:02:42.228Z"
+    },
+    {
+      "id": "lg-495278a3b264",
+      "input": "زَيْ",
+      "sha256": "94cc6e79d117b2770f2f0986e8b1111d013741ed82ec11f25075c7e6b3a99533",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:02:46.569Z"
+    },
+    {
+      "id": "lg-4a2ae2645fa9",
+      "input": "دَّا",
+      "sha256": "335da3cf6e67d21ac3a79f76ccb28cdd83668e911c45855d60d431e38a904a39",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:02:48.649Z"
+    },
+    {
+      "id": "lg-4ce5a3ea3dc1",
+      "input": "وَيَمْنَعُونَ",
+      "sha256": "bd0ab87b227961aabc56559f54a41fdfe71b6fbfd8f49b4adf9157ea877d0fe6",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:02:51.046Z"
+    },
+    {
+      "id": "lg-4d124a2d8b97",
+      "input": "أَشَّ",
+      "sha256": "3c1ada1e3fadcedef64359dc1a0c452570d153163860f4b14989a670483d26db",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:02:53.093Z"
+    },
+    {
+      "id": "lg-4d7cd9e68907",
+      "input": "أَهَّ",
+      "sha256": "10af48119168225d18a08496b057ef1ddcd173cccbb5ef6f9433f6c86700a9b2",
+      "decision": "fix",
+      "note": "ahhhh",
+      "updated": "2026-10-31T00:02:59.389Z"
+    },
+    {
+      "id": "lg-4ec6e5c6752e",
+      "input": "خَوْ",
+      "sha256": "ba19d03d9d3b9e0a2cce98dbc481582c929bedaf6aa494c797b832f6cf41917f",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:03:03.504Z"
+    },
+    {
+      "id": "lg-4f11396dddb5",
+      "input": "ٱلْهُدْهُدَ",
+      "sha256": "9163f5af1ac37bf63d27ef34da790982349b42c9e50e903029a99b8b14e09620",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:03:06.996Z"
+    },
+    {
+      "id": "lg-50f20133065a",
+      "input": "مَلِكِ",
+      "sha256": "9fccd324094c6f4f83583f4121d6899dd3798f90e60388c0190c94b41b2e4088",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:03:08.688Z"
+    },
+    {
+      "id": "lg-539af4324707",
+      "input": "أَقْ",
+      "sha256": "21f72438392459ae96b0b9214a1e9516a9e57f1ffb644730a5ac565ad70a4c65",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:03:10.811Z"
+    },
+    {
+      "id": "lg-561603a43468",
+      "input": "ٱلنَّفَّـٰثَـٰتِ",
+      "sha256": "2440fb3c82cbb3c63a34d68731273f71a5138327748dfff94d7ffbde246480f0",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:03:14.450Z"
+    },
+    {
+      "id": "lg-573be8e756a8",
+      "input": "عُّ",
+      "sha256": "081dc37d46fb585461af79f5eba9dd7728f4a8ecc4e69ae5fb3b2c1c7d367030",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:03:18.688Z"
+    },
+    {
+      "id": "lg-5907e260e1c7",
+      "input": "ٱلْعَنكَبُوتِ",
+      "sha256": "06b45ccce05d9f6fc64f5d29a827a83593234b64a57f2bb327ec2931b5c24986",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:03:21.666Z"
+    },
+    {
+      "id": "lg-5c1e445e3d3a",
+      "input": "ثُعْبَان",
+      "sha256": "3c05075506d4bc44211d057860e3a88ec679d37a2987ef16f53fbd3142450d6a",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:03:24.238Z"
+    },
+    {
+      "id": "lg-5e2ab5971ba1",
+      "input": "وَوْ",
+      "sha256": "7007074b5d8ee3b156f2da5b6b0f7d27f718a787806955e4fcd806a180dec3a2",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:03:26.894Z"
+    },
+    {
+      "id": "lg-60432b4556ac",
+      "input": "صَبَاحُ",
+      "sha256": "795d650511d4f83382151f8b9799300424bcf3ce091941d92aeef88474453e35",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:03:29.079Z"
+    },
+    {
+      "id": "lg-61541f7f2590",
+      "input": "ٱلْوَسْوَاسِ",
+      "sha256": "719d89dca9900fdec39e73e368ea414ff3dee7ccdf9ec63e21a8041c6e03e302",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:03:31.538Z"
+    },
+    {
+      "id": "lg-61cdbfd8dfd2",
+      "input": "ٱلضَّآلِّينَ",
+      "sha256": "e247b1bee747c07de56fe06a59e2c22eebb66549d73bb693a9a26cc67788c55a",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:03:34.060Z"
+    },
+    {
+      "id": "lg-623b38ff8a92",
+      "input": "وَٱلنَّخْلُ",
+      "sha256": "070f4df819c9568dfbc36f5b1f10ab44ceb530860dca067eb37757ba32efff22",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:03:36.503Z"
+    },
+    {
+      "id": "lg-628665cc34f8",
+      "input": "أَيَّ",
+      "sha256": "374ca1940bc5d9693a3ecbc8952fb74ada2cbca008a6d2bee943a55808ac8c12",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:03:38.675Z"
+    },
+    {
+      "id": "lg-639933f32782",
+      "input": "أَسْ",
+      "sha256": "0b8e69b8d471219dde2991765d1033f8b8bd493c9bd01a4b3550397da1cf81c6",
+      "decision": "fix",
+      "note": "dragged out, static, robotic noises",
+      "updated": "2026-10-31T00:03:53.710Z"
+    },
+    {
+      "id": "lg-63ffa816e92b",
+      "input": "وَلِىَ",
+      "sha256": "64bc65488258eb738aae8c8ece7bc916556efff74490a0090bfaabb1cb8a8fa4",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:03:58.938Z"
+    },
+    {
+      "id": "lg-6636229aeb19",
+      "input": "ٱلْمِسْكِينِ",
+      "sha256": "5e518707ea3a58d5ec9194777d555747a613397cdd865d65832e29a800835ad9",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:04:01.489Z"
+    },
+    {
+      "id": "lg-6684f0d7036a",
+      "input": "تَمْر",
+      "sha256": "19b63a398f5d37f7b4c55b1a5568ebc45c47a43f1f0ac61a68a913527985670c",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:04:03.857Z"
+    },
+    {
+      "id": "lg-66abf8abd751",
+      "input": "تَعْبُدُونَ",
+      "sha256": "633c5a4e6e0e575b7fff8f54626d178a0ee5be8056b0d26f99acd1780c426308",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:04:07.112Z"
+    },
+    {
+      "id": "lg-69d166bf4c47",
+      "input": "سَفِينَة",
+      "sha256": "8ee8ad8f3f442846c8383bda022c38b3e4c19e9b658fe9120458d98a16e8f8f5",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:04:09.553Z"
+    },
+    {
+      "id": "lg-69e912df79f3",
+      "input": "غَيْ",
+      "sha256": "fb127c17d9f3806d4035e683054a3737eca1894f3ece994d071ea8980836b196",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:04:11.592Z"
+    },
+    {
+      "id": "lg-6c1c2c5b4861",
+      "input": "مَفَاتِحُ",
+      "sha256": "d6feeaff41a7974449a556173737314e1b90bd4b368bbeebf431bfe285013b67",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:04:14.355Z"
+    },
+    {
+      "id": "lg-6da171aad477",
+      "input": "حُوتَهُمَا",
+      "sha256": "4a09b83ae32a484eda3d1f8dc01bc3a41913ea59ee0e61dea2fdcc4f9eff6626",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:04:16.588Z"
+    },
+    {
+      "id": "lg-7041ff4feb31",
+      "input": "سَعِيدَة",
+      "sha256": "6e6a1a58e4e88840d7e16e7d88b4360d3c52348a6ade6368eaab0c530d7a5b66",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:04:18.704Z"
+    },
+    {
+      "id": "lg-7233c7edf466",
+      "input": "أَيْنَ",
+      "sha256": "9bae9c3b2698a8b6f8fbe4013fdb67dfe155c836fcbcb64749ae8135bcde04d1",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:04:20.519Z"
+    },
+    {
+      "id": "lg-73a5fdd77c33",
+      "input": "أَصْ",
+      "sha256": "017fa6a91ff9ede38548d98bf36b59389fe6110ed716b3118807a16c18127fff",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:04:23.087Z"
+    },
+    {
+      "id": "lg-73df5e7cafcd",
+      "input": "وَٱلسَّحَابِ",
+      "sha256": "223c6f1f6548fdd94a056f3f68627adf49367863cfd9166d40cbee5d16c70774",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:04:26.469Z"
+    },
+    {
+      "id": "lg-75ac319337e2",
+      "input": "الْخَيْرِ",
+      "sha256": "41c90ce4ced0a99f5b36808159bb5d7f9792bf6cd2fcbd106a751043de3b21d4",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:04:28.676Z"
+    },
+    {
+      "id": "lg-7b74bdccec55",
+      "input": "هَيْ",
+      "sha256": "eae4f4e0a29d39a9a8600fe8b2b50f1f9c4435c0166f618f78fe5ef55a63a92b",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:04:30.367Z"
+    },
+    {
+      "id": "lg-7b9833b47adb",
+      "input": "أَمَّ",
+      "sha256": "9fccb5ef803f2316e7bb40807bc0286ea6c6e6ff8e446777a4b3156de897d3ae",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:04:32.878Z"
+    },
+    {
+      "id": "lg-7c8c179a254f",
+      "input": "هَوْ",
+      "sha256": "7de0bd50d1c6e2392295d812260d01e3d5332a737da8b4f88a7bd1e8efe5bb28",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:04:34.871Z"
+    },
+    {
+      "id": "lg-7d8397005d2e",
+      "input": "رِحْلَةَ",
+      "sha256": "16ce6b73bd00002147d5fb5cab6fdb21d42b244c5dc0150be430f9178a08857a",
+      "decision": "fix",
+      "note": "rihlatan",
+      "updated": "2026-10-31T00:04:42.519Z"
+    },
+    {
+      "id": "lg-84557e261f8c",
+      "input": "هَٰ",
+      "sha256": "ceff8cb318e7725d8314aef19886ef334f686f276fde6da0c666b736628659b9",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:04:45.284Z"
+    },
+    {
+      "id": "lg-86cfe810864c",
+      "input": "لَّ",
+      "sha256": "3ffc58b8ee30243f73b7e4b2ae43e2d77866a26d6b4aa23861f9e3e14dc9a4c3",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:04:47.524Z"
+    },
+    {
+      "id": "lg-878cf2f808e0",
+      "input": "أَجَّ",
+      "sha256": "421864a36b3d6c6f23b3f2b79c6831a67982afe78af73b4226fb91d025a5d3b9",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:04:49.670Z"
+    },
+    {
+      "id": "lg-87b63e990306",
+      "input": "ٱلْكَـٰفِرُونَ",
+      "sha256": "9f807e4ecbf0a084b0ddefe0a8a9ebee498950d5fc0e2c36b78478fe0c2d6c7d",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:04:51.837Z"
+    },
+    {
+      "id": "lg-88645ab31121",
+      "input": "سَوْ",
+      "sha256": "f0fbf976767935249e1ae42f9f9a7c91cab90026a453cff5f0f49ebcd3690450",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:04:53.592Z"
+    },
+    {
+      "id": "lg-8c421c6a16e6",
+      "input": "أَزَّ",
+      "sha256": "b94b3dea2d3d0f4e45bb03a9a342f6228305c6854ed107b18707351f6134fb19",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:04:55.772Z"
+    },
+    {
+      "id": "lg-8c90a8972bb8",
+      "input": "طَيْ",
+      "sha256": "66791065c1630eb21dbfce5ee12078bffab01b7af0ebd8c502ffc9798a04f3d0",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:04:57.559Z"
+    },
+    {
+      "id": "lg-8d0dc448aeaa",
+      "input": "ٱلنَّحْلِ",
+      "sha256": "ee416b4e2c283d018e7cea1119b6dce930f1fce0ce5d871f644f7ba317597963",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:04:59.699Z"
+    },
+    {
+      "id": "lg-8d3d621eb6b5",
+      "input": "نَمْلَة",
+      "sha256": "84339736a12fe07afb05613596cbeb30b44e3998452a9d240cb60e15a058d022",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:05:02.080Z"
+    },
+    {
+      "id": "lg-8d72a7b8cb5e",
+      "input": "وَٱلْفَتْحُ",
+      "sha256": "10beb813abe8233614f29bce856be2eb54e6d707b2b9658f2ffadbd7079f54ed",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:05:05.835Z"
+    },
+    {
+      "id": "lg-8e1ba1fb2936",
+      "input": "أَضْ",
+      "sha256": "093d540754b3954a735bdc94ab8e2e46329d6566c1f5339048b58837c55767aa",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:05:07.615Z"
+    },
+    {
+      "id": "lg-8f6fac61c73c",
+      "input": "قَطْرَة",
+      "sha256": "8be907b3c43f75979159517eca45955916771e6cf7b463b3d84dd0fa5a785e83",
+      "decision": "fix",
+      "note": "atrah",
+      "updated": "2026-10-31T00:05:16.969Z"
+    },
+    {
+      "id": "lg-920b51f40306",
+      "input": "أَدَّ",
+      "sha256": "834ec18147367ecbd8878e17f5a89e781891f84abc54d2795f5e8111dd1f655d",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:05:19.831Z"
+    },
+    {
+      "id": "lg-928c8d6e181c",
+      "input": "أَمْ",
+      "sha256": "c9ebdcc474ab058af5d7aa0f149c00264b6b65cf366fbbcf7813ba89cc51012b",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:05:21.925Z"
+    },
+    {
+      "id": "lg-934e0e0be0bf",
+      "input": "لِّ",
+      "sha256": "9808b94076b335ff9a8fb140d36decbfcc36597bf06c244241bbe0d8adcf5c4f",
+      "decision": "fix",
+      "note": "li",
+      "updated": "2026-10-31T00:05:26.570Z"
+    },
+    {
+      "id": "lg-960241d6ca8c",
+      "input": "أَجْ",
+      "sha256": "481704646d3c41920ae7a4512aa9811e0ced0429ab6984fc0080314e8de9229c",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:05:29.427Z"
+    },
+    {
+      "id": "lg-96207f76a6ca",
+      "input": "وَٱلتِّينِ",
+      "sha256": "a68198b7feec65810321cdec3b919004c8226865140f29b3539da6abca600268",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:05:31.861Z"
+    },
+    {
+      "id": "lg-964fe3d883ca",
+      "input": "إِۦلَـٰفِهِمْ",
+      "sha256": "8292ac7212c528e3dbf4fb71022ccb22ab88af881aaeef65e635fbc7f80c2b53",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:05:34.274Z"
+    },
+    {
+      "id": "lg-96d6f26c8b5e",
+      "input": "ٱلْحُوتِ",
+      "sha256": "080de316af2a055ff8c7a02abeedb38d9f2d059f85b2a08b6b17d2ffd4ccfa83",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:05:37.268Z"
+    },
+    {
+      "id": "lg-972345e0c8be",
+      "input": "أَطْعَمَهُم",
+      "sha256": "e8f9a417d21de46afe217f2d21ade6994d845ab2af07519d72c94efafdf0354b",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:05:40.004Z"
+    },
+    {
+      "id": "lg-9769c8f93eac",
+      "input": "ٱلْمَاعُونَ",
+      "sha256": "c96561678990db5efdde00491aaf1f3a5258d65ed3729cf45e06c8aa5f4113db",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:05:42.298Z"
+    },
+    {
+      "id": "lg-988205a0083b",
+      "input": "أَعْطَيْنَـٰكَ",
+      "sha256": "4158517387919bca23f71070f02af6b07571409eee5dc39cdf24deee586602a2",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:05:44.782Z"
+    },
+    {
+      "id": "lg-98967370df3f",
+      "input": "فَجَعَلَهُمْ",
+      "sha256": "7874952cb6d88e7d04f3babe64f73fed4d92aaf1daa8136ba795f87e155510c9",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:05:47.536Z"
+    },
+    {
+      "id": "lg-98e56f7b4076",
+      "input": "أَحْ",
+      "sha256": "efd066f828d56e317b7e633e39eaf06b31f4f02a882503cca76290abfee4a6b4",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:05:49.527Z"
+    },
+    {
+      "id": "lg-9a62b4c00e4e",
+      "input": "أَرَّ",
+      "sha256": "3452dd4b54bdd430125c55cd56e5e03a203a46e61dc86e1325e5be7106c03b87",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:05:51.656Z"
+    },
+    {
+      "id": "lg-9c3c7c771614",
+      "input": "أَطَّ",
+      "sha256": "bed8fa8d93103cd16d0e43311455ac13746c70a74e7976b48de66e703b582502",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:05:53.283Z"
+    },
+    {
+      "id": "lg-9e9faf1327e8",
+      "input": "زَوْ",
+      "sha256": "30c8d2f623d16599049c8a7220db205e6bc5c45a846f717e422c6c47cf637afa",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:05:55.477Z"
+    },
+    {
+      "id": "lg-9ff97ca006c2",
+      "input": "أَهْ",
+      "sha256": "ab5d5133f3a24518e849a47dc5828e1649d3c39aec149ebd28f1d5b672e36dac",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:05:57.245Z"
+    },
+    {
+      "id": "lg-a08e0189ebdd",
+      "input": "كَيْ",
+      "sha256": "551f3fcfddba9016ddc878318927e491acd5fa2d63c2b0f63f69415df0fcf624",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:05:58.996Z"
+    },
+    {
+      "id": "lg-a0aa8b416e67",
+      "input": "رَبِّكَ",
+      "sha256": "fc0b327575a26754c9fb561d7f9ff86ae7d7b6862cfbb20dd60c97fc2bb7b8f7",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:06:01.284Z"
+    },
+    {
+      "id": "lg-a25481f377bf",
+      "input": "أَوَّ",
+      "sha256": "bd15f8bf357dcb663658a9e3e023262298319a2fafdc959500307d53be508425",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:06:03.477Z"
+    },
+    {
+      "id": "lg-a32b5b50477d",
+      "input": "ٱلْعَـٰلَمِينَ",
+      "sha256": "20cb722ea2218a85a66257044371cdfc62ff2f7d52f61c04ffdc05968ad6b161",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:06:05.680Z"
+    },
+    {
+      "id": "lg-a332e85d40fd",
+      "input": "نَسْتَعِينُ",
+      "sha256": "df2ce61047f9353178682d692e9fde539dc95ca1aeb763ac644ce3f4f3888ba7",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:06:07.448Z"
+    },
+    {
+      "id": "lg-a66ac343d8ff",
+      "input": "زَهْرَة",
+      "sha256": "68d84c883980171a94d7c8bc61d67dd419c66ac49541c3f669c9a9727a1e5f26",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:06:10.548Z"
+    },
+    {
+      "id": "lg-a7c65a80c0fe",
+      "input": "أَشْ",
+      "sha256": "e9ce0cf58ef82d54fc2eccdc8b37bfa6ffe7ff41217ca52905660f6ce35a29c0",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:06:13.360Z"
+    },
+    {
+      "id": "lg-a86406fcf1f4",
+      "input": "مَٰ",
+      "sha256": "5975c63a0d32d5cd37bd1ade4b01a354a7d68dc2f16482e1b0f2e9dc24d408cf",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:06:14.831Z"
+    },
+    {
+      "id": "lg-a898e3443be3",
+      "input": "نَجْمَة",
+      "sha256": "c7fabcf134b28751df5be1280142b9948f218b44c8f403034003e8de2bdae45b",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:06:17.369Z"
+    },
+    {
+      "id": "lg-aae7258a102a",
+      "input": "أَحَّ",
+      "sha256": "ddb2f1626ea3848ff3ac053a3f7736ff939c72409fb0e160a06313c9036c59e4",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:06:19.213Z"
+    },
+    {
+      "id": "lg-adf12736993f",
+      "input": "أَذَّ",
+      "sha256": "2056d42443bb4e5221831aec210897ba2b7032057ec37306c3e10da9dc1ef076",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:06:21.528Z"
+    },
+    {
+      "id": "lg-ae9398cc337d",
+      "input": "أَطْ",
+      "sha256": "7ae4f09f6e2af7c6caecd484966d50583501b8973ce65d396ff10dac4a7bbc33",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:06:23.458Z"
+    },
+    {
+      "id": "lg-af1758f221c0",
+      "input": "شَانِئَكَ",
+      "sha256": "bbb0040f84d0c5c897ba9ef8116257aba8b64c731c843d7549483598e31f93c3",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:06:25.833Z"
+    },
+    {
+      "id": "lg-b33aeac2d6d9",
+      "input": "وَٱلزَّيْتُونِ",
+      "sha256": "efa35f36da4a0038cd9e1f25ea60b698b191a0f481ea255b6ef5813922bc1e94",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:06:28.298Z"
+    },
+    {
+      "id": "lg-b91341e311c8",
+      "input": "يُرَآءُونَ",
+      "sha256": "483f4e4b22f0d18757093b968798b3b9d2a2b3d7d3e712927c316613020081bb",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:06:30.689Z"
+    },
+    {
+      "id": "lg-bba49429a857",
+      "input": "ٱلشِّتَآءِ",
+      "sha256": "4199c69e10510550e413ad8e8e31087a3519f8f292f757b12007dc71ebc1ad89",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:06:33.399Z"
+    },
+    {
+      "id": "lg-bbcc3bf22bc3",
+      "input": "مِّ",
+      "sha256": "b2f05799a23202657f746de3c29e79c397894a5c26f1fefc6462b1b80195c080",
+      "decision": "fix",
+      "note": "mi",
+      "updated": "2026-10-31T00:06:38.576Z"
+    },
+    {
+      "id": "lg-bbd32b60f63b",
+      "input": "لَيْلَة",
+      "sha256": "a192270a7e51e190dd0af5078edca99ba7ee51f56bac9901c83407534eb78efd",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:06:41.792Z"
+    },
+    {
+      "id": "lg-be9d5f4d2ab8",
+      "input": "جَبَل",
+      "sha256": "7b72f1e8b2630431d24e94a1dccca9d166ad03aaad356aa705403f06095d0a7f",
+      "decision": "fix",
+      "note": "jagal",
+      "updated": "2026-10-31T00:06:47.563Z"
+    },
+    {
+      "id": "lg-bed89cc05ab8",
+      "input": "أَخْ",
+      "sha256": "147940832d536d730c3438c28566b9391f298b66724f62628c9f305e6f668ef3",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:06:50.334Z"
+    },
+    {
+      "id": "lg-bf84d57f278a",
+      "input": "وَٱلصَّيْفِ",
+      "sha256": "6e6aa31e5c97f1c32330a57db4ccb9d738efa7bb532f00f1212a5d4a2ed36ac9",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:06:52.698Z"
+    },
+    {
+      "id": "lg-c080eae8e2d0",
+      "input": "ٱلْخَنَّاسِ",
+      "sha256": "fbf67b400110e2556f8969e05f3b9ae4976b4dd4e7dd660abd498987c919ffbd",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:06:55.242Z"
+    },
+    {
+      "id": "lg-c25a9b791641",
+      "input": "أَتْ",
+      "sha256": "56396be3ab91ecfb129b26c03c9f3849e4b4f9fd415e6e89079d862b496602e8",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:06:57.345Z"
+    },
+    {
+      "id": "lg-c2f58f6cf5dc",
+      "input": "تَرْمِيهِم",
+      "sha256": "c7d141038929111df966d37c6519e2260d1d1554a4c31550311337d0eabc761f",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:07:01.391Z"
+    },
+    {
+      "id": "lg-c355d80d4e76",
+      "input": "ظَوْ",
+      "sha256": "4c1c4670306bf4e558d31cf4dbdfaf476e26a4d0250132a48c211820f7fce716",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:07:03.182Z"
+    },
+    {
+      "id": "lg-cf6ed2a2b1c8",
+      "input": "ظَيْ",
+      "sha256": "0fd7c751c7096b7adf5f28835ebf4ba9ae4aea273da7fdfc96f742c648edcdfb",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:07:05.259Z"
+    },
+    {
+      "id": "lg-d066957055f5",
+      "input": "يَيْ",
+      "sha256": "ea1961dd3090424360e0e9cc1e61f07ea2f1e37a8cb5fc6a34de93e0b7379f6a",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:07:08.533Z"
+    },
+    {
+      "id": "lg-d212844a5b4d",
+      "input": "يَوْ",
+      "sha256": "c2c8aa4ed8e95fe6d444035adf5958177f16ec7d7e92384d32c05775294fb95e",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:07:12.642Z"
+    },
+    {
+      "id": "lg-d238b358add8",
+      "input": "أَدْ",
+      "sha256": "73cbe9b1c66e500f75d7db499c7b20ee2b094ebc376ec4edae0aee1e660d9e46",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:07:14.781Z"
+    },
+    {
+      "id": "lg-d3c99a2c78ea",
+      "input": "ٱلْقَمَرُ",
+      "sha256": "811b6ae0d22ad23f686b618b7596686a04327d82b59b2edced81ec2d85782287",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:07:17.206Z"
+    }
+  ]
+}

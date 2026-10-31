@@ -1,0 +1,54 @@
+{
+  "stage": "teacher-phrase2-v1",
+  "model": "gpt-4o-mini-tts-2025-03-20",
+  "voice": "marin",
+  "planningReservationUSD": 0.1,
+  "budgetCheckpoint": {
+    "priorLedgerLines": 914,
+    "ownerReportedSpentUSD": 0.16,
+    "remainingUSD": 22.84
+  },
+  "jobs": [
+    {
+      "id": "lg-29468e72afeb",
+      "input": "نَقُولُ: أَذِّ، ثُمَّ نَسْتَمِعُ.",
+      "targetInput": "أَذِّ",
+      "targetId": "lg-bb2d966387ef",
+      "display": "نَقُولُ: أَذِّ، ثُمَّ نَسْتَمِعُ.",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher. Use the same natural feminine middle-register voice, steady and gently encouraging. Read the complete supplied phrase once, in ordinary smooth classroom speech. Make a small natural pause around the middle teaching example. The middle example is adh-dhi: short a, doubled voiced dental dh, short i. Preserve the short final i before moving to the next words. Do not elongate the vowel or repeat the example. Speak only the supplied Arabic phrase, without commentary, music or sound effects.",
+      "contextExample": true,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "phrase2-v1",
+      "sourceFile": "guided2-candidates/lg-bb2d966387ef.wav",
+      "replacesSha256": "21206120932950145cdf156b415742a8a5a939b014f7ea0cfadcf5f41f21f4ec",
+      "ownerNote": "super robotic ",
+      "pronunciationGuide": "Full phrase: “We say: adh-dhi, then we listen.” The middle example is adh-dhi: short a, doubled voiced dental dh, short i. Review the whole phrase; any later cut needs separate approval.",
+      "requiresExtractionReview": true
+    },
+    {
+      "id": "lg-0a1626f96256",
+      "input": "نَقُولُ: أَفِّ، ثُمَّ نَسْتَمِعُ.",
+      "targetInput": "أَفِّ",
+      "targetId": "lg-bfb39dc4a149",
+      "display": "نَقُولُ: أَفِّ، ثُمَّ نَسْتَمِعُ.",
+      "voice": "marin",
+      "instructions": "Speak in clear Modern Standard Arabic as a warm, composed preschool teacher. Use the same natural feminine middle-register voice, steady and gently encouraging. Read the complete supplied phrase once, in ordinary smooth classroom speech. Make a small natural pause around the middle teaching example. The middle example is af-fi: short a, doubled f, short i. Preserve the short final i before moving to the next words. Do not elongate the vowel or repeat the example. Speak only the supplied Arabic phrase, without commentary, music or sound effects.",
+      "contextExample": true,
+      "description": false,
+      "uses": [
+        "sound-lab"
+      ],
+      "variant": "phrase2-v1",
+      "sourceFile": "guided2-candidates/lg-bfb39dc4a149.wav",
+      "replacesSha256": "b8971a3f8e26cfdc6aff33a2934738f82ff676e81a7a2c4385133209fd36a331",
+      "ownerNote": "afff",
+      "pronunciationGuide": "Full phrase: “We say: af-fi, then we listen.” The middle example is af-fi: short a, doubled f, short i. Review the whole phrase; any later cut needs separate approval.",
+      "requiresExtractionReview": true
+    }
+  ],
+  "note": "Two carrier-phrase tests only. Full phrases must not be installed under isolated target keys. Extraction and owner review required."
+}

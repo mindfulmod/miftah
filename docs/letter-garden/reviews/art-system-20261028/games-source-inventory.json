@@ -1,0 +1,3273 @@
+{
+  "scope": "Letter Garden mini-games, activities, teaching art, shared controls and feedback; excludes world/map/village, pets, and sticker collections.",
+  "sourceFilesChecked": [
+    "src/letters/BalloonPlayArt.js",
+    "src/letters/BookPlayArt.js",
+    "src/letters/DeliveryPlayArt.js",
+    "src/letters/EarsPlayArt.js",
+    "src/letters/FormPlayArt.js",
+    "src/letters/FriendBookArt.js",
+    "src/letters/FriendPlayArt.js",
+    "src/letters/GardenAdventurePlayArt.js",
+    "src/letters/HuntPlayArt.js",
+    "src/letters/LetterStudioArt.js",
+    "src/letters/LettersActivityArt.js",
+    "src/letters/LettersArt.js",
+    "src/letters/LivingBookArt.js",
+    "src/letters/LookPlayArt.js",
+    "src/letters/PracticeFinishArt.js",
+    "src/letters/PuzzlePlayArt.js",
+    "src/letters/SandPlayArt.js",
+    "src/letters/SoundLabArt.js",
+    "src/letters/TogetherPlayArt.js",
+    "src/letters/ToyChestArt.js",
+    "src/letters/ToyStudioArt.js",
+    "src/letters/WaterPlayArt.js",
+    "src/letters/WatersideArt.js",
+    "src/letters/WordWardrobeArt.js",
+    "src/letters/WorkshopShadowArt.js",
+    "src/letters/GardenPractice.js",
+    "src/letters/LetterHunt.js",
+    "src/letters/SoundLab.js",
+    "src/letters/LetterStudio.js",
+    "src/letters/GardenTogether.js",
+    "src/letters/LetterBalloons.js",
+    "src/letters/FriendFind.js",
+    "src/letters/FriendBook.js",
+    "src/letters/PictureWords.js",
+    "src/letters/BookGames.js",
+    "src/letters/PuzzleGames.js",
+    "src/letters/ShadowGames.js",
+    "src/letters/VowelGames.js",
+    "src/letters/WorkshopGames.js",
+    "src/letters/WordGames.js",
+    "src/letters/JigsawPicture.js",
+    "src/letters/ToyBoxGames.js",
+    "src/letters/LookGames.js",
+    "src/letters/SandTable.js",
+    "src/letters/LivingBooks.js",
+    "src/letters/WaterGarden.js",
+    "src/letters/LetterDelivery.js",
+    "src/letters/LettersStrokes.js",
+    "src/letters/FeedPicnic.js",
+    "src/letters/MiniGames.js",
+    "src/letters/ToyChest.js",
+    "src/letters/PracticeFinish.js",
+    "src/letters/LettersGame.js",
+    "src/letters/EarsGames.js",
+    "src/letters/CostumeHouse.js",
+    "src/letters/WordTree.js",
+    "src/letters/PracticeLearning.js",
+    "letters.html",
+    "styles.css",
+    "docs/letter-garden-tokens.md",
+    "ART.md",
+    "docs/letter-garden/ART_FOUNDATION_REVIEW.md",
+    "docs/letter-garden/reviews/art-direction-review-2026-10-16.md",
+    "docs/letter-garden/reviews/four-passes/party-after.jpg",
+    "docs/letter-garden/reviews/four-passes/party-before.jpg",
+    "docs/letter-garden/reviews/marin-complete-20261020/inventory.json",
+    "docs/letter-garden/reviews/play-materials/build-three-parts-phone.png",
+    "docs/letter-garden/reviews/reward-rooms/after/party-landscape-night.png",
+    "docs/letter-garden/reviews/reward-rooms/after/party-phone.png",
+    "docs/letter-garden/reviews/reward-rooms/before/party-grown-phone.png",
+    "docs/letter-garden/reviews/reward-rooms/before/party-phone.png"
+  ],
+  "rows": [
+    {
+      "family": "BalloonPlayArt",
+      "id": "balloon",
+      "source": "src/letters/BalloonPlayArt.js",
+      "entryPoint": "LetterBalloons.js, PuzzleGames.js, LettersGame.js",
+      "uses": [
+        "LetterBalloons.js",
+        "PuzzleGames.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 120 164",
+      "variants": [
+        "classic() alternative also exported by module"
+      ],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "BalloonPlayArt",
+      "id": "classic",
+      "source": "src/letters/BalloonPlayArt.js",
+      "entryPoint": "LetterHunt.js, LetterBalloons.js, BookGames.js, ToyBoxGames.js, LivingBooks.js, WaterGarden.js, LetterDelivery.js, LettersGame.js",
+      "uses": [
+        "LetterHunt.js",
+        "LetterBalloons.js",
+        "BookGames.js",
+        "ToyBoxGames.js",
+        "LivingBooks.js",
+        "WaterGarden.js",
+        "LetterDelivery.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 100 140",
+      "variants": [],
+      "status": "classic/rollback",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "BalloonPlayArt",
+      "id": "clearing",
+      "source": "src/letters/BalloonPlayArt.js",
+      "entryPoint": "LetterBalloons.js, PracticeFinish.js",
+      "uses": [
+        "LetterBalloons.js",
+        "PracticeFinish.js"
+      ],
+      "geometry": "SVG viewBox 0 0 800 500",
+      "variants": [
+        "classic() alternative also exported by module"
+      ],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "BalloonPlayArt",
+      "id": "pump",
+      "source": "src/letters/BalloonPlayArt.js",
+      "entryPoint": "LetterBalloons.js",
+      "uses": [
+        "LetterBalloons.js"
+      ],
+      "geometry": "SVG viewBox 0 0 120 246",
+      "variants": [
+        "classic() alternative also exported by module"
+      ],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "BalloonPlayArt",
+      "id": "modeIcon",
+      "source": "src/letters/BalloonPlayArt.js",
+      "entryPoint": "LetterBalloons.js",
+      "uses": [
+        "LetterBalloons.js"
+      ],
+      "geometry": "SVG viewBox 0 0 72 64",
+      "variants": [
+        "classic() alternative also exported by module"
+      ],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "BookPlayArt",
+      "id": "door",
+      "source": "src/letters/BookPlayArt.js",
+      "entryPoint": "GardenPractice.js, BookGames.js, LettersGame.js",
+      "uses": [
+        "GardenPractice.js",
+        "BookGames.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 100 110",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "BookPlayArt",
+      "id": "closeDoors",
+      "source": "src/letters/BookPlayArt.js",
+      "entryPoint": "BookGames.js",
+      "uses": [
+        "BookGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 52 52",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "BookPlayArt",
+      "id": "basket",
+      "source": "src/letters/BookPlayArt.js",
+      "entryPoint": "LetterHunt.js, GardenTogether.js, BookGames.js, FeedPicnic.js, MiniGames.js, LettersGame.js",
+      "uses": [
+        "LetterHunt.js",
+        "GardenTogether.js",
+        "BookGames.js",
+        "FeedPicnic.js",
+        "MiniGames.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 120 90",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "BookPlayArt",
+      "id": "tripBackdrop",
+      "source": "src/letters/BookPlayArt.js",
+      "entryPoint": "BookGames.js",
+      "uses": [
+        "BookGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 600 400",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "BookPlayArt",
+      "id": "sign",
+      "source": "src/letters/BookPlayArt.js",
+      "entryPoint": "GardenPractice.js, LetterStudio.js, BookGames.js, ToyBoxGames.js, LookGames.js, LettersGame.js",
+      "uses": [
+        "GardenPractice.js",
+        "LetterStudio.js",
+        "BookGames.js",
+        "ToyBoxGames.js",
+        "LookGames.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 120 120",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "BookPlayArt",
+      "id": "home",
+      "source": "src/letters/BookPlayArt.js",
+      "entryPoint": "GardenPractice.js, BookGames.js, ToyBoxGames.js, LookGames.js, MiniGames.js, LettersGame.js, WordTree.js",
+      "uses": [
+        "GardenPractice.js",
+        "BookGames.js",
+        "ToyBoxGames.js",
+        "LookGames.js",
+        "MiniGames.js",
+        "LettersGame.js",
+        "WordTree.js"
+      ],
+      "geometry": "SVG viewBox 0 0 200 160",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "BookPlayArt",
+      "id": "marketStall",
+      "source": "src/letters/BookPlayArt.js",
+      "entryPoint": "BookGames.js",
+      "uses": [
+        "BookGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 160 70",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "DeliveryPlayArt",
+      "id": "packet",
+      "source": "src/letters/DeliveryPlayArt.js",
+      "entryPoint": "LetterDelivery.js, MiniGames.js",
+      "uses": [
+        "LetterDelivery.js",
+        "MiniGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 120 126",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "DeliveryPlayArt",
+      "id": "sprout",
+      "source": "src/letters/DeliveryPlayArt.js",
+      "entryPoint": "WorkshopGames.js, LookGames.js, MiniGames.js, LettersGame.js",
+      "uses": [
+        "WorkshopGames.js",
+        "LookGames.js",
+        "MiniGames.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "DeliveryPlayArt",
+      "id": "bloom",
+      "source": "src/letters/DeliveryPlayArt.js",
+      "entryPoint": "WaterGarden.js, LettersGame.js",
+      "uses": [
+        "WaterGarden.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "DeliveryPlayArt",
+      "id": "plant",
+      "source": "src/letters/DeliveryPlayArt.js",
+      "entryPoint": "ToyBoxGames.js, MiniGames.js, LettersGame.js",
+      "uses": [
+        "ToyBoxGames.js",
+        "MiniGames.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 310 250",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "DeliveryPlayArt",
+      "id": "garden",
+      "source": "src/letters/DeliveryPlayArt.js",
+      "entryPoint": "GardenPractice.js, LetterStudio.js, BookGames.js, ShadowGames.js, ToyBoxGames.js, LookGames.js, WaterGarden.js, LetterDelivery.js, MiniGames.js, ToyChest.js, LettersGame.js, CostumeHouse.js",
+      "uses": [
+        "GardenPractice.js",
+        "LetterStudio.js",
+        "BookGames.js",
+        "ShadowGames.js",
+        "ToyBoxGames.js",
+        "LookGames.js",
+        "WaterGarden.js",
+        "LetterDelivery.js",
+        "MiniGames.js",
+        "ToyChest.js",
+        "LettersGame.js",
+        "CostumeHouse.js"
+      ],
+      "geometry": "SVG viewBox 0 0 310 250",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "DeliveryPlayArt",
+      "id": "icon",
+      "source": "src/letters/DeliveryPlayArt.js",
+      "entryPoint": "GardenPractice.js, LetterHunt.js, LetterStudio.js, GardenTogether.js, FriendFind.js, FriendBook.js, PuzzleGames.js, ShadowGames.js, WordGames.js, JigsawPicture.js, ToyBoxGames.js, LookGames.js, LivingBooks.js, WaterGarden.js, LetterDelivery.js, FeedPicnic.js, MiniGames.js, PracticeFinish.js, LettersGame.js, EarsGames.js",
+      "uses": [
+        "GardenPractice.js",
+        "LetterHunt.js",
+        "LetterStudio.js",
+        "GardenTogether.js",
+        "FriendFind.js",
+        "FriendBook.js",
+        "PuzzleGames.js",
+        "ShadowGames.js",
+        "WordGames.js",
+        "JigsawPicture.js",
+        "ToyBoxGames.js",
+        "LookGames.js",
+        "LivingBooks.js",
+        "WaterGarden.js",
+        "LetterDelivery.js",
+        "FeedPicnic.js",
+        "MiniGames.js",
+        "PracticeFinish.js",
+        "LettersGame.js",
+        "EarsGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 200 140",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "EarsPlayArt",
+      "id": "drum",
+      "source": "src/letters/EarsPlayArt.js",
+      "entryPoint": "LettersGame.js, EarsGames.js",
+      "uses": [
+        "LettersGame.js",
+        "EarsGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 120 100",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "EarsPlayArt",
+      "id": "listeningStand",
+      "source": "src/letters/EarsPlayArt.js",
+      "entryPoint": "EarsGames.js",
+      "uses": [
+        "EarsGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 260 170",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "EarsPlayArt",
+      "id": "soundPod",
+      "source": "src/letters/EarsPlayArt.js",
+      "entryPoint": "EarsGames.js",
+      "uses": [
+        "EarsGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 100 100",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "EarsPlayArt",
+      "id": "speaker",
+      "source": "src/letters/EarsPlayArt.js",
+      "entryPoint": "GardenPractice.js, FriendFind.js, FriendBook.js, WordGames.js, LivingBooks.js, LetterDelivery.js, MiniGames.js, LettersGame.js, EarsGames.js",
+      "uses": [
+        "GardenPractice.js",
+        "FriendFind.js",
+        "FriendBook.js",
+        "WordGames.js",
+        "LivingBooks.js",
+        "LetterDelivery.js",
+        "MiniGames.js",
+        "LettersGame.js",
+        "EarsGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 48 48",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "EarsPlayArt",
+      "id": "replayAll",
+      "source": "src/letters/EarsPlayArt.js",
+      "entryPoint": "EarsGames.js",
+      "uses": [
+        "EarsGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 48 48",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "EarsPlayArt",
+      "id": "beatSeed",
+      "source": "src/letters/EarsPlayArt.js",
+      "entryPoint": "EarsGames.js",
+      "uses": [
+        "EarsGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 32 32",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "FormPlayArt",
+      "id": "wordStand",
+      "source": "src/letters/FormPlayArt.js",
+      "entryPoint": "CostumeHouse.js",
+      "uses": [
+        "CostumeHouse.js"
+      ],
+      "geometry": "SVG viewBox 0 0 420 160",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "FormPlayArt",
+      "id": "costumeRail",
+      "source": "src/letters/FormPlayArt.js",
+      "entryPoint": "CostumeHouse.js",
+      "uses": [
+        "CostumeHouse.js"
+      ],
+      "geometry": "SVG viewBox 0 0 360 150",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "FormPlayArt",
+      "id": "trainEngine",
+      "source": "src/letters/FormPlayArt.js",
+      "entryPoint": "CostumeHouse.js",
+      "uses": [
+        "CostumeHouse.js"
+      ],
+      "geometry": "SVG viewBox 0 0 90 100",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "FormPlayArt",
+      "id": "trainCar",
+      "source": "src/letters/FormPlayArt.js",
+      "entryPoint": "CostumeHouse.js",
+      "uses": [
+        "CostumeHouse.js"
+      ],
+      "geometry": "SVG viewBox 0 0 120 100",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "FormPlayArt",
+      "id": "leaf",
+      "source": "src/letters/FormPlayArt.js",
+      "entryPoint": "LetterHunt.js, BookGames.js, LivingBooks.js, MiniGames.js, LettersGame.js, WordTree.js",
+      "uses": [
+        "LetterHunt.js",
+        "BookGames.js",
+        "LivingBooks.js",
+        "MiniGames.js",
+        "LettersGame.js",
+        "WordTree.js"
+      ],
+      "geometry": "SVG viewBox 0 0 280 150",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "FormPlayArt",
+      "id": "branch",
+      "source": "src/letters/FormPlayArt.js",
+      "entryPoint": "ToyBoxGames.js, LettersGame.js, WordTree.js",
+      "uses": [
+        "ToyBoxGames.js",
+        "LettersGame.js",
+        "WordTree.js"
+      ],
+      "geometry": "SVG viewBox 0 0 180 140",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "FriendBookArt",
+      "id": "page",
+      "source": "src/letters/FriendBookArt.js",
+      "entryPoint": "GardenPractice.js, SoundLab.js, GardenTogether.js, LetterBalloons.js, FriendBook.js, BookGames.js, PuzzleGames.js, ToyBoxGames.js, SandTable.js, LivingBooks.js, MiniGames.js, LettersGame.js",
+      "uses": [
+        "GardenPractice.js",
+        "SoundLab.js",
+        "GardenTogether.js",
+        "LetterBalloons.js",
+        "FriendBook.js",
+        "BookGames.js",
+        "PuzzleGames.js",
+        "ToyBoxGames.js",
+        "SandTable.js",
+        "LivingBooks.js",
+        "MiniGames.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 480 560",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "FriendBookArt",
+      "id": "habitat",
+      "source": "src/letters/FriendBookArt.js",
+      "entryPoint": "FriendBook.js, LettersGame.js",
+      "uses": [
+        "FriendBook.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox -6 -6 112 112",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "FriendPlayArt",
+      "id": "booth",
+      "source": "src/letters/FriendPlayArt.js",
+      "entryPoint": "FriendFind.js, LettersGame.js",
+      "uses": [
+        "FriendFind.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 240 200",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "FriendPlayArt",
+      "id": "perch",
+      "source": "src/letters/FriendPlayArt.js",
+      "entryPoint": "FriendFind.js, ToyBoxGames.js",
+      "uses": [
+        "FriendFind.js",
+        "ToyBoxGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 180 140",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "FriendPlayArt",
+      "id": "eye",
+      "source": "src/letters/FriendPlayArt.js",
+      "entryPoint": "GardenPractice.js, LetterHunt.js, GardenTogether.js, FriendFind.js, ToyBoxGames.js, LookGames.js, SandTable.js, WaterGarden.js, LettersGame.js",
+      "uses": [
+        "GardenPractice.js",
+        "LetterHunt.js",
+        "GardenTogether.js",
+        "FriendFind.js",
+        "ToyBoxGames.js",
+        "LookGames.js",
+        "SandTable.js",
+        "WaterGarden.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 64 64",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "FriendPlayArt",
+      "id": "boothViewBox",
+      "source": "src/letters/FriendPlayArt.js",
+      "entryPoint": "FriendPlayArt",
+      "uses": [
+        "art export; indirect or CSS/template use possible"
+      ],
+      "geometry": "SVG viewBox 0 0 240 200",
+      "variants": [],
+      "status": "exported; use not directly located in listed entrypoints",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "FriendPlayArt",
+      "id": "perchViewBox",
+      "source": "src/letters/FriendPlayArt.js",
+      "entryPoint": "FriendPlayArt",
+      "uses": [
+        "art export; indirect or CSS/template use possible"
+      ],
+      "geometry": "SVG viewBox 0 0 240 200",
+      "variants": [],
+      "status": "exported; use not directly located in listed entrypoints",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "FriendPlayArt",
+      "id": "slot",
+      "source": "src/letters/FriendPlayArt.js",
+      "entryPoint": "SoundLab.js, LetterBalloons.js, BookGames.js, PuzzleGames.js, VowelGames.js, JigsawPicture.js, ToyBoxGames.js, WaterGarden.js, MiniGames.js, LettersGame.js",
+      "uses": [
+        "SoundLab.js",
+        "LetterBalloons.js",
+        "BookGames.js",
+        "PuzzleGames.js",
+        "VowelGames.js",
+        "JigsawPicture.js",
+        "ToyBoxGames.js",
+        "WaterGarden.js",
+        "MiniGames.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 240 200",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "FriendPlayArt",
+      "id": "x",
+      "source": "src/letters/FriendPlayArt.js",
+      "entryPoint": "GardenPractice.js, LetterHunt.js, SoundLab.js, LetterStudio.js, GardenTogether.js, FriendBook.js, BookGames.js, PuzzleGames.js, ShadowGames.js, VowelGames.js, WorkshopGames.js, WordGames.js, JigsawPicture.js, ToyBoxGames.js, LookGames.js, LivingBooks.js, WaterGarden.js, LetterDelivery.js, LettersStrokes.js, FeedPicnic.js, MiniGames.js, LettersGame.js, EarsGames.js, CostumeHouse.js, WordTree.js, PracticeLearning.js",
+      "uses": [
+        "GardenPractice.js",
+        "LetterHunt.js",
+        "SoundLab.js",
+        "LetterStudio.js",
+        "GardenTogether.js",
+        "FriendBook.js",
+        "BookGames.js",
+        "PuzzleGames.js",
+        "ShadowGames.js",
+        "VowelGames.js",
+        "WorkshopGames.js",
+        "WordGames.js",
+        "JigsawPicture.js",
+        "ToyBoxGames.js",
+        "LookGames.js",
+        "LivingBooks.js",
+        "WaterGarden.js",
+        "LetterDelivery.js",
+        "LettersStrokes.js",
+        "FeedPicnic.js",
+        "MiniGames.js",
+        "LettersGame.js",
+        "EarsGames.js",
+        "CostumeHouse.js",
+        "WordTree.js",
+        "PracticeLearning.js"
+      ],
+      "geometry": "SVG viewBox 0 0 240 200",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "FriendPlayArt",
+      "id": "y",
+      "source": "src/letters/FriendPlayArt.js",
+      "entryPoint": "GardenPractice.js, LetterHunt.js, SoundLab.js, LetterStudio.js, GardenTogether.js, FriendBook.js, BookGames.js, PuzzleGames.js, ShadowGames.js, VowelGames.js, WorkshopGames.js, WordGames.js, JigsawPicture.js, ToyBoxGames.js, LookGames.js, SandTable.js, LivingBooks.js, WaterGarden.js, LetterDelivery.js, LettersStrokes.js, FeedPicnic.js, MiniGames.js, LettersGame.js, EarsGames.js, CostumeHouse.js, WordTree.js, PracticeLearning.js",
+      "uses": [
+        "GardenPractice.js",
+        "LetterHunt.js",
+        "SoundLab.js",
+        "LetterStudio.js",
+        "GardenTogether.js",
+        "FriendBook.js",
+        "BookGames.js",
+        "PuzzleGames.js",
+        "ShadowGames.js",
+        "VowelGames.js",
+        "WorkshopGames.js",
+        "WordGames.js",
+        "JigsawPicture.js",
+        "ToyBoxGames.js",
+        "LookGames.js",
+        "SandTable.js",
+        "LivingBooks.js",
+        "WaterGarden.js",
+        "LetterDelivery.js",
+        "LettersStrokes.js",
+        "FeedPicnic.js",
+        "MiniGames.js",
+        "LettersGame.js",
+        "EarsGames.js",
+        "CostumeHouse.js",
+        "WordTree.js",
+        "PracticeLearning.js"
+      ],
+      "geometry": "SVG viewBox 0 0 240 200",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "FriendPlayArt",
+      "id": "width",
+      "source": "src/letters/FriendPlayArt.js",
+      "entryPoint": "GardenPractice.js, LetterHunt.js, SoundLab.js, LetterStudio.js, GardenTogether.js, FriendBook.js, BookGames.js, PuzzleGames.js, ShadowGames.js, VowelGames.js, WorkshopGames.js, WordGames.js, JigsawPicture.js, ToyBoxGames.js, LookGames.js, SandTable.js, LivingBooks.js, WaterGarden.js, LetterDelivery.js, LettersStrokes.js, MiniGames.js, ToyChest.js, PracticeFinish.js, LettersGame.js, EarsGames.js, CostumeHouse.js, WordTree.js",
+      "uses": [
+        "GardenPractice.js",
+        "LetterHunt.js",
+        "SoundLab.js",
+        "LetterStudio.js",
+        "GardenTogether.js",
+        "FriendBook.js",
+        "BookGames.js",
+        "PuzzleGames.js",
+        "ShadowGames.js",
+        "VowelGames.js",
+        "WorkshopGames.js",
+        "WordGames.js",
+        "JigsawPicture.js",
+        "ToyBoxGames.js",
+        "LookGames.js",
+        "SandTable.js",
+        "LivingBooks.js",
+        "WaterGarden.js",
+        "LetterDelivery.js",
+        "LettersStrokes.js",
+        "MiniGames.js",
+        "ToyChest.js",
+        "PracticeFinish.js",
+        "LettersGame.js",
+        "EarsGames.js",
+        "CostumeHouse.js",
+        "WordTree.js"
+      ],
+      "geometry": "SVG viewBox 0 0 240 200",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "FriendPlayArt",
+      "id": "height",
+      "source": "src/letters/FriendPlayArt.js",
+      "entryPoint": "GardenPractice.js, LetterHunt.js, LetterStudio.js, FriendBook.js, BookGames.js, PuzzleGames.js, ShadowGames.js, VowelGames.js, WorkshopGames.js, WordGames.js, JigsawPicture.js, ToyBoxGames.js, LookGames.js, SandTable.js, LivingBooks.js, WaterGarden.js, LetterDelivery.js, LettersStrokes.js, MiniGames.js, PracticeFinish.js, LettersGame.js, EarsGames.js, CostumeHouse.js, WordTree.js",
+      "uses": [
+        "GardenPractice.js",
+        "LetterHunt.js",
+        "LetterStudio.js",
+        "FriendBook.js",
+        "BookGames.js",
+        "PuzzleGames.js",
+        "ShadowGames.js",
+        "VowelGames.js",
+        "WorkshopGames.js",
+        "WordGames.js",
+        "JigsawPicture.js",
+        "ToyBoxGames.js",
+        "LookGames.js",
+        "SandTable.js",
+        "LivingBooks.js",
+        "WaterGarden.js",
+        "LetterDelivery.js",
+        "LettersStrokes.js",
+        "MiniGames.js",
+        "PracticeFinish.js",
+        "LettersGame.js",
+        "EarsGames.js",
+        "CostumeHouse.js",
+        "WordTree.js"
+      ],
+      "geometry": "SVG viewBox 0 0 240 200",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "FriendPlayArt",
+      "id": "classic",
+      "source": "src/letters/FriendPlayArt.js",
+      "entryPoint": "LetterHunt.js, LetterBalloons.js, BookGames.js, ToyBoxGames.js, LivingBooks.js, WaterGarden.js, LetterDelivery.js, LettersGame.js",
+      "uses": [
+        "LetterHunt.js",
+        "LetterBalloons.js",
+        "BookGames.js",
+        "ToyBoxGames.js",
+        "LivingBooks.js",
+        "WaterGarden.js",
+        "LetterDelivery.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 240 200",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "GardenAdventurePlayArt",
+      "id": "cleanDrawing",
+      "source": "src/letters/GardenAdventurePlayArt.js",
+      "entryPoint": "GardenAdventurePlayArt",
+      "uses": [
+        "art export; indirect or CSS/template use possible"
+      ],
+      "geometry": "SVG viewBox ${x} ${y} ${width} ${height}",
+      "variants": [],
+      "status": "exported; use not directly located in listed entrypoints",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "GardenAdventurePlayArt",
+      "id": "ink",
+      "source": "src/letters/GardenAdventurePlayArt.js",
+      "entryPoint": "GardenPractice.js, SoundLab.js, LetterStudio.js, GardenTogether.js, FriendBook.js, VowelGames.js, WordGames.js, ToyBoxGames.js, SandTable.js, LivingBooks.js, LettersStrokes.js, MiniGames.js, LettersGame.js, WordTree.js",
+      "uses": [
+        "GardenPractice.js",
+        "SoundLab.js",
+        "LetterStudio.js",
+        "GardenTogether.js",
+        "FriendBook.js",
+        "VowelGames.js",
+        "WordGames.js",
+        "ToyBoxGames.js",
+        "SandTable.js",
+        "LivingBooks.js",
+        "LettersStrokes.js",
+        "MiniGames.js",
+        "LettersGame.js",
+        "WordTree.js"
+      ],
+      "geometry": "SVG viewBox ${x} ${y} ${width} ${height}",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "GardenAdventurePlayArt",
+      "id": "petalFlower",
+      "source": "src/letters/GardenAdventurePlayArt.js",
+      "entryPoint": "GardenAdventurePlayArt",
+      "uses": [
+        "art export; indirect or CSS/template use possible"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "exported; use not directly located in listed entrypoints",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "GardenAdventurePlayArt",
+      "id": "seedPacket",
+      "source": "src/letters/GardenAdventurePlayArt.js",
+      "entryPoint": "FeedPicnic.js, MiniGames.js",
+      "uses": [
+        "FeedPicnic.js",
+        "MiniGames.js"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "GardenAdventurePlayArt",
+      "id": "sprout",
+      "source": "src/letters/GardenAdventurePlayArt.js",
+      "entryPoint": "WorkshopGames.js, LookGames.js, MiniGames.js, LettersGame.js",
+      "uses": [
+        "WorkshopGames.js",
+        "LookGames.js",
+        "MiniGames.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "GardenAdventurePlayArt",
+      "id": "maturePlant",
+      "source": "src/letters/GardenAdventurePlayArt.js",
+      "entryPoint": "GardenAdventurePlayArt",
+      "uses": [
+        "art export; indirect or CSS/template use possible"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "exported; use not directly located in listed entrypoints",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "GardenAdventurePlayArt",
+      "id": "sign",
+      "source": "src/letters/GardenAdventurePlayArt.js",
+      "entryPoint": "GardenPractice.js, LetterStudio.js, BookGames.js, ToyBoxGames.js, LookGames.js, LettersGame.js",
+      "uses": [
+        "GardenPractice.js",
+        "LetterStudio.js",
+        "BookGames.js",
+        "ToyBoxGames.js",
+        "LookGames.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "GardenAdventurePlayArt",
+      "id": "perch",
+      "source": "src/letters/GardenAdventurePlayArt.js",
+      "entryPoint": "FriendFind.js, ToyBoxGames.js",
+      "uses": [
+        "FriendFind.js",
+        "ToyBoxGames.js"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "GardenAdventurePlayArt",
+      "id": "gardenTree",
+      "source": "src/letters/GardenAdventurePlayArt.js",
+      "entryPoint": "GardenAdventurePlayArt",
+      "uses": [
+        "art export; indirect or CSS/template use possible"
+      ],
+      "geometry": "SVG viewBox 0 0 560 320",
+      "variants": [],
+      "status": "exported; use not directly located in listed entrypoints",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "GardenAdventurePlayArt",
+      "id": "scene",
+      "source": "src/letters/GardenAdventurePlayArt.js",
+      "entryPoint": "GardenPractice.js, LetterHunt.js, LetterStudio.js, BookGames.js, ShadowGames.js, WordGames.js, ToyBoxGames.js, LivingBooks.js, WaterGarden.js, LetterDelivery.js, MiniGames.js, PracticeFinish.js, LettersGame.js",
+      "uses": [
+        "GardenPractice.js",
+        "LetterHunt.js",
+        "LetterStudio.js",
+        "BookGames.js",
+        "ShadowGames.js",
+        "WordGames.js",
+        "ToyBoxGames.js",
+        "LivingBooks.js",
+        "WaterGarden.js",
+        "LetterDelivery.js",
+        "MiniGames.js",
+        "PracticeFinish.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 560 320",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "GardenAdventurePlayArt",
+      "id": "visitor",
+      "source": "src/letters/GardenAdventurePlayArt.js",
+      "entryPoint": "LettersGame.js",
+      "uses": [
+        "LettersGame.js"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "GardenAdventurePlayArt",
+      "id": "visitorPlacement",
+      "source": "src/letters/GardenAdventurePlayArt.js",
+      "entryPoint": "GardenAdventurePlayArt",
+      "uses": [
+        "art export; indirect or CSS/template use possible"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "exported; use not directly located in listed entrypoints",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "GardenAdventurePlayArt",
+      "id": "x",
+      "source": "src/letters/GardenAdventurePlayArt.js",
+      "entryPoint": "GardenPractice.js, LetterHunt.js, SoundLab.js, LetterStudio.js, GardenTogether.js, FriendBook.js, BookGames.js, PuzzleGames.js, ShadowGames.js, VowelGames.js, WorkshopGames.js, WordGames.js, JigsawPicture.js, ToyBoxGames.js, LookGames.js, LivingBooks.js, WaterGarden.js, LetterDelivery.js, LettersStrokes.js, FeedPicnic.js, MiniGames.js, LettersGame.js, EarsGames.js, CostumeHouse.js, WordTree.js, PracticeLearning.js",
+      "uses": [
+        "GardenPractice.js",
+        "LetterHunt.js",
+        "SoundLab.js",
+        "LetterStudio.js",
+        "GardenTogether.js",
+        "FriendBook.js",
+        "BookGames.js",
+        "PuzzleGames.js",
+        "ShadowGames.js",
+        "VowelGames.js",
+        "WorkshopGames.js",
+        "WordGames.js",
+        "JigsawPicture.js",
+        "ToyBoxGames.js",
+        "LookGames.js",
+        "LivingBooks.js",
+        "WaterGarden.js",
+        "LetterDelivery.js",
+        "LettersStrokes.js",
+        "FeedPicnic.js",
+        "MiniGames.js",
+        "LettersGame.js",
+        "EarsGames.js",
+        "CostumeHouse.js",
+        "WordTree.js",
+        "PracticeLearning.js"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "GardenAdventurePlayArt",
+      "id": "y",
+      "source": "src/letters/GardenAdventurePlayArt.js",
+      "entryPoint": "GardenPractice.js, LetterHunt.js, SoundLab.js, LetterStudio.js, GardenTogether.js, FriendBook.js, BookGames.js, PuzzleGames.js, ShadowGames.js, VowelGames.js, WorkshopGames.js, WordGames.js, JigsawPicture.js, ToyBoxGames.js, LookGames.js, SandTable.js, LivingBooks.js, WaterGarden.js, LetterDelivery.js, LettersStrokes.js, FeedPicnic.js, MiniGames.js, LettersGame.js, EarsGames.js, CostumeHouse.js, WordTree.js, PracticeLearning.js",
+      "uses": [
+        "GardenPractice.js",
+        "LetterHunt.js",
+        "SoundLab.js",
+        "LetterStudio.js",
+        "GardenTogether.js",
+        "FriendBook.js",
+        "BookGames.js",
+        "PuzzleGames.js",
+        "ShadowGames.js",
+        "VowelGames.js",
+        "WorkshopGames.js",
+        "WordGames.js",
+        "JigsawPicture.js",
+        "ToyBoxGames.js",
+        "LookGames.js",
+        "SandTable.js",
+        "LivingBooks.js",
+        "WaterGarden.js",
+        "LetterDelivery.js",
+        "LettersStrokes.js",
+        "FeedPicnic.js",
+        "MiniGames.js",
+        "LettersGame.js",
+        "EarsGames.js",
+        "CostumeHouse.js",
+        "WordTree.js",
+        "PracticeLearning.js"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "HuntPlayArt",
+      "id": "background",
+      "source": "src/letters/HuntPlayArt.js",
+      "entryPoint": "LetterHunt.js, LettersGame.js",
+      "uses": [
+        "LetterHunt.js",
+        "LettersGame.js"
+      ],
+      "geometry": "composed inline SVG",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "HuntPlayArt",
+      "id": "basket",
+      "source": "src/letters/HuntPlayArt.js",
+      "entryPoint": "LetterHunt.js, GardenTogether.js, BookGames.js, FeedPicnic.js, MiniGames.js, LettersGame.js",
+      "uses": [
+        "LetterHunt.js",
+        "GardenTogether.js",
+        "BookGames.js",
+        "FeedPicnic.js",
+        "MiniGames.js",
+        "LettersGame.js"
+      ],
+      "geometry": "composed inline SVG",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "HuntPlayArt",
+      "id": "reaction",
+      "source": "src/letters/HuntPlayArt.js",
+      "entryPoint": "LetterHunt.js, LettersGame.js",
+      "uses": [
+        "LetterHunt.js",
+        "LettersGame.js"
+      ],
+      "geometry": "composed inline SVG",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "HuntPlayArt",
+      "id": "things",
+      "source": "src/letters/HuntPlayArt.js",
+      "entryPoint": "LetterHunt.js, PictureWords.js, MiniGames.js, LettersGame.js",
+      "uses": [
+        "LetterHunt.js",
+        "PictureWords.js",
+        "MiniGames.js",
+        "LettersGame.js"
+      ],
+      "geometry": "composed inline SVG",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "HuntPlayArt",
+      "id": "THINGS",
+      "source": "src/letters/HuntPlayArt.js",
+      "entryPoint": "LetterHunt.js",
+      "uses": [
+        "LetterHunt.js"
+      ],
+      "geometry": "composed inline SVG",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LetterStudioArt",
+      "id": "scene",
+      "source": "src/letters/LetterStudioArt.js",
+      "entryPoint": "GardenPractice.js, LetterHunt.js, LetterStudio.js, BookGames.js, ShadowGames.js, WordGames.js, ToyBoxGames.js, LivingBooks.js, WaterGarden.js, LetterDelivery.js, MiniGames.js, PracticeFinish.js, LettersGame.js",
+      "uses": [
+        "GardenPractice.js",
+        "LetterHunt.js",
+        "LetterStudio.js",
+        "BookGames.js",
+        "ShadowGames.js",
+        "WordGames.js",
+        "ToyBoxGames.js",
+        "LivingBooks.js",
+        "WaterGarden.js",
+        "LetterDelivery.js",
+        "MiniGames.js",
+        "PracticeFinish.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LetterStudioArt",
+      "id": "stamp",
+      "source": "src/letters/LetterStudioArt.js",
+      "entryPoint": "LetterStudio.js, PuzzleGames.js, LettersGame.js",
+      "uses": [
+        "LetterStudio.js",
+        "PuzzleGames.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 64 64",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LetterStudioArt",
+      "id": "hanger",
+      "source": "src/letters/LetterStudioArt.js",
+      "entryPoint": "LetterStudio.js",
+      "uses": [
+        "LetterStudio.js"
+      ],
+      "geometry": "SVG viewBox 0 0 64 64",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersActivityArt",
+      "id": "pairs",
+      "source": "src/letters/LettersActivityArt.js",
+      "entryPoint": "GardenTogether.js, VowelGames.js, ToyBoxGames.js, MiniGames.js, LettersGame.js",
+      "uses": [
+        "GardenTogether.js",
+        "VowelGames.js",
+        "ToyBoxGames.js",
+        "MiniGames.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 720 540",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersActivityArt",
+      "id": "orchardTree",
+      "source": "src/letters/LettersActivityArt.js",
+      "entryPoint": "LettersActivityArt",
+      "uses": [
+        "art export; indirect or CSS/template use possible"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "exported; use not directly located in listed entrypoints",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersActivityArt",
+      "id": "catchOrchard",
+      "source": "src/letters/LettersActivityArt.js",
+      "entryPoint": "LettersActivityArt",
+      "uses": [
+        "art export; indirect or CSS/template use possible"
+      ],
+      "geometry": "SVG viewBox 0 0 720 540",
+      "variants": [],
+      "status": "exported; use not directly located in listed entrypoints",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersActivityArt",
+      "id": "orchardArch",
+      "source": "src/letters/LettersActivityArt.js",
+      "entryPoint": "LettersActivityArt",
+      "uses": [
+        "art export; indirect or CSS/template use possible"
+      ],
+      "geometry": "SVG viewBox ${view}",
+      "variants": [],
+      "status": "exported; use not directly located in listed entrypoints",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersActivityArt",
+      "id": "pencilPot",
+      "source": "src/letters/LettersActivityArt.js",
+      "entryPoint": "LettersActivityArt",
+      "uses": [
+        "art export; indirect or CSS/template use possible"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "exported; use not directly located in listed entrypoints",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersActivityArt",
+      "id": "paperRoll",
+      "source": "src/letters/LettersActivityArt.js",
+      "entryPoint": "LettersActivityArt",
+      "uses": [
+        "art export; indirect or CSS/template use possible"
+      ],
+      "geometry": "SVG viewBox 0 0 720 540",
+      "variants": [],
+      "status": "exported; use not directly located in listed entrypoints",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersActivityArt",
+      "id": "workbench",
+      "source": "src/letters/LettersActivityArt.js",
+      "entryPoint": "MiniGames.js",
+      "uses": [
+        "MiniGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 720 540",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersActivityArt",
+      "id": "picnic",
+      "source": "src/letters/LettersActivityArt.js",
+      "entryPoint": "GardenTogether.js, FeedPicnic.js, MiniGames.js, LettersGame.js",
+      "uses": [
+        "GardenTogether.js",
+        "FeedPicnic.js",
+        "MiniGames.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 720 540",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersActivityArt",
+      "id": "parade",
+      "source": "src/letters/LettersActivityArt.js",
+      "entryPoint": "BookGames.js, PuzzleGames.js, MiniGames.js, LettersGame.js",
+      "uses": [
+        "BookGames.js",
+        "PuzzleGames.js",
+        "MiniGames.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 720 540",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersActivityArt",
+      "id": "potting",
+      "source": "src/letters/LettersActivityArt.js",
+      "entryPoint": "GardenPractice.js",
+      "uses": [
+        "GardenPractice.js"
+      ],
+      "geometry": "SVG viewBox 0 0 720 540",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersActivityArt",
+      "id": "joinery",
+      "source": "src/letters/LettersActivityArt.js",
+      "entryPoint": "LettersActivityArt",
+      "uses": [
+        "art export; indirect or CSS/template use possible"
+      ],
+      "geometry": "SVG viewBox 0 0 720 540",
+      "variants": [],
+      "status": "exported; use not directly located in listed entrypoints",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersActivityArt",
+      "id": "joineryMallet",
+      "source": "src/letters/LettersActivityArt.js",
+      "entryPoint": "LettersActivityArt",
+      "uses": [
+        "art export; indirect or CSS/template use possible"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "exported; use not directly located in listed entrypoints",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersActivityArt",
+      "id": "joineryBlocks",
+      "source": "src/letters/LettersActivityArt.js",
+      "entryPoint": "LettersActivityArt",
+      "uses": [
+        "art export; indirect or CSS/template use possible"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "exported; use not directly located in listed entrypoints",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersActivityArt",
+      "id": "toyKit",
+      "source": "src/letters/LettersActivityArt.js",
+      "entryPoint": "LettersActivityArt",
+      "uses": [
+        "art export; indirect or CSS/template use possible"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "exported; use not directly located in listed entrypoints",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersActivityArt",
+      "id": "fixedProps",
+      "source": "src/letters/LettersActivityArt.js",
+      "entryPoint": "LettersActivityArt",
+      "uses": [
+        "art export; indirect or CSS/template use possible"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "exported; use not directly located in listed entrypoints",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersActivityArt",
+      "id": "scene",
+      "source": "src/letters/LettersActivityArt.js",
+      "entryPoint": "GardenPractice.js, LetterHunt.js, LetterStudio.js, BookGames.js, ShadowGames.js, WordGames.js, ToyBoxGames.js, LivingBooks.js, WaterGarden.js, LetterDelivery.js, MiniGames.js, PracticeFinish.js, LettersGame.js",
+      "uses": [
+        "GardenPractice.js",
+        "LetterHunt.js",
+        "LetterStudio.js",
+        "BookGames.js",
+        "ShadowGames.js",
+        "WordGames.js",
+        "ToyBoxGames.js",
+        "LivingBooks.js",
+        "WaterGarden.js",
+        "LetterDelivery.js",
+        "MiniGames.js",
+        "PracticeFinish.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersActivityArt",
+      "id": "mount",
+      "source": "src/letters/LettersActivityArt.js",
+      "entryPoint": "LetterBalloons.js, ToyChest.js, PracticeFinish.js, LettersGame.js",
+      "uses": [
+        "LetterBalloons.js",
+        "ToyChest.js",
+        "PracticeFinish.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersActivityArt",
+      "id": "familyFor",
+      "source": "src/letters/LettersActivityArt.js",
+      "entryPoint": "LettersGame.js",
+      "uses": [
+        "LettersGame.js"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersActivityArt",
+      "id": "null",
+      "source": "src/letters/LettersActivityArt.js",
+      "entryPoint": "GardenPractice.js, LetterHunt.js, SoundLab.js, LetterStudio.js, GardenTogether.js, LetterBalloons.js, FriendFind.js, FriendBook.js, BookGames.js, PuzzleGames.js, ShadowGames.js, VowelGames.js, WorkshopGames.js, WordGames.js, JigsawPicture.js, ToyBoxGames.js, LookGames.js, SandTable.js, LivingBooks.js, WaterGarden.js, LetterDelivery.js, LettersStrokes.js, FeedPicnic.js, MiniGames.js, ToyChest.js, PracticeFinish.js, LettersGame.js, EarsGames.js, CostumeHouse.js, WordTree.js",
+      "uses": [
+        "GardenPractice.js",
+        "LetterHunt.js",
+        "SoundLab.js",
+        "LetterStudio.js",
+        "GardenTogether.js",
+        "LetterBalloons.js",
+        "FriendFind.js",
+        "FriendBook.js",
+        "BookGames.js",
+        "PuzzleGames.js",
+        "ShadowGames.js",
+        "VowelGames.js",
+        "WorkshopGames.js",
+        "WordGames.js",
+        "JigsawPicture.js",
+        "ToyBoxGames.js",
+        "LookGames.js",
+        "SandTable.js",
+        "LivingBooks.js",
+        "WaterGarden.js",
+        "LetterDelivery.js",
+        "LettersStrokes.js",
+        "FeedPicnic.js",
+        "MiniGames.js",
+        "ToyChest.js",
+        "PracticeFinish.js",
+        "LettersGame.js",
+        "EarsGames.js",
+        "CostumeHouse.js",
+        "WordTree.js"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "rasterInkCenter",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "LettersArt",
+      "uses": [
+        "art export; indirect or CSS/template use possible"
+      ],
+      "geometry": "SVG viewBox 0 0 ${w} ${w}",
+      "variants": [],
+      "status": "exported; use not directly located in listed entrypoints",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "warmInk",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "LettersGame.js",
+      "uses": [
+        "LettersGame.js"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "inkShift",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "GardenPractice.js, LetterDelivery.js, FeedPicnic.js, MiniGames.js, LettersGame.js",
+      "uses": [
+        "GardenPractice.js",
+        "LetterDelivery.js",
+        "FeedPicnic.js",
+        "MiniGames.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "fitStickerArt",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "LettersArt",
+      "uses": [
+        "art export; indirect or CSS/template use possible"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "exported; use not directly located in listed entrypoints",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "fitGlyphs",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "GardenPractice.js, LetterHunt.js, SoundLab.js, LetterStudio.js, GardenTogether.js, LetterBalloons.js, FriendBook.js, WaterGarden.js, LetterDelivery.js, FeedPicnic.js, MiniGames.js, LettersGame.js",
+      "uses": [
+        "GardenPractice.js",
+        "LetterHunt.js",
+        "SoundLab.js",
+        "LetterStudio.js",
+        "GardenTogether.js",
+        "LetterBalloons.js",
+        "FriendBook.js",
+        "WaterGarden.js",
+        "LetterDelivery.js",
+        "FeedPicnic.js",
+        "MiniGames.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "fitInlineGlyphs",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "LettersGame.js",
+      "uses": [
+        "LettersGame.js"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "watchGlyphs",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "LettersGame.js",
+      "uses": [
+        "LettersGame.js"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "keyMascot",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "LettersGame.js",
+      "uses": [
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox -60 -60 120 150",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "blobCard",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "LettersGame.js",
+      "uses": [
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 250 280",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "letterSign",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "LettersGame.js",
+      "uses": [
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 250 280",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "cardGlyph",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "LettersArt",
+      "uses": [
+        "art export; indirect or CSS/template use possible"
+      ],
+      "geometry": "SVG viewBox 0 0 220 226",
+      "variants": [],
+      "status": "exported; use not directly located in listed entrypoints",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "creature",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "FeedPicnic.js, MiniGames.js, LettersGame.js",
+      "uses": [
+        "FeedPicnic.js",
+        "MiniGames.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 220 226",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "icon",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "GardenPractice.js, LetterHunt.js, LetterStudio.js, GardenTogether.js, FriendFind.js, FriendBook.js, PuzzleGames.js, ShadowGames.js, WordGames.js, JigsawPicture.js, ToyBoxGames.js, LookGames.js, LivingBooks.js, WaterGarden.js, LetterDelivery.js, FeedPicnic.js, MiniGames.js, PracticeFinish.js, LettersGame.js, EarsGames.js",
+      "uses": [
+        "GardenPractice.js",
+        "LetterHunt.js",
+        "LetterStudio.js",
+        "GardenTogether.js",
+        "FriendFind.js",
+        "FriendBook.js",
+        "PuzzleGames.js",
+        "ShadowGames.js",
+        "WordGames.js",
+        "JigsawPicture.js",
+        "ToyBoxGames.js",
+        "LookGames.js",
+        "LivingBooks.js",
+        "WaterGarden.js",
+        "LetterDelivery.js",
+        "FeedPicnic.js",
+        "MiniGames.js",
+        "PracticeFinish.js",
+        "LettersGame.js",
+        "EarsGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 64 64",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "artIcon",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "LettersGame.js",
+      "uses": [
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 64 64",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "dayPhase",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "LettersGame.js",
+      "uses": [
+        "LettersGame.js"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "hexToHsl",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "LettersArt",
+      "uses": [
+        "art export; indirect or CSS/template use possible"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "exported; use not directly located in listed entrypoints",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "hslToHex",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "LettersArt",
+      "uses": [
+        "art export; indirect or CSS/template use possible"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "exported; use not directly located in listed entrypoints",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "towardHue",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "LettersArt",
+      "uses": [
+        "art export; indirect or CSS/template use possible"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "exported; use not directly located in listed entrypoints",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "ramp",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "LettersArt",
+      "uses": [
+        "art export; indirect or CSS/template use possible"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "exported; use not directly located in listed entrypoints",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "biomeScenery",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "LettersArt",
+      "uses": [
+        "art export; indirect or CSS/template use possible"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "exported; use not directly located in listed entrypoints",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "landLife",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "LettersArt",
+      "uses": [
+        "art export; indirect or CSS/template use possible"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "exported; use not directly located in listed entrypoints",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "weatherFor",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "LettersGame.js",
+      "uses": [
+        "LettersGame.js"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "weatherLayer",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "LettersGame.js",
+      "uses": [
+        "LettersGame.js"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "hijri",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "LettersGame.js",
+      "uses": [
+        "LettersGame.js"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "season",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "LettersGame.js",
+      "uses": [
+        "LettersGame.js"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "seasonLayer",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "LettersGame.js",
+      "uses": [
+        "LettersGame.js"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "yearSeason",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "LettersGame.js",
+      "uses": [
+        "LettersGame.js"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "yearLayer",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "LettersGame.js",
+      "uses": [
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox -8 -8 16 16",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "backdrop",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "BookGames.js, LettersGame.js",
+      "uses": [
+        "BookGames.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "mapStop",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "LettersGame.js",
+      "uses": [
+        "LettersGame.js"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "bloomCluster",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "LettersArt",
+      "uses": [
+        "art export; indirect or CSS/template use possible"
+      ],
+      "geometry": "SVG viewBox -45 -28 90 52",
+      "variants": [],
+      "status": "exported; use not directly located in listed entrypoints",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "pet",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "LetterHunt.js, SoundLab.js, LetterStudio.js, GardenTogether.js, LetterBalloons.js, FriendFind.js, BookGames.js, PuzzleGames.js, ShadowGames.js, VowelGames.js, WorkshopGames.js, WordGames.js, ToyBoxGames.js, LookGames.js, SandTable.js, LivingBooks.js, LetterDelivery.js, FeedPicnic.js, MiniGames.js, PracticeFinish.js, LettersGame.js, EarsGames.js, CostumeHouse.js, WordTree.js",
+      "uses": [
+        "LetterHunt.js",
+        "SoundLab.js",
+        "LetterStudio.js",
+        "GardenTogether.js",
+        "LetterBalloons.js",
+        "FriendFind.js",
+        "BookGames.js",
+        "PuzzleGames.js",
+        "ShadowGames.js",
+        "VowelGames.js",
+        "WorkshopGames.js",
+        "WordGames.js",
+        "ToyBoxGames.js",
+        "LookGames.js",
+        "SandTable.js",
+        "LivingBooks.js",
+        "LetterDelivery.js",
+        "FeedPicnic.js",
+        "MiniGames.js",
+        "PracticeFinish.js",
+        "LettersGame.js",
+        "EarsGames.js",
+        "CostumeHouse.js",
+        "WordTree.js"
+      ],
+      "geometry": "SVG viewBox -70 -74 140 152",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "egg",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "PictureWords.js, LettersGame.js",
+      "uses": [
+        "PictureWords.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox -62 -60 124 124",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "eggShells",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "LettersGame.js",
+      "uses": [
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox -52 -24 104 50",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "skillFlower",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "LettersGame.js",
+      "uses": [
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox -70 -70 140 140",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "sticker",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "LetterStudio.js, PictureWords.js, LettersGame.js",
+      "uses": [
+        "LetterStudio.js",
+        "PictureWords.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox -38 -38 76 76",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "stickerMotif",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "LetterStudio.js, PictureWords.js, LivingBooks.js, LettersGame.js",
+      "uses": [
+        "LetterStudio.js",
+        "PictureWords.js",
+        "LivingBooks.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox -36 -36 72 72",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "stickerPack",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "LettersArt",
+      "uses": [
+        "art export; indirect or CSS/template use possible"
+      ],
+      "geometry": "SVG viewBox -44 -52 88 104",
+      "variants": [],
+      "status": "exported; use not directly located in listed entrypoints",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "confetti",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "LettersGame.js",
+      "uses": [
+        "LettersGame.js"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "PHASES",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "LettersGame.js",
+      "uses": [
+        "LettersGame.js"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LettersArt",
+      "id": "ICONS",
+      "source": "src/letters/LettersArt.js",
+      "entryPoint": "LettersArt",
+      "uses": [
+        "art export; indirect or CSS/template use possible"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "exported; use not directly located in listed entrypoints",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LivingBookArt",
+      "id": "scene",
+      "source": "src/letters/LivingBookArt.js",
+      "entryPoint": "GardenPractice.js, LetterHunt.js, LetterStudio.js, BookGames.js, ShadowGames.js, WordGames.js, ToyBoxGames.js, LivingBooks.js, WaterGarden.js, LetterDelivery.js, MiniGames.js, PracticeFinish.js, LettersGame.js",
+      "uses": [
+        "GardenPractice.js",
+        "LetterHunt.js",
+        "LetterStudio.js",
+        "BookGames.js",
+        "ShadowGames.js",
+        "WordGames.js",
+        "ToyBoxGames.js",
+        "LivingBooks.js",
+        "WaterGarden.js",
+        "LetterDelivery.js",
+        "MiniGames.js",
+        "PracticeFinish.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 300 200",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LivingBookArt",
+      "id": "sideTree",
+      "source": "src/letters/LivingBookArt.js",
+      "entryPoint": "LivingBookArt",
+      "uses": [
+        "art export; indirect or CSS/template use possible"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "exported; use not directly located in listed entrypoints",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LivingBookArt",
+      "id": "cloud",
+      "source": "src/letters/LivingBookArt.js",
+      "entryPoint": "LetterHunt.js, PictureWords.js, ToyBoxGames.js, LettersGame.js",
+      "uses": [
+        "LetterHunt.js",
+        "PictureWords.js",
+        "ToyBoxGames.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 300 200",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LivingBookArt",
+      "id": "tuft",
+      "source": "src/letters/LivingBookArt.js",
+      "entryPoint": "LettersGame.js",
+      "uses": [
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 300 200",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LivingBookArt",
+      "id": "flower",
+      "source": "src/letters/LivingBookArt.js",
+      "entryPoint": "PictureWords.js, WaterGarden.js, LettersGame.js",
+      "uses": [
+        "PictureWords.js",
+        "WaterGarden.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 300 200",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LivingBookArt",
+      "id": "stars",
+      "source": "src/letters/LivingBookArt.js",
+      "entryPoint": "LetterHunt.js, MiniGames.js, LettersGame.js",
+      "uses": [
+        "LetterHunt.js",
+        "MiniGames.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 300 200",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LivingBookArt",
+      "id": "props",
+      "source": "src/letters/LivingBookArt.js",
+      "entryPoint": "LetterHunt.js, LivingBooks.js, LettersGame.js",
+      "uses": [
+        "LetterHunt.js",
+        "LivingBooks.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 300 200",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LivingBookArt",
+      "id": "bush",
+      "source": "src/letters/LivingBookArt.js",
+      "entryPoint": "LivingBooks.js, LettersGame.js",
+      "uses": [
+        "LivingBooks.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 160 130",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LookPlayArt",
+      "id": "bus",
+      "source": "src/letters/LookPlayArt.js",
+      "entryPoint": "LookGames.js, LettersGame.js",
+      "uses": [
+        "LookGames.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 160 110",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LookPlayArt",
+      "id": "busStop",
+      "source": "src/letters/LookPlayArt.js",
+      "entryPoint": "LookGames.js",
+      "uses": [
+        "LookGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 240 160",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LookPlayArt",
+      "id": "stone",
+      "source": "src/letters/LookPlayArt.js",
+      "entryPoint": "LookGames.js, LettersGame.js",
+      "uses": [
+        "LookGames.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 160 150",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "LookPlayArt",
+      "id": "observe",
+      "source": "src/letters/LookPlayArt.js",
+      "entryPoint": "LetterHunt.js, SoundLab.js, LetterStudio.js, GardenTogether.js, LetterBalloons.js, FriendBook.js, LookGames.js, ToyChest.js, PracticeFinish.js, LettersGame.js",
+      "uses": [
+        "LetterHunt.js",
+        "SoundLab.js",
+        "LetterStudio.js",
+        "GardenTogether.js",
+        "LetterBalloons.js",
+        "FriendBook.js",
+        "LookGames.js",
+        "ToyChest.js",
+        "PracticeFinish.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 100 70",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "PracticeFinishArt",
+      "id": "bloom",
+      "source": "src/letters/PracticeFinishArt.js",
+      "entryPoint": "WaterGarden.js, LettersGame.js",
+      "uses": [
+        "WaterGarden.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "PracticeFinishArt",
+      "id": "planter",
+      "source": "src/letters/PracticeFinishArt.js",
+      "entryPoint": "PracticeFinishArt",
+      "uses": [
+        "art export; indirect or CSS/template use possible"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "exported; use not directly located in listed entrypoints",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "PracticeFinishArt",
+      "id": "earnedStar",
+      "source": "src/letters/PracticeFinishArt.js",
+      "entryPoint": "PracticeFinishArt",
+      "uses": [
+        "art export; indirect or CSS/template use possible"
+      ],
+      "geometry": "SVG viewBox 0 0 360 240",
+      "variants": [],
+      "status": "exported; use not directly located in listed entrypoints",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "PracticeFinishArt",
+      "id": "scene",
+      "source": "src/letters/PracticeFinishArt.js",
+      "entryPoint": "GardenPractice.js, LetterHunt.js, LetterStudio.js, BookGames.js, ShadowGames.js, WordGames.js, ToyBoxGames.js, LivingBooks.js, WaterGarden.js, LetterDelivery.js, MiniGames.js, PracticeFinish.js, LettersGame.js",
+      "uses": [
+        "GardenPractice.js",
+        "LetterHunt.js",
+        "LetterStudio.js",
+        "BookGames.js",
+        "ShadowGames.js",
+        "WordGames.js",
+        "ToyBoxGames.js",
+        "LivingBooks.js",
+        "WaterGarden.js",
+        "LetterDelivery.js",
+        "MiniGames.js",
+        "PracticeFinish.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 360 240",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "PuzzlePlayArt",
+      "id": "echoStage",
+      "source": "src/letters/PuzzlePlayArt.js",
+      "entryPoint": "PuzzleGames.js",
+      "uses": [
+        "PuzzleGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 320 150",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "PuzzlePlayArt",
+      "id": "dotBench",
+      "source": "src/letters/PuzzlePlayArt.js",
+      "entryPoint": "PuzzleGames.js",
+      "uses": [
+        "PuzzleGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 260 220",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "PuzzlePlayArt",
+      "id": "dotStamp",
+      "source": "src/letters/PuzzlePlayArt.js",
+      "entryPoint": "PuzzleGames.js",
+      "uses": [
+        "PuzzleGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 100 100",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "PuzzlePlayArt",
+      "id": "turntable",
+      "source": "src/letters/PuzzlePlayArt.js",
+      "entryPoint": "PuzzleGames.js",
+      "uses": [
+        "PuzzleGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 140 158",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "PuzzlePlayArt",
+      "id": "turnHandle",
+      "source": "src/letters/PuzzlePlayArt.js",
+      "entryPoint": "PuzzleGames.js",
+      "uses": [
+        "PuzzleGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 50 50",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "PuzzlePlayArt",
+      "id": "matchFrame",
+      "source": "src/letters/PuzzlePlayArt.js",
+      "entryPoint": "PuzzleGames.js",
+      "uses": [
+        "PuzzleGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 230 220",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "PuzzlePlayArt",
+      "id": "station",
+      "source": "src/letters/PuzzlePlayArt.js",
+      "entryPoint": "PuzzleGames.js",
+      "uses": [
+        "PuzzleGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 680 240",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "PuzzlePlayArt",
+      "id": "stationShelter",
+      "source": "src/letters/PuzzlePlayArt.js",
+      "entryPoint": "PuzzleGames.js",
+      "uses": [
+        "PuzzleGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 190 96",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "PuzzlePlayArt",
+      "id": "engine",
+      "source": "src/letters/PuzzlePlayArt.js",
+      "entryPoint": "PuzzleGames.js, LettersStrokes.js, LettersGame.js, CostumeHouse.js",
+      "uses": [
+        "PuzzleGames.js",
+        "LettersStrokes.js",
+        "LettersGame.js",
+        "CostumeHouse.js"
+      ],
+      "geometry": "SVG viewBox 0 0 120 80",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "PuzzlePlayArt",
+      "id": "carriage",
+      "source": "src/letters/PuzzlePlayArt.js",
+      "entryPoint": "PuzzleGames.js",
+      "uses": [
+        "PuzzleGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 100 80",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "PuzzlePlayArt",
+      "id": "balloon",
+      "source": "src/letters/PuzzlePlayArt.js",
+      "entryPoint": "LetterBalloons.js, PuzzleGames.js, LettersGame.js",
+      "uses": [
+        "LetterBalloons.js",
+        "PuzzleGames.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 100 130",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "SandPlayArt",
+      "id": "rake",
+      "source": "src/letters/SandPlayArt.js",
+      "entryPoint": "SandTable.js",
+      "uses": [
+        "SandTable.js"
+      ],
+      "geometry": "SVG viewBox 0 0 64 64",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "SandPlayArt",
+      "id": "setting",
+      "source": "src/letters/SandPlayArt.js",
+      "entryPoint": "SandTable.js, LettersGame.js",
+      "uses": [
+        "SandTable.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 640 400",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "SoundLabArt",
+      "id": "machine",
+      "source": "src/letters/SoundLabArt.js",
+      "entryPoint": "SoundLab.js, MiniGames.js",
+      "uses": [
+        "SoundLab.js",
+        "MiniGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 360 280",
+      "variants": [
+        "classic() alternative also exported by module"
+      ],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "SoundLabArt",
+      "id": "classic",
+      "source": "src/letters/SoundLabArt.js",
+      "entryPoint": "LetterHunt.js, LetterBalloons.js, BookGames.js, ToyBoxGames.js, LivingBooks.js, WaterGarden.js, LetterDelivery.js, LettersGame.js",
+      "uses": [
+        "LetterHunt.js",
+        "LetterBalloons.js",
+        "BookGames.js",
+        "ToyBoxGames.js",
+        "LivingBooks.js",
+        "WaterGarden.js",
+        "LetterDelivery.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 320 210",
+      "variants": [],
+      "status": "classic/rollback",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "TogetherPlayArt",
+      "id": "basket",
+      "source": "src/letters/TogetherPlayArt.js",
+      "entryPoint": "LetterHunt.js, GardenTogether.js, BookGames.js, FeedPicnic.js, MiniGames.js, LettersGame.js",
+      "uses": [
+        "LetterHunt.js",
+        "GardenTogether.js",
+        "BookGames.js",
+        "FeedPicnic.js",
+        "MiniGames.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 180 110",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "TogetherPlayArt",
+      "id": "mat",
+      "source": "src/letters/TogetherPlayArt.js",
+      "entryPoint": "GardenTogether.js",
+      "uses": [
+        "GardenTogether.js"
+      ],
+      "geometry": "SVG viewBox 0 0 600 400",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "TogetherPlayArt",
+      "id": "cardBack",
+      "source": "src/letters/TogetherPlayArt.js",
+      "entryPoint": "GardenTogether.js, ToyBoxGames.js",
+      "uses": [
+        "GardenTogether.js",
+        "ToyBoxGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 100 120",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "ToyChestArt",
+      "id": "play",
+      "source": "src/letters/ToyChestArt.js",
+      "entryPoint": "LetterHunt.js, LetterStudio.js, GardenTogether.js, LetterBalloons.js, FriendFind.js, BookGames.js, PuzzleGames.js, ShadowGames.js, JigsawPicture.js, ToyBoxGames.js, WaterGarden.js, FeedPicnic.js, MiniGames.js, ToyChest.js, LettersGame.js",
+      "uses": [
+        "LetterHunt.js",
+        "LetterStudio.js",
+        "GardenTogether.js",
+        "LetterBalloons.js",
+        "FriendFind.js",
+        "BookGames.js",
+        "PuzzleGames.js",
+        "ShadowGames.js",
+        "JigsawPicture.js",
+        "ToyBoxGames.js",
+        "WaterGarden.js",
+        "FeedPicnic.js",
+        "MiniGames.js",
+        "ToyChest.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "ToyChestArt",
+      "id": "listen",
+      "source": "src/letters/ToyChestArt.js",
+      "entryPoint": "GardenPractice.js, LetterHunt.js, FriendFind.js, FriendBook.js, BookGames.js, PuzzleGames.js, ShadowGames.js, VowelGames.js, WordGames.js, ToyBoxGames.js, WaterGarden.js, LetterDelivery.js, MiniGames.js, ToyChest.js, LettersGame.js",
+      "uses": [
+        "GardenPractice.js",
+        "LetterHunt.js",
+        "FriendFind.js",
+        "FriendBook.js",
+        "BookGames.js",
+        "PuzzleGames.js",
+        "ShadowGames.js",
+        "VowelGames.js",
+        "WordGames.js",
+        "ToyBoxGames.js",
+        "WaterGarden.js",
+        "LetterDelivery.js",
+        "MiniGames.js",
+        "ToyChest.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "ToyChestArt",
+      "id": "read",
+      "source": "src/letters/ToyChestArt.js",
+      "entryPoint": "ToyBoxGames.js, LivingBooks.js, WaterGarden.js, MiniGames.js, ToyChest.js, LettersGame.js, CostumeHouse.js",
+      "uses": [
+        "ToyBoxGames.js",
+        "LivingBooks.js",
+        "WaterGarden.js",
+        "MiniGames.js",
+        "ToyChest.js",
+        "LettersGame.js",
+        "CostumeHouse.js"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "ToyChestArt",
+      "id": "think",
+      "source": "src/letters/ToyChestArt.js",
+      "entryPoint": "MiniGames.js, ToyChest.js, LettersGame.js",
+      "uses": [
+        "MiniGames.js",
+        "ToyChest.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "ToyChestArt",
+      "id": "write",
+      "source": "src/letters/ToyChestArt.js",
+      "entryPoint": "MiniGames.js, ToyChest.js, LettersGame.js",
+      "uses": [
+        "MiniGames.js",
+        "ToyChest.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "ToyChestArt",
+      "id": "explore",
+      "source": "src/letters/ToyChestArt.js",
+      "entryPoint": "GardenPractice.js, MiniGames.js, ToyChest.js, LettersGame.js",
+      "uses": [
+        "GardenPractice.js",
+        "MiniGames.js",
+        "ToyChest.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG/canvas geometry not statically stated",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "ToyStudioArt",
+      "id": "pairLeaf",
+      "source": "src/letters/ToyStudioArt.js",
+      "entryPoint": "ToyBoxGames.js",
+      "uses": [
+        "ToyBoxGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 100 100",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "ToyStudioArt",
+      "id": "nestParts",
+      "source": "src/letters/ToyStudioArt.js",
+      "entryPoint": "ToyStudioArt",
+      "uses": [
+        "art export; indirect or CSS/template use possible"
+      ],
+      "geometry": "SVG viewBox 0 0 100 80",
+      "variants": [],
+      "status": "exported; use not directly located in listed entrypoints",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "ToyStudioArt",
+      "id": "nest",
+      "source": "src/letters/ToyStudioArt.js",
+      "entryPoint": "PictureWords.js, ToyBoxGames.js, LettersGame.js",
+      "uses": [
+        "PictureWords.js",
+        "ToyBoxGames.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 100 80",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "ToyStudioArt",
+      "id": "dotTree",
+      "source": "src/letters/ToyStudioArt.js",
+      "entryPoint": "ToyBoxGames.js",
+      "uses": [
+        "ToyBoxGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 360 300",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "ToyStudioArt",
+      "id": "countPerch",
+      "source": "src/letters/ToyStudioArt.js",
+      "entryPoint": "ToyBoxGames.js",
+      "uses": [
+        "ToyBoxGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 360 240",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "ToyStudioArt",
+      "id": "puzzleFrame",
+      "source": "src/letters/ToyStudioArt.js",
+      "entryPoint": "ToyBoxGames.js",
+      "uses": [
+        "ToyBoxGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 340 340",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "ToyStudioArt",
+      "id": "drawingEasel",
+      "source": "src/letters/ToyStudioArt.js",
+      "entryPoint": "ToyBoxGames.js",
+      "uses": [
+        "ToyBoxGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 360 410",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "ToyStudioArt",
+      "id": "crayon",
+      "source": "src/letters/ToyStudioArt.js",
+      "entryPoint": "ToyBoxGames.js, MiniGames.js",
+      "uses": [
+        "ToyBoxGames.js",
+        "MiniGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 40 80",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "WaterPlayArt",
+      "id": "scene",
+      "source": "src/letters/WaterPlayArt.js",
+      "entryPoint": "GardenPractice.js, LetterHunt.js, LetterStudio.js, BookGames.js, ShadowGames.js, WordGames.js, ToyBoxGames.js, LivingBooks.js, WaterGarden.js, LetterDelivery.js, MiniGames.js, PracticeFinish.js, LettersGame.js",
+      "uses": [
+        "GardenPractice.js",
+        "LetterHunt.js",
+        "LetterStudio.js",
+        "BookGames.js",
+        "ShadowGames.js",
+        "WordGames.js",
+        "ToyBoxGames.js",
+        "LivingBooks.js",
+        "WaterGarden.js",
+        "LetterDelivery.js",
+        "MiniGames.js",
+        "PracticeFinish.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 360 320",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "WatersideArt",
+      "id": "fish",
+      "source": "src/letters/WatersideArt.js",
+      "entryPoint": "PictureWords.js, ToyBoxGames.js, LettersGame.js",
+      "uses": [
+        "PictureWords.js",
+        "ToyBoxGames.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 120 70",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "WatersideArt",
+      "id": "pond",
+      "source": "src/letters/WatersideArt.js",
+      "entryPoint": "ToyBoxGames.js, MiniGames.js, LettersGame.js",
+      "uses": [
+        "ToyBoxGames.js",
+        "MiniGames.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 600 420",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "WatersideArt",
+      "id": "reeds",
+      "source": "src/letters/WatersideArt.js",
+      "entryPoint": "ToyBoxGames.js, LettersGame.js",
+      "uses": [
+        "ToyBoxGames.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 100 120",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "WatersideArt",
+      "id": "stones",
+      "source": "src/letters/WatersideArt.js",
+      "entryPoint": "ToyBoxGames.js, LookGames.js, LettersGame.js",
+      "uses": [
+        "ToyBoxGames.js",
+        "LookGames.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 100 42",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "WatersideArt",
+      "id": "dock",
+      "source": "src/letters/WatersideArt.js",
+      "entryPoint": "ToyBoxGames.js, MiniGames.js, LettersGame.js",
+      "uses": [
+        "ToyBoxGames.js",
+        "MiniGames.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 180 70",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "WatersideArt",
+      "id": "bathBackdrop",
+      "source": "src/letters/WatersideArt.js",
+      "entryPoint": "ToyBoxGames.js",
+      "uses": [
+        "ToyBoxGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 500 500",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "WatersideArt",
+      "id": "bathPlant",
+      "source": "src/letters/WatersideArt.js",
+      "entryPoint": "ToyBoxGames.js",
+      "uses": [
+        "ToyBoxGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 130 105",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "WatersideArt",
+      "id": "bathTowels",
+      "source": "src/letters/WatersideArt.js",
+      "entryPoint": "ToyBoxGames.js",
+      "uses": [
+        "ToyBoxGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 127 68",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "WatersideArt",
+      "id": "sponge",
+      "source": "src/letters/WatersideArt.js",
+      "entryPoint": "ToyBoxGames.js, LettersGame.js",
+      "uses": [
+        "ToyBoxGames.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 100 80",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "WatersideArt",
+      "id": "shower",
+      "source": "src/letters/WatersideArt.js",
+      "entryPoint": "ToyBoxGames.js",
+      "uses": [
+        "ToyBoxGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 100 90",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "WordWardrobeArt",
+      "id": "dressingNook",
+      "source": "src/letters/WordWardrobeArt.js",
+      "entryPoint": "VowelGames.js",
+      "uses": [
+        "VowelGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 320 280",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "WordWardrobeArt",
+      "id": "crownStage",
+      "source": "src/letters/WordWardrobeArt.js",
+      "entryPoint": "WordGames.js",
+      "uses": [
+        "WordGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 360 170",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "WordWardrobeArt",
+      "id": "readingNook",
+      "source": "src/letters/WordWardrobeArt.js",
+      "entryPoint": "WordGames.js",
+      "uses": [
+        "WordGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 320 210",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "WordWardrobeArt",
+      "id": "bookCradle",
+      "source": "src/letters/WordWardrobeArt.js",
+      "entryPoint": "WordGames.js",
+      "uses": [
+        "WordGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 520 280",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "WorkshopShadowArt",
+      "id": "assemblyBoard",
+      "source": "src/letters/WorkshopShadowArt.js",
+      "entryPoint": "WorkshopGames.js",
+      "uses": [
+        "WorkshopGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 280 250",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "WorkshopShadowArt",
+      "id": "pictureFrame",
+      "source": "src/letters/WorkshopShadowArt.js",
+      "entryPoint": "WorkshopGames.js",
+      "uses": [
+        "WorkshopGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 240 210",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "WorkshopShadowArt",
+      "id": "theatreFrame",
+      "source": "src/letters/WorkshopShadowArt.js",
+      "entryPoint": "ShadowGames.js",
+      "uses": [
+        "ShadowGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 640 360",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "WorkshopShadowArt",
+      "id": "nightGarden",
+      "source": "src/letters/WorkshopShadowArt.js",
+      "entryPoint": "ShadowGames.js",
+      "uses": [
+        "ShadowGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 680 440",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "WorkshopShadowArt",
+      "id": "nightTree",
+      "source": "src/letters/WorkshopShadowArt.js",
+      "entryPoint": "ShadowGames.js",
+      "uses": [
+        "ShadowGames.js"
+      ],
+      "geometry": "SVG viewBox 0 0 140 210",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "WorkshopShadowArt",
+      "id": "lantern",
+      "source": "src/letters/WorkshopShadowArt.js",
+      "entryPoint": "LetterHunt.js, PictureWords.js, ShadowGames.js, LettersGame.js",
+      "uses": [
+        "LetterHunt.js",
+        "PictureWords.js",
+        "ShadowGames.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 72 96",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "WorkshopShadowArt",
+      "id": "jar",
+      "source": "src/letters/WorkshopShadowArt.js",
+      "entryPoint": "ShadowGames.js, LettersGame.js",
+      "uses": [
+        "ShadowGames.js",
+        "LettersGame.js"
+      ],
+      "geometry": "SVG viewBox 0 0 100 110",
+      "variants": [],
+      "status": "current",
+      "concern": "Code-only review: compare rendered native scale and contour weight with neighboring game art; no visual conclusion."
+    },
+    {
+      "family": "SharedControls",
+      "id": "game action icons and room toys",
+      "source": "src/letters/LettersGame.js",
+      "entryPoint": "LettersGame.js",
+      "uses": [
+        "Shared room top bar, toy buttons, close/continue/replay and activity launcher controls; inline SVG and CSS shapes"
+      ],
+      "geometry": "CSS-sized SVG/button boxes; inspect styles.css and inline markup",
+      "variants": [],
+      "status": "current",
+      "concern": "Shared controls are distributed between templates and CSS; apparent consistency requires rendered check."
+    },
+    {
+      "family": "InlineActivityMarkup",
+      "id": "practice feedback and status art",
+      "source": "src/letters/PracticeFinish.js",
+      "entryPoint": "PracticeFinish.js",
+      "uses": [
+        "Correct/try-again marks, progress marks, reward/stars and completion feedback; inline SVG/CSS classes"
+      ],
+      "geometry": "Small icon viewBoxes and CSS dimensions; see source",
+      "variants": [],
+      "status": "current",
+      "concern": "Code hypothesis: native viewBox dimensions and CSS display size may differ across activities."
+    },
+    {
+      "family": "InlineMiniGames",
+      "id": "mini-game drawn objects",
+      "source": "src/letters/MiniGames.js",
+      "entryPoint": "MiniGames.js",
+      "uses": [
+        "Letter matching tiles, target objects, food/friend props and inline SVG/canvas-style shapes"
+      ],
+      "geometry": "Per-template inline geometry",
+      "variants": [],
+      "status": "current",
+      "concern": "Several activities draw inline rather than through *Art.js modules."
+    },
+    {
+      "family": "CSSFeedback",
+      "id": "particles and interaction feedback",
+      "source": "styles.css",
+      "entryPoint": "styles.css",
+      "uses": [
+        "Pop/burst/confetti/sparkle/shine/selected/correct/error feedback and animation pseudo-elements"
+      ],
+      "geometry": "CSS dimensions/keyframes; no shared SVG viewBox",
+      "variants": [],
+      "status": "current",
+      "concern": "Feedback scale and duration are CSS-defined and may vary by game."
+    },
+    {
+      "family": "LetterGardenActivity",
+      "id": "picture-picker activity illustrations",
+      "source": "src/letters/LettersGardenArt.js",
+      "entryPoint": "LettersGame.js",
+      "uses": [
+        "practicePicture(kind) branches for activity thumbnails (including game-specific mini scenes)"
+      ],
+      "geometry": "inline SVG within fixed SVG viewBox",
+      "variants": [],
+      "status": "current",
+      "concern": "Game thumbnails and live scene artwork may use different compositions/scales."
+    }
+  ]
+}

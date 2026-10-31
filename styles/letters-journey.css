@@ -84,6 +84,22 @@
 .seed-bed .bed-sign { transform-box:fill-box; transform-origin:50% 100%; transform:rotate(var(--sign-turn,0deg)); }
 .map-journey-memento { position:absolute; top:calc(100% + 6px); left:50%; width:112px; transform:translateX(-50%); pointer-events:none; }
 .map-journey-memento > svg { display:block; width:100%; height:auto; }
+.lg-home .map-memento-toy { pointer-events:auto; min-height:52px; padding:0; border:0; border-radius:18px; background:none; cursor:pointer; touch-action:manipulation; }
+.map-memento-toy > svg { pointer-events:none; overflow:visible; }
+.map-memento-toy:active { scale:.96; }
+.map-memento-toy.is-awake > svg { filter:drop-shadow(0 0 4px #f3c955); }
+.map-memento-toy.is-awake .craft-lantern > circle:first-child { opacity:.85; }
+@media (prefers-reduced-motion:no-preference) {
+  .lg-app:not(.lg-reduce-motion) .map-memento-toy.is-playing .craft-lantern { transform-box:fill-box; transform-origin:50% 0; animation:keepsake-sway 900ms ease-out; }
+  .lg-app:not(.lg-reduce-motion) .map-memento-toy.is-playing .craft-fruit { animation:keepsake-bounce 700ms ease-out; }
+  .lg-app:not(.lg-reduce-motion) .map-memento-toy.is-playing .craft-jar { transform-box:fill-box; transform-origin:50% 100%; animation:keepsake-jiggle 650ms ease-out; }
+  .lg-app:not(.lg-reduce-motion) .map-memento-toy.is-playing .craft-raft-boat { transform-box:fill-box; transform-origin:50% 80%; animation:keepsake-rock 1100ms ease-in-out; }
+  .lg-app:not(.lg-reduce-motion) .map-memento-toy.is-playing :is(.craft-lantern,.craft-fruit,.craft-jar) { animation-delay:calc(var(--keepsake-i,0) * 90ms); }
+  @keyframes keepsake-sway { 0%,100% { transform:rotate(0); filter:drop-shadow(0 0 0 #f3c955); } 25% { transform:rotate(-7deg); filter:drop-shadow(0 0 5px #f3c955); } 60% { transform:rotate(4deg); } }
+  @keyframes keepsake-bounce { 0%,100% { transform:translateY(0); } 30% { transform:translateY(-8px); } 65% { transform:translateY(2px); } }
+  @keyframes keepsake-jiggle { 0%,100% { transform:rotate(0); } 25% { transform:rotate(-5deg); } 65% { transform:rotate(4deg); } }
+  @keyframes keepsake-rock { 0%,100% { transform:translate(0,0) rotate(0); } 35% { transform:translate(3px,-4px) rotate(-4deg); } 70% { transform:translate(-2px,-1px) rotate(3deg); } }
+}
 @media (prefers-reduced-motion:no-preference) {
   .lg-app:not(.lg-reduce-motion) .seed-bed-scene[data-journey-phase="3"] .bed-bloom { transform-box:fill-box; transform-origin:50% 100%; animation:bed-bloom 520ms cubic-bezier(.2,.8,.2,1) both; }
   .lg-app:not(.lg-reduce-motion) .seed-bed-scene .bed-bloom:nth-child(odd) { animation-delay:90ms; }

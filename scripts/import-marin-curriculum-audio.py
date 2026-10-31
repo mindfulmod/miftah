@@ -42,6 +42,9 @@ def main():
     previous = json.loads(re.search(r'Object.freeze\((\{.*?\})\)', runtime.read_text(), re.S)[1])
     clips = {key: value for key, value in previous.items() if '/marin-v1/' in value}
     assert len(clips) == 25, 'The original voice bank changed; review before importing'
+    # Later independently approved API recordings survive historical cut imports.
+    teacher = {key: value for key, value in previous.items() if '/marin-teacher-v1/' in value}
+    clips.update(teacher)
     cuts = {unicodedata.normalize('NFC', cut['text']): cut for cut in sheet['cuts']}
     assert len(cuts) == len(sheet['cuts']) and set(cuts) <= set(expected)
     ASSETS.mkdir(parents=True, exist_ok=True)
@@ -84,7 +87,8 @@ def main():
                         assert approval['verdict'] == 'correct', 'Owner rejected this clip'
                         assert approval['audioSha256'] == item['sha256'], 'Changed clip needs a new owner review'
                         assert sha(ROOT / approval['file']) == approval['sha256'], 'Owner review evidence changed'
-                    clips[text] = item['file']
+                    if text not in teacher:
+                        clips[text] = item['file']
                 destination.write_bytes(wav_bytes)
             else:
                 assert item['status'] != 'imported'

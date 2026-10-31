@@ -1,0 +1,37 @@
+✔ an invited picture is selected without placing it; a child tap places it and Undo restores the garden (5.008333ms)
+✔ an already displayed invited picture is revealed in place without duplicating or moving it (0.708959ms)
+✔ missing or non-picture invitations leave the ordinary garden unchanged (2.435834ms)
+✔ select then place changes layout once and keeps four slots (0.7455ms)
+✔ click moving is unique; replacement can be undone (0.864708ms)
+✔ remove then undo restores the selected decoration (0.6455ms)
+✔ empty catalog makes slots inert (aria-disabled, a tap only hops the lesson card) and stale callbacks after destroy do nothing (0.641667ms)
+✔ cancel, wrong pointer, and destroy clean up drag without saving (0.761333ms)
+✔ valid drag between stationary slot targets saves and removes ghost (0.980125ms)
+✔ v9 Family Garden: the first child keeps the original keys; siblings are scoped; settings are shared (4.016166ms)
+✔ v10 Moon Calendar: Ramadan and both Eids from the Islamic calendar; the Eid gift is once per Eid and only adds (39.313583ms)
+✔ v11 Sound Lab: only taught marks, free play with no reports, output shown as a measured sign (1.383958ms)
+✔ v12 Garden Visitors: only owned animal stickers visit, up to three a day, play only (1.182917ms)
+✔ v13 Letter Studio: stamps known letters and owned friends; hanging saves a garden sign; nothing is judged (2.893959ms)
+✔ finish waits for the child to continue; timers never navigate on their own (3.189541ms)
+✔ unpaid finish has no reward sound and the presenter does not alter reward state (0.552458ms)
+✔ the picture invitation is optional, explicit and shares the one-shot finish guard (0.845917ms)
+✔ invalid picture sources cannot become invitations, and stale invitations are inert (1.596666ms)
+✔ continue and replay are one-shot choices, with replay available only when supplied (0.801417ms)
+✔ destroying before the earned-star cue cancels sound and makes old controls inert (0.423458ms)
+✔ detached or replaced finish roots cannot run callbacks (0.691208ms)
+✔ finish focuses Continue and removes the live heading from interaction (0.386292ms)
+✔ failed wallet write leaves balance and receipt untouched, so a retry can succeed once (0.601583ms)
+✔ a failed legacy mirror cannot reopen a reward already recorded in the wallet ledger (0.15575ms)
+✔ legacy receipts merge with the wallet ledger, enforce the daily cap, and roll over by day (0.098ms)
+✔ invalid reward amounts never modify the wallet or write a receipt (0.106792ms)
+✔ returning to the practice hub restores its scroll and focuses the source toy (0.2055ms)
+✔ only a live successfully constructed practice loses its new marker (7.821ms)
+✔ unsupported, empty, throwing, and departed practices never retire the new invitation (4.507041ms)
+ℹ tests 29
+ℹ suites 0
+ℹ pass 29
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 526.318333

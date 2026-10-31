@@ -1,0 +1,129 @@
+{
+  "source": "batch100-owner-review.json",
+  "generationHold": true,
+  "newPaidCalls": 0,
+  "counts": {
+    "correctMarks": 73,
+    "fixMarks": 26,
+    "undecided": 1,
+    "clearApprovals": 72,
+    "heldIncludingConflicts": 28
+  },
+  "findings": [
+    "23 of 26 rejected clips are isolated syllables; one is a story word and two are reading words.",
+    "Missing initial consonants, wrong vowel/nasal endings, duplicated or prolonged sounds, and robotic artifacts require separate handling.",
+    "All 100 playback PCM streams exactly match raw API output: local WAV header repair did not trim or transform speech.",
+    "Energy begins 15–20 ms into each of the three missing-onset examples. A short silence-only comparison can test playback onset without paid regeneration. This is a hypothesis, not a proven cause."
+  ],
+  "held": [
+    {
+      "id": "lg-1928a403f70f",
+      "input": "بِّ",
+      "targetInput": "بِّ",
+      "targetId": "lg-1928a403f70f",
+      "sha256": "02268d8b9117d6bc81ec48ad85632f06cc413911670c11eddcba66b89ceead9e",
+      "file": "tanwin-repair-candidates/lg-fd7e18857948.wav",
+      "decision": "fix",
+      "note": "abbi",
+      "updated": "2026-10-30T23:48:34.393Z",
+      "generatedInput": "أَبِّ",
+      "generatedId": "lg-fd7e18857948",
+      "source": "owner browser review export"
+    },
+    {
+      "id": "lg-1dc9c72a6341",
+      "input": "بُّ",
+      "targetInput": "بُّ",
+      "targetId": "lg-1dc9c72a6341",
+      "sha256": "0976b7265537be9a74a83228af902bfc9dce3c37f482f82ad207d6623ec4b9d5",
+      "file": "tanwin-repair-candidates/lg-43401d7c8e1d.wav",
+      "decision": "fix",
+      "note": "abu",
+      "updated": "2026-10-30T23:48:47.358Z",
+      "generatedInput": "أَبُّ",
+      "generatedId": "lg-43401d7c8e1d",
+      "source": "owner browser review export"
+    },
+    {
+      "id": "lg-4800c31a15bc",
+      "input": "رِّ",
+      "targetInput": "رِّ",
+      "targetId": "lg-4800c31a15bc",
+      "sha256": "367ce340ae6d74ec43ffa57988ad4258d7f848bbba38b97a6b6878916fcced72",
+      "file": "combined64-candidates/lg-0bcea8612016.wav",
+      "decision": "fix",
+      "note": "arri",
+      "updated": "2026-10-31T00:13:14.524Z",
+      "generatedId": "lg-0bcea8612016",
+      "generatedInput": "أَرِّ",
+      "source": "combined64-owner-review-20261030.json"
+    },
+    {
+      "id": "lg-934e0e0be0bf",
+      "input": "لِّ",
+      "targetInput": "لِّ",
+      "targetId": "lg-934e0e0be0bf",
+      "sha256": "402c184a9ea3300d203be1d111c6533ccf5767b0aef19d45ac193988230a9058",
+      "file": "combined64-candidates/lg-ef5addaf6829.wav",
+      "decision": "fix",
+      "note": "alli",
+      "updated": "2026-10-31T00:13:11.704Z",
+      "generatedId": "lg-ef5addaf6829",
+      "generatedInput": "أَلِّ",
+      "source": "combined64-owner-review-20261030.json"
+    },
+    {
+      "id": "lg-bbcc3bf22bc3",
+      "input": "مِّ",
+      "targetInput": "مِّ",
+      "targetId": "lg-bbcc3bf22bc3",
+      "sha256": "c41adeeb2fab366acf8ca5752c8a5847a4e8e55645778cf8614123570e651f6a",
+      "file": "combined64-candidates/lg-021c4b782e91.wav",
+      "decision": "fix",
+      "note": "ammi",
+      "updated": "2026-10-31T00:13:10.153Z",
+      "generatedId": "lg-021c4b782e91",
+      "generatedInput": "أَمِّ",
+      "source": "combined64-owner-review-20261030.json"
+    }
+  ],
+  "nextStep": "17 remaining tanwin repairs approved and installed. Repair only wun vowel and tan opening noise; keep the other three issues separate.",
+  "onsetFollowUp": {
+    "ownerStatement": "the single letter items have wrong letters, the word starts with the wrong letter",
+    "status": "Padding approach closed; wrong-consonant generation test prepared"
+  },
+  "consonantFollowUp": {
+    "approved": [
+      "كِ",
+      "تِ"
+    ],
+    "rejected": [
+      "تِمْسَاح"
+    ],
+    "finding": "Input starts with Arabic taa U+062A and kasra U+0650. Owner reports output missing /t/. Keep both rejected word files out; spelling must not be altered to match the mistake."
+  },
+  "currentCounts": {
+    "clearApprovals": 97,
+    "heldIncludingConflicts": 3
+  },
+  "tanwinFollowUp": {
+    "approved": [
+      "بً",
+      "طٍ",
+      "ضٌ"
+    ],
+    "statement": "all 3 are fine",
+    "remainingTanwin": 19
+  },
+  "tanwinRemainingResult": {
+    "approved": 17,
+    "held": 2,
+    "statement": "wun sounded like wan, tan had a weird noise at the start otherwise it was fine, the rest are okay"
+  },
+  "latestBatch": {
+    "source": "combined64-repair8-owner-review-20261030.json",
+    "approved": 7,
+    "held": 1,
+    "installed": 7
+  }
+}

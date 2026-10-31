@@ -129,8 +129,27 @@
       this.onKey=e=>{if(e.key==='Escape'&&this.alive){this.dragResets.forEach(reset=>reset());this.selected=null;this.selectedSlot=null;this.paint();}};
       stage.addEventListener('keydown',this.onKey);
       this.paint();
+      this.selectPicture(ctx.initialSelection);
     }
     visible(){return ns.LettersDecorations.visibleSlots(this.layout,this.catalog);}
+    selectPicture(id) {
+      if (!this.alive || this.items.get(id)?.kind !== 'sign') return false;
+      this.selected = id;
+      const placed = this.visible().indexOf(id);
+      this.selectedSlot = placed >= 0 ? placed : null;
+      this.paint();
+      const choice = this.choices.find(button => button.dataset.decoration === id);
+      if (choice) {
+        const a = choice.getBoundingClientRect(), b = this.tray.getBoundingClientRect();
+        this.tray.scrollBy({left:a.left-b.left-(this.tray.clientWidth-a.width)/2,behavior:'auto'});
+        this.refreshShelf();
+      }
+      // Select and reveal only. Opening the garden never places, replaces or
+      // pays for anything; the child still chooses a space.
+      const target = placed >= 0 ? this.slots[placed] : this.slots[this.visible().findIndex(value => !value)];
+      (target || choice)?.focus({preventScroll:true});
+      return true;
+    }
     // Pet travel for toys. Offsets are measured from the pet's home spot, so
     // a walk can start wherever the pet already is (on the blanket, say).
     later(fn,ms){const t=setTimeout(()=>{this.toyTimers.delete(t);if(this.alive)fn();},ms);(this.toyTimers||=new Set()).add(t);}

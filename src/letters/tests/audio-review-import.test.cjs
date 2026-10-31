@@ -36,8 +36,8 @@ test('all owner approvals retain their reviewed audio; every rejected recording 
     if (decision?.verdict === 'fix') {
       rejected++;
       assert.equal(item.status, 'candidate');
-      assert.ok(!bank.includes(old.id));
-      assert.ok(!shell.includes(old.id));
+      for (const part of old.parts) assert.ok(!bank.includes(part.file));
+      for (const part of old.parts) assert.ok(!shell.includes(part.file));
     }
   }
   assert.equal(approvedClips, 164);

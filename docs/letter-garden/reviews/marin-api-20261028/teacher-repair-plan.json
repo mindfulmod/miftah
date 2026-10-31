@@ -1,0 +1,9 @@
+{
+  "stage": "composed-teacher-repair-v1",
+  "id": "lg-1d35b258f38f",
+  "input": "رُمَّان",
+  "replacesSha256": "bca47531a08663b406740c5529a032257b7c7a6ceb2e2ca145acda4f944ff731",
+  "sourceStage": "composed-teacher-library-v1",
+  "reason": "Robotic start in the first letter.",
+  "instructions": "Keep selected composed-teacher settings unchanged; generate only this rejected word once. Preserve original file. Replacement requires owner review."
+}

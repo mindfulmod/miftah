@@ -1,0 +1,265 @@
+{
+  "kind": "letter-garden-teacher-install-approval",
+  "source": "explicit user approval after three-sound review",
+  "statement": "all 3 are fine",
+  "reviews": [
+    {
+      "id": "lg-aff5a3784268",
+      "input": "بً",
+      "generatedInput": "بَنْ",
+      "generatedId": "lg-f379784096ab",
+      "file": "tanwin-candidates/lg-f379784096ab.wav",
+      "sha256": "3389033701503700aae3234ef10a5239afed5b8900ce15cff9bcc8acbd9d7702",
+      "decision": "correct",
+      "source": "explicit user message",
+      "note": "Owner: all 3 are fine",
+      "updated": "2026-10-30T02:45:31.923517+00:00"
+    },
+    {
+      "id": "lg-5fd45680f580",
+      "input": "طٍ",
+      "generatedInput": "طِنْ",
+      "generatedId": "lg-f43f7fe0a534",
+      "file": "tanwin-candidates/lg-f43f7fe0a534.wav",
+      "sha256": "faab2e5bc865794535113dc432cc6e2f33d02789c115794c86254be29929fe2b",
+      "decision": "correct",
+      "source": "explicit user message",
+      "note": "Owner: all 3 are fine",
+      "updated": "2026-10-30T02:45:31.923801+00:00"
+    },
+    {
+      "id": "lg-55c1cc57ce2e",
+      "input": "ضٌ",
+      "generatedInput": "ضُنْ",
+      "generatedId": "lg-4add5a512525",
+      "file": "tanwin-candidates/lg-4add5a512525.wav",
+      "sha256": "f35a05abdfdcbc08b6e5575c1629b18396365b1a823e2c21cc79bdecef493d2f",
+      "decision": "correct",
+      "source": "explicit user message",
+      "note": "Owner: all 3 are fine",
+      "updated": "2026-10-30T02:45:31.924039+00:00"
+    }
+  ],
+  "held": [
+    {
+      "id": "lg-fd9537adfffb",
+      "input": "ذِ",
+      "sha256": "016c94b58ab616bce1c09a54308d506c25c0af0bc60c78a154b0eae5a3ae3575",
+      "decision": "fix",
+      "note": "sounds like zeh",
+      "updated": "2026-10-30T01:49:14.343Z",
+      "direction": "syllables",
+      "holdReason": "Owner rejected"
+    },
+    {
+      "id": "lg-0b315cfbef5c",
+      "input": "ٱلنَّاسِ",
+      "sha256": "e700fae08e6403ec6e73aefc4c6f7f81b05c0761bed4eb751d6fee1300d33910",
+      "decision": "fix",
+      "note": "sounds robotic",
+      "updated": "2026-10-30T01:49:22.275Z",
+      "direction": "quran-reading",
+      "holdReason": "Owner rejected"
+    },
+    {
+      "id": "lg-0cc0508c264a",
+      "input": "حٌ",
+      "sha256": "8feb857fb3c64d2f7544a6d5442a5f95a15ae7f06c48a867b4455a354375a370",
+      "decision": "fix",
+      "note": "sounds like ha hun",
+      "updated": "2026-10-30T01:49:59.180Z",
+      "direction": "syllables",
+      "holdReason": "Owner rejected"
+    },
+    {
+      "id": "lg-11491c9dc768",
+      "input": "ذً",
+      "sha256": "c2fe8b90ddf54d869bb611c6a05b3c5868d23d81ae69c2c4d066cbf927fbc493",
+      "decision": "fix",
+      "note": "sounds like da",
+      "updated": "2026-10-30T01:50:05.349Z",
+      "direction": "syllables",
+      "holdReason": "Owner rejected"
+    },
+    {
+      "id": "lg-1a441a88e3f7",
+      "input": "يً",
+      "sha256": "5422cc8b8626b079165aea059e175ec3fbd292fe55a9d3ad766f285af954a727",
+      "decision": "fix",
+      "note": "sounds like ya",
+      "updated": "2026-10-30T01:50:14.845Z",
+      "direction": "syllables",
+      "holdReason": "Owner rejected"
+    },
+    {
+      "id": "lg-3443cd8315b6",
+      "input": "عٍ",
+      "sha256": "9922bd2e708b56a108832572e059f063620e2f380df10c8ec3a226013e24eb1a",
+      "decision": "fix",
+      "note": "sounds like ah?",
+      "updated": "2026-10-30T01:50:54.318Z",
+      "direction": "syllables",
+      "holdReason": "Owner rejected"
+    },
+    {
+      "id": "lg-395c6270be02",
+      "input": "غً",
+      "sha256": "450b53187ed352639d081e66724aff5a5dfb4d78c9319f01a6ecc2842c6718c3",
+      "decision": "fix",
+      "note": "sounds like gah",
+      "updated": "2026-10-30T01:51:00.677Z",
+      "direction": "syllables",
+      "holdReason": "Owner rejected"
+    },
+    {
+      "id": "lg-442c25fddbac",
+      "input": "جً",
+      "sha256": "abec2babd9b14cd709a3495a9edc6561d9593ef61c133a870e177b25f4b5d3d0",
+      "decision": "fix",
+      "note": "sounds like ja",
+      "updated": "2026-10-30T01:51:05.522Z",
+      "direction": "syllables",
+      "holdReason": "Owner rejected"
+    },
+    {
+      "id": "lg-481b1df1cd2f",
+      "input": "يٍ",
+      "sha256": "3fdc4fe90d2e893b90450b106b0797082047f4c6d0fb014639a5452ee5e012f5",
+      "decision": "fix",
+      "note": "sounds like yay",
+      "updated": "2026-10-30T01:51:11.262Z",
+      "direction": "syllables",
+      "holdReason": "Owner rejected"
+    },
+    {
+      "id": "lg-4aaa2b9d1e51",
+      "input": "ظً",
+      "sha256": "1b82f9ab710279ef5022e7d5df91a4b6fad7357a8d4bd40471a5eb16e7742d14",
+      "decision": "fix",
+      "note": "sounds like za",
+      "updated": "2026-10-30T01:51:16.393Z",
+      "direction": "syllables",
+      "holdReason": "Owner rejected"
+    },
+    {
+      "id": "lg-507849af67a2",
+      "input": "قً",
+      "sha256": "b1e52c531a02a8de541340965e33d39c314d2e30ba19a645329c0ebd0d6acb36",
+      "decision": "correct",
+      "note": "sounds repeated",
+      "updated": "2026-10-30T01:51:34.756Z",
+      "direction": "syllables",
+      "holdReason": "Conflicting correct mark and problem note"
+    },
+    {
+      "id": "lg-6180327bb4fe",
+      "input": "ثً",
+      "sha256": "57c317ae81002a3a4bc7945ce88e30fcff7c8fc4f744d344b0a3124c810816d9",
+      "decision": "fix",
+      "note": "sounds like sat",
+      "updated": "2026-10-30T01:52:37.563Z",
+      "direction": "syllables",
+      "holdReason": "Owner rejected"
+    },
+    {
+      "id": "lg-6b60a2cc44b1",
+      "input": "عً",
+      "sha256": "844153084074952dfe0e82c5d849b068fc82eb477aadeeb2e354f273dd2de799",
+      "decision": "fix",
+      "note": "sounds like aeum",
+      "updated": "2026-10-30T01:53:05.980Z",
+      "direction": "syllables",
+      "holdReason": "Owner rejected"
+    },
+    {
+      "id": "lg-783cbd303008",
+      "input": "وٌ",
+      "sha256": "ceccf98fc77b1f04f50daad4b86d9d95477632de758141fa09b3a72b2557a16d",
+      "decision": "fix",
+      "note": "sounds like win",
+      "updated": "2026-10-30T01:53:17.112Z",
+      "direction": "syllables",
+      "holdReason": "Owner rejected"
+    },
+    {
+      "id": "lg-825223ba5e41",
+      "input": "تً",
+      "sha256": "d67c58f56234b646ba2d27fd9db42f0b372e303c005ac3ecbbadcf22b427bd96",
+      "decision": null,
+      "note": "sounds like tannnn",
+      "updated": "2026-10-30T01:53:22.909Z",
+      "direction": "syllables",
+      "holdReason": "No decision; problem note supplied"
+    },
+    {
+      "id": "lg-86b9fd2810fc",
+      "input": "ظٍ",
+      "sha256": "57926fa7b6b363148de0837ad6dbe9bacfc47ced7f0142b1265de980822c8b98",
+      "decision": "fix",
+      "note": "sounds like dza",
+      "updated": "2026-10-30T01:53:30.345Z",
+      "direction": "syllables",
+      "holdReason": "Owner rejected"
+    },
+    {
+      "id": "lg-8bd6107cd397",
+      "input": "مً",
+      "sha256": "7f50aa643a9d06c217894c16fc7a30856d1a4e8f3651382c277932b72ba7b582",
+      "decision": "fix",
+      "note": "sounds like ma",
+      "updated": "2026-10-30T01:53:41.235Z",
+      "direction": "syllables",
+      "holdReason": "Owner rejected"
+    },
+    {
+      "id": "lg-94475bdb6e1c",
+      "input": "خٍ",
+      "sha256": "f015486e052e922c0f786e45c65c22d8979332fa74aea4ae6b5e71fd45cdee8b",
+      "decision": "fix",
+      "note": "sounds like khun",
+      "updated": "2026-10-30T01:53:53.897Z",
+      "direction": "syllables",
+      "holdReason": "Owner rejected"
+    },
+    {
+      "id": "lg-9622112d0c46",
+      "input": "زٌ",
+      "sha256": "1160b2fe76ccff288bd0130bc05c3d8035c3298138dfa9bdf581e7af0e6450d0",
+      "decision": "fix",
+      "note": "sounds like zi",
+      "updated": "2026-10-30T01:54:01.391Z",
+      "direction": "syllables",
+      "holdReason": "Owner rejected"
+    },
+    {
+      "id": "lg-a50385d06881",
+      "input": "ٱلرَّحْمَـٰنِ",
+      "sha256": "fe539c087f8fcc14bffd5fb2dc60a25e399912a0695c1c46bc2774c440aecb03",
+      "decision": "fix",
+      "note": "weirdly robotic and overly artificial in the middle letters",
+      "updated": "2026-10-30T01:54:30.338Z",
+      "direction": "quran-reading",
+      "holdReason": "Owner rejected"
+    },
+    {
+      "id": "lg-a70af41f7756",
+      "input": "وً",
+      "sha256": "4a3c805c4e414c25b7ef2034c1550fa3cca4949a630915ae940ab1b6bb43a5df",
+      "decision": "fix",
+      "note": "dragged out",
+      "updated": "2026-10-30T01:54:36.095Z",
+      "direction": "syllables",
+      "holdReason": "Owner rejected"
+    },
+    {
+      "id": "lg-ab3a5a24da20",
+      "input": "طً",
+      "sha256": "0f0d70350efaf2c1524cfccfdbc1f5511857bc5e5c8702199968c315ee35a456",
+      "decision": "fix",
+      "note": "sounds like ta",
+      "updated": "2026-10-30T01:54:47.085Z",
+      "direction": "syllables",
+      "holdReason": "Owner rejected"
+    }
+  ]
+}

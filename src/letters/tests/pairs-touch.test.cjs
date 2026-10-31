@@ -38,7 +38,7 @@ test('Pairs wrong drop retains reference; empty space and cancelled drags are no
  a.events.pointerdown(point(30));a.events.pointermove(point(400));a.events.pointerup(point(400));assert.equal(game.slips,1);
  a.events.pointerdown(point(30));a.events.pointermove(point(130));a.events.pointercancel(point(130));
  assert.equal(game.matched,0);assert.equal(game.slips,1);assert.equal(b.flags.has('is-near'),false);assert.equal(a.el.style.transform,'');
- game.dropPair(a,130,50);assert.equal(game.matched,1);assert.equal(outcomes.length,2);
+ assert.equal(game.dropPair(a,130,50),true,'a matched drop consumes the drag');assert.equal(game.matched,1);assert.equal(outcomes.length,2);
 });
 test('Pairs receiving tolerance is bounded, nearest-first and never picks matched or old cards',()=>{
  const {game,a,b,wrong}=fixture();

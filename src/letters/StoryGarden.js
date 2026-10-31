@@ -40,8 +40,33 @@
   const plotLabel = (c) => `<svg viewBox="0 0 30 40" aria-hidden="true"><path d="M15 28V39" stroke="#70501b" stroke-width="3" stroke-linecap="round"/><rect x="2" y="2" width="26" height="27" rx="5" fill="#fffaf0" stroke="#70501b" stroke-width="2.4"/><text x="15" y="18" text-anchor="middle" font-family="'Amiri Quran', serif" font-size="15" fill="#a89478" direction="rtl">${c}</text></svg>`;
   const SCROLL = `<svg viewBox="0 0 120 90" aria-hidden="true"><path d="M18 14H102V76H18Z" fill="#ffe49a" stroke="#70501b" stroke-width="3"/><path d="M12 10Q18 4 24 10V80Q18 86 12 80Z M96 10Q102 4 108 10V80Q102 86 96 80Z" fill="#f3c955" stroke="#70501b" stroke-width="3" stroke-linejoin="round"/><path d="M34 46Q46 34 60 46T86 46" fill="none" stroke="#c69434" stroke-width="4" stroke-linecap="round"/></svg>`;
   const WIND = `<svg class="sg-wind" viewBox="0 0 300 200" aria-hidden="true"><g fill="none" stroke="#fffdf7" stroke-width="6" stroke-linecap="round" opacity=".85"><path d="M-20 60Q60 30 120 60T260 50Q300 40 290 20"/><path d="M-30 110Q70 80 150 110T320 100"/><path d="M-10 160Q80 140 160 160T310 150Q330 140 320 120"/></g></svg>`;
+  // A single clearing carries all four story beats. The cast shares its
+  // ground, while the soft banks and edge foliage stay behind their faces.
+  const STORY_GLADE = `<svg class="sg-glade" viewBox="0 0 800 600" preserveAspectRatio="none" aria-hidden="true">
+    <defs>
+      <linearGradient id="sg-far" x2="0" y2="1"><stop stop-color="#ccfbef"/><stop offset="1" stop-color="#4e9677"/></linearGradient>
+      <linearGradient id="sg-grass" x2="0" y2="1"><stop stop-color="#b7e779"/><stop offset=".6" stop-color="#7fce54"/><stop offset="1" stop-color="#4e9677"/></linearGradient>
+      <linearGradient id="sg-clearing" x2="0" y2="1"><stop stop-color="#fffaf0"/><stop offset=".55" stop-color="#e5dcc8"/><stop offset="1" stop-color="#c9bda4"/></linearGradient>
+      <linearGradient id="sg-leaves" x2="0" y2="1"><stop stop-color="#b7e779"/><stop offset=".4" stop-color="#4e9677"/><stop offset="1" stop-color="#2f5c46"/></linearGradient>
+    </defs>
+    <path d="M0 260Q125 120 280 230T570 210T800 190V600H0Z" fill="url(#sg-far)" opacity=".5"/>
+    <path d="M0 300Q150 210 350 285T800 260V600H0Z" fill="url(#sg-grass)" opacity=".65"/>
+    <path d="M0 390Q140 310 350 350T800 320V600H0Z" fill="url(#sg-grass)"/>
+    <path d="M62 462Q110 338 388 345Q682 336 748 452Q786 554 406 572Q42 564 62 462Z" fill="url(#sg-clearing)"/>
+    <path d="M65 467Q120 550 400 545Q680 550 748 458Q770 559 406 572Q50 564 65 467Z" fill="#a89478" opacity=".25"/>
+    <path d="M0 600V450Q20 404 54 438Q52 387 92 411Q132 447 112 495Q163 477 184 529Q192 562 163 600Z" fill="url(#sg-leaves)"/>
+    <path d="M800 600V418Q765 372 750 433Q711 407 701 451Q663 448 667 489Q613 479 606 531Q598 578 637 600Z" fill="url(#sg-leaves)"/>
+    <path d="M0 584Q110 552 215 580T460 582T800 568V600H0Z" fill="url(#sg-grass)"/>
+  </svg>`;
 
   const methods = {
+    // Offer the opening before the map becomes interactive, never over a
+    // child's chosen stop. Returning learners keep their existing journey.
+    shouldShowWindStory() {
+      return !this._windStoryOffered && !this.loadJSON(STORY_KEY, false)
+        && !(this.progress?.done || []).length && !this.mapWelcome;
+    },
+
     // Letters in finished packs: their friends are home.
     homeFriends() {
       const known = new Set((this.petKnowledge?.() || []).map((l) => l.char));
@@ -88,23 +113,32 @@
       const home = this.loadJSON(HOME_KEY, []);
       const fresh = Object.keys(restored).find((land) => restored[land] >= 1 && !home.includes(land));
       if (fresh) return later(() => this.playHomecoming(el, fresh), welcome ? 4200 : 700);
-      if (!this.loadJSON(STORY_KEY, false)) later(() => this.renderWindStory(() => this.renderHome()), welcome ? 4200 : 600);
     },
 
     // ---------- the wind story ----------
     renderWindStory(onDone) {
+      // Also remember the offer in memory: unavailable storage must not
+      // send the child straight back into the story when they leave it.
+      this._windStoryOffered = true;
       this.saveJSON(STORY_KEY, true);
       const friends = (F()?.CHARS || []).slice(1, 7); // starting with the duck, ب
       const el = this.screen("lg-meet lg-story", `${this.topBar()}<div class="sg-story">
         <div class="sg-scene is-page-0">
           <div class="sg-sky"></div>
+          ${STORY_GLADE}
           ${WIND}
           <div class="sg-friends">${friends.map((c, i) => `<span class="sg-friend" style="--i:${i}">${F().art(c, { size: 60 })}</span>`).join("")}</div>
           <span class="sg-pet">${this.petSVG(96)}</span>
         </div>
         <button type="button" class="lg-big-btn sg-next" aria-label="Next">${ns.LettersArt.icon("next", 34)}</button>
       </div>`);
-      this.wireTopBar(el, onDone);
+      let finished = false;
+      const finish = () => {
+        if (finished || !el.isConnected) return;
+        finished = true;
+        onDone?.();
+      };
+      this.wireTopBar(el, finish);
       const scene = el.querySelector(".sg-scene");
       let page = 0;
       const pages = [
@@ -114,8 +148,8 @@
         () => { this.sound.play("glow"); this.say(F().item("ب")); },
       ];
       const go = () => {
-        if (!el.isConnected) return;
-        if (page >= pages.length - 1) { this.sound.play("cheer2"); return onDone?.(); }
+        if (finished || !el.isConnected) return;
+        if (page >= pages.length - 1) { this.sound.play("cheer2"); return finish(); }
         page += 1;
         scene.className = `sg-scene is-page-${page}`;
         pages[page]();

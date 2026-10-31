@@ -1,0 +1,48 @@
+{
+  "kind": "letter-garden-teacher-install-approval",
+  "reviews": [
+    {
+      "id": "lg-a50385d06881",
+      "input": "ٱلرَّحْمَـٰنِ",
+      "targetInput": "ٱلرَّحْمَـٰنِ",
+      "targetId": "lg-a50385d06881",
+      "sha256": "c0896120a40a290bc766ae4a8f8e0a723280b68b7a0050c188ad939769be84fb",
+      "file": "rahman-voice-candidates/lg-a50385d06881.wav",
+      "decision": "correct",
+      "note": "Owner: its fine",
+      "updated": "2026-10-30T23:53:41.799Z",
+      "source": "explicit user approval",
+      "pronunciationApproved": true
+    }
+  ],
+  "held": [
+    {
+      "id": "lg-1928a403f70f",
+      "input": "بِّ",
+      "sha256": "02268d8b9117d6bc81ec48ad85632f06cc413911670c11eddcba66b89ceead9e",
+      "decision": "fix",
+      "note": "abbi",
+      "updated": "2026-10-30T23:48:34.393Z",
+      "file": "tanwin-repair-candidates/lg-fd7e18857948.wav",
+      "source": "owner browser review export",
+      "targetInput": "بِّ",
+      "targetId": "lg-1928a403f70f",
+      "generatedInput": "أَبِّ",
+      "generatedId": "lg-fd7e18857948"
+    },
+    {
+      "id": "lg-1dc9c72a6341",
+      "input": "بُّ",
+      "sha256": "0976b7265537be9a74a83228af902bfc9dce3c37f482f82ad207d6623ec4b9d5",
+      "decision": "fix",
+      "note": "abu",
+      "updated": "2026-10-30T23:48:47.358Z",
+      "file": "tanwin-repair-candidates/lg-43401d7c8e1d.wav",
+      "source": "owner browser review export",
+      "targetInput": "بُّ",
+      "targetId": "lg-1dc9c72a6341",
+      "generatedInput": "أَبُّ",
+      "generatedId": "lg-43401d7c8e1d"
+    }
+  ]
+}

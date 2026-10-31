@@ -2117,9 +2117,19 @@ body.lg-reduce-motion .lg-ambient, body.lg-reduce-motion .lg-spark { display: no
 .lg-screen { isolation: isolate; }
 .lg-weather { position: absolute; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
 .lg-home > .lg-weather { z-index: 2; }
-.wx-rain { position: absolute; inset: -20% 0 0; background: repeating-linear-gradient(105deg, transparent 0 26px, #ccfbef66 26px 28px, transparent 28px 61px); animation: wx-rain 0.9s linear infinite; }
-.wx-rain.is-far { opacity: .55; background-size: 140% 140%; animation-duration: 1.4s; }
-@keyframes wx-rain { from { transform: translate(0, 0); } to { transform: translate(-16px, 60px); } }
+.wx-rain { position: absolute; inset: 0; --wx-ink: #3a8fc4; --wx-opacity: .4; }
+.lg-weather[data-phase="night"] .wx-rain { --wx-ink: #ccfbef; --wx-opacity: .48; }
+.wx-drop { position: absolute; left: var(--wx-x); top: var(--wx-y); width: 2px; height: var(--wx-length); border-radius: 2px; background: var(--wx-ink); opacity: 0; animation: wx-drizzle var(--wx-duration) linear var(--wx-delay) infinite; }
+@keyframes wx-drizzle {
+  0% { opacity: 0; transform: translate(0, -18px) rotate(14deg); }
+  12%, 44% { opacity: var(--wx-opacity); }
+  65%, 100% { opacity: 0; transform: translate(-14px, 72px) rotate(14deg); }
+}
+/* During learning the weather lives beside, not across, the teaching stage. */
+.lg-screen:is(.lg-play, .lg-meet) > .lg-weather .wx-drop.is-middle { display: none; }
+.lg-screen:is(.lg-play, .lg-meet) > .lg-weather .wx-rain { --wx-opacity: .3; }
+/* Fixed to the screen, but inside the map's stack below its stops and props. */
+.lg-home .map-scroll > .lg-weather { position: fixed; z-index: 2; }
 .wx-leaf { position: absolute; left: -40px; width: calc(28px * var(--k, 1)); height: calc(18px * var(--k, 1)); animation: wx-leaf 12s linear infinite; }
 @keyframes wx-leaf { 0% { transform: translate(0, 0) rotate(0); } 25% { transform: translate(28vw, 26px) rotate(140deg); } 50% { transform: translate(55vw, -6px) rotate(250deg); } 75% { transform: translate(82vw, 30px) rotate(400deg); } 100% { transform: translate(115vw, 8px) rotate(540deg); } }
 .wx-rainbow { position: absolute; left: -6%; top: 9%; width: min(70%, 460px); opacity: .5; }
@@ -2242,6 +2252,9 @@ body.lg-reduce-motion .lg-ambient, body.lg-reduce-motion .lg-spark { display: no
 .lg-reduce-motion .lab-press .lab-gear, .lg-reduce-motion .lab-press .lab-machine, .lg-reduce-motion .lab-out { animation: none !important; }
 /* Wide, short screens (an iPad in landscape): four rows of letter tiles ran off the bottom. Let the trays spread wide and the press shrink, so every tile is in reach (v58). */
 @media (min-width: 900px) and (max-height: 900px) { .lab { width: min(100%, 940px); } .lab-press { width: min(100%, 220px); } }
+/* The shared practice stage was still capped at 760px: widening only .lab
+   could not prevent a third row of letters falling below a laptop screen. */
+@media (min-width: 900px) and (max-height: 900px) { .lg-play[data-activity="lab"] .practice-stage { width: min(100%, 940px); } }
 /* Phones (v58): the page can't scroll, and the letter tray sat below the screen — most of the 28 letters were out of reach. The trays become single swipeable rows and the press shrinks, so everything fits. */
 @media (max-width: 600px) and (max-height: 900px), (max-height: 500px) { .lab-press { width: min(100%, 190px); } .lab-tray { flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity; width: 100%; padding: 4px 6px 8px; -webkit-mask-image: linear-gradient(90deg, transparent, #000 14px, #000 calc(100% - 14px), transparent); mask-image: linear-gradient(90deg, transparent, #000 14px, #000 calc(100% - 14px), transparent); } .lab-tray > * { flex: 0 0 auto; scroll-snap-align: start; } }
 /* Short phones (iPhone SE, 568px tall): a smaller press and bench so the letter row still fits. */

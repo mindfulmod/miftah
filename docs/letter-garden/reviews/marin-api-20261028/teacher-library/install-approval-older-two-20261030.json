@@ -1,0 +1,74 @@
+{
+  "kind": "letter-garden-teacher-install-approval",
+  "reviews": [
+    {
+      "id": "lg-fd9537adfffb",
+      "input": "ذِ",
+      "targetInput": "ذِ",
+      "targetId": "lg-fd9537adfffb",
+      "sha256": "989bb4b1614e0befaf4299e1e26abec2df672a579fc9d5d0bfc2482b90ff84ff",
+      "file": "tanwin-repair-candidates/lg-fd9537adfffb.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-30T23:53:28.600Z",
+      "source": "owner browser review and latest chat"
+    },
+    {
+      "id": "lg-0b315cfbef5c",
+      "input": "ٱلنَّاسِ",
+      "targetInput": "ٱلنَّاسِ",
+      "targetId": "lg-0b315cfbef5c",
+      "sha256": "d4848884d5ef63560b2e027c1baedd7c9fed0f02f5a40ad4ce5ed9d8c4f4dfd1",
+      "file": "tanwin-repair-candidates/lg-0b315cfbef5c.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-30T23:53:34.391Z",
+      "source": "owner browser review and latest chat"
+    }
+  ],
+  "held": [
+    {
+      "id": "lg-a50385d06881",
+      "input": "ٱلرَّحْمَـٰنِ",
+      "sha256": "eb57b40f0f45bd69183f54cbd8b33770085df48e3ad36626d1bf0e3e60091be2",
+      "decision": "fix",
+      "note": "Pronunciation accepted; owner reports voice sounds like a girl trying to sound more masculine. Hold for voice consistency.",
+      "updated": "2026-10-30T23:53:41.799Z",
+      "direction": "quran-reading",
+      "holdReason": "Owner rejected",
+      "targetInput": "ٱلرَّحْمَـٰنِ",
+      "targetId": "lg-a50385d06881",
+      "file": "tanwin-repair-candidates/lg-a50385d06881.wav",
+      "source": "owner browser review and latest chat",
+      "pronunciationApproved": true
+    },
+    {
+      "id": "lg-1928a403f70f",
+      "input": "بِّ",
+      "sha256": "02268d8b9117d6bc81ec48ad85632f06cc413911670c11eddcba66b89ceead9e",
+      "decision": "fix",
+      "note": "abbi",
+      "updated": "2026-10-30T23:48:34.393Z",
+      "file": "tanwin-repair-candidates/lg-fd7e18857948.wav",
+      "source": "owner browser review export",
+      "targetInput": "بِّ",
+      "targetId": "lg-1928a403f70f",
+      "generatedInput": "أَبِّ",
+      "generatedId": "lg-fd7e18857948"
+    },
+    {
+      "id": "lg-1dc9c72a6341",
+      "input": "بُّ",
+      "sha256": "0976b7265537be9a74a83228af902bfc9dce3c37f482f82ad207d6623ec4b9d5",
+      "decision": "fix",
+      "note": "abu",
+      "updated": "2026-10-30T23:48:47.358Z",
+      "file": "tanwin-repair-candidates/lg-43401d7c8e1d.wav",
+      "source": "owner browser review export",
+      "targetInput": "بُّ",
+      "targetId": "lg-1dc9c72a6341",
+      "generatedInput": "أَبُّ",
+      "generatedId": "lg-43401d7c8e1d"
+    }
+  ]
+}

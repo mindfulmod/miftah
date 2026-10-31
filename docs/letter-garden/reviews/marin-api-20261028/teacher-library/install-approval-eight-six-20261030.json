@@ -1,0 +1,149 @@
+{
+  "kind": "letter-garden-teacher-install-approval",
+  "reviews": [
+    {
+      "id": "lg-b5ef522130f7",
+      "input": "ٱلرَّحِيمِ",
+      "targetInput": "ٱلرَّحِيمِ",
+      "targetId": "lg-b5ef522130f7",
+      "sha256": "202b27d38cbf42d9914f3a01dda7a677d019f8bfbd3da6b657e2214f26d4a17f",
+      "file": "tanwin-repair-candidates/lg-a814b4eeafc9.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-30T23:48:24.344Z",
+      "generatedInput": "الرَّحِيمِ",
+      "generatedId": "lg-a814b4eeafc9",
+      "source": "owner browser review export"
+    },
+    {
+      "id": "lg-8bd6f3ee1768",
+      "input": "هِي",
+      "targetInput": "هِي",
+      "targetId": "lg-8bd6f3ee1768",
+      "sha256": "379cf86ddd122590e35249a2001b9d32d98598dd2e79045ba9bb78eadb977b5a",
+      "file": "tanwin-repair-candidates/lg-6384e9fd6666.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-30T23:48:36.630Z",
+      "generatedInput": "هِيْ",
+      "generatedId": "lg-6384e9fd6666",
+      "source": "owner browser review export"
+    },
+    {
+      "id": "lg-e2e8512af7aa",
+      "input": "رَبِّ",
+      "targetInput": "رَبِّ",
+      "targetId": "lg-e2e8512af7aa",
+      "sha256": "4ca72674c516fe7dc8e0d4b76cadd6ab0d29d52d7cfe5bfaa6ce113b71599b4e",
+      "file": "tanwin-repair-candidates/lg-e2e8512af7aa.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-30T23:48:39.776Z",
+      "generatedInput": "رَبِّ",
+      "generatedId": "lg-e2e8512af7aa",
+      "source": "owner browser review export"
+    },
+    {
+      "id": "lg-fee6694be3d0",
+      "input": "هٰذِهِ",
+      "targetInput": "هٰذِهِ",
+      "targetId": "lg-fee6694be3d0",
+      "sha256": "01b2d34dca321fa96a8ab9c3acbd2a3cddcc2060b3b0672da4c45c40b24aae69",
+      "file": "tanwin-repair-candidates/lg-69b9bdd43755.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-30T23:48:42.370Z",
+      "generatedInput": "هَذِهِ",
+      "generatedId": "lg-69b9bdd43755",
+      "source": "owner browser review export"
+    },
+    {
+      "id": "lg-29d632397764",
+      "input": "أَذْ",
+      "targetInput": "أَذْ",
+      "targetId": "lg-29d632397764",
+      "sha256": "d7f13efd21e3df56f90491a43d0ed11783b9298c0447d20af2e736104c4b279e",
+      "file": "tanwin-repair-candidates/lg-29d632397764.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-30T23:48:52.164Z",
+      "generatedInput": "أَذْ",
+      "generatedId": "lg-29d632397764",
+      "source": "owner browser review export"
+    },
+    {
+      "id": "lg-39f4044efed4",
+      "input": "أَفَّ",
+      "targetInput": "أَفَّ",
+      "targetId": "lg-39f4044efed4",
+      "sha256": "e860a761cc81085167a02cba335624583cc277f20dea5546e8c095d50d0c30cd",
+      "file": "tanwin-repair-candidates/lg-39f4044efed4.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-30T23:48:55.459Z",
+      "generatedInput": "أَفَّ",
+      "generatedId": "lg-39f4044efed4",
+      "source": "owner browser review export"
+    }
+  ],
+  "held": [
+    {
+      "id": "lg-fd9537adfffb",
+      "input": "ذِ",
+      "sha256": "016c94b58ab616bce1c09a54308d506c25c0af0bc60c78a154b0eae5a3ae3575",
+      "decision": "fix",
+      "note": "sounds like zeh",
+      "updated": "2026-10-30T01:49:14.343Z",
+      "direction": "syllables",
+      "holdReason": "Owner rejected"
+    },
+    {
+      "id": "lg-0b315cfbef5c",
+      "input": "ٱلنَّاسِ",
+      "sha256": "e700fae08e6403ec6e73aefc4c6f7f81b05c0761bed4eb751d6fee1300d33910",
+      "decision": "fix",
+      "note": "sounds robotic",
+      "updated": "2026-10-30T01:49:22.275Z",
+      "direction": "quran-reading",
+      "holdReason": "Owner rejected"
+    },
+    {
+      "id": "lg-a50385d06881",
+      "input": "ٱلرَّحْمَـٰنِ",
+      "sha256": "fe539c087f8fcc14bffd5fb2dc60a25e399912a0695c1c46bc2774c440aecb03",
+      "decision": "fix",
+      "note": "weirdly robotic and overly artificial in the middle letters",
+      "updated": "2026-10-30T01:54:30.338Z",
+      "direction": "quran-reading",
+      "holdReason": "Owner rejected"
+    },
+    {
+      "id": "lg-1928a403f70f",
+      "input": "بِّ",
+      "sha256": "02268d8b9117d6bc81ec48ad85632f06cc413911670c11eddcba66b89ceead9e",
+      "decision": "fix",
+      "note": "abbi",
+      "updated": "2026-10-30T23:48:34.393Z",
+      "file": "tanwin-repair-candidates/lg-fd7e18857948.wav",
+      "source": "owner browser review export",
+      "targetInput": "بِّ",
+      "targetId": "lg-1928a403f70f",
+      "generatedInput": "أَبِّ",
+      "generatedId": "lg-fd7e18857948"
+    },
+    {
+      "id": "lg-1dc9c72a6341",
+      "input": "بُّ",
+      "sha256": "0976b7265537be9a74a83228af902bfc9dce3c37f482f82ad207d6623ec4b9d5",
+      "decision": "fix",
+      "note": "abu",
+      "updated": "2026-10-30T23:48:47.358Z",
+      "file": "tanwin-repair-candidates/lg-43401d7c8e1d.wav",
+      "source": "owner browser review export",
+      "targetInput": "بُّ",
+      "targetId": "lg-1dc9c72a6341",
+      "generatedInput": "أَبُّ",
+      "generatedId": "lg-43401d7c8e1d"
+    }
+  ]
+}

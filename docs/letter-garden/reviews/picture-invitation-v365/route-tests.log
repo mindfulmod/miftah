@@ -1,0 +1,14 @@
+✔ LetterStudio: a successful save offers that exact picture, with one reward and no automatic placement (6.613292ms)
+✔ ColourFriend: a successful save offers that exact picture, with one reward and no automatic placement (1.292834ms)
+✔ existing art alone, failed saves and cancelled choices do not offer a creation (3.575417ms)
+✔ adventure and direct-return completions retain their route without a decorating detour (2.678792ms)
+✔ a completed picture invitation is inert after leaving its screen (1.335291ms)
+✔ picture finish art embeds only bounded local thumbnails and retains earned-star art (0.897375ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 57.896208

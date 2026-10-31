@@ -1,0 +1,52 @@
+/* The garden is a fitted irrigation toy, with the child's next action below it. */
+.lg-app .lg-play[data-activity="water"] .practice-stage { position: relative; container-type: size; overflow: hidden; }
+.lg-app .water-play { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 30px 32px 108px; }
+.lg-app .water-play .water-garden { position: relative; flex: none; width: min(calc(100cqw - 72px), calc((100cqh - 146px) * 1.125), 620px); height: auto; max-height: none; margin: 0; aspect-ratio: 360 / 320; }
+.lg-app .water-play .wg-scene { border-radius: 30px; box-shadow: 0 0 0 16px #fffaf0, 0 0 0 20px #4a3620, 0 7px 0 20px #70501b; background: #ccfbef; }
+.lg-app .water-play .water-garden::after { border: 4px solid #4a3620; border-radius: 30px; }
+.lg-app .water-play .wg-gate-tag { top: 24%; width: max(56px, 16%)!important; height: auto; padding: 3px; border: 3px solid #4a3620; border-radius: 17px; background: #fffaf0; box-shadow: 0 5px 0 #a89478, inset 0 3px 0 #fffdf7; transition: transform 220ms ease-out, background 120ms ease-out; }
+.lg-app .water-play .wg-gate-tag > svg { display: block; width: 100%; height: 100%; pointer-events: none; }
+.lg-app .water-play .wg-gate-tag:disabled { opacity: 1; cursor: default; }
+.lg-app .water-play .wg-gate-tag.is-missed { background: #e5dcc8; }
+.lg-app .water-play .wg-gate-tag.is-help { outline: 4px solid #f3c955; outline-offset: 3px; }
+.lg-app .water-play .wg-gate-tag.is-open { background: #ccfbef; transform: translate(-50%,-72%); }
+.lg-app .water-play .wg-bend { width: max(56px, 14%); height: auto; padding: 0; border: 3px dashed #70501b; background: #fffaf022; }
+.lg-app .water-play .wg-bend.is-hint { background: #ffe49a44; box-shadow: 0 0 0 4px #f3c955; }
+.lg-app .water-play .wg-tools { position: absolute; top: calc(100% + 36px); left: 50%; transform: translateX(-50%); display: flex; align-items: center; justify-content: center; gap: 12px; width: max-content; min-height: 58px; }
+.lg-app .water-play .wg-tools > button { position: static; display: grid; place-items: center; width: 56px; height: 56px; min-width: 56px; min-height: 56px; padding: 7px; border: 3px solid #4a3620; border-radius: 19px; background: #fffaf0; box-shadow: 0 4px 0 #a89478; touch-action: manipulation; transition: transform 120ms ease-out; cursor: pointer; }
+.lg-app .water-play .wg-tools > button > svg { display: block; width: 100%; height: 100%; pointer-events: none; }
+.lg-app .water-play .wg-tools > :is(.wg-next,.wg-done) { background: #b7e779; box-shadow: 0 4px 0 #4e9677; }
+.lg-app .water-play .wg-tools > button[hidden] { display: none; }
+.lg-app .water-play .wg-next[hidden] { display: grid!important; visibility: hidden; pointer-events: none; }
+.lg-app .water-play .is-free .wg-next[hidden], .lg-app .water-play .is-free .wg-progress { display: none!important; }
+.lg-app .water-play .wg-tools > button:disabled { background: #e5dcc8; cursor: default; }
+.lg-app .water-play .wg-tools > button:not(:disabled):active { transform: translateY(2px) scale(.98); }
+.lg-app .water-play .wg-progress { position: static; transform: none; display: flex; align-items: center; gap: 7px; padding: 9px 10px; border: 3px solid #4a3620; border-radius: 18px; background: #fffaf0; }
+.lg-app .water-play .wg-progress i { width: 12px; height: 15px; flex: none; margin: 0; }
+.lg-app .water-play :is(.wg-help,.wg-next,.wg-done):focus-visible { outline: 4px solid var(--lg-focus); outline-offset: 3px; }
+.lg-app .water-play .wg-gate-tag[hidden], .lg-app .water-play .wg-bend[hidden] { display: none!important; }
+@media (orientation: landscape) and (max-height: 500px) {
+  .lg-app .water-play { padding: 32px 112px 32px 28px; }
+  .lg-app .water-play .water-garden { width: min(calc(100cqw - 160px), calc((100cqh - 68px) * 1.125), 620px); height: auto; margin: 0; }
+  .lg-app .water-play .wg-tools { left: calc(100% + 32px); top: 50%; transform: translateY(-50%); flex-direction: column; gap: 14px; }
+  .lg-app .water-play .wg-progress { display: grid; grid-template-columns: repeat(2,12px); gap: 7px; }
+}
+@media (prefers-reduced-motion: reduce) { .lg-app .water-play * { transition: none!important; animation: none!important; } }
+.lg-app.lg-reduce-motion .water-play * { transition: none!important; animation: none!important; }
+
+/* v357 — the letter is the handle: lift it to release the stream. */
+.lg-app .water-play .wg-gate-tag,
+.lg-app .water-play .wg-gate-tag.is-open {
+ translate:none; transform:translate(-50%,-50%) translateY(calc(-1 * var(--wg-lift,0px)));
+ transition:background 120ms ease-out,box-shadow 120ms ease-out; touch-action:none; cursor:grab;
+}
+.lg-app .water-play .wg-gate-tag.is-pulling { cursor:grabbing; z-index:4; box-shadow:0 6px 0 #70501b,0 10px 5px #4a362025; }
+.lg-app .water-play .wg-gate-tag.is-pressed { translate:none; }
+.lg-app .water-play .wg-gate-tag > svg { width:88%; height:88%; }
+.lg-app .water-play .wg-grip { position:absolute; left:32%; right:32%; bottom:4px; height:5px; border-top:2px solid #c9bda4; border-bottom:2px solid #c9bda4; border-radius:2px; pointer-events:none; }
+.lg-app .water-play .wg-pull-target { position:absolute; top:calc(24% + var(--wg-pull-offset,0px)); width:1px; height:1px; pointer-events:none; }
+
+@media (min-width: 1000px) and (min-height: 600px) {
+ .lg-app .water-play .wg-scene { box-shadow: 0 0 0 22px #fffaf0, 0 0 0 26px #4a3620, 0 7px 0 26px #70501b; }
+ .lg-app .water-play .wg-tools { top: calc(100% + 42px); }
+}

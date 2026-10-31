@@ -1,0 +1,61 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Letter Garden — one model comparison</title>
+<style>body{font:17px/1.5 system-ui;margin:36px auto;max-width:1120px;padding:0 22px;background:#fffaf0;color:#342d25}h1{font-size:30px}section,article{background:#fff;border:1px solid #c9bda4;border-radius:14px;padding:20px;margin:20px 0}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.grid article{margin:0}audio{display:block;width:100%;margin:16px 0}code{overflow-wrap:anywhere}.notice{background:#fff0da}small{display:block;color:#63594e}.arabic{font-size:29px;direction:rtl}a{color:#145e76}@media(max-width:850px){.grid{grid-template-columns:1fr}}</style>
+<h1 id="title">One controlled voice comparison</h1><p id="description">Test the earlier March 2025 speech model against the December model, with the same Marin voice, Baa/Meem text, recovered teacher direction, speed and WAV format. Only the model version changes.</p>
+<section class="notice"><strong>The full batch stays blocked.</strong><p id="state">Loading the sample status…</p><p id="next">One recording is prepared. Enter your key only in Terminal's hidden prompt.</p><code id="command">python3 "/Users/main/Documents/GitHub/miftah/.local-work/letter-garden-next-major/scripts/letter-garden-marin-api.py" --generate --snapshot-check</code><p><small>One request maximum; $0.05 planning reservation, not measured billing. No automatic retry, model fallback or game installation.</small></p></section>
+<div class="grid"><article><h2>Approved original</h2><p>The voice we want to match.</p><strong>Baa · <span class="arabic" lang="ar">بَاءْ</span></strong><audio aria-label="Approved original Baa" controls preload="none" src="../../../../../assets/audio/letters/marin-v1/ba.wav"></audio><strong>Meem · <span class="arabic" lang="ar">مِيمْ</span></strong><audio aria-label="Approved original Meem" controls preload="none" src="../../../../../assets/audio/letters/marin-v1/meem.wav"></audio></article><article><h2>December model</h2><p>The rejected two-name recording: deeper delivery and stretched Meem.</p><audio aria-label="December snapshot Baa then Meem" controls preload="none" src="../reference-candidates/lg-aa4d3af3b0c5.wav"></audio><small>gpt-4o-mini-tts-2025-12-15</small></article><article><h2>March model</h2><p>New test: Baa, then Meem.</p><div id="candidate">Not generated yet.</div><small>gpt-4o-mini-tts-2025-03-20</small></article></div>
+<section><h2>What counts as a pass</h2><ul><li>Baa has the approved vowel articulation and pronunciation.</li><li>Meem sounds naturally timed and encouraging, with correct vowel length.</li><li>The voice feels light, warm, feminine and gently animated like the original.</li><li>No repeats, static, robotic sounds or bass artifacts.</li></ul><p>Report <strong>matches</strong>, <strong>closer but not right</strong>, or <strong>still wrong</strong>, with a note about each name. A passing file check alone cannot approve speech.</p></section>
+<p>The <a href="https://developers.openai.com/api/docs/models/gpt-4o-mini-tts">official model page</a> lists both snapshots. We do not know which backend produced the original FM recording, so this is a test, not a promised match. <a href="../snapshot-comparison-plan.json">Exact request and evidence</a>.</p>
+<script>
+const flowMode=new URLSearchParams(location.search).get('review')==='flow';
+const teacherMode=flowMode||new URLSearchParams(location.search).get('review')==='teacher';
+const stage=flowMode?'composed-teacher-flow-v1':teacherMode?'composed-teacher-v1':'snapshot-20250320-v1';
+const folder=flowMode?'teacher-flow-candidates':teacherMode?'teacher-candidates':'snapshot-candidates';
+const audioLabel=flowMode?'Natural flow Baa then Meem':teacherMode?'Composed teacher Baa then Meem':'March snapshot Baa then Meem';
+if(teacherMode){
+ document.title='Letter Garden — composed teacher comparison';
+ document.querySelector('#title').textContent='One classroom voice adjustment';
+ document.querySelector('#description').textContent='March Marin was closer, but its pitch and expression still felt too high and overly stylized. This test keeps the model, names, voice and speed. Only the direction changes: warm, composed classroom speech with a comfortable middle register and understated expression. A match is not guaranteed.';
+ document.querySelector('#command').textContent=document.querySelector('#command').textContent.replace('--snapshot-check','--teacher-check');
+ const cards=document.querySelectorAll('.grid article');
+ cards[1].querySelector('h2').textContent='March before adjustment';
+ cards[1].querySelector('p').textContent='Reviewed: closer, but too high and overly expressive. Not approved.';
+ cards[1].querySelector('audio').src='../snapshot-candidates/lg-aa4d3af3b0c5.wav';
+ cards[1].querySelector('audio').setAttribute('aria-label','March before direction adjustment');
+ cards[1].querySelector('small').textContent='gpt-4o-mini-tts-2025-03-20';
+ cards[2].querySelector('h2').textContent='Composed teacher test';
+ document.querySelector('section ul li:nth-child(3)').textContent='Warm, attentive and composed. A comfortable register and understated expression, while preserving the original pronunciation and natural warmth.';
+ const plan=document.querySelector('a[href="../snapshot-comparison-plan.json"]');plan.href='../teacher-direction-plan.json';plan.textContent='Exact direction and test plan';
+}
+if(flowMode){
+ document.title='Letter Garden — natural flow comparison';
+ document.querySelector('#title').textContent='Smoother classroom phrasing';
+ document.querySelector('#description').textContent='The composed teacher voice is getting better, but still feels dragged out and less smooth. Only two phrasing instructions change: a natural conversational pace, each name flowing continuously, and accurate Arabic vowels without extra holding. Voice, model, text and speed stay the same.';
+ document.querySelector('#command').textContent=document.querySelector('#command').textContent.replace('--teacher-check','--flow-check');
+ const cards=document.querySelectorAll('.grid article');
+ cards[1].querySelector('h2').textContent='Composed teacher before';
+ cards[1].querySelector('p').textContent='Reviewed: getting better, but slightly dragged out and less smooth. Not approved.';
+ cards[1].querySelector('audio').src='../teacher-candidates/lg-aa4d3af3b0c5.wav';
+ cards[1].querySelector('audio').setAttribute('aria-label','Composed teacher before pacing adjustment');
+ cards[2].querySelector('h2').textContent='Natural flow test';
+ const plan=document.querySelector('a[href="../teacher-direction-plan.json"]');plan.href='../teacher-flow-plan.json';plan.textContent='Exact phrasing adjustment';
+}
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+document.addEventListener('play',event=>{if(event.target.tagName!=='AUDIO')return;document.querySelectorAll('audio').forEach(a=>{if(a!==event.target){a.pause();a.currentTime=0;}})},true);
+Promise.all([fetch('../api-events.jsonl',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('ledger');return r.text()}),fetch('../quality-control.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('control');return r.json()})]).then(([text,control])=>{
+ const events=text.split('\n').filter(Boolean).map(JSON.parse).filter(e=>e.stage===stage);const sample=events.filter(e=>e.event==='candidate').at(-1);const attempted=events.some(e=>e.event==='attempt');
+ if(sample&&new RegExp('^'+folder+'/lg-[a-f0-9]{12}\\.wav$').test(sample.file)){
+  const reviewed=!flowMode&&(teacherMode?control.teacherStatus:control.snapshotStatus)==='reviewed-closer-not-approved';
+  document.querySelector('#state').textContent=reviewed?(teacherMode?'Reviewed: getting better, but slightly dragged out and less smooth. Not approved.':'Reviewed: March is closer, but too high and overly expressive. Not approved.'):'The single comparison recording is ready. No further generation is needed.';
+  document.querySelector('#next').textContent=reviewed?(teacherMode?'The natural flow test is prepared. Open this page with ?review=flow for its command and comparison.':'The next direction test is prepared. Open this page with ?review=teacher for its command and comparison.'):flowMode?'Compare the natural flow test with the approved original and previous composed teacher recording. Tell Codex whether the pacing and warmth match.':teacherMode?'Compare the composed teacher test with the approved original and previous March recording. Tell Codex whether it matches.':'Compare the March recording with the approved original and rejected December recording. Tell Codex whether it matches.';
+  if(control.teacherStatus==='selected-for-library'){
+   document.querySelector('.notice strong').textContent='Composed teacher selected for the audio library.';
+   if(flowMode){document.querySelector('#state').textContent='Reviewed: natural flow is no better. This experiment is closed.';document.querySelector('#next').textContent='We are using the earlier composed teacher recording as the voice direction.';}
+   else if(teacherMode){document.querySelector('#state').textContent='Selected by you for the missing Marin recordings.';document.querySelector('#next').textContent='The first curriculum batch is prepared. New recordings still need pronunciation review.';}
+   const link=document.createElement('a');link.href='../teacher-library/index.html';link.textContent='Open the composed-teacher library batch';document.querySelector('.notice').append(link);
+  }
+  document.querySelector('#command').hidden=true;document.querySelector('#candidate').innerHTML=`<audio aria-label="${audioLabel}" controls preload="none" src="../${esc(sample.file)}"></audio><small>${esc(sample.flags?.length?'File checks flagged: '+sample.flags.join(', '):reviewed?'Reviewed: closer, not approved':'Unreviewed: voice and pronunciation need listening')}</small>`;
+ }else if(attempted){document.querySelector('#state').textContent='A request was attempted, but no prepared recording is available. Do not rerun; tell Codex so the saved result can be inspected.';document.querySelector('#next').textContent='No retry or fallback will run automatically.';document.querySelector('#command').hidden=true;
+ }else if(control[flowMode?'flowCheckAllowed':teacherMode?'teacherCheckAllowed':'snapshotCheckAllowed']!==stage){document.querySelector('#state').textContent='This experiment is not enabled. No generation is requested.';document.querySelector('#command').hidden=true;document.querySelector('#next').textContent='The full batch remains held.';
+ }else{document.querySelector('#state').textContent='Ready for one new recording; it has not been generated yet.';}
+}).catch(()=>{document.querySelector('#state').textContent='Cannot load the review status. Do not generate until the saved ledger can be checked.';document.querySelector('#command').hidden=true;document.querySelector('#next').textContent='Tell Codex that the review status did not load.';});
+</script></html>

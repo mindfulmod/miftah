@@ -99,11 +99,14 @@ test("v25 friend skill joins the learning policy and can graduate to listening",
   assert.equal(p.promptMode, "listen", "three clean matches move friend rounds to listening");
 });
 
-test("v26 Find My Friend: honest evidence — matching unless a miss, listening only unassisted", () => {
+test("v26 Find My Friend: only confirmed, hidden-model, unassisted listening is independent", () => {
   const src = source("FriendFind.js");
-  assert.match(src, /skill: "friend"/);
-  assert.match(src, /const independent = this\.mode === "listen" && !this\.missed;/);
-  assert.match(src, /assisted: !!this\.missed/);
+  assert.match(src, /skill:'friend'/);
+  assert.match(src, /const independent=this\.mode==='listen'&&this\.heard&&!this\.modelVisible&&!this\.assisted;/,
+    "playback confirmation, hidden model, and no help are all required for independent listening");
+  assert.match(src, /evidence:independent\?'independent_listening':'supported_visible_matching'/);
+  assert.match(src, /assisted:this\.assisted/);
+  assert.match(src, /this\.ctx\.reportOutcome\?\.\(\{item:this\.target,itemId:this\.target\.id,activity:'FriendFind'/);
   assert.doesNotMatch(src, /spendStars|earnStars|saveJSON/);
   assert.deepEqual(off(src), []);
   const book = source("FriendBook.js");
@@ -138,7 +141,7 @@ test("v25/v26 ship: files registered, cache bumped, notes written", () => {
   }
   assert.match(html, /styles\/letters-friends\.css\?v=\d{8}-v\d+/);
   assert.match(sw, /"styles\/letters-friends\.css"/);
-  assert.match(sw, /const VERSION = "miftah-v\d+-letter-garden-v\d+-\d{8}";/);
+  assert.match(sw, /const VERSION = "miftah-v[0-9]+-letter-garden-[a-z0-9-]+";/);
   const notes = fs.readFileSync(path.join(root, "docs", "letter-garden", "RELEASES.md"), "utf8");
   for (const v of ["v25", "v26"]) assert.match(notes, new RegExp(`## ${v} `));
 });

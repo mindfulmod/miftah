@@ -1,0 +1,62 @@
+{
+  "kind": "letter-garden-teacher-install-approval",
+  "statement": "both are fine",
+  "reviews": [
+    {
+      "id": "lg-783cbd303008",
+      "input": "وٌ",
+      "generatedInput": "وُنْ",
+      "generatedId": "lg-8910d58f820a",
+      "file": "tanwin-repair-candidates/lg-8910d58f820a.wav",
+      "sha256": "67a583487f3da631e876f494fb0636d36b64c4a33c999306a20f1848a1d915cf",
+      "decision": "correct",
+      "source": "explicit user approval",
+      "note": "Owner: both are fine",
+      "updated": "2026-10-30T02:54:14.959097+00:00"
+    },
+    {
+      "id": "lg-825223ba5e41",
+      "input": "تً",
+      "generatedInput": "تَنْ",
+      "generatedId": "lg-68f65bd71032",
+      "file": "tanwin-repair-candidates/lg-68f65bd71032.wav",
+      "sha256": "14e9239f9803e4be21f1797d4b2ebdc30deeeb1850c7e7a7f6997b53101045df",
+      "decision": "correct",
+      "source": "explicit user approval",
+      "note": "Owner: both are fine",
+      "updated": "2026-10-30T02:54:14.959323+00:00"
+    }
+  ],
+  "held": [
+    {
+      "id": "lg-fd9537adfffb",
+      "input": "ذِ",
+      "sha256": "016c94b58ab616bce1c09a54308d506c25c0af0bc60c78a154b0eae5a3ae3575",
+      "decision": "fix",
+      "note": "sounds like zeh",
+      "updated": "2026-10-30T01:49:14.343Z",
+      "direction": "syllables",
+      "holdReason": "Owner rejected"
+    },
+    {
+      "id": "lg-0b315cfbef5c",
+      "input": "ٱلنَّاسِ",
+      "sha256": "e700fae08e6403ec6e73aefc4c6f7f81b05c0761bed4eb751d6fee1300d33910",
+      "decision": "fix",
+      "note": "sounds robotic",
+      "updated": "2026-10-30T01:49:22.275Z",
+      "direction": "quran-reading",
+      "holdReason": "Owner rejected"
+    },
+    {
+      "id": "lg-a50385d06881",
+      "input": "ٱلرَّحْمَـٰنِ",
+      "sha256": "fe539c087f8fcc14bffd5fb2dc60a25e399912a0695c1c46bc2774c440aecb03",
+      "decision": "fix",
+      "note": "weirdly robotic and overly artificial in the middle letters",
+      "updated": "2026-10-30T01:54:30.338Z",
+      "direction": "quran-reading",
+      "holdReason": "Owner rejected"
+    }
+  ]
+}

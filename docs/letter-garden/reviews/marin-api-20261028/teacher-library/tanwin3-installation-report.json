@@ -1,0 +1,33 @@
+{
+  "newlyInstalled": [
+    "بً",
+    "طٍ",
+    "ضٌ"
+  ],
+  "newApprovedTeacherTotal": 90,
+  "totalRuntimeClips": 342,
+  "heldReviewed": 22,
+  "published": false,
+  "newPaidRequests": 0,
+  "checks": {
+    "audioVoiceOfflineTests": 87,
+    "generatorTests": 29,
+    "installerTests": 2,
+    "failedTests": 0,
+    "browserDecoded": 3,
+    "browserDecodeFailures": 0,
+    "browserPlayed": 0
+  },
+  "nextBatch": {
+    "stage": "teacher-tanwin-remaining-v1",
+    "items": 19,
+    "planningReservationUSD": 0.95,
+    "generated": 0
+  },
+  "remainingOtherIssues": [
+    "ذِ",
+    "ٱلنَّاسِ",
+    "ٱلرَّحْمَـٰنِ"
+  ],
+  "recovery": ".qa/baselines/marin-tanwin3-20261029/RESTORE.md"
+}

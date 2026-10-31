@@ -1,0 +1,14 @@
+{
+  "stage": "teacher-phrase-dhal-v1",
+  "reviews": [
+    {
+      "id": "lg-29468e72afeb",
+      "input": "نَقُولُ: أَذِّ، ثُمَّ نَسْتَمِعُ.",
+      "targetInput": "أَذِّ",
+      "file": "phrase-dhal-candidates/lg-29468e72afeb.wav",
+      "sha256": "b9f485579608f9db6cb9c80cb10725b291e9759028bcd8741b3e8256f1712af3",
+      "decision": "correct",
+      "note": "Owner explicitly approved full phrase; extracted target not yet reviewed."
+    }
+  ]
+}

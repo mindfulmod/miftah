@@ -1,0 +1,94 @@
+{
+  "stage": "teacher-combined64-repair8-v1",
+  "reviews": [
+    {
+      "id": "lg-c62deab31b8e",
+      "input": "رَنْ",
+      "targetInput": "رً",
+      "targetId": "lg-b64caf45e1bf",
+      "sha256": "14d93a847c20181af1373101b6c825160427a0519180d254617df44ef1596608",
+      "file": "combined64-repair8-candidates/lg-c62deab31b8e.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:21:53.789Z"
+    },
+    {
+      "id": "lg-1dcce26ab339",
+      "input": "ضَنْ",
+      "targetInput": "ضً",
+      "targetId": "lg-bebdc49b4b33",
+      "sha256": "10dc9702aff75dc9f0f20755a8ea265a194c39e4a4d1c7404255baae2d42df00",
+      "file": "combined64-repair8-candidates/lg-1dcce26ab339.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:21:55.551Z"
+    },
+    {
+      "id": "lg-8479f1932759",
+      "input": "رُنْ",
+      "targetInput": "رٌ",
+      "targetId": "lg-c25f41474423",
+      "sha256": "6620c99e9e7b1c1e1635dd4fd139dd0ac3219974d03f6d73ef960a3f8fa151bd",
+      "file": "combined64-repair8-candidates/lg-8479f1932759.wav",
+      "decision": "fix",
+      "note": "weird noise",
+      "updated": "2026-10-31T00:22:02.465Z"
+    },
+    {
+      "id": "lg-830db3028d04",
+      "input": "تَضْلِيلٍۢ",
+      "targetInput": "تَضْلِيلٍۢ",
+      "targetId": "lg-830db3028d04",
+      "sha256": "d49cb806bbcaf170bb68dc9d6b2bc948acedacb348ab76bb0a426e7722a48fed",
+      "file": "combined64-repair8-candidates/lg-830db3028d04.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:22:06.239Z"
+    },
+    {
+      "id": "lg-db4a956c9af3",
+      "input": "أَسَّ",
+      "targetInput": "أَسَّ",
+      "targetId": "lg-db4a956c9af3",
+      "sha256": "59bc8d0a13030f996a5bfeae89af1516b6091b2ac79f7b021bcf32314a87cb44",
+      "file": "combined64-repair8-candidates/lg-db4a956c9af3.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:22:08.232Z"
+    },
+    {
+      "id": "lg-e4c3b997a436",
+      "input": "ٱلْكَوْثَرَ",
+      "targetInput": "ٱلْكَوْثَرَ",
+      "targetId": "lg-e4c3b997a436",
+      "sha256": "44acfdee930572925fa0d45c7dde313e4c55637bee5856303d4df36250cb8567",
+      "file": "combined64-repair8-candidates/lg-e4c3b997a436.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:22:10.598Z"
+    },
+    {
+      "id": "lg-e56bcc9171ce",
+      "input": "أَلَّ",
+      "targetInput": "أَلَّ",
+      "targetId": "lg-e56bcc9171ce",
+      "sha256": "a8e6fc236ef16bda8f9c48a292dab0b219995c3aa69c083f232b51357cb81095",
+      "file": "combined64-repair8-candidates/lg-e56bcc9171ce.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:22:12.546Z"
+    },
+    {
+      "id": "lg-e7ec41c7e8d8",
+      "input": "نَارًۭا",
+      "targetInput": "نَارًۭا",
+      "targetId": "lg-e7ec41c7e8d8",
+      "sha256": "b07077717d246efa12c17fb1d9c9530734ef412e9cca755efd5971f87f39970b",
+      "file": "combined64-repair8-candidates/lg-e7ec41c7e8d8.wav",
+      "decision": "correct",
+      "note": "",
+      "updated": "2026-10-31T00:22:14.717Z"
+    }
+  ],
+  "exported": "2026-10-31T00:22:30.774Z"
+}

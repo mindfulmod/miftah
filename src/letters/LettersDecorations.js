@@ -54,7 +54,9 @@
     const finds = Array.isArray(arguments[0]?.findsOwned) ? arguments[0].findsOwned : [];
     for (const id of finds) if (typeof id === 'string') result.push({ id: `find:${id}`, label: id.replace('gold:', 'golden ') + ' treasure', kind: 'treasure', find: id });
     const drawings = savedDrawings && typeof savedDrawings === 'object' ? Object.entries(savedDrawings) : [];
-    for (const [letter, drawing] of drawings.slice(-4)) {
+    // Show the entire bounded collection: an older sign must not disappear
+    // from its garden space just because a newer drawing was saved.
+    for (const [letter, drawing] of drawings.slice(-11)) {
       if (typeof drawing === 'string' && /^data:image\/png;base64,[A-Za-z0-9+/=]+$/.test(drawing)) {
         result.push({ id: `sign:${letter}`, label: `${letter} sign`, kind: 'sign', letter, drawing });
       }

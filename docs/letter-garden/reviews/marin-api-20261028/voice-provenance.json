@@ -1,0 +1,12 @@
+{
+  "approvedReference": "assets/audio/letters/marin-v1/meem.wav",
+  "originalAlphabetSource": "docs/letter-garden/reviews/marin-letters/original.mp3",
+  "originalModelRecordedAs": "OpenAI.fm — supplied AI speech",
+  "exactOriginalModelSnapshot": "not recorded in source manifest",
+  "exactOriginalVoiceDirection": "Recovered from this chat history, 2026-09-15T20:03:32.016Z; see original-fm-direction.json",
+  "sourceProcessing": "Original pitch, speed and level preserved; cuts and short edge fades only.",
+  "newModel": "gpt-4o-mini-tts-2025-12-15",
+  "newVoice": "marin",
+  "finding": "The final two-name reference DID use the recovered original teacher direction. Owner still rejects its vowel/articulation, duration and expression. Local analysis finds lower pitch and changed timing/spectrum; original and new PCM checks rule out local pitch/speed processing. The original backend snapshot remains unknown and the original alphabet-batch context differs. The prompt difference alone is not an established cause.",
+  "nextStep": "No paid generation. Evaluate against voice-acceptance-profile.json; original recordings remain the listening standard."
+}

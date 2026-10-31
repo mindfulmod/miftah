@@ -16,7 +16,7 @@ function node(dataset = {}) {
     releasePointerCapture: () => { captured = null; }, getBoundingClientRect: () => ({ left: 0, top: 0, width: 40, height: 40 }),
     scrollBy() {}, remove() { this.removed = true; }, focus() {}, hit: (x, y) => x >= 100 && x <= 150 && y >= 100 && y <= 150 };
 }
-function runtime(layout, catalog) {
+function runtime(layout, catalog, initialSelection) {
   const slots = Array.from({ length: 4 }, (_, i) => { const slot = node({ slot: String(i) }); slot.hit = (x, y) => i === 3 && x >= 100 && x <= 150 && y >= 100 && y <= 150; return slot; });
   const choices = catalog.map((item) => node({ decoration: item.id }));
   const tray = node();
@@ -32,12 +32,34 @@ function runtime(layout, catalog) {
   const context = { window, document, performance: { now: () => 100 }, clearTimeout, setTimeout, console };
   for (const file of ['LettersDecorations.js', 'DecoratingGarden.js']) vm.runInNewContext(fs.readFileSync(path.join(__dirname, '..', file), 'utf8'), context);
   let changes = 0;
-  const ctx = { stage, layout, catalog, petArt: () => '<pet>', onChange: () => { changes++; }, play() {}, reducedMotion: () => true };
+  const ctx = { stage, layout, catalog, initialSelection, petArt: () => '<pet>', onChange: () => { changes++; }, play() {}, reducedMotion: () => true };
   const garden = new window.MiftahGame.DecoratingGarden(ctx);
   return { garden, slots, choices, controls, ghosts, changes: () => changes, stage };
 }
 const cat = [{ id: 'flower:1', label: 'Flower 1', kind: 'flower', count: 1 }, { id: 'sticker:star', label: 'Star', kind: 'sticker', stickerId: 'star' }];
 const empty = { version: 1, slots: [null, null, null, null] };
+
+test('an invited picture is selected without placing it; a child tap places it and Undo restores the garden',()=>{
+  const sign={id:'sign:art2',label:'My picture',kind:'sign',drawing:'data:image/png;base64,AAAA'};
+  const r=runtime(empty,[...cat,sign],sign.id);
+  assert.equal(r.garden.selected,sign.id);assert.equal(r.garden.selectedSlot,null);assert.equal(r.changes(),0);
+  assert.deepEqual(plain(r.garden.layout),empty);assert.equal(r.controls['.decorate-selection'].hidden,false);
+  r.slots[2].onclick();assert.equal(r.changes(),1);assert.equal(r.garden.layout.slots[2],sign.id);
+  r.controls['.decorate-undo'].onclick();assert.deepEqual(plain(r.garden.layout),empty);
+});
+
+test('an already displayed invited picture is revealed in place without duplicating or moving it',()=>{
+  const sign={id:'sign:art1',label:'My picture',kind:'sign',drawing:'data:image/png;base64,AAAA'};
+  const layout={version:1,slots:[null,sign.id,null,null]};const r=runtime(layout,[sign],sign.id);
+  assert.equal(r.garden.selectedSlot,1);assert.equal(r.changes(),0);assert.deepEqual(plain(r.garden.layout),layout);
+  r.garden.destroy();assert.equal(r.garden.selectPicture(sign.id),false);
+});
+
+test('missing or non-picture invitations leave the ordinary garden unchanged',()=>{
+  for(const id of ['sign:missing','flower:1',null]){
+    const r=runtime(empty,cat,id);assert.equal(r.garden.selected,null);assert.equal(r.changes(),0);
+  }
+});
 
 test('select then place changes layout once and keeps four slots', () => {
   const r = runtime(empty, cat); r.choices[0].onclick();

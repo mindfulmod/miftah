@@ -1,0 +1,13 @@
+{
+  "source": "This chat: Improve Letter Garden world",
+  "threadId": "01a06ee8-36c3-7a33-b5e1-0415177341d2",
+  "timestamp": "2026-09-15T20:03:32.016Z",
+  "historyLine": 14945,
+  "evidence": "The preceding FM accessibility snapshot identifies button 12 as Marin; this recorded action clicks 12, fills the voice direction, and fills the alphabet script. The following snapshot confirms the direction in the field.",
+  "voice": "marin",
+  "originalInstructions": "Speak as a gentle, welcoming Modern Standard Arabic teacher for children aged four to six. Use a soft, warm, natural voice with clear consonants and accurate long vowels. Read only each Arabic letter name written in the script, in order. Say each name once. Leave a clear two-second silent pause between names so they can be separated into individual audio clips. No introduction, numbers, commentary, music, whispering, or exaggerated excitement.",
+  "originalModelSnapshot": "Not recorded in this evidence",
+  "currentDesiredSound": "Softer, more feminine, teacher-like; no deep or bass-heavy delivery. This is new owner clarification, not a quote from the original prompt.",
+  "nextExperiment": "None enabled. The original-direction retest was generated and rejected for voice, articulation, timing and expression differences.",
+  "noGuarantee": "The instruction is recovered; the exact original backend model and a matching voice are not established."
+}

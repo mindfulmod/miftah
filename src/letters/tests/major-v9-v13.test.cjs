@@ -58,8 +58,13 @@ test("v10 Moon Calendar: Ramadan and both Eids from the Islamic calendar; the Ei
 test("v11 Sound Lab: only taught marks, free play with no reports, output shown as a measured sign", () => {
   const lab = source("SoundLab.js");
   assert.doesNotMatch(lab, /reportOutcome/);
-  assert.match(lab, /ns\.LettersArt\?\.letterSign/);
+  assert.match(lab, /function ink\(item\)/, "the selected practice chunk is drawn by Sound Lab itself");
+  assert.match(lab, /const PAGE_SIZE = 3/);
   assert.doesNotMatch(lab, /◌/, "no dotted-circle base (missing from the Quran font)");
+  const soundArt = source("SoundLabArt.js");
+  assert.match(soundArt, /function machine\(\)/);
+  assert.match(soundArt, /function classic\(\)/);
+  assert.match(soundArt, /ns\.SoundLabArt = \{ machine, classic \}/);
   const game = source("LettersGame.js");
   const marks = game.slice(game.indexOf("    taughtMarks() {"), game.indexOf("    // Moon Calendar (v10):"));
   for (const [world, n] of [["fatha", 1], ["kasra-damma", 2], ["tanween", 3], ["sukoon", 1], ["shaddah", 1]]) assert.match(marks, new RegExp(`done\\.has\\("${world}"\\)`));
@@ -78,11 +83,11 @@ test("v12 Garden Visitors: only owned animal stickers visit, up to three a day, 
 test("v13 Letter Studio: stamps known letters and owned friends; hanging saves a garden sign; nothing is judged", () => {
   const studio = source("LetterStudio.js");
   assert.doesNotMatch(studio, /reportOutcome/);
-  assert.match(studio, /this\.ctx\.saveDrawing\?\.\(url\)/);
+  assert.match(studio, /if \(saved !== true\) throw new Error/);
   assert.match(studio, /c\.width = c\.height = 160;/, "the garden-sign thumbnail format");
   assert.deepEqual(off(studio), []);
   const game = source("LettersGame.js");
-  assert.match(game, /saveDrawing:url=>\{const kept=\{\.\.\.\(this\.savedDrawings\|\|\{\}\)\};/);
+  assert.match(game, /await this\.saveStudioDrawing\(url,pageId,drawingSlots,el\);/);
   const notes = fs.readFileSync(path.join(root, "docs", "letter-garden", "RELEASES.md"), "utf8");
   for (const v of ["v9", "v10", "v11", "v12", "v13"]) assert.match(notes, new RegExp(`## ${v} `));
   const html = fs.readFileSync(path.join(root, "letters.html"), "utf8"), sw = fs.readFileSync(path.join(root, "sw.js"), "utf8");

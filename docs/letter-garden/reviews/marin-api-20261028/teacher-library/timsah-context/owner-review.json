@@ -1,0 +1,12 @@
+{
+  "stage": "teacher-timsah-context-v1",
+  "source": "explicit owner message",
+  "statement": "timsah is fine now",
+  "scope": "target-pronunciation-in-context",
+  "decision": "correct",
+  "input": "نَقُولُ: تِمْسَاحْ.",
+  "targetInput": "تِمْسَاح",
+  "file": "timsah-context-candidates/lg-5797d8e34326.wav",
+  "sha256": "4afdbb460c88051691841a2cf5cdc0f380e38f216a1234b30032a13ae1b38241",
+  "updated": "2026-10-30T02:20:30.779796+00:00"
+}

@@ -121,7 +121,10 @@
       if (outcome.correct === true) { bucket.r++; bucket.streak++; }
       else if (outcome.correct === false) { bucket.w++; bucket.streak=0; }
       else bucket.participation++;
-      bucket.last = Date.now();
+      // Exploring a toy remains participation, not newer answer evidence.
+      // In particular, splitting a tile must not erase the recency of help
+      // or postpone the next construction practice without answering it.
+      if(typeof outcome.correct === 'boolean')bucket.last = Date.now();
       if (outcome.correct === true && outcome.sessionId && !bucket.sessions.includes(outcome.sessionId)) bucket.sessions = [...bucket.sessions, outcome.sessionId].slice(-4);
       state[kind] = bucket;
       if (outcome.correct === false && outcome.selectedId && outcome.selectedId !== outcome.itemId) {

@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-29",
+  "installed": 87,
+  "runtimeBankTotal": 339,
+  "heldReviewed": 25,
+  "published": false,
+  "newPaidRequests": 0,
+  "validation": {
+    "audioVoiceAndOfflineTests": {
+      "passed": 86,
+      "failed": 0
+    },
+    "generationRunnerTests": {
+      "passed": 28,
+      "failed": 0,
+      "network": "mocked only"
+    },
+    "installerTests": {
+      "passed": 2,
+      "failed": 0
+    },
+    "browserDecode": {
+      "decoded": 87,
+      "failed": 0,
+      "played": 0
+    },
+    "runtimeAuditMissingFiles": 0,
+    "ownerListening": "Approved by owner; not re-reviewed"
+  },
+  "nextStep": "Generate three tanwin examples using --generate --tanwin-check; owner reviews before installation.",
+  "recovery": ".qa/baselines/marin-approved-install-20261029/RESTORE.md"
+}

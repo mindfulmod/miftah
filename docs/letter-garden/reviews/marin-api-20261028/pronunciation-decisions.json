@@ -1,0 +1,884 @@
+[
+  {
+    "id": "lg-09022991a381",
+    "text": "جْ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-0a698f01afe3",
+    "text": "دْ",
+    "uses": [
+      "chapter:decode:target:part",
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "assembly-part",
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-0d7546e2580a",
+    "text": "اَ",
+    "uses": [
+      "sound-lab"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-10d7083974c3",
+    "text": "غْ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-12708006eda2",
+    "text": "مّ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-14ea79174f94",
+    "text": "كْ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-167bb8f0d9d5",
+    "text": "حّ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-1b495636af95",
+    "text": "وْ",
+    "uses": [
+      "chapter:leen:target:part",
+      "chapter:decode:target:part",
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "assembly-part",
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-1c4242f17130",
+    "text": "بّ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-1ec89dc4cf74",
+    "text": "فْ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-1f51e8b9ea70",
+    "text": "نّ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-2476b03531d7",
+    "text": "بْ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-25952451ecd7",
+    "text": "وّ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-2e72c3c10381",
+    "text": "عّ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-371d85452a80",
+    "text": "هّ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-3aa220a860fd",
+    "text": "رّ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-3e1cd58669a4",
+    "text": "زّ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-402cf151d883",
+    "text": "صّ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-40ec7e34c947",
+    "text": "صْ",
+    "uses": [
+      "chapter:decode:target:part",
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "assembly-part",
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-42d2bdd3e2b7",
+    "text": "ضْ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-4cbb44e28ba0",
+    "text": "كّ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-514f3a8ec18a",
+    "text": "دّ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-5fd40f34e564",
+    "text": "غّ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-649749a23153",
+    "text": "ذْ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-68a74b816924",
+    "text": "ي",
+    "uses": [
+      "chapter:decode:target:part"
+    ],
+    "kinds": [
+      "assembly-part"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-6a9bad02e65a",
+    "text": "سّ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-6cd5aad6dd96",
+    "text": "يّ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-6f184c33aca6",
+    "text": "اّ",
+    "uses": [
+      "sound-lab"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-727773c02a85",
+    "text": "اً",
+    "uses": [
+      "sound-lab"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-74a862bb88a1",
+    "text": "طّ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-7547b08d2d4a",
+    "text": "حْ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-798b7b4ea984",
+    "text": "زْ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-79a63769c512",
+    "text": "عْ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-81214424f9d7",
+    "text": "ظّ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-82d51413f1bc",
+    "text": "هْ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-8419a1f000f5",
+    "text": "سْ",
+    "uses": [
+      "chapter:decode:target:part",
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "assembly-part",
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-96432475c834",
+    "text": "قْ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-9acfee183979",
+    "text": "تّ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-a05e95241148",
+    "text": "يْ",
+    "uses": [
+      "chapter:leen:target:part",
+      "chapter:decode:target:part",
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "assembly-part",
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-a408f28bfbf3",
+    "text": "تْ",
+    "uses": [
+      "chapter:decode:target:part",
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "assembly-part",
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-a5180afa70c7",
+    "text": "جّ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-a5c4cf37a9bb",
+    "text": "فّ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-a7e9ce06a045",
+    "text": "خْ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-b3d1e2abe09a",
+    "text": "آ",
+    "uses": [
+      "chapter:words-2:target:part",
+      "chapter:decode:target:part"
+    ],
+    "kinds": [
+      "assembly-part"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-be0fa08bb8f1",
+    "text": "ا",
+    "uses": [
+      "chapter:words-2:target:part",
+      "chapter:decode:target:part"
+    ],
+    "kinds": [
+      "assembly-part"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-c1a38b92586e",
+    "text": "ذّ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-c2f0b096189b",
+    "text": "شّ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-cb92a8b00c69",
+    "text": "ن",
+    "uses": [
+      "chapter:words-2:target:part",
+      "chapter:decode:target:part"
+    ],
+    "kinds": [
+      "assembly-part"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-cc81ca269fff",
+    "text": "مْ",
+    "uses": [
+      "chapter:words-2:target:part",
+      "chapter:decode:target:part",
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "assembly-part",
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-ce0ed6ebbf02",
+    "text": "اٌ",
+    "uses": [
+      "sound-lab"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-d6581c975d49",
+    "text": "طْ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-d829a20a9852",
+    "text": "ضّ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-d940002ea4c2",
+    "text": "خّ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-e686d089e785",
+    "text": "لْ",
+    "uses": [
+      "chapter:words-2:target:part",
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "assembly-part",
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-e7217df2947b",
+    "text": "نْ",
+    "uses": [
+      "chapter:decode:target:part",
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "assembly-part",
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-e8992004d15d",
+    "text": "رْ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-ef6b5e05a33b",
+    "text": "ثّ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-f0fcb1df5a26",
+    "text": "اٍ",
+    "uses": [
+      "sound-lab"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-f36dd8de0128",
+    "text": "لّ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-f431c664175e",
+    "text": "قّ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-f46487ed90f2",
+    "text": "اْ",
+    "uses": [
+      "sound-lab"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-f710a3675701",
+    "text": "شْ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-f8f7bce12a7c",
+    "text": "اُ",
+    "uses": [
+      "sound-lab"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-f95b0996b87c",
+    "text": "ظْ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-f9e06530526b",
+    "text": "ثْ",
+    "uses": [
+      "sand-table-and-hat-shop"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  },
+  {
+    "id": "lg-fee2b201b5e5",
+    "text": "اِ",
+    "uses": [
+      "sound-lab"
+    ],
+    "kinds": [
+      "constructed-syllable"
+    ],
+    "status": "pronunciation-decision",
+    "direction": "syllables",
+    "note": "The current UI requests an isolated consonant or ambiguous alif/mark combination. Specify a supported teaching example before generating; do not invent an unwritten vowel."
+  }
+]

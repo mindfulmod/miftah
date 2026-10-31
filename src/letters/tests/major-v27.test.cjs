@@ -42,16 +42,18 @@ test("v27 Picture Words: real sticker pictures, vowelled names, first letters ri
 
 test("v27 picture-book games: honest evidence, nothing paid, free play reports nothing", () => {
   const src = source("BookGames.js");
-  assert.match(src, /const independent = listening && !this\.missed && this\.heard;/);
+  assert.match(src, /const independent = listening && !this\.missed && this\.heard === true;/);
+  assert.match(src, /PracticeLearning/);
+  assert.match(src, /orderChars\?\.\(ctx, pool, skill, count\)/, "letter choices follow the shared taught and due order");
   assert.match(src, /skill: "friend"/);
-  assert.match(src, /begin\(target\) \{ this\.ctx\.beginRound\?\./, "every question is its own learning round");
+  assert.match(src, /begin\(target\) \{ this\.setPrompt\(\{ id: target, display: target \}\); this\.ctx\.beginRound\?\./, "every question is its own learning round and voice confirmation is prompt-scoped");
   assert.doesNotMatch(src, /spendStars|earnStars|saveJSON/);
   const market = src.slice(src.indexOf("class BusyMarket"), src.indexOf("ns.GardenPractice = "));
   assert.doesNotMatch(market, /report\(|reportOutcome/, "Busy Market is free play");
-  // Sound Sort never shows a friend that is the same thing as the card.
-  assert.match(src, /filter\(\(p\) => this\.plain \|\| !friendWords\.has\(p\.word\)\)/);
-  // Finished games ignore late taps.
-  assert.match(src, /finish\(\) \{ this\.card = null; this\.busy = true;/);
+  // Sound Sort prefers distinct pictures, then keeps a basket playable with its own friend-name picture.
+  assert.match(src, /const distinctPictures = pictures\.filter\(\(p\) => !friendWords\.has\(p\.word\)\)/);
+  assert.match(src, /distinctPictures\.length \? distinctPictures : pictures\.filter\(\(p\) => p\.word === F\(\)\.get\(c\)\.word\)/);
+  // Finished SoundSort input is covered by sound-sort-choice-v352 runtime tests.
   assert.deepEqual(off(src), []);
   assert.deepEqual(off(source("PictureWords.js")), []);
 });

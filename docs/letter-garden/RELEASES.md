@@ -1,3 +1,12 @@
+## 2026-10-31 — Game development and reviewed Marin library checkpoint
+
+- Preserve the accumulated local Letter Garden game, learning, world/art, and interaction work on `codex/letter-garden-next-major`.
+- Bundle 718 approved local speech keys, including 466 reviewed teacher-library recordings. Teacher WAV files match their approval evidence and source bytes; no missing mapped files were found.
+- Verification: all 1,712 Letter Garden Node tests pass. Historical tests now allow later explicitly approved replacements while continuing to exclude rejected recordings. Palette checker completed in reporting mode; existing palette debt remains.
+- Audio is not yet 100% integrated: the two carrier phrases for أَذِّ and أَفِّ are approved, but isolated cuts still require extraction and listening approval. Twenty approved spoken descriptions await explicit teaching/UI integration; Alif can reuse its approved name clip. Do not substitute a description for a phonetic learning target silently.
+- No new paid generation was performed during this checkpoint. Review candidates and their provenance remain distinct from the runtime audio bank.
+- This is a source-branch publication to mindfulmod/miftah, not a production deployment to qandeel.app. No new visual-quality or end-to-end browser-play certification is claimed by this checkpoint.
+
 # Letter Garden — major versions
 
 Local builds; nothing here is committed or deployed until the owner says so.
@@ -1605,6 +1614,12 @@ as a brand-new child and as a stuck one, looking for any tap that gets no answer
   and every chapter game (22 worlds × 3 games) at 667×375 and 320×568.
 - Release checks after the first-look pass (2026-10-13): lgSweep 193 steps / 0
   failing; lgPlay 66/66 chapter games finished, no errors; 625 tests pass.
+## v264 — A clear first moment (2026-10-20)
+- On the hatch screen, the page-wide ambient butterflies flew over the pet and across the big confirm button (found tapping through the first-time flow). That layer lives outside the game and sits above it, so it can't slip under the controls. Like the reward, wardrobe and night screens, the hatch screen now hides it. The screen keeps its own sparkles and falling leaves.
+
+## v263 — Near-miss taps reach the village landmarks (2026-10-20)
+- Fix, found in the live site's console: the forgiving-tap helper (a tap just beside a target snaps to it) called `.click()`, which SVG elements don't have. The village landmarks are SVG, so a little one tapping just off the cottage, stall or gate got nothing, plus an error. The helper now sends a real click event, which works on any element. Verified with a real tap on the grass beside the cottage, which now opens the pet's room.
+
 ## v262 — Clear table legs (2026-10-19)
 - On phones the decorative paper boat sat on the joinery table's legs and stretcher bar in the build, blend, fuse, unfuse, chain and parade games. On narrow screens it now steps aside in those games. The pond game, where it sits in open space, keeps it.
 
@@ -3139,3 +3154,836 @@ The rest of the approved art-direction plan, after the village.
 - sw v128 (2026-10-16, v65 art system); sw v127 (2026-10-16, v64 Garden Village); sw v126 (2026-10-16, v63 Word Tree); sw v125 (2026-10-16, v62 Costume House); sw v124 (2026-10-16, v61 Ears First); sw v123 (2026-10-16, v60 Living Friends' Garden); sw v122 (2026-10-16, v59 Sticker Scenes); sw v121 (2026-10-16, coming-back pass: practice stars, daily treasures, growing up); sw v120 (2026-10-13, first-look pass: hatched shells, gift stand, sleeping stars); sw v119 (2026-10-10, after art pass 3: hubs as places, workbench, bookcase, friends garden, nap bed, paint pots, stamps flowers, rehal); sw v118 (2026-10-10, after the art passes: map books, art icons, toy pictures, themed feed icons, keepsake tags, illustrated loading flower); sw v117 (2026-10-10, after the hub/readability/egg changes); before that sw v116 (2026-10-10) so cached devices pick up the late-v58 layout,
   safety-net and loading fixes. Stamp 20261009-v58, sw v115 before that. Tests: no-dead-taps-v58 (7); two older pins
   updated (locked stops are aria-disabled now).
+
+
+## v265 — Audio reliability and Marin inventory (2026-10-20, local)
+- Approved exact Marin recordings take priority even on Quran-word screens carrying a remote recitation path. Uncovered speech retains its existing fallback pending generation and review; this is not complete Marin coverage.
+- Expired learning speech cancels the actual player/loading request so a late clip cannot interrupt the next question.
+- Beat Drum, Same Start and Odd Sound wait for completed words instead of cutting them off at fixed intervals. Rapid choices invalidate obsolete sequences; leaving a game cancels pending continuation.
+- Sound Lab uses visible practice chunks for consonant sukūn and shadda, highlights the selected consonant, and respects a new selection made during the press animation. Alif combinations and remaining ambiguous curriculum requests are still held for teaching review.
+- A reproducible inventory covers curriculum, dynamic name chains, all book casts, picture words, Sound Lab and the 11 reading surahs. Recovered ten October 3 Marin files with matching hashes; quarantined for pronunciation review. No candidate is silently installed.
+- Sound Lab’s stage now actually widens on short desktop screens, keeping all letter rows inside the viewport.
+- Generation package and owner review: `docs/letter-garden/reviews/marin-complete-20261020/`. Hank handoff required because this Codex session has no Dot messaging capability. Production remains unchanged.
+
+## v266 — Toys that follow the child (2026-10-20, local)
+- Audio generation/import is parked at the owner's request. The new Hank ZIP has not been imported; the pending v265 work is preserved.
+- Shared dragging now owns its return animation. A child can catch a returning piece at its visible position, move it again immediately, or cancel a drag without submitting an answer. Leaving a game releases pointer capture and cancels the return animation.
+- Feed, calm Catch, Pairs, letter-form exploration and Letter Delivery now tell the shared drag control when a drop has been accepted. Successful pieces no longer start a competing flight back to their starting place.
+- Feed distinguishes the friend from the basket, retains the existing 32px forgiving margin, excludes the tray from drop targets and highlights only the approached receiver. A packet dropped on the pet goes to the pet; a basket delivery leaves the packet in the basket. Tap-then-tap and keyboard delivery remain available.
+- Removed two legacy visual/input conflicts: picnic CSS no longer suppresses the delivery animation, and the pet can receive taps. A small receiver anticipation uses the illustration without shifting the button layout. Reduced motion settles immediately.
+- Pond keeps the final packet's flight visible before handing off to the reward screen. The source and waiting dock slot do not show duplicate packets during flight. Completion is guarded against repeated taps, missing/canceled animation events and leaving mid-flight; intermediate rounds still start immediately.
+- No curriculum, option-count, reward, saved-progress or difficulty rules changed. Existing art and environments retained. This is an interaction pass, not a claim that all games have received a final art pass.
+- Validation: 892 automated checks pass. Nine new behavior checks cover interrupted returns, cancellation, accepted feeding, receiver selection, reduced motion, final pond handoff and stale callbacks; existing Pairs/Catch/Delivery checks now assert the accepted-drop contract. Browser play verified Feed through four rounds using drag, tap and keyboard; Pond through its four rounds into the reward screen; Catch, Pairs, Forms and Delivery accepted drops. Layouts inspected at 320×568, 375×568, 375×812, 812×375 and 1440×900. Browser console: no errors during those checks. Palette checker remains report-only with existing art debt; this pass adds no new palette colors.
+- Recovery snapshot of all pending work before this pass: `../letter-garden-gamefeel-baseline-20261020/RESTORE.md` from this checkout's root. Test isolation: `.qa/gamefeel-20261020.html` on the separate `letter-garden-gamefeel.localhost` origin. Screenshots: `.qa/shots/gamefeel-*-20261020.png`. Production unchanged.
+
+
+## v267 — Garden Adventures (2026-10-20, local)
+
+A three-stage adventure now links seed delivery, a child-made letter sign and Water Garden through a chosen butterfly patch or bird nook. Existing curriculum chapters remain in place. The village walk entrance and personal garden reach this route; unfinished older walks remain available.
+
+- Two pictured projects, progress shown through seeds → sign → flowers, a responsive visitor, explicit home / garden / another-adventure finish choices.
+- Taught-only plans with a familiar opener and due review; separate listening/matching/help/motor signals. Two-choice visible matching can become two-choice listening, then three choices after independent evidence across sessions. All three activities share one learning-session identity.
+- The child's selected drawing and each project's water layout survive reloads. Free play never reports letter mastery or repeats completion rewards. Existing practice payout limits and daily stamps remain in use.
+- Water Garden fixes: distinct novice choices, no pre-answer bend hint, guarded speech/replay and arrival callbacks, all free-play channels operable, and a finish control that covers neither a flower nor the playfield.
+- Drawing support remains visible for beginners; ordinary matching is distinguished from actual help. Failed activity construction/rescue returns to the route without completing a step.
+
+Verification: full automated suite and desktop/phone/landscape play checks recorded in `V3-GARDEN-ADVENTURES.md`. A 5–8 minute session is the owner-approved pacing target, not measured child playtest evidence. Audio generation remains parked; no production publish.
+
+## v268 — Tactile mini-games and shared learning (2026-10-21, local)
+
+Existing mini-games now carry the garden adventure's support rules into ordinary chapter play. This is a local pass; audio generation and production publishing remain parked.
+
+- Orchard: a framed tree canopy and fruit twigs, calm wrong-fruit feedback, fixed gentle falling speed, and duplicate-touch protection. Stars and correct-answer streaks no longer accelerate falling fruit.
+- Matching: cards fit inside the seed tray on short screens; each completed pair grows a small labelled plant. Repeated letters on a later board begin a fresh matching evidence round.
+- Building: draggable pieces with a generous 24px landing margin around the next slot, visible receiving cues, retained tap/undo controls, seating motion, and a visible return beat for the incorrect suffix. Cancelling a drag or dropping outside does not count as an answer.
+- Joining and splitting: extra pieces depend on successful practice across visits instead of appearing automatically in later rounds. Gesture demonstrations stop after two invitations. Same-kind combinations respond without a penalty. A beginner's split-letter quiz offers two choices.
+- Art: richer seed-tray materials and joinery tools, larger bounded picnic packets, a short finished-paper response. Added bench tools yield to result controls on small screens; the established pond, picnic and world scenery remain.
+- Learning: familiar practice openers, due/weak review, taught distractors, one session identity across chapter activities, and help carried to later encounters. More assembly pieces and decoys arrive on separate steps. Construction, matching, assistance and independent listening remain distinct. Participation alone cannot refresh answer recency or cancel newer help.
+- Reliability: a game that fails to construct or encounters the rescue path returns to retry without awarding a completed activity.
+
+Validation: 934 automated tests pass. Actual browser play checked desktop 1280×720, phone 390×844, small phone 320×568 and landscape 844×390. Played matching retries/drag/completion, building drag/tap/repair, orchard retry/drag harvest, picnic selection/delivery/advance, joining exploration, splitting quiz, and pink finger tracing through the reward handoff. Reduced-motion joining verified. Test origins were separate from the user's saved game. No browser errors observed in those checks. This is simulated viewport testing, not child usability testing or physical-device validation.
+
+Recoverable starting snapshot: `../letter-garden-minigames-baseline-20261021/RESTORE.md` (sibling of this worktree). Review screenshots are local in `.qa/shots/v268-*`. Palette check reports existing repository debt; the new scenery/feel sheets and changed activity art use the established palette.
+
+## v269 — Remaining mini-games and sticker cleanup (2026-10-21, local)
+
+The 25 remaining toy, book, puzzle, shadow, word, hat and workshop games now share the garden's learning support rules. Audio generation/import and production publishing remain parked. Three lower-cost workers handled bounded game families while integration and browser review stayed together.
+
+- Shared practice planning uses taught material, a familiar opener and due/helped review. Beginner choices stay visible, calm and limited to two. Extra choices and puzzle pieces depend on successful evidence across separate visits, rather than appearing because a round or streak increased. Help carries into later encounters in the same session.
+- Friend Jigsaw grows from two halves to three strips to four quarters, with no simultaneous decoy increase. Letter Shadows starts with one stationary complete friend. Fishing keeps beginner fish still and a visible reference. Echo Parade keeps the example visible for matching, aligns both lines right to left, and waits for the actual spoken sequence before accepting input.
+- Matching, listening and motor participation remain distinct. Replay or unavailable speech cannot become independent listening evidence; obsolete speech callbacks cannot change a newer target. Free painting and scrubbing report participation without a correctness verdict. Each completed pair/jigsaw begins its own evidence round. Unavailable games return without awarding completion.
+- Letter Train, Family Buses, Hat Shop, Word Gap, Build Letter and Jigsaw use shared dragging, generous receiving areas, nearby-target feedback and retained tap controls. Outside/canceled drops return without submitting an answer; leaving destroys pending gestures and callbacks.
+- Art and layout: warm toy benches, paper book pages, nature boards and a tailor's surface retain the existing world and cast. Bounded tools and props stay clear of play on small screens. Cards have consistent material depth and seating feedback; reduced motion removes the new movement. Jigsaw's landscape layout puts its board beside reachable pieces.
+- Sticker scenery now has a large wordless coral rubbish bin. Select a placed sticker and tap the bin, or drag it there. Only that placement is removed: the collection and reusable tray stay intact. Dropping outside the picture restores its position. Switching scenes or leaving cancels an active gesture; saved layouts survive reloads.
+
+Validation: 975 automated checks pass; JavaScript syntax and diff checks pass. All 25 games were opened and checked at 320×568, 390×844, 844×390 and 1280×720. Actual interaction checks covered hat placement, bus boarding, jigsaw drag/tap completion, picture sorting, sticker tap/drag/keyboard removal, outside-drop return, scene switching, reload persistence and reduced-motion bin behavior. Test origins were separate from the user's saved game. These are simulated browser viewports, not physical-device or child usability tests. The full palette checker still reports existing repository debt.
+
+Recoverable starting snapshot: `../letter-garden-remaining-baseline-20261021/RESTORE.md`. Screenshot evidence: `.qa/shots/v269-*`. No curriculum, earned collection or production files were reset.
+
+## v270 — Waterside play (2026-10-21, local)
+
+Continues the broader art/gameplay goal through Letter Fishing and Bath Time. The direction borrows Animal Crossing's relaxed action → visible world response, using Letter Garden's existing paper art, cast and learning rules. Reference: https://animalcrossing.nintendo.com/new-horizons/explore/ . This is progress on the whole-game goal, not a claim that every screen is finished.
+
+- Fishing becomes a small pond with an organic bank, shallow water, reeds, stones and a landing deck. New fish use coral/gold/sky ramps with a clear letter medallion. Small props retain their proportions at different aspect ratios; only background masses stretch. The generic surrounding board is removed from this activity, keeping the existing chapter environment visible.
+- A caught fish travels into the pail; its letter remains in the catch tray across rounds. Arrival has a guarded fallback, so canceled animations or duplicate taps cannot create a second catch or completion. Reduced motion settles immediately. Tapping the water makes a brief ripple without recording an answer.
+- Fishing now reveals a stationary matching target after unavailable speech, a wrong choice or replay. Replayed/failed prompts never earn independent listening credit, and late speech cannot affect a newer round. No audio asset or generation work was performed.
+- Bath Time has a tiled wash corner, a yellow sponge, a smaller irregular foam cloud, and three quiet water drops showing cleaning progress. Plant and towel art are separate from the responsive room backdrop. Fast swipes clean the whole path; only the initiating pointer owns the sponge, and cancel/leave releases capture and pending motion. Keyboard/tap scrubbing stays available.
+- Existing bath recognition choices, supported evidence, motor participation, practice rewards and saved progression are preserved. No timer or new difficulty gate is added.
+
+Validation: 982 automated checks pass, including seven new behavior checks for pointer ownership, fast paths, speech fallback, assisted replay, stale callbacks and exactly-once catch arrival. Actual browser play covered phone scrubbing through reveal, keyboard scrubbing, recognition miss → hint → correct, fishing miss → correct → second catch, persistent catches, reward handoff and reduced motion. Both games fit simulated 320×568, 390×844, 844×390 and 1280×720 viewports. New art colors were compared directly with ART.md; the full palette checker still reports pre-existing debt. No physical-device or child playtest claim.
+
+Local evidence: `.qa/shots/v270-*`; pre-pass copies of changed existing files are in `.qa/baselines/v270/`. Preview: `letters.html?v=20261021-waterside1`. Production remains untouched. Other activity families and their end-to-end rewards remain candidates for subsequent art/play review under the active goal.
+
+
+## v271 — Picture-book play (2026-10-21, local)
+
+Continues the whole-game art/play goal through Peekaboo Flaps, Sound Sort, the Hoopoe's Trip, Friend Shapes and Busy Market. Existing characters, letter progression and reward rules remain. Lower-cost workers handled the bounded art helpers, initial interaction work and shared drag correction; integration and browser play were reviewed together.
+
+- Garden doors gain hinges, knobs and inset letter labels. Choices stay equally bright. Failed speech and replay reveal the pictured reference and mark the response supported; old speech callbacks cannot change a newer round. The correct revealed picture is still named during the open-door moment.
+- Picture sorting uses woven baskets and real card dragging, with a 24px receiving margin, a visible nearby-basket cue, retained basket taps/keyboard controls, and a card flight that starts where the child released it. Outside/canceled drops return without an answer. Collected pictures remain in their baskets. Shared dragging now converts screen movement to local coordinates on enlarged desktop stages, including re-grabbing a returning object.
+- Friend Shapes is a shallow craft recess with a faint complete letter body, replacing the disconnected floating features. Pieces can be dragged into the recess or tapped. An accepted piece restores the friend; a wrong piece returns with a hint. This remains supported matching, never a substitute for independent listening evidence.
+- The Hoopoe's Trip has a continuous clearing, a legible sign and a house with a chimney, framed window, flower box and step. Friends join the procession with finite movement; the journey keeps at least two taught choices even after earlier friends have joined. A rejected voice no longer strands the procession. All collected friends appear at home before the normal completion reward.
+- Busy Market uses separate fixed-proportion awnings, posts and shelves with reserved picture cells. Only eligible taught pictures enter the page. The existing 6/12 beginner/experienced caps remain. Found pictures persist across lens changes; both manual and automatic changes skip finished lenses, and stale automatic changes cannot override a manual choice. Exploring the market does not award mastery.
+- Responsive corrections keep three baskets inside a 320px phone and prevent landscape answer cards from stretching. Reduced motion keeps the same usable states without the new movement. No audio asset generation/import or production work was performed.
+
+Validation: 992 automated checks pass, including nine new book-game behavior checks and a zoom/re-grab regression test. Syntax and diff checks pass. Actual browser play completed all five games; checks included wrong/outside/correct sorting drops, accepted puzzle drags, keyboard/tap puzzle completion, rapid door taps and replay fallback, all five journey friends arriving home, market bag persistence/manual switching, and return to the world. The final 20-view matrix covered all five games at 320×568, 390×844, 844×390 and 1280×720: no controls outside the viewport or smaller than 44px, and no active CSS animations in the games under reduced motion. These are simulated viewports, not physical-device or child playtests.
+
+New art/CSS colors match ART.md; the global palette checker continues to report existing debt elsewhere. Screenshots and the layout audit are local in `.qa/shots/v271-*` and `.qa/v271-layout-check.json`. Pre-pass copies are in `.qa/baselines/v271/`. Preview: `letters.html?v=20261021-books1`. The broader art/gameplay goal remains active: other activity families still need comparable scene and end-to-end play review.
+
+## v272 — Puzzle Tree toys (2026-10-21, local)
+
+Continues the broader art and gameplay pass through Echo Parade, Dots Last, Letter Train and Same Letter. Three lower-cost workers handled bounded art, logic and review; integration and browser review stayed together. Audio generation/import and production publishing remain parked.
+
+- Letter Train has a detailed locomotive, carriage slots before the first answer, a station shelter and a visible next-letter guide. Tap or drag to the whole train with a 24px landing margin. Incorrect train drops give the same gentle help as taps; outside/canceled drops are not answers. Wheels meet the track, filled cars seat briefly, and the train stays for its refrain before a finite departure. Short taught runs no longer repeat the final ride because of conflicting stride/count calculations.
+- Echo Parade uses a canopy stage, right-to-left matching recesses and a next-position cue. Answers wait for the played sequence; replay is support. Unavailable, rejected or unconfirmed speech reveals the line without waiting through more failed clips. Leaving settles pending waits; stale speech cannot unlock another sequence.
+- Dots Last sits in a stamp tray with an unobstructed letter field. Each delayed reveal belongs to its own round. Early guesses do not earn mastery; completed visual comparisons report letter-form evidence.
+- Same Letter has a wooden reference frame and pieces in a shallow tray. Difficulty is fixed for the visit: two upright choices, then three upright choices, later rotations, and mirrored distractors only after more visual successes across four visits. Choices and rotations do not increase at the same milestone.
+- Letter and syllable pools reject explicitly untaught/locked records, unmet prerequisites and conflicting duplicates. Train length follows its least-established letter. Curriculum, collections and payout rules remain.
+- Fixed-aspect props, finite responses and tighter panels keep the garden visible around the toys. Reduced motion removes the added movement.
+
+Validation: **1,001 automated checks pass**, including nine new behavioral regressions. Syntax and diff checks pass; new art/CSS colors match ART.md. Played all four games through completion handoffs, including train wrong/right drag, tap and keyboard input, matching retries, sequence replay and dot choices during reveal. All four games were checked at 320×568, 390×844, 844×390 and 1280×720 with larger choice sets and reduced motion; no play button was outside the viewport or below 44px. These are simulated viewports, not physical-device or child playtests.
+
+Recovery: `.qa/baselines/v272/RESTORE.md`. Screenshots: `.qa/shots/v272-final-*`; layout evidence: `.qa/v272-layout-check.json`. Preview: `letters.html?v=20261021-puzzles1`. Other activity families still need comparable art/play review; the whole-game goal remains active.
+
+## v273 — Letter workshop and shadow theatre (2026-10-21, local)
+
+Continues the existing art/play pass through Build Letter, Fill the Gap, Lantern Hunt and Letter Shadows. Three lower-cost workers handled bounded art, layout and logic tasks; integration and actual play were reviewed together. Audio generation/import remains parked, and nothing was published.
+
+- The workshop has a fixed-proportion wooden assembly board with pictured body/dot steps and a tactile piece tray. Beginners get the body preplaced for dotted letters; later visits add the body step before increasing choices. Body-only letters remain playable. Pools without a distinct matching choice return without awarding completion. Stale step handlers cannot place a second piece.
+- Fill the Gap uses a picture easel, a complete joined Arabic word reference and a separately highlighted initial letter. The word remains joined after completion. Fallback friends stay whole instead of leaving detached features. Children can tap or drag a letter into the generous receiving space; wrong drops give help, while outside/canceled drops do not answer. This is supported initial-letter/friend matching, not independent word-reading evidence.
+- Lantern Hunt has a layered night clearing, a fixed-proportion tree and lantern, and a collection jar outside the hiding field. Beginner searches have two distinct choices; the beam stays generous when choices increase. A dark tap reveals before selecting. Pointer ownership, lost capture, obsolete handlers and duplicate finds are guarded. Failed, rejected, stalled or replayed prompts show a supported reference; early guesses before a verified prompt do not strengthen learning.
+- Letter Shadows uses a wooden puppet theatre and finite arrival feedback. Difficulty stays fixed during a visit: more choices, then a second stationary shadow, then plain forms after a later evidence milestone. Dragging matches the specific silhouette under the drop; taps still allow either remaining shadow. Unrelated/outside drops and old-round handlers cannot complete a target.
+- Taught eligibility and item identity are preserved across helpers, hints and outcome reporting. No curriculum, earned collection or reward economy changes. Small-screen fixes keep the easel and night scene inside the play area; app/OS reduced motion keeps the same interactions without the added movement.
+- Rechecked the requested sticker scenery bin: drag a placed sticker into the large coral bin, or tap a placed sticker and then tap the bin. Removal saves only the arrangement, preserving the reusable sticker and collection. Desktop and phone removal and reload persistence were verified again.
+
+Validation: **1,019 automated checks pass**, including 18 new workshop/shadow behavior checks. Syntax and whitespace checks pass. All four games were played through their completion callbacks and return to the world, including workshop retry/drag/keyboard, word-gap wrong/outside/correct drops, lantern reveal/search/collection and two-shadow wrong-target/correct-target drops. Layouts were inspected at 320×568, 390×844, 844×390 and 1280×720, including three-choice support, silent-speech fallback and reduced motion. No play buttons were outside the viewport or below 44px; no active CSS animation remained under reduced motion. These are simulated viewports, not physical-device or child playtests.
+
+New art/CSS colors match ART.md. The global palette check still reports existing repository debt (54 off-palette colors and 12 off-scale widths). Recovery: `.qa/baselines/v273/RESTORE.md`. Screenshots: `.qa/shots/v273-*`; layout evidence: `.qa/v273-layout-check.json`. Preview: `letters.html?v=20261021-workshop1`. The broader whole-game art/play goal remains active; this entry covers the four games above, not every remaining activity family.
+
+## v274 — Word and Wardrobe Play (2026-10-21, local)
+
+- Hat Shop now has a fixed-aspect timber dressing stand, a visible landing place for a waiting friend, and a warm shelf that fits all three later-stage choices on a 320px phone. A successful friend choice arrives in the stand. Existing above/below mark artwork still follows the handwriting paths.
+- Twin Crown opens with a letter friend on a small puppet stage, retains its two-choice crown contrast, and gives both cards equal prominence. The two-to-one demonstration stays inside the same stage rather than changing the layout. This remains supported matching, not independent decoding.
+- Listen and Find uses a reading stand, a clear replay button, and large answer cards. Word Gap uses an open book with an uninterrupted Arabic word field; the fully joined word returns after the missing piece lands. Arabic references and cards reserve space for low vowel marks.
+- Both families filter locked, explicitly untaught, prerequisite-blocked and duplicate display aliases before planning. Visit choice ceilings are frozen: two for beginners, at most three later. Hat Shop keeps its task mode stable where the taught pool permits. Word Gap distractors are actual clusters from eligible words; tatweel and punctuation can no longer become missing letters.
+- Prompt outcomes use verified playback, guarded current rounds and current controls. Replay and failed/unavailable speech expose a supported reference, stalled listening falls back, pending guesses cannot strengthen learning, and verified unassisted Hat Shop answers can strengthen listening. Late callbacks, replaced controls, outside drops and cancellation cannot submit another round's answer. Feedback speech rejection is consumed.
+- The requested sticker bin is present throughout the scenery editor. It supports drag-to-bin or select-then-tap-bin, a generous drop zone and a visible selection cue. Removal saves the arrangement while preserving the sticker collection and reusable tray.
+
+Validation: **1,038 automated checks pass**, including the new word/hat behavior cases and updated compatibility fixtures. All four games were played through completion, with both Hat Shop modes, wrong/correct/outside drags, keyboard input, replay and silent-speech fallback. All four were inspected at 320×568, 390×844, 844×390 and 1280×800; no play control was under 44px, no direct game content escaped the play area, and no horizontal page overflow was found. Reduced motion disabled the family animations. Sticker tap removal, drag removal, reload persistence and reuse were rechecked in an isolated local test scene. No console errors during these browser checks. These are simulated viewports, not physical-device or child playtests.
+
+New art/CSS use the established palette and stroke scale. Global palette debt remains unchanged at 54 off-palette colors and 12 off-scale stroke widths elsewhere. Audio generation/import and production were not touched. Recovery: `.qa/baselines/v274/RESTORE.md`. Browser evidence: `.qa/shots/v274-*`, `.qa/shots/sticker-bin-selected-v274.png`, `.qa/v274-layout-check.json`. Preview: `letters.html?v=20261021-word-wardrobe1`. This is progress on the continuing whole-game goal; other activity families still need dedicated review.
+
+
+## v275 — Toy Studio (2026-10-21, local)
+
+- Friend Pairs uses leaf-backed cards on a small picnic mat. Matched cards remain readable, introductory peeks have useful accessible labels, and two, three and four pairs fit small phones without overlapping. Four pairs require established practice across four distinct visits; the board size is frozen for the visit.
+- Dot Nests has larger nests, a letter on a paper-faced branch and a tree for later above/below sorting. Counting stays the task for the whole early visit. Position sorting is a separate later visit using eligible planned letters. Actual nest bounds win over overlapping drag tolerance, then the nearest nest wins; wrong and outside drops cannot advance the round.
+- Friend Jigsaw has a timber picture frame and a separate piece tray. Two, three and four pieces form a gradual progression without an unrelated decoy. The three strip widths match the cropped picture. Guided drop feedback and keyboard placement work. Completion callbacks capture the round that created them, fixing a stall after the last piece. Planning and participation use the construction skill; assembly remains motor participation with no recall verdict.
+- Colour a Friend has a drawing easel and eight named crayons, including Pink and Paper. The pet's colour sets the starting crayon. Crayon selection and painted pages survive page changes during the visit. Keyboard painting works even on narrow stroked letters. Export snapshots the page before decoding, blocks page changes while saving, and re-enables controls on failure instead of saving a blank or stale drawing.
+- These games share strict eligibility and actual curriculum item IDs. Explicit empty plans remain empty. Old controls, replaced pages and late callbacks cannot submit another round's results. Existing pets, chapter rules and rewards are preserved; audio generation/import stays parked.
+
+Validation: **1,048 automated checks pass**, plus syntax and diff checks. Browser play completed beginner memory, counting and position-sorting visits, a two-puzzle beginner visit and hanging a coloured drawing. Three- and four-piece puzzles were assembled; wrong/correct/outside drags, keyboard placement/painting, draft restoration and Pink selection were exercised. Four baseline layouts (320×568, 390×844, 844×390 and 1280×800) were inspected for each game, with additional intermediate/established checks at 320×568 and 844×390. No overlapping card/piece controls or controls below 44px in the final later-level checks. Reduced motion disables the family animations. These are simulated viewports, not physical-device or child playtests. Palette debt remains the same 54 off-palette colours and 12 off-scale widths elsewhere.
+
+Recovery: `.qa/baselines/v275/RESTORE.md`. Evidence: `.qa/shots/v275-*`, `.qa/v275-layout-check.json`, `.qa/v275-later-layout-check.json`. Preview: `letters.html?v=20261021-toy-studio1`. Changes remain local. Other game families still need dedicated review under the continuing whole-game goal.
+
+
+## v276 — Look and Ride (2026-10-21, local)
+
+- Spot the Change has readable cream stones on a small observation table. Children now decide when they are ready: the eye-and-arrow control hides the arrangement briefly and reveals the changed letter. There is no forced observation countdown. The same control then offers Look Again, which restores the original arrangement and records help. Beginners see two stones across three rounds; later visits use at most three stones across four rounds, with dot-family differences when the taught pool permits.
+- Family Buses has a garden stop, a warm parking surface and larger separate driver/passenger windows. The passenger boards beside a different letter with the same body. Both tap and drag remain available. Drops within 28px of a bus are accepted; exact bounds take priority, then nearest centre resolves overlapping margins. Wrong drops receive a gentle hint and outside drops leave the passenger waiting. Departure follows the boarding animation, with a static equivalent under reduced motion.
+- Both games plan from eligible taught items once, retain actual curriculum IDs, and freeze the visit's difficulty. Explicit empty plans stay empty; sparse later pools can use two valid choices. Unknown/locked/prerequisite-blocked aliases and unplanned distractors cannot enter the visit. Visual/memory outcomes remain separate from recall strength. Replay, feedback, replaced DOM nodes, stale timers and old drags cannot submit extra answers. Speech failures are safely consumed without changing the parked audio pipeline.
+- Code review found browser NodeList methods being treated as array methods in the new drag path; this was corrected before delivery and covered with a NodeList-shaped fixture. Drag cleanups now run at each round boundary.
+
+Validation: **1,058 automated checks pass**, with syntax and diff checks. Browser play completed beginner Spot the Change, its later four-round dot-change visit, and Family Buses. Checked wrong/correct/outside/near-edge drags, keyboard answers, reference replay, self-paced waiting, boarding, completion, and reduced motion. Both games were reviewed at 320×568, 390×844, 844×390 and 1280×800 with early and later difficulty. The later three-bus phone scene was adjusted after its progress row clipped; final phone captures keep it visible. Answer controls meet 44px and the layouts have no horizontal page overflow. No console errors appeared in these checks. These are simulated viewports, not physical-device or child playtests; whether a new child understands the ready icon still needs observation with children.
+
+Palette debt remains unchanged at 54 off-palette colours and 12 off-scale stroke widths elsewhere. Local preview: `letters.html?v=20261021-look-play1`. Recovery: `.qa/baselines/v276/RESTORE.md`; screenshots and checks: `.qa/shots/v276-*`, `.qa/v276-layout-check.json`, `.qa/v276-final-phone-check.json`. Production and audio generation/import were not touched. Listening, costume/form and word-tree families remain to be reviewed under the continuing whole-game goal.
+
+## v277 — Form Play and sticker cleanup verification (2026-10-21, local)
+
+- Disguise presents the complete joined word on a reading stand, with separate large matching choices. Costume Rail uses the same stand and a timber rack; filling the gap restores the original cluster and its vowel marks. Shape Train has an engine, separate car seats and introductory shape guides. The complete train produces one matching outcome, rather than credit for each partial placement.
+- Leaf Home uses a large leaf and hanging branch labels. Root radicals fit inside their paper labels, and three branches form a two-plus-one arrangement on phones. Matching includes only words with the full root visibly present in order; prefixes are skipped when highlighting radicals. This fixes the prefix hamza in أَرَأَيْتَ being highlighted instead of the root hamza. The public Word Tree corpus remains unchanged, and filtering preserves unlocked branch boundaries.
+- Visits use eligible taught items and validated plans, with stable two-choice introductions and at most three later choices. These visible matching tasks do not count as independent recall. Wrong feedback, replay, replaced controls, delayed callbacks and cancellation cannot advance another round. Drag targets are forgiving, and reduced motion preserves the task without the added movement.
+- The scenery bin supports drag-to-bin and select-then-tap-bin. Its 24px drop margin was checked again on a phone layout. Both removal paths save the arrangement while keeping all eight fixture stickers reusable; reload preserves the cleaned scene. Existing user scenery was left intact.
+
+Validation: **1,083 automated checks pass**, including nine sticker cleanup checks, with syntax and diff checks. Browser play completed all four form games; the final Leaf Home visit used the real corpus with silent speech and reduced motion. Phone and desktop captures cover 320×568, 390×844, 844×390 and 1280×800. Final branch labels and Costume Rail were rechecked after fixing label alignment, card-width specificity and landscape progress clipping. Controls meet 44px, final inspected layouts have no horizontal overflow, and progress remains inside the play area. No active family CSS animations remained under reduced motion. These are simulated viewports, not physical-device or child playtests.
+
+Recovery: `.qa/baselines/v277/RESTORE.md`. Evidence: `.qa/shots/v277-*`, `.qa/v277-layout-check.json`, `.qa/v277-final-layout-check.json`, `.qa/shots/sticker-bin-ready-final.png`. Preview: `letters.html?v=20261021-form-play1`. Palette debt remains unchanged elsewhere. Changes remain local and audio generation/import stays parked. The broader game-polish goal is still in progress; listening games remain to be reviewed.
+
+
+## v278 — The listening corner (2026-10-21, local)
+
+- Beat Drum now has a rounded coral drum with skin, rim, lacing and feet, a timber picture stand, and a seed tray that responds to each tap. Beginner visits use three rounds with one- and two-beat words; established guided practice can introduce three beats. This is recorded as guided motor success, never independent segmentation or letter recall.
+- Same Start plays the target and each choice before opening selection. Tapping the target replays just its name; each answer has its own separate speaker button. A separate control repeats the whole question. Two choices grow to at most three across visits, with the visit's difficulty frozen. Existing picture vocabulary remains available before letter learning.
+- Odd Sound keeps its three-picture contrast and gains the same separate listening controls, a centered replay stand and clear picture feedback. Unavailable speech shows a supported comparison and hints the answer. Speech failure, replay and help cannot count as independent listening.
+- Both sound-choice games use eligible, deduplicated picture records and validated plans. Empty or unusable plans cancel without rewards. Outcomes retain picture IDs and the selected picture, use a separate first-sound skill, and do not change letter recall strength. Shared progression reads first-sound listening evidence and guided-beat motor evidence from their own buckets.
+- Playback waits for actual completion and is bounded if a promise never settles. A failed word ends that sequence and opens supported play; it cannot accumulate a separate timeout for every choice. Late speech, replaced controls, repeated taps, old rounds and leaving during feedback cannot submit another answer. The last speaking highlight clears when listening finishes.
+- The generic board was replaced with a small listening corner while preserving the surrounding garden. Larger desktop props, centered composition, generous phone controls, non-overlapping landscape controls and static reduced-motion feedback were checked. The existing drum icon now uses the new artwork too.
+
+Validation: **1,096 automated checks pass**, with syntax and diff checks. New constructor/lifecycle coverage verifies empty-plan cancellation, target-plus-choice playback, stale controls, a hung utterance, per-picture replay, motor outcome integrity and a complete three-round visit. Browser play completed all three games, plus a four-round established drum visit ending in a three-beat word. Replay, wrong-answer retry, keyboard input, unavailable speech, completion and return to the world were exercised. All three games were reviewed at 320×568, 390×844, 844×390 and 1280×800 at early and later levels. Final controls meet 44px, have no overlaps or horizontal overflow, keep progress inside the play area, and disable family CSS motion under reduced motion. These are simulated viewports, not physical-device or child playtests. Spoken content correctness was not re-reviewed; audio generation/import remains parked.
+
+Palette debt elsewhere is unchanged: 54 off-palette colours and 12 off-scale widths. Recovery: `.qa/baselines/v278/RESTORE.md`. Evidence: `.qa/shots/v278-*`, `.qa/v278-layout-check.json`, `.qa/v278-final-layout-check.json`. Preview: `letters.html?v=20261021-listening1`. Changes remain local. The next whole-game review should follow complete child journeys through entry, play, reward and return, now that the individual game families have received their dedicated passes.
+
+
+## v279 — A child-led finish and reliable practice rewards (2026-10-22, local)
+
+- Finished practice stays visible until the child chooses Continue or optional Replay. The selected pet shares a planted clearing with three flowers; the earned-star tag appears only when the existing practice payment succeeds. The old timed flower overlay is retired. Completed game inputs, idle prompts and delayed sounds stop on exit, and connected chapter/adventure callbacks retain their existing progression.
+- The pet's actual contact shadow is aligned to the same clearing for both blob and animal companions, including after resizing. Reduced motion keeps the ending still.
+- The practice star and its same-day receipt now save together in the wallet. A failed write leaves the in-memory balance and allowance unchanged. A failed legacy receipt mirror cannot enable another payment. Existing once-per-kind and five-per-day limits remain.
+- An activity only loses its new invitation after it has actually launched; unavailable, empty, failed and cancelled starts keep it. Practice returns restore the source toy's scroll position and focus.
+- Decorative strokes on Colour a Friend no longer intercept taps meant for the underlying paintable shape. Browser play painted the letter pink, hung the picture, returned to its source toy, placed the new drawing in the garden and verified that placement after reload.
+
+Validation: 1,109 automated checks passed. Blob and Lumi endings were checked at 320×568, 390×844, 844×390 and 1280×800, including reduced motion and a measured common ground line. Actual play covered a complete drum visit, replay, colouring, payment and return. These are simulated viewports, not physical-device or child playtests. Palette debt elsewhere was unchanged. Evidence: `.qa/shots/v279-*`, `.qa/v279-layout-check.json`; recovery: `.qa/baselines/v279/RESTORE.md`. Local only; audio generation/import remained parked.
+
+
+## v280 — A pictured toy chest and a remembered place (2026-10-23, local)
+
+- The main practice garden now opens one pictured family at a time: play, listening, books, puzzles, drawing and garden discoveries. Six new native SVG family icons sit above a warm timber cabinet. Larger activity pictures replace repeated play-arrow badges, and the selected pet remains visible in the feeding invitation. The cabinet fits its contents instead of leaving a tall empty surface on short shelves.
+- Family tabs keep a steady position as the child explores. The selected family, shelf scroll position and source toy are remembered through ordinary practice and nested hub returns. Tab keyboard navigation, focus restoration, one-shot launches and stale-control guards share one small navigation controller. Existing special daily/adventure routes retain their flow.
+- A large arrow handle appears only when a shelf has more toys below; at the bottom it points back to the first toys. The 320px phone's five-toy play shelf fits without unnecessary scrolling. Crowded desktop shelves use four centered columns and keep all seven toys visible. The landscape top bar no longer intercepts taps intended for the family tabs.
+- Existing eligibility and the exact nine Little Sprout toys are preserved. At most three untried invitations remain stable across family changes; visiting a tab alone cannot consume them. Learning mechanics, chapter rules, rewards and saved progress are unchanged. Audio generation/import remains parked.
+
+Validation: **1,117 automated checks pass**, including navigation, overflow, teardown and reduced-motion behavior. Twenty-four final layout checks cover all six families at 320×568, 390×844, 844×390 and 1280×800: one visible family, no horizontal page overflow, controls at least 44px and correctly signposted overflow. Actual play covered a full drum visit, its child-led ending and return to the listening family; book and colouring returns; and leaving a jigsaw from a scrolled shelf, restoring the source focus and scroll position. Early-reader and Little Sprout eligibility were checked through the visible UI. Reduced motion disables shelf animations/transitions; no console warnings or errors appeared in the final checks. These are simulated browser layouts, not physical-device or child playtests.
+
+Recovery: `.qa/baselines/v280/RESTORE.md`. Evidence: `.qa/shots/v280-*`, `.qa/v280-final-layout-check.json`, `.qa/v280-eligibility-check.json`. Preview: `letters.html?v=20261023-toychest1`. Changes remain local. This completes the toy-chest entry/return pass; the broader artwork and gameplay objective remains active.
+
+## v281 — A child-led sand table (2026-10-23, local)
+
+- Sand Table now has a fitted timber tray, quiet sand grain, a pictured rake and a small bucket/stone/sprout setting. A separate eye button repeats the demonstration. The rake, help, progress and Next controls remain reachable in portrait and short landscape; the old desktop rake clipped below the viewport. The handwriting model has eight units of breathing room so low vowel marks and rounded strokes remain inside the tray.
+- A finished letter stays until the child chooses Next. Raking lets them draw the same letter again without another outcome. A two-item beginner visit and up to three later items lead to the existing child-led practice ending and return. The activity uses eligible taught items, original curriculum IDs and validated plans; it no longer invents letter-plus-mark targets.
+- Drawing guidance fades across successful visits: full path, dotted path, start cue, then memory. The visit's support is fixed at entry. Recent help restores support. Unavailable or hung speech reveals the reference without discarding completed strokes; this changes presentation fallback only, with audio generation/import still parked.
+- Completed tracing records drawing-specific motor evidence. It cannot increase aggregate letter mastery or independent listening evidence. Help, keyboard assistance and automatic patience assistance are routed to assisted evidence by the real learning session. Duplicate callbacks and redrawing cannot add another result. Integration checks cover durable storage and support progression, not just raw outcome objects.
+- The shared stroke guide now cancels old demo/snap timers on reset, releases pointer capture on reset/destroy, and treats pointer cancellation or lost capture as interruption rather than a failed attempt. The sand game retires old guide and speech callbacks at each boundary. Reduced motion removes its demonstration movement, cue pulse, grain feedback and ink/tool/friend transitions.
+
+Validation: **1,133 automated checks pass**, plus syntax and diff checks. Actual browser play includes a pointer-drawn Alif with the padded coordinate system, keyboard-assisted marked letters, rake/help replacement, explicit Next, the normal finish screen and return to the toy chest. Kasra and controls were measured and visually checked at 320×568, 390×844, 844×390 and 1280×800; all inspected buttons are at least 50px, no page overflow appears, and the full marked stroke fits. The reduced-motion visit remains playable with no active sand-family animation or transition. These are simulated browser viewports, not physical-device or child usability tests. Palette debt elsewhere remains 54 off-palette colours and 12 off-scale widths.
+
+Recovery: `.qa/baselines/v281/RESTORE.md`. Evidence: `.qa/shots/v281-*`, `.qa/v281-final-layout-check.json`. Preview: `letters.html?v=20261023-sand1`. Changes remain local. The larger game/artwork goal remains active; this pass completes Sand Table's dedicated review.
+
+## v282 — The stamp-making table and saved pictures (2026-10-23, local)
+
+- Letter Studio has a fitted wooden easel, illustrated land scenery, ink pads, letter stamps and a pictured hanging control. Shared pink and pet-colour defaults are available; the selected ink stays visible after resizing. Scroll handles reveal later stamps and return to the first choices. The desktop and short landscape layouts keep the tools inside the screen.
+- Letter stamps use eligible taught items with their original curriculum IDs, preserving prerequisite boundaries. The prompt shows the selected letter and disappears for a picture sticker. Creative placement and keyboard stamping do not submit learning evidence. Stamps remain within the picture edge; Undo removes only the last stamp, and a 24-stamp limit keeps the picture bounded.
+- The saved picture uses the same scene, sticker motifs, colours and letter positions as the live canvas. Saving locks editing and takes a snapshot; font/image failures or storage failure keep the art and expose a retry, without awarding completion. Leaving cancels pending image work. The three art slots now rotate by age instead of repeatedly replacing the same slot. Memory updates only after successful persistence. Colour a Friend also treats a false save result as a failure.
+- Sticker scenery cleanup remains available through the large pictured bin: drag a placed sticker into it, or select a sticker and tap the bin. Removed placements save without consuming owned stickers. The bin and its extra 24px drop margin were rechecked in actual play; existing user scenery was preserved.
+
+Validation: **1,148 automated checks pass**, including save-failure, cancellation, duplicate completion, eligibility, edge placement, ink/undo, art-slot rotation and sticker cleanup coverage. Browser play saved a picture containing two pink letters and a sticker, inspected its exported PNG, reloaded it and placed it in the decorating garden. A failed-save visit retained its stamp and enabled retry. Studio layouts were inspected at 320×568, 390×844, 844×390 and 1280×800: no horizontal page overflow, controls at least 46px, the selected ink visible and reduced-motion transitions disabled. Sticker select-and-bin and drag-and-bin both worked at phone size; reload retained the empty scene and all eight reusable test stickers. The desktop bin measures 100px; the phone bin measures 76px. These are simulated viewports, not physical-device or child playtests. Syntax and diff checks pass; existing palette debt elsewhere remains.
+
+Recovery: `.qa/baselines/v282/RESTORE.md`. Evidence: `.qa/shots/v282-*`, `.qa/shots/sticker-bin-ready-v282.png`, `.qa/v282-final-layout-check.json`, `.qa/v282-tests.txt`. Changes remain local; audio generation/import remains parked. The broader artwork and gameplay goal is still active.
+
+## v283 — A child-led Water Garden (2026-10-23, local)
+
+- Water Garden now has a stone spring pool, timber channels and turning spouts, planted soil pockets and three coloured flowers. The existing surrounding pond and garden remain visible. Fitted Arabic glyphs and separate help, progress, Next and finish controls replace the crowded board edge.
+- A beginner visit offers two supported choices over three rounds. The learning profile is fixed for each visit: matching leads to two-choice listening, then three choices across successful visits. Channel turning arrives only for established players. Items and plans are checked against taught content, prerequisites, locked records and duplicate glyphs. Answer positions are shuffled, and the channel direction never reveals the correct letter.
+- Water reaches the flower before completion is recorded. Each grown flower stays until the child chooses Next; finishing guided play leads to optional garden play. Turning channels remains a toy action and earns no letter-recall evidence. Supported matching, help and independent listening retain separate learning records. Duplicate taps, old speech callbacks and delayed water arrivals cannot complete another round.
+- Replay preserves confirmed listening; unavailable or hung speech opens supported matching. Its deadline is independent of reduced-motion settings. Free play remembers gates, channel directions and flowers across reload. The connected adventure marks its water stop once, preserves completion and returns to its existing finish screen. Existing practice rewards remain in place; audio generation/import is still parked.
+- Controls remain at least 56px in the measured phone and desktop layouts. Reduced motion removes water, hint and control movement. A shared helping-hand cue now retires when the viewport resizes, preventing a stale pointer after phone rotation.
+
+Validation: **1,152 automated checks pass**, plus syntax and diff checks. Actual browser play covered beginner matching with a wrong-answer retry, established listening and replay, channel-turning rounds, hung-speech fallback, optional free play, saved channels after reload, the normal practice reward/return, and the connected adventure's completion/revisit after reload. Nine layout checks cover guided play and revisits at 320×568, 390×844, 844×390 and 1280×800, plus a completed adventure round on the smallest layout. No measured control overlaps, offscreen controls or horizontal page overflow. Reduced-motion animations and transitions are disabled, and the rotation check removes the old hand. No browser warnings or errors were captured. These are simulated viewports, not physical-device or child playtests. Existing palette debt elsewhere remains 54 off-palette colours and 12 off-scale widths.
+
+Recovery: `.qa/baselines/v283/RESTORE.md`. Evidence: `.qa/shots/v283-*`, `.qa/v283-layout-check.json`, `.qa/v283-tests.txt`, `.qa/v283-palette.txt`. Changes remain local. The broader game/artwork objective remains active; this pass completes Water Garden's dedicated review.
+
+## v284 — Letter Hunt's six little worlds (2026-10-23, local)
+
+- Letter Hunt keeps its six familiar environments and gains a native paper-diorama prop family: built trees, kites, boats, flags, pots, crates, shells, lilies, rocks, clouds and lanterns. Quiet paper labels appear only where a letter is present. Arabic ink is fitted to those labels. The complete scene fits in portrait and landscape without cropping hiding places; help, the collection basket and Next have their own space.
+- Waterside composition was corrected during screenshot review: the bank is continuous green land, boats and lilies sit on water, and shells, trees and flags stay on land. Lanterns hang from visible cords or rest on feet. Touchable tree canopies now share the other props' warm outline. The original renderer remains available as `LetterHunt.classic`.
+- Beginner visits use two supported choices over three rounds. Later visits move from two-choice matching to two-choice listening and then at most three choices, with support fixed for the visit. Targets come from eligible, deduplicated taught items and validated plans. An explicitly empty or invalid plan cancels without awarding completion. Matching and helped answers stay separate from independent listening evidence.
+- Each find flies into the basket, and the child chooses when to continue. Plain props respond to play without submitting answers. Replay, repeated taps, stale controls and old speech promises cannot advance another round. Rotation preserves the question, basket and keyboard focus; leaving or continuing cancels any flying label cleanly. Reduced motion keeps the same feedback without movement.
+- Independent listening waits for confirmed playback. A stalled prompt opens visible matching after six seconds; replay preserves an already confirmed prompt. The audio pipeline itself is unchanged.
+
+Validation: **1,159 automated checks pass**, with syntax and diff checks. Browser play covered beginner and established visits, wrong-answer support, replay, repeated taps, keyboard selection, rotation during collection, completion, replay reset and return to the toy chest. Stalled speech was checked with reduced motion enabled. Thirteen layout captures cover all six environments in portrait and landscape, including 320×568, 390×844, 844×390 and 1280×800. Measured targets are at least 54.5px, with no offscreen controls or horizontal page overflow. Sampled actual Arabic ink is centered and contained; font-em rectangles were excluded from that measurement. No browser warnings or errors were captured. These are simulated browser viewports, not physical-device or child playtests.
+
+Recovery: `.qa/baselines/v284/RESTORE.md`. Evidence: `.qa/shots/v284-*`, `.qa/v284-layout-check.json`, `.qa/v284-tests.txt`, `.qa/v284-palette.txt`. The palette scan adds no new debt; existing debt elsewhere remains 54 off-palette colours and 12 off-scale widths. Preview: `letters.html?v=20261023-hunt1`. Changes remain local, audio generation/import stays parked, and the whole-game polish goal remains active.
+
+
+## Sticker scenery cleanup — undo follow-up (2026-10-23, local)
+
+The existing coral rubbish bin now has a wordless Undo control beside it after a removal. Children can drag a placed sticker into the generous bin target, or select it and tap the bin. Undo restores the removed placement at its original position and stacking order; each picture keeps its own removal history for the current visit. Owned stickers stay in the reusable tray. Undo never evicts a later sticker from a full picture.
+
+Validation: 15 focused sticker tests pass, plus JavaScript syntax and diff checks. Browser interaction verified tap removal, drag removal, pointer and keyboard undo, keyboard focus after restoration, and the reusable tray. Layouts checked at 1280×720, 390×844, 320×568 and 844×390; the bin is 76px and Undo 56px wide on the smallest portrait layout. No browser errors or warnings were captured. These are simulated browser viewports. Audio and the other game work remain untouched by this follow-up.
+
+Recovery snapshot: `.qa/baselines/sticker-undo-20261023/RESTORE.md`. Screenshot: `.qa/shots/sticker-bin-undo-phone.png`. Local only.
+
+
+## v285 — A friend puppet show and garden balloons (2026-10-23, local)
+
+- Find My Friend now stages its existing letter-shaped animals in a small timber puppet booth, with coral curtains, separate wooden perches and a clear help/progress/Next row. A correct choice opens the booth and grows the animal features. The child controls when to continue; the final round has a distinct Finish action. The original curtain drawing remains in `FriendPlayArt.classic`.
+- Beginner visits have three supported rounds and two choices. Later visits use a fixed support tier, progressing from two-choice matching to two-choice listening and then three choices between visits. Only eligible, taught, deduplicated letters enter the plan. Empty or invalid plans cancel without completion. Help and errors remain supported evidence, and help cannot disappear for a repeated target during the same visit.
+- Independent listening requires confirmed prompt playback. Failed or stalled playback opens the visible model after six seconds. Replay keeps a confirmed prompt usable. Round tokens and teardown cancel stale speech and reveals; keyboard focus follows the child's next action, including waiting for a prompt.
+- Letter Balloons has larger fitted letter labels and a quiet clearing with planted boxes, soft clouds and layered grass. The three hit areas stay still while the balloon art gently bobs. Pops use a short seed burst and the pet cheers. A replacement stays in its original slot and preserves keyboard focus only if the child has not moved to another control. Reduced motion keeps the controls still. The toy remains open-ended, with no completion or learning-score claims.
+- Rapid balloon pops keep only the latest queued prompt. The visible letter changes when that prompt starts, so it stays synchronized with playback. Replay targets the child's latest selection; leaving clears replacements and queued speech. Audio generation/import remains parked.
+
+Validation: **1,178 automated checks pass**, plus syntax and diff checks. Browser play covered beginner matching with an assisted retry, the child-led reveal, completion and replay, ordinary toy-chest entry/return, confirmed listening, replay during a round, keyboard continuation, stalled-prompt fallback, rapid balloon pops, replacement focus and reduced motion. Controlled speech fixtures exercised timing without generating or importing audio. Ten layout captures cover two- and three-choice Friend play and balloons at 320×568, 390×844, 844×390 and 1280×800. All measured controls remain visible; the smallest is 56px, with no horizontal overflow. No browser warnings/errors were captured. These are simulated browser viewports, not child or physical-device playtests.
+
+Recovery: `.qa/baselines/v285/RESTORE.md` (preserve the later sticker-undo follow-up when restoring shared shell files). Evidence: `.qa/shots/v285-*`, `.qa/v285-layout-check.json`, `.qa/v285-*-outcomes.json`, `.qa/v285-tests.txt`, `.qa/v285-palette.txt`. Palette debt adds nothing new: the existing 54 off-palette colours and 12 off-scale widths remain elsewhere. Preview: `letters.html?v=20261023-friends1`. Changes remain local. This completes the two early-letter toys' dedicated pass; the broader game/artwork goal remains active.
+
+
+## v286 — A child-operated Sound Lab (2026-10-23, local)
+
+Sound Lab now uses a larger illustrated sound press with two ingredient funnels, a fitted live-ink window, speaker grille, turning gear, coral press button and wooden base. The earlier machine is retained as `SoundLabArt.classic()`. Its own responsive stylesheet keeps the machine, button and ingredient trays together in portrait and landscape; the existing garden scenery and pet stay in view.
+
+The first eligible consonant is ready on entry. Children choose a taught mark, then press the coral button to make the sound. Three letters and three marks are visible per page, replacing the long scrolling trays. Letter choices respect taught/locked/prerequisite flags, deduplicate IDs and glyphs, and exclude bare alif consistently with the vowel/hat curriculum. Sukūn and shadda retain their existing complete practice chunks and highlighted focus consonant. This remains open-ended exploration: no scored outcomes, completion rewards or new progression rules.
+
+A shelf holds the eight most recent distinct sounds. Replaying a shelf card restores its ingredients and the matching tray pages. Changing an ingredient clears the old output and cancels an unfinished mix; an old callback cannot clear a newer timer. Leaving cancels pending output. The press keeps keyboard focus during its short animation, keyboard paging moves focus to a visible choice, and reduced motion produces the same result without the movement or delay. Unavailable speech does not block the toy.
+
+Validation: **1,190 tests pass**, including 14 focused Sound Lab checks. JavaScript syntax and diff checks pass. Browser play verified explicit mixing, interruption before completion, replay/history restoration, contextual shadda, keyboard paging/focus, a one-mark beginner tray, reduced motion, unavailable speech and leaving mid-mix. Five simulated layouts (320×568, 390×844, 667×375, 844×390, 1280×800) have no off-screen active controls or horizontal page overflow; active targets are at least 44px. No browser errors or warnings were captured. New art adds no palette debt; the existing global baseline remains 54 off-palette colours and 12 off-scale widths elsewhere.
+
+Recovery: `.qa/baselines/v286/RESTORE.md`. Evidence: `.qa/v286-tests.txt`, `.qa/v286-layout-check.json`, `.qa/v286-palette.txt`, `.qa/shots/v286-*`. Ordinary preview: `letters.html?v=20261023-sound-lab1`. Sound Lab correctly remains unavailable on profiles that have not learned any vowel marks; `.qa/lab-v286.html?mode=preview` on the separate `letter-garden-lab.localhost:8790` origin offers an isolated review with all ingredients and the existing speech playback, without changing the main preview profile. A lower-cost Luna agent handled focused tests; integration and visual checks were reviewed by the parent. Changes remain local, audio generation/import stays parked, and the broader game-art and gameplay goal remains active.
+
+
+## v287 — A shared matching picnic (2026-10-23, local)
+
+Garden Together now places its two full-colour pets around a stitched picnic mat and woven collection basket. Rounded sprout-backed cards carry fitted Arabic letters; a gold seat and paw token show whose turn it is. Each matched pair adds a little letter card to the basket. The original surrounding garden remains visible, and the playmat rearranges for short landscape screens.
+
+The difficulty steps change one demand at a time: two visible pairs, then two hidden pairs, then three hidden pairs. The support tier is fixed for the visit and draws only from eligible, taught, deduplicated letters through the existing practice planner. Insufficient content exits without completion. The eye button can reveal unmatched cards and retains that help across turns. This remains cooperative matching/memory play, with no competitive score or listening-evidence claims.
+
+Both matching and mismatching pairs stay visible until the child passes the turn. Finishing the final pair waits for a distinct Finish action; the existing practice reward is claimed once. Keyboard focus follows the next available action. Repeated taps, unavailable speech and leaving mid-turn cannot advance stale play. Decorative pet movement respects reduced motion; game state has no timers. Browser inspection caught and fixed an undefined visibility flag that could reveal concealed cards, with a regression check using native class-toggle semantics.
+
+Validation: **1,197 automated checks pass**, including seven focused Garden Together checks, plus JavaScript syntax and diff checks. Browser play covered mismatch/turn passing, matching and basket collection, explicit finish, reward/return, both memory levels, help reveal/hide, keyboard focus, reduced motion, rejected speech and exit. Five simulated layouts (320×568, 390×844, 667×375, 844×390, 1280×800) show no offscreen child controls or horizontal overflow; the smallest measured child control is 44px. No browser errors or warnings were captured. These are browser viewport checks, not physical-device or child playtests. Palette debt remains unchanged at 54 off-palette colours and 12 off-scale widths elsewhere.
+
+Recovery: `.qa/baselines/v287/RESTORE.md`. Evidence: `.qa/v287-tests.txt`, `.qa/v287-layout-check.json`, `.qa/v287-palette.txt`, `.qa/shots/v287-*`. The separate `letter-garden-together.localhost:8790/.qa/together-v287.html?mode=preview` origin provides a guided review using existing speech without changing the main child's profile; ordinary entry retains the existing sibling-pet gate. Lower-cost agents supplied the art module and focused tests; the parent reviewed integration, corrected the visual/visibility issues and played the result. Sticker scenery cleanup and Undo remain available. Changes are local, audio generation/import stays parked, and the broader artwork/gameplay objective remains active.
+
+
+## v288 — The Letter Friends field guide (2026-10-23, local)
+
+The Letter Friends book now has a rounded foliage cover, cream page stack, right-hand binding, stitched edges and coral bookmark. A quieter ground patch frames the existing letter-shaped characters. Larger fitted letter and name cards keep Arabic ink centered and joined; the first-letter highlight uses the fitted SVG's coordinates so rotation does not move it away from the word. Portrait keeps the picture above its labels; short landscape places them side by side. Next is the warm primary action until the final page, when Close takes that role.
+
+Children can tap the letter card to hear it and hold the plain shape still, or tap the name card to hear the whole name and restore its friend. The picture reads the existing letter → friend call → name sequence. Page turns animate only the illustration, keeping touch targets fixed. The idle hand targets the small speaker on the picture rather than the letter body. Reduced motion disables page, character and reveal movement. All 28 existing friends remain intact.
+
+Book pages now respect taught/locked/prerequisite flags and deduplicate IDs and glyphs across the current and known items. The existing page order is retained. Empty content cancels without completion; reading and exploration still report no learning evidence. Direct controls can interrupt narration, repeated full-page replay does not queue duplicate stories, and page changes/close/exit cancel pending delays and invalidate stale speech. A six-second deadline frees a stalled reading sequence independently of motion preferences. Closing remains explicit and uses the existing reward/replay/return flow once.
+
+Validation: **1,208 automated checks pass**, including eleven focused Friend Book checks. Syntax and diff checks pass. Browser review covered every one of the 28 pages at 320×568, plus 390×844, 667×375, 844×390 and 1280×800 layouts. No measured child control is offscreen, there is no horizontal overflow, and active child targets are at least 44px (56px in portrait). Actual play checked plain-letter/name switching, page navigation, keyboard focus at the end, closing/replay/return, reduced motion, rejected speech, a hung prompt and exit during narration. Browser warning/error logs were empty. Existing recordings are used in the review preview, but this pass does not validate pronunciation or fill missing audio. These are simulated viewports, not physical-device or child playtests. Palette debt is unchanged: 54 off-palette colours and 12 off-scale widths elsewhere.
+
+Recovery: `.qa/baselines/v288/RESTORE.md`. Evidence: `.qa/v288-tests.txt`, `.qa/v288-layout-check.json`, `.qa/v288-palette.txt`, `.qa/shots/v288-*`; the all-page contact sheet is `.qa/shots/v288-all-pages.jpg`. Isolated review: `http://letter-garden-book.localhost:8790/.qa/book-v288.html?mode=preview`, with the existing speech and all pages for review without modifying the main child's profile. Lower-cost agents supplied initial page art and focused tests; the parent revised grounding, control priorities and motion, then integrated and visually reviewed the result. Changes remain local. Audio generation/import stays parked, and the broader artwork/gameplay objective remains active.
+
+## v289 — Child-operated Living Books (2026-10-23, local)
+
+- Rebuilt all four Living Books around a bound paper page, distinct illustrated covers, a detailed liftable bush, proportionate edge scenery and readable day/night colour. The Letter Friends book supplies the shared binding art; new scenery lives in `LivingBookArt.js`. Character contact shadows follow the actual ink bounds. The old renderer remains available as `LivingBooks.classic.art`, and the pre-pass files are in the recovery snapshot.
+- Covers and casts now use eligible familiar/current friends only, with no automatic padding by untaught letters. A child with one familiar letter can use every story. The search book adapts its name and cover to that friend; the morning sun can be scenery without introducing an unknown letter friend. The shelf has distinct bush, hidden-friend, sun and moon pictures, so its four books do not depend on reading their titles. Travelling foreground insects step aside while browsing or reading a book, keeping cover cues and Arabic ink unobscured; the garden backdrop remains.
+- Picture-name blanks wait for the child's tap. Flap/guess answers appear once, remain revealed when paging back, and are included in page replay. Individual words can interrupt reading; decodable words keep a brief opportunity to try before hearing them. Reading remains presentation and does not award independent-recall evidence.
+- Removed timed endings. The final page stays open until the child presses Finish; the final hidden friend must first be revealed. Read counts and completion are claimed once. Page changes and leaving cancel outstanding reading and delayed sound cues; rejected, missing or stalled speech releases the reader, with a six-second deadline for a stalled request. Existing speech is reused; no audio files were generated or imported.
+- The shelf requires one familiar letter, consistent with the actual activity entry. Finishing returns through the existing reward screen to the shelf. Saved favourite-book counts and the star marker remain intact.
+
+Validation: **1,219 automated checks pass**, including 11 new behavioral tests for eligibility, no fallback cast, empty entry, blank/resume, reveal persistence, replay, cancellation, failed/stalled speech and one-time finishing. All four books were played through every page to the reward screen on desktop. Phone/landscape checks cover 320×568, 390×844, 667×375 and 844×390, plus 1280×800 desktop: 35 recorded page/layout samples have no horizontal overflow, outside controls or picture/caption overlap; child controls are at least 44px. Keyboard finishing, reduced-motion styles, rejected/stalled speech, leaving during narration and a beginner's one-letter stories were checked in the browser. Three actual shelf→book→reward→shelf visits produced the favourite marker, which survived reload. No application errors or warnings were captured. These are simulated viewports, not physical-device or child playtests; pronunciation and missing audio remain parked.
+
+Syntax and diff checks pass. New art uses the existing palette; unrelated global palette debt is unchanged at 54 off-palette colours and 12 off-scale widths. Recovery: `.qa/baselines/v289/RESTORE.md`. Evidence: `.qa/v289-tests.txt`, `.qa/v289-layout-check.json`, `.qa/v289-palette.txt`, `.qa/shots/v289-*`. Local review: `http://letter-garden-stories.localhost:8790/.qa/living-v289.html?shelf=1`; its separate origin protects the main child's progress. No publishing. The broader goal remains active: the next pass should audit connected world→activity→reward→return journeys, including fresh/progressed profiles and leaving/resuming, against the now-polished activity families.
+
+
+## v290 — Garden journey art and reliable returns (2026-10-23, local)
+
+The bird and butterfly adventures now have constructed timber beds, seed packets, distinct flowers, a framed sign carrying the child's actual pink/pet-colour drawing, water and supporting trees. The bird sits on a branch perch; tapping either visitor makes only its illustration hop while its target stays still and the pet responds. Reduced motion keeps the visitor still. The original scene and visitor remain under `GardenAdventureArt.classic`. Short portrait screens show both destination choices together; short landscape keeps the complete garden inside the frame. Existing teaching targets, support rules and route sequence are unchanged.
+
+Adventure progress must save before a step pays or stamps the day. Failed drawing/water writes stay in a bounded in-memory draft, and finishing or leaving offers a wordless retry without claiming saved completion. The same pending adventure survives returning from the village within the page session. An unsaved draft cannot survive a full browser reload while storage remains unavailable; the last successfully saved route remains authoritative. Repeated and detached retry callbacks cannot pay again.
+
+A chapter left at its last stars screen now resumes its completion rather than restarting. The checkpoint also remains while the optional friend stop is open, so reloading there does not restart the chapter. Invalid, future, fractional and expired checkpoints are rejected. Book Corner and Puzzle Tree activity returns restore their shelf position and originating toy focus on Back and completion Continue.
+
+Validation: **1,234 automated checks pass**, including save failure/retry, exact-once completion, pending drawings/channels, intermediate/final chapter resume, reload during the friend stop, ordinary replay best-delta payouts and nested returns. Browser play completed Delivery → two sign drawings → Water Garden → finished butterfly garden; a forced save failure paid nothing until retry. Reload preserved the sign, route and water. Final-checkpoint entry reached the friend stop and chapter celebration without replaying the final lesson. A completed Build Letter activity returned through Continue to the same lower puzzle shelf position; Back was checked in both hubs. Visitor repeated taps and reduced motion were inspected. Final layouts were checked at 320×568, 390×844, 844×390 and 1280×800; finish controls remain at least 48px with no horizontal overflow or clipped scene. The small-phone choice screen exposes both gardens. No browser warnings or errors were captured. These are simulated viewports, not physical-device or child playtests.
+
+Recovery: `.qa/baselines/v290/RESTORE.md`. New files are `GardenAdventurePlayArt.js` and the three v290 test files. Evidence: `.qa/v290-tests.txt`, `.qa/v290-layout-check.json`, `.qa/v290-palette.txt`, `.qa/shots/v290-*`. The palette checker reports unchanged existing debt elsewhere (54 colours, 12 stroke widths). Lower-cost agents supplied the art module and the chapter/hub fixes; parent integration corrected composition, sizing and save handling and verified actual play. Preview: `letters.html?v=20261023-garden-journey1`. Local only; audio generation/import remains parked. The broader game/artwork goal remains active; Letter Delivery's own garden presentation and deeper shelf transitions still merit a dedicated pass.
+
+## v291 — Finish the Letter Delivery release (2026-10-23, local)
+
+Letter Delivery now uses paper seed packets and a constructed timber planter. Each successful delivery adds a plant; the Arabic sign stays separate from the flowers. Tap-select-then-plant remains available alongside dragging, with a 24px receiving margin. The hint follows the current action: packets, then planter, then Continue. Success holds until the child chooses Next or Finish; animations cannot advance or pay a round twice. The old drawings remain accessible through `LetterDelivery.classic`.
+
+Only eligible, distinct taught items enter the plan. The shared learning profile sets a stable choice limit for the visit; beginners start with two visible choices. Help, an error or unavailable listening keeps subsequent rounds supported. Help releases a stalled prompt immediately, and the initial listening deadline also provides a fallback. Visible matching, assistance and confirmed independent listening remain separate evidence. Empty content cancels without completion; leaving cancels speech and pending gestures. Audio assets and generation were not changed.
+
+Validation: **1,245 automated checks pass**, including 28 focused Delivery/integration checks. Two legacy source checks were updated for the retained classic renderer and current guarded input. Actual browser play completed four phone rounds with tap, keyboard, a deliberate mistake and a drag released 17px outside the planter. The test log records one completion payment and return to the toy shelf. Established listening offered three choices; Help revealed the target and the following round returned to two choices. A stalled prompt could be released through Help, reduced motion removed plant/pet movement, and leaving returned safely. Final layouts were inspected at 320×568, 844×390 and 1280×800. The landscape Next control is 64×52px and fits inside the viewport. No browser warnings or errors were captured. These are simulated browser viewports, not physical-device or child playtests.
+
+Syntax and diff checks pass. Palette debt elsewhere remains 54 colours and 12 stroke widths; the new Delivery art introduces none. Recovery: `.qa/baselines/v291/RESTORE.md`. Evidence: `.qa/v291-tests.txt`, `.qa/v291-focused-tests.txt`, `.qa/v291-browser-checks.json`, `.qa/v291-phone-outcomes.json`, `.qa/v291-palette.txt`, `.qa/shots/v291-delivery-*`. Ordinary preview: `letters.html?v=20261023-delivery-release`.
+
+**Release closure:** the owner accepted a finite-release workflow on October 23. The completed v267–v290 work is retained; v291 closes its pending Delivery integration. The checklist and stopping rule in `V3-GARDEN-ADVENTURES.md` supersede historical invitations above to keep finding another pass. Completed features are reopened only for a new reproducible defect, a directly relevant change, or an explicit request. No commit, push or production publish was performed. Audio remains parked.
+
+## v292 — A challenge that waits for the child (2026-10-23, local)
+
+The owner subsequently chose an ongoing goal delivered through closed finite revisions. This batch addressed a specific remaining mismatch: Burst grew from four to six choices with its winning streak and started its clock before the child was ready. The completed bin and Delivery work were not reopened.
+
+Burst now prepares its targets through the shared learning plan using distinct eligible taught items. The 30-second clock remains the optional challenge; choice demand follows prior learning and cannot grow during the visit. Beginners see two choices. A wrong choice is recorded before help, then rests disabled; corrected and subsequent supported answers carry assisted evidence. Current choices and selections travel with each outcome. The prepared targets cycle without re-planning from the child's current streak.
+
+A large coral Play button starts the clock. Previewing the board does not start response-time evidence. Replay also begins at this ready state. Existing pause, background handling, completion thresholds, reward keys and receipt movement are preserved. Because listening mode now uses the shared prompt policy, the shell limits pending-prompt input blocking to Burst's answer grid: Pause stays reachable, and a late speech reply cannot unlock a paused board. Unavailable eligible content returns to the existing retry screen without claiming completion.
+
+Validation: **1,250 combined automated checks pass**, including 12 Burst engine checks. Actual browser play covered phone readiness, a mistake and correction, supported continuation, keyboard input, a real timed finish, replay, leaving and unavailable-content recovery. A controlled pending prompt verified Pause and a late reply while paused. Screens were inspected at 320×568, 390×844, 844×390 and 1280×800; the new Start target is 64×64px, and landscape choices remain at least 104×110px. Reduced-motion completion worked. No console warnings/errors were captured. These are simulated viewport checks, not physical-device or child playtests. Existing global palette debt is unchanged (54 colours, 12 stroke widths).
+
+Recovery: `.qa/baselines/v292/RESTORE.md`. Evidence: `.qa/v292-tests.txt`, `.qa/v292-browser-checks.json`, `.qa/v292-phone-outcomes.json`, `.qa/v292-palette.txt`, `.qa/shots/v292-burst-*`. A lower-cost Luna agent updated only the bounded Burst behavior tests; the primary agent owned design, implementation, integration and browser verification. Local preview: `letters.html?v=20261023-burst-support`. No push, publish or audio generation/import.
+
+The batch is closed. The next distinct candidate is chapter replay evidence: verify whether replaying a hidden prompt can still receive independent-listening credit before defining that correction's scope. The ongoing goal remains active; closed work stays closed.
+
+## v293 — Replay is learning support (2026-10-23, local)
+
+A controlled browser comparison confirmed that the ordinary chapter shell recorded both an unreplayed answer and an answer after Replay as independent listening. Replay now reveals the letter and marks the open attempt assisted. Asking for Replay or Help immediately retains support for that letter within the visit, without inventing an answer. A later encounter uses the existing supported matching rules. Replaying a completed prompt does not mark the next letter assisted.
+
+The shared chapter playback callback also consumes synchronous and rejected playback failures, releases a supported question, and ignores stale results after a prompt/session change or exit. Existing audio assets, generation, voices, curriculum, rewards and progression storage are unchanged.
+
+Validation: **1,257 combined checks pass**, including 14 focused checks for the actual chapter shell and shared support. Browser before/after evidence shows Replay changes from independent listening to assistance, while an unreplayed target still earns independent-listening credit. In a four-round Pond visit, the helped letter returned with a visible model and two choices; an intervening different letter remained independent. Pending Replay and rejected playback left questions answerable, and the run reached the normal three-star handoff. The affected state was visually inspected at 320×568 and 1280×800 with reduced motion enabled. No browser errors/warnings were captured. Deferred playback controls isolated the learning boundary; this was not an audio pronunciation test, native-device test or child learning study.
+
+Recovery: `.qa/baselines/v293/RESTORE.md`; new tests: `src/letters/tests/chapter-replay-v293.test.cjs`. Evidence: `.qa/v293-before.json`, `.qa/v293-after.json`, `.qa/v293-focused-tests.txt`, `.qa/v293-tests.txt`, `.qa/v293-browser-checks.json`, `.qa/shots/v293-replay-*`. Syntax and diff checks pass. Preview: `letters.html?v=20261023-replay-support`. No push or publish; audio generation/import remains parked. This small shared-learning change was kept with the primary agent rather than adding delegation overhead.
+
+The batch is closed. The next candidate is the separate practice-header Replay fallback: verify whether it informs each game's support state before proposing a change. Do not reopen the completed chapter correction, bin, Delivery or Burst batches without new evidence.
+
+## v294 — Practice Replay gives help (2026-10-23, local)
+
+Actual Water Garden play reproduced a separate practice-path issue: header Replay repeated speech while the model stayed hidden, and the next answer still counted as independent listening. Water Garden, Letter Hunt and Friend Find now reveal their existing letter/picture model immediately on active Replay, release waiting input and keep the attempt assisted. Replay and Help remember the target within the visit. Returning helped targets use visible support and at most two choices; Water Garden also omits the additional routing task on that supported return. Unrelated targets retain their planned level. No synthetic answer is recorded for asking for help.
+
+The practice header only dispatches to its own live game. Finished, cancelled and detached screens cannot replay through stale handlers; cancelled practice cannot record outcomes or pay. Playback fallback failures are contained. Existing curriculum, audio files, save format, rewards, art and touch targets are preserved.
+
+Validation: **1,268 combined tests pass**. Focused coverage exercises replay/help, stale speech, support retention, independent intervening targets and practice completion/cancellation. A lower-cost model handled bounded tests in three existing files; the primary model owned learning behavior and integration. Browser play covered all three four-target sequences with actual practice-shell reporting, phone/desktop layouts and reduced motion. Water Garden completed into free play, a paid finish and the practice garden; Hunt and Friend Find reached their ordinary paid finishes. Controlled pending and rejected playback verified Friend Find remained usable. No browser warnings/errors were captured. These are browser and automated checks, not pronunciation review, physical-device tests or child learning measurements.
+
+Recovery: `.qa/baselines/v294/RESTORE.md`. Evidence: `.qa/v294-browser-checks.json`, `.qa/v294-*-outcomes.json`, `.qa/v294-tests.txt`, `.qa/shots/v294-*`. Preview: `letters.html?v=20261023-practice-support`. All changes remain local; audio generation/import and publishing stay parked.
+
+This batch is closed. Next candidate: inspect the 800ms automatic final-word exit in WordGames before deciding whether a child-led ending would give children more time to enjoy their successful word. This is a distinct pacing question, not another replay or art audit.
+
+## v295 — The child keeps the successful word (2026-10-23, local)
+
+Actual Word Gap play showed a completed joined word disappearing into the next question without input. Twin Crown, Listen and Find, and Word Gap now retain every successful result until the child chooses a wordless Next button or the final checkmark. The 56px control shares the existing paper/coral treatment and sits beside centered progress. Answer controls rest after success; the word can still be heard again. Listen and Find also reveals its word reference after the accepted correct answer.
+
+Continuation owns the round transition, invalidates old controls and clears delayed feedback from the prior round. Finishing is single-shot. Keyboard continuation focuses the new answer or listening control, and success focuses Next without scrolling. Reduced motion keeps the same available actions. Existing word eligibility, curriculum, learning rules, art, rewards and saved-data formats are preserved.
+
+Validation: **1,270 combined tests pass**. Bounded test work was delegated to a lower-cost model in the existing word-game test file; primary work covered interaction design, shared state, styling and integration. Browser checks played all three sequences through their ordinary paid finishes. Word Gap also returned to the practice garden. Checks covered completed-word replay, keyboard continuation, 320×568 phone, 844×390 landscape, 1280×800 desktop and reduced motion. Phone/landscape controls measured 56×56px and remained within the viewport. No application warnings/errors occurred after correcting an initial QA-only world fixture omission. Playback results were controlled; audio pronunciation, physical devices and child playtesting were not assessed.
+
+Recovery: `.qa/baselines/v295/RESTORE.md`. Evidence: `.qa/v295-browser-checks.json`, `.qa/v295-*-outcomes.json`, `.qa/v295-tests.txt`, `.qa/shots/v295-*`. Syntax and diff checks pass. Preview: `letters.html?v=20261023-word-pace`. No push or publish; audio generation/import remains parked.
+
+This revision is closed. Next candidate: determine whether repeated taps on a rejected word choice are counted as separate failures. This is a distinct error-recovery question; do not repeat completed pacing or art work.
+
+## v296 — One mistaken choice, one gentle recovery (2026-10-23, local)
+
+Browser Word Gap recorded three failures from three taps on the same rejected tile. Twin Crown, Listen and Find, and Word Gap now consume each incorrect choice once per round before reporting it. Repeated clicks, keyboard handlers and drag attempts cannot add mistakes or queue more feedback. The tried choice rests in place on an opaque paper surface with a quieter contour; the correct hint remains actionable. Correction retains assisted credit, and new rounds start with fresh choices.
+
+Validation: **1,273 combined tests pass**, including 16 focused word-game tests. A lower-cost model handled bounded tests; primary work owned recovery behavior, styling, integration and browser play. Coverage includes delayed-feedback duplication, direct repeated callbacks, new-round reset, stale handlers and repeated drag. An older prototype-only drag fixture was updated to provide the round state normally initialized by the constructor. Actual practice-shell browser checks covered all three games, phone/desktop, keyboard correction, replay after rejection, reduced motion and ordinary Twin Crown completion. No browser errors or warnings. Controlled playback, isolated test progress; no pronunciation review, physical-device or child playtesting. Reward/save implementation is unchanged; this revision does not claim a new independent persistence audit.
+
+Recovery: `.qa/baselines/v296/RESTORE.md`. Evidence: `.qa/v296-before.json`, `.qa/v296-browser-checks.json`, `.qa/v296-tests.txt`, `.qa/shots/v296-word-gap-phone.png`, `.qa/shots/v296-word-gap-desktop.png`. Syntax/diff checks pass. Preview: `letters.html?v=20261023-word-recovery`. Changes remain local; audio and publishing remain parked.
+
+Closed. Next candidate: the full-screen repeating rain visible in these screenshots. Assess a distinct atmospheric-art refinement that keeps the garden intact while reducing competing motion during learning; do not reopen completed word recovery or other closed work.
+
+## v297 — Weather belongs in the garden (2026-10-23, local)
+
+The previous drizzle painted continuous diagonal lines across the screen. Its map overlay also sat above the isolated scrolling map, including letter stops. Rain is now sixteen short, irregularly positioned drops with staggered 3.2–4.1 second cycles. Lessons and introduction screens keep only the eight outer drops, leaving the central teaching area quiet. Day/night use existing palette colours. Existing garden scenery and daily weather selection are preserved.
+
+Map rain moves into the map’s stacking context, below stops and props. It stays viewport-sized while the map scrolls. The layer remains decorative and pointer-transparent; both reduced motion and gentle mode hide it. No audio, learning, reward or save behavior changed. The art bible now states the short-drop and behind-controls rules.
+
+Validation: **1,273 combined tests pass**, including the existing weather checks. Browser checks cover day/night, 320×568 and 390×844 phones, 1280×800 desktop, map scrolling and chapter entry, ordinary word input, introductions, in-app reduced motion and gentle mode. Rain stayed at y=0/height=844 when map scroll changed from 3246 to 2402; map stops paint above it. No browser warnings/errors or new off-palette literals. Isolated controlled-weather/phase fixture; no physical-device testing or measured child-attention claim. OS reduced-motion CSS remains unchanged. Kept this small rendering change with the primary agent to avoid delegation overhead.
+
+Recovery: `.qa/baselines/v297/RESTORE.md`. Evidence: `.qa/v297-browser-checks.json`, `.qa/v297-tests.txt`, `.qa/v297-weather-tests.txt`, `.qa/v297-palette-delta.json`, `.qa/shots/v297-*`. Syntax/diff checks pass. Preview: `letters.html?v=20261023-quiet-rain`. Local only; audio and publishing remain parked.
+
+Closed. Next investigation: first-time Practice Garden entry—whether the available games provide a clear place for a beginner to start. Inspect the actual flow before proposing a change; no defect is assumed.
+
+
+## v302 — Rehearse the syllables just constructed (2026-10-23, local)
+
+An observed first fatha visit built four syllables, then Pond asked for two syllables outside that constructed set. First fatha and kasra/damma visits now choose at most four authored syllables (three in Sprout), including the introduction examples. Joining begins with those examples and constructs the whole set. The following matching, drawing or fruit-picking activity draws from that same set. Completed chapter replay and other chapter selection are unchanged.
+
+New guided-vowel checkpoints retain bounded, deduplicated item IDs. Resume resolves IDs against the chapter catalogue; invalid sets fall back safely. Existing step, stars, rewards and curriculum remain intact. Legacy checkpoints never stored item IDs, so their old random selection cannot be reconstructed.
+
+Validation: 1,303 automated tests pass, including nine runtime checks covering selection, warmup order, save normalization, save/reload round trip, invalid IDs, legacy checkpoints and unchanged other chapters. Browser play verified fatha introduction/joining/Pond/Trace entry, a real reload preserving items and checkpoint stars without extra payment or learning outcomes, and kasra/damma introduction/joining/Pond/Catch. Phone 390×844, desktop 1280×800 and in-app reduced motion inspected; no browser warnings/errors. Trace target selection was verified without repeating its unchanged completion mechanics. Playback was controlled for lifecycle testing; pronunciation, physical devices and child learning outcomes were not reviewed.
+
+Recovery: `.qa/baselines/v302/RESTORE.md`. Evidence: `.qa/v302-tests.txt`, `.qa/v302-browser-checks.json`, `.qa/shots/v302-*`. A lower-cost agent produced eight narrowly scoped runtime tests; the primary reviewed them, added the save-schema round trip and owned learning selection, integration and browser play. Local preview: `letters.html?v=20261023-v302`. No publishing or audio changes.
+
+Closed. Next distinct discovery: inspect the first tanween contrast lesson before deciding whether its new marks and mixed example pool need a gentler introduction.
+
+
+## v303 — Notice the tanween mark (2026-10-23, local)
+
+The observed first tanween visit chose four questions from 22 mixed syllables, changing both base and mark between choices. First visits now isolate the new distinction on Baa: بً/بَ, بٍ/بِ, بٌ/بُ, then the reverse بَ/بً comparison. Three-round Sprout visits cover all three tanween forms. The ordinary vowels reuse the exact authored earlier-chapter content.
+
+Pond, Build and Feed keep the same target sequence; matching stays visible with two still choices and randomized answer positions. Building retains its parts and motor-practice evidence. The opt-in authored plan resolves contrasts against lesson items and eligible review references, falling back to adaptive planning if incomplete. Completed tanween replays and other worlds remain adaptive. Resuming reconstructs the deterministic first lesson while retaining the existing checkpoint and stars; no save schema or reward changes.
+
+Validation: 1,309 automated tests pass, including six focused runtime checks. A lower-cost model wrote bounded tests; primary work owned learning design, implementation, review and integration. Actual first introduction→Pond→Build→Feed, existing Hat Shop, chapter celebration and return/reload verified. Checks include a wrong comparison and replay-assisted correction, keyboard continuation, phone 390×844, desktop 1280×800, in-app reduced motion, no extra payment/outcomes on resume, and persisted earned stars/completion. No browser warnings/errors. Controlled playback; no pronunciation, physical-device or child learning claims.
+
+Recovery: `.qa/baselines/v303/RESTORE.md`. Evidence: `.qa/v303-tests.txt`, `.qa/v303-browser-checks.json`, `.qa/shots/v303-*`. Preview: `letters.html?v=20261023-v303`. Local only; audio and publishing remain parked.
+
+Closed. Separate next candidate: the existing automatic friend-stop handoff adds Hat Shop after the three illustrated activities, before the party, and expands to a broader review pool. Assess a more predictable ending without reopening this contrast pass or changing progression silently.
+
+## v304 — Finish the chapter, choose the extra (2026-10-23, local)
+
+Completing the pictured chapter route now saves its existing stars and progress and shows its celebration immediately. The previous automatically opened friend game remains available through a wordless picture button. Home stays the prominent action. On narrow phones and short landscape layouts the three optional actions share a row above Home; desktop and wider phones keep a single action row. Existing practice art, focus tokens and restrained press feedback are reused.
+
+The extra game runs in its own session and returns to the same earned celebration on completion, Home or cancellation. It cannot repeat chapter awards. Session/screen guards reject duplicate launches and stale callbacks. Old final-step checkpoints finish directly; daily/checkup completion and bonus content stay unchanged.
+
+Validation: 1,317 automated tests pass, including eight focused chapter-ending runtime tests. A lower-cost agent supplied bounded tests and updated two obsolete assertions; primary review added active-stale/double-launch coverage and owned implementation, integration and browser checks. Actual final Feed play from an isolated checkpoint led directly to the party. Optional Hat Shop keyboard launch, early Home return, full completion, focus restoration, unchanged stars/progress/wallet and reload verified. Phone 390×844 and 320×568, landscape 667×375 and desktop 1280×800 controls are visible and at least 52px; reduced motion and keyboard focus checked. No browser warnings/errors. New CSS stays on palette; existing global palette debt is deferred.
+
+Evidence: `.qa/v304-tests.txt`, `.qa/v304-browser-checks.json`, `.qa/shots/v304-chapter-party-*`. Recovery: `.qa/baselines/v304/RESTORE.md`. Preview: `letters.html?v=20261023-v304`. Browser QA uses controlled prompt playback and seeded prior chapter steps; no audio, physical-device or child-learning claims. Local only.
+
+Closed. Next distinct candidate: observe the first standing-vowel practice handoff, where three introduced Baa examples lead to a pool of 18 randomly based syllables. Verify the actual child-facing difficulty before selecting an implementation scope.
+
+## v305 — A familiar bridge into long vowels (2026-10-23, local)
+
+The first standing-vowel lesson previously introduced three Baa examples, then sampled 18 mixed syllables: the observed Pond opener asked خٗ versus طٗ. The adjoining long-vowel chapter introduced Baa then opened Build on لُو from a 12-item pool. First visits now keep their three authored Baa forms, comparing each with its familiar short vowel. A fourth reversed comparison asks for بَ rather than the long aa form.
+
+Both lessons reuse the existing authored-lesson planner, canonical speech/parts and eligible earlier-chapter review items. Standing Pond/Feed/Catch keep one target sequence; long-sounds Build/Pond/Pairs keep the same lesson set (two beginner matching beds cover all four). Recognition choices remain visible and still, with randomized sides. Sprout's three rounds cover all three new long forms. Completed replay retains the original 18/12-item pools. No curriculum order, game mechanics, art, audio, reward or save-schema changes.
+
+Validation: 1,324 tests pass, including seven bounded runtime tests supplied by a lower-cost model and tightened by primary review. Both full introductions and three-game routes were played. Standing wrong-choice comparison, assisted correction, midpoint reload/continued selection and unchanged resume wallet verified; long building retains motor evidence, replay stays assisted, and keyboard matching continuation works. Both chapter completions persist across reload without new payment. Phone390×844, desktop1280×800 and app reduced motion checked; no browser warnings/errors.
+
+Evidence: `.qa/v305-before.json`, `.qa/v305-tests.txt`, `.qa/v305-browser-checks.json`, `.qa/shots/v305-*`. Recovery: `.qa/baselines/v305/RESTORE.md`. Normal preview: `letters.html?v=20261023-v305`. Isolated first-visit preview: `.qa/vowel-review.html?preview=1&lesson=standing&v=305` (existing audio enabled). Browser evidence uses controlled prompt playback; no pronunciation, physical-device or child-learning claims. Local only.
+
+Closed. Next distinct candidate: observe the untouched first-glide chapter handoff, whose two Baa introductions currently lead to ten randomly based syllables. No implementation decision until its actual play reveals a specific problem.
+
+## v306 — Notice the glide (2026-10-23, local)
+
+After introducing بَوْ and بَيْ, the first Leen Pond previously opened on لَيْ versus يَيْ from ten mixed syllables. First visits now keep the introduced Baa base and compare بَوْ/بُو and بَيْ/بِي, followed by the reversed comparisons. The familiar long-vowel twins reuse the preceding chapter's canonical objects; their review references carry its prerequisite.
+
+Pond, Build and Feed retain the same four-example schedule through the existing authored-lesson planner. Three-round Sprout includes both glides. Recognition choices are visible and still with shuffled sides. Original speech/parts, game/curriculum order, rewards and checkpoint schema remain unchanged; completed replay retains its ten-item mixed pool.
+
+Validation: 1,329 tests pass, including five focused runtime tests. Full introduction and three-game route played. Wrong long-vowel selection produced the vowel-mark hint and assisted correction; midpoint reload preserved the same examples and wallet. Canonical build parts, keyboard Next, reduced motion, phone390×844 and desktop1280×800 checked. Final completion/stars/wallet persisted across reload without extra payout. No browser warnings/errors.
+
+Evidence: `.qa/v306-before.json`, `.qa/v306-tests.txt`, `.qa/v306-browser-checks.json`, `.qa/shots/v306-*`. Recovery: `.qa/baselines/v306/RESTORE.md`. Normal preview: `letters.html?v=20261023-v306`; isolated fresh-lesson preview: `.qa/vowel-review.html?preview=1&lesson=leen&v=306`. QA used controlled prompt playback; no audio/pronunciation, physical-device or child-learning claims. Local only.
+
+Closed. Next candidate: examine the first general short-word chapter (no meet cards, up to eight words, Feed→Build→Pond) to identify a specific decoding/interaction issue before making changes. Intervening small authored syllable sets do not justify repeating this item-pool revision automatically.
+
+## v307 — One collection for the first word raft (2026-10-23)
+
+The first short-word Feed gathered four words, but Build independently selected another four from an eight-word pool. Two observed words changed between gathering and building.
+
+- An unfinished `words-2` visit now selects four eligible words with the existing adaptive planner (three in Sprout), and all three games cover that collection. Completed replay and other chapters retain their existing pools.
+- Optional bounded `wordItemIds` checkpoint metadata restores canonical curriculum words, in the saved order, after an interruption. Invalid/foreign IDs fall back to a safe small set; legacy step/star checkpoints still work.
+- Curriculum order, pronunciation content, rewards, assembly and matching evidence are unchanged. This is rehearsal continuity, not a claim of independent decoding.
+
+Verification: 1,338 tests pass, including nine focused selection/save/recovery tests. Full phone Feed→desktop reduced-motion Build→phone Pond→party→return/reload played; same collection across all three, wrong/replay support, midpoint restoration, persisted completion and no reload payment verified. Browser console clean and diff whitespace check passes. Controlled speech and isolated prerequisite fixtures were used; audio review, physical-device and child tests remain outstanding. Evidence: `.qa/v307-browser-checks.json`, `.qa/v307-tests.txt` and `.qa/shots/v307-*`. Recovery: `.qa/baselines/v307/RESTORE.md`. Local only.
+
+October 25 recovery follow-up: Retry after missing word data now uses the same selection policy and resolves saved IDs once the catalogue loads. Fresh and saved recovery were reproduced and checked in the browser; a delayed response cannot resurrect an abandoned session. The isolated direct preview waits for initial word loading.
+
+## v308 — Carry longer words through the adventure (2026-10-25)
+
+The first three-letter route gathered four words, then replaced two when construction began. The remaining word chapters now share the first-word visit policy: four adaptively selected words (three in Sprout), carried through their existing activities and restored after an interruption. Three-letter and four/five-letter bands, game order, prepared construction pieces, matching support, rewards and broad eight-word completed replay remain.
+
+Catalogue verification also found three legitimate three-letter words (`مَـٰلِكِ`, `هَـٰذَا`, `إِلَـٰهِ`) were omitted from construction because tatweel was counted as a fourth piece. Segmentation now ignores that decorative extender and keeps following vowel marks on the preceding letter. Original whole-word display and audio references stay intact.
+
+Verification: 1,342 automated tests pass. Both complete browser routes, same-set coverage, three-letter midpoint resume, final saves and no reload reward verified; all three repaired words were assembled. Phone and desktop layouts, reduced motion and keyboard continuation inspected. Four bounded tests were delegated to a lower-cost model and reviewed/strengthened by the primary model. Controlled speech and isolated fixtures were used; pronunciation review, physical-device testing and child learning validation remain outstanding. Evidence: `.qa/v308-browser-checks.json`, `.qa/v308-tests.txt`, `.qa/shots/v308-*`. Recovery: `.qa/baselines/v308/RESTORE.md`. Local only.
+
+
+## v327 — Your creation stays yours (2026-10-26, local)
+- Completed lanterns, fruit, seed jars, rafts and flower beds keep the labels used in their celebration. Returning through the village or reloading no longer reshuffles the creation.
+- The four drawing chapters retain up to three PNG signs each, independently of the rolling drawing history. Saved data is bounded, validated and scoped to the child; replay replaces only that chapter after completion.
+- Older completions use authored catalogue/meeting order without altering progress. Browser storage failures retain the previous disk copy and use the existing save-status notification.
+- Verification: 1,425 tests passed (10 new identity/save cases), plus phone browser final Unfuse → party → garden → village → garden → reload. Drawing identity also checked through a fixture-supplied pink sign. Audio/SFX stubbed in QA; no physical-device or child test.
+- Evidence: `.qa/v327-browser-checks.json`, `.qa/v327-tests.txt`, `.qa/v327-*-phone.png`, `.qa/v327-drawn-bed-*.png`. Recovery: `.qa/baselines/v327/RESTORE.md`.
+
+
+## v328 — Show me how to fish (2026-10-26, local)
+- A first beginner visit demonstrates tapping the target fish with the existing interruptible hand cue. A pictured hand button can repeat the demonstration on any active round; returning visits are not automatically coached again.
+- Help reveals the target and preserves swimming fish positions before stopping their motion. Demonstrated catches remain assisted learning evidence; unused help does not downgrade an independently heard answer.
+- Catching, completing, or leaving retires the cue. The controls fit 320px phones, and reduced motion uses a static hand. Existing fish art, catch flight, readiness and rewards remain intact.
+- Verification: 1,431 tests pass (6 new fishing cases); 390×844 full two-catch browser visit with a deliberate miss, 1-star finish and replay; 320×568 help layout; 1280×800 static help and exit during cue. A QA control forced swimming solely to check cue geometry; this was not a new mastery-progression test. Audio/SFX were stubbed; no physical-device or child playtest.
+- Evidence: `.qa/v328-browser-checks.json`, `.qa/v328-tests.txt`, `.qa/v328-fishing-help-phone.png`, `.qa/v328-help-small-phone.png`, `.qa/v328-help-desktop-still.png`. Recovery: `.qa/baselines/v328/RESTORE.md`.
+
+
+## v329 — See why the dots belong (2026-10-26, local)
+- Dot Nests uses the letter's orange dot colour in its nests. On help, actual letter/nest dots briefly pulse in corresponding order, while the shared hand demonstrates moving the letter to its nest. Empty nests remain empty.
+- The first beginner visit gets one automatic example. Later rounds and visits retain a pictured hand button; wrong placements offer the comparison. Dragging and tap-to-place remain available, and shown answers are recorded as assisted letter-form practice.
+- Comparisons stop on input, placement, round changes and exit. Reduced motion keeps static guidance. Existing choices, above/below readiness, rewards and artwork layout are preserved.
+- Verification: 1,439 tests pass (8 new cases), 32 focused. Browser: complete390×844 count visit (wrong drag, correct tap, correct drag);320×568 reduced-motion repeat (drag during guidance, correct empty-nest tap, no additional star);1280×800 fixture-selected above/below layout; exit cleanup. Fishing's shared help shell smoke checked. No physical-device/child test; prerequisites seeded and audio/SFX stubbed. Above/below fixture checks rendering, not mastery progression.
+- Evidence: `.qa/v329-browser-checks.json`, `.qa/v329-tests.txt`, `.qa/v329-dot-comparison-phone.png`, `.qa/v329-help-small-phone-still.png`, `.qa/v329-where-help-desktop.png`. Recovery: `.qa/baselines/v329/RESTORE.md`.
+
+
+## v330 — The same help in standalone play (2026-10-26, local)
+- Standalone Feed and Workshop now connect the existing mini-game gesture demonstrations to the practice header. First visits can demonstrate the first move; repeat visits keep optional pictured help. No new tutorial system or lesson mechanic.
+- Showing an answer marks the current prompt assisted. Correct outcomes retire the helper until the next round; finishing/cancelling gates retained callbacks. Fishing and Dot Nests retain their own assistance callbacks.
+- Verification: 1,448 tests pass (9 new shell-integration cases),26 focused. Browser completed4 Feed rounds via pet drag and tap-to-basket, then4 Workshop constructions including prepared pieces and guided undo. Both paid1star; only helped answers were assisted, later untouched construction retained motor evidence. Both replays had firstActionDemo=false.320px/390px phone and1280px desktop layouts, reduced motion and exit-during-help checked.
+- Limits: adult browser QA with seeded prerequisites and stubbed audio/SFX; no physical-device or child test. All changes remain local.
+- Evidence: `.qa/v330-browser-checks.json`, `.qa/v330-tests.txt`, `.qa/v330-feed-help-phone.png`, `.qa/v330-workshop-help-small-phone.png`, `.qa/v330-workshop-desktop-still.png`, `.qa/v330-feed-small-phone-still.png`. Recovery: `.qa/baselines/v330/RESTORE.md`.
+
+
+## v331 — A puzzle that accepts the child's order (2026-10-26, local)
+- A correctly fitting piece used to be rejected when its gap was not highlighted. Each piece now targets its own remaining gap. The highlight suggests a start; dragging and tapping work in any order.
+- Wrong-gap drops return home. Stale/duplicate callbacks remain gated, with one completion record per picture. Difficulty, artwork, rewards and motor-only learning evidence are unchanged.
+- Verification: 1,451 tests pass; 13 focused tests include all32 placement orders across2/3/4-piece boards and actual drag callback wiring. Browser:390px full two-picture visit, wrong drop, unlit correct drop, tap alternative and1star.320px reduced-motion four-piece board completed out of order;1280px layout and exit cleanup checked.
+- Limits: adult browser QA, seeded prerequisites and stubbed audio/SFX. Four-piece fixture checks layout, not mastery progression. No child or physical-device playtest. Local only.
+- Evidence: `.qa/v331-browser-checks.json`, `.qa/v331-all-tests.txt`, `.qa/v331-jigsaw-before-phone.png`, `.qa/v331-jigsaw-free-order-phone.png`, `.qa/v331-jigsaw-four-piece-still.png`, `.qa/v331-jigsaw-desktop.png`. Recovery: `.qa/baselines/v331/RESTORE.md`.
+
+
+## v332 — Discoveries inside Letter Hunt (2026-10-26, local)
+- The existing11 props now respond according to what they are: clouds rain, kites lift, flags flutter, plants bloom, ladybugs appear on rocks/crates, water ripples, lanterns glow and shells reveal a pearl. Touching plain scenery or finding its letter triggers the response.
+- One brief reaction at a time keeps attention clear. Quick taps retarget it; render, resize, round changes and exit clean it up. Reduced motion shows static discoveries. Letter-bearing choices retain their original learning response.
+- Existing replay already changes targets/locations and was preserved. Scenery adds no answer evidence or rewards; wrong-answer recovery, child-led next and payout limits remain intact.
+- Verification:1,459 tests pass;19focused including8new scenery/lifecycle cases.390px full four-find visit with wrong-answer recovery and1star;320px reduced-motion four-find replay retained wallet1; keyboard scenery play;1280px lagoon and exit checks. All11 reaction artworks visually reviewed together.
+- Limits: adult browser QA, seeded prerequisites, stubbed audio/SFX. Lagoon chosen by fixture for layout, not progression. No child/physical-device test. Local only.
+- Evidence:`.qa/v332-browser-checks.json`,`.qa/v332-all-tests.txt`,`.qa/v332-hunt-blooms-phone.png`,`.qa/v332-hunt-rain-small-still.png`,`.qa/v332-hunt-water-desktop.png`,`.qa/v332-hunt-art-review.png`. Recovery:`.qa/baselines/v332/RESTORE.md`.
+
+
+## v333 — See the family, send the bus (2026-10-26, local)
+- Family Buses now offers pictured help and shows a side-by-side whole-letter comparison after misses. Matching body colour and distinct orange dots explain what the letters share while retaining their differences.
+- Correct boarding shows that comparison without changing the answer's assistance record. The bus waits with a large arrow; the child sends it away. A brief boarding gate prevents the placement tap from also departing. Duplicate/stale handlers remain guarded.
+- Family selection, taught-only choices, readiness and rewards are preserved. Small3bus layouts stack the comparison; reduced motion retains the comparison and shortens departure.
+- Verification:1,464 tests pass;21focused including5new cases.390px complete3rider visit through drag, wrong-drop recovery, optionalhelp and tap;1star.320x568 reduced-motion3bus fixture completed with keyboard departures; wallet stayed1.1280px comparison and exit during departure verified.
+- Limits: adult browser QA, seeded prerequisites, stubbed audio/SFX;3bus fixture is a layout/interaction check rather than progression testing. No child or physical-device test. Local only.
+- Evidence:`.qa/v333-browser-checks.json`,`.qa/v333-all-tests.txt`,`.qa/v333-bus-ready-phone.png`,`.qa/v333-family-help-phone.png`,`.qa/v333-family-small-three-still.png`,`.qa/v333-family-desktop.png`. Recovery:`.qa/baselines/v333/RESTORE.md`.
+
+
+## v334 — Time to notice the change (2026-10-26, local)
+- Beginner Spot Change now chooses a position that can change body shape when the taught pool permits. Previously a random position could force a subtle dot swap despite an easier body change elsewhere. Later same-body comparisons remain available.
+- Look-again keeps the original board visible until the child chooses to continue. Success shows the old and new letters at equal size, emphasizing the changed body or dots, and waits for an explicit next action. Arabic comparison reads right-to-left.
+- Assistance, memory-task evidence, taught-only choices, visit difficulty and reward rules remain intact. Duplicate/stale callbacks cannot report or advance again.
+- Verification:1,468 tests pass;4new behavior tests plus21existing focused tests.390px complete beginner visit included repeated review, wrong-answer recovery, unassisted find and1star.320x568 reduced-motion3choice fixture completed by keyboard, with1→3dot emphasis; no extra replay star.1280px layout and exit during blink checked.
+- Limits: adult browser QA with seeded prerequisites and stubbed audio/SFX.3choice fixture verifies layout/interaction, not progression. No physical-device or child test. Local only.
+- Evidence:`.qa/v334-browser-checks.json`,`.qa/v334-all-tests.txt`,`.qa/v334-spot-body-comparison-phone.png`,`.qa/v334-spot-dots-small-still.png`,`.qa/v334-spot-desktop.png`. Recovery:`.qa/baselines/v334/RESTORE.md`.
+
+
+## v335 — Help keeps the child's drawing (2026-10-26, local)
+- Sand Table help now demonstrates the unfinished stroke or dot on the existing guide. Previously it destroyed that guide and erased completed work. Only the cue pen moves; partial and completed ink remain intact.
+- New input interrupts the demonstration and resumes at the child's current position. Repeated help, reset, capture cancellation and exit retire old callbacks. Reduced motion uses static guidance. Raking remains an intentional reset; learning participation and one-outcome rules are unchanged.
+- Verification:1,472 tests pass, including4new guide-help cases and20existing focused cases.390px actual pointer-drawn body and partial stroke survived help; dot input interrupted the demo and finished; rake/redraw did not duplicate the outcome;1star.320px keyboard/static-help replay retained wallet1.1280px keyboard-body/static-help and exit cleanup checked.
+- Limits: adult browser QA, single-letter fixture, audio/SFX stubbed. Compact native touch simulation mapped coordinates into the toolbar, so320px pointer behavior was not verified; that size was checked for layout, statichelp and keyboard only. No child or physical-device test. Local only.
+- Evidence:`.qa/v335-browser-checks.json`,`.qa/v335-all-tests.txt`,`.qa/v335-sand-help-preserves-body.png`,`.qa/v335-sand-help-small-still.png`. Recovery:`.qa/baselines/v335/RESTORE.md`.
+
+
+## v336 — Different adventures on return visits (2026-10-26, local)
+- User observation: repeated play feels too similar. Both existing garden projects always used Delivery → Drawing → Water. Return visits now rotate through three short routes: Delivery → Drawing → Water; Picture Hunt → Drawing → Feed; Fishing → Drawing → Water. Wordless picture strips show the activities before choosing and throughout play.
+- First-ever and single-letter visits retain the original route. A route is saved when started; only completing it advances the bounded recent-route history. Old active saves resume their original route. Projects, real child drawings, original curriculum, and reward limits remain in their existing stores.
+- Activities use the saved taught-letter pool. Help carries across activities and keeps matching/two-choice support. Fishing follows the adventure targets without importing the wider known-letter pool. Feeding now commits the finale through the normal completion path; Water retains its guided-to-free-play handoff.
+- Verification: 1,481 tests pass, including 9 new route/migration/resume/support/finale/save-retry cases. Actual 390px play completed the entire hunt/draw/feed route, including help on ب, two pointer-made drawings and reload before Feed. Completed fishing/draw/water next; history became grow/picnic/pond and the following visit showed delivery. Wallet increased 3 then 2; the shared drawing activity did not repay. First-visit entry/exit preserved the original route. 320px keyboard/reduced-motion fishing and pictured cards checked; 1280px cards aligned with no horizontal overflow. Browser warnings/errors empty.
+- Limits: adult browser QA with a seeded completed Boat chapter and stubbed audio/SFX. No child or physical-device testing; compact pointer gestures were not claimed. Routes deliberately retain the familiar drawing step and existing garden payoff. Audio remains parked. Local only.
+- Evidence: `.qa/v336-browser-checks.json`, `.qa/v336-all-tests.txt`, `.qa/v336-next-route-small.png`, `.qa/v336-pictured-routes-phone.png`, `.qa/v336-resumed-picnic-sign.png`, `.qa/v336-rotated-route-desktop.png`. Recovery: `.qa/baselines/v336/RESTORE.md`.
+
+
+## v337 — Two ways to play Friend Pairs (2026-10-26, local)
+- Repeated standalone visits previously always hid the cards after the same peek. The child now chooses, through pictures, between visible matching and the original memory game. Guided/chapter launches retain the existing memory path.
+- In visible play, bring a letter to its animal friend by dragging or by tapping the letter and then the friend. Large receiving targets use the existing forgiving hit test. Correct letters settle into the friend's slot; mismatches reset gently. The completed group stays until the child chooses to continue or finish. All characters come from the taught pool and the existing board-size policy remains intact.
+- Visible play records letter-form matching only. A corrected mismatch is assisted; it earns no memory or listening mastery and does not increase memory-board difficulty. Both modes use the same FriendPairs reward cap.
+- Art/layout: pictured mode cards reuse the native letter animals and leaf-backed cards; warm matching mat with receiving slots. The four-pair compact layout keeps every target and loose letter visible. Empty trays fold away on completion. Explicit grid tracks keep tall letters centered inside their slots.
+- Verification: 1,488 tests pass, including 7 new bounded runtime tests (lower-cost model, reviewed and strengthened). Actual 390px wrong/retry, pointer drag, tap and finish; 320px keyboard/reduced-motion visible replay; 1280px original memory completion with mismatch recovery. Wallet remained 1 across replays. Four-pair layout fixture completed one board and advanced, with 320px portrait and 844px landscape checks. Guided entry still starts memory directly; exit clean; no browser warnings/errors.
+- Limits: adult browser QA with seeded Boat prerequisite and stubbed audio/SFX, no child/physical-device claim. Larger-board fixture checks layout/interactions, not attainment of that difficulty. Audio parked; local only.
+- Evidence: `.qa/v337-browser-checks.json`, `.qa/v337-all-tests.txt`, `.qa/v337-modes-focused.txt`, `.qa/v337-mode-choice-phone.png`, `.qa/v337-visible-pairs-desktop.png`. Recovery: `.qa/baselines/v337/RESTORE.md`.
+
+
+## v338 — A picnic shaped by the child's choices (2026-10-26, local)
+- Feeding already accepted either the pet or the basket, but the basket was emptied every round. Standalone visits now retain collected snacks. After the four learning rounds, the pet and up to two familiar animal friends gather at an optional picnic; snacks given directly to the pet are already on its plate.
+- Children can share basket snacks with any friend by dragging or tapping, tap the characters for a brief reaction, or finish immediately. A visit with no basket snacks also finishes freely. This is unscored play: no additional questions, mastery, stars or persistent storage. Chapter/adventure feeding retains its original completion path.
+- Native art provides the cloth, plates and seed packets. Portrait, short-screen and landscape layouts keep the controls accessible. Reduced motion skips the character hop. Input and completion guards prevent duplicate sharing or rewards; the old feeding scenery retires when the picnic takes over.
+- Verification: 1,496 tests pass, including 8 new bounded cases authored by a lower-cost model and reviewed/strengthened. Adult browser play completed mixed pet/basket deliveries and native drag/tap sharing at 390px; keyboard/reduced-motion sharing at 320px; pet-only and all-basket replays, including finishing without sharing. Learning stayed at the four original outcomes; wallet stayed at one star across replays. Desktop 1280×800, portrait 390×844 and 320×568, landscape 844×390 inspected. No browser warnings/errors.
+- Limits: seeded Boat prerequisite and stubbed speech/SFX in the QA fixture; no child or physical-device test, no 320px native pointer claim. Collection lasts for the visit only. Audio remains parked. Local only.
+- Evidence: `.qa/v338-browser-checks.json`, `.qa/v338-all-tests.txt`, `.qa/v338-picnic-phone.png`, `.qa/v338-picnic-desktop.png`, `.qa/v338-pet-only-small.png`, `.qa/v338-picnic-landscape.png`. Recovery: `.qa/baselines/v338/RESTORE.md`.
+
+
+## v339 — Make your own picture puzzle (2026-10-26, local)
+- Repeated jigsaw visits previously chose the picture for the child and automatically replaced the completed board. Standalone jigsaw now offers the original puzzles alongside a picture maker. Children arrange one or two familiar animal friends, then assemble that exact picture with the existing piece-count and matching rules.
+- Friends can be dragged or selected and placed by tapping. Occupied positions swap, choices can be replaced or removed, and a single friend is enough to begin. Completed custom pictures stay until the child chooses to change the picture or finish. Native framed scenery, familiar letter animals and large controls support portrait and landscape play.
+- Guided launches still start the original jigsaw directly. Custom pictures produce at most one construction participation record per visit, with no letter mastery; subsequent pictures remain free play. Existing reward limits, curriculum and saves are unchanged. Pictures are not stored beyond the visit.
+- Verification: 1,503 automated tests pass; 7 new bounded tests from the lower-cost model were reviewed and strengthened. Adult browser play covered 390px native drag/tap creation, swapping and assembly; 320px keyboard/reduced-motion removal, one-friend creation and completion; full original replay and four-piece maker layout completion. Wallet remained at one across replays, and changing the custom picture did not add learning credit. Desktop 1280×800, portrait 390×844 and 320×568, landscape 844×390 inspected. A conflicting landscape grid rule was caught and corrected. Guided entry, back/exit cleanup and console checks passed.
+- Limits: seeded prerequisite and stubbed speech/SFX in the QA fixture; no child or physical-device test, no 320px native pointer claim. Four-piece layout fixture does not claim that the beginner earned that difficulty. Audio parked; local only.
+- Evidence: `.qa/v339-browser-checks.json`, `.qa/v339-all-tests.txt`, `.qa/v339-maker-tests.txt`, `.qa/v339-made-picture-phone.png`, `.qa/v339-complete-picture-phone.png`, `.qa/v339-picture-desktop.png`, `.qa/v339-maker-landscape.png`. Recovery: `.qa/baselines/v339/RESTORE.md`.
+
+
+## v340 — Wash, discover and continue at the child's pace (2026-10-26, local)
+- Bath Time now offers a precise sponge and a broader rinse tool. Both work by moving over the bath or tapping their button, and the selected tool follows the pointer. The rinse has new native shower art; selection carries to the next friend.
+- Recognition help is visible: after a mismatch or near-full uncovering, a bare-letter card appears beside the animal. Using that comparison records assisted evidence. Fully exhausted tools disable. Existing readiness and taught-letter selection still determine whether recognition questions are offered.
+- Finished baths now wait for the child’s Next/Finish action. Beginner scrubbing participation is recorded before continuation so quick taps cannot lose it. Input and feedback callbacks from old rounds are retired, and completion cannot record or pay twice. Existing round counts and reward limits remain intact.
+- Verification: 1,509 automated tests pass, including six bounded tests written by a lower-cost model and reviewed/strengthened. Adult browser play covered 390px native sponge/rinse gestures, a complete two-round beginner visit, and a three-round recognition fixture with wrong/correct, full-uncover assistance and early visual matching. Replaying retained one star. 320px keyboard/reduced motion, the three-choice answer row, desktop 1280×800 and landscape 844×390 were checked. Compact spacing was adjusted to retain visible progress markers. No browser warnings/errors; next-round reset and exit passed.
+- Limits: seeded prerequisite and stubbed speech/SFX; recognition and three-choice fixtures do not claim actual learner readiness. No child or physical-device test, no 320px native-pointer claim. Audio parked; local only.
+- Evidence: `.qa/v340-browser-checks.json`, `.qa/v340-all-tests.txt`, `.qa/v340-letter-help-phone.png`, `.qa/v340-three-choices-small.png`, `.qa/v340-bath-desktop.png`, `.qa/v340-bath-landscape.png`. Recovery: `.qa/baselines/v340/RESTORE.md`.
+
+
+## v341 — Familiar games in a different daily order (2026-10-26, local)
+- Daily letter selection already balances comfortable, due and lightly practised targets; the repeated physical activity order was the remaining friction. The first two recognition activities now rotate using existing review history and only mechanics from completed chapters. The first Boat visit remains Pond → Feed → Trace; the next becomes Feed → Pond → Trace. Later taught Catch/Pairs join the rotation.
+- The selected letters, their exact per-step order, support, two rounds per activity, build-family handling and final motor activity remain unchanged. Planning does not mutate history; starting a visit still uses the existing beginReview path. No new storage or menu. Timed challenge, legacy planner, rewards and daily reopening behavior are preserved.
+- Verification: 1,515 automated tests pass, including six new bounded tests from a lower-cost model, reviewed by the primary agent. Focused curriculum/daily/reward checks: 19 pass. Actual browser play completed the original daily route and a saved-history return with the new order. Wallet stayed at nine stars, sticker visits at one and daily stamp at one. A third visit rotated back and advanced history at entry. 390px mouse/tap, 320px keyboard/reduced motion and 1280px route layout checked; no warnings/errors.
+- Limits: adult browser QA with seeded Boat prerequisite and stubbed speech/SFX; tracing used keyboard. No child or physical-device test. Later Catch/Pairs and Build branches tested automatically, not through full browser visits. Daily still opens as a fresh short visit; no resume rewrite. Audio parked; local only.
+- Evidence: `.qa/v341-browser-checks.json`, `.qa/v341-all-tests.txt`, `.qa/v341-rotated-daily-phone.png`, `.qa/v341-rotated-progress-small.png`, `.qa/v341-next-visit-desktop.png`. Recovery: `.qa/baselines/v341/RESTORE.md`.
+
+
+## v342 — Play in the garden you grew (2026-10-26, local)
+- Earned adventure gardens previously became a small thumbnail above generic watering gates, with a short visitor bounce on the finish screen. Completion and earned revisits now make the original habitat the play space, retaining the child's garden sign.
+- Invite the butterfly to the leaf or flowers; guide the bird to its branch, sunflower or stream. Tap a landing, tap the visitor to move, or drag and release nearby. The friend flies from its current position, responds at its destination and remains available for another choice. Every drop resolves to a nearby place. Reduced motion uses immediate placement; targets stay at least 52px and the pet stays clear.
+- Watering remains available and returns to the same habitat. Existing water/drawing saves, other unfinished adventures, earning rules and learning evidence are preserved. This is unscored play with no new storage or audio. The return-visit button now shows the relevant visitor.
+- Verification: 1,524 automated tests pass; nine bounded runtime cases from a lower-cost model were reviewed and strengthened. Final focused habitat/adventure run: 18 pass. Actual browser completion of four feeding rounds reached the butterfly habitat, followed by tap/drag play, watering, return and reload. Bird drag and rapid retarget, 320px keyboard/reduced motion, 390px pointer, 1280px desktop and 844px landscape checked. An unfinished butterfly route survived a bird-garden visit. Wallet remained one star; habitat play added no learning/reward changes. No warnings/errors; clean exit.
+- Limits: adult browser QA with seeded earlier steps, prerequisites, projects and drawings; speech/SFX stubbed, no child or physical-device test. Native pointer cancellation was covered by runtime tests. Palette report still contains earlier repository debt; new art uses the locked colours. Local only; audio parked.
+- Evidence: `.qa/v342-browser-checks.json`, `.qa/v342-all-tests.txt`, `.qa/v342-bird-stream-phone.png`, `.qa/v342-habitat-small-keyboard.png`, `.qa/v342-bird-desktop.png`, `.qa/v342-habitat-landscape.png`. Recovery: `.qa/baselines/v342/RESTORE.md`.
+
+## v343 — Child-led colouring studio (2026-10-26, local)
+
+Standalone Colour a Friend now lets children move between three pictured familiar friends, keep their drafts, undo ink and save without ending the visit. A saved page can be recoloured and updated in its own garden-art slot; the child chooses when to finish. Guided colouring keeps its existing automatic ending.
+
+Pink, pet-colour default, taught-letter selection, once-per-letter motor participation, existing reward cap and drawing storage limits are preserved. Saved checks distinguish the saved picture from later edits. Small-screen and landscape layouts use the existing easel and crayons. Audio remains parked.
+
+Verified: 1,532 automated checks; adult browser play covering two-page saves, undo, draft switching, same-page replacement, reload and actual garden signs, explicit and guided completion, keyboard/reduced motion and phone/desktop/landscape layouts. No browser warnings/errors. Visit drafts do not persist after leaving; saved pictures do. Evidence: `.qa/v343-browser-checks.json` and `.qa/v343-*.png`. Recovery: `.qa/baselines/v343/RESTORE.md`. Nothing published.
+
+## v344 — Pump and release balloons (2026-10-26, local)
+
+The standalone Letter Balloons toy now offers a pictured pump mode alongside popping. Three presses inflate a balloon; the next releases it. Children can pause one balloon and work on another, with no timer or failure. Native pump artwork shows compression, growth, pressure dots and a release arrow; a brief first-use hand cue demonstrates a press. Reduced motion uses static feedback.
+
+Switching modes preserves the three familiar letters and cancels old replacements. Guided launches keep original popping. Existing speech hooks and taught-letter filtering remain; free play awards no learning credit, currency or progress. Audio work is still parked.
+
+Verified: 1,539 automated checks, plus adult browser play at phone, small phone, desktop and landscape sizes; independent inflation, release, mode switching, keyboard focus, reduced motion, guided compatibility and clean exit. Browser learning/reward state unchanged and no warnings/errors. Landscape planters were reduced to keep pump silhouettes clear. Evidence: `.qa/v344-browser-checks.json` and `.qa/v344-*.png`. Recovery: `.qa/baselines/v344/RESTORE.md`. Local only.
+
+## v345 — The child drives the Letter Train (2026-10-26, local)
+
+The assembled Letter Train now waits at the platform. Children can replay its completed carriages or the whole sequence, then press the locomotive to depart. The locomotive remains usable during the refrain; departure and late callbacks cannot advance twice. Finished scenes reduce empty sky so the completed train is the focus.
+
+The existing hand guide now demonstrates boarding and follows the next carriage. Tap and broad rail-drop alternatives remain. The idle hand points to the ready locomotive and never drives it. Alphabet runs, taught-letter safeguards, least-ready choice count, once-per-ride motor participation and practice rewards are preserved. Existing speech assets and pipeline are unchanged; audio work stays parked.
+
+Verified: 1,551 automated checks; adult browser play from helped drag/tap boarding through two child-driven rides and one reward, plus carriage/sequence replay, departure during refrain, keyboard focus, reduced motion, out-of-order feedback, saved progress, phone/desktop/landscape layouts. Evidence: `.qa/v345-browser-checks.json` and `.qa/v345-*.png`. Recovery: `.qa/baselines/v345/RESTORE.md`. Local only.
+
+
+## v346 — A chorus the child can keep (2026-10-26)
+Echo Parade now holds each completed sequence for a replay or the child's Next/Finish. Consecutive identical orders rotate the same selected letters, with no extra choices or increase in sequence length. A miss reveals the matching line, retains the accepted prefix and highlights the next singer; subsequent outcomes become assisted matching-memory. Replay carries no new learning credit or payment. Round guards protect replaced controls and late speech; keyboard focus and idle guidance point to the available action.
+
+Validation: all 1,563 tests pass; four-round browser play including deliberate miss, prefix replay, completed encore, keyboard progression, reduced motion, small phone/landscape/desktop layouts and reward/save reload. The isolated browser fixture used known Boat letters, two-choice profiles and speech stubs. Audio quality and child play were not tested. Local only. Evidence and recovery: `.qa/v346-browser-checks.json`, `.qa/baselines/v346/RESTORE.md`.
+
+
+## v347 — The child's shadow theatre (2026-10-26)
+After matching the familiar shadows, children can keep the scene and play with its stick puppets: move them by drag or arrow keys, tap for a hop/name replay, and switch the lantern between silhouettes and coloured friends. Next/Finish belongs to the child. Puppet play neither reports learning outcomes nor pays extra; the existing taught pool, readiness milestones, matching mechanics, error support and rewards are unchanged. The visual game no longer shows its previously nonfunctional replay control. The same theatre artwork remains, with its outer rectangular backing removed.
+
+Validation: 1,572 tests pass, including eight new runtime puppet checks and idle guidance. Browser play covered all four scenes, tap/drag/keyboard, deliberate miss, puppet dragging and outside return, lantern states, reduced motion, 320/390px phone, landscape and desktop; reward1 and learning/wallet survived return/reload. Beginner still has one shadow and two choices. Adult isolated QA with seeded Boat letters, forced levels and stubbed speech; no child/physical-device or audio-quality claim. Local only. Evidence: `.qa/v347-browser-checks.json`; recovery: `.qa/baselines/v347/RESTORE.md`.
+
+
+## v348 — Print the distinguishing dots (2026-10-26)
+Dots Last now has a large wooden stamp: a press prints one dot onto the familiar letter body. There are no timed dot reveals. Early choices, including lucky guesses, reveal more information without earning credit or skipping the matching step. Response timing starts when the visible marks distinguish the target; existing matching/assistance evidence then applies. A first-use hand and optional help explain the action. The finished print stays for the child's Next/Finish, with keyboard focus carried between controls.
+
+The taught dot-family pool, readiness choices, original dot positions, rewards and saves remain. All 1,583 tests pass. Browser verification covered one-, two-, and three-dot letters, early guesses, a visible mistake and correction, hand help, reduced motion, keyboard, phone/landscape/desktop, one reward and save/reload. Adult isolated QA with known Boat letters and speech stubs; no child/physical-device/audio-quality claim. Local only. Evidence: `.qa/v348-browser-checks.json`; recovery: `.qa/baselines/v348/RESTORE.md`.
+
+
+## v349 — More taught friends in each adventure (2026-10-26)
+The adventure planner keeps its familiar opener and first review priority, then rotates the third target through other taught letters. Previously, beginners using visible matching could keep receiving the same three letters. A bounded least-recent history updates only when the adventure is completed; opening menus, leaving and resuming do not consume the rotation. Existing unfinished adventures keep their targets, activity route and progress. New targets retain the existing readiness-based support; untaught letters are never introduced by this rotation.
+
+All 1,593 automated checks pass, including coverage of all28 taught letters over repeated visits, save retry and chooser integration. Browser play verified final WaterGarden completion, one reward, the next cast changing from ا/ب/ت to ا/ب/ث, reload preserving it, and the actual new target retaining two visible choices in Letter Hunt. Phone and desktop checked. First two adventure steps were seeded; speech was stubbed. No child, physical-device or audio-quality claim. Local only. Evidence: `.qa/v349-browser-checks.json`; recovery: `.qa/baselines/v349/RESTORE.md`.
+
+
+## v350 — Letter turntables (2026-10-26)
+Same Letter now lets experienced players turn the tumbled cards in quarter turns before choosing. Turning preserves mirrored forms and earns no answer credit. Beginners still begin with two upright choices. A correct match stays as a friendly toy: turn it, replay its name, then press Next/Finish. Wrong choices report once; correction retains assistance. The existing taught pool, readiness milestones, fixed difficulty and rewards remain intact.
+
+Native wooden turntables and a light play surface frame the existing letter art, with explicit keyboard focus,50px turn controls, reduced motion, and a centered desktop layout. Short-phone spacing keeps the letter, turn control, Next and progress visible.
+
+Validation:1,603 tests pass, including9 new runtime cases and idle guidance. Actual browser checks covered turn/answer separation, mistake/correction, held completion and replay, full3-round mirror session, one reward and persisted learning/wallet, beginner play, keyboard, reduced motion and phone/landscape/desktop sizes. Final composed desktop value bands meet ART.md. Existing palette/stroke debt is unchanged. Adult isolated QA with taught-letter fixtures and speech stubs; no child, physical-device or audio-quality claim. Local only. Evidence:`.qa/v350-browser-checks.json`; recovery:`.qa/baselines/v350/RESTORE.md`.
+
+
+## v351 — Pull, peek and discover (2026-10-26)
+Peekaboo Flaps now accepts a horizontal pull as well as a tap. A partial peek offers visual help without submitting an answer; the later answer receives assisted credit. Unexpected discoveries stay available and their miss is recorded once. After the correct find, the page becomes a toy: open the other doors, hear their pictures, close them and play again. Next/Finish is the child's decision. Persistent letter tags connect the discovered pictures with their letters. Existing taught targets, readiness, picture assets and audio pipeline are preserved.
+
+The hinge follows the pointer and supports reversal from its displayed angle. Fresh taps after a drag are responsive; cancelled/vertical gestures and extra pointers cannot become answers. Keyboard focus, idle guidance, reduced motion and stale-page guards remain consistent with the other updated games. The door area uses a richer garden green, with a pictured close control and pictures fitted to short phone layouts.
+
+Validation:1,619 tests pass. Browser play covered partial/fullopening/closing, wrongfind/correction, exploration and repeatplay without extra credit, full3-page completion with1reward and persisted learning/wallet, two/three choices, keyboard, reduced motion and phone/landscape/desktop. A fast confirmed prompt retained independent listening; peeks and idle help correctly became assisted. Adult isolated QA with seeded taught letters and stubbed speech; pointer cancellation/multitouch/retargeting use runtime tests, with no child/physical-device/audio-quality claim. Final composed artwork meets ART.md value bands; palette/stroke debt unchanged. Local only. Evidence:`.qa/v351-browser-checks.json`; recovery:`.qa/baselines/v351/RESTORE.md`.
+
+
+## v352 — Choose and carry (2026-10-26, local)
+SoundSort now offers two pictures to choose between. Carry either picture to a basket, or tap the picture and then the basket. Replacements keep the unused picture in its place. Per-picture support survives switching; accidental repeated wrong placements are recorded once. Existing taught pool and readiness remain.
+
+The filled baskets stay for replay until the child chooses Finish. Delivery and old-input guards preserve one outcome/reward, with keyboard focus, idle guidance and reduced motion. A centered tray and warmer basket shelf carry the existing book art forward. Audio work stays parked.
+
+Validation: 1,625 tests pass. Adult browser sessions at desktop, phone, small phone and landscape cover drag/tap, outside release, wrong/retry/switch, four-picture refill, keyboard completion, reduced motion and persisted reward. No child/physical-device/audio-quality claim. Palette/stroke debt unchanged. Evidence and restore instructions are recorded in work-state.json. Not committed or published.
+
+
+## v353 — The friends choose when to walk (2026-10-26, local)
+In HoopoeTrip, children can carry the matching friend into a footprint place beside the hoopoe, or tap the friend. Gathered friends are available for individual replay and an optional growing refrain; the child chooses when the procession walks to its next stop. Missing or interrupted speech cannot strand the walk control. Reaching home holds the scene until Finish.
+
+The existing taught choices, supported-matching evidence and rewards remain. Per-choice wrong-answer deduplication, first-use hand coaching, released-position flight, stale-input guards, keyboard focus and reduced motion support the new interaction. The existing landscape and house now frame a warm procession tray, including five friends on small phones.
+
+Validation:1,633 tests pass. Full adult browser play covers wrong/correct/outside drops, replay without extra evidence, held completion, savedreward,3/4-stop sets,keyboard and reducedmotion at390x844,320x568,844x390 and1280x800. No child/physicaldevice/audioquality claim. Artvalue bands pass;palette/stroke debt unchanged. Restore instructions and evidence are in work-state.json. Local only;audio generation parked.
+
+
+## v354 — Take-apart letter friends (2026-10-26, local)
+FriendShapes keeps the assembled character available after matching. Children can pull its letter out or use the lift button, then carry/tap the cutout back into place. Tap the whole friend to hear it and see a small response; choose Next/Finish when ready. Exploration never repeats the learning outcome or earns extra rewards.
+
+The taught silhouette task and readiness remain. Released-position fitting, deduplicated misses, hand coaching, keyboard focus, reduced motion, stale-input guards and child-owned completion support the new interaction. A warm craftboard and tray sit inside the existing book, with small-phone choices and centered landscape controls.
+
+Validation:1,643 tests pass. Adult browser play verified a full beginner session, repeat rebuilding, tap/drag/keyboard controls, completion and savedreward,3-choice smallphone,reducedmotion anddesktop/landscape art. No child/physicaldevice/audioquality claim. Artvalue bands pass;existingpalette/stroke debt unchanged. Evidence and restoreinstructions in work-state.json. Local only;audio generation parked.
+
+
+## v355 — Play shopkeeper (2026-10-26, local)
+BusyMarket keeps collected pictures large and usable in a paged bag. After the taught-letter hunt, children can unpack them onto any empty shelf, arrange their shop, and pack them again. Taps remain an alternative to dragging; hand help shows both directions. Finish stays available until the child chooses it.
+
+Warm shelf places, packing flights and receiving highlights use the existing art. Per-picture animation cleanup, stale-input guards, keyboard focus, reduced motion and three-picture bag pages keep the interaction manageable. Existing curriculum eligibility, difficulty caps, free-play learning rules and daily reward protection remain.
+
+Validation: 1,655 checks pass. Adult browser sessions covered the beginner hunt and ten-picture market, wrong-choice hints, replay, drag/tap/keyboard placement, rejected drops, all bag pages, reverse help, completion and saved reward at desktop, phone, small-phone and landscape sizes. No child/physical-touch/audio-quality claim. Art value bands pass; palette/stroke debt unchanged. Recovery and evidence are in work-state.json. Local only; audio work parked.
+
+
+## v356 — Letters settle into words (2026-10-26, local)
+WordGap uses larger letter blocks and a generous gap on the existing book. Arabic letters and vowel marks are measured and centered. A correct tap or drop carries the block into its place before the complete joined word appears; tapping that word replays it. First-use and manual hand guidance explains the action and records support honestly.
+
+The one-gap task, eligible word pool, choice policy, learning evidence and child-owned Next/Finish remain. Repeated input during fitting and old controls cannot add outcomes; reduced motion settles immediately. The warm tray, landscape layout and compact portrait spacing keep three choices and long words visible. Completed words stay inside the book page.
+
+Validation:1,660 checks pass. Adult browser play covered a full session with wrong/correct/outside input, drag/tap/keyboard controls, replay, guidance, reduced motion, reward and learning persistence, and long-word layouts across desktop and phone sizes. No child/physical-touch/audio-quality claim. Art value bands pass and palette/stroke debt is unchanged. Recovery and evidence are in work-state.json. Local only; audio work parked.
+
+
+## v357 — Lift the water gates (2026-10-26, local)
+WaterGarden's letter handles now follow a child's finger upward to open and downward to close. Partial or cancelled pulls return safely, and regrabbing a settling handle feels continuous. Taps and keyboard remain available. Wordless hand guidance demonstrates the movement and records assistance honestly.
+
+The existing guided choices, water-arrival feedback, bend challenge, flowers, free exploration and reward rules remain. Earned gardens retain their channel arrangement after reload. A light wooden rim keeps the existing scene readable at night, with clearance for all controls.
+
+Validation: 1,669 tests pass. Adult browser play covered beginner and later three-choice rounds, wrong/partial/correct pulls, tap/keyboard alternatives, reduced motion, opening/closing, bends, reward and earned-garden persistence across desktop and phone layouts. No child, physical-touch or audio-quality claim. Final composed frames pass the art value bands; palette/stroke debt unchanged. Evidence and recovery are in work-state.json. Local only; audio work parked.
+
+
+## v359 — Whole-art inventory and proportion pass (2026-10-28, local)
+
+Full source inventory and 523 rendered samples across 44 families preceded the
+coordinated revision. The cottage now reads as a home; chest, bench and stall have
+believable relative scale across phone/tablet/wide layouts. Fixed the missing
+village pet and stale layout after rotation. Unified older cast/prop materials,
+accessory palette, glasses attachment, sticker contours, packet construction,
+boat paper, waterside edges and matching-board felt. Night village grass stays
+green; existing scenery and learning/reward rules remain.
+
+See `docs/art/LETTER_GARDEN_ART_SYSTEM_REVIEW_20261028.md` for retained families,
+full inventory, before/after evidence and limitations. 1,678 tests pass; 523
+recipes render; palette scanner has zero off-palette hex colours. Actual composed
+phone/tablet/desktop screens reviewed; no claim of child testing or every game
+playthrough. Audio/publishing parked. Unfinished v358 drum work remains preserved.
+
+
+## v360 — Purposeful detail and calmer motion (2026-10-28, local)
+
+Reviewed all 44 existing art families for useful detail and attention hierarchy.
+Simplified distant trees while retaining constructed scenery and approved scale.
+Learning screens rest secondary creatures/weather/particles and idle pet fidgets;
+the companion still follows touch and responds. Slower, interruptible hand demos
+hold their destination. Village accents have resting periods, celebrations settle,
+particle bursts cannot stack, and system/in-game reduced motion align.
+
+1,682 tests pass; 523 art recipes render; zero off-palette colours. Desktop/phone
+intro, matching-to-reward, feeding, night village and reduced-motion play checked.
+Child/physical-device testing remains outstanding. Audio and publishing parked;
+unfinished v358 preserved. See docs/art/LETTER_GARDEN_DETAIL_MOTION_V360.md.
+
+
+## v361 — Gentle interaction, without impact effects (2026-10-28, local)
+
+Removed shared hit-stop/flash/impact rays, stage and neighbour recoil, and
+comeback/streak visual escalation. Touch returns smoothly; nine game families
+acknowledge retries without shaking. Restrained card/letter/star reveals,
+stationary matched letters, smoother piece placement and a smaller unrotated
+pond transfer. Useful gestures, callbacks, learning, assistance and rewards stay.
+
+1,685 tests pass. Adult desktop/phone checks cover wrong/correct matching,
+peekaboo, drag/tap feeding, reduced motion, introduction and rewards. Audio and
+publishing parked. See docs/art/LETTER_GARDEN_GENTLE_INTERACTION_V361.md.
+
+
+## v358 — Child-made drum rhythms: integration completed (2026-10-29, local)
+
+Completed the previously suspended drum pass against the current gentle-motion implementation. After matching a picture’s beats, children can keep making short rhythms and replay their own taps. Tap locations and timing drive the response; new taps, prompt replay and Next interrupt playback safely. Learning credit remains participation, and rewards stay once per visit/day policy.
+
+The remaining established three-beat session, desktop/phone/landscape layout, keyboard, reduced motion, completion and saved-progress checks pass. All 1,685 game tests pass; no extra runtime edits were needed to close the pass. Audio quality review and publishing remain held. Evidence: `docs/letter-garden/reviews/drum-rhythm-complete/`.
+
+
+## v363 — Home gestures stay with their screen (2026-10-29, local)
+
+A held Home button could finish its timer after the child had already advanced, pulling them out of the next screen. Home now cancels on screen replacement, focus loss, tab hiding and the owning finger's release. Other fingers cannot take over the hold; old callbacks and repeated activation cannot navigate twice. The 800 ms child-safe hold, ordinary tap navigation and keyboard access remain.
+
+Five regressions reproduced before the fix; all 1,690 game tests now pass. Desktop/phone browser checks cover short tap, a screen replacement during a hold, intentional hold and Enter. No audio, art, curriculum, rewards or production changes. Evidence: `docs/letter-garden/reviews/home-navigation-v363/`.
+
+
+## v364 — A child chooses which picture to replace (local, 2026-10-29)
+
+A full three-picture shelf now previews an explicit replacement in Letter Studio and Colour a Friend. Back keeps the current drawing editable; save failure and screen changes preserve prior work. Tracing no longer evicts art or overwrites displayed signs, and all retained pictures remain available in the garden. Storage is bounded to three art pictures plus eight tracing keepsakes, each at most 60,000 data-URL characters.
+
+1,695 game tests pass. Desktop, phone/landscape, cancellation, failure/retry, reload, pending-screen exit and reduced motion checked. See `reviews/saved-art-choice-v364/README.md`. Local only; audio generation remains parked.
+
+
+## v365 — Take your own picture into the garden (local, 2026-10-29)
+
+Standalone drawing and colouring finishes now display the child's saved artwork beside their pet. Tapping it opens the decorating garden with that exact picture selected; placement remains the child's choice. Continue and Replay stay available, with no extra reward or automatic placement. Adventure routing remains unchanged.
+
+1,706 tests pass. The complete creation-to-garden route, placement/Undo, optional Continue, phone/landscape/desktop layouts and reduced motion were checked. Review: `reviews/picture-invitation-v365/README.md`.

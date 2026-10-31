@@ -301,6 +301,28 @@
         }
         return items;
       };
+      // First compare the new mark with its familiar short vowel on one base.
+      // Use authored earlier-chapter items, including damma, rather than
+      // inventing another pronunciation or changing the wider replay pool.
+      if (meetBa) {
+        const contrasts = this.data.tanween.map((v, i) => {
+          const prerequisite = i === 0 ? "fatha" : "kasra-damma";
+          return {
+            target: tanweenWorld.catalogue.find(item => item.display === meetBa.char + v.char),
+            other: worlds.find(world => world.id === prerequisite)?.catalogue
+              .find(item => item.display === meetBa.char + this.data.harakat[i].char),
+            prerequisite,
+          };
+        }).filter(pair => pair.target && pair.other);
+        if (contrasts.length === 3) tanweenWorld.introLesson = {
+          items: [...contrasts.map(pair => pair.target), contrasts[0].other],
+          extraItems: contrasts.map(pair => ({ ...pair.other, prerequisiteWorldIds: [pair.prerequisite] })),
+          contrasts: [
+            ...contrasts.map(pair => ({ targetId: pair.target.id, otherId: pair.other.id })),
+            { targetId: contrasts[0].other.id, otherId: contrasts[0].target.id },
+          ],
+        };
+      }
       worlds.push(tanweenWorld);
 
       // Lesson 7: standing vowels. The display wears the tiny mark; the
@@ -367,6 +389,30 @@
         games: ["build", "pop", "pairs"],
       });
 
+      // The first length lessons keep the introduced Baa anchor. Compare
+      // each new long form with its already taught short vowel before replay
+      // opens the existing mixed-letter pool. All content stays canonical.
+      if (meetBa) for (const id of ["standing", "long-sounds"]) {
+        const world = worlds.find(entry => entry.id === id);
+        const contrasts = world.meet.map((card, i) => {
+          const prerequisite = i === 0 ? "fatha" : "kasra-damma";
+          return {
+            target: world.catalogue.find(item => item.display === card.display),
+            other: worlds.find(entry => entry.id === prerequisite)?.catalogue
+              .find(item => item.display === meetBa.char + this.data.harakat[i].char),
+            prerequisite,
+          };
+        }).filter(pair => pair.target && pair.other);
+        if (contrasts.length === 3) world.introLesson = {
+          items: [...contrasts.map(pair => pair.target), contrasts[0].other],
+          extraItems: contrasts.map(pair => ({ ...pair.other, prerequisiteWorldIds: [pair.prerequisite] })),
+          contrasts: [
+            ...contrasts.map(pair => ({ targetId: pair.target.id, otherId: pair.other.id })),
+            { targetId: contrasts[0].other.id, otherId: contrasts[0].target.id },
+          ],
+        };
+      }
+
       // Lesson 8b: the leen glide — fatha then a resting Waw or Ya.
       const leenItem = (l, ln) => ({
         id: l.char + "َ" + ln.char,
@@ -381,7 +427,7 @@
       });
       const leenCatalogue = this.letters.filter((l) => l.char !== "ا")
         .flatMap((l) => this.data.leen.map((ln) => leenItem(l, ln)));
-      worlds.push({
+      const leenWorld = {
         id: "leen",
         icon: "بَوْ",
         kind: "syllables",
@@ -393,7 +439,28 @@
         catalogue: leenCatalogue,
         items: () => syllableLetters().slice(0, 5).flatMap((l) => this.data.leen.map((ln) => leenItem(l, ln))),
         games: ["pop", "build", "feed"],
-      });
+      };
+      // Hear/see the glide against the already introduced long-vowel twin,
+      // keeping the same Baa and final letter on both cards. Reverse the
+      // comparison too, so the long form remains a meaningful answer.
+      if (meetBa) {
+        const contrasts = this.data.leen.map(ln => {
+          const long = this.data.longVowels.find(v => ln.char === v.char + "ْ");
+          return {
+            target: leenCatalogue.find(item => item.display === meetBa.char + "َ" + ln.char),
+            other: long && longSoundCatalogue.find(item => item.display === meetBa.char + long.vowel + long.char),
+          };
+        }).filter(pair => pair.target && pair.other);
+        if (contrasts.length === 2) leenWorld.introLesson = {
+          items: [...contrasts.map(pair => pair.target), ...contrasts.map(pair => pair.other)],
+          extraItems: contrasts.map(pair => ({ ...pair.other, prerequisiteWorldIds: ["long-sounds"] })),
+          contrasts: [
+            ...contrasts.map(pair => ({ targetId: pair.target.id, otherId: pair.other.id })),
+            ...contrasts.map(pair => ({ targetId: pair.other.id, otherId: pair.target.id })),
+          ],
+        };
+      }
+      worlds.push(leenWorld);
 
       // Lessons 10–11: sukoon gets its own world — closed syllables with
       // every short vowel, not just fatha.
@@ -471,7 +538,9 @@
       // words can be blended piece by piece.
       const clusterSplit = (arabic) => {
         const clusters = [];
-        for (const ch of arabic.normalize("NFC")) {
+        // Tatweel stretches the printed word; it is not a letter piece.
+        // Remove it before grouping so its following marks stay on the base.
+        for (const ch of arabic.normalize("NFC").replace(/ـ/g, "")) {
           if (/[ً-ْٰٓ-ٟؐ-ؚۖ-ۭ]/.test(ch) && clusters.length) clusters[clusters.length - 1] += ch;
           else clusters.push(ch);
         }
@@ -549,6 +618,47 @@
       }
     }
 
+    // A check-up may review the costumes covered by completed joining games,
+    // not every costume of every isolated letter the child knows.
+    checkupFormItems(doneIds, doneLetters) {
+      const known = new Map(doneLetters.map(letter => [letter.char, letter]));
+      const coverage = new Map();
+      const add = (char, position, world) => {
+        const letter = known.get(char);
+        if (!letter?.joins) return;
+        if (!coverage.has(char)) coverage.set(char, { letter, positions: new Map() });
+        const positions = coverage.get(char).positions;
+        if (!positions.has(position)) positions.set(position, world.id);
+      };
+      for (const world of this.worlds.filter(w => w.kind === "join" && doneIds.includes(w.id))) {
+        const pairs = world.catalogueItems ? world.catalogueItems() : world.catalogue || [];
+        const singles = (world.extraItems?.(doneIds) || []).filter(item => known.has(item.display));
+        for (const pair of pairs) {
+          if (pair.parts?.length !== 2) continue;
+          const [first, second] = pair.parts.map(part => part.display);
+          if (!known.get(first)?.joins || !known.has(second)) continue;
+          add(first, "initial", world);
+          add(second, "final", world);
+          if (!world.games.includes("chain") || !pair.join2 || !known.get(second).joins) continue;
+          const thirds = singles.filter(item => item.display !== first && item.display !== second);
+          if (thirds.length) add(second, "medial", world);
+          thirds.forEach(item => add(item.display, "final", world));
+        }
+        if (world.games.includes("parade")) {
+          const joiners = singles.filter(item => item.joins);
+          const costumes = joiners.length ? joiners.map(item => item.display)
+            : pairs.filter(item => item.parts?.length).map(item => item.parts[0].display);
+          costumes.forEach(char => ["initial", "medial", "final"].forEach(position => add(char, position, world)));
+        }
+      }
+      return shuffle([...coverage.values()]).map(({ letter, positions }) => {
+        const [position, worldId] = shuffle([...positions.entries()])[0];
+        return { id: letter.char, display: formsOf(letter)[position], promptDisplay: letter.char,
+          speak: letter.arName, objective: "letter-form", formPosition: position,
+          worldId, prerequisiteWorldIds: [worldId] };
+      });
+    }
+
     // The check-up (Big Brain Academy's Test mode, kid-sized): one quick
     // round per SKILL, drawn only from material the child has already met.
     // Skills without material yet simply aren't tested — their petal stays
@@ -564,18 +674,14 @@
       const plan = [];
       plan.push({ skill: "identify", game: "pop", items: letterItems().slice(0, 8) });
       plan.push({ skill: "memorize", game: "pairs", items: letterItems() });
-      if (doneIds.includes("join-1") || doneIds.includes("forms-1")) {
-        const joining = doneLetters.filter((l) => l.joins);
+      const formItems = this.checkupFormItems(doneIds, doneLetters);
+      if (formItems.length >= 2) {
         plan.push({
           skill: "visualize",
           game: "pop",
           // Bubbles wear the in-word costume; the prompt shows the isolated
           // letter — match the disguise to the friend.
-          items: shuffle(joining).map((l) => {
-            const f = formsOf(l);
-            const pos = shuffle(["initial", "medial", "final"])[0];
-            return { id: l.char, display: f[pos], promptDisplay: l.char, speak: l.arName };
-          }),
+          items: formItems,
         });
       }
       if (doneIds.includes("fatha")) {
@@ -643,6 +749,15 @@
       if (!challenge && hasReviewPlanner) {
         const learnedGames = new Set(done.flatMap((world) => world.games));
         const middleGame = learnedGames.has("catch") ? "catch" : learnedGames.has("pairs") ? "pairs" : "feed";
+        // Keep the familiar first visit, then vary the physical activity rather
+        // than merely changing its letters. Planning must not advance history;
+        // startDaily's existing beginReview boundary owns that cursor.
+        const recognitionGames = [...new Set(["pop", middleGame, "feed", "pairs", "catch"])]
+          .filter((game) => learnedGames.has(game));
+        if (!recognitionGames.length) return null;
+        const visit = Number.isSafeInteger(strength.review?.cursor) && strength.review.cursor >= 0 ? strength.review.cursor : 0;
+        const firstGame = recognitionGames[visit % recognitionGames.length];
+        const secondGame = recognitionGames[(visit + 1) % recognitionGames.length];
         const rotate = (offset) => bouquet.slice(offset).concat(bouquet.slice(0, offset)).slice(0, Math.min(4, bouquet.length));
         const uniformSkill = (items) => {
           const objectives = [...new Set(items.map((item) => item.objective).filter(Boolean))];
@@ -658,8 +773,8 @@
         const traceable = learnedGames.has("trace")
           ? bouquet.filter((item) => item.objective === "letter-name").slice(0, 4) : [];
         plan = [
-          step("pop", rotate(0)),
-          step(middleGame, rotate(1)),
+          step(firstGame, rotate(0)),
+          step(secondGame, rotate(1)),
           buildable
             ? step("build", buildable.slice(0, 4), "construction")
             : traceable.length >= 2 ? step("trace", traceable) : step("feed", rotate(2)),

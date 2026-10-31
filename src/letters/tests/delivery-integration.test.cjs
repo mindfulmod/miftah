@@ -7,7 +7,7 @@ const path = require('node:path');
 function runtime({knowledge = [{char: 'ب', arName: 'بَاءْ'}, {char: 'ت', arName: 'تَاءْ'}], reduced = true, enabled = true, listen = true} = {}) {
   const window = {MiftahGame: {LettersArt: {icon: () => '<svg></svg>'}}};
   if (listen) window.speechSynthesis = {};
-  const context = {window, document: {body: {classList: {toggle() {}}}}};
+  const context = {window, setTimeout:()=>1, document: {body: {classList: {toggle() {}}}}};
   vm.runInNewContext(fs.readFileSync(path.join(__dirname, '..', 'LettersGame.js'), 'utf8'), context);
   vm.runInNewContext(fs.readFileSync(path.join(__dirname, '..', 'LetterDelivery.js'), 'utf8'), context);
   const ns = window.MiftahGame;

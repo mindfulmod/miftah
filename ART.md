@@ -631,6 +631,9 @@ Child navigation is wordless: use action pictures and accessible names, not visi
   content (`.lg-screen` isolates) and over the map under every control. Drizzle
   adds a soft rain layer to the soundscape. Reduced motion hides rain and
   leaves; the rainbow is still.
+  Drizzle uses short, staggered droplets rather than full-screen stripes. During
+  learning, drops stay at the outer edges. On the map they share its stacking
+  context below stops and props; weather must never wash over letter buttons.
 - **My letters:** a second album tab. Every letter met so far, as small garden
   signs grouped by land with the land's sign and plant; tap to hear. Lands not
   reached are an unopened packet — nothing ahead is shown. Read-only.
@@ -740,3 +743,87 @@ boat). The preview is `.qa/detail-kit.html`.
    game's framing trees carry blossoms, not apples, because the golden
    letter apples are the answers. When adding detail, check what the child
    is meant to find on that screen.
+
+## Teaching ink stays clear — 2026-10-26
+
+Page-wide ambient butterflies and fireflies must not cross introduction cards,
+letter dots or vowel marks. Keep that foreground overlay hidden on `lg-meet`,
+as on the existing hatch and activity screens. Preserve the authored room,
+landscape and weather behind the teaching surface.
+
+
+## Full-system proportion and placement contract — 2026-10-28
+
+This clarifies older ramp and prototype rules above. Preserve the approved warm,
+rounded paper-garden direction. For cast, landmarks, toys and controls use the
+October 17 flat-fill/one-highlight rule; layered values remain appropriate for
+sky, ground, water and contact shadows. Do not apply the older blanket rule that
+every object needs three shaded bands. The prototype's no-outline mascot notes
+are historical references, not current live-art instructions.
+
+- Judge scale in the composed scene. Equal catalogue thumbnails are not a world
+  scale specification. The cottage is a building, the stall a smaller structure,
+  the bench furniture, and the chest a portable toy container.
+- In each village layout the cottage roof is roughly 1.7–2.4 times the chest's
+  body width. Bench width is about 65–85% of the cottage. A pet's body fits the
+  cottage doorway. All props meet their own contact shadows and the ground.
+- Keep art dimensions separate from input dimensions. Existing landmarks retain
+  at least 52 CSS-pixel tap pads even when the artwork becomes smaller.
+- A reusable SVG fragment must declare its viewBox/ground anchor. HTML pet
+  wrappers must never be inserted directly into SVG; preserve their styling in
+  an explicit foreignObject or render them in a separate HTML layer.
+- Existing sticker IDs, animal anatomy, letter outlines/dots, ownership and
+  learning cues are preserved. Strengthen faint outer silhouettes selectively;
+  internal material lines remain lighter than the contour.
+- At night keep grass recognisably green. Use foliage shadows on ground, not
+  navy shading across the whole play space. Warm stars, lit windows and a dark
+  sky establish night without making toys or learning ink muddy.
+- Review all asset families together, then test their actual placements on
+  portrait, tablet and wide layouts. A contact sheet alone cannot approve a
+  composed screen. Record retained assets as retained, not newly redesigned.
+
+
+## Detail and attention — 2026-10-28
+
+Every detail must explain construction, action or a small world story. At game
+size, preserve silhouette/door/handle/face first. Tiny background trees keep
+roots, branches, canopy and a few fruits; they do not need every leaf tick from
+a hero tree. Teaching ink sits on clear paper: grain dots are not letter dots.
+Do not remove the authored scenery to create focus.
+
+Motion follows attention, not a single speed multiplier. Press/drag tracking
+stays immediate. A demonstration includes an arrival, a readable action and a
+brief destination hold; it is replayable and any real input cancels it. These
+are tuning choices for adult review, not proven timing thresholds for children.
+
+During a letter task, secondary weather particles, ambient creatures and idle
+fidgets rest. The pet may still look/reach at the child's touched object and
+respond to an answer; it must not reveal an untouched correct choice. Outside
+learning, use quiet intermittent movement with resting periods. The village's
+own life replaces the duplicate page-wide creature layer.
+
+Rewards celebrate once then settle. Only one local particle burst may exist at
+a time; changing screens clears it. Do not layer a bouncing card, bouncing hint
+and flashing halo to communicate the same next action. Existing clear static
+shapes/colour and replayable Help carry that meaning. OS and in-app reduced
+motion must have equivalent still presentation without hiding the earned state.
+
+
+## Playful contact, not impact — v361, 2026-10-28
+
+The owner reports that in-game feedback resembles a combat/card game. This
+supersedes legacy v55–58 hit-stop, impact-flash and elastic-recoil guidance.
+Touch should feel like placing a wooden toy or pressing a soft button: small
+compression, smooth return, no overshoot. An answer does not strike the board
+or shove neighbouring choices. No hit-stop, flash, radial impact strokes,
+explosive comeback/streak variants or camera/stage jolts.
+
+Success is a clear retained state plus a gentle local acknowledgement. Misses
+stay available and settle without a shaking 'no'. Entries fade into position;
+never deal cards through large zoom/rotation. Keep motion that explains real
+movement (drag, pour, join, turn), preserves visible source/destination, and
+stays under the child's control. Do not blanket-slow games or break transfer
+callbacks. Completion timing and learning assistance remain unchanged.
+
+### Game-specific motion (v362)
+Keep motion that explains play: water flowing, a pump compressing, a balloon growing, a puppet responding, friends walking. Collection paths should visibly connect origin and destination without an upward launch, rotation or size overshoot. Retry feedback stays local and quiet. A hint can nudge once and then retain a visible outline; an empty target does not need to bounce. Verify computed motion in the real game shell, since older shared rules can override component timing or restore retired effects.

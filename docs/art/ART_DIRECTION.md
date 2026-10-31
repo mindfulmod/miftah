@@ -1,3 +1,15 @@
+# Current live art direction — 2026-10-28
+
+The controlling rules are in `../../ART.md`, including the October 28 scale and
+placement contract. See `LETTER_GARDEN_ART_SYSTEM_REVIEW_20261028.md` for the current
+inventory, observed defects, expectations and implementation evidence.
+
+The notes below are historical. In particular the prototype's no-outline mascot
+and Boat-only scope no longer describe the live game. The current pass covers
+all live art families while retaining the approved garden, pets and learning.
+
+---
+
 # Live Letter Garden — Boat chapter visual pass, 2026-09-05
 
 The live game remains the foundation. Retain existing pets, curriculum, games and reward economy. Owner-approved Lumi, Mina and Rafi now join the selectable live cast. The earlier mascot exploration below is prototype reference, now also the source for selectable live animal pets; existing pets are preserved.
